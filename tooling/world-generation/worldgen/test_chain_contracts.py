@@ -279,3 +279,58 @@ def test_the_script_runs_the_pass_after_verify_freeze():
 def test_every_declaration_is_introspectable(stage):
     for entry in cc.READS[stage]:
         assert cc.declared_paths(entry), f"{stage}: a declaration names no artefact"
+
+
+# ------------------------------------------------------------ the order gate
+# A stage that reads an artefact a LATER stage in the same run rewrites is
+# reading the previous run's world, and no amount of re-running one stage
+# fixes it. The gate is mechanical: READS against WRITES, in script order.
+
+def _order(monkeypatch, stages, reads, writes):
+    monkeypatch.setattr(cc, "script_stages", lambda path=None: list(stages))
+    monkeypatch.setattr(cc, "READS", reads)
+    monkeypatch.setattr(cc, "WRITES", writes)
+    return cc.order_findings(list(stages))
+
+
+def test_a_later_writer_is_a_finding(monkeypatch, tmp_path):
+    target = tmp_path / "routes.json"
+    out = _order(monkeypatch, ["reader", "writer"],
+                 {"reader": [partial(cc.exists, target)], "writer": []},
+                 {"reader": [], "writer": [target]})
+    assert len(out) == 1
+    assert out[0].startswith("order: reader reads ")
+    assert "which writer writes later" in out[0]
+
+
+def test_an_earlier_writer_is_not_a_finding(monkeypatch, tmp_path):
+    target = tmp_path / "routes.json"
+    out = _order(monkeypatch, ["writer", "reader"],
+                 {"reader": [partial(cc.exists, target)], "writer": []},
+                 {"reader": [], "writer": [target]})
+    assert out == []
+
+
+def test_stale_ok_demotes_the_finding_to_a_warning(monkeypatch, tmp_path):
+    target = tmp_path / "routes.json"
+    out = _order(monkeypatch, ["reader", "writer"],
+                 {"reader": [cc.stale_ok(partial(cc.exists, target), reason="on purpose")],
+                  "writer": []},
+                 {"reader": [], "writer": [target]})
+    assert len(out) == 1
+    assert out[0].startswith("warn: order: reader reads ")
+    assert out[0].endswith("on purpose")
+    assert cc.declared_paths(cc.stale_ok(partial(cc.exists, target), reason="r")) == [target]
+
+
+def test_every_below_gate_stage_declares_its_writes():
+    stages = cc._stage_names_from_script(SCRIPT.read_text(encoding="utf-8"))
+    missing = [s for s in stages if s not in cc.ABOVE_GATE and s not in cc.WRITES]
+    assert missing == [], f"no WRITES entry for: {', '.join(missing)}"
+
+
+def test_the_real_script_order_has_no_order_findings():
+    stages = [s for s in cc._stage_names_from_script(SCRIPT.read_text(encoding="utf-8"))
+              if s not in cc.ABOVE_GATE]
+    hard = [f for f in cc.order_findings(stages) if not f.startswith("warn: ")]
+    assert hard == [], "\n".join(hard)

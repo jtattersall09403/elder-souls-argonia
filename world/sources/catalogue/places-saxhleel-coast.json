@@ -5,6 +5,7 @@
   "places": [
     {
       "id": "place.saxhleel-coast.all-flags-memorial",
+      "schemaVersion": 2,
       "name": "The Fleet Stone",
       "classification": {
         "class": "lone",
@@ -146,6 +147,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon",
+      "schemaVersion": 2,
       "name": "Archon",
       "classification": {
         "class": "settlement",
@@ -353,6 +355,8 @@
         5161.5,
         4645.3
       ],
+      "footprintRadiusM": 230.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -360,8 +364,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 2,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 21.9,
-        "score": null
+        "distanceToWaterM": 12.3,
+        "score": null,
+        "water": {
+          "entityId": "body.2822-2525",
+          "kind": "swamp",
+          "levelM": 0.79,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -502,6 +513,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon-bonded-row",
+      "schemaVersion": 2,
       "name": "The Company Row",
       "classification": {
         "class": "works",
@@ -720,6 +732,8 @@
         5258.1,
         4419.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0951",
@@ -744,12 +758,20 @@
         "dangerBand": 0,
         "distanceToRouteM": 93.1,
         "distanceToWaterM": 0.0,
-        "score": 2.719
+        "score": 2.719,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "sitingNote": "Bound to Archon: the Company's bonded stores ARE the Archon quay; the free-siting pass had put them 275 m inland in jungle. The D1 tier is the city apron's, not the surrounding marsh band the danger raster reads here."
     },
     {
       "id": "place.saxhleel-coast.archon-glowgill-byre",
+      "schemaVersion": 2,
       "name": "The Sunken Byre",
       "classification": {
         "class": "works",
@@ -955,6 +977,8 @@
         4131.8,
         4910.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.cove-061",
@@ -978,13 +1002,21 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 883.9,
-        "distanceToWaterM": 76.2,
-        "score": 2.266
+        "distanceToWaterM": 39.9,
+        "score": 2.266,
+        "water": {
+          "entityId": "body.2265-2658",
+          "kind": "swamp",
+          "levelM": 9.68,
+          "season": "perennial",
+          "distanceM": 39.9
+        }
       },
       "scourSiteId": "site.scour.tropical-jungle.cove-043"
     },
     {
       "id": "place.saxhleel-coast.archon-harbour-hist",
+      "schemaVersion": 2,
       "name": "Reaches-The-Low-Branch",
       "classification": {
         "class": "sacred",
@@ -1108,6 +1140,7 @@
         "id": "hist.saxhleel-coast.archon-harbour-hist",
         "kind": "city tree",
         "powerSlot": "power.hist.saxhleel-coast.archon-harbour-hist",
+        "status": "hero",
         "note": "Hero Hist 5/10. EXTRAPOLATED (hist-placement.md §3): a small harbour Hist on the landward side of the city, speaking but the least consulted tree in the province — the speaker's post is a harbour-authority sinecure. Archon needs a tree for its Argonian residents' eggs and dead; the city's life does not revolve around it."
       },
       "relations": {
@@ -1146,6 +1179,8 @@
         4940.1,
         4497.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0951",
@@ -1169,8 +1204,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 2,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 104.8,
-        "score": 5.279
+        "distanceToWaterM": 39.5,
+        "score": 5.279,
+        "water": {
+          "entityId": "body.2752-2409",
+          "kind": "swamp",
+          "levelM": 1.06,
+          "season": "perennial",
+          "distanceM": 39.5
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -1244,6 +1286,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon-lighthouse",
+      "schemaVersion": 2,
       "name": "Estuary Light",
       "classification": {
         "class": "martial",
@@ -1429,6 +1472,8 @@
         5122.3,
         4822.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0826",
@@ -1452,8 +1497,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 2,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 35.1,
-        "score": 4.923
+        "distanceToWaterM": 0.0,
+        "score": 4.923,
+        "water": {
+          "entityId": "body.2834-2585",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "terrainRequests": [
         {
@@ -1471,6 +1523,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon-quarantine-shed",
+      "schemaVersion": 2,
       "name": "The Bell Shed",
       "classification": {
         "class": "civic",
@@ -1644,6 +1697,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon-sacked-quarter",
+      "schemaVersion": 2,
       "name": "The Burnt Streets",
       "classification": {
         "class": "ruin",
@@ -1852,6 +1906,8 @@
         5086.0,
         4674.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0951",
@@ -1875,12 +1931,20 @@
         "regionClass": "tropical jungle",
         "dangerBand": 2,
         "distanceToRouteM": 74.6,
-        "distanceToWaterM": 23.3,
-        "score": 5.035
+        "distanceToWaterM": 16.5,
+        "score": 5.035,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       }
     },
     {
       "id": "place.saxhleel-coast.archon-shadowscale-sanctuary",
+      "schemaVersion": 2,
       "name": "The Closed Sanctuary",
       "classification": {
         "class": "sacred",
@@ -2040,6 +2104,8 @@
         5102.4,
         4976.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0983",
@@ -2054,7 +2120,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 54.8,
         "distanceToWaterM": 5.5,
-        "score": 3.876
+        "score": 3.876,
+        "water": {
+          "entityId": "body.2794-2724",
+          "kind": "swamp",
+          "levelM": 0.78,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -2143,6 +2216,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon-shipyard",
+      "schemaVersion": 2,
       "name": "The Long Stocks",
       "classification": {
         "class": "works",
@@ -2353,6 +2427,8 @@
         5088.8,
         4523.8
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 39 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on culture-clump, bound, parent.",
       "plotFacts": {
@@ -2361,13 +2437,21 @@
         "dangerBand": 2,
         "distanceToRouteM": 38.8,
         "distanceToWaterM": 5.5,
-        "score": 5.133
+        "score": 5.133,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "sitingNote": "Bound to Archon: 'the yard at the province's principal legal port' has to be at that port. D1 is the guarded waterfront's tier, not the mangrove band around it.",
       "services": []
     },
     {
       "id": "place.saxhleel-coast.archon-thalmor-post",
+      "schemaVersion": 2,
       "classification": {
         "class": "martial",
         "family": "watch",
@@ -2563,6 +2647,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon-trial-ground",
+      "schemaVersion": 2,
       "name": "Wears-The-Same-Steps",
       "classification": {
         "class": "sacred",
@@ -2739,6 +2824,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon-whispers-house",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "magic",
@@ -2934,6 +3020,7 @@
     },
     {
       "id": "place.saxhleel-coast.banner-stack",
+      "schemaVersion": 2,
       "name": "The Banner Stack",
       "classification": {
         "class": "lair",
@@ -3112,6 +3199,8 @@
         4285.4,
         4817.3
       ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0403",
@@ -3135,8 +3224,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 785.4,
-        "distanceToWaterM": 27.4,
-        "score": 2.487
+        "distanceToWaterM": 28.0,
+        "score": 2.487,
+        "water": {
+          "entityId": "reach.2329-2647",
+          "kind": "sloped-riffle",
+          "levelM": 7.15,
+          "season": "perennial",
+          "distanceM": 28.0
+        }
       },
       "proseRefs": [
         {
@@ -3155,6 +3251,7 @@
     },
     {
       "id": "place.saxhleel-coast.beached-hull-hall",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "remnant",
@@ -3315,6 +3412,7 @@
     },
     {
       "id": "place.saxhleel-coast.boardwalk-high-stage",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -3473,6 +3571,7 @@
     },
     {
       "id": "place.saxhleel-coast.boardwalk-spine-north",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -3638,6 +3737,7 @@
     },
     {
       "id": "place.saxhleel-coast.broken-xanmeer-coast",
+      "schemaVersion": 2,
       "classification": {
         "class": "ruin",
         "family": "xanmeer",
@@ -3799,6 +3899,7 @@
     },
     {
       "id": "place.saxhleel-coast.canopy-crossing-wall",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "elevated",
@@ -3930,6 +4031,7 @@
     },
     {
       "id": "place.saxhleel-coast.cantemir-foreign-graveyard",
+      "schemaVersion": 2,
       "classification": {
         "class": "sacred",
         "family": "the-dead",
@@ -4089,6 +4191,7 @@
     },
     {
       "id": "place.saxhleel-coast.cantemir-headland",
+      "schemaVersion": 2,
       "name": "The Ashen Towers",
       "classification": {
         "class": "ruin",
@@ -4238,6 +4341,8 @@
         5694.6,
         3342.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0661",
@@ -4256,8 +4361,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 24.5,
-        "distanceToWaterM": 21.9,
-        "score": 2.795
+        "distanceToWaterM": 16.5,
+        "score": 2.795,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4365,6 +4477,7 @@
     },
     {
       "id": "place.saxhleel-coast.climbable-terrace-roof",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -4515,6 +4628,7 @@
     },
     {
       "id": "place.saxhleel-coast.coast-courier-relay",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -4679,6 +4793,7 @@
     },
     {
       "id": "place.saxhleel-coast.coast-guide-camp",
+      "schemaVersion": 2,
       "classification": {
         "class": "camp",
         "family": "civil-camp",
@@ -4828,6 +4943,7 @@
     },
     {
       "id": "place.saxhleel-coast.coast-hist-less-refuge",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -5025,6 +5141,8 @@
         4800.8,
         5404.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1088",
@@ -5048,8 +5166,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 159.0,
-        "distanceToWaterM": 11.0,
-        "score": 5.428
+        "distanceToWaterM": 38.8,
+        "score": 5.428,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 38.8
+        }
       },
       "sitingNote": "Bound to Archon: 'a short walk outside the city' is the whole record; the free pass had drifted it 750 m north into hist-heartland culture ground.",
       "services": [],
@@ -5062,6 +5187,7 @@
     },
     {
       "id": "place.saxhleel-coast.coast-road-hearth-house",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -5239,6 +5365,7 @@
     },
     {
       "id": "place.saxhleel-coast.coast-road-tradehouse",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "festivity",
@@ -5385,6 +5512,7 @@
     },
     {
       "id": "place.saxhleel-coast.coast-root-hollow",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "root-system",
@@ -5550,6 +5678,7 @@
     },
     {
       "id": "place.saxhleel-coast.coast-serpent-ground",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "beast-lair",
@@ -5711,6 +5840,7 @@
     },
     {
       "id": "place.saxhleel-coast.coast-treasure-hunters-camp",
+      "schemaVersion": 2,
       "classification": {
         "class": "camp",
         "family": "expedition-camp",
@@ -5865,6 +5995,7 @@
     },
     {
       "id": "place.saxhleel-coast.contested-bank",
+      "schemaVersion": 2,
       "name": "Two-Marks-One-Rope",
       "classification": {
         "class": "lair",
@@ -5990,6 +6121,8 @@
         4932.4,
         4285.4
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0827",
@@ -6014,7 +6147,14 @@
         "dangerBand": 0,
         "distanceToRouteM": 11.0,
         "distanceToWaterM": 0.0,
-        "score": 4.462
+        "score": 4.462,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6113,6 +6253,7 @@
     },
     {
       "id": "place.saxhleel-coast.dance-barge-mooring",
+      "schemaVersion": 2,
       "name": "The Barge",
       "classification": {
         "class": "civic",
@@ -6295,6 +6436,7 @@
     },
     {
       "id": "place.saxhleel-coast.dead-air-lane",
+      "schemaVersion": 2,
       "name": "The Dead Air",
       "classification": {
         "class": "lair",
@@ -6482,6 +6624,7 @@
     },
     {
       "id": "place.saxhleel-coast.deep-bank",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -6592,6 +6735,8 @@
         5648.7,
         3484.8
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0755",
@@ -6615,8 +6760,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 7.8,
-        "score": 4.659
+        "distanceToWaterM": 5.5,
+        "score": 4.659,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6670,6 +6822,7 @@
     },
     {
       "id": "place.saxhleel-coast.delta-boatwright",
+      "schemaVersion": 2,
       "name": "The Canoe Beach",
       "classification": {
         "class": "works",
@@ -6824,6 +6977,7 @@
     },
     {
       "id": "place.saxhleel-coast.delta-drowning-narrows",
+      "schemaVersion": 2,
       "name": "The Fast Water",
       "classification": {
         "class": "lair",
@@ -6974,6 +7128,7 @@
     },
     {
       "id": "place.saxhleel-coast.derelict-timber-concession",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "extraction",
@@ -7134,6 +7289,7 @@
     },
     {
       "id": "place.saxhleel-coast.drake-deep",
+      "schemaVersion": 2,
       "name": "The Marked Water",
       "classification": {
         "class": "lair",
@@ -7301,6 +7457,7 @@
     },
     {
       "id": "place.saxhleel-coast.dusk-bird-colony",
+      "schemaVersion": 2,
       "name": "The Dusk Island",
       "classification": {
         "class": "lair",
@@ -7420,6 +7577,8 @@
         5102.4,
         5206.6
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0692",
@@ -7443,8 +7602,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 2,
         "distanceToRouteM": 85.3,
-        "distanceToWaterM": 5.5,
-        "score": 2.83
+        "distanceToWaterM": 7.8,
+        "score": 2.83,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -7509,6 +7675,7 @@
     },
     {
       "id": "place.saxhleel-coast.east-estuary-rootworm-station",
+      "schemaVersion": 2,
       "name": "The Estuary Mouth Station",
       "classification": {
         "class": "transit",
@@ -7669,6 +7836,8 @@
         4998.2,
         4417.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0951",
@@ -7692,8 +7861,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 2,
         "distanceToRouteM": 11.0,
-        "distanceToWaterM": 19.8,
-        "score": 4.289
+        "distanceToWaterM": 0.0,
+        "score": 4.289,
+        "water": {
+          "entityId": "body.2752-2409",
+          "kind": "swamp",
+          "levelM": 1.06,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -7772,6 +7948,7 @@
     },
     {
       "id": "place.saxhleel-coast.estuary-boom-tower",
+      "schemaVersion": 2,
       "name": "The Boom Tower",
       "classification": {
         "class": "transit",
@@ -7950,6 +8127,7 @@
     },
     {
       "id": "place.saxhleel-coast.estuary-ferry-stage",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "landing",
@@ -8134,6 +8312,7 @@
     },
     {
       "id": "place.saxhleel-coast.estuary-keepers-lodge",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "lone-dwelling",
@@ -8257,6 +8436,8 @@
         4554.1,
         4285.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1009",
@@ -8280,8 +8461,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 324.8,
-        "distanceToWaterM": 46.5,
-        "score": 3.558
+        "distanceToWaterM": 93.7,
+        "score": 3.558,
+        "water": {
+          "entityId": "body.2508-2288",
+          "kind": "swamp",
+          "levelM": 1.34,
+          "season": "perennial",
+          "distanceM": 93.7
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -8353,6 +8541,7 @@
     },
     {
       "id": "place.saxhleel-coast.estuary-market-row",
+      "schemaVersion": 2,
       "name": "The Stall Row",
       "classification": {
         "class": "works",
@@ -8499,6 +8688,7 @@
     },
     {
       "id": "place.saxhleel-coast.estuary-salt-pans",
+      "schemaVersion": 2,
       "name": "The White Ground",
       "classification": {
         "class": "works",
@@ -8671,6 +8861,7 @@
     },
     {
       "id": "place.saxhleel-coast.gap-reef",
+      "schemaVersion": 2,
       "name": "Takes-The-Wrong-Gap",
       "classification": {
         "class": "lair",
@@ -8798,6 +8989,8 @@
         4526.6,
         4844.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.islet-031",
@@ -8821,8 +9014,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 582.4,
-        "distanceToWaterM": 12.3,
-        "score": 3.851
+        "distanceToWaterM": 16.5,
+        "score": 3.851,
+        "water": {
+          "entityId": "body.2436-2699",
+          "kind": "swamp",
+          "levelM": 1.03,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -8915,6 +9115,7 @@
     },
     {
       "id": "place.saxhleel-coast.gull-stack",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -9056,6 +9257,7 @@
     },
     {
       "id": "place.saxhleel-coast.haj-mota-shell-yard",
+      "schemaVersion": 2,
       "name": "The Cutting Yard",
       "classification": {
         "class": "works",
@@ -9219,6 +9421,7 @@
     },
     {
       "id": "place.saxhleel-coast.headland-storm-shelter",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -9379,6 +9582,7 @@
     },
     {
       "id": "place.saxhleel-coast.inland-fair-ground",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "market",
@@ -9526,6 +9730,7 @@
     },
     {
       "id": "place.saxhleel-coast.jungle-courier-relay",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -9673,6 +9878,7 @@
     },
     {
       "id": "place.saxhleel-coast.jungle-ferry-stage",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "landing",
@@ -9834,6 +10040,7 @@
     },
     {
       "id": "place.saxhleel-coast.jungle-root-hollow",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "root-system",
@@ -10036,6 +10243,8 @@
         4258.0,
         4285.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0983",
@@ -10059,12 +10268,20 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 604.1,
-        "distanceToWaterM": 121.8,
-        "score": 4.483
+        "distanceToWaterM": 61.3,
+        "score": 4.483,
+        "water": {
+          "entityId": "body.2335-2378",
+          "kind": "swamp",
+          "levelM": 20.54,
+          "season": "perennial",
+          "distanceM": 61.3
+        }
       }
     },
     {
       "id": "place.saxhleel-coast.jungle-track-hearth-house",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -10216,6 +10433,7 @@
     },
     {
       "id": "place.saxhleel-coast.ladder-tower-canopy",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "elevated",
@@ -10355,6 +10573,7 @@
     },
     {
       "id": "place.saxhleel-coast.lagoon-bioluminescence",
+      "schemaVersion": 2,
       "name": "The Lit Water",
       "classification": {
         "class": "lone",
@@ -10507,6 +10726,7 @@
     },
     {
       "id": "place.saxhleel-coast.lagoon-storm-shelter",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -10673,6 +10893,7 @@
     },
     {
       "id": "place.saxhleel-coast.lagoon-submerged-xanmeer",
+      "schemaVersion": 2,
       "name": "The Standing Corner",
       "classification": {
         "class": "ruin",
@@ -10814,6 +11035,8 @@
         5376.6,
         3419.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0832",
@@ -10828,7 +11051,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 307.1,
         "distanceToWaterM": 12.3,
-        "score": 2.588
+        "score": 2.588,
+        "water": {
+          "entityId": "body.2966-1867",
+          "kind": "swamp",
+          "levelM": 1.13,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -10907,6 +11137,7 @@
     },
     {
       "id": "place.saxhleel-coast.mangrove-air-pocket",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -11020,6 +11251,8 @@
         4587.0,
         4164.7
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-040",
@@ -11044,7 +11277,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 256.0,
         "distanceToWaterM": 0.0,
-        "score": 3.788
+        "score": 3.788,
+        "water": {
+          "entityId": "body.2508-2288",
+          "kind": "swamp",
+          "levelM": 1.34,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11121,6 +11361,7 @@
     },
     {
       "id": "place.saxhleel-coast.mangrove-cut-village",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -11290,6 +11531,7 @@
     },
     {
       "id": "place.saxhleel-coast.mangrove-reef",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -11407,6 +11649,8 @@
         4839.2,
         4817.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1036",
@@ -11430,8 +11674,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 3,
         "distanceToRouteM": 318.0,
-        "distanceToWaterM": 7.8,
-        "score": 3.059
+        "distanceToWaterM": 12.3,
+        "score": 3.059,
+        "water": {
+          "entityId": "body.2641-2639",
+          "kind": "swamp",
+          "levelM": 0.49,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -11492,6 +11743,7 @@
     },
     {
       "id": "place.saxhleel-coast.mangrove-wall-village",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -11647,6 +11899,7 @@
     },
     {
       "id": "place.saxhleel-coast.mangrove-wreck",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "remnant",
@@ -11804,6 +12057,7 @@
     },
     {
       "id": "place.saxhleel-coast.oliis-coast-lay-by",
+      "schemaVersion": 2,
       "name": "Lands-It-After-Dark",
       "classification": {
         "class": "works",
@@ -12062,6 +12316,8 @@
         5206.6,
         4142.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.cove-061",
@@ -12085,8 +12341,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 303.6,
-        "distanceToWaterM": 16.5,
-        "score": 4.703
+        "distanceToWaterM": 11.0,
+        "score": 4.703,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "sitingNote": "The audit's 'names the Lilmoth-Archon lane but sits 281 m off it' is the record working as written: its hard constraint is no sightline from that lane. Bound to Archon instead, because the customs desk is what makes the lay-by the last stop.",
       "proseRefs": [
@@ -12098,6 +12361,7 @@
     },
     {
       "id": "place.saxhleel-coast.outer-reef",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -12209,6 +12473,8 @@
         5404.0,
         3704.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0850",
@@ -12233,7 +12499,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 241.3,
         "distanceToWaterM": 5.5,
-        "score": 3.454
+        "score": 3.454,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -12294,6 +12567,7 @@
     },
     {
       "id": "place.saxhleel-coast.owing-hiring-camp",
+      "schemaVersion": 2,
       "classification": {
         "class": "camp",
         "family": "displaced-camp",
@@ -12476,6 +12750,8 @@
         4883.1,
         5212.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1062",
@@ -12499,13 +12775,21 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 79.8,
-        "distanceToWaterM": 27.4,
-        "score": 5.277
+        "distanceToWaterM": 22.6,
+        "score": 5.277,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 22.6
+        }
       },
       "sitingNote": "Held at D3 although the danger raster reads band 4 here: the camp sits on cleared concession margin and the band-4 reading belongs to the jungle around it, not to the queue."
     },
     {
       "id": "place.saxhleel-coast.padomaic-wrecker-beach",
+      "schemaVersion": 2,
       "name": "Shows-The-Wrong-Light",
       "classification": {
         "class": "camp",
@@ -12743,6 +13027,8 @@
         4924.8,
         5305.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.cove-061",
@@ -12766,8 +13052,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 19.8,
-        "score": 6.142
+        "distanceToWaterM": 15.5,
+        "score": 6.142,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 15.5
+        }
       },
       "proseRefs": [
         {
@@ -12786,6 +13079,7 @@
     },
     {
       "id": "place.saxhleel-coast.pearl-lots",
+      "schemaVersion": 2,
       "name": "The Counted Lots",
       "classification": {
         "class": "works",
@@ -12987,6 +13281,8 @@
         5579.5,
         4098.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.cove-061",
@@ -13011,12 +13307,20 @@
         "dangerBand": 2,
         "distanceToRouteM": 60.3,
         "distanceToWaterM": 19.8,
-        "score": 2.585
+        "score": 2.585,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "scourSiteId": "site.scour.mangrove-forest.islet-031"
     },
     {
       "id": "place.saxhleel-coast.portdun-mont",
+      "schemaVersion": 2,
       "name": "Portdun Mont",
       "classification": {
         "class": "settlement",
@@ -13163,6 +13467,8 @@
         5039.3,
         5099.6
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1063",
@@ -13187,7 +13493,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 38.8,
         "distanceToWaterM": 0.0,
-        "score": 3.86
+        "score": 3.86,
+        "water": {
+          "entityId": "body.2773-2764",
+          "kind": "swamp",
+          "levelM": 0.2,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -13288,6 +13601,7 @@
     },
     {
       "id": "place.saxhleel-coast.portdun-privateer-anchorage",
+      "schemaVersion": 2,
       "name": "The Marque Cove",
       "classification": {
         "class": "camp",
@@ -13504,6 +13818,7 @@
     },
     {
       "id": "place.saxhleel-coast.quarantine-village-lagoon",
+      "schemaVersion": 2,
       "name": "Keeps-Its-Own-Cordon",
       "classification": {
         "class": "settlement",
@@ -13689,6 +14004,8 @@
         5195.6,
         4005.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "open water in lake & standing water (danger band 3), 273 m from the nearest route; at the water's edge; won on bound, region, hinterland.",
       "plotFacts": {
@@ -13696,8 +14013,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 3,
         "distanceToRouteM": 272.7,
-        "distanceToWaterM": 11.0,
-        "score": 3.59
+        "distanceToWaterM": 0.0,
+        "score": 3.59,
+        "water": {
+          "entityId": "body.2811-2151",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "terrainRequests": [
         {
@@ -13716,6 +14040,7 @@
     },
     {
       "id": "place.saxhleel-coast.quay-flooded-cellar",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "submerged-way",
@@ -13874,6 +14199,7 @@
     },
     {
       "id": "place.saxhleel-coast.quay-tradehouse",
+      "schemaVersion": 2,
       "name": "The Three Tongues",
       "classification": {
         "class": "civic",
@@ -14011,6 +14337,8 @@
         4857.8,
         4414.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0833",
@@ -14034,8 +14362,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 3,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 5.5,
-        "score": 3.313
+        "distanceToWaterM": 44.2,
+        "score": 3.313,
+        "water": {
+          "entityId": "body.2677-2418",
+          "kind": "swamp",
+          "levelM": 2.82,
+          "season": "perennial",
+          "distanceM": 44.2
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -14113,6 +14448,7 @@
     },
     {
       "id": "place.saxhleel-coast.reef-air-pocket",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -14265,6 +14601,7 @@
     },
     {
       "id": "place.saxhleel-coast.reef-wreck",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "remnant",
@@ -14433,6 +14770,7 @@
     },
     {
       "id": "place.saxhleel-coast.seafalls",
+      "schemaVersion": 2,
       "name": "Seafalls",
       "classification": {
         "class": "transit",
@@ -14581,6 +14919,8 @@
         4784.4,
         5102.4
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0922",
@@ -14604,8 +14944,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 3,
         "distanceToRouteM": 219.3,
-        "distanceToWaterM": 5.5,
-        "score": 2.663
+        "distanceToWaterM": 12.3,
+        "score": 2.663,
+        "water": {
+          "entityId": "body.2615-2780",
+          "kind": "swamp",
+          "levelM": 0.58,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -14708,6 +15055,7 @@
     },
     {
       "id": "place.saxhleel-coast.seafalls-chamber",
+      "schemaVersion": 2,
       "name": "Behind the Water",
       "classification": {
         "class": "lone",
@@ -14878,6 +15226,7 @@
     },
     {
       "id": "place.saxhleel-coast.seafalls-porter-relay",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "storage-and-freight",
@@ -15038,6 +15387,7 @@
     },
     {
       "id": "place.saxhleel-coast.seafalls-reach",
+      "schemaVersion": 2,
       "name": "The Unrunnable Reach",
       "classification": {
         "class": "lair",
@@ -15189,6 +15539,7 @@
     },
     {
       "id": "place.saxhleel-coast.seafalls-slipway",
+      "schemaVersion": 2,
       "name": "The Greased Way",
       "classification": {
         "class": "transit",
@@ -15357,6 +15708,7 @@
     },
     {
       "id": "place.saxhleel-coast.sealed-xanmeer-wall",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -15481,6 +15833,8 @@
         4449.9,
         4104.4
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0833",
@@ -15494,8 +15848,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 389.3,
-        "distanceToWaterM": 22.6,
-        "score": 3.291
+        "distanceToWaterM": 24.5,
+        "score": 3.291,
+        "water": {
+          "entityId": "body.2447-2238",
+          "kind": "swamp",
+          "levelM": 1.05,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -15572,6 +15933,7 @@
     },
     {
       "id": "place.saxhleel-coast.shell-beast-shallows",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "beast-lair",
@@ -15682,6 +16044,8 @@
         5585.0,
         3583.5
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0849",
@@ -15706,7 +16070,14 @@
         "dangerBand": 0,
         "distanceToRouteM": 71.3,
         "distanceToWaterM": 0.0,
-        "score": 3.191
+        "score": 3.191,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -15775,6 +16146,7 @@
     },
     {
       "id": "place.saxhleel-coast.shell-bed-north",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "aquaculture",
@@ -15919,6 +16291,7 @@
     },
     {
       "id": "place.saxhleel-coast.stilt-village-drowned-rise",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -16075,6 +16448,7 @@
     },
     {
       "id": "place.saxhleel-coast.stilt-village-east",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -16259,6 +16633,7 @@
     },
     {
       "id": "place.saxhleel-coast.stilt-village-lagoon",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -16423,6 +16798,7 @@
     },
     {
       "id": "place.saxhleel-coast.tended-xanmeer-coast",
+      "schemaVersion": 2,
       "classification": {
         "class": "ruin",
         "family": "xanmeer",
@@ -16614,6 +16990,7 @@
     },
     {
       "id": "place.saxhleel-coast.terrace-village-ridge",
+      "schemaVersion": 2,
       "classification": {
         "class": "ruin",
         "family": "depopulated",
@@ -16734,6 +17111,8 @@
         4803.0,
         4239.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0884",
@@ -16758,7 +17137,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 85.8,
         "distanceToWaterM": 49.7,
-        "score": 3.713
+        "score": 3.713,
+        "water": {
+          "entityId": "body.2639-2290",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 49.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -16853,6 +17239,7 @@
     },
     {
       "id": "place.saxhleel-coast.tide-run-channel",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "crossing",
@@ -16989,6 +17376,7 @@
     },
     {
       "id": "place.saxhleel-coast.tide-run-delta",
+      "schemaVersion": 2,
       "name": "The Two-Hour Flat",
       "classification": {
         "class": "transit",
@@ -17124,6 +17512,8 @@
         4923.6,
         5143.0
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.coastal-lagoon-salt-marsh.land-bridge-033",
@@ -17147,8 +17537,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 15.5,
-        "score": 4.345
+        "distanceToWaterM": 11.0,
+        "score": 4.345,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -17194,6 +17591,7 @@
     },
     {
       "id": "place.saxhleel-coast.tide-street-salvage-yard",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "craft",
@@ -17363,6 +17761,7 @@
     },
     {
       "id": "place.saxhleel-coast.tide-street-village",
+      "schemaVersion": 2,
       "name": "The Tide Streets",
       "classification": {
         "class": "ruin",
@@ -17558,6 +17957,8 @@
         4702.1,
         4954.4
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0401",
@@ -17577,12 +17978,20 @@
         "dangerBand": 4,
         "distanceToRouteM": 372.3,
         "distanceToWaterM": 0.0,
-        "score": 1.494
+        "score": 1.494,
+        "water": {
+          "entityId": "reach.2437-2666",
+          "kind": "horizontal-backwater",
+          "levelM": 1.62,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "scourSiteId": "site.scour.tropical-jungle.river-mouth-005"
     },
     {
       "id": "place.saxhleel-coast.umbriel-shore-memorial",
+      "schemaVersion": 2,
       "classification": {
         "class": "sacred",
         "family": "the-dead",
@@ -17716,6 +18125,8 @@
         5371.1,
         4104.4
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0833",
@@ -17739,8 +18150,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 2,
         "distanceToRouteM": 228.8,
-        "distanceToWaterM": 22.6,
-        "score": 3.898
+        "distanceToWaterM": 11.0,
+        "score": 3.898,
+        "water": {
+          "entityId": "body.2929-2221",
+          "kind": "swamp",
+          "levelM": 0.79,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -17818,6 +18236,7 @@
     },
     {
       "id": "place.saxhleel-coast.village-tradehouse-south",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "festivity",
@@ -17958,6 +18377,7 @@
     },
     {
       "id": "place.saxhleel-coast.walkway-junction-east",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "elevated",
@@ -18100,6 +18520,7 @@
     },
     {
       "id": "place.saxhleel-coast.wall-hermit-hut",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "lone-dwelling",
@@ -18290,6 +18711,7 @@
     },
     {
       "id": "place.saxhleel-coast.wall-hist-village",
+      "schemaVersion": 2,
       "classification": {
         "class": "ruin",
         "family": "xanmeer",
@@ -18418,6 +18840,8 @@
         4592.4,
         4088.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0532",
@@ -18441,8 +18865,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 246.8,
-        "distanceToWaterM": 45.2,
-        "score": 3.237
+        "distanceToWaterM": 36.8,
+        "score": 3.237,
+        "water": {
+          "entityId": "body.2508-2288",
+          "kind": "swamp",
+          "levelM": 1.34,
+          "season": "perennial",
+          "distanceM": 36.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18543,6 +18974,7 @@
     },
     {
       "id": "place.saxhleel-coast.wall-poacher-camp",
+      "schemaVersion": 2,
       "classification": {
         "class": "camp",
         "family": "hostile-camp",
@@ -18702,6 +19134,7 @@
     },
     {
       "id": "place.saxhleel-coast.wall-vista-ledge",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -18853,6 +19286,7 @@
     },
     {
       "id": "place.saxhleel-coast.wild-rootworm-burrow",
+      "schemaVersion": 2,
       "classification": {
         "class": "lair",
         "family": "root-system",
@@ -19004,6 +19438,7 @@
     },
     {
       "id": "place.saxhleel-coast.xanmeer-dive-shaft",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "submerged-way",

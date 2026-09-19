@@ -113,7 +113,7 @@ this document.
 
 | Verdict | Item |
 |---|---|
-| **Missing** | **The start itself has no record.** `opening.work_barge` and `opening.work_camp` are not in the catalogue; the nearest Owing-institution record, The Hiring Yard (`place.pirate-freeholds.corimont-hiring-yard`), is `deferred`. The opening is currently unplotted ground. |
+| **Closed (16g, 2026-09-19)** | The start has records: `place.pirate-freeholds.opening-work-barge`, `opening-work-camp` and `upriver-hist-village`, all active and plotted within 500 m of Alten Corimont; they carry `ownerGuided` and the tutorial flag from 16g (see the 16g ledger). The rest of this table still stands as the opening-ring review to run at that packet. |
 | **Missing** | **No trivial first dungeon at 100–250 m.** The nearest enterable-and-survivable interiors are D3/D4 (Nine Sockets D4 at 332 m, The Underway D3 at 501 m). There is no Addamasartus. |
 | **Missing** | **No vantage point near the start** putting 3+ pulls in one eyeline. The nearest ladder/vista towers are Climbs-To-See (548 m, W) and Diggings Ladder (667 m). Neither reads as "the first thing you climb". |
 | **Missing** | **No teach-site for *vastei*.** 76 §120 requires a Nisswo to explain it in fiction in the opening hours. The nearest nisswo-rest-house is Northern Rest at 1.35 km. |

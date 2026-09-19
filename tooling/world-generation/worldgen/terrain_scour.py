@@ -113,7 +113,7 @@ class Ctx:
     ocean: np.ndarray
     river: np.ndarray        # river band > 0
     river_fat: np.ndarray    # river dilated 3 px — ring sampling misses 1-px lines
-    river_band: np.ndarray
+    reach_band: np.ndarray
     depth: np.ndarray        # water depth on the analysis grid
     wet: np.ndarray          # wetland / seasonal flood ground
     dist_water: np.ndarray
@@ -139,15 +139,16 @@ def build_ctx(s: ProvinceSurvey) -> Ctx:
     return Ctx(
         s=s, px_m=s.grid_px_m, h=h, hs=hs, slope=s.slope_grid,
         land=~water, water=water, ocean=ocean,
-        river=s.river_band > 0,
-        river_fat=ndimage.binary_dilation(s.river_band > 0, iterations=3),
-        river_band=s.river_band, depth=depth,
+        river=s.reach_band_grid > 0,
+        river_fat=ndimage.binary_dilation(s.reach_band_grid > 0, iterations=3),
+        reach_band=s.reach_band_grid, depth=depth,
         # "flood plain" for detection = the marsh region family plus the
-        # hydrology wetlands mask. The wetlands raster alone covers only ~10 %
-        # of the province, far less than the marsh regions do, and using it
-        # alone made the classic Argonian siting question ("where is the dry
-        # rise?") almost undetectable.
-        wet=(s.wetlands | (s.flood >= 2)
+        # record's own wet ground (a marsh-kind body, or ground the wet season
+        # inundates — `ProvinceSurvey.wet_ground`, decision 0066). The water
+        # alone covers far less of the province than the marsh regions do, and
+        # using it alone made the classic Argonian siting question ("where is
+        # the dry rise?") almost undetectable.
+        wet=(s.wet_ground
              | np.isin(s.region_grid, (3, 4, 6, 7, 8, 9, 14))),
         dist_water=s.dist_to_water_m,
         valid=_valid(h.shape, 8),
@@ -321,7 +322,7 @@ def _detect_confluence(ctx: Ctx):
     """Three or more separate channel arcs crossing one ring."""
     arcs = _channel_arcs(ctx, 60.0)
     mask = ctx.river & (arcs >= 3) & ctx.valid
-    return mask, (arcs + ctx.river_band).astype(np.float32)
+    return mask, (arcs + ctx.reach_band).astype(np.float32)
 
 
 def _detect_oxbow(ctx: Ctx):
@@ -335,7 +336,7 @@ def _detect_river_mouth(ctx: Ctx):
     r = ctx.m2px(60.0)
     near_sea = ndimage.maximum_filter(ctx.ocean.astype(np.uint8), size=2 * r + 1) > 0
     mask = ctx.river & near_sea & ctx.valid
-    return mask, (ctx.river_band.astype(np.float32) + 1.0)
+    return mask, (ctx.reach_band.astype(np.float32) + 1.0)
 
 
 def _detect_waterfall(ctx: Ctx):
@@ -349,7 +350,7 @@ def _detect_waterfall(ctx: Ctx):
 def _detect_spring_head(ctx: Ctx):
     """A channel terminus: the water arrives from one side only, and there is
     no channel upstream — headwater ground above 12 m."""
-    mask = ctx.river & (_channel_arcs(ctx, 110.0) <= 1) & (ctx.river_band == 1) \
+    mask = ctx.river & (_channel_arcs(ctx, 110.0) <= 1) & (ctx.reach_band == 1) \
         & (ctx.hs > 12.0) & ctx.valid
     return mask, ctx.hs.astype(np.float32)
 

@@ -40,7 +40,8 @@ export function loadLadder(baseUrl: string): Promise<Ladder | null> {
  * (16f round 4). The ladder is a 600-byte file; waiting for it costs
  * nothing visible.
  */
-export const LADDER_LAYERS = ["apron", "settlements", "vegetation", "water", "route-structures"] as const;
+export const LADDER_LAYERS = ["apron", "settlements", "vegetation", "water", "route-structures",
+  "places", "waterways", "services"] as const;
 
 /** The set of hidden layer names: everything until the record loads, then the record's list (empty if there is none). */
 export function useHiddenLayers(baseUrl: string): Set<string> {

@@ -142,21 +142,60 @@ def profiles(s: ProvinceSurvey, x: float, z: float, radius: float,
     return out
 
 
+def _kind_table(area_ha: dict) -> str:
+    """The graph's water kinds under the disc, biggest first, as one line."""
+    rows = sorted(((k, v) for k, v in area_ha.items() if k != "none" and v > 0.0),
+                  key=lambda kv: -kv[1])
+    return ", ".join(f"{k} {v:.2f} ha" for k, v in rows[:5]) if rows else "none"
+
+
+def _tidal_entity_grid(s: ProvinceSurvey):
+    """Surface-grid mask of the entities the RECORD calls tidal: a
+    `horizontal-tidal` reach, or a body whose `altitudeBand` is `tidal`
+    (`hydrology-graph.json` vocabulary). Read from the record, never derived
+    from a height or a class raster (0066). None without an entity raster."""
+    if s.water.ids is None:
+        return None
+    lut = np.zeros(len(s.water.entities) + 1, dtype=bool)
+    for i, e in enumerate(s.water.entities, 1):
+        rec = s.water.record(e.get("id")) or {}
+        lut[i] = (rec.get("kind") == "horizontal-tidal"
+                  or rec.get("altitudeBand") == "tidal")
+    return lut[s.water.ids]
+
+
 def hydrology_section(s: ProvinceSurvey, x: float, z: float, radius: float) -> dict:
     mask, sl = _disc(s.grid_n, s.grid_px_m, x, z, radius)
-    cell_ha = (s.grid_px_m ** 2) / 10_000.0
-    band = s.river_band[sl][mask]
-    flood = s.flood[sl][mask]
-    sal = s.salinity[sl][mask]
+    band = s.reach_band_grid[sl][mask]
+    sal = s.water_salinity[sl][mask]
     hmask, hsl = _disc(s.fields.height_m.shape[0], s.height_px_m, x, z, radius)
     depth = s.water_depth_m[hsl][hmask]
     wet_n = s.wet_season.shape[0]
     wmask, wsl = _disc(wet_n, s.extent_m / wet_n, x, z, radius)
     wet_season = s.wet_season[wsl][wmask]
 
+    # Area by the graph's own water KIND under the disc, read through the
+    # entity raster (0066) — the record-legal replacement for the Phase 3
+    # flood-band histogram.
+    kinds = s.water.kind_index_grid()
+    kind_area_ha: dict[str, float] = {}
+    tidal_fraction = 0.0
+    if kinds is not None:
+        kn = kinds.shape[0]
+        kmask, ksl = _disc(kn, s.extent_m / kn, x, z, radius)
+        cells = kinds[ksl][kmask]
+        kcell_ha = ((s.extent_m / kn) ** 2) / 10_000.0
+        names = s.water.kind_names()
+        counts = np.bincount(cells, minlength=len(names))
+        kind_area_ha = {names[i]: round(float(counts[i]) * kcell_ha, 3)
+                        for i in range(len(names)) if counts[i]}
+        tidal = _tidal_entity_grid(s)
+        if tidal is not None:
+            tidal_fraction = round(float(tidal[ksl][kmask].mean()), 3)
+
     channels = []
     for b in (1, 2, 3):
-        cells = np.argwhere(s.river_band[sl] == b)
+        cells = np.argwhere(s.reach_band_grid[sl] == b)
         if not cells.size:
             continue
         pts = np.stack([(cells[:, 1] + sl[1].start + 0.5) * s.grid_px_m,
@@ -179,17 +218,15 @@ def hydrology_section(s: ProvinceSurvey, x: float, z: float, radius: float) -> d
         "waterDepthM": _pct(depth[depth > 0.05], (5, 50, 95, 100)) if (depth > 0.05).any() else {},
         "openWaterAreaHa": round(float((depth > 0.05).sum())
                                  * (s.height_px_m ** 2) / 10_000.0, 3),
-        "floodBandAreaHa": {str(b): round(float((flood == b).sum() * cell_ha), 3)
-                            for b in (0, 1, 2, 3)},
+        "waterKindAreaHa": kind_area_ha,
         "wetSeasonNewlyInundatedFraction": round(float(wet_season.mean()), 3),
-        "wetlandFraction": round(float(s.wetlands[sl][mask].mean()), 3),
-        "tidalFraction": round(float(s.tidal[sl][mask].mean()), 3),
-        "lakeFraction": round(float(s.lakes[sl][mask].mean()), 3),
-        "salinity": _pct(sal, (5, 50, 95)),
+        "wetSeasonFraction": round(float(s.wet_season_grid[sl][mask].mean()), 3),
+        "marshFraction": round(float(s.marsh_grid[sl][mask].mean()), 3),
+        "tidalFraction": tidal_fraction,
+        "lakeFraction": round(float(s.lake_grid[sl][mask].mean()), 3),
+        "waterSalinity": _pct(sal, (5, 50, 95)),
         "salineFraction": round(float((sal > 0.05).mean()), 3),
         "distanceToOpenSeaM": round(float(s.fields.coast_m[s.grid_px(x, z)]), 1),
-        "floodBandLegend": {"0": "dry", "1": "occasional", "2": "seasonal",
-                            "3": "permanent/near-permanent"},
     }
 
 
@@ -408,9 +445,9 @@ def digest(d: dict) -> str:
         f"- {c['hydrology']['heightAboveWaterTableM']:.2f} m above the local water "
         f"table; shore {c['hydrology']['shoreDistanceM']:.0f} m; "
         f"open sea {h['distanceToOpenSeaM'] / 1000:.2f} km.",
-        f"- Flood band {c['hydrology']['floodBand']}; "
+        f"- Water under the disc: {_kind_table(h['waterKindAreaHa'])}; "
         f"{h['wetSeasonNewlyInundatedFraction'] * 100:.0f}% of the disc floods anew "
-        f"in the wet season; salinity p50 {h['salinity'].get('p50', 0):.2f} "
+        f"in the wet season; salinity p50 {h['waterSalinity'].get('p50', 0):.2f} "
         f"({h['salineFraction'] * 100:.0f}% saline).",
     ]
     for ch in h["channels"]:

@@ -2,33 +2,13 @@
  "schemaVersion": 1,
  "about": "Modules below the freeze gate that still re-derive water instead of reading the record (decision 0066). Each row is owned by the chunk that ports it; test_record_reads.py fails on a module missing here that re-derives, and on a row whose module is clean (delete the row). The list only shrinks.",
  "modules": {
-  "audit_place_semantics": {
-   "portedBy": "16g",
-   "why": "\"floodBand\": hyd[\"floodBand\"],"
-  },
   "compile_settlement": {
    "portedBy": "16h",
    "why": "band = int(survey.flood[row, col])"
   },
-  "hostility_frequency": {
-   "portedBy": "16g",
-   "why": "f\"`water/water-surface.png` is at or below zero, which comes to \""
-  },
-  "macro_plot": {
-   "portedBy": "16g",
-   "why": "wet = bool(s.wetlands[row, col]) or bool(s.flood[row, col] >= 2)"
-  },
   "settlement_ground_control": {
    "portedBy": "16h",
    "why": "DEFAULT_WATER_SURFACE = REPO_ROOT / \"apps\" / \"world-studio\" / \"public\" / \"provin"
-  },
-  "site_dossier": {
-   "portedBy": "16g",
-   "why": "flood = s.flood[sl][mask]"
-  },
-  "terrain_scour": {
-   "portedBy": "16g",
-   "why": "wet=(s.wetlands | (s.flood >= 2)"
   }
  }
 }

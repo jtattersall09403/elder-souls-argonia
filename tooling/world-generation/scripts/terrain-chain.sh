@@ -132,6 +132,9 @@ declare -A STAGE_ARGS=(
   [compile_scatter]="--out|$REPO_ROOT/apps/world-studio/public/province/vegetation|--footprint|$FOOTPRINT_FILE"
   # The bundle is only delivery once the kit GLBs it names are in the site the
   # browser fetches; without this the runtime asks for meshes that are not there.
+  # The chain runs macro_plot and the dependants as its own stages, so the
+  # write-back must not run them a second time.
+  [apply_sitings]="--stage"
   [compile_settlement]="--all"
   [export_settlement_bundle]="--copy-assets"
 )
@@ -171,20 +174,13 @@ STAGES=(
   "derive_crossings"
   "author_route_structures"
   "compile_route_structures"
-  "travel_services"
-  # 16g: the minor networks on the re-validated plot (never graded).
-  "compile_minor_routes"
-  "compile_minor_waterways"
   # Settlement pads still grade the ground here (16h turns them into typed
   # patches, plan chunk 16h); until then they are the one edit below the gate
   # that is not yet a patch, and `patch_water` runs before them on purpose.
   "grade_settlement_pads"
   "compile_chunks"
   "export_web_chunks"
-  "terrain_request_postconditions"
   "rebake_landcover"
-  "export_routes"
-  "paint_route_overlays"
   # The beyond-border apron (16d) reads the province's border chunks and the
   # land-cover bake it just wrote, and runs in seconds: the 670 MB heightmap
   # decode lives in `extract_apron_source` (run once by hand, never here).
@@ -197,13 +193,33 @@ STAGES=(
   "export_settlement_bundle"
   "settlement_ground_control"
   "compile_scatter"
+  # 16f: the insects' habitat and the water's colour constituents, read from
+  # the record and the scatter output; sidecar rasters, the water untouched.
+  "compile_water_dressing"
+  # 16g: THE PLOT IS RE-SOLVED LAST, on the finished ground. Everything above
+  # builds the world; these read it and put the places, the minor networks and
+  # the services on it. `apply_sitings --stage` is the write-back ONLY (no
+  # replot, no dependants — the chain runs them); `macro_plot --resolve-all`
+  # is the HAND step taken before a chain run, never a stage.
+  "apply_sitings"
+  "macro_plot"
+  # the minor networks on the re-validated plot (never graded)
+  "compile_minor_routes"
+  "compile_minor_waterways"
+  # the services' hops follow the minor waterways, so they are solved after them
+  "travel_services"
+  "export_places"
+  # The exports and the patches read the re-solved plot, so they come after it:
+  # the route index and the overlays carry the stations and the minor tracks,
+  # the vegetation clearance patches sit over the new settlement footprints,
+  # and the request postconditions judge the finished world.
+  "export_routes"
+  "paint_route_overlays"
   # Clearance is a typed PATCH on the published bundles, not a compiler input
   # (16f, decision 0070): the scatter dresses the wild province once, and the
   # patches 16g/16h/Phase 15 author are applied to its output here.
   "apply_vegetation_patches"
-  # 16f: the insects' habitat and the water's colour constituents, read from
-  # the record and the scatter output; sidecar rasters, the water untouched.
-  "compile_water_dressing"
+  "terrain_request_postconditions"
 )
 
 DELIVERED_THROUGH="16f"
@@ -221,16 +237,18 @@ declare -A LADDER=(
   # 16e: routes, grading as patches, spans, ferries; patch_water over the
   # grading patches; reroute_lanes on the compiled water (never a second
   # water compile: water is compiled once, 0057 §1).
-  [16e]="reroute_lanes solve_major_routes grade_routes apply_route_patches patch_water_graded derive_crossings author_route_structures compile_route_structures travel_services export_routes paint_route_overlays"
+  [16e]="reroute_lanes solve_major_routes grade_routes apply_route_patches patch_water_graded derive_crossings author_route_structures compile_route_structures export_routes paint_route_overlays"
   # 16f (delivered 2026-09-16): the scatter on the record, the clearance
   # patch stage (empty list on this ladder) and the water dressing sidecars.
   # `rebake_landcover` stays on 16b's row and re-runs because its code moved.
   [16f]="compile_scatter apply_vegetation_patches compile_water_dressing"
   # 16h: pads as patches, the settlement compile and publish.
   [16h]=""
-  # 16g: the plot re-solve; 16i: exemplars; 16j: the trial packet (stage names
+  # 16g: the plot re-solved on the finished ground and everything that reads
+  # it (`travel_services` moved here from 16e: its hops follow the minor
+  # waterways); 16i: exemplars; 16j: the trial packet (stage names
   # are written by the chunk that delivers them).
-  [16g]="compile_minor_routes compile_minor_waterways"
+  [16g]="apply_sitings macro_plot compile_minor_routes compile_minor_waterways travel_services export_places"
   [16i]=""
   [16j]=""
 )
@@ -258,6 +276,9 @@ declare -A LAYER_OF=(
   [compile_scatter]="vegetation"
   [compile_water]="water"
   [build_border_apron]="apron"
+  [export_places]="places"
+  [compile_minor_waterways]="waterways"
+  [travel_services]="services"
 )
 RAN_STAGES=()
 SKIPPED_STAGES=()

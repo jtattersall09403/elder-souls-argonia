@@ -5,6 +5,7 @@
   "places": [
     {
       "id": "place.imperial-fringe.ashen-tower",
+      "schemaVersion": 2,
       "name": "Ashen Tower",
       "aliases": [],
       "classification": {
@@ -151,6 +152,8 @@
         934.9,
         3029.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0525",
@@ -174,8 +177,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 216.9,
-        "distanceToWaterM": 34.7,
-        "score": 4.475
+        "distanceToWaterM": 186.8,
+        "score": 4.475,
+        "water": {
+          "entityId": "body.635-1651",
+          "kind": "tarn-upland",
+          "levelM": 72.53,
+          "season": "perennial",
+          "distanceM": 186.8
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -222,6 +232,7 @@
     },
     {
       "id": "place.imperial-fringe.bog-iron-workings",
+      "schemaVersion": 2,
       "name": "Bog Iron Workings",
       "aliases": [],
       "classification": {
@@ -362,6 +373,8 @@
         304.3,
         3007.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0525",
@@ -385,8 +398,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 4,
         "distanceToRouteM": 5.5,
-        "distanceToWaterM": 19.8,
-        "score": 3.682
+        "distanceToWaterM": 24.5,
+        "score": 3.682,
+        "water": {
+          "entityId": "reach.183-1646",
+          "kind": "sloped-riffle",
+          "levelM": 35.24,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -455,6 +475,7 @@
     },
     {
       "id": "place.imperial-fringe.bonded-shed-of-the-onkobra",
+      "schemaVersion": 2,
       "name": "Bonded Shed",
       "aliases": [],
       "classification": {
@@ -613,6 +634,8 @@
         1398.4,
         3027.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0392",
@@ -637,7 +660,14 @@
         "dangerBand": 1,
         "distanceToRouteM": 27.4,
         "distanceToWaterM": 5.5,
-        "score": 4.425
+        "score": 4.425,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -742,6 +772,7 @@
     },
     {
       "id": "place.imperial-fringe.bone-road-waystation",
+      "schemaVersion": 2,
       "name": "Carries-Them-Home",
       "aliases": [],
       "classification": {
@@ -894,6 +925,8 @@
         1724.6,
         3715.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0406",
@@ -917,8 +950,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 314.0,
-        "distanceToWaterM": 138.1,
-        "score": 4.198
+        "distanceToWaterM": 170.6,
+        "score": 4.198,
+        "water": {
+          "entityId": "reach.766-1948",
+          "kind": "sloped-rapid",
+          "levelM": 116.45,
+          "season": "seasonal",
+          "distanceM": 170.6
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -976,6 +1016,7 @@
     },
     {
       "id": "place.imperial-fringe.burnt-field-village",
+      "schemaVersion": 2,
       "name": "Burnt Field",
       "aliases": [],
       "classification": {
@@ -1123,6 +1164,8 @@
         1302.3,
         4587.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -1146,8 +1189,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 342.1,
-        "distanceToWaterM": 151.7,
-        "score": 3.701
+        "distanceToWaterM": 156.0,
+        "score": 3.701,
+        "water": {
+          "entityId": "body.795-2521",
+          "kind": "pond",
+          "levelM": 3.68,
+          "season": "perennial",
+          "distanceM": 156.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -1220,6 +1270,7 @@
     },
     {
       "id": "place.imperial-fringe.cartwrights-cross",
+      "schemaVersion": 2,
       "name": "Cartwright's Cross",
       "aliases": [],
       "classification": {
@@ -1388,6 +1439,8 @@
         597.1,
         3199.6
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0507",
@@ -1411,8 +1464,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 5.5,
-        "score": 5.803
+        "distanceToWaterM": 32.0,
+        "score": 5.803,
+        "water": {
+          "entityId": "reach.322-1724",
+          "kind": "horizontal-channel",
+          "levelM": 36.0,
+          "season": "perennial",
+          "distanceM": 32.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -1488,6 +1548,7 @@
     },
     {
       "id": "place.imperial-fringe.cassian-farm",
+      "schemaVersion": 2,
       "name": "Cassian's Holding",
       "aliases": [],
       "classification": {
@@ -1633,6 +1694,8 @@
         1900.0,
         3687.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0406",
@@ -1656,8 +1719,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 4,
         "distanceToRouteM": 150.9,
-        "distanceToWaterM": 5.5,
-        "score": 5.386
+        "distanceToWaterM": 28.0,
+        "score": 5.386,
+        "water": {
+          "entityId": "body.1061-2014",
+          "kind": "marsh-deep",
+          "levelM": 18.54,
+          "season": "perennial",
+          "distanceM": 28.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -1735,6 +1805,7 @@
     },
     {
       "id": "place.imperial-fringe.castle-giovesse",
+      "schemaVersion": 2,
       "name": "Castle Giovesse",
       "aliases": [],
       "classification": {
@@ -1893,6 +1964,8 @@
         1006.2,
         2777.4
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0573",
@@ -1916,8 +1989,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 418.9,
-        "distanceToWaterM": 102.0,
-        "score": 2.507
+        "distanceToWaterM": 101.1,
+        "score": 2.507,
+        "water": {
+          "entityId": "body.501-1470",
+          "kind": "pond",
+          "levelM": 206.65,
+          "season": "perennial",
+          "distanceM": 101.1
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -2014,6 +2094,7 @@
     },
     {
       "id": "place.imperial-fringe.claywater-station",
+      "schemaVersion": 2,
       "name": "Claywater Station",
       "aliases": [],
       "classification": {
@@ -2177,6 +2258,8 @@
         792.4,
         3148.2
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0505",
@@ -2200,8 +2283,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 27.4,
-        "score": 5.626
+        "distanceToWaterM": 99.3,
+        "score": 5.626,
+        "water": {
+          "entityId": "body.444-1782",
+          "kind": "pond",
+          "levelM": 60.73,
+          "season": "perennial",
+          "distanceM": 99.3
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -2269,6 +2359,7 @@
     },
     {
       "id": "place.imperial-fringe.collections-dig",
+      "schemaVersion": 2,
       "name": "Licensed Dig",
       "aliases": [],
       "classification": {
@@ -2444,6 +2535,8 @@
         1362.7,
         1510.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.gorge-026",
@@ -2457,8 +2550,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 763.9,
-        "distanceToWaterM": 38.8,
-        "score": 3.955
+        "distanceToWaterM": 22.6,
+        "score": 3.955,
+        "water": {
+          "entityId": "body.750-847",
+          "kind": "pond",
+          "levelM": 269.48,
+          "season": "perennial",
+          "distanceM": 22.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -2555,6 +2655,7 @@
     },
     {
       "id": "place.imperial-fringe.comes-back-slowly",
+      "schemaVersion": 2,
       "name": "Comes-Back-Slowly",
       "aliases": [],
       "classification": {
@@ -2714,6 +2815,8 @@
         1859.4,
         2859.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0406",
@@ -2737,8 +2840,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 24.5,
-        "distanceToWaterM": 15.5,
-        "score": 4.513
+        "distanceToWaterM": 16.5,
+        "score": 4.513,
+        "water": {
+          "entityId": "reach.949-1591",
+          "kind": "horizontal-channel",
+          "levelM": 18.0,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -2822,6 +2932,7 @@
     },
     {
       "id": "place.imperial-fringe.dreams-in-mud",
+      "schemaVersion": 2,
       "name": "Dreams-In-Mud",
       "aliases": [],
       "classification": {
@@ -2978,6 +3089,8 @@
         1143.3,
         4669.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0406",
@@ -3001,8 +3114,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 342.6,
-        "distanceToWaterM": 310.2,
-        "score": 3.674
+        "distanceToWaterM": 313.0,
+        "score": 3.674,
+        "water": {
+          "entityId": "body.795-2521",
+          "kind": "pond",
+          "levelM": 3.68,
+          "season": "perennial",
+          "distanceM": 313.0
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -3086,6 +3206,7 @@
     },
     {
       "id": "place.imperial-fringe.fenmarch-village",
+      "schemaVersion": 2,
       "name": "Fenmarch",
       "aliases": [],
       "classification": {
@@ -3251,6 +3372,8 @@
         1719.1,
         4109.9
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0611",
@@ -3275,7 +3398,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 281.0,
         "distanceToWaterM": 42.8,
-        "score": 3.714
+        "score": 3.714,
+        "water": {
+          "entityId": "body.924-2282",
+          "kind": "pond",
+          "levelM": 8.41,
+          "season": "perennial",
+          "distanceM": 42.8
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -3364,6 +3494,7 @@
     },
     {
       "id": "place.imperial-fringe.fig-market",
+      "schemaVersion": 2,
       "name": "Fig Market",
       "aliases": [],
       "classification": {
@@ -3545,6 +3676,8 @@
         2044.3,
         3470.8
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in firm lowland (danger band 3), 35 m from the nearest route; its choice #4 landform; won on landform, region, hinterland.",
       "plotFacts": {
@@ -3552,8 +3685,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 35.1,
-        "distanceToWaterM": 27.4,
-        "score": 3.571
+        "distanceToWaterM": 19.8,
+        "score": 3.571,
+        "water": {
+          "entityId": "body.1124-1869",
+          "kind": "marsh-deep",
+          "levelM": 31.76,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -3636,6 +3776,7 @@
     },
     {
       "id": "place.imperial-fringe.fort-greenditch",
+      "schemaVersion": 2,
       "name": "Fort Greenditch",
       "aliases": [],
       "classification": {
@@ -3790,6 +3931,8 @@
         904.2,
         3201.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0490",
@@ -3813,8 +3956,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 11.0,
-        "distanceToWaterM": 111.8,
-        "score": 4.093
+        "distanceToWaterM": 97.6,
+        "score": 4.093,
+        "water": {
+          "entityId": "body.444-1782",
+          "kind": "pond",
+          "levelM": 60.73,
+          "season": "perennial",
+          "distanceM": 97.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -3881,6 +4031,7 @@
     },
     {
       "id": "place.imperial-fringe.fort-swampmoth",
+      "schemaVersion": 2,
       "name": "Fort Swampmoth",
       "aliases": [],
       "classification": {
@@ -4056,6 +4207,8 @@
         186.5,
         2994.1
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0518",
@@ -4074,8 +4227,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 21.9,
-        "score": 3.102
+        "distanceToWaterM": 34.7,
+        "score": 3.102,
+        "water": {
+          "entityId": "reach.95-1657",
+          "kind": "sloped-rapid",
+          "levelM": 31.78,
+          "season": "perennial",
+          "distanceM": 34.7
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -4160,6 +4320,7 @@
     },
     {
       "id": "place.imperial-fringe.gideon",
+      "schemaVersion": 2,
       "name": "Gideon",
       "aliases": [
         "the paper city"
@@ -4352,6 +4513,7 @@
         "id": "hist.imperial-fringe.gideon",
         "kind": "city tree",
         "powerSlot": "power.hist.imperial-fringe.gideon",
+        "status": "hero",
         "note": "Hero Hist 4/10. EXTRAPOLATED (hist-placement.md §3): a cutting planted in the city gardens among the Ayleid ruins — speaking, but young by Hist standards and of disputed provenance, with a Gloommire tribe claiming it was taken. Canon permits transplanting (the Blackwood Company's smuggled tree) and the quest plan's MR03 assumes exactly this. Gideon is also the western terminus of the rootworm line."
       },
       "densityLayer": "landmark",
@@ -4365,6 +4527,8 @@
         1415.0,
         3093.0
       ],
+      "footprintRadiusM": 230.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -4372,8 +4536,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 5.5,
-        "score": null
+        "distanceToWaterM": 34.7,
+        "score": null,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 34.7
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -4496,6 +4667,7 @@
     },
     {
       "id": "place.imperial-fringe.gideon-rootworm-terminus",
+      "schemaVersion": 2,
       "name": "Wintertide Stop",
       "aliases": [],
       "classification": {
@@ -4669,6 +4841,8 @@
         1715.8,
         3071.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in firm lowland (danger band 3), 64 m from the nearest route; its choice #4 landform; won on bound, landform, region.",
       "plotFacts": {
@@ -4676,8 +4850,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 63.9,
-        "distanceToWaterM": 81.5,
-        "score": 3.128
+        "distanceToWaterM": 83.5,
+        "score": 3.128,
+        "water": {
+          "entityId": "reach.895-1645",
+          "kind": "sloped-rapid",
+          "levelM": 38.39,
+          "season": "perennial",
+          "distanceM": 83.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -4753,6 +4934,7 @@
     },
     {
       "id": "place.imperial-fringe.gideon-synod-outstation",
+      "schemaVersion": 2,
       "name": "Reckoning House",
       "aliases": [],
       "classification": {
@@ -4907,6 +5089,8 @@
         1313.3,
         3397.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in upland hills (danger band 2), 190 m from the nearest route; its first-choice landform; won on landform, route, bound.",
       "plotFacts": {
@@ -4914,8 +5098,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 190.4,
-        "distanceToWaterM": 134.9,
-        "score": 5.037
+        "distanceToWaterM": 120.4,
+        "score": 5.037,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 120.4
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -4997,6 +5188,7 @@
     },
     {
       "id": "place.imperial-fringe.giovesse-lines",
+      "schemaVersion": 2,
       "name": "Giovesse Lines",
       "aliases": [],
       "classification": {
@@ -5154,6 +5346,8 @@
         98.1,
         2905.7
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0612",
@@ -5177,8 +5371,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 66.7,
-        "distanceToWaterM": 101.1,
-        "score": 3.746
+        "distanceToWaterM": 109.8,
+        "score": 3.746,
+        "water": {
+          "entityId": "body.34-1661",
+          "kind": "backswamp",
+          "levelM": 25.27,
+          "season": "perennial",
+          "distanceM": 109.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -5259,6 +5460,7 @@
     },
     {
       "id": "place.imperial-fringe.glenbridge",
+      "schemaVersion": 2,
       "name": "Glenbridge",
       "aliases": [],
       "classification": {
@@ -5433,6 +5635,8 @@
         2179.7,
         2903.5
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in firm lowland (danger band 3), 11 m from the nearest route; its choice #3 landform; won on culture-clump, landform, region.",
       "plotFacts": {
@@ -5440,8 +5644,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 11.0,
-        "distanceToWaterM": 54.8,
-        "score": 3.754
+        "distanceToWaterM": 61.3,
+        "score": 3.754,
+        "water": {
+          "entityId": "reach.1130-1533",
+          "kind": "horizontal-backwater",
+          "levelM": 2.15,
+          "season": "perennial",
+          "distanceM": 61.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -5544,6 +5755,7 @@
     },
     {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
+      "schemaVersion": 2,
       "name": "Sermon Xanmeer",
       "aliases": [
         "the Turning Sermon"
@@ -5709,6 +5921,8 @@
         2086.5,
         2905.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0620",
@@ -5727,8 +5941,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 32.0,
-        "distanceToWaterM": 49.0,
-        "score": 4.306
+        "distanceToWaterM": 44.2,
+        "score": 4.306,
+        "water": {
+          "entityId": "body.1114-1585",
+          "kind": "marsh-deep",
+          "levelM": 5.83,
+          "season": "perennial",
+          "distanceM": 44.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -5807,6 +6028,7 @@
     },
     {
       "id": "place.imperial-fringe.guar-holding-of-the-nine-bells",
+      "schemaVersion": 2,
       "name": "Nine Bells Guar Holding",
       "aliases": [],
       "classification": {
@@ -5950,6 +6172,8 @@
         1839.7,
         3534.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -5973,8 +6197,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 170.3,
-        "distanceToWaterM": 52.0,
-        "score": 2.913
+        "distanceToWaterM": 60.6,
+        "score": 2.913,
+        "water": {
+          "entityId": "reach.766-1948",
+          "kind": "sloped-rapid",
+          "levelM": 116.45,
+          "season": "seasonal",
+          "distanceM": 60.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6046,6 +6277,7 @@
     },
     {
       "id": "place.imperial-fringe.hangs-above-the-water",
+      "schemaVersion": 2,
       "name": "Hangs-Above-The-Water",
       "aliases": [],
       "classification": {
@@ -6205,6 +6437,8 @@
         1790.4,
         1889.1
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.gorge-026",
@@ -6229,7 +6463,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 194.7,
         "distanceToWaterM": 44.2,
-        "score": 3.822
+        "score": 3.822,
+        "water": {
+          "entityId": "reach.913-1021",
+          "kind": "sloped-rapid",
+          "levelM": 110.37,
+          "season": "perennial",
+          "distanceM": 44.2
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -6294,6 +6535,7 @@
     },
     {
       "id": "place.imperial-fringe.hearth-house-of-the-burnt-field",
+      "schemaVersion": 2,
       "name": "Hearth House of the Burnt Field",
       "aliases": [],
       "classification": {
@@ -6484,6 +6726,7 @@
     },
     {
       "id": "place.imperial-fringe.highwater-hamlet",
+      "schemaVersion": 2,
       "name": "Highwater",
       "aliases": [],
       "classification": {
@@ -6631,6 +6874,8 @@
         1428.5,
         4696.6
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0575",
@@ -6655,7 +6900,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 199.3,
         "distanceToWaterM": 51.7,
-        "score": 3.215
+        "score": 3.215,
+        "water": {
+          "entityId": "body.795-2521",
+          "kind": "pond",
+          "levelM": 3.68,
+          "season": "perennial",
+          "distanceM": 51.7
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -6721,6 +6973,7 @@
     },
     {
       "id": "place.imperial-fringe.hollow-arch-toll",
+      "schemaVersion": 2,
       "name": "Hollow Arch",
       "aliases": [],
       "classification": {
@@ -6881,6 +7134,8 @@
         2045.4,
         2242.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0327",
@@ -6904,8 +7159,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 12.3,
-        "distanceToWaterM": 73.2,
-        "score": 5.523
+        "distanceToWaterM": 79.1,
+        "score": 5.523,
+        "water": {
+          "entityId": "reach.1143-1185",
+          "kind": "horizontal-channel",
+          "levelM": 2.01,
+          "season": "perennial",
+          "distanceM": 79.1
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -6986,6 +7248,7 @@
     },
     {
       "id": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
+      "schemaVersion": 2,
       "name": "Keeps-The-Lower-Water",
       "aliases": [],
       "classification": {
@@ -7143,6 +7406,8 @@
         1883.6,
         2437.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0463",
@@ -7166,8 +7431,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 187.6,
-        "distanceToWaterM": 86.7,
-        "score": 5.039
+        "distanceToWaterM": 97.6,
+        "score": 5.039,
+        "water": {
+          "entityId": "body.1071-1366",
+          "kind": "marsh-deep",
+          "levelM": 20.76,
+          "season": "perennial",
+          "distanceM": 97.6
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -7242,6 +7514,7 @@
     },
     {
       "id": "place.imperial-fringe.ladder-to-the-light",
+      "schemaVersion": 2,
       "name": "Ladder-To-The-Light",
       "aliases": [],
       "classification": {
@@ -7405,6 +7678,8 @@
         1861.7,
         3813.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0408",
@@ -7428,8 +7703,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 170.3,
-        "distanceToWaterM": 65.8,
-        "score": 4.886
+        "distanceToWaterM": 59.1,
+        "score": 4.886,
+        "water": {
+          "entityId": "reach.1054-2078",
+          "kind": "sloped-riffle",
+          "levelM": 14.02,
+          "season": "perennial",
+          "distanceM": 59.1
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -7487,6 +7769,7 @@
     },
     {
       "id": "place.imperial-fringe.long-causeway",
+      "schemaVersion": 2,
       "name": "Long Causeway",
       "aliases": [],
       "classification": {
@@ -7632,6 +7915,8 @@
         1960.4,
         3079.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0611",
@@ -7656,7 +7941,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 93.7,
         "distanceToWaterM": 0.0,
-        "score": 3.186
+        "score": 3.186,
+        "water": {
+          "entityId": "body.1074-1698",
+          "kind": "backswamp",
+          "levelM": 18.25,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -7701,6 +7993,7 @@
     },
     {
       "id": "place.imperial-fringe.low-water-fair",
+      "schemaVersion": 2,
       "name": "Low-Water Fair",
       "aliases": [],
       "classification": {
@@ -7849,6 +8142,8 @@
         1653.3,
         2689.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0611",
@@ -7872,8 +8167,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 137.1,
-        "distanceToWaterM": 157.0,
-        "score": 3.625
+        "distanceToWaterM": 132.6,
+        "score": 3.625,
+        "water": {
+          "entityId": "body.982-1465",
+          "kind": "marsh-deep",
+          "levelM": 15.67,
+          "season": "perennial",
+          "distanceM": 132.6
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -7935,6 +8237,7 @@
     },
     {
       "id": "place.imperial-fringe.lower-onkobra-paddies",
+      "schemaVersion": 2,
       "name": "Lower Onkobra Paddies",
       "aliases": [],
       "classification": {
@@ -8078,6 +8381,8 @@
         1477.8,
         4948.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.seasonal-floodplain.river-mouth-007",
@@ -8101,8 +8406,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 49.4,
-        "distanceToWaterM": 33.4,
-        "score": 3.869
+        "distanceToWaterM": 24.5,
+        "score": 3.869,
+        "water": {
+          "entityId": "body.819-2696",
+          "kind": "marsh-deep",
+          "levelM": 4.38,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -8150,6 +8462,7 @@
     },
     {
       "id": "place.imperial-fringe.lowmere-raft-town",
+      "schemaVersion": 2,
       "name": "Lowmere",
       "aliases": [],
       "classification": {
@@ -8308,6 +8621,8 @@
         1768.4,
         4674.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0341",
@@ -8331,8 +8646,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 5,
         "distanceToRouteM": 109.7,
-        "distanceToWaterM": 17.3,
-        "score": 2.005
+        "distanceToWaterM": 0.0,
+        "score": 2.005,
+        "water": {
+          "entityId": "body.926-2458",
+          "kind": "marsh-deep",
+          "levelM": 1.93,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -8401,6 +8723,7 @@
     },
     {
       "id": "place.imperial-fringe.marcians-terrace",
+      "schemaVersion": 2,
       "name": "Marcian's Terrace",
       "aliases": [],
       "classification": {
@@ -8561,6 +8884,8 @@
         468.8,
         3556.1
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.border-mountains.saddle-053",
       "candidatesConsidered": [
         {
@@ -8585,8 +8910,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 385.7,
-        "distanceToWaterM": 148.5,
-        "score": 3.241
+        "distanceToWaterM": 148.2,
+        "score": 3.241,
+        "water": {
+          "entityId": "body.260-2029",
+          "kind": "pond",
+          "levelM": 325.63,
+          "season": "perennial",
+          "distanceM": 148.2
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -8651,6 +8983,7 @@
     },
     {
       "id": "place.imperial-fringe.mile-house-of-the-eagle",
+      "schemaVersion": 2,
       "name": "Mile House of the Eagle",
       "aliases": [],
       "classification": {
@@ -8810,6 +9143,8 @@
         1019.4,
         3190.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.spring-head-031",
@@ -8823,8 +9158,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 12.3,
-        "distanceToWaterM": 206.4,
-        "score": 5.847
+        "distanceToWaterM": 166.8,
+        "score": 5.847,
+        "water": {
+          "entityId": "body.635-1651",
+          "kind": "tarn-upland",
+          "levelM": 72.53,
+          "season": "perennial",
+          "distanceM": 166.8
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -8890,6 +9232,7 @@
     },
     {
       "id": "place.imperial-fringe.moonmarch-ground",
+      "schemaVersion": 2,
       "name": "Moonmarch Ground",
       "aliases": [],
       "classification": {
@@ -9048,6 +9391,8 @@
         1384.6,
         2826.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0298",
@@ -9071,8 +9416,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 159.9,
-        "distanceToWaterM": 161.9,
-        "score": 3.092
+        "distanceToWaterM": 120.3,
+        "score": 3.092,
+        "water": {
+          "entityId": "body.777-1621",
+          "kind": "backswamp",
+          "levelM": 53.1,
+          "season": "perennial",
+          "distanceM": 120.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -9151,6 +9503,7 @@
     },
     {
       "id": "place.imperial-fringe.moonrack-calcinator",
+      "schemaVersion": 2,
       "name": "Moonrack",
       "aliases": [],
       "classification": {
@@ -9298,6 +9651,8 @@
         1368.1,
         3578.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0406",
@@ -9321,8 +9676,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 370.7,
-        "distanceToWaterM": 110.2,
-        "score": 4.738
+        "distanceToWaterM": 305.8,
+        "score": 4.738,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 305.8
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -9388,6 +9750,7 @@
     },
     {
       "id": "place.imperial-fringe.nine-arch-stage",
+      "schemaVersion": 2,
       "name": "Nine-Arch Stage",
       "aliases": [],
       "classification": {
@@ -9533,6 +9896,8 @@
         1935.1,
         2945.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0392",
@@ -9556,8 +9921,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 56.5,
-        "distanceToWaterM": 74.6,
-        "score": 4.064
+        "distanceToWaterM": 79.1,
+        "score": 4.064,
+        "water": {
+          "entityId": "body.1011-1646",
+          "kind": "backswamp",
+          "levelM": 21.82,
+          "season": "perennial",
+          "distanceM": 79.1
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -9605,6 +9977,7 @@
     },
     {
       "id": "place.imperial-fringe.ninefold-station",
+      "schemaVersion": 2,
       "name": "Ninefold",
       "aliases": [],
       "classification": {
@@ -9751,6 +10124,8 @@
         1348.9,
         5012.0
       ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0451",
@@ -9774,8 +10149,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 21.9,
-        "distanceToWaterM": 51.7,
-        "score": 5.314
+        "distanceToWaterM": 16.5,
+        "score": 5.314,
+        "water": {
+          "entityId": "body.726-2740",
+          "kind": "swamp",
+          "levelM": 7.53,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -9866,6 +10248,7 @@
     },
     {
       "id": "place.imperial-fringe.ninth-milestone-house",
+      "schemaVersion": 2,
       "name": "Ninth Milestone House",
       "aliases": [],
       "classification": {
@@ -10057,6 +10440,7 @@
     },
     {
       "id": "place.imperial-fringe.onkobra-clay-pits",
+      "schemaVersion": 2,
       "name": "Onkobra Clay Pits",
       "aliases": [],
       "classification": {
@@ -10205,6 +10589,8 @@
         885.6,
         2218.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0392",
@@ -10223,8 +10609,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 923.6,
-        "distanceToWaterM": 72.1,
-        "score": 2.497
+        "distanceToWaterM": 141.5,
+        "score": 2.497,
+        "water": {
+          "entityId": "reach.382-1251",
+          "kind": "sloped-rapid",
+          "levelM": 275.34,
+          "season": "seasonal",
+          "distanceM": 141.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -10287,6 +10680,7 @@
     },
     {
       "id": "place.imperial-fringe.onkobra-ferry",
+      "schemaVersion": 2,
       "name": "Onkobra Ferry",
       "aliases": [],
       "classification": {
@@ -10440,6 +10834,8 @@
         1708.1,
         4921.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0446",
@@ -10458,8 +10854,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 12.3,
-        "distanceToWaterM": 56.5,
-        "score": 4.957
+        "distanceToWaterM": 79.1,
+        "score": 4.957,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 79.1
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -10539,6 +10942,7 @@
     },
     {
       "id": "place.imperial-fringe.onkobra-field-station",
+      "schemaVersion": 2,
       "name": "Onkobra Field Station",
       "aliases": [],
       "classification": {
@@ -10712,6 +11116,8 @@
         1165.2,
         3336.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0484",
@@ -10735,8 +11141,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 66.3,
-        "distanceToWaterM": 112.5,
-        "score": 4.779
+        "distanceToWaterM": 29.5,
+        "score": 4.779,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 29.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -10818,6 +11231,7 @@
     },
     {
       "id": "place.imperial-fringe.onkobra-kwama-mine",
+      "schemaVersion": 2,
       "name": "Onkobra Kwama Mine",
       "aliases": [],
       "classification": {
@@ -10967,6 +11381,8 @@
         1839.7,
         1768.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.ravine-018",
@@ -10990,8 +11406,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 251.1,
-        "distanceToWaterM": 46.5,
-        "score": 3.319
+        "distanceToWaterM": 47.2,
+        "score": 3.319,
+        "water": {
+          "entityId": "reach.836-841",
+          "kind": "sloped-rapid",
+          "levelM": 186.79,
+          "season": "perennial",
+          "distanceM": 47.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11064,6 +11487,7 @@
     },
     {
       "id": "place.imperial-fringe.open-door-at-the-saddle",
+      "schemaVersion": 2,
       "name": "Open-To-All",
       "aliases": [],
       "classification": {
@@ -11299,6 +11723,7 @@
       },
       "workflow": "plotted",
       "id": "place.imperial-fringe.orma-tactile-ruin",
+      "schemaVersion": 2,
       "name": "Hand-Read Halls",
       "classification": {
         "class": "ruin",
@@ -11400,6 +11825,8 @@
         353.7,
         3961.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.border-mountains.box-canyon-045",
       "candidatesConsidered": [
         {
@@ -11424,8 +11851,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 807.5,
-        "distanceToWaterM": 5.5,
-        "score": 2.975
+        "distanceToWaterM": 235.5,
+        "score": 2.975,
+        "water": {
+          "entityId": "body.260-2029",
+          "kind": "pond",
+          "levelM": 325.63,
+          "season": "perennial",
+          "distanceM": 235.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11488,6 +11922,7 @@
     },
     {
       "id": "place.imperial-fringe.red-cart-yard",
+      "schemaVersion": 2,
       "name": "Red Cart Yard",
       "aliases": [],
       "classification": {
@@ -11650,6 +12085,8 @@
         2048.1,
         3943.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0863",
@@ -11673,8 +12110,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 56.5,
-        "score": 3.029
+        "distanceToWaterM": 50.6,
+        "score": 3.029,
+        "water": {
+          "entityId": "body.1086-2171",
+          "kind": "marsh-deep",
+          "levelM": 10.86,
+          "season": "perennial",
+          "distanceM": 50.6
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -11763,6 +12207,7 @@
     },
     {
       "id": "place.imperial-fringe.red-daub-relay",
+      "schemaVersion": 2,
       "name": "Red Daub Relay",
       "aliases": [],
       "classification": {
@@ -11961,6 +12406,7 @@
     },
     {
       "id": "place.imperial-fringe.reedcutters-toll",
+      "schemaVersion": 2,
       "name": "Reedcutters' Bridge",
       "aliases": [],
       "classification": {
@@ -12107,6 +12553,8 @@
         1596.3,
         4718.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0611",
@@ -12130,8 +12578,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 28.0,
-        "distanceToWaterM": 49.4,
-        "score": 2.058
+        "distanceToWaterM": 5.5,
+        "score": 2.058,
+        "water": {
+          "entityId": "reach.791-2668",
+          "kind": "horizontal-channel",
+          "levelM": 1.92,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -12201,6 +12656,7 @@
     },
     {
       "id": "place.imperial-fringe.ridge-runners-post",
+      "schemaVersion": 2,
       "name": "Ridge Runners' Post",
       "aliases": [],
       "classification": {
@@ -12352,6 +12808,8 @@
         819.8,
         2552.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0514",
@@ -12375,8 +12833,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 625.7,
-        "distanceToWaterM": 82.3,
-        "score": 4.384
+        "distanceToWaterM": 94.7,
+        "score": 4.384,
+        "water": {
+          "entityId": "body.472-1322",
+          "kind": "plunge-pool",
+          "levelM": 244.06,
+          "season": "perennial",
+          "distanceM": 94.7
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -12443,6 +12908,7 @@
     },
     {
       "id": "place.imperial-fringe.rockgrove",
+      "schemaVersion": 2,
       "name": "Rockgrove",
       "aliases": [],
       "classification": {
@@ -12598,6 +13064,8 @@
         1395.6,
         1417.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.upland-hills.box-canyon-028",
       "candidatesConsidered": [
         {
@@ -12622,8 +13090,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 826.3,
-        "distanceToWaterM": 50.6,
-        "score": 3.979
+        "distanceToWaterM": 15.5,
+        "score": 3.979,
+        "water": {
+          "entityId": "body.782-783",
+          "kind": "pond",
+          "levelM": 257.02,
+          "season": "perennial",
+          "distanceM": 15.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -12708,6 +13183,7 @@
     },
     {
       "id": "place.imperial-fringe.rufios-landing",
+      "schemaVersion": 2,
       "name": "Rufio's Landing",
       "aliases": [],
       "classification": {
@@ -12912,6 +13388,8 @@
         605.9,
         1444.9
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ridge-end-038",
@@ -12936,13 +13414,21 @@
         "dangerBand": 3,
         "distanceToRouteM": 1559.0,
         "distanceToWaterM": 147.6,
-        "score": 4.088
+        "score": 4.088,
+        "water": {
+          "entityId": "body.200-770",
+          "kind": "tarn-upland",
+          "levelM": 289.71,
+          "season": "perennial",
+          "distanceM": 147.6
+        }
       },
       "sitingNote": "The lair had a class with no way into it (round 4): the cut slipway now opens on the undercut where the crocodiles den, so the landing can be entered rather than being a dot on a cliff.",
       "scourSiteId": "site.scour.border-mountains.ravine-084"
     },
     {
       "id": "place.imperial-fringe.sabinus-claim",
+      "schemaVersion": 2,
       "name": "Sabinus' Claim",
       "aliases": [],
       "classification": {
@@ -13099,6 +13585,8 @@
         797.9,
         4214.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.border-mountains.ravine-074",
       "candidatesConsidered": [
         {
@@ -13123,8 +13611,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 933.2,
-        "distanceToWaterM": 60.3,
-        "score": 3.389
+        "distanceToWaterM": 278.0,
+        "score": 3.389,
+        "water": {
+          "entityId": "reach.580-2263",
+          "kind": "sloped-rapid",
+          "levelM": 121.67,
+          "season": "perennial",
+          "distanceM": 278.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -13189,6 +13684,7 @@
     },
     {
       "id": "place.imperial-fringe.saddle-fair",
+      "schemaVersion": 2,
       "name": "Saddle Fair",
       "aliases": [],
       "classification": {
@@ -13344,6 +13840,8 @@
         1494.3,
         3627.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -13367,8 +13865,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 483.0,
-        "distanceToWaterM": 41.8,
-        "score": 4.189
+        "distanceToWaterM": 352.5,
+        "score": 4.189,
+        "water": {
+          "entityId": "reach.766-1948",
+          "kind": "sloped-rapid",
+          "levelM": 116.45,
+          "season": "seasonal",
+          "distanceM": 352.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -13417,6 +13922,7 @@
     },
     {
       "id": "place.imperial-fringe.silver-mouth",
+      "schemaVersion": 2,
       "name": "Silver Mouth",
       "aliases": [],
       "classification": {
@@ -13564,6 +14070,8 @@
         1872.6,
         1620.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0300",
@@ -13587,8 +14095,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 318.8,
-        "distanceToWaterM": 82.4,
-        "score": 2.621
+        "distanceToWaterM": 55.1,
+        "score": 2.621,
+        "water": {
+          "entityId": "body.1024-834",
+          "kind": "pond",
+          "levelM": 157.4,
+          "season": "perennial",
+          "distanceM": 55.1
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -13657,6 +14172,7 @@
     },
     {
       "id": "place.imperial-fringe.silverhand-cairns",
+      "schemaVersion": 2,
       "name": "Silver Cairns",
       "aliases": [],
       "classification": {
@@ -13794,6 +14310,8 @@
         1497.5,
         2881.6
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0301",
@@ -13817,8 +14335,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 87.7,
-        "distanceToWaterM": 87.7,
-        "score": 4.253
+        "distanceToWaterM": 77.5,
+        "score": 4.253,
+        "water": {
+          "entityId": "body.777-1621",
+          "kind": "backswamp",
+          "levelM": 53.1,
+          "season": "perennial",
+          "distanceM": 77.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -13895,6 +14420,7 @@
     },
     {
       "id": "place.imperial-fringe.sink-field",
+      "schemaVersion": 2,
       "name": "Sink Field",
       "aliases": [],
       "classification": {
@@ -14088,6 +14614,8 @@
         671.7,
         1719.1
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in border mountains (danger band 3), 1310 m from the nearest route; at the water's edge; its choice #3 landform; won on nearPoint, landform, culture-clump; site exchanged in the swap pass with place.imperial-fringe.the-old-quarters (+0.46).",
       "plotFacts": {
@@ -14095,8 +14623,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1310.0,
-        "distanceToWaterM": 21.9,
-        "score": 2.894
+        "distanceToWaterM": 5.5,
+        "score": 2.894,
+        "water": {
+          "entityId": "body.354-940",
+          "kind": "pond",
+          "levelM": 548.57,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "proseRefs": [
         {
@@ -14107,6 +14642,7 @@
     },
     {
       "id": "place.imperial-fringe.slough-point",
+      "schemaVersion": 2,
       "name": "Slough Point",
       "aliases": [],
       "classification": {
@@ -14273,6 +14809,8 @@
         1724.6,
         2930.9
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.seasonal-floodplain.river-mouth-007",
@@ -14296,8 +14834,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 5.5,
-        "distanceToWaterM": 0.0,
-        "score": 3.882
+        "distanceToWaterM": 5.5,
+        "score": 3.882,
+        "water": {
+          "entityId": "reach.895-1645",
+          "kind": "sloped-rapid",
+          "levelM": 38.39,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -14386,6 +14931,7 @@
     },
     {
       "id": "place.imperial-fringe.slough-point-quarantine-shed",
+      "schemaVersion": 2,
       "name": "Customs Waiting Shed",
       "aliases": [],
       "classification": {
@@ -14585,6 +15131,7 @@
     },
     {
       "id": "place.imperial-fringe.sour-orchard",
+      "schemaVersion": 2,
       "name": "Sour Orchard",
       "aliases": [],
       "classification": {
@@ -14760,6 +15307,8 @@
         786.9,
         3676.7
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0696",
@@ -14783,8 +15332,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 439.9,
-        "distanceToWaterM": 177.9,
-        "score": 2.217
+        "distanceToWaterM": 302.0,
+        "score": 2.217,
+        "water": {
+          "entityId": "body.260-2029",
+          "kind": "pond",
+          "levelM": 325.63,
+          "season": "perennial",
+          "distanceM": 302.0
+        }
       },
       "proseRefs": [
         {
@@ -14795,6 +15351,7 @@
     },
     {
       "id": "place.imperial-fringe.stonefoot-terrace-village",
+      "schemaVersion": 2,
       "name": "Stonefoot",
       "aliases": [],
       "classification": {
@@ -14944,6 +15501,8 @@
         353.7,
         2870.6
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0538",
@@ -14967,8 +15526,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 132.6,
-        "distanceToWaterM": 0.0,
-        "score": 4.126
+        "distanceToWaterM": 11.0,
+        "score": 4.126,
+        "water": {
+          "entityId": "reach.244-1417",
+          "kind": "sloped-rapid",
+          "levelM": 178.72,
+          "season": "seasonal",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -15037,6 +15603,7 @@
     },
     {
       "id": "place.imperial-fringe.stonewastes",
+      "schemaVersion": 2,
       "name": "Stonewastes",
       "aliases": [],
       "classification": {
@@ -15205,6 +15772,8 @@
         1148.8,
         3594.4
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0612",
@@ -15228,8 +15797,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 295.3,
-        "distanceToWaterM": 330.2,
-        "score": 2.357
+        "distanceToWaterM": 272.2,
+        "score": 2.357,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 272.2
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -15324,6 +15900,7 @@
     },
     {
       "id": "place.imperial-fringe.swampmoth-town",
+      "schemaVersion": 2,
       "name": "Swampmoth Town",
       "aliases": [],
       "classification": {
@@ -15498,6 +16075,8 @@
         392.1,
         4707.6
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0700",
@@ -15521,8 +16100,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1018.0,
-        "distanceToWaterM": 72.1,
-        "score": 3.206
+        "distanceToWaterM": 112.9,
+        "score": 3.206,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 112.9
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -15609,6 +16195,7 @@
     },
     {
       "id": "place.imperial-fringe.takes-the-field",
+      "schemaVersion": 2,
       "name": "Takes-The-Field",
       "aliases": [],
       "classification": {
@@ -15822,6 +16409,8 @@
         1894.6,
         2623.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0897",
@@ -15845,8 +16434,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 66.0,
-        "distanceToWaterM": 54.3,
-        "score": 2.917
+        "distanceToWaterM": 97.0,
+        "score": 2.917,
+        "water": {
+          "entityId": "reach.991-1467",
+          "kind": "horizontal-channel",
+          "levelM": 15.67,
+          "season": "perennial",
+          "distanceM": 97.0
+        }
       },
       "proseRefs": [
         {
@@ -15857,6 +16453,7 @@
     },
     {
       "id": "place.imperial-fringe.the-abandoned-survey",
+      "schemaVersion": 2,
       "name": "Abandoned Survey",
       "aliases": [],
       "classification": {
@@ -16013,6 +16610,8 @@
         2190.7,
         2585.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0319",
@@ -16036,8 +16635,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 63.9,
-        "distanceToWaterM": 44.2,
-        "score": 4.779
+        "distanceToWaterM": 69.4,
+        "score": 4.779,
+        "water": {
+          "entityId": "body.1208-1450",
+          "kind": "pool",
+          "levelM": 5.28,
+          "season": "perennial",
+          "distanceM": 69.4
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -16094,6 +16700,7 @@
     },
     {
       "id": "place.imperial-fringe.the-art-and-ash-place",
+      "schemaVersion": 2,
       "name": "Makes-And-Burns",
       "aliases": [],
       "classification": {
@@ -16241,6 +16848,8 @@
         1584.8,
         3059.9
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0301",
@@ -16264,8 +16873,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 0.0,
-        "score": 4.432
+        "distanceToWaterM": 77.5,
+        "score": 4.432,
+        "water": {
+          "entityId": "reach.895-1645",
+          "kind": "sloped-rapid",
+          "levelM": 38.39,
+          "season": "perennial",
+          "distanceM": 77.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -16345,6 +16961,7 @@
     },
     {
       "id": "place.imperial-fringe.the-back-kiln",
+      "schemaVersion": 2,
       "name": "The Back Kiln",
       "aliases": [],
       "classification": {
@@ -16496,6 +17113,8 @@
         1606.2,
         2991.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0576",
@@ -16519,8 +17138,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 16.5,
-        "distanceToWaterM": 0.0,
-        "score": 4.887
+        "distanceToWaterM": 41.8,
+        "score": 4.887,
+        "water": {
+          "entityId": "reach.895-1645",
+          "kind": "sloped-rapid",
+          "levelM": 38.39,
+          "season": "perennial",
+          "distanceM": 41.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -16623,6 +17249,7 @@
     },
     {
       "id": "place.imperial-fringe.the-black-tarn",
+      "schemaVersion": 2,
       "name": "The Black Tarn",
       "aliases": [],
       "classification": {
@@ -16765,6 +17392,8 @@
         79.5,
         2305.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.lake-standing-water.box-canyon-026",
       "candidatesConsidered": [
         {
@@ -16790,7 +17419,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 658.8,
         "distanceToWaterM": 0.0,
-        "score": 4.9
+        "score": 4.9,
+        "water": {
+          "entityId": "body.34-1253",
+          "kind": "tarn-upland",
+          "levelM": 221.62,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -16869,6 +17505,7 @@
     },
     {
       "id": "place.imperial-fringe.the-borrowed-house",
+      "schemaVersion": 2,
       "name": "The Borrowed House",
       "aliases": [],
       "classification": {
@@ -17012,6 +17649,8 @@
         1697.1,
         3610.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0612",
@@ -17035,8 +17674,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 331.3,
-        "distanceToWaterM": 44.2,
-        "score": 2.951
+        "distanceToWaterM": 149.0,
+        "score": 2.951,
+        "water": {
+          "entityId": "reach.766-1948",
+          "kind": "sloped-rapid",
+          "levelM": 116.45,
+          "season": "seasonal",
+          "distanceM": 149.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -17108,6 +17754,7 @@
     },
     {
       "id": "place.imperial-fringe.the-broke-column",
+      "schemaVersion": 2,
       "name": "The Broke Column",
       "aliases": [],
       "classification": {
@@ -17325,6 +17972,8 @@
         1428.5,
         4444.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0537",
@@ -17349,7 +17998,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 217.3,
         "distanceToWaterM": 137.2,
-        "score": 3.345
+        "score": 3.345,
+        "water": {
+          "entityId": "body.866-2426",
+          "kind": "pond",
+          "levelM": 2.92,
+          "season": "perennial",
+          "distanceM": 137.2
+        }
       },
       "proseRefs": [
         {
@@ -17372,6 +18028,7 @@
     },
     {
       "id": "place.imperial-fringe.the-buried-spears",
+      "schemaVersion": 2,
       "name": "The Buried Spears",
       "aliases": [],
       "classification": {
@@ -17510,6 +18167,8 @@
         1461.4,
         2821.3
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0301",
@@ -17533,8 +18192,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 137.5,
-        "distanceToWaterM": 148.1,
-        "score": 4.389
+        "distanceToWaterM": 116.3,
+        "score": 4.389,
+        "water": {
+          "entityId": "body.777-1621",
+          "kind": "backswamp",
+          "levelM": 53.1,
+          "season": "perennial",
+          "distanceM": 116.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17589,6 +18255,7 @@
     },
     {
       "id": "place.imperial-fringe.the-cold-forge",
+      "schemaVersion": 2,
       "name": "The Cold Forge",
       "aliases": [],
       "classification": {
@@ -17735,6 +18402,8 @@
         1510.7,
         4044.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0332",
@@ -17759,7 +18428,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 385.0,
         "distanceToWaterM": 39.9,
-        "score": 3.807
+        "score": 3.807,
+        "water": {
+          "entityId": "body.819-2283",
+          "kind": "lake-lowland",
+          "levelM": 17.75,
+          "season": "perennial",
+          "distanceM": 39.9
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -17833,6 +18509,7 @@
     },
     {
       "id": "place.imperial-fringe.the-cold-lights",
+      "schemaVersion": 2,
       "name": "The Cold Lights",
       "aliases": [],
       "classification": {
@@ -17985,6 +18662,8 @@
         1691.7,
         2092.0
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0366",
@@ -18008,8 +18687,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 364.6,
-        "distanceToWaterM": 0.0,
-        "score": 4.046
+        "distanceToWaterM": 137.2,
+        "score": 4.046,
+        "water": {
+          "entityId": "reach.617-1133",
+          "kind": "sloped-rapid",
+          "levelM": 398.53,
+          "season": "seasonal",
+          "distanceM": 137.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18078,6 +18764,7 @@
     },
     {
       "id": "place.imperial-fringe.the-cordon-stones",
+      "schemaVersion": 2,
       "name": "The Cordon Stones",
       "aliases": [],
       "classification": {
@@ -18216,6 +18903,8 @@
         1647.8,
         3490.3
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0700",
@@ -18239,8 +18928,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 338.1,
-        "distanceToWaterM": 81.5,
-        "score": 3.753
+        "distanceToWaterM": 223.2,
+        "score": 3.753,
+        "water": {
+          "entityId": "reach.766-1948",
+          "kind": "sloped-rapid",
+          "levelM": 116.45,
+          "season": "seasonal",
+          "distanceM": 223.2
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -18286,6 +18982,7 @@
     },
     {
       "id": "place.imperial-fringe.the-counted-dead",
+      "schemaVersion": 2,
       "name": "Counts-The-Dead",
       "aliases": [],
       "classification": {
@@ -18441,6 +19138,8 @@
         2018.6,
         3704.1
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0667",
@@ -18464,8 +19163,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 62.5,
-        "score": 4.518
+        "distanceToWaterM": 74.6,
+        "score": 4.518,
+        "water": {
+          "entityId": "body.1062-2011",
+          "kind": "marsh-deep",
+          "levelM": 18.99,
+          "season": "perennial",
+          "distanceM": 74.6
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -18555,6 +19261,7 @@
     },
     {
       "id": "place.imperial-fringe.the-drowned-furrow",
+      "schemaVersion": 2,
       "name": "Drowned Furrow",
       "aliases": [],
       "classification": {
@@ -18697,6 +19404,8 @@
         496.3,
         2190.7
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.box-canyon-039",
@@ -18715,8 +19424,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 826.1,
-        "distanceToWaterM": 12.3,
-        "score": 3.958
+        "distanceToWaterM": 186.2,
+        "score": 3.958,
+        "water": {
+          "entityId": "body.377-1239",
+          "kind": "pool",
+          "levelM": 275.69,
+          "season": "perennial",
+          "distanceM": 186.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18811,6 +19527,7 @@
     },
     {
       "id": "place.imperial-fringe.the-drowned-mule",
+      "schemaVersion": 2,
       "name": "The Drowned Mule",
       "aliases": [],
       "classification": {
@@ -18967,6 +19684,8 @@
         913.0,
         3298.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0505",
@@ -18990,8 +19709,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 49.7,
-        "distanceToWaterM": 126.6,
-        "score": 4.612
+        "distanceToWaterM": 93.7,
+        "score": 4.612,
+        "water": {
+          "entityId": "body.444-1782",
+          "kind": "pond",
+          "levelM": 60.73,
+          "season": "perennial",
+          "distanceM": 93.7
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -19055,6 +19781,7 @@
     },
     {
       "id": "place.imperial-fringe.the-drowning-gate",
+      "schemaVersion": 2,
       "name": "The Drowning Gate",
       "aliases": [],
       "classification": {
@@ -19205,6 +19932,8 @@
         353.7,
         3139.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0511",
@@ -19228,8 +19957,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 4,
         "distanceToRouteM": 55.9,
-        "distanceToWaterM": 50.6,
-        "score": 4.742
+        "distanceToWaterM": 17.3,
+        "score": 4.742,
+        "water": {
+          "entityId": "body.221-1650",
+          "kind": "tarn-upland",
+          "levelM": 35.24,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -19289,6 +20025,7 @@
     },
     {
       "id": "place.imperial-fringe.the-eight-steps",
+      "schemaVersion": 2,
       "name": "The Eight Steps",
       "aliases": [],
       "classification": {
@@ -19435,6 +20172,8 @@
         304.3,
         4203.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0332",
@@ -19458,8 +20197,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1053.3,
-        "distanceToWaterM": 0.0,
-        "score": 3.394
+        "distanceToWaterM": 341.1,
+        "score": 3.394,
+        "water": {
+          "entityId": "body.278-2618",
+          "kind": "tarn-upland",
+          "levelM": 63.31,
+          "season": "perennial",
+          "distanceM": 341.1
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -19527,6 +20273,7 @@
     },
     {
       "id": "place.imperial-fringe.the-embankment-that-drowned",
+      "schemaVersion": 2,
       "name": "Drowned Embankment",
       "aliases": [],
       "classification": {
@@ -19672,6 +20419,8 @@
         337.2,
         2174.2
       ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "ridge end in border mountains (danger band 3), 802 m from the nearest route; won on sightline, hinterland, danger; placed from the homeless batch at stage 'relaxed-score'.",
       "plotFacts": {
@@ -19679,8 +20428,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 802.4,
-        "distanceToWaterM": 98.9,
-        "score": 0.65
+        "distanceToWaterM": 100.8,
+        "score": 0.65,
+        "water": {
+          "entityId": "body.160-1250",
+          "kind": "pond",
+          "levelM": 327.64,
+          "season": "perennial",
+          "distanceM": 100.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -19745,6 +20501,7 @@
     },
     {
       "id": "place.imperial-fringe.the-empty-steading",
+      "schemaVersion": 2,
       "name": "The Empty Steading",
       "aliases": [],
       "classification": {
@@ -19903,6 +20660,8 @@
         2015.2,
         4466.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-004",
@@ -19926,8 +20685,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 60.6,
-        "distanceToWaterM": 39.5,
-        "score": 4.381
+        "distanceToWaterM": 120.8,
+        "score": 4.381,
+        "water": {
+          "entityId": "body.1167-2444",
+          "kind": "marsh-deep",
+          "levelM": 10.55,
+          "season": "perennial",
+          "distanceM": 120.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -20008,6 +20774,7 @@
     },
     {
       "id": "place.imperial-fringe.the-fig-and-ledger",
+      "schemaVersion": 2,
       "name": "The Fig and Ledger",
       "aliases": [],
       "classification": {
@@ -20204,6 +20971,7 @@
     },
     {
       "id": "place.imperial-fringe.the-fig-poachers",
+      "schemaVersion": 2,
       "name": "Fig Camp",
       "aliases": [],
       "classification": {
@@ -20352,6 +21120,8 @@
         1050.1,
         4691.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -20376,7 +21146,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 393.2,
         "distanceToWaterM": 349.7,
-        "score": 3.569
+        "score": 3.569,
+        "water": {
+          "entityId": "body.694-2721",
+          "kind": "pond",
+          "levelM": 7.4,
+          "season": "perennial",
+          "distanceM": 349.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -20450,6 +21227,7 @@
     },
     {
       "id": "place.imperial-fringe.the-glass-scar",
+      "schemaVersion": 2,
       "name": "The Glass Scar",
       "aliases": [],
       "classification": {
@@ -20589,6 +21367,8 @@
         211.1,
         3841.2
       ],
+      "footprintRadiusM": 55.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0302",
@@ -20612,8 +21392,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 720.1,
-        "distanceToWaterM": 186.3,
-        "score": 2.552
+        "distanceToWaterM": 255.1,
+        "score": 2.552,
+        "water": {
+          "entityId": "body.260-2029",
+          "kind": "pond",
+          "levelM": 325.63,
+          "season": "perennial",
+          "distanceM": 255.1
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -20691,6 +21478,7 @@
     },
     {
       "id": "place.imperial-fringe.the-hackwing-scarp",
+      "schemaVersion": 2,
       "name": "Hackwing Scarp",
       "aliases": [],
       "classification": {
@@ -20832,6 +21620,8 @@
         797.9,
         4537.6
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.gorge-057",
@@ -20855,8 +21645,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 737.0,
-        "distanceToWaterM": 246.3,
-        "score": 3.838
+        "distanceToWaterM": 238.1,
+        "score": 3.838,
+        "water": {
+          "entityId": "body.278-2618",
+          "kind": "tarn-upland",
+          "levelM": 63.31,
+          "season": "perennial",
+          "distanceM": 238.1
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -20929,6 +21726,7 @@
     },
     {
       "id": "place.imperial-fringe.the-hollow-pass-station",
+      "schemaVersion": 2,
       "name": "Hollow Pass Station",
       "aliases": [],
       "classification": {
@@ -21077,6 +21875,8 @@
         704.6,
         4427.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.saddle-024",
@@ -21100,8 +21900,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 877.8,
-        "distanceToWaterM": 197.7,
-        "score": 3.821
+        "distanceToWaterM": 191.8,
+        "score": 3.821,
+        "water": {
+          "entityId": "body.278-2618",
+          "kind": "tarn-upland",
+          "levelM": 63.31,
+          "season": "perennial",
+          "distanceM": 191.8
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -21171,6 +21978,7 @@
     },
     {
       "id": "place.imperial-fringe.the-hollow-under-the-figs",
+      "schemaVersion": 2,
       "name": "The Hollow Under the Figs",
       "aliases": [],
       "classification": {
@@ -21325,6 +22133,8 @@
         46.6,
         2974.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0525",
@@ -21348,8 +22158,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 15.5,
-        "score": 4.196
+        "distanceToWaterM": 54.3,
+        "score": 4.196,
+        "water": {
+          "entityId": "body.34-1661",
+          "kind": "backswamp",
+          "levelM": 25.27,
+          "season": "perennial",
+          "distanceM": 54.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -21418,6 +22235,7 @@
     },
     {
       "id": "place.imperial-fringe.the-kept-terrace",
+      "schemaVersion": 2,
       "name": "Keeps-The-Terrace",
       "aliases": [],
       "classification": {
@@ -21566,6 +22384,8 @@
         1669.7,
         4384.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0437",
@@ -21589,8 +22409,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 12.3,
-        "distanceToWaterM": 28.0,
-        "score": 3.312
+        "distanceToWaterM": 0.0,
+        "score": 3.312,
+        "water": {
+          "entityId": "body.889-2443",
+          "kind": "marsh-deep",
+          "levelM": 1.93,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -21660,6 +22487,7 @@
     },
     {
       "id": "place.imperial-fringe.the-knapping-floor-of-the-high-scree",
+      "schemaVersion": 2,
       "name": "High Scree Floor",
       "aliases": [],
       "classification": {
@@ -21803,6 +22631,8 @@
         1976.8,
         3841.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0406",
@@ -21826,8 +22656,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 66.9,
-        "distanceToWaterM": 5.5,
-        "score": 4.222
+        "distanceToWaterM": 49.0,
+        "score": 4.222,
+        "water": {
+          "entityId": "reach.1054-2078",
+          "kind": "sloped-riffle",
+          "levelM": 14.02,
+          "season": "perennial",
+          "distanceM": 49.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -21902,6 +22739,7 @@
     },
     {
       "id": "place.imperial-fringe.the-lake-divers-yard",
+      "schemaVersion": 2,
       "name": "Onkobra Divers' Yard",
       "aliases": [],
       "classification": {
@@ -22062,6 +22900,8 @@
         216.6,
         1384.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0216",
@@ -22085,8 +22925,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1580.0,
-        "distanceToWaterM": 62.0,
-        "score": 3.106
+        "distanceToWaterM": 73.6,
+        "score": 3.106,
+        "water": {
+          "entityId": "body.200-770",
+          "kind": "tarn-upland",
+          "levelM": 289.71,
+          "season": "perennial",
+          "distanceM": 73.6
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -22171,6 +23018,7 @@
     },
     {
       "id": "place.imperial-fringe.the-lamp-at-the-ford",
+      "schemaVersion": 2,
       "name": "The Lamp at the Ford",
       "aliases": [],
       "classification": {
@@ -22359,6 +23207,7 @@
     },
     {
       "id": "place.imperial-fringe.the-last-post",
+      "schemaVersion": 2,
       "name": "Last Post",
       "aliases": [],
       "classification": {
@@ -22516,6 +23365,8 @@
         35.6,
         3185.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0525",
@@ -22540,7 +23391,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 87.7,
         "distanceToWaterM": 24.5,
-        "score": 4.828
+        "score": 4.828,
+        "water": {
+          "entityId": "body.34-1661",
+          "kind": "backswamp",
+          "levelM": 25.27,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -22610,6 +23468,7 @@
     },
     {
       "id": "place.imperial-fringe.the-leaning-watch",
+      "schemaVersion": 2,
       "name": "Leaning Watch",
       "aliases": [],
       "classification": {
@@ -22753,6 +23612,8 @@
         183.7,
         4548.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0612",
@@ -22776,8 +23637,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1232.9,
-        "distanceToWaterM": 12.3,
-        "score": 3.15
+        "distanceToWaterM": 32.9,
+        "score": 3.15,
+        "water": {
+          "entityId": "reach.99-2504",
+          "kind": "vertical-fall",
+          "levelM": 55.54,
+          "season": "seasonal",
+          "distanceM": 32.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -22854,6 +23722,7 @@
     },
     {
       "id": "place.imperial-fringe.the-ledge-of-tallies",
+      "schemaVersion": 2,
       "name": "Ledge of Tallies",
       "aliases": [],
       "classification": {
@@ -23005,6 +23874,8 @@
         266.0,
         4395.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0332",
@@ -23028,8 +23899,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1198.5,
-        "distanceToWaterM": 12.3,
-        "score": 2.727
+        "distanceToWaterM": 201.6,
+        "score": 2.727,
+        "water": {
+          "entityId": "reach.99-2504",
+          "kind": "vertical-fall",
+          "levelM": 55.54,
+          "season": "seasonal",
+          "distanceM": 201.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -23095,6 +23973,7 @@
     },
     {
       "id": "place.imperial-fringe.the-marble-field",
+      "schemaVersion": 2,
       "name": "The Marble Field",
       "aliases": [],
       "classification": {
@@ -23231,6 +24110,8 @@
         1329.8,
         3314.8
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0633",
@@ -23254,8 +24135,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 149.7,
-        "distanceToWaterM": 58.3,
-        "score": 3.882
+        "distanceToWaterM": 45.2,
+        "score": 3.882,
+        "water": {
+          "entityId": "body.692-1779",
+          "kind": "tarn-upland",
+          "levelM": 53.46,
+          "season": "perennial",
+          "distanceM": 45.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -23333,6 +24221,7 @@
     },
     {
       "id": "place.imperial-fringe.the-month-chapel",
+      "schemaVersion": 2,
       "name": "The Month Chapel",
       "aliases": [],
       "classification": {
@@ -23470,6 +24359,8 @@
         1623.7,
         3098.8
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0299",
@@ -23493,8 +24384,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 89.3,
-        "distanceToWaterM": 47.2,
-        "score": 3.594
+        "distanceToWaterM": 94.7,
+        "score": 3.594,
+        "water": {
+          "entityId": "reach.895-1645",
+          "kind": "sloped-rapid",
+          "levelM": 38.39,
+          "season": "perennial",
+          "distanceM": 94.7
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -23571,6 +24469,7 @@
     },
     {
       "id": "place.imperial-fringe.the-niben-crystal-workings",
+      "schemaVersion": 2,
       "name": "Niben Crystal Workings",
       "aliases": [],
       "classification": {
@@ -23717,6 +24616,8 @@
         326.3,
         3808.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -23740,8 +24641,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 663.8,
-        "distanceToWaterM": 137.1,
-        "score": 3.589
+        "distanceToWaterM": 138.4,
+        "score": 3.589,
+        "water": {
+          "entityId": "body.260-2029",
+          "kind": "pond",
+          "levelM": 325.63,
+          "season": "perennial",
+          "distanceM": 138.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -23816,6 +24724,7 @@
     },
     {
       "id": "place.imperial-fringe.the-old-office-house",
+      "schemaVersion": 2,
       "name": "Old Office House",
       "aliases": [],
       "classification": {
@@ -23962,6 +24871,8 @@
         2066.6,
         3802.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0298",
@@ -23985,8 +24896,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 24.5,
-        "distanceToWaterM": 93.1,
-        "score": 3.879
+        "distanceToWaterM": 81.5,
+        "score": 3.879,
+        "water": {
+          "entityId": "body.1169-2065",
+          "kind": "marsh-deep",
+          "levelM": 17.06,
+          "season": "perennial",
+          "distanceM": 81.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -24040,6 +24958,7 @@
     },
     {
       "id": "place.imperial-fringe.the-old-quarters",
+      "schemaVersion": 2,
       "name": "The Old Quarters",
       "aliases": [],
       "classification": {
@@ -24171,6 +25090,8 @@
         748.5,
         1614.9
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0406",
@@ -24194,8 +25115,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1264.1,
-        "distanceToWaterM": 143.5,
-        "score": 2.912
+        "distanceToWaterM": 115.3,
+        "score": 2.912,
+        "water": {
+          "entityId": "body.354-940",
+          "kind": "pond",
+          "levelM": 548.57,
+          "season": "perennial",
+          "distanceM": 115.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -24284,6 +25212,7 @@
     },
     {
       "id": "place.imperial-fringe.the-pass-shelter",
+      "schemaVersion": 2,
       "name": "Pass Shelter",
       "aliases": [],
       "classification": {
@@ -24437,6 +25366,8 @@
         770.4,
         2311.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0787",
@@ -24460,8 +25391,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 822.8,
-        "distanceToWaterM": 0.0,
-        "score": 4.164
+        "distanceToWaterM": 27.4,
+        "score": 4.164,
+        "water": {
+          "entityId": "reach.382-1251",
+          "kind": "sloped-rapid",
+          "levelM": 275.34,
+          "season": "seasonal",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -24525,6 +25463,7 @@
     },
     {
       "id": "place.imperial-fringe.the-quiet-pit",
+      "schemaVersion": 2,
       "name": "The Quiet Pit",
       "aliases": [],
       "classification": {
@@ -24671,6 +25610,8 @@
         1900.0,
         2026.2
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0366",
@@ -24694,8 +25635,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 44.2,
-        "distanceToWaterM": 60.6,
-        "score": 4.001
+        "distanceToWaterM": 66.0,
+        "score": 4.001,
+        "water": {
+          "entityId": "body.1031-1148",
+          "kind": "marsh-deep",
+          "levelM": 6.51,
+          "season": "perennial",
+          "distanceM": 66.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -24770,6 +25718,7 @@
     },
     {
       "id": "place.imperial-fringe.the-ravine-doors",
+      "schemaVersion": 2,
       "name": "The Ravine Doors",
       "aliases": [],
       "classification": {
@@ -24926,6 +25875,8 @@
         1165.2,
         4817.3
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -24950,7 +25901,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 225.1,
         "distanceToWaterM": 179.0,
-        "score": 5.053
+        "score": 5.053,
+        "water": {
+          "entityId": "body.694-2721",
+          "kind": "pond",
+          "levelM": 7.4,
+          "season": "perennial",
+          "distanceM": 179.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -25027,6 +25985,7 @@
     },
     {
       "id": "place.imperial-fringe.the-ring-of-nine-wells",
+      "schemaVersion": 2,
       "name": "The Ring of Nine Wells",
       "aliases": [],
       "classification": {
@@ -25174,6 +26133,8 @@
         1620.4,
         1911.0
       ],
+      "footprintRadiusM": 55.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0331",
@@ -25198,7 +26159,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 343.5,
         "distanceToWaterM": 70.2,
-        "score": 4.379
+        "score": 4.379,
+        "water": {
+          "entityId": "reach.913-1021",
+          "kind": "sloped-rapid",
+          "levelM": 110.37,
+          "season": "perennial",
+          "distanceM": 70.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -25280,6 +26248,7 @@
     },
     {
       "id": "place.imperial-fringe.the-road-nisswo-house",
+      "schemaVersion": 2,
       "name": "Rests-The-Walkers",
       "aliases": [],
       "classification": {
@@ -25425,6 +26394,8 @@
         2007.5,
         2730.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0631",
@@ -25448,8 +26419,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 66.0,
-        "distanceToWaterM": 0.0,
-        "score": 4.417
+        "distanceToWaterM": 11.0,
+        "score": 4.417,
+        "water": {
+          "entityId": "body.1076-1499",
+          "kind": "marsh-deep",
+          "levelM": 1.31,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -25522,6 +26500,7 @@
     },
     {
       "id": "place.imperial-fringe.the-second-empire-locks",
+      "schemaVersion": 2,
       "name": "Old Locks",
       "aliases": [],
       "classification": {
@@ -25664,6 +26643,8 @@
         1771.8,
         2706.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0300",
@@ -25687,8 +26668,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 135.4,
-        "score": 2.821
+        "distanceToWaterM": 31.0,
+        "score": 2.821,
+        "water": {
+          "entityId": "body.982-1465",
+          "kind": "marsh-deep",
+          "levelM": 15.67,
+          "season": "perennial",
+          "distanceM": 31.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -25761,6 +26749,7 @@
     },
     {
       "id": "place.imperial-fringe.the-second-hearth",
+      "schemaVersion": 2,
       "name": "The Second Hearth",
       "aliases": [],
       "classification": {
@@ -25906,6 +26895,8 @@
         1741.0,
         2791.6
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0543",
@@ -25929,8 +26920,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 64.2,
-        "distanceToWaterM": 41.8,
-        "score": 3.718
+        "distanceToWaterM": 109.7,
+        "score": 3.718,
+        "water": {
+          "entityId": "body.948-1588",
+          "kind": "marsh-deep",
+          "levelM": 18.0,
+          "season": "perennial",
+          "distanceM": 109.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -25996,6 +26994,7 @@
     },
     {
       "id": "place.imperial-fringe.the-sermon-road-camp",
+      "schemaVersion": 2,
       "name": "Sermon Road Camp",
       "aliases": [],
       "classification": {
@@ -26145,6 +27144,8 @@
         2207.1,
         2980.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0543",
@@ -26169,7 +27170,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 66.0,
         "distanceToWaterM": 32.9,
-        "score": 4.579
+        "score": 4.579,
+        "water": {
+          "entityId": "body.1222-1643",
+          "kind": "marsh-deep",
+          "levelM": 1.72,
+          "season": "perennial",
+          "distanceM": 32.9
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -26217,6 +27225,7 @@
     },
     {
       "id": "place.imperial-fringe.the-shaking-house",
+      "schemaVersion": 2,
       "name": "The Shaking House",
       "aliases": [],
       "classification": {
@@ -26418,6 +27427,7 @@
     },
     {
       "id": "place.imperial-fringe.the-shut-door",
+      "schemaVersion": 2,
       "name": "Door-That-Stayed-Shut",
       "aliases": [],
       "classification": {
@@ -26574,6 +27584,8 @@
         1231.1,
         4296.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in upland hills (danger band 3), 446 m from the nearest route; its choice #5 landform; won on nearPoint, sightline, region.",
       "plotFacts": {
@@ -26581,8 +27593,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 446.1,
-        "distanceToWaterM": 81.0,
-        "score": 4.857
+        "distanceToWaterM": 83.0,
+        "score": 4.857,
+        "water": {
+          "entityId": "reach.580-2263",
+          "kind": "sloped-rapid",
+          "levelM": 121.67,
+          "season": "perennial",
+          "distanceM": 83.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -26662,6 +27681,7 @@
     },
     {
       "id": "place.imperial-fringe.the-silent-halls",
+      "schemaVersion": 2,
       "name": "The Silent Halls",
       "aliases": [],
       "classification": {
@@ -26813,6 +27833,8 @@
         1598.4,
         4290.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0861",
@@ -26836,8 +27858,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 128.5,
-        "distanceToWaterM": 15.5,
-        "score": 2.857
+        "distanceToWaterM": 11.0,
+        "score": 2.857,
+        "water": {
+          "entityId": "body.895-2330",
+          "kind": "pond",
+          "levelM": 2.66,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -26918,6 +27947,7 @@
     },
     {
       "id": "place.imperial-fringe.the-snowline-cell",
+      "schemaVersion": 2,
       "name": "The Snowline Cell",
       "aliases": [],
       "classification": {
@@ -27063,6 +28093,8 @@
         589.5,
         2843.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.summit-000",
@@ -27086,8 +28118,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 308.3,
-        "distanceToWaterM": 120.8,
-        "score": 4.03
+        "distanceToWaterM": 109.8,
+        "score": 4.03,
+        "water": {
+          "entityId": "body.384-1517",
+          "kind": "pond",
+          "levelM": 151.08,
+          "season": "perennial",
+          "distanceM": 109.8
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -27159,6 +28198,7 @@
     },
     {
       "id": "place.imperial-fringe.the-standing-mist",
+      "schemaVersion": 2,
       "name": "The Standing Mist",
       "aliases": [],
       "classification": {
@@ -27299,6 +28339,8 @@
         1439.4,
         3457.4
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -27322,8 +28364,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 322.4,
-        "distanceToWaterM": 116.2,
-        "score": 2.799
+        "distanceToWaterM": 186.5,
+        "score": 2.799,
+        "water": {
+          "entityId": "body.796-1761",
+          "kind": "backswamp",
+          "levelM": 50.49,
+          "season": "perennial",
+          "distanceM": 186.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -27384,6 +28433,7 @@
     },
     {
       "id": "place.imperial-fringe.the-stone-drop",
+      "schemaVersion": 2,
       "name": "The Stone Drop",
       "aliases": [],
       "classification": {
@@ -27606,6 +28656,8 @@
         786.9,
         2909.0
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ravine-034",
@@ -27630,12 +28682,20 @@
         "dangerBand": 3,
         "distanceToRouteM": 269.2,
         "distanceToWaterM": 64.2,
-        "score": 4.727
+        "score": 4.727,
+        "water": {
+          "entityId": "reach.388-1564",
+          "kind": "sloped-rapid",
+          "levelM": 151.08,
+          "season": "perennial",
+          "distanceM": 64.2
+        }
       },
       "sitingNote": "Bound to the rim shoulder directly above the Fort Swampmoth path (round 4): the record only exists because it overlooks that road with two scrambles down onto it."
     },
     {
       "id": "place.imperial-fringe.the-stone-talkers-watch",
+      "schemaVersion": 2,
       "name": "Holds-The-Stone",
       "aliases": [
         "the Ca-Uxith watch"
@@ -27809,6 +28869,8 @@
         1598.4,
         1335.2
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.spring-head-015",
@@ -27832,8 +28894,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 647.8,
-        "distanceToWaterM": 147.6,
-        "score": 2.604
+        "distanceToWaterM": 149.8,
+        "score": 2.604,
+        "water": {
+          "entityId": "reach.796-760",
+          "kind": "sloped-rapid",
+          "levelM": 275.87,
+          "season": "seasonal",
+          "distanceM": 149.8
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -27937,6 +29006,7 @@
     },
     {
       "id": "place.imperial-fringe.the-sunk-lane",
+      "schemaVersion": 2,
       "name": "The Sunk Lane",
       "aliases": [],
       "classification": {
@@ -28080,6 +29150,8 @@
         973.3,
         1439.4
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0525",
@@ -28103,8 +29175,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 5,
         "distanceToRouteM": 1226.4,
-        "distanceToWaterM": 5.5,
-        "score": 1.545
+        "distanceToWaterM": 0.0,
+        "score": 1.545,
+        "water": {
+          "entityId": "body.541-766",
+          "kind": "pond",
+          "levelM": 358.23,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -28168,6 +29247,7 @@
     },
     {
       "id": "place.imperial-fringe.the-turned-out",
+      "schemaVersion": 2,
       "name": "The Turned-Out",
       "aliases": [],
       "classification": {
@@ -28322,6 +29402,8 @@
         808.8,
         3278.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0597",
@@ -28345,8 +29427,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 3,
         "distanceToRouteM": 77.5,
-        "distanceToWaterM": 23.3,
-        "score": 3.946
+        "distanceToWaterM": 15.5,
+        "score": 3.946,
+        "water": {
+          "entityId": "body.444-1782",
+          "kind": "pond",
+          "levelM": 60.73,
+          "season": "perennial",
+          "distanceM": 15.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -28429,6 +29518,7 @@
     },
     {
       "id": "place.imperial-fringe.the-two-lamps-hermitage",
+      "schemaVersion": 2,
       "name": "The Two Lamps",
       "aliases": [],
       "classification": {
@@ -28574,6 +29664,8 @@
         1730.1,
         3260.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0697",
@@ -28597,8 +29689,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 178.5,
-        "distanceToWaterM": 214.1,
-        "score": 3.118
+        "distanceToWaterM": 231.4,
+        "score": 3.118,
+        "water": {
+          "entityId": "body.796-1761",
+          "kind": "backswamp",
+          "levelM": 50.49,
+          "season": "perennial",
+          "distanceM": 231.4
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -28678,6 +29777,7 @@
     },
     {
       "id": "place.imperial-fringe.the-vellum-estate",
+      "schemaVersion": 2,
       "name": "Vellum Estate",
       "aliases": [],
       "classification": {
@@ -28842,6 +29942,8 @@
         2267.4,
         2618.4
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0611",
@@ -28865,8 +29967,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 143.5,
-        "distanceToWaterM": 31.0,
-        "score": 2.767
+        "distanceToWaterM": 38.8,
+        "score": 2.767,
+        "water": {
+          "entityId": "body.1281-1438",
+          "kind": "marsh-deep",
+          "levelM": 6.84,
+          "season": "perennial",
+          "distanceM": 38.8
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -28950,6 +30059,7 @@
     },
     {
       "id": "place.imperial-fringe.the-white-throat",
+      "schemaVersion": 2,
       "name": "The White Throat",
       "aliases": [],
       "classification": {
@@ -29089,6 +30199,8 @@
         1763.0,
         1801.3
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -29113,7 +30225,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 271.4,
         "distanceToWaterM": 23.3,
-        "score": 4.55
+        "score": 4.55,
+        "water": {
+          "entityId": "reach.836-841",
+          "kind": "sloped-rapid",
+          "levelM": 186.79,
+          "season": "perennial",
+          "distanceM": 23.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -29168,6 +30287,7 @@
     },
     {
       "id": "place.imperial-fringe.treasure-hunters-camp-of-the-white-hill",
+      "schemaVersion": 2,
       "name": "White Hill Camp",
       "aliases": [],
       "classification": {
@@ -29315,6 +30435,8 @@
         967.8,
         4817.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0366",
@@ -29339,7 +30461,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 404.0,
         "distanceToWaterM": 336.0,
-        "score": 2.861
+        "score": 2.861,
+        "water": {
+          "entityId": "body.694-2721",
+          "kind": "pond",
+          "levelM": 7.4,
+          "season": "perennial",
+          "distanceM": 336.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -29413,6 +30542,7 @@
     },
     {
       "id": "place.imperial-fringe.twyllbek-crown",
+      "schemaVersion": 2,
       "name": "Twyllbek Crown",
       "aliases": [],
       "classification": {
@@ -29568,6 +30698,8 @@
         1631.3,
         1773.9
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0366",
@@ -29592,7 +30724,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 390.9,
         "distanceToWaterM": 89.9,
-        "score": 3.948
+        "score": 3.948,
+        "water": {
+          "entityId": "reach.836-841",
+          "kind": "sloped-rapid",
+          "levelM": 186.79,
+          "season": "perennial",
+          "distanceM": 89.9
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -29664,6 +30803,7 @@
     },
     {
       "id": "place.imperial-fringe.twyllbek-ruins",
+      "schemaVersion": 2,
       "name": "Twyllbek Ruins",
       "aliases": [],
       "classification": {
@@ -29817,6 +30957,8 @@
         1483.3,
         1466.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0271",
@@ -29840,8 +30982,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 728.8,
-        "distanceToWaterM": 5.5,
-        "score": 3.469
+        "distanceToWaterM": 17.3,
+        "score": 3.469,
+        "water": {
+          "entityId": "body.782-783",
+          "kind": "pond",
+          "levelM": 257.02,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -29933,6 +31082,7 @@
     },
     {
       "id": "place.imperial-fringe.unfinished-culvert-line",
+      "schemaVersion": 2,
       "name": "Culvert Line",
       "aliases": [],
       "classification": {
@@ -30069,6 +31219,8 @@
         567.5,
         4307.3
       ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.seasonal-floodplain.river-mouth-007",
@@ -30092,8 +31244,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1060.2,
-        "distanceToWaterM": 153.6,
-        "score": 1.85
+        "distanceToWaterM": 180.4,
+        "score": 1.85,
+        "water": {
+          "entityId": "body.278-2618",
+          "kind": "tarn-upland",
+          "levelM": 63.31,
+          "season": "perennial",
+          "distanceM": 180.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -30159,6 +31318,7 @@
     },
     {
       "id": "place.imperial-fringe.vanins-signal",
+      "schemaVersion": 2,
       "name": "Vanin's Signal",
       "aliases": [],
       "classification": {
@@ -30343,6 +31503,8 @@
         1187.2,
         2393.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.upland-hills.ridge-end-022",
       "candidatesConsidered": [
         {
@@ -30368,11 +31530,19 @@
         "dangerBand": 3,
         "distanceToRouteM": 626.0,
         "distanceToWaterM": 116.3,
-        "score": 3.153
+        "score": 3.153,
+        "water": {
+          "entityId": "body.603-1360",
+          "kind": "pond",
+          "levelM": 393.09,
+          "season": "perennial",
+          "distanceM": 116.3
+        }
       }
     },
     {
       "id": "place.imperial-fringe.watch-of-the-weighed-cart",
+      "schemaVersion": 2,
       "name": "Weighed Cart",
       "aliases": [],
       "classification": {
@@ -30525,6 +31695,8 @@
         1601.1,
         2900.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0633",
@@ -30548,8 +31720,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 70.2,
-        "score": 5.661
+        "distanceToWaterM": 90.4,
+        "score": 5.661,
+        "water": {
+          "entityId": "reach.897-1635",
+          "kind": "sloped-rapid",
+          "levelM": 36.03,
+          "season": "seasonal",
+          "distanceM": 90.4
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -30604,6 +31783,7 @@
     },
     {
       "id": "place.imperial-fringe.westfield-village",
+      "schemaVersion": 2,
       "name": "Westfield",
       "aliases": [],
       "classification": {
@@ -30758,6 +31938,8 @@
         457.9,
         4455.4
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0392",
@@ -30781,8 +31963,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1018.4,
-        "distanceToWaterM": 62.5,
-        "score": 3.283
+        "distanceToWaterM": 51.7,
+        "score": 3.283,
+        "water": {
+          "entityId": "body.278-2618",
+          "kind": "tarn-upland",
+          "levelM": 63.31,
+          "season": "perennial",
+          "distanceM": 51.7
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -30854,6 +32043,7 @@
     },
     {
       "id": "place.imperial-fringe.whispers-house-of-the-low-fen",
+      "schemaVersion": 2,
       "name": "Low Fen House",
       "aliases": [],
       "classification": {
@@ -30998,6 +32188,8 @@
         1656.6,
         2818.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0543",
@@ -31021,8 +32213,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 12.3,
-        "distanceToWaterM": 62.5,
-        "score": 3.614
+        "distanceToWaterM": 103.5,
+        "score": 3.614,
+        "water": {
+          "entityId": "reach.924-1598",
+          "kind": "sloped-rapid",
+          "levelM": 23.36,
+          "season": "perennial",
+          "distanceM": 103.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -31111,6 +32310,7 @@
     },
     {
       "id": "place.imperial-fringe.xi-tsei-massacre-ground",
+      "schemaVersion": 2,
       "name": "Xi-Tsei",
       "aliases": [],
       "classification": {
@@ -31256,6 +32456,8 @@
         65.9,
         3059.9
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0332",
@@ -31279,8 +32481,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 4,
         "distanceToRouteM": 24.5,
-        "distanceToWaterM": 21.9,
-        "score": 3.522
+        "distanceToWaterM": 15.5,
+        "score": 3.522,
+        "water": {
+          "entityId": "body.34-1661",
+          "kind": "backswamp",
+          "levelM": 25.27,
+          "season": "perennial",
+          "distanceM": 15.5
+        }
       },
       "hostility": {
         "baseline": "hostile",

@@ -5,6 +5,7 @@
   "places": [
     {
       "id": "place.dunmer-north.andalen-plantation",
+      "schemaVersion": 2,
       "name": "Andalen Plantation",
       "aliases": [],
       "classification": {
@@ -163,6 +164,8 @@
         2146.8,
         1582.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0293",
@@ -186,8 +189,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 54.0,
-        "distanceToWaterM": 131.6,
-        "score": 3.186
+        "distanceToWaterM": 71.5,
+        "score": 3.186,
+        "water": {
+          "entityId": "reach.1197-837",
+          "kind": "sloped-riffle",
+          "levelM": 34.17,
+          "season": "seasonal",
+          "distanceM": 71.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -251,6 +261,7 @@
     },
     {
       "id": "place.dunmer-north.bogmother",
+      "schemaVersion": 2,
       "name": "Bogmother",
       "aliases": [],
       "classification": {
@@ -407,6 +418,8 @@
         6835.2,
         1614.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0247",
@@ -430,8 +443,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 351.1,
-        "distanceToWaterM": 69.4,
-        "score": 2.883
+        "distanceToWaterM": 74.6,
+        "score": 2.883,
+        "water": {
+          "entityId": "body.3699-894",
+          "kind": "marsh-fringe",
+          "levelM": 7.49,
+          "season": "perennial",
+          "distanceM": 74.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -514,6 +534,7 @@
     },
     {
       "id": "place.dunmer-north.boom-keepers-lodge",
+      "schemaVersion": 2,
       "name": "Broken Boom",
       "aliases": [],
       "classification": {
@@ -673,6 +694,8 @@
         6385.6,
         1209.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0084",
@@ -696,8 +719,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 100.8,
-        "distanceToWaterM": 72.1,
-        "score": 2.481
+        "distanceToWaterM": 69.4,
+        "score": 2.481,
+        "water": {
+          "entityId": "body.3435-662",
+          "kind": "marsh-fringe",
+          "levelM": 12.36,
+          "season": "perennial",
+          "distanceM": 69.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -795,6 +825,7 @@
     },
     {
       "id": "place.dunmer-north.branchmont",
+      "schemaVersion": 2,
       "name": "Branchmont",
       "aliases": [],
       "classification": {
@@ -958,6 +989,8 @@
         6423.9,
         315.3
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.land-bridge-009",
@@ -981,8 +1014,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 86.7,
-        "distanceToWaterM": 100.8,
-        "score": 3.903
+        "distanceToWaterM": 61.3,
+        "score": 3.903,
+        "water": {
+          "entityId": "body.3525-81",
+          "kind": "swamp",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 61.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -1044,6 +1084,7 @@
     },
     {
       "id": "place.dunmer-north.breathes-underneath",
+      "schemaVersion": 2,
       "name": "Breathes-Underneath",
       "aliases": [],
       "classification": {
@@ -1192,6 +1233,8 @@
         710.1,
         441.4
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.spring-head-005",
@@ -1215,8 +1258,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1722.0,
-        "distanceToWaterM": 82.3,
-        "score": 3.537
+        "distanceToWaterM": 78.5,
+        "score": 3.537,
+        "water": {
+          "entityId": "reach.430-268",
+          "kind": "sloped-rapid",
+          "levelM": 382.08,
+          "season": "seasonal",
+          "distanceM": 78.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -1279,6 +1329,7 @@
     },
     {
       "id": "place.dunmer-north.buried-blades",
+      "schemaVersion": 2,
       "name": "Buried Blades",
       "aliases": [],
       "classification": {
@@ -1425,6 +1476,8 @@
         5665.1,
         1678.5
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0173",
@@ -1449,7 +1502,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 91.3,
         "distanceToWaterM": 43.9,
-        "score": 4.082
+        "score": 4.082,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 43.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -1510,6 +1570,7 @@
     },
     {
       "id": "place.dunmer-north.channel-cross-village",
+      "schemaVersion": 2,
       "name": "Channel Cross",
       "aliases": [],
       "classification": {
@@ -1666,6 +1727,8 @@
         3978.3,
         320.8
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0100",
@@ -1689,8 +1752,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 352.9,
-        "distanceToWaterM": 66.7,
-        "score": 2.881
+        "distanceToWaterM": 230.9,
+        "score": 2.881,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 230.9
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -1771,6 +1841,7 @@
     },
     {
       "id": "place.dunmer-north.climbs-to-see",
+      "schemaVersion": 2,
       "name": "Climbs-To-See",
       "aliases": [],
       "classification": {
@@ -1930,6 +2001,8 @@
         6160.7,
         1691.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0238",
@@ -1953,8 +2026,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 217.3,
-        "distanceToWaterM": 12.3,
-        "score": 3.573
+        "distanceToWaterM": 7.8,
+        "score": 3.573,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -1995,6 +2075,7 @@
     },
     {
       "id": "place.dunmer-north.crystalgate",
+      "schemaVersion": 2,
       "name": "Crystalgate",
       "aliases": [],
       "classification": {
@@ -2163,6 +2244,8 @@
         4543.1,
         507.2
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0065",
@@ -2186,8 +2269,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 652.6,
-        "distanceToWaterM": 132.5,
-        "score": 4.242
+        "distanceToWaterM": 321.9,
+        "score": 4.242,
+        "water": {
+          "entityId": "body.2454-459",
+          "kind": "pond",
+          "levelM": 244.92,
+          "season": "perennial",
+          "distanceM": 321.9
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -2275,6 +2365,7 @@
     },
     {
       "id": "place.dunmer-north.cut-and-stack",
+      "schemaVersion": 2,
       "name": "Cut-And-Stack",
       "aliases": [],
       "classification": {
@@ -2418,6 +2509,8 @@
         3216.1,
         565.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0306",
@@ -2441,8 +2534,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 38.4,
-        "distanceToWaterM": 5.5,
-        "score": 3.343
+        "distanceToWaterM": 0.0,
+        "score": 3.343,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -2487,6 +2587,7 @@
     },
     {
       "id": "place.dunmer-north.cut-in-the-wall",
+      "schemaVersion": 2,
       "name": "Cut-In-The-Wall",
       "aliases": [],
       "classification": {
@@ -2644,6 +2745,8 @@
         2536.1,
         331.8
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0016",
@@ -2667,8 +2770,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 416.4,
-        "distanceToWaterM": 0.0,
-        "score": 4.306
+        "distanceToWaterM": 5.5,
+        "score": 4.306,
+        "water": {
+          "entityId": "reach.1379-171",
+          "kind": "sloped-chute",
+          "levelM": 40.41,
+          "season": "seasonal",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -2716,6 +2826,7 @@
     },
     {
       "id": "place.dunmer-north.draws-the-herds",
+      "schemaVersion": 2,
       "name": "Draws-The-Herds",
       "aliases": [],
       "classification": {
@@ -2874,6 +2985,8 @@
         743.0,
         616.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.spring-head-005",
@@ -2898,7 +3011,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 1629.5,
         "distanceToWaterM": 50.6,
-        "score": 3.574
+        "score": 3.574,
+        "water": {
+          "entityId": "body.391-304",
+          "kind": "pool",
+          "levelM": 365.02,
+          "season": "perennial",
+          "distanceM": 50.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -2987,6 +3107,7 @@
     },
     {
       "id": "place.dunmer-north.dreams-by-the-ash",
+      "schemaVersion": 2,
       "name": "Dreams-By-The-Ash",
       "aliases": [],
       "classification": {
@@ -3142,6 +3263,8 @@
         5129.8,
         320.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0752",
@@ -3165,8 +3288,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1063.0,
-        "distanceToWaterM": 184.2,
-        "score": 2.22
+        "distanceToWaterM": 188.7,
+        "score": 2.22,
+        "water": {
+          "entityId": "body.2873-266",
+          "kind": "pond",
+          "levelM": 232.59,
+          "season": "perennial",
+          "distanceM": 188.7
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -3240,6 +3370,7 @@
     },
     {
       "id": "place.dunmer-north.dry-under-water",
+      "schemaVersion": 2,
       "name": "Dry-Under-Water",
       "aliases": [],
       "classification": {
@@ -3446,6 +3577,7 @@
     },
     {
       "id": "place.dunmer-north.feeds-the-north",
+      "schemaVersion": 2,
       "name": "Feeds-The-North",
       "aliases": [],
       "classification": {
@@ -3600,6 +3732,8 @@
         929.5,
         496.3
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.islet-045",
@@ -3623,8 +3757,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1505.7,
-        "distanceToWaterM": 91.3,
-        "score": 2.209
+        "distanceToWaterM": 91.9,
+        "score": 2.209,
+        "water": {
+          "entityId": "body.483-206",
+          "kind": "pond",
+          "levelM": 406.59,
+          "season": "perennial",
+          "distanceM": 91.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -3689,6 +3830,7 @@
     },
     {
       "id": "place.dunmer-north.gandranen-library",
+      "schemaVersion": 2,
       "name": "Anachronistic Library",
       "aliases": [],
       "classification": {
@@ -3839,6 +3981,8 @@
         852.7,
         463.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ravine-067",
@@ -3862,8 +4006,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1584.2,
-        "distanceToWaterM": 46.9,
-        "score": 3.931
+        "distanceToWaterM": 54.0,
+        "score": 3.931,
+        "water": {
+          "entityId": "body.483-206",
+          "kind": "pond",
+          "levelM": 406.59,
+          "season": "perennial",
+          "distanceM": 54.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -3943,6 +4094,7 @@
     },
     {
       "id": "place.dunmer-north.gandranen-ruins",
+      "schemaVersion": 2,
       "name": "Gandranen Ruins",
       "aliases": [],
       "classification": {
@@ -4091,6 +4243,8 @@
         786.9,
         446.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0090",
@@ -4114,8 +4268,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1655.5,
-        "distanceToWaterM": 43.9,
-        "score": 3.13
+        "distanceToWaterM": 68.7,
+        "score": 3.13,
+        "water": {
+          "entityId": "reach.430-268",
+          "kind": "sloped-rapid",
+          "levelM": 382.08,
+          "season": "seasonal",
+          "distanceM": 68.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4189,6 +4350,7 @@
     },
     {
       "id": "place.dunmer-north.greylight-village",
+      "schemaVersion": 2,
       "name": "Greylight",
       "aliases": [],
       "classification": {
@@ -4349,6 +4511,8 @@
         6569.3,
         482.5
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0268",
@@ -4372,8 +4536,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 12.3,
-        "score": 3.083
+        "distanceToWaterM": 5.5,
+        "score": 3.083,
+        "water": {
+          "entityId": "body.3525-81",
+          "kind": "swamp",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -4462,6 +4633,7 @@
     },
     {
       "id": "place.dunmer-north.hackwing-wall",
+      "schemaVersion": 2,
       "name": "Hackwing Wall",
       "aliases": [],
       "classification": {
@@ -4618,6 +4790,8 @@
         3276.4,
         172.7
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0875",
@@ -4641,8 +4815,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 214.5,
-        "distanceToWaterM": 112.5,
-        "score": 4.034
+        "distanceToWaterM": 106.5,
+        "score": 4.034,
+        "water": {
+          "entityId": "body.1848-18",
+          "kind": "pond",
+          "levelM": 60.11,
+          "season": "perennial",
+          "distanceM": 106.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4727,6 +4908,7 @@
     },
     {
       "id": "place.dunmer-north.hatching-pools",
+      "schemaVersion": 2,
       "name": "Hatching Pools",
       "aliases": [],
       "classification": {
@@ -4890,6 +5072,7 @@
         "id": "hist.dunmer-north.hatching-pools",
         "kind": "hatchery Hist",
         "powerSlot": "power.hist.dunmer-north.hatching-pools",
+        "status": "hero",
         "note": "Hero Hist 2/10. CANON_EXPLICIT: the great Hist of Shadowfen, over pools of its own sap. Speaks for a whole region rather than one tribe; Keepers of the Shell, not a tree-minder. Strategically the most important site in its region and the first thing any enemy attacks."
       },
       "densityLayer": "landmark",
@@ -4903,6 +5086,8 @@
         2322.3,
         1433.9
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0154",
@@ -4926,8 +5111,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 32.0,
-        "distanceToWaterM": 19.8,
-        "score": 2.812
+        "distanceToWaterM": 85.3,
+        "score": 2.812,
+        "water": {
+          "entityId": "body.1277-865",
+          "kind": "lake-lowland",
+          "levelM": 29.2,
+          "season": "perennial",
+          "distanceM": 85.3
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -5075,6 +5267,7 @@
       },
       "workflow": "plotted",
       "id": "place.dunmer-north.hissmir",
+      "schemaVersion": 2,
       "name": "Hissmir",
       "classification": {
         "class": "settlement",
@@ -5182,6 +5375,8 @@
         7092.9,
         331.8
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0105",
@@ -5206,7 +5401,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 510.0,
         "distanceToWaterM": 46.5,
-        "score": 3.59
+        "score": 3.59,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 46.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -5277,6 +5479,7 @@
     },
     {
       "id": "place.dunmer-north.hixinoag",
+      "schemaVersion": 2,
       "name": "Hixinoag",
       "aliases": [
         "the jumble of huts"
@@ -5431,6 +5634,8 @@
         5497.2,
         1006.2
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0106",
@@ -5454,8 +5659,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 496.9,
-        "distanceToWaterM": 126.2,
-        "score": 2.04
+        "distanceToWaterM": 105.9,
+        "score": 2.04,
+        "water": {
+          "entityId": "body.2926-515",
+          "kind": "pond",
+          "levelM": 225.58,
+          "season": "perennial",
+          "distanceM": 105.9
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -5523,6 +5735,7 @@
     },
     {
       "id": "place.dunmer-north.hutan-tzel",
+      "schemaVersion": 2,
       "name": "Hutan-Tzel",
       "aliases": [
         "Rockguard"
@@ -5706,6 +5919,8 @@
         7109.4,
         1006.2
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-058",
@@ -5730,7 +5945,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 620.9,
         "distanceToWaterM": 11.0,
-        "score": 3.114
+        "score": 3.114,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -5838,6 +6060,7 @@
     },
     {
       "id": "place.dunmer-north.keeps-the-second-island",
+      "schemaVersion": 2,
       "name": "Keeps-The-Second-Hammock",
       "aliases": [],
       "classification": {
@@ -6048,6 +6271,7 @@
     },
     {
       "id": "place.dunmer-north.let-upper-floor",
+      "schemaVersion": 2,
       "name": "The Let Upper Floor",
       "aliases": [
         "the Velothi room"
@@ -6205,6 +6429,8 @@
         2983.6,
         812.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0150",
@@ -6229,7 +6455,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 89.3,
         "distanceToWaterM": 54.0,
-        "score": 4.098
+        "score": 4.098,
+        "water": {
+          "entityId": "body.1571-570",
+          "kind": "lake-lowland",
+          "levelM": 7.45,
+          "season": "perennial",
+          "distanceM": 54.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -6337,6 +6570,7 @@
       },
       "workflow": "plotted",
       "id": "place.dunmer-north.loriasel-caverns",
+      "schemaVersion": 2,
       "name": "Sings-Under-Water",
       "classification": {
         "class": "ruin",
@@ -6443,6 +6677,8 @@
         1236.5,
         57.6
       ],
+      "footprintRadiusM": 90.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.spring-head-025",
@@ -6466,8 +6702,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1493.5,
-        "distanceToWaterM": 101.1,
-        "score": 1.202
+        "distanceToWaterM": 190.4,
+        "score": 1.202,
+        "water": {
+          "entityId": "body.824-179",
+          "kind": "tarn-upland",
+          "levelM": 507.32,
+          "season": "perennial",
+          "distanceM": 190.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6539,6 +6782,7 @@
     },
     {
       "id": "place.dunmer-north.mazzatun",
+      "schemaVersion": 2,
       "name": "Mazzatun",
       "aliases": [
         "the Puzzle City"
@@ -6701,6 +6945,8 @@
         1985.0,
         1341.0
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [],
       "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.dunmer-north.mazzatun.json): The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
       "plotFacts": {
@@ -6708,8 +6954,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 292.0,
-        "distanceToWaterM": 16.5,
-        "score": null
+        "distanceToWaterM": 109.7,
+        "score": null,
+        "water": {
+          "entityId": "reach.1078-739",
+          "kind": "sloped-chute",
+          "levelM": 203.07,
+          "season": "seasonal",
+          "distanceM": 109.7
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -6812,6 +7065,7 @@
     },
     {
       "id": "place.dunmer-north.mazzatun-hist",
+      "schemaVersion": 2,
       "name": "Tsono-Xuhil",
       "aliases": [],
       "classification": {
@@ -6960,6 +7214,8 @@
         2020.7,
         1357.2
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.spring-head-019",
@@ -6983,8 +7239,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 251.2,
-        "distanceToWaterM": 5.5,
-        "score": 3.949
+        "distanceToWaterM": 69.8,
+        "score": 3.949,
+        "water": {
+          "entityId": "reach.1078-739",
+          "kind": "sloped-chute",
+          "levelM": 203.07,
+          "season": "seasonal",
+          "distanceM": 69.8
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -7060,6 +7323,7 @@
     },
     {
       "id": "place.dunmer-north.murkwater",
+      "schemaVersion": 2,
       "name": "Murkwater",
       "aliases": [],
       "classification": {
@@ -7224,6 +7488,8 @@
         6791.3,
         1050.1
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0100",
@@ -7248,7 +7514,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 311.6,
         "distanceToWaterM": 21.9,
-        "score": 3.651
+        "score": 3.651,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 21.9
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -7346,6 +7619,7 @@
     },
     {
       "id": "place.dunmer-north.murkwater-shadowscale-ground",
+      "schemaVersion": 2,
       "name": "Murkwater Tempering Ground",
       "aliases": [],
       "classification": {
@@ -7496,6 +7770,8 @@
         7032.6,
         1170.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.island-014",
@@ -7520,7 +7796,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 515.9,
         "distanceToWaterM": 46.5,
-        "score": 5.121
+        "score": 5.121,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 46.5
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -7573,6 +7856,7 @@
     },
     {
       "id": "place.dunmer-north.names-the-year",
+      "schemaVersion": 2,
       "name": "Names-The-Year",
       "aliases": [],
       "classification": {
@@ -7726,6 +8010,8 @@
         5576.7,
         1590.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0360",
@@ -7749,8 +8035,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 2,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 5.5,
-        "score": 4.686
+        "distanceToWaterM": 74.6,
+        "score": 4.686,
+        "water": {
+          "entityId": "reach.3064-820",
+          "kind": "sloped-rapid",
+          "levelM": 14.2,
+          "season": "perennial",
+          "distanceM": 74.6
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -7800,6 +8093,7 @@
     },
     {
       "id": "place.dunmer-north.nine-fords",
+      "schemaVersion": 2,
       "name": "Nine Fords",
       "aliases": [],
       "classification": {
@@ -7968,6 +8262,8 @@
         5765.9,
         1558.0
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0255",
@@ -7991,8 +8287,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 27.4,
-        "score": 3.291
+        "distanceToWaterM": 81.5,
+        "score": 3.291,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 81.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -8086,6 +8389,7 @@
     },
     {
       "id": "place.dunmer-north.nine-marks",
+      "schemaVersion": 2,
       "name": "Nine Marks",
       "aliases": [],
       "classification": {
@@ -8242,6 +8546,8 @@
         2733.5,
         1236.5
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0016",
@@ -8266,7 +8572,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 346.2,
         "distanceToWaterM": 7.8,
-        "score": 2.942
+        "score": 2.942,
+        "water": {
+          "entityId": "body.1789-698-p2",
+          "kind": "marsh-deep",
+          "levelM": 2.1,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -8328,6 +8641,7 @@
     },
     {
       "id": "place.dunmer-north.nine-stone-bench",
+      "schemaVersion": 2,
       "name": "Nine-Stone Bench",
       "aliases": [],
       "classification": {
@@ -8487,6 +8801,8 @@
         5530.1,
         1384.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0242",
@@ -8510,8 +8826,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 191.9,
-        "distanceToWaterM": 0.0,
-        "score": 4.127
+        "distanceToWaterM": 19.8,
+        "score": 4.127,
+        "water": {
+          "entityId": "reach.2968-700",
+          "kind": "sloped-chute",
+          "levelM": 143.57,
+          "season": "seasonal",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -8582,6 +8905,7 @@
     },
     {
       "id": "place.dunmer-north.one-house-high",
+      "schemaVersion": 2,
       "name": "One-House-High",
       "aliases": [],
       "classification": {
@@ -8794,6 +9118,7 @@
     },
     {
       "id": "place.dunmer-north.puts-down-the-cup",
+      "schemaVersion": 2,
       "name": "Puts-Down-The-Cup",
       "aliases": [],
       "classification": {
@@ -9005,6 +9330,7 @@
     },
     {
       "id": "place.dunmer-north.reedmoor-stilts",
+      "schemaVersion": 2,
       "name": "Reedmoor",
       "aliases": [],
       "classification": {
@@ -9162,6 +9488,8 @@
         6440.4,
         1719.1
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0837",
@@ -9186,7 +9514,14 @@
         "dangerBand": 0,
         "distanceToRouteM": 5.5,
         "distanceToWaterM": 0.0,
-        "score": 4.116
+        "score": 4.116,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -9255,6 +9590,7 @@
     },
     {
       "id": "place.dunmer-north.rimfield",
+      "schemaVersion": 2,
       "name": "Rimfield",
       "aliases": [],
       "classification": {
@@ -9408,6 +9744,8 @@
         4702.1,
         644.3
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.border-mountains.saddle-036",
       "candidatesConsidered": [
         {
@@ -9432,8 +9770,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 725.1,
-        "distanceToWaterM": 88.4,
-        "score": 2.94
+        "distanceToWaterM": 151.7,
+        "score": 2.94,
+        "water": {
+          "entityId": "body.2641-407",
+          "kind": "pond",
+          "levelM": 256.82,
+          "season": "perennial",
+          "distanceM": 151.7
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -9494,6 +9839,7 @@
     },
     {
       "id": "place.dunmer-north.riverwalk",
+      "schemaVersion": 2,
       "name": "Riverwalk",
       "aliases": [],
       "classification": {
@@ -9656,6 +10002,8 @@
         6632.3,
         1461.4
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0088",
@@ -9670,7 +10018,14 @@
         "dangerBand": 0,
         "distanceToRouteM": 118.4,
         "distanceToWaterM": 0.0,
-        "score": 4.444
+        "score": 4.444,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -9759,6 +10114,7 @@
     },
     {
       "id": "place.dunmer-north.saltmarch-village",
+      "schemaVersion": 2,
       "name": "Saltmarch",
       "aliases": [],
       "classification": {
@@ -9912,6 +10268,8 @@
         5793.3,
         101.4
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0154",
@@ -9935,8 +10293,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 561.5,
-        "distanceToWaterM": 204.9,
-        "score": 4.265
+        "distanceToWaterM": 395.5,
+        "score": 4.265,
+        "water": {
+          "entityId": "body.3364-188-p2",
+          "kind": "pond",
+          "levelM": 74.74,
+          "season": "perennial",
+          "distanceM": 395.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -9995,6 +10360,7 @@
     },
     {
       "id": "place.dunmer-north.seam-chasers",
+      "schemaVersion": 2,
       "name": "Seam-Chasers",
       "aliases": [],
       "classification": {
@@ -10251,6 +10617,8 @@
         978.8,
         266.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.cliff-bench-024",
@@ -10274,13 +10642,21 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1577.3,
-        "distanceToWaterM": 121.8,
-        "score": 3.612
+        "distanceToWaterM": 125.0,
+        "score": 3.612,
+        "water": {
+          "entityId": "body.483-206",
+          "kind": "pond",
+          "levelM": 406.59,
+          "season": "perennial",
+          "distanceM": 125.0
+        }
       },
       "scourSiteId": "site.scour.border-mountains.gorge-014"
     },
     {
       "id": "place.dunmer-north.silyanorn-diggings",
+      "schemaVersion": 2,
       "name": "Silyanorn Diggings",
       "aliases": [],
       "classification": {
@@ -10443,6 +10819,8 @@
         1340.7,
         754.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "saddle in border mountains (danger band 3), 1018 m from the nearest route; won on hinterland, danger, parent; placed from the homeless batch at stage 'region-relaxed'.",
       "plotFacts": {
@@ -10450,8 +10828,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1018.4,
-        "distanceToWaterM": 89.3,
-        "score": 1.045
+        "distanceToWaterM": 87.7,
+        "score": 1.045,
+        "water": {
+          "entityId": "body.745-342",
+          "kind": "pond",
+          "levelM": 529.04,
+          "season": "perennial",
+          "distanceM": 87.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -10545,6 +10930,7 @@
     },
     {
       "id": "place.dunmer-north.sings-for-the-pipes",
+      "schemaVersion": 2,
       "name": "Sings-For-The-Pipes",
       "aliases": [],
       "classification": {
@@ -10695,6 +11081,8 @@
         3380.6,
         929.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0173",
@@ -10718,8 +11106,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 3,
         "distanceToRouteM": 49.7,
-        "distanceToWaterM": 49.7,
-        "score": 3.964
+        "distanceToWaterM": 55.1,
+        "score": 3.964,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 55.1
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -10798,6 +11193,7 @@
     },
     {
       "id": "place.dunmer-north.sits-above-the-flood",
+      "schemaVersion": 2,
       "name": "Sits-Above-The-Flood",
       "aliases": [],
       "classification": {
@@ -10993,6 +11389,7 @@
     },
     {
       "id": "place.dunmer-north.stands-on-the-island",
+      "schemaVersion": 2,
       "name": "Stands-On-The-Hammock",
       "aliases": [],
       "classification": {
@@ -11151,6 +11548,8 @@
         5716.6,
         913.0
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0106",
@@ -11175,7 +11574,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 447.1,
         "distanceToWaterM": 49.0,
-        "score": 2.367
+        "score": 2.367,
+        "water": {
+          "entityId": "body.3109-467",
+          "kind": "pond",
+          "levelM": 173.96,
+          "season": "perennial",
+          "distanceM": 49.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -11236,6 +11642,7 @@
     },
     {
       "id": "place.dunmer-north.stillrise-village",
+      "schemaVersion": 2,
       "name": "Stillrise Village",
       "aliases": [],
       "classification": {
@@ -11395,6 +11802,8 @@
         1395.6,
         194.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.lake-standing-water.box-canyon-042",
       "candidatesConsidered": [
         {
@@ -11419,8 +11828,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 5,
         "distanceToRouteM": 1285.3,
-        "distanceToWaterM": 5.5,
-        "score": 3.807
+        "distanceToWaterM": 0.0,
+        "score": 3.807,
+        "water": {
+          "entityId": "body.824-179",
+          "kind": "tarn-upland",
+          "levelM": 507.32,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11493,6 +11909,7 @@
     },
     {
       "id": "place.dunmer-north.stormhold",
+      "schemaVersion": 2,
       "name": "Stormhold",
       "aliases": [
         "the layered city"
@@ -11684,6 +12101,7 @@
         "id": "hist.dunmer-north.stormhold",
         "kind": "city tree",
         "powerSlot": "power.hist.dunmer-north.stormhold",
+        "status": "hero",
         "note": "Hero Hist 1/10. CANON_EXPLICIT (hist-placement.md §3): the town-square Hist standing in a pond ringed by ancient pillars, broken arches and a low stone wall. Speaking; survived the Dunmer occupation, the Flu and Umbriel. Tended by a Keeper appointed by the Vicecanons and resented by the surrounding tribes — the city-tree flashpoint in its plainest form."
       },
       "densityLayer": "landmark",
@@ -11697,6 +12115,8 @@
         2654.5,
         737.4
       ],
+      "footprintRadiusM": 230.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'stormhold' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -11704,8 +12124,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 109.7,
-        "score": null
+        "distanceToWaterM": 159.9,
+        "score": null,
+        "water": {
+          "entityId": "reach.1472-491",
+          "kind": "sloped-rapid",
+          "levelM": 26.96,
+          "season": "perennial",
+          "distanceM": 159.9
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -11828,6 +12255,7 @@
     },
     {
       "id": "place.dunmer-north.stormhold-causeway",
+      "schemaVersion": 2,
       "name": "Bogmother Causeway",
       "aliases": [],
       "classification": {
@@ -11979,6 +12407,8 @@
         2843.2,
         803.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cliff-bench-055",
@@ -11992,8 +12422,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 2,
         "distanceToRouteM": 5.5,
-        "distanceToWaterM": 0.0,
-        "score": 4.326
+        "distanceToWaterM": 12.3,
+        "score": 4.326,
+        "water": {
+          "entityId": "body.1564-441",
+          "kind": "marsh-deep",
+          "levelM": 15.77,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -12041,6 +12478,7 @@
     },
     {
       "id": "place.dunmer-north.tear-road-stage",
+      "schemaVersion": 2,
       "name": "Tear Road Stage",
       "aliases": [],
       "classification": {
@@ -12194,6 +12632,8 @@
         3415.8,
         710.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0247",
@@ -12217,8 +12657,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 85.1,
-        "distanceToWaterM": 17.3,
-        "score": 4.542
+        "distanceToWaterM": 11.0,
+        "score": 4.542,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -12290,6 +12737,7 @@
     },
     {
       "id": "place.dunmer-north.tearmouth",
+      "schemaVersion": 2,
       "name": "Tearmouth",
       "aliases": [],
       "classification": {
@@ -12459,6 +12907,8 @@
         7103.9,
         748.5
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0255",
@@ -12482,8 +12932,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 635.2,
-        "distanceToWaterM": 17.3,
-        "score": 3.802
+        "distanceToWaterM": 12.3,
+        "score": 3.802,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -12566,6 +13023,7 @@
     },
     {
       "id": "place.dunmer-north.ten-maur-wolk",
+      "schemaVersion": 2,
       "name": "Ten-Maur-Wolk",
       "aliases": [
         "Tenmar Wall (the Imperial exonym; the Third Empire's maps renamed the site)"
@@ -12713,6 +13171,8 @@
         5080.5,
         222.1
       ],
+      "footprintRadiusM": 60.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0053",
@@ -12736,8 +13196,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1143.5,
-        "distanceToWaterM": 156.0,
-        "score": 2.303
+        "distanceToWaterM": 158.3,
+        "score": 2.303,
+        "water": {
+          "entityId": "reach.2695-106",
+          "kind": "sloped-rapid",
+          "levelM": 123.25,
+          "season": "seasonal",
+          "distanceM": 158.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -12813,6 +13280,7 @@
     },
     {
       "id": "place.dunmer-north.ten-thousand-nests",
+      "schemaVersion": 2,
       "name": "Ten-Thousand-Nests",
       "aliases": [],
       "classification": {
@@ -12969,6 +13437,8 @@
         6928.4,
         435.9
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cliff-bench-025",
@@ -12993,7 +13463,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 389.9,
         "distanceToWaterM": 240.3,
-        "score": 2.226
+        "score": 2.226,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 240.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -13049,6 +13526,7 @@
     },
     {
       "id": "place.dunmer-north.tenmar-wall",
+      "schemaVersion": 2,
       "name": "Tenmar Wall",
       "aliases": [
         "see place.dunmer-north.ten-maur-wolk"
@@ -13272,6 +13750,7 @@
     },
     {
       "id": "place.dunmer-north.the-ash-causeway",
+      "schemaVersion": 2,
       "name": "Ash Causeway",
       "aliases": [],
       "classification": {
@@ -13425,6 +13904,8 @@
         6862.6,
         874.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0136",
@@ -13449,7 +13930,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 469.6,
         "distanceToWaterM": 12.3,
-        "score": 2.334
+        "score": 2.334,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -13504,6 +13992,7 @@
     },
     {
       "id": "place.dunmer-north.the-ash-holding",
+      "schemaVersion": 2,
       "name": "Ash Holding",
       "aliases": [],
       "classification": {
@@ -13655,6 +14144,8 @@
         4954.4,
         200.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0077",
@@ -13678,8 +14169,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1167.2,
-        "distanceToWaterM": 28.0,
-        "score": 3.486
+        "distanceToWaterM": 32.0,
+        "score": 3.486,
+        "water": {
+          "entityId": "reach.2695-106",
+          "kind": "sloped-rapid",
+          "levelM": 123.25,
+          "season": "seasonal",
+          "distanceM": 32.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -13759,6 +14257,7 @@
     },
     {
       "id": "place.dunmer-north.the-black-stage",
+      "schemaVersion": 2,
       "name": "Black Stage",
       "aliases": [],
       "classification": {
@@ -13914,6 +14413,8 @@
         2854.2,
         1000.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0859",
@@ -13937,8 +14438,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 175.2,
-        "distanceToWaterM": 23.3,
-        "score": 5.194
+        "distanceToWaterM": 27.4,
+        "score": 5.194,
+        "water": {
+          "entityId": "body.1571-570",
+          "kind": "lake-lowland",
+          "levelM": 7.45,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -14006,6 +14514,7 @@
     },
     {
       "id": "place.dunmer-north.the-bone-stage-north",
+      "schemaVersion": 2,
       "name": "Carries-Them-North",
       "aliases": [],
       "classification": {
@@ -14160,6 +14669,8 @@
         6062.0,
         117.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0752",
@@ -14184,7 +14695,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 298.0,
         "distanceToWaterM": 213.9,
-        "score": 2.657
+        "score": 2.657,
+        "water": {
+          "entityId": "body.3364-188",
+          "kind": "pond",
+          "levelM": 71.42,
+          "season": "perennial",
+          "distanceM": 213.9
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -14255,6 +14773,7 @@
     },
     {
       "id": "place.dunmer-north.the-borrowed-tomb",
+      "schemaVersion": 2,
       "name": "Borrowed Tomb",
       "aliases": [],
       "classification": {
@@ -14401,6 +14920,8 @@
         3808.3,
         298.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0154",
@@ -14424,8 +14945,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 248.2,
-        "distanceToWaterM": 66.3,
-        "score": 3.661
+        "distanceToWaterM": 67.8,
+        "score": 3.661,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 67.8
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -14509,6 +15037,7 @@
     },
     {
       "id": "place.dunmer-north.the-bound-urns",
+      "schemaVersion": 2,
       "name": "The Bound Urns",
       "aliases": [],
       "classification": {
@@ -14652,6 +15181,8 @@
         2750.0,
         260.5
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-051",
@@ -14675,8 +15206,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 426.8,
-        "distanceToWaterM": 115.7,
-        "score": 3.096
+        "distanceToWaterM": 52.0,
+        "score": 3.096,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 52.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -14756,6 +15294,7 @@
     },
     {
       "id": "place.dunmer-north.the-causeway-hearth",
+      "schemaVersion": 2,
       "name": "Causeway Hearth",
       "aliases": [],
       "classification": {
@@ -14951,6 +15490,7 @@
     },
     {
       "id": "place.dunmer-north.the-causeway-lodge",
+      "schemaVersion": 2,
       "name": "Causeway Lodge",
       "aliases": [],
       "classification": {
@@ -15165,6 +15705,7 @@
     },
     {
       "id": "place.dunmer-north.the-charge-pond",
+      "schemaVersion": 2,
       "name": "Charge Pond",
       "aliases": [],
       "classification": {
@@ -15309,6 +15850,8 @@
         4521.2,
         117.9
       ],
+      "footprintRadiusM": 175.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.spring-head-025",
@@ -15332,8 +15875,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 882.6,
-        "distanceToWaterM": 46.5,
-        "score": 2.112
+        "distanceToWaterM": 356.4,
+        "score": 2.112,
+        "water": {
+          "entityId": "body.2673-71",
+          "kind": "pool",
+          "levelM": 105.83,
+          "season": "perennial",
+          "distanceM": 356.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -15408,6 +15958,7 @@
     },
     {
       "id": "place.dunmer-north.the-charge-works",
+      "schemaVersion": 2,
       "name": "Charge Works",
       "aliases": [],
       "classification": {
@@ -15555,6 +16106,8 @@
         2366.1,
         1647.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0359",
@@ -15578,8 +16131,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 4,
         "distanceToRouteM": 108.0,
-        "distanceToWaterM": 74.6,
-        "score": 5.163
+        "distanceToWaterM": 0.0,
+        "score": 5.163,
+        "water": {
+          "entityId": "body.1277-865",
+          "kind": "lake-lowland",
+          "levelM": 29.2,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -15646,6 +16206,7 @@
     },
     {
       "id": "place.dunmer-north.the-cold-holding",
+      "schemaVersion": 2,
       "name": "Cold Holding",
       "aliases": [],
       "classification": {
@@ -15794,6 +16355,8 @@
         5327.2,
         397.6
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0105",
@@ -15818,7 +16381,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 849.9,
         "distanceToWaterM": 81.0,
-        "score": 3.849
+        "score": 3.849,
+        "water": {
+          "entityId": "body.2873-266",
+          "kind": "pond",
+          "levelM": 232.59,
+          "season": "perennial",
+          "distanceM": 81.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -15914,6 +16484,7 @@
     },
     {
       "id": "place.dunmer-north.the-crown-terrace",
+      "schemaVersion": 2,
       "name": "Crown Terrace",
       "aliases": [],
       "classification": {
@@ -16068,6 +16639,8 @@
         6467.8,
         595.0
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0106",
@@ -16091,8 +16664,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 21.9,
-        "distanceToWaterM": 27.4,
-        "score": 4.836
+        "distanceToWaterM": 51.7,
+        "score": 4.836,
+        "water": {
+          "entityId": "body.3525-81",
+          "kind": "swamp",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 51.7
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -16169,6 +16749,7 @@
     },
     {
       "id": "place.dunmer-north.the-crystal-prospectors",
+      "schemaVersion": 2,
       "name": "The Jumped Claim",
       "aliases": [],
       "classification": {
@@ -16322,6 +16903,8 @@
         4937.9,
         507.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ravine-055",
@@ -16346,7 +16929,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 981.5,
         "distanceToWaterM": 7.8,
-        "score": 3.282
+        "score": 3.282,
+        "water": {
+          "entityId": "body.2711-252",
+          "kind": "pond",
+          "levelM": 172.43,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -16424,6 +17014,7 @@
     },
     {
       "id": "place.dunmer-north.the-delta-byre",
+      "schemaVersion": 2,
       "name": "The Delta Byre",
       "aliases": [],
       "classification": {
@@ -16575,6 +17166,8 @@
         2338.7,
         112.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0150",
@@ -16598,8 +17191,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 700.6,
-        "distanceToWaterM": 15.5,
-        "score": 2.029
+        "distanceToWaterM": 11.0,
+        "score": 2.029,
+        "water": {
+          "entityId": "body.1253-59",
+          "kind": "pool",
+          "levelM": 373.68,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -16659,6 +17259,7 @@
     },
     {
       "id": "place.dunmer-north.the-diggings-ladder",
+      "schemaVersion": 2,
       "name": "Diggings Ladder",
       "aliases": [],
       "classification": {
@@ -16819,6 +17420,8 @@
         1417.5,
         1132.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ravine-085",
@@ -16842,8 +17445,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 842.5,
-        "distanceToWaterM": 85.7,
-        "score": 4.927
+        "distanceToWaterM": 11.0,
+        "score": 4.927,
+        "water": {
+          "entityId": "body.805-583",
+          "kind": "tarn-upland",
+          "levelM": 457.61,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -16909,6 +17519,7 @@
     },
     {
       "id": "place.dunmer-north.the-divers-landing",
+      "schemaVersion": 2,
       "name": "Divers' Landing",
       "aliases": [],
       "classification": {
@@ -17081,6 +17692,8 @@
         1768.4,
         74.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.spring-head-008",
@@ -17104,8 +17717,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1079.3,
-        "distanceToWaterM": 123.2,
-        "score": 3.641
+        "distanceToWaterM": 78.5,
+        "score": 3.641,
+        "water": {
+          "entityId": "body.1072-121",
+          "kind": "tarn-upland",
+          "levelM": 339.43,
+          "season": "perennial",
+          "distanceM": 78.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -17190,6 +17810,7 @@
     },
     {
       "id": "place.dunmer-north.the-drawdown-flats",
+      "schemaVersion": 2,
       "name": "The Drawdown Flats",
       "aliases": [],
       "classification": {
@@ -17334,6 +17955,8 @@
         2119.4,
         266.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0016",
@@ -17357,8 +17980,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 713.8,
-        "distanceToWaterM": 5.5,
-        "score": 5.499
+        "distanceToWaterM": 21.9,
+        "score": 5.499,
+        "water": {
+          "entityId": "body.1072-121",
+          "kind": "tarn-upland",
+          "levelM": 339.43,
+          "season": "perennial",
+          "distanceM": 21.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17439,6 +18069,7 @@
     },
     {
       "id": "place.dunmer-north.the-dres-rows",
+      "schemaVersion": 2,
       "name": "Dres Rows",
       "aliases": [],
       "classification": {
@@ -17598,6 +18229,8 @@
         6917.5,
         1242.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0266",
@@ -17622,7 +18255,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 400.3,
         "distanceToWaterM": 49.4,
-        "score": 4.283
+        "score": 4.283,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 49.4
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -17687,6 +18327,7 @@
     },
     {
       "id": "place.dunmer-north.the-drover-camp",
+      "schemaVersion": 2,
       "name": "Drover Camp",
       "aliases": [],
       "classification": {
@@ -17837,6 +18478,8 @@
         2475.8,
         1527.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0247",
@@ -17860,8 +18503,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 120.8,
-        "distanceToWaterM": 79.8,
-        "score": 2.525
+        "distanceToWaterM": 5.5,
+        "score": 2.525,
+        "water": {
+          "entityId": "body.1277-865",
+          "kind": "lake-lowland",
+          "levelM": 29.2,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17931,6 +18581,7 @@
     },
     {
       "id": "place.dunmer-north.the-drowned-terrace",
+      "schemaVersion": 2,
       "name": "The Drowned Terrace",
       "aliases": [],
       "classification": {
@@ -18085,6 +18736,8 @@
         1960.4,
         222.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "open water in lake & standing water (danger band 5), 842 m from the nearest route; at the water's edge; won on culture-clump, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
@@ -18093,7 +18746,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 841.9,
         "distanceToWaterM": 0.0,
-        "score": 3.342
+        "score": 3.342,
+        "water": {
+          "entityId": "body.1072-121",
+          "kind": "tarn-upland",
+          "levelM": 339.43,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18157,6 +18817,7 @@
     },
     {
       "id": "place.dunmer-north.the-empty-socket",
+      "schemaVersion": 2,
       "name": "Empty Socket",
       "aliases": [],
       "classification": {
@@ -18305,6 +18966,8 @@
         2974.8,
         238.5
       ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0100",
@@ -18328,8 +18991,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 283.0,
-        "distanceToWaterM": 122.6,
-        "score": 3.192
+        "distanceToWaterM": 105.3,
+        "score": 3.192,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 105.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18393,6 +19063,7 @@
     },
     {
       "id": "place.dunmer-north.the-field-edge-hearth",
+      "schemaVersion": 2,
       "name": "Field-Edge Hearth",
       "aliases": [],
       "classification": {
@@ -18591,6 +19262,7 @@
     },
     {
       "id": "place.dunmer-north.the-field-gate-garrison",
+      "schemaVersion": 2,
       "name": "Field Gate",
       "aliases": [],
       "classification": {
@@ -18767,6 +19439,8 @@
         4279.9,
         408.5
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.border-mountains.ridge-end-064",
       "candidatesConsidered": [],
       "whySiteWon": "ridge end in border mountains (danger band 3), 497 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
@@ -18775,8 +19449,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 496.6,
-        "distanceToWaterM": 192.6,
-        "score": 4.026
+        "distanceToWaterM": 405.8,
+        "score": 4.026,
+        "water": {
+          "entityId": "body.2337-454",
+          "kind": "pond",
+          "levelM": 165.49,
+          "season": "perennial",
+          "distanceM": 405.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -18864,6 +19545,7 @@
     },
     {
       "id": "place.dunmer-north.the-first-count",
+      "schemaVersion": 2,
       "name": "First-Counted",
       "aliases": [],
       "classification": {
@@ -19010,6 +19692,8 @@
         2739.0,
         1028.2
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0150",
@@ -19033,8 +19717,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 195.7,
-        "distanceToWaterM": 88.4,
-        "score": 4.429
+        "distanceToWaterM": 77.5,
+        "score": 4.429,
+        "water": {
+          "entityId": "body.1493-615",
+          "kind": "pond",
+          "levelM": 73.65,
+          "season": "perennial",
+          "distanceM": 77.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -19104,6 +19795,7 @@
     },
     {
       "id": "place.dunmer-north.the-fish-boon-ground",
+      "schemaVersion": 2,
       "name": "Fish Boon Ground",
       "aliases": [],
       "classification": {
@@ -19263,6 +19955,8 @@
         6607.2,
         1302.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0750",
@@ -19286,8 +19980,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 87.7,
-        "distanceToWaterM": 54.8,
-        "score": 4.091
+        "distanceToWaterM": 50.6,
+        "score": 4.091,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 50.6
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -19343,6 +20044,7 @@
     },
     {
       "id": "place.dunmer-north.the-flu-cordon",
+      "schemaVersion": 2,
       "name": "The Flu Cordon",
       "aliases": [],
       "classification": {
@@ -19491,6 +20193,8 @@
         1423.0,
         287.9
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0041",
@@ -19505,7 +20209,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 1213.4,
         "distanceToWaterM": 0.0,
-        "score": 0.669
+        "score": 0.669,
+        "water": {
+          "entityId": "body.824-179",
+          "kind": "tarn-upland",
+          "levelM": 507.32,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -19585,6 +20296,7 @@
     },
     {
       "id": "place.dunmer-north.the-freed-rows",
+      "schemaVersion": 2,
       "name": "The Freed Rows",
       "aliases": [],
       "classification": {
@@ -19743,6 +20455,8 @@
         5617.9,
         1763.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0255",
@@ -19767,7 +20481,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 81.5,
         "distanceToWaterM": 21.9,
-        "score": 4.292
+        "score": 4.292,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 21.9
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -19866,6 +20587,7 @@
     },
     {
       "id": "place.dunmer-north.the-gravel-six",
+      "schemaVersion": 2,
       "name": "Gravel Six",
       "aliases": [],
       "classification": {
@@ -20060,6 +20782,7 @@
     },
     {
       "id": "place.dunmer-north.the-guar-ground",
+      "schemaVersion": 2,
       "name": "Guar Ground",
       "aliases": [],
       "classification": {
@@ -20212,6 +20935,8 @@
         3303.8,
         589.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0106",
@@ -20235,8 +20960,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 3,
         "distanceToRouteM": 99.3,
-        "distanceToWaterM": 7.8,
-        "score": 3.271
+        "distanceToWaterM": 0.0,
+        "score": 3.271,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -20309,6 +21041,7 @@
     },
     {
       "id": "place.dunmer-north.the-high-wrappings",
+      "schemaVersion": 2,
       "name": "High Wrappings",
       "aliases": [],
       "classification": {
@@ -20454,6 +21187,8 @@
         5075.0,
         106.9
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0359",
@@ -20477,8 +21212,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1196.7,
-        "distanceToWaterM": 148.1,
-        "score": 3.476
+        "distanceToWaterM": 166.8,
+        "score": 3.476,
+        "water": {
+          "entityId": "reach.2695-106",
+          "kind": "sloped-rapid",
+          "levelM": 123.25,
+          "season": "seasonal",
+          "distanceM": 166.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -20544,6 +21286,7 @@
     },
     {
       "id": "place.dunmer-north.the-last-landing",
+      "schemaVersion": 2,
       "name": "Last Landing",
       "aliases": [],
       "classification": {
@@ -20705,6 +21448,8 @@
         3830.2,
         167.2
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0108",
@@ -20729,7 +21474,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 358.1,
         "distanceToWaterM": 91.3,
-        "score": 3.607
+        "score": 3.607,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 91.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -20804,6 +21556,7 @@
     },
     {
       "id": "place.dunmer-north.the-last-stone-course",
+      "schemaVersion": 2,
       "name": "The Last Stone Course",
       "aliases": [],
       "classification": {
@@ -20955,6 +21708,8 @@
         5924.9,
         1472.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.cliff-bench-071",
@@ -20978,8 +21733,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 7.8,
-        "distanceToWaterM": 71.3,
-        "score": 3.83
+        "distanceToWaterM": 12.3,
+        "score": 3.83,
+        "water": {
+          "entityId": "body.3234-806",
+          "kind": "marsh-fringe",
+          "levelM": 11.46,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -21059,6 +21821,7 @@
     },
     {
       "id": "place.dunmer-north.the-level-line",
+      "schemaVersion": 2,
       "name": "Level Line",
       "aliases": [],
       "classification": {
@@ -21256,6 +22019,7 @@
     },
     {
       "id": "place.dunmer-north.the-lightning-yard",
+      "schemaVersion": 2,
       "name": "Lightning Yard",
       "aliases": [],
       "classification": {
@@ -21412,6 +22176,8 @@
         2251.0,
         1636.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0305",
@@ -21435,8 +22201,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 4,
         "distanceToRouteM": 42.8,
-        "distanceToWaterM": 27.4,
-        "score": 4.26
+        "distanceToWaterM": 0.0,
+        "score": 4.26,
+        "water": {
+          "entityId": "body.1277-865",
+          "kind": "lake-lowland",
+          "levelM": 29.2,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -21510,6 +22283,7 @@
     },
     {
       "id": "place.dunmer-north.the-monsoon-boom",
+      "schemaVersion": 2,
       "name": "The Monsoon Boom",
       "aliases": [],
       "classification": {
@@ -21653,6 +22427,8 @@
         2344.2,
         1757.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0752",
@@ -21676,8 +22452,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 65.8,
-        "distanceToWaterM": 60.3,
-        "score": 3.738
+        "distanceToWaterM": 31.0,
+        "score": 3.738,
+        "water": {
+          "entityId": "body.1277-865",
+          "kind": "lake-lowland",
+          "levelM": 29.2,
+          "season": "perennial",
+          "distanceM": 31.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -21714,6 +22497,7 @@
     },
     {
       "id": "place.dunmer-north.the-moon-court",
+      "schemaVersion": 2,
       "name": "Moon Court",
       "aliases": [],
       "classification": {
@@ -21868,6 +22652,8 @@
         5415.0,
         1428.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0242",
@@ -21891,8 +22677,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 187.4,
-        "distanceToWaterM": 116.3,
-        "score": 4.37
+        "distanceToWaterM": 116.6,
+        "score": 4.37,
+        "water": {
+          "entityId": "reach.2968-700",
+          "kind": "sloped-chute",
+          "levelM": 143.57,
+          "season": "seasonal",
+          "distanceM": 116.6
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -21969,6 +22762,7 @@
     },
     {
       "id": "place.dunmer-north.the-ninth-chapel",
+      "schemaVersion": 2,
       "name": "Ninth Chapel",
       "aliases": [],
       "classification": {
@@ -22117,6 +22911,8 @@
         858.2,
         638.8
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0752",
@@ -22140,8 +22936,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 1514.2,
-        "distanceToWaterM": 104.8,
-        "score": 2.173
+        "distanceToWaterM": 157.0,
+        "score": 2.173,
+        "water": {
+          "entityId": "body.391-304",
+          "kind": "pool",
+          "levelM": 365.02,
+          "season": "perennial",
+          "distanceM": 157.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -22203,6 +23006,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-border-post",
+      "schemaVersion": 2,
       "name": "North Post",
       "aliases": [],
       "classification": {
@@ -22358,6 +23162,8 @@
         5703.4,
         1880.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.saddle-079",
@@ -22381,8 +23187,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 81.0,
-        "distanceToWaterM": 35.1,
-        "score": 3.72
+        "distanceToWaterM": 32.0,
+        "score": 3.72,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 32.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -22450,6 +23263,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-cut",
+      "schemaVersion": 2,
       "name": "North Cut",
       "aliases": [],
       "classification": {
@@ -22603,6 +23417,8 @@
         3177.7,
         1006.2
       ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0293",
@@ -22626,8 +23442,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 3,
         "distanceToRouteM": 246.8,
-        "distanceToWaterM": 149.8,
-        "score": 3.622
+        "distanceToWaterM": 5.5,
+        "score": 3.622,
+        "water": {
+          "entityId": "body.1739-565",
+          "kind": "marsh-deep",
+          "levelM": 27.05,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -22691,6 +23514,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-holding-pit",
+      "schemaVersion": 2,
       "name": "The Waiting Hole",
       "aliases": [],
       "classification": {
@@ -22837,6 +23661,8 @@
         6278.7,
         800.5
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0173",
@@ -22860,8 +23686,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 5.5,
-        "distanceToWaterM": 47.2,
-        "score": 4.04
+        "distanceToWaterM": 97.6,
+        "score": 4.04,
+        "water": {
+          "entityId": "reach.3368-445",
+          "kind": "sloped-rapid",
+          "levelM": 32.36,
+          "season": "perennial",
+          "distanceM": 97.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -22934,6 +23767,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-relay",
+      "schemaVersion": 2,
       "name": "North Relay",
       "aliases": [],
       "classification": {
@@ -23136,6 +23970,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-root-gallery",
+      "schemaVersion": 2,
       "name": "The Cold Gallery",
       "aliases": [],
       "classification": {
@@ -23281,6 +24116,8 @@
         4894.0,
         403.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ravine-035",
@@ -23305,7 +24142,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 1008.8,
         "distanceToWaterM": 62.0,
-        "score": 3.432
+        "score": 3.432,
+        "water": {
+          "entityId": "body.2711-252",
+          "kind": "pond",
+          "levelM": 172.43,
+          "season": "perennial",
+          "distanceM": 62.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -23380,6 +24224,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-vista",
+      "schemaVersion": 2,
       "name": "North Vista",
       "aliases": [],
       "classification": {
@@ -23520,6 +24365,8 @@
         4959.8,
         359.2
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.cliff-bench-018",
@@ -23544,7 +24391,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 1087.6,
         "distanceToWaterM": 82.4,
-        "score": 3.4
+        "score": 3.4,
+        "water": {
+          "entityId": "body.2711-252",
+          "kind": "pond",
+          "levelM": 172.43,
+          "season": "perennial",
+          "distanceM": 82.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -23601,6 +24455,7 @@
     },
     {
       "id": "place.dunmer-north.the-northern-rest",
+      "schemaVersion": 2,
       "name": "Northern Rest",
       "aliases": [],
       "classification": {
@@ -23745,6 +24600,8 @@
         2563.5,
         1494.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0108",
@@ -23768,8 +24625,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 186.2,
-        "distanceToWaterM": 164.9,
-        "score": 4.155
+        "distanceToWaterM": 95.8,
+        "score": 4.155,
+        "water": {
+          "entityId": "body.1277-865",
+          "kind": "lake-lowland",
+          "levelM": 29.2,
+          "season": "perennial",
+          "distanceM": 95.8
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -23823,6 +24687,7 @@
     },
     {
       "id": "place.dunmer-north.the-opened-terrace",
+      "schemaVersion": 2,
       "name": "The Opened Terrace",
       "aliases": [],
       "classification": {
@@ -23966,6 +24831,8 @@
         3404.6,
         803.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0154",
@@ -23989,8 +24856,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 59.1,
-        "score": 3.569
+        "distanceToWaterM": 0.0,
+        "score": 3.569,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -24066,6 +24940,7 @@
     },
     {
       "id": "place.dunmer-north.the-outer-silyanorn",
+      "schemaVersion": 2,
       "name": "Outer Silyanorn",
       "aliases": [],
       "classification": {
@@ -24219,6 +25094,8 @@
         3726.1,
         46.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-058",
@@ -24242,8 +25119,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 414.5,
-        "distanceToWaterM": 35.1,
-        "score": 3.994
+        "distanceToWaterM": 28.0,
+        "score": 3.994,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 28.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -24316,6 +25200,7 @@
     },
     {
       "id": "place.dunmer-north.the-pass-station",
+      "schemaVersion": 2,
       "name": "Pass Station",
       "aliases": [],
       "classification": {
@@ -24532,6 +25417,7 @@
     },
     {
       "id": "place.dunmer-north.the-pen-yard",
+      "schemaVersion": 2,
       "name": "The Pen Yard",
       "aliases": [],
       "classification": {
@@ -24688,6 +25574,8 @@
         6846.2,
         1302.3
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0325",
@@ -24712,7 +25600,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 329.0,
         "distanceToWaterM": 24.5,
-        "score": 5.107
+        "score": 5.107,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -24771,6 +25666,7 @@
     },
     {
       "id": "place.dunmer-north.the-permit-dig",
+      "schemaVersion": 2,
       "name": "Permit Dig",
       "aliases": [],
       "classification": {
@@ -24930,6 +25826,8 @@
         2859.7,
         309.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0123",
@@ -24953,8 +25851,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 311.1,
-        "distanceToWaterM": 60.3,
-        "score": 3.318
+        "distanceToWaterM": 0.0,
+        "score": 3.318,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -25038,6 +25943,7 @@
     },
     {
       "id": "place.dunmer-north.the-pilots-rest",
+      "schemaVersion": 2,
       "name": "The Pilots' Rest",
       "aliases": [],
       "classification": {
@@ -25194,6 +26100,8 @@
         5623.3,
         123.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0173",
@@ -25217,8 +26125,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 727.4,
-        "distanceToWaterM": 73.6,
-        "score": 3.829
+        "distanceToWaterM": 378.7,
+        "score": 3.829,
+        "water": {
+          "entityId": "body.3064-282",
+          "kind": "pond",
+          "levelM": 158.57,
+          "season": "perennial",
+          "distanceM": 378.7
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -25296,6 +26211,7 @@
     },
     {
       "id": "place.dunmer-north.the-quiet-landing",
+      "schemaVersion": 2,
       "name": "The Quiet Landing",
       "aliases": [],
       "classification": {
@@ -25537,6 +26453,8 @@
         5387.6,
         1658.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0247",
@@ -25561,11 +26479,19 @@
         "dangerBand": 3,
         "distanceToRouteM": 82.4,
         "distanceToWaterM": 46.9,
-        "score": 3.535
+        "score": 3.535,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 46.9
+        }
       }
     },
     {
       "id": "place.dunmer-north.the-rim-hermitage",
+      "schemaVersion": 2,
       "name": "Rim Hermitage",
       "aliases": [],
       "classification": {
@@ -25715,6 +26641,8 @@
         2059.1,
         1006.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.summit-036",
@@ -25739,7 +26667,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 267.7,
         "distanceToWaterM": 49.4,
-        "score": 4.069
+        "score": 4.069,
+        "water": {
+          "entityId": "body.1052-567",
+          "kind": "pond",
+          "levelM": 309.36,
+          "season": "perennial",
+          "distanceM": 49.4
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -25796,6 +26731,7 @@
     },
     {
       "id": "place.dunmer-north.the-rim-shelter",
+      "schemaVersion": 2,
       "name": "Rim Shelter",
       "aliases": [],
       "classification": {
@@ -26007,6 +26943,7 @@
     },
     {
       "id": "place.dunmer-north.the-salt-and-shell",
+      "schemaVersion": 2,
       "name": "The Salt and Shell",
       "aliases": [],
       "classification": {
@@ -26156,6 +27093,8 @@
         6413.0,
         767.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0173",
@@ -26180,7 +27119,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 83.9,
         "distanceToWaterM": 107.7,
-        "score": 4.05
+        "score": 4.05,
+        "water": {
+          "entityId": "body.3525-81",
+          "kind": "swamp",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 107.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -26252,6 +27198,7 @@
     },
     {
       "id": "place.dunmer-north.the-salt-ledge",
+      "schemaVersion": 2,
       "name": "The Salt Ledge",
       "aliases": [],
       "classification": {
@@ -26394,6 +27341,8 @@
         6248.5,
         298.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0108",
@@ -26417,8 +27366,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 208.8,
-        "distanceToWaterM": 47.2,
-        "score": 3.808
+        "distanceToWaterM": 73.6,
+        "score": 3.808,
+        "water": {
+          "entityId": "body.3364-188",
+          "kind": "pond",
+          "levelM": 71.42,
+          "season": "perennial",
+          "distanceM": 73.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -26500,6 +27456,7 @@
     },
     {
       "id": "place.dunmer-north.the-shell-ground",
+      "schemaVersion": 2,
       "name": "Shell Ground",
       "aliases": [],
       "classification": {
@@ -26652,6 +27609,8 @@
         5305.3,
         1625.9
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cliff-bench-025",
@@ -26675,8 +27634,15 @@
         "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 3,
         "distanceToRouteM": 179.3,
-        "distanceToWaterM": 5.5,
-        "score": 2.409
+        "distanceToWaterM": 0.0,
+        "score": 2.409,
+        "water": {
+          "entityId": "body.2899-881",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -26741,6 +27707,7 @@
     },
     {
       "id": "place.dunmer-north.the-shoal-bank",
+      "schemaVersion": 2,
       "name": "Shoal Bank",
       "aliases": [],
       "classification": {
@@ -26945,6 +27912,8 @@
         3205.1,
         1247.5
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0225",
@@ -26969,11 +27938,19 @@
         "dangerBand": 4,
         "distanceToRouteM": 311.5,
         "distanceToWaterM": 0.0,
-        "score": 3.137
+        "score": 3.137,
+        "water": {
+          "entityId": "body.1789-698",
+          "kind": "marsh-deep",
+          "levelM": 1.19,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       }
     },
     {
       "id": "place.dunmer-north.the-shut-village",
+      "schemaVersion": 2,
       "name": "The Shut Village",
       "aliases": [],
       "classification": {
@@ -27130,6 +28107,8 @@
         5338.2,
         907.5
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.box-canyon-035",
@@ -27148,8 +28127,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 5,
         "distanceToRouteM": 701.4,
-        "distanceToWaterM": 34.7,
-        "score": 3.805
+        "distanceToWaterM": 0.0,
+        "score": 3.805,
+        "water": {
+          "entityId": "body.2926-515",
+          "kind": "pond",
+          "levelM": 225.58,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -27232,6 +28218,7 @@
     },
     {
       "id": "place.dunmer-north.the-silyanorn-crown",
+      "schemaVersion": 2,
       "name": "Silyanorn Crown",
       "aliases": [],
       "classification": {
@@ -27384,6 +28371,8 @@
         3605.4,
         123.4
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0016",
@@ -27398,7 +28387,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 318.1,
         "distanceToWaterM": 24.5,
-        "score": 5.552
+        "score": 5.552,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -27459,6 +28455,7 @@
     },
     {
       "id": "place.dunmer-north.the-slumped-hamlet",
+      "schemaVersion": 2,
       "name": "The Slumped Hamlet",
       "aliases": [],
       "classification": {
@@ -27607,6 +28604,8 @@
         5223.1,
         1006.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "ridge end in border mountains (danger band 3), 679 m from the nearest route; won on culture-clump, nearPoint, sightline.",
       "plotFacts": {
@@ -27614,8 +28613,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 679.1,
-        "distanceToWaterM": 139.8,
-        "score": 2.564
+        "distanceToWaterM": 132.5,
+        "score": 2.564,
+        "water": {
+          "entityId": "body.2926-515",
+          "kind": "pond",
+          "levelM": 225.58,
+          "season": "perennial",
+          "distanceM": 132.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -27690,6 +28696,7 @@
     },
     {
       "id": "place.dunmer-north.the-standing-bid",
+      "schemaVersion": 2,
       "name": "The Standing Bid",
       "aliases": [],
       "classification": {
@@ -27951,6 +28958,8 @@
         2563.5,
         975.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0075",
@@ -27964,13 +28973,21 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 82.4,
-        "distanceToWaterM": 12.3,
-        "score": 5.169
+        "distanceToWaterM": 5.5,
+        "score": 5.169,
+        "water": {
+          "entityId": "body.1373-544",
+          "kind": "tarn-upland",
+          "levelM": 30.71,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "services": []
     },
     {
       "id": "place.dunmer-north.the-stormhold-falls-chamber",
+      "schemaVersion": 2,
       "name": "Behind the Falls",
       "aliases": [],
       "classification": {
@@ -28117,6 +29134,8 @@
         2404.5,
         660.8
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.waterfall-000",
@@ -28140,8 +29159,15 @@
         "regionClass": "upland hills",
         "dangerBand": 2,
         "distanceToRouteM": 229.7,
-        "distanceToWaterM": 290.8,
-        "score": 4.963
+        "distanceToWaterM": 182.3,
+        "score": 4.963,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 182.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -28235,6 +29261,7 @@
     },
     {
       "id": "place.dunmer-north.the-stripped-village",
+      "schemaVersion": 2,
       "name": "The Stripped Village",
       "aliases": [],
       "classification": {
@@ -28391,6 +29418,8 @@
         5151.8,
         1143.3
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in upland hills (danger band 3), 562 m from the nearest route; its choice #2 landform; won on landform, bound, nearPoint.",
       "plotFacts": {
@@ -28398,8 +29427,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 561.8,
-        "distanceToWaterM": 279.2,
-        "score": 3.475
+        "distanceToWaterM": 267.8,
+        "score": 3.475,
+        "water": {
+          "entityId": "body.2926-515",
+          "kind": "pond",
+          "levelM": 225.58,
+          "season": "perennial",
+          "distanceM": 267.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -28471,6 +29507,7 @@
     },
     {
       "id": "place.dunmer-north.the-sump-hamlet",
+      "schemaVersion": 2,
       "name": "Sump Rows",
       "aliases": [],
       "classification": {
@@ -28625,6 +29662,8 @@
         6687.2,
         74.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0061",
@@ -28648,8 +29687,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 235.5,
-        "distanceToWaterM": 81.5,
-        "score": 2.795
+        "distanceToWaterM": 49.4,
+        "score": 2.795,
+        "water": {
+          "entityId": "body.3525-81",
+          "kind": "swamp",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 49.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -28755,6 +29801,7 @@
     },
     {
       "id": "place.dunmer-north.the-tear-wreck",
+      "schemaVersion": 2,
       "name": "The Tear Wreck",
       "aliases": [],
       "classification": {
@@ -28908,6 +29955,8 @@
         2717.1,
         1340.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0041",
@@ -28932,7 +29981,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 331.2,
         "distanceToWaterM": 19.8,
-        "score": 1.638
+        "score": 1.638,
+        "water": {
+          "entityId": "body.1789-698-p2",
+          "kind": "marsh-deep",
+          "levelM": 2.1,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -29006,6 +30062,7 @@
     },
     {
       "id": "place.dunmer-north.the-terrace-watch",
+      "schemaVersion": 2,
       "name": "Terrace Watch",
       "aliases": [],
       "classification": {
@@ -29154,6 +30211,8 @@
         2903.5,
         57.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0108",
@@ -29177,8 +30236,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 474.1,
-        "distanceToWaterM": 301.6,
-        "score": 3.749
+        "distanceToWaterM": 246.3,
+        "score": 3.749,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 246.3
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -29231,6 +30297,7 @@
     },
     {
       "id": "place.dunmer-north.the-thorn-bond",
+      "schemaVersion": 2,
       "name": "Thorn Bond",
       "aliases": [],
       "classification": {
@@ -29392,6 +30459,8 @@
         6319.8,
         523.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0283",
@@ -29415,8 +30484,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 111.0,
-        "distanceToWaterM": 81.0,
-        "score": 6.354
+        "distanceToWaterM": 68.7,
+        "score": 6.354,
+        "water": {
+          "entityId": "body.3465-243",
+          "kind": "backswamp",
+          "levelM": 53.3,
+          "season": "perennial",
+          "distanceM": 68.7
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -29514,6 +30590,7 @@
     },
     {
       "id": "place.dunmer-north.the-thousand-birds",
+      "schemaVersion": 2,
       "name": "The Thousand Birds",
       "aliases": [],
       "classification": {
@@ -29660,6 +30737,8 @@
         6774.9,
         1203.6
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.island-015",
@@ -29683,8 +30762,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 257.7,
-        "distanceToWaterM": 41.8,
-        "score": 1.959
+        "distanceToWaterM": 39.9,
+        "score": 1.959,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 39.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -29760,6 +30846,7 @@
     },
     {
       "id": "place.dunmer-north.the-tide-fair",
+      "schemaVersion": 2,
       "name": "Tide Fair",
       "aliases": [],
       "classification": {
@@ -29914,6 +31001,8 @@
         2898.0,
         172.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0192",
@@ -29937,8 +31026,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 382.0,
-        "distanceToWaterM": 186.8,
-        "score": 2.872
+        "distanceToWaterM": 133.5,
+        "score": 2.872,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 133.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -29997,6 +31093,7 @@
     },
     {
       "id": "place.dunmer-north.the-turning-stone",
+      "schemaVersion": 2,
       "name": "Turning Stone",
       "aliases": [],
       "classification": {
@@ -30152,6 +31249,8 @@
         5941.4,
         79.5
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0016",
@@ -30176,7 +31275,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 412.2,
         "distanceToWaterM": 309.3,
-        "score": 3.255
+        "score": 3.255,
+        "water": {
+          "entityId": "body.3364-188",
+          "kind": "pond",
+          "levelM": 71.42,
+          "season": "perennial",
+          "distanceM": 309.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -30245,6 +31351,7 @@
     },
     {
       "id": "place.dunmer-north.the-two-gate-bridge",
+      "schemaVersion": 2,
       "name": "Two-Gate Bridge",
       "aliases": [],
       "classification": {
@@ -30399,6 +31506,8 @@
         5548.7,
         1480.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0247",
@@ -30423,7 +31532,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 46.9,
         "distanceToWaterM": 35.1,
-        "score": 3.791
+        "score": 3.791,
+        "water": {
+          "entityId": "reach.3043-787",
+          "kind": "sloped-riffle",
+          "levelM": 18.86,
+          "season": "perennial",
+          "distanceM": 35.1
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -30481,6 +31597,7 @@
     },
     {
       "id": "place.dunmer-north.the-two-hundred-roofs",
+      "schemaVersion": 2,
       "name": "The Two Hundred Roofs",
       "aliases": [],
       "classification": {
@@ -30629,6 +31746,8 @@
         2552.6,
         1094.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0191",
@@ -30652,8 +31771,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 120.3,
-        "distanceToWaterM": 55.9,
-        "score": 3.024
+        "distanceToWaterM": 27.4,
+        "score": 3.024,
+        "water": {
+          "entityId": "body.1373-544",
+          "kind": "tarn-upland",
+          "levelM": 30.71,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -30736,6 +31862,7 @@
     },
     {
       "id": "place.dunmer-north.the-veterans-ridge",
+      "schemaVersion": 2,
       "name": "The Veterans' Ridge",
       "aliases": [],
       "classification": {
@@ -30895,6 +32022,8 @@
         2662.2,
         46.6
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0009",
@@ -30918,8 +32047,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 636.3,
-        "distanceToWaterM": 259.2,
-        "score": 5.3
+        "distanceToWaterM": 264.1,
+        "score": 5.3,
+        "water": {
+          "entityId": "body.1253-59",
+          "kind": "pool",
+          "levelM": 373.68,
+          "season": "perennial",
+          "distanceM": 264.1
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -31005,6 +32141,7 @@
     },
     {
       "id": "place.dunmer-north.the-wamasu-shrine",
+      "schemaVersion": 2,
       "name": "Shrine of Haynekhtnamet",
       "aliases": [],
       "classification": {
@@ -31147,6 +32284,8 @@
         3314.8,
         885.6
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0106",
@@ -31170,8 +32309,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 3,
         "distanceToRouteM": 81.5,
-        "distanceToWaterM": 12.3,
-        "score": 3.544
+        "distanceToWaterM": 32.0,
+        "score": 3.544,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 32.0
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -31225,6 +32371,7 @@
     },
     {
       "id": "place.dunmer-north.the-whispers-dig",
+      "schemaVersion": 2,
       "name": "Unpermitted Cut",
       "aliases": [],
       "classification": {
@@ -31375,6 +32522,8 @@
         7208.1,
         518.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0136",
@@ -31399,7 +32548,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 671.7,
         "distanceToWaterM": 16.5,
-        "score": 1.764
+        "score": 1.764,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -31480,6 +32636,7 @@
     },
     {
       "id": "place.dunmer-north.the-white-pans",
+      "schemaVersion": 2,
       "name": "White Pans",
       "aliases": [],
       "classification": {
@@ -31628,6 +32785,8 @@
         6478.8,
         1401.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.ocean.cove-068",
@@ -31651,8 +32810,15 @@
         "regionClass": "ocean",
         "dangerBand": 0,
         "distanceToRouteM": 38.4,
-        "distanceToWaterM": 5.5,
-        "score": 4.51
+        "distanceToWaterM": 0.0,
+        "score": 4.51,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -31717,6 +32883,7 @@
     },
     {
       "id": "place.dunmer-north.the-wild-mouth",
+      "schemaVersion": 2,
       "name": "Wild Mouth",
       "aliases": [],
       "classification": {
@@ -31867,6 +33034,8 @@
         2887.1,
         1296.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0306",
@@ -31890,8 +33059,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 470.0,
-        "distanceToWaterM": 21.9,
-        "score": 2.874
+        "distanceToWaterM": 12.3,
+        "score": 2.874,
+        "water": {
+          "entityId": "body.1789-698",
+          "kind": "marsh-deep",
+          "levelM": 1.19,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -31955,6 +33131,7 @@
     },
     {
       "id": "place.dunmer-north.the-xanmeer-hold",
+      "schemaVersion": 2,
       "name": "Xanmeer Hold",
       "aliases": [],
       "classification": {
@@ -32115,6 +33292,8 @@
         5722.1,
         1170.7
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0247",
@@ -32138,8 +33317,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 355.9,
-        "distanceToWaterM": 157.0,
-        "score": 2.324
+        "distanceToWaterM": 283.1,
+        "score": 2.324,
+        "water": {
+          "entityId": "reach.2968-700",
+          "kind": "sloped-chute",
+          "levelM": 143.57,
+          "season": "seasonal",
+          "distanceM": 283.1
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -32214,6 +33400,7 @@
     },
     {
       "id": "place.dunmer-north.thorn",
+      "schemaVersion": 2,
       "name": "Thorn",
       "aliases": [
         "the field city"
@@ -32409,6 +33596,8 @@
         6193.7,
         589.9
       ],
+      "footprintRadiusM": 230.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'thorn' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -32416,8 +33605,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 16.5,
-        "score": null
+        "distanceToWaterM": 36.8,
+        "score": null,
+        "water": {
+          "entityId": "reach.3385-271",
+          "kind": "sloped-rapid",
+          "levelM": 59.96,
+          "season": "seasonal",
+          "distanceM": 36.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -32523,6 +33719,7 @@
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",
+      "schemaVersion": 2,
       "name": "Thorn Terraces",
       "aliases": [],
       "classification": {
@@ -32687,6 +33884,8 @@
         6201.3,
         713.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0852",
@@ -32710,8 +33909,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 23.3,
-        "distanceToWaterM": 41.8,
-        "score": 4.853
+        "distanceToWaterM": 61.3,
+        "score": 4.853,
+        "water": {
+          "entityId": "reach.3363-352",
+          "kind": "horizontal-channel",
+          "levelM": 32.65,
+          "season": "perennial",
+          "distanceM": 61.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -32775,6 +33981,7 @@
     },
     {
       "id": "place.dunmer-north.three-ways-over-water",
+      "schemaVersion": 2,
       "name": "Three-Ways-Over-Water",
       "aliases": [],
       "classification": {
@@ -32931,6 +34138,8 @@
         6369.1,
         1505.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.island-023",
@@ -32954,8 +34163,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 117.7,
-        "distanceToWaterM": 0.0,
-        "score": 3.394
+        "distanceToWaterM": 50.6,
+        "score": 3.394,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 50.6
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -33002,6 +34218,7 @@
     },
     {
       "id": "place.dunmer-north.ties-four-ways",
+      "schemaVersion": 2,
       "name": "Ties-Four-Ways",
       "aliases": [],
       "classification": {
@@ -33161,6 +34378,8 @@
         6281.4,
         1653.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 163 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, route.",
       "plotFacts": {
@@ -33168,8 +34387,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 162.9,
-        "distanceToWaterM": 12.3,
-        "score": 5.524
+        "distanceToWaterM": 11.0,
+        "score": 5.524,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -33220,6 +34446,7 @@
     },
     {
       "id": "place.dunmer-north.tunnel-rat-gallery",
+      "schemaVersion": 2,
       "name": "Thorn Rat Gallery",
       "aliases": [],
       "classification": {
@@ -33373,6 +34600,8 @@
         5376.6,
         1176.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-051",
@@ -33396,8 +34625,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 383.3,
-        "distanceToWaterM": 117.7,
-        "score": 1.938
+        "distanceToWaterM": 170.3,
+        "score": 1.938,
+        "water": {
+          "entityId": "reach.2968-700",
+          "kind": "sloped-chute",
+          "levelM": 143.57,
+          "season": "seasonal",
+          "distanceM": 170.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -33467,6 +34703,7 @@
     },
     {
       "id": "place.dunmer-north.waits-for-the-promise",
+      "schemaVersion": 2,
       "name": "Waits-For-The-Promise",
       "aliases": [],
       "classification": {
@@ -33624,6 +34861,8 @@
         5941.4,
         260.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0023",
@@ -33647,8 +34886,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 408.0,
-        "distanceToWaterM": 174.9,
-        "score": 3.031
+        "distanceToWaterM": 178.5,
+        "score": 3.031,
+        "water": {
+          "entityId": "body.3364-188-p2",
+          "kind": "pond",
+          "levelM": 74.74,
+          "season": "perennial",
+          "distanceM": 178.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -33715,6 +34961,7 @@
     },
     {
       "id": "place.dunmer-north.waits-for-the-trial",
+      "schemaVersion": 2,
       "name": "Waits-For-The-Trial",
       "aliases": [],
       "classification": {
@@ -33878,6 +35125,8 @@
         7076.5,
         266.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0086",
@@ -33902,7 +35151,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 494.3,
         "distanceToWaterM": 39.9,
-        "score": 5.516
+        "score": 5.516,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 39.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -33967,6 +35223,7 @@
     },
     {
       "id": "place.dunmer-north.went-down-slowly",
+      "schemaVersion": 2,
       "name": "Went-Down-Slowly",
       "aliases": [],
       "classification": {
@@ -34168,6 +35425,8 @@
         2421.0,
         934.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.saddle-005",
@@ -34191,12 +35450,20 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 39.9,
-        "distanceToWaterM": 106.5,
-        "score": 4.056
+        "distanceToWaterM": 46.9,
+        "score": 4.056,
+        "water": {
+          "entityId": "body.1373-544",
+          "kind": "tarn-upland",
+          "levelM": 30.71,
+          "season": "perennial",
+          "distanceM": 46.9
+        }
       }
     },
     {
       "id": "place.dunmer-north.wolk-market",
+      "schemaVersion": 2,
       "name": "Wolk Market",
       "aliases": [
         "the northern hinge"
@@ -34376,6 +35643,8 @@
         3170.1,
         754.0
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0255",
@@ -34399,8 +35668,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 16.5,
-        "score": 4.421
+        "distanceToWaterM": 0.0,
+        "score": 4.421,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -34492,6 +35768,7 @@
     },
     {
       "id": "place.dunmer-north.zuuk",
+      "schemaVersion": 2,
       "name": "Zuuk",
       "aliases": [],
       "classification": {
@@ -34639,6 +35916,8 @@
         4822.8,
         117.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0247",
@@ -34662,8 +35941,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 1107.3,
-        "distanceToWaterM": 21.9,
-        "score": 3.303
+        "distanceToWaterM": 54.8,
+        "score": 3.303,
+        "water": {
+          "entityId": "body.2673-71",
+          "kind": "pool",
+          "levelM": 105.83,
+          "season": "perennial",
+          "distanceM": 54.8
+        }
       },
       "hostility": {
         "baseline": "hostile",

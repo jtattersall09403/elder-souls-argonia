@@ -43,7 +43,11 @@ PHASE11_EXEMPLAR_PLACE_IDS = frozenset({
 # catalogue and make a newly introduced field fail until its owner classifies
 # it here.
 PROVENANCE_FIELDS = {
-    "aliases", "confidence", "id", "name", "namingRule", "proseRefs", "provenance", "sources",
+    "aliases", "confidence", "id", "name", "namingRule", "proseRefs", "provenance",
+    # The record's own shape version (16g): bookkeeping about the record, not
+    # a claim about the world.
+    "schemaVersion",
+    "sources",
 }
 PLOT_FIELDS = {
     "candidatesConsidered", "complexityBudget", "complexityJustification",
@@ -51,9 +55,16 @@ PLOT_FIELDS = {
     "importanceTier", "plotFacts", "plotOverride", "position", "positionM",
     "promotedWhy", "reconciliation", "reconciliationNote", "scourSiteId",
     "sitingNote", "whySiteWon", "workflow",
+    # 16g siting geometry: what a pair of places promises each other, and the
+    # ground each one occupies. Measured, not delivered.
+    "coSitedWith", "footprintPolygon", "footprintRadiusM", "footprintSource",
 }
 DELIVERY_FIELDS = {
     "approachDanger", "assetGaps", "assetPlan", "authoredDangerProperty",
+    # 16g: one design built together, the owner's own ground, the street a
+    # city is entered by, the reservation, and how you get in under water.
+    "cityLayout", "designGroup", "ownerGuided", "reservedFor",
+    "underwaterAccessDetail", "vasteiTutorialScene",
     "classification", "contents", "culture",
     "dangerTier", "deedCounterKeys", "densityLayer", "discovery", "effortToReach", "factionPresence",
     "entrance", "eraLayers", "heroHist", "hostility", "interior",
@@ -80,12 +91,13 @@ QUALITATIVE_ROOTS = {
 # Ownership is deliberately exhaustive.  Falling through to Phase 11 made a
 # newly introduced promise look owned even though no downstream team had
 # accepted it.
-PHASE12_ROOTS = {"entrance", "interior", "underwaterAccess"}
+PHASE12_ROOTS = {"entrance", "interior", "underwaterAccess", "underwaterAccessDetail"}
 PHASE13_ROOTS = {
     "contents", "hostility", "notableNpcSlots", "occupants", "ownerFaction",
     "rewardProfile", "rumourPoolKey", "services",
 }
-QUEST_ROOTS = {"deedCounterKeys", "localStateVariants", "questHooks", "sockets"}
+QUEST_ROOTS = {"deedCounterKeys", "localStateVariants", "questHooks", "sockets",
+               "vasteiTutorialScene"}
 DELIVERY_OWNER_BY_ROOT = {
     **{root: "phase-12" for root in PHASE12_ROOTS},
     **{root: "phase-13" for root in PHASE13_ROOTS},

@@ -979,7 +979,7 @@ export function App() {
             placeName={placeName} subLayers={routesUrl.subLayers}
             onHover={(sections) => { routeTipRef.current = sections; }} />
         )}
-        {showCatalogue && (
+        {showCatalogue && ladderReady && !hiddenLayers.has("places") && (
           <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
             onUrlState={setPlacesUrl} onFly={flyToFraction} />
         )}

@@ -232,7 +232,7 @@ class Candidate:
     anchor_id: str | None = None                            # nearest anchor (for the ring rules)
     used_by: str | None = None
     zone_dist: dict = field(default_factory=dict)   # metres to each culture zone (filled by attach_zone_distances)
-    navigable_depth_m: float = 0.0          # deepest published water within NAVIGABLE_REACH_M
+    navigable_depth_m: float = 0.0          # deepest RECORD depth (reach/body) within NAVIGABLE_REACH_M
 
 
 @dataclass
@@ -704,10 +704,10 @@ def free_ground(s: ProvinceSurvey, seed: int, spacing_m: float = FREE_SPACING_M)
             if slope > 30.0:
                 continue
             wm = float(water_m[row, col])
-            wet = bool(s.wetlands[row, col]) or bool(s.flood[row, col] >= 2)
+            wet = bool(s.wet_ground[row, col])
             if rname in MARSH_REGIONS and (wet or rname != "fringe marsh"):
                 landform = "any-shallow-marsh"
-            elif wm <= 45.0 and int(s.river_band[row, col]) > 0:
+            elif wm <= 45.0 and int(s.reach_band_grid[row, col]) > 0:
                 landform = "any-channel-bank"
             elif rname in FIRM_REGIONS:
                 landform = "any-firm-ground"
@@ -781,10 +781,10 @@ def _classify_free(s: ProvinceSurvey, row: int, col: int) -> str | None:
     if float(s.slope_grid[row, col]) > 30.0:
         return None
     wm = float(s.dist_to_water_m[row, col])
-    wet = bool(s.wetlands[row, col]) or bool(s.flood[row, col] >= 2)
+    wet = bool(s.wet_ground[row, col])
     if rname in MARSH_REGIONS and (wet or rname != "fringe marsh"):
         return "any-shallow-marsh"
-    if wm <= 45.0 and int(s.river_band[row, col]) > 0:
+    if wm <= 45.0 and int(s.reach_band_grid[row, col]) > 0:
         return "any-channel-bank"
     if rname in FIRM_REGIONS:
         return "any-firm-ground"
@@ -841,34 +841,49 @@ def roadside_ground(s: ProvinceSurvey, seed: int) -> list[Candidate]:
 
 
 def attach_water_depth(s: ProvinceSurvey, cands: list[Candidate]) -> None:
-    """Deepest published water within ~15 m of the candidate, so 'submerged'
-    can demand real depth rather than nearness to a shoreline. Also measure
-    the full waterfront reach used by hull-class validation."""
+    """Deepest MEASURED water within ~15 m of the candidate, so 'submerged'
+    can demand real depth rather than nearness to a shoreline; and, for the
+    hull classes, the deepest RECORD depth (a reach's `depthM`, a body's
+    `maxDepthM`) within `NAVIGABLE_REACH_M` — what can float here is the
+    record's designed channel, not a texel of the bake (0066)."""
     from scipy import ndimage
     deep = ndimage.maximum_filter(s.water_depth_m, size=9)
     n = s.water_depth_m.shape[0]
     px = s.extent_m / n
+    rec_depth = s.recorded_depth_m
+    rn = rec_depth.shape[0]
+    rpx = s.extent_m / rn
     nav_deep = ndimage.maximum_filter(
-        s.water_depth_m, size=int(round(2 * NAVIGABLE_REACH_M / px)) + 1)
+        rec_depth, size=int(round(2 * NAVIGABLE_REACH_M / rpx)) + 1)
     for c in cands:
         row = min(n - 1, max(0, int(c.z / px)))
         col = min(n - 1, max(0, int(c.x / px)))
         c.depth_m = max(c.depth_m, float(deep[row, col]))
-        c.navigable_depth_m = float(nav_deep[row, col])
+        c.navigable_depth_m = float(nav_deep[min(rn - 1, max(0, int(c.z / rpx))),
+                                            min(rn - 1, max(0, int(c.x / rpx)))])
 
 
 def measure_candidate_water(s: ProvinceSurvey, c: Candidate) -> None:
-    """Single-candidate equivalent used by fixed anchors and blueprint pins."""
+    """Single-candidate equivalent used by fixed anchors and blueprint pins.
+
+    `depth_m` is MEASURED from the published signed depth (a measurement is
+    what "submerged" means); `navigable_depth_m` is the RECORD depth of the
+    reaches and bodies within reach (0066)."""
     n = s.water_depth_m.shape[0]
     px = s.extent_m / n
     row = min(n - 1, max(0, int(c.z / px)))
     col = min(n - 1, max(0, int(c.x / px)))
     local_radius = 4
-    nav_radius = int(round(NAVIGABLE_REACH_M / px))
     local = s.water_depth_m[max(0, row - local_radius):min(n, row + local_radius + 1),
                             max(0, col - local_radius):min(n, col + local_radius + 1)]
-    nav = s.water_depth_m[max(0, row - nav_radius):min(n, row + nav_radius + 1),
-                          max(0, col - nav_radius):min(n, col + nav_radius + 1)]
+    rec_depth = s.recorded_depth_m
+    rn = rec_depth.shape[0]
+    rpx = s.extent_m / rn
+    rrow = min(rn - 1, max(0, int(c.z / rpx)))
+    rcol = min(rn - 1, max(0, int(c.x / rpx)))
+    nav_radius = int(round(NAVIGABLE_REACH_M / rpx))
+    nav = rec_depth[max(0, rrow - nav_radius):min(rn, rrow + nav_radius + 1),
+                    max(0, rcol - nav_radius):min(rn, rcol + nav_radius + 1)]
     c.depth_m = max(c.depth_m, float(local.max(initial=0.0)))
     c.navigable_depth_m = float(nav.max(initial=0.0))
 
@@ -2204,6 +2219,7 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
             rec["plotFacts"] = {
                 "landform": c.landform, "regionClass": c.region, "dangerBand": c.danger,
                 "distanceToRouteM": round(c.route_m, 1), "distanceToWaterM": round(c.water_m, 1),
+                "water": s.nearest_water_entity(c.x, c.z),
                 "score": None if r["score"] is None else round(r["score"], 3),
             }
             rec["workflow"] = "plotted"
@@ -2814,7 +2830,8 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
 # A8: "a place whose identity is a network role sits where the role exists or
 # is cut", and a port sits on NAVIGABLE water. The `navigable` hint says the
 # record's own prose claims deep water, a quay, a harbour, an anchorage or a
-# laden hull; this checks the published water raster agrees.
+# laden hull; this checks the RECORD depth of the reaches and bodies within
+# reach agrees (a reach's `depthM`, a body's `maxDepthM` — 0066).
 #
 # The ladder is 97 B5's hull classes, one step per thing that floats:
 #   canoe / raft / lighter   >= 0.6 m
@@ -2833,9 +2850,10 @@ def navigable_violations(s: ProvinceSurvey) -> list[dict]:
     demands, files = build_demand(load_recipes())
     positions = {rec["id"]: rec.get("positionM")
                  for rf in files.values() for rec in rf.places}
-    n = s.water_depth_m.shape[0]
+    rec_depth = s.recorded_depth_m
+    n = rec_depth.shape[0]
     px = s.extent_m / n
-    deep = ndimage.maximum_filter(s.water_depth_m, size=int(round(2 * NAVIGABLE_REACH_M / px)) + 1)
+    deep = ndimage.maximum_filter(rec_depth, size=int(round(2 * NAVIGABLE_REACH_M / px)) + 1)
     out: list[dict] = []
     for d in sorted(demands, key=lambda d: d.id):
         if not d.hints.get("navigable"):

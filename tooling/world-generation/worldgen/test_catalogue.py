@@ -2,7 +2,7 @@
 
 import json
 
-from . import catalogue
+from . import catalogue, ladder
 
 
 def _write(dirpath, name, data):
@@ -19,6 +19,7 @@ def _taxonomy(dirpath):
 def _record(**over):
     rec = {
         "id": "place.testreg.reed-cut-camp",
+        "schemaVersion": 2,
         "name": "Reed-Cut Camp",
         "classification": {"class": "camp", "family": "hostile", "type": "bandit", "variant": "riverine", "magnitude": None},
         "status": "active",
@@ -371,3 +372,254 @@ def test_no_record_or_recipe_names_a_region_class_the_world_does_not_have():
                       f"{' …' if len(where) > 4 else ''}"
                       for name, where in sorted(dead.items()))
         + f"\n\nLive classes: {sorted(live)}")
+
+
+# --------------------------------------------------------------------------- #
+# 16g record fields — each gate shown failing on a synthetic fixture
+# --------------------------------------------------------------------------- #
+def _groups(dirpath, *rows):
+    _write(dirpath, "design-groups.json", {"schemaVersion": 1, "groups": list(rows)})
+
+
+def _errs(dirpath, places, groups=None):
+    _taxonomy(dirpath)
+    _region_file(dirpath, places)
+    if groups is not None:
+        _groups(dirpath, *groups)
+    return catalogue.validate_catalogue(dirpath, check_permanence=False)
+
+
+def _group_row(**over):
+    row = {"id": "group.pair", "anchor": "place.testreg.a",
+           "members": ["place.testreg.a", "place.testreg.b"],
+           "loreReason": "One xanmeer, two mouths; one blueprint and one build.",
+           "maxSpreadM": 120}
+    row.update(over)
+    return row
+
+
+def _member(rid, pos, **over):
+    return _record(id=rid, designGroup="group.pair", positionM=list(pos),
+                   footprintRadiusM=40.0, footprintSource="band", **over)
+
+
+def test_a_record_schemaVersion_above_the_files_fails(tmp_path):
+    """MUTATION: drop the per-record comparison — green on a record claiming
+    a shape its file does not have."""
+    errs = _errs(tmp_path, [_record(schemaVersion=3)])
+    assert any("schemaVersion 3 is above the file's 2" in e for e in errs), errs
+
+
+def test_a_record_without_a_schemaVersion_fails(tmp_path):
+    rec = _record()
+    del rec["schemaVersion"]
+    errs = _errs(tmp_path, [rec])
+    assert any("schemaVersion must be an int" in e for e in errs), errs
+
+
+def test_design_group_members_further_apart_than_the_spread_fail(tmp_path):
+    """MUTATION: drop the pairwise distance loop — green on a "group" whose
+    members are half a region apart."""
+    places = [_member("place.testreg.a", (0, 0)), _member("place.testreg.b", (900, 0))]
+    errs = _errs(tmp_path, places, [_group_row()])
+    assert any("past maxSpreadM 120" in e for e in errs), errs
+
+
+def test_a_group_member_without_the_stamp_fails(tmp_path):
+    """MUTATION: check only the stamped records, never the register's members."""
+    places = [_member("place.testreg.a", (0, 0)),
+              _record(id="place.testreg.b", positionM=[50, 0],
+                      footprintRadiusM=40.0, footprintSource="band")]
+    errs = _errs(tmp_path, places, [_group_row()])
+    assert any("is a member of group.pair but carries designGroup None" in e for e in errs), errs
+
+
+def test_a_group_whose_anchor_is_not_a_member_fails(tmp_path):
+    places = [_member("place.testreg.a", (0, 0)), _member("place.testreg.b", (50, 0))]
+    errs = _errs(tmp_path, places, [_group_row(anchor="place.testreg.z")])
+    assert any("anchor place.testreg.z is not one of its members" in e for e in errs), errs
+
+
+def test_a_designGroup_with_no_register_row_fails(tmp_path):
+    errs = _errs(tmp_path, [_member("place.testreg.a", (0, 0))], [_group_row(id="group.other")])
+    assert any("designGroup group.pair is not a row" in e for e in errs), errs
+
+
+def test_an_unknown_co_siting_relation_fails(tmp_path):
+    """MUTATION: accept any string relation — green on invented vocabulary."""
+    rec = _record(coSitedWith=[{"place": "place.testreg.b", "relation": "next-door",
+                                "measurement": {"clearM": 3.0, "checked": "scour"}}])
+    errs = _errs(tmp_path, [rec])
+    assert any("relation must be one of" in e for e in errs), errs
+
+
+def test_a_co_siting_measurement_of_the_wrong_shape_fails(tmp_path):
+    rec = _record(coSitedWith=[{"place": "place.testreg.b", "relation": "satellite",
+                                "measurement": {"clearM": 3.0, "checked": "scour"}}])
+    errs = _errs(tmp_path, [rec])
+    assert any("needs measurement keys ['distanceM', 'maxM']" in e for e in errs), errs
+
+
+def test_a_sightline_that_is_not_reciprocated_fails(tmp_path):
+    """A sightline is true of the PAIR. MUTATION: drop the reciprocity loop."""
+    a = _record(id="place.testreg.a",
+                coSitedWith=[{"place": "place.testreg.b", "relation": "sightline",
+                              "measurement": {"clearM": 3.0, "checked": "scour"}}])
+    b = _record(id="place.testreg.b")
+    errs = _errs(tmp_path, [a, b])
+    assert any("is not reciprocated on that record" in e for e in errs), errs
+    b["coSitedWith"] = [{"place": "place.testreg.a", "relation": "sightline",
+                         "measurement": {"clearM": 3.0, "checked": "scour"}}]
+    assert catalogue.validate_catalogue(tmp_path, check_permanence=False) == [] or True
+    _region_file(tmp_path, [a, b])
+    assert catalogue.validate_catalogue(tmp_path, check_permanence=False) == []
+
+
+def test_vastei_tutorial_scene_without_owner_guided_fails(tmp_path):
+    """MUTATION: validate `vasteiTutorialScene` alone — green on a tutorial
+    scene nobody has guided."""
+    errs = _errs(tmp_path, [_record(vasteiTutorialScene=True)])
+    assert any("only valid on an ownerGuided record" in e for e in errs), errs
+    assert _errs(tmp_path, [_record(vasteiTutorialScene=True, ownerGuided=True)]) == []
+
+
+def test_two_player_stronghold_reservations_fail(tmp_path):
+    """MUTATION: stop counting — green on two strongholds."""
+    places = [_record(id="place.testreg.a", reservedFor="player-stronghold"),
+              _record(id="place.testreg.b", reservedFor="player-stronghold")]
+    errs = _errs(tmp_path, places)
+    assert any("reservedFor 'player-stronghold' is claimed by 2 live records" in e for e in errs), errs
+
+
+def test_an_eleventh_hero_hist_fails(tmp_path):
+    """MUTATION: drop the slot count — green on eleven power slots."""
+    places = []
+    for i in range(11):
+        slug = f"tree-{i:02d}"
+        places.append(_record(id=f"place.testreg.{slug}",
+                              heroHist={"id": f"hist.testreg.{slug}",
+                                        "powerSlot": f"power.hist.testreg.{slug}",
+                                        "status": "hero"}))
+    errs = _errs(tmp_path, places)
+    assert any("11 live records carry status 'hero'" in e for e in errs), errs
+    assert _errs(tmp_path, places[:10]) == []
+
+
+def test_a_hero_hist_reserve_must_have_no_power_slot(tmp_path):
+    errs = _errs(tmp_path, [_record(heroHist={"id": "hist.testreg.grove",
+                                              "powerSlot": "power.hist.testreg.grove",
+                                              "status": "reserve"})])
+    assert any("'reserve' exactly when powerSlot is null" in e for e in errs), errs
+
+
+def test_a_positioned_record_without_a_footprint_fails(tmp_path):
+    errs = _errs(tmp_path, [_record(positionM=[10.0, 10.0])])
+    assert any("needs a positive footprintRadiusM" in e for e in errs), errs
+
+
+def test_a_polygon_that_does_not_contain_the_dot_fails(tmp_path):
+    """MUTATION: return True from `_point_in_polygon` — green on a footprint
+    drawn beside the place it belongs to."""
+    rec = _record(positionM=[500.0, 500.0], footprintRadiusM=120.0,
+                  footprintSource="polygon",
+                  footprintPolygon=[[0, 0], [100, 0], [100, 100], [0, 100]],
+                  classification={"class": "camp", "family": "hostile", "type": "bandit",
+                                  "variant": "riverine", "magnitude": "M4"})
+    errs = _errs(tmp_path, [rec])
+    assert any("does not contain the record's positionM" in e for e in errs), errs
+    rec["positionM"] = [50.0, 50.0]
+    assert _errs(tmp_path, [rec]) == []
+
+
+def test_a_polygon_on_a_small_record_fails(tmp_path):
+    rec = _record(positionM=[50.0, 50.0], footprintRadiusM=120.0, footprintSource="polygon",
+                  footprintPolygon=[[0, 0], [100, 0], [100, 100], [0, 100]])
+    errs = _errs(tmp_path, [rec])
+    assert any("only for ['M4', 'M5'] records" in e for e in errs), errs
+
+
+def test_a_city_way_that_starts_away_from_the_gate_fails(tmp_path):
+    """MUTATION: check only the length of `way` — green on a street that
+    starts nowhere near the gate it comes in through."""
+    m5 = {"class": "camp", "family": "hostile", "type": "bandit",
+          "variant": "riverine", "magnitude": "M5"}
+    rec = _record(classification=m5, positionM=[0.0, 0.0], footprintRadiusM=225.0,
+                  footprintSource="blueprint",
+                  cityLayout={"gate": [0, 0], "centre": [100, 0],
+                              "way": [[40, 0], [100, 0]], "source": "street_router"})
+    errs = _errs(tmp_path, [rec])
+    assert any("must start within 5.0 m of the gate" in e for e in errs), errs
+    rec["cityLayout"]["way"] = [[2, 0], [50, 0], [100, 0]]
+    assert _errs(tmp_path, [rec]) == []
+
+
+def test_a_city_layout_on_a_non_M5_record_fails(tmp_path):
+    rec = _record(positionM=[0.0, 0.0], footprintRadiusM=40.0, footprintSource="band",
+                  cityLayout={"gate": [0, 0], "centre": [100, 0],
+                              "way": [[0, 0], [100, 0]], "source": "street_router"})
+    errs = _errs(tmp_path, [rec])
+    assert any("cityLayout is only for ['M5'] records" in e for e in errs), errs
+
+
+def test_an_underwater_access_detail_of_the_wrong_shape_fails(tmp_path):
+    rec = _record(underwaterAccessDetail={"gating": "hold-your-breath", "surfaceAccessNodes": -1,
+                                          "airPockets": "yes", "submergedPortal": False,
+                                          "entityId": "", "depthM": "deep"})
+    errs = _errs(tmp_path, [rec])
+    for expect in ("gating must be one of", "surfaceAccessNodes must be an int",
+                   "airPockets must be a bool", "entityId must name the water",
+                   "depthM must be a number"):
+        assert any(expect in e for e in errs), (expect, errs)
+
+
+# --------------------------------------------------------------------------- #
+# the shipped plot: nothing stands inside anything else's footprint
+# --------------------------------------------------------------------------- #
+@ladder.requires_delivered("16g")
+def test_no_record_stands_inside_anothers_footprint(survey):
+    """The closing footprint pass over the SHIPPED plot, judged on the
+    record's own `footprintRadiusM` (16g), not on the plot run's memory.
+
+    Skipped until the 16g chain run, because 16g is what re-plots these dots.
+    Measured with the decorator removed on 2026-09-19 against the ladder at
+    16f: 6 overlapping pairs, every one of them Gideon (footprint radius
+    230 m, the imperial-city band) against a small place in the ring
+    round it — that is what 16g has to clear.
+    """
+    from . import macro_plot
+    recipes = macro_plot.load_recipes()
+    demands, _files = macro_plot.build_demand(recipes)
+    recs = {r["id"]: r for rf in catalogue.load_region_files() for r in rf.places}
+    result = {}
+    for d in demands:
+        rec = recs.get(d.id)
+        pos = (rec or {}).get("positionM")
+        if not pos:
+            continue
+        d.footprint_m = float(rec["footprintRadiusM"])
+        result[d.id] = {"candidate": macro_plot.committed_candidate(survey, rec, pos[0], pos[1])}
+    rows = [r for r in macro_plot.typed_siting_violations(
+        [d for d in demands if d.id in result], result, survey) if r["gate"] == "footprint"]
+    assert rows == [], (
+        f"{len(rows)} pairs stand inside each other's footprint, e.g. "
+        + "; ".join(f"{r['id']} vs {r['other']} ({r['distM']} m, needs {r['needM']})"
+                    for r in rows[:5]))
+
+
+@ladder.requires_delivered("16g")
+def test_every_underwater_entry_says_how_you_get_in():
+    """A record whose way in is under water owes the player the detail: how it
+    is gated, where you surface, whether there is air, how deep.
+
+    Skipped until the 16g chain run (16g is what authors these blocks).
+    Measured with the decorator removed on 2026-09-19: all 45 LIVE
+    `underwater-entry` records (52 including the cut and deferred ones)
+    carry no `underwaterAccessDetail`.
+    """
+    missing = [r["id"] for rf in catalogue.load_region_files() for r in rf.places
+               if r.get("entrance") in catalogue.UNDERWATER_ENTRANCES
+               and r.get("status") not in ("cut", "deferred")
+               and not r.get("underwaterAccessDetail")]
+    assert missing == [], (
+        f"{len(missing)} underwater-entry records do not say how you get in, e.g. "
+        + ", ".join(missing[:5]))

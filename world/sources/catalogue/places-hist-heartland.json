@@ -5,6 +5,7 @@
   "places": [
     {
       "id": "place.hist-heartland.air-pocket-station-basin",
+      "schemaVersion": 2,
       "name": "The Held Breath",
       "classification": {
         "class": "transit",
@@ -129,6 +130,8 @@
         4981.8,
         2678.7
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0384",
@@ -152,8 +155,15 @@
         "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 3,
         "distanceToRouteM": 714.2,
-        "distanceToWaterM": 5.5,
-        "score": 3.96
+        "distanceToWaterM": 0.0,
+        "score": 3.96,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -204,6 +214,7 @@
     },
     {
       "id": "place.hist-heartland.alten-markmont",
+      "schemaVersion": 2,
       "name": "Alten Markmont",
       "classification": {
         "class": "settlement",
@@ -344,6 +355,8 @@
         3046.1,
         1329.8
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0311",
@@ -368,7 +381,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 490.5,
         "distanceToWaterM": 12.3,
-        "score": 5.527
+        "score": 5.527,
+        "water": {
+          "entityId": "body.1789-698",
+          "kind": "marsh-deep",
+          "levelM": 1.19,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -437,6 +457,7 @@
     },
     {
       "id": "place.hist-heartland.artisan-chime-makers",
+      "schemaVersion": 2,
       "name": "Thousand-Chimes",
       "classification": {
         "class": "settlement",
@@ -574,6 +595,8 @@
         2511.5,
         3032.5
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-057",
@@ -597,8 +620,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 11.0,
-        "score": 4.003
+        "distanceToWaterM": 5.5,
+        "score": 4.003,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -673,6 +703,7 @@
     },
     {
       "id": "place.hist-heartland.barsaebic-sub-city",
+      "schemaVersion": 2,
       "name": "The Under-Ring",
       "classification": {
         "class": "ruin",
@@ -800,6 +831,8 @@
         4948.9,
         2547.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0535",
@@ -823,8 +856,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 465.7,
-        "distanceToWaterM": 49.0,
-        "score": 3.562
+        "distanceToWaterM": 41.8,
+        "score": 3.562,
+        "water": {
+          "entityId": "body.2822-1398",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 41.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -877,6 +917,7 @@
     },
     {
       "id": "place.hist-heartland.beast-keeper-lizard-steed",
+      "schemaVersion": 2,
       "name": "Long-Stride",
       "classification": {
         "class": "lair",
@@ -1009,6 +1050,8 @@
         5850.8,
         2281.1
       ],
+      "footprintRadiusM": 175.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0533",
@@ -1032,8 +1075,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 32.9,
-        "score": 3.026
+        "distanceToWaterM": 17.3,
+        "score": 3.026,
+        "water": {
+          "entityId": "body.3189-1247",
+          "kind": "marsh-fringe",
+          "levelM": 1.23,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -1109,6 +1159,7 @@
     },
     {
       "id": "place.hist-heartland.beast-offering-flood-staying",
+      "schemaVersion": 2,
       "name": "The Staying Stone",
       "classification": {
         "class": "sacred",
@@ -1237,6 +1288,8 @@
         5365.6,
         3221.6
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0926",
@@ -1261,7 +1314,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 356.4,
         "distanceToWaterM": 0.0,
-        "score": 3.763
+        "score": 3.763,
+        "water": {
+          "entityId": "body.2933-1712",
+          "kind": "swamp",
+          "levelM": 1.09,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -1306,6 +1366,7 @@
     },
     {
       "id": "place.hist-heartland.bereaved-mnemic",
+      "schemaVersion": 2,
       "name": "Keeps-the-Egg",
       "classification": {
         "class": "settlement",
@@ -1461,6 +1522,8 @@
         4120.9,
         2442.9
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0565",
@@ -1484,8 +1547,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 5,
         "distanceToRouteM": 178.5,
-        "distanceToWaterM": 7.8,
-        "score": 3.013
+        "distanceToWaterM": 5.5,
+        "score": 3.013,
+        "water": {
+          "entityId": "body.2245-1351",
+          "kind": "backswamp",
+          "levelM": 1.04,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -1578,6 +1648,7 @@
     },
     {
       "id": "place.hist-heartland.bioluminescent-glowfen",
+      "schemaVersion": 2,
       "name": "The Lit Fen",
       "classification": {
         "class": "lone",
@@ -1707,6 +1778,8 @@
         3064.6,
         611.4
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0865",
@@ -1730,8 +1803,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 3,
         "distanceToRouteM": 11.0,
-        "distanceToWaterM": 12.3,
-        "score": 3.719
+        "distanceToWaterM": 47.2,
+        "score": 3.719,
+        "water": {
+          "entityId": "body.1690-353",
+          "kind": "marsh-deep",
+          "levelM": 9.41,
+          "season": "perennial",
+          "distanceM": 47.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -1777,6 +1857,7 @@
     },
     {
       "id": "place.hist-heartland.blackguard-hideout-raw",
+      "schemaVersion": 2,
       "name": "The Raw Hold",
       "classification": {
         "class": "camp",
@@ -1912,6 +1993,8 @@
         4702.1,
         3386.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0684",
@@ -1935,8 +2018,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 265.5,
-        "distanceToWaterM": 11.0,
-        "score": 3.71
+        "distanceToWaterM": 7.8,
+        "score": 3.71,
+        "water": {
+          "entityId": "body.2568-1847",
+          "kind": "swamp",
+          "levelM": 7.69,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -2006,6 +2096,7 @@
     },
     {
       "id": "place.hist-heartland.boardwalk-branching-many-ways",
+      "schemaVersion": 2,
       "name": "Many-Ways",
       "classification": {
         "class": "settlement",
@@ -2144,6 +2235,8 @@
         3876.8,
         2346.9
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0865",
@@ -2167,8 +2260,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 11.0,
-        "score": 4.9
+        "distanceToWaterM": 19.8,
+        "score": 4.9,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -2240,6 +2340,7 @@
     },
     {
       "id": "place.hist-heartland.bog-blight-ground-stakes",
+      "schemaVersion": 2,
       "name": "The Pulled Field",
       "classification": {
         "class": "lair",
@@ -2375,6 +2476,8 @@
         5124.3,
         3111.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0899",
@@ -2398,8 +2501,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 597.7,
-        "distanceToWaterM": 11.0,
-        "score": 3.3
+        "distanceToWaterM": 21.9,
+        "score": 3.3,
+        "water": {
+          "entityId": "body.2801-1712",
+          "kind": "marsh-fringe",
+          "levelM": 1.76,
+          "season": "perennial",
+          "distanceM": 21.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -2466,6 +2576,7 @@
     },
     {
       "id": "place.hist-heartland.bone-waystation-interior",
+      "schemaVersion": 2,
       "name": "The Carriers' Rest",
       "classification": {
         "class": "sacred",
@@ -2601,6 +2712,8 @@
         5552.1,
         1932.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0346",
@@ -2625,7 +2738,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 82.3,
         "distanceToWaterM": 21.9,
-        "score": 3.75
+        "score": 3.75,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 21.9
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -2687,6 +2807,7 @@
     },
     {
       "id": "place.hist-heartland.broken-xanmeer-subsumed",
+      "schemaVersion": 2,
       "name": "The Eaten Meer",
       "classification": {
         "class": "ruin",
@@ -2812,6 +2933,8 @@
         3148.1,
         4814.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0864",
@@ -2835,8 +2958,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 38.4,
-        "score": 3.625
+        "distanceToWaterM": 11.0,
+        "score": 3.625,
+        "water": {
+          "entityId": "body.1687-2614",
+          "kind": "swamp",
+          "levelM": 2.27,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -2896,6 +3026,7 @@
     },
     {
       "id": "place.hist-heartland.bubble-spire-collapsed",
+      "schemaVersion": 2,
       "name": "The Choked Mouth",
       "classification": {
         "class": "transit",
@@ -3083,6 +3214,8 @@
         4635.7,
         3784.5
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0549",
@@ -3106,8 +3239,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 86.7,
-        "distanceToWaterM": 7.8,
-        "score": 6.207
+        "distanceToWaterM": 24.5,
+        "score": 6.207,
+        "water": {
+          "entityId": "body.2587-2077",
+          "kind": "swamp",
+          "levelM": 4.97,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "assetGaps": [
         "Telvanni pod/tower statics retextured to root for the root-tower silhouette (BM&V mushroomtower/telvanni, retexture only, no new mesh)"
@@ -3121,6 +3261,7 @@
     },
     {
       "id": "place.hist-heartland.bubble-spire-open-helstrom",
+      "schemaVersion": 2,
       "name": "The Open Mouth",
       "classification": {
         "class": "transit",
@@ -3251,6 +3392,8 @@
         4705.1,
         3680.5
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0551",
@@ -3274,8 +3417,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 35.1,
-        "distanceToWaterM": 19.8,
-        "score": 3.867
+        "distanceToWaterM": 17.3,
+        "score": 3.867,
+        "water": {
+          "entityId": "body.2622-1997",
+          "kind": "swamp",
+          "levelM": 5.62,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -3341,6 +3491,7 @@
     },
     {
       "id": "place.hist-heartland.burn-scar-village-ash",
+      "schemaVersion": 2,
       "name": "Ash-Fence",
       "classification": {
         "class": "ruin",
@@ -3471,6 +3622,8 @@
         5508.2,
         3199.6
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0480",
@@ -3495,7 +3648,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 213.9,
         "distanceToWaterM": 5.5,
-        "score": 2.501
+        "score": 2.501,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -3554,6 +3714,7 @@
     },
     {
       "id": "place.hist-heartland.canopy-crossing-root-high",
+      "schemaVersion": 2,
       "name": "The High Root",
       "classification": {
         "class": "transit",
@@ -3680,6 +3841,8 @@
         3119.5,
         567.5
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0865",
@@ -3703,8 +3866,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 3,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 27.4,
-        "score": 4.751
+        "distanceToWaterM": 60.3,
+        "score": 4.751,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 60.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -3742,6 +3912,7 @@
     },
     {
       "id": "place.hist-heartland.canopy-crossing-rope-basin",
+      "schemaVersion": 2,
       "name": "The Basin Line",
       "classification": {
         "class": "transit",
@@ -3866,6 +4037,8 @@
         1757.5,
         4433.4
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0435",
@@ -3885,7 +4058,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 19.8,
         "distanceToWaterM": 5.5,
-        "score": 2.971
+        "score": 2.971,
+        "water": {
+          "entityId": "body.935-2382",
+          "kind": "marsh-deep",
+          "levelM": 2.16,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -3955,6 +4135,7 @@
     },
     {
       "id": "place.hist-heartland.climbable-ruin-roof-terrace",
+      "schemaVersion": 2,
       "name": "The Stepped Roof",
       "classification": {
         "class": "lone",
@@ -4080,6 +4261,8 @@
         4888.6,
         2503.2
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0684",
@@ -4103,8 +4286,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 413.1,
-        "distanceToWaterM": 98.9,
-        "score": 2.898
+        "distanceToWaterM": 98.7,
+        "score": 2.898,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 98.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4197,6 +4387,7 @@
       },
       "workflow": "plotted",
       "id": "place.hist-heartland.collapsing-pinnacle-interior",
+      "schemaVersion": 2,
       "name": "The Ripple Stack",
       "classification": {
         "class": "lair",
@@ -4298,6 +4489,8 @@
         2399.0,
         2152.3
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0536",
@@ -4322,7 +4515,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 336.4,
         "distanceToWaterM": 16.5,
-        "score": 3.16
+        "score": 3.16,
+        "water": {
+          "entityId": "body.1295-1196",
+          "kind": "marsh-deep",
+          "levelM": 1.89,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4375,6 +4575,7 @@
     },
     {
       "id": "place.hist-heartland.cult-raid-camp-unbound",
+      "schemaVersion": 2,
       "name": "The Quiet Camp",
       "classification": {
         "class": "camp",
@@ -4510,6 +4711,8 @@
         2938.6,
         4859.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0944",
@@ -4533,8 +4736,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 33.4,
-        "score": 2.879
+        "distanceToWaterM": 27.4,
+        "score": 2.879,
+        "water": {
+          "entityId": "body.1598-2619",
+          "kind": "marsh-deep",
+          "levelM": 1.92,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4597,6 +4807,7 @@
     },
     {
       "id": "place.hist-heartland.cut-and-carried",
+      "schemaVersion": 2,
       "name": "Cut-and-Carried",
       "classification": {
         "class": "settlement",
@@ -4741,6 +4952,8 @@
         6917.5,
         1439.4
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-019",
@@ -4764,8 +4977,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 400.3,
-        "distanceToWaterM": 0.0,
-        "score": 3.758
+        "distanceToWaterM": 5.5,
+        "score": 3.758,
+        "water": {
+          "entityId": "body.3776-785",
+          "kind": "marsh-fringe",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -4845,6 +5065,7 @@
     },
     {
       "id": "place.hist-heartland.daril-fermentary-interior",
+      "schemaVersion": 2,
       "name": "The Milking Shed",
       "classification": {
         "class": "works",
@@ -4976,6 +5197,8 @@
         4323.8,
         3687.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0551",
@@ -4999,8 +5222,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 201.8,
-        "distanceToWaterM": 21.9,
-        "score": 3.406
+        "distanceToWaterM": 5.5,
+        "score": 3.406,
+        "water": {
+          "entityId": "body.2365-2042",
+          "kind": "swamp",
+          "levelM": 1.54,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -5073,6 +5303,7 @@
     },
     {
       "id": "place.hist-heartland.dive-shaft-xanmeer-well",
+      "schemaVersion": 2,
       "name": "The Sunk Well",
       "classification": {
         "class": "transit",
@@ -5198,6 +5429,8 @@
         2388.1,
         2020.7
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "open water in rootland deep marsh (danger band 5), 261 m from the nearest route; at the water's edge; won on region, submerged, danger.",
       "plotFacts": {
@@ -5205,8 +5438,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 260.5,
-        "distanceToWaterM": 71.3,
-        "score": 3.147
+        "distanceToWaterM": 46.5,
+        "score": 3.147,
+        "water": {
+          "entityId": "body.1311-1112",
+          "kind": "marsh-deep",
+          "levelM": 1.96,
+          "season": "perennial",
+          "distanceM": 46.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -5259,6 +5499,7 @@
     },
     {
       "id": "place.hist-heartland.drawdown-flat-exposed",
+      "schemaVersion": 2,
       "name": "The Bared Flat",
       "classification": {
         "class": "lair",
@@ -5385,6 +5626,8 @@
         5091.4,
         1719.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.land-bridge-039",
@@ -5408,8 +5651,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 187.7,
-        "distanceToWaterM": 135.8,
-        "score": 4.322
+        "distanceToWaterM": 192.6,
+        "score": 4.322,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 192.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -5462,6 +5712,7 @@
     },
     {
       "id": "place.hist-heartland.dream-wallow-sap-pool",
+      "schemaVersion": 2,
       "name": "The Sap Wallow",
       "classification": {
         "class": "sacred",
@@ -5589,6 +5840,8 @@
         4729.5,
         3567.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0548",
@@ -5613,7 +5866,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 145.7,
         "distanceToWaterM": 5.5,
-        "score": 2.822
+        "score": 2.822,
+        "water": {
+          "entityId": "body.2591-1943",
+          "kind": "swamp",
+          "levelM": 7.31,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -5673,6 +5933,7 @@
     },
     {
       "id": "place.hist-heartland.dream-wallow-starblossom",
+      "schemaVersion": 2,
       "name": "Starblossom Hollow",
       "classification": {
         "class": "sacred",
@@ -5800,6 +6061,8 @@
         2944.1,
         619.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0684",
@@ -5823,8 +6086,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 2,
         "distanceToRouteM": 58.3,
-        "distanceToWaterM": 24.5,
-        "score": 2.358
+        "distanceToWaterM": 41.8,
+        "score": 2.358,
+        "water": {
+          "entityId": "body.1629-345",
+          "kind": "marsh-deep",
+          "levelM": 14.16,
+          "season": "perennial",
+          "distanceM": 41.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -5898,6 +6168,7 @@
     },
     {
       "id": "place.hist-heartland.drowning-narrows-current",
+      "schemaVersion": 2,
       "name": "The Pull",
       "classification": {
         "class": "lair",
@@ -6025,6 +6296,8 @@
         5146.3,
         1947.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.coastal-lagoon-salt-marsh.isthmus-059",
@@ -6048,8 +6321,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 21.9,
-        "distanceToWaterM": 21.9,
-        "score": 3.51
+        "distanceToWaterM": 66.0,
+        "score": 3.51,
+        "water": {
+          "entityId": "body.2848-1068",
+          "kind": "marsh-fringe",
+          "levelM": 3.85,
+          "season": "perennial",
+          "distanceM": 66.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6111,6 +6391,7 @@
     },
     {
       "id": "place.hist-heartland.duskfall-unmade-site",
+      "schemaVersion": 2,
       "name": "The Unmade Work",
       "classification": {
         "class": "ruin",
@@ -6243,6 +6524,8 @@
         4872.1,
         2601.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0564",
@@ -6266,8 +6549,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 510.4,
-        "distanceToWaterM": 27.4,
-        "score": 3.794
+        "distanceToWaterM": 24.5,
+        "score": 3.794,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6327,6 +6617,7 @@
     },
     {
       "id": "place.hist-heartland.falling-mage-impact",
+      "schemaVersion": 2,
       "name": "The Interrupted Flight",
       "classification": {
         "class": "lone",
@@ -6506,6 +6797,8 @@
         3759.0,
         4131.8
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0840",
@@ -6529,12 +6822,20 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 706.3,
-        "distanceToWaterM": 145.7,
-        "score": 3.639
+        "distanceToWaterM": 117.2,
+        "score": 3.639,
+        "water": {
+          "entityId": "body.2061-2336",
+          "kind": "swamp",
+          "levelM": 46.72,
+          "season": "perennial",
+          "distanceM": 117.2
+        }
       }
     },
     {
       "id": "place.hist-heartland.fenlord-tomb-deep",
+      "schemaVersion": 2,
       "name": "The Fenlord's Reach",
       "classification": {
         "class": "ruin",
@@ -6662,6 +6963,8 @@
         5288.9,
         1784.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0507",
@@ -6685,8 +6988,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 214.5,
-        "distanceToWaterM": 0.0,
-        "score": 3.661
+        "distanceToWaterM": 41.8,
+        "score": 3.661,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 41.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6747,6 +7057,7 @@
     },
     {
       "id": "place.hist-heartland.flood-high-single-rise",
+      "schemaVersion": 2,
       "name": "One-Rise",
       "classification": {
         "class": "settlement",
@@ -6930,6 +7241,7 @@
     },
     {
       "id": "place.hist-heartland.greenspring",
+      "schemaVersion": 2,
       "name": "Greenspring",
       "classification": {
         "class": "settlement",
@@ -7082,6 +7394,8 @@
         4815.1,
         1874.8
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0380",
@@ -7105,8 +7419,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 58.3,
-        "distanceToWaterM": 5.5,
-        "score": 3.483
+        "distanceToWaterM": 115.7,
+        "score": 3.483,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 115.7
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -7197,6 +7518,7 @@
     },
     {
       "id": "place.hist-heartland.guide-camp-far-shelter",
+      "schemaVersion": 2,
       "name": "The Far Shelter",
       "classification": {
         "class": "camp",
@@ -7329,6 +7651,8 @@
         2920.0,
         3254.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.rootland-deep-marsh.island-034",
@@ -7353,7 +7677,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 274.2,
         "distanceToWaterM": 7.8,
-        "score": 3.823
+        "score": 3.823,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -7406,6 +7737,7 @@
     },
     {
       "id": "place.hist-heartland.guide-camp-gate-side",
+      "schemaVersion": 2,
       "name": "Gate-Side Camp",
       "classification": {
         "class": "camp",
@@ -7551,6 +7883,8 @@
         3594.4,
         2750.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0556",
@@ -7574,8 +7908,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 137.4,
-        "distanceToWaterM": 22.6,
-        "score": 3.764
+        "distanceToWaterM": 19.8,
+        "score": 3.764,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -7643,6 +7984,7 @@
     },
     {
       "id": "place.hist-heartland.hackwing-roost-wild",
+      "schemaVersion": 2,
       "name": "The Roost",
       "classification": {
         "class": "lair",
@@ -7767,6 +8109,8 @@
         4452.7,
         3471.0
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0721",
@@ -7790,8 +8134,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 35.1,
-        "distanceToWaterM": 15.5,
-        "score": 3.482
+        "distanceToWaterM": 110.2,
+        "score": 3.482,
+        "water": {
+          "entityId": "body.2489-1903",
+          "kind": "swamp",
+          "levelM": 7.79,
+          "season": "perennial",
+          "distanceM": 110.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -7844,6 +8195,7 @@
     },
     {
       "id": "place.hist-heartland.hammock-crown-ancestor",
+      "schemaVersion": 2,
       "name": "Crown of the First Line",
       "classification": {
         "class": "sacred",
@@ -7977,6 +8329,8 @@
         2892.6,
         3106.4
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0347",
@@ -8000,8 +8354,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 5,
         "distanceToRouteM": 176.6,
-        "distanceToWaterM": 76.4,
-        "score": 4.136
+        "distanceToWaterM": 73.2,
+        "score": 4.136,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 73.2
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -8063,6 +8424,7 @@
     },
     {
       "id": "place.hist-heartland.hammock-tree-island-greenmoss",
+      "schemaVersion": 2,
       "name": "Green-Moss Hammock",
       "classification": {
         "class": "settlement",
@@ -8198,6 +8560,8 @@
         5299.8,
         2508.7
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0124",
@@ -8221,8 +8585,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 412.2,
-        "distanceToWaterM": 34.7,
-        "score": 4.212
+        "distanceToWaterM": 33.4,
+        "score": 4.212,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 33.4
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -8293,6 +8664,7 @@
     },
     {
       "id": "place.hist-heartland.harmed-hist-tapped",
+      "schemaVersion": 2,
       "name": "The Bled Tree",
       "classification": {
         "class": "sacred",
@@ -8429,6 +8801,8 @@
         2185.2,
         4367.6
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.tropical-jungle.ford-059",
@@ -8452,8 +8826,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 184.3,
-        "distanceToWaterM": 62.0,
-        "score": 1.855
+        "distanceToWaterM": 102.4,
+        "score": 1.855,
+        "water": {
+          "entityId": "body.1208-2442",
+          "kind": "marsh-deep",
+          "levelM": 10.29,
+          "season": "perennial",
+          "distanceM": 102.4
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -8524,6 +8905,7 @@
     },
     {
       "id": "place.hist-heartland.helstrom",
+      "schemaVersion": 2,
       "name": "Helstrom",
       "classification": {
         "class": "settlement",
@@ -8713,6 +9095,8 @@
         3465.5,
         2801.9
       ],
+      "footprintRadiusM": 230.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'helstrom' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -8720,8 +9104,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 5,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 0.0,
-        "score": null
+        "distanceToWaterM": 21.9,
+        "score": null,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 21.9
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -8840,6 +9231,7 @@
     },
     {
       "id": "place.hist-heartland.heretic-stone-restarted",
+      "schemaVersion": 2,
       "name": "The Restarted Work",
       "classification": {
         "class": "settlement",
@@ -8982,6 +9374,8 @@
         4499.2,
         3731.5
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0548",
@@ -9005,8 +9399,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 54.0,
-        "distanceToWaterM": 7.8,
-        "score": 2.983
+        "distanceToWaterM": 0.0,
+        "score": 2.983,
+        "water": {
+          "entityId": "body.2365-2042",
+          "kind": "swamp",
+          "levelM": 1.54,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -9081,6 +9482,7 @@
     },
     {
       "id": "place.hist-heartland.hermit-hut-exile-warden",
+      "schemaVersion": 2,
       "name": "The Set-Aside Hut",
       "classification": {
         "class": "lone",
@@ -9212,6 +9614,8 @@
         4789.9,
         2366.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0478",
@@ -9235,8 +9639,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 4,
         "distanceToRouteM": 278.6,
-        "distanceToWaterM": 60.3,
-        "score": 3.99
+        "distanceToWaterM": 55.1,
+        "score": 3.99,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 55.1
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -9290,6 +9701,7 @@
     },
     {
       "id": "place.hist-heartland.hermit-hut-mad-basin",
+      "schemaVersion": 2,
       "name": "The Talker",
       "classification": {
         "class": "lone",
@@ -9421,6 +9833,8 @@
         3018.7,
         3342.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0476",
@@ -9444,8 +9858,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 213.9,
-        "distanceToWaterM": 34.7,
-        "score": 3.361
+        "distanceToWaterM": 32.9,
+        "score": 3.361,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 32.9
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -9499,6 +9920,7 @@
     },
     {
       "id": "place.hist-heartland.hist-agaceph-needle",
+      "schemaVersion": 2,
       "name": "Needle-Crown, the Agaceph Hist",
       "classification": {
         "class": "sacred",
@@ -9621,6 +10043,7 @@
       "heroHist": {
         "id": "hist.hist-heartland.hist-agaceph-needle",
         "powerSlot": "power.hist.hist-heartland.hist-agaceph-needle",
+        "status": "hero",
         "note": "Hero Hist 6/10. EXTRAPOLATED under hist-placement R1/R6: the Agaceph's own tree, its gloor producing the needle-faced, rainbow-scaled morphology canon gives them.",
         "kind": "tribal Hist"
       },
@@ -9640,6 +10063,8 @@
         3462.8,
         1878.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0312",
@@ -9663,8 +10088,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 659.3,
-        "distanceToWaterM": 0.0,
-        "score": 3.109
+        "distanceToWaterM": 5.5,
+        "score": 3.109,
+        "water": {
+          "entityId": "body.1999-999",
+          "kind": "lake-lowland",
+          "levelM": 9.14,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -9711,6 +10143,7 @@
     },
     {
       "id": "place.hist-heartland.hist-first-rain-trunk",
+      "schemaVersion": 2,
       "name": "First-Rain Trunk",
       "classification": {
         "class": "sacred",
@@ -9838,6 +10271,7 @@
         "id": "hist.hist-heartland.hist-first-rain-trunk",
         "kind": "grove, reserve",
         "powerSlot": null,
+        "status": "reserve",
         "note": "Register grove of hero rank, but NOT one of the ten power slots — reserve. The three canon interior peoples (Agaceph, Paatru, Sarpa) hold the interior's three slots; this fourth grove stands as a swap candidate."
       },
       "season": "all-year",
@@ -9856,6 +10290,8 @@
         3874.1,
         4543.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0312",
@@ -9879,8 +10315,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 807.7,
-        "distanceToWaterM": 97.2,
-        "score": 3.26
+        "distanceToWaterM": 58.3,
+        "score": 3.26,
+        "water": {
+          "entityId": "body.2091-2461",
+          "kind": "swamp",
+          "levelM": 44.3,
+          "season": "perennial",
+          "distanceM": 58.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -9933,6 +10376,7 @@
     },
     {
       "id": "place.hist-heartland.hist-less-refuge-wild",
+      "schemaVersion": 2,
       "name": "No-Tree Camp",
       "classification": {
         "class": "settlement",
@@ -10072,6 +10516,8 @@
         3391.6,
         1993.3
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0344",
@@ -10096,7 +10542,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 582.9,
         "distanceToWaterM": 50.6,
-        "score": 4.015
+        "score": 4.015,
+        "water": {
+          "entityId": "body.1888-1088",
+          "kind": "marsh-deep",
+          "levelM": 9.96,
+          "season": "perennial",
+          "distanceM": 50.6
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -10176,6 +10629,7 @@
     },
     {
       "id": "place.hist-heartland.hist-paatru-lowcrown",
+      "schemaVersion": 2,
       "name": "Low-Crown, the Paatru Hist",
       "classification": {
         "class": "sacred",
@@ -10299,6 +10753,7 @@
       "heroHist": {
         "id": "hist.hist-heartland.hist-paatru-lowcrown",
         "powerSlot": "power.hist.hist-heartland.hist-paatru-lowcrown",
+        "status": "hero",
         "note": "Hero Hist 7/10. EXTRAPOLATED under hist-placement R1/R6: the Paatru's tree, its gloor producing the toad-like morphology canon gives them.",
         "kind": "tribal Hist"
       },
@@ -10318,6 +10773,8 @@
         2640.3,
         2344.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0312",
@@ -10341,8 +10798,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 499.5,
-        "distanceToWaterM": 5.5,
-        "score": 3.078
+        "distanceToWaterM": 7.8,
+        "score": 3.078,
+        "water": {
+          "entityId": "body.1448-1283",
+          "kind": "marsh-deep",
+          "levelM": 1.41,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -10389,6 +10853,7 @@
     },
     {
       "id": "place.hist-heartland.hist-sarpa-highflower",
+      "schemaVersion": 2,
       "name": "High-Flower, the Sarpa Hist",
       "classification": {
         "class": "sacred",
@@ -10512,6 +10977,7 @@
       "heroHist": {
         "id": "hist.hist-heartland.hist-sarpa-highflower",
         "powerSlot": "power.hist.hist-heartland.hist-sarpa-highflower",
+        "status": "hero",
         "note": "Hero Hist 8/10. EXTRAPOLATED under hist-placement R1/R6: the Sarpa's tree, its gloor producing the winged morphology canon gives them.",
         "kind": "tribal Hist"
       },
@@ -10531,6 +10997,8 @@
         2634.8,
         3161.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0312",
@@ -10554,8 +11022,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 77.9,
-        "distanceToWaterM": 21.9,
-        "score": 2.947
+        "distanceToWaterM": 11.0,
+        "score": 2.947,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -10602,6 +11077,7 @@
     },
     {
       "id": "place.hist-heartland.insular-hereditary-watch",
+      "schemaVersion": 2,
       "name": "The Kept Line",
       "classification": {
         "class": "settlement",
@@ -10739,6 +11215,8 @@
         3270.9,
         1856.2
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0123",
@@ -10762,8 +11240,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 736.9,
-        "distanceToWaterM": 16.5,
-        "score": 3.235
+        "distanceToWaterM": 12.3,
+        "score": 3.235,
+        "water": {
+          "entityId": "body.1797-953",
+          "kind": "marsh-deep",
+          "levelM": 5.78,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -10832,6 +11317,7 @@
     },
     {
       "id": "place.hist-heartland.legendary-deep-medusa-wood",
+      "schemaVersion": 2,
       "name": "Medusa Wood",
       "classification": {
         "class": "lair",
@@ -10960,6 +11446,8 @@
         5234.0,
         3122.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0378",
@@ -10983,8 +11471,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 3,
         "distanceToRouteM": 488.1,
-        "distanceToWaterM": 71.3,
-        "score": 3.767
+        "distanceToWaterM": 0.0,
+        "score": 3.767,
+        "water": {
+          "entityId": "body.2834-1825",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11046,6 +11541,8 @@
     },
     {
       "id": "place.hist-heartland.lost-city",
+      "schemaVersion": 2,
+      "designGroup": "group.lost-city",
       "name": "The Lost City",
       "classification": {
         "class": "ruin",
@@ -11200,6 +11697,8 @@
         5261.4,
         3243.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "enclosed clearing in fringe marsh (danger band 3), 447 m from the nearest route; its first-choice landform; won on culture-clump, landform, region.",
       "plotFacts": {
@@ -11207,8 +11706,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 447.4,
-        "distanceToWaterM": 0.0,
-        "score": 3.642
+        "distanceToWaterM": 5.5,
+        "score": 3.642,
+        "water": {
+          "entityId": "body.2878-1772",
+          "kind": "marsh-fringe",
+          "levelM": 1.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -11309,6 +11815,7 @@
     },
     {
       "id": "place.hist-heartland.marsh-giant-ground-basin",
+      "schemaVersion": 2,
       "name": "The Wading Ground",
       "classification": {
         "class": "lair",
@@ -11436,6 +11943,8 @@
         4219.6,
         1927.5
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0899",
@@ -11459,8 +11968,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 97.6,
-        "distanceToWaterM": 42.8,
-        "score": 1.519
+        "distanceToWaterM": 34.7,
+        "score": 1.519,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 34.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11526,6 +12042,7 @@
     },
     {
       "id": "place.hist-heartland.mass-grave-flu-memorial",
+      "schemaVersion": 2,
       "name": "The Counting Field",
       "classification": {
         "class": "sacred",
@@ -11655,6 +12172,8 @@
         2766.4,
         3100.9
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0347",
@@ -11678,8 +12197,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 5,
         "distanceToRouteM": 58.3,
-        "distanceToWaterM": 32.9,
-        "score": 4.375
+        "distanceToWaterM": 12.3,
+        "score": 4.375,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -11726,6 +12252,7 @@
     },
     {
       "id": "place.hist-heartland.maturity-trial-chukka-sei",
+      "schemaVersion": 2,
       "name": "The Chukka-Sei Ground",
       "classification": {
         "class": "sacred",
@@ -11858,6 +12385,8 @@
         5472.5,
         1710.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0480",
@@ -11881,8 +12410,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 36.8,
-        "distanceToWaterM": 5.5,
-        "score": 2.336
+        "distanceToWaterM": 27.4,
+        "score": 2.336,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11935,6 +12471,7 @@
     },
     {
       "id": "place.hist-heartland.memorial-stone-personal-guide",
+      "schemaVersion": 2,
       "name": "Kaal-Meen's Stone",
       "classification": {
         "class": "lone",
@@ -12063,6 +12600,8 @@
         4175.7,
         1664.2
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.headland-014",
@@ -12087,7 +12626,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 237.3,
         "distanceToWaterM": 0.0,
-        "score": 4.491
+        "score": 4.491,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -12134,6 +12680,7 @@
     },
     {
       "id": "place.hist-heartland.miregaunt-ground-slow-ground",
+      "schemaVersion": 2,
       "name": "The Slow Ground",
       "classification": {
         "class": "lair",
@@ -12313,6 +12860,8 @@
         2453.9,
         2651.3
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0521",
@@ -12336,12 +12885,20 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 302.2,
-        "distanceToWaterM": 58.3,
-        "score": 4.149
+        "distanceToWaterM": 54.0,
+        "score": 4.149,
+        "water": {
+          "entityId": "body.1381-1448",
+          "kind": "marsh-deep",
+          "levelM": 1.14,
+          "season": "perennial",
+          "distanceM": 54.0
+        }
       }
     },
     {
       "id": "place.hist-heartland.miregaunt-ward-approach",
+      "schemaVersion": 2,
       "name": "The Ward",
       "classification": {
         "class": "lair",
@@ -12475,6 +13032,8 @@
         2618.4,
         2196.1
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0390",
@@ -12498,8 +13057,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 5,
         "distanceToRouteM": 537.1,
-        "distanceToWaterM": 28.0,
-        "score": 5.231
+        "distanceToWaterM": 138.8,
+        "score": 5.231,
+        "water": {
+          "entityId": "body.1571-1249",
+          "kind": "marsh-deep",
+          "levelM": 0.66,
+          "season": "perennial",
+          "distanceM": 138.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -12553,6 +13119,7 @@
     },
     {
       "id": "place.hist-heartland.mist-locked-hollow-basin",
+      "schemaVersion": 2,
       "name": "The Held Mist",
       "classification": {
         "class": "lone",
@@ -12679,6 +13246,8 @@
         3106.4,
         4707.6
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0714",
@@ -12702,8 +13271,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 136.2,
-        "distanceToWaterM": 49.4,
-        "score": 3.179
+        "distanceToWaterM": 22.6,
+        "score": 3.179,
+        "water": {
+          "entityId": "body.1687-2614",
+          "kind": "swamp",
+          "levelM": 2.27,
+          "season": "perennial",
+          "distanceM": 22.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -12764,6 +13340,7 @@
     },
     {
       "id": "place.hist-heartland.naga-lay-up-second-man",
+      "schemaVersion": 2,
       "name": "Waits-For-The-Second-Man",
       "classification": {
         "class": "camp",
@@ -12961,6 +13538,8 @@
         3863.1,
         2053.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0397",
@@ -12984,12 +13563,20 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 270.9,
-        "distanceToWaterM": 27.4,
-        "score": 5.116
+        "distanceToWaterM": 36.8,
+        "score": 5.116,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 36.8
+        }
       }
     },
     {
       "id": "place.hist-heartland.necropolis-dead-tenders",
+      "schemaVersion": 2,
       "name": "The Tenders' Village",
       "classification": {
         "class": "settlement",
@@ -13140,6 +13727,8 @@
         7125.8,
         1318.8
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0300",
@@ -13163,8 +13752,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 608.7,
-        "distanceToWaterM": 0.0,
-        "score": 3.857
+        "distanceToWaterM": 12.3,
+        "score": 3.857,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -13241,6 +13837,7 @@
     },
     {
       "id": "place.hist-heartland.nightbound-lightless",
+      "schemaVersion": 2,
       "name": "The Lightless Village",
       "classification": {
         "class": "settlement",
@@ -13382,6 +13979,8 @@
         3424.5,
         1669.7
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0375",
@@ -13405,8 +14004,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 502.7,
-        "distanceToWaterM": 39.5,
-        "score": 3.168
+        "distanceToWaterM": 94.3,
+        "score": 3.168,
+        "water": {
+          "entityId": "body.1913-853",
+          "kind": "marsh-deep",
+          "levelM": 19.99,
+          "season": "perennial",
+          "distanceM": 94.3
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -13467,6 +14073,7 @@
     },
     {
       "id": "place.hist-heartland.nine-trunks",
+      "schemaVersion": 2,
       "name": "Nine-Trunks",
       "classification": {
         "class": "settlement",
@@ -13611,6 +14218,8 @@
         4972.9,
         3755.9
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [],
       "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.nine-trunks.json): A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
       "plotFacts": {
@@ -13618,8 +14227,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 116.6,
-        "distanceToWaterM": 42.8,
-        "score": null
+        "distanceToWaterM": 56.5,
+        "score": null,
+        "water": {
+          "entityId": "body.2760-2066",
+          "kind": "marsh-fringe",
+          "levelM": 1.79,
+          "season": "perennial",
+          "distanceM": 56.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -13685,6 +14301,7 @@
     },
     {
       "id": "place.hist-heartland.nisswo-rest-house-interior",
+      "schemaVersion": 2,
       "name": "The Turning House",
       "classification": {
         "class": "sacred",
@@ -13813,6 +14430,8 @@
         4293.0,
         1486.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0346",
@@ -13836,8 +14455,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 69.4,
-        "distanceToWaterM": 23.3,
-        "score": 4.395
+        "distanceToWaterM": 19.8,
+        "score": 4.395,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -13901,6 +14527,7 @@
     },
     {
       "id": "place.hist-heartland.officeholder-grave-singer-house",
+      "schemaVersion": 2,
       "name": "The Singer's House",
       "classification": {
         "class": "lone",
@@ -14029,6 +14656,8 @@
         3402.5,
         3731.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0343",
@@ -14052,8 +14681,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 5,
         "distanceToRouteM": 180.4,
-        "distanceToWaterM": 85.7,
-        "score": 4.319
+        "distanceToWaterM": 139.8,
+        "score": 4.319,
+        "water": {
+          "entityId": "body.1827-1970",
+          "kind": "marsh-deep",
+          "levelM": 24.27,
+          "season": "perennial",
+          "distanceM": 139.8
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -14107,6 +14743,7 @@
     },
     {
       "id": "place.hist-heartland.officeholder-tree-minder-house",
+      "schemaVersion": 2,
       "name": "The Minder's House",
       "classification": {
         "class": "lone",
@@ -14237,6 +14874,8 @@
         4540.3,
         1634.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0344",
@@ -14260,8 +14899,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 12.3,
-        "score": 3.986
+        "distanceToWaterM": 15.5,
+        "score": 3.986,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 15.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -14321,6 +14967,7 @@
     },
     {
       "id": "place.hist-heartland.pilgrim-camp-hist-tsoko",
+      "schemaVersion": 2,
       "name": "Tsoko Camp",
       "classification": {
         "class": "camp",
@@ -14451,6 +15098,8 @@
         5146.3,
         1587.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0480",
@@ -14474,8 +15123,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 327.2,
-        "distanceToWaterM": 165.0,
-        "score": 3.549
+        "distanceToWaterM": 162.4,
+        "score": 3.549,
+        "water": {
+          "entityId": "body.2899-881",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 162.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -14522,6 +15178,7 @@
     },
     {
       "id": "place.hist-heartland.pilgrim-camp-sap-road",
+      "schemaVersion": 2,
       "name": "The Sap Road Camp",
       "classification": {
         "class": "camp",
@@ -14655,6 +15312,8 @@
         3062.5,
         4647.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0971",
@@ -14678,8 +15337,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 118.6,
-        "distanceToWaterM": 46.5,
-        "score": 4.019
+        "distanceToWaterM": 12.3,
+        "score": 4.019,
+        "water": {
+          "entityId": "body.1678-2550",
+          "kind": "swamp",
+          "levelM": 3.93,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -14726,6 +15392,7 @@
     },
     {
       "id": "place.hist-heartland.platform-ladder-tower-watch",
+      "schemaVersion": 2,
       "name": "The Counting Tower",
       "classification": {
         "class": "transit",
@@ -14849,6 +15516,8 @@
         4364.3,
         3559.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0123",
@@ -14872,8 +15541,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 5,
         "distanceToRouteM": 83.9,
-        "distanceToWaterM": 24.5,
-        "score": 3.058
+        "distanceToWaterM": 15.5,
+        "score": 3.058,
+        "water": {
+          "entityId": "body.2385-1966",
+          "kind": "swamp",
+          "levelM": 2.25,
+          "season": "perennial",
+          "distanceM": 15.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -14912,6 +15588,7 @@
     },
     {
       "id": "place.hist-heartland.poacher-camp-sap",
+      "schemaVersion": 2,
       "name": "The Tapping Camp",
       "classification": {
         "class": "camp",
@@ -15044,6 +15721,8 @@
         2135.8,
         1979.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0388",
@@ -15067,8 +15746,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 58.3,
-        "distanceToWaterM": 62.5,
-        "score": 2.98
+        "distanceToWaterM": 45.2,
+        "score": 2.98,
+        "water": {
+          "entityId": "body.1218-1116",
+          "kind": "marsh-deep",
+          "levelM": 1.51,
+          "season": "perennial",
+          "distanceM": 45.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -15134,6 +15820,7 @@
     },
     {
       "id": "place.hist-heartland.porter-relay-poling",
+      "schemaVersion": 2,
       "name": "The Poling Relay",
       "classification": {
         "class": "works",
@@ -15282,6 +15969,8 @@
         4735.0,
         1170.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0208",
@@ -15306,7 +15995,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 395.6,
         "distanceToWaterM": 0.0,
-        "score": 6.254
+        "score": 6.254,
+        "water": {
+          "entityId": "reach.2579-586",
+          "kind": "sloped-rapid",
+          "levelM": 145.9,
+          "season": "seasonal",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -15371,6 +16067,7 @@
     },
     {
       "id": "place.hist-heartland.refuge-station-interior",
+      "schemaVersion": 2,
       "name": "The Kept Refuge",
       "classification": {
         "class": "civic",
@@ -15509,6 +16206,8 @@
         2563.5,
         1664.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0372",
@@ -15532,8 +16231,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 275.5,
-        "distanceToWaterM": 116.3,
-        "score": 3.368
+        "distanceToWaterM": 112.5,
+        "score": 3.368,
+        "water": {
+          "entityId": "body.1458-964",
+          "kind": "backswamp",
+          "levelM": 13.29,
+          "season": "perennial",
+          "distanceM": 112.5
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -15588,6 +16294,7 @@
     },
     {
       "id": "place.hist-heartland.root-gallery-collapsed-nine",
+      "schemaVersion": 2,
       "name": "The Fallen Nine",
       "classification": {
         "class": "lair",
@@ -15721,6 +16428,8 @@
         1845.2,
         4296.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0452",
@@ -15745,7 +16454,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 149.2,
         "distanceToWaterM": 28.0,
-        "score": 3.275
+        "score": 3.275,
+        "water": {
+          "entityId": "body.1029-2301",
+          "kind": "marsh-deep",
+          "levelM": 3.24,
+          "season": "perennial",
+          "distanceM": 28.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -15799,6 +16515,7 @@
     },
     {
       "id": "place.hist-heartland.root-gallery-cult-warren",
+      "schemaVersion": 2,
       "name": "The Severed Branch",
       "classification": {
         "class": "lair",
@@ -15947,6 +16664,8 @@
         3830.2,
         4406.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0944",
@@ -15970,8 +16689,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 860.9,
-        "distanceToWaterM": 46.9,
-        "score": 3.146
+        "distanceToWaterM": 93.2,
+        "score": 3.146,
+        "water": {
+          "entityId": "body.2091-2461",
+          "kind": "swamp",
+          "levelM": 44.3,
+          "season": "perennial",
+          "distanceM": 93.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -16041,6 +16767,7 @@
     },
     {
       "id": "place.hist-heartland.root-gallery-deep-throat",
+      "schemaVersion": 2,
       "name": "The Long Throat",
       "classification": {
         "class": "lair",
@@ -16173,6 +16900,8 @@
         5014.7,
         3270.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0749",
@@ -16197,7 +16926,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 538.4,
         "distanceToWaterM": 24.5,
-        "score": 3.357
+        "score": 3.357,
+        "water": {
+          "entityId": "body.2732-1769",
+          "kind": "marsh-fringe",
+          "levelM": 2.6,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -16250,6 +16986,7 @@
     },
     {
       "id": "place.hist-heartland.root-gallery-drowned-stair",
+      "schemaVersion": 2,
       "name": "The Drowned Stair",
       "classification": {
         "class": "lair",
@@ -16388,6 +17125,8 @@
         2673.2,
         4998.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.tropical-jungle.water-narrows-022",
@@ -16412,7 +17151,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 381.8,
         "distanceToWaterM": 0.0,
-        "score": 3.049
+        "score": 3.049,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -16465,6 +17211,7 @@
     },
     {
       "id": "place.hist-heartland.root-gallery-helstrom-underway",
+      "schemaVersion": 2,
       "name": "The Underway",
       "classification": {
         "class": "lair",
@@ -16611,6 +17358,8 @@
         3451.9,
         2892.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0958",
@@ -16635,7 +17384,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 5.5,
         "distanceToWaterM": 32.9,
-        "score": 2.894
+        "score": 2.894,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 32.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -16710,6 +17466,7 @@
     },
     {
       "id": "place.hist-heartland.root-gallery-kept-light",
+      "schemaVersion": 2,
       "name": "The Kept Light",
       "classification": {
         "class": "lair",
@@ -16901,6 +17658,8 @@
         2470.3,
         3534.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in firm lowland (danger band 5), 389 m from the nearest route; no free 'hollow' site was left in the zone, so plain ground; won on culture-clump, nearPoint, parent.",
       "plotFacts": {
@@ -16908,12 +17667,20 @@
         "regionClass": "firm lowland",
         "dangerBand": 5,
         "distanceToRouteM": 389.5,
-        "distanceToWaterM": 216.9,
-        "score": 2.78
+        "distanceToWaterM": 224.0,
+        "score": 2.78,
+        "water": {
+          "entityId": "body.1228-1981",
+          "kind": "marsh-deep",
+          "levelM": 23.21,
+          "season": "perennial",
+          "distanceM": 224.0
+        }
       }
     },
     {
       "id": "place.hist-heartland.root-gallery-lantern-hollow",
+      "schemaVersion": 2,
       "name": "Lantern Hollow",
       "classification": {
         "class": "lair",
@@ -17044,6 +17811,8 @@
         2464.8,
         2399.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0864",
@@ -17067,8 +17836,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 315.8,
-        "distanceToWaterM": 12.3,
-        "score": 3.195
+        "distanceToWaterM": 11.0,
+        "score": 3.195,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17149,6 +17925,7 @@
     },
     {
       "id": "place.hist-heartland.root-talk-ground",
+      "schemaVersion": 2,
       "name": "The Root Talk Ground",
       "classification": {
         "class": "sacred",
@@ -17303,6 +18080,8 @@
         3561.5,
         4005.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0548",
@@ -17326,8 +18105,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 495.4,
-        "distanceToWaterM": 43.9,
-        "score": 3.485
+        "distanceToWaterM": 32.9,
+        "score": 3.485,
+        "water": {
+          "entityId": "body.1954-2136",
+          "kind": "swamp",
+          "levelM": 31.81,
+          "season": "perennial",
+          "distanceM": 32.9
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -17383,6 +18169,7 @@
     },
     {
       "id": "place.hist-heartland.rootworm-burrow-dead",
+      "schemaVersion": 2,
       "name": "The Emptied Bore",
       "classification": {
         "class": "lair",
@@ -17509,6 +18296,8 @@
         2015.2,
         4225.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0343",
@@ -17532,8 +18321,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 32.0,
-        "distanceToWaterM": 31.0,
-        "score": 3.305
+        "distanceToWaterM": 44.2,
+        "score": 3.305,
+        "water": {
+          "entityId": "body.1029-2301",
+          "kind": "marsh-deep",
+          "levelM": 3.24,
+          "season": "perennial",
+          "distanceM": 44.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17593,6 +18389,7 @@
     },
     {
       "id": "place.hist-heartland.rootworm-burrow-live",
+      "schemaVersion": 2,
       "name": "The Working Burrow",
       "classification": {
         "class": "lair",
@@ -17716,6 +18513,8 @@
         5283.4,
         2782.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0564",
@@ -17739,8 +18538,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 438.7,
-        "distanceToWaterM": 24.5,
-        "score": 3.699
+        "distanceToWaterM": 19.8,
+        "score": 3.699,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17799,6 +18605,7 @@
     },
     {
       "id": "place.hist-heartland.rootworm-station-helstrom",
+      "schemaVersion": 2,
       "name": "The Helstrom Line-Head",
       "classification": {
         "class": "transit",
@@ -17956,6 +18763,8 @@
         3249.0,
         2711.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-024",
@@ -17980,7 +18789,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 98.9,
         "distanceToWaterM": 74.6,
-        "score": 4.117
+        "score": 4.117,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 74.6
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -18044,6 +18860,7 @@
     },
     {
       "id": "place.hist-heartland.sap-collection-facility-daedric",
+      "schemaVersion": 2,
       "name": "The Bleeding House",
       "classification": {
         "class": "ruin",
@@ -18185,6 +19002,8 @@
         3835.7,
         4285.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0389",
@@ -18208,8 +19027,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 876.1,
-        "distanceToWaterM": 88.4,
-        "score": 3.108
+        "distanceToWaterM": 47.2,
+        "score": 3.108,
+        "water": {
+          "entityId": "body.2061-2336",
+          "kind": "swamp",
+          "levelM": 46.72,
+          "season": "perennial",
+          "distanceM": 47.2
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18278,6 +19104,7 @@
     },
     {
       "id": "place.hist-heartland.sap-tapping-licensed",
+      "schemaVersion": 2,
       "name": "The Licensed Stage",
       "classification": {
         "class": "works",
@@ -18417,6 +19244,8 @@
         3435.6,
         4480.6
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [],
       "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc; every parcel stands dry: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 30.81 m. Road 526 m to the south-west. Canopy closure 1.00; concealment 0.74. The camp keeps this bank. Its landing stands elsewhere. The water at the foot of the camp is an 882 m2 pocket bounded x 3327-3433, z 4453-4507, connected to nothing, on a reach that falls 6.3% over 463 m, so a canoe floating there can go nowhere. The berth moved 357 m on bearing 201 to (3309.4, 4815.0), the head of the tide, which the recipe's satellite slot already asks for at 200 to 400 m. See dossier licensed-stage-layby.",
       "plotFacts": {
@@ -18425,7 +19254,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 524.8,
         "distanceToWaterM": 16.5,
-        "score": null
+        "score": null,
+        "water": {
+          "entityId": "reach.1879-2437",
+          "kind": "sloped-rapid",
+          "levelM": 29.84,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -18491,6 +19327,7 @@
     },
     {
       "id": "place.hist-heartland.sap-touched-miredancer",
+      "schemaVersion": 2,
       "name": "Miredance",
       "classification": {
         "class": "lair",
@@ -18625,6 +19462,8 @@
         4463.5,
         3580.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0684",
@@ -18648,8 +19487,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 47.2,
-        "score": 3.276
+        "distanceToWaterM": 36.8,
+        "score": 3.276,
+        "water": {
+          "entityId": "body.2365-2042",
+          "kind": "swamp",
+          "levelM": 1.54,
+          "season": "perennial",
+          "distanceM": 36.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18724,6 +19570,7 @@
     },
     {
       "id": "place.hist-heartland.sealed-xanmeer-living",
+      "schemaVersion": 2,
       "name": "Xal-Ussep",
       "classification": {
         "class": "ruin",
@@ -18846,6 +19693,7 @@
       "heroHist": {
         "id": "hist.hist-heartland.sealed-xanmeer-living",
         "powerSlot": "power.hist.hist-heartland.sealed-xanmeer-living",
+        "status": "hero",
         "note": "Hero Hist 9/10. Sealed xanmeer Hist — alive, walled into its own Hist chamber and alone for millennia. Power slot granted only on release. hist-placement §3 caps living sealed trees at two or three province-wide.",
         "kind": "sealed / xanmeer Hist"
       },
@@ -18879,6 +19727,8 @@
         2475.8,
         2026.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0944",
@@ -18902,8 +19752,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 330.2,
-        "distanceToWaterM": 79.1,
-        "score": 2.419
+        "distanceToWaterM": 91.9,
+        "score": 2.419,
+        "water": {
+          "entityId": "body.1401-1091",
+          "kind": "marsh-deep",
+          "levelM": 3.02,
+          "season": "perennial",
+          "distanceM": 91.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18965,6 +19822,7 @@
     },
     {
       "id": "place.hist-heartland.serpent-ground-giant-snake",
+      "schemaVersion": 2,
       "name": "The Coiling Reach",
       "classification": {
         "class": "lair",
@@ -19087,6 +19945,8 @@
         2020.7,
         2059.1
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0343",
@@ -19111,7 +19971,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 66.7,
         "distanceToWaterM": 11.0,
-        "score": 3.764
+        "score": 3.764,
+        "water": {
+          "entityId": "body.1104-1096",
+          "kind": "marsh-deep",
+          "levelM": 1.96,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -19164,6 +20031,7 @@
     },
     {
       "id": "place.hist-heartland.sinkhole-mouth-basin",
+      "schemaVersion": 2,
       "name": "The Swallow",
       "classification": {
         "class": "lone",
@@ -19292,6 +20160,8 @@
         5360.1,
         1938.4
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0564",
@@ -19315,8 +20185,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 155.1,
-        "distanceToWaterM": 12.3,
-        "score": 3.14
+        "distanceToWaterM": 27.4,
+        "score": 3.14,
+        "water": {
+          "entityId": "body.2848-1068",
+          "kind": "marsh-fringe",
+          "levelM": 3.85,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -19377,6 +20254,7 @@
     },
     {
       "id": "place.hist-heartland.sleeping-in-the-ring",
+      "schemaVersion": 2,
       "name": "Sleeps-In-The-Ring",
       "classification": {
         "class": "ruin",
@@ -19512,6 +20390,8 @@
         5236.1,
         2009.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.islet-040",
@@ -19535,8 +20415,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 27.4,
-        "score": 3.494
+        "distanceToWaterM": 5.5,
+        "score": 3.494,
+        "water": {
+          "entityId": "body.2848-1068",
+          "kind": "marsh-fringe",
+          "levelM": 3.85,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -19610,6 +20497,7 @@
     },
     {
       "id": "place.hist-heartland.squatted-ruin-home-hollow",
+      "schemaVersion": 2,
       "name": "The Hollow House",
       "classification": {
         "class": "lone",
@@ -19738,6 +20626,8 @@
         4551.9,
         3492.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0343",
@@ -19761,8 +20651,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 85.3,
-        "distanceToWaterM": 0.0,
-        "score": 3.411
+        "distanceToWaterM": 15.5,
+        "score": 3.411,
+        "water": {
+          "entityId": "body.2489-1903",
+          "kind": "swamp",
+          "levelM": 7.79,
+          "season": "perennial",
+          "distanceM": 15.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -19824,6 +20721,7 @@
     },
     {
       "id": "place.hist-heartland.standing-curiosity-unexplained",
+      "schemaVersion": 2,
       "name": "The Standing Thing",
       "classification": {
         "class": "lone",
@@ -19953,6 +20851,8 @@
         5025.6,
         2442.9
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0479",
@@ -19976,8 +20876,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 392.4,
-        "distanceToWaterM": 27.4,
-        "score": 3.882
+        "distanceToWaterM": 54.0,
+        "score": 3.882,
+        "water": {
+          "entityId": "body.2822-1398",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 54.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -20037,6 +20944,7 @@
     },
     {
       "id": "place.hist-heartland.stilt-channel-edge-two-poles",
+      "schemaVersion": 2,
       "name": "Two-Poles",
       "classification": {
         "class": "settlement",
@@ -20177,6 +21085,8 @@
         5645.3,
         2064.5
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.tidal-delta.water-narrows-013",
@@ -20200,8 +21110,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 42.8,
-        "distanceToWaterM": 21.9,
-        "score": 4.519
+        "distanceToWaterM": 17.3,
+        "score": 4.519,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -20276,6 +21193,7 @@
     },
     {
       "id": "place.hist-heartland.stilt-channel-edge-uxaneet",
+      "schemaVersion": 2,
       "name": "Ux-Aneet",
       "classification": {
         "class": "settlement",
@@ -20426,6 +21344,8 @@
         4148.3,
         2684.2
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0331",
@@ -20439,8 +21359,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 5,
         "distanceToRouteM": 395.5,
-        "distanceToWaterM": 33.4,
-        "score": 5.232
+        "distanceToWaterM": 49.0,
+        "score": 5.232,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 49.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -20512,6 +21439,7 @@
     },
     {
       "id": "place.hist-heartland.stone-calendar-hist-tsoko",
+      "schemaVersion": 2,
       "name": "The Tsoko Stones",
       "classification": {
         "class": "lone",
@@ -20646,6 +21574,8 @@
         2536.1,
         2196.1
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.firm-lowland.summit-038",
       "candidatesConsidered": [
         {
@@ -20670,8 +21600,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 5,
         "distanceToRouteM": 443.9,
-        "distanceToWaterM": 61.3,
-        "score": 3.868
+        "distanceToWaterM": 119.8,
+        "score": 3.868,
+        "water": {
+          "entityId": "body.1360-1265",
+          "kind": "marsh-deep",
+          "levelM": 2.87,
+          "season": "perennial",
+          "distanceM": 119.8
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -20718,6 +21655,7 @@
     },
     {
       "id": "place.hist-heartland.submerged-xanmeer-topmost",
+      "schemaVersion": 2,
       "name": "The Topmost Chamber",
       "classification": {
         "class": "ruin",
@@ -20844,6 +21782,8 @@
         1938.4,
         1883.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.coastal-lagoon-salt-marsh.islet-046",
@@ -20867,8 +21807,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 103.0,
-        "distanceToWaterM": 0.0,
-        "score": 2.561
+        "distanceToWaterM": 5.5,
+        "score": 2.561,
+        "water": {
+          "entityId": "reach.1035-1008",
+          "kind": "sloped-rapid",
+          "levelM": 35.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -20928,6 +21875,7 @@
     },
     {
       "id": "place.hist-heartland.tended-xanmeer-clan-north",
+      "schemaVersion": 2,
       "name": "Xal-Irasotl",
       "classification": {
         "class": "ruin",
@@ -21063,6 +22011,8 @@
         3550.6,
         3715.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0344",
@@ -21086,8 +22036,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 5,
         "distanceToRouteM": 258.8,
-        "distanceToWaterM": 145.2,
-        "score": 3.257
+        "distanceToWaterM": 133.4,
+        "score": 3.257,
+        "water": {
+          "entityId": "body.1954-2136",
+          "kind": "swamp",
+          "levelM": 31.81,
+          "season": "perennial",
+          "distanceM": 133.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -21146,6 +22103,7 @@
     },
     {
       "id": "place.hist-heartland.tended-xanmeer-pilgrim-way",
+      "schemaVersion": 2,
       "name": "The Swept Terrace",
       "classification": {
         "class": "ruin",
@@ -21276,6 +22234,8 @@
         4120.9,
         1724.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0609",
@@ -21300,7 +22260,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 310.2,
         "distanceToWaterM": 43.9,
-        "score": 3.626
+        "score": 3.626,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 43.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -21359,6 +22326,7 @@
     },
     {
       "id": "place.hist-heartland.the-cut-circle",
+      "schemaVersion": 2,
       "name": "The Cut Circle",
       "aliases": [],
       "classification": {
@@ -21616,6 +22584,8 @@
         5129.8,
         3243.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0355",
@@ -21640,11 +22610,19 @@
         "dangerBand": 3,
         "distanceToRouteM": 574.7,
         "distanceToWaterM": 7.8,
-        "score": 3.654
+        "score": 3.654,
+        "water": {
+          "entityId": "reach.2769-1781",
+          "kind": "horizontal-channel",
+          "levelM": 1.99,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       }
     },
     {
       "id": "place.hist-heartland.treasure-hunters-dead-camp",
+      "schemaVersion": 2,
       "name": "The Last Camp",
       "classification": {
         "class": "camp",
@@ -21779,6 +22757,8 @@
         2475.8,
         1932.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.islet-040",
@@ -21802,8 +22782,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 264.1,
-        "distanceToWaterM": 111.8,
-        "score": 3.227
+        "distanceToWaterM": 109.7,
+        "score": 3.227,
+        "water": {
+          "entityId": "body.1401-1091",
+          "kind": "marsh-deep",
+          "levelM": 3.02,
+          "season": "perennial",
+          "distanceM": 109.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -21858,6 +22845,7 @@
     },
     {
       "id": "place.hist-heartland.treasure-hunters-live-camp",
+      "schemaVersion": 2,
       "name": "Fortune's Own",
       "classification": {
         "class": "camp",
@@ -21986,6 +22974,8 @@
         5447.9,
         3331.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0343",
@@ -22010,7 +23000,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 243.4,
         "distanceToWaterM": 34.7,
-        "score": 0.523
+        "score": 0.523,
+        "water": {
+          "entityId": "body.2966-1867",
+          "kind": "swamp",
+          "levelM": 1.13,
+          "season": "perennial",
+          "distanceM": 34.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -22074,6 +23071,7 @@
     },
     {
       "id": "place.hist-heartland.umbriel-stripped-quiet",
+      "schemaVersion": 2,
       "name": "Nothing-Left",
       "classification": {
         "class": "ruin",
@@ -22209,6 +23207,8 @@
         2135.8,
         1854.1
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0480",
@@ -22232,8 +23232,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 11.0,
-        "distanceToWaterM": 111.8,
-        "score": 2.908
+        "distanceToWaterM": 132.1,
+        "score": 2.908,
+        "water": {
+          "entityId": "reach.1247-947",
+          "kind": "sloped-rapid",
+          "levelM": 27.94,
+          "season": "perennial",
+          "distanceM": 132.1
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -22277,6 +23284,7 @@
     },
     {
       "id": "place.hist-heartland.umpholo-mission",
+      "schemaVersion": 2,
       "name": "Umpholo",
       "classification": {
         "class": "ruin",
@@ -22403,6 +23411,8 @@
         5091.4,
         2497.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0355",
@@ -22427,7 +23437,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 451.2,
         "distanceToWaterM": 5.5,
-        "score": 3.817
+        "score": 3.817,
+        "water": {
+          "entityId": "body.2822-1398",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -22497,6 +23514,7 @@
     },
     {
       "id": "place.hist-heartland.urn-vault-blasphemers",
+      "schemaVersion": 2,
       "name": "The Shut Vault",
       "classification": {
         "class": "sacred",
@@ -22623,6 +23641,8 @@
         5058.5,
         3408.0
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0507",
@@ -22646,8 +23666,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 454.3,
-        "distanceToWaterM": 19.8,
-        "score": 2.886
+        "distanceToWaterM": 34.7,
+        "score": 2.886,
+        "water": {
+          "entityId": "body.2747-1858",
+          "kind": "marsh-fringe",
+          "levelM": 4.47,
+          "season": "perennial",
+          "distanceM": 34.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -22708,6 +23735,7 @@
     },
     {
       "id": "place.hist-heartland.vista-ledge-canopy-break",
+      "schemaVersion": 2,
       "name": "The Break",
       "classification": {
         "class": "lone",
@@ -22833,6 +23861,8 @@
         4219.6,
         1795.9
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0344",
@@ -22856,8 +23886,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 191.0,
-        "distanceToWaterM": 46.5,
-        "score": 3.96
+        "distanceToWaterM": 52.0,
+        "score": 3.96,
+        "water": {
+          "entityId": "body.2297-1008",
+          "kind": "marsh-deep",
+          "levelM": 6.69,
+          "season": "perennial",
+          "distanceM": 52.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -22905,6 +23942,7 @@
     },
     {
       "id": "place.hist-heartland.voriplasm-chamber-sealed",
+      "schemaVersion": 2,
       "name": "The Sealed Cistern",
       "classification": {
         "class": "lair",
@@ -23034,6 +24072,8 @@
         5376.6,
         3287.4
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0212",
@@ -23058,7 +24098,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 326.1,
         "distanceToWaterM": 0.0,
-        "score": 3.536
+        "score": 3.536,
+        "water": {
+          "entityId": "body.2909-1833",
+          "kind": "mudflat",
+          "levelM": 1.5,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -23149,6 +24196,7 @@
       },
       "workflow": "plotted",
       "id": "place.hist-heartland.waiting-vigil-village",
+      "schemaVersion": 2,
       "name": "Still-Waiting",
       "classification": {
         "class": "ruin",
@@ -23250,6 +24298,8 @@
         5086.0,
         2782.9
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0507",
@@ -23273,8 +24323,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 636.1,
-        "distanceToWaterM": 41.8,
-        "score": 3.067
+        "distanceToWaterM": 52.0,
+        "score": 3.067,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 52.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -23355,6 +24412,7 @@
     },
     {
       "id": "place.hist-heartland.walkway-junction-high-crossroads",
+      "schemaVersion": 2,
       "name": "High Crossing",
       "classification": {
         "class": "transit",
@@ -23484,6 +24542,8 @@
         4384.1,
         1779.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0865",
@@ -23497,8 +24557,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 138.4,
-        "distanceToWaterM": 90.8,
-        "score": 4.103
+        "distanceToWaterM": 76.4,
+        "score": 4.103,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 76.4
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -23534,6 +24601,7 @@
     },
     {
       "id": "place.hist-heartland.wamasu-pond-nest",
+      "schemaVersion": 2,
       "name": "The Charged Pond",
       "classification": {
         "class": "lair",
@@ -23665,6 +24733,8 @@
         4543.1,
         2201.6
       ],
+      "footprintRadiusM": 175.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0685",
@@ -23689,7 +24759,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 222.1,
         "distanceToWaterM": 0.0,
-        "score": 3.229
+        "score": 3.229,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -23756,6 +24833,7 @@
     },
     {
       "id": "place.hist-heartland.wamasu-wallow-struck-ground",
+      "schemaVersion": 2,
       "name": "The Struck Ground",
       "classification": {
         "class": "lair",
@@ -23938,6 +25016,8 @@
         4647.3,
         3111.9
       ],
+      "footprintRadiusM": 175.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0767",
@@ -23961,12 +25041,20 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 367.8,
-        "distanceToWaterM": 155.2,
-        "score": 3.465
+        "distanceToWaterM": 163.0,
+        "score": 3.465,
+        "water": {
+          "entityId": "body.2473-1773",
+          "kind": "swamp",
+          "levelM": 24.38,
+          "season": "perennial",
+          "distanceM": 163.0
+        }
       }
     },
     {
       "id": "place.hist-heartland.waterfall-chamber-root-fall",
+      "schemaVersion": 2,
       "name": "The Root Fall",
       "classification": {
         "class": "lone",
@@ -24094,6 +25182,8 @@
         4389.6,
         3490.3
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0368",
@@ -24117,8 +25207,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 15.5,
-        "distanceToWaterM": 19.8,
-        "score": 2.974
+        "distanceToWaterM": 82.3,
+        "score": 2.974,
+        "water": {
+          "entityId": "body.2361-1945",
+          "kind": "swamp",
+          "levelM": 3.05,
+          "season": "perennial",
+          "distanceM": 82.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -24189,6 +25286,7 @@
     },
     {
       "id": "place.hist-heartland.whitewater-reach-panther",
+      "schemaVersion": 2,
       "name": "The Panther Race",
       "classification": {
         "class": "lair",
@@ -24323,6 +25421,8 @@
         4751.5,
         1510.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-025",
@@ -24347,7 +25447,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 167.1,
         "distanceToWaterM": 5.5,
-        "score": 3.681
+        "score": 3.681,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -24405,6 +25512,7 @@
     },
     {
       "id": "place.hist-heartland.wild-hist-mad-one",
+      "schemaVersion": 2,
       "name": "The Turned Tree",
       "classification": {
         "class": "sacred",
@@ -24527,6 +25635,8 @@
         2448.4,
         3983.8
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.rootland-deep-marsh.island-034",
@@ -24550,8 +25660,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 333.0,
-        "distanceToWaterM": 12.3,
-        "score": 2.7
+        "distanceToWaterM": 120.8,
+        "score": 2.7,
+        "water": {
+          "entityId": "body.1341-2111",
+          "kind": "marsh-deep",
+          "levelM": 28.94,
+          "season": "perennial",
+          "distanceM": 120.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -24618,6 +25735,7 @@
     },
     {
       "id": "place.hist-heartland.wild-hist-sleeper",
+      "schemaVersion": 2,
       "name": "The Sleeper Under Ash",
       "classification": {
         "class": "sacred",
@@ -24744,6 +25862,8 @@
         3956.4,
         3983.8
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.rootland-deep-marsh.island-034",
@@ -24768,7 +25888,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 652.6,
         "distanceToWaterM": 104.3,
-        "score": 3.047
+        "score": 3.047,
+        "water": {
+          "entityId": "body.2060-2154",
+          "kind": "swamp",
+          "levelM": 31.04,
+          "season": "perennial",
+          "distanceM": 104.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -24813,6 +25940,7 @@
     },
     {
       "id": "place.hist-heartland.wisp-lure-basin",
+      "schemaVersion": 2,
       "name": "The Guide-Lights",
       "classification": {
         "class": "lair",
@@ -24942,6 +26070,8 @@
         4351.2,
         1894.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0899",
@@ -24966,7 +26096,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 49.4,
         "distanceToWaterM": 0.0,
-        "score": 2.408
+        "score": 2.408,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -25020,6 +26157,8 @@
     },
     {
       "id": "place.hist-heartland.xal-krona-making-ground",
+      "schemaVersion": 2,
+      "designGroup": "group.lost-city",
       "name": "The Made Ground",
       "classification": {
         "class": "lair",
@@ -25180,6 +26319,8 @@
         5277.9,
         3314.8
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0689",
@@ -25203,8 +26344,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 414.0,
-        "distanceToWaterM": 7.8,
-        "score": 2.108
+        "distanceToWaterM": 24.5,
+        "score": 2.108,
+        "water": {
+          "entityId": "body.2900-1786",
+          "kind": "marsh-fringe",
+          "levelM": 1.05,
+          "season": "perennial",
+          "distanceM": 24.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -25273,6 +26421,7 @@
     },
     {
       "id": "place.hist-heartland.xal-meeruth-station",
+      "schemaVersion": 2,
       "name": "The Meeruth Station",
       "classification": {
         "class": "settlement",
@@ -25434,6 +26583,8 @@
         4077.0,
         2205.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in firm lowland (danger band 4), 33 m from the nearest route; at the water's edge; no free 'river-mouth' site was left in the zone, so plain ground; won on culture-clump, nearPoint, route.",
       "plotFacts": {
@@ -25442,7 +26593,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 32.9,
         "distanceToWaterM": 5.5,
-        "score": 5.399
+        "score": 5.399,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -25500,6 +26658,7 @@
     },
     {
       "id": "place.hist-heartland.xanmeer-fort-defences-working",
+      "schemaVersion": 2,
       "name": "Xal-Thuun",
       "classification": {
         "class": "martial",
@@ -25645,6 +26804,8 @@
         3742.5,
         3682.2
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.summit-038",
@@ -25668,8 +26829,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 5,
         "distanceToRouteM": 457.5,
-        "distanceToWaterM": 116.3,
-        "score": 3.42
+        "distanceToWaterM": 120.3,
+        "score": 3.42,
+        "water": {
+          "entityId": "body.2079-2084",
+          "kind": "swamp",
+          "levelM": 42.49,
+          "season": "perennial",
+          "distanceM": 120.3
+        }
       },
       "hostility": {
         "baseline": "guarded",

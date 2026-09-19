@@ -350,7 +350,13 @@ class ProvinceSurvey:
         mask decides a physical fact. `water_intent` keeps the old meaning
         available for anything that genuinely wants the authored intent.
         """
-        result = _resample(self.water_depth_m, self.grid_n) > 0.5
+        # DRY season (decision 0049: the harsher season is the one a berth,
+        # a wall or a street has to satisfy), so the mask can never disagree
+        # with `dry_grid` / `wet_grid`, which read the same season. Measured
+        # 2026-09-19 before this: 686 cells of wet-season-only water at
+        # 0.6 m counted as open water on dry-season dry ground.
+        depth = np.maximum(self.water.signed_depth_m("dry"), 0.0)
+        result = _resample(depth, self.grid_n) > 0.5
         result.setflags(write=False)
         return result
 
@@ -456,6 +462,67 @@ class ProvinceSurvey:
         if grid is None:
             return np.zeros((self.grid_n, self.grid_n), np.int8)
         return _resample(grid, self.grid_n)
+
+    @cached_property
+    def wet_ground(self) -> np.ndarray:
+        """Ground the record says is a marsh body or is inundated in the wet
+        season; replaces the purged wetlands/flood>=2 test."""
+        result = (self.marsh_grid > 0.5) | self.wet_season_grid
+        result.setflags(write=False)
+        return result
+
+    @cached_property
+    def recorded_depth_m(self) -> np.ndarray:
+        """float32 RECORD depth of the entity under each analysis cell: a
+        reach's declared `depthM`, a body's `maxDepthM`, 0 off water.
+
+        The record's designed depth, not a measurement of the bake (0066):
+        read the record, sample the raster only to locate the entity."""
+        grid = self.water.record_depth_grid()
+        if grid is None:
+            return np.zeros((self.grid_n, self.grid_n), np.float32)
+        result = _resample(grid, self.grid_n).astype(np.float32)
+        result.setflags(write=False)
+        return result
+
+    @cached_property
+    def _entity_label_grid(self) -> np.ndarray:
+        """The compiled entity label (0 none, else 1 + index into
+        `water.entities`) on the analysis grid."""
+        if self.water.ids is None:
+            return np.zeros((self.grid_n, self.grid_n), np.int32)
+        return _resample(self.water.ids, self.grid_n).astype(np.int32)
+
+    @cached_property
+    def _nearest_wet_index(self) -> np.ndarray:
+        """Indices of the nearest dry-season wet cell for every analysis cell
+        (the `return_indices` half of the `dist_to_water_m` transform)."""
+        return ndimage.distance_transform_edt(~self.wet_grid, return_indices=True)[1]
+
+    def nearest_water_entity(self, x: float, z: float) -> dict | None:
+        """The graph record of the water nearest a point, with the walk to it.
+
+        On a wet cell that is the entity under the point and `distanceM` 0;
+        on dry ground it is the record at the nearest dry-season wet cell.
+        None when the bundle ships no entity raster or nothing is wet."""
+        row, col = self.grid_px(x, z)
+        idx = self._nearest_wet_index
+        wrow, wcol = int(idx[0][row, col]), int(idx[1][row, col])
+        label = int(self._entity_label_grid[wrow, wcol])
+        if label <= 0:
+            return None
+        entity = self.water.entities[label - 1]
+        rec = self.water.record(entity.get("id")) or {}
+        merged = {**entity, **rec}
+        return {
+            "entityId": entity.get("id"),
+            "kind": merged.get("kind"),
+            "levelM": (float(merged["levelM"]) if merged.get("levelM") is not None
+                       else (float(merged["levelFromM"])
+                             if merged.get("levelFromM") is not None else None)),
+            "season": merged.get("season"),
+            "distanceM": round(float(self.dist_to_water_m[row, col]), 1),
+        }
 
     # ------------------------------------------------------------------ #
     # the record (decision 0066): kinds, ids, levels, seasons by graph id

@@ -115,6 +115,44 @@ rest become required as `workflow` advances):
                   world/sources/routes/registry.json ids (route.road.*,
                   route.boat.*, route.track.*)
 
+  --- schemaVersion 2 record fields added by 16g (plan 16 §10) -------------
+  version         *schemaVersion — an int on EVERY record. The file-level
+                  number is the MAXIMUM over its records, so no file claims a
+                  shape none of its records has and no record outruns its file.
+  design group    designGroup? (`group.<slug>`) — a row in
+                  world/sources/catalogue/design-groups.json {id, anchor,
+                  members[], loreReason, maxSpreadM}: places that are ONE
+                  design, blueprinted and built together. Every member carries
+                  the stamp, the anchor is a member, and no two members sit
+                  further apart than maxSpreadM.
+  co-siting       coSitedWith? [{place, relation, measurement}] — what a pair
+                  designed together PROMISES. relation ∈ CO_SITING_RELATIONS;
+                  measurement is sightline {clearM, checked}, same-water
+                  {entityId}, approach-through {via}, satellite {distanceM,
+                  maxM} or ferry-pair {serviceId}. sightline/same-water/
+                  ferry-pair are true of the pair and are carried by both
+                  records. `worldgen.co_siting --check` MEASURES every row.
+  owner ground    ownerGuided? (bool) — the owner is hands-on here;
+                  vasteiTutorialScene? (bool, only on an ownerGuided record)
+  reservation     reservedFor? ∈ RESERVATIONS — ground held for one purpose;
+                  at most one live record per value.
+  hero Hist       heroHist? {id (hist.<region>.<slug>, region = the record's),
+                  kind?, powerSlot (power.<heroHist.id> | null), *status
+                  (hero|reserve — 'reserve' exactly when powerSlot is null),
+                  note?}. At most HERO_HIST_SLOTS live records are 'hero'.
+  footprint       *footprintRadiusM (on every record with positionM) and
+                  *footprintSource ∈ {band, blueprint, polygon} — the ground
+                  the place occupies. Optional footprintPolygon [[x,z],…] (≥ 3
+                  points, metres, must contain positionM, M4/M5 only) draws
+                  the shape instead; with it, footprintSource is 'polygon'.
+  city layout     cityLayout? {gate [x,z], centre [x,z], way [[x,z],…] (≥ 2
+                  points, starting within 5 m of the gate and ending within
+                  5 m of the centre), source: street_router} — M5 only.
+  underwater      underwaterAccessDetail? {gating ∈ UNDERWATER_GATINGS,
+                  surfaceAccessNodes (int ≥ 0), airPockets, submergedPortal,
+                  entityId, depthM} — how the player gets in. Required on
+                  every `underwater-entry` record once 16g has run.
+
 Determinism: files sorted by id; the loader rejects unsorted or duplicate
 IDs. Permanence: `--check` compares against git HEAD and fails if any
 previously committed id is missing (cut places must remain with
@@ -254,6 +292,45 @@ TERRAIN_REQUEST_KINDS = {
     "spring", "hollow",
 }
 
+# --- 16g record fields (decision 0041 Part 3c successor; plan 16 §10) ------
+# Every record carries its OWN schemaVersion; the file-level number is the
+# maximum over its records, so a file can never claim a shape none of its
+# records has.
+RECORD_SCHEMA_VERSION = 2
+# `coSitedWith` — the typed answer to "these two were designed together".
+# `sitingPrefs.boundTo`/`sightlineTo` say what the PLOT must honour; this says
+# what a co-sited pair PROMISES, and `worldgen.co_siting --check` measures it.
+CO_SITING_RELATIONS = {"sightline", "same-water", "approach-through", "satellite", "ferry-pair"}
+# Relations that are true of the pair, not of one end: both records carry the row.
+SYMMETRIC_CO_SITING = {"sightline", "same-water", "ferry-pair"}
+CO_SITING_MEASUREMENT_KEYS = {
+    "sightline": {"clearM", "checked"},
+    "same-water": {"entityId"},
+    "approach-through": {"via"},
+    "satellite": {"distanceM", "maxM"},
+    "ferry-pair": {"serviceId"},
+}
+SIGHTLINE_CHECKED = {"scour", "unchecked"}
+# Reservations: ground held back for one player-facing purpose, one per value.
+RESERVATIONS = {"player-stronghold"}
+# Where a record's footprint radius came from: the type recipe's band, a
+# measured blueprint, or a drawn polygon.
+FOOTPRINT_SOURCES = {"band", "blueprint", "polygon"}
+# A polygon footprint is only meaningful where the place is big enough to have
+# a shape rather than a radius.
+POLYGON_MAGNITUDES = {"M4", "M5"}
+CITY_LAYOUT_MAGNITUDES = {"M5"}
+CITY_LAYOUT_SOURCES = {"street_router"}
+CITY_LAYOUT_ENDPOINT_TOLERANCE_M = 5.0
+# heroHist: the ten power slots and their reserves.
+HERO_HIST_STATUS = {"hero", "reserve"}
+HERO_HIST_SLOTS = 10
+# How the player gets into a place whose way in is under water.
+UNDERWATER_GATINGS = {"argonian-immediate", "breath-gated", "equipment-gated",
+                      "expert-current", "quest-gated"}
+DESIGN_GROUPS_SCHEMA_VERSION = 1
+DESIGN_GROUPS_FILE = "design-groups.json"
+
 
 def dump_json(path: Path, data: dict) -> None:
     """The ONE way to write a catalogue file.
@@ -273,6 +350,7 @@ class RegionFile:
     region: str
     seed: str
     places: list[dict] = field(default_factory=list)
+    schema_version: int = PLACES_SCHEMA_VERSION
 
 
 def _fail(errors: list[str], rec_id: str, msg: str) -> None:
@@ -305,7 +383,8 @@ def load_region_files(catalogue_dir: Path = CATALOGUE_DIR) -> list[RegionFile]:
         region = path.stem.removeprefix("places-")
         if data.get("region") != region:
             raise ValueError(f"{path}: region field must be '{region}'")
-        out.append(RegionFile(path, region, data.get("seed", ""), data["places"]))
+        out.append(RegionFile(path, region, data.get("seed", ""), data["places"],
+                              int(data["schemaVersion"])))
     return out
 
 
@@ -370,6 +449,186 @@ def validate_record(rec: dict, region: str, classes: dict, errors: list[str]) ->
             if not (REPO_ROOT / path).exists():
                 _fail(errors, rid, f"broken citation path: {path}")
     _validate_v2_blocks(rec, rid, errors)
+    _validate_16g_fields(rec, region, rid, errors)
+
+
+def _point_in_polygon(pt: list | tuple, poly: list) -> bool:
+    """Ray casting, no new dependency. A point on the boundary counts as in."""
+    x, z = float(pt[0]), float(pt[1])
+    inside = False
+    n = len(poly)
+    for i in range(n):
+        ax, az = float(poly[i][0]), float(poly[i][1])
+        bx, bz = float(poly[(i + 1) % n][0]), float(poly[(i + 1) % n][1])
+        if (az > z) != (bz > z):
+            t = (z - az) / (bz - az)
+            if x < ax + t * (bx - ax):
+                inside = not inside
+    return inside
+
+
+def _is_num(v) -> bool:
+    return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+
+def _is_xz(v) -> bool:
+    return isinstance(v, (list, tuple)) and len(v) == 2 and all(_is_num(c) for c in v)
+
+
+def _validate_16g_fields(rec: dict, region: str, rid: str, errors: list[str]) -> None:
+    """The 16g record fields: record schemaVersion, design groups, co-siting,
+    owner-guided ground, reservations, the hero-Hist block, footprints,
+    city layout and underwater access detail. Shape only — liveness,
+    reciprocity, uniqueness and the group registers are cross-record."""
+    sv = rec.get("schemaVersion")
+    if not isinstance(sv, int) or isinstance(sv, bool):
+        _fail(errors, rid, "schemaVersion must be an int on every record (16g)")
+
+    dg = rec.get("designGroup")
+    if dg is not None and not (isinstance(dg, str) and dg.startswith("group.") and len(dg.split(".")) == 2 and dg.split(".")[1]):
+        _fail(errors, rid, "designGroup must be 'group.<slug>'")
+
+    cs = rec.get("coSitedWith")
+    if cs is not None:
+        if not isinstance(cs, list):
+            _fail(errors, rid, "coSitedWith must be a list")
+        else:
+            for i, row in enumerate(cs):
+                if not isinstance(row, dict):
+                    _fail(errors, rid, f"coSitedWith[{i}] must be an object")
+                    continue
+                rel = row.get("relation")
+                if rel not in CO_SITING_RELATIONS:
+                    _fail(errors, rid, f"coSitedWith[{i}].relation must be one of {sorted(CO_SITING_RELATIONS)}")
+                    continue
+                if not isinstance(row.get("place"), str) or not row["place"].startswith("place."):
+                    _fail(errors, rid, f"coSitedWith[{i}].place must be a place id")
+                m = row.get("measurement")
+                want = CO_SITING_MEASUREMENT_KEYS[rel]
+                if not isinstance(m, dict) or set(m) != want:
+                    _fail(errors, rid, f"coSitedWith[{i}] relation '{rel}' needs measurement keys {sorted(want)}")
+                    continue
+                if rel == "sightline":
+                    if not _is_num(m["clearM"]) or m["checked"] not in SIGHTLINE_CHECKED:
+                        _fail(errors, rid, f"coSitedWith[{i}].measurement needs numeric clearM and checked ∈ {sorted(SIGHTLINE_CHECKED)}")
+                elif rel == "satellite":
+                    if not _is_num(m["distanceM"]) or not _is_num(m["maxM"]):
+                        _fail(errors, rid, f"coSitedWith[{i}].measurement distanceM/maxM must be numbers")
+                elif rel == "approach-through":
+                    if not isinstance(m["via"], str) or not m["via"].startswith("place."):
+                        _fail(errors, rid, f"coSitedWith[{i}].measurement.via must be a place id")
+                elif not isinstance(m[sorted(want)[0]], str) or not m[sorted(want)[0]]:
+                    _fail(errors, rid, f"coSitedWith[{i}].measurement.{sorted(want)[0]} must be a non-empty string")
+
+    og = rec.get("ownerGuided")
+    if og is not None and not isinstance(og, bool):
+        _fail(errors, rid, "ownerGuided must be a bool")
+    vt = rec.get("vasteiTutorialScene")
+    if vt is not None:
+        if not isinstance(vt, bool):
+            _fail(errors, rid, "vasteiTutorialScene must be a bool")
+        elif vt and rec.get("ownerGuided") is not True:
+            _fail(errors, rid, "vasteiTutorialScene is only valid on an ownerGuided record")
+    rf = rec.get("reservedFor")
+    if rf is not None and rf not in RESERVATIONS:
+        _fail(errors, rid, f"reservedFor must be one of {sorted(RESERVATIONS)}")
+
+    hh = rec.get("heroHist")
+    if hh is not None:
+        if not isinstance(hh, dict):
+            _fail(errors, rid, "heroHist must be an object")
+        else:
+            hid = hh.get("id")
+            if not isinstance(hid, str) or hid.split(".")[:2] != ["hist", region] or len(hid.split(".")) != 3:
+                _fail(errors, rid, f"heroHist.id must be 'hist.{region}.<slug>'")
+            slot = hh.get("powerSlot")
+            if slot is not None and (not isinstance(slot, str) or not isinstance(hid, str) or slot != f"power.{hid}"):
+                _fail(errors, rid, "heroHist.powerSlot must be 'power.<heroHist.id>' or null")
+            st = hh.get("status")
+            if st not in HERO_HIST_STATUS:
+                _fail(errors, rid, f"heroHist.status must be one of {sorted(HERO_HIST_STATUS)}")
+            elif (st == "reserve") != (slot is None):
+                _fail(errors, rid, "heroHist.status is 'reserve' exactly when powerSlot is null")
+            if "kind" in hh and not isinstance(hh["kind"], str):
+                _fail(errors, rid, "heroHist.kind must be a string")
+            if "note" in hh and not isinstance(hh["note"], str):
+                _fail(errors, rid, "heroHist.note must be a string")
+
+    pos = rec.get("positionM")
+    fr = rec.get("footprintRadiusM")
+    fs = rec.get("footprintSource")
+    if pos is not None:
+        if not _is_num(fr) or fr <= 0:
+            _fail(errors, rid, "a positioned record needs a positive footprintRadiusM (16g)")
+        if fs not in FOOTPRINT_SOURCES:
+            _fail(errors, rid, f"footprintSource must be one of {sorted(FOOTPRINT_SOURCES)}")
+    elif fr is not None or fs is not None:
+        _fail(errors, rid, "footprintRadiusM/footprintSource belong to a positioned record")
+    poly = rec.get("footprintPolygon")
+    if poly is not None:
+        mag = (rec.get("classification") or {}).get("magnitude")
+        if not isinstance(poly, list) or len(poly) < 3 or not all(_is_xz(p) for p in poly):
+            _fail(errors, rid, "footprintPolygon must be ≥ 3 [x, z] points in metres")
+        elif not _is_xz(pos):
+            _fail(errors, rid, "footprintPolygon needs the record's positionM to check containment")
+        elif not _point_in_polygon(pos, poly):
+            _fail(errors, rid, "footprintPolygon does not contain the record's positionM")
+        if mag not in POLYGON_MAGNITUDES:
+            _fail(errors, rid, f"footprintPolygon is only for {sorted(POLYGON_MAGNITUDES)} records")
+        if fs != "polygon":
+            _fail(errors, rid, "a record with a footprintPolygon has footprintSource 'polygon'")
+
+    cl = rec.get("cityLayout")
+    if cl is not None:
+        mag = (rec.get("classification") or {}).get("magnitude")
+        if mag not in CITY_LAYOUT_MAGNITUDES:
+            _fail(errors, rid, f"cityLayout is only for {sorted(CITY_LAYOUT_MAGNITUDES)} records")
+        if not isinstance(cl, dict):
+            _fail(errors, rid, "cityLayout must be an object")
+        elif not (_is_xz(cl.get("gate")) and _is_xz(cl.get("centre"))):
+            _fail(errors, rid, "cityLayout.gate and .centre must be [x, z] in metres")
+        elif not isinstance(cl.get("way"), list) or len(cl["way"]) < 2 or not all(_is_xz(p) for p in cl["way"]):
+            _fail(errors, rid, "cityLayout.way must be ≥ 2 [x, z] points")
+        else:
+            import math as _math
+            if _math.dist(cl["way"][0], cl["gate"]) > CITY_LAYOUT_ENDPOINT_TOLERANCE_M:
+                _fail(errors, rid, f"cityLayout.way must start within {CITY_LAYOUT_ENDPOINT_TOLERANCE_M} m of the gate")
+            if _math.dist(cl["way"][-1], cl["centre"]) > CITY_LAYOUT_ENDPOINT_TOLERANCE_M:
+                _fail(errors, rid, f"cityLayout.way must end within {CITY_LAYOUT_ENDPOINT_TOLERANCE_M} m of the centre")
+        if isinstance(cl, dict) and cl.get("source") not in CITY_LAYOUT_SOURCES:
+            _fail(errors, rid, f"cityLayout.source must be one of {sorted(CITY_LAYOUT_SOURCES)}")
+
+    ua = rec.get("underwaterAccessDetail")
+    if ua is not None:
+        if not isinstance(ua, dict):
+            _fail(errors, rid, "underwaterAccessDetail must be an object")
+        else:
+            if ua.get("gating") not in UNDERWATER_GATINGS:
+                _fail(errors, rid, f"underwaterAccessDetail.gating must be one of {sorted(UNDERWATER_GATINGS)}")
+            n = ua.get("surfaceAccessNodes")
+            if not isinstance(n, int) or isinstance(n, bool) or n < 0:
+                _fail(errors, rid, "underwaterAccessDetail.surfaceAccessNodes must be an int ≥ 0")
+            for key in ("airPockets", "submergedPortal"):
+                if not isinstance(ua.get(key), bool):
+                    _fail(errors, rid, f"underwaterAccessDetail.{key} must be a bool")
+            if not isinstance(ua.get("entityId"), str) or not ua["entityId"]:
+                _fail(errors, rid, "underwaterAccessDetail.entityId must name the water it is in")
+            if not _is_num(ua.get("depthM")):
+                _fail(errors, rid, "underwaterAccessDetail.depthM must be a number")
+
+
+def load_design_groups(catalogue_dir: Path = CATALOGUE_DIR) -> dict[str, dict] | None:
+    """design-groups.json: places one agent must blueprint and build together.
+
+    Returns None until the file exists; once it does, every `designGroup`
+    stamp must resolve to a row here."""
+    path = catalogue_dir / DESIGN_GROUPS_FILE
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text())
+    if data.get("schemaVersion") != DESIGN_GROUPS_SCHEMA_VERSION:
+        raise ValueError(f"{path}: schemaVersion must be {DESIGN_GROUPS_SCHEMA_VERSION}")
+    return {row["id"]: row for row in data["groups"]}
 
 
 def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
@@ -580,6 +839,19 @@ def validate_catalogue(catalogue_dir: Path = CATALOGUE_DIR, check_permanence: bo
             errors.append(f"{rf.path.name}: places must be sorted by id (determinism)")
         if not rf.seed:
             errors.append(f"{rf.path.name}: missing seed")
+        # The file's schemaVersion is the MAXIMUM over its records (16g): no
+        # record may claim a shape the file does not, and the file may not
+        # claim a shape no record has.
+        versions = [r.get("schemaVersion") for r in rf.places
+                    if isinstance(r.get("schemaVersion"), int) and not isinstance(r.get("schemaVersion"), bool)]
+        for rec in rf.places:
+            v = rec.get("schemaVersion")
+            if isinstance(v, int) and not isinstance(v, bool) and v > rf.schema_version:
+                errors.append(f"{rec.get('id', '')}: record schemaVersion {v} is above the file's "
+                              f"{rf.schema_version}")
+        if versions and max(versions) != rf.schema_version:
+            errors.append(f"{rf.path.name}: file schemaVersion {rf.schema_version} is not the maximum "
+                          f"over its records ({max(versions)})")
         for rec in rf.places:
             rid = rec.get("id", "")
             if rid in seen:
@@ -639,6 +911,96 @@ def _validate_cross_record(catalogue_dir: Path, errors: list[str]) -> None:
                     errors.append(f"{rid}: travelStation destination {d} is not a live record")
                 elif not recs[d].get("travelStation"):
                     errors.append(f"{rid}: travelStation destination {d} has no travelStation of its own")
+    _validate_16g_cross(catalogue_dir, recs, live, errors)
+
+
+def _validate_16g_cross(catalogue_dir: Path, recs: dict[str, dict], live: set[str],
+                        errors: list[str]) -> None:
+    """The 16g gates that need the whole catalogue: the design-group register,
+    co-siting reciprocity, the single stronghold reservation and the ten
+    hero-Hist slots."""
+    import math as _math
+
+    groups = load_design_groups(catalogue_dir)
+    stamped: dict[str, list[str]] = {}
+    for rid in sorted(live):
+        gid = recs[rid].get("designGroup")
+        if gid:
+            stamped.setdefault(gid, []).append(rid)
+    if groups is None:
+        for gid in sorted(stamped):
+            errors.append(f"{stamped[gid][0]}: designGroup {gid} but there is no "
+                          f"{DESIGN_GROUPS_FILE}")
+    else:
+        for gid in sorted(stamped):
+            if gid not in groups:
+                for rid in stamped[gid]:
+                    errors.append(f"{rid}: designGroup {gid} is not a row in {DESIGN_GROUPS_FILE}")
+        for gid, row in sorted(groups.items()):
+            members = list(row.get("members") or [])
+            anchor = row.get("anchor")
+            if anchor not in members:
+                errors.append(f"{DESIGN_GROUPS_FILE}: {gid} anchor {anchor} is not one of its members")
+            if not str(row.get("loreReason") or "").strip():
+                errors.append(f"{DESIGN_GROUPS_FILE}: {gid} needs a loreReason")
+            spread = row.get("maxSpreadM")
+            if not _is_num(spread) or spread <= 0:
+                errors.append(f"{DESIGN_GROUPS_FILE}: {gid} needs a positive maxSpreadM")
+                spread = None
+            for m in members:
+                if m not in live:
+                    errors.append(f"{DESIGN_GROUPS_FILE}: {gid} member {m} is not a live record")
+                elif recs[m].get("designGroup") != gid:
+                    errors.append(f"{m}: is a member of {gid} but carries "
+                                  f"designGroup {recs[m].get('designGroup')!r}")
+            if spread is None:
+                continue
+            placed = [(m, recs[m]["positionM"]) for m in members
+                      if m in recs and _is_xz(recs[m].get("positionM"))]
+            for i, (ma, pa) in enumerate(placed):
+                for mb, pb in placed[i + 1:]:
+                    d = _math.dist(pa, pb)
+                    if d > spread:
+                        errors.append(f"{DESIGN_GROUPS_FILE}: {gid} members {ma} and {mb} are "
+                                      f"{d:.1f} m apart, past maxSpreadM {spread}")
+
+    reserved: dict[str, list[str]] = {}
+    hero = 0
+    for rid in sorted(live):
+        rec = recs[rid]
+        rf = rec.get("reservedFor")
+        if rf:
+            reserved.setdefault(rf, []).append(rid)
+        hh = rec.get("heroHist")
+        if isinstance(hh, dict) and hh.get("status") == "hero":
+            hero += 1
+        for i, row in enumerate(rec.get("coSitedWith") or []):
+            if not isinstance(row, dict):
+                continue
+            other = row.get("place")
+            rel = row.get("relation")
+            if rel not in CO_SITING_RELATIONS or not isinstance(other, str):
+                continue
+            if other == rid:
+                errors.append(f"{rid}: coSitedWith[{i}] names itself")
+                continue
+            if other not in live:
+                errors.append(f"{rid}: coSitedWith[{i}] → {other} is not a live record")
+                continue
+            if rel in SYMMETRIC_CO_SITING:
+                back = [r for r in (recs[other].get("coSitedWith") or [])
+                        if isinstance(r, dict) and r.get("place") == rid and r.get("relation") == rel]
+                if not back:
+                    errors.append(f"{rid}: coSitedWith[{i}] '{rel}' with {other} is not "
+                                  f"reciprocated on that record")
+    for value in sorted(reserved):
+        if len(reserved[value]) > 1:
+            errors.append(f"catalogue: reservedFor '{value}' is claimed by "
+                          f"{len(reserved[value])} live records ({', '.join(sorted(reserved[value]))}) — "
+                          f"it is one place")
+    if hero > HERO_HIST_SLOTS:
+        errors.append(f"heroHist: {hero} live records carry status 'hero'; the province has exactly "
+                      f"{HERO_HIST_SLOTS} power slots")
 
 
 def main() -> int:

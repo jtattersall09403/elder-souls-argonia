@@ -37,6 +37,12 @@
    ]
   },
   {
+   "path": "world/sources/catalogue/design-groups.json",
+   "what": "design groups \u2014 places that are one blueprint and one build (worldgen.catalogue, 16g)",
+   "idShape": "flat",
+   "_": "group.<slug> keys a KIND of grouping, not a placed object, so it has no packet segment (decision 0044)."
+  },
+  {
    "path": "world/sources/catalogue/places-dunmer-north.json",
    "what": "Phase 11 Part 2 place catalogue \u2014 dunmer-north region records (worldgen.catalogue)",
    "idKey": "id",

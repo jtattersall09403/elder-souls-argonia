@@ -282,6 +282,29 @@ class ShippedWater:
                 lut[i] = float(rec.get("widthM") or 0.0)
         return lut[self.ids]
 
+    def record_depth_grid(self) -> np.ndarray | None:
+        """float32 surface-grid raster of the RECORD's depth of the entity
+        under each texel: a reach's declared `depthM`, a body's `maxDepthM`,
+        0 where there is no entity. None without an id raster.
+
+        This is the record's designed depth, not a measurement of the bake —
+        what a berth or a boat lane is judged against (0066: read the record,
+        sample the raster only to locate the entity)."""
+        if self.ids is None:
+            return None
+        reaches, bodies = self._graph_index
+        lut = np.zeros(len(self.entities) + 1, dtype=np.float32)
+        for i, e in enumerate(self.entities, 1):
+            eid = e.get("id")
+            rec = reaches.get(eid)
+            if rec is not None:
+                lut[i] = float(rec.get("depthM") or 0.0)
+                continue
+            rec = bodies.get(eid)
+            if rec is not None:
+                lut[i] = float(rec.get("maxDepthM") or 0.0)
+        return lut[self.ids]
+
     def river_of(self, entity_id: str) -> str | None:
         """The `river` id the reach with this id belongs to, or None."""
         rec = self.reach(entity_id)

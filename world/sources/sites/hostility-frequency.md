@@ -4,27 +4,27 @@
 
 Places only (roaming creatures and encounter sockets are Phase 13 and add to every band). A hostile place counts when it is hostile on arrival, clearable or a dungeon-like interior; "met" = within 300 m of the route. Morrowind yardstick: ≈ 15 hostile places / km² of land and a fight every ≈ 350 m of road (docs/research/placement-settlements/morrowind-content-density.md §1–2).
 
-Land is MEASURED dry ground — where the published signed depth in `water/water-surface.png` is at or below zero, which comes to 33.05 km². It used to be read off `water-class.png`, a type label drawn over a wider area than the water itself, which gives 26.46 km². That dropped 7.16 km² of walkable ground from the denominator and raised every band's rate to match (decision 0049).
+Land is MEASURED dry-season dry ground, read through the record reader (`ShippedWater.wet_grid("dry")`): every cell the water bake publishes at or below zero signed depth in the dry season, which comes to 32.16 km². It is never the water class raster, a type label drawn over a wider area than the water itself: reading land off it dropped walkable ground from the denominator and raised every band's rate to match (decisions 0049, 0066).
 
 **The two measures and which one binds.** Density is a poor estimator on a small band. One hostile record moves it by 1/(land km²), so below 0.5 km² a single record swings the figure by more than 2/km². For those bands the binding measure is **metres between fights**, which is also what a journey through the band feels. Both are published for every band; the `binding` column says which one is being tested.
 
 | band | land km² | places | /km² | hostile | hostile /km² | flips→hostile | settlements | route km (road/boat/track/channel) | fights met | m between fights | short of Morrowind (area) | binding | meets |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---|---|
-| D1 | 0.24 | 11 | 46.6 | 2 | **8.5** | 6 | 6 | 5.3/0.4/0.1/0 | 37 | 157 | 2 | spacing | yes |
-| D2 | 3.49 | 92 | 26.4 | 38 | **10.9** | 11 | 19 | 16.2/2.1/7.2/0 | 82 | 310 | 15 | density | NO |
-| D3 | 17.26 | 288 | 16.7 | 167 | **9.7** | 5 | 50 | 13.3/3.4/44.9/0 | 249 | 247 | 92 | density | NO |
-| D4 | 6.71 | 117 | 17.4 | 74 | **11.0** | 10 | 16 | 10.5/1.9/3.7/0 | 82 | 196 | 27 | density | NO |
-| D5 | 5.17 | 60 | 11.6 | 38 | **7.4** | 6 | 8 | 8.9/1.5/3.9/0 | 47 | 305 | 40 | density | NO |
+| D1 | 0.22 | 11 | 50.0 | 3 | **13.6** | 5 | 5 | 2.1/0.5/0.1/0 | 25 | 108 | 1 | spacing | yes |
+| D2 | 3.43 | 87 | 25.3 | 40 | **11.7** | 9 | 16 | 10.2/3.3/6.8/0 | 87 | 234 | 12 | density | NO |
+| D3 | 17.38 | 279 | 16.1 | 158 | **9.1** | 11 | 51 | 11.7/1.9/44.8/0 | 270 | 216 | 103 | density | NO |
+| D4 | 6.45 | 118 | 18.3 | 70 | **10.9** | 8 | 20 | 5.8/1.6/4.2/0 | 64 | 182 | 27 | density | NO |
+| D5 | 4.58 | 73 | 15.9 | 48 | **10.5** | 5 | 7 | 4.2/1.2/3.5/0 | 22 | 405 | 21 | density | NO |
 
 ## Where the density preference is not met
 
-The 15/km² yardstick is a strong preference rather than a rule. It is weighed against the other measures rather than satisfied on its own. Every band below meets the other half of the yardstick, a fight more often than Morrowind's 350 m of road, because the danger sits where people walk. What is thin is the empty ground between the routes. Roaming creatures suit that ground better than more built places.
+The 15/km² yardstick is a strong preference rather than a rule. It is weighed against the other measures rather than satisfied on its own. Not every band below meets the other half of the yardstick, a fight more often than Morrowind's 350 m of road, because the danger sits where people walk. What is thin is the empty ground between the routes. Roaming creatures suit that ground better than more built places.
 
-- **D1** — 2 hostile on 0.24 km² = 8.5/km², short 2. On 0.24 km² one record is worth ±4.2/km², so density is not the test here. A fight every 157 m is the tightest spacing in the province. A further 6 places can turn hostile.
-- **D2** — 38 hostile on 3.49 km² = 10.9/km², short 15. A fight every 310 m of route.
-- **D3** — 167 hostile on 17.26 km² = 9.7/km², short 92. A fight every 247 m of route.
-- **D4** — 74 hostile on 6.71 km² = 11.0/km², short 27. A fight every 196 m of route.
-- **D5** — 38 hostile on 5.17 km² = 7.4/km², short 40. A fight every 305 m of route.
+- **D1** — 3 hostile on 0.22 km² = 13.6/km², short 1. On 0.22 km² one record is worth ±4.5/km², so density is not the test here. A fight every 108 m is the tightest spacing in the province. A further 5 places can turn hostile.
+- **D2** — 40 hostile on 3.43 km² = 11.7/km², short 12. A fight every 234 m of route.
+- **D3** — 158 hostile on 17.38 km² = 9.1/km², short 103. A fight every 216 m of route.
+- **D4** — 70 hostile on 6.45 km² = 10.9/km², short 27. A fight every 182 m of route.
+- **D5** — 48 hostile on 4.58 km² = 10.5/km², short 21.
 
 Roaming creatures and encounter sockets arrive in Phase 13 and add to every band. They are how a shortfall here should be made up. Placed hostile records must not be added simply to move a statistic.
 
@@ -32,48 +32,46 @@ Roaming creatures and encounter sockets arrive in Phase 13 and add to every band
 
 Share of sampled land cells with no hostile place within 350 m. Below them are the gap points to which a new hostile record can be bound, using `sitingPrefs.nearPoint {x, z, maxM}` (metres; the plot does the siting).
 
-- D3: 6% of 113443 sampled cells
-- D4: 11% of 54681 sampled cells
-- D5: 22% of 42306 sampled cells
+- D3: 6% of 114087 sampled cells
+- D4: 11% of 52655 sampled cells
+- D5: 22% of 37937 sampled cells
 
 | band | x m | z m | nearest fight m |
 |---|---:|---:|---:|
 | D3 | 4546 | 5769 | 595 |
 | D3 | 1881 | 812 | 540 |
-| D3 | 362 | 916 | 484 |
-| D3 | 5708 | 691 | 480 |
-| D3 | 1130 | 1925 | 472 |
-| D3 | 6350 | 1656 | 448 |
-| D3 | 1212 | 3849 | 447 |
-| D3 | 2490 | 7013 | 442 |
-| D3 | 3515 | 1557 | 438 |
-| D3 | 373 | 3372 | 438 |
-| D3 | 450 | 6887 | 438 |
-| D3 | 1053 | 1042 | 405 |
-| D4 | 4102 | 2736 | 662 |
-| D4 | 3213 | 1908 | 661 |
-| D4 | 3010 | 3893 | 569 |
-| D4 | 4475 | 5511 | 495 |
-| D4 | 5686 | 702 | 470 |
-| D4 | 2468 | 3098 | 425 |
-| D4 | 3619 | 1184 | 419 |
-| D4 | 1135 | 1996 | 401 |
+| D3 | 356 | 916 | 489 |
+| D3 | 5714 | 685 | 482 |
+| D3 | 1113 | 1919 | 475 |
+| D3 | 395 | 6843 | 472 |
+| D3 | 6344 | 1656 | 449 |
+| D3 | 1201 | 3849 | 448 |
+| D3 | 2484 | 7013 | 443 |
+| D3 | 3520 | 1563 | 440 |
+| D3 | 378 | 3372 | 439 |
+| D3 | 4458 | 2654 | 417 |
+| D4 | 4107 | 2703 | 665 |
+| D4 | 3213 | 1925 | 654 |
+| D4 | 3010 | 3899 | 568 |
+| D4 | 4480 | 5527 | 497 |
+| D4 | 5675 | 702 | 462 |
+| D4 | 1102 | 1903 | 456 |
+| D4 | 2457 | 3109 | 422 |
+| D4 | 3625 | 1168 | 422 |
 | D4 | 3433 | 4475 | 401 |
-| D4 | 3992 | 3466 | 398 |
-| D4 | 400 | 3268 | 394 |
+| D4 | 395 | 3279 | 395 |
+| D4 | 3943 | 3778 | 392 |
 | D4 | 4743 | 1881 | 370 |
-| D5 | 4102 | 2709 | 672 |
-| D5 | 3230 | 1897 | 650 |
-| D5 | 3021 | 3954 | 573 |
-| D5 | 1842 | 707 | 499 |
-| D5 | 3915 | 3389 | 485 |
-| D5 | 1102 | 1930 | 471 |
-| D5 | 378 | 965 | 450 |
-| D5 | 2462 | 3109 | 425 |
-| D5 | 5571 | 740 | 421 |
-| D5 | 2868 | 2533 | 420 |
-| D5 | 417 | 3241 | 394 |
-| D5 | 3224 | 3263 | 367 |
+| D5 | 4102 | 2714 | 674 |
+| D5 | 3219 | 1919 | 658 |
+| D5 | 3021 | 3943 | 574 |
+| D5 | 3904 | 3389 | 481 |
+| D5 | 1804 | 762 | 463 |
+| D5 | 417 | 998 | 435 |
+| D5 | 2862 | 2539 | 421 |
+| D5 | 998 | 1947 | 398 |
+| D5 | 2517 | 3153 | 379 |
+| D5 | 5527 | 828 | 353 |
 
 ## Rebalance lists (owner 2026-09-04: fewer fights on routes, more off them)
 
@@ -81,94 +79,95 @@ Share of sampled land cells with no hostile place within 350 m. Below them are t
 
 | record | band | region | route m | other fights within 250 m |
 |---|---|---|---:|---:|
-| `place.hist-heartland.fenlord-tomb-deep` | D3 | hist-heartland | 222 | 8 |
-| `place.hist-heartland.root-gallery-collapsed-nine` | D5 | hist-heartland | 146 | 6 |
-| `place.hist-heartland.treasure-hunters-live-camp` | D2 | hist-heartland | 247 | 6 |
-| `place.naga-kur-deeps.air-pocket-station-deeps` | D5 | naga-kur-deeps | 179 | 6 |
-| `place.naga-kur-deeps.art-and-destroy-site-deeps` | D5 | naga-kur-deeps | 143 | 6 |
+| `place.hist-heartland.fenlord-tomb-deep` | D2 | hist-heartland | 120 | 8 |
+| `place.hist-heartland.root-gallery-collapsed-nine` | D5 | hist-heartland | 55 | 6 |
+| `place.hist-heartland.treasure-hunters-live-camp` | D3 | hist-heartland | 247 | 6 |
 | `place.dunmer-north.the-ash-holding` | D3 | dunmer-north | 182 | 5 |
-| `place.dunmer-north.the-shell-ground` | D3 | dunmer-north | 169 | 5 |
-| `place.hist-heartland.cult-raid-camp-unbound` | D4 | hist-heartland | 90 | 5 |
-| `place.hist-heartland.pilgrim-camp-sap-road` | D4 | hist-heartland | 120 | 5 |
-| `place.hist-heartland.squatted-ruin-home-hollow` | D4 | hist-heartland | 91 | 5 |
+| `place.dunmer-north.the-shell-ground` | D3 | dunmer-north | 31 | 5 |
+| `place.hist-heartland.squatted-ruin-home-hollow` | D4 | hist-heartland | 57 | 5 |
 | `place.hist-heartland.standing-curiosity-unexplained` | D3 | hist-heartland | 279 | 5 |
-| `place.hist-heartland.submerged-xanmeer-topmost` | D4 | hist-heartland | 102 | 5 |
+| `place.hist-heartland.submerged-xanmeer-topmost` | D5 | hist-heartland | 103 | 5 |
 | `place.hist-heartland.umpholo-mission` | D3 | hist-heartland | 206 | 5 |
-| `place.imperial-fringe.the-back-kiln` | D2 | imperial-fringe | 6 | 5 |
-| `place.imperial-fringe.the-silent-halls` | D4 | imperial-fringe | 126 | 5 |
-| `place.imperial-fringe.whispers-house-of-the-low-fen` | D3 | imperial-fringe | 9 | 5 |
-| `place.mercantile-coast.alessian-hull` | D4 | mercantile-coast | 91 | 5 |
-| `place.mercantile-coast.glowfen-murkmire` | D3 | mercantile-coast | 6 | 5 |
-| `place.naga-kur-deeps.bog-blight-ground-nine-stakes` | D5 | naga-kur-deeps | 84 | 5 |
-| `place.naga-kur-deeps.horwalli-waterworks-deeps` | D5 | naga-kur-deeps | 31 | 5 |
-| `place.naga-kur-deeps.leviathan-bone-field` | D5 | naga-kur-deeps | 66 | 5 |
+| `place.imperial-fringe.the-back-kiln` | D2 | imperial-fringe | 52 | 5 |
+| `place.imperial-fringe.the-silent-halls` | D4 | imperial-fringe | 218 | 5 |
+| `place.imperial-fringe.whispers-house-of-the-low-fen` | D2 | imperial-fringe | 21 | 5 |
+| `place.imperial-penal-south.flu-mass-grave` | D2 | imperial-penal-south | 76 | 5 |
+| `place.mercantile-coast.alessian-hull` | D4 | mercantile-coast | 224 | 5 |
+| `place.mercantile-coast.glowfen-murkmire` | D3 | mercantile-coast | 14 | 5 |
+| `place.naga-kur-deeps.bog-blight-ground-nine-stakes` | D5 | naga-kur-deeps | 32 | 5 |
 | `place.dunmer-north.the-north-vista` | D3 | dunmer-north | 31 | 4 |
-| `place.hist-heartland.drawdown-flat-exposed` | D3 | hist-heartland | 76 | 4 |
-| `place.hist-heartland.drowning-narrows-current` | D3 | hist-heartland | 30 | 4 |
-| `place.hist-heartland.maturity-trial-chukka-sei` | D3 | hist-heartland | 36 | 4 |
-| `place.hist-heartland.sap-touched-miredancer` | D4 | hist-heartland | 37 | 4 |
-| `place.hist-heartland.waterfall-chamber-root-fall` | D3 | hist-heartland | 20 | 4 |
-| `place.imperial-fringe.the-broke-column` | D3 | imperial-fringe | 217 | 4 |
-| `place.imperial-fringe.the-kept-terrace` | D4 | imperial-fringe | 9 | 4 |
-| `place.imperial-fringe.the-quiet-pit` | D4 | imperial-fringe | 42 | 4 |
-| `place.imperial-fringe.the-second-hearth` | D3 | imperial-fringe | 64 | 4 |
+| `place.hist-heartland.drawdown-flat-exposed` | D3 | hist-heartland | 15 | 4 |
+| `place.hist-heartland.drowning-narrows-current` | D3 | hist-heartland | 146 | 4 |
+| `place.hist-heartland.maturity-trial-chukka-sei` | D2 | hist-heartland | 176 | 4 |
+| `place.hist-heartland.sap-touched-miredancer` | D4 | hist-heartland | 140 | 4 |
+| `place.hist-heartland.waterfall-chamber-root-fall` | D3 | hist-heartland | 36 | 4 |
+| `place.imperial-fringe.the-kept-terrace` | D5 | imperial-fringe | 180 | 4 |
+| `place.imperial-fringe.the-quiet-pit` | D4 | imperial-fringe | 63 | 4 |
+| `place.imperial-fringe.the-second-hearth` | D2 | imperial-fringe | 60 | 4 |
 | `place.imperial-fringe.the-white-throat` | D3 | imperial-fringe | 84 | 4 |
-| `place.imperial-penal-south.blackrose-prison` | D2 | imperial-penal-south | 254 | 4 |
-| `place.imperial-penal-south.rose-outworks` | D2 | imperial-penal-south | 204 | 4 |
-| `place.mercantile-coast.hist-less-fringe` | D2 | mercantile-coast | 35 | 4 |
-| `place.mercantile-coast.ixtaxh-xanmeer` | D3 | mercantile-coast | 69 | 4 |
-| `place.mercantile-coast.quinrawl-anchorage` | D4 | mercantile-coast | 96 | 4 |
-| `place.mercantile-coast.slaughter-memorial` | D2 | mercantile-coast | 25 | 4 |
+| `place.imperial-penal-south.blackrose-prison` | D2 | imperial-penal-south | 117 | 4 |
+| `place.imperial-penal-south.rose-outworks` | D2 | imperial-penal-south | 82 | 4 |
+| `place.mercantile-coast.hist-less-fringe` | D2 | mercantile-coast | 44 | 4 |
+| `place.mercantile-coast.ixtaxh-xanmeer` | D3 | mercantile-coast | 95 | 4 |
+| `place.mercantile-coast.slaughter-memorial` | D2 | mercantile-coast | 39 | 4 |
 | `place.naga-kur-deeps.naga-village-raiding` | D4 | naga-kur-deeps | 167 | 4 |
-| `place.naga-kur-deeps.sealed-xanmeer-vakka-deeps` | D5 | naga-kur-deeps | 257 | 4 |
+| `place.naga-kur-deeps.sealed-xanmeer-vakka-deeps` | D5 | naga-kur-deeps | 139 | 4 |
+| `place.saxhleel-coast.lagoon-submerged-xanmeer` | D3 | saxhleel-coast | 295 | 4 |
 | `place.dunmer-north.ten-maur-wolk` | D3 | dunmer-north | 92 | 3 |
 | `place.dunmer-north.the-north-root-gallery` | D3 | dunmer-north | 21 | 3 |
-| `place.dunmer-north.the-quiet-landing` | D3 | dunmer-north | 83 | 3 |
-| `place.hist-heartland.broken-xanmeer-subsumed` | D4 | hist-heartland | 91 | 3 |
-| `place.hist-heartland.burn-scar-village-ash` | D2 | hist-heartland | 212 | 3 |
-| `place.hist-heartland.canopy-crossing-rope-basin` | D5 | hist-heartland | 26 | 3 |
-| `place.hist-heartland.dive-shaft-xanmeer-well` | D5 | hist-heartland | 274 | 3 |
-| `place.hist-heartland.hackwing-roost-wild` | D3 | hist-heartland | 41 | 3 |
-| `place.hist-heartland.mist-locked-hollow-basin` | D4 | hist-heartland | 136 | 3 |
-| `place.hist-heartland.pilgrim-camp-hist-tsoko` | D3 | hist-heartland | 116 | 3 |
+| `place.dunmer-north.the-quiet-landing` | D3 | dunmer-north | 101 | 3 |
+| `place.hist-heartland.burn-scar-village-ash` | D2 | hist-heartland | 213 | 3 |
+| `place.hist-heartland.canopy-crossing-rope-basin` | D5 | hist-heartland | 94 | 3 |
+| `place.hist-heartland.dive-shaft-xanmeer-well` | D5 | hist-heartland | 237 | 3 |
+| `place.hist-heartland.hackwing-roost-wild` | D3 | hist-heartland | 40 | 3 |
+| `place.hist-heartland.pilgrim-camp-hist-tsoko` | D3 | hist-heartland | 113 | 3 |
 | `place.hist-heartland.poacher-camp-sap` | D4 | hist-heartland | 64 | 3 |
-| `place.hist-heartland.rootworm-burrow-dead` | D4 | hist-heartland | 34 | 3 |
-| `place.hist-heartland.serpent-ground-giant-snake` | D5 | hist-heartland | 74 | 3 |
-| `place.hist-heartland.sinkhole-mouth-basin` | D3 | hist-heartland | 153 | 3 |
-| `place.hist-heartland.sleeping-in-the-ring` | D3 | hist-heartland | 37 | 3 |
-| `place.hist-heartland.treasure-hunters-dead-camp` | D5 | hist-heartland | 272 | 3 |
+| `place.hist-heartland.rootworm-burrow-dead` | D4 | hist-heartland | 28 | 3 |
+| `place.hist-heartland.serpent-ground-giant-snake` | D5 | hist-heartland | 42 | 3 |
+| `place.hist-heartland.sinkhole-mouth-basin` | D2 | hist-heartland | 223 | 3 |
+| `place.hist-heartland.sleeping-in-the-ring` | D3 | hist-heartland | 128 | 3 |
+| `place.hist-heartland.treasure-hunters-dead-camp` | D4 | hist-heartland | 260 | 3 |
+| `place.hist-heartland.urn-vault-blasphemers` | D3 | hist-heartland | 268 | 3 |
 | `place.imperial-fringe.onkobra-kwama-mine` | D3 | imperial-fringe | 49 | 3 |
-| `place.imperial-fringe.silverhand-cairns` | D2 | imperial-fringe | 91 | 3 |
-| `place.imperial-fringe.the-buried-spears` | D2 | imperial-fringe | 139 | 3 |
-| `place.imperial-fringe.the-empty-steading` | D4 | imperial-fringe | 65 | 3 |
+| `place.imperial-fringe.silverhand-cairns` | D2 | imperial-fringe | 70 | 3 |
+| `place.imperial-fringe.the-buried-spears` | D2 | imperial-fringe | 133 | 3 |
+| `place.imperial-fringe.the-empty-steading` | D4 | imperial-fringe | 140 | 3 |
+| `place.imperial-fringe.the-second-empire-locks` | D2 | imperial-fringe | 55 | 3 |
+| `place.imperial-penal-south.akaviri-works` | D3 | imperial-penal-south | 98 | 3 |
+| `place.imperial-penal-south.drowned-gallery` | D3 | imperial-penal-south | 197 | 3 |
+| `place.imperial-penal-south.voriplasm-vault` | D3 | imperial-penal-south | 118 | 3 |
+| `place.mercantile-coast.hammock-crown-murkmire` | D3 | mercantile-coast | 68 | 3 |
+| `place.mercantile-coast.insular-jungle-village` | D3 | mercantile-coast | 5 | 3 |
+| `place.naga-kur-deeps.drowning-narrows-tidal-gate` | D5 | naga-kur-deeps | 22 | 3 |
 
 **Off-route gaps** — land at least 320 m from every route and 350 m from every fight. New or moved hostile records may go here and nowhere else.
 
 | band | x m | z m | nearest fight m |
 |---|---:|---:|---:|
-| D3 | 1881 | 801 | 542 |
-| D3 | 4486 | 5544 | 500 |
-| D3 | 356 | 916 | 489 |
-| D3 | 1135 | 1925 | 472 |
-| D3 | 1047 | 1042 | 404 |
-| D3 | 1097 | 3921 | 394 |
-| D3 | 345 | 5604 | 381 |
-| D3 | 735 | 2500 | 372 |
-| D4 | 3208 | 4113 | 523 |
-| D4 | 4261 | 2780 | 509 |
-| D4 | 4480 | 5527 | 497 |
-| D4 | 2950 | 1799 | 493 |
-| D4 | 1091 | 1908 | 451 |
-| D4 | 3712 | 4787 | 399 |
-| D4 | 3943 | 3784 | 393 |
-| D5 | 3148 | 2188 | 529 |
-| D5 | 4222 | 2808 | 523 |
-| D5 | 1837 | 707 | 498 |
-| D5 | 1102 | 1930 | 471 |
-| D5 | 466 | 1042 | 424 |
-| D5 | 3926 | 3553 | 409 |
-| D5 | 3230 | 3954 | 400 |
-| D5 | 3482 | 4699 | 353 |
+| D3 | 1881 | 795 | 541 |
+| D3 | 4486 | 5527 | 492 |
+| D3 | 351 | 910 | 490 |
+| D3 | 1119 | 1919 | 476 |
+| D3 | 4469 | 2687 | 412 |
+| D3 | 1042 | 1036 | 409 |
+| D3 | 1102 | 3926 | 392 |
+| D3 | 345 | 5615 | 384 |
+| D3 | 713 | 2495 | 369 |
+| D4 | 3027 | 3965 | 567 |
+| D4 | 4091 | 3027 | 551 |
+| D4 | 2950 | 1788 | 495 |
+| D4 | 4480 | 5522 | 495 |
+| D4 | 2473 | 3109 | 420 |
+| D4 | 3520 | 4661 | 401 |
+| D4 | 3987 | 3844 | 367 |
+| D5 | 3016 | 3948 | 569 |
+| D5 | 4129 | 2989 | 533 |
+| D5 | 3142 | 2193 | 524 |
+| D5 | 1069 | 1947 | 458 |
+| D5 | 1799 | 762 | 458 |
+| D5 | 3334 | 3323 | 446 |
+| D5 | 2440 | 3098 | 403 |
+| D5 | 356 | 1020 | 391 |
 
 ## Routes with the longest gaps
 
@@ -178,24 +177,24 @@ Share of sampled land cells with no hostile place within 350 m. Below them are t
 | `track.hist-heartland.nightbound-lightless` | track | 1.55 | 0 | — (none) |
 | `track.dunmer-north.stands-on-the-island` | track | 2.0 | 2 | 1000 |
 | `track.dunmer-north.saltmarch-village` | track | 2.8 | 4 | 700 |
-| `route.boat.soulrest-lilmoth` | boat | 4.65 | 7 | 664 |
+| `route.boat.soulrest-lilmoth` | boat | 4.6 | 7 | 657 |
 | `track.imperial-fringe.stonewastes` | track | 1.85 | 3 | 617 |
 | `track.dunmer-north.the-veterans-ridge` | track | 3.25 | 6 | 542 |
-| `route.road.thorn-tear-road` | road | 2.05 | 5 | 410 |
-| `route.road.stormhold-thorn` | road | 13.0 | 32 | 406 |
-| `track.dunmer-north.the-field-gate-garrison` | track | 5.8 | 16 | 362 |
+| `track.dunmer-north.the-field-gate-garrison` | track | 5.75 | 16 | 359 |
 | `route.boat.lilmoth-archon` | boat | 2.45 | 7 | 350 |
 | `track.dunmer-north.crystalgate` | track | 4.0 | 12 | 333 |
 | `track.dunmer-north.tearmouth` | track | 2.3 | 7 | 329 |
 | `route.boat.archon-thorn` | boat | 4.9 | 15 | 327 |
 | `track.pirate-freeholds.veterans-holding` | track | 3.85 | 12 | 321 |
-| `track.dunmer-north.channel-cross-village` | track | 4.75 | 15 | 317 |
-| `route.road.gideon-blackwood-road` | road | 3.65 | 12 | 304 |
-| `route.road.alten-corimont-stormhold` | road | 3.3 | 11 | 300 |
-| `route.road.soulrest-blackrose` | road | 3.6 | 12 | 300 |
+| `track.dunmer-north.channel-cross-village` | track | 4.7 | 15 | 313 |
 | `track.dunmer-north.hissmir` | track | 2.4 | 8 | 300 |
-| `route.road.archon-gideon` | road | 8.0 | 27 | 296 |
 | `track.imperial-fringe.the-stone-talkers-watch` | track | 3.75 | 13 | 288 |
 | `track.pirate-freeholds.dunmer-frontier-holding` | track | 2.7 | 10 | 270 |
-| `route.boat.alten-corimont-helstrom` | boat | 3.45 | 13 | 265 |
-| `route.road.helstrom-blackrose` | road | 7.3 | 31 | 235 |
+| `route.boat.alten-corimont-helstrom` | boat | 3.5 | 13 | 269 |
+| `route.road.thorn-tear-road` | road | 1.3 | 5 | 260 |
+| `route.road.stormhold-thorn` | road | 8.85 | 36 | 246 |
+| `track.dunmer-north.mazzatun` | track | 3.25 | 14 | 232 |
+| `track.imperial-fringe.swampmoth-town` | track | 3.25 | 14 | 232 |
+| `route.road.archon-gideon` | road | 6.25 | 27 | 231 |
+| `route.road.gideon-blackwood-road` | road | 2.5 | 11 | 227 |
+| `track.dunmer-north.hutan-tzel` | track | 1.1 | 5 | 220 |

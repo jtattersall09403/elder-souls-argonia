@@ -15,6 +15,11 @@
    "enforced": true
   },
   {
+   "path": "world/sources/catalogue/design-groups.json",
+   "enforced": true,
+   "_": "Design groups (16g): places that are one blueprint and one build; worldgen.catalogue checks the membership, liveness and spread."
+  },
+  {
    "path": "world/sources/placement/settlement-asset-inventory.json",
    "enforced": true
   },

@@ -190,6 +190,14 @@ class SurveyTerrain:
         epatch = s.water_depth_m[max(0, wrow - er):min(wn, wrow + er + 1),
                                  max(0, wcol - er):min(wn, wcol + er + 1)]
         hyd = smp["hydrology"]
+        under = hyd.get("record") or {}
+        if under.get("id"):
+            record = {"id": under["id"], "kind": under.get("kind"),
+                      "season": under.get("season")}
+        else:
+            near = s.nearest_water_entity(x, z) or {}
+            record = {"id": near.get("entityId"), "kind": near.get("kind"),
+                      "season": near.get("season")}
         return {
             "elevationM": smp["elevationM"],
             "slopeDeg": smp["slopeDeg"],
@@ -206,8 +214,13 @@ class SurveyTerrain:
             "distanceToWaterM": round(float(s.dist_to_water_m[row, col]), 1),
             "shoreDistanceM": hyd["shoreDistanceM"],
             "coastDistanceM": hyd["coastDistanceM"],
-            "wetland": hyd["wetland"],
-            "floodBand": hyd["floodBand"],
+            # The graph record of the water here (0066): the entity under the
+            # point when it is wet, else the nearest one. Kind and season come
+            # from `hydrology-graph.json`; nothing here re-derives "marsh" or
+            # "river" from a raster of its own. Replaces the purged
+            # `wetland`/`floodBand` sample keys.
+            "record": record,
+            "wetGround": bool(s.wet_ground[row, col]),
         }
 
     def line_of_sight(self, ax: float, az: float, bx: float, bz: float) -> bool:

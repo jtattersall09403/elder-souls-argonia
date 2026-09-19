@@ -479,13 +479,16 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               />
             )}
             <SettlementColliders solidsRef={settlementSolidsRef} />
-            {/* 16e: operator sockets, the talk prompt and the travel menu. */}
-            <TravelSockets
+            {/* 16e: operator sockets, the talk prompt and the travel menu.
+                16g: `travel_services` is the stage that sites them, so they
+                are not mounted while the ladder hides the services layer —
+                sockets from an older run stand where nothing was solved. */}
+            {!hiddenLayers.has("services") && <TravelSockets
               positionRef={focusRef}
               groundAt={settlementGroundAt}
               teleportTo={teleportTo}
               baseUrl={base}
-            />
+            />}
             {/* The edge of the world (16d): four invisible walls on the border
                 of the built ground, and the one line the player gets there. */}
             <BoundaryWalls extentM={terrainExtentM} verticalScale={verticalScale} />

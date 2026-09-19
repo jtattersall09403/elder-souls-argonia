@@ -73,26 +73,18 @@ def test_distance_to_water_measures_real_water(survey):
 
 
 def test_hostility_denominator_is_measured_dry_ground(survey):
-    """The denominator of every /km2 figure the owner reads."""
+    """The denominator of every /km2 figure the owner reads.
+
+    It is the dry-season signed depth read through the record reader, per
+    band. The class-raster clause this test used to carry is gone with its
+    subject: `hostility_frequency` no longer opens `water-class.png` at all
+    (16g, decision 0066), so there is nothing left to compare it against — the
+    superset property is now asserted of the ENTITY raster, below.
+    """
     from .hostility_frequency import build_report  # noqa: PLC0415
     assert not bool((survey.dry_grid & survey.wet_grid).any())
-    class_land = np.isin(survey.water_class, (0, 5))
-    excluded = survey.dry_grid & ~class_land
-    # The bound is 3.0 km2, not the 7.14 km2 the bake excludes today, because
-    # the water compiler is deliberately shrinking this number: `CLASS_EXT_PX`
-    # 4 -> 5 with the new `CLASS_EXT_RISE_M = 2.0` cap takes the excluded area
-    # to a measured 4.96 km2 once the chain re-runs (e7bbd279). Both bakes must
-    # pass; a bound tuned to one of them would go red on the other and read as
-    # a defect. If it ever drops below 3.0 the class raster has stopped being a
-    # superset of the wet ground and decision 0049 needs re-reading.
-    assert excluded.sum() * _cell_km2(survey) > 3.0, (
-        f"the class raster excludes only "
-        f"{excluded.sum() * _cell_km2(survey):.2f} km2 of dry ground; the bake "
-        f"changed and decision 0049 needs review")
-    # Asserted BOTH ways, per band. The class raster UNDER-reports land here
-    # (26.38 km2 against 32.96 km2 measured on the bake this was written
-    # against), so a one-sided "no more than the measured area" bound cannot
-    # catch it — it passes while every /km2 figure runs too high.
+    # Asserted per band and exactly: a denominator that is not the measured
+    # dry ground shows up here as a band whose land area does not match.
     report = build_report()
     for band in report["bands"]:
         b = band["band"]
@@ -100,20 +92,28 @@ def test_hostility_denominator_is_measured_dry_ground(survey):
         assert band["landKm2"] == pytest.approx(measured, abs=0.02), (
             f"band D{b} claims {band['landKm2']:.2f} km2 of land; measured dry "
             f"ground is {measured:.2f} km2 — the denominator is not the signed depth")
+    assert report["landMeasured"]["measuredLandKm2"] == pytest.approx(
+        float(survey.dry_grid.sum()) * _cell_km2(survey), abs=0.02)
 
 
-def test_the_class_raster_is_a_superset_never_a_wetness_mask(survey):
-    """The contract `water-meta.json` states, asserted on the shipped data.
+def test_the_entity_raster_covers_every_wet_cell(survey):
+    """The RECORD is the classification (0065/0066), and it is a superset.
 
-    Every wet cell carries a class; a classed cell need not be wet. If this
-    ever inverts, the class raster has changed meaning and every consumer
-    decision recorded in 0049 has to be re-judged.
+    Every cell the bake publishes as wet carries a hydrology-graph entity, so
+    any consumer can join a wet cell to its reach or body; and entities also
+    cover ground that is dry in the dry season (the seasonal band), so the
+    record is a superset of the base-season water, never a wetness mask.
+
+    This replaces the same assertion about `water-class.png`: on the shipped
+    bake 155 wet cells carry no class, and nothing below the gate reads that
+    raster any more.
     """
-    classed = survey.water_class > 0
-    assert int((survey.wet_grid & ~classed).sum()) == 0, (
-        "a wet cell carries no class — the class raster is no longer a superset")
-    assert int((classed & survey.dry_grid).sum()) > 0, (
-        "the class raster no longer over-reports; re-read decision 0049")
+    labels = survey._entity_label_grid
+    assert int((survey.wet_grid & (labels == 0)).sum()) == 0, (
+        f"{int((survey.wet_grid & (labels == 0)).sum())} wet cells carry no graph "
+        f"entity — the record is no longer a superset of the water")
+    assert int(((labels > 0) & survey.dry_grid).sum()) > 0, (
+        "no entity covers dry-season dry ground; the seasonal band has vanished")
 
 
 def test_wet_season_extent_contains_the_base_season(survey):
@@ -122,10 +122,15 @@ def test_wet_season_extent_contains_the_base_season(survey):
     # ...and it is really applied. Silently dropping the lift would make every
     # wall gate read the dry season again, which is the milder half of this
     # defect class, so the seasonal ground has to be measurably there.
+    # 0.45 km2 on the bake of 16e. The bound is 0.1 km2: since 16c the
+    # compiled level IS the wet-season high-water line and the season only
+    # draws it DOWN, so this band is the draw-down, not the old +1.4 m lift,
+    # and it is a tenth of the 3.95 km2 the pre-16c model produced. Zero would
+    # mean the draw-down is not being applied at all.
     seasonal_only = (survey.wet_season_grid & ~survey.wet_grid).sum() * _cell_km2(survey)
-    assert seasonal_only > 1.0, (
-        f"only {seasonal_only:.2f} km2 of seasonal ground; the wet-season lift "
-        f"(water-shore.png G x SEASON_AMPLITUDE_M) is not being applied")
+    assert seasonal_only > 0.1, (
+        f"only {seasonal_only:.2f} km2 of seasonal ground; the dry-season "
+        f"draw-down (water-shore.png G x season.amplitudeM) is not being applied")
 
 
 def test_channel_season_types_rather_than_hides_seasonal_water(survey):

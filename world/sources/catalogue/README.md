@@ -115,6 +115,40 @@ A record that sells passage carries `travelStation {modes[], destinations[]}` �
 the Morrowind-style pay-and-go network; destinations must be live records that
 are stations themselves.
 
+## schemaVersion 2 record fields added by 16g
+
+Nine fields, added to the same schemaVersion 2 records by
+`worldgen.migrate_catalogue_16g`. The validator in `worldgen/catalogue.py` is
+still the source of truth; this is the one-line index.
+
+- `schemaVersion` — required on every record. The file-level number is the
+  maximum over its records, so a file can never claim a shape none of its
+  records has.
+- `designGroup` — `group.<slug>`, a row in `design-groups.json`: places that
+  are one design, blueprinted and built together.
+- `coSitedWith[]` — `{place, relation, measurement}` for a pair designed
+  together; `worldgen.co_siting --check` measures every row on the ground.
+- `ownerGuided` / `vasteiTutorialScene` — the owner is hands-on here; the
+  tutorial flag is only valid on an owner-guided record.
+- `reservedFor` — ground held for one purpose (`player-stronghold`), at most
+  one live record per value.
+- `heroHist.status` — `hero` or `reserve`, and `reserve` exactly when
+  `powerSlot` is null. Ten live records hold a power slot.
+- `footprintRadiusM` / `footprintSource` — the ground the place occupies, on
+  every record with a `positionM`. `band` is the type recipe's radius,
+  `blueprint` a measured build, `polygon` a drawn shape.
+- `footprintPolygon` — `[[x, z], ...]` in metres for an M4 or M5 record whose
+  shape matters; it must contain the record's own dot.
+- `cityLayout` — `{gate, centre, way, source}` for an M5 record: where you
+  come in, where you are going, and the street between them.
+- `underwaterAccessDetail` — how you get into a place whose way in is under
+  water: the gating, where you surface, whether there is air, how deep.
+
+`design-groups.json` carries `{schemaVersion, groups: [{id, anchor, members,
+loreReason, maxSpreadM}]}`. A row is the reason two records may stand inside
+each other's footprint: one agent blueprints and builds them together. It is
+registered in both `tooling/repo-standards` registries.
+
 ## `services[]` — which services, not "services" (2026-09-05)
 
 `rewardProfile.kinds: ["services"]` said a place had some; it never said which,

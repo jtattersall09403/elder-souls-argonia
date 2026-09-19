@@ -60,34 +60,74 @@ vocabulary must be derived per region so it fits that region's ground and
 culture (a Dunmer plantation's cellar door, an Imperial fort's sally gate,
 a coastal wreck's hull breach — not just marsh trapdoors and root-mouths).
 
-## 48. Interiors should be planned with exteriors
+## 48. Interiors are promised with the places; the promise vocabulary (16g, decision 0062)
 
-Each exterior location receives an `InteriorProgram` at placement time:
+A dungeon-kind place (`interior.kind` delve, dungeon, warren or complex;
+327 records) is sited, named and given its purpose with every other place.
+What must be *inside* it is a set of typed **promises** on the record's
+`interior` block, fixed here so 16j and Phase 15 author more in the same
+words and Phase 12 builds every interior against them. The binding schema
+is `worldgen/catalogue.py` (`interior`, schemaVersion 3); this section is
+the design statement and the two never disagree. The earlier
+`InteriorProgram` sketch is retired into it: `circulationGraph`,
+`lootLogic`, `encounterLogic` and `kitConstraints` are Phase 12's chamber
+graph, 13's loot and encounter compilers and the recipe table, not record
+fields.
 
-```ts
-interface InteriorProgram {
-  id: InteriorId;
-  exteriorLocationId: LocationId;
-  purpose: PurposeId;
-  historicalStates: HistoricalState[];
-  currentOccupants: OccupantGroup[];
-  roomFunctions: RoomFunction[];
-  circulationGraph: GraphRef;
-  entrances: EntranceBlueprint[];
-  underwaterConnections: WaterConnection[];
-  verticalRelationship: VerticalRelationship;
-  ownership: OwnershipProfile;
-  lootLogic: LootRule[];
-  encounterLogic: EncounterRule[];
-  kitConstraints: AssetConstraint[];
-}
-```
+**The block.** Beside the shipped fields (`kind`, `family`, `sizeBand`,
+`wetFraction`, `entranceCount`, `exteriorShell`, `programRef`):
 
-Exterior generation creates foundations, doors, cave mouths, wells, drains and underwater portals consistent with the programme. Interior geometry can be compiled in a later pass after the relevant kits and gameplay have matured.
+- `verticalRelationship` — below | behind | within | above-and-below |
+  across-water. On every record with an interior, buildings included.
+- `roomFunctions[]` — the ordered reveal, from the closed list `entrance`,
+  `antechamber`, `gauntlet`, `gallery`, `cache`, `boss`, `captive`, `shrine`,
+  `workshop`, `barracks`, `flooded-gallery`, `nursery`, `archive`,
+  `hearth`, `cistern`, `sump`, `stair-shaft`, `root-throat`, `drain`,
+  `cell-block`, `counting-room`, `dock-cavern`, `lookout`, `ossuary`,
+  `dream-chamber`, `collapse`, `midden`. At least `entrance` plus one; the
+  list is what the family needs, not a menu every record fills.
+- `loop` — none | shortcut-back | second-entrance | vertical-return |
+  water-loop. A second entrance on the record implies second-entrance.
+- `traversal` — `{swimM, diveM, climbM, breathGated, current
+  (none|mild|strong), darkFraction}`: what the body must do, in metres and
+  booleans, so a capability profile (module 75 §52) can answer "can I".
+- `combatSpaces[]` (≤ 3) — `{scale: duel|smallGroup|largeGroup|boss,
+  footing: dry|wade|swim|mixed, clearance: tight|standard|generous}`; the
+  §49 blueprint is compiled from these intents in Phase 12.
+- `anchorSockets[]` — `{id: socket.<place-slug>.<kind>[-n], kind, whereInInterior,
+  provision?}` with kind from `boss`, `boss-chest`, `captive`, `cache`,
+  `shrine`, `escape`, `evidence`, `scene`, `station`; `provision` names the
+  `quest.provision.*` id it answers. These are the pins the quest and loot
+  compilers address; a quest-required socket is written from the quest
+  plan, never invented.
+- `light` — daylit | torchlit | bioluminescent | dark | mixed.
+- `lock` — none | simple | hard | unpickable-key | quest-sealed
+  (the unpickable-lock class and the spell-as-alternate-key pattern of the
+  buildout register live on this field).
+- every `contents.*[]` slot carries `whereInInterior` — entrance |
+  threshold | main | deep | boss | hidden | flooded | above.
 
-The runtime **must** support (nothing below exists yet: 16i builds the load
-contract, Phase 12 the rest; AI-state preservation across portals is
-build-out work):
+**Rules.** (1) A promise is something the interior *can* say, never must:
+a captive socket on every delve is the sameness the province must not
+have; `test_catalogue` fails two dungeon-kind records of one family within
+2 km that agree on more than three of the axes {room set, loop, light,
+lock, combat scales, traversal profile, socket kinds} (97 A6's ≥ 3-axes
+rule applied to the promises). (2) Every family maps to a realisation
+recipe in `world/sources/catalogue/interior-recipes.json` backed by a kit
+in `apps/world-studio/public/kits/` or a built kit in
+`tooling/asset-pipeline/output/kits/` with its source, hash and credit; a
+family with no recipe is re-typed or sourced, never promised (0062). (3)
+The promises project to record-only obligations (`worldgen.place_obligations`,
+owner `phase-12`); the first chunk that emits a delivery manifest (16i)
+writes the manifest verifier. (4) Entrances stay decoupled from geology
+(§47); the entrance type on the record is siting data and picks the first
+room's kind (a `stair-throat` opens on a `stair-shaft`, an
+`underwater-entry` on a `flooded-gallery`).
+
+Exterior generation creates foundations, doors, cave mouths, wells, drains
+and underwater portals consistent with the promises. The runtime **must**
+support (nothing below exists yet: 16i builds the load contract, Phase 12
+the rest; AI-state preservation across portals is build-out work):
 
 - streamed interior cells for large buildings and dungeons;
 - seamless small huts and open structures;

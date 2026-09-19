@@ -5,6 +5,7 @@
   "places": [
     {
       "id": "place.mercantile-coast.alessian-hull",
+      "schemaVersion": 2,
       "name": "The Alessian Hull",
       "aliases": [],
       "classification": {
@@ -199,6 +200,8 @@
         3263.3,
         5406.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.islet-041",
@@ -222,8 +225,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 38.4,
-        "score": 1.804
+        "distanceToWaterM": 76.2,
+        "score": 1.804,
+        "water": {
+          "entityId": "reach.1801-2857",
+          "kind": "horizontal-channel",
+          "levelM": 1.54,
+          "season": "perennial",
+          "distanceM": 76.2
+        }
       },
       "proseRefs": [
         {
@@ -234,6 +244,7 @@
     },
     {
       "id": "place.mercantile-coast.alten-meerhleel",
+      "schemaVersion": 2,
       "name": "Alten Meerhleel",
       "aliases": [],
       "classification": {
@@ -403,6 +414,8 @@
         3210.6,
         6626.8
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0796",
@@ -417,7 +430,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 190.0,
         "distanceToWaterM": 5.5,
-        "score": 2.75
+        "score": 2.75,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -508,6 +528,7 @@
     },
     {
       "id": "place.mercantile-coast.ashfield",
+      "schemaVersion": 2,
       "name": "Ashfield",
       "aliases": [],
       "classification": {
@@ -647,6 +668,8 @@
         3122.9,
         6961.3
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1285",
@@ -670,8 +693,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 73.8,
-        "distanceToWaterM": 11.0,
-        "score": 3.843
+        "distanceToWaterM": 19.8,
+        "score": 3.843,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -757,6 +787,7 @@
     },
     {
       "id": "place.mercantile-coast.ashfield-hearth",
+      "schemaVersion": 2,
       "name": "Ashfield Hearth",
       "aliases": [],
       "classification": {
@@ -917,6 +948,7 @@
     },
     {
       "id": "place.mercantile-coast.ashroot-village",
+      "schemaVersion": 2,
       "name": "Ashroot",
       "aliases": [],
       "classification": {
@@ -1056,6 +1088,8 @@
         4027.6,
         5420.5
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1076",
@@ -1079,8 +1113,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 610.9,
-        "distanceToWaterM": 29.5,
-        "score": 3.318
+        "distanceToWaterM": 28.0,
+        "score": 3.318,
+        "water": {
+          "entityId": "body.2244-2971",
+          "kind": "swamp",
+          "levelM": 24.18,
+          "season": "perennial",
+          "distanceM": 28.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -1159,6 +1200,7 @@
     },
     {
       "id": "place.mercantile-coast.bereaved-village-murkmire",
+      "schemaVersion": 2,
       "name": "Sees-No-Root",
       "aliases": [],
       "classification": {
@@ -1308,6 +1350,8 @@
         3200.7,
         6290.0
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0791",
@@ -1332,7 +1376,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 91.9,
         "distanceToWaterM": 5.5,
-        "score": 3.841
+        "score": 3.841,
+        "water": {
+          "entityId": "body.1761-3428",
+          "kind": "marsh-fringe",
+          "levelM": 1.65,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -1411,6 +1462,7 @@
     },
     {
       "id": "place.mercantile-coast.bog-blight-ground-murkmire",
+      "schemaVersion": 2,
       "name": "Murkmire Pulled Field",
       "aliases": [
         "The Pulled Field"
@@ -1603,6 +1655,8 @@
         3950.9,
         5760.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0814",
@@ -1626,12 +1680,20 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 263.8,
-        "distanceToWaterM": 19.8,
-        "score": 4.829
+        "distanceToWaterM": 27.4,
+        "score": 4.829,
+        "water": {
+          "entityId": "body.2121-3166",
+          "kind": "marsh-fringe",
+          "levelM": 4.1,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       }
     },
     {
       "id": "place.mercantile-coast.bone-waystation",
+      "schemaVersion": 2,
       "name": "The Carrying House",
       "aliases": [],
       "classification": {
@@ -1809,6 +1871,7 @@
     },
     {
       "id": "place.mercantile-coast.bramman-river-ferry",
+      "schemaVersion": 2,
       "name": "Tideward Stage",
       "aliases": [],
       "classification": {
@@ -2002,6 +2065,8 @@
         1025.5,
         7073.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1339",
@@ -2025,8 +2090,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 5.5,
-        "score": 4.812
+        "distanceToWaterM": 12.3,
+        "score": 4.812,
+        "water": {
+          "entityId": "body.555-3858",
+          "kind": "marsh-fringe",
+          "levelM": 1.15,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "terrainRequests": [
         {
@@ -2069,6 +2141,7 @@
     },
     {
       "id": "place.mercantile-coast.bramman-screen",
+      "schemaVersion": 2,
       "name": "Bramman's Screen",
       "aliases": [],
       "classification": {
@@ -2216,6 +2289,8 @@
         3510.0,
         6723.4
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0797",
@@ -2240,7 +2315,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 93.1,
         "distanceToWaterM": 5.5,
-        "score": 2.352
+        "score": 2.352,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -2300,6 +2382,7 @@
     },
     {
       "id": "place.mercantile-coast.bright-throat-village",
+      "schemaVersion": 2,
       "name": "Bright-Throat Village",
       "aliases": [],
       "classification": {
@@ -2451,6 +2534,8 @@
         3292.9,
         6846.2
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0793",
@@ -2465,7 +2550,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 23.3,
         "distanceToWaterM": 11.0,
-        "score": 2.949
+        "score": 2.949,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -2544,6 +2636,7 @@
     },
     {
       "id": "place.mercantile-coast.burn-memorial",
+      "schemaVersion": 2,
       "name": "The Ash Cairns",
       "aliases": [],
       "classification": {
@@ -2714,6 +2807,7 @@
     },
     {
       "id": "place.mercantile-coast.canopy-crossing-keel",
+      "schemaVersion": 2,
       "name": "The Overpass",
       "aliases": [],
       "classification": {
@@ -2854,6 +2948,7 @@
     },
     {
       "id": "place.mercantile-coast.chasepoint",
+      "schemaVersion": 2,
       "name": "Chasepoint",
       "aliases": [],
       "classification": {
@@ -3000,6 +3095,8 @@
         967.8,
         6555.5
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1076",
@@ -3023,8 +3120,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 165.0,
-        "distanceToWaterM": 28.0,
-        "score": 3.589
+        "distanceToWaterM": 103.5,
+        "score": 3.589,
+        "water": {
+          "entityId": "body.470-3631",
+          "kind": "swamp",
+          "levelM": 10.98,
+          "season": "perennial",
+          "distanceM": 103.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -3096,6 +3200,7 @@
     },
     {
       "id": "place.mercantile-coast.chime-relay",
+      "schemaVersion": 2,
       "name": "The Chime Line",
       "aliases": [],
       "classification": {
@@ -3271,6 +3376,7 @@
     },
     {
       "id": "place.mercantile-coast.cinder-hermit",
+      "schemaVersion": 2,
       "name": "The Cinder Hermit",
       "aliases": [],
       "classification": {
@@ -3446,6 +3552,7 @@
     },
     {
       "id": "place.mercantile-coast.cinderhome",
+      "schemaVersion": 2,
       "name": "Cinderhome",
       "aliases": [],
       "classification": {
@@ -3616,6 +3723,7 @@
     },
     {
       "id": "place.mercantile-coast.clandestine-dig",
+      "schemaVersion": 2,
       "name": "The Night Cut",
       "aliases": [],
       "classification": {
@@ -3786,6 +3894,7 @@
     },
     {
       "id": "place.mercantile-coast.coast-nisswo-house",
+      "schemaVersion": 2,
       "name": "The Sermon House",
       "aliases": [],
       "classification": {
@@ -3950,6 +4059,7 @@
     },
     {
       "id": "place.mercantile-coast.coast-road-stage",
+      "schemaVersion": 2,
       "name": "Fourth Stage",
       "aliases": [],
       "classification": {
@@ -4129,6 +4239,8 @@
         3627.3,
         6692.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0805",
@@ -4153,7 +4265,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 104.2,
         "distanceToWaterM": 34.7,
-        "score": 4.557
+        "score": 4.557,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 34.7
+        }
       },
       "proseRefs": [
         {
@@ -4164,6 +4283,7 @@
     },
     {
       "id": "place.mercantile-coast.coast-road-tradehouse",
+      "schemaVersion": 2,
       "name": "The Halfway",
       "aliases": [],
       "classification": {
@@ -4328,6 +4448,7 @@
     },
     {
       "id": "place.mercantile-coast.coast-toll-bridge",
+      "schemaVersion": 2,
       "name": "The Paid Arch",
       "aliases": [],
       "classification": {
@@ -4522,6 +4643,7 @@
     },
     {
       "id": "place.mercantile-coast.cold-light",
+      "schemaVersion": 2,
       "name": "Cold Light",
       "aliases": [
         "The Cold Light"
@@ -4667,6 +4789,8 @@
         3421.6,
         6635.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.islet-041",
@@ -4691,7 +4815,14 @@
         "dangerBand": 0,
         "distanceToRouteM": 38.8,
         "distanceToWaterM": 0.0,
-        "score": 2.798
+        "score": 2.798,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -4759,6 +4890,7 @@
     },
     {
       "id": "place.mercantile-coast.collections-bond",
+      "schemaVersion": 2,
       "name": "The Collections Bond",
       "aliases": [],
       "classification": {
@@ -4959,6 +5091,7 @@
     },
     {
       "id": "place.mercantile-coast.collections-field-station",
+      "schemaVersion": 2,
       "name": "The Murkmire Field Station",
       "aliases": [],
       "classification": {
@@ -5125,6 +5258,7 @@
     },
     {
       "id": "place.mercantile-coast.crocodile-pens",
+      "schemaVersion": 2,
       "name": "The Snapping Pens",
       "aliases": [],
       "classification": {
@@ -5285,6 +5419,7 @@
     },
     {
       "id": "place.mercantile-coast.drowned-byre",
+      "schemaVersion": 2,
       "name": "The Drowned Byre",
       "aliases": [],
       "classification": {
@@ -5438,6 +5573,7 @@
     },
     {
       "id": "place.mercantile-coast.egg-poacher-camp",
+      "schemaVersion": 2,
       "name": "The Clutch Camp",
       "aliases": [],
       "classification": {
@@ -5602,6 +5738,7 @@
     },
     {
       "id": "place.mercantile-coast.expeditionary-fort",
+      "schemaVersion": 2,
       "name": "Fort Ninth Legion",
       "aliases": [],
       "classification": {
@@ -5771,6 +5908,7 @@
     },
     {
       "id": "place.mercantile-coast.flood-refugee-camp",
+      "schemaVersion": 2,
       "name": "The Wet Camp",
       "aliases": [],
       "classification": {
@@ -5935,6 +6073,7 @@
     },
     {
       "id": "place.mercantile-coast.gar-keepers-village",
+      "schemaVersion": 2,
       "name": "Ushjek",
       "aliases": [],
       "classification": {
@@ -6087,6 +6226,7 @@
     },
     {
       "id": "place.mercantile-coast.glowfen-murkmire",
+      "schemaVersion": 2,
       "name": "Lights-From-Under",
       "aliases": [
         "The Glowfen"
@@ -6230,6 +6370,8 @@
         2980.3,
         6105.9
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0793",
@@ -6254,7 +6396,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 5.5,
         "distanceToWaterM": 0.0,
-        "score": 4.331
+        "score": 4.331,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -6317,6 +6466,7 @@
     },
     {
       "id": "place.mercantile-coast.goldworks-concession",
+      "schemaVersion": 2,
       "name": "The Gold Concession",
       "aliases": [],
       "classification": {
@@ -6507,6 +6657,7 @@
     },
     {
       "id": "place.mercantile-coast.guide-camp-jungle",
+      "schemaVersion": 2,
       "name": "The Watch Camp",
       "aliases": [],
       "classification": {
@@ -6666,6 +6817,7 @@
     },
     {
       "id": "place.mercantile-coast.hajmota-shell-yard",
+      "schemaVersion": 2,
       "name": "The Plate Yard",
       "aliases": [],
       "classification": {
@@ -6824,6 +6976,7 @@
     },
     {
       "id": "place.mercantile-coast.hammock-crown-murkmire",
+      "schemaVersion": 2,
       "name": "Four-Hands Crown",
       "aliases": [
         "The Crown Terrace"
@@ -6960,6 +7113,8 @@
         3022.0,
         6301.1
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0791",
@@ -6983,8 +7138,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 11.0,
-        "score": 3.445
+        "distanceToWaterM": 16.5,
+        "score": 3.445,
+        "water": {
+          "entityId": "body.1656-3438",
+          "kind": "marsh-fringe",
+          "levelM": 1.0,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -7059,6 +7221,7 @@
     },
     {
       "id": "place.mercantile-coast.hammock-village-murkmire",
+      "schemaVersion": 2,
       "name": "Tzelvei",
       "aliases": [],
       "classification": {
@@ -7188,6 +7351,8 @@
         3956.4,
         6275.9
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0791",
@@ -7211,8 +7376,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 57.2,
-        "distanceToWaterM": 43.9,
-        "score": 2.4
+        "distanceToWaterM": 39.5,
+        "score": 2.4,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 39.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -7290,6 +7462,7 @@
     },
     {
       "id": "place.mercantile-coast.head-of-tide",
+      "schemaVersion": 2,
       "name": "Head of Tide",
       "aliases": [],
       "classification": {
@@ -7435,6 +7608,8 @@
         666.2,
         7041.5
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1322",
@@ -7453,8 +7628,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 29.5,
-        "distanceToWaterM": 28.0,
-        "score": 3.919
+        "distanceToWaterM": 11.0,
+        "score": 3.919,
+        "water": {
+          "entityId": "body.365-3858",
+          "kind": "marsh-fringe",
+          "levelM": 2.57,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -7556,6 +7738,7 @@
     },
     {
       "id": "place.mercantile-coast.hereguard-paddies",
+      "schemaVersion": 2,
       "name": "The Hereguard Terraces",
       "aliases": [],
       "classification": {
@@ -7708,6 +7891,7 @@
     },
     {
       "id": "place.mercantile-coast.hereguard-plantation",
+      "schemaVersion": 2,
       "name": "Hereguard Plantation",
       "aliases": [],
       "classification": {
@@ -7850,6 +8034,8 @@
         967.8,
         6308.8
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0720",
@@ -7873,8 +8059,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 375.1,
-        "distanceToWaterM": 42.8,
-        "score": 3.322
+        "distanceToWaterM": 99.3,
+        "score": 3.322,
+        "water": {
+          "entityId": "body.472-3454",
+          "kind": "swamp",
+          "levelM": 10.18,
+          "season": "perennial",
+          "distanceM": 99.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -7977,6 +8170,7 @@
     },
     {
       "id": "place.mercantile-coast.hestra-stone",
+      "schemaVersion": 2,
       "name": "The Hestra Stone",
       "aliases": [],
       "classification": {
@@ -8147,6 +8341,7 @@
     },
     {
       "id": "place.mercantile-coast.hestras-lane",
+      "schemaVersion": 2,
       "name": "Hestra's Lane",
       "aliases": [],
       "classification": {
@@ -8305,6 +8500,7 @@
     },
     {
       "id": "place.mercantile-coast.high-junction",
+      "schemaVersion": 2,
       "name": "High Junction",
       "aliases": [],
       "classification": {
@@ -8444,6 +8640,8 @@
         3082.4,
         5371.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0797",
@@ -8467,8 +8665,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 4,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 58.3,
-        "score": 3.462
+        "distanceToWaterM": 62.5,
+        "score": 3.462,
+        "water": {
+          "entityId": "body.1659-2915",
+          "kind": "marsh-deep",
+          "levelM": 1.97,
+          "season": "perennial",
+          "distanceM": 62.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -8521,6 +8726,7 @@
     },
     {
       "id": "place.mercantile-coast.hist-less-fringe",
+      "schemaVersion": 2,
       "name": "Waits-For-A-Cutting",
       "aliases": [
         "The Fringe"
@@ -8664,6 +8870,8 @@
         2971.8,
         6170.0
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-008",
@@ -8687,8 +8895,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 35.1,
-        "distanceToWaterM": 32.0,
-        "score": 3.551
+        "distanceToWaterM": 23.3,
+        "score": 3.551,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 23.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -8776,6 +8991,7 @@
     },
     {
       "id": "place.mercantile-coast.hist-village-hammock",
+      "schemaVersion": 2,
       "name": "New-Root",
       "aliases": [],
       "classification": {
@@ -8935,6 +9151,7 @@
     },
     {
       "id": "place.mercantile-coast.hist-village-keel-sakka",
+      "schemaVersion": 2,
       "name": "Root-Sakka",
       "aliases": [],
       "classification": {
@@ -9071,6 +9288,8 @@
         3408.0,
         5058.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0791",
@@ -9095,7 +9314,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 187.7,
         "distanceToWaterM": 56.5,
-        "score": 3.072
+        "score": 3.072,
+        "water": {
+          "entityId": "reach.1835-2748",
+          "kind": "horizontal-backwater",
+          "levelM": 1.9,
+          "season": "perennial",
+          "distanceM": 56.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -9190,6 +9416,7 @@
     },
     {
       "id": "place.mercantile-coast.hull-hall",
+      "schemaVersion": 2,
       "name": "Keelhall",
       "aliases": [],
       "classification": {
@@ -9373,6 +9600,7 @@
     },
     {
       "id": "place.mercantile-coast.illicit-sap-camp",
+      "schemaVersion": 2,
       "name": "The Quiet Tap",
       "aliases": [],
       "classification": {
@@ -9529,6 +9757,7 @@
     },
     {
       "id": "place.mercantile-coast.inhabited-meer-murkmire",
+      "schemaVersion": 2,
       "name": "Chuxeth",
       "aliases": [],
       "classification": {
@@ -9687,6 +9916,8 @@
         1203.6,
         6588.4
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0012",
@@ -9705,8 +9936,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 154.4,
-        "distanceToWaterM": 65.8,
-        "score": 4.443
+        "distanceToWaterM": 61.3,
+        "score": 4.443,
+        "water": {
+          "entityId": "body.652-3639",
+          "kind": "marsh-fringe",
+          "levelM": 9.12,
+          "season": "perennial",
+          "distanceM": 61.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -9819,6 +10057,7 @@
     },
     {
       "id": "place.mercantile-coast.insular-jungle-village",
+      "schemaVersion": 2,
       "name": "Xel-Nahkta",
       "aliases": [],
       "classification": {
@@ -9958,6 +10197,8 @@
         765.0,
         5003.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1039",
@@ -9982,7 +10223,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 589.3,
         "distanceToWaterM": 213.3,
-        "score": 2.586
+        "score": 2.586,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 213.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -10080,6 +10328,7 @@
     },
     {
       "id": "place.mercantile-coast.ixtaxh-xanmeer",
+      "schemaVersion": 2,
       "name": "Ixtaxh Xanmeer",
       "aliases": [],
       "classification": {
@@ -10220,6 +10469,8 @@
         2925.5,
         6040.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0584",
@@ -10244,7 +10495,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 71.3,
         "distanceToWaterM": 0.0,
-        "score": 1.809
+        "score": 1.809,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -10325,6 +10583,7 @@
     },
     {
       "id": "place.mercantile-coast.keel-sakka-falls",
+      "schemaVersion": 2,
       "name": "The Sakka Fall",
       "aliases": [],
       "classification": {
@@ -10490,6 +10749,7 @@
     },
     {
       "id": "place.mercantile-coast.keel-sakka-head",
+      "schemaVersion": 2,
       "name": "Sakka Head",
       "aliases": [],
       "classification": {
@@ -10661,6 +10921,7 @@
     },
     {
       "id": "place.mercantile-coast.keel-sakka-stilts",
+      "schemaVersion": 2,
       "name": "Keel-Sakka Landing",
       "aliases": [],
       "classification": {
@@ -10801,6 +11062,8 @@
         4282.6,
         6163.4
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1256",
@@ -10824,8 +11087,15 @@
         "regionClass": "mangrove forest",
         "dangerBand": 3,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 16.5,
-        "score": 4.138
+        "distanceToWaterM": 11.0,
+        "score": 4.138,
+        "water": {
+          "entityId": "body.2321-3388",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -10910,6 +11180,7 @@
     },
     {
       "id": "place.mercantile-coast.keshu-grove",
+      "schemaVersion": 2,
       "name": "Black Fin Grove",
       "aliases": [
         "The Black Fin Grove"
@@ -11039,6 +11310,7 @@
         "id": "hist.mercantile-coast.keshu-grove",
         "kind": "grove, reserve",
         "powerSlot": null,
+        "status": "reserve",
         "note": "Register grove of hero rank, but NOT one of the ten power slots — reserve. Kept as a record and a swap candidate if the owner wants a Murkmire slot instead of one of the ten."
       },
       "season": "all-year",
@@ -11057,6 +11329,8 @@
         3726.1,
         5585.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1109",
@@ -11080,8 +11354,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 422.2,
-        "distanceToWaterM": 72.1,
-        "score": 2.786
+        "distanceToWaterM": 51.7,
+        "score": 2.786,
+        "water": {
+          "entityId": "body.2051-3081",
+          "kind": "swamp",
+          "levelM": 4.11,
+          "season": "perennial",
+          "distanceM": 51.7
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -11135,6 +11416,7 @@
     },
     {
       "id": "place.mercantile-coast.lagoon-rafts",
+      "schemaVersion": 2,
       "name": "The Moorings",
       "aliases": [],
       "classification": {
@@ -11288,6 +11570,7 @@
     },
     {
       "id": "place.mercantile-coast.lighter-flotilla",
+      "schemaVersion": 2,
       "name": "Lighter Flotilla",
       "aliases": [
         "The Lighter Flotilla"
@@ -11441,6 +11724,8 @@
         507.2,
         5365.6
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0812",
@@ -11465,7 +11750,14 @@
         "dangerBand": 0,
         "distanceToRouteM": 554.6,
         "distanceToWaterM": 0.0,
-        "score": 2.921
+        "score": 2.921,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -11555,6 +11847,7 @@
     },
     {
       "id": "place.mercantile-coast.lilmoth",
+      "schemaVersion": 2,
       "name": "Lilmoth",
       "aliases": [
         "The Festering Jewel"
@@ -11734,6 +12027,7 @@
         "id": "hist.mercantile-coast.lilmoth",
         "kind": "city tree",
         "powerSlot": "power.hist.mercantile-coast.lilmoth",
+        "status": "hero",
         "note": "Hero Hist 3/10. CANON_EXPLICIT: Lilmoth possesses its own Hist despite having no native tribe. This is the THIRD tree, grown after 4E 48 from a root fragment of the second. Young and watched: feared and tended anyway (hist-placement.md §4) — the minder's post rotates, a second tender is always present, and no faction may claim exclusive access."
       },
       "season": "all-year",
@@ -11789,6 +12083,8 @@
         3610.8,
         6384.7
       ],
+      "footprintRadiusM": 225.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'lilmoth' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -11796,8 +12092,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 107.7,
-        "score": null
+        "distanceToWaterM": 141.5,
+        "score": null,
+        "water": {
+          "entityId": "body.1927-3556",
+          "kind": "marsh-fringe",
+          "levelM": 2.21,
+          "season": "perennial",
+          "distanceM": 141.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -11935,6 +12238,7 @@
     },
     {
       "id": "place.mercantile-coast.lilmoth-beast-market",
+      "schemaVersion": 2,
       "name": "The Beast Ground",
       "aliases": [],
       "classification": {
@@ -12092,6 +12396,7 @@
     },
     {
       "id": "place.mercantile-coast.lilmoth-canoe-yard",
+      "schemaVersion": 2,
       "name": "The Cane Yard",
       "aliases": [],
       "classification": {
@@ -12249,6 +12554,7 @@
     },
     {
       "id": "place.mercantile-coast.lilmoth-divers-yard",
+      "schemaVersion": 2,
       "name": "Under-Yard",
       "aliases": [
         "The Under-Yard"
@@ -12403,6 +12709,8 @@
         4417.0,
         6023.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "open water in mangrove forest (danger band 0), 39 m from the nearest route; at the water's edge; won on region, submerged, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
@@ -12411,7 +12719,14 @@
         "dangerBand": 0,
         "distanceToRouteM": 38.8,
         "distanceToWaterM": 0.0,
-        "score": 3.178
+        "score": 3.178,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -12488,6 +12803,7 @@
     },
     {
       "id": "place.mercantile-coast.lilmoth-quay-tradehouse",
+      "schemaVersion": 2,
       "name": "The Weighing Room",
       "aliases": [],
       "classification": {
@@ -12655,6 +12971,7 @@
     },
     {
       "id": "place.mercantile-coast.long-bar-wreckers",
+      "schemaVersion": 2,
       "name": "Long Bar",
       "aliases": [
         "The Long Bar"
@@ -12795,6 +13112,8 @@
         841.7,
         6692.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.headland-022",
@@ -12818,8 +13137,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 60.6,
-        "distanceToWaterM": 5.5,
-        "score": 2.907
+        "distanceToWaterM": 29.5,
+        "score": 2.907,
+        "water": {
+          "entityId": "body.448-3649",
+          "kind": "marsh-fringe",
+          "levelM": 8.44,
+          "season": "perennial",
+          "distanceM": 29.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -12905,6 +13231,7 @@
     },
     {
       "id": "place.mercantile-coast.mad-hermit-jungle",
+      "schemaVersion": 2,
       "name": "The Talking Hut",
       "aliases": [],
       "classification": {
@@ -13071,6 +13398,7 @@
     },
     {
       "id": "place.mercantile-coast.mangrove-hide",
+      "schemaVersion": 2,
       "name": "The Cut",
       "aliases": [],
       "classification": {
@@ -13262,6 +13590,7 @@
     },
     {
       "id": "place.mercantile-coast.miregaunt-ward-murkmire",
+      "schemaVersion": 2,
       "name": "The Standing Ward",
       "aliases": [],
       "classification": {
@@ -13431,6 +13760,7 @@
     },
     {
       "id": "place.mercantile-coast.mirtis-plantation",
+      "schemaVersion": 2,
       "name": "Mirtis Plantation",
       "aliases": [],
       "classification": {
@@ -13618,6 +13948,8 @@
         3303.8,
         5535.6
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0720",
@@ -13641,8 +13973,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 50.6,
-        "distanceToWaterM": 7.8,
-        "score": 2.755
+        "distanceToWaterM": 28.0,
+        "score": 2.755,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 28.0
+        }
       },
       "proseRefs": [
         {
@@ -13653,6 +13992,7 @@
     },
     {
       "id": "place.mercantile-coast.moonmarch",
+      "schemaVersion": 2,
       "name": "Moonmarch",
       "aliases": [],
       "classification": {
@@ -13796,6 +14136,8 @@
         3868.6,
         5563.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0720",
@@ -13819,8 +14161,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 444.3,
-        "distanceToWaterM": 27.4,
-        "score": 2.694
+        "distanceToWaterM": 85.8,
+        "score": 2.694,
+        "water": {
+          "entityId": "body.2084-3098",
+          "kind": "swamp",
+          "levelM": 4.35,
+          "season": "perennial",
+          "distanceM": 85.8
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -13903,6 +14252,7 @@
     },
     {
       "id": "place.mercantile-coast.mudfoot",
+      "schemaVersion": 2,
       "name": "Mudfoot",
       "aliases": [],
       "classification": {
@@ -14056,6 +14406,8 @@
         1296.9,
         6358.1
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0793",
@@ -14079,8 +14431,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 3,
         "distanceToRouteM": 380.2,
-        "distanceToWaterM": 74.6,
-        "score": 3.86
+        "distanceToWaterM": 35.1,
+        "score": 3.86,
+        "water": {
+          "entityId": "body.698-3443",
+          "kind": "swamp",
+          "levelM": 1.29,
+          "season": "perennial",
+          "distanceM": 35.1
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -14158,6 +14517,7 @@
     },
     {
       "id": "place.mercantile-coast.murkmire-hearth-house",
+      "schemaVersion": 2,
       "name": "The Wet-Road Hearth",
       "aliases": [],
       "classification": {
@@ -14316,6 +14676,7 @@
     },
     {
       "id": "place.mercantile-coast.naga-camp-north-road",
+      "schemaVersion": 2,
       "name": "The Toll That Isn't",
       "aliases": [],
       "classification": {
@@ -14476,6 +14837,7 @@
     },
     {
       "id": "place.mercantile-coast.naga-village-oliis",
+      "schemaVersion": 2,
       "name": "Xul-Hakka",
       "aliases": [],
       "classification": {
@@ -14617,6 +14979,8 @@
         3446.4,
         5283.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0791",
@@ -14640,8 +15004,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 309.3,
-        "distanceToWaterM": 27.4,
-        "score": 1.732
+        "distanceToWaterM": 19.8,
+        "score": 1.732,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -14754,6 +15125,7 @@
     },
     {
       "id": "place.mercantile-coast.necropolis-village-murkmire",
+      "schemaVersion": 2,
       "name": "Xul-Vaat",
       "aliases": [],
       "classification": {
@@ -14911,6 +15283,8 @@
         1560.1,
         5963.3
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1195",
@@ -14934,8 +15308,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 504.1,
-        "distanceToWaterM": 23.3,
-        "score": 5.044
+        "distanceToWaterM": 27.4,
+        "score": 5.044,
+        "water": {
+          "entityId": "body.863-3248",
+          "kind": "marsh-fringe",
+          "levelM": 2.57,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -15019,6 +15400,7 @@
     },
     {
       "id": "place.mercantile-coast.oliis-air-station",
+      "schemaVersion": 2,
       "name": "Breathing-Stone",
       "aliases": [
         "The Breathing Stone"
@@ -15151,6 +15533,8 @@
         918.5,
         6922.9
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0585",
@@ -15174,8 +15558,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 159.0,
-        "distanceToWaterM": 41.8,
-        "score": 2.451
+        "distanceToWaterM": 69.4,
+        "score": 2.451,
+        "water": {
+          "entityId": "body.508-3843",
+          "kind": "marsh-fringe",
+          "levelM": 0.87,
+          "season": "perennial",
+          "distanceM": 69.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -15229,6 +15620,7 @@
     },
     {
       "id": "place.mercantile-coast.oliis-boardwalk",
+      "schemaVersion": 2,
       "name": "Walks-The-Mangrove",
       "aliases": [
         "The Long Walk"
@@ -15372,6 +15764,8 @@
         260.5,
         5968.8
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0785",
@@ -15396,7 +15790,14 @@
         "dangerBand": 0,
         "distanceToRouteM": 399.4,
         "distanceToWaterM": 0.0,
-        "score": 5.224
+        "score": 5.224,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -15470,6 +15871,7 @@
     },
     {
       "id": "place.mercantile-coast.oliis-drake-deep",
+      "schemaVersion": 2,
       "name": "The Drake Hole",
       "aliases": [],
       "classification": {
@@ -15654,6 +16056,8 @@
         655.3,
         5842.7
       ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1286",
@@ -15677,8 +16081,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 131.8,
-        "distanceToWaterM": 0.0,
-        "score": 4.444
+        "distanceToWaterM": 83.5,
+        "score": 4.444,
+        "water": {
+          "entityId": "body.368-3098",
+          "kind": "marsh-fringe",
+          "levelM": 2.04,
+          "season": "perennial",
+          "distanceM": 83.5
+        }
       },
       "terrainRequests": [
         {
@@ -15705,6 +16116,7 @@
     },
     {
       "id": "place.mercantile-coast.oliis-ferry-stage",
+      "schemaVersion": 2,
       "name": "Estuary Stage",
       "aliases": [
         "The Estuary Stage"
@@ -15853,6 +16265,8 @@
         348.2,
         5930.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1189",
@@ -15867,7 +16281,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 322.6,
         "distanceToWaterM": 0.0,
-        "score": 4.956
+        "score": 4.956,
+        "water": {
+          "entityId": "body.182-3242",
+          "kind": "marsh-fringe",
+          "levelM": 1.08,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -15946,6 +16367,7 @@
     },
     {
       "id": "place.mercantile-coast.oliis-narrows",
+      "schemaVersion": 2,
       "name": "Oliis Pull",
       "aliases": [
         "The Pull"
@@ -16089,6 +16511,7 @@
     },
     {
       "id": "place.mercantile-coast.oliis-reef-harvest",
+      "schemaVersion": 2,
       "name": "The Cut Reef",
       "aliases": [],
       "classification": {
@@ -16262,6 +16685,8 @@
         929.5,
         7103.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0797",
@@ -16286,11 +16711,19 @@
         "dangerBand": 0,
         "distanceToRouteM": 21.9,
         "distanceToWaterM": 0.0,
-        "score": 4.007
+        "score": 4.007,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       }
     },
     {
       "id": "place.mercantile-coast.oliis-tide-run",
+      "schemaVersion": 2,
       "name": "Half-Day Flat",
       "aliases": [
         "The Half-Day Flat"
@@ -16473,6 +16906,7 @@
     },
     {
       "id": "place.mercantile-coast.oliis-wreck",
+      "schemaVersion": 2,
       "name": "The Anchored Wreck",
       "aliases": [],
       "classification": {
@@ -16655,6 +17089,7 @@
     },
     {
       "id": "place.mercantile-coast.owing-eviction-camp-west",
+      "schemaVersion": 2,
       "name": "The Ledger Camp",
       "aliases": [],
       "classification": {
@@ -16817,6 +17252,7 @@
     },
     {
       "id": "place.mercantile-coast.pilgrim-nisswo-house",
+      "schemaVersion": 2,
       "name": "Turns-The-Pilgrims",
       "aliases": [
         "The Turning House"
@@ -16980,6 +17416,7 @@
     },
     {
       "id": "place.mercantile-coast.pilgrim-xanmeer",
+      "schemaVersion": 2,
       "name": "Xal-Meht",
       "aliases": [],
       "classification": {
@@ -17116,6 +17553,8 @@
         660.8,
         6111.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.summit-047",
@@ -17139,8 +17578,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 19.8,
-        "distanceToWaterM": 50.6,
-        "score": 2.605
+        "distanceToWaterM": 66.3,
+        "score": 2.605,
+        "water": {
+          "entityId": "body.398-3352",
+          "kind": "swamp",
+          "levelM": 5.01,
+          "season": "perennial",
+          "distanceM": 66.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17219,6 +17665,7 @@
     },
     {
       "id": "place.mercantile-coast.pusbottom-barge",
+      "schemaVersion": 2,
       "name": "The Outside Barge",
       "aliases": [],
       "classification": {
@@ -17397,6 +17844,8 @@
         3684.3,
         6497.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0804",
@@ -17420,13 +17869,21 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 89.3,
-        "distanceToWaterM": 17.3,
-        "score": 5.937
+        "distanceToWaterM": 45.2,
+        "score": 5.937,
+        "water": {
+          "entityId": "body.2040-3552",
+          "kind": "marsh-fringe",
+          "levelM": 1.88,
+          "season": "perennial",
+          "distanceM": 45.2
+        }
       },
       "services": []
     },
     {
       "id": "place.mercantile-coast.quinrawl-anchorage",
+      "schemaVersion": 2,
       "name": "Quin'rawl Anchorage",
       "aliases": [],
       "classification": {
@@ -17577,6 +18034,8 @@
         3246.6,
         5185.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-008",
@@ -17600,8 +18059,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 91.9,
-        "distanceToWaterM": 43.9,
-        "score": 2.203
+        "distanceToWaterM": 41.8,
+        "score": 2.203,
+        "water": {
+          "entityId": "body.1785-2769",
+          "kind": "swamp",
+          "levelM": 1.54,
+          "season": "perennial",
+          "distanceM": 41.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17707,6 +18173,7 @@
     },
     {
       "id": "place.mercantile-coast.rockpark",
+      "schemaVersion": 2,
       "name": "Rockpark",
       "aliases": [],
       "classification": {
@@ -17849,6 +18316,8 @@
         869.1,
         5223.1
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-008",
@@ -17872,8 +18341,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 418.1,
-        "distanceToWaterM": 197.5,
-        "score": 3.044
+        "distanceToWaterM": 228.5,
+        "score": 3.044,
+        "water": {
+          "entityId": "body.385-2969",
+          "kind": "marsh-fringe",
+          "levelM": 9.11,
+          "season": "perennial",
+          "distanceM": 228.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -17954,6 +18430,7 @@
     },
     {
       "id": "place.mercantile-coast.rockpark-dead-hist",
+      "schemaVersion": 2,
       "name": "The Rockpark Stump",
       "aliases": [],
       "classification": {
@@ -18117,6 +18594,7 @@
     },
     {
       "id": "place.mercantile-coast.root-gallery-murkmire",
+      "schemaVersion": 2,
       "name": "Under-Root",
       "aliases": [
         "The Under-Root"
@@ -18253,6 +18731,8 @@
         627.9,
         5151.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-008",
@@ -18277,7 +18757,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 645.5,
         "distanceToWaterM": 62.5,
-        "score": 2.316
+        "score": 2.316,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 62.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18353,6 +18840,7 @@
     },
     {
       "id": "place.mercantile-coast.sacked-customs-suburb",
+      "schemaVersion": 2,
       "name": "Customs Suburb",
       "aliases": [
         "The Customs Suburb"
@@ -18500,6 +18988,8 @@
         3550.6,
         6409.6
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0079",
@@ -18523,8 +19013,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 24.5,
-        "distanceToWaterM": 86.7,
-        "score": 5.83
+        "distanceToWaterM": 95.8,
+        "score": 5.83,
+        "water": {
+          "entityId": "body.1927-3556",
+          "kind": "marsh-fringe",
+          "levelM": 2.21,
+          "season": "perennial",
+          "distanceM": 95.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -18593,6 +19090,7 @@
     },
     {
       "id": "place.mercantile-coast.sap-withdrawal-house",
+      "schemaVersion": 2,
       "name": "The Drying House",
       "aliases": [],
       "classification": {
@@ -18763,6 +19261,7 @@
     },
     {
       "id": "place.mercantile-coast.screen-watch",
+      "schemaVersion": 2,
       "name": "Screen-Watch",
       "aliases": [],
       "classification": {
@@ -18913,6 +19412,8 @@
         3813.8,
         5919.5
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0797",
@@ -18936,8 +19437,15 @@
         "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 3,
         "distanceToRouteM": 87.7,
-        "distanceToWaterM": 7.8,
-        "score": 3.772
+        "distanceToWaterM": 0.0,
+        "score": 3.772,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -19032,6 +19540,7 @@
     },
     {
       "id": "place.mercantile-coast.sealed-meer-murkmire",
+      "schemaVersion": 2,
       "name": "Shut-From-Within",
       "aliases": [
         "The Kept Chamber"
@@ -19175,6 +19684,8 @@
         3172.2,
         5305.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1093",
@@ -19188,8 +19699,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 71.3,
-        "distanceToWaterM": 74.6,
-        "score": 3.833
+        "distanceToWaterM": 129.1,
+        "score": 3.833,
+        "water": {
+          "entityId": "reach.1801-2857",
+          "kind": "horizontal-channel",
+          "levelM": 1.54,
+          "season": "perennial",
+          "distanceM": 129.1
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -19268,6 +19786,7 @@
     },
     {
       "id": "place.mercantile-coast.sealed-meer-west",
+      "schemaVersion": 2,
       "name": "The Shut Door",
       "aliases": [],
       "classification": {
@@ -19431,6 +19950,7 @@
     },
     {
       "id": "place.mercantile-coast.slaughter-memorial",
+      "schemaVersion": 2,
       "name": "The Slaughter Ground",
       "aliases": [],
       "classification": {
@@ -19577,6 +20097,8 @@
         3068.0,
         6188.2
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0075",
@@ -19600,8 +20122,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 47.2,
-        "distanceToWaterM": 34.7,
-        "score": 2.971
+        "distanceToWaterM": 45.2,
+        "score": 2.971,
+        "water": {
+          "entityId": "body.1653-3376",
+          "kind": "marsh-fringe",
+          "levelM": 2.33,
+          "season": "perennial",
+          "distanceM": 45.2
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -19686,6 +20215,7 @@
     },
     {
       "id": "place.mercantile-coast.smoulder-cuts",
+      "schemaVersion": 2,
       "name": "The Smoulder Cuts",
       "aliases": [],
       "classification": {
@@ -19841,6 +20371,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest",
+      "schemaVersion": 2,
       "name": "Soulrest",
       "aliases": [
         "The Old Capital"
@@ -20035,6 +20566,8 @@
         518.4,
         6530.0
       ],
+      "footprintRadiusM": 230.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'soulrest' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -20042,8 +20575,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 1,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 50.6,
-        "score": null
+        "distanceToWaterM": 23.3,
+        "score": null,
+        "water": {
+          "entityId": "body.301-3605",
+          "kind": "marsh-fringe",
+          "levelM": 5.02,
+          "season": "perennial",
+          "distanceM": 23.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -20178,6 +20718,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-breaking-yard",
+      "schemaVersion": 2,
       "name": "Breaking Hard",
       "aliases": [
         "The Breaking Hard"
@@ -20323,6 +20864,8 @@
         309.8,
         6610.4
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0780",
@@ -20336,8 +20879,15 @@
         "regionClass": "tidal delta",
         "dangerBand": 2,
         "distanceToRouteM": 109.7,
-        "distanceToWaterM": 0.0,
-        "score": 3.861
+        "distanceToWaterM": 7.8,
+        "score": 3.861,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -20410,6 +20960,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-broken-bond",
+      "schemaVersion": 2,
       "name": "The Broken Bond",
       "aliases": [],
       "classification": {
@@ -20578,6 +21129,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-courier-relay",
+      "schemaVersion": 2,
       "name": "Soulrest Poling Relay",
       "aliases": [
         "The Poling Relay"
@@ -20747,6 +21299,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-divers-yard",
+      "schemaVersion": 2,
       "name": "The Divers' Yard",
       "aliases": [],
       "classification": {
@@ -20913,6 +21466,8 @@
         518.2,
         6681.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0625",
@@ -20937,7 +21492,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 55.1,
         "distanceToWaterM": 0.0,
-        "score": 5.496
+        "score": 5.496,
+        "water": {
+          "entityId": "body.315-3637",
+          "kind": "marsh-fringe",
+          "levelM": 5.02,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "scourSiteId": "site.scour.lake-standing-water.cove-069",
       "services": [],
@@ -20950,6 +21512,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-fair",
+      "schemaVersion": 2,
       "name": "The Low Fair",
       "aliases": [],
       "classification": {
@@ -21123,6 +21686,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-foreign-graves",
+      "schemaVersion": 2,
       "name": "The Governors' Ground",
       "aliases": [],
       "classification": {
@@ -21309,6 +21873,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-quay-tradehouse",
+      "schemaVersion": 2,
       "name": "Long Table",
       "aliases": [
         "The Long Table"
@@ -21463,6 +22028,8 @@
         408.5,
         6456.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0481",
@@ -21486,8 +22053,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 1,
         "distanceToRouteM": 58.3,
-        "distanceToWaterM": 27.4,
-        "score": 6.003
+        "distanceToWaterM": 60.3,
+        "score": 6.003,
+        "water": {
+          "entityId": "body.220-3496",
+          "kind": "marsh-fringe",
+          "levelM": 4.23,
+          "season": "perennial",
+          "distanceM": 60.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -21542,6 +22116,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-synod-outstation",
+      "schemaVersion": 2,
       "name": "The Synod Outstation",
       "aliases": [],
       "classification": {
@@ -21717,6 +22292,7 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-whispers-house",
+      "schemaVersion": 2,
       "name": "The Third Office",
       "aliases": [],
       "classification": {
@@ -21883,6 +22459,7 @@
     },
     {
       "id": "place.mercantile-coast.southern-sea-listening-post",
+      "schemaVersion": 2,
       "name": "The Sail-Count",
       "aliases": [],
       "classification": {
@@ -22050,6 +22627,7 @@
     },
     {
       "id": "place.mercantile-coast.stripped-village-north",
+      "schemaVersion": 2,
       "name": "Ganthil's Rest",
       "aliases": [],
       "classification": {
@@ -22194,6 +22772,8 @@
         880.1,
         5354.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1038",
@@ -22217,8 +22797,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 357.5,
-        "distanceToWaterM": 67.8,
-        "score": 3.779
+        "distanceToWaterM": 140.1,
+        "score": 3.779,
+        "water": {
+          "entityId": "body.385-2969",
+          "kind": "marsh-fringe",
+          "levelM": 9.11,
+          "season": "perennial",
+          "distanceM": 140.1
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -22284,6 +22871,7 @@
     },
     {
       "id": "place.mercantile-coast.stripped-village-quiet",
+      "schemaVersion": 2,
       "name": "Sixteen Doors",
       "aliases": [],
       "classification": {
@@ -22455,6 +23043,7 @@
     },
     {
       "id": "place.mercantile-coast.subsumed-xanmeer",
+      "schemaVersion": 2,
       "name": "The Swallowed Meer",
       "aliases": [],
       "classification": {
@@ -22629,6 +23218,7 @@
     },
     {
       "id": "place.mercantile-coast.sugar-barge",
+      "schemaVersion": 2,
       "name": "The Sugar Barge",
       "aliases": [],
       "classification": {
@@ -22793,6 +23383,7 @@
     },
     {
       "id": "place.mercantile-coast.sugar-stack",
+      "schemaVersion": 2,
       "name": "The Sugar Stack",
       "aliases": [],
       "classification": {
@@ -22969,6 +23560,7 @@
     },
     {
       "id": "place.mercantile-coast.sunken-causeway",
+      "schemaVersion": 2,
       "name": "Sunken Causeway",
       "aliases": [
         "The Sunken Causeway"
@@ -23158,6 +23750,7 @@
     },
     {
       "id": "place.mercantile-coast.sunkfoot",
+      "schemaVersion": 2,
       "name": "Sunkfoot",
       "aliases": [],
       "classification": {
@@ -23369,6 +23962,8 @@
         4109.9,
         6221.1
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0812",
@@ -23393,13 +23988,21 @@
         "dangerBand": 0,
         "distanceToRouteM": 98.7,
         "distanceToWaterM": 0.0,
-        "score": 4.158
+        "score": 4.158,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "approachDanger": "D2",
       "sitingNote": "Pinned 50 m west onto the coastal lagoon cell, where the danger raster reads band 2: a drowned hamlet with an apex ambusher in it cannot sit on band-0 city apron."
     },
     {
       "id": "place.mercantile-coast.tapped-hist-ashroot",
+      "schemaVersion": 2,
       "name": "Tapped-To-Death",
       "aliases": [
         "The Bled Tree"
@@ -23570,6 +24173,7 @@
     },
     {
       "id": "place.mercantile-coast.teeba-enoo-court",
+      "schemaVersion": 2,
       "name": "Teeba-Enoo Court",
       "aliases": [
         "The Placation Court"
@@ -23712,6 +24316,8 @@
         1340.7,
         6712.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1285",
@@ -23735,8 +24341,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 32.9,
-        "distanceToWaterM": 41.8,
-        "score": 3.475
+        "distanceToWaterM": 71.3,
+        "score": 3.475,
+        "water": {
+          "entityId": "body.695-3686",
+          "kind": "marsh-fringe",
+          "levelM": 4.56,
+          "season": "perennial",
+          "distanceM": 71.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -23804,6 +24417,7 @@
     },
     {
       "id": "place.mercantile-coast.teeth-of-sithis",
+      "schemaVersion": 2,
       "name": "The Teeth of Sithis",
       "aliases": [],
       "classification": {
@@ -23953,6 +24567,8 @@
         3983.8,
         5574.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.summit-045",
@@ -23976,8 +24592,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 451.2,
-        "distanceToWaterM": 12.3,
-        "score": 2.51
+        "distanceToWaterM": 7.8,
+        "score": 2.51,
+        "water": {
+          "entityId": "body.2177-3043",
+          "kind": "swamp",
+          "levelM": 16.54,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -24085,6 +24708,7 @@
     },
     {
       "id": "place.mercantile-coast.tempering-ground",
+      "schemaVersion": 2,
       "name": "Tempers-The-Young",
       "aliases": [
         "The Tempering Ground"
@@ -24241,6 +24865,8 @@
         792.4,
         5129.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0791",
@@ -24265,7 +24891,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 522.8,
         "distanceToWaterM": 228.1,
-        "score": 3.193
+        "score": 3.193,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 228.1
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -24329,6 +24962,7 @@
     },
     {
       "id": "place.mercantile-coast.tidewrack-stilts",
+      "schemaVersion": 2,
       "name": "Tidewrack",
       "aliases": [],
       "classification": {
@@ -24492,6 +25126,7 @@
     },
     {
       "id": "place.mercantile-coast.timber-concession",
+      "schemaVersion": 2,
       "name": "The Long Cut",
       "aliases": [],
       "classification": {
@@ -24666,6 +25301,7 @@
     },
     {
       "id": "place.mercantile-coast.topal-careening-hard",
+      "schemaVersion": 2,
       "name": "Ashen Hard",
       "aliases": [],
       "classification": {
@@ -24811,6 +25447,7 @@
     },
     {
       "id": "place.mercantile-coast.topal-pearl-beds",
+      "schemaVersion": 2,
       "name": "Topal Pearl Beds",
       "aliases": [],
       "classification": {
@@ -24972,6 +25609,7 @@
     },
     {
       "id": "place.mercantile-coast.topal-salt-pans",
+      "schemaVersion": 2,
       "name": "White Fields",
       "aliases": [
         "The White Fields"
@@ -25113,6 +25751,8 @@
         3989.3,
         6162.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0797",
@@ -25131,8 +25771,15 @@
         "regionClass": "tidal delta",
         "dangerBand": 2,
         "distanceToRouteM": 19.8,
-        "distanceToWaterM": 15.5,
-        "score": 4.255
+        "distanceToWaterM": 11.0,
+        "score": 4.255,
+        "water": {
+          "entityId": "body.2183-3354",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -25204,6 +25851,7 @@
     },
     {
       "id": "place.mercantile-coast.tree-minder-house",
+      "schemaVersion": 2,
       "name": "The Second Tender's House",
       "aliases": [],
       "classification": {
@@ -25378,6 +26026,7 @@
     },
     {
       "id": "place.mercantile-coast.tunnel-rat-gallery",
+      "schemaVersion": 2,
       "name": "The Rat Gallery",
       "aliases": [],
       "classification": {
@@ -25585,6 +26234,7 @@
     },
     {
       "id": "place.mercantile-coast.uprising-battlefield",
+      "schemaVersion": 2,
       "name": "The Cane Field",
       "aliases": [],
       "classification": {
@@ -25748,6 +26398,7 @@
     },
     {
       "id": "place.mercantile-coast.varo-holding",
+      "schemaVersion": 2,
       "name": "Varo's Holding",
       "aliases": [],
       "classification": {
@@ -25904,6 +26555,7 @@
     },
     {
       "id": "place.mercantile-coast.villa-cellars",
+      "schemaVersion": 2,
       "name": "The Villa Cellars",
       "aliases": [],
       "classification": {
@@ -26045,6 +26697,8 @@
         562.1,
         5113.4
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.islet-041",
@@ -26059,7 +26713,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 707.4,
         "distanceToWaterM": 11.0,
-        "score": 2.123
+        "score": 2.123,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -26115,6 +26776,7 @@
     },
     {
       "id": "place.mercantile-coast.vossa-satl-village",
+      "schemaVersion": 2,
       "name": "Suvei-Tzel",
       "aliases": [],
       "classification": {
@@ -26278,6 +26940,7 @@
     },
     {
       "id": "place.mercantile-coast.wallside-platforms",
+      "schemaVersion": 2,
       "name": "Wallside",
       "aliases": [],
       "classification": {
@@ -26426,6 +27089,7 @@
     },
     {
       "id": "place.mercantile-coast.wamasu-nest-pond",
+      "schemaVersion": 2,
       "name": "Charge-In-The-Water",
       "aliases": [
         "The Charged Pond"
@@ -26589,6 +27253,7 @@
     },
     {
       "id": "place.mercantile-coast.white-rose-prison",
+      "schemaVersion": 2,
       "name": "White Rose Prison",
       "aliases": [],
       "classification": {
@@ -26744,6 +27409,8 @@
         2941.9,
         4976.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-008",
@@ -26767,8 +27434,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 166.8,
-        "distanceToWaterM": 66.3,
-        "score": 2.709
+        "distanceToWaterM": 85.3,
+        "score": 2.709,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 85.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -26856,6 +27530,7 @@
     },
     {
       "id": "place.mercantile-coast.whitebone-reef",
+      "schemaVersion": 2,
       "name": "Whitebone Reef",
       "aliases": [],
       "classification": {
@@ -27036,6 +27711,8 @@
         3687.7,
         5985.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0579",
@@ -27060,12 +27737,20 @@
         "dangerBand": 3,
         "distanceToRouteM": 21.9,
         "distanceToWaterM": 0.0,
-        "score": 4.279
+        "score": 4.279,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon named by its regionClasses."
     },
     {
       "id": "place.mercantile-coast.witness-vigil-camp",
+      "schemaVersion": 2,
       "name": "The Witness Camp",
       "aliases": [],
       "classification": {
@@ -27226,6 +27911,7 @@
     },
     {
       "id": "place.mercantile-coast.wraxu-frieze",
+      "schemaVersion": 2,
       "name": "The Wraxu Frieze",
       "aliases": [],
       "classification": {
@@ -27360,6 +28046,8 @@
         3177.7,
         6886.7
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0805",
@@ -27384,7 +28072,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 32.9,
         "distanceToWaterM": 27.4,
-        "score": 4.076
+        "score": 4.076,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -27442,6 +28137,7 @@
     },
     {
       "id": "place.mercantile-coast.wraxu-stacks",
+      "schemaVersion": 2,
       "name": "Wraxu Stacks",
       "aliases": [
         "The Wraxu Stacks"
@@ -27592,6 +28288,8 @@
         3693.2,
         6648.8
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0807",
@@ -27615,8 +28313,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 60.3,
-        "distanceToWaterM": 21.9,
-        "score": 4.983
+        "distanceToWaterM": 19.8,
+        "score": 4.983,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -27709,6 +28414,7 @@
     },
     {
       "id": "place.mercantile-coast.wraxu-xanmeer",
+      "schemaVersion": 2,
       "name": "Wraxu-Meht",
       "aliases": [],
       "classification": {
@@ -27881,6 +28587,7 @@
     },
     {
       "id": "place.mercantile-coast.xanmeer-dive-shaft",
+      "schemaVersion": 2,
       "name": "The Well Shaft",
       "aliases": [],
       "classification": {
@@ -28051,6 +28758,7 @@
     },
     {
       "id": "place.mercantile-coast.xhon-mehl-shrine",
+      "schemaVersion": 2,
       "name": "The Sunken Shrine of Xhon-Mehl",
       "aliases": [],
       "classification": {
@@ -28227,6 +28935,8 @@
         682.7,
         5425.9
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1141",
@@ -28250,8 +28960,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 388.4,
-        "distanceToWaterM": 38.4,
-        "score": 4.117
+        "distanceToWaterM": 27.4,
+        "score": 4.117,
+        "water": {
+          "entityId": "body.385-2969",
+          "kind": "marsh-fringe",
+          "levelM": 9.11,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "terrainRequests": [
         {
@@ -28275,6 +28992,7 @@
     },
     {
       "id": "place.mercantile-coast.xinchei-konu",
+      "schemaVersion": 2,
       "name": "Xinchei-Konu Monument",
       "aliases": [],
       "classification": {
@@ -28423,6 +29141,8 @@
         765.0,
         5360.1
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1345",
@@ -28446,8 +29166,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 397.3,
-        "distanceToWaterM": 76.2,
-        "score": 2.653
+        "distanceToWaterM": 61.3,
+        "score": 2.653,
+        "water": {
+          "entityId": "body.385-2969",
+          "kind": "marsh-fringe",
+          "levelM": 9.11,
+          "season": "perennial",
+          "distanceM": 61.3
+        }
       },
       "hostility": {
         "baseline": "neutral",

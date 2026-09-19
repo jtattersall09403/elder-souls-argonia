@@ -5,6 +5,7 @@
   "places": [
     {
       "id": "place.naga-kur-deeps.air-pocket-station-deeps",
+      "schemaVersion": 2,
       "name": "The Poler's Breath",
       "classification": {
         "class": "transit",
@@ -130,6 +131,8 @@
         2711.6,
         4669.2
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0465",
@@ -153,8 +156,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 174.2,
-        "distanceToWaterM": 0.0,
-        "score": 4.376
+        "distanceToWaterM": 5.5,
+        "score": 4.376,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -258,6 +268,7 @@
     },
     {
       "id": "place.naga-kur-deeps.art-and-destroy-site-deeps",
+      "schemaVersion": 2,
       "name": "The Unmaking Yard",
       "classification": {
         "class": "sacred",
@@ -377,6 +388,8 @@
         2667.7,
         4515.7
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.rootland-deep-marsh.islet-049",
@@ -401,7 +414,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 71.5,
         "distanceToWaterM": 5.5,
-        "score": 3.156
+        "score": 3.156,
+        "water": {
+          "entityId": "reach.1461-2467",
+          "kind": "horizontal-backwater",
+          "levelM": 2.74,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -494,6 +514,7 @@
     },
     {
       "id": "place.naga-kur-deeps.beast-keeper-crocodile",
+      "schemaVersion": 2,
       "name": "Teeth-Pens",
       "classification": {
         "class": "lair",
@@ -619,6 +640,8 @@
         1304.4,
         5360.1
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.cove-046",
@@ -643,7 +666,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 27.4,
         "distanceToWaterM": 17.3,
-        "score": 3.504
+        "score": 3.504,
+        "water": {
+          "entityId": "reach.699-2928",
+          "kind": "horizontal-channel",
+          "levelM": 2.03,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -743,6 +773,7 @@
     },
     {
       "id": "place.naga-kur-deeps.beast-offering-hunt-shrine",
+      "schemaVersion": 2,
       "name": "The Hunt Ledge",
       "classification": {
         "class": "sacred",
@@ -907,6 +938,7 @@
     },
     {
       "id": "place.naga-kur-deeps.bereaved-hist-less-since",
+      "schemaVersion": 2,
       "name": "Since-The-Tree",
       "classification": {
         "class": "settlement",
@@ -1040,6 +1072,8 @@
         2706.1,
         5568.5
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1094",
@@ -1064,7 +1098,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 449.3,
         "distanceToWaterM": 19.8,
-        "score": 2.774
+        "score": 2.774,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -1146,6 +1187,7 @@
     },
     {
       "id": "place.naga-kur-deeps.bioluminescent-cave-pool",
+      "schemaVersion": 2,
       "name": "The Under-Pool",
       "classification": {
         "class": "lone",
@@ -1301,6 +1343,7 @@
     },
     {
       "id": "place.naga-kur-deeps.boardwalk-single-spine",
+      "schemaVersion": 2,
       "name": "One-Spine",
       "classification": {
         "class": "settlement",
@@ -1464,6 +1507,7 @@
     },
     {
       "id": "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
+      "schemaVersion": 2,
       "name": "Nine-Stakes Field",
       "classification": {
         "class": "lair",
@@ -1587,6 +1631,8 @@
         1810.1,
         4913.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1152",
@@ -1611,7 +1657,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 79.1,
         "distanceToWaterM": 38.4,
-        "score": 2.639
+        "score": 2.639,
+        "water": {
+          "entityId": "body.1015-2680",
+          "kind": "pond",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 38.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -1694,6 +1747,7 @@
     },
     {
       "id": "place.naga-kur-deeps.bog-blight-ground-old-cordon",
+      "schemaVersion": 2,
       "name": "The Old Cordon",
       "classification": {
         "class": "lair",
@@ -1815,6 +1869,8 @@
         2717.1,
         4438.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0937",
@@ -1838,8 +1894,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 5.5,
-        "score": 3.739
+        "distanceToWaterM": 61.3,
+        "score": 3.739,
+        "water": {
+          "entityId": "reach.1452-2415",
+          "kind": "horizontal-channel",
+          "levelM": 4.12,
+          "season": "perennial",
+          "distanceM": 61.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -1921,6 +1984,7 @@
     },
     {
       "id": "place.naga-kur-deeps.bone-carriers-camp-deeps",
+      "schemaVersion": 2,
       "name": "The Carriers' Camp",
       "classification": {
         "class": "camp",
@@ -2114,6 +2178,7 @@
     },
     {
       "id": "place.naga-kur-deeps.broken-xanmeer-collapsed-deeps",
+      "schemaVersion": 2,
       "name": "The Fallen Meer",
       "classification": {
         "class": "ruin",
@@ -2273,6 +2338,7 @@
     },
     {
       "id": "place.naga-kur-deeps.dead-water-village",
+      "schemaVersion": 2,
       "name": "Dead-Water Village",
       "classification": {
         "class": "settlement",
@@ -2422,6 +2488,7 @@
       "heroHist": {
         "id": "hist.naga-kur-deeps.dead-water-village",
         "powerSlot": "power.hist.naga-kur-deeps.dead-water-village",
+        "status": "hero",
         "note": "Hero Hist 10/10. CANON_EXPLICIT: the Naga-Kur's tree, with BLUE bioluminescent flowers where every other Hist in the province flowers red. Power slot themed on the bog-blight discipline.",
         "kind": "tribal Hist"
       },
@@ -2459,6 +2526,8 @@
         3380.6,
         5716.6
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0727",
@@ -2482,8 +2551,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 123.7,
-        "distanceToWaterM": 44.2,
-        "score": 4.178
+        "distanceToWaterM": 29.5,
+        "score": 4.178,
+        "water": {
+          "entityId": "body.1841-3139",
+          "kind": "swamp",
+          "levelM": 1.35,
+          "season": "perennial",
+          "distanceM": 29.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -2620,6 +2696,7 @@
     },
     {
       "id": "place.naga-kur-deeps.deepmire-refuge",
+      "schemaVersion": 2,
       "name": "Deepmire, the Refuge",
       "classification": {
         "class": "civic",
@@ -2773,6 +2850,8 @@
         1066.5,
         5897.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.flood-high-029",
@@ -2796,8 +2875,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 203.6,
-        "distanceToWaterM": 29.5,
-        "score": 2.345
+        "distanceToWaterM": 55.9,
+        "score": 2.345,
+        "water": {
+          "entityId": "body.610-3266",
+          "kind": "swamp",
+          "levelM": 2.12,
+          "season": "perennial",
+          "distanceM": 55.9
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -2897,6 +2983,7 @@
     },
     {
       "id": "place.naga-kur-deeps.dive-shaft-natural-deeps",
+      "schemaVersion": 2,
       "name": "The Chimney",
       "classification": {
         "class": "transit",
@@ -3030,6 +3117,8 @@
         2196.1,
         5425.9
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0514",
@@ -3054,7 +3143,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 698.3,
         "distanceToWaterM": 0.0,
-        "score": 4.885
+        "score": 4.885,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -3119,6 +3215,7 @@
     },
     {
       "id": "place.naga-kur-deeps.drawdown-flat-refilling-deeps",
+      "schemaVersion": 2,
       "name": "The Refilling Flat",
       "classification": {
         "class": "lair",
@@ -3267,6 +3364,7 @@
     },
     {
       "id": "place.naga-kur-deeps.drifting-village-wet-mooring",
+      "schemaVersion": 2,
       "name": "The Last Mooring",
       "classification": {
         "class": "lair",
@@ -3400,6 +3498,8 @@
         2585.5,
         4817.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 358 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, parent; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
@@ -3407,8 +3507,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 358.1,
-        "distanceToWaterM": 24.5,
-        "score": 2.833
+        "distanceToWaterM": 17.3,
+        "score": 2.833,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -3495,6 +3602,7 @@
     },
     {
       "id": "place.naga-kur-deeps.drowned-village-lake-deeps",
+      "schemaVersion": 2,
       "name": "Under-Piles",
       "classification": {
         "class": "ruin",
@@ -3620,6 +3728,8 @@
         3578.0,
         5612.4
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0465",
@@ -3644,7 +3754,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 315.6,
         "distanceToWaterM": 0.0,
-        "score": 3.459
+        "score": 3.459,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -3723,6 +3840,7 @@
     },
     {
       "id": "place.naga-kur-deeps.drowning-narrows-tidal-gate",
+      "schemaVersion": 2,
       "name": "The Gate Narrows",
       "classification": {
         "class": "lair",
@@ -3851,6 +3969,8 @@
         1905.5,
         4735.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0968",
@@ -3874,8 +3994,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 137.1,
-        "distanceToWaterM": 15.5,
-        "score": 3.856
+        "distanceToWaterM": 5.5,
+        "score": 3.856,
+        "water": {
+          "entityId": "body.992-2622",
+          "kind": "marsh-deep",
+          "levelM": 1.54,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -3963,6 +4090,7 @@
     },
     {
       "id": "place.naga-kur-deeps.ferry-stage-guide-hire",
+      "schemaVersion": 2,
       "name": "The Hire Stage",
       "classification": {
         "class": "transit",
@@ -4105,6 +4233,8 @@
         1033.6,
         5557.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1094",
@@ -4128,8 +4258,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 109.3,
-        "distanceToWaterM": 5.5,
-        "score": 3.18
+        "distanceToWaterM": 21.9,
+        "score": 3.18,
+        "water": {
+          "entityId": "body.577-3038",
+          "kind": "swamp",
+          "levelM": 7.29,
+          "season": "perennial",
+          "distanceM": 21.9
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -4232,6 +4369,7 @@
     },
     {
       "id": "place.naga-kur-deeps.flood-high-levee-top",
+      "schemaVersion": 2,
       "name": "Levee-Top",
       "classification": {
         "class": "settlement",
@@ -4383,6 +4521,7 @@
     },
     {
       "id": "place.naga-kur-deeps.flooded-passage-tunnel-deeps",
+      "schemaVersion": 2,
       "name": "The Sunk Corridor",
       "classification": {
         "class": "transit",
@@ -4503,6 +4642,8 @@
         1719.1,
         5075.0
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0471",
@@ -4527,7 +4668,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 112.5,
         "distanceToWaterM": 0.0,
-        "score": 4.611
+        "score": 4.611,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4589,6 +4737,7 @@
     },
     {
       "id": "place.naga-kur-deeps.guide-camp-poling",
+      "schemaVersion": 2,
       "name": "The Polers' Camp",
       "classification": {
         "class": "camp",
@@ -4720,6 +4869,8 @@
         1455.9,
         5826.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.flood-high-028",
@@ -4743,8 +4894,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 333.5,
-        "distanceToWaterM": 29.5,
-        "score": 3.511
+        "distanceToWaterM": 88.4,
+        "score": 3.511,
+        "water": {
+          "entityId": "body.775-3101",
+          "kind": "swamp",
+          "levelM": 3.28,
+          "season": "perennial",
+          "distanceM": 88.4
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -4829,6 +4987,7 @@
     },
     {
       "id": "place.naga-kur-deeps.hammock-crown-clan-founder",
+      "schemaVersion": 2,
       "name": "The Founder's Crown",
       "classification": {
         "class": "sacred",
@@ -5001,6 +5160,7 @@
     },
     {
       "id": "place.naga-kur-deeps.harmed-hist-enslaved",
+      "schemaVersion": 2,
       "name": "The Held Tree",
       "classification": {
         "class": "sacred",
@@ -5146,6 +5306,8 @@
         2569.0,
         4674.7
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1094",
@@ -5170,7 +5332,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 308.8,
         "distanceToWaterM": 27.4,
-        "score": 2.732
+        "score": 2.732,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -5272,6 +5441,7 @@
     },
     {
       "id": "place.naga-kur-deeps.hermit-hut-exile-deeps",
+      "schemaVersion": 2,
       "name": "The Set-Out Hut",
       "classification": {
         "class": "lone",
@@ -5434,6 +5604,7 @@
     },
     {
       "id": "place.naga-kur-deeps.horwalli-waterworks-deeps",
+      "schemaVersion": 2,
       "name": "The Horwalli Cut",
       "classification": {
         "class": "ruin",
@@ -5575,6 +5746,8 @@
         2868.5,
         4510.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.rootland-deep-marsh.oxbow-015",
@@ -5598,8 +5771,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 5.5,
-        "score": 3.615
+        "distanceToWaterM": 27.4,
+        "score": 3.615,
+        "water": {
+          "entityId": "reach.1557-2456",
+          "kind": "sloped-riffle",
+          "levelM": 4.37,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -5696,6 +5876,7 @@
     },
     {
       "id": "place.naga-kur-deeps.insular-hostile-first",
+      "schemaVersion": 2,
       "name": "Asks-Later",
       "classification": {
         "class": "settlement",
@@ -5851,6 +6032,7 @@
     },
     {
       "id": "place.naga-kur-deeps.kothringi-ruin-village-deeps",
+      "schemaVersion": 2,
       "name": "The Pale Village",
       "classification": {
         "class": "ruin",
@@ -6023,6 +6205,7 @@
     },
     {
       "id": "place.naga-kur-deeps.legendary-deep-feather-serpent",
+      "schemaVersion": 2,
       "name": "The Feather Deep",
       "classification": {
         "class": "lair",
@@ -6149,6 +6332,8 @@
         1900.0,
         5096.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 260 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, submerged, danger; placed from the homeless batch at stage 'relaxed-score'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
@@ -6156,8 +6341,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 260.1,
-        "distanceToWaterM": 12.3,
-        "score": 3.96
+        "distanceToWaterM": 0.0,
+        "score": 3.96,
+        "water": {
+          "entityId": "body.1043-2779",
+          "kind": "marsh-deep",
+          "levelM": 1.9,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6271,6 +6463,7 @@
       },
       "workflow": "plotted",
       "id": "place.naga-kur-deeps.leviathan-bone-field",
+      "schemaVersion": 2,
       "name": "The Nine Ribs",
       "classification": {
         "class": "lair",
@@ -6373,6 +6566,8 @@
         2848.7,
         4685.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.cove-046",
@@ -6391,8 +6586,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 64.2,
-        "distanceToWaterM": 19.8,
-        "score": 4.18
+        "distanceToWaterM": 50.6,
+        "score": 4.18,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 50.6
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -6477,6 +6679,7 @@
     },
     {
       "id": "place.naga-kur-deeps.mass-grave-burn-memorial",
+      "schemaVersion": 2,
       "name": "The Burn Ground",
       "classification": {
         "class": "sacred",
@@ -6644,6 +6847,7 @@
     },
     {
       "id": "place.naga-kur-deeps.maturity-trial-kaju-kill",
+      "schemaVersion": 2,
       "name": "The Kaju Ground",
       "classification": {
         "class": "sacred",
@@ -6780,6 +6984,8 @@
         1593.0,
         4872.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0993",
@@ -6804,7 +7010,14 @@
         "dangerBand": 5,
         "distanceToRouteM": 93.9,
         "distanceToWaterM": 5.5,
-        "score": 4.364
+        "score": 4.364,
+        "water": {
+          "entityId": "body.835-2593",
+          "kind": "lake-lowland",
+          "levelM": 4.26,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -6890,6 +7103,7 @@
     },
     {
       "id": "place.naga-kur-deeps.memorial-stone-war-deeps",
+      "schemaVersion": 2,
       "name": "The Raid Stone",
       "classification": {
         "class": "lone",
@@ -7043,6 +7257,7 @@
     },
     {
       "id": "place.naga-kur-deeps.miregaunt-ward-open",
+      "schemaVersion": 2,
       "name": "The Open Ward",
       "classification": {
         "class": "lair",
@@ -7173,6 +7388,8 @@
         4011.2,
         5206.6
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1057",
@@ -7196,8 +7413,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 807.7,
-        "distanceToWaterM": 27.4,
-        "score": 4.013
+        "distanceToWaterM": 87.7,
+        "score": 4.013,
+        "water": {
+          "entityId": "body.2183-2903",
+          "kind": "swamp",
+          "levelM": 21.39,
+          "season": "perennial",
+          "distanceM": 87.7
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -7262,6 +7486,7 @@
     },
     {
       "id": "place.naga-kur-deeps.naga-highway-camp-abandoned",
+      "schemaVersion": 2,
       "name": "The Left Camp",
       "classification": {
         "class": "camp",
@@ -7415,6 +7640,7 @@
     },
     {
       "id": "place.naga-kur-deeps.naga-highway-camp-active-north",
+      "schemaVersion": 2,
       "name": "The North Cut Camp",
       "classification": {
         "class": "camp",
@@ -7551,6 +7777,8 @@
         1987.8,
         4817.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0993",
@@ -7569,8 +7797,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 146.0,
-        "distanceToWaterM": 7.8,
-        "score": 2.187
+        "distanceToWaterM": 35.1,
+        "score": 2.187,
+        "water": {
+          "entityId": "body.1068-2620",
+          "kind": "marsh-deep",
+          "levelM": 0.87,
+          "season": "perennial",
+          "distanceM": 35.1
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -7647,6 +7882,7 @@
     },
     {
       "id": "place.naga-kur-deeps.naga-highway-camp-active-south",
+      "schemaVersion": 2,
       "name": "The Reed Gate Camp",
       "classification": {
         "class": "camp",
@@ -7852,6 +8088,8 @@
         1137.8,
         5508.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.cove-046",
@@ -7876,11 +8114,19 @@
         "dangerBand": 4,
         "distanceToRouteM": 116.3,
         "distanceToWaterM": 54.3,
-        "score": 2.842
+        "score": 2.842,
+        "water": {
+          "entityId": "body.599-3033",
+          "kind": "swamp",
+          "levelM": 7.59,
+          "season": "perennial",
+          "distanceM": 54.3
+        }
       }
     },
     {
       "id": "place.naga-kur-deeps.naga-highway-camp-walkway",
+      "schemaVersion": 2,
       "name": "The Deck Camp",
       "classification": {
         "class": "camp",
@@ -8043,6 +8289,7 @@
     },
     {
       "id": "place.naga-kur-deeps.naga-village-raiding",
+      "schemaVersion": 2,
       "name": "Cut-Rope",
       "classification": {
         "class": "camp",
@@ -8188,6 +8435,8 @@
         1384.6,
         5974.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1218",
@@ -8211,8 +8460,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 401.6,
-        "distanceToWaterM": 11.0,
-        "score": 4.256
+        "distanceToWaterM": 5.5,
+        "score": 4.256,
+        "water": {
+          "entityId": "body.764-3284",
+          "kind": "swamp",
+          "levelM": 1.66,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -8310,6 +8566,7 @@
     },
     {
       "id": "place.naga-kur-deeps.naga-village-settled",
+      "schemaVersion": 2,
       "name": "Long-Water Hold",
       "classification": {
         "class": "settlement",
@@ -8460,6 +8717,8 @@
         1083.0,
         5349.2
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1120",
@@ -8483,8 +8742,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 186.5,
-        "distanceToWaterM": 31.0,
-        "score": 3.092
+        "distanceToWaterM": 12.3,
+        "score": 3.092,
+        "water": {
+          "entityId": "body.611-2937",
+          "kind": "swamp",
+          "levelM": 3.04,
+          "season": "perennial",
+          "distanceM": 12.3
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -8622,6 +8888,7 @@
     },
     {
       "id": "place.naga-kur-deeps.necropolis-nightbound",
+      "schemaVersion": 2,
       "name": "The Staking Village",
       "classification": {
         "class": "settlement",
@@ -8763,6 +9030,8 @@
         3238.0,
         5917.2
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1156",
@@ -8786,8 +9055,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 44.2,
-        "distanceToWaterM": 22.6,
-        "score": 4.034
+        "distanceToWaterM": 39.9,
+        "score": 4.034,
+        "water": {
+          "entityId": "body.1748-3244",
+          "kind": "swamp",
+          "levelM": 1.4,
+          "season": "perennial",
+          "distanceM": 39.9
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -8899,6 +9175,7 @@
     },
     {
       "id": "place.naga-kur-deeps.poacher-camp-egg",
+      "schemaVersion": 2,
       "name": "The Egg Camp",
       "classification": {
         "class": "camp",
@@ -9025,6 +9302,8 @@
         3234.6,
         5639.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.cove-046",
@@ -9048,8 +9327,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 24.5,
-        "distanceToWaterM": 21.9,
-        "score": 3.157
+        "distanceToWaterM": 7.8,
+        "score": 3.157,
+        "water": {
+          "entityId": "body.1703-3069",
+          "kind": "swamp",
+          "levelM": 1.41,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -9133,6 +9419,7 @@
     },
     {
       "id": "place.naga-kur-deeps.portage-slipway-narrows-deeps",
+      "schemaVersion": 2,
       "name": "The Drag",
       "classification": {
         "class": "transit",
@@ -9262,6 +9549,8 @@
         1159.8,
         6067.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1158",
@@ -9285,8 +9574,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 397.1,
-        "distanceToWaterM": 0.0,
-        "score": 4.16
+        "distanceToWaterM": 5.5,
+        "score": 4.16,
+        "water": {
+          "entityId": "body.620-3300",
+          "kind": "swamp",
+          "levelM": 1.9,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -9375,6 +9671,7 @@
     },
     {
       "id": "place.naga-kur-deeps.raft-village-lashed",
+      "schemaVersion": 2,
       "name": "The Lashing",
       "classification": {
         "class": "ruin",
@@ -9498,6 +9795,8 @@
         2909.0,
         5645.3
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1181",
@@ -9521,8 +9820,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 5,
         "distanceToRouteM": 327.2,
-        "distanceToWaterM": 0.0,
-        "score": 1.415
+        "distanceToWaterM": 5.5,
+        "score": 1.415,
+        "water": {
+          "entityId": "body.1590-3103",
+          "kind": "swamp",
+          "levelM": 1.24,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -9600,6 +9906,7 @@
     },
     {
       "id": "place.naga-kur-deeps.refugee-camp-raid",
+      "schemaVersion": 2,
       "name": "The Raided Camp",
       "classification": {
         "class": "camp",
@@ -9726,6 +10033,8 @@
         1296.9,
         6084.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1156",
@@ -9749,8 +10058,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 466.5,
-        "distanceToWaterM": 5.5,
-        "score": 3.91
+        "distanceToWaterM": 43.9,
+        "score": 3.91,
+        "water": {
+          "entityId": "body.764-3284",
+          "kind": "swamp",
+          "levelM": 1.66,
+          "season": "perennial",
+          "distanceM": 43.9
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -9831,6 +10147,7 @@
     },
     {
       "id": "place.naga-kur-deeps.root-gallery-blight-warren",
+      "schemaVersion": 2,
       "name": "The Warren",
       "classification": {
         "class": "lair",
@@ -9969,6 +10286,8 @@
         3901.5,
         5146.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1003",
@@ -9992,8 +10311,15 @@
         "regionClass": "tropical jungle",
         "dangerBand": 4,
         "distanceToRouteM": 688.7,
-        "distanceToWaterM": 38.8,
-        "score": 3.769
+        "distanceToWaterM": 97.0,
+        "score": 3.769,
+        "water": {
+          "entityId": "body.2094-2854",
+          "kind": "swamp",
+          "levelM": 20.37,
+          "season": "perennial",
+          "distanceM": 97.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -10083,6 +10409,7 @@
     },
     {
       "id": "place.naga-kur-deeps.root-gallery-blue-flood",
+      "schemaVersion": 2,
       "name": "The Blue Flood",
       "classification": {
         "class": "lair",
@@ -10260,6 +10587,7 @@
     },
     {
       "id": "place.naga-kur-deeps.root-gallery-drowned-lanes",
+      "schemaVersion": 2,
       "name": "The Drowned Lanes",
       "classification": {
         "class": "lair",
@@ -10431,6 +10759,7 @@
     },
     {
       "id": "place.naga-kur-deeps.root-whisper-village",
+      "schemaVersion": 2,
       "name": "Root-Whisper Village",
       "classification": {
         "class": "settlement",
@@ -10585,6 +10914,8 @@
         2475.8,
         5639.8
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0531",
@@ -10608,8 +10939,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 529.7,
-        "distanceToWaterM": 11.0,
-        "score": 3.266
+        "distanceToWaterM": 27.4,
+        "score": 3.266,
+        "water": {
+          "entityId": "body.1351-3057",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -10714,6 +11052,7 @@
     },
     {
       "id": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",
+      "schemaVersion": 2,
       "name": "The Shut Meer",
       "classification": {
         "class": "ruin",
@@ -10935,6 +11274,8 @@
         1993.3,
         4948.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 251 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region, danger, parent; placed from the homeless batch at stage 'relaxed-score'.",
       "plotFacts": {
@@ -10942,12 +11283,20 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 250.6,
-        "distanceToWaterM": 7.8,
-        "score": 2.805
+        "distanceToWaterM": 39.5,
+        "score": 2.805,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 39.5
+        }
       }
     },
     {
       "id": "place.naga-kur-deeps.serpent-ground-moon-adder",
+      "schemaVersion": 2,
       "name": "The Adder Banks",
       "classification": {
         "class": "lair",
@@ -11147,6 +11496,8 @@
         1302.3,
         5755.0
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0993",
@@ -11170,13 +11521,21 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 181.0,
-        "distanceToWaterM": 0.0,
-        "score": 3.14
+        "distanceToWaterM": 7.8,
+        "score": 3.14,
+        "water": {
+          "entityId": "body.709-3144",
+          "kind": "swamp",
+          "levelM": 4.01,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "scourSiteId": "site.scour.interior-swamp.cove-039"
     },
     {
       "id": "place.naga-kur-deeps.sinkhole-mouth-deeps",
+      "schemaVersion": 2,
       "name": "The Black Eye",
       "classification": {
         "class": "lone",
@@ -11310,6 +11669,8 @@
         2399.0,
         5064.0
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.rootland-deep-marsh.ford-013",
@@ -11328,8 +11689,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 609.1,
-        "distanceToWaterM": 0.0,
-        "score": 4.086
+        "distanceToWaterM": 7.8,
+        "score": 4.086,
+        "water": {
+          "entityId": "body.1315-2765",
+          "kind": "marsh-deep",
+          "levelM": 1.41,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11397,6 +11765,7 @@
     },
     {
       "id": "place.naga-kur-deeps.sithis-temple-mass-sacrifice",
+      "schemaVersion": 2,
       "name": "The Emptying House",
       "classification": {
         "class": "sacred",
@@ -11527,6 +11896,8 @@
         1181.7,
         5974.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1094",
@@ -11550,8 +11921,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 316.8,
-        "distanceToWaterM": 5.5,
-        "score": 2.557
+        "distanceToWaterM": 16.5,
+        "score": 2.557,
+        "water": {
+          "entityId": "body.610-3266",
+          "kind": "swamp",
+          "levelM": 2.12,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -11656,6 +12034,7 @@
     },
     {
       "id": "place.naga-kur-deeps.squatted-ruin-home-block",
+      "schemaVersion": 2,
       "name": "The Block House",
       "classification": {
         "class": "lone",
@@ -11809,6 +12188,7 @@
     },
     {
       "id": "place.naga-kur-deeps.standing-curiosity-mechanism-deeps",
+      "schemaVersion": 2,
       "name": "The Turning Stone",
       "classification": {
         "class": "lone",
@@ -11966,6 +12346,7 @@
     },
     {
       "id": "place.naga-kur-deeps.stilt-shallow-reed-stand",
+      "schemaVersion": 2,
       "name": "Reed-Stand",
       "classification": {
         "class": "settlement",
@@ -12144,6 +12525,7 @@
     },
     {
       "id": "place.naga-kur-deeps.stilt-tidal-black-piles",
+      "schemaVersion": 2,
       "name": "Black-Piles",
       "classification": {
         "class": "settlement",
@@ -12309,6 +12691,7 @@
     },
     {
       "id": "place.naga-kur-deeps.submerged-xanmeer-fully",
+      "schemaVersion": 2,
       "name": "Xal-Kuur",
       "classification": {
         "class": "ruin",
@@ -12470,6 +12853,7 @@
     },
     {
       "id": "place.naga-kur-deeps.tended-xanmeer-pilgrim-deeps",
+      "schemaVersion": 2,
       "name": "The Blue Terrace",
       "classification": {
         "class": "ruin",
@@ -12648,6 +13032,7 @@
     },
     {
       "id": "place.naga-kur-deeps.treasure-hunters-living-deeps",
+      "schemaVersion": 2,
       "name": "The Dredging Party",
       "classification": {
         "class": "camp",
@@ -12804,6 +13189,7 @@
     },
     {
       "id": "place.naga-kur-deeps.umbriel-stripped-undead",
+      "schemaVersion": 2,
       "name": "The Still-Walking Village",
       "classification": {
         "class": "ruin",
@@ -12958,6 +13344,8 @@
         1280.4,
         5513.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1094",
@@ -12981,8 +13369,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 7.8,
-        "distanceToWaterM": 19.8,
-        "score": 3.15
+        "distanceToWaterM": 15.5,
+        "score": 3.15,
+        "water": {
+          "entityId": "body.710-3031",
+          "kind": "swamp",
+          "levelM": 1.8,
+          "season": "perennial",
+          "distanceM": 15.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -13088,6 +13483,7 @@
     },
     {
       "id": "place.naga-kur-deeps.urn-vault-sealed-deeps",
+      "schemaVersion": 2,
       "name": "The Held Vault",
       "classification": {
         "class": "sacred",
@@ -13254,6 +13650,7 @@
     },
     {
       "id": "place.naga-kur-deeps.voriplasm-chamber-breached",
+      "schemaVersion": 2,
       "name": "The Split Cistern",
       "classification": {
         "class": "lair",
@@ -13445,6 +13842,7 @@
     },
     {
       "id": "place.naga-kur-deeps.wamasu-pond-adult",
+      "schemaVersion": 2,
       "name": "The Standing Charge",
       "classification": {
         "class": "lair",
@@ -13571,6 +13969,8 @@
         2466.0,
         4403.0
       ],
+      "footprintRadiusM": 175.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [],
       "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json): The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held.",
       "plotFacts": {
@@ -13578,8 +13978,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 5,
         "distanceToRouteM": 279.7,
-        "distanceToWaterM": 0.0,
-        "score": null
+        "distanceToWaterM": 5.5,
+        "score": null,
+        "water": {
+          "entityId": "body.1346-2411",
+          "kind": "marsh-deep",
+          "levelM": 10.12,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -13649,6 +14056,7 @@
     },
     {
       "id": "place.naga-kur-deeps.whitewater-logjam-reach",
+      "schemaVersion": 2,
       "name": "The Jam",
       "classification": {
         "class": "lair",
@@ -13800,6 +14208,7 @@
     },
     {
       "id": "place.naga-kur-deeps.wild-hist-rogue-deeps",
+      "schemaVersion": 2,
       "name": "The Withdrawn Tree",
       "classification": {
         "class": "sacred",
@@ -13929,6 +14338,8 @@
         3183.2,
         4910.5
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.rootland-deep-marsh.enclosed-clearing-001",
       "candidatesConsidered": [
         {
@@ -13953,8 +14364,15 @@
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 54.8,
-        "distanceToWaterM": 19.8,
-        "score": 2.716
+        "distanceToWaterM": 45.2,
+        "score": 2.716,
+        "water": {
+          "entityId": "body.1733-2709",
+          "kind": "marsh-deep",
+          "levelM": 1.06,
+          "season": "perennial",
+          "distanceM": 45.2
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -14032,6 +14450,7 @@
     },
     {
       "id": "place.naga-kur-deeps.wreck-submerged-barge",
+      "schemaVersion": 2,
       "name": "The Sunk Barge",
       "classification": {
         "class": "lone",
@@ -14165,6 +14584,8 @@
         1412.0,
         6155.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-005",
@@ -14189,7 +14610,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 520.0,
         "distanceToWaterM": 0.0,
-        "score": 4.239
+        "score": 4.239,
+        "water": {
+          "entityId": "body.763-3395",
+          "kind": "marsh-fringe",
+          "levelM": 1.81,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",

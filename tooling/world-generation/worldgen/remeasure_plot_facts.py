@@ -1,4 +1,9 @@
-"""Re-measure the committed `plotFacts` physical distances against the rasters.
+"""Re-measure the committed `plotFacts` physical facts against the record.
+
+Three facts: `distanceToWaterM`, `distanceToRouteM` and `water` — the graph
+record of the nearest water (id, kind, level, season, distance). The water
+fact is keyed to a hydrology-graph id so every later stage joins through the
+record instead of re-deriving what the water is (decision 0066).
 
     cd tooling/world-generation
     python3 -m worldgen.remeasure_plot_facts --dry-run   # report, write nothing
@@ -62,7 +67,12 @@ REPORT_EPS_M = 0.05
 #: queued for the terrain-chain pass that re-runs the route compilers — the
 #: nine anchors' literal `distanceToRouteM: 0.0` is still in the data until
 #: then, though `macro_plot` no longer writes or trusts one.
-MEASURED_FIELDS = ("distanceToWaterM", "distanceToRouteM")
+#:
+#: `water` is the third: the graph record of the nearest water (its id, kind,
+#: level, season and the walk to it). It is a measurement of WHICH RECORD is
+#: nearest, not a re-derivation of what the water is — the fact is keyed to a
+#: graph id and every consumer joins through it (decision 0066).
+MEASURED_FIELDS = ("distanceToWaterM", "distanceToRouteM", "water")
 
 
 def measure(s: ProvinceSurvey, x: float, z: float,
@@ -72,6 +82,7 @@ def measure(s: ProvinceSurvey, x: float, z: float,
     all_of = {
         "distanceToRouteM": round(float(s.dist_to_route_m[row, col]), 1),
         "distanceToWaterM": round(float(s.dist_to_water_m[row, col]), 1),
+        "water": s.nearest_water_entity(float(x), float(z)),
     }
     return {k: v for k, v in all_of.items() if k in fields}
 
@@ -90,6 +101,11 @@ def remeasure(s: ProvinceSurvey, files: list[catalogue.RegionFile],
             for key, value in now.items():
                 was = facts.get(key)
                 facts[key] = value
+                if key == "water":
+                    if was != value:
+                        changes.append({"id": rec["id"], "field": key, "was": was,
+                                        "now": value, "positionM": list(pos)})
+                    continue
                 if was is None or abs(float(was) - value) > REPORT_EPS_M:
                     changes.append({"id": rec["id"], "field": key,
                                     "was": None if was is None else float(was),
@@ -111,7 +127,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--with-route", action="store_true",
                     help="also re-measure distanceToRouteM (see MEASURED_FIELDS)")
     args = ap.parse_args(argv)
-    fields = MEASURED_FIELDS if args.with_route else ("distanceToWaterM",)
+    fields = MEASURED_FIELDS if args.with_route else ("distanceToWaterM", "water")
 
     s = shared_survey()
     files = list(catalogue.load_region_files())
@@ -134,14 +150,16 @@ def main(argv: list[str] | None = None) -> int:
                     continue
                 assert old[k] == rec[k], f"{rec['id']}: {k} changed"
             of, nf = old.get("plotFacts") or {}, rec.get("plotFacts") or {}
-            assert set(of) == set(nf), rec["id"]
+            assert set(nf) - set(of) <= set(fields), rec["id"]
+            assert set(of) - set(nf) == set(), rec["id"]
             for k in nf:
-                if of[k] != nf[k]:
+                if of.get(k) != nf[k]:
                     touched.add((rec["id"], k))
     stray = {k for _, k in touched} - set(fields)
     assert not stray, f"fields rewritten that are not measurements: {sorted(stray)}"
 
-    changes.sort(key=lambda c: -abs(c["now"] - (c["was"] or 0.0)))
+    changes.sort(key=lambda c: 0.0 if c["field"] == "water"
+                 else -abs(c["now"] - (c["was"] or 0.0)))
     print(f"season: {PLOT_FACT_SEASON}; fields: {', '.join(fields)}; records with a position and plotFacts: "
           f"{len(before_pos)}; facts corrected: {len(changes)}")
     for c in changes[: args.top]:

@@ -27,8 +27,9 @@ class FlatTerrain:
             "dangerBand": 2, "culture": "pirate-freeholds", "relief150M": 0.4,
             "heightAboveWaterM": 2.0, "waterDepthM": 0.0, "maxDepthNearbyM": 0.1,
             "maxDepthAtEntranceM": 0.1, "distanceToWaterM": 400.0,
-            "shoreDistanceM": 400.0, "coastDistanceM": 900.0, "wetland": False,
-            "floodBand": 0,
+            "shoreDistanceM": 400.0, "coastDistanceM": 900.0,
+            "record": {"id": None, "kind": None, "season": None},
+            "wetGround": False,
         }
         self.base.update(over)
 
@@ -162,7 +163,12 @@ def test_owner_reported_cases_are_caught():
     span["why"]["siteAdvantages"] = "A water narrows with hard banks, on the Stormhold-to-Thorn line."
     span["sitingPrefs"]["landformClasses"] = ["water-narrows", "ford", "land-bridge"]
     span["sitingPrefs"]["hardConstraints"] = ["spans the channel at its narrowest", "on the trunk route"]
-    span["positionM"] = [3539.6, 1198.1]
+    # The owner's case was a record whose prose names one trunk road while its
+    # dot sits on another. The road it actually sat on (Alten Corimont–
+    # Stormhold) was cut in decision 0069, so the same contradiction is built
+    # from the roads the registry still holds: the dot is ON the
+    # Gideon–Stormhold road, 1.5 km from the Stormhold–Thorn road it names.
+    span["positionM"] = [1976.8, 2086.5]
     span["plotFacts"] = dict(span.get("plotFacts") or {}, landform="any-firm-ground", distanceToRouteM=270.0)
     span["whySiteWon"] = "firm ground in firm lowland (danger band 3), 270 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground."
     creek = copy.deepcopy(_real("place.pirate-freeholds.chasecreek"))
@@ -179,7 +185,7 @@ def test_owner_reported_cases_are_caught():
     span_route = [f for f in aps.check_route(ctx, span) if f.check == "route"]
     assert span_route, "The Trunk Span's Stormhold–Thorn claim was not flagged"
     assert "Stormhold–Thorn road" in span_route[0].fact
-    assert "Alten Corimont" in span_route[0].fact  # the road it is actually on
+    assert "Gideon" in span_route[0].fact  # the road it is actually on
 
     creek_lf = aps.check_landform(ctx, creek)
     assert creek_lf, "Chasecreek's flood-high identity was not flagged"

@@ -5,6 +5,7 @@
   "places": [
     {
       "id": "place.imperial-penal-south.akaviri-works",
+      "schemaVersion": 2,
       "name": "The Potentate's Works",
       "aliases": [],
       "classification": {
@@ -193,6 +194,8 @@
         1834.2,
         5963.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.ford-009",
@@ -216,8 +219,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 3,
         "distanceToRouteM": 527.4,
-        "distanceToWaterM": 19.8,
-        "score": 3.453
+        "distanceToWaterM": 0.0,
+        "score": 3.453,
+        "water": {
+          "entityId": "body.973-3292",
+          "kind": "marsh-fringe",
+          "levelM": 1.62,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "proseRefs": [
         {
@@ -229,6 +239,7 @@
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
+      "schemaVersion": 2,
       "name": "Bell-Under-The-Cliff",
       "aliases": [
         "The Bell"
@@ -403,6 +414,7 @@
     },
     {
       "id": "place.imperial-penal-south.basin-courier-relay",
+      "schemaVersion": 2,
       "name": "The Running Post",
       "aliases": [],
       "classification": {
@@ -561,6 +573,7 @@
     },
     {
       "id": "place.imperial-penal-south.basin-curiosity",
+      "schemaVersion": 2,
       "name": "The Counting Stones",
       "aliases": [],
       "classification": {
@@ -722,6 +735,7 @@
     },
     {
       "id": "place.imperial-penal-south.basin-hearth-house",
+      "schemaVersion": 2,
       "name": "The Cordon Hearth",
       "aliases": [],
       "classification": {
@@ -903,6 +917,7 @@
     },
     {
       "id": "place.imperial-penal-south.basin-hermit",
+      "schemaVersion": 2,
       "name": "The Fasting Hut",
       "aliases": [],
       "classification": {
@@ -1080,6 +1095,7 @@
     },
     {
       "id": "place.imperial-penal-south.basin-sinkhole",
+      "schemaVersion": 2,
       "name": "Basin Swallow",
       "aliases": [
         "The Swallow"
@@ -1260,6 +1276,8 @@
         2048.1,
         6769.4
       ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0033",
@@ -1283,8 +1301,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 38.8,
-        "distanceToWaterM": 12.3,
-        "score": 2.526
+        "distanceToWaterM": 11.0,
+        "score": 2.526,
+        "water": {
+          "entityId": "body.1143-3688",
+          "kind": "marsh-fringe",
+          "levelM": 3.93,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "terrainRequests": [
         {
@@ -1301,6 +1326,7 @@
     },
     {
       "id": "place.imperial-penal-south.basin-squat",
+      "schemaVersion": 2,
       "name": "The Gatehouse",
       "aliases": [],
       "classification": {
@@ -1455,6 +1481,7 @@
     },
     {
       "id": "place.imperial-penal-south.basin-tradehouse",
+      "schemaVersion": 2,
       "name": "The Standing Account",
       "aliases": [],
       "classification": {
@@ -1623,6 +1650,7 @@
     },
     {
       "id": "place.imperial-penal-south.blackrose",
+      "schemaVersion": 2,
       "name": "Blackrose",
       "aliases": [],
       "classification": {
@@ -1820,6 +1848,8 @@
         2359.5,
         6415.0
       ],
+      "footprintRadiusM": 230.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'blackrose' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -1827,8 +1857,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 1,
         "distanceToRouteM": 0.0,
-        "distanceToWaterM": 12.3,
-        "score": null
+        "distanceToWaterM": 7.8,
+        "score": null,
+        "water": {
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -1948,6 +1985,7 @@
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
+      "schemaVersion": 2,
       "name": "Speaks-Below-The-Water",
       "aliases": [
         "The Drowned Tree"
@@ -2100,6 +2138,8 @@
         1954.9,
         5782.4
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0603",
@@ -2124,7 +2164,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 670.7,
         "distanceToWaterM": 0.0,
-        "score": 2.325
+        "score": 2.325,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -2186,6 +2233,7 @@
     },
     {
       "id": "place.imperial-penal-south.blackrose-prison",
+      "schemaVersion": 2,
       "name": "Blackrose Prison",
       "aliases": [
         "The Rose"
@@ -2372,6 +2420,8 @@
         2031.6,
         6259.4
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.fringe-marsh.island-013",
       "candidatesConsidered": [],
       "whySiteWon": "island in fringe marsh (danger band 2), 177 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, bound, region; landform wishes taken from the type recipe (record had none).",
@@ -2380,8 +2430,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 177.0,
-        "distanceToWaterM": 11.0,
-        "score": 2.791
+        "distanceToWaterM": 55.1,
+        "score": 2.791,
+        "water": {
+          "entityId": "body.984-3515",
+          "kind": "backswamp",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 55.1
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -2479,6 +2536,7 @@
     },
     {
       "id": "place.imperial-penal-south.blasphemer-urn-vault",
+      "schemaVersion": 2,
       "name": "The Refused Vault",
       "aliases": [],
       "classification": {
@@ -2679,6 +2737,8 @@
         2580.0,
         6580.9
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-018",
@@ -2702,12 +2762,20 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 7.8,
-        "distanceToWaterM": 59.3,
-        "score": 3.725
+        "distanceToWaterM": 133.9,
+        "score": 3.725,
+        "water": {
+          "entityId": "body.1452-3539",
+          "kind": "marsh-fringe",
+          "levelM": 3.83,
+          "season": "perennial",
+          "distanceM": 133.9
+        }
       }
     },
     {
       "id": "place.imperial-penal-south.bog-iron-bloomery",
+      "schemaVersion": 2,
       "name": "The Cold Bloom",
       "aliases": [],
       "classification": {
@@ -2877,6 +2945,7 @@
     },
     {
       "id": "place.imperial-penal-south.bramman-head",
+      "schemaVersion": 2,
       "name": "Bramman's Head",
       "aliases": [],
       "classification": {
@@ -3049,6 +3118,8 @@
         1883.6,
         6352.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "scourSiteId": "site.scour.lake-standing-water.cove-017",
       "candidatesConsidered": [
         {
@@ -3074,7 +3145,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 152.8,
         "distanceToWaterM": 0.0,
-        "score": 4.014
+        "score": 4.014,
+        "water": {
+          "entityId": "body.984-3515",
+          "kind": "backswamp",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -3152,6 +3230,7 @@
     },
     {
       "id": "place.imperial-penal-south.buoyant-causeway",
+      "schemaVersion": 2,
       "name": "The Floating Road",
       "aliases": [],
       "classification": {
@@ -3331,6 +3410,7 @@
     },
     {
       "id": "place.imperial-penal-south.cave-pool-glow",
+      "schemaVersion": 2,
       "name": "The Lit Pool",
       "aliases": [],
       "classification": {
@@ -3498,6 +3578,7 @@
     },
     {
       "id": "place.imperial-penal-south.chainbreaker-shelter",
+      "schemaVersion": 2,
       "name": "Open House",
       "aliases": [
         "The Open House"
@@ -3660,6 +3741,8 @@
         2168.7,
         6824.2
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0030",
@@ -3683,8 +3766,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 21.9,
-        "distanceToWaterM": 32.0,
-        "score": 3.038
+        "distanceToWaterM": 35.1,
+        "score": 3.038,
+        "water": {
+          "entityId": "body.1171-3721",
+          "kind": "marsh-fringe",
+          "levelM": 4.24,
+          "season": "perennial",
+          "distanceM": 35.1
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -3801,6 +3891,7 @@
     },
     {
       "id": "place.imperial-penal-south.chainlink-watchtower",
+      "schemaVersion": 2,
       "name": "The Chain Towers",
       "aliases": [],
       "classification": {
@@ -3967,6 +4058,7 @@
     },
     {
       "id": "place.imperial-penal-south.cliff-vista-basin",
+      "schemaVersion": 2,
       "name": "The Reading Ledge",
       "aliases": [],
       "classification": {
@@ -4140,6 +4232,7 @@
         "tierOwnership": "LR04 · tier-3; LR40 · tier-3; PP05 · tier-3; BC-line · tier-2"
       },
       "id": "place.imperial-penal-south.cordon-cellars",
+      "schemaVersion": 2,
       "name": "Cordon Two, Under-Stores",
       "classification": {
         "class": "works",
@@ -4339,6 +4432,8 @@
         2629.3,
         6321.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1271",
@@ -4362,8 +4457,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 36.8,
-        "score": 3.967
+        "distanceToWaterM": 44.2,
+        "score": 3.967,
+        "water": {
+          "entityId": "body.1408-3425",
+          "kind": "marsh-fringe",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 44.2
+        }
       },
       "proseRefs": [
         {
@@ -4378,6 +4480,7 @@
     },
     {
       "id": "place.imperial-penal-south.daril-den",
+      "schemaVersion": 2,
       "name": "The Long Sleep",
       "aliases": [],
       "classification": {
@@ -4540,6 +4643,7 @@
     },
     {
       "id": "place.imperial-penal-south.disputed-estate-village",
+      "schemaVersion": 2,
       "name": "Yeller's Holding",
       "aliases": [],
       "classification": {
@@ -4701,6 +4805,7 @@
     },
     {
       "id": "place.imperial-penal-south.drawdown-flat",
+      "schemaVersion": 2,
       "name": "Bare Lake",
       "aliases": [
         "The Bare Lake"
@@ -4861,6 +4966,8 @@
         2848.7,
         5946.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0565",
@@ -4884,8 +4991,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 4,
         "distanceToRouteM": 159.1,
-        "distanceToWaterM": 16.5,
-        "score": 4.371
+        "distanceToWaterM": 0.0,
+        "score": 4.371,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4993,6 +5107,7 @@
         "tierOwnership": "MQ09 · tier-0; LR19 · tier-3"
       },
       "id": "place.imperial-penal-south.drowned-gallery",
+      "schemaVersion": 2,
       "name": "The Drowned Gallery",
       "classification": {
         "class": "works",
@@ -5175,6 +5290,8 @@
         1878.1,
         5853.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0603",
@@ -5199,11 +5316,19 @@
         "dangerBand": 3,
         "distanceToRouteM": 663.3,
         "distanceToWaterM": 0.0,
-        "score": 4.176
+        "score": 4.176,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       }
     },
     {
       "id": "place.imperial-penal-south.feeder-portage",
+      "schemaVersion": 2,
       "name": "The Windlass Reckoning",
       "aliases": [
         "The Drag"
@@ -5341,6 +5466,8 @@
         1735.5,
         5924.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.water-narrows-052",
@@ -5365,7 +5492,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 604.4,
         "distanceToWaterM": 5.5,
-        "score": 2.559
+        "score": 2.559,
+        "water": {
+          "entityId": "reach.1150-3112",
+          "kind": "horizontal-channel",
+          "levelM": 1.66,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -5439,6 +5573,7 @@
     },
     {
       "id": "place.imperial-penal-south.feeder-whitewater",
+      "schemaVersion": 2,
       "name": "The Stair Rapids",
       "aliases": [],
       "classification": {
@@ -5583,6 +5718,7 @@
     },
     {
       "id": "place.imperial-penal-south.flu-mass-grave",
+      "schemaVersion": 2,
       "name": "The Counting Ground",
       "aliases": [],
       "classification": {
@@ -5765,6 +5901,8 @@
         1938.4,
         6188.2
       ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0055",
@@ -5788,8 +5926,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 421.7,
-        "distanceToWaterM": 0.0,
-        "score": 3.541
+        "distanceToWaterM": 5.5,
+        "score": 3.541,
+        "water": {
+          "entityId": "body.1059-3372",
+          "kind": "marsh-fringe",
+          "levelM": 1.69,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "proseRefs": [
         {
@@ -5800,6 +5945,7 @@
     },
     {
       "id": "place.imperial-penal-south.flu-quarantine-village",
+      "schemaVersion": 2,
       "name": "Holding Fields, Cordon Three",
       "aliases": [
         "The Holding Fields"
@@ -5948,6 +6094,8 @@
         2031.6,
         6879.1
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0032",
@@ -5971,8 +6119,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 49.7,
-        "distanceToWaterM": 7.8,
-        "score": 4.853
+        "distanceToWaterM": 58.3,
+        "score": 4.853,
+        "water": {
+          "entityId": "reach.1129-3733",
+          "kind": "horizontal-channel",
+          "levelM": 3.62,
+          "season": "perennial",
+          "distanceM": 58.3
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -6062,6 +6217,7 @@
     },
     {
       "id": "place.imperial-penal-south.frog-pond-farm-basin",
+      "schemaVersion": 2,
       "name": "The Singing Ponds",
       "aliases": [],
       "classification": {
@@ -6217,6 +6373,7 @@
     },
     {
       "id": "place.imperial-penal-south.gar-pens-basin",
+      "schemaVersion": 2,
       "name": "The Gar Pens",
       "aliases": [],
       "classification": {
@@ -6370,6 +6527,7 @@
     },
     {
       "id": "place.imperial-penal-south.imperial-farmstead-basin",
+      "schemaVersion": 2,
       "name": "Cassia's Ground",
       "aliases": [],
       "classification": {
@@ -6519,6 +6677,7 @@
     },
     {
       "id": "place.imperial-penal-south.imperial-survey-camp",
+      "schemaVersion": 2,
       "name": "The Last Survey",
       "aliases": [],
       "classification": {
@@ -6691,6 +6850,7 @@
     },
     {
       "id": "place.imperial-penal-south.intact-fort",
+      "schemaVersion": 2,
       "name": "Fort Cordon",
       "aliases": [],
       "classification": {
@@ -6903,6 +7063,8 @@
         2081.0,
         6418.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.ford-020",
@@ -6926,8 +7088,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 11.0,
-        "distanceToWaterM": 29.5,
-        "score": 3.563
+        "distanceToWaterM": 11.0,
+        "score": 3.563,
+        "water": {
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "scourSiteId": "site.scour.fringe-marsh.flood-high-014",
       "proseRefs": [
@@ -6939,6 +7108,7 @@
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
+      "schemaVersion": 2,
       "name": "Ash-Hand",
       "aliases": [],
       "classification": {
@@ -7080,6 +7250,8 @@
         1905.5,
         5464.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-018",
@@ -7103,8 +7275,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 4,
         "distanceToRouteM": 538.0,
-        "distanceToWaterM": 44.2,
-        "score": 2.01
+        "distanceToWaterM": 38.8,
+        "score": 2.01,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 38.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -7185,6 +7364,7 @@
     },
     {
       "id": "place.imperial-penal-south.lake-boardwalk-village",
+      "schemaVersion": 2,
       "name": "Spine",
       "aliases": [],
       "classification": {
@@ -7406,6 +7586,8 @@
         2552.6,
         6067.5
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1287",
@@ -7429,8 +7611,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 143.5,
-        "distanceToWaterM": 7.8,
-        "score": 1.833
+        "distanceToWaterM": 11.0,
+        "score": 1.833,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "services": [
         "ferry",
@@ -7441,6 +7630,7 @@
     },
     {
       "id": "place.imperial-penal-south.lake-divers-yard",
+      "schemaVersion": 2,
       "name": "The Barge Yard",
       "aliases": [],
       "classification": {
@@ -7641,6 +7831,8 @@
         1724.6,
         5722.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0603",
@@ -7665,13 +7857,21 @@
         "dangerBand": 4,
         "distanceToRouteM": 491.1,
         "distanceToWaterM": 0.0,
-        "score": 4.845
+        "score": 4.845,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "services": [],
       "scourSiteId": "site.scour.lake-standing-water.cove-066"
     },
     {
       "id": "place.imperial-penal-south.lake-drowned-village",
+      "schemaVersion": 2,
       "name": "Under-Longmont",
       "aliases": [],
       "classification": {
@@ -7876,6 +8076,8 @@
         2349.7,
         5952.4
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0552",
@@ -7900,12 +8102,20 @@
         "dangerBand": 3,
         "distanceToRouteM": 326.5,
         "distanceToWaterM": 0.0,
-        "score": 3.258
+        "score": 3.258,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "scourSiteId": "site.scour.lake-standing-water.cove-031"
     },
     {
       "id": "place.imperial-penal-south.lake-ferry-stage",
+      "schemaVersion": 2,
       "name": "The North Stage",
       "aliases": [],
       "classification": {
@@ -8102,6 +8312,8 @@
         2634.8,
         6489.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1292",
@@ -8125,8 +8337,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 33.4,
-        "distanceToWaterM": 38.8,
-        "score": 6.066
+        "distanceToWaterM": 27.4,
+        "score": 6.066,
+        "water": {
+          "entityId": "body.1452-3539",
+          "kind": "marsh-fringe",
+          "levelM": 3.83,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "sitingNote": "Bound to the Blackrose–Lilmoth boat lane. The record used to claim it was where the north road ended, at a nine-hundred-metre narrows; neither is on the ground here, so those claims were cut rather than the stage itself.",
       "proseRefs": [
@@ -8146,6 +8365,7 @@
     },
     {
       "id": "place.imperial-penal-south.lake-raft-village",
+      "schemaVersion": 2,
       "name": "The Cluster",
       "aliases": [],
       "classification": {
@@ -8306,6 +8526,7 @@
     },
     {
       "id": "place.imperial-penal-south.lake-stall-row",
+      "schemaVersion": 2,
       "name": "The Water Row",
       "aliases": [],
       "classification": {
@@ -8458,6 +8679,7 @@
     },
     {
       "id": "place.imperial-penal-south.lake-submerged-xanmeer",
+      "schemaVersion": 2,
       "name": "Lake Meer",
       "aliases": [
         "The Lake Meer"
@@ -8612,6 +8834,8 @@
         2130.3,
         5722.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.island-006",
@@ -8635,8 +8859,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 639.4,
-        "distanceToWaterM": 11.0,
-        "score": 3.416
+        "distanceToWaterM": 5.5,
+        "score": 3.416,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -8709,6 +8940,7 @@
     },
     {
       "id": "place.imperial-penal-south.ledgered-blackguards",
+      "schemaVersion": 2,
       "name": "The Book House",
       "aliases": [],
       "classification": {
@@ -8939,6 +9171,8 @@
         2761.0,
         6637.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-052",
@@ -8962,8 +9196,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 153.6,
-        "distanceToWaterM": 5.5,
-        "score": 1.254
+        "distanceToWaterM": 11.0,
+        "score": 1.254,
+        "water": {
+          "entityId": "body.1503-3629",
+          "kind": "marsh-fringe",
+          "levelM": 1.19,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "sitingNote": "On the lake's western edge, where the culture raster reads mercantile-coast: a book-keeping smuggler crew belongs on the seam between the city's water and the coast's, not inside either. Region list widened to include the standing water beneath it.",
       "proseRefs": [
@@ -8983,6 +9224,7 @@
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
+      "schemaVersion": 2,
       "name": "Robbed City",
       "aliases": [
         "The Robbed City"
@@ -9131,6 +9373,8 @@
         1878.1,
         5716.6
       ],
+      "footprintRadiusM": 55.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1098",
@@ -9149,8 +9393,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 4,
         "distanceToRouteM": 633.0,
-        "distanceToWaterM": 7.8,
-        "score": 1.348
+        "distanceToWaterM": 0.0,
+        "score": 1.348,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -9224,6 +9475,7 @@
     },
     {
       "id": "place.imperial-penal-south.living-treasure-camp",
+      "schemaVersion": 2,
       "name": "The Meer Camp",
       "aliases": [],
       "classification": {
@@ -9388,6 +9640,7 @@
     },
     {
       "id": "place.imperial-penal-south.longmont",
+      "schemaVersion": 2,
       "name": "Longmont",
       "aliases": [],
       "classification": {
@@ -9544,6 +9797,8 @@
         2081.0,
         5924.9
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0032",
@@ -9567,8 +9822,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 3,
         "distanceToRouteM": 482.5,
-        "distanceToWaterM": 34.7,
-        "score": 2.931
+        "distanceToWaterM": 5.5,
+        "score": 2.931,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -9678,6 +9940,7 @@
     },
     {
       "id": "place.imperial-penal-south.manned-toll-tower",
+      "schemaVersion": 2,
       "name": "The Water Reckoning",
       "aliases": [],
       "classification": {
@@ -9872,6 +10135,8 @@
         1620.4,
         6336.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0790",
@@ -9885,12 +10150,20 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 319.0,
-        "distanceToWaterM": 23.3,
-        "score": 3.023
+        "distanceToWaterM": 19.8,
+        "score": 3.023,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       }
     },
     {
       "id": "place.imperial-penal-south.marsh-giant-ground-basin",
+      "schemaVersion": 2,
       "name": "The Trodden Ground",
       "aliases": [],
       "classification": {
@@ -10067,6 +10340,8 @@
         1598.4,
         5524.6
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1148",
@@ -10090,13 +10365,21 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 313.0,
-        "distanceToWaterM": 32.0,
-        "score": 2.545
+        "distanceToWaterM": 11.0,
+        "score": 2.545,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "sitingNote": "Kept on the Murkwood side of the lake (culture raster: naga-kur-deeps) because the range is defined by having no settlement in it. Given the wallow-mouth den the 'trodden ground' implies, so the lair can be entered."
     },
     {
       "id": "place.imperial-penal-south.murkwood-verge",
+      "schemaVersion": 2,
       "name": "Murkwood Verge",
       "aliases": [
         "The Murkwood Verge"
@@ -10254,6 +10537,8 @@
         1631.3,
         5656.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.flood-high-029",
@@ -10277,8 +10562,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 374.8,
-        "distanceToWaterM": 46.9,
-        "score": 1.837
+        "distanceToWaterM": 41.8,
+        "score": 1.837,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 41.8
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -10363,6 +10655,7 @@
     },
     {
       "id": "place.imperial-penal-south.natural-dive-shaft",
+      "schemaVersion": 2,
       "name": "The Blue Hole",
       "aliases": [],
       "classification": {
@@ -10538,6 +10831,8 @@
         1653.3,
         5436.9
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0615",
@@ -10562,7 +10857,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 341.2,
         "distanceToWaterM": 0.0,
-        "score": 3.738
+        "score": 3.738,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "terrainRequests": [
         {
@@ -10580,6 +10882,7 @@
     },
     {
       "id": "place.imperial-penal-south.necromantic-dig",
+      "schemaVersion": 2,
       "name": "The Quiet Excavation",
       "aliases": [],
       "classification": {
@@ -10800,6 +11103,8 @@
         2240.0,
         6094.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1222",
@@ -10823,8 +11128,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 3,
         "distanceToRouteM": 258.7,
-        "distanceToWaterM": 52.0,
-        "score": 3.758
+        "distanceToWaterM": 71.3,
+        "score": 3.758,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 71.3
+        }
       },
       "terrainRequests": [
         {
@@ -10843,6 +11155,7 @@
     },
     {
       "id": "place.imperial-penal-south.onkobra-clay-kiln",
+      "schemaVersion": 2,
       "name": "The Red Pit",
       "aliases": [],
       "classification": {
@@ -10995,6 +11308,7 @@
     },
     {
       "id": "place.imperial-penal-south.owing-camp-basin",
+      "schemaVersion": 2,
       "name": "The Standing Debt",
       "aliases": [],
       "classification": {
@@ -11168,6 +11482,7 @@
     },
     {
       "id": "place.imperial-penal-south.plague-cordon",
+      "schemaVersion": 2,
       "name": "The Cordon",
       "aliases": [],
       "classification": {
@@ -11327,6 +11642,8 @@
         1919.8,
         6694.8
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0030",
@@ -11350,8 +11667,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 89.3,
-        "distanceToWaterM": 11.0,
-        "score": 4.086
+        "distanceToWaterM": 17.3,
+        "score": 4.086,
+        "water": {
+          "entityId": "body.1016-3652",
+          "kind": "marsh-fringe",
+          "levelM": 4.43,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "sitingNote": "The line runs east of Blackrose toward the coast hinterland, so the culture raster reads mercantile-coast on its far side. The record depends on that: the villages beyond the stones still call themselves outside. Kept in place; the 'southern' wording was corrected and the line given its surviving gate.",
       "proseRefs": [
@@ -11367,6 +11691,7 @@
     },
     {
       "id": "place.imperial-penal-south.prison-born-refuge",
+      "schemaVersion": 2,
       "name": "Third Generation",
       "aliases": [],
       "classification": {
@@ -11521,6 +11846,8 @@
         1954.9,
         6067.5
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1266",
@@ -11545,7 +11872,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 383.3,
         "distanceToWaterM": 5.5,
-        "score": 4.664
+        "score": 4.664,
+        "water": {
+          "entityId": "body.1115-3248",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -11636,6 +11970,7 @@
     },
     {
       "id": "place.imperial-penal-south.raid-refugee-camp",
+      "schemaVersion": 2,
       "name": "The Verge Camp",
       "aliases": [],
       "classification": {
@@ -11791,6 +12126,7 @@
     },
     {
       "id": "place.imperial-penal-south.rebellion-earthworks",
+      "schemaVersion": 2,
       "name": "Welloc's Lines",
       "aliases": [],
       "classification": {
@@ -11919,6 +12255,8 @@
         2739.0,
         5979.8
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0055",
@@ -11943,7 +12281,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 131.6,
         "distanceToWaterM": 0.0,
-        "score": 2.991
+        "score": 2.991,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -12027,6 +12372,7 @@
     },
     {
       "id": "place.imperial-penal-south.rebellion-memorial",
+      "schemaVersion": 2,
       "name": "The Raising Stone",
       "aliases": [],
       "classification": {
@@ -12182,6 +12528,7 @@
     },
     {
       "id": "place.imperial-penal-south.retired-arbiter-house",
+      "schemaVersion": 2,
       "name": "The Arbiter's House",
       "aliases": [],
       "classification": {
@@ -12357,6 +12704,7 @@
     },
     {
       "id": "place.imperial-penal-south.rockspring",
+      "schemaVersion": 2,
       "name": "Rockspring",
       "aliases": [],
       "classification": {
@@ -12506,6 +12854,8 @@
         1806.8,
         6462.3
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.flood-high-035",
@@ -12529,8 +12879,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 173.4,
-        "distanceToWaterM": 21.9,
-        "score": 4.123
+        "distanceToWaterM": 11.0,
+        "score": 4.123,
+        "water": {
+          "entityId": "reach.1249-3511",
+          "kind": "horizontal-channel",
+          "levelM": 1.6,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -12603,6 +12960,7 @@
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
+      "schemaVersion": 2,
       "name": "The Tag House",
       "aliases": [],
       "classification": {
@@ -12783,6 +13141,8 @@
         1831.4,
         6783.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0055",
@@ -12807,11 +13167,19 @@
         "dangerBand": 3,
         "distanceToRouteM": 32.9,
         "distanceToWaterM": 22.6,
-        "score": 3.748
+        "score": 3.748,
+        "water": {
+          "entityId": "body.1011-3708",
+          "kind": "marsh-fringe",
+          "levelM": 5.48,
+          "season": "perennial",
+          "distanceM": 22.6
+        }
       }
     },
     {
       "id": "place.imperial-penal-south.rose-flooded-passage",
+      "schemaVersion": 2,
       "name": "Rose Lower Levels",
       "aliases": [
         "The Lower Levels"
@@ -12971,6 +13339,8 @@
         1823.3,
         6221.1
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "island in firm lowland (danger band 2), 297 m from the nearest route; won on bound, region, culture-clump.",
       "plotFacts": {
@@ -12979,7 +13349,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 297.4,
         "distanceToWaterM": 5.5,
-        "score": 2.772
+        "score": 2.772,
+        "water": {
+          "entityId": "body.930-3449",
+          "kind": "lagoon",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -13082,6 +13459,7 @@
         "tierOwnership": "BC04 · tier-2; LR12 · tier-3; LR37 · tier-3; LR38 · tier-3"
       },
       "id": "place.imperial-penal-south.rose-outworks",
+      "schemaVersion": 2,
       "name": "Outworks, Cordon One",
       "classification": {
         "class": "martial",
@@ -13292,6 +13670,8 @@
         2081.0,
         6243.0
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0055",
@@ -13315,12 +13695,20 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 268.9,
-        "distanceToWaterM": 7.8,
-        "score": 4.863
+        "distanceToWaterM": 21.9,
+        "score": 4.863,
+        "water": {
+          "entityId": "body.1151-3381",
+          "kind": "marsh-fringe",
+          "levelM": 1.96,
+          "season": "perennial",
+          "distanceM": 21.9
+        }
       }
     },
     {
       "id": "place.imperial-penal-south.rose-supply-town",
+      "schemaVersion": 2,
       "name": "Vaunting",
       "aliases": [],
       "classification": {
@@ -13486,6 +13874,8 @@
         1960.4,
         6610.4
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1344",
@@ -13509,8 +13899,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 2,
         "distanceToRouteM": 105.9,
-        "distanceToWaterM": 0.0,
-        "score": 3.483
+        "distanceToWaterM": 43.9,
+        "score": 3.483,
+        "water": {
+          "entityId": "body.1183-3666",
+          "kind": "marsh-fringe",
+          "levelM": 4.0,
+          "season": "perennial",
+          "distanceM": 43.9
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -13622,6 +14019,7 @@
     },
     {
       "id": "place.imperial-penal-south.saltrice-village",
+      "schemaVersion": 2,
       "name": "Wide-Furrow",
       "aliases": [],
       "classification": {
@@ -13821,6 +14219,8 @@
         1494.3,
         6402.0
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.flood-high-018",
@@ -13834,8 +14234,15 @@
         "regionClass": "lake & standing water",
         "dangerBand": 3,
         "distanceToRouteM": 256.0,
-        "distanceToWaterM": 11.0,
-        "score": 1.334
+        "distanceToWaterM": 17.3,
+        "score": 1.334,
+        "water": {
+          "entityId": "body.805-3530",
+          "kind": "mudflat",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "ownerFaction": null,
       "relationsReserved": {
@@ -13850,6 +14257,7 @@
     },
     {
       "id": "place.imperial-penal-south.scandal-holding-pit",
+      "schemaVersion": 2,
       "name": "The Under-Counting",
       "aliases": [],
       "classification": {
@@ -14044,6 +14452,8 @@
         2333.2,
         5848.2
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0030",
@@ -14067,8 +14477,15 @@
         "regionClass": "interior swamp",
         "dangerBand": 4,
         "distanceToRouteM": 431.7,
-        "distanceToWaterM": 17.3,
-        "score": 0.707
+        "distanceToWaterM": 7.8,
+        "score": 0.707,
+        "water": {
+          "entityId": "body.1262-3186",
+          "kind": "swamp",
+          "levelM": 1.63,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "sitingNote": "Converted from a hostile clearable delve to a guarded cellar under a working counting-house (round 4 hostility rebalance). Its purpose is a stealth challenge and an exposed ledger; the typed flip to hostile on exposure carries the fight; the quay it sits under is not a dungeon.",
       "proseRefs": [
@@ -14080,6 +14497,7 @@
     },
     {
       "id": "place.imperial-penal-south.three-gate-toll",
+      "schemaVersion": 2,
       "name": "Three Gates",
       "aliases": [
         "The Three Gates"
@@ -14249,6 +14667,8 @@
         1620.4,
         6659.7
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1288",
@@ -14273,7 +14693,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 0.0,
         "distanceToWaterM": 29.5,
-        "score": 3.582
+        "score": 3.582,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 29.5
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -14372,6 +14799,7 @@
     },
     {
       "id": "place.imperial-penal-south.vampiric-cloud-ground",
+      "schemaVersion": 2,
       "name": "Given Field",
       "aliases": [
         "The Given Field"
@@ -14517,6 +14945,8 @@
         1883.6,
         6901.0
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0055",
@@ -14540,8 +14970,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 113.0,
-        "distanceToWaterM": 111.8,
-        "score": 3.072
+        "distanceToWaterM": 125.0,
+        "score": 3.072,
+        "water": {
+          "entityId": "body.1011-3708",
+          "kind": "marsh-fringe",
+          "levelM": 5.48,
+          "season": "perennial",
+          "distanceM": 125.0
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -14625,6 +15062,7 @@
     },
     {
       "id": "place.imperial-penal-south.voriplasm-vault",
+      "schemaVersion": 2,
       "name": "The Sealed Vault",
       "aliases": [],
       "classification": {
@@ -14823,6 +15261,8 @@
         1922.0,
         5974.3
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0032",
@@ -14847,12 +15287,20 @@
         "dangerBand": 3,
         "distanceToRouteM": 482.1,
         "distanceToWaterM": 0.0,
-        "score": 1.758
+        "score": 1.758,
+        "water": {
+          "entityId": "body.973-3292",
+          "kind": "marsh-fringe",
+          "levelM": 1.62,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "scourSiteId": "site.scour.lake-standing-water.cove-028"
     },
     {
       "id": "place.imperial-penal-south.west-market-town",
+      "schemaVersion": 2,
       "name": "Threewater",
       "aliases": [],
       "classification": {
@@ -15025,6 +15473,8 @@
         2799.3,
         6215.6
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0060",
@@ -15049,7 +15499,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 60.6,
         "distanceToWaterM": 0.0,
-        "score": 4.95
+        "score": 4.95,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -15174,6 +15631,7 @@
     },
     {
       "id": "place.imperial-penal-south.wisp-lure-basin",
+      "schemaVersion": 2,
       "name": "The Lantern Fen",
       "aliases": [],
       "classification": {
@@ -15339,6 +15797,8 @@
         1455.9,
         6641.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.water-narrows-019",
@@ -15362,8 +15822,15 @@
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 62.5,
-        "distanceToWaterM": 0.0,
-        "score": 3.282
+        "distanceToWaterM": 19.8,
+        "score": 3.282,
+        "water": {
+          "entityId": "body.786-3625",
+          "kind": "marsh-fringe",
+          "levelM": 1.98,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "sitingNote": "Left on the Murkwood frontier where the culture raster reads naga-kur-deeps: the lure works only where there is no reason to walk. The prose claim that it sat on the Rose approach was cut, since the nearest track is 266 m away.",
       "proseRefs": [
@@ -15379,6 +15846,7 @@
     },
     {
       "id": "place.imperial-penal-south.xanmeer-span-bridge",
+      "schemaVersion": 2,
       "name": "The Old Span",
       "aliases": [],
       "classification": {
@@ -15549,6 +16017,7 @@
     },
     {
       "id": "place.imperial-penal-south.yespest-site",
+      "schemaVersion": 2,
       "name": "The Wrong Name",
       "aliases": [],
       "classification": {

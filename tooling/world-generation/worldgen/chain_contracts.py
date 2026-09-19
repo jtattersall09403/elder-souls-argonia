@@ -68,6 +68,11 @@ FOOTPRINT = VR / "chain-footprint.json"
 ABOVE_GATE = ("sculpt_province", "compile_hydrology", "compile_society",
               "shape_province", "hydrology_graph", "carve_province")
 
+#: Below the gate, but never run by a routine chain: the water is compiled
+#: ONCE (0057 §1, decision 0070), so `compile_water` is skipped like the
+#: frozen rungs and the order gate does not judge its reads.
+NEVER_RUN = ("compile_water",)
+
 Check = Callable[[], list[str]]
 
 
@@ -283,11 +288,43 @@ def sha_binding(json_path: Path, field: str, target: Path, digest: str = "array"
 P = functools.partial
 
 
-def _survey() -> list[Check]:
+def declared_paths(entry: Check) -> list[Path]:
+    """The artefacts a declaration names — read back off the partial, so a
+    declaration cannot say one thing and check another."""
+    out: list[Path] = []
+    args = list(getattr(entry, "args", ())) + list(getattr(entry, "keywords", {}).values())
+    for value in args:
+        if isinstance(value, Path):
+            out.append(value)
+    return out
+
+
+class stale_ok:
+    """The ONE escape hatch from the order gate: this read is knowingly of the
+    previous publication, with the reason written down. It demotes the order
+    finding to a `warn:` line and changes nothing else."""
+
+    def __init__(self, check: Check, *, reason: str) -> None:
+        self.check = check
+        self.reason = reason
+
+    @property
+    def args(self):
+        return getattr(self.check, "args", ())
+
+    @property
+    def keywords(self):
+        return getattr(self.check, "keywords", {})
+
+    def __call__(self, **kwargs) -> list[str]:
+        return self.check(**kwargs)
+
+
+def _survey(exclude: tuple[Path, ...] = ()) -> list[Check]:
     """`site_fields.ProvinceSurvey` — the shared reader every siting and
     routing stage builds first. It reads the NATURAL snapshots where they
     exist (so siting cannot feed grading back into the plot)."""
-    return [
+    entries = [
         P(json_doc, PROVINCE / "hydrology-meta.json", ("metresPerPixel", "imageWidth")),
         P(json_doc, PROVINCE / "society-meta.json", ("waterRoutes",)),
         P(json_doc, REFINED / "meta.json", ("imageWidth", "metresPerPixel", "extentKm")),
@@ -306,6 +343,11 @@ def _survey() -> list[Check]:
         P(json_items, PROVINCE / "routes-natural.json", "routes", ("px", "from", "to")),
         P(json_doc, PROVINCE / "waterways-natural.json", ("lanes",)),
     ]
+    if not exclude:
+        return entries
+    drop = {str(Path(p).resolve()) for p in exclude}
+    return [e for e in entries
+            if not any(str(Path(d).resolve()) in drop for d in declared_paths(e))]
 
 
 def _graph_arrays() -> list[Check]:
@@ -325,7 +367,9 @@ READS: dict[str, list[Check]] = {
         P(npz, VAULT / "hydrology-pass1.npz", ("sink", "flow_to", "sea")),
         P(json_doc, VAULT / "shape-meta.json"),
         P(json_doc, VR / "carve-meta.json"),
-        P(json_doc, PROVINCE / "route-structures.json"),
+        stale_ok(P(json_doc, PROVINCE / "route-structures.json"),
+                 reason="16b/16e feedback edge: the structure windows of the previous run; "
+                        "16h turns pads and windows into patches"),
         *_graph_arrays(),
     ],
     "patch_water": [
@@ -353,16 +397,27 @@ READS: dict[str, list[Check]] = {
         P(png, WATER / "water-shore.png"),
     ],
     "solve_major_routes": [
-        *_survey(),
-        P(json_items, SOURCES / "routes" / "registry.json", "routes", ("id", "from", "to")),
+        *_survey(exclude=(REFINED / "meta.json",)),
+        stale_ok(P(json_doc, REFINED / "meta.json", ("imageWidth", "metresPerPixel", "extentKm")),
+                 reason="16e feedback edge: grade_routes rewrites the refined meta later in the "
+                        "same run; the solve reads the previous run's accepted grid"),
+        stale_ok(P(json_items, SOURCES / "routes" / "registry.json", "routes",
+                   ("id", "from", "to")),
+                 reason="16e feedback edge: compile_minor_waterways back-fills the water routes' "
+                        "geometryId later in the same run; the road solve reads the previous "
+                        "run's accepted registry"),
         P(json_doc, SOURCES / "routes" / "junctions.json", ("junctions",), 2),
         P(json_doc, SOURCES / "anchors" / "settlement-anchors.json", ("anchors",)),
     ],
     "grade_routes": [
         P(npy, NATURAL, 2, "float32", True),
         P(json_items, PROVINCE / "routes.json", "routes", ("px", "id")),
-        P(json_doc, PROVINCE / "routes-minor.json", ("tracks",), 1),
-        P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
+        stale_ok(P(json_doc, PROVINCE / "routes-minor.json", ("tracks",), 1),
+                 reason="16e feedback edge: the minor tracks of the previous run (they are never "
+                        "graded); compile_minor_routes re-solves them later in the same run"),
+        stale_ok(P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
+                 reason="16e feedback edge: author_route_structures re-authors the structures "
+                        "later in the same run; the grading reads the previous run's accepted set"),
     ],
     "apply_route_patches": [
         P(npy, NATURAL, 2, "float32", True),
@@ -385,7 +440,9 @@ READS: dict[str, list[Check]] = {
         P(png, WATER / "water-owner.png"),
         P(png, WATER / "water-flow.png"),
         P(png, WATER / "water-shore.png"),
-        P(exists, SOURCES / "catalogue"),
+        stale_ok(P(exists, SOURCES / "catalogue"),
+                 reason="16e reads place ids only; the positions it uses come from the same "
+                        "run's routes, not from the plot 16g re-solves later"),
         P(json_doc, SOURCES / "hydrology" / "hydrology-graph.json", ("reaches", "bodies"), 1),
     ],
     "author_route_structures": [
@@ -393,7 +450,10 @@ READS: dict[str, list[Check]] = {
         P(json_items, PROVINCE / "routes.json", "routes", ("px", "id")),
         P(json_doc, OUTPUT / "route-grading-stretches.json"),
         P(json_doc, SOURCES / "routes" / "water-crossings.json", ("crossings",), 2),
-        P(json_items, SOURCES / "routes" / "travel-services.json", "stations", ("id", "kind")),
+        stale_ok(P(json_items, SOURCES / "routes" / "travel-services.json", "stations",
+                   ("id", "kind")),
+                 reason="16e feedback edge: the landings of the previous run; travel_services "
+                        "re-solves the stations later in the same run"),
     ],
     "compile_route_structures": [
         P(npy, CURRENT, 2, "float32", True),
@@ -403,10 +463,15 @@ READS: dict[str, list[Check]] = {
         P(json_doc, KITS / "route-structures-v1.kit.json"),
         P(json_doc, KITS / "route-spans-v1.kit.json"),
     ],
+    # `travel_services.py` reads the registry, the crossings, the catalogue and
+    # the compiled water; it does NOT open province/waterways-minor.json today
+    # — making the hops follow the minor waterways is 16g deliverable 6.
     "travel_services": [
         P(npy, CURRENT, 2, "float32", True),
         P(json_doc, SOURCES / "hydrology" / "hydrology-graph.json", ("reaches", "bodies"), 1),
         P(json_doc, SOURCES / "routes" / "water-crossings.json", ("crossings",), 2),
+        P(json_items, SOURCES / "routes" / "registry.json", "routes", ("id",)),
+        P(exists, SOURCES / "catalogue"),
         P(json_doc, WATER / "water-meta.json", ("klass", "surface"), 3),
         P(png, WATER / "water-surface.png"),
         P(png, WATER / "water-class.png"),
@@ -414,6 +479,28 @@ READS: dict[str, list[Check]] = {
         P(png, WATER / "water-owner.png"),
         P(png, WATER / "water-flow.png"),
         P(png, WATER / "water-shore.png"),
+    ],
+    # 16g: the plot is re-solved on the frozen world BELOW everything that
+    # dresses it. `apply_sitings --stage` does the write-back only; macro_plot
+    # re-solves; the minor networks, the services and the exports follow.
+    "apply_sitings": [
+        P(exists, SOURCES / "blueprints"),
+        P(json_doc, PROVINCE / "blueprints.json", ("blueprints",), 2),
+        P(exists, SOURCES / "catalogue"),
+        P(exists, SOURCES / "sites" / "macro-plot-overrides.json"),
+    ],
+    "macro_plot": [
+        *_survey(),
+        P(exists, SOURCES / "catalogue"),
+        P(json_doc, SOURCES / "catalogue" / "type-recipes.json"),
+        P(json_doc, SOURCES / "sites" / "candidate-sites.json"),
+        P(exists, SOURCES / "sites" / "macro-plot-overrides.json"),
+        P(json_items, PROVINCE / "routes.json", "routes", ("px",)),
+    ],
+    "export_places": [
+        P(exists, SOURCES / "catalogue"),
+        P(json_doc, SOURCES / "registries" / "quests.json"),
+        P(json_doc, SOURCES / "quests" / "lines.json"),
     ],
     "compile_minor_routes": [
         *_survey(),
@@ -462,8 +549,12 @@ READS: dict[str, list[Check]] = {
         # 16f ported the bake to the signed record (0070): it reads the graph
         # and the route registry's condition, never the pass-1 rasters.
         P(json_doc, SOURCES / "hydrology" / "hydrology-graph.json", ("reaches", "bodies"), 1),
-        P(json_items, SOURCES / "routes" / "registry.json", "routes", ("id",)),
-        P(json_items, PROVINCE / "routes.json", "routes", ("px",)),
+        stale_ok(P(json_items, SOURCES / "routes" / "registry.json", "routes", ("id",)),
+                 reason="the bake and the scatter read the major roads 16e published; the minor "
+                        "tracks are applied afterwards as a clearance patch, decision 0070"),
+        stale_ok(P(json_items, PROVINCE / "routes.json", "routes", ("px",)),
+                 reason="the bake and the scatter read the major roads 16e published; the minor "
+                        "tracks are applied afterwards as a clearance patch, decision 0070"),
         P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
     ],
     "export_routes": [
@@ -499,7 +590,9 @@ READS: dict[str, list[Check]] = {
     ],
     "rederive_blueprints": [
         P(exists, SOURCES / "blueprints"),
-        P(json_doc, PROVINCE / "places.json", ("places",), 2),
+        stale_ok(P(json_doc, PROVINCE / "places.json", ("places",), 2),
+                 reason="16h owns the settlement stages and their reads; export_places "
+                        "republishes the plot later in the same run"),
     ],
     "compile_settlement": [
         P(exists, SOURCES / "blueprints"),
@@ -531,14 +624,18 @@ READS: dict[str, list[Check]] = {
         P(json_doc, PUBLIC_KITS / "flora-province-v1.kit.json"),
         P(json_doc, SOURCES / "flora" / "palettes.json", ("byRegionClass",), 3),
         P(json_doc, SOURCES / "placement" / "composition-rules.json", ("species",)),
-        P(json_items, PROVINCE / "routes.json", "routes", ("px",)),
+        stale_ok(P(json_items, PROVINCE / "routes.json", "routes", ("px",)),
+                 reason="the bake and the scatter read the major roads 16e published; the minor "
+                        "tracks are applied afterwards as a clearance patch, decision 0070"),
         P(json_doc, FOOTPRINT, ("gridShape",)),
         # 16f: the scatter reads the record and the mined rules, never the
         # settlements or the minor tracks (those clear through patches)
         P(json_doc, SOURCES / "flora" / "dressing-zones.json", ("zones",), 1),
         P(json_doc, SOURCES / "hydrology" / "hydrology-graph.json", ("reaches", "bodies", "vocabulary")),
         P(json_doc, SOURCES / "placement" / "vanilla-tamriel-placement.json"),
-        P(json_doc, SOURCES / "routes" / "registry.json", ("routes",)),
+        stale_ok(P(json_doc, SOURCES / "routes" / "registry.json", ("routes",)),
+                 reason="the scatter reads the major roads 16e published; what 16g re-publishes on "
+                        "the registry reaches the scatter as a clearance patch, decision 0070"),
     ],
     "apply_vegetation_patches": [
         P(json_items, SOURCES / "flora" / "vegetation-patches.json", "patches", ("id", "kind")),
@@ -556,18 +653,94 @@ READS: dict[str, list[Check]] = {
 }
 
 
-# ------------------------------------------------------------------- check
+# ------------------------------------------------------------------ WRITES
+# What each below-gate stage PUBLISHES: the source and province JSON a later
+# reader binds to (rasters, vault scratch and per-chunk/per-region raster
+# families are out of scope). This is what THE ORDER GATE below reads: a stage
+# that reads an artefact a LATER stage rewrites is reading the previous run's
+# world, and the chain cannot fix it by re-running one stage.
 
-def declared_paths(entry: Check) -> list[Path]:
-    """The artefacts a declaration names — read back off the partial, so a
-    declaration cannot say one thing and check another."""
-    out: list[Path] = []
-    args = list(getattr(entry, "args", ())) + list(getattr(entry, "keywords", {}).values())
-    for value in args:
-        if isinstance(value, Path):
-            out.append(value)
+WRITES: dict[str, list[Path]] = {
+    "apply_terrain_patches": [PROVINCE / "meta.json", REFINED / "meta.json",
+                              REFINED / "flood-states.json"],
+    "patch_water": [],
+    "compile_water": [WATER / "water-meta.json"],
+    "reroute_lanes": [PROVINCE / "waterways.json", PROVINCE / "waterways-repaired-lanes.json"],
+    "solve_major_routes": [PROVINCE / "routes.json", PROVINCE / "routes-natural.json"],
+    "grade_routes": [SOURCES / "routes" / "route-structures.json",
+                     SOURCES / "terrain" / "route-grade-patches.json", REFINED / "meta.json"],
+    "apply_route_patches": [],
+    "patch_water_graded": [],
+    "derive_crossings": [SOURCES / "routes" / "water-crossings.json"],
+    "author_route_structures": [SOURCES / "routes" / "route-structures.json"],
+    "compile_route_structures": [PROVINCE / "route-structures.json"],
+    "grade_settlement_pads": [],
+    "compile_chunks": [],
+    "export_web_chunks": [],
+    "rebake_landcover": [REFINED / "ground-paint-provenance.json"],
+    "build_border_apron": [],
+    "rederive_blueprints": [],
+    "compile_settlement": [],
+    "export_settlement_bundle": [PROVINCE / "settlements.json"],
+    "settlement_ground_control": [],
+    "compile_scatter": [PROVINCE / "vegetation" / "vegetation-index.json",
+                        WATER / "bed-rocks.json"],
+    "compile_water_dressing": [],
+    # 16g
+    "apply_sitings": [SOURCES / "sites" / "macro-plot-overrides.json", SOURCES / "catalogue"],
+    "macro_plot": [SOURCES / "sites" / "macro-plot.json", SOURCES / "catalogue"],
+    "compile_minor_routes": [PROVINCE / "routes-minor.json"],
+    "compile_minor_waterways": [PROVINCE / "waterways-minor.json",
+                                PROVINCE / "waterways-minor-natural.json",
+                                PROVINCE / "waterways-minor-repaired-by.json",
+                                SOURCES / "routes" / "registry.json"],
+    "travel_services": [SOURCES / "routes" / "travel-services.json"],
+    "export_places": [PROVINCE / "places.json"],
+    "export_routes": [PROVINCE / "routes-index.json", PROVINCE / "route-grades.json",
+                      PROVINCE / "crossings.json", PROVINCE / "travel-services.json"],
+    "paint_route_overlays": [],
+    "apply_vegetation_patches": [],
+    "terrain_request_postconditions": [],
+}
+
+
+def order_findings(stages: list[str]) -> list[str]:
+    """Every read of an artefact a LATER stage in the same run rewrites.
+
+    Two stages of the rule never fire, because neither is a stale read:
+      * a stage that reads a path it also declares in its own WRITES is doing
+        read-modify-write (apply_sitings edits the catalogue it reads);
+      * a stage a routine run never executes (the frozen rungs, and
+        `compile_water`, which is compiled once — 0057 §1) cannot read this
+        run's anything.
+    """
+    order = {s: i for i, s in enumerate(script_stages())}
+    out: list[str] = []
+    stages = [s for s in stages if s not in ABOVE_GATE and s not in NEVER_RUN]
+    writers: dict[str, list[str]] = {}
+    for stage in stages:
+        for path in WRITES.get(stage, []):
+            writers.setdefault(str(Path(path).resolve()), []).append(stage)
+    for stage in stages:
+        here = order.get(stage, 10_000)
+        own = {str(Path(p).resolve()) for p in WRITES.get(stage, [])}
+        for entry in READS.get(stage) or []:
+            for path in declared_paths(entry):
+                key = str(Path(path).resolve())
+                if key in own:
+                    continue                       # read-modify-write
+                for writer in writers.get(key, []):
+                    if order.get(writer, 10_000) <= here:
+                        continue
+                    line = f"order: {stage} reads {_short(Path(path))} which {writer} writes later"
+                    if isinstance(entry, stale_ok):
+                        out.append(f"warn: {line} — {entry.reason}")
+                    else:
+                        out.append(line)
     return out
 
+
+# ------------------------------------------------------------------- check
 
 def _stage_names_from_script(text: str) -> list[str]:
     block = re.search(r"\nSTAGES=\(\n(.*?)\n\)\n", text, re.S)
@@ -657,6 +830,7 @@ def check(stages: Iterable[str]) -> list[str]:
             if any(d in p.parents for d in dirs):
                 continue            # declared as a family by its directory
             findings.append(f"warn: {stage}: opened {_short(p)} but does not declare it")
+    findings.extend(order_findings([s for s in order if s in set(stages)] or list(stages)))
     return findings
 
 

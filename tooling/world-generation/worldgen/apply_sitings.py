@@ -3,6 +3,7 @@
     cd tooling/world-generation
     python3 -m worldgen.apply_sitings            # blueprints → overrides → re-plot → routes/waterways/exports
     python3 -m worldgen.apply_sitings --dry-run  # show which places would move, and by how much
+    python3 -m worldgen.apply_sitings --stage    # chain mode: the write-back only (no replot, no dependants)
 
 WHY (owner ruling 2026-09-05)
 -----------------------------
@@ -41,6 +42,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -51,6 +53,16 @@ from .macro_plot import OVERRIDES_PATH
 from .site_fields import ProvinceSurvey, shared_survey
 
 MOVE_THRESHOLD_M = 5.0
+#: The five Part 6 exemplars. 16g re-solves the plot with the cities pinned by
+#: their anchors and everything else free, so a run with
+#: ES_16G_NO_EXEMPLAR_PINS=1 drops these five blueprint pins rather than
+#: carrying a 2026-09 hand-siting into the new plot (`--drop-exemplar-pins`
+#: takes them out of the committed overrides for good).
+EXEMPLAR_PINS = ("place.mercantile-coast.lilmoth",
+                 "place.dunmer-north.mazzatun",
+                 "place.hist-heartland.nine-trunks",
+                 "place.hist-heartland.sap-tapping-licensed",
+                 "place.naga-kur-deeps.wamasu-pond-adult")
 NEIGHBOUR_WARN_M = 120.0
 CHAIN = ["worldgen.compile_minor_routes", "worldgen.compile_minor_waterways",
          "worldgen.hostility_frequency", "worldgen.export_places", "worldgen.export_routes",
@@ -139,14 +151,46 @@ def build_overrides(s: ProvinceSurvey) -> tuple[list[dict], list[dict]]:
     return overrides, moves
 
 
+def drop_exemplar_pins() -> int:
+    """Remove the five exemplar rows from the committed overrides file."""
+    if not OVERRIDES_PATH.exists():
+        print(f"{OVERRIDES_PATH.name}: not present; nothing to drop")
+        return 0
+    doc = json.loads(OVERRIDES_PATH.read_text(encoding="utf-8"))
+    kept = [o for o in doc.get("overrides", []) if o["id"] not in EXEMPLAR_PINS]
+    dropped = [o["id"] for o in doc.get("overrides", []) if o["id"] in EXEMPLAR_PINS]
+    doc["overrides"] = kept
+    OVERRIDES_PATH.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    for i in dropped:
+        print(f"  dropped exemplar pin {i}")
+    print(f"wrote {OVERRIDES_PATH.relative_to(catalogue.REPO_ROOT)} "
+          f"({len(kept)} pinned, {len(dropped)} exemplar pin(s) removed)")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--stage", action="store_true",
+                    help="chain mode: the write-back ONLY (overrides, the incremental move, the "
+                         "neighbour report). No replot, no dependants — the chain runs macro_plot "
+                         "and the rest itself as its own stages.")
+    ap.add_argument("--drop-exemplar-pins", action="store_true",
+                    help=f"remove the {len(EXEMPLAR_PINS)} Part 6 exemplar rows from "
+                         f"macro-plot-overrides.json and exit")
     ap.add_argument("--no-chain", action="store_true", help="write the overrides and move the records only; do not re-run the dependants")
     ap.add_argument("--replot", action="store_true", help="full whole-province re-solve with the sitings pinned (moves other records too)")
     a = ap.parse_args(argv)
+    if a.drop_exemplar_pins:
+        return drop_exemplar_pins()
     s = shared_survey()
     overrides, moves = build_overrides(s)
+    if a.stage and os.environ.get("ES_16G_NO_EXEMPLAR_PINS") == "1":
+        skipped = [o["id"] for o in overrides if o["id"] in EXEMPLAR_PINS]
+        overrides = [o for o in overrides if o["id"] not in EXEMPLAR_PINS]
+        moves = [m for m in moves if m["id"] not in EXEMPLAR_PINS]
+        for i in skipped:
+            print(f"  SKIP exemplar pin {i} (ES_16G_NO_EXEMPLAR_PINS=1)")
     for m in moves:
         flag = "ANCH" if m.get("anchor") else ("MOVE" if m["moved"] else "same")
         print(f"  {flag:4s} {m['id']:55s} {m['distanceM']} m")
@@ -155,6 +199,12 @@ def main(argv: list[str] | None = None) -> int:
     OVERRIDES_PATH.write_text(json.dumps({"schemaVersion": 1, "generatedBy": "worldgen.apply_sitings — do not hand-edit; the blueprint's chosen siting is the source",
                                           "overrides": overrides}, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"wrote {OVERRIDES_PATH.relative_to(catalogue.REPO_ROOT)} ({len(overrides)} pinned)")
+    if a.stage:
+        for w in apply_incremental(s, overrides):
+            print(f"  WARN {w}")
+        print(f"moved {sum(1 for m in moves if m['moved'])} record(s) in place; plot facts "
+              f"re-measured (--stage: the chain runs macro_plot and the dependants itself)")
+        return 0
     if a.replot:
         r = subprocess.run(replot_command(), cwd=Path(__file__).resolve().parents[1])
         if r.returncode != 0:

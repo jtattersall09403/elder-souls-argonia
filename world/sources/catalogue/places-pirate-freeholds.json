@@ -5,6 +5,7 @@
   "places": [
     {
       "id": "place.pirate-freeholds.alten-corimont",
+      "schemaVersion": 2,
       "name": "Alten Corimont",
       "classification": {
         "class": "settlement",
@@ -204,6 +205,8 @@
         3834.2,
         1142.9
       ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "Owner-approved settlement anchor 'alten-corimont' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "plotFacts": {
@@ -212,7 +215,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 0.0,
         "distanceToWaterM": 27.4,
-        "score": null
+        "score": null,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -341,6 +351,7 @@
     },
     {
       "id": "place.pirate-freeholds.bone-carriers-camp",
+      "schemaVersion": 2,
       "classification": {
         "class": "camp",
         "family": "displaced-camp",
@@ -482,6 +493,7 @@
     },
     {
       "id": "place.pirate-freeholds.bone-repatriation-waystation",
+      "schemaVersion": 2,
       "name": "Bundle Racks",
       "classification": {
         "class": "sacred",
@@ -627,6 +639,8 @@
         3753.5,
         1450.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0886",
@@ -651,7 +665,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 203.0,
         "distanceToWaterM": 69.8,
-        "score": 4.12
+        "score": 4.12,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 69.8
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -708,6 +729,7 @@
     },
     {
       "id": "place.pirate-freeholds.careening-hard",
+      "schemaVersion": 2,
       "name": "The Hard",
       "classification": {
         "class": "works",
@@ -884,6 +906,8 @@
         3972.8,
         1094.0
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "oxbow in firm lowland (danger band 3), 6 m from the nearest route; at the water's edge; won on bound, region, hinterland.",
       "plotFacts": {
@@ -892,7 +916,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 5.5,
         "distanceToWaterM": 0.0,
-        "score": 3.356
+        "score": 3.356,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "questHooks": {
         "provisions": [],
@@ -905,6 +936,7 @@
     },
     {
       "id": "place.pirate-freeholds.channel-pirate-anchorage",
+      "schemaVersion": 2,
       "name": "Short Rope",
       "classification": {
         "class": "camp",
@@ -1159,6 +1191,8 @@
         4210.8,
         1311.1
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0924",
@@ -1183,12 +1217,20 @@
         "dangerBand": 3,
         "distanceToRouteM": 50.6,
         "distanceToWaterM": 16.5,
-        "score": 4.472
+        "score": 4.472,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "sitingNote": "Moved in round 4: an anchorage plotted 543 m from any lane at 161 m elevation in the border mountains, on dunmer-north culture ground. Bound to the lower reach inside the freeholds, a bend below the chartered lay-by and out of the port's sight."
     },
     {
       "id": "place.pirate-freeholds.chasecreek",
+      "schemaVersion": 2,
       "name": "Chasecreek",
       "classification": {
         "class": "settlement",
@@ -1340,6 +1382,8 @@
         4109.9,
         1510.7
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0174",
@@ -1358,8 +1402,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 243.5,
-        "distanceToWaterM": 116.2,
-        "score": 4.943
+        "distanceToWaterM": 115.3,
+        "score": 4.943,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 115.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -1466,6 +1517,7 @@
       },
       "workflow": "derived",
       "id": "place.pirate-freeholds.collapsing-pinnacle-rim",
+      "schemaVersion": 2,
       "name": "The Bad Stack",
       "classification": {
         "class": "lair",
@@ -1586,6 +1638,7 @@
     },
     {
       "id": "place.pirate-freeholds.corimont-bonded-store",
+      "schemaVersion": 2,
       "name": "Sawn Seal",
       "classification": {
         "class": "works",
@@ -1773,6 +1826,7 @@
     },
     {
       "id": "place.pirate-freeholds.corimont-crosstrees",
+      "schemaVersion": 2,
       "name": "Crosstrees",
       "classification": {
         "class": "transit",
@@ -1955,6 +2009,8 @@
         3879.6,
         1139.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0081",
@@ -1978,13 +2034,21 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 27.4,
-        "distanceToWaterM": 15.5,
-        "score": 5.759
+        "distanceToWaterM": 17.3,
+        "score": 5.759,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 17.3
+        }
       },
       "sitingNote": "Network-role bind (round 4): the record IS the free port's own masthead lookout, so it must stand on the port's ground. Previously plotted 361 m out, which also put its D1 tier on band-3 ground; bound to Alten Corimont inside the port ring."
     },
     {
       "id": "place.pirate-freeholds.corimont-gambling-house",
+      "schemaVersion": 2,
       "name": "The Standing Slate",
       "classification": {
         "class": "civic",
@@ -2173,6 +2237,7 @@
     },
     {
       "id": "place.pirate-freeholds.corimont-head-of-navigation",
+      "schemaVersion": 2,
       "name": "The Last Deep",
       "classification": {
         "class": "transit",
@@ -2362,6 +2427,7 @@
     },
     {
       "id": "place.pirate-freeholds.corimont-hiring-yard",
+      "schemaVersion": 2,
       "name": "The Hiring Yard",
       "classification": {
         "class": "camp",
@@ -2597,6 +2663,8 @@
         4046.3,
         1146.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0282",
@@ -2620,12 +2688,20 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 50.6,
-        "distanceToWaterM": 33.4,
-        "score": 2.921
+        "distanceToWaterM": 38.8,
+        "score": 2.921,
+        "water": {
+          "entityId": "body.2222-663",
+          "kind": "pool",
+          "levelM": 12.88,
+          "season": "perennial",
+          "distanceM": 38.8
+        }
       }
     },
     {
       "id": "place.pirate-freeholds.corimont-hist-less-camp",
+      "schemaVersion": 2,
       "name": "No-Tree",
       "classification": {
         "class": "settlement",
@@ -2776,6 +2852,8 @@
         3539.6,
         934.9
       ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0094",
@@ -2789,8 +2867,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 76.2,
-        "distanceToWaterM": 79.1,
-        "score": 3.411
+        "distanceToWaterM": 5.5,
+        "score": 3.411,
+        "water": {
+          "entityId": "body.1912-542",
+          "kind": "marsh-deep",
+          "levelM": 7.77,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -2846,6 +2931,7 @@
     },
     {
       "id": "place.pirate-freeholds.corimont-low-store",
+      "schemaVersion": 2,
       "name": "The Low Store",
       "classification": {
         "class": "transit",
@@ -3054,6 +3140,8 @@
         3989.3,
         918.5
       ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0089",
@@ -3078,11 +3166,19 @@
         "dangerBand": 2,
         "distanceToRouteM": 21.9,
         "distanceToWaterM": 5.5,
-        "score": 3.775
+        "score": 3.775,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 5.5
+        }
       }
     },
     {
       "id": "place.pirate-freeholds.corimont-tradehouse",
+      "schemaVersion": 2,
       "name": "The Quay Room",
       "classification": {
         "class": "civic",
@@ -3219,6 +3315,8 @@
         3904.3,
         778.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0886",
@@ -3242,8 +3340,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 15.5,
-        "distanceToWaterM": 5.5,
-        "score": 4.342
+        "distanceToWaterM": 7.8,
+        "score": 4.342,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 7.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -3320,6 +3425,7 @@
     },
     {
       "id": "place.pirate-freeholds.dres-holding-pens",
+      "schemaVersion": 2,
       "name": "The Old Pens",
       "classification": {
         "class": "martial",
@@ -3465,6 +3571,8 @@
         3945.4,
         1450.4
       ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0886",
@@ -3488,8 +3596,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 269.2,
-        "distanceToWaterM": 38.8,
-        "score": 4.595
+        "distanceToWaterM": 49.4,
+        "score": 4.595,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 49.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -3578,6 +3693,7 @@
     },
     {
       "id": "place.pirate-freeholds.dunmer-frontier-holding",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "mixed-settlement",
@@ -3730,6 +3846,8 @@
         4592.4,
         1329.8
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ridge-end-026",
@@ -3754,7 +3872,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 182.3,
         "distanceToWaterM": 115.3,
-        "score": 3.297
+        "score": 3.297,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 115.3
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -3825,6 +3950,7 @@
     },
     {
       "id": "place.pirate-freeholds.floodplain-paddy-works",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "cultivation",
@@ -3981,6 +4107,7 @@
     },
     {
       "id": "place.pirate-freeholds.flu-cairn-field",
+      "schemaVersion": 2,
       "classification": {
         "class": "sacred",
         "family": "the-dead",
@@ -4099,6 +4226,8 @@
         4499.2,
         1137.8
       ],
+      "footprintRadiusM": 20.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0094",
@@ -4113,7 +4242,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 227.0,
         "distanceToWaterM": 159.4,
-        "score": 3.251
+        "score": 3.251,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 159.4
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -4176,6 +4312,7 @@
     },
     {
       "id": "place.pirate-freeholds.freed-worker-shelter",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -4362,6 +4499,7 @@
     },
     {
       "id": "place.pirate-freeholds.freehold-courier-relay",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -4533,6 +4671,7 @@
     },
     {
       "id": "place.pirate-freeholds.freehold-market",
+      "schemaVersion": 2,
       "name": "The Open Ground",
       "classification": {
         "class": "works",
@@ -4663,6 +4802,8 @@
         3737.0,
         1187.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0081",
@@ -4686,8 +4827,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 51.7,
-        "distanceToWaterM": 34.7,
-        "score": 4.755
+        "distanceToWaterM": 36.8,
+        "score": 4.755,
+        "water": {
+          "entityId": "body.2062-638",
+          "kind": "marsh-deep",
+          "levelM": 7.57,
+          "season": "perennial",
+          "distanceM": 36.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -4746,6 +4894,7 @@
     },
     {
       "id": "place.pirate-freeholds.freehold-naga-camp",
+      "schemaVersion": 2,
       "classification": {
         "class": "camp",
         "family": "hostile-camp",
@@ -4939,6 +5088,8 @@
         3806.1,
         520.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0070",
@@ -4962,8 +5113,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 24.5,
-        "score": 4.22
+        "distanceToWaterM": 27.4,
+        "score": 4.22,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 27.4
+        }
       },
       "questHooks": {
         "provisions": [],
@@ -4975,6 +5133,7 @@
     },
     {
       "id": "place.pirate-freeholds.freehold-pest-house",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "healing",
@@ -5159,6 +5318,7 @@
     },
     {
       "id": "place.pirate-freeholds.freehold-smithy",
+      "schemaVersion": 2,
       "name": "The Chimney",
       "classification": {
         "class": "works",
@@ -5291,6 +5451,8 @@
         3797.3,
         1099.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0229",
@@ -5315,7 +5477,14 @@
         "dangerBand": 2,
         "distanceToRouteM": 58.3,
         "distanceToWaterM": 19.8,
-        "score": 5.156
+        "score": 5.156,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 19.8
+        }
       },
       "hostility": {
         "baseline": "friendly",
@@ -5375,6 +5544,7 @@
     },
     {
       "id": "place.pirate-freeholds.gorge-portage-slipway",
+      "schemaVersion": 2,
       "name": "The Dragway",
       "classification": {
         "class": "transit",
@@ -5549,6 +5719,7 @@
     },
     {
       "id": "place.pirate-freeholds.gorge-whitewater-reach",
+      "schemaVersion": 2,
       "name": "The Grinder",
       "classification": {
         "class": "lair",
@@ -5709,6 +5880,7 @@
     },
     {
       "id": "place.pirate-freeholds.half-chartered-anchorage",
+      "schemaVersion": 2,
       "name": "Long Water",
       "classification": {
         "class": "camp",
@@ -5964,6 +6136,8 @@
         3636.2,
         581.8
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0204",
@@ -5987,12 +6161,20 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 29.5,
-        "distanceToWaterM": 59.3,
-        "score": 2.659
+        "distanceToWaterM": 58.3,
+        "score": 2.659,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 58.3
+        }
       }
     },
     {
       "id": "place.pirate-freeholds.kothringi-river-ruin",
+      "schemaVersion": 2,
       "classification": {
         "class": "ruin",
         "family": "lost-peoples",
@@ -6187,6 +6369,8 @@
         4101.2,
         929.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.oxbow-016",
@@ -6210,8 +6394,15 @@
         "regionClass": "seasonal floodplain",
         "dangerBand": 3,
         "distanceToRouteM": 87.7,
-        "distanceToWaterM": 32.0,
-        "score": 4.755
+        "distanceToWaterM": 33.4,
+        "score": 4.755,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 33.4
+        }
       },
       "questHooks": {
         "provisions": [],
@@ -6222,6 +6413,7 @@
     },
     {
       "id": "place.pirate-freeholds.lake-drawdown-flat",
+      "schemaVersion": 2,
       "name": "The Drawdown",
       "classification": {
         "class": "lair",
@@ -6377,6 +6569,7 @@
     },
     {
       "id": "place.pirate-freeholds.opening-work-barge",
+      "schemaVersion": 2,
       "name": "The Roll",
       "classification": {
         "class": "works",
@@ -6652,6 +6845,8 @@
         3947.6,
         991.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0082",
@@ -6676,12 +6871,20 @@
         "dangerBand": 2,
         "distanceToRouteM": 11.0,
         "distanceToWaterM": 33.4,
-        "score": 3.93
+        "score": 3.93,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 33.4
+        }
       },
       "sitingNote": "Where a new character is processed onto the roll. Held at D1 against a danger raster that reads band 3 here, because the opening ring's first 250 m has to be survivable (docs/research/quests-and-cast/opening-hours-and-start-area.md §5, Ring A); the raster needs the ring carved into it at Part 6 rather than the record retiered."
     },
     {
       "id": "place.pirate-freeholds.opening-work-camp",
+      "schemaVersion": 2,
       "name": "Gang Ground",
       "classification": {
         "class": "works",
@@ -6935,6 +7138,8 @@
         3837.9,
         954.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0921",
@@ -6959,12 +7164,20 @@
         "dangerBand": 3,
         "distanceToRouteM": 93.1,
         "distanceToWaterM": 67.8,
-        "score": 3.99
+        "score": 3.99,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 67.8
+        }
       },
       "sitingNote": "Held at D1 with the barge for the same Ring A reason; see place.pirate-freeholds.opening-work-barge."
     },
     {
       "id": "place.pirate-freeholds.plague-cordon-line",
+      "schemaVersion": 2,
       "classification": {
         "class": "ruin",
         "family": "depopulated",
@@ -7105,6 +7318,7 @@
     },
     {
       "id": "place.pirate-freeholds.ravine-hermit-hut",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "lone-dwelling",
@@ -7296,6 +7510,7 @@
     },
     {
       "id": "place.pirate-freeholds.reach-wreck",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "remnant",
@@ -7484,6 +7699,8 @@
         4400.5,
         1362.7
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.open-water-0163",
@@ -7508,7 +7725,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 23.3,
         "distanceToWaterM": 0.0,
-        "score": 3.056
+        "score": 3.056,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        }
       },
       "questHooks": {
         "provisions": [],
@@ -7519,6 +7743,7 @@
     },
     {
       "id": "place.pirate-freeholds.reoccupied-fort",
+      "schemaVersion": 2,
       "classification": {
         "class": "martial",
         "family": "imperial-military",
@@ -7780,6 +8005,8 @@
         3965.2,
         684.9
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0159",
@@ -7803,12 +8030,20 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 93.1,
-        "distanceToWaterM": 32.0,
-        "score": 4.177
+        "distanceToWaterM": 35.1,
+        "score": 4.177,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 35.1
+        }
       }
     },
     {
       "id": "place.pirate-freeholds.rim-border-post",
+      "schemaVersion": 2,
       "classification": {
         "class": "martial",
         "family": "watch",
@@ -7970,6 +8205,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-courier-relay",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -8116,6 +8352,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-crystal-diggings",
+      "schemaVersion": 2,
       "classification": {
         "class": "camp",
         "family": "civil-camp",
@@ -8314,6 +8551,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-hearth-house",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -8470,6 +8708,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-keystone-chamber",
+      "schemaVersion": 2,
       "classification": {
         "class": "ruin",
         "family": "ayleid",
@@ -8597,6 +8836,8 @@
         3912.5,
         551.1
       ],
+      "footprintRadiusM": 50.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0070",
@@ -8620,8 +8861,15 @@
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 135.4,
-        "distanceToWaterM": 59.3,
-        "score": 4.424
+        "distanceToWaterM": 62.5,
+        "score": 4.424,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 62.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -8714,6 +8962,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-knapping-floor",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "extraction",
@@ -8869,6 +9118,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-pass-station",
+      "schemaVersion": 2,
       "name": "The Snowline Stage",
       "classification": {
         "class": "transit",
@@ -9003,6 +9253,8 @@
         4098.9,
         463.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in border mountains (danger band 3), 338 m from the nearest route; no free 'saddle' site was left in the zone, so plain ground; won on region, hinterland, danger.",
       "plotFacts": {
@@ -9010,8 +9262,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 337.5,
-        "distanceToWaterM": 85.7,
-        "score": 2.464
+        "distanceToWaterM": 256.4,
+        "score": 2.464,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 256.4
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -9071,6 +9330,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-porter-yard",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "storage-and-freight",
@@ -9251,6 +9511,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-second-empire-works",
+      "schemaVersion": 2,
       "classification": {
         "class": "ruin",
         "family": "imperial-ruin",
@@ -9425,6 +9686,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-east",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "illicit",
@@ -9606,6 +9868,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-north",
+      "schemaVersion": 2,
       "name": "The North Traverse",
       "classification": {
         "class": "works",
@@ -9735,6 +9998,8 @@
         4312.8,
         814.3
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ridge-end-026",
@@ -9758,8 +10023,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 311.2,
-        "distanceToWaterM": 173.1,
-        "score": 2.621
+        "distanceToWaterM": 16.5,
+        "score": 2.621,
+        "water": {
+          "entityId": "body.2337-454",
+          "kind": "pond",
+          "levelM": 165.49,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -9824,6 +10096,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-snowline-hermitage",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "lone-dwelling",
@@ -9946,6 +10219,8 @@
         4274.4,
         600.4
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.summit-004",
@@ -9969,8 +10244,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 378.7,
-        "distanceToWaterM": 287.0,
-        "score": 1.76
+        "distanceToWaterM": 213.9,
+        "score": 1.76,
+        "water": {
+          "entityId": "body.2337-454",
+          "kind": "pond",
+          "levelM": 165.49,
+          "season": "perennial",
+          "distanceM": 213.9
+        }
       },
       "hostility": {
         "baseline": "hostile",
@@ -10046,6 +10328,7 @@
     },
     {
       "id": "place.pirate-freeholds.rim-vista-ledge",
+      "schemaVersion": 2,
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -10204,6 +10487,7 @@
     },
     {
       "id": "place.pirate-freeholds.river-bog-iron-bloomery",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "extraction",
@@ -10361,6 +10645,7 @@
     },
     {
       "id": "place.pirate-freeholds.river-salvage-yard",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "craft",
@@ -10533,6 +10818,7 @@
     },
     {
       "id": "place.pirate-freeholds.rockpoint",
+      "schemaVersion": 2,
       "name": "Rockpoint",
       "classification": {
         "class": "settlement",
@@ -10693,6 +10979,8 @@
         3583.5,
         1428.5
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [],
       "whySiteWon": "firm ground in firm lowland (danger band 3), 217 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on nearPoint, region, danger.",
       "plotFacts": {
@@ -10700,8 +10988,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 216.9,
-        "distanceToWaterM": 32.0,
-        "score": 2.679
+        "distanceToWaterM": 29.5,
+        "score": 2.679,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 29.5
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -10770,6 +11065,7 @@
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "landing",
@@ -10936,6 +11232,7 @@
     },
     {
       "id": "place.pirate-freeholds.trunk-hearth-house",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -11109,6 +11406,7 @@
     },
     {
       "id": "place.pirate-freeholds.trunk-road-tradehouse",
+      "schemaVersion": 2,
       "classification": {
         "class": "civic",
         "family": "festivity",
@@ -11273,6 +11571,8 @@
         3632.8,
         1543.6
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0282",
@@ -11296,13 +11596,21 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 309.9,
-        "distanceToWaterM": 85.1,
-        "score": 3.129
+        "distanceToWaterM": 32.0,
+        "score": 3.129,
+        "water": {
+          "entityId": "body.2003-834",
+          "kind": "marsh-deep",
+          "levelM": 20.66,
+          "season": "perennial",
+          "distanceM": 32.0
+        }
       },
       "services": []
     },
     {
       "id": "place.pirate-freeholds.trunk-toll-bridge",
+      "schemaVersion": 2,
       "name": "The Trunk Span",
       "classification": {
         "class": "transit",
@@ -11455,6 +11763,8 @@
         3923.5,
         1357.2
       ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-078",
@@ -11468,8 +11778,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 17.3,
-        "distanceToWaterM": 12.3,
-        "score": 4.058
+        "distanceToWaterM": 11.0,
+        "score": 4.058,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        }
       },
       "hostility": {
         "baseline": "neutral",
@@ -11541,6 +11858,7 @@
     },
     {
       "id": "place.pirate-freeholds.upper-toll-bridge",
+      "schemaVersion": 2,
       "classification": {
         "class": "transit",
         "family": "crossing",
@@ -11697,6 +12015,7 @@
     },
     {
       "id": "place.pirate-freeholds.upriver-bonded-store",
+      "schemaVersion": 2,
       "classification": {
         "class": "works",
         "family": "storage-and-freight",
@@ -11857,6 +12176,7 @@
     },
     {
       "id": "place.pirate-freeholds.upriver-hist-village",
+      "schemaVersion": 2,
       "name": "Nine Bends",
       "aliases": [],
       "classification": {
@@ -12099,6 +12419,8 @@
         3422.2,
         1094.0
       ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0093",
@@ -12122,8 +12444,15 @@
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 62.5,
-        "distanceToWaterM": 71.5,
-        "score": 3.867
+        "distanceToWaterM": 56.5,
+        "score": 3.867,
+        "water": {
+          "entityId": "body.1912-542",
+          "kind": "marsh-deep",
+          "levelM": 7.77,
+          "season": "perennial",
+          "distanceM": 56.5
+        }
       },
       "services": [
         "lodging",
@@ -12133,6 +12462,7 @@
     },
     {
       "id": "place.pirate-freeholds.veterans-holding",
+      "schemaVersion": 2,
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -12288,6 +12618,8 @@
         4449.9,
         934.9
       ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.ravine-060",
@@ -12311,8 +12643,15 @@
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 341.2,
-        "distanceToWaterM": 93.7,
-        "score": 5.416
+        "distanceToWaterM": 81.5,
+        "score": 5.416,
+        "water": {
+          "entityId": "body.2454-459",
+          "kind": "pond",
+          "levelM": 244.92,
+          "season": "perennial",
+          "distanceM": 81.5
+        }
       },
       "hostility": {
         "baseline": "wary",
