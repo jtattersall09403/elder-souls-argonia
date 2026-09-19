@@ -176,6 +176,83 @@ def test_the_patch_list_is_published_beside_the_bundles(tmp_path):
     assert json.loads(published.read_text())["patches"][0]["id"] == "patch.test.town"
 
 
+# --- the vectorised path answers exactly what the scalar one does -----------
+
+CONCAVE = [[[0.0, 0.0], [300.0, 0.0], [300.0, 120.0], [180.0, 120.0],
+            [180.0, 40.0], [120.0, 40.0], [120.0, 120.0], [0.0, 120.0]]]
+
+
+def test_the_vectorised_mask_equals_the_scalar_survives_on_5000_instances():
+    """`survives` is the reference; `survives_mask` must agree on every one,
+    including instances sitting exactly on an edge and on a vertex."""
+    import numpy as np
+
+    p = patch(id="patch.test.concave", hardClear=CONCAVE,
+              thinned=[[[-60.0, -60.0], [360.0, -60.0], [360.0, 180.0], [-60.0, 180.0]]],
+              kept=[{"positionM": [250.0, 160.0], "kind": "hist-tree"},
+                    {"positionM": [40.0, 200.0], "kind": "shade"}])
+    rng = np.random.default_rng(4242)
+    n = 5000
+    xs = list(rng.uniform(-70.0, 370.0, n - 40))
+    zs = list(rng.uniform(-70.0, 190.0, n - 40))
+    # exactly on the vertices, and at the midpoint of every edge
+    poly = CONCAVE[0]
+    for i, (vx, vz) in enumerate(poly):
+        wx, wz = poly[(i + 1) % len(poly)]
+        xs += [vx, (vx + wx) / 2.0]
+        zs += [vz, (vz + wz) / 2.0]
+    # exactly on a kept disc's rim, and on the thinned band's edge
+    xs += [250.0 + 18.0, 250.0, -60.0, 360.0]
+    zs += [160.0, 160.0 + 18.0, 60.0, 60.0]
+    # the reflex corner of the concave notch, repeated to fill out the set
+    while len(xs) < n:
+        xs.append(120.0)
+        zs.append(40.0)
+    xs, zs = xs[:n], zs[:n]
+    assert len(xs) == len(zs) == n
+
+    seed, id_hash = 19, avp.patch_id_hash(p["id"])
+    for radius in (0.0, 2.5):
+        expected = [avp.survives(x, z, p, seed, id_hash, radius)
+                    for x, z in zip(xs, zs)]
+        got = avp.survives_mask(np.array(xs), np.array(zs), p, seed, id_hash, radius)
+        bad = [i for i, (a, b) in enumerate(zip(expected, got.tolist())) if a != b]
+        assert not bad, f"radius {radius}: {len(bad)} disagree, first at " \
+                        f"({xs[bad[0]]}, {zs[bad[0]]})"
+
+
+def test_one_worker_and_three_workers_write_identical_bytes(tmp_path, monkeypatch):
+    chunks = {(cx, cz): grid_instances(x0=cx * CHUNK_M, z0=cz * CHUNK_M,
+                                       n=12, step=20.0)
+              for cx in range(2) for cz in range(2)}
+    wide = patch(id="patch.test.wide",
+                 hardClear=[[[50.0, 50.0], [CHUNK_M + 200.0, 50.0],
+                             [CHUNK_M + 200.0, CHUNK_M + 200.0], [50.0, CHUNK_M + 200.0]]],
+                 thinned=THIN)
+    second = patch(id="patch.test.overlap",
+                   hardClear=[[[300.0, 300.0], [700.0, 300.0],
+                               [700.0, 700.0], [300.0, 700.0]]], thinned=[])
+
+    runs = {}
+    for workers in ("1", "3"):
+        root = tmp_path / f"w{workers}"
+        root.mkdir()
+        bundles = build(root, chunks)
+        monkeypatch.setenv("ES_PATCH_WORKERS", workers)
+        receipt = avp.run(bundles, patches_file(root, [wide, second]), seed=13)
+        runs[workers] = (
+            receipt,
+            {f.name: f.read_bytes() for f in sorted(bundles.glob("*.bin"))},
+            (bundles / "vegetation-index.json").read_text(),
+        )
+
+    assert runs["1"][1] == runs["3"][1]
+    assert runs["1"][2] == runs["3"][2]
+    assert runs["1"][0] == runs["3"][0]
+    assert runs["1"][0]["totals"]["removed"] > 0
+    assert runs["1"][0]["totals"]["chunksTouched"] > 1
+
+
 def test_the_roll_is_deterministic_and_position_addressed(tmp_path):
     a = avp.instance_roll(5, avp.patch_id_hash("patch.a"), 123.25, 40.5)
     b = avp.instance_roll(5, avp.patch_id_hash("patch.a"), 123.25, 40.5)

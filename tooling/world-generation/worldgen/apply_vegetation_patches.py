@@ -28,9 +28,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
+import time
 from collections import Counter
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
+
+import numpy as np
 
 from . import vegetation_patches as vp
 from .composition import _quantised
@@ -82,6 +87,78 @@ def survives(x: float, z: float, patch: dict, seed: int, id_hash: int,
     return instance_roll(seed, id_hash, x, z) < keep
 
 
+# --- the vectorised path ----------------------------------------------------
+#
+# `survives` above stays the scalar REFERENCE implementation: readable, and the
+# thing the test measures the arrays against. Nothing calls it per instance on
+# the province any more — a chunk carries tens of thousands of plants and the
+# province a few million, and the per-instance Python loop cost 15 minutes for
+# one patch set. The three pieces below do the identical arithmetic over numpy
+# arrays: SplitMix64 in uint64 lanes, and `vp.keep_field` (which already exists
+# for the keep raster and is the array twin of `vp.keep_at`) for the geometry.
+
+_MASK64 = np.uint64(0xFFFFFFFFFFFFFFFF)
+_GOLDEN = np.uint64(0x9E3779B97F4A7C15)
+_MIX_A = np.uint64(0xBF58476D1CE4E5B9)
+_MIX_B = np.uint64(0x94D049BB133111EB)
+
+
+def _splitmix_step(state: np.ndarray, value: np.ndarray) -> np.ndarray:
+    """One `hash64` fold, over arrays. uint64 arithmetic wraps, which is the
+    `& _MASK` the scalar does explicitly."""
+    with np.errstate(over="ignore"):
+        state = state + value * _GOLDEN
+        state = state ^ (state >> np.uint64(30))
+        state = state * _MIX_A
+        state = state ^ (state >> np.uint64(27))
+        state = state * _MIX_B
+        return state ^ (state >> np.uint64(31))
+
+
+def instance_roll_array(seed: int, id_hash: int, x: np.ndarray,
+                        z: np.ndarray) -> np.ndarray:
+    """`instance_roll` over arrays of positions.
+
+    Two hashes, exactly as the scalar does: `hash64(seed, SALT, id, qx, qz)`
+    and then `uniform(that, 0)`, which is itself a fresh SplitMix64 over
+    (that, 0). The first three folds of the first hash are constant for the
+    whole chunk, so they are done once in Python.
+    """
+    prefix = np.uint64(hash64(seed, ROLL_SALT, id_hash) & 0xFFFFFFFFFFFFFFFF)
+    qx = (np.rint(np.asarray(x, dtype=np.float64) * 16.0).astype(np.int64)
+          .astype(np.uint64) & np.uint64(0xFFFFFFFF))
+    qz = (np.rint(np.asarray(z, dtype=np.float64) * 16.0).astype(np.int64)
+          .astype(np.uint64) & np.uint64(0xFFFFFFFF))
+    state = _splitmix_step(np.broadcast_to(prefix, qx.shape).copy(), qx)
+    key = _splitmix_step(state, qz)
+    state = _splitmix_step(np.full(key.shape, _GOLDEN, dtype=np.uint64), key)
+    state = _splitmix_step(state, np.zeros(key.shape, dtype=np.uint64))
+    return (state >> np.uint64(11)).astype(np.float64) * (1.0 / (1 << 53))
+
+
+def keep_over_extent_array(x: np.ndarray, z: np.ndarray, patch: dict,
+                           radius_m: float = 0.0) -> np.ndarray:
+    """`keep_over_extent` over arrays — the worst keep over the plant's reach."""
+    keep = vp.keep_field(x, z, patch, margin_m=0.0)
+    if radius_m > 0.0:
+        for dx, dz in ((radius_m, 0.0), (-radius_m, 0.0),
+                       (0.0, radius_m), (0.0, -radius_m)):
+            keep = np.minimum(keep, vp.keep_field(x + dx, z + dz, patch,
+                                                  margin_m=0.0))
+    return keep
+
+
+def survives_mask(x: np.ndarray, z: np.ndarray, patch: dict, seed: int,
+                  id_hash: int, radius_m: float = 0.0) -> np.ndarray:
+    """Boolean mask, one entry per position: the array twin of `survives`."""
+    x = np.asarray(x, dtype=np.float64)
+    z = np.asarray(z, dtype=np.float64)
+    if x.size == 0:
+        return np.zeros(0, dtype=bool)
+    keep = keep_over_extent_array(x, z, patch, radius_m)
+    return (keep >= 1.0) | (instance_roll_array(seed, id_hash, x, z) < keep)
+
+
 KITS_DIR = Path(__file__).resolve().parents[3] / "apps" / "world-studio" / "public" / "kits"
 
 
@@ -99,30 +176,81 @@ def species_radii(kits_dir: Path = KITS_DIR) -> dict[str, float]:
     return out
 
 
-def apply_to_chunk(path: Path, species_order: list[str], patch: dict,
-                   seed: int, radii: dict[str, float] | None = None) -> tuple[bytes | None, Counter]:
-    """The surviving bundle for one chunk, or None if nothing was removed."""
+def _apply_decoded(groups: list[dict], species_order: list[str], patch: dict,
+                   seed: int, radii: dict[str, float]) -> tuple[bytes | None, Counter]:
     id_hash = patch_id_hash(patch["id"])
-    radii = radii if radii is not None else species_radii()
-    groups = decode(path.read_bytes())
     kept: list[Instance] = []
     removed: Counter = Counter()
     for group in groups:
         species = species_order[group["index"]]
-        radius = radii.get(species, 0.0)
-        for item in group["instances"]:
-            if survives(item["x"], item["z"], patch, seed, id_hash, radius):
+        items = group["instances"]
+        if not items:
+            continue
+        xs = np.fromiter((i["x"] for i in items), dtype=np.float64, count=len(items))
+        zs = np.fromiter((i["z"] for i in items), dtype=np.float64, count=len(items))
+        mask = survives_mask(xs, zs, patch, seed, id_hash, radii.get(species, 0.0))
+        gone = int(len(items) - int(mask.sum()))
+        if gone:
+            removed[species] += gone
+        for item, alive in zip(items, mask.tolist()):
+            if alive:
                 kept.append(Instance(
                     species=species, tier="T2",
                     x=item["x"], y=item["y"], z=item["z"],
                     yaw=item["yaw"], scale=item["scale"],
                     tilt_x=item["tiltX"], tilt_z=item["tiltZ"],
                     anchor=item["anchor"], sink=item["sink"]))
-            else:
-                removed[species] += 1
     if not removed:
         return None, removed
     return encode(kept, species_order), removed
+
+
+def apply_to_chunk(path: Path, species_order: list[str], patch: dict,
+                   seed: int, radii: dict[str, float] | None = None) -> tuple[bytes | None, Counter]:
+    """The surviving bundle for one chunk, or None if nothing was removed."""
+    radii = radii if radii is not None else species_radii()
+    return _apply_decoded(decode(path.read_bytes()), species_order, patch,
+                          seed, radii)
+
+
+def _chunk_job(job: tuple) -> tuple[str, list[tuple[int, dict]], int]:
+    """One chunk, all the patches that touch it, in patch order.
+
+    Pure: it reads and rewrites its own bundle file (no other worker touches
+    that path) and returns what the PARENT needs to update the shared index and
+    receipt. Nothing here is shared mutable state.
+
+    Between patches the bundle is re-encoded and re-decoded exactly as the
+    serial stage did when it wrote the file after each patch — the encode is
+    lossy (bytes per angle), so a later patch must see the quantised positions
+    the earlier one left, or the output would not be byte-identical.
+    """
+    key, path_str, species_order, patch_items, seed, radii = job
+    path = Path(path_str)
+    blob = path.read_bytes()
+    groups = decode(blob)
+    out: list[tuple[int, dict]] = []
+    dirty = False
+    for index, patch in patch_items:
+        new_blob, removed = _apply_decoded(groups, species_order, patch, seed, radii)
+        if new_blob is None:
+            continue
+        blob = new_blob
+        groups = decode(blob)
+        dirty = True
+        out.append((index, {"removed": int(sum(removed.values())),
+                            "bySpecies": dict(sorted(removed.items()))}))
+    if dirty:
+        path.write_bytes(blob)
+    kept = sum(len(g["instances"]) for g in groups)
+    return key, out, kept
+
+
+def _worker_count() -> int:
+    override = os.environ.get("ES_PATCH_WORKERS")
+    if override:
+        return max(1, int(override))
+    return min(6, os.cpu_count() or 1)
 
 
 def run(bundles: Path, patches_path: Path, seed: int) -> dict:
@@ -132,27 +260,51 @@ def run(bundles: Path, patches_path: Path, seed: int) -> dict:
     species_order = list(index.get("speciesOrder", []))
     chunk_area_ha = (float(index.get("chunkMetres", vp.CHUNK_M)) ** 2) / 10_000.0
 
+    started = time.perf_counter()
+    radii = species_radii()
+
+    # Group by CHUNK first: a chunk several patches reach into is decoded,
+    # masked and written once, with its patches in authored order.
+    patch_chunks = [vp.affected_chunks(p) for p in patches]
+    jobs: dict[str, list[tuple[int, dict]]] = {}
+    for index_of, (patch, chunks) in enumerate(zip(patches, patch_chunks)):
+        for cx, cz in chunks:
+            if not (bundles / f"chunk_{cx}_{cz}_vegetation.bin").exists():
+                continue
+            jobs.setdefault(f"{cx}_{cz}", []).append((index_of, patch))
+    keys = sorted(jobs)                      # deterministic, worker-count free
+    payload = [(key,
+                str(bundles / f"chunk_{key}_vegetation.bin"),
+                species_order, items, seed, radii)
+               for key, items in ((k, jobs[k]) for k in keys)]
+
+    workers = min(_worker_count(), len(payload)) or 1
+    if workers <= 1:
+        results = [_chunk_job(job) for job in payload]
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
+            results = list(pool.map(_chunk_job, payload))
+
+    # The parent alone touches `touched`, the index and the receipt.
+    per_chunk: dict[str, dict[int, dict]] = {}
+    for key, entries, _kept in results:
+        per_chunk[key] = dict(entries)
+
     receipt_patches = []
     touched: set[str] = set()
     total_removed = 0
-    for patch in patches:
-        chunks = vp.affected_chunks(patch)
+    for index_of, (patch, chunks) in enumerate(zip(patches, patch_chunks)):
         by_chunk: dict[str, dict] = {}
         patch_removed = 0
         for cx, cz in chunks:
-            path = bundles / f"chunk_{cx}_{cz}_vegetation.bin"
-            if not path.exists():
-                continue
-            blob, removed = apply_to_chunk(path, species_order, patch, seed)
-            if blob is None:
-                continue
-            path.write_bytes(blob)
             key = f"{cx}_{cz}"
+            entry = per_chunk.get(key, {}).get(index_of)
+            if entry is None:
+                continue
             touched.add(key)
-            n = sum(removed.values())
+            n = entry["removed"]
             patch_removed += n
-            by_chunk[key] = {"removed": n,
-                             "bySpecies": dict(sorted(removed.items()))}
+            by_chunk[key] = entry
             record = index.get("chunks", {}).get(key)
             if record is not None:
                 record["instances"] = max(0, record.get("instances", 0) - n)
@@ -165,6 +317,10 @@ def run(bundles: Path, patches_path: Path, seed: int) -> dict:
         })
         print(f"  {patch['id']}: {patch_removed} removed "
               f"over {len(by_chunk)} of {len(chunks)} chunks")
+
+    print(f"  chunks: {len(payload)} candidate / {len(touched)} touched "
+          f"in {time.perf_counter() - started:.1f} s "
+          f"({workers} worker{'' if workers == 1 else 's'})")
 
     if touched and index_path.exists():
         index_path.write_text(json.dumps(index, indent=1) + "\n")
