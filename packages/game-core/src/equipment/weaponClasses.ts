@@ -231,7 +231,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     sheathSocket: "WeaponSword",
   },
   katana: {
-    id: "katana", label: "Katana", moveset: "oneHanded", twoHanded: false,
+    id: "katana", label: "Katana", moveset: "katana", twoHanded: false,
     lengthMeters: 1.05, weightKg: 2.8, speedScale: 0.95, criticalEntryRangeBonus: 0,
     powerScale: 1, staminaScale: 0.95, stability: 0.55, physicalAbsorption: 0.9,
     criticalStyle: "thrust",

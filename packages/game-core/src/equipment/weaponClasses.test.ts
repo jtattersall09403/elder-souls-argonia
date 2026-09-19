@@ -106,6 +106,11 @@ describe("the katana arsenal", () => {
     expect(katanas.length).toBeGreaterThan(0);
     for (const weapon of katanas) {
       expect(weapon.borrowedMoveset, weapon.id).toBe(false);
+      // `borrowedMoveset` alone cannot catch the class slipping back to the
+      // one-handed set — that resolves to itself and reads as not borrowed — so
+      // the clips the item actually carries are what is asserted.
+      expect(weapon.animations.combatIdle, weapon.id).toBe("KATANA_IDLE");
+      expect(weapon.attacks.light1.animation, weapon.id).toBe("KATANA_LIGHT_1");
     }
   });
 });
