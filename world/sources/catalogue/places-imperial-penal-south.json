@@ -2794,7 +2794,13 @@
           "place.imperial-penal-south.chainlink-watchtower"
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.flood-high-042"
+      "scourSiteId": "site.scour.firm-lowland.flood-high-042",
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "occupantRef": "npc.imperial-penal-south.blackrose-prison.third-generation-rose-family"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.blasphemer-urn-vault",
@@ -13998,7 +14004,17 @@
           "distanceM": 11.0
         },
         "score": 4.439
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.rose-flooded-passage",

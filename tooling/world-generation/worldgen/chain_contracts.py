@@ -29,7 +29,10 @@ THREE KINDS OF FINDING
 EXTENDING IT. Add one `READS[<stage>]` entry, a list of zero-argument
 callables (build them with `functools.partial` over the validators below so
 the declared paths can be read back off the partial). A stage that is enabled
-and has no entry FAILS — silence is never a pass.
+and has no entry FAILS — silence is never a pass. A stage that opens a FAMILY
+of files one at a time (`world/sources/blueprints/place.*.json`) declares it
+with `glob_read(directory, pattern)`, which is satisfied when the pattern
+matches and at least one match was opened on the last stamped run.
 
     python3 -m worldgen.chain_contracts --all
     python3 -m worldgen.chain_contracts --stages "compile_water reroute_lanes"
@@ -320,6 +323,46 @@ class stale_ok:
         return self.check(**kwargs)
 
 
+class glob_read:
+    """A read of a FAMILY of files by pattern, not one document.
+
+    Some stages open `world/sources/blueprints/place.*.json` — one file per
+    place — and never open the published `province/blueprints.json` at all. A
+    declaration must say what the stage actually opens, so it names the
+    directory and the pattern. The declaration is satisfied when the pattern
+    matches at least one file AND at least one matching file was opened on the
+    stage's last stamped run; each match is validated by `check` where one is
+    given. It contributes no single path to the order gate — the directory
+    `exists` declaration beside it carries that.
+    """
+
+    def __init__(self, directory: Path, pattern: str, check: Check | None = None) -> None:
+        self.directory = Path(directory)
+        self.pattern = pattern
+        self.check = check
+
+    @property
+    def args(self):
+        return ()
+
+    @property
+    def keywords(self):
+        return {}
+
+    def matches(self) -> list[Path]:
+        return sorted(self.directory.glob(self.pattern))
+
+    def __call__(self, *, stage: str = "") -> list[str]:
+        hits = self.matches()
+        if not hits:
+            return [_msg(stage, self.directory / self.pattern, "matches no file")]
+        out: list[str] = []
+        if self.check is not None:
+            for p in hits:
+                out.extend(self.check(p, stage=stage))
+        return out
+
+
 def _survey(exclude: tuple[Path, ...] = ()) -> list[Check]:
     """`site_fields.ProvinceSurvey` — the shared reader every siting and
     routing stage builds first. It reads the NATURAL snapshots where they
@@ -511,7 +554,9 @@ READS: dict[str, list[Check]] = {
         *_survey(),
         P(json_items, PROVINCE / "routes.json", "routes", ("px",)),
         P(json_doc, PROVINCE / "waterways.json", ("lanes",)),
-        P(json_doc, PROVINCE / "blueprints.json", ("blueprints",), 2),
+        # The stage reads the AUTHORED blueprints, one file per place, never
+        # the published `province/blueprints.json`.
+        glob_read(SOURCES / "blueprints", "place.*.json"),
         P(exists, SOURCES / "blueprints"),
         P(exists, SOURCES / "catalogue"),
         P(json_items, SOURCES / "routes" / "authored-routes.json", "routes", ("id",)),
@@ -519,7 +564,9 @@ READS: dict[str, list[Check]] = {
     "compile_minor_waterways": [
         *_survey(),
         P(json_items, SOURCES / "routes" / "registry.json", "routes", ("id",)),
-        P(json_doc, PROVINCE / "blueprints.json", ("blueprints",), 2),
+        # `blueprint_docks()` opens the authored blueprint of each place it
+        # solves a dock for, not the published bundle.
+        glob_read(SOURCES / "blueprints", "place.*.json"),
         P(exists, SOURCES / "blueprints"),
         P(exists, SOURCES / "catalogue"),
     ],
@@ -924,6 +971,13 @@ def check(stages: Iterable[str]) -> list[str]:
             if path not in touched:
                 findings.append(f"{stage}: declared read {_short(p)} was not opened "
                                 f"on its last stamped run")
+        for entry in entries:
+            if not isinstance(entry, glob_read):
+                continue
+            if not any(str(p.resolve()) in touched for p in entry.matches()):
+                findings.append(
+                    f"{stage}: declared glob {_short(entry.directory / entry.pattern)} "
+                    f"matched no file that was opened on its last stamped run")
         dirs = [Path(d) for d in declared if Path(d).is_dir()]
         for path in sorted(stamp.get("inputs", {})):
             p = Path(path).resolve()

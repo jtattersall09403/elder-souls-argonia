@@ -88,6 +88,7 @@ from . import blueprint as bp_mod
 from . import catalogue
 from .compile_minor_routes import OUT_MD, StepGraph, trace
 from .hydrology_intent import load_authored_minor_waterways
+from . import route_registry
 from . import routes
 from .site_fields import _resample, shared_survey
 from .site_fields import ProvinceSurvey
@@ -501,6 +502,85 @@ def demand(files: list[catalogue.RegionFile]) -> list[list[dict]]:
     return [sorted(b1, key=lambda r: r["id"]), sorted(b2, key=lambda r: r["id"])]
 
 
+# --------------------------------------------------------------------------- #
+# every named water route gets an answer (item 6)
+# --------------------------------------------------------------------------- #
+#: The registry classes this compiler is the solver for. A row of one of these
+#: classes that names a place is a PROMISE: this run either publishes geometry
+#: for one of the places it names, or it records on `unconnected` why it could
+#: not, and writes `solved: false` + `reason` back onto the row. Silence — the
+#: old behaviour for a place that demand() never queued or that the solve found
+#: already on the network — left the registry carrying a claim no file backed.
+WATER_REGISTRY_CLASSES = {"channel", "lane"}
+
+
+def registry_rows(path: Path = REGISTRY_PATH) -> list[dict]:
+    return json.loads(path.read_text())["routes"]
+
+
+def track_geometry_ids() -> set[str]:
+    """Minor LAND geometry ids. Read from disk deliberately: this compiler does
+    not write routes-minor.json, so a `geometryId` pointing into it is evidence
+    from another stage, not this run's own stale output."""
+    path = OUT_JSON.with_name("routes-minor.json")
+    return ({t["id"] for t in json.loads(path.read_text())["tracks"]}
+            if path.exists() else set())
+
+
+def registry_water_demand(files: list[catalogue.RegionFile],
+                          rows: list[dict] | None = None
+                          ) -> list[tuple[dict, list[tuple[str, dict | None]]]]:
+    """Registry rows this compiler owes an answer, with the catalogue place
+    each endpoint slug names (None when no place carries that slug).
+
+    Rows already carried by MAJOR lane geometry (waterways.json) or by minor
+    land geometry are not this compiler's to answer and are left out.
+    """
+    rows = registry_rows() if rows is None else rows
+    lanes = route_registry._geometry_pairs()["boat"]
+    tracks = track_geometry_ids()
+    by_slug: dict[str, dict] = {}
+    for rf in files:
+        for rec in rf.places:
+            by_slug.setdefault(rec["id"].split(".")[-1], rec)
+    out: list[tuple[dict, list[tuple[str, dict | None]]]] = []
+    for r in rows:
+        if r.get("class") not in WATER_REGISTRY_CLASSES:
+            continue
+        pair = (r.get("from"), r.get("to"))
+        if pair in lanes or pair[::-1] in lanes:
+            continue
+        if r.get("geometryId") in tracks:
+            continue
+        ends = [(slug, by_slug.get(slug)) for slug in pair if slug]
+        if not ends:
+            continue
+        out.append((r, ends))
+    return out
+
+
+def registry_gap_reason(ends: list[tuple[str, dict | None]],
+                        on_network: dict[str, dict]) -> str:
+    """Why this run published no channel for either place the row names."""
+    parts: list[str] = []
+    for slug, rec in ends:
+        if rec is None:
+            parts.append(f"{slug}: no place of that name in the catalogue")
+        elif rec.get("status") in {"cut", "deferred"}:
+            parts.append(f"{rec['id']}: {rec['status']}")
+        elif "positionM" not in rec:
+            parts.append(f"{rec['id']}: no positionM in the macro plot")
+        elif rec["id"] in on_network:
+            parts.append(f"{rec['id']}: {on_network[rec['id']]['why']}, "
+                         f"so no channel geometry is drawn")
+        elif not is_water_bound(rec):
+            parts.append(f"{rec['id']}: not a water-bound place, so no channel "
+                         f"is solved for it")
+        else:
+            parts.append(f"{rec['id']}: no channel solved")
+    return "; ".join(parts)
+
+
 def is_ferry_crossing(rec: dict) -> bool:
     """A ferry crossing is a *named bank-to-bank service*, not just any short
     hop: the place has to be a crossing/landing that runs a ferry."""
@@ -909,6 +989,19 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                     continue
                 channels.append(channel)
         network |= new_cells
+    # Item 6: a named channel/lane row this run drew nothing for is answered
+    # here, with the reason, instead of being dropped in silence.
+    answered = {c["from"] for c in channels}
+    for row, ends in registry_water_demand(files):
+        if any(rec is not None and rec["id"] in answered for _, rec in ends):
+            continue
+        unconnected.append({
+            "id": row["id"],
+            "route": row["id"],
+            "places": [rec["id"] for _, rec in ends if rec is not None],
+            "why": registry_gap_reason(ends, on_network),
+            "batch": 0,
+        })
     channels.sort(key=lambda t: t["id"])
     unconnected.sort(key=lambda u: u["id"])
     refused.sort(key=lambda r: r["id"])
@@ -994,28 +1087,47 @@ def run(write: bool = True) -> dict:
 # registry solving
 # --------------------------------------------------------------------------- #
 def solve_registry(doc: dict, write: bool = True) -> list[dict]:
-    """Attach `geometryId` to registry entries whose from/to resolve to a place
-    that now has minor water geometry, and flip them `solved: true`."""
+    """Settle this compiler's registry rows against the geometry it published.
+
+    A row whose from/to resolves to a place that now has minor water geometry
+    gets `geometryId` and `solved: true`.  A row this run published nothing
+    for is written back `solved: false` with the `reason` recorded on
+    `unconnected` — never left carrying a claim no file backs (item 6).
+    This stage owns `registry.json`.
+    """
     by_place = {c["from"]: c["id"] for c in doc["channels"]}
     slug_to_path: dict[str, str] = {}
     for pid, gid in by_place.items():
         slug_to_path.setdefault(pid.split(".")[-1], gid)
+    gap_reason = {u["route"]: u["why"] for u in doc["unconnected"] if u.get("route")}
     data = json.loads(REGISTRY_PATH.read_text())
+    lanes = route_registry._geometry_pairs()["boat"]
+    tracks = track_geometry_ids()
     solved: list[dict] = []
+    changed = False
     for r in data["routes"]:
-        if r.get("solved", True) or r.get("geometryId"):
+        if not (r.get("mode") == "boat" or r.get("class") in WATER_REGISTRY_CLASSES):
             continue
-        water = r.get("mode") == "boat" or r.get("class") == "channel"
-        if not water:
+        # carried by another stage's geometry: not this compiler's row to move
+        pair = (r.get("from"), r.get("to"))
+        if pair in lanes or pair[::-1] in lanes or r.get("geometryId") in tracks:
             continue
         gid = next((slug_to_path[s] for s in (r.get("from"), r.get("to"))
                     if s in slug_to_path), None)
-        if not gid:
-            continue
-        r["geometryId"] = gid
-        r["solved"] = True
-        solved.append({"id": r["id"], "geometryId": gid})
-    if write and solved:
+        if gid:
+            if r.get("geometryId") != gid or r.get("solved") is not True or "reason" in r:
+                changed = True
+            r["geometryId"], r["solved"] = gid, True
+            r.pop("reason", None)
+            solved.append({"id": r["id"], "geometryId": gid})
+        elif r["id"] in gap_reason:
+            reason = gap_reason[r["id"]]
+            if (r.get("solved") is not False or r.get("geometryId")
+                    or r.get("reason") != reason):
+                changed = True
+            r.pop("geometryId", None)
+            r["solved"], r["reason"] = False, reason
+    if write and changed:
         REGISTRY_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n",
                                  encoding="utf-8")
     return solved
@@ -1085,14 +1197,17 @@ def main(argv: list[str] | None = None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--registry", action="store_true",
-                    help="also attach geometryId / solved:true to world/sources/routes/registry.json")
+                    help="(default; kept for callers) settle world/sources/routes/registry.json")
     a = ap.parse_args(argv)
     context = solve_context()
     natural = _solve(fit_docks=False, context=context)
     fitted = _solve(fit_docks=True, context=context)
     doc = publish(natural, fitted, write=not a.dry_run)
     solved: list[dict] = []
-    if not a.dry_run and a.registry:
+    if not a.dry_run:
+        # This stage owns registry.json: every row it answers is settled on
+        # every run, so a row can never keep a claim the published geometry
+        # does not carry (item 6). `--registry` is now the default.
         solved = solve_registry(doc)
         write_digest(doc, solved)
     sm = doc["summary"]

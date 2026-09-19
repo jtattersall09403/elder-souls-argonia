@@ -466,6 +466,25 @@ def run(ctx: Context, remedies: list[dict], apply: bool) -> tuple[list[str], lis
         if not isinstance(rem.get("why"), str) or not rem["why"].strip():
             errors.append(f"{rid}: every remedy needs a `why` (the measured reason)")
             continue
+        # Probe first (mutating nothing): a remedy the solver has already
+        # REALISED must not be applied again. `--apply` after the chain's
+        # macro_plot stage would otherwise strip the position the solver just
+        # wrote and demand a whole re-plot, so it would not be idempotent.
+        try:
+            probe = HANDLERS[kind](ctx, copy.deepcopy(ctx.by_id[rid]), rem, False)
+        except RemedyError as e:
+            # A realised `meso-move` may no longer be measurable: the handler
+            # measures from the record's CURRENT dot, and once the solver has
+            # moved the record the old target can sit beyond the meso limit.
+            # A remedy that holds is not re-measured.
+            if remedy_holds(ctx, ctx.by_id[rid], rem, ["unmeasurable"]):
+                report.append(f"  holds {rid} [{kind}] realised by the solver; not re-applied")
+                continue
+            errors.append(f"{rid} ({kind}): {e}")
+            continue
+        if probe and remedy_holds(ctx, ctx.by_id[rid], rem, probe):
+            report.append(f"  holds {rid} [{kind}] realised by the solver; not re-applied")
+            continue
         rec = ctx.by_id[rid] if apply else copy.deepcopy(ctx.by_id[rid])
         try:
             changes = HANDLERS[kind](ctx, rec, rem, apply)
@@ -481,14 +500,88 @@ def run(ctx: Context, remedies: list[dict], apply: bool) -> tuple[list[str], lis
     return report, errors
 
 
+#: The change line every re-siting kind emits when the record still carries a
+#: committed position. `--check` runs AFTER the solver, which re-sites the
+#: record and writes the position back, so this line alone is not a failure.
+POSITION_CHANGE_PREFIX = "position fields removed"
+
+#: How close the solver's dot must land to a `meso-move` target for the move
+#: to count as realised on the record itself (metres).
+MESO_MOVE_HOLD_M = 1.0
+
+
+def resited(rec: dict) -> bool:
+    """The solver has sited this record: `plotted` with a committed position."""
+    pm = rec.get("positionM")
+    return rec.get("workflow") == "plotted" and isinstance(pm, list) and len(pm) == 2
+
+
+def meso_move_holds(ctx: Context, rec: dict, rem: dict) -> bool:
+    """A `meso-move` holds when its override row is still on file with the same
+    u,v, OR the solver has already put the record within MESO_MOVE_HOLD_M of
+    the target."""
+    to = rem.get("toM")
+    if not (isinstance(to, list) and len(to) == 2
+            and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in to)):
+        return False
+    u, v = metres_to_uv_pair(float(to[0]), float(to[1]))
+    u, v = round(u, 6), round(v, 6)
+    for row in ctx.overrides.get("overrides", []):
+        if row.get("id") == rec["id"] and row.get("source") == OVERRIDE_SOURCE:
+            if row.get("u") == u and row.get("v") == v:
+                return True
+    now = rec.get("positionM")
+    if isinstance(now, list) and len(now) == 2:
+        if math.hypot(float(to[0]) - float(now[0]),
+                      float(to[1]) - float(now[1])) <= MESO_MOVE_HOLD_M:
+            return True
+    return False
+
+
+#: The kinds whose remedy is REALISED by the solver: they clear the position so
+#: the seeded plot re-sites the record, and the solver then writes a position
+#: back. For these, "the position is not cleared" holds once the record is
+#: `plotted` with a `positionM`.
+RESITING_KINDS = {"pin-by-siting", "merge", "re-type"}
+
+
+def remedy_holds(ctx: Context, rec: dict, rem: dict, changes: list[str]) -> bool:
+    """The remedy is already realised, even though the handler still wants to
+    change something. Two cases, and only these:
+
+    * a re-siting kind whose ONLY outstanding change is "clear the position",
+      on a record the solver has since re-sited. Its prefs/classification hold,
+      so the remedy did its work and the plot answered it. (If anything else is
+      outstanding the remedy was never applied: it is applied in full,
+      position clearing included, exactly as before the solver ran.)
+    * a `meso-move` with its override row on file, or a dot already within
+      MESO_MOVE_HOLD_M of the target.
+    """
+    kind = rem.get("kind")
+    if kind == "meso-move":
+        return meso_move_holds(ctx, rec, rem)
+    if kind in RESITING_KINDS:
+        return resited(rec) and all(c.startswith(POSITION_CHANGE_PREFIX) for c in changes)
+    return False
+
+
 def check(ctx: Context, remedies: list[dict]) -> list[str]:
     """Every remedy is valid AND its state still holds (a cut record is still
     cut, a re-referenced edge still points at the new route, …). A remedy that
-    was never applied fails too: the order is add the row, `--apply`, commit."""
+    was never applied fails too: the order is add the row, `--apply`, commit.
+
+    `--check` runs after the solver, so the two kinds of "remedy realised by
+    the solver" hold on the solver's own output as well as on the cleared
+    state: a re-siting kind holds when its prefs/classification hold and the
+    record is either cleared or re-sited (`plotted` + `positionM`); a
+    `meso-move` holds on its override row or on a dot within
+    MESO_MOVE_HOLD_M of the target.
+    """
     report, errors = run(ctx, remedies, apply=False)
     for line in report:
-        if "already applied" not in line:
-            errors.append("state no longer holds:" + line[len("  would"):])
+        if "already applied" in line or line.startswith("  holds "):
+            continue
+        errors.append("state no longer holds:" + line[len("  would"):])
     return errors
 
 

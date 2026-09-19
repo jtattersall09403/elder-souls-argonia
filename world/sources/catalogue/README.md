@@ -146,7 +146,8 @@ still the source of truth; this is the one-line index.
   water: the gating, where you surface, whether there is air, how deep.
 
 `design-groups.json` carries `{schemaVersion, groups: [{id, anchor, members,
-loreReason, maxSpreadM}]}`. A row is the reason two records may stand inside
+loreReason, maxSpreadM}]}`, where `maxSpreadM` is how far each member may
+stand from the group's anchor. A row is the reason two records may stand inside
 each other's footprint: one agent blueprints and builds them together. It is
 registered in both `tooling/repo-standards` registries.
 

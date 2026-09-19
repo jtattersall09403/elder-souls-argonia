@@ -278,6 +278,11 @@ def test_the_script_runs_the_pass_after_verify_freeze():
 @pytest.mark.parametrize("stage", sorted(cc.READS))
 def test_every_declaration_is_introspectable(stage):
     for entry in cc.READS[stage]:
+        if isinstance(entry, cc.glob_read):
+            # A glob names a directory and a pattern, not one path: what it
+            # declares is read back off `.directory` / `.pattern`.
+            assert entry.directory and entry.pattern, f"{stage}: an empty glob declaration"
+            continue
         assert cc.declared_paths(entry), f"{stage}: a declaration names no artefact"
 
 
@@ -437,3 +442,57 @@ def test_the_three_consumers_cannot_sit_on_their_own_ladder_row(monkeypatch):
     assert not [f for f in cc.order_findings(moved)
                 if not f.startswith("warn: ")
                 and f.startswith("order: terrain_request_postconditions ")]
+
+
+def _glob_stages():
+    return ["sculpt_province", "compile_hydrology", "compile_society", "shape_province",
+            "hydrology_graph", "carve_province", "apply_terrain_patches", "patch_water",
+            "compile_water"]
+
+
+def test_a_declared_glob_is_satisfied_by_any_matching_file_that_was_opened(tmp_path, monkeypatch):
+    """A stage that opens `place.*.json` one file at a time declares the
+    FAMILY, not a bundle it never touches."""
+    _json(tmp_path / "place.one.json", {"a": 1})
+    two = _json(tmp_path / "place.two.json", {"a": 1})
+    book = {"09-compile_water": {"stage": "compile_water",
+                                 "inputs": {str(two): "x"}, "outputs": {}}}
+    monkeypatch.setattr(cc, "READS",
+                        {"compile_water": [cc.glob_read(tmp_path, "place.*.json")]}, raising=True)
+    monkeypatch.setattr(cc, "_stamps", lambda: book)
+    monkeypatch.setattr(cc, "script_stages", lambda path=None: _glob_stages())
+    assert cc.check(["compile_water"]) == []
+
+
+def test_a_declared_glob_nobody_opened_fails(tmp_path, monkeypatch):
+    _json(tmp_path / "place.one.json", {"a": 1})
+    other = _json(tmp_path / "elsewhere.json", {"a": 1})
+    book = {"09-compile_water": {"stage": "compile_water",
+                                 "inputs": {str(other): "x"}, "outputs": {}}}
+    monkeypatch.setattr(cc, "READS",
+                        {"compile_water": [cc.glob_read(tmp_path, "place.*.json")]}, raising=True)
+    monkeypatch.setattr(cc, "_stamps", lambda: book)
+    monkeypatch.setattr(cc, "script_stages", lambda path=None: _glob_stages())
+    out = [f for f in cc.check(["compile_water"]) if not f.startswith("warn: ")]
+    assert len(out) == 1 and "matched no file that was opened" in out[0], out
+
+
+def test_a_declared_glob_that_matches_nothing_fails(tmp_path, monkeypatch):
+    monkeypatch.setattr(cc, "READS",
+                        {"compile_water": [cc.glob_read(tmp_path, "place.*.json")]}, raising=True)
+    monkeypatch.setattr(cc, "_stamps", lambda: {})
+    monkeypatch.setattr(cc, "script_stages", lambda path=None: _glob_stages())
+    out = cc.check(["compile_water"])
+    assert len(out) == 1 and out[0].endswith("matches no file"), out
+
+
+def test_the_two_minor_compiles_declare_the_authored_blueprints_not_the_bundle():
+    """The defect this closed: both stages declared `province/blueprints.json`
+    and open `world/sources/blueprints/place.*.json`."""
+    for stage in ("compile_minor_routes", "compile_minor_waterways"):
+        entries = cc.READS[stage]
+        assert not [e for e in entries
+                    for p in cc.declared_paths(e) if p.name == "blueprints.json"], stage
+        globs = [e for e in entries if isinstance(e, cc.glob_read)]
+        assert [g for g in globs if g.pattern == "place.*.json"
+                and g.directory == cc.SOURCES / "blueprints"], stage

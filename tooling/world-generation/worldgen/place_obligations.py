@@ -63,7 +63,7 @@ DELIVERY_FIELDS = {
     "approachDanger", "assetGaps", "assetPlan", "authoredDangerProperty",
     # 16g: one design built together, the owner's own ground, the street a
     # city is entered by, the reservation, and how you get in under water.
-    "cityLayout", "designGroup", "ownerGuided", "reservedFor",
+    "cityLayout", "designGroup", "reservedFor",
     "underwaterAccessDetail", "vasteiTutorialScene",
     "classification", "contents", "culture",
     "dangerTier", "deedCounterKeys", "densityLayer", "discovery", "effortToReach", "factionPresence",
@@ -74,7 +74,12 @@ DELIVERY_FIELDS = {
     "singularClaim", "sockets", "status", "strongholdCandidate", "terrainRequests", "travelStation", "traversalFallback",
     "traversalModes", "underwaterAccess", "vibe", "why",
 }
+# How the place is worked on, not anything a builder owes the world.
+# `ownerGuided` says the owner is hands-on for this record: it changes who
+# authors the place, so it never becomes a delivery obligation.
+PROCESS_FIELDS = {"ownerGuided"}
 FIELD_POLICY = {
+    **{k: "process" for k in PROCESS_FIELDS},
     **{k: "provenance" for k in PROVENANCE_FIELDS},
     **{k: "plot" for k in PLOT_FIELDS},
     **{k: "delivery" for k in DELIVERY_FIELDS},

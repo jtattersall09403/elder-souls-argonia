@@ -443,3 +443,121 @@ def test_every_fast_node_resolves():
     doc = json.loads(ts.SERVICES.read_text(encoding="utf-8"))
     assert not ts._check_fast_nodes({s["id"] for s in doc["services"]})
     assert ts._check_fast_nodes(set()), "the FAST check would pass vacuously"
+
+
+def test_a_station_within_the_berth_walk_boards_over_a_jetty_and_is_not_unmatched():
+    """16e berth walk (decision 0069; 16g deliverable 6, connectedness over
+    depth): between the quayside limit and the berth walk the station still
+    boards, the walk and the lane depth there are written on the hop, and the
+    run says so in words."""
+    doc = _run_graph()
+    places = _stub_places()
+    places["place.stub.b"]["positionM"] = [400.0, 150.0]   # 150 m off the lane
+    lines = ts.derive(doc, [], sw=_StubWater(deep=3.0, at=1.0), places=places,
+                      net=_two_lane_net(), roots={}, harbours={}, anchors=[])
+    s = doc["services"][0]
+    assert s["status"] == "active", s.get("unmatchedWhy")
+    hop = s["hops"][0]
+    assert hop["jettyM"]["station.stub.b"] == 150.0
+    assert hop["jettyM"]["station.stub.a"] == 0.0
+    assert hop["laneDepthM"]["station.stub.b"] is not None
+    assert [l for l in lines if l.startswith("warn:") and "150 m jetty walk" in l], lines
+    assert not [l for l in lines if "UNMATCHED" in l], lines
+
+
+def test_past_the_berth_walk_the_hop_is_still_unmatched():
+    doc = _run_graph()
+    places = _stub_places()
+    places["place.stub.b"]["positionM"] = [400.0, 400.0]   # past 250 m
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    s = doc["services"][0]
+    assert s["status"] == "unmatched"
+    assert "berth walk 250 m" in s["unmatchedWhy"], s["unmatchedWhy"]
+
+
+def _with_root_node(node_pos, place_id="place.stub.z"):
+    doc = _run_graph()
+    doc["harbourStations"] = {}
+    doc["stations"].append({"id": "root-node.stub", "kind": "root-node",
+                            "placeId": place_id, "positionM": node_pos,
+                            "status": "active"})
+    places = _stub_places()
+    places[place_id] = {"id": place_id, "status": "active", "positionM": list(node_pos),
+                        "travelStation": {"modes": ["boat"]}}
+    return doc, places
+
+
+def test_a_root_node_beside_a_quay_is_a_transfer_edge_and_joins_the_network():
+    """A rootworm node and a boat station within the walk are one interchange:
+    without the edge the node is an island and `check` fails."""
+    doc, places = _with_root_node([100.0, 0.0])            # 100 m from station.stub.a
+    assert [e for e in ts.check(doc) if "not connected" in e], "no edge yet: an island"
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    edges = doc["transferEdges"]
+    assert [e for e in edges if e["from"] == "root-node.stub"
+            and e["to"] == "station.stub.a" and "100 m apart" in e["why"]], edges
+    assert not [e for e in ts.check(doc) if "not connected" in e], ts.check(doc)
+
+
+def test_a_root_node_at_the_same_place_transfers_by_the_place_not_the_distance():
+    doc, places = _with_root_node([0.0, 0.0], place_id="place.stub.a")
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    edges = [e for e in doc["transferEdges"] if e["to"] == "station.stub.a"]
+    assert edges and edges[0]["why"] == "both stand at place.stub.a", doc["transferEdges"]
+
+
+def test_the_connectedness_check_reads_the_recorded_edges_and_never_the_registry(monkeypatch):
+    """Decision 0066: the check reads the record the derive wrote. It must not
+    open the route registry at all."""
+    doc, places = _with_root_node([100.0, 0.0])
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    monkeypatch.setattr(ts, "_registry", lambda: (_ for _ in ()).throw(
+        AssertionError("_check_connected read the route registry")))
+    assert ts._check_connected(doc) == []
+
+
+def test_two_stations_on_one_body_follow_the_body_without_a_lane():
+    """A lake ferry crosses its lake: the two stations stand on one recorded
+    body, no lane joins them, and the hop is matched on the body."""
+    doc = _run_graph()
+    doc["harbourStations"] = {}
+    places = _stub_places()
+    for pid in ("place.stub.a", "place.stub.b"):
+        places[pid]["plotFacts"] = {"water": {"entityId": "body.1290-3508", "kind": "lake"}}
+    places["place.stub.b"]["positionM"] = [400.0, 4000.0]      # far off any lane
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    s = doc["services"][0]
+    hop = s["hops"][0]
+    assert s["status"] == "active", s.get("unmatchedWhy")
+    assert hop["follows"] == {"bodies": ["body.1290-3508"]}
+    assert "unresolved" not in hop
+    assert not [e for e in ts.check(doc) if "follows" in e], ts.check(doc)
+
+
+def test_two_stations_on_different_bodies_still_need_a_lane():
+    doc = _run_graph()
+    places = _stub_places()
+    places["place.stub.a"]["plotFacts"] = {"water": {"entityId": "body.1290-3508"}}
+    places["place.stub.b"]["plotFacts"] = {"water": {"entityId": "body.9999-0001"}}
+    places["place.stub.b"]["positionM"] = [400.0, 4000.0]
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    assert doc["services"][0]["status"] == "unmatched"
+
+
+def test_a_lane_solve_still_wins_where_the_lanes_join():
+    """The body rule is the fallback, not a shortcut: where the published
+    lanes do join the two ends, the hop still records the lanes it walks."""
+    doc = _run_graph()
+    places = _stub_places()
+    for pid in ("place.stub.a", "place.stub.b"):
+        places[pid]["plotFacts"] = {"water": {"entityId": "body.1290-3508"}}
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    assert doc["services"][0]["hops"][0]["follows"] == {
+        "lanes": ["route.boat.west", "route.boat.east"]}

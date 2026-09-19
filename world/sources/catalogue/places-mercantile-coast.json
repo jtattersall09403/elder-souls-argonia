@@ -10523,7 +10523,7 @@
         },
         {
           "sourcePath": "why.siteAdvantages",
-          "placeRef": "place.imperial-penal-south.blackrose"
+          "placeRef": "place.imperial-fringe.gideon"
         },
         {
           "sourcePath": "why.siteAdvantages",
@@ -29416,7 +29416,7 @@
         },
         {
           "sourcePath": "why.siteAdvantages",
-          "placeRef": "place.dunmer-north.bogmother"
+          "placeRef": "place.mercantile-coast.soulrest"
         }
       ],
       "scourSiteId": "site.scour.firm-lowland.flood-high-037"

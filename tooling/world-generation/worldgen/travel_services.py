@@ -91,7 +91,7 @@ SCHEMA_VERSION = 1
 
 SERVICE_KINDS = ["ferry", "boat", "rootworm", "guide", "cart", "porter"]
 STATION_KINDS = ["place", "ferry-landing", "root-node"]
-HOP_FOLLOWS = ["lane", "lanes", "reaches", "rootway", "road"]
+HOP_FOLLOWS = ["lane", "lanes", "bodies", "reaches", "rootway", "road"]
 FORMS = {"road-crossing", "station-run"}
 STATUSES = {"active", "placeholder", "deferred", "unmatched", "retired"}
 #: A retired service is kept as a record of a decision, never re-resolved:
@@ -109,8 +109,20 @@ BERTH_SEARCH_M = 30.0
 BERTH_STEP_M = 1.0
 BOAT_FARE_GOLD = 5
 #: How far a station may sit from the nearest published lane vertex and still
-#: board from it (16g deliverable 6, rule 3).
+#: board from it WITHOUT comment (16g deliverable 6, rule 3). Beyond it the
+#: station still boards, over a jetty, and the run says so.
 STATION_LANE_M = 60.0
+#: The 16e BERTH WALK (decision 0069; 16g deliverable 6, "connectedness over
+#: depth"): how far a station may sit from the nearest published lane vertex
+#: and still board at all. A station within the walk reaches the water over a
+#: jetty whose length is recorded on the hop as `jettyM`; only past this limit
+#: is the hop `unmatched`. Connectedness is what a traveller feels; the length
+#: of the walk and the depth at its end are reported, not gated.
+STATION_BERTH_WALK_M = 250.0
+#: Two stations this close together, or resolving to the same place, are one
+#: interchange: a traveller steps from one to the other on foot. The
+#: rootworm's `root-node.*` and the boat network's `station.*` meet here.
+TRANSFER_M = 300.0
 #: How close two lane polylines must pass to be one navigable network.
 LANE_JOIN_M = 60.0
 #: What a change of lane costs the search (not the answer): without it a hop
@@ -588,6 +600,10 @@ def _resite_place_stations(doc: dict, places: dict, lines: list[str]) -> None:
         pid = st.get("placeId")
         if not pid:
             continue
+        if st.get("status") == RETIRED:
+            # A retired station records a decision, exactly as a retired
+            # service does: the derive never re-sites it back into the world.
+            continue
         place = places.get(pid)
         site = _station_site(place) if place else None
         if place is not None and site is None and place.get("status") == "deferred":
@@ -710,8 +726,16 @@ def derive(doc: dict, crossings: list[dict], sw=None, places=None, net=None,
 
     if net is None:
         net = LaneNetwork(lane_polylines())
-    lines.extend(_resolve_station_hops(doc, stations, net, sw))
+    lines.extend(_resolve_station_hops(doc, stations, net, sw, places))
     lines.extend(_derive_harbours(doc, places, harbours, anchors, net))
+    # The edges that join the network without a hop of their own, derived here
+    # and written down for `_check_connected` to read (decision 0066).
+    stations = {s["id"]: s for s in doc["stations"]}
+    live = {sid for sid, st in stations.items() if st.get("status") == "active"}
+    doc["roadEdges"] = _road_edges(doc, stations, live)
+    doc["transferEdges"] = _transfer_edges(doc)
+    lines.append(f"{len(doc['roadEdges'])} road edge(s) and {len(doc['transferEdges'])} "
+                 f"transfer edge(s) join the network off its hops")
     return lines
 
 
@@ -719,15 +743,42 @@ def derive(doc: dict, crossings: list[dict], sw=None, places=None, net=None,
 # station-run hops follow the published waterways (rule 3)
 # --------------------------------------------------------------------------
 
-def _resolve_station_hops(doc: dict, stations: dict, net, sw=None) -> list[str]:
+def _station_bodies(station: dict, places: dict, node, net, sw) -> set[str]:
+    """The recorded water bodies a station stands on the edge of.
+
+    Two records answer it and neither is re-derived (decision 0066): the
+    station's place carries the body the plot measured it against
+    (`plotFacts.water.entityId`), and the lane vertex its berth walk lands on
+    stands in a compiled body. A station may touch both.
+    """
+    out: set[str] = set()
+    place = places.get(station.get("placeId")) if station.get("placeId") else None
+    entity = ((place or {}).get("plotFacts") or {}).get("water") or {}
+    if entity.get("entityId"):
+        out.add(entity["entityId"])
+    if sw is not None and node is not None:
+        rec = sw.water_at(net.pts[node][0], net.pts[node][1]) or {}
+        if rec.get("id"):
+            out.add(rec["id"])
+    return {i for i in out if str(i).startswith("body.")}
+
+
+def _resolve_station_hops(doc: dict, stations: dict, net, sw=None, places=None) -> list[str]:
     """Every station-run hop is re-solved from the stations' current positions:
     a hop with no registry lane of its own is pathed over the published lane
     network (majors + the minor channels), and the lanes it walks are written
-    down. A station further than `STATION_LANE_M` from any lane vertex cannot
-    be boarded from the water, and its hops are `unmatched` with the distance
-    named — never moved by guesswork."""
+    down. A station further than `STATION_BERTH_WALK_M` from any lane vertex
+    cannot be boarded from the water, and its hops are `unmatched` with the
+    distance named — never moved by guesswork.
+
+    A hop whose two stations stand on the SAME recorded body needs no lane at
+    all: a lake ferry crosses its lake. That hop `follows: {"bodies": [id]}`
+    and is matched on the body, which is what the lane network is a
+    convenience for.
+    """
     from .dock_spec import HULL_CLASS_DEPTH_M
 
+    places = {} if places is None else places
     lines: list[str] = []
     snap: dict[str, tuple[int | None, float]] = {}
 
@@ -756,12 +807,24 @@ def _resolve_station_hops(doc: dict, stations: dict, net, sw=None) -> list[str]:
                 hop["lengthM"] = straight
                 continue
             (na, da), (nb, db) = nearest(hop["from"]), nearest(hop["to"])
-            far = [(hop["from"], da), (hop["to"], db)]
-            far = [(sid, d) for sid, d in far if d > STATION_LANE_M]
+            ends = [(hop["from"], na, da), (hop["to"], nb, db)]
+            far = [(sid, d) for sid, _n, d in ends if d > STATION_BERTH_WALK_M]
+            shared = sorted(_station_bodies(a, places, na, net, sw)
+                            & _station_bodies(b, places, nb, net, sw))
+            if shared and (far or na is None or nb is None or net.path(na, nb) is None):
+                # One body under both ends: the crossing IS the body. No lane
+                # is needed and none is invented.
+                hop["follows"] = {"bodies": [shared[0]]}
+                hop["lengthM"] = straight
+                hop.pop("unresolved", None)
+                lines.append(f"{s['id']}: hop {hop['from']} -> {hop['to']} crosses "
+                             f"{shared[0]} for {straight} m (both stations stand on it; "
+                             f"no lane joins them)")
+                continue
             if na is None or nb is None or far:
                 s["status"] = "unmatched"
                 why = ("; ".join(f"{sid} is {d:.0f} m from the nearest lane vertex "
-                                 f"(limit {STATION_LANE_M:.0f} m)" for sid, d in far)
+                                 f"(berth walk {STATION_BERTH_WALK_M:.0f} m)" for sid, d in far)
                        or "the published lane network is empty")
                 s["unmatchedWhy"] = f"hop {hop['from']} -> {hop['to']}: {why}"
                 hop["unresolved"] = True
@@ -781,6 +844,22 @@ def _resolve_station_hops(doc: dict, stations: dict, net, sw=None) -> list[str]:
             hop["follows"] = {"lanes": lane_ids}
             hop["lengthM"] = round(length_m + da + db, 1)
             hop.pop("unresolved", None)
+            # The 16e berth walk, written down: how far each end walks out to
+            # the lane it boards from, and how deep that lane is where it is
+            # boarded. Both are REPORTED; neither gates (deliverable 6).
+            hop["jettyM"] = {sid: round(d, 1) for sid, _n, d in ends}
+            hop["laneDepthM"] = {
+                sid: (None if sw is None else
+                      round(float((sw.water_at(net.pts[n][0], net.pts[n][1]) or {})
+                                  .get("depthM") or 0.0), 2))
+                for sid, n, _d in ends}
+            for sid, _n, d in ends:
+                if d > STATION_LANE_M:
+                    lines.append(
+                        f"warn: {s['id']}: {sid} boards over a {d:.0f} m jetty walk "
+                        f"(past the {STATION_LANE_M:.0f} m quayside limit, within the "
+                        f"{STATION_BERTH_WALK_M:.0f} m berth walk); lane depth there is "
+                        f"{hop['laneDepthM'][sid]} m")
             lines.append(f"{s['id']}: hop {hop['from']} -> {hop['to']} follows "
                          f"{len(lane_ids)} lane(s) {lane_ids} for {hop['lengthM']} m "
                          f"(boarding {da:.0f} m / {db:.0f} m off the network)")
@@ -1127,6 +1206,12 @@ def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
                     if unknown:
                         errs.append(f"service {sid}: hop follows lane(s) {unknown}, which are "
                                     f"not in the published waterways")
+            if follows.get("bodies") is not None:
+                bodies = follows["bodies"]
+                if not isinstance(bodies, list) or not bodies \
+                        or not all(str(b).startswith("body.") for b in bodies):
+                    errs.append(f"service {sid}: hop follows `bodies` must be a non-empty list "
+                                f"of `body.*` ids — the water the hop crosses")
             if follows.get("rootway") and follows["rootway"] not in rootways:
                 errs.append(f"service {sid}: hop follows rootway {follows['rootway']!r}, which "
                             f"is not in `rootways`")
@@ -1207,12 +1292,18 @@ def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
     return errs
 
 
-def _road_edges(doc: dict, stations: dict, live: set[str]) -> list[tuple[str, str]]:
+def _road_edges(doc: dict, stations: dict, live: set[str]) -> list[dict]:
     """Landing -> city station edges for the road-crossing ferries.
 
     A road-crossing ferry repairs a break in a named road, so its landings are
     on that road: each joins the nearest active city station that the same road
     id runs between (the registry row's `from`/`to` anchors).
+
+    This is a DERIVE: it reads the route registry, so it runs once in
+    `derive()` and is written down as `roadEdges`. `_check_connected` reads the
+    record it produced and never recomputes it (decision 0066: read the record,
+    never re-solve it) — which is what keeps the registry out of the check's
+    read path.
     """
     by_anchor: dict[str, list[dict]] = {}
     for sid in live:
@@ -1226,22 +1317,53 @@ def _road_edges(doc: dict, stations: dict, live: set[str]) -> list[tuple[str, st
             if alias:
                 ends[alias] = [row.get("from"), row.get("to")]
 
-    edges: list[tuple[str, str]] = []
+    edges: list[dict] = []
     for s in doc.get("services", []):
         if s.get("status") != "active" or s.get("form") != "road-crossing":
             continue
-        cands: list[dict] = []
+        cands: list[tuple[str, dict]] = []
         for route_id in s.get("severs") or []:
             for anchor in ends.get(route_id) or []:
-                cands.extend(by_anchor.get(anchor) or [])
+                cands.extend((route_id, st) for st in (by_anchor.get(anchor) or []))
         if not cands:
             continue
         for lid in s.get("landings") or []:
             land = stations.get(lid)
             if lid not in live or not (land or {}).get("positionM"):
                 continue
-            near = min(cands, key=lambda c: _dist(land["positionM"], c["positionM"]))
-            edges.append((lid, near["id"]))
+            road_id, near = min(cands, key=lambda c: _dist(land["positionM"], c[1]["positionM"]))
+            edges.append({
+                "from": lid, "to": near["id"], "roadId": road_id,
+                "why": f"{s['id']} repairs the break in {road_id}; its landing stands on that "
+                       f"road, which runs to {near['id']}",
+            })
+    return edges
+
+
+def _transfer_edges(doc: dict) -> list[dict]:
+    """Where the rootworm and the boat network meet on foot.
+
+    A `root-node.*` and a `station.*` that resolve to the same place, or that
+    stand within `TRANSFER_M` of each other, are one interchange: a traveller
+    steps between them without a service. The edge is undirected and is written
+    down so `_check_connected` reads it rather than re-deriving it.
+    """
+    live = [st for st in doc.get("stations", [])
+            if st.get("status") == "active" and st.get("positionM")]
+    nodes = [st for st in live if str(st.get("id", "")).startswith("root-node.")]
+    quays = [st for st in live if str(st.get("id", "")).startswith("station.")]
+    edges: list[dict] = []
+    for n in nodes:
+        for q in quays:
+            same = n.get("placeId") and n.get("placeId") == q.get("placeId")
+            d = _dist(n["positionM"], q["positionM"])
+            if not same and d > TRANSFER_M:
+                continue
+            edges.append({
+                "from": n["id"], "to": q["id"],
+                "why": (f"both stand at {n['placeId']}" if same else
+                        f"{d:.0f} m apart, within the {TRANSFER_M:.0f} m walk"),
+            })
     return edges
 
 
@@ -1250,8 +1372,11 @@ def _check_connected(doc: dict) -> list[str]:
     Connectedness is what a traveller feels; depth is only reported. Every
     active station must be reachable from every other over the hops of active
     services — a station nobody can leave is a dead end in the world.
-    A road-crossing ferry's landings join the network by the road they cross
-    (owner 2026-09-18: connectedness, not depth)."""
+    A road-crossing ferry's landings join the network by the road they cross,
+    and a rootworm node joins the quay beside it on foot (owner 2026-09-18:
+    connectedness, not depth). Both sets of edges are READ from the record the
+    derive wrote (`roadEdges`, `transferEdges`); the check never re-derives
+    them, so it never reads the route registry."""
     stations = {st["id"]: st for st in doc.get("stations", [])}
     live = {sid for sid, st in stations.items() if st.get("status") == "active"}
     if len(live) < 2:
@@ -1265,9 +1390,11 @@ def _check_connected(doc: dict) -> list[str]:
             if a in live and b in live:
                 adj[a].add(b)
                 adj[b].add(a)
-    for a, b in _road_edges(doc, stations, live):
-        adj[a].add(b)
-        adj[b].add(a)
+    for edge in list(doc.get("roadEdges") or []) + list(doc.get("transferEdges") or []):
+        a, b = edge.get("from"), edge.get("to")
+        if a in live and b in live:
+            adj[a].add(b)
+            adj[b].add(a)
     seen, stack = set(), [min(live)]
     while stack:
         n = stack.pop()

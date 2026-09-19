@@ -452,6 +452,26 @@ def _slot_ids(place: dict) -> list[str]:
     return out
 
 
+#: An `npc.*` id written into a record's prose. prose_links types these as
+#: `occupantRef`s, so the person must exist in the roster: prose may not name
+#: somebody the register does not hold.
+NPC_ID_RE = re.compile(r"\bnpc\.[a-z0-9]+(?:[a-z0-9-]*)(?:\.[a-z0-9-]+)+")
+
+
+def prose_referenced_npc_ids(places: list[dict]) -> dict[str, str]:
+    """npc id -> the live place record whose prose names it (first by id)."""
+    from . import lint_prose
+
+    found: dict[str, str] = {}
+    for place in sorted(places, key=lambda p: p["id"]):
+        for _field, text in lint_prose.iter_catalogue_prose(place):
+            if not isinstance(text, str):
+                continue
+            for match in NPC_ID_RE.findall(text):
+                found.setdefault(match, place["id"])
+    return found
+
+
 def _existing_cast_ids() -> dict[str, str]:
     """name -> id for cast already in the registry (the two principals)."""
     if not REGISTRY.exists():
@@ -566,6 +586,56 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
             },
         })
         picker.used.add(spec["name"])
+
+    # Anyone a record's prose names by id is kept: the id takes its slot from
+    # the record's notableNpcSlots when one derives it, else a prose-referenced
+    # slot with no post (slotIndex null).
+    have = {e["id"] for e in entries}
+    by_id = {p["id"]: p for p in places}
+    for npc_id, place_id in sorted(prose_referenced_npc_ids(places).items()):
+        if npc_id in have:
+            continue
+        place = by_id[place_id]
+        slots = place.get("notableNpcSlots") or []
+        ids = _slot_ids(place)
+        index = ids.index(npc_id) if npc_id in ids else None
+        if index is not None:
+            text, status = slots[index], "generated"
+            sources = [f"{place['id']} notableNpcSlots[{index}]"]
+        else:
+            text = npc_id.rsplit(".", 1)[-1].replace("-", " ")
+            status = "prose-referenced"
+            sources = [f"{place['id']} prose"]
+        region = region_of(place["id"])
+        race = pick_race(place, text, npc_id, priors)
+        sex = pick_sex(text, npc_id)
+        form = pick_form(place, text, race)
+        name, form = picker.take(form, race, region, place["id"], npc_id,
+                                 region_slots.get(region, 1), sex)
+        prior = existing.get(npc_id, {})
+        entries.append({
+            "id": npc_id,
+            "name": name,
+            "kind": prior.get("kind", "slot"),
+            "nameForm": form,
+            "race": race,
+            "sex": sex,
+            "factionIds": pick_factions(place, text),
+            "home": {"placeId": place["id"], "slotIndex": index, "socketId": None},
+            "role": text,
+            "archetype": None, "statblock": None, "hostility": None,
+            "fightFleeAlarm": None, "marks": [], "schedules": [], "patrols": [],
+            "dialogueTopics": [], "services": [], "crime": None, "standing": None,
+            "status": status,
+            "sources": sources,
+            "notes": prior.get("notes") or f"Named in the prose of {place['id']}.",
+            "assetAvailability": prior.get("assetAvailability") or {
+                "status": "vanilla",
+                "via": ASSET_AVAILABILITY["argonian"],
+                "notes": ASSET_NOTES,
+            },
+        })
+        have.add(npc_id)
 
     entries.sort(key=lambda e: e["id"])
     stats = {

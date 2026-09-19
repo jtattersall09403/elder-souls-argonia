@@ -27,6 +27,7 @@ def test_every_catalogue_field_has_exactly_one_contract_policy():
     mutant = copy.deepcopy(next(iter(_records().values())))
     mutant["newPromiseNobodyClassified"] = "a faction seat"
     assert "unclassified catalogue field" in po.classify_record_fields(mutant)[0]
+    assert not (po.PROCESS_FIELDS & po.DELIVERY_FIELDS)
     assert not (po.PROVENANCE_FIELDS & po.PLOT_FIELDS)
     assert not (po.PROVENANCE_FIELDS & po.DELIVERY_FIELDS)
     assert not (po.PLOT_FIELDS & po.DELIVERY_FIELDS)
@@ -57,6 +58,17 @@ def test_provenance_and_plot_mechanics_do_not_emit_obligations():
     rows, errors = po.build_obligations(rec, bp)
     assert not errors
     assert {r.sourcePath for r in rows} == set()
+
+
+def test_ownerGuided_is_a_process_flag_and_owes_nothing():
+    """MUTATION: classify ownerGuided as delivery again — green on a record
+    that owes a builder an obligation for how the owner works on it."""
+    rec = {"id": "place.test.guided", "name": "Guided", "sources": ["source"],
+           "provenance": "lore-implied", "confidence": "high",
+           "workflow": "authored", "ownerGuided": True}
+    rows, errors = po.build_obligations(rec, {"id": rec["id"]})
+    assert not errors
+    assert not [r for r in rows if r.sourcePath.startswith("ownerGuided")]
 
 
 @pytest.mark.parametrize("bp", list(_blueprints()), ids=lambda b: b["id"])

@@ -425,6 +425,17 @@ def test_design_group_members_further_apart_than_the_spread_fail(tmp_path):
     assert any("past maxSpreadM 120" in e for e in errs), errs
 
 
+def test_group_spread_is_measured_from_the_anchor_not_between_members(tmp_path):
+    """MUTATION: measure member-to-member again — red on a legitimate group
+    whose members both sit well inside the spread of their anchor."""
+    places = [_member("place.testreg.a", (0, 0)), _member("place.testreg.b", (70, 0)),
+              _member("place.testreg.c", (-92, 0))]
+    row = _group_row(maxSpreadM=100, members=["place.testreg.a", "place.testreg.b",
+                                              "place.testreg.c"])
+    errs = _errs(tmp_path, places, [row])
+    assert not [e for e in errs if "maxSpreadM" in e], errs
+
+
 def test_a_group_member_without_the_stamp_fails(tmp_path):
     """MUTATION: check only the stamped records, never the register's members."""
     places = [_member("place.testreg.a", (0, 0)),

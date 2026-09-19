@@ -1,6 +1,7 @@
 """Phase 11 B9b named-prose → typed-reference contract."""
 
 import copy
+import json
 from types import SimpleNamespace
 
 from . import prose_links as pl
@@ -76,18 +77,20 @@ def test_distinctive_quest_title_fires_but_short_or_colliding_titles_do_not():
     ).findings == []
 
 
-def test_live_gate_actually_sees_quest_titles_and_the_npc_vocabulary_is_two_names():
+def test_live_gate_actually_sees_quest_titles_and_the_npc_vocabulary_is_the_roster():
     """Neither HARD class may be green because the extractor matches nothing.
 
-    quest fires on real prose. npc genuinely does not: the closed vocabulary is
-    the two registered principals, and no catalogue or blueprint prose field
-    names either of them (occupants[] carries descriptions, not names).
+    The npc vocabulary is the live roster (world/sources/registries/npcs.json),
+    not a fixture: every person the generator writes is assertable in prose.
     """
     result = pl.check_all()
     assert result.mentions["quest"] > 0
+    roster = json.loads(
+        (pl.REGISTRIES / "npcs.json").read_text(encoding="utf-8"))["entries"]
+    roster_ids = {entry["id"] for entry in roster}
     npcs = [entity for entity in pl.load_entities() if entity.kind == "npc"]
-    assert {entity.id for entity in npcs} == {"npc.holds-the-reed", "npc.nesh-deeka"}
-    assert result.mentions["npc"] == 0
+    assert {entity.id for entity in npcs} == roster_ids
+    assert len(roster_ids) > 2
     # Positive control: the same extractor does fire on an NPC name in prose.
     control = pl.check_record(
         {"id": "place.test.a"},

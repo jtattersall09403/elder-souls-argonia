@@ -1208,7 +1208,11 @@ def _validate_16g_cross(catalogue_dir: Path, recs: dict[str, dict], live: set[st
                         errors: list[str]) -> None:
     """The 16g gates that need the whole catalogue: the design-group register,
     co-siting reciprocity, the single stronghold reservation and the ten
-    hero-Hist slots."""
+    hero-Hist slots.
+
+    A design group's spread is measured from its anchor to each other member,
+    because `boundTo` binds every member to the anchor rather than to its
+    fellow members: the anchor is the place they are all designed around."""
     import math as _math
 
     groups = load_design_groups(catalogue_dir)
@@ -1245,14 +1249,16 @@ def _validate_16g_cross(catalogue_dir: Path, recs: dict[str, dict], live: set[st
                                   f"designGroup {recs[m].get('designGroup')!r}")
             if spread is None:
                 continue
-            placed = [(m, recs[m]["positionM"]) for m in members
-                      if m in recs and _is_xz(recs[m].get("positionM"))]
-            for i, (ma, pa) in enumerate(placed):
-                for mb, pb in placed[i + 1:]:
-                    d = _math.dist(pa, pb)
+            anchor_pos = (recs[anchor]["positionM"]
+                          if anchor in recs and _is_xz(recs[anchor].get("positionM")) else None)
+            if anchor_pos is not None:
+                for m in members:
+                    if m == anchor or m not in recs or not _is_xz(recs[m].get("positionM")):
+                        continue
+                    d = _math.dist(anchor_pos, recs[m]["positionM"])
                     if d > spread:
-                        errors.append(f"{DESIGN_GROUPS_FILE}: {gid} members {ma} and {mb} are "
-                                      f"{d:.1f} m apart, past maxSpreadM {spread}")
+                        errors.append(f"{DESIGN_GROUPS_FILE}: {gid} member {m} is {d:.1f} m from "
+                                      f"anchor {anchor}, past maxSpreadM {spread}")
 
     reserved: dict[str, list[str]] = {}
     hero = 0

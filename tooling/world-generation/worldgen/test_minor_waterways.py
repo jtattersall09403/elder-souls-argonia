@@ -209,7 +209,9 @@ def test_boat_stations_are_channelled_or_explained():
     channel, or is named in `unconnected` — none is silently dropped."""
     doc = _doc()
     channelled = {c["from"] for c in doc["channels"]}
-    unconnected = {u["id"] for u in doc["unconnected"]}
+    # rows carrying `route` answer a REGISTRY row, not a plotted place (item 6);
+    # the place ledger below is about places
+    unconnected = {u["id"] for u in doc["unconnected"] if not u.get("route")}
     on_network = {u["id"] for u in doc["onNetwork"]}
     # a refused berth is EXPLAINED, not silently dropped: it is named here with
     # its measured numbers, and the debt gate above is what fails for it
@@ -348,3 +350,48 @@ def test_a_lane_with_both_a_dry_gap_and_a_shallow_run_types_each_separately():
     line = [(c, 0) for c in range(6)]
     kinds = [f["kind"] for f in mw.lane_features(s, line, "small-draft")]
     assert kinds == [mw.FEATURE_PORTAGE, mw.FEATURE_BOARDWALK]
+
+
+def test_a_named_channel_row_with_no_water_is_answered_and_written_back(
+        tmp_path, monkeypatch):
+    """Item 6: a `channel`/`lane` registry row naming a place is never dropped
+    in silence. When the place has no navigable water within SNAP_M the solve
+    publishes no geometry, so the row gets an `unconnected` row carrying the
+    reason and is written back `solved: false` + `reason`."""
+    assert mw.SNAP_M == 260.0
+    rec = {"id": "place.test.dryhold", "positionM": [10.0, 10.0],
+           "classification": {"family": "landing"},
+           "travelStation": {"modes": ["boat"]}}
+    files = [SimpleNamespace(places=[rec])]
+    row = {"id": "route.boat.dryhold-onkobra", "mode": "boat", "class": "channel",
+           "from": "dryhold", "to": "nowhere", "solved": True,
+           "geometryId": "waterway.test.dryhold"}
+    monkeypatch.setattr(mw.route_registry, "_geometry_pairs",
+                        lambda: {"road": set(), "boat": set(), "track": set()})
+    monkeypatch.setattr(mw, "track_geometry_ids", lambda: set())
+
+    demanded = mw.registry_water_demand(files, [row])
+    assert [r["id"] for r, _ in demanded] == [row["id"]]
+    ends = demanded[0][1]
+    why = mw.registry_gap_reason(ends, {})
+    assert "place.test.dryhold: no channel solved" in why
+    assert "nowhere: no place of that name in the catalogue" in why
+
+    # what `_solve` publishes for it: the place-level snap failure, and the
+    # row's own answer
+    doc = {"channels": [], "unconnected": [
+        {"id": rec["id"], "batch": 1,
+         "why": f"no connected navigable water within {mw.SNAP_M:.0f} m"},
+        {"id": row["id"], "route": row["id"], "places": [rec["id"]],
+         "why": why, "batch": 0}]}
+    assert any(u["id"] == row["id"] and u["why"] == why
+               for u in doc["unconnected"])
+
+    path = tmp_path / "registry.json"
+    path.write_text(json.dumps({"schemaVersion": 1, "routes": [row]}))
+    monkeypatch.setattr(mw, "REGISTRY_PATH", path)
+    assert mw.solve_registry(doc) == []
+    written = json.loads(path.read_text())["routes"][0]
+    assert written["solved"] is False
+    assert written["reason"] == why
+    assert "geometryId" not in written

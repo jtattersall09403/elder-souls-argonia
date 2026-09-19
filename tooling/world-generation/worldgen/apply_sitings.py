@@ -151,6 +151,31 @@ def build_overrides(s: ProvinceSurvey) -> tuple[list[dict], list[dict]]:
     return overrides, moves
 
 
+def merge_overrides(blueprint_rows: list[dict], path: Path = OVERRIDES_PATH) -> list[dict]:
+    """The overrides file is shared: `apply_sitings` owns the blueprint-sourced
+    rows, `worldgen.plot_remedies` owns `source == "plot-remedies"` rows, and a
+    future writer may own others. Re-deriving the whole file dropped every row
+    this tool does not produce (11 plot-remedies rows were lost that way), so
+    the write MERGES by (id, source): a blueprint-sourced row is replaced by
+    the freshly derived one, every other source's row is preserved verbatim.
+    """
+    on_file = []
+    if path.exists():
+        on_file = json.loads(path.read_text(encoding="utf-8")).get("overrides", [])
+    fresh = {(o["id"], o.get("source")) for o in blueprint_rows}
+    kept = [o for o in on_file
+            if not _is_blueprint_source(o.get("source")) and (o["id"], o.get("source")) not in fresh]
+    merged = kept + list(blueprint_rows)
+    merged.sort(key=lambda o: (o["id"], str(o.get("source", ""))))
+    return merged
+
+
+def _is_blueprint_source(source) -> bool:
+    """A blueprint-sourced row records the blueprint file it came from
+    (`build_overrides` writes the repo-relative path)."""
+    return isinstance(source, str) and source.endswith(".json") and "blueprint" in source
+
+
 def drop_exemplar_pins() -> int:
     """Remove the five exemplar rows from the committed overrides file."""
     if not OVERRIDES_PATH.exists():
@@ -196,9 +221,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  {flag:4s} {m['id']:55s} {m['distanceM']} m")
     if a.dry_run:
         return 0
-    OVERRIDES_PATH.write_text(json.dumps({"schemaVersion": 1, "generatedBy": "worldgen.apply_sitings — do not hand-edit; the blueprint's chosen siting is the source",
-                                          "overrides": overrides}, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"wrote {OVERRIDES_PATH.relative_to(catalogue.REPO_ROOT)} ({len(overrides)} pinned)")
+    merged = merge_overrides(overrides)
+    OVERRIDES_PATH.write_text(json.dumps({"schemaVersion": 1, "generatedBy": "worldgen.apply_sitings — do not hand-edit; each row's `source` names the tool that owns it (a blueprint path here, worldgen.plot_remedies for `plot-remedies`)",
+                                          "overrides": merged}, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"wrote {OVERRIDES_PATH.relative_to(catalogue.REPO_ROOT)} "
+          f"({len(overrides)} pinned from blueprints, {len(merged) - len(overrides)} row(s) from other sources preserved)")
     if a.stage:
         for w in apply_incremental(s, overrides):
             print(f"  WARN {w}")

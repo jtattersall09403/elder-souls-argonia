@@ -323,3 +323,131 @@ def test_a_cleared_record_still_validates(tmp_path: Path):
     assert not errors, errors
     c.write()
     assert catalogue.validate_catalogue(cat, check_permanence=False) == []
+
+
+# ----------------------------------------------- --check after the solver ran
+# `--check` runs after the chain's macro_plot stage. A re-siting remedy has by
+# then been REALISED: the record is `plotted` again and carries the position
+# the solver chose, so "the position is not cleared" is the expected state, not
+# a failure. A `meso-move` is realised by its override row, or by the dot the
+# solver put within 1 m of the target.
+
+def _resite(world, rid="place.testland.alpha", at=(1234.0, 5678.0)) -> None:
+    """Stand in for the solver: write a position back and re-mark `plotted`."""
+    data = json.loads(world["cat"].joinpath("places-testland.json").read_text())
+    for r in data["places"]:
+        if r["id"] == rid:
+            r["workflow"] = "plotted"
+            r["positionM"] = [at[0], at[1]]
+            r["whySiteWon"] = "the solver sited it"
+            r["candidatesConsidered"] = [{"siteId": "s"}]
+    world["cat"].joinpath("places-testland.json").write_text(json.dumps(data, indent=2) + "\n")
+
+
+PIN_REMEDY = [{"id": "place.testland.alpha", "kind": "pin-by-siting",
+               "why": "The dot stands in 0.2 m of water; the record needs deep water at the quay.",
+               "sitingPrefs": {"boundTo": {"place": "place.testland.beta", "maxM": 400}}}]
+RETYPE_REMEDY = [{"id": "place.testland.alpha", "kind": "re-type", "type": "fishing-camp",
+                  "why": "No cliff within 900 m; the ground is a tidal flat."}]
+MERGE_REMEDY = [{"id": "place.testland.alpha", "kind": "merge", "group": "group.saltmarsh",
+                 "why": "Alpha and beta are one settlement; they share a design group.",
+                 "sitingPrefs": {"boundTo": {"place": "place.testland.beta", "maxM": 300}}}]
+
+
+@pytest.mark.parametrize("rem", [PIN_REMEDY, RETYPE_REMEDY, MERGE_REMEDY],
+                         ids=["pin-by-siting", "re-type", "merge"])
+def test_check_holds_on_the_cleared_branch_and_after_the_solver(world, rem):
+    apply_once(world, copy.deepcopy(rem))
+    assert pr.position_cleared(rec_of(world))          # branch 1: position cleared
+    assert pr.check(ctx(world), rem) == []
+    _resite(world)                                     # branch 2: plotted + positionM
+    r = rec_of(world)
+    assert r["workflow"] == "plotted" and r["positionM"] == [1234.0, 5678.0]
+    assert pr.check(ctx(world), rem) == []
+
+
+def test_check_fails_when_a_re_sited_record_lost_its_prefs(world):
+    """Being re-sited excuses the position, never the preferences the remedy
+    wrote: a hand-edit that drops them still fails."""
+    apply_once(world, copy.deepcopy(PIN_REMEDY))
+    _resite(world)
+    data = json.loads(world["cat"].joinpath("places-testland.json").read_text())
+    for r in data["places"]:
+        r.get("sitingPrefs", {}).pop("boundTo", None)
+    world["cat"].joinpath("places-testland.json").write_text(json.dumps(data, indent=2) + "\n")
+    errors = pr.check(ctx(world), PIN_REMEDY)
+    # the remedy is not realised at all, so it is fully outstanding again:
+    # the prefs AND the position it must clear before a re-plot
+    assert any("sitingPrefs" in e for e in errors), errors
+    assert any(pr.POSITION_CHANGE_PREFIX in e for e in errors), errors
+
+
+def test_check_fails_when_a_re_sited_record_kept_the_old_type(world):
+    apply_once(world, copy.deepcopy(RETYPE_REMEDY))
+    _resite(world)
+    data = json.loads(world["cat"].joinpath("places-testland.json").read_text())
+    for r in data["places"]:
+        if r["id"] == "place.testland.alpha":
+            r["classification"]["type"] = "cliff-shelf-village"
+    world["cat"].joinpath("places-testland.json").write_text(json.dumps(data, indent=2) + "\n")
+    errors = pr.check(ctx(world), RETYPE_REMEDY)
+    assert any("classification" in e for e in errors), errors
+
+
+MESO_REMEDY = [{"id": "place.testland.alpha", "kind": "meso-move", "toM": [1060.0, 2000.0],
+                "why": "60 m east puts the landing on the 2.1 m channel instead of the bar."}]
+
+
+def test_check_holds_on_the_override_row(world):
+    apply_once(world, copy.deepcopy(MESO_REMEDY))
+    rows = json.loads(world["ov"].read_text())["overrides"]
+    assert len(rows) == 1 and rows[0]["source"] == "plot-remedies"
+    assert pr.check(ctx(world), MESO_REMEDY) == []
+
+
+def test_check_holds_when_the_dot_landed_within_a_metre_of_the_target(world):
+    """The override row can be re-derived away by another writer; the record
+    standing on the target is the same remedy, realised."""
+    apply_once(world, copy.deepcopy(MESO_REMEDY))
+    world["ov"].write_text(json.dumps({"schemaVersion": 1, "overrides": []}, indent=1) + "\n")
+    _resite(world, at=(1060.4, 2000.3))     # 0.5 m from toM
+    assert pr.check(ctx(world), MESO_REMEDY) == []
+
+
+def test_check_fails_when_the_meso_move_was_neither_rowed_nor_realised(world):
+    apply_once(world, copy.deepcopy(MESO_REMEDY))
+    world["ov"].write_text(json.dumps({"schemaVersion": 1, "overrides": []}, indent=1) + "\n")
+    _resite(world, at=(1060.0, 2010.0))     # 10 m from toM
+    errors = pr.check(ctx(world), MESO_REMEDY)
+    assert len(errors) == 1 and "meso-move" in errors[0], errors
+
+
+@pytest.mark.parametrize("rem", [PIN_REMEDY, RETYPE_REMEDY, MERGE_REMEDY, MESO_REMEDY],
+                         ids=["pin-by-siting", "re-type", "merge", "meso-move"])
+def test_apply_is_idempotent_after_the_solver_sited_the_record(world, rem):
+    """`--apply` runs again after the chain's macro_plot stage. A remedy the
+    solver has realised is SKIPPED, never re-applied: re-clearing the position
+    the solver just wrote would demand a whole re-plot."""
+    apply_once(world, copy.deepcopy(rem))
+    _resite(world)                                  # macro_plot writes a position back
+    before = world["cat"].joinpath("places-testland.json").read_bytes()
+    before_ov = world["ov"].read_bytes()
+    c = ctx(world)
+    report, errors = pr.run(c, copy.deepcopy(rem), apply=True)
+    assert not errors, errors
+    assert all(line.startswith("  holds ") for line in report), report
+    c.write()
+    assert world["cat"].joinpath("places-testland.json").read_bytes() == before
+    assert world["ov"].read_bytes() == before_ov
+    assert pr.check(ctx(world), rem) == []
+
+
+def test_apply_still_clears_the_position_before_the_solver_has_run(world):
+    """The skip is not "the record is plotted": a record awaiting its remedy is
+    plotted too. It is "everything else about this remedy already holds"."""
+    c = ctx(world)
+    report, errors = pr.run(c, copy.deepcopy(PIN_REMEDY), apply=True)
+    assert not errors, errors
+    assert any("position fields removed" in line for line in report), report
+    c.write()
+    assert pr.position_cleared(rec_of(world))
