@@ -1855,14 +1855,14 @@
    "id": "place.hist-heartland.legendary-deep-medusa-wood",
    "kind": "prose",
    "field": "why.founding",
-   "text": "A stand of drowned forest on the edge of the deepest basin water, which the tribes name and do not enter.",
+   "text": "A stand of drowned forest on the edge of the deepest basin water. The tribes name the stand but do not enter it.",
    "why": "The record's water is body.1529-2187, marsh deep at 15.94 m, 98.9 m from the dot. The stand is on the edge of that water, not in it."
   },
   {
    "id": "place.hist-heartland.legendary-deep-medusa-wood",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "The ground above the deepest standing water in the interior, over a drowned forest that never rotted.",
+   "text": "The ground above the deepest standing water in the interior. The drowned forest beneath it has not rotted.",
    "why": "The dot is 98.9 m from body.1529-2187; the record stands above the deep water rather than on it."
   },
   {
@@ -1883,14 +1883,14 @@
    "id": "place.hist-heartland.greenspring",
    "kind": "prose",
    "field": "vibe.approach",
-   "text": "Coming in from the fork, the standing water goes from black to clear over about a hundred metres. The village is smelt before it is seen.",
+   "text": "Coming in from the fork, the standing water goes from black to clear over about a hundred metres. Frond smoke from the cookfires reaches the fork before the houses are in sight.",
    "why": "The dot stands 93.2 m from body.2442-1212 and no channel runs through it, so the approach is over standing water rather than up a channel."
   },
   {
    "id": "place.imperial-fringe.gideon",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "A measured 46 m barrier gap flanked by 60-87 m ridges; firm lowland and drinkable spring water on the marsh side; a pond 77 m from the gate that the town's clay is dug from.",
+   "text": "A measured 46 m barrier gap flanked by 60-87 m ridges; firm lowland and drinkable spring water on the marsh side; a pond 77 m from the gate, from which the town's clay is dug.",
    "why": "The record's water is body.809-1686, a pond at 56.68 m, 76.8 m from the city dot. No Onkobra reach lies in Gideon's ring, so the founding names the pond alone."
   },
   {
@@ -1911,14 +1911,14 @@
    "id": "place.imperial-fringe.the-eight-steps",
    "kind": "prose",
    "field": "why.founding",
-   "text": "The upper water drops through eight ledges in a kilometre, which is where boats stop and portage starts.",
+   "text": "The upper water drops through eight ledges in a kilometre. Boats stop below the ledges and portage starts there.",
    "why": "The record stands on reach.836-841, a sloped rapid at 186.79 m, distance 0.0 m. That reach is not the Onkobra: the Onkobra is river.352-503, 1062.4 m away, and the name does not extend downstream because the chain below it is the attested Panther and Stormhold."
   },
   {
    "id": "place.imperial-fringe.hangs-above-the-water",
    "kind": "prose",
    "field": "why.founding",
-   "text": "When the gorge floods it fills to within a few metres of the rim, so the people who work the gorge live in it: cut chambers and built galleries on the wall, above the worst water and below the wind.",
+   "text": "When the gorge floods it fills to within a few metres of the rim. The people who work it live on the wall, in cut chambers and built galleries above the worst water.",
    "why": "The record stands on reach.580-2263 at 0.0 m. The Onkobra is river.352-503, 1084.8 m away, so the gorge is its own and carries no Onkobra name."
   },
   {
@@ -1939,7 +1939,7 @@
    "id": "place.imperial-penal-south.longmont",
    "kind": "prose",
    "field": "why.founding",
-   "text": "Blackrose's south-western neighbour: a shore village on the approach, the last stop before the city's toll gates.",
+   "text": "A shore village on the approach to Blackrose from the south-west. It is the last stop before the city's toll gates.",
    "why": "The record lies 740 m south-west of Blackrose, not north-west, and its water is body.ocean 66.3 m off, not the lake."
   },
   {
@@ -1953,21 +1953,21 @@
    "id": "place.imperial-penal-south.flu-quarantine-village",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "On the Lake road north of the city, at the last narrows before the water, where a cordon could actually be held.",
+   "text": "On the Lake road north of the city, at the last narrows before the water, where a cordon can be held.",
    "why": "The village lies 81 m north-west of Blackrose, so west is wrong; its water is body.1103-3389, a marsh fringe 42.8 m off, not the lake."
   },
   {
    "id": "place.imperial-penal-south.murkwood-verge",
    "kind": "prose",
    "field": "why.founding",
-   "text": "The forest that ever moves, last located south-east of Blackrose; located only by the Conclave of Baal at Stormhold, reading the Elder Scrolls with an old tablet.",
+   "text": "The forest that ever moves, last placed south-east of Blackrose. Only the Conclave of Baal at Stormhold can find it, by reading the Elder Scrolls with an old tablet.",
    "why": "The record lies 657 m south-east of Blackrose, not north-east."
   },
   {
    "id": "place.imperial-penal-south.murkwood-verge",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "A stretch of coast marsh south-east of the city where the tree line is wrong on every survey and no two surveys agree. The ground itself is ordinary. The danger arrived with the forest and leaves with it.",
+   "text": "A stretch of coast marsh south-east of the city where the tree line falls in a different place on every survey. The ground itself is ordinary. The danger comes with the forest.",
    "why": "Measured south-east of Blackrose at 657 m, and its water is body.ocean 63.9 m off, so the ground is coast marsh rather than deep marsh beside a lake."
   },
   {
@@ -1995,28 +1995,28 @@
    "id": "place.imperial-penal-south.marsh-giant-ground-basin",
    "kind": "prose",
    "field": "why.founding",
-   "text": "A marsh giant's range on the marsh north of the city, marked by two centuries of the same paths being walked.",
+   "text": "A marsh giant's range on the marsh north of the city, marked by paths that have been walked for two centuries.",
    "why": "The record lies 554 m north of Blackrose, not north-east."
   },
   {
    "id": "place.imperial-penal-south.rockspring",
    "kind": "prose",
    "field": "why.founding",
-   "text": "Blackrose's south-western neighbour, built along a natural levee around a hard spring that runs clear when the flats are brown.",
+   "text": "A village south-west of Blackrose, built along a natural levee around a hard spring that runs clear when the flats are brown.",
    "why": "The record lies 752 m south-west of Blackrose and its water is body.815-3641, a mudflat 19.8 m off at 1.28 m. There is no western feeder at the dot."
   },
   {
    "id": "place.imperial-penal-south.rockspring",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "A levee crest a metre above every recorded flood, with a rock spring that runs clean when the whole flat is brown.",
+   "text": "A levee crest a metre above every recorded flood, with a rock spring rising on it.",
    "why": "Same measurement: the water beside it is a mudflat, not a basin feeder."
   },
   {
    "id": "place.imperial-penal-south.prison-born-refuge",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "An island on the coast marsh two hours off the causeway, defensible and unclaimed.",
+   "text": "An island on the coast marsh two hours off the causeway. It is defensible and nobody has claimed it.",
    "why": "The record's water is body.ocean 83.7 m off, so the marsh around it is coast marsh."
   },
   {
@@ -2030,7 +2030,7 @@
    "id": "place.imperial-penal-south.rose-bone-waystation",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "On the Blackrose road, at the point where the Rose's people will hand a body over and the villages' people will accept one.",
+   "text": "On the Blackrose road, at the point where the Rose's people will hand a body to the villages' people.",
    "why": "Same measurement: the station stands on route.road.blackrose-lilmoth, not on a causeway."
   },
   {
@@ -2065,7 +2065,7 @@
    "id": "place.mercantile-coast.inhabited-meer-murkmire",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "Stone walls, one water approach, old defences that still work. The Gideon to Soulrest road passes within sight, which suits a tribe that trades at arm's length.",
+   "text": "Stone walls with one water approach. The old defences still stand. The Gideon to Soulrest road passes within sight of the walls.",
    "why": "The published road near this record is route.road.gideon-soulrest. There is no Soulrest to Blackrose road in the published geometry."
   },
   {
@@ -2079,14 +2079,14 @@
    "id": "place.naga-kur-deeps.root-whisper-village",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "East Deepmire ground the tribe never left, held below a pre-Duskfall xanmeer that marks it from a distance and keeps the approach to one line.",
+   "text": "East Deepmire ground that the tribe never left, held below a pre-Duskfall xanmeer that marks it from a distance and keeps the approach to one line.",
    "why": "Same bind: one xanmeer, not two."
   },
   {
    "id": "place.naga-kur-deeps.deepmire-refuge",
    "kind": "prose",
    "field": "why.founding",
-   "text": "The shelter of last resort. An all-but-inaccessible ridge that even the tribes avoid, standing eight metres over the flood, where the presence of Sithis is strong, holding pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only to shelter. A few caretakers tend it.",
+   "text": "The shelter of last resort. A ridge eight metres over the flood, hard to reach and avoided even by the tribes, where the presence of Sithis is strong. It holds pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only in an emergency. A few caretakers tend it.",
    "why": "The refuge is pinned at 2525, 4476, a ridge eight metres above the flood. There is no forty metre plateau in the frozen ground."
   },
   {
@@ -2100,7 +2100,7 @@
    "id": "place.naga-kur-deeps.harmed-hist-enslaved",
    "kind": "prose",
    "field": "vibe.approach",
-   "text": "Two settlements facing each other across twenty-five metres of water, one of them empty.",
+   "text": "Two settlements face each other across twenty-five metres of water. One of them is empty.",
    "why": "Same measurement: 24.5 m to body.819-2696."
   },
   {
@@ -2121,49 +2121,49 @@
    "id": "place.pirate-freeholds.reoccupied-fort",
    "kind": "prose",
    "field": "why.founding",
-   "text": "An intact Imperial fort above the trunk road, abandoned two hundred years ago, into which somebody moved and started charging.",
+   "text": "An intact Imperial fort above the trunk road, abandoned two hundred years ago. Somebody has moved in and now charges for passage.",
    "why": "The record stands at 23.1 m elevation, 81.5 m from body.2442-1212, a marsh sheet at level 0.0. There is no gorge under it."
   },
   {
    "id": "place.pirate-freeholds.reoccupied-fort",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "It stands on the rise over the reach where road and boat lane run together and neither can go around it, which is why the Legion built there.",
+   "text": "The Legion built on this rise because road and boat lane run together in the reach below and neither can go around it.",
    "why": "Same measurement: a rise over a marsh sheet, not a bluff over a gorge."
   },
   {
    "id": "place.saxhleel-coast.archon",
    "kind": "prose",
    "field": "why.founding",
-   "text": "A deep, sheltered lagoon mouth on the Padomaic will take a foreign hull's draught. No other landing on this coast will. The Second Empire and then the East Empire Company built a stone quay here. The Saxhleel town grew landward of it.",
+   "text": "A deep, sheltered lagoon mouth on the Padomaic. It is the only landing on this coast that will take a foreign hull's draught. The Second Empire and then the East Empire Company built a stone quay here. The Saxhleel town grew landward of it.",
    "why": "The record's water is body.2727-2523, a swamp sheet at 3.76 m, 71.5 m from the city dot, and the harbour sample is the lagoon. The graph records no estuary here."
   },
   {
    "id": "place.saxhleel-coast.archon",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "A lagoon with a landable stone shore and a road into the interior. The mangrove wall breaks here for more than a kilometre. No other break on the east coast is as wide.",
+   "text": "A lagoon with a landable stone shore and a road into the interior. The mangrove wall breaks here for more than a kilometre, the widest break on the east coast.",
    "why": "Same measurement: lagoon water and a road, with no river reach in the city's ring."
   },
   {
    "id": "place.saxhleel-coast.seafalls",
    "kind": "prose",
    "field": "why.founding",
-   "text": "A drop in the water stops laden hulls dead, so inland cargo is unloaded, carried past the fall and loaded again. A town grew on the carry.",
+   "text": "A drop in the water stops laden hulls, so inland cargo is unloaded, carried past the fall and loaded again. The town grew up around the carry.",
    "why": "The record stands on body.2783-2747, a swamp sheet at level 0.15, distance 0.0 m. No river is recorded under the fall."
   },
   {
    "id": "place.saxhleel-coast.banner-stack",
    "kind": "prose",
    "field": "why.founding",
-   "text": "A pillar of rock off the marsh edge, climbed for eggs by the Portdun Mont families for six generations. Someone else is at the top now, up a face that takes 40 metres of rope.",
+   "text": "A pillar of rock off the marsh edge, climbed for eggs by the Portdun Mont families for six generations. Someone else now holds the top. The climbing face takes 40 metres of rope.",
    "why": "The record's water is body.2444-2213, a swamp sheet at 1.34 m, 5.5 m from the dot. There is no headland and no open sea at the stack."
   },
   {
    "id": "place.saxhleel-coast.banner-stack",
    "kind": "prose",
    "field": "why.siteAdvantages",
-   "text": "Vertical, isolated, with a mooring ring at the base and a worn climbing line up the outward face.",
+   "text": "A vertical stack standing clear of the shore, with a mooring ring at the base and a worn climbing line up the outward face.",
    "why": "Same measurement: swamp water at the base, so the face looks over marsh rather than seaward."
   },
   {

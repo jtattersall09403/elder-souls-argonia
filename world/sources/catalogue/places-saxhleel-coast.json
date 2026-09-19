@@ -169,8 +169,8 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A deep, sheltered lagoon mouth on the Padomaic will take a foreign hull's draught. No other landing on this coast will. The Second Empire and then the East Empire Company built a stone quay here. The Saxhleel town grew landward of it.",
-        "siteAdvantages": "A lagoon with a landable stone shore and a road into the interior. The mangrove wall breaks here for more than a kilometre. No other break on the east coast is as wide.",
+        "founding": "A deep, sheltered lagoon mouth on the Padomaic. It is the only landing on this coast that will take a foreign hull's draught. The Second Empire and then the East Empire Company built a stone quay here. The Saxhleel town grew landward of it.",
+        "siteAdvantages": "A lagoon with a landable stone shore and a road into the interior. The mangrove wall breaks here for more than a kilometre, the widest break on the east coast.",
         "occupantsMotive": "An Argonian-majority harbour population who work the water as amphibians and run the port authority out of dead Company offices, alongside state customs and a long-settled Dunmer merchant minority from the Morrowind trade.",
         "pressures": "The lawful port holds the working customs desk on this coast, so cargo that wants to avoid duty goes round it: half-chartered hulls land on the Oliis shore and wreckers work the Padomaic beaches south of the city. The mangrove behind the city is D4 within a kilometre of the gate. The harbour authority's answer about the sealed Shadowscale sanctuary is that it is not harbour ground.",
         "wouldChangeIf": "If the Archon-Lilmoth-Soulrest-Tear line stopped running, or if the harbour authority lost its claim to the Company buildings, Archon would become a large fishing town in a month."
@@ -3241,8 +3241,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A pillar of rock off the marsh edge, climbed for eggs by the Portdun Mont families for six generations. Someone else is at the top now, up a face that takes 40 metres of rope.",
-        "siteAdvantages": "Vertical, isolated, with a mooring ring at the base and a worn climbing line up the outward face.",
+        "founding": "A pillar of rock off the marsh edge, climbed for eggs by the Portdun Mont families for six generations. Someone else now holds the top. The climbing face takes 40 metres of rope.",
+        "siteAdvantages": "A vertical stack standing clear of the shore, with a mooring ring at the base and a worn climbing line up the outward face.",
         "occupantsMotive": "One occupant lives at the top, with more hauled stores than a single person needs.",
         "pressures": "The egg-takers still claim the route; the occupant has not refused them.",
         "wouldChangeIf": "If the occupant cut the route, the stack could be reached only by a new line up the seaward face."
@@ -15335,7 +15335,7 @@
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A drop in the water stops laden hulls dead, so inland cargo is unloaded, carried past the fall and loaded again. A town grew on the carry.",
+        "founding": "A drop in the water stops laden hulls, so inland cargo is unloaded, carried past the fall and loaded again. The town grew up around the carry.",
         "siteAdvantages": "The furthest point upriver a laden boat can reach, with landings above and below the drop and firm ground between them.",
         "occupantsMotive": "Porters, transfer clerks and hauliers, who depend on the falls for their livelihoods.",
         "pressures": "The navigable limit moves with the season and this year's board does not match last year's; the porters price accordingly.",

@@ -4611,7 +4611,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "Founded where the Blackwood Road out of Leyawiin crosses the low saddle in the western border belt, the province's land door.",
-        "siteAdvantages": "A measured 46 m barrier gap flanked by 60-87 m ridges; firm lowland and drinkable spring water on the marsh side; a pond 77 m from the gate that the town's clay is dug from.",
+        "siteAdvantages": "A measured 46 m barrier gap flanked by 60-87 m ridges; firm lowland and drinkable spring water on the marsh side; a pond 77 m from the gate, from which the town's clay is dug.",
         "occupantsMotive": "A civic council in the old Governor's Mansion keeps the courthouse and archive working. Paper is the authority that the city still recognises. Leyawiin trade pays for it.",
         "pressures": "Monsoon closes the road for months; the archive's writs are honoured nowhere east of the Onkobra; Cyrodilic Collections and the antiquities fences fight over the same crates.",
         "wouldChangeIf": "Would fail if the Blackwood Road silted permanently, or if the disputed Hist cutting in the city gardens took root and made Gideon an Argonian city."
@@ -6890,7 +6890,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "When the gorge floods it fills to within a few metres of the rim, so the people who work the gorge live in it: cut chambers and built galleries on the wall, above the worst water and below the wind.",
+        "founding": "When the gorge floods it fills to within a few metres of the rim. The people who work it live on the wall, in cut chambers and built galleries above the worst water.",
         "siteAdvantages": "Dry rock at a constant temperature, on a face that has to be climbed to be reached.",
         "occupantsMotive": "They net the fish that the narrows concentrate. Boats that need a hand through the rapid pay for a pilot.",
         "pressures": "The galleries are reached by ladder and rope. Every year somebody falls. The village argues about cutting a stair, which would also let others up.",
@@ -21042,7 +21042,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The upper water drops through eight ledges in a kilometre, which is where boats stop and portage starts.",
+        "founding": "The upper water drops through eight ledges in a kilometre. Boats stop below the ledges and portage starts there.",
         "siteAdvantages": "A confined reach with rock ledges that no loaded boat can run.",
         "occupantsMotive": "The portage families live above and below the reach; both claim the whole of it.",
         "pressures": "Someone runs it every year on a bet and roughly every third one dies.",

@@ -2913,7 +2913,7 @@
       ],
       "confidence": "high",
       "why": {
-        "founding": "The shelter of last resort. An all-but-inaccessible ridge that even the tribes avoid, standing eight metres over the flood, where the presence of Sithis is strong, holding pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only to shelter. A few caretakers tend it.",
+        "founding": "The shelter of last resort. A ridge eight metres over the flood, hard to reach and avoided even by the tribes, where the presence of Sithis is strong. It holds pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only in an emergency. A few caretakers tend it.",
         "siteAdvantages": "High, dry, defensible ground in a province that has almost none, with one approach that can be walked and no approach that can be poled.",
         "occupantsMotive": "The caretakers do not live here. They keep the plateau fit for habitation. Stores are turned and shelters re-roofed each season.",
         "pressures": "In 4E 48 the need did come: Murkmire's survivors fled up onto the plateau while Umbriel passed overhead. The caretakers have fed that memory ever since. The Umbriel Witness Society wants the memorial catalogued. The Nisswo want it let go. The caretakers want it left exactly as it is.",
@@ -5628,7 +5628,7 @@
         "signatureFeature": "A tribe's whole village stands abandoned on one bank while the tribe lives in a camp on the other, in sight of their own tree and their own houses.",
         "condition": "half kept, half deliberately spoiled",
         "mood": "an eleven-year siege, routine now",
-        "approach": "Two settlements facing each other across twenty-five metres of water, one of them empty.",
+        "approach": "Two settlements face each other across twenty-five metres of water. One of them is empty.",
         "senses": "a hum that catches and restarts; drums that stopped when the scaffold went up; sap gone metallic"
       },
       "assetPlan": [
@@ -11671,7 +11671,7 @@
       "confidence": "high",
       "why": {
         "founding": "The Barsaebic Ayleids destroyed the tribe here and harvested its souls into the Remnant of Argon. The Hist did not die but slept. While it slept it was called the Dreaming Tree. At the end of the Second Era the souls were returned and the village was re-founded on its own ground, below the xanmeer Vakka-Bok.",
-        "siteAdvantages": "East Deepmire ground the tribe never left, held below a pre-Duskfall xanmeer that marks it from a distance and keeps the approach to one line.",
+        "siteAdvantages": "East Deepmire ground that the tribe never left, held below a pre-Duskfall xanmeer that marks it from a distance and keeps the approach to one line.",
         "occupantsMotive": "A tribe rebuilt out of returned souls, living on the ground where it was killed. The tree stands at the centre of the village. The tribe exists because the tree survived.",
         "pressures": "The Hist is centuries old but speaks like a hatchling. Its own tree-minder treats it as convalescent. Cyrodilic Collections, which helped resurrect the tribe, still treats the village as its find.",
         "wouldChangeIf": "If the Dreaming Tree failed a second time there would be no second Remnant. The tribe organises its whole year around that."

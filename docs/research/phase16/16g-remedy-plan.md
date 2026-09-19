@@ -63,7 +63,7 @@ quotes the measurement). Ledger §2's reasoning rows point here.
 | stormhold | `place.dunmer-north.stormhold-causeway` | 99 m from centre, 69 m from the lane, Velasen Tarn 9.27 m |
 | thorn | `place.dunmer-north.the-thorn-bond` | pinned this round to ≥1.2 m within 250 m of Thorn; Thorn's single boat station |
 | helstrom | `place.hist-heartland.helstrom` | the lane `alten-corimont-helstrom` ends at the gate on 0.0 m; `compile_minor_waterways` re-lines the lane to its last floating sample (≈421 m out) and the station reads the lane end |
-| gideon | `place.imperial-fringe.gideon-rootworm-terminus` | 143 m; Gideon is on the network by root (seasonal) and by the Onkobra bond ferry's road edge; no keel water in its ring |
+| gideon | station `ferry-landing.onkobra-bond.town` (a `stationId` row: a ferry landing is a derived station, not a record) | a harbour is a station a traveller boards, and the rootworm terminus is a root node, so the gate refused it; the bond ferry lands here and joins Gideon by the Blackwood Road (the road edge). No keel water in Gideon's ring |
 | blackrose | `place.imperial-penal-south.intact-fort` | owner-call row above |
 | lilmoth | `place.mercantile-coast.lilmoth` (socket `dock.lilmoth.lighter-quay`, 3902,6366 on `body.ocean`) | the quay is the city's own socket |
 | soulrest | `place.mercantile-coast.soulrest-divers-yard` | 210 m, lane 101 m, 2.15 m — the only harbour depth inside 600 m |
@@ -168,6 +168,46 @@ under the stated rule and records it in `why`.
 - `oliis-coast-lay-by` pin `nearPoint` on the nearest route within 1.2 km, maxM 150.
 - `gap-reef`, `outer-reef`, `contested-bank`, `deep-bank`, `pearl-lots` pin `minDepthM 1.0`.
 - `estuary-ferry-stage`, `jungle-ferry-stage` cut (no position, no lane); their services retired with the reason; Archon's `route.boat.archon-estuary` edges re-referenced to `route.boat.lilmoth-archon`.
+
+## Departures found while authoring (the record wins over the plan)
+
+- **The Onkobra name does not extend.** Walking `river.352-503` downstream
+  reaches reaches already attested as the Panther River and the Stormhold
+  River and the north-east coast, so the headwater stays the Onkobra. The
+  four records whose id carries the name are pinned to it (`nearWater
+  river.352-503 200`); `the-eight-steps` and `hangs-above-the-water` are
+  rewritten onto their own reaches; `the-lake-divers-yard` never named the
+  river; Gideon's founding line names its pond alone.
+- **Prose rows only where the current record contradicts the sentence.**
+  Ten plan-listed records read true on the re-plotted record (the pack's
+  water table was measured on the previous plot) and were left alone:
+  `beast-keeper-lizard-steed`, `bioluminescent-glowfen`,
+  `drowning-narrows-current`, `hammock-tree-island-greenmoss`,
+  `sinkhole-mouth-basin`, `dream-wallow-sap-pool`, `mass-grave-flu-memorial`,
+  `root-gallery-cult-warren`, `sap-touched-miredancer`,
+  `serpent-ground-giant-snake`, plus `freehold-smithy`,
+  `corimont-hiring-yard`, `plague-cordon`, `umbriel-shore-memorial`.
+- **Numbers from measurement, not from the plan:** `lake-submerged-xanmeer`
+  3.6 m (recorded depth at the dot); `harmed-hist-enslaved` 24.5 m;
+  `rim-pass-station` 183 m (published height at its dot); compass words
+  measured against Blackrose at 2123, 6215.
+- **Moves over 150 m became pins** (`nearPoint`, maxM 60): `comes-back-slowly`
+  (841 m), `the-quiet-pit` (269 m), `necromantic-dig` (188 m),
+  `blasphemer-urn-vault` (586 m), `padomaic-wrecker-beach` (846 m, maxM 100),
+  `drowning-narrows-tidal-gate` (180 m). `lost-city` moved 30 m onto
+  `body.2442-1212` (1.08 m): no cell of `body.1475-2118` carries 1.0 m within
+  400 m. `the-marble-field`'s pin loses its line of sight to Gideon (recorded).
+- `the-drowned-furrow` re-typed to `ducal-ruin` (the upland recipe of its own
+  family) rather than cut. `the-stone-talkers-watch` has no last dot anywhere;
+  it is pinned near `rockgrove`, which its own neighbour relation names.
+- `nearWater.maxM 0` is outside the catalogue's 10–1500 m band; the three
+  "in the lake" rows carry 10 m with `minDepthM` holding the intent.
+- The 49 unresolved reference strings were alias forms (`boat:`, `road:`,
+  `rootworm:`, prose names); 27 resolved through one shared resolver
+  (`worldgen/route_reference.py`), 22 dropped. `re-reference` now reaches
+  `reachedVia`.
+- `dead-water-village` gains `rootworm` in its station modes (a `field` row;
+  the allowlist gained `travelStation`).
 
 ## Numeric prose after the chain
 
