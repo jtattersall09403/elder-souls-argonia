@@ -26,3 +26,7 @@ apps/world-studio/public/province/refined/*.png
 apps/world-studio/public/province/water/**/*.png
 apps/world-studio/public/province/vegetation/**
 apps/world-studio/public/province/apron/**/*.png
+
+# decision 0079 §8: automatic review stamp and findings (per checkout)
+.claude/review-stamp.json
+.claude/review-findings.md

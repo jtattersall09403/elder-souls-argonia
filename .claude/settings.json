@@ -28,6 +28,11 @@
           {
             "type": "command",
             "command": "python3 tooling/repo-standards/shell_guard.py"
+          },
+          {
+            "type": "command",
+            "command": "python3 tooling/repo-standards/review_gate.py",
+            "timeout": 600
           }
         ]
       }

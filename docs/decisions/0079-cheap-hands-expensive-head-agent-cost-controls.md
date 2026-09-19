@@ -75,6 +75,24 @@ the lever is the **number of planner turns**, not output size.
    repo only on a trigger (a new cost category or a broken control).
    The first run of the report found 1,210 sleep turns in the older
    sessions and Opus subagent spend comparable to the planner's own.
+8. **The code review runs itself before preflight** (owner, same day).
+   `tooling/repo-standards/review_gate.py` is a `PreToolUse` hook on any
+   `preflight` command: no change → allow; stamp matches the diff → allow;
+   stamp younger than 20 min → allow (the fix cycle); otherwise it runs
+   `claude -p` on Sonnet with read-only tools over the uncommitted diff
+   (JSON and lockfiles excluded, small new source files included, 250 KB
+   cap), writes `.claude/review-findings.md` and a stamp (both gitignored),
+   and either lets preflight run (no findings) or refuses it with the
+   findings as the message. The orchestrator never has to remember the
+   review; its first preflight attempt *is* the review. A review that
+   cannot run stamps, allows and says so, so a broken reviewer never blocks
+   work. Fable judges: CONFIRMED items are acted on or rejected with the
+   ruling named; PLAUSIBLE items are questions. Tested 2026-09-19: two
+   planted bugs both CONFIRMED with correct failure scenarios; a real
+   PLAUSIBLE item raised on the live diff (an import of an untracked
+   generated file). The built-in `/code-review` skill was not used because
+   a headless session cannot ask permission for `git diff`; the hook
+   computes the diff and pipes it in.
 6. **Measure, don't hope.** A `SessionStart` hook in the committed
    `.claude/settings.json` prints one line at every session start: the last
    ten sessions' average cached input, turns and shell share against the
