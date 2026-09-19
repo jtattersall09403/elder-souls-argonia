@@ -238,7 +238,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -255,26 +255,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.andalen-plantation.the-labour-registers",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "evidence.andalen-plantation.the-unrenewed-paint",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.andalen-plantation.the-counting-room",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
-            "id": "scene.andalen-plantation.the-shuttered-house",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.dunmer-north-andalen-plantation.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -288,9 +268,29 @@
             "id": "socket.dunmer-north-andalen-plantation.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "evidence.andalen-plantation.the-labour-registers",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "evidence.andalen-plantation.the-unrenewed-paint",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.andalen-plantation.the-shuttered-house",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
+            "id": "scene.andalen-plantation.the-counting-room",
+            "kind": "scene",
+            "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -483,7 +483,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -538,6 +538,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.dunmer-north-bogmother.shrine",
+            "kind": "shrine",
+            "whereInInterior": "main"
+          },
+          {
             "id": "evidence.bogmother.the-swept-line",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -545,11 +550,6 @@
           {
             "id": "scene.bogmother.the-relic-chamber",
             "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
-            "id": "socket.dunmer-north-bogmother.shrine",
-            "kind": "shrine",
             "whereInInterior": "main"
           },
           {
@@ -615,6 +615,45 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "position": {
+        "u": 0.38337,
+        "v": 0.16622
+      },
+      "positionM": [
+        2826.8,
+        1225.6
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.firm-lowland.saddle-012",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.open-water-0171",
+          "score": 1.962,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-075",
+          "score": 1.672,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "saddle in firm lowland (danger band 4), 327 m from the nearest route; at the water's edge; won on bound, region, parent.",
+      "plotFacts": {
+        "landform": "saddle",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 327.2,
+        "distanceToWaterM": 5.5,
+        "water": {
+          "entityId": "body.1789-698",
+          "kind": "marsh-deep",
+          "levelM": 1.19,
+          "season": "perennial",
+          "distanceM": 5.5
+        },
+        "score": 2.487
       }
     },
     {
@@ -1393,7 +1432,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -3186,7 +3225,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -3951,7 +3990,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -3991,8 +4030,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "flooded-gallery",
-          "sump",
-          "midden"
+          "sump"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -4007,7 +4045,7 @@
           {
             "scale": "smallGroup",
             "footing": "swim",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -4075,7 +4113,51 @@
           "sourcePath": "why.pressures",
           "serviceRef": "market"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.90319,
+        "v": 0.08887
+      },
+      "positionM": [
+        6659.7,
+        655.3
+      ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.firm-lowland.cove-016",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0342",
+          "score": 3.811,
+          "whyLost": "too close to place.dunmer-north.three-ways-over-water"
+        },
+        {
+          "siteId": "site.scour.coastal-lagoon-salt-marsh.island-014",
+          "score": 3.028,
+          "whyLost": "too close to place.dunmer-north.the-dres-rows"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0254",
+          "score": 2.956,
+          "whyLost": "too close to place.dunmer-north.hixinoag"
+        }
+      ],
+      "whySiteWon": "cove in firm lowland (danger band 3), 200 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, hinterland; needs 1 m of water.",
+      "plotFacts": {
+        "landform": "cove",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 199.6,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.3525-81",
+          "kind": "swamp",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 2.684
+      }
     },
     {
       "id": "place.dunmer-north.gandranen-library",
@@ -4884,6 +4966,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.dunmer-north-greylight-village.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
             "id": "evidence.greylight-village.the-four-stages",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -4892,11 +4979,6 @@
             "id": "scene.greylight-village.the-uxith",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.dunmer-north-greylight-village.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
           },
           {
             "id": "station.greylight-village.naheesh",
@@ -5201,7 +5283,7 @@
         "roomFunctions": [
           "entrance",
           "gauntlet",
-          "gallery"
+          "nursery"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -5216,7 +5298,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -5241,7 +5323,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -5471,7 +5553,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "heroHist": {
         "id": "hist.dunmer-north.hatching-pools",
         "kind": "hatchery Hist",
@@ -5532,6 +5614,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
+          "gallery",
           "cache"
         ],
         "loop": "shortcut-back",
@@ -5547,10 +5630,15 @@
           {
             "scale": "duel",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
+          {
+            "id": "socket.dunmer-north-hatching-pools.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
           {
             "id": "evidence.hatching-pools.counting-stones",
             "kind": "evidence",
@@ -5562,22 +5650,17 @@
             "whereInInterior": "main"
           },
           {
-            "id": "socket.dunmer-north-hatching-pools.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
+            "id": "station.hatching-pools.warden-mother",
+            "kind": "station",
+            "whereInInterior": "main"
           },
           {
             "id": "station.hatching-pools.egg-tender",
             "kind": "station",
             "whereInInterior": "main"
-          },
-          {
-            "id": "station.hatching-pools.warden-mother",
-            "kind": "station",
-            "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "mixed",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -5631,7 +5714,50 @@
         "lodging",
         "shrine",
         "trader"
-      ]
+      ],
+      "position": {
+        "u": 0.35064,
+        "v": 0.10864
+      },
+      "positionM": [
+        2585.5,
+        801.1
+      ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.spring-head-035",
+          "score": 4.023,
+          "whyLost": "too close to place.dunmer-north.andalen-plantation"
+        },
+        {
+          "siteId": "site.free.roadside-0362",
+          "score": 3.89,
+          "whyLost": "too close to place.dunmer-north.stormhold"
+        },
+        {
+          "siteId": "site.free.roadside-0576",
+          "score": 3.791,
+          "whyLost": "too close to place.dunmer-north.stormhold"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 44 m from the nearest route; no free 'spring-head' site was left in the zone, so plain ground; won on culture-clump, bound, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 44.2,
+        "distanceToWaterM": 97.2,
+        "water": {
+          "entityId": "body.1373-544",
+          "kind": "tarn-upland",
+          "levelM": 30.71,
+          "season": "perennial",
+          "distanceM": 97.2
+        },
+        "score": 3.708
+      }
     },
     {
       "aliases": [],
@@ -6400,8 +6526,7 @@
         "roomFunctions": [
           "root-throat",
           "gallery",
-          "cache",
-          "collapse"
+          "cache"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -6416,10 +6541,15 @@
           {
             "scale": "duel",
             "footing": "wade",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
+          {
+            "id": "socket.dunmer-north-hutan-tzel.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
           {
             "id": "evidence.hutan-tzel.a-recut-post",
             "kind": "evidence",
@@ -6431,19 +6561,14 @@
             "whereInInterior": "threshold"
           },
           {
-            "id": "scene.hutan-tzel.the-naheesh-house",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "scene.hutan-tzel.the-totem-line",
             "kind": "scene",
             "whereInInterior": "main"
           },
           {
-            "id": "socket.dunmer-north-hutan-tzel.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
+            "id": "scene.hutan-tzel.the-naheesh-house",
+            "kind": "scene",
+            "whereInInterior": "main"
           },
           {
             "id": "station.hutan-tzel.naheesh-nurwul",
@@ -6456,7 +6581,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -7054,7 +7179,7 @@
           "marks.loriasel-caverns.the-lamia-nest"
         ]
       },
-      "workflow": "derived",
+      "workflow": "plotted",
       "id": "place.dunmer-north.loriasel-caverns",
       "schemaVersion": 3,
       "name": "Sings-Under-Water",
@@ -7273,7 +7398,50 @@
           }
         ]
       },
-      "approachDanger": "D4"
+      "approachDanger": "D4",
+      "position": {
+        "u": 0.21678,
+        "v": 0.18109
+      },
+      "positionM": [
+        1598.4,
+        1335.2
+      ],
+      "footprintRadiusM": 90.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.spring-head-012",
+          "score": 4.007,
+          "whyLost": "too close to place.dunmer-north.silyanorn-diggings"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-087",
+          "score": 3.542,
+          "whyLost": "too close to place.dunmer-north.the-diggings-ladder"
+        },
+        {
+          "siteId": "site.scour.upland-hills.spring-head-023",
+          "score": 3.302,
+          "whyLost": "too close to place.dunmer-north.ten-maur-wolk"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 653 m from the nearest route; no free 'sinkhole' site was left in the zone, so plain ground; won on culture-clump, region, remote; needs 1 m of water.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 652.7,
+        "distanceToWaterM": 149.8,
+        "water": {
+          "entityId": "reach.796-760",
+          "kind": "sloped-rapid",
+          "levelM": 275.87,
+          "season": "seasonal",
+          "distanceM": 149.8
+        },
+        "score": 2.64
+      }
     },
     {
       "id": "place.dunmer-north.mazzatun",
@@ -7430,7 +7598,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -7476,8 +7644,7 @@
           "stair-shaft",
           "gallery",
           "cache",
-          "boss",
-          "root-throat"
+          "boss"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -7492,12 +7659,12 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           },
           {
             "scale": "boss",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -7592,13 +7759,32 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.dunmer-north.mazzatun.json): The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m."
+        "why": "The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
+        "candidateId": "candidate.mazzatun.shelf"
       },
       "services": [
         "lodging",
         "shrine",
         "trader"
-      ]
+      ],
+      "position": {
+        "u": 0.26921,
+        "v": 0.18187
+      },
+      "positionM": [
+        1985.0,
+        1341.0
+      ],
+      "plotFacts": {
+        "landform": "pinned (Part 6 meso siting)",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 313.3,
+        "distanceToWaterM": 109.7,
+        "score": null
+      },
+      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.dunmer-north.mazzatun.json): The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
+      "candidatesConsidered": []
     },
     {
       "id": "place.dunmer-north.mazzatun-hist",
@@ -11155,21 +11341,25 @@
       "interior": {
         "kind": "delve",
         "family": "burrow-warren",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.1,
         "entranceCount": 2,
-        "exteriorShell": true,
+        "exteriorShell": false,
         "programRef": null,
+        "factsVariedForVariety": [
+          "sizeBand S1 -> S2",
+          "exteriorShell -> False"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "entrance",
           "gauntlet",
-          "nursery",
-          "cache"
+          "cache",
+          "root-throat"
         ],
         "loop": "second-entrance",
         "traversal": {
-          "swimM": 2,
+          "swimM": 5,
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
@@ -11180,7 +11370,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "tight"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -11210,7 +11400,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -14163,7 +14353,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -14920,7 +15110,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
@@ -14976,7 +15166,50 @@
           "sourcePath": "why.founding",
           "routeRef": "route.road.thorn-tear-road"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.80354,
+        "v": 0.19968
+      },
+      "positionM": [
+        5924.9,
+        1472.3
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0454",
+          "score": 5.642,
+          "whyLost": "too close to place.dunmer-north.the-last-stone-course"
+        },
+        {
+          "siteId": "site.free.roadside-0449",
+          "score": 5.097,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0305",
+          "score": 4.105,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 8 m from the nearest route; at the water's edge; its choice #3 landform; won on route, nearPoint, landform; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 7.8,
+        "distanceToWaterM": 12.3,
+        "water": {
+          "entityId": "body.3234-806",
+          "kind": "marsh-fringe",
+          "levelM": 11.46,
+          "season": "perennial",
+          "distanceM": 12.3
+        },
+        "score": 5.175
+      }
     },
     {
       "id": "place.dunmer-north.the-ash-holding",
@@ -15195,8 +15428,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "stair-shaft",
-          "hearth",
-          "cache"
+          "cache",
+          "cistern"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -15204,14 +15437,14 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.5
         },
         "combatSpaces": [
           {
             "scale": "duel",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -15241,7 +15474,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -17000,7 +17233,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -17058,16 +17291,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.the-charge-pond.the-dead-ring",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.the-charge-pond.the-margin",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.dunmer-north-the-charge-pond.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -17076,6 +17299,16 @@
             "id": "socket.dunmer-north-the-charge-pond.boss-chest",
             "kind": "boss-chest",
             "whereInInterior": "deep"
+          },
+          {
+            "id": "evidence.the-charge-pond.the-dead-ring",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.the-charge-pond.the-margin",
+            "kind": "scene",
+            "whereInInterior": "main"
           }
         ],
         "light": "dark",
@@ -17127,7 +17360,51 @@
           },
           "note": "still water fed from below, three metres deep, ringed with dead standing timber"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.20266,
+        "v": 0.04871
+      },
+      "positionM": [
+        1494.3,
+        359.2
+      ],
+      "footprintRadiusM": 175.0,
+      "footprintSource": "blueprint",
+      "scourSiteId": "site.scour.border-mountains.spring-head-000",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.spring-head-023",
+          "score": 2.712,
+          "whyLost": "too close to place.dunmer-north.buried-blades"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0025",
+          "score": 2.605,
+          "whyLost": "too close to place.dunmer-north.buried-blades"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0056",
+          "score": 2.135,
+          "whyLost": "too close to place.dunmer-north.buried-blades"
+        }
+      ],
+      "whySiteWon": "spring head in border mountains (danger band 3), 1109 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, remote, parent; needs 1 m of water.",
+      "plotFacts": {
+        "landform": "spring-head",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 1109.4,
+        "distanceToWaterM": 16.5,
+        "water": {
+          "entityId": "body.824-179",
+          "kind": "tarn-upland",
+          "levelM": 507.32,
+          "season": "perennial",
+          "distanceM": 16.5
+        },
+        "score": 1.892
+      }
     },
     {
       "id": "place.dunmer-north.the-charge-works",
@@ -17593,7 +17870,8 @@
         "roomFunctions": [
           "entrance",
           "hearth",
-          "cache"
+          "cache",
+          "cistern"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -17608,7 +17886,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -17633,7 +17911,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -18906,7 +19184,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -18938,8 +19216,7 @@
         "roomFunctions": [
           "flooded-gallery",
           "sump",
-          "cache",
-          "collapse"
+          "cache"
         ],
         "loop": "none",
         "traversal": {
@@ -18954,7 +19231,7 @@
           {
             "scale": "smallGroup",
             "footing": "wade",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -18984,7 +19261,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "mixed",
         "lock": "none"
       },
       "contents": {
@@ -19033,7 +19310,50 @@
         ]
       },
       "terrainRequests": [],
-      "services": []
+      "services": [],
+      "position": {
+        "u": 0.31718,
+        "v": 0.01525
+      },
+      "positionM": [
+        2338.7,
+        112.4
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0009",
+          "score": 4.728,
+          "whyLost": "too close to place.dunmer-north.went-down-slowly"
+        },
+        {
+          "siteId": "site.scour.border-mountains.saddle-006",
+          "score": 3.604,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.spring-head-008",
+          "score": 3.604,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 701 m from the nearest route; at the water's edge; no free 'any-channel-bank' site was left in the zone, so plain ground; won on bound, nearPoint, hinterland; placed from the homeless batch at stage 'region-relaxed'; needs 1 m of water.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 701.4,
+        "distanceToWaterM": 11.0,
+        "water": {
+          "entityId": "body.1253-59",
+          "kind": "pool",
+          "levelM": 373.68,
+          "season": "perennial",
+          "distanceM": 11.0
+        },
+        "score": 3.946
+      }
     },
     {
       "id": "place.dunmer-north.the-drawdown-flats",
@@ -19265,7 +19585,7 @@
           {
             "scale": "smallGroup",
             "footing": "swim",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -21723,7 +22043,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "dark",
         "lock": "none"
       },
       "contents": {
@@ -22794,7 +23114,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -23025,7 +23345,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
@@ -23098,6 +23418,49 @@
         "dependsOn": [
           "place.dunmer-north.the-north-relay"
         ]
+      },
+      "position": {
+        "u": 0.81991,
+        "v": 0.04648
+      },
+      "positionM": [
+        6045.6,
+        342.7
+      ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0117",
+          "score": 5.511,
+          "whyLost": "too close to place.dunmer-north.thorn"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0116",
+          "score": 5.371,
+          "whyLost": "too close to place.dunmer-north.thorn"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0086",
+          "score": 4.803,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 2), 282 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on nearPoint, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 282.3,
+        "distanceToWaterM": 47.2,
+        "water": {
+          "entityId": "body.3364-188-p2",
+          "kind": "pond",
+          "levelM": 74.74,
+          "season": "perennial",
+          "distanceM": 47.2
+        },
+        "score": 4.905
       }
     },
     {
@@ -23320,8 +23683,7 @@
           "stair-shaft",
           "antechamber",
           "gallery",
-          "shrine",
-          "drain"
+          "shrine"
         ],
         "loop": "none",
         "traversal": {
@@ -24563,7 +24925,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -25411,25 +25773,28 @@
       "interior": {
         "kind": "delve",
         "family": "imperial-fort",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
         "programRef": null,
+        "factsVariedForVariety": [
+          "sizeBand S1 -> S2"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "antechamber",
           "barracks",
           "cell-block",
-          "archive"
+          "drain"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -25451,7 +25816,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -26667,9 +27032,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "stair-shaft",
-          "antechamber",
-          "gallery",
-          "shrine"
+          "gallery"
         ],
         "loop": "none",
         "traversal": {
@@ -26689,11 +27052,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-the-opened-terrace.shrine",
-            "kind": "shrine",
-            "whereInInterior": "main"
-          },
-          {
             "id": "evidence.the-opened-terrace.the-washing-line",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -26704,7 +27062,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -26998,6 +27356,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.dunmer-north-the-outer-silyanorn.shrine",
+            "kind": "shrine",
+            "whereInInterior": "main"
+          },
+          {
             "id": "evidence.the-outer-silyanorn.the-unquarried-arcade",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -27005,11 +27368,6 @@
           {
             "id": "scene.the-outer-silyanorn.the-sunken-rooms",
             "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
-            "id": "socket.dunmer-north-the-outer-silyanorn.shrine",
-            "kind": "shrine",
             "whereInInterior": "main"
           }
         ],
@@ -27769,7 +28127,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -27781,6 +28139,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.dunmer-north-the-permit-dig.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
             "id": "evidence.the-permit-dig.the-permit-board",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -27789,11 +28152,6 @@
             "id": "scene.the-permit-dig.the-fence",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.dunmer-north-the-permit-dig.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
           },
           {
             "id": "station.the-permit-dig.alcove-keeper",
@@ -28353,10 +28711,19 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.dunmer-north-the-quiet-landing.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.dunmer-north-the-quiet-landing.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
+          },
+          {
             "id": "evidence.mq08.evidence-board",
             "kind": "evidence",
-            "whereInInterior": "threshold",
-            "provision": "quest.provision.cult-cell01"
+            "whereInInterior": "threshold"
           },
           {
             "id": "evidence.mq08.harvest-notes",
@@ -28367,16 +28734,6 @@
             "id": "scene.mq08.cellar-shrine",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.dunmer-north-the-quiet-landing.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
-            "id": "socket.dunmer-north-the-quiet-landing.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
           }
         ],
         "light": "mixed",
@@ -29758,8 +30115,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "gauntlet",
-          "nursery",
-          "midden"
+          "nursery"
         ],
         "loop": "none",
         "traversal": {
@@ -29774,7 +30130,7 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -29794,7 +30150,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -29979,7 +30335,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -30080,7 +30436,50 @@
         ],
         "loot": []
       },
-      "sitingNote": "Promoted from the reserve 2026-09-04 to fill an off-route D3 gap at (3148, 1387): more fights off the road, fewer on it (owner)."
+      "sitingNote": "Promoted from the reserve 2026-09-04 to fill an off-route D3 gap at (3148, 1387): more fights off the road, fewer on it (owner).",
+      "position": {
+        "u": 0.42427,
+        "v": 0.17811
+      },
+      "positionM": [
+        3128.3,
+        1313.3
+      ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0230",
+          "score": 2.208,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0229",
+          "score": 2.079,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0259",
+          "score": 1.807,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 527 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on culture-clump, nearPoint, hinterland; needs 1.5 m of water.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 526.5,
+        "distanceToWaterM": 11.0,
+        "water": {
+          "entityId": "body.1696-704",
+          "kind": "pond",
+          "levelM": 4.38,
+          "season": "perennial",
+          "distanceM": 11.0
+        },
+        "score": 2.314
+      }
     },
     {
       "id": "place.dunmer-north.the-shut-village",
@@ -31419,7 +31818,8 @@
           "entrance",
           "flooded-gallery",
           "sump",
-          "cache"
+          "cache",
+          "cistern"
         ],
         "loop": "none",
         "traversal": {
@@ -31747,8 +32147,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "antechamber",
-          "hearth",
-          "cache"
+          "cache",
+          "midden"
         ],
         "loop": "none",
         "traversal": {
@@ -31783,7 +32183,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -32272,7 +32672,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -32394,6 +32794,49 @@
         "supplies": [
           "place.dunmer-north.the-shoal-bank"
         ]
+      },
+      "position": {
+        "u": 0.8675,
+        "v": 0.19596
+      },
+      "positionM": [
+        6396.5,
+        1444.9
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0555",
+          "score": 3.941,
+          "whyLost": "too close to place.dunmer-north.climbs-to-see"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0313",
+          "score": 3.808,
+          "whyLost": "too close to place.dunmer-north.stillrise-village"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0342",
+          "score": 3.696,
+          "whyLost": "too close to place.dunmer-north.three-ways-over-water"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 106 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on culture-clump, route, hinterland; needs 1.5 m of water.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 105.9,
+        "distanceToWaterM": 24.5,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 24.5
+        },
+        "score": 2.532
       }
     },
     {
@@ -32789,7 +33232,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
@@ -32886,7 +33329,50 @@
           "sourcePath": "why.siteAdvantages",
           "routeRef": "route.road.thorn-tear-road"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.82334,
+        "v": 0.08887
+      },
+      "positionM": [
+        6070.9,
+        655.3
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0569",
+          "score": 5.559,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0477",
+          "score": 5.553,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0143",
+          "score": 5.509,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 33 m from the nearest route; its choice #4 landform; won on route, bound, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; needs 1.2 m of water.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 55.9,
+        "water": {
+          "entityId": "reach.3118-400",
+          "kind": "sloped-rapid",
+          "levelM": 151.42,
+          "season": "perennial",
+          "distanceM": 55.9
+        },
+        "score": 5.56
+      }
     },
     {
       "id": "place.dunmer-north.the-thousand-birds",
@@ -34081,7 +34567,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
@@ -34129,7 +34615,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -34149,7 +34635,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "simple"
       },
       "contents": {
@@ -34196,7 +34682,50 @@
           "place.pirate-freeholds.alten-corimont"
         ]
       },
-      "terrainRequests": []
+      "terrainRequests": [],
+      "position": {
+        "u": 0.4686,
+        "v": 0.04752
+      },
+      "positionM": [
+        3455.2,
+        350.4
+      ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.seasonal-floodplain.island-018",
+          "score": 4.207,
+          "whyLost": "too close to place.dunmer-north.stillrise-village"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0243",
+          "score": 3.537,
+          "whyLost": "too close to place.dunmer-north.nine-fords"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0182",
+          "score": 3.455,
+          "whyLost": "too close to place.dunmer-north.hutan-tzel"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 85 m from the nearest route; its choice #2 landform; won on route, landform, region; needs 0.6 m of water.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 85.1,
+        "distanceToWaterM": 39.9,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 39.9
+        },
+        "score": 3.376
+      }
     },
     {
       "id": "place.dunmer-north.the-veterans-ridge",
@@ -34962,6 +35491,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.dunmer-north-the-whispers-dig.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
             "id": "evidence.the-whispers-dig.the-instruction-sheet",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -34970,11 +35504,6 @@
             "id": "scene.the-whispers-dig.the-cut",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.dunmer-north-the-whispers-dig.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
           }
         ],
         "light": "bioluminescent",
@@ -35803,9 +36332,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "stair-shaft",
-          "gallery",
-          "cache",
-          "root-throat"
+          "cache"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -35813,7 +36340,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -35850,7 +36377,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -37253,23 +37780,22 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "gauntlet",
-          "nursery",
-          "gallery"
+          "nursery"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -37289,7 +37815,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -38037,10 +38563,12 @@
         "verticalRelationship": "behind",
         "roomFunctions": [
           "entrance",
+          "hearth",
           "counting-room",
+          "cistern",
           "cache"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 20,
           "diveM": 4,
@@ -38073,7 +38601,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "simple"
       },
       "contents": {

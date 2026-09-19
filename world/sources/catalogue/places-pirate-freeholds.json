@@ -1275,9 +1275,9 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.salt-teeth.cut-seals",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
+            "id": "socket.pirate-freeholds-channel-pirate-anchorage.captive",
+            "kind": "captive",
+            "whereInInterior": "deep"
           },
           {
             "id": "socket.pirate-freeholds-channel-pirate-anchorage.cache",
@@ -1285,14 +1285,14 @@
             "whereInInterior": "hidden"
           },
           {
-            "id": "socket.pirate-freeholds-channel-pirate-anchorage.captive",
-            "kind": "captive",
-            "whereInInterior": "deep"
-          },
-          {
             "id": "socket.pirate-freeholds-channel-pirate-anchorage.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
+          },
+          {
+            "id": "evidence.salt-teeth.cut-seals",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
           }
         ],
         "light": "mixed",
@@ -3285,11 +3285,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.corimont.cut-bond-seal",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
             "id": "socket.pirate-freeholds-corimont-low-store.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
@@ -3298,6 +3293,11 @@
             "id": "socket.pirate-freeholds-corimont-low-store.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
+          },
+          {
+            "id": "evidence.corimont.cut-bond-seal",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
           }
         ],
         "light": "torchlit",
@@ -3749,7 +3749,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -3838,16 +3838,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.pens.gatepost-tally",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.pens.count-marks",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.pirate-freeholds-dres-holding-pens.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
@@ -3856,6 +3846,16 @@
             "id": "socket.pirate-freeholds-dres-holding-pens.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
+          },
+          {
+            "id": "evidence.pens.gatepost-tally",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.pens.count-marks",
+            "kind": "scene",
+            "whereInInterior": "main"
           }
         ],
         "light": "mixed",
@@ -3908,6 +3908,39 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "position": {
+        "u": 0.50905,
+        "v": 0.1967
+      },
+      "positionM": [
+        3753.5,
+        1450.4
+      ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0395",
+          "score": 3.367,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 117 m from the nearest route; its choice #2 landform; won on landform, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 116.6,
+        "distanceToWaterM": 69.8,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 69.8
+        },
+        "score": 3.482
       }
     },
     {
@@ -7003,7 +7036,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 0,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [
           "place.pirate-freeholds.alten-corimont"
@@ -7140,7 +7173,51 @@
       },
       "sitingNote": "Where a new character is processed onto the roll. Held at D1 against a danger raster that reads band 3 here, because the opening ring's first 250 m has to be survivable (docs/research/quests-and-cast/opening-hours-and-start-area.md §5, Ring A); the raster needs the ring carved into it at Part 6 rather than the record retiered.",
       "ownerGuided": true,
-      "vasteiTutorialScene": true
+      "vasteiTutorialScene": true,
+      "position": {
+        "u": 0.53657,
+        "v": 0.21455
+      },
+      "positionM": [
+        3956.4,
+        1582.0
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.firm-lowland.cliff-bench-039",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0396",
+          "score": 4.163,
+          "whyLost": "too close to place.pirate-freeholds.opening-work-camp"
+        },
+        {
+          "siteId": "site.free.roadside-0391",
+          "score": 4.098,
+          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+        },
+        {
+          "siteId": "site.free.roadside-0398",
+          "score": 4.056,
+          "whyLost": "too close to place.pirate-freeholds.corimont-low-store"
+        }
+      ],
+      "whySiteWon": "cliff bench in firm lowland (danger band 3), 78 m from the nearest route; at the water's edge; won on bound, region, parent; needs 0.6 m of water.",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 77.5,
+        "distanceToWaterM": 15.5,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 15.5
+        },
+        "score": 2.631
+      }
     },
     {
       "id": "place.pirate-freeholds.opening-work-camp",
@@ -7904,7 +7981,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -8041,6 +8118,49 @@
         "tags": [],
         "opportunity": "the consignment is still aboard and it will take somebody willing to swim for it",
         "tierOwnership": "LP07 · tier-3"
+      },
+      "position": {
+        "u": 0.47633,
+        "v": 0.07771
+      },
+      "positionM": [
+        3512.2,
+        573.0
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.open-water-0226",
+          "score": 3.258,
+          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+        },
+        {
+          "siteId": "site.free.open-water-0227",
+          "score": 3.09,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.open-water-0221",
+          "score": 3.085,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "open water in lake & standing water (danger band 3), 61 m from the nearest route; at the water's edge; won on route, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; needs 6.5 m of water.",
+      "plotFacts": {
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
+        "dangerBand": 3,
+        "distanceToRouteM": 60.6,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.1787-344",
+          "kind": "lake-lowland",
+          "levelM": 7.55,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 3.122
       }
     },
     {
@@ -10475,7 +10595,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -10599,6 +10719,50 @@
         "tags": [],
         "opportunity": null,
         "tierOwnership": null
+      },
+      "position": {
+        "u": 0.56928,
+        "v": 0.23016
+      },
+      "positionM": [
+        4197.6,
+        1697.1
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.firm-lowland.cliff-bench-053",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.border-mountains.cliff-bench-042",
+          "score": 4.291,
+          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0138",
+          "score": 3.706,
+          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+        },
+        {
+          "siteId": "site.scour.border-mountains.saddle-016",
+          "score": 3.56,
+          "whyLost": "too close to place.pirate-freeholds.dunmer-frontier-holding"
+        }
+      ],
+      "whySiteWon": "cliff bench in firm lowland (danger band 4), 92 m from the nearest route; at the water's edge; its first-choice landform; won on landform, hinterland, parent; placed from the homeless batch at stage 'region-relaxed'.",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 91.9,
+        "distanceToWaterM": 16.5,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 16.5
+        },
+        "score": 1.284
       }
     },
     {
@@ -10794,8 +10958,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "entrance",
-          "gallery",
-          "cache"
+          "cache",
+          "midden"
         ],
         "loop": "none",
         "traversal": {
@@ -10825,7 +10989,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {

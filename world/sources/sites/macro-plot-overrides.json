@@ -11,13 +11,6 @@
    "candidateId": "candidate.mazzatun.shelf"
   },
   {
-   "id": "place.hist-heartland.lost-city",
-   "u": 0.338604,
-   "v": 0.403065,
-   "why": "The Lost City is reached through water. The dot at 2519.7, 2991.3 records 0.0 m of water; the nearest cell holding at least 1.0 m is 2496.7, 2972.0, 30.0 m away, at 1.08 m. The cell belongs to body.2442-1212, not body.1475-2118: no cell of body.1475-2118 carrying 1.0 m lies within 400 m of the record, so the nearest qualifying water is the one taken.",
-   "source": "plot-remedies"
-  },
-  {
    "id": "place.hist-heartland.nine-trunks",
    "u": 0.674428,
    "v": 0.509378,
@@ -34,82 +27,12 @@
    "candidateId": "candidate.sap-tapping-licensed.e-reach118-bank"
   },
   {
-   "id": "place.imperial-fringe.moonrack-calcinator",
-   "u": 0.247359,
-   "v": 0.452837,
-   "why": "The calcinator wants the local high cell. Sampling a 150 m box on the published height raster, the highest cell within 150 m of 1943.9, 3249.0 is 1823.9, 3339.0 at 49.01 m, against 32.13 m at the dot. The move is 150.0 m, at the meso limit.",
-   "source": "plot-remedies"
-  },
-  {
-   "id": "place.imperial-penal-south.chainbreaker-shelter",
-   "u": 0.280898,
-   "v": 0.926845,
-   "why": "The shelter is on the channel edge. The dot at 2031.6, 6879.1 records 0.0 m of water; the nearest cell holding at least 0.3 m is 2071.2, 6834.1, 60.0 m away, at 0.5 m.",
-   "source": "plot-remedies"
-  },
-  {
-   "id": "place.imperial-penal-south.lilmothiit-quarry",
-   "u": 0.257774,
-   "v": 0.817264,
-   "why": "The quarry is Blackrose's quarry and stands 371.7 m off; moved 80 m toward the city, to 1900.7, 6026.1.",
-   "source": "plot-remedies"
-  },
-  {
-   "id": "place.mercantile-coast.glowfen-murkmire",
-   "u": 0.475839,
-   "v": 0.924024,
-   "why": "A glowfen is swamp water. The dot at 3528.6, 6813.3 records 0.0 m of water; the nearest cell holding at least 0.2 m is 3508.6, 6813.3, 20.0 m away, at 0.48 m.",
-   "source": "plot-remedies"
-  },
-  {
-   "id": "place.mercantile-coast.pusbottom-barge",
-   "u": 0.526235,
-   "v": 0.859903,
-   "why": "A barge must float. The dot at 3841.2, 6259.4 records 0.0 m of water; the nearest cell holding at least 0.6 m is 3880.2, 6340.5, 90.0 m away, at 0.72 m.",
-   "source": "plot-remedies"
-  },
-  {
-   "id": "place.mercantile-coast.villa-cellars",
-   "u": 0.066346,
-   "v": 0.661286,
-   "why": "The flooded cellars need the sea in them. The dot at 496.3, 4883.1 records 0.12 m of water; the nearest cell holding at least 0.3 m is 489.2, 4876.0, 10.0 m away, at 0.48 m.",
-   "source": "plot-remedies"
-  },
-  {
-   "id": "place.naga-kur-deeps.dive-shaft-natural-deeps",
-   "u": 0.308374,
-   "v": 0.763992,
-   "why": "A dive shaft is entered through water. The dot at 2256.5, 5623.3 records 0.0 m of water; the nearest cell holding at least 1.0 m is 2273.8, 5633.3, 20.0 m away, at 1.56 m.",
-   "source": "plot-remedies"
-  },
-  {
-   "id": "place.naga-kur-deeps.drifting-village-wet-mooring",
-   "u": 0.413413,
-   "v": 0.6455,
-   "why": "A wet mooring must float. The dot at 3013.2, 4778.9 records 0.0 m of water; the nearest cell holding at least 1.0 m is 3048.3, 4759.6, 40.0 m away, at 2.16 m.",
-   "source": "plot-remedies"
-  },
-  {
    "id": "place.naga-kur-deeps.wamasu-pond-adult",
    "u": 0.334441,
    "v": 0.597138,
    "why": "The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held.",
    "source": "world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json",
    "candidateId": "candidate.wamasu-pond-adult.pan"
-  },
-  {
-   "id": "place.pirate-freeholds.chasecreek",
-   "u": 0.587346,
-   "v": 0.201953,
-   "why": "Chasecreek is a creek village and its known-red cut asked for water the frozen world does not hold. The dot at 4266.1, 1442.1 records 0.0 m of water; the nearest cell holding at least 0.3 m is 4330.8, 1489.1, 80.0 m away, at 1.2 m.",
-   "source": "plot-remedies"
-  },
-  {
-   "id": "place.pirate-freeholds.freehold-naga-camp",
-   "u": 0.530494,
-   "v": 0.067417,
-   "why": "Moved 40 m south-west of 3939.9, 468.8 to 3911.6, 497.1, off the freehold's own ground.",
-   "source": "plot-remedies"
   }
  ]
 }

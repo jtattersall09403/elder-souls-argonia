@@ -124,38 +124,38 @@
       "underwaterAccess": "argonian-only-depth",
       "localStateVariants": [],
       "position": {
-        "u": 0.3447,
-        "v": 0.70315
+        "u": 0.34544,
+        "v": 0.66448
       },
       "positionM": [
-        2541.6,
-        5184.7
+        2547.1,
+        4899.5
       ],
       "footprintRadiusM": 30.0,
       "footprintSource": "band",
       "candidatesConsidered": [
         {
+          "siteId": "site.free.open-water-0701",
+          "score": 4.395,
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+        },
+        {
           "siteId": "site.free.open-water-0702",
-          "score": 4.117,
-          "whyLost": "lost on score"
+          "score": 4.216,
+          "whyLost": "too close to place.naga-kur-deeps.beast-keeper-crocodile"
         },
         {
           "siteId": "site.free.open-water-0711",
-          "score": 4.101,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.open-water-0713",
-          "score": 3.675,
-          "whyLost": "lost on score"
+          "score": 4.196,
+          "whyLost": "too close to place.mercantile-coast.pilgrim-xanmeer"
         }
       ],
-      "whySiteWon": "open water in lake & standing water (danger band 5), 729 m from the nearest route; at the water's edge; won on culture-clump, region, remote.",
+      "whySiteWon": "open water in lake & standing water (danger band 5), 631 m from the nearest route; at the water's edge; won on region, remote, submerged.",
       "plotFacts": {
         "landform": "open-water",
         "regionClass": "lake & standing water",
         "dangerBand": 5,
-        "distanceToRouteM": 729.1,
+        "distanceToRouteM": 631.3,
         "distanceToWaterM": 0.0,
         "water": {
           "entityId": "body.1209-3032",
@@ -164,7 +164,7 @@
           "season": "perennial",
           "distanceM": 0.0
         },
-        "score": 4.293
+        "score": 3.619
       },
       "hostility": {
         "baseline": "hostile",
@@ -241,7 +241,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -1827,10 +1827,9 @@
           "entrance",
           "gallery",
           "cache",
-          "boss",
-          "sump"
+          "boss"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -1863,7 +1862,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "dark",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -2111,8 +2110,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "ossuary",
-          "collapse",
-          "gallery"
+          "gallery",
+          "stair-shaft"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -2127,7 +2126,7 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -2137,7 +2136,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -2721,7 +2720,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "heroHist": {
         "id": "hist.naga-kur-deeps.dead-water-village",
         "powerSlot": "power.hist.naga-kur-deeps.dead-water-village",
@@ -2887,7 +2886,50 @@
         "lodging",
         "shrine",
         "trader"
-      ]
+      ],
+      "position": {
+        "u": 0.43914,
+        "v": 0.78272
+      },
+      "positionM": [
+        3238.0,
+        5771.4
+      ],
+      "footprintRadiusM": 105.0,
+      "footprintSource": "blueprint",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1168",
+          "score": 4.557,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1213",
+          "score": 4.347,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1169",
+          "score": 4.333,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 401 m from the nearest route; its choice #2 landform; won on culture-clump, landform, nearPoint.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 400.9,
+        "distanceToWaterM": 38.8,
+        "water": {
+          "entityId": "body.1792-3158",
+          "kind": "swamp",
+          "levelM": 3.55,
+          "season": "perennial",
+          "distanceM": 38.8
+        },
+        "score": 4.694
+      }
     },
     {
       "id": "place.naga-kur-deeps.deepmire-refuge",
@@ -3083,8 +3125,7 @@
         "roomFunctions": [
           "stair-shaft",
           "gallery",
-          "cache",
-          "midden"
+          "cache"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -3099,10 +3140,15 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
+          {
+            "id": "socket.naga-kur-deeps-deepmire-refuge.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
           {
             "id": "evidence.deepmire-refuge.deepmire-founding-testimony",
             "kind": "evidence",
@@ -3112,11 +3158,6 @@
             "id": "scene.deepmire-refuge.deepmire-memorial-ground",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.naga-kur-deeps-deepmire-refuge.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
           },
           {
             "id": "station.deepmire-refuge.deepmire-caretakers-camp",
@@ -3400,7 +3441,6 @@
         "roomFunctions": [
           "collapse",
           "flooded-gallery",
-          "sump",
           "cache"
         ],
         "loop": "vertical-return",
@@ -3426,7 +3466,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "dark",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -4096,7 +4136,9 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "flooded-gallery",
-          "hearth"
+          "hearth",
+          "counting-room",
+          "cistern"
         ],
         "loop": "none",
         "traversal": {
@@ -4111,11 +4153,11 @@
           {
             "scale": "smallGroup",
             "footing": "wade",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [],
-        "light": "dark",
+        "light": "mixed",
         "lock": "simple"
       },
       "contents": {
@@ -4289,7 +4331,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet-peak",
       "eraLayers": [
         "current"
@@ -4336,8 +4378,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "flooded-gallery",
-          "sump",
-          "cistern"
+          "sump"
         ],
         "loop": "none",
         "traversal": {
@@ -4352,11 +4393,11 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -4407,7 +4448,40 @@
           },
           "note": "the single outlet of the inner swamp, pinched between two root walls, where the post-rain flood pulse becomes lethal"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.3328,
+        "v": 0.67117
+      },
+      "positionM": [
+        2453.9,
+        4948.9
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1062",
+          "score": 5.642,
+          "whyLost": "too close to place.naga-kur-deeps.maturity-trial-kaju-kill"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 562 m from the nearest route; at the water's edge; its choice #2 landform; won on culture-clump, landform, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 561.8,
+        "distanceToWaterM": 24.5,
+        "water": {
+          "entityId": "body.1291-2700",
+          "kind": "marsh-deep",
+          "levelM": 1.56,
+          "season": "perennial",
+          "distanceM": 24.5
+        },
+        "score": 5.089
+      }
     },
     {
       "id": "place.naga-kur-deeps.ferry-stage-guide-hire",
@@ -5052,7 +5126,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -6222,7 +6296,7 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -6242,7 +6316,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -6864,10 +6938,11 @@
         "sizeBand": "S2",
         "wetFraction": 0.6,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "programRef": null,
         "factsVariedForVariety": [
-          "entranceCount 1 -> 2"
+          "entranceCount 1 -> 2",
+          "exteriorShell -> True"
         ],
         "verticalRelationship": "below",
         "roomFunctions": [
@@ -6914,7 +6989,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -8061,21 +8136,26 @@
       "interior": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.3,
         "entranceCount": 1,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "programRef": null,
+        "factsVariedForVariety": [
+          "sizeBand S1 -> S2",
+          "exteriorShell -> True"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
           "gallery",
           "cache",
-          "boss"
+          "boss",
+          "sump"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
-          "swimM": 8,
+          "swimM": 15,
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
@@ -8101,7 +8181,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "bioluminescent",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -9170,8 +9250,7 @@
         "verticalRelationship": "behind",
         "roomFunctions": [
           "entrance",
-          "cache",
-          "midden"
+          "cache"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -9401,47 +9480,31 @@
       "ownerFaction": "faction.naga-kur",
       "localStateVariants": [],
       "position": {
-        "u": 0.14465,
+        "u": 0.1268,
         "v": 0.79983
       },
       "positionM": [
-        1066.5,
+        934.9,
         5897.5
       ],
       "footprintRadiusM": 115.0,
       "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1205",
-          "score": 3.078,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0337",
-          "score": 2.545,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0223",
-          "score": 2.522,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 196 m from the nearest route; its choice #2 landform; won on culture-clump, landform, region; site exchanged in the swap pass with place.naga-kur-deeps.bereaved-hist-less-since (+1.25).",
+      "candidatesConsidered": [],
+      "whySiteWon": "open water in lake & standing water (danger band 3), 116 m from the nearest route; at the water's edge; won on danger, parent, landform; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 195.7,
-        "distanceToWaterM": 55.9,
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
+        "dangerBand": 3,
+        "distanceToRouteM": 116.3,
+        "distanceToWaterM": 0.0,
         "water": {
-          "entityId": "body.610-3266",
+          "entityId": "body.486-3253",
           "kind": "swamp",
-          "levelM": 2.12,
+          "levelM": 3.2,
           "season": "perennial",
-          "distanceM": 55.9
+          "distanceM": 0.0
         },
-        "score": 3.578
+        "score": 1.378
       },
       "hostility": {
         "baseline": "wary",
@@ -9822,7 +9885,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -9832,7 +9895,7 @@
             "whereInInterior": "threshold"
           }
         ],
-        "light": "dark",
+        "light": "mixed",
         "lock": "simple"
       },
       "contents": {
@@ -10590,8 +10653,7 @@
         "roomFunctions": [
           "flooded-gallery",
           "gallery",
-          "cache",
-          "midden"
+          "cache"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -11858,7 +11920,7 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -11883,7 +11945,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "none"
       },
       "contents": {
@@ -12124,7 +12186,6 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "stair-shaft",
-          "antechamber",
           "gallery",
           "shrine",
           "cache",
@@ -12143,7 +12204,7 @@
           {
             "scale": "boss",
             "footing": "wade",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -12173,7 +12234,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -12437,8 +12498,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "gauntlet",
-          "nursery",
-          "boss"
+          "boss",
+          "midden"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -12473,7 +12534,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -12676,7 +12737,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12718,8 +12779,8 @@
         "roomFunctions": [
           "collapse",
           "flooded-gallery",
-          "cache",
-          "midden"
+          "sump",
+          "cache"
         ],
         "loop": "vertical-return",
         "traversal": {
@@ -12734,7 +12795,7 @@
           {
             "scale": "boss",
             "footing": "swim",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -12749,7 +12810,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -12788,7 +12849,50 @@
           },
           "note": "the place IS the hole: a round collapse in the root layer, flooded to within a metre of its rim"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.3142,
+        "v": 0.65704
+      },
+      "positionM": [
+        2316.8,
+        4844.7
+      ],
+      "footprintRadiusM": 25.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0945",
+          "score": 5.037,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0946",
+          "score": 4.916,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1009",
+          "score": 4.807,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 395 m from the nearest route; its first-choice landform; won on culture-clump, landform, nearPoint; needs 1 m of water.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 395.4,
+        "distanceToWaterM": 47.2,
+        "water": {
+          "entityId": "body.1299-2644",
+          "kind": "marsh-deep",
+          "levelM": 2.32,
+          "season": "perennial",
+          "distanceM": 47.2
+        },
+        "score": 5.479
+      }
     },
     {
       "id": "place.naga-kur-deeps.sithis-temple-mass-sacrifice",
@@ -15311,13 +15415,6 @@
         "dangerBand": 5,
         "distanceToRouteM": 493.3,
         "distanceToWaterM": 5.5,
-        "water": {
-          "entityId": "body.1346-2411",
-          "kind": "marsh-deep",
-          "levelM": 10.12,
-          "season": "perennial",
-          "distanceM": 5.5
-        },
         "score": null
       },
       "hostility": {
@@ -15421,7 +15518,8 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json): The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held."
+        "why": "The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held.",
+        "candidateId": "candidate.wamasu-pond-adult.pan"
       }
     },
     {
@@ -15991,8 +16089,7 @@
         "roomFunctions": [
           "flooded-gallery",
           "gallery",
-          "cache",
-          "sump"
+          "cache"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -16007,7 +16104,7 @@
           {
             "scale": "smallGroup",
             "footing": "swim",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [

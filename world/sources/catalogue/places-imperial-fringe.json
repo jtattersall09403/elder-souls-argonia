@@ -627,7 +627,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
@@ -732,7 +732,50 @@
           "factionRef": "faction.cyrodilic-collections"
         }
       ],
-      "designGroup": "group.gideon"
+      "designGroup": "group.gideon",
+      "position": {
+        "u": 0.21714,
+        "v": 0.41573
+      },
+      "positionM": [
+        1601.1,
+        3065.4
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0096",
+          "score": 5.694,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0166",
+          "score": 5.652,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0168",
+          "score": 5.563,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 17 m from the nearest route; its choice #4 landform; won on culture-clump, route, bound.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 17.3,
+        "distanceToWaterM": 74.6,
+        "water": {
+          "entityId": "reach.895-1645",
+          "kind": "sloped-rapid",
+          "levelM": 38.39,
+          "season": "perennial",
+          "distanceM": 74.6
+        },
+        "score": 5.606
+      }
     },
     {
       "id": "place.imperial-fringe.bone-road-waystation",
@@ -1780,7 +1823,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -2109,11 +2152,11 @@
         "verticalRelationship": "behind",
         "roomFunctions": [
           "entrance",
+          "barracks",
           "cell-block",
           "archive",
           "cache",
-          "boss",
-          "gallery"
+          "boss"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -2168,7 +2211,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -2772,6 +2815,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.imperial-fringe-collections-dig.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
             "id": "evidence.collections-dig.the-find-table",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -2780,11 +2828,6 @@
             "id": "scene.collections-dig.the-trench",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.imperial-fringe-collections-dig.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
           },
           {
             "id": "station.collections-dig.chapter-agent",
@@ -3012,7 +3055,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
@@ -3099,7 +3142,50 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.imperial-fringe.gideon"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.18897,
+        "v": 0.44852
+      },
+      "positionM": [
+        1393.4,
+        3307.1
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0643",
+          "score": 5.105,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0101",
+          "score": 5.096,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0132",
+          "score": 3.953,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 79 m from the nearest route; its choice #3 landform; won on culture-clump, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 79.1,
+        "distanceToWaterM": 44.2,
+        "water": {
+          "entityId": "body.796-1761",
+          "kind": "backswamp",
+          "levelM": 50.49,
+          "season": "perennial",
+          "distanceM": 44.2
+        },
+        "score": 5.269
+      }
     },
     {
       "id": "place.imperial-fringe.dreams-in-mud",
@@ -3628,6 +3714,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.imperial-fringe-fenmarch-village.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
             "id": "evidence.fenmarch-village.the-cutting-scar",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -3636,11 +3727,6 @@
             "id": "scene.fenmarch-village.the-uxith",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.imperial-fringe-fenmarch-village.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
           },
           {
             "id": "station.fenmarch-village.naheesh",
@@ -4493,7 +4579,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -4576,7 +4662,34 @@
           "sourcePath": "why.siteAdvantages",
           "routeRef": "route.road.stormhold-thorn"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.14985,
+        "v": 0.42799
+      },
+      "positionM": [
+        1104.9,
+        3155.8
+      ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [],
+      "whySiteWon": "firm ground in upland hills (danger band 2), 93 m from the nearest route; its choice #5 landform; won on nearPoint, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 86.7,
+        "water": {
+          "entityId": "body.635-1651",
+          "kind": "tarn-upland",
+          "levelM": 72.53,
+          "season": "perennial",
+          "distanceM": 86.7
+        },
+        "score": 3.983
+      }
     },
     {
       "id": "place.imperial-fringe.gideon",
@@ -5262,7 +5375,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -5274,6 +5387,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.imperial-fringe-gideon-rootworm-terminus.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
             "id": "evidence.gideon-rootworm-terminus.daub-marks",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -5282,11 +5400,6 @@
             "id": "scene.gideon-rootworm-terminus.tally-post",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.imperial-fringe-gideon-rootworm-terminus.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
           },
           {
             "id": "station.gideon-rootworm-terminus.waykeeper",
@@ -6463,7 +6576,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -6480,21 +6593,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.glenbridge-sermon-xanmeer.numbered-blocks",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.glenbridge-sermon-xanmeer.reading-stand",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
-            "id": "scene.glenbridge-sermon-xanmeer.the-seal",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.imperial-fringe-glenbridge-sermon-xanmeer.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -6508,6 +6606,21 @@
             "id": "socket.imperial-fringe-glenbridge-sermon-xanmeer.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "evidence.glenbridge-sermon-xanmeer.numbered-blocks",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.glenbridge-sermon-xanmeer.reading-stand",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
+            "id": "scene.glenbridge-sermon-xanmeer.the-seal",
+            "kind": "scene",
+            "whereInInterior": "main"
           }
         ],
         "light": "bioluminescent",
@@ -6784,7 +6897,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -10742,7 +10855,7 @@
         "verticalRelationship": "behind",
         "roomFunctions": [
           "entrance",
-          "cell-block",
+          "barracks",
           "cache"
         ],
         "loop": "second-entrance",
@@ -10788,7 +10901,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -12460,8 +12573,7 @@
         "roomFunctions": [
           "stair-shaft",
           "gallery",
-          "cache",
-          "collapse"
+          "cache"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -12480,6 +12592,16 @@
           }
         ],
         "anchorSockets": [
+          {
+            "id": "socket.imperial-fringe-orma-tactile-ruin.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.imperial-fringe-orma-tactile-ruin.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
+          },
           {
             "id": "evidence.orma-tactile-ruin.a-tactile-door-mark",
             "kind": "evidence",
@@ -12501,22 +12623,12 @@
             "whereInInterior": "main"
           },
           {
-            "id": "socket.imperial-fringe-orma-tactile-ruin.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
-            "id": "socket.imperial-fringe-orma-tactile-ruin.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "station.orma-tactile-ruin.collections-scholar",
             "kind": "station",
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -14821,16 +14933,16 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "entrance",
-          "cache",
-          "sump"
+          "gallery",
+          "cache"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -14857,7 +14969,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -17992,7 +18104,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.3
         },
         "combatSpaces": [
@@ -18790,7 +18902,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
@@ -18883,7 +18995,51 @@
           "sourcePath": "why.wouldChangeIf",
           "placeRef": "place.imperial-fringe.gideon"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.16696,
+        "v": 0.41683
+      },
+      "positionM": [
+        1231.1,
+        3073.5
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.upland-hills.spring-head-028",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.ravine-037",
+          "score": 2.972,
+          "whyLost": "too close to place.imperial-fringe.cartwrights-cross"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-083",
+          "score": 2.794,
+          "whyLost": "too close to place.imperial-fringe.mile-house-of-the-eagle"
+        },
+        {
+          "siteId": "site.free.open-water-0492",
+          "score": 2.663,
+          "whyLost": "too close to place.imperial-fringe.cartwrights-cross"
+        }
+      ],
+      "whySiteWon": "spring head in upland hills (danger band 2), 165 m from the nearest route; at the water's edge; won on nearPoint, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
+      "plotFacts": {
+        "landform": "spring-head",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 164.9,
+        "distanceToWaterM": 12.3,
+        "water": {
+          "entityId": "body.635-1651",
+          "kind": "tarn-upland",
+          "levelM": 72.53,
+          "season": "perennial",
+          "distanceM": 12.3
+        },
+        "score": 1.497
+      }
     },
     {
       "id": "place.imperial-fringe.the-buried-spears",
@@ -19121,7 +19277,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -19629,7 +19785,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "flooded-gallery",
-          "sump"
+          "sump",
+          "cistern"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -19637,7 +19794,7 @@
           "diveM": 4,
           "climbM": 0,
           "breathGated": true,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -19664,7 +19821,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -20383,7 +20540,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -20517,7 +20674,50 @@
           "sourcePath": "questHooks.opportunity",
           "placeRef": "place.imperial-fringe.highwater-hamlet"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.08143,
+        "v": 0.29636
+      },
+      "positionM": [
+        600.4,
+        2185.2
+      ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0428",
+          "score": 4.441,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-channel-bank-0455",
+          "score": 3.262,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ravine-062",
+          "score": 3.219,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 869 m from the nearest route; its first-choice landform; won on landform, culture-clump, nearPoint.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 868.6,
+        "distanceToWaterM": 85.1,
+        "water": {
+          "entityId": "body.379-1186",
+          "kind": "pond",
+          "levelM": 286.5,
+          "season": "perennial",
+          "distanceM": 85.1
+        },
+        "score": 4.963
+      }
     },
     {
       "id": "place.imperial-fringe.the-drowned-mule",
@@ -21745,8 +21945,8 @@
           "entrance",
           "hearth",
           "counting-room",
-          "cache",
-          "workshop"
+          "cistern",
+          "cache"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -21761,20 +21961,10 @@
           {
             "scale": "smallGroup",
             "footing": "wade",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
-          {
-            "id": "evidence.the-empty-steading.the-open-door",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.the-empty-steading.the-yard",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
           {
             "id": "socket.imperial-fringe-the-empty-steading.cache",
             "kind": "cache",
@@ -21784,9 +21974,19 @@
             "id": "socket.imperial-fringe-the-empty-steading.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
+          },
+          {
+            "id": "evidence.the-empty-steading.the-open-door",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.the-empty-steading.the-yard",
+            "kind": "scene",
+            "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -22826,7 +23026,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -23371,7 +23571,8 @@
         "roomFunctions": [
           "root-throat",
           "gallery",
-          "cache"
+          "cache",
+          "sump"
         ],
         "loop": "none",
         "traversal": {
@@ -24994,25 +25195,30 @@
       "interior": {
         "kind": "delve",
         "family": "imperial-fort",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
         "programRef": null,
         "schemaVersion": 1,
+        "factsVariedForVariety": [
+          "sizeBand S1 -> S2"
+        ],
         "verticalRelationship": "behind",
         "roomFunctions": [
           "entrance",
           "barracks",
+          "cell-block",
+          "archive",
           "cache"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -25329,7 +25535,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.3
         },
         "combatSpaces": [
@@ -26642,10 +26848,14 @@
         "family": "abandoned-plantation",
         "sizeBand": "S2",
         "wetFraction": 0.2,
-        "entranceCount": 2,
-        "exteriorShell": true,
+        "entranceCount": 3,
+        "exteriorShell": false,
         "programRef": null,
-        "verticalRelationship": "behind",
+        "factsVariedForVariety": [
+          "entranceCount 2 -> 3",
+          "exteriorShell -> False"
+        ],
+        "verticalRelationship": "within",
         "roomFunctions": [
           "entrance",
           "counting-room",
@@ -26690,7 +26900,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "dark",
         "lock": "simple"
       },
       "contents": {
@@ -27190,7 +27400,7 @@
           "cell-block",
           "archive"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -27218,7 +27428,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -27738,7 +27948,6 @@
         "roomFunctions": [
           "cistern",
           "antechamber",
-          "gallery",
           "drain"
         ],
         "loop": "vertical-return",
@@ -27747,14 +27956,14 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.5
         },
         "combatSpaces": [
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -27769,7 +27978,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -28296,7 +28505,7 @@
           "sump",
           "cache"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 20,
           "diveM": 4,
@@ -28605,7 +28814,7 @@
           {
             "scale": "duel",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -28635,7 +28844,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -31084,7 +31293,7 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [
@@ -32159,10 +32368,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "entrance",
-          "flooded-gallery",
-          "sump",
           "cache",
-          "cistern"
+          "midden"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -32170,7 +32377,7 @@
           "diveM": 4,
           "climbM": 8,
           "breathGated": true,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -32197,7 +32404,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -33282,7 +33489,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.3
         },
         "combatSpaces": [
@@ -34337,7 +34544,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.5
         },
         "combatSpaces": [

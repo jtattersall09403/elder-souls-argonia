@@ -127,7 +127,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "post-umbriel",
@@ -173,8 +173,7 @@
         "roomFunctions": [
           "flooded-gallery",
           "gallery",
-          "cache",
-          "sump"
+          "cache"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -204,7 +203,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -246,7 +245,50 @@
           "sourcePath": "why.occupantsMotive",
           "placeRef": "place.mercantile-coast.soulrest"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.44658,
+        "v": 0.92848
+      },
+      "positionM": [
+        3292.9,
+        6846.2
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1343",
+          "score": 4.058,
+          "whyLost": "too close to place.mercantile-coast.glowfen-murkmire"
+        },
+        {
+          "siteId": "site.scour.mangrove-forest.isthmus-017",
+          "score": 3.637,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0528",
+          "score": 3.225,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 23 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on route, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; needs 8 m of water; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "mangrove forest",
+        "dangerBand": 3,
+        "distanceToRouteM": 23.3,
+        "distanceToWaterM": 11.0,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 11.0
+        },
+        "score": 3.668
+      }
     },
     {
       "id": "place.mercantile-coast.alten-meerhleel",
@@ -1381,7 +1423,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "post-umbriel",
@@ -1470,7 +1512,50 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.mercantile-coast.lilmoth"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.50012,
+        "v": 0.78049
+      },
+      "positionM": [
+        3687.7,
+        5755.0
+      ],
+      "footprintRadiusM": 115.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1194",
+          "score": 3.31,
+          "whyLost": "too close to place.mercantile-coast.oliis-air-station"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1169",
+          "score": 3.126,
+          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.isthmus-052",
+          "score": 2.394,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 509 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on culture-clump, bound, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 509.1,
+        "distanceToWaterM": 23.3,
+        "water": {
+          "entityId": "body.2025-3136",
+          "kind": "swamp",
+          "levelM": 1.96,
+          "season": "perennial",
+          "distanceM": 23.3
+        },
+        "score": 3.956
+      }
     },
     {
       "id": "place.mercantile-coast.bog-blight-ground-murkmire",
@@ -7328,8 +7413,7 @@
         "roomFunctions": [
           "ossuary",
           "gallery",
-          "cache",
-          "collapse"
+          "cache"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -7344,7 +7428,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -7374,7 +7458,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -9644,8 +9728,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "cache",
-          "sump"
+          "gallery",
+          "cache"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -9653,7 +9737,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -9685,7 +9769,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -10380,7 +10464,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -10677,7 +10761,7 @@
           "diveM": 0,
           "climbM": 0,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -11827,7 +11911,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "heroHist": {
         "id": "hist.mercantile-coast.keshu-grove",
         "kind": "grove, reserve",
@@ -11891,6 +11975,50 @@
             "provenance": "offerings left for Keshu the Black Fin, added to for four hundred years"
           }
         ]
+      },
+      "position": {
+        "u": 0.44212,
+        "v": 0.67192
+      },
+      "positionM": [
+        3260.0,
+        4954.4
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.tropical-jungle.enclosed-clearing-005",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1066",
+          "score": 3.781,
+          "whyLost": "too close to place.mercantile-coast.stripped-village-north"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1040",
+          "score": 3.598,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1090",
+          "score": 3.402,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "enclosed clearing in tropical jungle (danger band 4), 1218 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "enclosed-clearing",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 1218.1,
+        "distanceToWaterM": 5.5,
+        "water": {
+          "entityId": "body.1786-2710",
+          "kind": "swamp",
+          "levelM": 1.76,
+          "season": "perennial",
+          "distanceM": 5.5
+        },
+        "score": 3.716
       }
     },
     {
@@ -12185,7 +12313,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -12284,7 +12412,34 @@
           "sourcePath": "questHooks.opportunity",
           "serviceRef": "council"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.51723,
+        "v": 0.8028
+      },
+      "positionM": [
+        3813.8,
+        5919.5
+      ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [],
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 442 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on nearPoint, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 442.0,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 4.408
+      }
     },
     {
       "id": "place.mercantile-coast.lilmoth",
@@ -13213,7 +13368,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -13299,7 +13454,45 @@
           "sourcePath": "why.founding",
           "placeRef": "place.mercantile-coast.lilmoth"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.51723,
+        "v": 0.87643
+      },
+      "positionM": [
+        3813.8,
+        6462.3
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.open-water-0980",
+          "score": 5.277,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.open-water-0990",
+          "score": 5.229,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "open water in mangrove forest (danger band 0), 126 m from the nearest route; at the water's edge; won on culture-clump, bound, nearPoint; needs 1 m of water; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "open-water",
+        "regionClass": "mangrove forest",
+        "dangerBand": 0,
+        "distanceToRouteM": 126.1,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 5.55
+      }
     },
     {
       "id": "place.mercantile-coast.lilmoth-quay-tradehouse",
@@ -14473,14 +14666,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.mirtis.burn-order",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
             "id": "socket.mercantile-coast-mirtis-plantation.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "evidence.mirtis.burn-order",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
           }
         ],
         "light": "mixed",
@@ -15650,7 +15843,8 @@
         "roomFunctions": [
           "entrance",
           "hearth",
-          "cache"
+          "cache",
+          "workshop"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -15695,7 +15889,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -16011,20 +16205,19 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.mercantile-coast-necropolis-village-murkmire.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
             "id": "evidence.xul-vaat.a-particular-stake",
             "kind": "evidence",
-            "whereInInterior": "threshold",
-            "provision": "quest.provision.canon.grave-stakes"
+            "whereInInterior": "threshold"
           },
           {
             "id": "scene.xul-vaat.stake-reading",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.mercantile-coast-necropolis-village-murkmire.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
           },
           {
             "id": "station.xul-vaat.carving-shed",
@@ -16295,14 +16488,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.breathing-stone.name-slate",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
             "id": "socket.mercantile-coast-oliis-air-station.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
+          },
+          {
+            "id": "evidence.breathing-stone.name-slate",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
           },
           {
             "id": "station.breathing-stone.rest",
@@ -16768,12 +16961,12 @@
           {
             "scale": "largeGroup",
             "footing": "swim",
-            "clearance": "generous"
+            "clearance": "standard"
           },
           {
             "scale": "boss",
             "footing": "swim",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -16958,7 +17151,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -17040,7 +17233,34 @@
       ],
       "services": [
         "ferry"
-      ]
+      ],
+      "position": {
+        "u": 0.46815,
+        "v": 0.93369
+      },
+      "positionM": [
+        3451.9,
+        6884.6
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [],
+      "whySiteWon": "open water in mangrove forest (danger band 0), 163 m from the nearest route; at the water's edge; won on route, nearPoint, hinterland; placed from the homeless batch at stage 'eviction-repair'; needs 1.2 m of water; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "open-water",
+        "regionClass": "mangrove forest",
+        "dangerBand": 0,
+        "distanceToRouteM": 162.9,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 1.31
+      }
     },
     {
       "id": "place.mercantile-coast.oliis-narrows",
@@ -18772,7 +18992,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -18882,7 +19102,50 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.mercantile-coast.soulrest"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.04276,
+        "v": 0.84668
+      },
+      "positionM": [
+        315.3,
+        6243.0
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.headland-011",
+          "score": 3.219,
+          "whyLost": "too close to place.mercantile-coast.sealed-meer-murkmire"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1066",
+          "score": 2.714,
+          "whyLost": "too close to place.mercantile-coast.stripped-village-north"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1023",
+          "score": 2.565,
+          "whyLost": "too close to place.mercantile-coast.sealed-meer-murkmire"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 280 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on hinterland, parent, route; placed from the homeless batch at stage 'relaxed-score'; needs 1.5 m of water; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 279.6,
+        "distanceToWaterM": 19.8,
+        "water": {
+          "entityId": "body.176-3403",
+          "kind": "marsh-fringe",
+          "levelM": 1.52,
+          "season": "perennial",
+          "distanceM": 19.8
+        },
+        "score": 0.685
+      }
     },
     {
       "id": "place.mercantile-coast.rockpark",
@@ -19488,7 +19751,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -19528,8 +19791,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "cache",
-          "collapse"
+          "gallery",
+          "cache"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -19544,7 +19807,7 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -19574,7 +19837,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -19624,6 +19887,49 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
+      },
+      "position": {
+        "u": 0.24355,
+        "v": 0.79536
+      },
+      "positionM": [
+        1795.9,
+        5864.6
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-046",
+          "score": 2.63,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1227",
+          "score": 2.39,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.open-water-0840",
+          "score": 2.382,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 110 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 110.2,
+        "distanceToWaterM": 50.6,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 50.6
+        },
+        "score": 3.057
       }
     },
     {
@@ -20241,7 +20547,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -20339,7 +20645,50 @@
           "sourcePath": "why.founding",
           "routeRef": "route.boat.soulrest-blackrose"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.42799,
+        "v": 0.93397
+      },
+      "positionM": [
+        3155.8,
+        6886.7
+      ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0532",
+          "score": 4.516,
+          "whyLost": "too close to place.mercantile-coast.sunkfoot"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1343",
+          "score": 3.98,
+          "whyLost": "too close to place.mercantile-coast.glowfen-murkmire"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1355",
+          "score": 3.905,
+          "whyLost": "too close to place.mercantile-coast.alessian-hull"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 33 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on culture-clump-yielded, bound, hinterland; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 32.0,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 32.0
+        },
+        "score": 2.038
+      }
     },
     {
       "id": "place.mercantile-coast.sealed-meer-murkmire",
@@ -21905,7 +22254,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -21981,7 +22330,50 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.mercantile-coast.long-bar-wreckers"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.08813,
+        "v": 0.88609
+      },
+      "positionM": [
+        649.8,
+        6533.6
+      ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0315",
+          "score": 2.433,
+          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
+        },
+        {
+          "siteId": "site.free.roadside-0495",
+          "score": 2.404,
+          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.water-narrows-056",
+          "score": 2.048,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 132 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, nearPoint, culture-clump; placed from the homeless batch at stage 'region-relaxed'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 131.6,
+        "distanceToWaterM": 65.8,
+        "water": {
+          "entityId": "body.315-3637",
+          "kind": "marsh-fringe",
+          "levelM": 5.02,
+          "season": "perennial",
+          "distanceM": 65.8
+        },
+        "score": 2.253
+      }
     },
     {
       "id": "place.mercantile-coast.soulrest-broken-bond",
@@ -23893,8 +24285,8 @@
         "verticalRelationship": "within",
         "roomFunctions": [
           "entrance",
-          "cache",
-          "workshop"
+          "hearth",
+          "cache"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -23934,7 +24326,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -25927,17 +26319,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.teeth.scrub-line-rule",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.teeth.colonnade-rite",
-            "kind": "scene",
-            "whereInInterior": "main",
-            "provision": "quest.provision.murkmire-teeth-of-sithis"
-          },
-          {
             "id": "socket.mercantile-coast-teeth-of-sithis.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -25948,13 +26329,23 @@
             "whereInInterior": "deep"
           },
           {
+            "id": "socket.mercantile-coast-teeth-of-sithis.shrine",
+            "kind": "shrine",
+            "whereInInterior": "main"
+          },
+          {
             "id": "socket.mercantile-coast-teeth-of-sithis.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
           },
           {
-            "id": "socket.mercantile-coast-teeth-of-sithis.shrine",
-            "kind": "shrine",
+            "id": "evidence.teeth.scrub-line-rule",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.teeth.colonnade-rite",
+            "kind": "scene",
             "whereInInterior": "main"
           },
           {
@@ -28154,6 +28545,16 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.mercantile-coast-villa-cellars.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.mercantile-coast-villa-cellars.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
+          },
+          {
             "id": "evidence.villa-cellars.abandoned-rope",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -28162,17 +28563,6 @@
             "id": "scene.villa-cellars.mosaic-floor",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.mercantile-coast-villa-cellars.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden",
-            "provision": "quest.provision.lilmoth-pusbottom-vault"
-          },
-          {
-            "id": "socket.mercantile-coast-villa-cellars.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
           }
         ],
         "light": "bioluminescent",
@@ -28932,22 +29322,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.white-rose.commitment-roll",
-            "kind": "evidence",
-            "whereInInterior": "threshold",
-            "provision": "quest.provision.whiterose-prison-ruin"
-          },
-          {
-            "id": "evidence.white-rose.repatriation-tally",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.white-rose.open-gate",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.mercantile-coast-white-rose-prison.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -28960,13 +29334,27 @@
           {
             "id": "socket.mercantile-coast-white-rose-prison.cache",
             "kind": "cache",
-            "whereInInterior": "hidden",
-            "provision": "quest.provision.whiterose-prison-ruin"
+            "whereInInterior": "hidden"
           },
           {
             "id": "socket.mercantile-coast-white-rose-prison.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
+          },
+          {
+            "id": "evidence.white-rose.commitment-roll",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "evidence.white-rose.repatriation-tally",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.white-rose.open-gate",
+            "kind": "scene",
+            "whereInInterior": "main"
           }
         ],
         "light": "mixed",
@@ -29195,8 +29583,7 @@
         "roomFunctions": [
           "flooded-gallery",
           "gallery",
-          "cache",
-          "midden"
+          "cache"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -29226,7 +29613,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "dark",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -29860,7 +30247,6 @@
         "roomFunctions": [
           "entrance",
           "flooded-gallery",
-          "sump",
           "cache"
         ],
         "loop": "none",

@@ -127,19 +127,19 @@
     {
       "from": "root-node.helstrom",
       "id": "rootway.helstrom-north-shadowfen",
-      "status": "placeholder",
+      "status": "active",
       "to": "root-node.north-shadowfen"
     },
     {
       "from": "root-node.helstrom",
       "id": "rootway.helstrom-naga-deeps",
-      "status": "placeholder",
+      "status": "active",
       "to": "root-node.naga-deeps"
     },
     {
       "from": "root-node.helstrom",
       "id": "rootway.helstrom-east-estuary",
-      "status": "placeholder",
+      "status": "active",
       "to": "root-node.east-estuary"
     }
   ],
@@ -445,7 +445,7 @@
             "lane": "route.boat.lilmoth-anchorage"
           },
           "from": "station.mercantile-coast.lilmoth",
-          "lengthM": 559.7,
+          "lengthM": 508.3,
           "to": "station.mercantile-coast.lighter-flotilla"
         }
       ],
@@ -486,7 +486,7 @@
             "lane": "route.boat.oliis-crossing"
           },
           "from": "station.mercantile-coast.oliis-ferry-stage",
-          "lengthM": 1334.0,
+          "lengthM": 2391.4,
           "to": "station.mercantile-coast.oliis-boardwalk"
         }
       ],
@@ -869,7 +869,7 @@
         "name": "text.ferry.blackrose-lake.name",
         "refusal": "text.ferry.refused-owing"
       },
-      "unmatchedWhy": "hop station.imperial-penal-south.longmont -> station.imperial-penal-south.three-gate-toll: station.imperial-penal-south.longmont is 146 m from the nearest lane vertex (limit 60 m); station.imperial-penal-south.three-gate-toll is 140 m from the nearest lane vertex (limit 60 m)",
+      "unmatchedWhy": "hop station.imperial-penal-south.longmont -> station.imperial-penal-south.three-gate-toll: station.imperial-penal-south.longmont is 129 m from the nearest lane vertex (limit 60 m); station.imperial-penal-south.three-gate-toll is 209 m from the nearest lane vertex (limit 60 m)",
       "water": {
         "class": "lake",
         "name": "the Blackrose lake"
@@ -1086,7 +1086,7 @@
             "rootway": "rootway.helstrom-north-shadowfen"
           },
           "from": "root-node.helstrom",
-          "lengthM": 2217.1,
+          "lengthM": 2198.7,
           "to": "root-node.north-shadowfen"
         },
         {
@@ -1094,7 +1094,7 @@
             "rootway": "rootway.helstrom-naga-deeps"
           },
           "from": "root-node.helstrom",
-          "lengthM": 2064.6,
+          "lengthM": 2922.9,
           "to": "root-node.naga-deeps"
         },
         {
@@ -1102,7 +1102,7 @@
             "rootway": "rootway.helstrom-east-estuary"
           },
           "from": "root-node.helstrom",
-          "lengthM": 2451.8,
+          "lengthM": 2557.3,
           "to": "root-node.east-estuary"
         }
       ],
@@ -1116,7 +1116,6 @@
           "stationId": "root-node.helstrom"
         }
       },
-      "placeholderWhy": "Pass-1 network; re-authored at the hero Hist nodes in 16g (decision 0068)",
       "questUse": null,
       "refusedIf": [],
       "serviceKind": "rootworm",
@@ -1126,7 +1125,7 @@
         "root-node.naga-deeps",
         "root-node.north-shadowfen"
       ],
-      "status": "placeholder",
+      "status": "active",
       "text": {
         "hail": "text.rootworm.underground-express.hail",
         "name": "text.rootworm.underground-express.name"
@@ -1272,12 +1271,11 @@
       },
       "placeId": "place.hist-heartland.rootworm-station-helstrom",
       "positionM": [
-        3465.5,
-        2801.9
+        3270.9,
+        2848.7
       ],
       "rootKind": "hub",
-      "status": "placeholder",
-      "unmatchedWhy": "place place.hist-heartland.rootworm-station-helstrom carries no positionM — a station cannot stand nowhere",
+      "status": "active",
       "why": "The hub of the rootway network, sited on the Helstrom rootworm station at 3270.9, 2848.7."
     },
     {
@@ -1293,12 +1291,11 @@
       },
       "placeId": "place.naga-kur-deeps.dead-water-village",
       "positionM": [
-        3465.5,
-        4866.5
+        3238.0,
+        5771.4
       ],
       "rootKind": "station",
-      "status": "placeholder",
-      "unmatchedWhy": "place place.naga-kur-deeps.dead-water-village carries no positionM — a station cannot stand nowhere",
+      "status": "active",
       "why": "The southern terminus is Dead Water village, the terminus the dossiers name, with three roster slots. It stays placeholder: the village is re-sited by this round's pin, so the node takes its position when the chain sites the record."
     },
     {
@@ -1428,11 +1425,10 @@
       "kind": "place",
       "placeId": "place.mercantile-coast.lighter-flotilla",
       "positionM": [
-        3292.9,
-        6846.2
+        3813.8,
+        5919.5
       ],
-      "status": "unmatched",
-      "unmatchedWhy": "place place.mercantile-coast.lighter-flotilla carries no positionM — a station cannot stand nowhere"
+      "status": "active"
     },
     {
       "id": "station.mercantile-coast.lilmoth",
@@ -1459,11 +1455,10 @@
       "kind": "place",
       "placeId": "place.mercantile-coast.oliis-ferry-stage",
       "positionM": [
-        348.2,
-        5930.4
+        3451.9,
+        6884.6
       ],
-      "status": "unmatched",
-      "unmatchedWhy": "place place.mercantile-coast.oliis-ferry-stage carries no positionM — a station cannot stand nowhere"
+      "status": "active"
     },
     {
       "id": "station.mercantile-coast.soulrest",

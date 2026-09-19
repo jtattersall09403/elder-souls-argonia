@@ -114,7 +114,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -193,6 +193,50 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "position": {
+        "u": 0.72175,
+        "v": 0.44659
+      },
+      "positionM": [
+        5321.8,
+        3292.9
+      ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.islet-045",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.open-water-0558",
+          "score": 4.299,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.cove-000",
+          "score": 4.114,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.open-water-0442",
+          "score": 4.093,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "islet in coastal lagoon & salt marsh (danger band 3), 377 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, landform, region; needs 1 m of water.",
+      "plotFacts": {
+        "landform": "islet",
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 376.6,
+        "distanceToWaterM": 5.5,
+        "water": {
+          "entityId": "body.2909-1833",
+          "kind": "mudflat",
+          "levelM": 1.5,
+          "season": "perennial",
+          "distanceM": 5.5
+        },
+        "score": 4.661
       }
     },
     {
@@ -887,7 +931,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -2608,14 +2652,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.bog-blight-ground-stakes.grave-stake-pulled",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
             "id": "socket.hist-heartland-bog-blight-ground-stakes.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "evidence.bog-blight-ground-stakes.grave-stake-pulled",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
           }
         ],
         "light": "mixed",
@@ -3305,8 +3349,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
-          "cache"
+          "cache",
+          "sump"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -3331,7 +3375,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -3603,9 +3647,9 @@
           "root-throat",
           "gallery",
           "cache",
-          "midden"
+          "gauntlet"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -3863,7 +3907,8 @@
         "roomFunctions": [
           "antechamber",
           "gallery",
-          "cache"
+          "cache",
+          "gauntlet"
         ],
         "loop": "none",
         "traversal": {
@@ -3888,7 +3933,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "bioluminescent",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -4319,7 +4364,7 @@
           "root-throat",
           "gallery",
           "cache",
-          "sump"
+          "midden"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -4591,9 +4636,10 @@
         "roomFunctions": [
           "stair-shaft",
           "gallery",
-          "cache"
+          "cache",
+          "collapse"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -4616,7 +4662,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -4846,10 +4892,11 @@
         "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "programRef": null,
         "factsVariedForVariety": [
-          "entranceCount 1 -> 2"
+          "entranceCount 1 -> 2",
+          "exteriorShell -> True"
         ],
         "verticalRelationship": "below",
         "roomFunctions": [
@@ -4885,7 +4932,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -5870,7 +5917,7 @@
         "roomFunctions": [
           "cistern",
           "flooded-gallery",
-          "collapse"
+          "sump"
         ],
         "loop": "vertical-return",
         "traversal": {
@@ -5889,7 +5936,7 @@
           }
         ],
         "anchorSockets": [],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -6798,9 +6845,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
           "cache",
-          "midden"
+          "gauntlet"
         ],
         "loop": "none",
         "traversal": {
@@ -6825,7 +6871,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "bioluminescent",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -7063,6 +7109,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "stair-shaft",
+          "antechamber",
           "gallery"
         ],
         "loop": "none",
@@ -7071,7 +7118,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -7082,7 +7129,7 @@
           }
         ],
         "anchorSockets": [],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -7530,9 +7577,10 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "ossuary",
+          "antechamber",
+          "gallery",
           "drain",
-          "boss",
-          "cistern"
+          "boss"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -7562,7 +7610,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -8400,7 +8448,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet",
       "eraLayers": [
         "current"
@@ -8473,7 +8521,41 @@
           "place.hist-heartland.guide-camp-far-shelter"
         ]
       },
-      "designGroup": "group.helstrom"
+      "designGroup": "group.helstrom",
+      "position": {
+        "u": 0.42353,
+        "v": 0.38337
+      },
+      "positionM": [
+        3122.9,
+        2826.8
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.rootland-deep-marsh.islet-037",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.isthmus-028",
+          "score": 3.622,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "islet in rootland deep marsh (danger band 5), 246 m from the nearest route; at the water's edge; won on culture-clump, bound, region.",
+      "plotFacts": {
+        "landform": "islet",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 246.5,
+        "distanceToWaterM": 5.5,
+        "water": {
+          "entityId": "body.1723-1586",
+          "kind": "marsh-deep",
+          "levelM": 1.69,
+          "season": "perennial",
+          "distanceM": 5.5
+        },
+        "score": 3.63
+      }
     },
     {
       "id": "place.hist-heartland.hackwing-roost-wild",
@@ -8695,7 +8777,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "dark",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -12184,10 +12266,11 @@
         "sizeBand": "S2",
         "wetFraction": 0.6,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "programRef": null,
         "factsVariedForVariety": [
-          "entranceCount 1 -> 2"
+          "entranceCount 1 -> 2",
+          "exteriorShell -> True"
         ],
         "verticalRelationship": "below",
         "roomFunctions": [
@@ -12218,7 +12301,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -12484,13 +12567,8 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.lost-city.accord-consent-records",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.lost-city.lost-city-first-terrace",
-            "kind": "scene",
+            "id": "socket.hist-heartland-lost-city.shrine",
+            "kind": "shrine",
             "whereInInterior": "main"
           },
           {
@@ -12499,8 +12577,13 @@
             "whereInInterior": "entrance"
           },
           {
-            "id": "socket.hist-heartland-lost-city.shrine",
-            "kind": "shrine",
+            "id": "evidence.lost-city.accord-consent-records",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.lost-city.lost-city-first-terrace",
+            "kind": "scene",
             "whereInInterior": "main"
           }
         ],
@@ -12774,7 +12857,7 @@
         "roomFunctions": [
           "gauntlet",
           "nursery",
-          "root-throat"
+          "gallery"
         ],
         "loop": "none",
         "traversal": {
@@ -12793,7 +12876,7 @@
           }
         ],
         "anchorSockets": [],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -14140,11 +14223,14 @@
       "interior": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.5,
         "entranceCount": 2,
         "exteriorShell": false,
         "programRef": null,
+        "factsVariedForVariety": [
+          "sizeBand S1 -> S2"
+        ],
         "verticalRelationship": "below",
         "roomFunctions": [
           "collapse",
@@ -14153,7 +14239,7 @@
         ],
         "loop": "vertical-return",
         "traversal": {
-          "swimM": 12,
+          "swimM": 25,
           "diveM": 4,
           "climbM": 8,
           "breathGated": true,
@@ -14174,7 +14260,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -14686,14 +14772,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.necropolis-dead-tenders.grave-stake-readable",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
             "id": "socket.hist-heartland-necropolis-dead-tenders.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "evidence.necropolis-dead-tenders.grave-stake-readable",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
           }
         ],
         "light": "bioluminescent",
@@ -15142,13 +15228,6 @@
         "dangerBand": 3,
         "distanceToRouteM": 11.0,
         "distanceToWaterM": 56.5,
-        "water": {
-          "entityId": "body.2760-2066",
-          "kind": "marsh-fringe",
-          "levelM": 1.79,
-          "season": "perennial",
-          "distanceM": 56.5
-        },
         "score": null
       },
       "hostility": {
@@ -15204,7 +15283,8 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.nine-trunks.json): A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation."
+        "why": "A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
+        "candidateId": "candidate.nine-trunks.knoll"
       },
       "services": [
         "lodging",
@@ -16942,8 +17022,7 @@
         "roomFunctions": [
           "antechamber",
           "gallery",
-          "cache",
-          "collapse"
+          "cache"
         ],
         "loop": "none",
         "traversal": {
@@ -16968,7 +17047,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "simple"
       },
       "contents": {
@@ -17425,6 +17504,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "collapse",
+          "gallery",
           "cache"
         ],
         "loop": "vertical-return",
@@ -17450,7 +17530,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -17742,7 +17822,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "dark",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -17978,10 +18058,9 @@
         "roomFunctions": [
           "stair-shaft",
           "gallery",
-          "cache",
-          "root-throat"
+          "cache"
         ],
-        "loop": "shortcut-back",
+        "loop": "none",
         "traversal": {
           "swimM": 20,
           "diveM": 4,
@@ -18004,7 +18083,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "dark",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -18158,7 +18237,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -18199,8 +18278,7 @@
         "roomFunctions": [
           "flooded-gallery",
           "gallery",
-          "cache",
-          "midden"
+          "cache"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -18215,7 +18293,7 @@
           {
             "scale": "largeGroup",
             "footing": "swim",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -18230,7 +18308,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "bioluminescent",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -18257,6 +18335,50 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "position": {
+        "u": 0.71802,
+        "v": 0.27776
+      },
+      "positionM": [
+        5294.3,
+        2048.1
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.fringe-marsh.cove-055",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0493",
+          "score": 4.39,
+          "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0810",
+          "score": 4.242,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0815",
+          "score": 3.964,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cove in fringe marsh (danger band 3), 353 m from the nearest route; at the water's edge; its first-choice landform; won on landform, culture-clump, route; needs 1 m of water.",
+      "plotFacts": {
+        "landform": "cove",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 353.4,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.2848-1068",
+          "kind": "marsh-fringe",
+          "levelM": 3.85,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 4.313
       }
     },
     {
@@ -18998,8 +19120,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
-          "cache"
+          "cache",
+          "sump"
         ],
         "loop": "shortcut-back",
         "traversal": {
@@ -19024,7 +19146,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "dark",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -19503,10 +19625,11 @@
         "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "programRef": null,
         "factsVariedForVariety": [
-          "sizeBand S1 -> S2"
+          "sizeBand S1 -> S2",
+          "exteriorShell -> True"
         ],
         "verticalRelationship": "below",
         "roomFunctions": [
@@ -19514,7 +19637,7 @@
           "gallery",
           "cache"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
@@ -19537,7 +19660,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -19776,7 +19899,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -19973,7 +20096,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "reconciliation": "replaces placeholder station 'helstrom' in the compiled root-transit graph",
       "season": "all-year",
       "eraLayers": [
@@ -20022,8 +20145,7 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "gauntlet",
-          "nursery",
-          "root-throat"
+          "nursery"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -20038,7 +20160,7 @@
           {
             "scale": "largeGroup",
             "footing": "dry",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -20053,7 +20175,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -20079,7 +20201,51 @@
           "place.hist-heartland.bubble-spire-open-helstrom"
         ]
       },
-      "designGroup": "group.helstrom"
+      "designGroup": "group.helstrom",
+      "position": {
+        "u": 0.4436,
+        "v": 0.38634
+      },
+      "positionM": [
+        3270.9,
+        2848.7
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.firm-lowland.flood-high-051",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0563",
+          "score": 4.136,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0664",
+          "score": 4.04,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.isthmus-028",
+          "score": 3.411,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in firm lowland (danger band 5), 136 m from the nearest route; its first-choice landform; won on culture-clump, landform, bound.",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 5,
+        "distanceToRouteM": 135.8,
+        "distanceToWaterM": 93.2,
+        "water": {
+          "entityId": "body.1723-1586",
+          "kind": "marsh-deep",
+          "levelM": 1.69,
+          "season": "perennial",
+          "distanceM": 93.2
+        },
+        "score": 4.804
+      }
     },
     {
       "id": "place.hist-heartland.sap-collection-facility-daedric",
@@ -20289,9 +20455,9 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "stair-shaft",
-          "antechamber",
           "gallery",
-          "drain"
+          "drain",
+          "shrine"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -20306,10 +20472,20 @@
           {
             "scale": "boss",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
+          {
+            "id": "socket.hist-heartland-sap-collection-facility-daedric.shrine",
+            "kind": "shrine",
+            "whereInInterior": "main"
+          },
+          {
+            "id": "socket.hist-heartland-sap-collection-facility-daedric.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
+          },
           {
             "id": "evidence.sap-collection-facility-daedric.sap-facility-extraction-ledger",
             "kind": "evidence",
@@ -20319,14 +20495,9 @@
             "id": "scene.sap-collection-facility-daedric.sap-facility-channel-floor",
             "kind": "scene",
             "whereInInterior": "main"
-          },
-          {
-            "id": "socket.hist-heartland-sap-collection-facility-daedric.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
           }
         ],
-        "light": "mixed",
+        "light": "dark",
         "lock": "quest-sealed"
       },
       "contents": {
@@ -20523,13 +20694,6 @@
         "dangerBand": 4,
         "distanceToRouteM": 766.1,
         "distanceToWaterM": 16.5,
-        "water": {
-          "entityId": "reach.1879-2437",
-          "kind": "sloped-rapid",
-          "levelM": 29.84,
-          "season": "perennial",
-          "distanceM": 16.5
-        },
         "score": null
       },
       "hostility": {
@@ -20591,7 +20755,8 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc; every parcel stands dry: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 30.81 m. Road 526 m to the south-west. Canopy closure 1.00; concealment 0.74. The camp keeps this bank. Its landing stands elsewhere. The water at the foot of the camp is an 882 m2 pocket bounded x 3327-3433, z 4453-4507, connected to nothing, on a reach that falls 6.3% over 463 m, so a canoe floating there can go nowhere. The berth moved 357 m on bearing 201 to (3309.4, 4815.0), the head of the tide, which the recipe's satellite slot already asks for at 200 to 400 m. See dossier licensed-stage-layby."
+        "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc; every parcel stands dry: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 30.81 m. Road 526 m to the south-west. Canopy closure 1.00; concealment 0.74. The camp keeps this bank. Its landing stands elsewhere. The water at the foot of the camp is an 882 m2 pocket bounded x 3327-3433, z 4453-4507, connected to nothing, on a reach that falls 6.3% over 463 m, so a canoe floating there can go nowhere. The berth moved 357 m on bearing 201 to (3309.4, 4815.0), the head of the tide, which the recipe's satellite slot already asks for at 200 to 400 m. See dossier licensed-stage-layby.",
+        "candidateId": "candidate.sap-tapping-licensed.e-reach118-bank"
       }
     },
     {
@@ -20800,7 +20965,7 @@
           "root-throat",
           "gallery",
           "cache",
-          "gauntlet"
+          "sump"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -20830,7 +20995,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -21159,7 +21324,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "mixed",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -21391,7 +21556,7 @@
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.8
         },
         "combatSpaces": [
@@ -21632,7 +21797,7 @@
           "collapse",
           "flooded-gallery",
           "sump",
-          "midden"
+          "drain"
         ],
         "loop": "vertical-return",
         "traversal": {
@@ -21651,7 +21816,7 @@
           }
         ],
         "anchorSockets": [],
-        "light": "mixed",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -22189,8 +22354,7 @@
         "roomFunctions": [
           "antechamber",
           "gallery",
-          "cache",
-          "sump"
+          "cache"
         ],
         "loop": "none",
         "traversal": {
@@ -22215,7 +22379,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "dark",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -23429,7 +23593,7 @@
           "diveM": 10,
           "climbM": 8,
           "breathGated": true,
-          "current": "strong",
+          "current": "none",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -23685,13 +23849,13 @@
           "antechamber",
           "gallery"
         ],
-        "loop": "none",
+        "loop": "shortcut-back",
         "traversal": {
           "swimM": 0,
           "diveM": 0,
           "climbM": 8,
           "breathGated": false,
-          "current": "none",
+          "current": "strong",
           "darkFraction": 0.5
         },
         "combatSpaces": [
@@ -25182,7 +25346,7 @@
             "whereInInterior": "threshold"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -25875,10 +26039,11 @@
         "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "programRef": null,
         "factsVariedForVariety": [
-          "entranceCount 1 -> 2"
+          "entranceCount 1 -> 2",
+          "exteriorShell -> True"
         ],
         "verticalRelationship": "below",
         "roomFunctions": [
@@ -25900,7 +26065,7 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -25915,7 +26080,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -26558,7 +26723,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet",
       "eraLayers": [
         "current"
@@ -26609,7 +26774,7 @@
           {
             "scale": "boss",
             "footing": "swim",
-            "clearance": "tight"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -26661,7 +26826,50 @@
           "sourcePath": "vibe.materials",
           "itemRef": "item.depth-stick"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.73736,
+        "v": 0.38337
+      },
+      "positionM": [
+        5436.9,
+        2826.8
+      ],
+      "footprintRadiusM": 175.0,
+      "footprintSource": "blueprint",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0806",
+          "score": 3.469,
+          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0807",
+          "score": 3.423,
+          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.spring-head-043",
+          "score": 3.423,
+          "whyLost": "too close to place.hist-heartland.fenlord-tomb-deep"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 302 m from the nearest route; at the water's edge; no free 'oxbow' site was left in the zone, so plain ground; won on route, region, parent; needs 1 m of water.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 301.6,
+        "distanceToWaterM": 17.3,
+        "water": {
+          "entityId": "body.ocean",
+          "kind": "ocean",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 17.3
+        },
+        "score": 2.905
+      }
     },
     {
       "id": "place.hist-heartland.wamasu-wallow-struck-ground",
@@ -27116,7 +27324,8 @@
         "roomFunctions": [
           "entrance",
           "flooded-gallery",
-          "sump"
+          "sump",
+          "collapse"
         ],
         "loop": "none",
         "traversal": {
@@ -27131,11 +27340,11 @@
           {
             "scale": "smallGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "generous"
           }
         ],
         "anchorSockets": [],
-        "light": "dark",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -27369,8 +27578,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "root-throat",
-          "gallery",
-          "cache"
+          "cache",
+          "collapse"
         ],
         "loop": "none",
         "traversal": {
@@ -27395,7 +27604,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "torchlit",
+        "light": "mixed",
         "lock": "hard"
       },
       "contents": {
@@ -28263,7 +28472,7 @@
       "underwaterAccess": "surface-swim",
       "complexityBudget": "standard",
       "importanceTier": 0,
-      "workflow": "derived",
+      "workflow": "plotted",
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -28315,21 +28524,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.xal-krona-making-ground.accord-making-record",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "evidence.xal-krona-making-ground.warden-failed-makings",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.xal-krona-making-ground.warden-making-basin",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.hist-heartland-xal-krona-making-ground.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -28343,6 +28537,21 @@
             "id": "socket.hist-heartland-xal-krona-making-ground.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "evidence.xal-krona-making-ground.accord-making-record",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "evidence.xal-krona-making-ground.warden-failed-makings",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.xal-krona-making-ground.warden-making-basin",
+            "kind": "scene",
+            "whereInInterior": "main"
           }
         ],
         "light": "bioluminescent",
@@ -28387,7 +28596,50 @@
           "sourcePath": "why.pressures",
           "factionRef": "faction.unbound-root"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.34841,
+        "v": 0.40568
+      },
+      "positionM": [
+        2569.0,
+        2991.3
+      ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.enclosed-clearing-002",
+          "score": 5.641,
+          "whyLost": "too close to place.hist-heartland.lost-city"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0585",
+          "score": 4.74,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0558",
+          "score": 4.715,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 510 m from the nearest route; no free 'box-canyon' site was left in the zone, so plain ground; won on culture-clump, bound, region.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 510.4,
+        "distanceToWaterM": 41.8,
+        "water": {
+          "entityId": "body.2442-1212",
+          "kind": "marsh-deep",
+          "levelM": 0.0,
+          "season": "perennial",
+          "distanceM": 41.8
+        },
+        "score": 4.839
+      }
     },
     {
       "id": "place.hist-heartland.xal-meeruth-station",

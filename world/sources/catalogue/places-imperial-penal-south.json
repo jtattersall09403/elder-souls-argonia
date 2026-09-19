@@ -1337,8 +1337,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "collapse",
-          "gallery",
-          "cache"
+          "cache",
+          "stair-shaft"
         ],
         "loop": "vertical-return",
         "traversal": {
@@ -1353,7 +1353,7 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "standard"
+            "clearance": "tight"
           }
         ],
         "anchorSockets": [
@@ -1363,7 +1363,7 @@
             "whereInInterior": "hidden"
           }
         ],
-        "light": "bioluminescent",
+        "light": "dark",
         "lock": "hard"
       },
       "contents": {
@@ -2688,8 +2688,7 @@
           "entrance",
           "barracks",
           "cell-block",
-          "archive",
-          "boss"
+          "archive"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -2709,6 +2708,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "socket.imperial-penal-south-blackrose-prison.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
+          },
+          {
             "id": "evidence.rose.direnni-foundation-stone",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -2719,25 +2723,14 @@
             "whereInInterior": "threshold"
           },
           {
-            "id": "scene.rose.stair-opening",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "scene.rose.yard-parley",
             "kind": "scene",
             "whereInInterior": "main"
           },
           {
-            "id": "socket.imperial-penal-south-blackrose-prison.boss",
-            "kind": "boss",
-            "whereInInterior": "deep",
-            "provision": "quest.provision.blackrose-archive-wing"
-          },
-          {
-            "id": "socket.imperial-penal-south-blackrose-prison.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
+            "id": "scene.rose.stair-opening",
+            "kind": "scene",
+            "whereInInterior": "main"
           },
           {
             "id": "station.rose.causeway-gate",
@@ -2916,7 +2909,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current",
@@ -2965,8 +2958,7 @@
         "roomFunctions": [
           "ossuary",
           "collapse",
-          "gallery",
-          "midden"
+          "gallery"
         ],
         "loop": "none",
         "traversal": {
@@ -2981,7 +2973,7 @@
           {
             "scale": "smallGroup",
             "footing": "dry",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -3037,6 +3029,49 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "position": {
+        "u": 0.25174,
+        "v": 0.83583
+      },
+      "positionM": [
+        1856.2,
+        6163.0
+      ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0350",
+          "score": 2.407,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
+        },
+        {
+          "siteId": "site.free.roadside-0352",
+          "score": 2.151,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1247",
+          "score": 2.11,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 74 m from the nearest route; its choice #4 landform; won on route, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 73.6,
+        "distanceToWaterM": 51.7,
+        "water": {
+          "entityId": "body.1059-3372",
+          "kind": "marsh-fringe",
+          "levelM": 1.69,
+          "season": "perennial",
+          "distanceM": 51.7
+        },
+        "score": 1.494
       }
     },
     {
@@ -3363,7 +3398,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -3450,7 +3485,35 @@
           "place.imperial-penal-south.west-market-town"
         ]
       },
-      "sitingNote": "Bound to (1941, 6295), the inland head of the Bramman channel, which is the role the record describes. The region list was widened to the lake and fringe-marsh classes the head actually meets, per its own founding line, rather than moving the head off its water."
+      "sitingNote": "Bound to (1941, 6295), the inland head of the Bramman channel, which is the role the record describes. The region list was widened to the lake and fringe-marsh classes the head actually meets, per its own founding line, rather than moving the head off its water.",
+      "position": {
+        "u": 0.24504,
+        "v": 0.87271
+      },
+      "positionM": [
+        1806.8,
+        6434.9
+      ],
+      "footprintRadiusM": 65.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.tidal-delta.river-mouth-000",
+      "candidatesConsidered": [],
+      "whySiteWon": "river mouth in tidal delta (danger band 2), 350 m from the nearest route; at the water's edge; won on nearPoint, parent, route; placed from the homeless batch at stage 'region-relaxed'; needs 1.2 m of water; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "river-mouth",
+        "regionClass": "tidal delta",
+        "dangerBand": 2,
+        "distanceToRouteM": 349.8,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "reach.1249-3511",
+          "kind": "horizontal-channel",
+          "levelM": 1.6,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 1.939
+      }
     },
     {
       "id": "place.imperial-penal-south.buoyant-causeway",
@@ -5356,8 +5419,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "gauntlet",
-          "nursery",
-          "cache"
+          "cache",
+          "midden"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -5402,7 +5465,7 @@
             "whereInInterior": "main"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -5614,7 +5677,7 @@
         "roomFunctions": [
           "flooded-gallery",
           "sump",
-          "drain"
+          "cistern"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -6591,15 +6654,19 @@
         "family": "abandoned-plantation",
         "sizeBand": "S2",
         "wetFraction": 0.1,
-        "entranceCount": 2,
-        "exteriorShell": true,
+        "entranceCount": 3,
+        "exteriorShell": false,
         "programRef": null,
-        "verticalRelationship": "behind",
+        "factsVariedForVariety": [
+          "entranceCount 2 -> 3",
+          "exteriorShell -> False"
+        ],
+        "verticalRelationship": "within",
         "roomFunctions": [
           "entrance",
           "hearth",
-          "counting-room",
-          "cistern"
+          "cistern",
+          "midden"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -8535,12 +8602,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-penal-south-lake-drowned-village.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden",
-            "provision": "quest.provision.mr09-anchor"
-          },
-          {
             "id": "socket.imperial-penal-south-lake-drowned-village.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
@@ -9401,16 +9462,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.lake-meer.unlooted-cache",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.lake-meer.top-terrace",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.imperial-penal-south-lake-submerged-xanmeer.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -9423,8 +9474,12 @@
           {
             "id": "socket.imperial-penal-south-lake-submerged-xanmeer.cache",
             "kind": "cache",
-            "whereInInterior": "hidden",
-            "provision": "quest.provision.dq02-anchor"
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.imperial-penal-south-lake-submerged-xanmeer.shrine",
+            "kind": "shrine",
+            "whereInInterior": "main"
           },
           {
             "id": "socket.imperial-penal-south-lake-submerged-xanmeer.escape",
@@ -9432,8 +9487,13 @@
             "whereInInterior": "entrance"
           },
           {
-            "id": "socket.imperial-penal-south-lake-submerged-xanmeer.shrine",
-            "kind": "shrine",
+            "id": "evidence.lake-meer.unlooted-cache",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.lake-meer.top-terrace",
+            "kind": "scene",
             "whereInInterior": "main"
           }
         ],
@@ -9607,7 +9667,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -9776,7 +9836,34 @@
           "sourcePath": "why.founding",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.22348,
+        "v": 0.68084
+      },
+      "positionM": [
+        1647.8,
+        5020.2
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 35 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, parent, hinterland; placed from the homeless batch at stage 'eviction-repair'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 35.1,
+        "distanceToWaterM": 24.5,
+        "water": {
+          "entityId": "body.894-2731",
+          "kind": "marsh-deep",
+          "levelM": 4.7,
+          "season": "perennial",
+          "distanceM": 24.5
+        },
+        "score": 1.418
+      }
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
@@ -10672,7 +10759,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -10749,6 +10836,50 @@
             "provenance": "thirty years of hull counts"
           }
         ]
+      },
+      "position": {
+        "u": 0.32164,
+        "v": 0.86899
+      },
+      "positionM": [
+        2371.6,
+        6407.5
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "scourSiteId": "site.scour.firm-lowland.natural-harbour-000",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.water-narrows-043",
+          "score": 4.657,
+          "whyLost": "too close to place.imperial-penal-south.saltrice-village"
+        },
+        {
+          "siteId": "site.free.roadside-0358",
+          "score": 4.122,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.islet-015",
+          "score": 3.981,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "natural harbour in firm lowland (danger band 1), 8 m from the nearest route; at the water's edge; won on culture-clump, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "natural-harbour",
+        "regionClass": "firm lowland",
+        "dangerBand": 1,
+        "distanceToRouteM": 7.8,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 3.992
       }
     },
     {
@@ -11263,16 +11394,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.murkwood-verge.drowned-stump-survey",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.murkwood-verge.the-line",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.imperial-penal-south-murkwood-verge.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -11286,6 +11407,16 @@
             "id": "socket.imperial-penal-south-murkwood-verge.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "evidence.murkwood-verge.drowned-stump-survey",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.murkwood-verge.the-line",
+            "kind": "scene",
+            "whereInInterior": "main"
           },
           {
             "id": "station.murkwood-verge.watch-camp",
@@ -11525,7 +11656,7 @@
           {
             "scale": "largeGroup",
             "footing": "swim",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -11706,7 +11837,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -11837,7 +11968,40 @@
           "note": "A low spoil-hidden rise above the marsh water table, enough to keep a shored shaft dry."
         }
       ],
-      "sitingNote": "Pulled off the causeway water (64 m) onto quiet ground 135 m from any route, since the dig depends on ground the carters do not use."
+      "sitingNote": "Pulled off the causeway water (64 m) onto quiet ground 135 m from any route, since the dig depends on ground the carters do not use.",
+      "position": {
+        "u": 0.29561,
+        "v": 0.88981
+      },
+      "positionM": [
+        2179.7,
+        6561.0
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1298",
+          "score": 2.127,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 191 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on bound, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 191.3,
+        "distanceToWaterM": 66.3,
+        "water": {
+          "entityId": "body.1183-3666",
+          "kind": "marsh-fringe",
+          "levelM": 4.0,
+          "season": "perennial",
+          "distanceM": 66.3
+        },
+        "score": 2.255
+      }
     },
     {
       "id": "place.imperial-penal-south.onkobra-clay-kiln",
@@ -12889,7 +13053,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "imperial"
@@ -12977,7 +13141,50 @@
           "placeRef": "place.imperial-penal-south.blackrose"
         }
       ],
-      "designGroup": "group.blackrose-siege-works"
+      "designGroup": "group.blackrose-siege-works",
+      "position": {
+        "u": 0.21827,
+        "v": 0.82288
+      },
+      "positionM": [
+        1609.4,
+        6067.5
+      ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-040",
+          "score": 4.036,
+          "whyLost": "too close to place.imperial-penal-south.akaviri-works"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1246",
+          "score": 3.911,
+          "whyLost": "too close to place.imperial-penal-south.akaviri-works"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.headland-032",
+          "score": 2.659,
+          "whyLost": "too close to place.imperial-penal-south.akaviri-works"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 124 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, bound, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 124.3,
+        "distanceToWaterM": 17.3,
+        "water": {
+          "entityId": "body.874-3292",
+          "kind": "marsh-fringe",
+          "levelM": 1.62,
+          "season": "perennial",
+          "distanceM": 17.3
+        },
+        "score": 2.301
+      }
     },
     {
       "id": "place.imperial-penal-south.rebellion-memorial",
@@ -13690,7 +13897,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -13748,6 +13955,49 @@
             "provenance": null
           }
         ]
+      },
+      "position": {
+        "u": 0.3369,
+        "v": 0.8716
+      },
+      "positionM": [
+        2484.1,
+        6426.8
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0608",
+          "score": 4.996,
+          "whyLost": "too close to place.imperial-penal-south.rose-outworks"
+        },
+        {
+          "siteId": "site.free.roadside-0105",
+          "score": 4.937,
+          "whyLost": "taken by place.imperial-penal-south.rose-outworks"
+        },
+        {
+          "siteId": "site.free.roadside-0610",
+          "score": 4.796,
+          "whyLost": "too close to place.imperial-penal-south.cordon-cellars"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 25 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 24.5,
+        "distanceToWaterM": 11.0,
+        "water": {
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
+          "season": "perennial",
+          "distanceM": 11.0
+        },
+        "score": 4.439
       }
     },
     {
@@ -13891,7 +14141,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -13974,16 +14224,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "evidence.rose-lower.umbriel-residue",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.rose-lower.first-chamber",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.imperial-penal-south-rose-flooded-passage.boss",
             "kind": "boss",
             "whereInInterior": "deep",
@@ -13995,15 +14235,19 @@
             "whereInInterior": "deep"
           },
           {
-            "id": "socket.imperial-penal-south-rose-flooded-passage.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden",
-            "provision": "quest.provision.blackrose-tunnels"
-          },
-          {
             "id": "socket.imperial-penal-south-rose-flooded-passage.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
+          },
+          {
+            "id": "evidence.rose-lower.umbriel-residue",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.rose-lower.first-chamber",
+            "kind": "scene",
+            "whereInInterior": "main"
           }
         ],
         "light": "dark",
@@ -14051,7 +14295,40 @@
           }
         ]
       },
-      "approachDanger": "D2"
+      "approachDanger": "D2",
+      "position": {
+        "u": 0.27405,
+        "v": 0.89948
+      },
+      "positionM": [
+        2020.7,
+        6632.3
+      ],
+      "footprintRadiusM": 30.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.cove-002",
+          "score": 2.871,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "open water in lake & standing water (danger band 3), 345 m from the nearest route; at the water's edge; won on bound, region, danger.",
+      "plotFacts": {
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
+        "dangerBand": 3,
+        "distanceToRouteM": 345.1,
+        "distanceToWaterM": 0.0,
+        "water": {
+          "entityId": "body.1183-3666",
+          "kind": "marsh-fringe",
+          "levelM": 4.0,
+          "season": "perennial",
+          "distanceM": 0.0
+        },
+        "score": 3.37
+      }
     },
     {
       "aliases": [],
@@ -14064,7 +14341,7 @@
         "station": [],
         "marks": []
       },
-      "workflow": "derived",
+      "workflow": "plotted",
       "questHooks": {
         "provisions": [
           "quest.provision.bc04-anchor"
@@ -14264,14 +14541,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-penal-south-rose-outworks.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "socket.imperial-penal-south-rose-outworks.captive",
             "kind": "captive",
             "whereInInterior": "deep"
+          },
+          {
+            "id": "socket.imperial-penal-south-rose-outworks.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           },
           {
             "id": "socket.imperial-penal-south-rose-outworks.escape",
@@ -14279,7 +14556,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "bioluminescent",
+        "light": "torchlit",
         "lock": "hard"
       },
       "contents": {
@@ -14333,6 +14610,49 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "position": {
+        "u": 0.33613,
+        "v": 0.85448
+      },
+      "positionM": [
+        2478.5,
+        6300.5
+      ],
+      "footprintRadiusM": 40.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0105",
+          "score": 5.49,
+          "whyLost": "too close to max-from:settlement"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1251",
+          "score": 5.389,
+          "whyLost": "too close to max-from:settlement"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1278",
+          "score": 5.028,
+          "whyLost": "too close to place.imperial-penal-south.scandal-holding-pit"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 16 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, bound, nearPoint; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 15.5,
+        "distanceToWaterM": 11.0,
+        "water": {
+          "entityId": "reach.1345-3442",
+          "kind": "horizontal-channel",
+          "levelM": 1.77,
+          "season": "perennial",
+          "distanceM": 11.0
+        },
+        "score": 5.09
       }
     },
     {
@@ -14484,7 +14804,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -14606,7 +14926,34 @@
         "temple",
         "trader"
       ],
-      "designGroup": "group.rose-cordon"
+      "designGroup": "group.rose-cordon",
+      "position": {
+        "u": 0.36775,
+        "v": 0.84862
+      },
+      "positionM": [
+        2711.6,
+        6257.3
+      ],
+      "footprintRadiusM": 140.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [],
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 5 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on culture-clump, nearPoint, route; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 22.6,
+        "water": {
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
+          "season": "perennial",
+          "distanceM": 22.6
+        },
+        "score": 5.008
+      }
     },
     {
       "id": "place.imperial-penal-south.saltrice-village",
@@ -14767,8 +15114,8 @@
         "verticalRelationship": "below",
         "roomFunctions": [
           "flooded-gallery",
-          "sump",
-          "cache"
+          "cache",
+          "collapse"
         ],
         "loop": "water-loop",
         "traversal": {
@@ -14798,7 +15145,7 @@
             "whereInInterior": "entrance"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
@@ -15857,8 +16204,7 @@
           "stair-shaft",
           "gallery",
           "cache",
-          "boss",
-          "gauntlet"
+          "boss"
         ],
         "loop": "none",
         "traversal": {
@@ -15873,12 +16219,12 @@
           {
             "scale": "largeGroup",
             "footing": "wade",
-            "clearance": "generous"
+            "clearance": "standard"
           },
           {
             "scale": "boss",
             "footing": "wade",
-            "clearance": "generous"
+            "clearance": "standard"
           }
         ],
         "anchorSockets": [
@@ -15903,7 +16249,7 @@
             "whereInInterior": "threshold"
           }
         ],
-        "light": "torchlit",
+        "light": "bioluminescent",
         "lock": "hard"
       },
       "contents": {
