@@ -49,8 +49,9 @@ windows (planner + subagents, weighted by Anthropic's price ratios).
 
 From the latest window: the three largest sources by cost units and, for the
 costliest sessions listed, what pattern made them expensive (turns, explore
-calls, sleeps, subagent volume). Read a costly session's transcript ONLY via
-a `find` agent asked a narrow question (e.g. "list this session's 20 longest
+calls, sleeps, subagent volume). The costliest-sessions line usually
+explains the pattern by itself; only when it does not, read that session's
+transcript via a `find` agent asked a narrow question (e.g. "list this session's 20 longest
 Bash commands and whether each was exploratory"); never open a transcript
 yourself.
 
