@@ -91,7 +91,7 @@ SCHEMA_VERSION = 1
 
 SERVICE_KINDS = ["ferry", "boat", "rootworm", "guide", "cart", "porter"]
 STATION_KINDS = ["place", "ferry-landing", "root-node"]
-HOP_FOLLOWS = ["lane", "lanes", "bodies", "reaches", "rootway", "road"]
+HOP_FOLLOWS = ["lane", "lanes", "bodies", "rivers", "reaches", "rootway", "road"]
 FORMS = {"road-crossing", "station-run"}
 STATUSES = {"active", "placeholder", "deferred", "unmatched", "retired"}
 #: A retired service is kept as a record of a decision, never re-resolved:
@@ -743,6 +743,13 @@ def derive(doc: dict, crossings: list[dict], sw=None, places=None, net=None,
 # station-run hops follow the published waterways (rule 3)
 # --------------------------------------------------------------------------
 
+def _accepted_homeless() -> set[str]:
+    """The place ids the owner has accepted as unsited (`macro_plot`'s
+    register, read once)."""
+    from .macro_plot import accepted_homeless
+    return set(accepted_homeless())
+
+
 def _station_bodies(station: dict, places: dict, node, net, sw) -> set[str]:
     """The recorded water bodies a station stands on the edge of.
 
@@ -761,6 +768,34 @@ def _station_bodies(station: dict, places: dict, node, net, sw) -> set[str]:
         if rec.get("id"):
             out.add(rec["id"])
     return {i for i in out if str(i).startswith("body.")}
+
+
+def _station_rivers(station: dict, places: dict, node, net, sw) -> set[str]:
+    """The rivers a station stands on, through the REACH records it touches.
+
+    Same two witnesses as `_station_bodies` — the plot's measured water fact
+    and the berth-walk vertex — read one step further: a reach belongs to a
+    river, and two stations on the same river are joined by it whether or not
+    a lane has been drawn between them (16g, 2026-09-19).
+    """
+    if sw is None:
+        return set()
+    ids: set[str] = set()
+    place = places.get(station.get("placeId")) if station.get("placeId") else None
+    entity = ((place or {}).get("plotFacts") or {}).get("water") or {}
+    if entity.get("entityId"):
+        ids.add(entity["entityId"])
+    if node is not None:
+        rec = sw.water_at(net.pts[node][0], net.pts[node][1]) or {}
+        if rec.get("id"):
+            ids.add(rec["id"])
+    out = set()
+    for i in ids:
+        reach = sw.reach(i) if not str(i).startswith("body.") else None
+        river = (reach or {}).get("river")
+        if river:
+            out.add(str(river))
+    return out
 
 
 def _resolve_station_hops(doc: dict, stations: dict, net, sw=None, places=None) -> list[str]:
@@ -793,6 +828,18 @@ def _resolve_station_hops(doc: dict, stations: dict, net, sw=None, places=None) 
             continue
         if s.get("status") == RETIRED:
             continue
+        # A station whose place the owner has ACCEPTED as unsited stands
+        # nowhere, so its service cannot be solved and is not a failure
+        # either: it is DEFERRED until the place has ground (16g, 2026-09-19).
+        homeless = sorted(sid for sid in (s.get("stations") or [])
+                          if (stations.get(sid) or {}).get("placeId") in _accepted_homeless())
+        if homeless:
+            s["status"] = "deferred"
+            s["deferredWhy"] = (f"{homeless[0]} is in the accepted-homeless register"
+                                if len(homeless) == 1 else
+                                ", ".join(homeless) + " are in the accepted-homeless register")
+            s.pop("unmatchedWhy", None)
+            continue
         need = HULL_CLASS_DEPTH_M.get(s.get("hullClass"), 0.0)
         if s.get("status") == "unmatched":
             s["status"] = "active"
@@ -819,6 +866,18 @@ def _resolve_station_hops(doc: dict, stations: dict, net, sw=None, places=None) 
                 hop.pop("unresolved", None)
                 lines.append(f"{s['id']}: hop {hop['from']} -> {hop['to']} crosses "
                              f"{shared[0]} for {straight} m (both stations stand on it; "
+                             f"no lane joins them)")
+                continue
+            rivers = sorted(_station_rivers(a, places, na, net, sw)
+                            & _station_rivers(b, places, nb, net, sw))
+            if rivers and (far or na is None or nb is None or net.path(na, nb) is None):
+                # One river under both ends: the run follows the river, which
+                # is what a lane between them would only be a drawing of.
+                hop["follows"] = {"rivers": [rivers[0]]}
+                hop["lengthM"] = straight
+                hop.pop("unresolved", None)
+                lines.append(f"{s['id']}: hop {hop['from']} -> {hop['to']} follows "
+                             f"{rivers[0]} for {straight} m (both stations stand on it; "
                              f"no lane joins them)")
                 continue
             if na is None or nb is None or far:
@@ -1337,6 +1396,31 @@ def _road_edges(doc: dict, stations: dict, live: set[str]) -> list[dict]:
                 "why": f"{s['id']} repairs the break in {road_id}; its landing stands on that "
                        f"road, which runs to {near['id']}",
             })
+
+    # A named TRACK with stages carries the places it is counted through just
+    # as a road does: a station standing at a stage of the Coast road is on
+    # that track, and the track runs to the two ports it is counted between
+    # (16g, 2026-09-19).
+    for row in _registry():
+        if row.get("class") != "track" or not row.get("stages"):
+            continue
+        anchors = [st for end in (row.get("from"), row.get("to"))
+                   for st in (by_anchor.get(end) or [])]
+        if not anchors:
+            continue
+        for stage in row["stages"]:
+            for sid in sorted(live):
+                st = stations[sid]
+                if st.get("placeId") != stage or not st.get("positionM"):
+                    continue
+                near = min(anchors, key=lambda a: _dist(st["positionM"], a["positionM"]))
+                if near["id"] == sid:
+                    continue
+                edges.append({
+                    "from": sid, "to": near["id"], "roadId": row["id"],
+                    "why": f"{stage} is a stage of {row['id']}, which carries it "
+                           f"to {near['id']}",
+                })
     return edges
 
 

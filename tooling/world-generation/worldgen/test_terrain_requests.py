@@ -6,7 +6,7 @@ import copy
 import hashlib
 import json
 
-from . import terrain_requests as tr
+from . import macro_plot, terrain_requests as tr
 
 
 def _record(place_id: str = "place.test.landform", requests: list[dict] | None = None) -> dict:
@@ -53,15 +53,32 @@ def _good_manifest(plan: dict) -> dict:
     }
 
 
+#: Records the owner has ACCEPTED as unsited (`plot-homeless-accepted.json`).
+#: They carry no dot, so a terrain request on one cannot be planned; that is
+#: the register's consequence, not a planning failure (16g, 2026-09-19).
+ACCEPTED_HOMELESS_IDS = {
+    r["id"] for r in json.loads(macro_plot.HOMELESS_ACCEPTED.read_text())["records"]
+}
+
+
 def test_live_catalogue_is_exhaustively_planned():
     records = tr.catalogue_records()
+    by_id = {r["id"]: r for r in records}
+    for rid in ACCEPTED_HOMELESS_IDS:
+        assert "position" not in (by_id.get(rid) or {}), rid
     source = [(record["id"], request) for record in records
+              if record["id"] not in ACCEPTED_HOMELESS_IDS
               for request in record.get("terrainRequests") or []]
-    plan, errors = tr.build_plan(records)
+    # a record in the register carries no dot, so its request cannot be
+    # planned; it is left out of the plan rather than counted a failure
+    plan, errors = tr.build_plan([r for r in records
+                                  if r["id"] not in ACCEPTED_HOMELESS_IDS])
     assert not errors
-    # The current authored baseline includes Lilmoth's typed lighter-quay cut.
-    assert len({place_id for place_id, _ in source}) == 54
-    assert len(source) == len(plan["requests"]) == len(plan["operations"]) == 66
+    # 16g withdrew the requests of eight records (the known-red set:
+    # two-hundred-roofs, slumped-hamlet, divers-landing, greenspring,
+    # drowned-furrow, chasecreek, lilmoth, oliis-drake-deep) on 2026-09-19.
+    assert len({place_id for place_id, _ in source}) == 45
+    assert len(source) == len(plan["requests"]) == len(plan["operations"]) == 56
     assert {row["placeId"] for row in plan["requests"]} == {place_id for place_id, _ in source}
     assert {row["requestId"] for row in plan["operations"]} == {row["id"] for row in plan["requests"]}
 

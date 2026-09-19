@@ -7,6 +7,7 @@ and check are each exercised on data whose right answer is known.
 """
 
 import json
+from types import SimpleNamespace
 
 import pytest
 
@@ -539,6 +540,42 @@ def test_two_stations_on_one_body_follow_the_body_without_a_lane():
     assert not [e for e in ts.check(doc) if "follows" in e], ts.check(doc)
 
 
+def test_two_stations_on_one_river_follow_the_river_without_a_lane():
+    """Two stations on reaches of the same river are joined by the river,
+    whether or not a lane has been drawn between them (16g, 2026-09-19)."""
+    doc = _run_graph()
+    doc["harbourStations"] = {}
+    places = _stub_places()
+    places["place.stub.a"]["plotFacts"] = {"water": {"entityId": "reach.upper", "kind": "river"}}
+    places["place.stub.b"]["plotFacts"] = {"water": {"entityId": "reach.lower", "kind": "river"}}
+    places["place.stub.b"]["positionM"] = [400.0, 4000.0]      # far off any lane
+    sw = SimpleNamespace(
+        water_at=lambda x, z: None,
+        reach=lambda i: {"id": i, "river": "river.stub"} if i.startswith("reach.") else None)
+    ts.derive(doc, [], sw=sw, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    s = doc["services"][0]
+    hop = s["hops"][0]
+    assert s["status"] == "active", s.get("unmatchedWhy")
+    assert hop["follows"] == {"rivers": ["river.stub"]}
+    assert "unresolved" not in hop
+    assert not [e for e in ts.check(doc) if "follows" in e], ts.check(doc)
+
+
+def test_two_stations_on_different_rivers_still_need_a_lane():
+    doc = _run_graph()
+    places = _stub_places()
+    places["place.stub.a"]["plotFacts"] = {"water": {"entityId": "reach.a"}}
+    places["place.stub.b"]["plotFacts"] = {"water": {"entityId": "reach.b"}}
+    places["place.stub.b"]["positionM"] = [400.0, 4000.0]
+    rivers = {"reach.a": "river.one", "reach.b": "river.two"}
+    sw = SimpleNamespace(water_at=lambda x, z: None,
+                         reach=lambda i: {"id": i, "river": rivers.get(i)})
+    ts.derive(doc, [], sw=sw, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    assert doc["services"][0]["status"] == "unmatched"
+
+
 def test_two_stations_on_different_bodies_still_need_a_lane():
     doc = _run_graph()
     places = _stub_places()
@@ -561,3 +598,40 @@ def test_a_lane_solve_still_wins_where_the_lanes_join():
               roots={}, harbours={}, anchors=[])
     assert doc["services"][0]["hops"][0]["follows"] == {
         "lanes": ["route.boat.west", "route.boat.east"]}
+
+
+def test_a_named_track_with_stages_carries_its_stage_station_to_the_port():
+    """A station at a stage of the Coast road is on that track, and the track
+    runs to the two ports it is counted between (16g, 2026-09-19)."""
+    doc = _run_graph()
+    doc["stations"].append({"id": "station.stub.port", "kind": "place",
+                            "placeId": "place.stub.port", "positionM": [900.0, 0.0],
+                            "status": "active"})
+    row = {"id": "route.track.stub.coast", "class": "track", "mode": "road",
+           "from": "port", "to": "far", "stages": ["place.stub.b"]}
+    import worldgen.travel_services as mod
+    old = mod._registry
+    mod._registry = lambda: [row]
+    try:
+        edges = ts._road_edges(doc, {st["id"]: st for st in doc["stations"]},
+                               {st["id"] for st in doc["stations"]})
+    finally:
+        mod._registry = old
+    assert [(e["from"], e["to"], e["roadId"]) for e in edges] == [
+        ("station.stub.b", "station.stub.port", "route.track.stub.coast")]
+    assert edges[0]["why"] == ("place.stub.b is a stage of route.track.stub.coast, "
+                               "which carries it to station.stub.port")
+
+
+def test_a_service_at_an_accepted_homeless_place_is_deferred(monkeypatch):
+    """Not unmatched (that says the solve failed) and not active (it cannot
+    run): the place has no ground yet, so the service waits for it."""
+    doc = _run_graph()
+    doc["harbourStations"] = {}
+    monkeypatch.setattr(ts, "_accepted_homeless", lambda: {"place.stub.b"})
+    ts.derive(doc, [], sw=None, places=_stub_places(), net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    s = doc["services"][0]
+    assert s["status"] == "deferred"
+    assert s["deferredWhy"] == "station.stub.b is in the accepted-homeless register"
+    assert "unmatchedWhy" not in s

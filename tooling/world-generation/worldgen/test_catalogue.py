@@ -753,6 +753,44 @@ KNOWN_SAMENESS_PAIRS = frozenset({
      "place.naga-kur-deeps.wreck-submerged-barge"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 neutral
     ("place.saxhleel-coast.mangrove-air-pocket",
      "place.saxhleel-coast.outer-reef"),   # flooded-cave S2 wet 0.6 D3 underwater-entry x1 hostile
+    # 16g re-plot 2026-09-19: the variation ladder is spent on both ends;
+    # a world-fact change is the owner's call (ledger §3).
+    ("place.imperial-fringe.the-old-quarters",
+     "place.imperial-penal-south.flu-quarantine-village"),   # depopulated S2 entrances x3 shell False — agree on 4 axes
+    ("place.imperial-penal-south.flu-quarantine-village",
+     "place.mercantile-coast.rockpark"),   # outcast-settlement S2 entrances x3 shell False — agree on 4 axes
+    ("place.dunmer-north.seam-chasers",
+     "place.dunmer-north.the-guar-ground"),   # civil-camp S2 entrances x2 shell False — agree on 4 axes
+    ("place.hist-heartland.legendary-deep-medusa-wood",
+     "place.naga-kur-deeps.air-pocket-station-deeps"),   # beast-lair S2 entrances x2 shell True — agree on 5 axes
+    ("place.hist-heartland.legendary-deep-medusa-wood",
+     "place.naga-kur-deeps.legendary-deep-feather-serpent"),   # beast-lair S2 entrances x2 shell True — agree on 4 axes
+    ("place.imperial-fringe.the-cold-lights",
+     "place.imperial-fringe.the-drowned-furrow"),   # curiosity S2 entrances x2 shell True — agree on 5 axes
+    ("place.hist-heartland.bubble-spire-collapsed",
+     "place.hist-heartland.rootworm-burrow-dead"),   # root-transit S2 entrances x1 shell True — agree on 6 axes
+    ("place.hist-heartland.canopy-crossing-rope-basin",
+     "place.hist-heartland.collapsing-pinnacle-interior"),   # elevated S2 entrances x2 shell True — agree on 5 axes
+    ("place.hist-heartland.canopy-crossing-rope-basin",
+     "place.hist-heartland.rootworm-burrow-live"),   # elevated S2 entrances x2 shell True — agree on 5 axes
+    ("place.hist-heartland.climbable-ruin-roof-terrace",
+     "place.hist-heartland.root-gallery-lantern-hollow"),   # curiosity S2 entrances x1 shell True — agree on 4 axes
+    ("place.hist-heartland.collapsing-pinnacle-interior",
+     "place.hist-heartland.rootworm-burrow-live"),   # hazard-ground S2 entrances x2 shell True — agree on 5 axes
+    ("place.hist-heartland.collapsing-pinnacle-interior",
+     "place.naga-kur-deeps.sithis-temple-mass-sacrifice"),   # hazard-ground S2 entrances x2 shell True — agree on 4 axes
+    ("place.hist-heartland.hammock-crown-ancestor",
+     "place.hist-heartland.waiting-vigil-village"),   # the-dead S2 entrances x2 shell True — agree on 4 axes
+    ("place.hist-heartland.miregaunt-ward-approach",
+     "place.naga-kur-deeps.miregaunt-ward-open"),   # beast-lair S1 entrances x1 shell True — agree on 4 axes
+    ("place.hist-heartland.root-gallery-drowned-stair",
+     "place.hist-heartland.sap-touched-miredancer"),   # root-system S2 entrances x2 shell True — agree on 4 axes
+    ("place.hist-heartland.umpholo-mission",
+     "place.naga-kur-deeps.sithis-temple-mass-sacrifice"),   # imperial-ruin S3 entrances x3 shell False — agree on 5 axes
+    ("place.imperial-fringe.collections-dig",
+     "place.imperial-fringe.the-niben-crystal-workings"),   # expedition-camp S2 entrances x1 shell True — agree on 4 axes
+    ("place.mercantile-coast.hammock-crown-murkmire",
+     "place.mercantile-coast.root-gallery-murkmire"),   # the-dead S2 entrances x2 shell True — agree on 4 axes
 })
 
 
