@@ -42,9 +42,11 @@ the lever is the **number of planner turns**, not output size.
    tamp, ClaudeSlim) and cross-provider routers were ruled out for that
    reason; symbol-navigation servers (Serena, Repomix, Atlas) were ruled
    out because our exploration is shell and docs, not symbol lookup.
-4. **Effort matches the policy in config.** Opus 5 at low effort by default
-   (`modelSettings`), `CLAUDE_CODE_SUBAGENT_MODEL=sonnet` so the built-in
-   Explore/Plan/general-purpose agents never inherit Fable.
+4. **Low effort by default for every model, Fable included** (owner
+   2026-09-19), set in `modelSettings`; a session that needs deeper
+   reasoning raises it for that session only (`/effort high`).
+   `CLAUDE_CODE_SUBAGENT_MODEL=sonnet` so the built-in Explore/Plan/
+   general-purpose agents never inherit Fable.
 5. **CLAUDE.md carries the rule, the record carries the history.** Every
    subagent loads CLAUDE.md; its golden rules were rewritten to one
    operative statement each, with the dated owner history left in the
