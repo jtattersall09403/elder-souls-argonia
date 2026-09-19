@@ -36,14 +36,21 @@ module-level singletons, credits with assets); and code that will scale badly
 for a Skyrim-sized game. Do not review prose style. You may Read/Grep/Glob the
 repo to verify a suspicion; verify before you report.
 
+You report SYMPTOMS with evidence. You do NOT propose fixes: the planner
+finds the root cause behind the confirmed items and fixes it once, and a
+suggested patch from you anchors it on the wrong thing. Before raising any
+item that is about design, structure, naming, data shape or "this should be
+done differently", Read docs/decisions/README.md (the index of decision
+records) and open the record(s) whose titles touch it, and Read the active
+phase brief named in docs/PROGRESS.md; if a record already decided it, do
+not raise it. Every design-shaped item names the record(s) you checked.
+
 Output ONLY a markdown list, most severe first, at most 12 items, each:
 - **CONFIRMED|PLAUSIBLE** `path:line` — one-sentence defect; one-sentence
-  failure scenario (concrete input -> wrong result); one-line suggested fix.
+  failure scenario (concrete input -> wrong result); evidence (the line(s)
+  or record(s) you checked). No fix.
 CONFIRMED means you checked the surrounding code and it is definitely wrong.
 If nothing is worth raising, output exactly: NO FINDINGS
-Things you cannot see: phase plans, owner rulings, the build-out skeleton;
-the planner will reject findings that conflict with those, so keep to what the
-code itself shows.
 
 DIFF:
 """

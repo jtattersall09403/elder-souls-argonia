@@ -95,6 +95,22 @@ the lever is the **number of planner turns**, not output size.
    generated file). The built-in `/code-review` skill was not used because
    a headless session cannot ask permission for `git diff`; the hook
    computes the diff and pipes it in.
+9. **The reviewer reports symptoms; Fable finds causes** (owner, same
+   day: Opus reviews had proposed short-sighted fixes that ignored records
+   and downstream systems). The reviewer prompt forbids suggested fixes,
+   requires the decisions index and the active phase brief to be checked
+   before any design-shaped item, and names the records checked; CLAUDE.md
+   makes the planner batch CONFIRMED items and fix the shared cause once.
+   Fable's expensive reasoning is spent only on defects that survived
+   verification, never on finding them.
+10. **Context is found by crawling, never by keyword search** (owner, same
+   day), as a golden rule and a session-start step (scan the decisions
+   index titles, read the records that touch the task, fan out with `find`
+   agents over folder names, filenames and READMEs). Measured before the
+   rule: across 25 sessions, 42 of 79 decision records were ever opened and
+   the ten most-opened were all records the sessions themselves were
+   writing; the older, binding ones were reached only when a router row
+   named them.
 6. **Measure, don't hope.** A `SessionStart` hook in the committed
    `.claude/settings.json` prints one line at every session start: the last
    ten sessions' average cached input, turns and shell share against the
