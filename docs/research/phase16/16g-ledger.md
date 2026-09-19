@@ -625,3 +625,25 @@ Median R = 1.117; zones evener than random: dunmer-north, imperial-fringe, imper
 | saxhleel-coast | 36 | 1.72 | 148.4 | 132.8 | 1.117 |
 
 Reasoning: _(to be written by hand)_
+
+## 0b. Pause point (2026-09-19) and the resume plan
+
+Paused mid-step-3 at the owner's request (a session restart). Committed:
+`faeede90` (step 1) and `dd5bfe4d` (step 2). Root causes found on the way:
+the survey preferred a dead `refined/height-natural-rg.png` from
+2026-09-09, so every height and slope sampled since 16b read about 17 m
+low (deleted; the survey reads `height-rg.png`, which is the natural
+array); `record_depth_grid` gave a body its maximum depth at every pixel
+(now the compiled depth); prose lore ties had no typed form
+(`sitingPrefs.nearWater` and `minDepthM` added); a homeless record kept
+its stale dot (cleared). The second `--resolve-all` on the corrected
+ground sites 579 of 580 (homeless: `place.imperial-fringe.the-stone-talkers-watch`).
+The eight review packs under `16g-review/` were measured before the
+height fix: their distance, water-kind and relation rows stand; their
+slope, clearance and terrain-promise rows do not. Two lanes were mid-edit
+at the pause and are uncommitted on disk: the fast-travel mechanism
+(`travel_services.py`, the harbour and rootworm authored inputs) and the
+minor networks (`compile_minor_routes/waterways`, the registry tracks).
+Resume order: remedies per region into `plot-remedies.json` → promises
+refresh and roster re-apply → text review → the chain run
+`--from apply_sitings --through 16g` → gates → docs close → owner check.
