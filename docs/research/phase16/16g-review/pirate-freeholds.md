@@ -21,11 +21,11 @@ Measured 2026-09-19 from `world/sources/catalogue/places-pirate-freeholds.json`
    `careening-hard`'s "foreign keeled hulls come this far up the river" cannot happen.
 4. `rockpoint` (stronghold candidate) fails three ways: **no line of sight to the trunk
    road** (302.5 m, `line_of_sight` false — quests 25 §20e), its `plotFacts` water is
-   `body.2039-884`, an **unnamed 0.36 m puddle** at 40 m, and the real water (The Open
-   Water, 5–9 m) is 100–140 m off and belongs to hist-heartland.
+   `body.2039-884`, an **unnamed 0.36 m puddle** at 40 m. The real water (The Open
+   Water, 5–9 m) sits 100–140 m off and belongs to hist-heartland.
 5. The opening ring's **corridor holds** (work-camp→gate is band 2–3 the whole way) and a
    trivial interior + vantage sit at 93 m and 153 m; but **D4 ground reaches within 25 m**
-   of the camp in 4 of 24 sectors, and 22 of 24 sectors hold band-4 ground inside 250 m.
+   of the camp in 4 of 24 sectors; 22 of 24 sectors hold band-4 ground inside 250 m.
 6. No A6 footprint breach survives: the four sub-sum pairs against Alten Corimont are all
    `boundTo` it, so A6 clears the smaller radius. All 8 `boundTo` pairs are inside their
    `maxM`; both `sightlineTo` pairs have clear line of sight.
@@ -63,14 +63,14 @@ reasoning line). The remedies below are edits to
 | `flu-cairn-field` | cairn-field | 696.8 | clean: band 3, 112.9 m to road |
 | `bone-repatriation-waystation` | — | 650.8 | slope 50.5° at the dot; 130.0 m to road, 46.5 m to lane (§5) |
 | `dres-holding-pens` | slaver-apparatus | 635.9 | prose "a river landing", "trunk road within thirty paces": water 159.4 m, road **358.1 m** |
-| `kothringi-river-ruin` | kothringi-ruin | 573.3 | prose "village on the bend … with a landing": water 28.0 m OK; road 236.8 m |
+| `kothringi-river-ruin` | kothringi-ruin | 573.3 | prose "village on the bend" plus "with a landing": water 28.0 m OK; road 236.8 m |
 | `corimont-low-store` | flooded-passage | 517.6 | "a dry-ish cellar under a wet bank, on the water": depth 0.0, shore 3.7 m — borderline OK |
 | `rim-keystone-chamber` | keystone-chamber | 508.4 | "cut into the rim rock above the river": nearest water is `pond` at 161 m, 245 m up |
 | `rim-smugglers-ledge-north` | smugglers-ledge | 431.8 | "a cliff bench two-thirds up the border wall": elev **−17.6 m**, slope 5.9°, region firm lowland |
 | `rim-pass-station` | mountain-pass-station | 411.0 | "the saddle at 226 m": elev **152.9 m**, slope 1.6° |
 | `corimont-hiring-yard` | owing-eviction-camp | 386.9 | **status active** (brief said deferred); 7.7 m to road, OK |
 | `dunmer-frontier-holding` | — | 352.0 | clean: `reach.2573-545` `sloped-rapid` at the dot, "its own water" holds |
-| `upriver-hist-village` | hist-village | 342.3 | "nine bends upriver … fresh above the salt wedge": water is the same level-0.0 sheet, 11.0 m |
+| `upriver-hist-village` | hist-village | 342.3 | "nine bends upriver" plus "fresh above the salt wedge": water is the same level-0.0 sheet, 11.0 m |
 | `opening-work-camp` | muster-yard | 320.8 | opening ring — §3 |
 | `rockpoint` | claimable-steading | 245.2 | three failures — §4 |
 | `corimont-hist-less-camp` | hist-less-refuge | 235.6 | "the town's landward fringe": 313.7 m from the camp, 397 m from any route |
@@ -90,7 +90,7 @@ moved under 150 m.
 
 `body.2442-1212` "Swallows-The-Border": `marsh-deep`, `sheet: true`, level 0.0,
 1 428 675 m², meanDepth 1.3 m, `culture: dunmer-north`, grounded in `names.json` as
-"the province's largest single water … deep marsh **on the border**".
+"the province's largest single water" and "deep marsh **on the border**".
 
 Records keyed to it (21): `alten-corimont`, `careening-hard`, `channel-pirate-anchorage`,
 `chasecreek`, `corimont-crosstrees`, `corimont-hiring-yard`, `corimont-low-store`,
@@ -102,9 +102,9 @@ Records keyed to it (21): `alten-corimont`, `careening-hard`, `channel-pirate-an
 Their prose claims, in their own words: "the last reach of navigable river", "an oxbow
 that makes a natural basin", "moored in the channel", "the span at this reach", "nine
 bends upriver", "the confluence", "a blind reach with a cut bank", "the bank from which
-the barges loaded". None of that is a level-0.0 border marsh sheet. The `chasecreek`
+the barges loaded". Every one of those descriptions is wrong for a level-0.0 border marsh sheet. The `chasecreek`
 known-red row (`cut: depthM, waterRelation`) is the same defect surfacing in the terrain
-gate: the graph runs no channel here to cut into.
+gate: the graph runs no channel here for the cut.
 
 Exceptions: `dunmer-frontier-holding` → `reach.2573-545` `sloped-rapid` (consistent);
 `half-chartered-anchorage` → `body.1787-344` Galonen Lake, `lake-lowland`, prose "a long
@@ -115,7 +115,7 @@ there); `reach-wreck` → `body.1912-542` No-Bottom, `marsh-deep`, graph maxDept
 **Proposals (one of these, zone-level, not per record):**
 - `prose-rewrite` across the 21: say marsh sheet, drowned basin, poled water, "the
   border water" — drop river / reach / channel / bend / confluence / bar / salt wedge.
-  Cheapest, and it keeps every dot.
+  Cheapest; it keeps every dot.
 - `pin-by-siting` on `alten-corimont` alone (`sitingPrefs.hardConstraints`: "on a graph
   `reach`, not a `body`") and re-solve the zone onto the Onkobra's Shadowfen reach that
   carries `route.boat.alten-corimont-helstrom`; the dependants follow by `boundTo`.
@@ -155,7 +155,7 @@ Ring principles (`docs/research/quests-and-cast/opening-hours-and-start-area.md`
 - **A vantage — HOLDS.** `corimont-crosstrees`, 153.5 m, `visibleFrom` both openers.
 - **No D4/D5 within 250 m in every direction — SPLIT.** No D4/D5 *place* within 250 m
   (nearest 508.8 m). But `survey.danger` *ground*: 22 of 24 bearings hold band-4 cells
-  inside 250 m, and 4 bearings (120°, 225°, 240°, 255°, 270° — i.e. the southern and
+  inside 250 m; 4 bearings (120°, 225°, 240°, 255°, 270° — i.e. the southern and
   western arcs) are band 4 at the first sample, 25 m out. No band 5 anywhere in the ring.
 
 Other lines to the gate: `opening-work-barge` max 4; `upriver-hist-village` max 4 over a
@@ -268,4 +268,5 @@ The ledger's "gate: out" is a **mask artefact**, not crowding: the culture mask 
 mask does not own. On the ground the zone actually uses, density is ≈ 21/km², inside the
 18–22 band. Almost none of its land is dangerous (3.4 % at D4–D5), which is why the
 D4–D5 record count (3 / 3.8 per km²) sits under the 8–12 band — a genuine shortfall of
-hostile places, consistent with A10, and worth a line in the ledger rather than a re-plot.
+hostile places. That is consistent with A10 and worth a line in the ledger rather than a
+re-plot.
