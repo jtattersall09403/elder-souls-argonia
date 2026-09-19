@@ -40,6 +40,22 @@ Classes: `crossing` (a short bank-to-bank ferry hop), `river` (mostly a
 navigable river corridor or lake), `channel` (poled/canoe shallow water —
 the default).
 
+THE RECORD FLOATS THE LANE (16g, decisions 0065/0066)
+-----------------------------------------------------
+A lane carries a hull class (`hullClass`: the berth's declared class, else the
+station's modes, else the poled canoe) and is lined only on the reaches and
+bodies whose RECORD depth floats it — a reach's declared `depthM`, a body's
+`maxDepthM`, read through the entity id raster (`recorded_depth_m`). The bake's
+measured depth is never the decider: the compile realises the graph, it does
+not re-derive it. Where the first line crosses water the record cannot float,
+the lane is RE-LINED on the water that floats it (`hull_graph`); failing that,
+the station is snapped elsewhere; failing that, the crossing stands and is
+typed on the lane as a `features[]` entry — `portage` where the record has no
+water at all, `boardwalk` where there is water but too little of it — with the
+px run it covers. Nothing is ever dredged to make a lane fit
+(`docs/world/60-water-traversal.md` §45, owner ruling 6).
+`hullClass` and `features[]` are additive within schema 3.
+
 Deterministic: no randomness; the batches are sorted by id and the heap
 breaks ties by (cost, row, col).
 
@@ -61,7 +77,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 
@@ -109,6 +125,16 @@ AXIS_SNAP_STEP_M = 0.5          # finer than the routing grid, which is the poin
 # The shallowest hull the province floats: a berth may not be certified against
 # mere membership of a raster blob, it needs water a poled canoe can sit in.
 MIN_BERTH_DEPTH_M = bp_mod.HULL_CLASS_DEPTH_M["canoe"]
+#: The hull a lane carries when nothing declares one: the poled canoe, which is
+#: what reaches most of Black Marsh and the shallowest thing that floats.
+DEFAULT_HULL_CLASS = "canoe"
+#: What a stretch of a lane becomes where the RECORD cannot float its hull.
+#: Never a dredge: `docs/world/60-water-traversal.md` §45 (the densifying
+#: network), owner ruling 6 — a lane that crosses ground
+#: the record does not carry is a portage or a boardwalk, and it is typed as one on the
+#: lane itself.
+FEATURE_PORTAGE = "portage"
+FEATURE_BOARDWALK = "boardwalk"
 
 
 # --------------------------------------------------------------------------- #
@@ -277,6 +303,64 @@ def channel_season(s: ProvinceSurvey, path: list[tuple[int, int]]) -> tuple[str,
     if dry_always:
         return SEASON_DRY, dry_always
     return (SEASON_YEAR_ROUND if bool(base.all()) else SEASON_WET), 0
+
+
+def lane_hull_class(rec: dict, dock: dict | None) -> str:
+    """The hull a lane must float: the berth's declared class, else the
+    place's travel station modes, else the poled canoe."""
+    if dock and dock.get("hullClass") in HULL_DEPTH_M:
+        return str(dock["hullClass"])
+    modes = set(((rec.get("travelStation") or {}).get("modes")) or [])
+    if "boat" in modes or "pilot" in modes:
+        return "small-draft"
+    return DEFAULT_HULL_CLASS
+
+
+def record_floats(s: ProvinceSurvey, hull: str) -> np.ndarray:
+    """Where the RECORD says a hull of this class floats.
+
+    The decider is the record's own designed depth — a reach's `depthM`, a
+    body's `maxDepthM`, read through the entity id raster
+    (`ProvinceSurvey.recorded_depth_m`, `ShippedWater.record_depth_grid`) —
+    never the bake's measured depth (0065/0066: the compile realises the
+    graph, it does not re-derive it).
+    """
+    need = HULL_DEPTH_M.get(hull, MIN_BERTH_DEPTH_M)
+    return np.asarray(s.recorded_depth_m) + 1e-6 >= need
+
+
+def lane_features(s: ProvinceSurvey, path: list[tuple[int, int]], hull: str) -> list[dict]:
+    """The typed `features[]` of a lane: every run of the line the record
+    cannot float, as a `portage` or a `boardwalk`.
+
+    A lane crossing ground the record does not carry is NOT dredged
+    (60 §45, owner ruling 6). Where the record has no water at all under the
+    run, the crew carries the hull: a portage. Where there is water but too
+    little of it for the class, the run is decked and walked: a boardwalk.
+    Each feature carries the px run it covers, so the structure author and the
+    studio draw it on the exact cells.
+    """
+    floats = record_floats(s, hull)
+    depth = np.asarray(s.recorded_depth_m)
+    out: list[dict] = []
+    run: list[tuple[int, int]] = []
+    for c, r in path:
+        if floats[r, c]:
+            if run:
+                out.append(_feature(depth, run))
+                run = []
+            continue
+        run.append((int(c), int(r)))
+    if run:
+        out.append(_feature(depth, run))
+    return out
+
+
+def _feature(depth: np.ndarray, run: list[tuple[int, int]]) -> dict:
+    dry = all(depth[r, c] <= 0.0 for c, r in run)
+    return {"kind": FEATURE_PORTAGE if dry else FEATURE_BOARDWALK,
+            "px": [[c, r] for c, r in run],
+            "cells": len(run)}
 
 
 def navigable(s: ProvinceSurvey) -> np.ndarray:
@@ -454,6 +538,9 @@ class SolveContext:
     docks: dict[str, list[dict]]
     authored: dict[str, dict]
     graph: StepGraph
+    #: Lazily built step graphs restricted to the cells the RECORD floats, one
+    #: per hull class. Only built when a lane actually needs re-lining.
+    hull_graphs: dict[str, StepGraph] = field(default_factory=dict)
 
 
 def solve_context() -> SolveContext:
@@ -474,6 +561,18 @@ def solve_context() -> SolveContext:
         authored={row["id"]: row for row in authored_rows},
         graph=StepGraph(cost, s.grid_px_m),
     )
+
+
+def hull_graph(context: SolveContext, hull: str) -> StepGraph:
+    """The step graph of the water the RECORD floats this hull class on."""
+    graph = context.hull_graphs.get(hull)
+    if graph is None:
+        s = context.survey
+        cost = np.where(record_floats(s, hull) & context.nav,
+                        boat_cost_from_record(s), np.inf)
+        graph = StepGraph(cost, s.grid_px_m)
+        context.hull_graphs[hull] = graph
+    return graph
 
 
 def _authored_path(s: ProvinceSurvey, authored: dict) -> list[tuple[int, int]]:
@@ -681,6 +780,7 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
         dist, prev = context.graph.field(network)
         reachable = np.isfinite(dist) & nav
         new_cells = np.zeros_like(network)
+        hull_fields: dict[str, tuple] = {}     # per batch: the network moved
         for rec in batch:
             # The natural solve is deliberately dock-independent.  It records
             # where the physical water network reaches the place before an
@@ -720,6 +820,29 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                     continue
                 srow, scol = snapped
                 path = trace(prev, srow, scol, w)
+                # THE RECORD FLOATS THE LANE, NOT THE RASTER. A lane is lined
+                # only on reaches and bodies whose recorded depth carries its
+                # hull class; where the first line crosses water the record
+                # cannot float, it is RE-LINED on the floating water, and only
+                # if no such line exists does the crossing stand — typed as a
+                # portage or a boardwalk below, never dredged (60 §45,
+                # owner ruling 6).
+                hull = lane_hull_class(rec, dock)
+                if lane_features(s, path, hull):
+                    cached = hull_fields.get(hull)
+                    if cached is None:
+                        floats = record_floats(s, hull)
+                        cached = hull_fields[hull] = (
+                            hull_graph(context, hull).field(network & floats), floats)
+                    (hdist, hprev), floats = cached
+                    if floats[srow, scol] and np.isfinite(hdist[srow, scol]):
+                        hsnap = (srow, scol)
+                    else:
+                        hsnap = _snap(s, np.isfinite(hdist) & floats, row, col)
+                    if hsnap is not None:
+                        hpath = trace(hprev, hsnap[0], hsnap[1], w)
+                        if len(hpath) >= 2 and not lane_features(s, hpath, hull):
+                            path, (srow, scol) = hpath, hsnap
                 # The traced line is a walk of 5.48 m CELL CENTRES, so on a
                 # trench about two cells wide it rides the lip through every
                 # bend (defect 2). Publish exact metre geometry snapped onto
@@ -761,6 +884,12 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                     "pointsM": points_m,
                 }
                 channel["season"], channel["dryCells"] = channel_season(s, path)
+                channel["hullClass"] = hull
+                features = lane_features(s, path, hull)
+                if features:
+                    # the record cannot float the hull the whole way: the
+                    # crossing is carried or decked, and says so
+                    channel["features"] = features
                 if dock is not None:
                     # the berth this channel serves, and the EXACT point it ends
                     # at — `points_m[0]`, which the snap leaves untouched:
@@ -802,7 +931,14 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
                     # is a defect, and this is where it is visible.
                     "bySeason": {season: sum(1 for t in channels if t.get("season") == season)
                                  for season in (SEASON_YEAR_ROUND, SEASON_WET, SEASON_DRY)},
-                    "dryCells": sum(int(t.get("dryCells") or 0) for t in channels)},
+                    "dryCells": sum(int(t.get("dryCells") or 0) for t in channels),
+                    # Lanes the record cannot float the whole way, and what
+                    # each break became. Never a dredge (60 §45, ruling 6).
+                    "lanesWithFeatures": sum(1 for t in channels if t.get("features")),
+                    "byFeature": {kind: sum(1 for t in channels
+                                            for f in (t.get("features") or [])
+                                            if f["kind"] == kind)
+                                  for kind in (FEATURE_PORTAGE, FEATURE_BOARDWALK)}},
         "onNetwork": [on_network[key] for key in sorted(on_network)],
         "unconnected": unconnected,
         # Berths the compiled water cannot carry. Nothing is published for
@@ -905,6 +1041,9 @@ def digest(doc: dict, solved: list[dict]) -> str:
          f"({sm['dryCells']} cells). That last group is a defect. Those lanes are drawn but cannot "
          f"be poled; each carries `\"season\": \"dry\"` in the JSON. The worst of them are listed "
          f"below. The fix is to carve the bed or to withdraw the lane.",
+         f"- {sm['lanesWithFeatures']} lanes cross ground the record cannot float their hull on: "
+         f"{sm['byFeature'][FEATURE_PORTAGE]} portages and {sm['byFeature'][FEATURE_BOARDWALK]} decked "
+         f"runs, typed on the lane in `features[]`. Nothing is dredged to close them.",
          f"- {sm['unconnected']} water-bound places have **no boat path** (reached on foot, by root "
          f"or by guide — a design fact to check, not a failure):", ""]
     for u in doc["unconnected"]:

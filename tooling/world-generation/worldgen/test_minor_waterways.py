@@ -231,7 +231,11 @@ def test_boat_stations_are_channelled_or_explained():
     assert served == expected
 
 
-def test_recompile_is_deterministic_and_shares_one_step_graph_per_run(monkeypatch):
+def test_recompile_is_deterministic_and_shares_its_step_graphs_per_run(monkeypatch):
+    """One physical graph per RUN, shared by the natural and the fitted solve,
+    plus at most one re-lining graph per hull class that some lane actually
+    needed (16g: the record floats the lane). Never one per solve, and never
+    one per lane."""
     real = mw.StepGraph
     builds = 0
 
@@ -247,7 +251,9 @@ def test_recompile_is_deterministic_and_shares_one_step_graph_per_run(monkeypatc
     monkeypatch.setattr(mw, "require_fixed_dock_wet_join",
                         lambda route_id, target_m, hull_class=None, water=None: 0.0)
     assert mw.run(write=False) == mw.run(write=False)
-    assert builds == 2
+    per_run = builds / 2
+    assert per_run == int(per_run)
+    assert 1 <= per_run <= 1 + len(mw.HULL_DEPTH_M), per_run
 
 
 def test_boat_cost_from_record_reads_kinds_and_bands():
@@ -285,3 +291,60 @@ def test_boat_cost_from_record_reads_kinds_and_bands():
     assert cost[3, 0] == routes.BOAT_TIDAL
     assert cost[4, 0] == routes.BOAT_LAKE
     assert cost[5, 5] == routes.BOAT_PORTAGE
+
+
+# --------------------------------------------------------------------------
+# 16g: the RECORD floats the lane's hull class, and a gap is never dredged
+# --------------------------------------------------------------------------
+class _RecordWater:
+    """A duck-typed survey carrying only the record depth a lane is judged by."""
+
+    def __init__(self, depth):
+        self.recorded_depth_m = np.asarray(depth, dtype=np.float32)
+
+
+def test_the_hull_class_comes_from_the_berth_then_the_station_then_the_canoe():
+    canoe = {"id": "place.r.a"}
+    assert mw.lane_hull_class(canoe, None) == "canoe"
+    assert mw.lane_hull_class({"id": "place.r.a",
+                               "travelStation": {"modes": ["boat"]}}, None) == "small-draft"
+    assert mw.lane_hull_class(canoe, {"hullClass": "keeled"}) == "keeled"
+    # an unknown class never silently becomes a deeper hull
+    assert mw.lane_hull_class(canoe, {"hullClass": "barge"}) == "canoe"
+
+
+def test_a_lane_sample_on_a_reach_shallower_than_its_hull_class_fails():
+    """The decider is the RECORD's depth (a reach's `depthM`, a body's
+    `maxDepthM`), never the bake's measurement (0065/0066)."""
+    depth = np.full((4, 4), 3.0, dtype=np.float32)
+    depth[1, 2] = 0.8                       # a reach the record gives 0.8 m
+    s = _RecordWater(depth)
+    assert mw.record_floats(s, "canoe")[1, 2], "0.8 m floats a poled canoe"
+    assert not mw.record_floats(s, "keeled")[1, 2], "0.8 m does not float a keel"
+    assert mw.record_floats(s, "keeled")[0, 0]
+    line = [(2, 1), (2, 0)]                 # (col, row)
+    assert mw.lane_features(s, line, "canoe") == []
+    shallow = mw.lane_features(s, line, "keeled")
+    assert [f["kind"] for f in shallow] == [mw.FEATURE_BOARDWALK]
+    assert shallow[0]["px"] == [[2, 1]] and shallow[0]["cells"] == 1
+
+
+def test_a_land_gap_becomes_a_portage_feature_and_is_never_dredged():
+    depth = np.full((4, 6), 2.0, dtype=np.float32)
+    depth[0, 2] = 0.0                       # the record has no water here at all
+    depth[0, 3] = 0.0
+    s = _RecordWater(depth)
+    line = [(c, 0) for c in range(6)]
+    features = mw.lane_features(s, line, "canoe")
+    assert [f["kind"] for f in features] == [mw.FEATURE_PORTAGE]
+    assert features[0]["px"] == [[2, 0], [3, 0]] and features[0]["cells"] == 2
+    # the bed is untouched: the feature is the answer, not a dredge
+    assert depth[0, 2] == 0.0 and depth[0, 3] == 0.0
+
+
+def test_a_lane_with_both_a_dry_gap_and_a_shallow_run_types_each_separately():
+    depth = np.array([[2.0, 0.0, 2.0, 0.8, 2.0, 2.0]], dtype=np.float32)
+    s = _RecordWater(depth)
+    line = [(c, 0) for c in range(6)]
+    kinds = [f["kind"] for f in mw.lane_features(s, line, "small-draft")]
+    assert kinds == [mw.FEATURE_PORTAGE, mw.FEATURE_BOARDWALK]

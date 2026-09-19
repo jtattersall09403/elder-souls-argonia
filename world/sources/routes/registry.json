@@ -706,7 +706,7 @@
    "aliases": [
     "road:coast-soulrest-lilmoth"
    ],
-   "confidence": "LORE_INFERRED",
+   "confidence": "LORE_IMPLIED",
    "solved": false,
    "sources": [
     "uesp:Lore:Soulrest",
@@ -866,6 +866,8 @@
    "aliases": [
     "route.shadowfen-paths"
    ],
+   "solved": false,
+   "joinsRouteId": "route.road.stormhold-thorn",
    "confidence": "AGENT_INVENTED",
    "sources": [
     "uesp:Lore:Alten Corimont"

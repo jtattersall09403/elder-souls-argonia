@@ -203,3 +203,37 @@ def test_a_wrong_schema_version_is_refused(tmp_path):
 def test_the_shipped_patch_list_is_valid():
     """The authored file itself must pass its own validator."""
     sc.load_patches()
+
+
+# --------------------------------------------------------------------------
+# 16g: the track patches (decision 0070). The compiler that writes them is
+# tested in test_minor_routes; these are the rules the FILE must keep.
+# --------------------------------------------------------------------------
+def test_every_shipped_track_patch_is_owned_by_a_record_and_clears_a_corridor():
+    from . import compile_minor_routes as mr
+    for patch in sc.load_patches():
+        if not patch["id"].startswith(mr.TRACK_PATCH_PREFIX):
+            continue
+        assert patch["kind"] == sc.PATCH_KIND
+        assert patch["owner"]["record"].startswith("place."), patch["id"]
+        assert patch["owner"]["chunk"] == "16g", patch["id"]
+        assert patch["hardClear"], patch["id"]
+        assert patch["fringeFalloffM"] in set(mr.CLASS_WIDTH_M.values()), patch["id"]
+        # the corridor is a list of convex quads, never one self-crossing ring
+        assert all(len(poly) == 4 for poly in patch["hardClear"]), patch["id"]
+
+
+def test_a_track_patch_clears_inside_its_polygon_and_nothing_outside():
+    from . import compile_minor_routes as mr
+    track = {"id": "track.test.line", "kind": "track", "from": "place.test.thing",
+             "px": [[0, 0], [10, 0], [20, 0]]}
+    patch = mr.clearance_patch(track, 10.0)       # a 200 m line at z = 5 m
+    width = mr.CLASS_WIDTH_M["track"]
+    on_line = np.array([100.0, 100.0]), np.array([5.0, 5.0 + width / 2 - 0.5])
+    assert (sc.keep_field(*on_line, patch) == 0.0).all()
+    far = np.array([100.0, 100.0, 100.0]), np.array([5.0 + 5 * width, -400.0, 900.0])
+    assert (sc.keep_field(*far, patch) == 1.0).all()
+    # and the scalar rule agrees with the vectorised one, as everywhere else
+    for x, z in ((100.0, 5.0), (100.0, 5.0 + width), (100.0, 5.0 + 5 * width)):
+        assert sc.keep_at(x, z, patch) == pytest.approx(
+            float(sc.keep_field(np.array([x]), np.array([z]), patch)[0]))
