@@ -37,7 +37,7 @@ candidates with numbers; nothing here is decided.
    Lilmoth's authored lighter berth does have ocean water (record 106.36 m) but
    lies ~83 m **outside** the city's `footprintPolygon`.
 8. A7: four records deviate ≥ 2 danger bands from their ground
-   (`oliis-ferry-stage`, `mudfoot`, `sunkfoot`, `cold-light`), and D4
+   (`oliis-ferry-stage`, `mudfoot`, `sunkfoot`, `cold-light`). D4
    `root-gallery-murkmire` sits 1126 m from Soulrest — inside the 1.2 km
    no-D4 hinterland.
 9. Footprint (A6) clears everywhere except the four boundTo/city pairs that are
@@ -116,7 +116,7 @@ kind is `plotFacts.water.kind`; depth is `survey.recorded_depth_m` at the dot.
 | id · type · moved | rule / tie broken, measured | remedy candidates |
 |---|---|---|
 | `lilmoth-divers-yard` · salvage-divers-yard · 4055 | (1) `why.founding` (salvage from underneath **Lilmoth**): dL **3308 m** (> 400). Hard constraint "beside drowned ground" holds (on `body.ocean`, dist 0). (2) prose = under Lilmoth, water kind `ocean` at the wrong bay. (3) NN `lighter-flotilla` 120 m, no footprint breach. (5) lane 1051 m. | `pin-by-siting`: add `boundTo {place: place.mercantile-coast.lilmoth, maxM: 500}` and `nearPoint {x: 3597, z: 6325, maxM: 500}` (the HEAD dot 4417, 6023 is 837 m from Lilmoth and already too far) · or `meso-move` to the quay shelf beside `dock.lilmoth.diving-stair` (uv 0.5225, 0.8685 → 3853, 6404) |
-| `lighter-flotilla` · houseboat-flotilla · 154 | (1) founding (Lilmoth is built over shallow water, goods are lightered ashore, and the crews keep moorings between the anchorage and the quay): dL **3188 m**. (2) hard "sheltered saltwater with a reef or bar" vs water `ocean` at 12.3 m — salt is right, the bay is not. (6) `travelStation` lighter/boat: dot 0.0 m, deepest inside 150 m 106.36 m (`body.ocean`) — passes 0.6 m only off the dot. | `pin-by-siting`: `nearPoint {x: 3880, z: 6380, maxM: 400}` (Lilmoth roadstead, between `dock.lilmoth.lighter-quay` 3902, 6366 and the lane end) · `merge` with `lilmoth-divers-yard` is NOT proposed (different trades, 120 m apart) |
+| `lighter-flotilla` · houseboat-flotilla · 154 | (1) founding (Lilmoth is built over shallow water, goods are lightered ashore; the crews keep moorings between the anchorage and the quay): dL **3188 m**. (2) hard "sheltered saltwater with a reef or bar" vs water `ocean` at 12.3 m — salt is right, the bay is not. (6) `travelStation` lighter/boat: dot 0.0 m, deepest inside 150 m 106.36 m (`body.ocean`) — passes 0.6 m only off the dot. | `pin-by-siting`: `nearPoint {x: 3880, z: 6380, maxM: 400}` (Lilmoth roadstead, between `dock.lilmoth.lighter-quay` 3902, 6366 and the lane end) · `merge` with `lilmoth-divers-yard` is NOT proposed (different trades, 120 m apart) |
 | `keel-sakka-stilts` · stilt-village · 2823 | (1) founding (the first village **up the Keel-Sakka river from Lilmoth**): nearest named Keel-Sakka reach `river.720-1110` is **2232 m**; dL **2119 m**. (2) hard "built over water at the highest seasonal level, piled to the bed" vs `plotFacts.water` `body.ocean` — it is over the sea, not the river. (4) D1 on ground band 0. (6) boat station: depth 106.36 m, lane 293 m. | `pin-by-siting`: `nearPoint` on the Keel-Sakka reach 200 m above its mouth (`river.731-1121` mouth is 464 m from Lilmoth) with `maxM: 150`, region classes to the channel set · `re-type` only if the owner wants a sea-stilt village, which loses the lore tie |
 | `oliis-ferry-stage` · ferry-stage · 0 (unmoved, its neighbours left) | (1) name + hard "at a water narrows the coast road must cross" and the Oliis tie: dL **3273 m**, dS 525 m — it is on the Soulrest estuary, not Oliis Bay. (5) nearest road 403 m > 220 (A8, network role); nearest lane 623 m. (6) B5 ferry needs 1.2 m; dot depth **1.11 m** (deepest inside 150 m 106.36 m). (4) D1 on ground band 3 (Δ2). | `re-type`/`prose-rewrite` to a Soulrest-estuary crossing and rename off "Oliis" · OR `pin-by-siting` back to Oliis Bay: `nearPoint {x: 3760, z: 6300, maxM: 400}` with `boundTo` to `oliis-boardwalk` kept (they are 96 m apart and move together) |
 | `oliis-boardwalk` · boardwalk-village · — | Same displacement: dL 3355 m, dS 528 m; lane 617 m; `boundTo oliis-ferry-stage` 96 m (holds). Depth 106.36 m on `body.ocean`. | move with `oliis-ferry-stage` (single `pin-by-siting` on the bound pair) |
@@ -135,13 +135,13 @@ kind is `plotFacts.water.kind`; depth is `survey.recorded_depth_m` at the dot.
 | `sunkfoot` · drowned-village · 0 | A7: D2 on band **0** (Δ2). Depth 106.36 m on `body.ocean`, lane 112 m — the water is right. | `re-type` danger to D1, or `prose-rewrite` the hazard that justifies D2 |
 | `cold-light` · lighthouse · 251 | A7: D2 on band **0** (Δ2). Lane 120 m, road 526 m; on `body.ocean`. | as `sunkfoot` |
 | `oliis-air-station` · air-pocket-grotto · 2745 | (1) "Oliis" tie holds (dL 313 m) but the dot is `swamp` (`body.1209-3032`) at depth 7.75 m, not bay water; it is 313 m from the city centre — inside Lilmoth's 1.2 km hinterland with `dangerTier` D3 (allowed: not hostile, not D4). (7) bound pair with `oliis-drake-deep` holds. | `prose-rewrite` to an estuary grotto, or move with `oliis-drake-deep` onto bay water |
-| `screen-watch` · mangrove-platform-village · 199 | (7) `boundTo bramman-screen` 899 m against `maxM 900` — passes by 1 m, and **line of sight is false** (eye 1.7/8.0) for a watch post whose job is to see the screen. (5) `travelStation` boat/pilot: dot depth 0.0, road 536 m, lane 349 m. | `meso-move` ≤ 150 m onto ground with LoS to `bramman-screen` (3995, 6002 → toward the screen), which also cuts the 899 m to ~800 m |
-| `soulrest-breaking-yard` · shipyard · 357 | Hard "a deep shelving launch": depth at the dot **0.33 m**, water `marsh-fringe` 5.5 m off. (3) 71 m from Soulrest against a 295 m footprint sum — allowed only if `mayAbut`/`boundTo`; the plot records it as a `bound` check, the shipped `sitingPrefs` carries **no** `boundTo` block. | `pin-by-siting`: add the missing `boundTo {place: soulrest, maxM: 200}` so the abutment is typed, and `nearPoint` on the ≥ 1.2 m shelf (the 2.15 m cells at `soulrest-divers-yard`, 210 m from the city) |
-| `inhabited-meer-murkmire` · inhabited-xanmeer-fort · 238 | Hard (within sight of the **Soulrest-Blackrose road**, not on it): nearest route is `route.road.gideon-soulrest` at **399 m**; `nearPoint` (1203.6, 6588.4) is 239 m — inside its 250 m cap. The road it names is not the road it is near. | `prose-rewrite` the road name to the one it watches, or `pin-by-siting` onto the Soulrest–Blackrose line |
+| `screen-watch` · mangrove-platform-village · 199 | (7) `boundTo bramman-screen` 899 m against `maxM 900` — passes by 1 m; **line of sight is false** (eye 1.7/8.0) for a watch post whose job is to see the screen. (5) `travelStation` boat/pilot: dot depth 0.0, road 536 m, lane 349 m. | `meso-move` ≤ 150 m onto ground with LoS to `bramman-screen` (3995, 6002 → toward the screen), which also cuts the 899 m to ~800 m |
+| `soulrest-breaking-yard` · shipyard · 357 | Hard "a deep shelving launch": depth at the dot **0.33 m**, water `marsh-fringe` 5.5 m off. (3) 71 m from Soulrest against a 295 m footprint sum — allowed only if `mayAbut`/`boundTo`; the plot records it as a `bound` check, the shipped `sitingPrefs` carries **no** `boundTo` block. | `pin-by-siting`: add the missing `boundTo {place: soulrest, maxM: 200}` so the abutment is typed, plus `nearPoint` on the ≥ 1.2 m shelf (the 2.15 m cells at `soulrest-divers-yard`, 210 m from the city) |
+| `inhabited-meer-murkmire` · inhabited-xanmeer-fort · 238 | Hard (within sight of the **Soulrest-Blackrose road**, not on it): nearest route is `route.road.gideon-soulrest` at **399 m**; `nearPoint` (1203.6, 6588.4) is 239 m — inside its 250 m cap. The road it names is not the road nearest it. | `prose-rewrite` the road name to the one it watches, or `pin-by-siting` onto the Soulrest–Blackrose line |
 | `topal-salt-pans` · salt-pans · 3199 | (1) "Topal" ties it to Topal Bay (`sea.topal-bay`, the south-west water off Soulrest); the dot 918, 7060 is on `body.ocean` at the south coast, 746 m from Soulrest — tie holds. (4) D1 on band 0. Listed for the 3.2 km move only; no failure found. | none |
 | `head-of-tide` · head-of-navigation · 217 | (5) A8 network role: road **373 m** > 220 (lane 35 m). (1) `reachedVia "the Soulrest river"` is a dangling id. (6) boat station: dot 0.0 m, 106.36 m inside 150 m. | `pin-by-siting` within 220 m of the coast track once `route.track.mercantile-coast.coast-road` is solved · `prose-rewrite` the relation to the graph id |
 | `coast-road-stage`, `high-junction`, `chasepoint`, `mudfoot`, `wraxu-stacks`, `glowfen-murkmire` | all sit ≤ 102 m from `route.road.gideon-soulrest` — A8 fine — but all six moved ~3 km **onto the Gideon–Soulrest road**, which is why the zone's east side emptied. Reported, not a failure. | none individually; see §5 |
-| `hull-hall`, `oliis-wreck`, `sunken-causeway` | `deferred`, no `positionM`. `hull-hall` hard "on, in or beside water"; `oliis-wreck` "aground on a tidal flat, dry at low water". Nothing to measure. | leave deferred |
+| `hull-hall`, `oliis-wreck`, `sunken-causeway` | `deferred`, no `positionM`. `hull-hall` hard `on, in or beside water`; `oliis-wreck` `aground on a tidal flat, dry at low water`. Nothing to measure. | leave deferred |
 
 ## 3. Underwater entries, wrecks and dive depths
 
@@ -231,7 +231,7 @@ whose ten boundary points measure 0.0 m depth at seven of them (16–42 m from
 water) and **106.36 m (`body.ocean`)** at the three seaward points (3808, 6436 /
 3827, 6436 / 3908, 6368). `dock.lilmoth.lighter-quay` at 3902, 6366 is on one of
 those ocean cells, so **the water at the quay side is ≥ 0.6 m — the answer is
-yes** — but the berth lies ~83 m outside the city's `footprintPolygon`, and the
+yes** — but the berth lies ~83 m outside the city's `footprintPolygon`. The
 polygon's own wet cells (west edge, 1.04 m marsh-fringe) are the only water
 inside the city.
 
@@ -311,7 +311,7 @@ All 140 rows by status: deferred 75, active 49, abandoned 6, drowned 5, ruined 5
 `the-divers-landing` and `the-slumped-hamlet` and `the-two-hundred-roofs` are
 `place.dunmer-north.*`; `chasecreek` is `place.pirate-freeholds.chasecreek`.
 They are that region's reviewers' rows, not ours. The two live red promises here
-are the `lilmoth` cut and the `oliis-drake-deep` pool/sinkhole (§2), and neither
+are the `lilmoth` cut and the `oliis-drake-deep` pool/sinkhole (§2). Neither
 is registered in that file — the postcondition gate should be expected to fail
 on them unless 16g re-sites or drops them.
 
