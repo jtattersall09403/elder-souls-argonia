@@ -1,0 +1,14 @@
+{
+  "_": "Where each major city boards a boat. A city whose own record declares a water mode and whose `cityLayout.gate` stands on a published lane's water is its own harbour. `python3 -m worldgen.travel_services` fills it automatically with the reason `the city's own quay`. This file is for the rest: a city whose gate is inland names the place that harbours it and states the reason. AUTHORED (the choice is the owner's or Fable's, not a derive's guess); read by travel_services.derive, which writes the resolved answer into the `harbourStations` block of travel-services.json.",
+  "schemaVersion": 1,
+  "harbours": {
+    "stormhold": {"placeId": null, "why": null},
+    "thorn": {"placeId": null, "why": null},
+    "gideon": {"placeId": null, "why": null},
+    "helstrom": {"placeId": null, "why": null},
+    "archon": {"placeId": null, "why": null},
+    "blackrose": {"placeId": null, "why": null},
+    "lilmoth": {"placeId": null, "why": null},
+    "soulrest": {"placeId": null, "why": null}
+  }
+}

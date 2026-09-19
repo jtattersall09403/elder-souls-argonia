@@ -95,3 +95,55 @@ describe("the talk-to-service contract", () => {
       .toEqual({ kind: "cannot-pay", fareGold: 15 });
   });
 });
+
+describe("the 16g record (deliverable 6)", () => {
+  it("reads the shipped graph's new fields unchanged: lane chains, warnings, harbours, root nodes", () => {
+    const g: TravelServiceGraph = {
+      schemaVersion: 1,
+      stations: [
+        {
+          id: "station.a", kind: "place", placeId: "place.a", positionM: [0, 0], status: "active",
+          warnings: [{ kind: "shallow-berth", depthM: 0.36, needM: 1.2, at: "station.a" }],
+        },
+        { id: "station.b", kind: "place", placeId: "place.b", positionM: [400, 0], status: "active" },
+        {
+          id: "root-node.helstrom", kind: "root-node", placeId: null, positionM: null,
+          status: "placeholder", rootKind: "hub",
+          operator: { role: "Waykeeper", slotId: "rootworm-slot.helstrom.keeper", socket: { stationId: "root-node.helstrom" } },
+        },
+      ],
+      services: [
+        {
+          id: "boat.a-b", serviceKind: "boat", form: "station-run", status: "active",
+          stations: ["station.a", "station.b"],
+          hops: [{ from: "station.a", to: "station.b", follows: { lanes: ["route.boat.west", "route.boat.east"] }, lengthM: 400 }],
+          operator: { role: "boat owner", slotId: "boat-slot.a-b.owner", socket: { stationId: "station.a" } },
+          fare: { gold: 5, freeIf: [] }, available: [], refusedIf: [],
+          text: { name: "text.boat.a-b.name", hail: "text.boat.a-b.hail" },
+          warnings: [{ kind: "shallow-hop", depthM: 0.4, needM: 1.2, at: "station.a -> station.b" }],
+        },
+        {
+          id: "rootworm.underground-express", serviceKind: "rootworm", form: "station-run", status: "placeholder",
+          stations: ["root-node.helstrom"],
+          hops: [{ from: "root-node.helstrom", to: "root-node.helstrom", follows: { rootway: "rootway.x" }, lengthM: null }],
+          operator: { role: "Waykeeper", slotId: "rootworm-slot.underground-express.waykeeper", socket: { stationId: "root-node.helstrom" } },
+          fare: { gold: 0, freeIf: [] }, available: [], refusedIf: [],
+          text: { name: "text.rootworm.underground-express.name", hail: "text.rootworm.underground-express.hail" },
+        },
+      ],
+      rootways: [{ id: "rootway.x", from: "root-node.helstrom", to: "root-node.helstrom", status: "placeholder" }],
+      harbourStations: {
+        stormhold: { stationId: "station.a", placeId: "place.a", why: "the city's own quay" },
+        gideon: { stationId: null, placeId: null, why: null },
+      },
+    };
+    const index = indexTravelGraph(g);
+    const menu = serviceMenu(index, "boat.a-b", "station.a", world());
+    expect(menu.destinations).toEqual([{ stationId: "station.b", positionM: [400, 0], lengthM: 400 }]);
+    expect(g.services[0].hops[0].follows.lanes).toEqual(["route.boat.west", "route.boat.east"]);
+    expect(g.services[0].warnings?.[0].kind).toBe("shallow-hop");
+    expect(g.harbourStations?.gideon.placeId).toBeNull();
+    // a node with no position yet offers no socket in the world
+    expect(operatorSockets(index).map((s) => s.stationId)).toEqual(["station.a"]);
+  });
+});

@@ -230,24 +230,33 @@ def test_the_berth_is_the_first_floating_sample_and_jetty_is_the_walk():
     ts.derive(doc, [_stub_crossing(1000.0, 1050.0)], sw=_StubWater())
     s = doc["services"][0]
     assert s["status"] == "active", s.get("unmatchedWhy")
-    b = {st["id"]: st["berth"] for st in doc["stations"]}["ferry-landing.stub.a"]
+    b = {st["id"]: st["berth"] for st in doc["stations"] if st.get("berth")}["ferry-landing.stub.a"]
     assert b["floats"] is True and b["depthM"] >= need
     assert 0 < b["jettyM"] <= 12.0
     assert b["positionM"] == [1000.0, round(1005.0 + b["jettyM"], 1)]
     assert not [e for e in ts.check(doc) if "berth" in e]
 
 
-def test_a_shallow_berth_demotes_the_service_with_the_dredging_reason():
+def test_a_shallow_berth_warns_and_the_service_stays_active():
+    """Depth is reported, never gated (rule 2, owner 2026-09-18): the shortfall
+    is written down on the service and the landing, and 16h answers it with
+    the craft or the jetty. Only DRY ground unmatches."""
     doc = _stub_graph()
     doc["services"][0]["hullClass"] = "small-draft"
     ts.derive(doc, [_stub_crossing(1000.0, 1050.0)], sw=_StubWater(deep=0.4, at=1.0))
     s = doc["services"][0]
-    assert s["status"] == "unmatched"
-    assert "no dredging" in s["unmatchedWhy"] and "small-draft" in s["unmatchedWhy"]
-    b = {st["id"]: st["berth"] for st in doc["stations"]}["ferry-landing.stub.a"]
+    assert s["status"] == "active", s.get("unmatchedWhy")
+    warn = s["warnings"]
+    assert [w["kind"] for w in warn] == ["shallow-berth", "shallow-berth"]
+    assert warn[0] == {"kind": "shallow-berth", "depthM": 0.4, "needM": 1.2,
+                       "at": "ferry-landing.stub.a"}
+    b = {st["id"]: st["berth"] for st in doc["stations"] if st.get("berth")}["ferry-landing.stub.a"]
     assert b["floats"] is False and b["jettyM"] is None and b["depthM"] == 0.4
     assert not [e for e in ts.check(doc) if "does not float" in e], \
-        "derive demoted the service, so --check must not also fire on the berth"
+        "the warning is recorded, so --check must not turn it into an error"
+    del s["warnings"]
+    assert [e for e in ts.check(doc) if "does not float" in e], \
+        "a SILENT shallow berth is still an error"
 
 
 def test_check_fails_on_an_active_berth_without_a_jetty():
@@ -255,5 +264,182 @@ def test_check_fails_on_an_active_berth_without_a_jetty():
     doc["services"][0]["hullClass"] = "small-draft"
     ts.derive(doc, [_stub_crossing(1000.0, 1050.0)], sw=_StubWater())
     for st in doc["stations"]:
-        st["berth"]["jettyM"] = None
+        if st.get("berth"):
+            st["berth"]["jettyM"] = None
     assert any("no jettyM" in e for e in ts.check(doc)), ts.check(doc)
+
+
+# --------------------------------------------------------------------------
+# 16g deliverable 6: connectedness gates, depth only reports, hops follow the
+# published lanes, a harbour per city, the rootworm network re-sited.
+# --------------------------------------------------------------------------
+
+def _two_lane_net():
+    """Two straight lanes meeting end to end at [200, 0]."""
+    return ts.LaneNetwork([
+        ("route.boat.west", [[0.0, 0.0], [100.0, 0.0], [200.0, 0.0]]),
+        ("route.boat.east", [[200.0, 0.0], [300.0, 0.0], [400.0, 0.0]]),
+    ])
+
+
+def _run_graph():
+    """A two-hop station run whose three stations sit on the two lanes."""
+    return {
+        "schemaVersion": 1, "craft": {"_": ""},
+        "vocabulary": {"kinds": ts.SERVICE_KINDS, "stationKinds": ts.STATION_KINDS,
+                       "hopFollows": ts.HOP_FOLLOWS},
+        "stations": [
+            {"id": "station.stub.a", "kind": "place", "placeId": "place.stub.a",
+             "positionM": [0.0, 0.0], "status": "active"},
+            {"id": "station.stub.b", "kind": "place", "placeId": "place.stub.b",
+             "positionM": [400.0, 0.0], "status": "active"},
+        ],
+        "services": [{
+            "id": "boat.stub.run", "serviceKind": "boat", "form": "station-run",
+            "status": "active", "hullClass": "small-draft",
+            "stations": ["station.stub.a", "station.stub.b"],
+            "hops": [{"from": "station.stub.a", "to": "station.stub.b",
+                      "follows": {"reaches": []}, "lengthM": 400.0, "unresolved": True}],
+            "operator": {"slotId": "boat-slot.stub.owner", "role": "boat owner",
+                         "socket": {"stationId": "station.stub.a"}},
+            "fare": {"gold": 1, "freeIf": []}, "available": [], "refusedIf": [],
+            "text": {},
+        }],
+        "rootways": [],
+    }
+
+
+def _stub_places():
+    return {"place.stub.a": {"id": "place.stub.a", "status": "active", "positionM": [0.0, 0.0],
+                             "travelStation": {"modes": ["boat"]}},
+            "place.stub.b": {"id": "place.stub.b", "status": "active", "positionM": [400.0, 0.0],
+                             "travelStation": {"modes": ["boat"]}}}
+
+
+def test_check_fails_when_the_active_network_is_an_island():
+    """Connectedness over depth (rule 1, owner 2026-09-18): a station nobody
+    can reach from the rest of the network is a hard error."""
+    doc = _run_graph()
+    doc["harbourStations"] = {}
+    assert not [e for e in ts.check(doc) if "not connected" in e], "the joined graph passes"
+    doc["stations"].append({"id": "station.stub.island", "kind": "place",
+                            "placeId": "place.stub.a", "positionM": [9.0, 9.0],
+                            "status": "active"})
+    errs = [e for e in ts.check(doc) if "not connected" in e]
+    assert errs and "station.stub.island" in errs[0], ts.check(doc)
+
+
+def test_a_shallow_hop_is_a_warning_and_the_service_stays_active():
+    """Depth is reported, never gated (rule 2)."""
+    doc = _run_graph()
+    ts.derive(doc, [], sw=_StubWater(deep=0.2, at=1.0), places=_stub_places(),
+              net=_two_lane_net(), roots={}, harbours={}, anchors=[])
+    s = doc["services"][0]
+    assert s["status"] == "active", s.get("unmatchedWhy")
+    warn = s["warnings"]
+    assert warn[0]["kind"] == "shallow-hop" and warn[0]["needM"] == 1.2
+    assert warn[0]["depthM"] < 1.2 and warn[0]["at"].startswith("station.stub.a")
+    assert not [e for e in ts.check(doc) if "shallow" in e]
+
+
+def test_a_dry_landing_is_unmatched():
+    """The one berth fault that still unmatches: no water under the landing."""
+    class _Dry:
+        def water_at(self, x, z):
+            return None
+
+    doc = _stub_graph()
+    ts.derive(doc, [_stub_crossing(1000.0, 1050.0)], sw=_Dry())
+    s = doc["services"][0]
+    assert s["status"] == "unmatched" and "is dry" in s["unmatchedWhy"], s.get("unmatchedWhy")
+
+
+def test_a_hop_paths_over_two_lanes_and_reports_the_walked_length():
+    doc = _run_graph()
+    ts.derive(doc, [], sw=None, places=_stub_places(), net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    hop = doc["services"][0]["hops"][0]
+    assert hop["follows"] == {"lanes": ["route.boat.west", "route.boat.east"]}
+    assert hop["lengthM"] == 400.0 and "unresolved" not in hop
+
+
+def test_a_station_off_the_lane_network_is_unmatched_with_the_distance():
+    doc = _run_graph()
+    places = _stub_places()
+    places["place.stub.b"]["positionM"] = [400.0, 500.0]
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    s = doc["services"][0]
+    assert s["status"] == "unmatched" and "500 m from the nearest lane vertex" in s["unmatchedWhy"]
+
+
+def test_a_station_moves_when_its_place_moves():
+    """Rule 7: every hop is re-derived from the current record positions."""
+    doc = _run_graph()
+    places = _stub_places()
+    places["place.stub.a"]["positionM"] = [100.0, 0.0]
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=[])
+    by_id = {st["id"]: st for st in doc["stations"]}
+    assert by_id["station.stub.a"]["positionM"] == [100.0, 0.0]
+    assert doc["services"][0]["hops"][0]["lengthM"] == 300.0
+
+
+def test_an_unfilled_harbour_is_a_warning_and_a_city_quay_fills_itself():
+    doc = _run_graph()
+    places = _stub_places()
+    places["place.stub.a"]["cityLayout"] = {"gate": [0.0, 0.0]}
+    anchors = [{"id": "a", "rank": "major"}, {"id": "b", "rank": "major"}]
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots={}, harbours={}, anchors=anchors)
+    block = doc["harbourStations"]
+    assert block["a"] == {"stationId": "station.stub.a", "placeId": "place.stub.a",
+                          "why": "the city's own quay"}
+    assert block["b"]["placeId"] is None
+    warn: list[str] = []
+    errs = ts.check(doc, warn)
+    assert not [e for e in errs if "harbour b" in e], errs
+    assert any("harbour b" in w for w in warn), warn
+
+
+def test_a_root_node_is_re_sited_at_its_place_and_carries_its_waykeeper():
+    doc = _run_graph()
+    doc["services"].append({
+        "id": "rootworm.underground-express", "serviceKind": "rootworm",
+        "form": "station-run", "status": "placeholder", "placeholderWhy": "pass 1",
+        "stations": [], "hops": [],
+        "operator": {"slotId": "rootworm-slot.underground-express.waykeeper",
+                     "role": "Waykeeper", "socket": {"stationId": "station.stub.a"}},
+        "fare": {"gold": 0, "freeIf": []}, "available": [], "refusedIf": [], "text": {}})
+    roots = {"stations": [{"id": "root-node.helstrom", "placeId": "place.stub.a",
+                           "kind": "hub", "why": "the hub"},
+                          {"id": "root-node.deeps", "placeId": None,
+                           "kind": "station", "why": "not chosen yet"}],
+             "rootways": [{"from": "root-node.helstrom", "to": "root-node.deeps"}]}
+    places = _stub_places()
+    places["place.stub.a"]["positionM"] = [10.0, 20.0]
+    ts.derive(doc, [], sw=None, places=places, net=_two_lane_net(),
+              roots=roots, harbours={}, anchors=[])
+    by_id = {st["id"]: st for st in doc["stations"]}
+    hub = by_id["root-node.helstrom"]
+    assert hub["positionM"] == [10.0, 20.0] and hub["status"] == "active"
+    assert hub["operator"] == {"role": "Waykeeper", "slotId": "rootworm-slot.helstrom.keeper",
+                               "socket": {"stationId": "root-node.helstrom"}}
+    assert by_id["root-node.deeps"]["status"] == "placeholder"
+    assert doc["rootways"] == [{"id": "rootway.helstrom-deeps", "from": "root-node.helstrom",
+                                "to": "root-node.deeps", "status": "placeholder"}]
+    worm = [s for s in doc["services"] if s["id"] == "rootworm.underground-express"][0]
+    assert worm["hops"][0]["follows"] == {"rootway": "rootway.helstrom-deeps"}
+
+
+def test_the_retired_root_transit_record_is_gone():
+    """0068 retired `anchors/root-transit.json`; the rootworm network is
+    authored in `routes/rootworm-stations.json` now."""
+    assert not ts.LEGACY_ROOT.exists(), f"{ts.LEGACY_ROOT} is back"
+    assert ts.ROOT_STATIONS.exists()
+
+
+def test_every_fast_node_resolves():
+    doc = json.loads(ts.SERVICES.read_text(encoding="utf-8"))
+    assert not ts._check_fast_nodes({s["id"] for s in doc["services"]})
+    assert ts._check_fast_nodes(set()), "the FAST check would pass vacuously"

@@ -14,11 +14,22 @@
  * and throws, never a silent pass.
  */
 
+/** A measured shortfall the record REPORTS rather than gates on (16g rule 2):
+ * a hop or a berth shallower than the craft's hull needs. The service still
+ * runs; the number is what 16h answers with a craft or a jetty. */
+export interface TravelWarning {
+  kind: "shallow-hop" | "shallow-berth";
+  depthM: number | null;
+  needM: number;
+  at: string;
+}
+
 export interface TravelStation {
   id: string;
   kind: "place" | "ferry-landing" | "root-node";
-  placeId?: string;
-  positionM: [number, number];
+  placeId?: string | null;
+  /** null only while a station's place is deferred and has no position yet. */
+  positionM: [number, number] | null;
   status: "active" | "placeholder" | "deferred" | "unmatched";
   berth?: {
     entityId: string;
@@ -30,6 +41,10 @@ export interface TravelStation {
     jettyM?: number | null;
   };
   piece?: string;
+  warnings?: TravelWarning[];
+  /** A rootworm node's role in the network: hub, ordinary stop, or seasonal. */
+  rootKind?: "hub" | "station" | "seasonal";
+  operator?: { role: string; slotId: string; socket: { stationId: string } };
 }
 
 export interface GatePredicate {
@@ -43,8 +58,10 @@ export interface GatePredicate {
 export interface TravelHop {
   from: string;
   to: string;
+  /** One of `lane`, `lanes` (the chain of published lanes walked), `road`,
+   * `rootway` or `reaches`. */
   follows: Record<string, unknown>;
-  lengthM: number;
+  lengthM: number | null;
   unresolved?: boolean;
 }
 
@@ -63,6 +80,15 @@ export interface TravelService {
   text: { name: string; hail: string; refusal?: string };
   hullClass?: string;
   craft?: string;
+  warnings?: TravelWarning[];
+}
+
+/** Where each major city boards a boat (16g rule 4). `placeId` is null while
+ * the harbour has not been chosen. */
+export interface HarbourStation {
+  stationId: string | null;
+  placeId: string | null;
+  why: string | null;
 }
 
 export interface TravelServiceGraph {
@@ -70,6 +96,7 @@ export interface TravelServiceGraph {
   stations: TravelStation[];
   services: TravelService[];
   rootways?: { id: string; from: string; to: string; status: string }[];
+  harbourStations?: Record<string, HarbourStation>;
 }
 
 /** What a gate may ask the world. Apps supply it; nothing here reads a store. */
@@ -140,9 +167,11 @@ export function indexTravelGraph(graph: TravelServiceGraph): TravelGraphIndex {
 export function operatorSockets(index: TravelGraphIndex): { serviceId: string; stationId: string; positionM: [number, number]; role: string }[] {
   return index.graph.services
     .filter((s) => s.status === "active" || s.status === "placeholder")
-    .map((s) => {
+    .flatMap((s) => {
       const st = index.stationById.get(s.operator.socket.stationId)!;
-      return { serviceId: s.id, stationId: st.id, positionM: st.positionM, role: s.operator.role };
+      // A station whose place is not sited yet has no point to stand on.
+      if (!st.positionM) return [];
+      return [{ serviceId: s.id, stationId: st.id, positionM: st.positionM, role: s.operator.role }];
     });
 }
 
@@ -191,6 +220,7 @@ export function serviceMenu(index: TravelGraphIndex, serviceId: string, fromStat
   for (let j = 0; j < order.length; j++) {
     if (j === i) continue;
     const st = index.stationById.get(order[j])!;
+    if (!st.positionM) continue;
     menu.destinations.push({ stationId: st.id, positionM: st.positionM, lengthM: between(i, j) });
   }
   return menu;

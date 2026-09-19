@@ -59,6 +59,48 @@
       ]
     }
   },
+  "harbourStations": {
+    "archon": {
+      "placeId": "place.saxhleel-coast.archon",
+      "stationId": "station.saxhleel-coast.archon",
+      "why": "the city's own quay"
+    },
+    "blackrose": {
+      "placeId": "place.imperial-penal-south.blackrose",
+      "stationId": "station.imperial-penal-south.blackrose",
+      "why": "the city's own quay"
+    },
+    "gideon": {
+      "placeId": null,
+      "stationId": null,
+      "why": null
+    },
+    "helstrom": {
+      "placeId": "place.hist-heartland.helstrom",
+      "stationId": "station.hist-heartland.helstrom",
+      "why": "the city's own quay"
+    },
+    "lilmoth": {
+      "placeId": null,
+      "stationId": null,
+      "why": null
+    },
+    "soulrest": {
+      "placeId": "place.mercantile-coast.soulrest",
+      "stationId": "station.mercantile-coast.soulrest",
+      "why": "the city's own quay"
+    },
+    "stormhold": {
+      "placeId": "place.dunmer-north.stormhold",
+      "stationId": "station.dunmer-north.stormhold",
+      "why": "the city's own quay"
+    },
+    "thorn": {
+      "placeId": "place.dunmer-north.thorn",
+      "stationId": "station.dunmer-north.thorn",
+      "why": "the city's own quay"
+    }
+  },
   "operatorModel": {
     "_": "Who runs a ferry and who may ride. CANON where cited; the operating detail is EXTRAPOLATED from it and labelled.",
     "canon": [
@@ -116,7 +158,7 @@
             "lane": "route.boat.alten-corimont-helstrom"
           },
           "from": "station.pirate-freeholds.alten-corimont",
-          "lengthM": 1699.5,
+          "lengthM": 1728.0,
           "to": "station.hist-heartland.helstrom"
         }
       ],
@@ -157,7 +199,7 @@
             "lane": "route.boat.archon-estuary"
           },
           "from": "station.saxhleel-coast.archon",
-          "lengthM": 2504.9,
+          "lengthM": 2560.8,
           "to": "station.hist-heartland.helstrom"
         }
       ],
@@ -198,7 +240,7 @@
             "lane": "route.boat.archon-thorn"
           },
           "from": "station.saxhleel-coast.archon",
-          "lengthM": 4184.7,
+          "lengthM": 4186.7,
           "to": "station.dunmer-north.thorn"
         }
       ],
@@ -239,7 +281,7 @@
             "lane": "route.boat.blackrose-lilmoth"
           },
           "from": "station.imperial-penal-south.blackrose",
-          "lengthM": 1251.7,
+          "lengthM": 1250.6,
           "to": "station.mercantile-coast.lilmoth"
         }
       ],
@@ -280,7 +322,7 @@
             "lane": "route.boat.gideon-onkobra"
           },
           "from": "station.imperial-fringe.gideon",
-          "lengthM": 2158.6,
+          "lengthM": 2027.5,
           "to": "station.hist-heartland.helstrom"
         }
       ],
@@ -321,7 +363,7 @@
             "lane": "route.boat.blackrose-lake-ferry"
           },
           "from": "station.imperial-penal-south.lake-ferry-stage",
-          "lengthM": 285.3,
+          "lengthM": 283.2,
           "to": "station.imperial-penal-south.blackrose"
         }
       ],
@@ -362,7 +404,7 @@
             "lane": "route.boat.lilmoth-archon"
           },
           "from": "station.mercantile-coast.lilmoth",
-          "lengthM": 2330.3,
+          "lengthM": 2330.2,
           "to": "station.saxhleel-coast.archon"
         }
       ],
@@ -403,7 +445,7 @@
             "lane": "route.boat.lilmoth-anchorage"
           },
           "from": "station.mercantile-coast.lilmoth",
-          "lengthM": 3266.6,
+          "lengthM": 559.7,
           "to": "station.mercantile-coast.lighter-flotilla"
         }
       ],
@@ -444,7 +486,7 @@
             "lane": "route.boat.oliis-crossing"
           },
           "from": "station.mercantile-coast.oliis-ferry-stage",
-          "lengthM": 95.7,
+          "lengthM": 1334.0,
           "to": "station.mercantile-coast.oliis-boardwalk"
         }
       ],
@@ -485,7 +527,7 @@
             "lane": "route.boat.soulrest-blackrose"
           },
           "from": "station.mercantile-coast.soulrest",
-          "lengthM": 1844.7,
+          "lengthM": 1846.1,
           "to": "station.imperial-penal-south.blackrose"
         }
       ],
@@ -526,7 +568,7 @@
             "lane": "route.boat.soulrest-lilmoth"
           },
           "from": "station.mercantile-coast.soulrest",
-          "lengthM": 3095.8,
+          "lengthM": 3096.2,
           "to": "station.mercantile-coast.lilmoth"
         }
       ],
@@ -567,7 +609,7 @@
             "lane": "route.boat.stormhold-alten-corimont"
           },
           "from": "station.dunmer-north.stormhold",
-          "lengthM": 1247.4,
+          "lengthM": 1311.5,
           "to": "station.pirate-freeholds.alten-corimont"
         }
       ],
@@ -721,13 +763,26 @@
         "route.road.gideon-soulrest",
         "route.road.gideon-stormhold"
       ],
-      "status": "unmatched",
+      "status": "active",
       "text": {
         "hail": "text.ferry.onkobra-bond.hail",
         "name": "text.ferry.onkobra-bond.name",
         "refusal": "text.ferry.onkobra-bond.refusal"
       },
-      "unmatchedWhy": "berth at ferry-landing.onkobra-bond.far reaches 0.36 m within 30 m; hull class small-draft needs 1.2 m — change the craft or move the landing (the Alten Corimont precedent, ruling 6: no dredging)",
+      "warnings": [
+        {
+          "at": "ferry-landing.onkobra-bond.town",
+          "depthM": 0.36,
+          "kind": "shallow-berth",
+          "needM": 1.2
+        },
+        {
+          "at": "ferry-landing.onkobra-bond.far",
+          "depthM": 0.36,
+          "kind": "shallow-berth",
+          "needM": 1.2
+        }
+      ],
       "water": {
         "class": "river",
         "name": "the lower Onkobra"
@@ -748,7 +803,7 @@
             "lane": "route.boat.blackrose-lake-ferry"
           },
           "from": "station.imperial-penal-south.blackrose",
-          "lengthM": 285.3,
+          "lengthM": 283.2,
           "to": "station.imperial-penal-south.lake-ferry-stage"
         },
         {
@@ -808,12 +863,13 @@
         "station.imperial-penal-south.longmont",
         "station.imperial-penal-south.three-gate-toll"
       ],
-      "status": "active",
+      "status": "unmatched",
       "text": {
         "hail": "text.ferry.stage-generic.hail",
         "name": "text.ferry.blackrose-lake.name",
         "refusal": "text.ferry.refused-owing"
       },
+      "unmatchedWhy": "hop station.imperial-penal-south.longmont -> station.imperial-penal-south.three-gate-toll: station.imperial-penal-south.longmont is 146 m from the nearest lane vertex (limit 60 m); station.imperial-penal-south.three-gate-toll is 140 m from the nearest lane vertex (limit 60 m)",
       "water": {
         "class": "lake",
         "name": "the Blackrose lake"
@@ -859,12 +915,13 @@
         "station.mercantile-coast.bramman-river-ferry",
         "station.mercantile-coast.oliis-ferry-stage"
       ],
-      "status": "active",
+      "status": "unmatched",
       "text": {
         "hail": "text.ferry.stage-generic.hail",
         "name": "text.ferry.bramman-oliis.name",
         "refusal": "text.ferry.refused-weather"
       },
+      "unmatchedWhy": "hop station.mercantile-coast.bramman-river-ferry -> station.mercantile-coast.oliis-ferry-stage: station.mercantile-coast.bramman-river-ferry is 161 m from the nearest lane vertex (limit 60 m)",
       "water": {
         "class": "river",
         "name": "the Bramman"
@@ -882,19 +939,25 @@
       "hops": [
         {
           "follows": {
-            "reaches": []
+            "lanes": [
+              "route.boat.archon-thorn",
+              "route.boat.lilmoth-archon",
+              "route.boat.soulrest-lilmoth"
+            ]
           },
           "from": "station.saxhleel-coast.archon",
-          "lengthM": 5011.0,
-          "to": "station.mercantile-coast.soulrest",
-          "unresolved": true
+          "lengthM": 6909.3,
+          "to": "station.mercantile-coast.soulrest"
         },
         {
           "follows": {
-            "reaches": []
+            "lanes": [
+              "route.boat.soulrest-lilmoth",
+              "route.boat.lilmoth-archon"
+            ]
           },
           "from": "station.mercantile-coast.soulrest",
-          "lengthM": 4741.8,
+          "lengthM": 6171.0,
           "to": "station.saxhleel-coast.portdun-mont",
           "unresolved": true
         }
@@ -925,12 +988,21 @@
         "station.mercantile-coast.soulrest",
         "station.saxhleel-coast.portdun-mont"
       ],
-      "status": "active",
+      "status": "unmatched",
       "text": {
         "hail": "text.ferry.stage-generic.hail",
         "name": "text.ferry.estuary-run.name",
         "refusal": "text.ferry.refused-weather"
       },
+      "unmatchedWhy": "hop station.mercantile-coast.soulrest -> station.saxhleel-coast.portdun-mont: station.saxhleel-coast.portdun-mont is 120 m from the nearest lane vertex (limit 60 m)",
+      "warnings": [
+        {
+          "at": "station.saxhleel-coast.archon -> station.mercantile-coast.soulrest at [3786, 6512]",
+          "depthM": 0.0,
+          "kind": "shallow-hop",
+          "needM": 1.2
+        }
+      ],
       "water": {
         "class": "estuary",
         "name": "the Saxhleel estuary"
@@ -1057,10 +1129,10 @@
       "refusedIf": [],
       "serviceKind": "rootworm",
       "stations": [
+        "root-node.east-estuary",
         "root-node.helstrom",
-        "root-node.north-shadowfen",
         "root-node.naga-deeps",
-        "root-node.east-estuary"
+        "root-node.north-shadowfen"
       ],
       "status": "placeholder",
       "text": {
@@ -1135,7 +1207,15 @@
         1600.4,
         3043.4
       ],
-      "status": "unmatched"
+      "status": "active",
+      "warnings": [
+        {
+          "at": "ferry-landing.onkobra-bond.far",
+          "depthM": 0.36,
+          "kind": "shallow-berth",
+          "needM": 1.2
+        }
+      ]
     },
     {
       "berth": {
@@ -1157,55 +1237,103 @@
         1609.0,
         3043.4
       ],
-      "status": "unmatched"
+      "status": "active",
+      "warnings": [
+        {
+          "at": "ferry-landing.onkobra-bond.town",
+          "depthM": 0.36,
+          "kind": "shallow-berth",
+          "needM": 1.2
+        }
+      ]
     },
     {
       "id": "root-node.east-estuary",
       "kind": "root-node",
       "notes": "Toward Archon's estuary that feeds the provincial centre (Lore:Archon).",
+      "operator": {
+        "role": "Waykeeper",
+        "slotId": "rootworm-slot.east-estuary.keeper",
+        "socket": {
+          "stationId": "root-node.east-estuary"
+        }
+      },
+      "placeId": null,
       "positionM": [
         4424.1,
         3465.5
       ],
-      "status": "placeholder"
+      "rootKind": "station",
+      "status": "placeholder",
+      "why": "The eastern estuary call of the express; the place is chosen with the eastern hero Hist."
     },
     {
       "id": "root-node.helstrom",
       "kind": "root-node",
       "notes": "Hub beneath the heart city.",
+      "operator": {
+        "role": "Waykeeper",
+        "slotId": "rootworm-slot.helstrom.keeper",
+        "socket": {
+          "stationId": "root-node.helstrom"
+        }
+      },
+      "placeId": null,
       "positionM": [
         3465.5,
         2801.9
       ],
-      "status": "placeholder"
+      "rootKind": "hub",
+      "status": "placeholder",
+      "why": "The Hist heartland is where the rootways meet; the hub node waits on the Helstrom hero-Hist siting."
     },
     {
       "id": "root-node.naga-deeps",
       "kind": "root-node",
       "notes": "Inner southern swamps, Naga-Kur country.",
+      "operator": {
+        "role": "Waykeeper",
+        "slotId": "rootworm-slot.naga-deeps.keeper",
+        "socket": {
+          "stationId": "root-node.naga-deeps"
+        }
+      },
+      "placeId": null,
       "positionM": [
         3465.5,
         4866.5
       ],
-      "status": "placeholder"
+      "rootKind": "station",
+      "status": "placeholder",
+      "why": "The southern deep call of the express; the place is chosen with the southern hero Hist."
     },
     {
       "id": "root-node.north-shadowfen",
       "kind": "root-node",
       "notes": "Deep marsh between Helstrom and Alten Corimont; access-restricted Waykeeper station (not the MQ05 convoy route).",
+      "operator": {
+        "role": "Waykeeper",
+        "slotId": "rootworm-slot.north-shadowfen.keeper",
+        "socket": {
+          "stationId": "root-node.north-shadowfen"
+        }
+      },
+      "placeId": null,
       "positionM": [
         3613.0,
         1769.6
       ],
-      "status": "placeholder"
+      "rootKind": "station",
+      "status": "placeholder",
+      "why": "The northern call of the express; the place is chosen with the northern hero Hist."
     },
     {
       "id": "station.dunmer-north.stormhold",
       "kind": "place",
       "placeId": "place.dunmer-north.stormhold",
       "positionM": [
-        2654.5,
-        737.4
+        2656.8,
+        737.5
       ],
       "status": "active"
     },
@@ -1214,8 +1342,8 @@
       "kind": "place",
       "placeId": "place.dunmer-north.thorn",
       "positionM": [
-        6193.7,
-        589.9
+        6193.6,
+        589.5
       ],
       "status": "active"
     },
@@ -1224,8 +1352,8 @@
       "kind": "place",
       "placeId": "place.hist-heartland.helstrom",
       "positionM": [
-        3465.5,
-        2801.9
+        3419.0,
+        2771.9
       ],
       "status": "active"
     },
@@ -1234,8 +1362,8 @@
       "kind": "place",
       "placeId": "place.imperial-fringe.gideon",
       "positionM": [
-        1327.2,
-        3096.9
+        1417.5,
+        3095.4
       ],
       "status": "active"
     },
@@ -1244,8 +1372,8 @@
       "kind": "place",
       "placeId": "place.imperial-penal-south.blackrose",
       "positionM": [
-        2359.5,
-        6415.0
+        2360.7,
+        6418.5
       ],
       "status": "active"
     },
@@ -1254,8 +1382,8 @@
       "kind": "place",
       "placeId": "place.imperial-penal-south.lake-boardwalk-village",
       "positionM": [
-        2552.6,
-        6067.5
+        2612.9,
+        6868.1
       ],
       "status": "active"
     },
@@ -1274,8 +1402,8 @@
       "kind": "place",
       "placeId": "place.imperial-penal-south.longmont",
       "positionM": [
-        2081.0,
-        5924.9
+        1719.1,
+        6835.2
       ],
       "status": "active"
     },
@@ -1284,8 +1412,8 @@
       "kind": "place",
       "placeId": "place.imperial-penal-south.three-gate-toll",
       "positionM": [
-        1620.4,
-        6659.7
+        1368.1,
+        6484.3
       ],
       "status": "active"
     },
@@ -1294,8 +1422,8 @@
       "kind": "place",
       "placeId": "place.mercantile-coast.bramman-river-ferry",
       "positionM": [
-        1025.5,
-        7073.7
+        918.5,
+        6922.9
       ],
       "status": "active"
     },
@@ -1304,8 +1432,8 @@
       "kind": "place",
       "placeId": "place.mercantile-coast.lighter-flotilla",
       "positionM": [
-        507.2,
-        5365.6
+        3292.9,
+        6846.2
       ],
       "status": "active"
     },
@@ -1314,8 +1442,8 @@
       "kind": "place",
       "placeId": "place.mercantile-coast.lilmoth",
       "positionM": [
-        3610.8,
-        6384.7
+        3610.9,
+        6385.6
       ],
       "status": "active"
     },
@@ -1324,8 +1452,8 @@
       "kind": "place",
       "placeId": "place.mercantile-coast.oliis-boardwalk",
       "positionM": [
-        260.5,
-        5968.8
+        1066.5,
+        7054.5
       ],
       "status": "active"
     },
@@ -1344,8 +1472,8 @@
       "kind": "place",
       "placeId": "place.mercantile-coast.soulrest",
       "positionM": [
-        518.4,
-        6530.0
+        518.2,
+        6533.6
       ],
       "status": "active"
     },
@@ -1354,8 +1482,8 @@
       "kind": "place",
       "placeId": "place.pirate-freeholds.alten-corimont",
       "positionM": [
-        3834.2,
-        1142.9
+        3912.5,
+        1115.9
       ],
       "status": "active"
     },
@@ -1364,8 +1492,8 @@
       "kind": "place",
       "placeId": "place.saxhleel-coast.archon",
       "positionM": [
-        5161.5,
-        4645.3
+        5162.7,
+        4647.3
       ],
       "status": "active"
     },
@@ -1388,8 +1516,8 @@
       "kind": "place",
       "placeId": "place.saxhleel-coast.portdun-mont",
       "positionM": [
-        5039.3,
-        5099.6
+        4819.9,
+        4244.3
       ],
       "status": "active"
     }

@@ -1,0 +1,15 @@
+{
+  "_": "The rootworm network lists the places where the Underground Express calls and marks which of them join. AUTHORED (16g deliverable 6, rule 5); `python3 -m worldgen.travel_services` re-sites each node at its place's `positionM` and rebuilds `rootways[]` and the service's hops. It also gives every node its Waykeeper slot. A node whose `placeId` is still null stays `placeholder` on its pass-1 point; the derive does not invent a position. `kind` is `hub` (many rootways meet), `station` (a stop on one) or `seasonal` (the way is open only part of the year; quests 20 section 12b: Gideon is not a standing station).",
+  "schemaVersion": 1,
+  "stations": [
+    {"id": "root-node.helstrom", "placeId": null, "kind": "hub", "why": "The Hist heartland is where the rootways meet; the hub node waits on the Helstrom hero-Hist siting."},
+    {"id": "root-node.north-shadowfen", "placeId": null, "kind": "station", "why": "The northern call of the express; the place is chosen with the northern hero Hist."},
+    {"id": "root-node.naga-deeps", "placeId": null, "kind": "station", "why": "The southern deep call of the express; the place is chosen with the southern hero Hist."},
+    {"id": "root-node.east-estuary", "placeId": null, "kind": "station", "why": "The eastern estuary call of the express; the place is chosen with the eastern hero Hist."}
+  ],
+  "rootways": [
+    {"from": "root-node.helstrom", "to": "root-node.north-shadowfen"},
+    {"from": "root-node.helstrom", "to": "root-node.naga-deeps"},
+    {"from": "root-node.helstrom", "to": "root-node.east-estuary"}
+  ]
+}

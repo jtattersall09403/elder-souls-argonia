@@ -17,7 +17,13 @@ THE SHAPE
                `serviceKind` (ferry/boat/rootworm/...), a `form`
                (road-crossing | station-run) and `hops[]` — a leg between two
                stations, following a named lane, road or rootway.
-`rootways[]`   the rootworm edges, placeholders until 16g.
+`rootways[]`   the rootworm edges, rebuilt each run from the authored
+               `routes/rootworm-stations.json` (nodes, their places and their
+               Waykeeper slots).
+`harbourStations`
+               where each of the eight major cities boards a boat: the city's
+               own quay when its gate stands on a lane, otherwise the place
+               named in the authored `routes/harbour-stations.json`.
 
 Nothing here simulates a vessel (owner ruling 2026-09-09): the player speaks
 to the operator, pays, and arrives.
@@ -33,6 +39,26 @@ RUNNING
 `banks`, and walks each berth out from the bank to the first floating depth. A ferry whose
 crossing is no longer there (the roads moved) is marked `unmatched` with the
 nearest candidate named — it is never moved by guesswork.
+
+WHAT GATES AND WHAT ONLY REPORTS (owner 2026-09-18, 16g deliverable 6)
+----------------------------------------------------------------------
+* CONNECTEDNESS gates. `check()` fails when the active stations and active
+  services are not ONE component: a station a traveller cannot reach from the
+  rest of the network is a hole in the world.
+* DEPTH only reports. A hop or a berth shallower than the craft's
+  `dock_spec.HULL_CLASS_DEPTH_M` becomes a `warnings[]` row
+  (`{kind, depthM, needM, at}`) and the service stays `active`; 16h answers it
+  with the craft or the jetty. A shortfall that is NOT written down is still
+  an error — a silent shallow is the defect, not a shallow one.
+* `unmatched` is reserved for three faults: a landing on DRY ground (no water
+  entity within 30 m of the bank point), a station whose place is not a live
+  record with a position, and a hop whose chain of lanes does not exist.
+
+Every station-run hop is re-solved each run from the stations' CURRENT record
+positions (a place the plot moves takes its station with it) and pathed over
+the published waterways — `province/waterways.json` plus the minor channels of
+`province/waterways-minor.json` — so `follows` is `{lanes: [...]}`, the chain
+actually walked, and `lengthM` is its geometry.
 """
 
 from __future__ import annotations
@@ -54,12 +80,18 @@ TEXT_ENTRIES = REPO_ROOT / "packages" / "text-catalogue" / "src" / "entries.ts"
 VOCABULARY = REPO_ROOT / "docs" / "quests" / "85-condition-vocabulary.md"
 QUEST_PLACE_MAP = REPO_ROOT / "docs" / "quests" / "25-quest-place-map.md"
 KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
+PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
+WATERWAYS = PROVINCE / "waterways.json"
+WATERWAYS_MINOR = PROVINCE / "waterways-minor.json"
+HARBOURS = REPO_ROOT / "world" / "sources" / "routes" / "harbour-stations.json"
+ROOT_STATIONS = REPO_ROOT / "world" / "sources" / "routes" / "rootworm-stations.json"
+ANCHORS = REPO_ROOT / "world" / "sources" / "anchors" / "settlement-anchors.json"
 
 SCHEMA_VERSION = 1
 
 SERVICE_KINDS = ["ferry", "boat", "rootworm", "guide", "cart", "porter"]
 STATION_KINDS = ["place", "ferry-landing", "root-node"]
-HOP_FOLLOWS = ["lane", "reaches", "rootway", "road"]
+HOP_FOLLOWS = ["lane", "lanes", "reaches", "rootway", "road"]
 FORMS = {"road-crossing", "station-run"}
 STATUSES = {"active", "placeholder", "deferred", "unmatched"}
 
@@ -71,6 +103,24 @@ BERTH_SEARCH_M = 30.0
 #: Step of that walk, in metres.
 BERTH_STEP_M = 1.0
 BOAT_FARE_GOLD = 5
+#: How far a station may sit from the nearest published lane vertex and still
+#: board from it (16g deliverable 6, rule 3).
+STATION_LANE_M = 60.0
+#: How close two lane polylines must pass to be one navigable network.
+LANE_JOIN_M = 60.0
+#: What a change of lane costs the search (not the answer): without it a hop
+#: zig-zags between two lanes that run parallel within the join radius, and
+#: the chain of lanes it reports is noise. The reported `lengthM` is always
+#: the true walked geometry, never this cost.
+LANE_SWITCH_PENALTY_M = 250.0
+#: A landing with no water entity within this radius of its bank point is DRY
+#: — the one berth condition that still unmatches a service (rule 2).
+DRY_LANDING_M = 30.0
+#: Spacing of the depth samples taken along a resolved hop.
+HOP_SAMPLE_M = 50.0
+WARNING_KINDS = {"shallow-hop", "shallow-berth"}
+#: The eight major anchors that must each have a harbour station (rule 4).
+MAJOR_RANK = "major"
 
 
 # --------------------------------------------------------------------------
@@ -139,6 +189,127 @@ def _suffix_index(places: dict) -> dict:
         if len(parts) == 3:
             out.setdefault(parts[2], []).append(pid)
     return {k: v[0] for k, v in out.items() if len(v) == 1}
+
+
+# --------------------------------------------------------------------------
+# the published lane network — where a boat may actually go
+# --------------------------------------------------------------------------
+
+def lane_polylines(paths=None) -> list[tuple[str, list[list[float]]]]:
+    """Every published navigable polyline, in metres: the anchor lanes of
+    `province/waterways.json` plus the minor channels `compile_minor_waterways`
+    solves into `province/waterways-minor.json` (optional: a run before that
+    stage has no minor file, and the hops then path over the majors alone)."""
+    from .scale import hydro_pixel_center_to_metres as px_m
+
+    out: list[tuple[str, list[list[float]]]] = []
+    for path in (paths if paths is not None else (WATERWAYS, WATERWAYS_MINOR)):
+        path = Path(path)
+        if not path.exists():
+            continue
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        for key in ("lanes", "channels"):
+            for lane in doc.get(key) or []:
+                pts = lane.get("pointsM") or [[px_m(p[0]), px_m(p[1])]
+                                              for p in lane.get("px") or []]
+                pts = [[float(p[0]), float(p[1])] for p in pts]
+                if len(pts) >= 2 and lane.get("id"):
+                    out.append((lane["id"], pts))
+    return sorted(out, key=lambda r: r[0])
+
+
+class LaneNetwork:
+    """The lane polylines as one navigable graph: a node per vertex, an edge
+    along each polyline, and an edge wherever two lanes pass within
+    `LANE_JOIN_M` of each other (the published lanes meet at shared water, not
+    at shared vertices). Deterministic: nodes are added in lane-id order."""
+
+    def __init__(self, polylines: list[tuple[str, list[list[float]]]], join_m=LANE_JOIN_M):
+        self.join_m = float(join_m)
+        self.pts: list[list[float]] = []
+        self.lane: list[str] = []
+        self.adj: dict[int, list[tuple[int, float]]] = {}
+        self._cell = max(self.join_m, 1.0)
+        self._grid: dict[tuple[int, int], list[int]] = {}
+        for lid, pts in polylines:
+            first = len(self.pts)
+            for i, p in enumerate(pts):
+                n = len(self.pts)
+                self.pts.append(p)
+                self.lane.append(lid)
+                self._grid.setdefault(self._key(p), []).append(n)
+                if n > first:
+                    self._edge(n - 1, n, _dist(self.pts[n - 1], p))
+        for n, p in enumerate(self.pts):
+            for m in self._near_nodes(p):
+                if m > n and self.lane[m] != self.lane[n]:
+                    d = _dist(p, self.pts[m])
+                    if d <= self.join_m:
+                        self._edge(n, m, d + LANE_SWITCH_PENALTY_M)
+
+    def _key(self, p):
+        return (int(math.floor(p[0] / self._cell)), int(math.floor(p[1] / self._cell)))
+
+    def _edge(self, a: int, b: int, w: float) -> None:
+        self.adj.setdefault(a, []).append((b, w))
+        self.adj.setdefault(b, []).append((a, w))
+
+    def _near_nodes(self, p, rings: int = 1) -> list[int]:
+        cx, cy = self._key(p)
+        out = []
+        for i in range(cx - rings, cx + rings + 1):
+            for j in range(cy - rings, cy + rings + 1):
+                out.extend(self._grid.get((i, j), ()))
+        return out
+
+    def nearest(self, p) -> tuple[int | None, float]:
+        """The nearest lane vertex and its distance (searches outward rings so
+        a station far off the network still gets a measured distance)."""
+        best, best_d = None, None
+        rings = 1
+        while rings <= 64:
+            for n in self._near_nodes(p, rings):
+                d = _dist(p, self.pts[n])
+                if best_d is None or d < best_d or (d == best_d and n < best):
+                    best, best_d = n, d
+            if best is not None and best_d <= rings * self._cell:
+                break
+            rings *= 2
+        return best, (best_d if best_d is not None else float("inf"))
+
+    def path(self, a: int, b: int) -> tuple[list[str], float, list[list[float]]] | None:
+        """Dijkstra between two vertices. Returns the ordered lane ids walked
+        (consecutive repeats collapsed), the summed polyline length, and the
+        points walked — or None when the two are not on one network."""
+        import heapq
+        dist = {a: 0.0}
+        prev: dict[int, int] = {}
+        q = [(0.0, a)]
+        while q:
+            d, n = heapq.heappop(q)
+            if n == b:
+                break
+            if d > dist.get(n, float("inf")):
+                continue
+            for m, w in sorted(self.adj.get(n, ())):
+                nd = d + w
+                if nd < dist.get(m, float("inf")) - 1e-9:
+                    dist[m] = nd
+                    prev[m] = n
+                    heapq.heappush(q, (nd, m))
+        if b not in dist:
+            return None
+        chain = [b]
+        while chain[-1] != a:
+            chain.append(prev[chain[-1]])
+        chain.reverse()
+        lanes: list[str] = []
+        for n in chain:
+            if not lanes or lanes[-1] != self.lane[n]:
+                lanes.append(self.lane[n])
+        points = [self.pts[n] for n in chain]
+        walked = sum(_dist(points[i], points[i + 1]) for i in range(len(points) - 1))
+        return lanes, round(walked, 1), points
 
 
 # --------------------------------------------------------------------------
@@ -382,12 +553,76 @@ def migrate() -> dict:
 # derive — join the road-crossing ferries to the measured crossings
 # --------------------------------------------------------------------------
 
-def derive(doc: dict, crossings: list[dict], sw=None) -> list[str]:
+def _warn(obj: dict, kind: str, depth_m, need_m, at: str) -> None:
+    """Record a depth shortfall. Depth is REPORTED, never gated (rule 2): the
+    service keeps its status and carries the measurement for 16h to answer."""
+    obj.setdefault("warnings", []).append({
+        "kind": kind,
+        "depthM": (None if depth_m is None else round(float(depth_m), 2)),
+        "needM": round(float(need_m), 2),
+        "at": at,
+    })
+
+
+def _station_site(place: dict) -> list[float] | None:
+    """Where a traveller boards at a place: its quay gate when the record
+    carries a city layout, otherwise the record's own position. Read from the
+    record every run, so a place the plot moves takes its station with it."""
+    gate = (place.get("cityLayout") or {}).get("gate")
+    pos = gate or place.get("positionM")
+    if not (isinstance(pos, (list, tuple)) and len(pos) == 2):
+        return None
+    return [round(float(pos[0]), 1), round(float(pos[1]), 1)]
+
+
+def _resite_place_stations(doc: dict, places: dict, lines: list[str]) -> None:
+    """Every station that names a place is re-sited from that place's current
+    record (rule 7). A station whose place is not a live record with a
+    position is `unmatched` — never left standing on a stale point."""
+    for st in doc["stations"]:
+        pid = st.get("placeId")
+        if not pid:
+            continue
+        place = places.get(pid)
+        site = _station_site(place) if place else None
+        if place is not None and site is None and place.get("status") == "deferred":
+            # A place the plot has not sited yet is deferred, not broken.
+            st["status"] = "deferred"
+            st["positionM"] = None
+            continue
+        if place is None or site is None:
+            st["status"] = "unmatched"
+            st["unmatchedWhy"] = (
+                f"placeId {pid!r} is not a catalogue place" if place is None else
+                f"place {pid} carries no positionM — a station cannot stand nowhere")
+            lines.append(f"{st['id']}: UNMATCHED — {st['unmatchedWhy']}")
+            continue
+        moved = st.get("positionM") != site
+        st["positionM"] = site
+        st.pop("unmatchedWhy", None)
+        if place.get("status") == "deferred":
+            st["status"] = "deferred"
+        elif st.get("status") == "unmatched":
+            st["status"] = "active"
+        if moved:
+            lines.append(f"{st['id']}: re-sited to {site} from {pid}")
+
+
+def derive(doc: dict, crossings: list[dict], sw=None, places=None, net=None,
+           roots=None, harbours=None, anchors=None) -> list[str]:
     """Match, move and measure in place. Returns the per-service summary lines."""
     from .dock_spec import HULL_CLASS_DEPTH_M
 
-    stations = {s["id"]: s for s in doc["stations"]}
+    places = _places() if places is None else places
+    for obj in list(doc.get("stations", [])) + list(doc.get("services", [])):
+        obj.pop("warnings", None)
+        for hop in obj.get("hops") or []:
+            hop.pop("warnings", None)
+
     lines: list[str] = []
+    _resite_place_stations(doc, places, lines)
+    _apply_rootworm(doc, places, roots, lines)
+    stations = {s["id"]: s for s in doc["stations"]}
     for s in doc["services"]:
         if s.get("serviceKind") != "ferry" or s.get("form") != "road-crossing":
             continue
@@ -421,6 +656,9 @@ def derive(doc: dict, crossings: list[dict], sw=None) -> list[str]:
             lines.append(f"{s['id']}: UNMATCHED — {s['unmatchedWhy']}")
             continue
 
+        if s.get("status") == "unmatched":
+            s["status"] = "active"
+        s.pop("unmatchedWhy", None)
         s["crossing"] = {"id": best["id"], "entityId": best["entityId"],
                          "entityKind": best["entityKind"], "spanM": best["spanM"],
                          "maxDepthM": best["maxDepthM"]}
@@ -439,14 +677,20 @@ def derive(doc: dict, crossings: list[dict], sw=None) -> list[str]:
             if sw is None:
                 continue
             st["berth"] = _berth(sw, bank, other, hull, need)
-            if not st["berth"]["floats"]:
-                b = st["berth"]
+            b = st["berth"]
+            if b.get("entityId") is None:
+                # DRY ground: the walk in from the bank met no water entity at
+                # all. This is the one berth fault that unmatches (rule 2).
                 s["status"] = "unmatched"
                 s["unmatchedWhy"] = (
-                    f"berth at {st['id']} reaches {b['depthM']} m within "
-                    f"{BERTH_SEARCH_M:.0f} m; hull class {hull} needs {need} m — change the "
-                    f"craft or move the landing (the Alten Corimont precedent, ruling 6: "
-                    f"no dredging)")
+                    f"landing {st['id']} is dry — no water entity within "
+                    f"{DRY_LANDING_M:.0f} m of the bank point; the crossing the service "
+                    f"repairs is not under it")
+            elif not b["floats"]:
+                # Depth is reported, never gated (rule 2, owner 2026-09-18):
+                # 16h answers a shallow berth with the craft or the jetty.
+                _warn(s, "shallow-berth", b["depthM"], need, st["id"])
+                _warn(st, "shallow-berth", b["depthM"], need, st["id"])
         for st in land:
             st["status"] = s.get("status")
         if s.get("hops"):
@@ -458,7 +702,244 @@ def derive(doc: dict, crossings: list[dict], sw=None) -> list[str]:
                      f"jettyM={jetties or 'not measured'}"
                      + (f" — UNMATCHED: {s['unmatchedWhy']}"
                         if s.get("status") == "unmatched" else ""))
+
+    if net is None:
+        net = LaneNetwork(lane_polylines())
+    lines.extend(_resolve_station_hops(doc, stations, net, sw))
+    lines.extend(_derive_harbours(doc, places, harbours, anchors, net))
     return lines
+
+
+# --------------------------------------------------------------------------
+# station-run hops follow the published waterways (rule 3)
+# --------------------------------------------------------------------------
+
+def _resolve_station_hops(doc: dict, stations: dict, net, sw=None) -> list[str]:
+    """Every station-run hop is re-solved from the stations' current positions:
+    a hop with no registry lane of its own is pathed over the published lane
+    network (majors + the minor channels), and the lanes it walks are written
+    down. A station further than `STATION_LANE_M` from any lane vertex cannot
+    be boarded from the water, and its hops are `unmatched` with the distance
+    named — never moved by guesswork."""
+    from .dock_spec import HULL_CLASS_DEPTH_M
+
+    lines: list[str] = []
+    snap: dict[str, tuple[int | None, float]] = {}
+
+    def nearest(sid: str):
+        if sid not in snap:
+            pos = (stations.get(sid) or {}).get("positionM")
+            snap[sid] = net.nearest(pos) if pos else (None, float("inf"))
+        return snap[sid]
+
+    for s in doc["services"]:
+        if s.get("form") != "station-run" or s.get("serviceKind") == "rootworm":
+            continue
+        need = HULL_CLASS_DEPTH_M.get(s.get("hullClass"), 0.0)
+        if s.get("status") == "unmatched":
+            s["status"] = "active"
+            s.pop("unmatchedWhy", None)
+        for hop in s.get("hops") or []:
+            a, b = stations.get(hop["from"]), stations.get(hop["to"])
+            if not (a and b and a.get("positionM") and b.get("positionM")):
+                continue
+            straight = round(_dist(a["positionM"], b["positionM"]), 1)
+            follows = hop.get("follows") or {}
+            if (follows.get("lane") or follows.get("road")) and not hop.get("unresolved"):
+                hop["lengthM"] = straight
+                continue
+            (na, da), (nb, db) = nearest(hop["from"]), nearest(hop["to"])
+            far = [(hop["from"], da), (hop["to"], db)]
+            far = [(sid, d) for sid, d in far if d > STATION_LANE_M]
+            if na is None or nb is None or far:
+                s["status"] = "unmatched"
+                why = ("; ".join(f"{sid} is {d:.0f} m from the nearest lane vertex "
+                                 f"(limit {STATION_LANE_M:.0f} m)" for sid, d in far)
+                       or "the published lane network is empty")
+                s["unmatchedWhy"] = f"hop {hop['from']} -> {hop['to']}: {why}"
+                hop["unresolved"] = True
+                lines.append(f"{s['id']}: UNMATCHED — {s['unmatchedWhy']}")
+                continue
+            walk = net.path(na, nb)
+            if walk is None:
+                s["status"] = "unmatched"
+                s["unmatchedWhy"] = (
+                    f"hop {hop['from']} -> {hop['to']}: the two stations board on lane "
+                    f"{net.lane[na]} and lane {net.lane[nb]}, which are not one navigable "
+                    f"network — no chain of published lanes joins them")
+                hop["unresolved"] = True
+                lines.append(f"{s['id']}: UNMATCHED — {s['unmatchedWhy']}")
+                continue
+            lane_ids, length_m, points = walk
+            hop["follows"] = {"lanes": lane_ids}
+            hop["lengthM"] = round(length_m + da + db, 1)
+            hop.pop("unresolved", None)
+            lines.append(f"{s['id']}: hop {hop['from']} -> {hop['to']} follows "
+                         f"{len(lane_ids)} lane(s) {lane_ids} for {hop['lengthM']} m "
+                         f"(boarding {da:.0f} m / {db:.0f} m off the network)")
+            if sw is not None and need:
+                shallow = _shallowest(sw, points)
+                if shallow is not None and shallow[0] < need:
+                    _warn(s, "shallow-hop", shallow[0], need,
+                          f"{hop['from']} -> {hop['to']} at "
+                          f"[{shallow[1][0]:.0f}, {shallow[1][1]:.0f}]")
+    return lines
+
+
+def _shallowest(sw, points: list[list[float]]) -> tuple[float, list[float]] | None:
+    """The shallowest sample along a walked path, sampled every
+    `HOP_SAMPLE_M`. Dry ground counts as 0 m: a lane over dry land is the
+    shallowest water there is."""
+    worst = None
+    walked = HOP_SAMPLE_M
+    prev = points[0] if points else None
+    total = sum(_dist(points[i], points[i + 1]) for i in range(len(points) - 1))
+    run = 0.0
+    for p in points:
+        step = _dist(prev, p)
+        walked += step
+        run += step
+        prev = p
+        # The boarding ends are the jetty's problem (16h), not the passage's:
+        # the water at a quay point is nearly always ankle deep.
+        if run < HOP_SAMPLE_M or total - run < HOP_SAMPLE_M:
+            continue
+        if walked < HOP_SAMPLE_M:
+            continue
+        walked = 0.0
+        rec = sw.water_at(p[0], p[1]) or {}
+        depth = float(rec.get("depthM") or 0.0)
+        if worst is None or depth < worst[0]:
+            worst = (round(depth, 2), p)
+    return worst
+
+
+# --------------------------------------------------------------------------
+# a harbour station per city (rule 4)
+# --------------------------------------------------------------------------
+
+HARBOUR_MODES = {"boat", "ferry", "lighter"}
+
+
+def _major_anchors(anchors=None) -> list[str]:
+    if anchors is None:
+        if not ANCHORS.exists():
+            return []
+        anchors = json.loads(ANCHORS.read_text(encoding="utf-8")).get("anchors") or []
+    return [a["id"] for a in anchors if a.get("rank") == MAJOR_RANK]
+
+
+def _derive_harbours(doc: dict, places: dict, harbours=None, anchors=None, net=None) -> list[str]:
+    """Every major city boards a boat somewhere. A city whose own record
+    declares a water mode AND whose gate stands on a lane's water is its own
+    harbour; otherwise the authored `harbour-stations.json` names the place
+    that is."""
+    if harbours is None:
+        harbours = (json.loads(HARBOURS.read_text(encoding="utf-8")).get("harbours") or {}
+                    if HARBOURS.exists() else {})
+    if net is None:
+        net = LaneNetwork(lane_polylines())
+    by_suffix = _suffix_index(places)
+    stations = {s["id"]: s for s in doc["stations"]}
+    out: dict[str, dict] = {}
+    lines: list[str] = []
+    for anchor in _major_anchors(anchors):
+        pid = by_suffix.get(anchor)
+        place = places.get(pid) if pid else None
+        gate = (place or {}).get("cityLayout", {}).get("gate")
+        modes = set(((place or {}).get("travelStation") or {}).get("modes") or [])
+        own = None
+        if place and (modes & HARBOUR_MODES) and gate:
+            _, d = net.nearest(gate)
+            if d <= STATION_LANE_M:
+                own = {"stationId": station_id_for_place(pid), "placeId": pid,
+                       "why": "the city's own quay"}
+        row = own or {
+            "stationId": (station_id_for_place(harbours.get(anchor, {}).get("placeId"))
+                          if (harbours.get(anchor) or {}).get("placeId") else None),
+            "placeId": (harbours.get(anchor) or {}).get("placeId"),
+            "why": (harbours.get(anchor) or {}).get("why"),
+        }
+        out[anchor] = row
+        if row["placeId"] is None:
+            lines.append(f"harbour {anchor}: NOT SET — the city's gate is "
+                         + (f"{net.nearest(gate)[1]:.0f} m off the lane network"
+                            if gate else "absent")
+                         + "; world/sources/routes/harbour-stations.json must name the "
+                           "place that harbours it")
+        elif row["stationId"] not in stations:
+            lines.append(f"harbour {anchor}: {row['placeId']} is not a station in this graph")
+    doc["harbourStations"] = out
+    return lines
+
+
+# --------------------------------------------------------------------------
+# the rootworm network (rule 5)
+# --------------------------------------------------------------------------
+
+ROOT_KINDS = {"hub", "station", "seasonal"}
+
+
+def _apply_rootworm(doc: dict, places: dict, roots=None, lines=None) -> None:
+    """Re-site every root node at its place, rebuild the rootways and the
+    Underground Express hops from them, and give every node its Waykeeper
+    slot. A node whose place is not yet chosen stays `placeholder` on its
+    pass-1 point — it is never invented a position."""
+    lines = lines if lines is not None else []
+    if roots is None:
+        if not ROOT_STATIONS.exists():
+            return
+        roots = json.loads(ROOT_STATIONS.read_text(encoding="utf-8"))
+    stations = {s["id"]: s for s in doc["stations"]}
+    for row in roots.get("stations") or []:
+        sid = row["id"]
+        st = stations.get(sid) or {"id": sid, "kind": "root-node", "positionM": None}
+        st["kind"] = "root-node"
+        st["placeId"] = row.get("placeId")
+        st["rootKind"] = row.get("kind")
+        st["why"] = row.get("why")
+        slug = sid.split(".", 1)[1]
+        st["operator"] = {"role": "Waykeeper", "slotId": f"rootworm-slot.{slug}.keeper",
+                          "socket": {"stationId": sid}}
+        place = places.get(row["placeId"]) if row.get("placeId") else None
+        site = _station_site(place) if place else None
+        if site is not None:
+            st["positionM"] = site
+            st["status"] = "deferred" if place.get("status") == "deferred" else "active"
+            lines.append(f"{sid}: sited at {site} from {row['placeId']}")
+        else:
+            st["status"] = "placeholder"
+        if sid not in stations:
+            doc["stations"].append(st)
+            stations[sid] = st
+
+    rootways, hops = [], []
+    for edge in roots.get("rootways") or []:
+        a, b = edge["from"], edge["to"]
+        rid = f"rootway.{a.split('.', 1)[1]}-{b.split('.', 1)[1]}"
+        live = all((stations.get(x) or {}).get("status") == "active" for x in (a, b))
+        rootways.append({"id": rid, "from": a, "to": b,
+                         "status": "active" if live else "placeholder"})
+        pa, pb = (stations.get(a) or {}).get("positionM"), (stations.get(b) or {}).get("positionM")
+        hops.append({"from": a, "to": b, "follows": {"rootway": rid},
+                     "lengthM": round(_dist(pa, pb), 1) if pa and pb else None})
+    if not rootways:
+        return
+    doc["rootways"] = rootways
+    for s in doc["services"]:
+        if s.get("serviceKind") != "rootworm":
+            continue
+        s["stations"] = sorted({e[k] for e in rootways for k in ("from", "to")})
+        s["hops"] = hops
+        live = all(r["status"] == "active" for r in rootways)
+        s["status"] = "active" if live else "placeholder"
+        if s["status"] == "active":
+            s.pop("placeholderWhy", None)
+        socket = (s.get("operator") or {}).get("socket") or {}
+        if socket.get("stationId") not in stations:
+            s["operator"]["socket"] = {"stationId": s["stations"][0]}
+    lines.append(f"rootworm: {len(rootways)} rootways, "
+                 f"{sum(1 for r in rootways if r['status'] == 'active')} active")
 
 
 def _berth(sw, bank, other, hull: str, need: float) -> dict:
@@ -491,14 +972,19 @@ def _berth(sw, bank, other, hull: str, need: float) -> dict:
 # --------------------------------------------------------------------------
 
 ID_PREFIXES = ("ferry.", "boat.", "rootworm.", "guide.", "cart.", "porter.")
+
 STATION_PREFIXES = {"place": "station.", "ferry-landing": "ferry-landing.",
                     "root-node": "root-node."}
 
 
-def check(doc: dict | None = None) -> list[str]:
+def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
+    """Reference integrity. `warn` collects the findings that are reported and
+    not gated (an unfilled harbour; a measured shallow), so a record that is
+    honest about a shortfall still passes."""
     from .dock_spec import HULL_CLASS_DEPTH_M  # noqa: F401  (kept with the berth rule)
 
     errs: list[str] = []
+    warn = warn if warn is not None else []
     if doc is None:
         doc = json.loads(SERVICES.read_text(encoding="utf-8"))
     if "schemaVersion" not in doc:
@@ -512,6 +998,7 @@ def check(doc: dict | None = None) -> list[str]:
         errs.append("water-crossings.json is missing — run `python3 -m worldgen.derive_crossings`")
 
     text_ids, predicates, places = _text_ids(), _predicates(), _places()
+    published_lanes = {lid for lid, _ in lane_polylines()}
     reg = _registry()
     routes = _route_ids(reg)
 
@@ -616,6 +1103,16 @@ def check(doc: dict | None = None) -> list[str]:
                 if follows.get(key) and routes and follows[key] not in routes:
                     errs.append(f"service {sid}: hop follows {key} {follows[key]!r}, which is not "
                                 f"in the route registry")
+            if follows.get("lanes") is not None:
+                if not isinstance(follows["lanes"], list) or not follows["lanes"]:
+                    errs.append(f"service {sid}: hop follows `lanes` must be a non-empty list "
+                                f"of published lane ids")
+                else:
+                    unknown = [l for l in follows["lanes"]
+                               if published_lanes and l not in published_lanes]
+                    if unknown:
+                        errs.append(f"service {sid}: hop follows lane(s) {unknown}, which are "
+                                    f"not in the published waterways")
             if follows.get("rootway") and follows["rootway"] not in rootways:
                 errs.append(f"service {sid}: hop follows rootway {follows['rootway']!r}, which "
                             f"is not in `rootways`")
@@ -665,15 +1162,96 @@ def check(doc: dict | None = None) -> list[str]:
                         errs.append(f"service {sid}: landing {stid} has no berth — run "
                                     f"`python3 -m worldgen.travel_services`")
                     elif not berth.get("floats"):
-                        errs.append(f"service {sid}: landing {stid} berth is "
-                                    f"{berth.get('depthM')} m, which does not float a "
-                                    f"{berth.get('hullClass')}")
+                        # Depth is reported, never gated (rule 2): the shortfall
+                        # must be WRITTEN DOWN, and a silent one is the defect.
+                        if not [w for w in (s.get("warnings") or [])
+                                if w.get("kind") == "shallow-berth" and w.get("at") == stid]:
+                            errs.append(f"service {sid}: landing {stid} berth is "
+                                        f"{berth.get('depthM')} m, which does not float a "
+                                        f"{berth.get('hullClass')}, and the service carries no "
+                                        f"`shallow-berth` warning for it")
+                        else:
+                            warn.append(f"service {sid}: landing {stid} berth is "
+                                        f"{berth.get('depthM')} m, below the "
+                                        f"{berth.get('hullClass')} line")
                     elif berth.get("jettyM") is None:
                         errs.append(f"service {sid}: landing {stid} berth carries no jettyM — "
                                     f"the dock length 16h places; run "
                                     f"`python3 -m worldgen.travel_services`")
 
+    for obj in list(doc.get("stations", [])) + list(doc.get("services", [])):
+        for w in obj.get("warnings") or []:
+            if w.get("kind") not in WARNING_KINDS:
+                errs.append(f"{obj.get('id')}: warning kind {w.get('kind')!r} is not one of "
+                            f"{sorted(WARNING_KINDS)}")
+            if not str(w.get("at") or "").strip():
+                errs.append(f"{obj.get('id')}: a warning must name where it was measured (`at`)")
+
+    errs.extend(_check_connected(doc))
+    errs.extend(_check_harbours(doc, places, warn))
     errs.extend(_check_fast_nodes(service_ids))
+    return errs
+
+
+def _check_connected(doc: dict) -> list[str]:
+    """The active network is ONE component (rule 1, owner 2026-09-18).
+    Connectedness is what a traveller feels; depth is only reported. Every
+    active station must be reachable from every other over the hops of active
+    services — a station nobody can leave is a dead end in the world."""
+    live = {st["id"] for st in doc.get("stations", []) if st.get("status") == "active"}
+    if len(live) < 2:
+        return []
+    adj: dict[str, set[str]] = {sid: set() for sid in live}
+    for s in doc.get("services", []):
+        if s.get("status") != "active":
+            continue
+        for hop in s.get("hops") or []:
+            a, b = hop.get("from"), hop.get("to")
+            if a in live and b in live:
+                adj[a].add(b)
+                adj[b].add(a)
+    seen, stack = set(), [min(live)]
+    while stack:
+        n = stack.pop()
+        if n in seen:
+            continue
+        seen.add(n)
+        stack.extend(adj[n] - seen)
+    if seen == live:
+        return []
+    rest = sorted(live - seen)
+    return [f"the active network is not connected: {len(seen)} of {len(live)} active stations "
+            f"reach {min(live)}; {len(rest)} do not ({', '.join(rest[:8])}"
+            f"{' ...' if len(rest) > 8 else ''}) — every station must reach every other by "
+            f"some chain of active hops (rule 1)"]
+
+
+def _check_harbours(doc: dict, places: dict, warn: list[str]) -> list[str]:
+    """Every major city has a harbour station. An unfilled harbour is a
+    WARNING until `harbour-stations.json` names them all; a harbour that
+    points at something that is not a station is an error."""
+    errs: list[str] = []
+    block = doc.get("harbourStations")
+    if block is None:
+        return ["no `harbourStations` block — run `python3 -m worldgen.travel_services`"]
+    stations = {st["id"]: st for st in doc.get("stations", [])}
+    missing = [k for k, v in sorted(block.items()) if not (v or {}).get("placeId")]
+    for anchor in missing:
+        warn.append(f"harbour {anchor}: no harbour place chosen yet "
+                    f"(world/sources/routes/harbour-stations.json)")
+    for anchor, row in sorted(block.items()):
+        pid = (row or {}).get("placeId")
+        if pid is None:
+            continue
+        if pid not in places:
+            errs.append(f"harbour {anchor}: placeId {pid!r} is not a catalogue place")
+        if (row or {}).get("stationId") not in stations:
+            errs.append(f"harbour {anchor}: {row.get('stationId')!r} is not a station in this "
+                        f"graph — a harbour must be somewhere a traveller can board")
+        if not str((row or {}).get("why") or "").strip():
+            errs.append(f"harbour {anchor}: needs a `why`")
+    if missing:
+        warn.append(f"{len(missing)} of {len(block)} harbours unfilled: {', '.join(missing)}")
     return errs
 
 
@@ -712,7 +1290,10 @@ def main(argv: list[str] | None = None) -> None:
     a = ap.parse_args(argv)
 
     if a.check:
-        errs = check()
+        warn: list[str] = []
+        errs = check(warn=warn)
+        for w in warn:
+            print("travel_services: reported (not gated) " + w)
         if errs:
             raise SystemExit("travel-services.json:\n  " + "\n  ".join(errs))
         doc = json.loads(SERVICES.read_text(encoding="utf-8"))
