@@ -87,7 +87,19 @@
     "aa_pike_2hm_attackpowerright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/11/2hm_attackpowerright.hkx",
     "aa_quarterstaff_2hm_attackpower": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hm_attackpower.hkx",
     "aa_quarterstaff_2hw_attackpowerbwd": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/13/2hw_attackpowerbwd.hkx",
-    "aa_rapier_1hm_idleold": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_idleOld.hkx"
+    "aa_rapier_1hm_idleold": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data/Meshes/actors/character/animations/DynamicAnimationReplacer/_CustomConditions/10/1hm_idleOld.hkx",
+    "aa_katana_1hm_idle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_Idle.hkx",
+    "aa_katana_1hm_attackright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_attackright.hkx",
+    "aa_katana_1hm_attackleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_attackleft.hkx",
+    "aa_katana_1hm_attackpower": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_attackpower.hkx",
+    "aa_katana_1hm_attackpowerright": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_attackpowerright.hkx",
+    "aa_katana_1hm_attackpowerleft": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_attackpowerleft.hkx",
+    "aa_katana_1hm_blockanticipate": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_blockanticipate.hkx",
+    "aa_katana_1hm_blockidle": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_blockIdle.hkx",
+    "aa_katana_1hm_blockhita": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_blockHitA.hkx",
+    "aa_katana_1hm_blockhitb": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_blockHitB.hkx",
+    "aa_katana_1hm_equip": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/1hm_equip.hkx",
+    "aa_katana_mt_sprintforwardsword": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/converted-spline/20/mt_sprintforwardsword.hkx"
   },
   "defaults": {
     "looping": false,
@@ -168,6 +180,13 @@
     "claw": {
       "label": "Claws",
       "description": "A claw fighter's own one-handed moveset: idle, the light chain, the power attacks and the block held without a blade. The guard entry, the draw, the parry, the criticals and all locomotion come from the one-handed pack.",
+      "requires": [
+        "oneHanded"
+      ]
+    },
+    "katana": {
+      "label": "Katana",
+      "description": "A katana's own one-handed moveset: drawn idle, the light chain, the power attacks, its guard and block-hits, its draw and its sprint. The parry, the criticals, the sheathe and the rest of the locomotion come from the one-handed pack. Every clip is converted from the mod's interleaved-uncompressed HKX by pipeline/hkx_interleaved.py.",
       "requires": [
         "oneHanded"
       ]
@@ -1421,6 +1440,94 @@
       "recentreRootMotion": true,
       "provenance": "Animated Armoury 2.3, DAR _CustomConditions/10 (rapier) 1hm_idleOld.hkx: the mod's earlier rapier idle; the current 1hm_idle.hkx is stored uncompressed and the importer rejects it.",
       "tailSource": "1hm_idle"
+    },
+    "KATANA_IDLE": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_idle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_Idle.hkx: drawn idle. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "1hm_idle"
+    },
+    "KATANA_LIGHT_1": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_attackright",
+      "rootMotion": "consume",
+      "combo": 1,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_attackright.hkx: right cut (combo hit 1). Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "1hm_attackright"
+    },
+    "KATANA_LIGHT_2": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_attackleft",
+      "rootMotion": "consume",
+      "combo": 2,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_attackleft.hkx: left cut (combo hit 2, alternating). Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "1hm_attackleft"
+    },
+    "KATANA_LIGHT_3": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_attackpower",
+      "rootMotion": "consume",
+      "combo": 3,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_attackpower.hkx: standing power attack as the combo finisher. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "1hm_attackpower"
+    },
+    "KATANA_HEAVY": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_attackpowerright",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_attackpowerright.hkx: right power attack. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "1hm_attackpowerright"
+    },
+    "KATANA_HEAVY_2": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_attackpowerleft",
+      "rootMotion": "consume",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_attackpowerleft.hkx: left power attack. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "1hm_attackpowerleft"
+    },
+    "KATANA_GUARD_ENTER": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_blockanticipate",
+      "crossFadeDuration": 0.2,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_blockanticipate.hkx: bringing the blade up to guard. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "2hm_blockanticipate"
+    },
+    "KATANA_GUARD": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_blockIdle.hkx: block idle. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "2hm_idle"
+    },
+    "KATANA_GUARD_HIT_A": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_blockhita",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_blockHitA.hkx: block-hit variant A. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "2hm_blockhit"
+    },
+    "KATANA_GUARD_HIT_B": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_blockhitb",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_blockHitB.hkx: block-hit variant B. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "2hm_blockhit"
+    },
+    "KATANA_EQUIP": {
+      "pack": "katana",
+      "source": "aa_katana_1hm_equip",
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) 1hm_equip.hkx: draw. The folder authors no unequip, so the sheathe comes from the one-handed pack. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "1hm_equip"
+    },
+    "KATANA_SPRINT": {
+      "pack": "katana",
+      "source": "aa_katana_mt_sprintforwardsword",
+      "looping": true,
+      "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) mt_sprintforwardsword.hkx: sprint with the blade drawn. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
+      "tailSource": "mt_sprintforward"
     }
   }
 }

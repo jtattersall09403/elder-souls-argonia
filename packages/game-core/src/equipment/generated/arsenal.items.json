@@ -1053,6 +1053,149 @@
         0.06208,
         1.6
       ]
+    },
+    "bone-talon-dagger": {
+      "class": "dagger",
+      "material": "bone",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/bone-talon-dagger.glb",
+      "icon": "weapon-icons/bone-talon-dagger.png",
+      "lengthMeters": 0.42,
+      "sizeMeters": [
+        0.106,
+        0.42,
+        0.02654
+      ]
+    },
+    "steel-great-cleaver": {
+      "class": "greatsword",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-great-cleaver.glb",
+      "icon": "weapon-icons/steel-great-cleaver.png",
+      "lengthMeters": 1.42,
+      "sizeMeters": [
+        0.4514,
+        1.42,
+        0.09179
+      ]
+    },
+    "obsidian-warhammer": {
+      "class": "warhammer",
+      "material": "obsidian",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/obsidian-warhammer.glb",
+      "icon": "weapon-icons/obsidian-warhammer.png",
+      "lengthMeters": 1.3,
+      "sizeMeters": [
+        0.29735,
+        1.3,
+        0.16883
+      ]
+    },
+    "silver-jagged-katana": {
+      "class": "katana",
+      "material": "silver",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/silver-jagged-katana.glb",
+      "icon": "weapon-icons/silver-jagged-katana.png",
+      "lengthMeters": 1.05,
+      "sizeMeters": [
+        0.08065,
+        1.05,
+        0.02594
+      ]
+    },
+    "wooden-ball-club": {
+      "class": "mace",
+      "material": "wood",
+      "sheathSocket": "WeaponMace",
+      "asset": "weapons/wooden-ball-club.glb",
+      "icon": "weapon-icons/wooden-ball-club.png",
+      "lengthMeters": 0.8,
+      "sizeMeters": [
+        0.2215,
+        0.11569,
+        0.8
+      ]
+    },
+    "iron-trident": {
+      "class": "pike",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-trident.glb",
+      "icon": "weapon-icons/iron-trident.png",
+      "lengthMeters": 2.5,
+      "sizeMeters": [
+        0.41753,
+        0.10661,
+        2.5
+      ]
+    },
+    "elven-trident": {
+      "class": "pike",
+      "material": "elven",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/elven-trident.glb",
+      "icon": "weapon-icons/elven-trident.png",
+      "lengthMeters": 2.5,
+      "sizeMeters": [
+        0.42513,
+        0.13371,
+        2.5
+      ]
+    },
+    "ebony-trident": {
+      "class": "pike",
+      "material": "ebony",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/ebony-trident.glb",
+      "icon": "weapon-icons/ebony-trident.png",
+      "lengthMeters": 2.5,
+      "sizeMeters": [
+        0.47102,
+        0.0991,
+        2.5
+      ]
+    },
+    "iron-halfpike": {
+      "class": "spear",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-halfpike.glb",
+      "icon": "weapon-icons/iron-halfpike.png",
+      "lengthMeters": 2.1,
+      "sizeMeters": [
+        0.23762,
+        0.06618,
+        2.1
+      ]
+    },
+    "steel-halfpike": {
+      "class": "spear",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-halfpike.glb",
+      "icon": "weapon-icons/steel-halfpike.png",
+      "lengthMeters": 2.1,
+      "sizeMeters": [
+        0.16408,
+        0.06154,
+        2.1
+      ]
+    },
+    "elven-halfpike": {
+      "class": "spear",
+      "material": "elven",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/elven-halfpike.glb",
+      "icon": "weapon-icons/elven-halfpike.png",
+      "lengthMeters": 2.1,
+      "sizeMeters": [
+        0.26069,
+        0.0708,
+        2.1
+      ]
     }
   }
 }

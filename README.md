@@ -99,6 +99,19 @@ asset registry.
   `claw`; the katana folders' own clips are stored uncompressed and the HKX
   importer rejects them, so a katana carries this mod's mesh and the vanilla
   one-handed moveset).
+- **Animated Heavy Armory (DAR version)** (Nexus SSE mod 51100, Dreadflopp,
+  v2.4.2, archive sha256
+  `d0e23122d8d38e535fc25be557b340612672bd5e4824ab7ed52957c0719770e4`; a
+  standalone release of **PrivateEye's Heavy Armory**, whose weapon meshes these
+  are) — source of the trident and half-pike weapon meshes (iron, steel, elven
+  and ebony, as far as each exists) and of their WEAP records.
+- **Black Marsh Import — Models and Textures** (Nexus Skyrim mod 48551,
+  artiedee, v0.1, archive sha256
+  `ce26f99282dfbf23f4d7d61b9aab3578fe18cdbb9a75dd2cd267de2bae302dda`) — source
+  of the bone talon dagger, great cleaver, obsidian warhammer, jagged katana and
+  wooden ball club. A modder's resource of OBJ meshes and TGA maps with no
+  plugin, so these five carry hand-authored records copied from named vanilla
+  ones.
 - **Tamriel Worldspaces — Argonia worldspace** (Nexus SSE mod 118678, author
   SqueeblySplat; a 1:1 cut of Transbot9's heightmap at PNG row 3393, col
   11788, 32 px per cell — measured 2026-09-15, decision 0067) — province

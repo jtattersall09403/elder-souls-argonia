@@ -261,6 +261,98 @@ glTF binary with JPEG textures, exactly as the existing 53 weapons are: weapon
 GLBs have never gone through `pipeline/kit_compress.py` (that is the kit path),
 so these match their neighbours rather than introducing a second convention.
 
+## Round 1b meshes (stream M2): Animated Heavy Armory and Black Marsh Import
+
+The owner cleared mods 51100 and 48551 for use on 2026-09-19 (permissions read
+on the Nexus pages). Eleven more items are in the arsenal, built by the same
+`pipeline.build_weapons` batch and installed beside the other 81 in
+`packages/character-assets/files/weapons` (+ `weapon-icons`). No new class was
+needed: every one of them is an existing class at its existing length.
+
+| id | class | material | GLB bytes | sizeMeters (x × y × z) | record |
+| --- | --- | --- | --- | --- | --- |
+| `iron-trident` | pike | iron | 195,004 | 0.41753 × 0.10661 × 2.5 | ShIronTridentSpear |
+| `elven-trident` | pike | elven | 347,520 | 0.42513 × 0.13371 × 2.5 | ShElvenTridentSpear |
+| `ebony-trident` | pike | ebony | 312,800 | 0.47102 × 0.0991 × 2.5 | ShEbonyTridentSpear |
+| `iron-halfpike` | spear | iron | 131,104 | 0.23762 × 0.06618 × 2.1 | ShIronSpear |
+| `steel-halfpike` | spear | steel | 253,844 | 0.16408 × 0.06154 × 2.1 | ShSteelSpear |
+| `elven-halfpike` | spear | elven | 184,712 | 0.26069 × 0.0708 × 2.1 | ShElvenSpear |
+| `bone-talon-dagger` | dagger | bone | 510,728 | 0.106 × 0.42 × 0.02654 | authored from `SteelDagger` |
+| `steel-great-cleaver` | greatsword | steel | 558,352 | 0.4514 × 1.42 × 0.09179 | authored from `SteelGreatsword` |
+| `obsidian-warhammer` | warhammer | obsidian | 760,452 | 0.29735 × 1.3 × 0.16883 | authored from `GlassWarhammer` |
+| `silver-jagged-katana` | katana | silver | 554,188 | 0.08065 × 1.05 × 0.02594 | authored from `SilverSword` |
+| `wooden-ball-club` | mace | wood | 673,524 | 0.2215 × 0.11569 × 0.8 | authored from `IronMace` |
+
+4.49 MB of GLB + icon added. All 81 existing manifest and record
+entries are byte-identical (diffed; only `source.minedAt` moved).
+
+### Animated Heavy Armory: what the mod actually ships
+
+`<material>trident.nif` at the `pike` length and `<material>spearnew.nif` (the
+half-pike) at the `spear` length, from the `000 Heavy Armory Meshes` branch's
+`meshes/prvti/<material>/`. **The mod ships no steel trident and no ebony
+half-pike**, so those two items do not exist — three tridents (iron, elven,
+ebony) and three half-pikes (iron, steel, elven), not four of each. Checked by
+listing every `*trident.nif` and `*spearnew.nif` under `meshes/prvti/`; the
+materials that do carry a trident beyond these are all DLC ones the vault
+cannot texture (dragonbone, nordic, stalhrim, redguard) or higher tiers outside
+this round (daedric, glass, dwarven, orcish, silver). All 65 textures the six
+NIFs reference resolved, every one from the vanilla archive.
+
+Their WEAP records (`ShIronTridentSpear`, `ShIronSpear` and friends) come from
+`PrvtI_HeavyArmory.esp`, which the FOMOD puts in a **sibling** branch
+(`001 Heavy Armory - Plugin`) rather than under the mesh root. An arsenal item
+may therefore now carry an explicit `"plugin"` (a vault-relative plugin file)
+which `weapon_records.mine()` prefers over scanning the `root` for plugins.
+
+### Black Marsh Import: the OBJ path
+
+This mod is a modder's resource: five Wavefront OBJ meshes with loose TGA
+diffuse/normal/specular maps, no NIF, no MTL and no plugin. Two things were
+added for it.
+
+**An OBJ item.** An arsenal entry may declare `"obj"` instead of `"nif"`, with a
+`"textures"` map naming the diffuse, normal and specular files (all relative to
+the same `root`). The host converts each TGA to PNG with Pillow, capping the
+longest side at 1024 (`MAX_MOD_TEXTURE`): glTF cannot carry a TGA; Blender's own
+TGA reader returns no image data for these files; the maps are authored at
+2K–4K where every vanilla weapon here textures off 512–1024. Blender then
+imports the OBJ with `wm.obj_import`, wires one Principled material from the
+PNGs, then runs the same scale-to-length, icon render and manifest emission the
+NIF path runs, so the GLB and the manifest entry are indistinguishable
+downstream. The raw TGAs never leave the build directory.
+
+**An authored record.** With no plugin there is no Bethesda record to read, so
+these five carry a `"record"` block in `arsenal.json` copied wholesale from a
+named vanilla record of the same class and material tier, plus `"recordFrom"`
+naming it. `mine()` emits them with `kind: "AUTHORED"` and
+`source: {"kind": "authored", "note": "no plugin ships with this mod",
+"takenFrom": "<EditorID>"}`. Nothing is invented. Each record states the
+copied provenance in its own `source` block. The source of each: `SteelDagger` (bone is tier 2,
+as steel is), `SteelGreatsword`, `GlassWarhammer` (obsidian *is* volcanic glass;
+vanilla has no tier-5 warhammer, since Nord Hero ships no hammer), `SilverSword`
+(there is no vanilla katana; silver's own one-handed blade is the same tier and
+the nearest class) and `IronMace` (wood is tier 1, as iron is).
+
+Three new `MaterialProfile` rows carry them: `wood` (tier 1), `bone` (tier 2)
+and `obsidian` (tier 5), in `packages/game-core/src/equipment/materials.ts`.
+
+**Skyrim Spear Mechanic (25146) contributes no mesh in this round.**
+
+### Open: the five OBJ icons need a visual check
+
+A Sonnet pass over the rendered 160 px icons read `wooden-ball-club` as correct
+and flagged the other four: `silver-jagged-katana` as a flat slab with no blade
+silhouette, `obsidian-warhammer` as a banded rod with no visible head,
+`bone-talon-dagger` as a sheath-like form with a metal hook, plus
+`steel-great-cleaver` as a thin blade with an odd stacked-disc hilt. None showed
+magenta, scrambled UVs or inverted-normal faces; every OBJ does carry `vt`
+and `vn` data. So this is not a missing-texture or missing-UV failure. It may
+equally be a 160 px icon of an unfamiliar LE-era mesh being over-read. **Look at
+these four in the studio or at full size before relying on them**; if they are
+genuinely wrong the cause is in the mesh or the icon camera, not in the
+texturing.
+
 ## Round 1 selections (stream P, 2026-09-18)
 
 Five animation packs were built from Animated Armoury 2.3 and installed:
@@ -277,8 +369,9 @@ paths are recorded in the vault `SOURCES.json` under mod 35978.
 
 Part of this mod is stored as `hkaInterleavedUncompressedAnimation` rather than
 the spline-compressed form. PyNifly raises `No hkaSplineCompressedAnimation
-found in HKX file` on those files. **Scan the class before naming a file**; no
-HKX converter is installed on this machine. Five semantics therefore play a
+found in HKX file` on those files. **Scan the class before naming a file.** Round 1b
+adds a converter, `pipeline/hkx_interleaved.py` (see Round 1b below). The five
+substitutions round 1 made are kept as built. Five semantics therefore play a
 spline-compressed sibling from the same folder rather than the uncompressed file
 that carries their vanilla name:
 
@@ -290,10 +383,11 @@ that carries their vanilla name:
 | `QUARTERSTAFF_HEAVY_2` | `13/2hw_attackpowerbwd.hkx` | `13/2hw_attackpowerLeft.hkx` | a backward power attack as the heavy follow-up |
 | `RAPIER_IDLE` | `10/1hm_idleOld.hkx` | `10/1hm_idle.hkx` | the mod's earlier take on the same rapier stance |
 
-`PIKE_RUN` stays out. The pike inherits `GREATSWORD_RUN`. **No katana pack
-exists**: folders 19 and 20 are uncompressed throughout bar a single sprint
-attack, so the mod's katana meshes arrive with no moveset we can read. A katana
-falls to the one-handed pack.
+`PIKE_RUN` stays out. The pike inherits `GREATSWORD_RUN`. Round 1 shipped **no
+katana pack**. Folders 19 and 20 are uncompressed throughout bar a single sprint
+attack, so the mod's katana meshes arrived with no moveset the importer could
+read; a katana fell to the one-handed pack. Round 1b converts those files and
+ships the pack (see Round 1b below).
 
 ### What shipped
 
@@ -377,3 +471,98 @@ the 1.433 s clip, a fraction of **0.442**. It stays within reach from 0.047 to
 0.913. At
 0.45 m the furthest point is 0.857 m at fraction 0.465, in reach from 0.349 to
 0.703. Set the contact on that arrival rather than on a swept arc.
+
+## Round 1b: the katana (stream K, 2026-09-19)
+
+The blocker above is gone. `tooling/asset-pipeline/pipeline/hkx_interleaved.py`
+reads `hkaInterleavedUncompressedAnimation` and rewrites it spline-compressed.
+PyNifly's importer parses only the spline class, so it can now read folders 19
+and 20. The katana pack is built and installed.
+
+### The converter
+
+Interleaved data is a flat, frame-major array of `hkQsTransform` (48 bytes:
+translation, rotation, scale, each padded to 16): index
+`frame * numberOfTransformTracks + track`. The reader walks the same packfile
+structures PyNifly already parses (sections, local and virtual fixups), finds
+the interleaved object, reads the array and fills PyNifly's own
+`AnimationData` in the shape its spline decompressor produces. Bone names,
+annotations and the `hkaAnimationBinding` fields are read with the same code
+`anim_skyrim._parse_animation_hkx` uses; that block is inline in PyNifly, so it
+is copied into `_read_names_and_binding` with a comment naming its origin.
+Nothing in PyNifly is modified. Writing is PyNifly's own
+`write_skyrim_animation`, which B-spline-fits the per-frame arrays, so the rest
+of the pipeline sees an ordinary Skyrim SE spline clip.
+
+Both pointer sizes are handled; Animated Armoury's files are 8-byte SE
+packfiles. The CLI is
+`python3 -m pipeline.hkx_interleaved --src <dir-or-file> --dst <dir>`. A
+directory converts the `.hkx` files at its root; it does not walk into `male`
+or `female`.
+
+**Folder 20 converted whole: 59 files, 6.3 s.** Outputs live in the vault at
+`…/extracted/animated-armoury-2.3/converted-spline/20/`, recorded with their
+SHA-256 in the vault `SOURCES.json` under mod 35978 (`converted`). A second run
+produced byte-identical output for all 59 files. Folder 19's
+`1hm_attackforwardsprint.hkx` was not needed.
+
+Every conversion is checked by reloading the output through
+`anim_skyrim.load_skyrim_animation` and comparing it against the interleaved
+source: frame count, track count, duration, bone names and the binding must
+match exactly; the per-frame curves must survive the spline fit. Across the
+59 files the worst error was **0.00029 Skyrim units of translation** (tolerance
+0.01) and **0.104° of rotation** (tolerance 0.5°). The clip that the pack's
+first light attack uses, `1hm_attackright`, is 40 frames × 107 tracks at
+1.3000 s, with errors of 0.00010 units and 0.094°.
+
+`pipeline/test_hkx_interleaved.py` builds a minimal two-track, three-frame
+interleaved packfile in memory, so the decoding tests, the frame-major
+indexing, the ragged-count rejection, the round trip and the determinism check
+run without the vault. One further test converts folder 20's
+`1hm_attackright.hkx`; it is skipped when Animated Armoury is absent.
+
+### The pack
+
+`katana` requires `oneHanded` and publishes the twelve semantics below,
+mirrored from the one-handed entries exactly as `rapier` and `claw` were. **1,482,348 bytes.**
+The sheathe is inherited (the folder authors no unequip), as are the parry, the
+criticals and all locomotion but the sprint.
+
+| Semantic | Source in folder 20 |
+| --- | --- |
+| `KATANA_IDLE` | `1hm_Idle.hkx`, looping |
+| `KATANA_LIGHT_1` | `1hm_attackright.hkx` |
+| `KATANA_LIGHT_2` | `1hm_attackleft.hkx` |
+| `KATANA_LIGHT_3` | `1hm_attackpower.hkx` |
+| `KATANA_HEAVY` | `1hm_attackpowerright.hkx` |
+| `KATANA_HEAVY_2` | `1hm_attackpowerleft.hkx` |
+| `KATANA_GUARD_ENTER` | `1hm_blockanticipate.hkx` |
+| `KATANA_GUARD` | `1hm_blockIdle.hkx`, looping |
+| `KATANA_GUARD_HIT_A` | `1hm_blockHitA.hkx` |
+| `KATANA_GUARD_HIT_B` | `1hm_blockHitB.hkx` |
+| `KATANA_EQUIP` | `1hm_equip.hkx` |
+| `KATANA_SPRINT` | `mt_sprintforwardsword.hkx`, looping |
+
+Before installing, all twelve pre-existing pack GLBs were rebuilt and compared.
+Every one is md5-identical to the installed copy, so the converter changed
+nothing but its own pack.
+
+### Contact windows, measured
+
+`node scripts/measure-contact-windows.mjs --blade 1.05 <CLIP>` from
+`apps/combat-sandbox`, on the installed manifest and pack GLB. Fractions of the
+clip's own playback span.
+
+| Clip | Blade m | Start | End | Peak tip m/s |
+| --- | --- | --- | --- | --- |
+| `KATANA_LIGHT_1` | 1.05 | 0.356 | 0.425 | 45.4 |
+| `KATANA_LIGHT_2` | 1.05 | 0.375 | 0.500 | 37.7 |
+| `KATANA_LIGHT_3` | 1.05 | — | — | no sweep in reach |
+| `KATANA_HEAVY` | 1.05 | 0.745 | 0.783 | 47.0 |
+| `KATANA_HEAVY_2` | 1.05 | 0.375 | 0.429 | 52.2 |
+
+`KATANA_LIGHT_3` reports no window, the same result `CLAW_LIGHT_3` gives from
+the same vanilla name. `1hm_attackpower` is a lunge rather than a swept arc.
+Re-run at 0.9, 1.2 and 1.4 m it still finds none, so the cause is the motion
+rather than the reach. Its contact belongs on the body motion, as the claw's
+does. Setting it is a tuning decision, not made here.

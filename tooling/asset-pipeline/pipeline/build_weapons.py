@@ -11,7 +11,9 @@ supplies the size and the sheath socket, so no per-item tuning is needed.
 An item may name a ``root`` (a vault-relative data root) instead of taking the
 vanilla archives: its NIF is then resolved case-insensitively under that root,
 and each texture the NIF references is looked for there first and in the
-vanilla texture archive otherwise.
+vanilla texture archive otherwise. A mod that ships no NIF may instead declare
+``obj`` plus a ``textures`` map of loose diffuse/normal/specular files, all
+relative to the same root; everything downstream of the GLB is identical.
 
 Usage:
     python -m pipeline.build_weapons                 # the whole arsenal
@@ -57,11 +59,18 @@ def resolve_set(set_id: str, only: list[str] | None) -> dict:
         if item_class not in classes:
             raise ValueError(f"{item_id}: unknown class {item_class}")
         profile = classes[item_class]
+        if bool(entry.get("nif")) == bool(entry.get("obj")):
+            raise ValueError(f"{item_id}: declare exactly one of nif / obj")
         items.append({
             "id": item_id,
             "itemClass": item_class,
             "material": entry["material"],
-            "nif": entry["nif"],
+            "nif": entry.get("nif"),
+            # An OBJ item is a mod that ships no NIF at all (Black Marsh Import):
+            # the mesh is a Wavefront OBJ and its maps are loose TGAs named here,
+            # because an OBJ carries no Skyrim shader to read them off.
+            "obj": entry.get("obj"),
+            "textures": dict(entry.get("textures", {})),
             # Optional vault-relative data root for a modded mesh (Animated
             # Armoury and friends ship loose files, not a BSA). Absent means the
             # vanilla archives, byte-for-byte as before.
@@ -82,6 +91,39 @@ def resolve_set(set_id: str, only: list[str] | None) -> dict:
     if not items:
         raise ValueError("no items selected")
     return {"config": config, "items": items}
+
+
+#: Longest side of a converted mod texture. Loose TGAs from a mod are authored
+#: at 2K-4K; every vanilla weapon in this arsenal textures off 512-1024, and a
+#: hand-held prop renders at a few dozen pixels. 1024 keeps the GLBs the same
+#: order of size as their neighbours (standard 16: the download is a budget).
+MAX_MOD_TEXTURE = 1024
+
+
+def convert_textures(textures: dict[str, Path], png_dir: Path) -> dict[str, Path]:
+    """Re-encode a mod's loose TGA maps to PNG, capped at `MAX_MOD_TEXTURE`.
+
+    glTF carries PNG and JPEG, not TGA (Blender's own TGA reader returns no
+    image data for these files), so the conversion happens here, on the host,
+    where it is deterministic and testable. The raw TGAs never leave the build.
+    """
+    from PIL import Image
+
+    png_dir.mkdir(parents=True, exist_ok=True)
+    out: dict[str, Path] = {}
+    for role, source in textures.items():
+        with Image.open(source) as image:
+            image = image.convert("RGB")
+            longest = max(image.size)
+            if longest > MAX_MOD_TEXTURE:
+                scale = MAX_MOD_TEXTURE / longest
+                image = image.resize(
+                    (max(1, round(image.width * scale)), max(1, round(image.height * scale))),
+                    Image.LANCZOS)
+            dest = png_dir / (source.stem + ".png")
+            image.save(dest, format="PNG", optimize=True)
+        out[role] = dest
+    return out
 
 
 def _dir_source(cache: dict[str, DirSource], root: str) -> DirSource:
@@ -124,6 +166,19 @@ def assemble_data_root(set_id: str, items: list[dict]) -> Path:
     # first, and in the vanilla archive otherwise.
     texture_roots: dict[str, str | None] = {}
     for item in items:
+        if item["obj"]:
+            if not item["root"]:
+                raise ValueError(f"{item['id']}: an obj item needs a root")
+            place(item, item["obj"], "obj_path")
+            item["texture_paths"] = {}
+            source = _dir_source(roots, item["root"])
+            for role, rel in item["textures"].items():
+                rel = rel.lower().replace("\\", "/")
+                if not source.contains(rel):
+                    raise KeyError(f"{item['id']}: {rel} not under {item['root']}")
+                source.extract_many([rel], data_root)
+                item["texture_paths"][role] = data_root / rel
+            continue
         place(item, item["nif"], "nif_path")
         for texture in _referenced_textures(item["nif_path"]):
             wanted.add(texture)
@@ -169,14 +224,24 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
     summary_json = work / "summary.json"
     summary_json.unlink(missing_ok=True)
     plan_items = []
+    png_dir = work / "png-textures"
+    png_dir.mkdir(parents=True, exist_ok=True)
     for item in items:
-        plan_items.append({
+        entry = {
             "id": item["id"],
-            "nif": to_windows(item["nif_path"]),
             "target_length": item["target_length"],
             "output_glb": to_windows(output_dir / f"{item['id']}.glb"),
             "icon_png": to_windows(icon_dir / f"{item['id']}.png"),
-        })
+        }
+        if item["obj"]:
+            entry["obj"] = to_windows(item["obj_path"])
+            entry["textures"] = {
+                role: to_windows(path) for role, path
+                in convert_textures(item["texture_paths"], png_dir).items()
+            }
+        else:
+            entry["nif"] = to_windows(item["nif_path"])
+        plan_items.append(entry)
         if item.get("quiver_nif_path") and quiver_dir:
             # Built through the same session and the same class rules; the icon
             # goes to scratch because a quiver is never an inventory row of its

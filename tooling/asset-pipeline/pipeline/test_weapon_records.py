@@ -149,6 +149,62 @@ def test_an_item_with_a_root_resolves_in_that_mods_own_plugin(tmp_path, monkeypa
     assert item["source"]["sha256"] == hashlib.sha256(plugin.read_bytes()).hexdigest()
 
 
+def test_an_explicit_plugin_field_beats_the_root_scan(tmp_path, monkeypatch):
+    """Heavy Armory splits its meshes and its ESP across sibling install
+    directories, so the directory holding `meshes/` holds no plugin at all."""
+    root = tmp_path / "vault" / "000 Meshes"
+    (root / "meshes").mkdir(parents=True)
+    plugin_dir = tmp_path / "vault" / "001 Plugin"
+    plugin_dir.mkdir()
+    plugin = plugin_dir / "PrvtI_HeavyArmory.esp"
+    plugin.write_bytes(_plugin_bytes([
+        _weap("ShIronTridentSpear", r"PrvtI\iron\IronTrident.nif",
+              59, 17.0, 14, 0.7, 1.6, 9),
+    ]))
+    arsenal = tmp_path / "arsenal.json"
+    arsenal.write_text(json.dumps({"items": [
+        {"id": "iron-trident", "nif": "meshes/prvti/iron/irontrident.nif",
+         "root": "000 Meshes", "plugin": "001 Plugin/PrvtI_HeavyArmory.esp"},
+    ]}))
+    monkeypatch.setattr(wr, "ARSENAL", arsenal)
+    vanilla = tmp_path / "vault" / "Skyrim.esm"
+    vanilla.write_bytes(_plugin_bytes([]))
+    monkeypatch.setattr(wr, "DATA", tmp_path / "vault")
+
+    item = wr.mine(plugins=("Skyrim.esm",),
+                   vault_root=tmp_path / "vault")["items"]["iron-trident"]
+    assert item["editorId"] == "ShIronTridentSpear"
+    assert item["damage"] == 14
+    assert item["source"]["plugin"] == "PrvtI_HeavyArmory.esp"
+    assert item["source"]["sha256"] == hashlib.sha256(plugin.read_bytes()).hexdigest()
+
+
+def test_an_authored_record_is_emitted_with_what_it_was_taken_from(tmp_path, monkeypatch):
+    """Black Marsh Import ships five OBJ meshes and no plugin, so there is no
+    Bethesda record to read; the numbers are copied from a named vanilla one."""
+    arsenal = tmp_path / "arsenal.json"
+    arsenal.write_text(json.dumps({"items": [
+        {"id": "wooden-ball-club", "obj": "wooden_ballclub.obj", "root": "mod",
+         "record": {"damage": 9, "weight": 13.0, "value": 35,
+                    "speed": 0.8, "reach": 1.0, "critDamage": 4},
+         "recordFrom": "IronMace"},
+    ]}))
+    monkeypatch.setattr(wr, "ARSENAL", arsenal)
+    (tmp_path / "vault").mkdir()
+    (tmp_path / "vault" / "Skyrim.esm").write_bytes(_plugin_bytes([]))
+    monkeypatch.setattr(wr, "DATA", tmp_path / "vault")
+
+    item = wr.mine(plugins=("Skyrim.esm",),
+                   vault_root=tmp_path / "vault")["items"]["wooden-ball-club"]
+    assert item["kind"] == "AUTHORED"
+    assert (item["damage"], item["weight"], item["value"]) == (9, 13.0, 35)
+    assert item["editorId"] == "IronMace"
+    assert item["candidates"] == ["IronMace"]
+    assert item["source"] == {
+        "kind": "authored", "note": wr.AUTHORED_NOTE, "takenFrom": "IronMace"}
+    assert "formId" not in item
+
+
 def test_plugins_under_finds_only_plugin_files(tmp_path):
     (tmp_path / "Meshes").mkdir()
     for name in ("NewArmoury.esp", "b.esm", "notes.txt"):
@@ -165,3 +221,9 @@ def test_the_mod_sourced_items_carry_their_plugin_source():
     for item in arsenal["items"]:
         rec = mined["items"][item["id"]]
         assert ("source" in rec) == bool(item.get("root")), item["id"]
+        if item.get("record"):
+            # An authored item has a source too, but it names a vanilla record
+            # rather than a plugin -- the provenance is different and says so.
+            assert rec["source"]["kind"] == "authored", item["id"]
+        elif item.get("root"):
+            assert "plugin" in rec["source"], item["id"]

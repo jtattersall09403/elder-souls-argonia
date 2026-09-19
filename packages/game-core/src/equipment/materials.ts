@@ -11,8 +11,10 @@ import type { AttributeMap, DamageType } from "./types";
  */
 
 export type MaterialId =
+  | "wood"
   | "studded"
   | "iron"
+  | "bone"
   | "steel"
   | "imperial"
   | "silver"
@@ -21,6 +23,7 @@ export type MaterialId =
   | "orcish"
   | "nordhero"
   | "glass"
+  | "obsidian"
   | "ebony"
   | "daedric"
   | "draugr"
@@ -51,6 +54,12 @@ export type MaterialProfile = {
 
 const MATERIALS: MaterialProfile[] = [
   {
+    id: "wood", label: "Wood", tier: 1,
+    damageScale: 0.75, weightScale: 0.55, guardScale: 0.7, valuePerKg: 4,
+    requirementBonus: {},
+    description: "Hardwood, fire-cured and bound with rawhide. Any village can make one in a morning.",
+  },
+  {
     id: "studded", label: "Studded", tier: 1,
     damageScale: 0.8, weightScale: 0.5, guardScale: 0.75, valuePerKg: 14,
     requirementBonus: {},
@@ -67,6 +76,12 @@ const MATERIALS: MaterialProfile[] = [
     damageScale: 1, weightScale: 1, guardScale: 1, valuePerKg: 16,
     requirementBonus: {},
     description: "The Nordic standard: dependable, well balanced, everywhere.",
+  },
+  {
+    id: "bone", label: "Bone", tier: 2,
+    damageScale: 0.9, weightScale: 0.6, guardScale: 0.8, valuePerKg: 12,
+    requirementBonus: {},
+    description: "Beast-bone, ground to an edge and lashed with sinew. It holds that edge for one fight.",
   },
   {
     id: "imperial", label: "Imperial", tier: 2,
@@ -133,6 +148,12 @@ const MATERIALS: MaterialProfile[] = [
     damageScale: 1.56, weightScale: 0.8, guardScale: 1.05, valuePerKg: 200,
     requirementBonus: { agility: 5 },
     description: "Malachite, ground to an edge that should not hold. It holds.",
+  },
+  {
+    id: "obsidian", label: "Obsidian", tier: 5,
+    damageScale: 1.45, weightScale: 1.1, guardScale: 0.95, valuePerKg: 90,
+    requirementBonus: {},
+    description: "Volcanic glass, knapped to a black mirror. The edge cuts deeper than steel, but it chips.",
   },
   {
     id: "ebony", label: "Ebony", tier: 7,

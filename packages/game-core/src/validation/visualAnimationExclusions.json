@@ -75,5 +75,17 @@
   "RAPIER_LIGHT_1": "Animated Armoury rapier set. As the pike clips: wired and playable by equipping a rapier, with no scene staging it yet.",
   "RAPIER_LIGHT_2": "Animated Armoury rapier set. As the pike clips: wired and playable by equipping a rapier, with no scene staging it yet.",
   "RAPIER_LIGHT_3": "Animated Armoury rapier set. As the pike clips: wired and playable by equipping a rapier, with no scene staging it yet.",
-  "RAPIER_UNEQUIP": "Animated Armoury rapier set. As the pike clips: wired and playable by equipping a rapier, with no scene staging it yet."
+  "RAPIER_UNEQUIP": "Animated Armoury rapier set. As the pike clips: wired and playable by equipping a rapier, with no scene staging it yet.",
+  "KATANA_IDLE": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_LIGHT_1": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_LIGHT_2": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_LIGHT_3": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_HEAVY": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_HEAVY_2": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_GUARD_ENTER": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_GUARD": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_GUARD_HIT_A": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_GUARD_HIT_B": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_EQUIP": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet.",
+  "KATANA_SPRINT": "Animated Armoury katana set, converted from interleaved-uncompressed Havok (round 1b). Built and installed; the katana class is wired to it in the round-1b close, and no scene stages it yet."
 }

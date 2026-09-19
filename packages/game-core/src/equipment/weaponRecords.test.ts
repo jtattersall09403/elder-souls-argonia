@@ -12,7 +12,8 @@ import records from "./generated/weapon-records.json";
 
 type Record_ = {
   editorId: string;
-  formId: string;
+  /** Absent on an authored record: there is no plugin, so there is no form id. */
+  formId?: string;
   kind: string;
   model: string;
   weight: number;
@@ -23,8 +24,12 @@ type Record_ = {
   critDamage?: number;
   armourRating?: number;
   candidates: string[];
-  /** Present only on items mined from a mod's own plugin. */
-  source?: { plugin: string; sha256: string };
+  /**
+   * Where the numbers came from, when it was not Skyrim.esm: a mod's own
+   * plugin, or `kind: "authored"` for a mod that ships meshes and no plugin
+   * at all, which names the vanilla record they were copied from.
+   */
+  source?: { plugin?: string; sha256?: string; kind?: string; takenFrom?: string };
 };
 
 const items = records.items as Record<string, Record_>;
@@ -66,11 +71,24 @@ describe("mined weapon records", () => {
   });
 
   it("credits the mod plugin behind every sourced item", () => {
-    const sourced = ids.filter((id) => items[id].source);
+    const sourced = ids.filter((id) => items[id].source?.plugin !== undefined);
     expect(sourced.length).toBeGreaterThan(0);
     for (const id of sourced) {
       expect(items[id].source!.plugin).toMatch(/\.es[pml]$/i);
       expect(items[id].source!.sha256).toMatch(/^[0-9a-f]{64}$/);
+    }
+  });
+
+  it("names the vanilla record behind every authored item", () => {
+    // Black Marsh Import ships five OBJ meshes and no plugin, so there is no
+    // Bethesda record to read; each one's numbers are copied wholesale from a
+    // named vanilla record of the same class and material tier.
+    const authored = ids.filter((id) => items[id].source?.kind === "authored");
+    expect(authored.length).toBeGreaterThan(0);
+    for (const id of authored) {
+      expect(items[id].kind).toBe("AUTHORED");
+      expect(items[id].source!.takenFrom).toBe(items[id].editorId);
+      expect(items[id].source!.plugin).toBeUndefined();
     }
   });
 

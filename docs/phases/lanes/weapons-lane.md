@@ -113,6 +113,45 @@ Marsh Import's five weapons enter as skins on existing classes. Credits in
 root `README.md` § Credits, source and hash on every asset, in the same
 commit. Enemies in the sandbox fight with the NPC sets.
 
+### Round 1b — the katana read, the cleared mods' meshes — IN PROGRESS (paused 2026-09-19)
+
+Delivered and committed: `pipeline/hkx_interleaved.py` converts
+interleaved-uncompressed Havok animation to the spline form the importer
+reads (round trip on all 59 katana clips: max 0.0003 units, 0.10°); the
+`katana` pack (idle, five attacks, four guard clips, equip, sprint) is built
+and installed; the owner cleared Animated
+Heavy Armory, Skyrim Spear Mechanic and Black Marsh Import (permissions
+read 2026-09-19), and eleven weapons from the first and third are built
+(three tridents on `pike`, three half-pikes on `spear`, the five Black Marsh
+OBJ weapons with hand-authored records and new `wood`, `bone`, `obsidian`
+materials). Contact windows (blade 1.05): KATANA_LIGHT_1 0.356..0.425,
+LIGHT_2 0.375..0.500, HEAVY 0.745..0.783, HEAVY_2 0.375..0.429; LIGHT_3 is a
+lunge with no tip sweep (use the one-handed LIGHT_3 fractions, commented, as
+the claw does).
+
+**Resume with "resume weapons workstream round 1". Remaining, in order (one
+Opus `deliver` brief, .ts only, then Fable closes):**
+1. Wire the katana: KATANA_* names into the `AnimationState` union
+   (core/types.ts); `KATANA_ANIMATIONS`/`KATANA_MOVESET` in
+   `equipment/movesets/blades.ts` in the rapier pattern (own idle, five
+   attacks, four guard clips, equip, sprint; parry/riposte/backstab/unequip
+   inherited); register `katana` in `movesets/index.ts` (pack "katana",
+   speedReference "straightSword"); `weaponClasses.ts` katana → moveset
+   "katana"; `npm run weapons:reach`; tests as the other blades; visual
+   `attacks` group.
+2. The five Black Marsh OBJ meshes are built with their length on Y, not Z
+   (Skyrim NIFs are authored about the hand node; these were not): decide
+   the axis and grip in `pipeline/blender/build_weapons.py`'s OBJ branch
+   (rotate to the NIF convention, origin at the grip end), rebuild the five,
+   re-bake reach; a Sonnet look at the icons afterwards.
+3. Skyrim Spear Mechanic's one-handed spear thrust set and Animated Heavy
+   Armory's shortspear set are readable and cleared: a `shortspear`
+   one-handed thrust class and pack is round 2's first item, not this
+   round's.
+4. Fable: remove the "interleaved HKX reader" and "held on permissions"
+   backlog rows (done), amend decision 0077 §5, refresh this starting
+   state, PROGRESS, preflight, commit.
+
 ### Round 2 — unarmed, claws and dual wield
 
 Vanilla `h2h` and `beasth2h_*` wired as the unarmed moveset with the clawed

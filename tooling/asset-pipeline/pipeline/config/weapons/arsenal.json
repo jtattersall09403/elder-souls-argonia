@@ -609,6 +609,165 @@
       "material": "ebony",
       "nif": "meshes/weapons/newarmoury/quarterstaffs/ebonystaff.nif",
       "root": "skyrim-source/mod-sources/extracted/animated-armoury-2.3/AnimatedArmouryDAR SSE/Data"
+    },
+    {
+      "id": "iron-trident",
+      "class": "pike",
+      "material": "iron",
+      "nif": "meshes/prvti/iron/irontrident.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/000 Heavy Armory Meshes",
+      "plugin": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/001 Heavy Armory - Plugin/PrvtI_HeavyArmory.esp",
+      "note": "Heavy Armory's three-pronged trident at the pike length. The mod ships no steel trident."
+    },
+    {
+      "id": "elven-trident",
+      "class": "pike",
+      "material": "elven",
+      "nif": "meshes/prvti/elven/elventrident.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/000 Heavy Armory Meshes",
+      "plugin": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/001 Heavy Armory - Plugin/PrvtI_HeavyArmory.esp",
+      "note": "Heavy Armory's three-pronged trident at the pike length. The mod ships no steel trident."
+    },
+    {
+      "id": "ebony-trident",
+      "class": "pike",
+      "material": "ebony",
+      "nif": "meshes/prvti/ebony/ebonytrident.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/000 Heavy Armory Meshes",
+      "plugin": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/001 Heavy Armory - Plugin/PrvtI_HeavyArmory.esp",
+      "note": "Heavy Armory's three-pronged trident at the pike length. The mod ships no steel trident."
+    },
+    {
+      "id": "iron-halfpike",
+      "class": "spear",
+      "material": "iron",
+      "nif": "meshes/prvti/iron/ironspearnew.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/000 Heavy Armory Meshes",
+      "plugin": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/001 Heavy Armory - Plugin/PrvtI_HeavyArmory.esp",
+      "note": "Heavy Armory's `spearnew` half-pike (WEAP Sh<Material>Spear). The mod ships no ebony one."
+    },
+    {
+      "id": "steel-halfpike",
+      "class": "spear",
+      "material": "steel",
+      "nif": "meshes/prvti/steel/steelspearnew.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/000 Heavy Armory Meshes",
+      "plugin": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/001 Heavy Armory - Plugin/PrvtI_HeavyArmory.esp",
+      "note": "Heavy Armory's `spearnew` half-pike (WEAP Sh<Material>Spear). The mod ships no ebony one."
+    },
+    {
+      "id": "elven-halfpike",
+      "class": "spear",
+      "material": "elven",
+      "nif": "meshes/prvti/elven/elvenspearnew.nif",
+      "root": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/000 Heavy Armory Meshes",
+      "plugin": "skyrim-source/mod-sources/extracted/animated-heavy-armory-2.4.2/001 Heavy Armory - Plugin/PrvtI_HeavyArmory.esp",
+      "note": "Heavy Armory's `spearnew` half-pike (WEAP Sh<Material>Spear). The mod ships no ebony one."
+    },
+    {
+      "id": "bone-talon-dagger",
+      "class": "dagger",
+      "material": "bone",
+      "obj": "bone_knife.obj",
+      "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
+      "textures": {
+        "diffuse": "bone_knife_diff.tga",
+        "normal": "bone_knife_normals.tga",
+        "specular": "bone_knife_spec.tga"
+      },
+      "record": {
+        "damage": 5,
+        "weight": 2.5,
+        "value": 18,
+        "speed": 1.3,
+        "reach": 0.7,
+        "critDamage": 2
+      },
+      "recordFrom": "SteelDagger"
+    },
+    {
+      "id": "steel-great-cleaver",
+      "class": "greatsword",
+      "material": "steel",
+      "obj": "iron_cleaver.obj",
+      "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
+      "textures": {
+        "diffuse": "cleaver_diff.tga",
+        "normal": "cleaver_nm.tga",
+        "specular": "cleaver_spec.tga"
+      },
+      "record": {
+        "damage": 17,
+        "weight": 17.0,
+        "value": 90,
+        "speed": 0.7,
+        "reach": 1.3,
+        "critDamage": 8
+      },
+      "recordFrom": "SteelGreatsword"
+    },
+    {
+      "id": "obsidian-warhammer",
+      "class": "warhammer",
+      "material": "obsidian",
+      "obj": "obsidian_warhammer.obj",
+      "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
+      "textures": {
+        "diffuse": "warhammer_diff.tga",
+        "normal": "warhammer_nm.tga",
+        "specular": "warhammer_spec.tga"
+      },
+      "record": {
+        "damage": 24,
+        "weight": 29.0,
+        "value": 985,
+        "speed": 0.6,
+        "reach": 1.3,
+        "critDamage": 0
+      },
+      "recordFrom": "GlassWarhammer"
+    },
+    {
+      "id": "silver-jagged-katana",
+      "class": "katana",
+      "material": "silver",
+      "obj": "silver_jagged_katana.obj",
+      "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
+      "textures": {
+        "diffuse": "katana_diffuse.tga",
+        "normal": "katana_nm.tga",
+        "specular": "katana_spec.tga"
+      },
+      "record": {
+        "damage": 8,
+        "weight": 7.0,
+        "value": 100,
+        "speed": 1.0,
+        "reach": 1.0,
+        "critDamage": 4
+      },
+      "recordFrom": "SilverSword"
+    },
+    {
+      "id": "wooden-ball-club",
+      "class": "mace",
+      "material": "wood",
+      "obj": "wooden_ballclub.obj",
+      "root": "skyrim-source/mod-sources/extracted/black-marsh-import-0.1/ArgonianImport",
+      "textures": {
+        "diffuse": "wooden_ballclub_diff.tga",
+        "normal": "wooden_ballclub_nm.tga",
+        "specular": "wooden_ballclub_spec.tga"
+      },
+      "record": {
+        "damage": 9,
+        "weight": 13.0,
+        "value": 35,
+        "speed": 0.8,
+        "reach": 1.0,
+        "critDamage": 4
+      },
+      "recordFrom": "IronMace"
     }
   ],
   "manifestOutput": "output/weapon-arsenal.items.json"

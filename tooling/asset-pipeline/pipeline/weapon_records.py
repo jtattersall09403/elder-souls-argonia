@@ -218,6 +218,55 @@ def _plugin_source(plugin_name: str, roots: dict[str, Path]) -> dict | None:
     return {"plugin": plugin_name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
 
 
+#: Marks a record nobody's plugin ships: the numbers were authored by hand from
+#: a named vanilla record, because the mod is loose meshes with no ESP at all.
+AUTHORED_NOTE = "no plugin ships with this mod"
+
+
+def _plugin_key(item: dict) -> str | None:
+    """Where an item's WEAP record is read from, as a cache key.
+
+    An explicit ``plugin`` (a vault-relative plugin file) wins over the ``root``
+    scan: a mod may split its meshes and its ESP across sibling install
+    directories, so the directory holding ``meshes/`` is not always the
+    directory holding the plugin.
+    """
+    if item.get("plugin"):
+        return item["plugin"]
+    return item.get("root")
+
+
+def _plugin_paths(root_base: Path, key: str) -> list[Path]:
+    """The plugin files a `_plugin_key` names: one file, or a data root's own."""
+    path = root_base / key
+    return [path] if path.is_file() else plugins_under(path)
+
+
+def _authored(item: dict) -> dict:
+    """One arsenal entry's hand-authored record, with what it was taken from.
+
+    Five Black Marsh Import meshes ship as OBJ with no plugin, so there is no
+    Bethesda record to read. The numbers are copied wholesale from the named
+    vanilla record of the same class and material tier -- still not invented,
+    but the provenance is different and says so.
+    """
+    record = item["record"]
+    taken_from = item["recordFrom"]
+    return {
+        "editorId": taken_from,
+        "kind": "AUTHORED",
+        "model": item.get("obj") or item.get("nif"),
+        "weight": float(record["weight"]),
+        "value": int(record["value"]),
+        "damage": int(record["damage"]),
+        "speed": float(record["speed"]),
+        "reach": float(record["reach"]),
+        "critDamage": int(record["critDamage"]),
+        "candidates": [taken_from],
+        "source": {"kind": "authored", "note": AUTHORED_NOTE, "takenFrom": taken_from},
+    }
+
+
 def mine(plugins: tuple[str, ...] = ("Skyrim.esm", "Update.esm"),
          vault_root: Path | None = None) -> dict:
     """Resolve every arsenal item against the plugin that ships its mesh.
@@ -228,6 +277,9 @@ def mine(plugins: tuple[str, ...] = ("Skyrim.esm", "Update.esm"),
     plugin and its hash. Model paths are compared by `_model_key`, so a mod
     author's casing and a leading ``meshes/`` on either side do not matter.
 
+    An item carrying a ``record`` block is authored rather than mined: its mod
+    ships no plugin at all (see `_authored`).
+
     Animated Armoury's four "spear" items share the pike NIF, so they resolve to
     the pike WEAP record; that is the record for that mesh and is correct.
     """
@@ -237,16 +289,22 @@ def mine(plugins: tuple[str, ...] = ("Skyrim.esm", "Update.esm"),
 
     mod_indexes: dict[str, dict[str, list[dict]]] = {}
     mod_plugins: dict[str, Path] = {}
-    for rel in sorted({i["root"] for i in arsenal["items"] if i.get("root")}):
-        paths = plugins_under(root_base / rel)
-        mod_indexes[rel] = build_index(paths)
+    # An authored item's root holds meshes and no plugin; nothing is read from it.
+    keys = {_plugin_key(i) for i in arsenal["items"] if not i.get("record")}
+    for key in sorted(k for k in keys if k):
+        paths = _plugin_paths(root_base, key)
+        mod_indexes[key] = build_index(paths)
         for path in paths:
             mod_plugins[path.name] = path
 
     items: dict[str, dict] = {}
     missing: list[str] = []
     for item in arsenal["items"]:
-        index = mod_indexes[item["root"]] if item.get("root") else vanilla_index
+        if item.get("record"):
+            items[item["id"]] = _authored(item)
+            continue
+        key = _plugin_key(item)
+        index = mod_indexes[key] if key else vanilla_index
         recs = index.get(_model_key(item["nif"]))
         if not recs:
             missing.append(item["id"])

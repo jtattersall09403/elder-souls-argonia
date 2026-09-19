@@ -8,6 +8,11 @@ the NIF's native origin and orientation (authored for the hand attach node, so
 the game mounts it with the rig's own socket convention and nothing else), then
 exports a GLB and renders an inventory icon.
 
+An item may declare ``obj`` + ``textures`` instead of ``nif``: a Wavefront mesh
+with loose maps, already converted to PNG by the host (a mod that ships no NIF).
+Everything after the import is the same path, so the GLB and the manifest entry
+are indistinguishable.
+
 Env: BUILD_PLAN -> json with keys items[], summary_json.
 """
 
@@ -99,6 +104,58 @@ def rebuild_materials(objects):
                     material.blend_method = "OPAQUE"
                 except TypeError:
                     pass
+
+
+def obj_material(objects, textures):
+    """One Principled material from a mod's loose maps, for an OBJ item.
+
+    An OBJ carries no Skyrim shader, so there is nothing to read the maps off:
+    the arsenal entry names them and they are wired here. The result is the same
+    clean diffuse/normal Principled the NIF path rebuilds, so the exported GLB is
+    indistinguishable downstream.
+    """
+    material = bpy.data.materials.new("Item")
+    material.use_nodes = True
+    tree = material.node_tree
+    tree.nodes.clear()
+    output = tree.nodes.new("ShaderNodeOutputMaterial")
+    shader = tree.nodes.new("ShaderNodeBsdfPrincipled")
+    shader.inputs["Metallic"].default_value = 0.55
+    shader.inputs["Roughness"].default_value = 0.4
+    tree.links.new(shader.outputs["BSDF"], output.inputs["Surface"])
+
+    def load(role, colorspace):
+        path = textures.get(role)
+        if not path:
+            return None
+        image = bpy.data.images.load(path)
+        image.colorspace_settings.name = colorspace
+        node = tree.nodes.new("ShaderNodeTexImage")
+        node.image = image
+        return node
+
+    diffuse = load("diffuse", "sRGB")
+    if diffuse is not None:
+        tree.links.new(diffuse.outputs["Color"], shader.inputs["Base Color"])
+    normal = load("normal", "Non-Color")
+    if normal is not None:
+        mapper = tree.nodes.new("ShaderNodeNormalMap")
+        tree.links.new(normal.outputs["Color"], mapper.inputs["Color"])
+        tree.links.new(mapper.outputs["Normal"], shader.inputs["Normal"])
+    specular = load("specular", "Non-Color")
+    if specular is not None:
+        for socket in ("Specular IOR Level", "Specular"):
+            if socket in shader.inputs:
+                tree.links.new(specular.outputs["Color"], shader.inputs[socket])
+                break
+    if hasattr(material, "blend_method"):
+        try:
+            material.blend_method = "OPAQUE"
+        except TypeError:
+            pass
+    for obj in objects:
+        obj.data.materials.clear()
+        obj.data.materials.append(material)
 
 
 def world_bounds(objects):
@@ -207,27 +264,37 @@ drop_terms = [term.lower() for term in PLAN.get("drop", [])]
 
 for item in PLAN["items"]:
     clear_scene()
-    bpy.ops.import_scene.pynifly(
-        filepath=item["nif"],
-        create_bones=False,
-        import_tris=False,
-        import_animations=False,
-        import_collisions=False,
-        blender_xf=True,
-        rotate_bones_pretty=False,
-    )
-    meshes = [o for o in bpy.data.objects if o.type == "MESH"]
-    for image in bpy.data.images:
-        if image.source == "FILE" and image.filepath:
-            try:
-                image.reload()
-            except RuntimeError:
-                pass
-    kept = drop_sheathed(meshes, drop_terms)
-    if not kept:
-        SUMMARY["warnings"].append("%s: every shape was dropped" % item["id"])
-        continue
-    rebuild_materials(kept)
+    if item.get("obj"):
+        # An OBJ item ships no scabbard and no shader: every shape is the weapon,
+        # and its material comes from the maps the arsenal entry names.
+        bpy.ops.wm.obj_import(filepath=item["obj"])
+        kept = [o for o in bpy.data.objects if o.type == "MESH"]
+        if not kept:
+            SUMMARY["warnings"].append("%s: the OBJ imported no mesh" % item["id"])
+            continue
+        obj_material(kept, item.get("textures", {}))
+    else:
+        bpy.ops.import_scene.pynifly(
+            filepath=item["nif"],
+            create_bones=False,
+            import_tris=False,
+            import_animations=False,
+            import_collisions=False,
+            blender_xf=True,
+            rotate_bones_pretty=False,
+        )
+        meshes = [o for o in bpy.data.objects if o.type == "MESH"]
+        for image in bpy.data.images:
+            if image.source == "FILE" and image.filepath:
+                try:
+                    image.reload()
+                except RuntimeError:
+                    pass
+        kept = drop_sheathed(meshes, drop_terms)
+        if not kept:
+            SUMMARY["warnings"].append("%s: every shape was dropped" % item["id"])
+            continue
+        rebuild_materials(kept)
     bpy.ops.file.pack_all()
     scale, native = normalise_scale(kept, item["target_length"])
 

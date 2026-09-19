@@ -11,7 +11,7 @@
     "criticals": "stationary weapon extent; entry limits remain paired choreography"
   },
   "provenance": {
-    "inputsSha256": "23a0831f6f962c538b9d0e4073b12dae656acdc4ada8abf715f0894f516090c7",
+    "inputsSha256": "71bd3941d343c44a05e86d74f89c14dc7dfd5d21325e38ccf38df4a7494441a0",
     "animationManifestSha256": "d50b13aa8b47bc52645fb8c880727a96dd86534fc29106a34ff2282e049a0f9a",
     "assets": {
       "races/dunmer-male.glb": "e4748eb1253ea1699b58a47fc51b1944bc35a5414b2db6e8f4dd715ecf5f8ac4",
@@ -86,7 +86,18 @@
       "rig-skyrim-humanoid.quarterstaff.glb": "38e62302c1c6dfad46dc369187cf44abc9c7d0dd25a844f7d80ce01b23806411",
       "weapons/steel-quarterstaff.glb": "b0314dbcdcdf93fc44bdcc6b2e2e3fd6c664a369fb7eceba277fd08bee8601ea",
       "weapons/elven-quarterstaff.glb": "bc6abf9b9b9053dc6412ed97a802d4e621db224906f1c12ce2972de04aa3c54d",
-      "weapons/ebony-quarterstaff.glb": "edd44649e7803278e76ae02bbab6273871954595072c6482417c9f05b8c4fd32"
+      "weapons/ebony-quarterstaff.glb": "edd44649e7803278e76ae02bbab6273871954595072c6482417c9f05b8c4fd32",
+      "weapons/bone-talon-dagger.glb": "05405b11c4dfe2520df20e0cea54431f1bb1b885e9d237f7adce8d1046f85711",
+      "weapons/steel-great-cleaver.glb": "2881f2225071c38bd210d549fe4ceead992dfe193c7a22ef03ab6c602386512f",
+      "weapons/obsidian-warhammer.glb": "ea1561933eeffe7ad802bd588693759598db3f021b45aad2aa6ba144fe688505",
+      "weapons/silver-jagged-katana.glb": "ac78664885715a72d0dc16d5ebffe1b40a056329ee20b84e6d1e8ee6a83edb3d",
+      "weapons/wooden-ball-club.glb": "670e1b4a8a62392e8821a50d6440b26eff323269f57bc7772190275ff6be7070",
+      "weapons/iron-trident.glb": "08e91928661b6dc33cc49eed64fe72bca037f890914c1f756d8c0c31c5138ff8",
+      "weapons/elven-trident.glb": "b032054834458444e1c051eb8d09310fd1230148202416beacee9294bebd4928",
+      "weapons/ebony-trident.glb": "d2042cf695c1267944ec95aa01c533f905bc6185b4d0c88105d19320363da916",
+      "weapons/iron-halfpike.glb": "8fb5c44efe18b6ab577df393cdd66ee3b7133de82a35a4fb8d3056653eee88d9",
+      "weapons/steel-halfpike.glb": "33a10cd467155e11b23a5fd473dee7b78938324754781dba6e13d842d95ada57",
+      "weapons/elven-halfpike.glb": "265d191fc4105432002063b9593077f7a3ef516d4fdce5d25f8325544c2fb88f"
     }
   },
   "weapons": {
@@ -5253,6 +5264,908 @@
           "stationaryRange": 1.476652,
           "atSeconds": 0.746429,
           "sourceTime": 0.928169
+        }
+      }
+    },
+    "bone-talon-dagger": {
+      "lengthMeters": 0.026542,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 0.990207,
+          "stationaryRange": 1.047646,
+          "atSeconds": 0.387424,
+          "sourceTime": 0.523545
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 0.934314,
+          "stationaryRange": 0.92734,
+          "atSeconds": 0.35152,
+          "sourceTime": 0.475027
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.534545,
+          "stationaryRange": 1.389297,
+          "atSeconds": 0.519904,
+          "sourceTime": 0.702573
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.330847,
+          "stationaryRange": 1.137411,
+          "atSeconds": 0.528775,
+          "sourceTime": 0.714561
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.2279,
+          "stationaryRange": 1.100221,
+          "atSeconds": 0.571132,
+          "sourceTime": 0.771801
+        },
+        "riposte": {
+          "animation": "RIPOSTE_STAB",
+          "activeSourceWindow": [
+            2.525811,
+            2.904189
+          ],
+          "range": 0.865418,
+          "stationaryRange": 0.865418,
+          "atSeconds": 0.542882,
+          "sourceTime": 2.898625
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.788793,
+          "stationaryRange": 0.788793,
+          "atSeconds": 1.362414,
+          "sourceTime": 1.8411
+        }
+      }
+    },
+    "steel-great-cleaver": {
+      "lengthMeters": 0.091793,
+      "attacks": {
+        "light1": {
+          "animation": "GREATSWORD_LIGHT_1",
+          "activeSourceWindow": [
+            0.74,
+            1.04
+          ],
+          "range": 1.481162,
+          "stationaryRange": 1.348245,
+          "atSeconds": 0.994795,
+          "sourceTime": 0.994795
+        },
+        "light2": {
+          "animation": "GREATSWORD_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.325125,
+          "stationaryRange": 1.274789,
+          "atSeconds": 0.81625,
+          "sourceTime": 0.81625
+        },
+        "light3": {
+          "animation": "GREATSWORD_LIGHT_3",
+          "activeSourceWindow": [
+            0.900654,
+            1.276315
+          ],
+          "range": 2.397615,
+          "stationaryRange": 1.365948,
+          "atSeconds": 1.003857,
+          "sourceTime": 1.003857
+        },
+        "heavy": {
+          "animation": "GREATSWORD_HEAVY",
+          "activeSourceWindow": [
+            0.823346,
+            1.09635
+          ],
+          "range": 1.837541,
+          "stationaryRange": 1.886083,
+          "atSeconds": 0.976394,
+          "sourceTime": 0.976394
+        },
+        "heavy2": {
+          "animation": "GREATSWORD_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.670521,
+          "stationaryRange": 1.37859,
+          "atSeconds": 1.119872,
+          "sourceTime": 1.119872
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.432825,
+          "stationaryRange": 1.432825,
+          "atSeconds": 0.449412,
+          "sourceTime": 3.024412
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.432825,
+          "stationaryRange": 1.432825,
+          "atSeconds": 0.449412,
+          "sourceTime": 3.024412
+        }
+      }
+    },
+    "obsidian-warhammer": {
+      "lengthMeters": 0.168832,
+      "attacks": {
+        "light1": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.734348,
+          "stationaryRange": 1.521538,
+          "atSeconds": 1.132697,
+          "sourceTime": 0.99985
+        },
+        "light2": {
+          "animation": "GREATAXE_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.339902,
+          "stationaryRange": 1.229327,
+          "atSeconds": 1.004682,
+          "sourceTime": 0.886849
+        },
+        "light3": {
+          "animation": "GREATAXE_LIGHT_3",
+          "activeSourceWindow": [
+            0.909987,
+            1.234316
+          ],
+          "range": 2.452507,
+          "stationaryRange": 1.485062,
+          "atSeconds": 1.233183,
+          "sourceTime": 1.08855
+        },
+        "heavy": {
+          "animation": "GREATAXE_HEAVY",
+          "activeSourceWindow": [
+            0.854,
+            1.12
+          ],
+          "range": 1.696196,
+          "stationaryRange": 1.863831,
+          "atSeconds": 1.132588,
+          "sourceTime": 0.999753
+        },
+        "heavy2": {
+          "animation": "GREATAXE_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 3.026991,
+          "stationaryRange": 1.514737,
+          "atSeconds": 1.287043,
+          "sourceTime": 1.136094
+        },
+        "riposte": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.521538,
+          "stationaryRange": 1.521538,
+          "atSeconds": 1.165777,
+          "sourceTime": 1.02905
+        },
+        "backstab": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.521538,
+          "stationaryRange": 1.521538,
+          "atSeconds": 1.165777,
+          "sourceTime": 1.02905
+        }
+      }
+    },
+    "silver-jagged-katana": {
+      "lengthMeters": 0.025944,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.358062,
+          "stationaryRange": 1.362147,
+          "atSeconds": 0.500175,
+          "sourceTime": 0.5265
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.226978,
+          "stationaryRange": 1.245108,
+          "atSeconds": 0.452168,
+          "sourceTime": 0.475966
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.904096,
+          "stationaryRange": 1.705794,
+          "atSeconds": 0.665907,
+          "sourceTime": 0.700955
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.716562,
+          "stationaryRange": 1.451823,
+          "atSeconds": 0.677227,
+          "sourceTime": 0.712871
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.652147,
+          "stationaryRange": 1.41558,
+          "atSeconds": 0.734325,
+          "sourceTime": 0.772974
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.297704,
+          "stationaryRange": 1.297704,
+          "atSeconds": 0.38,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 1.104186,
+          "stationaryRange": 1.104186,
+          "atSeconds": 1.750209,
+          "sourceTime": 1.842325
+        }
+      }
+    },
+    "wooden-ball-club": {
+      "lengthMeters": 0.8,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.073897,
+          "stationaryRange": 1.083541,
+          "atSeconds": 0.746308,
+          "sourceTime": 0.597047
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.019015,
+          "stationaryRange": 0.979219,
+          "atSeconds": 0.579548,
+          "sourceTime": 0.463639
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.543799,
+          "stationaryRange": 1.407491,
+          "atSeconds": 0.882337,
+          "sourceTime": 0.70587
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.663457,
+          "stationaryRange": 1.213674,
+          "atSeconds": 0.900141,
+          "sourceTime": 0.720113
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.36429,
+          "stationaryRange": 1.159105,
+          "atSeconds": 0.716649,
+          "sourceTime": 0.573319
+        },
+        "riposte": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.083541,
+          "stationaryRange": 1.083541,
+          "atSeconds": 0.598108,
+          "sourceTime": 0.478487
+        },
+        "backstab": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.083541,
+          "stationaryRange": 1.083541,
+          "atSeconds": 0.598108,
+          "sourceTime": 0.478487
+        }
+      }
+    },
+    "iron-trident": {
+      "lengthMeters": 2.5,
+      "attacks": {
+        "light1": {
+          "animation": "PIKE_LIGHT_1",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.279696,
+          "stationaryRange": 2.115855,
+          "atSeconds": 0.717364,
+          "sourceTime": 0.803448
+        },
+        "light2": {
+          "animation": "PIKE_LIGHT_2",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.279696,
+          "stationaryRange": 2.115855,
+          "atSeconds": 0.717364,
+          "sourceTime": 0.803448
+        },
+        "light3": {
+          "animation": "PIKE_LIGHT_3",
+          "activeSourceWindow": [
+            1.39162,
+            1.803425
+          ],
+          "range": 3.823212,
+          "stationaryRange": 2.424388,
+          "atSeconds": 1.242517,
+          "sourceTime": 1.39162
+        },
+        "heavy": {
+          "animation": "PIKE_HEAVY",
+          "activeSourceWindow": [
+            0.70291,
+            1.145483
+          ],
+          "range": 2.190802,
+          "stationaryRange": 2.076684,
+          "atSeconds": 1.018593,
+          "sourceTime": 1.140824
+        },
+        "heavy2": {
+          "animation": "PIKE_HEAVY_2",
+          "activeSourceWindow": [
+            0.653209,
+            1.145483
+          ],
+          "range": 1.940401,
+          "stationaryRange": 2.117043,
+          "atSeconds": 1.018606,
+          "sourceTime": 1.140839
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 2.016757,
+          "stationaryRange": 2.016757,
+          "atSeconds": 0.603044,
+          "sourceTime": 3.25041
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 2.016757,
+          "stationaryRange": 2.016757,
+          "atSeconds": 0.603044,
+          "sourceTime": 3.25041
+        }
+      }
+    },
+    "elven-trident": {
+      "lengthMeters": 2.5,
+      "attacks": {
+        "light1": {
+          "animation": "PIKE_LIGHT_1",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.285897,
+          "stationaryRange": 2.122048,
+          "atSeconds": 0.717364,
+          "sourceTime": 0.803448
+        },
+        "light2": {
+          "animation": "PIKE_LIGHT_2",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.285897,
+          "stationaryRange": 2.122048,
+          "atSeconds": 0.717364,
+          "sourceTime": 0.803448
+        },
+        "light3": {
+          "animation": "PIKE_LIGHT_3",
+          "activeSourceWindow": [
+            1.39162,
+            1.803425
+          ],
+          "range": 3.829423,
+          "stationaryRange": 2.430609,
+          "atSeconds": 1.242517,
+          "sourceTime": 1.39162
+        },
+        "heavy": {
+          "animation": "PIKE_HEAVY",
+          "activeSourceWindow": [
+            0.70291,
+            1.145483
+          ],
+          "range": 2.196815,
+          "stationaryRange": 2.082873,
+          "atSeconds": 1.018593,
+          "sourceTime": 1.140824
+        },
+        "heavy2": {
+          "animation": "PIKE_HEAVY_2",
+          "activeSourceWindow": [
+            0.653209,
+            1.145483
+          ],
+          "range": 1.946604,
+          "stationaryRange": 2.123255,
+          "atSeconds": 1.018606,
+          "sourceTime": 1.140839
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 2.023144,
+          "stationaryRange": 2.023144,
+          "atSeconds": 0.603044,
+          "sourceTime": 3.25041
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 2.023144,
+          "stationaryRange": 2.023144,
+          "atSeconds": 0.603044,
+          "sourceTime": 3.25041
+        }
+      }
+    },
+    "ebony-trident": {
+      "lengthMeters": 2.5,
+      "attacks": {
+        "light1": {
+          "animation": "PIKE_LIGHT_1",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.282508,
+          "stationaryRange": 2.118748,
+          "atSeconds": 0.717364,
+          "sourceTime": 0.803448
+        },
+        "light2": {
+          "animation": "PIKE_LIGHT_2",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.282508,
+          "stationaryRange": 2.118748,
+          "atSeconds": 0.717364,
+          "sourceTime": 0.803448
+        },
+        "light3": {
+          "animation": "PIKE_LIGHT_3",
+          "activeSourceWindow": [
+            1.39162,
+            1.803425
+          ],
+          "range": 3.825923,
+          "stationaryRange": 2.427001,
+          "atSeconds": 1.242517,
+          "sourceTime": 1.39162
+        },
+        "heavy": {
+          "animation": "PIKE_HEAVY",
+          "activeSourceWindow": [
+            0.70291,
+            1.145483
+          ],
+          "range": 2.195516,
+          "stationaryRange": 2.079623,
+          "atSeconds": 1.018593,
+          "sourceTime": 1.140824
+        },
+        "heavy2": {
+          "animation": "PIKE_HEAVY_2",
+          "activeSourceWindow": [
+            0.653209,
+            1.145483
+          ],
+          "range": 1.943193,
+          "stationaryRange": 2.119754,
+          "atSeconds": 1.018606,
+          "sourceTime": 1.140839
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 2.017725,
+          "stationaryRange": 2.017725,
+          "atSeconds": 0.603044,
+          "sourceTime": 3.25041
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 2.017725,
+          "stationaryRange": 2.017725,
+          "atSeconds": 0.603044,
+          "sourceTime": 3.25041
+        }
+      }
+    },
+    "iron-halfpike": {
+      "lengthMeters": 2.1,
+      "attacks": {
+        "light1": {
+          "animation": "PIKE_LIGHT_1",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.090637,
+          "stationaryRange": 1.926215,
+          "atSeconds": 0.709018,
+          "sourceTime": 0.863152
+        },
+        "light2": {
+          "animation": "PIKE_LIGHT_2",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.090637,
+          "stationaryRange": 1.926215,
+          "atSeconds": 0.709018,
+          "sourceTime": 0.863152
+        },
+        "light3": {
+          "animation": "PIKE_LIGHT_3",
+          "activeSourceWindow": [
+            1.39162,
+            1.803425
+          ],
+          "range": 3.5396,
+          "stationaryRange": 2.233603,
+          "atSeconds": 1.143116,
+          "sourceTime": 1.39162
+        },
+        "heavy": {
+          "animation": "PIKE_HEAVY",
+          "activeSourceWindow": [
+            0.70291,
+            1.145483
+          ],
+          "range": 2.001854,
+          "stationaryRange": 1.886948,
+          "atSeconds": 0.936801,
+          "sourceTime": 1.140454
+        },
+        "heavy2": {
+          "animation": "PIKE_HEAVY_2",
+          "activeSourceWindow": [
+            0.653209,
+            1.145483
+          ],
+          "range": 1.709989,
+          "stationaryRange": 1.926645,
+          "atSeconds": 0.936806,
+          "sourceTime": 1.14046
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.819074,
+          "stationaryRange": 1.819074,
+          "atSeconds": 0.554464,
+          "sourceTime": 3.25
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.819074,
+          "stationaryRange": 1.819074,
+          "atSeconds": 0.554464,
+          "sourceTime": 3.25
+        }
+      }
+    },
+    "steel-halfpike": {
+      "lengthMeters": 2.1,
+      "attacks": {
+        "light1": {
+          "animation": "PIKE_LIGHT_1",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.075444,
+          "stationaryRange": 1.910937,
+          "atSeconds": 0.709018,
+          "sourceTime": 0.863152
+        },
+        "light2": {
+          "animation": "PIKE_LIGHT_2",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.075444,
+          "stationaryRange": 1.910937,
+          "atSeconds": 0.709018,
+          "sourceTime": 0.863152
+        },
+        "light3": {
+          "animation": "PIKE_LIGHT_3",
+          "activeSourceWindow": [
+            1.39162,
+            1.803425
+          ],
+          "range": 3.524498,
+          "stationaryRange": 2.218601,
+          "atSeconds": 1.143116,
+          "sourceTime": 1.39162
+        },
+        "heavy": {
+          "animation": "PIKE_HEAVY",
+          "activeSourceWindow": [
+            0.70291,
+            1.145483
+          ],
+          "range": 1.98487,
+          "stationaryRange": 1.871626,
+          "atSeconds": 0.936801,
+          "sourceTime": 1.140454
+        },
+        "heavy2": {
+          "animation": "PIKE_HEAVY_2",
+          "activeSourceWindow": [
+            0.653209,
+            1.145483
+          ],
+          "range": 1.694784,
+          "stationaryRange": 1.911546,
+          "atSeconds": 0.936806,
+          "sourceTime": 1.14046
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.805511,
+          "stationaryRange": 1.805511,
+          "atSeconds": 0.554464,
+          "sourceTime": 3.25
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.805511,
+          "stationaryRange": 1.805511,
+          "atSeconds": 0.554464,
+          "sourceTime": 3.25
+        }
+      }
+    },
+    "elven-halfpike": {
+      "lengthMeters": 2.1,
+      "attacks": {
+        "light1": {
+          "animation": "PIKE_LIGHT_1",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.111623,
+          "stationaryRange": 1.947164,
+          "atSeconds": 0.709018,
+          "sourceTime": 0.863152
+        },
+        "light2": {
+          "animation": "PIKE_LIGHT_2",
+          "activeSourceWindow": [
+            0.548991,
+            0.868219
+          ],
+          "range": 2.111623,
+          "stationaryRange": 1.947164,
+          "atSeconds": 0.709018,
+          "sourceTime": 0.863152
+        },
+        "light3": {
+          "animation": "PIKE_LIGHT_3",
+          "activeSourceWindow": [
+            1.39162,
+            1.803425
+          ],
+          "range": 3.560626,
+          "stationaryRange": 2.254673,
+          "atSeconds": 1.143116,
+          "sourceTime": 1.39162
+        },
+        "heavy": {
+          "animation": "PIKE_HEAVY",
+          "activeSourceWindow": [
+            0.70291,
+            1.145483
+          ],
+          "range": 2.022051,
+          "stationaryRange": 1.907877,
+          "atSeconds": 0.936801,
+          "sourceTime": 1.140454
+        },
+        "heavy2": {
+          "animation": "PIKE_HEAVY_2",
+          "activeSourceWindow": [
+            0.653209,
+            1.145483
+          ],
+          "range": 1.73097,
+          "stationaryRange": 1.947672,
+          "atSeconds": 0.936806,
+          "sourceTime": 1.14046
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.840773,
+          "stationaryRange": 1.840773,
+          "atSeconds": 0.554464,
+          "sourceTime": 3.25
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.840773,
+          "stationaryRange": 1.840773,
+          "atSeconds": 0.554464,
+          "sourceTime": 3.25
         }
       }
     }
