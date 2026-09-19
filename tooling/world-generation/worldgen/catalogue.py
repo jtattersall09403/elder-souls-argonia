@@ -31,7 +31,8 @@ rest become required as `workflow` advances):
   why             *why {founding, siteAdvantages, occupantsMotive, pressures,
                   wouldChangeIf} — short form at derivation
   siting          *sitingPrefs {regionClasses, hardConstraints, preferences,
-                  landformClasses?, boundTo? {place, maxM}, sightlineTo? [ids]}
+                  landformClasses?, boundTo? {place, maxM}, sightlineTo? [ids],
+                  nearWater? {entityId, maxM}, minDepthM?}
                   — boundTo/sightlineTo are TYPED siting (2026-09-04): the plot
                   honours them directly; prose in hardConstraints is a fallback;
                   plotted+: position {u,v}, candidatesConsidered,
@@ -147,11 +148,51 @@ rest become required as `workflow` advances):
                   the shape instead; with it, footprintSource is 'polygon'.
   city layout     cityLayout? {gate [x,z], centre [x,z], way [[x,z],…] (≥ 2
                   points, starting within 5 m of the gate and ending within
-                  5 m of the centre), source: street_router} — M5 only.
+                  5 m of the centre), source: street_router} — M5, plus the
+                  ids in CITY_LAYOUT_IDS.
   underwater      underwaterAccessDetail? {gating ∈ UNDERWATER_GATINGS,
                   surfaceAccessNodes (int ≥ 0), airPockets, submergedPortal,
                   entityId, depthM} — how the player gets in. Required on
                   every `underwater-entry` record once 16g has run.
+
+  --- schemaVersion 3: the interior promise vocabulary (16g) ---------------
+  The design statement is docs/world/70-dungeons-interiors.md §48 and this
+  schema is its binding form; the two never disagree. On `interior`, beside
+  the shipped fields:
+
+  vertical        *verticalRelationship — below|behind|within|above-and-below|
+                  across-water. On EVERY record with an interior, buildings too.
+  rooms           *roomFunctions[] — the ordered reveal from ROOM_FUNCTIONS;
+                  at least `entrance` plus one, and what the family needs, not
+                  a menu every record fills.
+  loop            *loop — none|shortcut-back|second-entrance|vertical-return|
+                  water-loop; a second entrance implies second-entrance.
+  traversal       *traversal {swimM, diveM, climbM, breathGated, current
+                  (none|mild|strong), darkFraction} — what the body must do,
+                  so a capability profile can answer "can I".
+  combat          *combatSpaces[] (≤ 3) {scale, footing, clearance} — the
+                  intents Phase 12 compiles the §49 blueprint from.
+  sockets         *anchorSockets[] {id: socket.<place-slug>.<kind>[-n], kind,
+                  whereInInterior, provision?} — the pins the quest and loot
+                  compilers address. A `provision` must be a
+                  `quest.provision.*` id already on questHooks.provisions.
+  light           *light — daylit|torchlit|bioluminescent|dark|mixed.
+  lock            *lock — none|simple|hard|unpickable-key|quest-sealed.
+  contents        every `contents.*[]` slot carries *whereInInterior —
+                  entrance|threshold|main|deep|boss|hidden|flooded|above.
+
+  varied facts   interior.factsVariedForVariety? [..] — the facts the §48
+                  sameness pass changed on this record (owner ruling
+                  2026-09-19), so the pass is idempotent and the change is
+                  visible to the review rather than silent.
+
+  The `interior` promises apply to dungeon-kind records (delve, dungeon,
+  complex, warren); buildings owe only `verticalRelationship`. Every family
+  maps to a realisation recipe in
+  world/sources/catalogue/interior-recipes.json backed by a kit that exists;
+  a family with no recipe is re-typed or sourced, never promised. Sameness is
+  a gate: two dungeon-kind records of one family within 2 km may not agree on
+  more than three of the seven promise axes.
 
 Determinism: files sorted by id; the loader rejects unsorted or duplicate
 IDs. Permanence: `--check` compares against git HEAD and fails if any
@@ -171,10 +212,14 @@ import json
 import subprocess
 import sys
 from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 
 SCHEMA_VERSION = 1            # taxonomy.json / asset-aliases.json
-PLACES_SCHEMA_VERSION = 2     # places-<region>.json (v2: playerPurpose, hostility, interior, contents)
+PLACES_SCHEMA_VERSION = 3     # places-<region>.json (v3: the interior promise vocabulary, world 70 §48)
+# The loader accepts an older file so a migration can read what it is about to
+# rewrite; `validate_catalogue` is what insists the migration has been run.
+MIN_LOADABLE_PLACES_SCHEMA_VERSION = 2
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CATALOGUE_DIR = REPO_ROOT / "world" / "sources" / "catalogue"
@@ -320,6 +365,10 @@ FOOTPRINT_SOURCES = {"band", "blueprint", "polygon"}
 # a shape rather than a radius.
 POLYGON_MAGNITUDES = {"M4", "M5"}
 CITY_LAYOUT_MAGNITUDES = {"M5"}
+# Alten Corimont is an M4 free port, but it is one of the nine cities the
+# gate/centre/way layout is solved for (owner rule 2026-09-18), so it is
+# allowed by id rather than by widening the magnitude set.
+CITY_LAYOUT_IDS = {"place.pirate-freeholds.alten-corimont"}
 CITY_LAYOUT_SOURCES = {"street_router"}
 CITY_LAYOUT_ENDPOINT_TOLERANCE_M = 5.0
 # heroHist: the ten power slots and their reserves.
@@ -330,6 +379,37 @@ UNDERWATER_GATINGS = {"argonian-immediate", "breath-gated", "equipment-gated",
                       "expert-current", "quest-gated"}
 DESIGN_GROUPS_SCHEMA_VERSION = 1
 DESIGN_GROUPS_FILE = "design-groups.json"
+
+# --- schemaVersion 3: the interior promise vocabulary (world 70 §48, 16g) ---
+# §48 is the design statement; this is the binding schema and the two never
+# disagree. A promise is something the interior CAN say, never must.
+VERTICAL_RELATIONSHIPS = {"below", "behind", "within", "above-and-below", "across-water"}
+ROOM_FUNCTIONS = {"entrance", "antechamber", "gauntlet", "gallery", "cache", "boss",
+                  "captive", "shrine", "workshop", "barracks", "flooded-gallery",
+                  "nursery", "archive", "hearth", "cistern", "sump", "stair-shaft",
+                  "root-throat", "drain", "cell-block", "counting-room", "dock-cavern",
+                  "lookout", "ossuary", "dream-chamber", "collapse", "midden"}
+INTERIOR_LOOPS = {"none", "shortcut-back", "second-entrance", "vertical-return", "water-loop"}
+CURRENTS = {"none", "mild", "strong"}
+COMBAT_SCALES = {"duel", "smallGroup", "largeGroup", "boss"}
+COMBAT_FOOTINGS = {"dry", "wade", "swim", "mixed"}
+COMBAT_CLEARANCES = {"tight", "standard", "generous"}
+COMBAT_SPACE_LIMIT = 3
+ANCHOR_SOCKET_KINDS = {"boss", "boss-chest", "captive", "cache", "shrine", "escape",
+                       "evidence", "scene", "station"}
+WHERE_IN_INTERIOR = {"entrance", "threshold", "main", "deep", "boss", "hidden",
+                     "flooded", "above"}
+INTERIOR_LIGHTS = {"daylit", "torchlit", "bioluminescent", "dark", "mixed"}
+INTERIOR_LOCKS = {"none", "simple", "hard", "unpickable-key", "quest-sealed"}
+# docs/quests/20 §11, verbatim: what a place records that the quests using it
+# need from it. `questHooks.tags` was free text until 2026-09-19 and carried
+# `DIVE`, which is not a provision the quest plan knows how to ask for.
+QUEST_TAGS = {"LOC", "APP", "FAST", "WATER", "CLIMB", "BOAT", "STEALTH", "SCENE",
+              "STATE", "EVIDENCE", "COMBAT", "BOSS", "NPC", "LOOT", "PORTAL", "PERF"}
+INTERIOR_RECIPES_FILE = "interior-recipes.json"
+INTERIOR_RECIPES_SCHEMA_VERSION = 1
+# The schemaVersion at which the §48 promises become required on a record.
+INTERIOR_PROMISE_VERSION = 3
 
 
 def dump_json(path: Path, data: dict) -> None:
@@ -378,8 +458,11 @@ def load_region_files(catalogue_dir: Path = CATALOGUE_DIR) -> list[RegionFile]:
     out = []
     for path in sorted(catalogue_dir.glob("places-*.json")):
         data = json.loads(path.read_text())
-        if data.get("schemaVersion") != PLACES_SCHEMA_VERSION:
-            raise ValueError(f"{path}: schemaVersion must be {PLACES_SCHEMA_VERSION}")
+        file_version = data.get("schemaVersion")
+        if not isinstance(file_version, int) or isinstance(file_version, bool) or \
+                not MIN_LOADABLE_PLACES_SCHEMA_VERSION <= file_version <= PLACES_SCHEMA_VERSION:
+            raise ValueError(f"{path}: schemaVersion must be "
+                             f"{MIN_LOADABLE_PLACES_SCHEMA_VERSION}-{PLACES_SCHEMA_VERSION}")
         region = path.stem.removeprefix("places-")
         if data.get("region") != region:
             raise ValueError(f"{path}: region field must be '{region}'")
@@ -475,14 +558,60 @@ def _is_xz(v) -> bool:
     return isinstance(v, (list, tuple)) and len(v) == 2 and all(_is_num(c) for c in v)
 
 
+NEAR_WATER_MAX_M_RANGE = (10.0, 1500.0)
+MIN_DEPTH_M_RANGE = (0.3, 40.0)
+HYDROLOGY_GRAPH = REPO_ROOT / "world" / "sources" / "hydrology" / "hydrology-graph.json"
+
+
+@lru_cache(maxsize=1)
+def hydrology_entity_ids() -> frozenset[str]:
+    """Every river, reach and body id in the hydrology graph — the closed
+    vocabulary `sitingPrefs.nearWater.entityId` must name."""
+    doc = json.loads(HYDROLOGY_GRAPH.read_text())
+    return frozenset(e["id"] for key in ("rivers", "reaches", "bodies")
+                     for e in (doc.get(key) or []))
+
+
+def _validate_water_siting_prefs(rec: dict, rid: str, errors: list[str]) -> None:
+    """`sitingPrefs.nearWater {entityId, maxM}` and `sitingPrefs.minDepthM`:
+    the two TYPED water ties (16g). Prose that named a water or a depth was
+    never read by the plot, which is how a hatchery on the warm pools of
+    central Shadowfen reached the sea coast."""
+    prefs = rec.get("sitingPrefs")
+    if not isinstance(prefs, dict):
+        return
+    nw = prefs.get("nearWater")
+    if nw is not None:
+        if not isinstance(nw, dict):
+            _fail(errors, rid, "sitingPrefs.nearWater must be an object {entityId, maxM}")
+        else:
+            eid = nw.get("entityId")
+            if not isinstance(eid, str) or eid not in hydrology_entity_ids():
+                _fail(errors, rid, f"sitingPrefs.nearWater.entityId {eid!r} is not a river, reach "
+                                   f"or body in the hydrology graph")
+            lo, hi = NEAR_WATER_MAX_M_RANGE
+            if not _is_num(nw.get("maxM")) or not lo <= float(nw["maxM"]) <= hi:
+                _fail(errors, rid, f"sitingPrefs.nearWater.maxM must be {lo:g}-{hi:g} m")
+    md = prefs.get("minDepthM")
+    if md is not None:
+        lo, hi = MIN_DEPTH_M_RANGE
+        if not _is_num(md) or not lo <= float(md) <= hi:
+            _fail(errors, rid, f"sitingPrefs.minDepthM must be {lo:g}-{hi:g} m")
+
+
 def _validate_16g_fields(rec: dict, region: str, rid: str, errors: list[str]) -> None:
     """The 16g record fields: record schemaVersion, design groups, co-siting,
     owner-guided ground, reservations, the hero-Hist block, footprints,
-    city layout and underwater access detail. Shape only — liveness,
-    reciprocity, uniqueness and the group registers are cross-record."""
+    city layout and underwater access detail, and the two typed water ties.
+    Shape only — liveness, reciprocity, uniqueness and the group registers
+    are cross-record."""
+    _validate_water_siting_prefs(rec, rid, errors)
     sv = rec.get("schemaVersion")
     if not isinstance(sv, int) or isinstance(sv, bool):
         _fail(errors, rid, "schemaVersion must be an int on every record (16g)")
+    elif sv < INTERIOR_PROMISE_VERSION:
+        _fail(errors, rid, f"schemaVersion {sv} predates the interior promise vocabulary — run "
+                           f"`python3 -m worldgen.migrate_interior_promises --apply` (world 70 §48)")
 
     dg = rec.get("designGroup")
     if dg is not None and not (isinstance(dg, str) and dg.startswith("group.") and len(dg.split(".")) == 2 and dg.split(".")[1]):
@@ -581,8 +710,10 @@ def _validate_16g_fields(rec: dict, region: str, rid: str, errors: list[str]) ->
     cl = rec.get("cityLayout")
     if cl is not None:
         mag = (rec.get("classification") or {}).get("magnitude")
-        if mag not in CITY_LAYOUT_MAGNITUDES:
-            _fail(errors, rid, f"cityLayout is only for {sorted(CITY_LAYOUT_MAGNITUDES)} records")
+        if mag not in CITY_LAYOUT_MAGNITUDES and rid not in CITY_LAYOUT_IDS:
+            _fail(errors, rid,
+                  f"cityLayout is only for {sorted(CITY_LAYOUT_MAGNITUDES)} records "
+                  f"(or {sorted(CITY_LAYOUT_IDS)})")
         if not isinstance(cl, dict):
             _fail(errors, rid, "cityLayout must be an object")
         elif not (_is_xz(cl.get("gate")) and _is_xz(cl.get("centre"))):
@@ -629,6 +760,31 @@ def load_design_groups(catalogue_dir: Path = CATALOGUE_DIR) -> dict[str, dict] |
     if data.get("schemaVersion") != DESIGN_GROUPS_SCHEMA_VERSION:
         raise ValueError(f"{path}: schemaVersion must be {DESIGN_GROUPS_SCHEMA_VERSION}")
     return {row["id"]: row for row in data["groups"]}
+
+
+def load_interior_recipes(catalogue_dir: Path = CATALOGUE_DIR) -> dict[str, dict] | None:
+    """interior-recipes.json: family -> the realisation recipe and the kits it
+    is built from (world 70 §48 rule 2). Returns None until the file exists;
+    once it does, every dungeon-kind family must have a row and every kit it
+    names must be a real kit manifest."""
+    path = catalogue_dir / INTERIOR_RECIPES_FILE
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text())
+    if data.get("schemaVersion") != INTERIOR_RECIPES_SCHEMA_VERSION:
+        raise ValueError(f"{path}: schemaVersion must be {INTERIOR_RECIPES_SCHEMA_VERSION}")
+    return data["recipes"]
+
+
+def kit_manifest_paths(kit: str) -> list[Path]:
+    """Where a kit named by a recipe row may live: the studio's published kits
+    or the pipeline's built output. A row naming a kit in neither is a gap."""
+    return [REPO_ROOT / "apps" / "world-studio" / "public" / "kits" / f"{kit}.kit.json",
+            REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits" / f"{kit}.kit.json"]
+
+
+def kit_exists(kit: str) -> bool:
+    return any(p.exists() for p in kit_manifest_paths(kit))
 
 
 def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
@@ -702,6 +858,7 @@ def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
                 _fail(errors, rid, "interior.entranceCount must be ≥ 1")
             if rec.get("entrance") == "none":
                 _fail(errors, rid, "interior present but entrance is 'none' — how do you get in?")
+            _validate_interior_promises(rec, it, rid, errors)
         elif rec.get("entrance") not in ("none", "gate", None) and rec.get("classification", {}).get("class") in ("lair", "ruin"):
             _fail(errors, rid, "a lair/ruin with an entrance must describe its interior (kind ≠ none)")
     ct = rec.get("contents")
@@ -730,12 +887,24 @@ def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
                     _fail(errors, rid, f"contents.{key}[{sid}].danger exceeds the place's dangerTier")
                 if key == "loot" and sl.get("payoff") is not None and sl["payoff"] not in REWARD_KINDS:
                     _fail(errors, rid, f"contents.loot[{sid}].payoff must be one of REWARD_KINDS")
+                where = sl.get("whereInInterior")
+                if where is not None and where not in WHERE_IN_INTERIOR:
+                    _fail(errors, rid, f"contents.{key}[{sid}].whereInInterior must be one of {sorted(WHERE_IN_INTERIOR)}")
+                elif where is None and _promises_interior(rec):
+                    _fail(errors, rid, f"contents.{key}[{sid}] needs whereInInterior — every slot in a "
+                                       f"dungeon-kind interior says where it sits (world 70 §48)")
     _validate_services(rec, rid, errors)
     rp = rec.get("rewardProfile")
     if rp is not None:
         bad = [k for k in rp.get("kinds", []) if k not in REWARD_KINDS]
         if bad:
             _fail(errors, rid, f"rewardProfile.kinds {bad} not in REWARD_KINDS (20 typed values)")
+    qh = rec.get("questHooks")
+    if isinstance(qh, dict):
+        bad_tags = sorted(t for t in (qh.get("tags") or []) if t not in QUEST_TAGS)
+        if bad_tags:
+            _fail(errors, rid, f"questHooks.tags {bad_tags} not in the quests-20 §11 "
+                               f"world-provision vocabulary")
     ts = rec.get("travelStation")
     if ts is not None:
         if not isinstance(ts.get("modes"), list) or not ts["modes"] or any(m not in TRAVEL_MODES for m in ts["modes"]):
@@ -745,6 +914,127 @@ def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
     rr = rec.get("relationsReserved")
     if rr is not None and not isinstance(rr, dict):
         _fail(errors, rid, "relationsReserved must be an object shaped like relations")
+
+def _promises_interior(rec: dict) -> bool:
+    """True once the record is at the schemaVersion that owes the §48 promises
+    AND its interior is one a player delves. Buildings owe only
+    `verticalRelationship`: their rooms are 16i's fit rule, not a promise."""
+    sv = rec.get("schemaVersion")
+    if not isinstance(sv, int) or isinstance(sv, bool) or sv < INTERIOR_PROMISE_VERSION:
+        return False
+    return (rec.get("interior") or {}).get("kind") in DUNGEON_KINDS
+
+
+def _validate_interior_promises(rec: dict, it: dict, rid: str, errors: list[str]) -> None:
+    """world 70 §48, field for field. `verticalRelationship` is owed by every
+    record with an interior, buildings included; the rest by dungeon-kind
+    records at schemaVersion 3 and above."""
+    sv = rec.get("schemaVersion")
+    at_v3 = isinstance(sv, int) and not isinstance(sv, bool) and sv >= INTERIOR_PROMISE_VERSION
+    vr = it.get("verticalRelationship")
+    if vr is not None and vr not in VERTICAL_RELATIONSHIPS:
+        _fail(errors, rid, f"interior.verticalRelationship must be one of {sorted(VERTICAL_RELATIONSHIPS)}")
+    elif vr is None and at_v3:
+        _fail(errors, rid, "interior.verticalRelationship is owed by every record with an interior")
+    if not _promises_interior(rec):
+        return
+
+    recipes = load_interior_recipes()
+    if recipes is not None and it.get("family") not in recipes:
+        _fail(errors, rid, f"interior.family {it.get('family')!r} has no row in {INTERIOR_RECIPES_FILE} - "
+                           f"a family with no realisation recipe is re-typed or sourced, never promised "
+                           f"(world 70 §48 rule 2)")
+
+    rooms = it.get("roomFunctions")
+    if not isinstance(rooms, list) or len(rooms) < 2:
+        _fail(errors, rid, "interior.roomFunctions must be an ordered list of at least `entrance` plus one")
+        rooms = []
+    else:
+        bad = [r for r in rooms if r not in ROOM_FUNCTIONS]
+        if bad:
+            _fail(errors, rid, f"interior.roomFunctions {bad} not in the closed list (world 70 §48)")
+        if len(set(rooms)) != len(rooms):
+            _fail(errors, rid, "interior.roomFunctions repeats a room - the list is the ordered reveal")
+
+    loop = it.get("loop")
+    if loop not in INTERIOR_LOOPS:
+        _fail(errors, rid, f"interior.loop must be one of {sorted(INTERIOR_LOOPS)}")
+    elif (it.get("entranceCount") or 1) >= 2 and loop == "none":
+        _fail(errors, rid, "a second entrance on the record means the interior loops — "
+                           "second-entrance, or the vertical-return/water-loop the ground forces")
+
+    tv = it.get("traversal")
+    if not isinstance(tv, dict):
+        _fail(errors, rid, "interior.traversal must be {swimM, diveM, climbM, breathGated, current, darkFraction}")
+    else:
+        for key in ("swimM", "diveM", "climbM"):
+            v = tv.get(key)
+            if not _is_num(v) or v < 0:
+                _fail(errors, rid, f"interior.traversal.{key} must be a number >= 0 (metres)")
+        if not isinstance(tv.get("breathGated"), bool):
+            _fail(errors, rid, "interior.traversal.breathGated must be a bool")
+        if tv.get("current") not in CURRENTS:
+            _fail(errors, rid, f"interior.traversal.current must be one of {sorted(CURRENTS)}")
+        df = tv.get("darkFraction")
+        if not _is_num(df) or not 0 <= df <= 1:
+            _fail(errors, rid, "interior.traversal.darkFraction must be 0-1")
+
+    spaces = it.get("combatSpaces")
+    if not isinstance(spaces, list) or not spaces:
+        _fail(errors, rid, "interior.combatSpaces must name at least one intended fighting space")
+    else:
+        if len(spaces) > COMBAT_SPACE_LIMIT:
+            _fail(errors, rid, f"interior.combatSpaces has more than {COMBAT_SPACE_LIMIT} entries")
+        for i, cs in enumerate(spaces):
+            if not isinstance(cs, dict):
+                _fail(errors, rid, f"interior.combatSpaces[{i}] must be an object")
+                continue
+            if cs.get("scale") not in COMBAT_SCALES:
+                _fail(errors, rid, f"interior.combatSpaces[{i}].scale must be one of {sorted(COMBAT_SCALES)}")
+            if cs.get("footing") not in COMBAT_FOOTINGS:
+                _fail(errors, rid, f"interior.combatSpaces[{i}].footing must be one of {sorted(COMBAT_FOOTINGS)}")
+            if cs.get("clearance") not in COMBAT_CLEARANCES:
+                _fail(errors, rid, f"interior.combatSpaces[{i}].clearance must be one of {sorted(COMBAT_CLEARANCES)}")
+
+    if it.get("light") not in INTERIOR_LIGHTS:
+        _fail(errors, rid, f"interior.light must be one of {sorted(INTERIOR_LIGHTS)}")
+    if it.get("lock") not in INTERIOR_LOCKS:
+        _fail(errors, rid, f"interior.lock must be one of {sorted(INTERIOR_LOCKS)}")
+
+    sockets = it.get("anchorSockets")
+    provisions = set((rec.get("questHooks") or {}).get("provisions") or [])
+    if not isinstance(sockets, list):
+        _fail(errors, rid, "interior.anchorSockets must be a list (possibly empty)")
+        return
+    seen: set[str] = set()
+    for i, so in enumerate(sockets):
+        if not isinstance(so, dict):
+            _fail(errors, rid, f"interior.anchorSockets[{i}] must be an object")
+            continue
+        sid = so.get("id")
+        # New pins take the `socket.<place-slug>.<kind>[-n]` form of §48; a pin
+        # that IS one of the record's build-out sockets keeps that id verbatim,
+        # because renaming a stable id is forbidden (standard 2).
+        if not isinstance(sid, str) or sid in seen or not sid.startswith(
+                ("socket.", "scene.", "evidence.", "station.", "marks.")):
+            _fail(errors, rid, f"interior.anchorSockets[{i}].id must be a unique "
+                               f"'socket.<place-slug>.<kind>' id, or one of the record's own "
+                               f"scene./evidence./station. socket ids verbatim")
+        seen.add(sid if isinstance(sid, str) else f"<{i}>")
+        if so.get("kind") not in ANCHOR_SOCKET_KINDS:
+            _fail(errors, rid, f"interior.anchorSockets[{i}].kind must be one of {sorted(ANCHOR_SOCKET_KINDS)}")
+        if so.get("whereInInterior") not in WHERE_IN_INTERIOR:
+            _fail(errors, rid, f"interior.anchorSockets[{i}].whereInInterior must be one of {sorted(WHERE_IN_INTERIOR)}")
+        prov = so.get("provision")
+        if prov is None:
+            continue
+        if not isinstance(prov, str) or not prov.startswith("quest.provision."):
+            _fail(errors, rid, f"interior.anchorSockets[{i}].provision must be a quest.provision.* id")
+        elif prov not in provisions:
+            _fail(errors, rid, f"interior.anchorSockets[{i}].provision {prov} is not on the record's "
+                               f"questHooks.provisions - a quest-required socket is written from the quest plan")
+    if "boss" in rooms and not any(isinstance(x, dict) and x.get("kind") == "boss" for x in sockets):
+        _fail(errors, rid, "interior.roomFunctions names a boss room with no boss socket")
 
 
 def _validate_services(rec: dict, rid: str, errors: list[str]) -> None:

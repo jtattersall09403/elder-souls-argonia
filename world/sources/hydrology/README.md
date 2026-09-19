@@ -195,3 +195,26 @@ reaches and junctions are never rewritten by a later stage.
 The 2D map at `?layer=hydrograph`; the rulings it feeds are 16b's (plan §7,
 rulings 1–6). The measurement ledger is
 [docs/research/phase16/16a-hydrology-graph-ledger.md](../../../docs/research/phase16/16a-hydrology-graph-ledger.md).
+
+## Names — `names.json` (schema v1)
+
+The names the water and the land carry: 153 entries keyed by the id this graph
+already uses (plus ids of its own for the four sea regions, ten peaks and two
+passes, which the graph does not model). Attested names are landed on the
+entity the geometry supports, with the UESP page; the rest are coined in the
+naming register of the culture territory the entity sits in
+([world/sources/catalogue/README.md](../catalogue/README.md), "Per-region
+naming register"). Every rule the record obeys is written in its own `_rules`
+block, and every one of them is checked.
+
+```
+python3 -m worldgen.hydrology_names --check      # every rule in _rules; an npm test gate
+python3 -m worldgen.hydrology_names --emit-text  # packages/text-catalogue/src/generated/hydrology-names.ts
+python3 -m worldgen.hydrology_names --publish    # province/hydrology-names.json, for the 2D map
+```
+
+**The graph is not edited to carry the names.** `carve_province` and
+`compile_water` record the graph's `contentSha256` in their own meta, so a name
+written into `hydrology-graph.json` would stale those blocks without any gate
+noticing. Readers join on `entityId`: the studio tooltip loads the published
+copy beside the graph and shows the name in its title.

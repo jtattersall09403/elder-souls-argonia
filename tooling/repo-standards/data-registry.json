@@ -15,9 +15,19 @@
    "enforced": true
   },
   {
+   "path": "world/sources/sites/plot-remedies.json",
+   "enforced": true,
+   "_": "The 16g review's remedies, one row per failing record (worldgen.plot_remedies --apply/--check); the reproducible, idempotent record of what the review decided and why."
+  },
+  {
    "path": "world/sources/catalogue/design-groups.json",
    "enforced": true,
    "_": "Design groups (16g): places that are one blueprint and one build; worldgen.catalogue checks the membership, liveness and spread."
+  },
+  {
+   "path": "world/sources/catalogue/interior-recipes.json",
+   "enforced": true,
+   "_": "Family -> interior realisation recipe and its kits (16g, world 70 §48 rule 2); worldgen.catalogue checks every dungeon-kind family has a row and every kit it names exists."
   },
   {
    "path": "world/sources/placement/settlement-asset-inventory.json",

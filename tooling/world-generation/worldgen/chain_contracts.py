@@ -329,7 +329,6 @@ def _survey(exclude: tuple[Path, ...] = ()) -> list[Check]:
         P(json_doc, PROVINCE / "society-meta.json", ("waterRoutes",)),
         P(json_doc, REFINED / "meta.json", ("imageWidth", "metresPerPixel", "extentKm")),
         P(json_doc, WATER / "water-meta.json", ("klass", "season", "surface"), 3),
-        P(png, REFINED / "height-natural-rg.png"),
         P(png, PROVINCE / "hydro-soil.png"),
         P(png, PROVINCE / "soc-danger.png"),
         P(png, PROVINCE / "soc-cultures.png"),
@@ -463,10 +462,16 @@ READS: dict[str, list[Check]] = {
         P(json_doc, KITS / "route-structures-v1.kit.json"),
         P(json_doc, KITS / "route-spans-v1.kit.json"),
     ],
-    # `travel_services.py` reads the registry, the crossings, the catalogue and
-    # the compiled water; it does NOT open province/waterways-minor.json today
-    # — making the hops follow the minor waterways is 16g deliverable 6.
+    # `travel_services.py` reads the registry, the crossings, the catalogue, the
+    # compiled water and — since 16g deliverable 6 — the published waterways:
+    # a station-run hop is pathed over the major lanes PLUS the minor channels
+    # `compile_minor_waterways` solves earlier on the same chain row. The code
+    # treats the minor file as optional (a run before that stage paths over the
+    # majors alone); there is no optional validator here, so it is declared as
+    # the chain actually produces it.
     "travel_services": [
+        P(json_items, PROVINCE / "waterways.json", "lanes", ("id",)),
+        P(json_doc, PROVINCE / "waterways-minor.json", ("channels",), 3),
         P(npy, CURRENT, 2, "float32", True),
         P(json_doc, SOURCES / "hydrology" / "hydrology-graph.json", ("reaches", "bodies"), 1),
         P(json_doc, SOURCES / "routes" / "water-crossings.json", ("crossings",), 2),

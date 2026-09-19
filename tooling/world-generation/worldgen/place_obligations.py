@@ -316,6 +316,9 @@ def _structural_evidence(root: str, registry: Mapping[str, dict[str, str]],
         "approachDanger": ("approach", "combat"),
         "assetGaps": ("parcel", "landmark"),
         "authoredDangerProperty": ("combat",),
+        # A city's entry street is realised by its gate, its way and the
+        # districts/landmarks the way runs between (16g, owner 2026-09-19).
+        "cityLayout": ("route", "parcel", "district", "landmark"),
         "dangerTier": ("combat", "approach"),
         "deedCounterKeys": ("variant", "socket", "evidence", "marks", "scene", "station"),
         "densityLayer": ("district", "parcel"),
@@ -448,6 +451,51 @@ def build_obligations(record: dict, bp: dict) -> tuple[list[Obligation], list[st
     return rows, errors
 
 
+def record_obligations(record: dict) -> list[Obligation]:
+    """What a record owes Phase 12 when nothing has been blueprinted yet.
+
+    ``build_obligations`` needs a blueprint because its evidence is blueprint
+    objects. The 16g interior promises (world 70 §48) are owed by 327
+    dungeon-kind records of which five have a blueprint, so the promise would
+    otherwise be unaddressable until Phase 12 started. These rows carry no
+    Phase-11 evidence by construction — there is no macro design to point at —
+    and they are owned by ``phase-12``, which is the phase that builds the
+    interior. The first chunk that emits a delivery manifest (16i) verifies
+    them with the generic gate below, unchanged.
+    """
+    interior = record.get("interior") or {}
+    if interior.get("kind") in (None, "none"):
+        return []
+    place_id = record["id"]
+    rows: list[Obligation] = []
+
+    def add(path: str, kind: str, requirement: dict, semantic_key: str) -> None:
+        rows.append(Obligation(_stable_id(place_id, path, semantic_key), place_id, path,
+                               kind, requirement, (), "phase-12"))
+
+    for i, room in enumerate(interior.get("roomFunctions") or []):
+        add(f"interior.roomFunctions[{room}]", "interior",
+            {"room": room, "revealOrder": i}, room)
+    for space in interior.get("combatSpaces") or []:
+        key = f"{space.get('scale')}:{space.get('footing')}:{space.get('clearance')}"
+        add(f"interior.combatSpaces[{key}]", "interior", dict(space), key)
+    for socket in interior.get("anchorSockets") or []:
+        sid = socket.get("id", "")
+        add(f"interior.anchorSockets[{sid}]", "socket", dict(socket), sid)
+    for group in ("creatures", "npcs", "loot"):
+        for slot in (record.get("contents") or {}).get(group, []) or []:
+            where = slot.get("whereInInterior")
+            if not where:
+                continue
+            sid = slot.get("slotId", "")
+            add(f"contents.{group}[{sid}].whereInInterior", "interior",
+                {"slotId": sid, "role": slot.get("role"), "whereInInterior": where},
+                f"{sid}:{where}")
+
+    rows.sort(key=lambda row: row.id)
+    return rows
+
+
 def check_phase11(record: dict, bp: dict) -> tuple[list[str], list[Obligation]]:
     rows, errors = build_obligations(record, bp)
     for row in rows:
@@ -468,7 +516,9 @@ def _document_rows_sha256(rows: Iterable[dict]) -> str:
 
 
 def obligation_document(records: dict[str, dict], blueprints: Iterable[dict], *,
-                        expected_place_ids: Iterable[str]) -> tuple[dict, list[str]]:
+                        expected_place_ids: Iterable[str],
+                        record_only_place_ids: Iterable[str] | None = None,
+                        ) -> tuple[dict, list[str]]:
     """Build the deterministic Phase-11 interchange document.
 
     ``expected_place_ids`` is mandatory because discovering the expected set
@@ -514,6 +564,19 @@ def obligation_document(records: dict[str, dict], blueprints: Iterable[dict], *,
                 errors.append(f"phase-11 export: duplicate object ref {ref!r} in {entry['placeId']}")
             seen_objects.add(key)
             registry_rows.append(dict(id=ref, **entry))
+    # Record-only places: the interior promises of every record nobody has
+    # blueprinted yet. Without this the 16g promise would be unaddressable
+    # until Phase 12 began, and an unaddressable promise is not a contract.
+    record_only = sorted(set(record_only_place_ids or ()))
+    for place_id in record_only:
+        if place_id in actual:
+            errors.append(f"{place_id}: is both blueprinted and record-only")
+            continue
+        record = records.get(place_id)
+        if record is None:
+            errors.append(f"phase-11 export: record-only place {place_id} is not in the catalogue")
+            continue
+        rows += record_obligations(record)
     rows.sort(key=lambda row: row.id)
     registry_rows.sort(key=lambda entry: (entry["placeId"], entry["id"]))
     row_dicts = [row.as_dict() for row in rows]
@@ -526,16 +589,31 @@ def obligation_document(records: dict[str, dict], blueprints: Iterable[dict], *,
         "obligationsSha256": _document_rows_sha256(row_dicts),
         "objectRegistrySha256": _document_rows_sha256(registry_rows),
         "objectRegistry": registry_rows,
+        "recordOnlyPlaceIds": record_only,
         "rows": row_dicts,
     }
-    errors += verify_phase11_document(document, expected_place_ids=expected)
+    errors += verify_phase11_document(document, expected_place_ids=expected,
+                                      record_only_place_ids=record_only)
     return document, list(dict.fromkeys(errors))
 
 
-def verify_phase11_document(document: dict, *, expected_place_ids: Iterable[str]) -> list[str]:
-    """Verify an exported Phase-11 manifest without trusting its own place list."""
+def verify_phase11_document(document: dict, *, expected_place_ids: Iterable[str],
+                            record_only_place_ids: Iterable[str] | None = None) -> list[str]:
+    """Verify an exported Phase-11 manifest without trusting its own place list.
+
+    ``record_only_place_ids`` are places with no blueprint: they carry rows
+    (their 16g interior promises) and no Phase-11 evidence, because there is no
+    macro design to point at. They are still checked for id uniqueness, owner
+    policy and row presence."""
     expected = set(expected_place_ids)
+    record_only = set(record_only_place_ids or ())
     errors: list[str] = []
+    overlap = sorted(expected & record_only)
+    if overlap:
+        errors.append(f"phase-11 manifest: places both blueprinted and record-only {overlap}")
+    declared = document.get("recordOnlyPlaceIds")
+    if declared is not None and set(declared) != record_only:
+        errors.append("phase-11 manifest: recordOnlyPlaceIds does not match the record-only set")
     if document.get("schemaVersion") != SCHEMA_VERSION or document.get("kind") != "place-obligations":
         errors.append("phase-11 manifest: wrong schemaVersion or kind")
     for key in ("expectedPlaceIds", "placeIds"):
@@ -589,7 +667,9 @@ def verify_phase11_document(document: dict, *, expected_place_ids: Iterable[str]
             errors.append(f"phase-11 manifest: missing or duplicate obligation id {oid!r}")
         else:
             seen_ids.add(oid)
-        if place_id not in expected:
+        if place_id in record_only:
+            pass
+        elif place_id not in expected:
             errors.append(f"phase-11 manifest: obligation {oid!r} has unexpected place {place_id!r}")
         else:
             places_with_rows.add(place_id)
@@ -603,6 +683,11 @@ def verify_phase11_document(document: dict, *, expected_place_ids: Iterable[str]
                 f"phase-11 manifest: obligation {oid!r} owner {row.get('deliveryOwner')!r} "
                 f"does not match {expected_owner!r}")
         refs = row.get("phase11Evidence")
+        if place_id in record_only:
+            if refs:
+                errors.append(f"phase-11 manifest: record-only obligation {oid!r} claims "
+                              f"Phase-11 evidence it cannot have")
+            continue
         if not isinstance(refs, list) or not refs:
             errors.append(f"phase-11 manifest: obligation {oid!r} has no typed evidence")
             continue

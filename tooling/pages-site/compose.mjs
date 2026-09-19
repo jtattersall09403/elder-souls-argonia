@@ -68,7 +68,7 @@ const LAYER_RECORDS = [
   { layer: "settlements", record: "province/settlements.json" },
 ];
 /** Every layer the ladder may hide — a copy of LADDER_LAYERS in ladder.ts; an unknown name fails. */
-const KNOWN_LAYERS = new Set(["apron", "settlements", "vegetation", "water", "route-structures"]);
+const KNOWN_LAYERS = new Set(["apron", "settlements", "vegetation", "water", "route-structures", "places", "waterways", "services"]);
 /**
  * Rasters the terrain chain writes into the public folder for its own next
  * run and no runtime reads (rasters-manifest.json names them so
@@ -77,7 +77,7 @@ const KNOWN_LAYERS = new Set(["apron", "settlements", "vegetation", "water", "ro
  * so a runtime that starts reading one turns this into a build failure, not
  * a 404.
  */
-const CHAIN_ONLY = ["province/refined/height-natural-rg.png"];
+const CHAIN_ONLY = [];
 const PROVENANCE_RECORDS = new Set(["province/rasters-manifest.json"]);
 const TEXT_EXT = new Set([".js", ".mjs", ".html", ".css", ".json", ".svg", ".txt", ".csv"]);
 

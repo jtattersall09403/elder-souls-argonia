@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "_": "Family → interior realisation recipe (world 70 §48 rule 2, 16g). Every dungeon-kind family maps to a recipe backed by kits that exist; a family with no row is re-typed or sourced, never promised. Phase 12 compiles the chamber graph against these.",
+  "recipes": {
+    "abandoned-plantation": {
+      "recipe": "furnished-cell",
+      "kits": [
+        "hlaalu-domestic",
+        "vanilla-farmhouse-int"
+      ],
+      "dressingKits": [
+        "ruin-monumental-v1"
+      ],
+      "waterPlane": false,
+      "note": "Manor rooms and a counting room over a flooded cellar; no field-processing props exist, so the working spaces are dressed as stores.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:113 (abandoned-plantation, deliverable-if-rewritten)"
+    },
+    "ayleid-nedic-ruin": {
+      "recipe": "monumental-grid",
+      "kits": [
+        "ruin-monumental-v1",
+        "xanmeer-interior-v1"
+      ],
+      "dressingKits": [],
+      "waterPlane": false,
+      "note": "110 + 68 Ayleid interior meshes are already built into these two kits, so the foreign geometry needs no further sourcing.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:106 (ayleid-nedic-ruin, deliverable)"
+    },
+    "burrow-warren": {
+      "recipe": "root-grid",
+      "kits": [
+        "dungeon-root-v1"
+      ],
+      "dressingKits": [],
+      "waterPlane": false,
+      "note": "Shored earth, not sculpted burrow — the audit's rewrite rule; the root kit's mud-shell pieces stand in.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:112 (burrow-warren, deliverable-if-rewritten)"
+    },
+    "civic-hall": {
+      "recipe": "furnished-cell",
+      "kits": [
+        "vanilla-imperial-int",
+        "hlaalu-domestic",
+        "vanilla-farmhouse-int"
+      ],
+      "dressingKits": [],
+      "waterPlane": false,
+      "note": "A hall and its offices; the 16i fit rule chooses by culture.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:111 (civic-hall, deliverable)"
+    },
+    "dwelling": {
+      "recipe": "furnished-cell",
+      "kits": [
+        "vanilla-farmhouse-int",
+        "htbm-hut-int",
+        "mudmother-hut-int",
+        "bmv-treehouse-int",
+        "hlaalu-domestic"
+      ],
+      "dressingKits": [],
+      "waterPlane": false,
+      "note": "One to a few furnished rooms; the 16i fit rule chooses which kit by the exterior it sits behind.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:110 (dwelling, deliverable)"
+    },
+    "flooded-cave": {
+      "recipe": "root-grid",
+      "kits": [
+        "dungeon-root-v1"
+      ],
+      "dressingKits": [],
+      "waterPlane": true,
+      "note": "The same shell grid with a standing water plane: sumps, siphons and swim loops.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:104 (flooded-cave, deliverable)"
+    },
+    "hist-sanctum": {
+      "recipe": "xanmeer-grid",
+      "kits": [
+        "xanmeer-interior-v1"
+      ],
+      "dressingKits": [],
+      "waterPlane": false,
+      "note": "Root-centred sacred geometry built from the Xanmeer interior grammar; the Hist itself is the hero mesh, not a kit piece.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:116 (hist-sanctum, deliverable-with-sourcing)"
+    },
+    "imperial-fort": {
+      "recipe": "imperial-keep",
+      "kits": [
+        "imperial-keep"
+      ],
+      "dressingKits": [
+        "vanilla-imperial-int"
+      ],
+      "waterPlane": false,
+      "note": "Rectilinear planned construction: barracks, cell block and archive off a keep spine.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:107 (imperial-fort, deliverable)"
+    },
+    "kothringi-lilmothiit-site": {
+      "recipe": "furnished-cell",
+      "kits": [
+        "htbm-hut-int"
+      ],
+      "dressingKits": [
+        "ruin-monumental-v1",
+        "underwater-v1"
+      ],
+      "waterPlane": false,
+      "note": "No Kothringi or Lilmothiit kit exists anywhere: the HTBM stilt platform and hut interior carry the architecture and the culture lives in the dressing.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:114 (kothringi-lilmothiit-site, deliverable-if-rewritten)"
+    },
+    "root-cavern": {
+      "recipe": "root-grid",
+      "kits": [
+        "dungeon-root-v1"
+      ],
+      "dressingKits": [],
+      "waterPlane": false,
+      "note": "Organic branching shells, shafts and root throats; the root kit carries both the cave shell and the root pieces.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:115 (root-cavern, deliverable-with-sourcing → dungeon-root-v1 now built)"
+    },
+    "shipwreck": {
+      "recipe": "hull",
+      "kits": [
+        "wrecks-v1"
+      ],
+      "dressingKits": [],
+      "waterPlane": true,
+      "note": "A hull interior with a standing waterline through the lower deck.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:108 (shipwreck, deliverable)"
+    },
+    "sinkhole-ruin": {
+      "recipe": "root-grid",
+      "kits": [
+        "dungeon-root-v1"
+      ],
+      "dressingKits": [
+        "ruin-monumental-v1"
+      ],
+      "waterPlane": true,
+      "note": "A collapse shell opening on buried monumental stone, with water in the bottom.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:109 (sinkhole-ruin, deliverable)"
+    },
+    "smuggler-den": {
+      "recipe": "root-grid",
+      "kits": [
+        "dungeon-root-v1"
+      ],
+      "dressingKits": [
+        "docks-v1",
+        "wrecks-v1"
+      ],
+      "waterPlane": false,
+      "note": "A cave shell dressed with dock timbers and broken hulls for the dock cavern and the cache.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:105 (smuggler-den, deliverable)"
+    },
+    "xanmeer-complex": {
+      "recipe": "xanmeer-grid",
+      "kits": [
+        "xanmeer-interior-v1"
+      ],
+      "dressingKits": [],
+      "waterPlane": false,
+      "note": "Monumental axes and hydraulic lower strata from the Xanmeer interior kit.",
+      "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:103 (xanmeer-complex, deliverable)"
+    }
+  }
+}

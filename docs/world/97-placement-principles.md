@@ -79,8 +79,22 @@ from `dressing`-scope types). A single density number is a design error because 
 tiers have different pitches. *S* (BotW/Skyrim/Vvardenfell converge on a
 60–100 s constant); *O* 2026-09-03 (Morrowind density, 527 → ~560 live); *O*
 2026-09-04 (hostility met at least as often as in Morrowind; frequency, not
-share). **Enforced by** per-zone budgets in `test_catalogue.py` (soft
-ceilings, hard floors); `worldgen.hostility_frequency` (travel measure: a
+share). **One density vocabulary, one number (16g, 2026-09-19).** The
+catalogue's `densityLayer` IS the tier: `landmark` = beacon, `destination` =
+destination, `fine-tempo` = snack. The gate of decision 0027 (18–22 named
+records per km² in D0–D3 ground, 8–12 in D4–D5 ground; 550–750 province
+total) counts **every named live record of the three layers**, per culture
+zone, over the zone's authored land in that danger class
+(`plot_stats.zone_land_area_m2` split by the danger raster): that is the
+only reading under which the 0027 province total reconciles with the per-km²
+figure. A record is counted where its `dangerTier` says it belongs, not
+where the raster under the dot says. The recipes' `recordScope` keeps the
+count honest (a `dressing`-scope type is not a named record); A4's per-tier
+pitches are reported sub-budgets, never gates. `worldgen.plot_review` writes
+the table per zone; `test_catalogue` reads the same definition.
+**Enforced by** the per-zone D0–D3 / D4–D5 floors and ceilings in
+`test_catalogue.py` (soft ceilings, hard floors, one definition);
+`worldgen.hostility_frequency` (travel measure: a
 fight every 100–140 m of route in D3–D5); `macro_plot` layers (`landmark` /
 `destination` / `fine-tempo` route bands). The snack tier's compile is Phase
 15 — G2.
@@ -165,7 +179,7 @@ sits on both banks' reach. Boat lanes are a real network with stations, not
 decoration. *O* 2026-09-04 (round 4 rule 2; boat lanes ruling 2026-09-03); *S*
 (lowest bridging point = the port site, at most one per river). **Enforced
 by** `macro_plot` `on_route` gate, `sightlineTo`/`boundTo` hard constraints,
-`SATELLITE_MAX_M`; the route registry and `travelStation` graph checks;
+`SATELLITE_MAX_M`; the two typed water ties beside them, `sitingPrefs.nearWater {entityId, maxM}` (the nearest water must BE the graph entity the record names) and `sitingPrefs.minDepthM` (the recorded depth within 150 m must reach it), both hard at every relaxation stage; the route registry and `travelStation` graph checks;
 `compile_minor_routes` refusing a footpath start far from a water-sited
 record. Navigable depth is checked at meso (B5), not here — G5.
 

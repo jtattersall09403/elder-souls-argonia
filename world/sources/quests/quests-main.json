@@ -464,6 +464,7 @@
       "region": "hist-heartland",
       "settlement": null,
       "anchorPlaces": [
+        "place.dunmer-north.murkwater-shadowscale-ground",
         "place.hist-heartland.guide-camp-gate-side",
         "place.hist-heartland.root-gallery-helstrom-underway",
         "place.hist-heartland.rootworm-station-helstrom"

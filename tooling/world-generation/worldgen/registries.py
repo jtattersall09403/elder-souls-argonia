@@ -40,7 +40,12 @@ REGISTRY_DIR = REPO_ROOT / "world" / "sources" / "registries"
 CATALOGUE_DIR = REPO_ROOT / "world" / "sources" / "catalogue"
 
 SCHEMA_VERSION = 1
+#: A domain may carry its own schema version once its file is generated
+#: rather than authored: `npc` is written by `worldgen.npc_roster` (92 84).
+DOMAIN_SCHEMA_VERSION = {"npc": 2}
 STATUSES = {"canon", "derived", "placeholder"}
+#: Extra statuses a generated domain may use.
+DOMAIN_STATUSES = {"npc": {"generated", "cast"}}
 ID_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)+$")
 REQUIRED_FIELDS = ("id", "name", "kind", "status", "sources", "notes")
 
@@ -64,8 +69,9 @@ def _label(path: Path) -> str:
 
 def load_one(path: Path) -> dict:
     data = json.loads(path.read_text())
-    if data.get("schemaVersion") != SCHEMA_VERSION:
-        raise ValueError(f"{path.name}: schemaVersion must be {SCHEMA_VERSION}")
+    expected = DOMAIN_SCHEMA_VERSION.get(data.get("domain"), SCHEMA_VERSION)
+    if data.get("schemaVersion") != expected:
+        raise ValueError(f"{path.name}: schemaVersion must be {expected}")
     if not isinstance(data.get("entries"), list):
         raise ValueError(f"{path.name}: missing `entries` list")
     if not isinstance(data.get("domain"), str) or not data["domain"]:
@@ -114,8 +120,9 @@ def validate(registries: dict[str, dict] | None = None) -> list[str]:
                 problems.append(f"{where}: id '{eid}' is not lower-kebab <domain>.<slug>")
             elif eid.split(".")[0] != domain:
                 problems.append(f"{where}: id '{eid}' does not start with domain '{domain}.'")
-            if entry["status"] not in STATUSES:
-                problems.append(f"{where}: {eid} status '{entry['status']}' not in {sorted(STATUSES)}")
+            allowed = STATUSES | DOMAIN_STATUSES.get(domain, set())
+            if entry["status"] not in allowed:
+                problems.append(f"{where}: {eid} status '{entry['status']}' not in {sorted(allowed)}")
             if not isinstance(entry["sources"], list):
                 problems.append(f"{where}: {eid} sources must be a list")
             elif entry["status"] == "canon" and not entry["sources"]:

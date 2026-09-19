@@ -1,8 +1,8 @@
 {
  "schemaVersion": 1,
  "kind": "site-dossier",
- "id": "dossier.phase11.blackrose",
- "siteId": "blackrose",
+ "id": "dossier.phase11.dossier.phase11.blackrose",
+ "siteId": "dossier.phase11.blackrose",
  "seed": 0,
  "generatedBy": "worldgen.site_dossier (Phase 11 Part 0 item 1, decision 0041)",
  "sources": [
@@ -21,9 +21,9 @@
    0.32,
    0.87001
   ],
-  "elevationM": -16.76,
-  "slopeDeg": 5.65,
-  "aspectDeg": 306.1,
+  "elevationM": 1.92,
+  "slopeDeg": 3.9,
+  "aspectDeg": 304.1,
   "regionClass": 11,
   "regionName": "firm lowland",
   "soilClass": 2,
@@ -33,7 +33,7 @@
   "hydrology": {
    "waterLevelM": 1.36,
    "waterDepthM": 0.0,
-   "heightAboveWaterTableM": -18.12,
+   "heightAboveWaterTableM": 0.56,
    "shoreDistanceM": 7.3,
    "coastDistanceM": 1279.6,
    "record": {
@@ -69,53 +69,45 @@
   }
  },
  "terrain": {
-  "radiusM": 500.0,
+  "radiusM": 350.0,
   "elevationM": {
-   "p0": -27.49,
-   "p5": -21.75,
-   "p50": -16.13,
-   "p95": -4.91,
-   "p100": 5.29
+   "p0": -2.4,
+   "p5": -1.38,
+   "p50": 3.81,
+   "p95": 16.22,
+   "p100": 22.62
   },
-  "reliefM": 32.79,
+  "reliefM": 25.02,
   "slopeDeg": {
-   "p5": 0.41,
-   "p50": 2.73,
-   "p95": 19.52
+   "p5": 0.38,
+   "p50": 3.92,
+   "p95": 20.95
   },
   "slopeAreaHa": {
-   "flat": 42.262,
-   "gentle": 23.644,
-   "moderate": 6.917,
-   "steep": 4.124,
-   "very steep": 1.246,
-   "cliff": 0.349
+   "flat": 14.941,
+   "gentle": 15.411,
+   "moderate": 5.322,
+   "steep": 1.922,
+   "very steep": 0.696,
+   "cliff": 0.191
   },
   "aspectSectorsPct": {
-   "E": 10.6,
-   "N": 13.6,
-   "NE": 11.2,
-   "NW": 14.2,
-   "S": 15.2,
-   "SE": 11.6,
-   "SW": 11.8,
-   "W": 11.9
+   "E": 7.4,
+   "N": 17.1,
+   "NE": 8.1,
+   "NW": 16.0,
+   "S": 17.9,
+   "SE": 13.3,
+   "SW": 7.2,
+   "W": 13.1
   },
-  "buildableAreaHa": 0.502,
-  "buildableFraction": 0.006,
+  "buildableAreaHa": 18.065,
+  "buildableFraction": 0.469,
   "note": "buildable = slope < 8 deg and > 0.5 m above the local water level; 0041's ground-fitting ladder grades up to Delta 2.0 m, beyond which a site must stilt or move."
  },
  "profiles": {
   "N-S": {
    "offsetM": [
-    -500.0,
-    -480.0,
-    -460.0,
-    -440.0,
-    -420.0,
-    -400.0,
-    -380.0,
-    -360.0,
     -340.0,
     -320.0,
     -300.0,
@@ -150,78 +142,46 @@
     280.0,
     300.0,
     320.0,
-    340.0,
-    360.0,
-    380.0,
-    400.0,
-    420.0,
-    440.0,
-    460.0,
-    480.0,
-    500.0
+    340.0
    ],
    "elevationM": [
-    -18.9,
-    -18.71,
-    -19.38,
-    -18.46,
-    -18.52,
-    -18.57,
-    -18.61,
-    -18.67,
-    -18.57,
-    -18.56,
-    -18.66,
-    -16.99,
-    -15.95,
-    -13.62,
-    -13.88,
-    -13.87,
-    -14.13,
-    -16.94,
-    -15.99,
-    -16.31,
-    -18.71,
-    -22.03,
-    -23.09,
-    -21.85,
-    -18.48,
-    -16.76,
-    -17.27,
-    -17.73,
-    -19.45,
-    -21.1,
-    -9.2,
-    2.68,
-    5.04,
-    1.87,
-    -1.18,
-    -5.96,
-    -10.73,
-    -13.48,
-    -13.86,
-    -15.04,
-    -15.95,
-    -14.81,
-    -14.56,
-    -15.31,
-    -16.9,
-    -19.74,
-    -20.45,
-    -22.22,
-    -22.92,
-    -24.56,
-    -25.1
+    -1.4,
+    -1.12,
+    -0.74,
+    0.91,
+    2.44,
+    4.4,
+    4.18,
+    3.86,
+    3.69,
+    2.27,
+    2.39,
+    2.11,
+    0.52,
+    -1.56,
+    -2.4,
+    -1.68,
+    0.78,
+    1.92,
+    1.43,
+    1.14,
+    -0.22,
+    -1.37,
+    9.67,
+    20.52,
+    21.36,
+    18.62,
+    15.62,
+    11.63,
+    8.18,
+    5.46,
+    4.51,
+    3.32,
+    2.47,
+    3.12,
+    3.34
    ],
    "waterLevelM": [
-    0.84,
-    0.84,
-    0.84,
-    0.84,
-    0.84,
-    0.84,
-    0.84,
-    0.84,
     0.84,
     0.84,
     0.84,
@@ -256,27 +216,11 @@
     1.82,
     1.82,
     1.82,
-    1.82,
-    -1.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0
+    1.82
    ]
   },
   "E-W": {
    "offsetM": [
-    -500.0,
-    -480.0,
-    -460.0,
-    -440.0,
-    -420.0,
-    -400.0,
-    -380.0,
-    -360.0,
     -340.0,
     -320.0,
     -300.0,
@@ -311,78 +255,46 @@
     280.0,
     300.0,
     320.0,
-    340.0,
-    360.0,
-    380.0,
-    400.0,
-    420.0,
-    440.0,
-    460.0,
-    480.0,
-    500.0
+    340.0
    ],
    "elevationM": [
-    -18.52,
-    -16.34,
-    -15.98,
-    -14.73,
-    -13.94,
-    -13.28,
-    -12.99,
-    -12.3,
-    -11.95,
-    -10.98,
-    -8.24,
-    -7.02,
-    -7.12,
-    -7.07,
-    -6.63,
-    -6.25,
-    -4.22,
-    -4.7,
-    -7.44,
-    -11.26,
-    -17.92,
-    -22.04,
-    -19.64,
-    -17.27,
-    -16.77,
-    -16.76,
-    -18.9,
-    -21.9,
-    -22.57,
-    -22.55,
-    -22.48,
-    -18.0,
-    -12.34,
-    -10.12,
-    -11.01,
-    -11.37,
-    -11.63,
-    -13.09,
-    -13.5,
-    -13.74,
-    -14.4,
-    -14.89,
-    -15.09,
-    -16.12,
-    -16.56,
-    -16.94,
-    -17.35,
-    -17.5,
-    -18.13,
-    -19.24,
-    -20.74
+    5.38,
+    6.27,
+    8.31,
+    8.08,
+    8.12,
+    6.91,
+    6.01,
+    6.19,
+    7.12,
+    5.68,
+    2.99,
+    1.48,
+    0.27,
+    -1.9,
+    -0.24,
+    1.48,
+    1.84,
+    1.92,
+    0.37,
+    -1.79,
+    -2.4,
+    -2.4,
+    -1.92,
+    1.86,
+    6.01,
+    7.67,
+    7.21,
+    6.8,
+    6.46,
+    5.56,
+    4.56,
+    4.48,
+    3.8,
+    3.18,
+    2.93
    ],
    "waterLevelM": [
-    0.0,
-    0.0,
-    1.38,
-    1.38,
-    -1.0,
-    -1.0,
-    0.36,
-    0.36,
     0.36,
     0.36,
     0.36,
@@ -417,27 +329,11 @@
     1.43,
     0.65,
     0.23,
-    -1.0,
-    1.19,
-    1.19,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0
+    -1.0
    ]
   },
   "NE-SW": {
    "offsetM": [
-    -500.0,
-    -480.0,
-    -460.0,
-    -440.0,
-    -420.0,
-    -400.0,
-    -380.0,
-    -360.0,
     -340.0,
     -320.0,
     -300.0,
@@ -472,78 +368,46 @@
     280.0,
     300.0,
     320.0,
-    340.0,
-    360.0,
-    380.0,
-    400.0,
-    420.0,
-    440.0,
-    460.0,
-    480.0,
-    500.0
+    340.0
    ],
    "elevationM": [
-    -17.07,
-    -17.19,
-    -16.53,
-    -16.47,
-    -16.36,
-    -16.39,
-    -16.18,
-    -16.07,
-    -16.46,
-    -16.14,
-    -15.62,
-    -15.66,
-    -15.64,
-    -14.45,
-    -14.61,
-    -14.16,
-    -13.61,
-    -13.39,
-    -13.64,
-    -15.45,
-    -20.41,
-    -23.07,
-    -22.98,
-    -22.32,
-    -19.14,
-    -16.76,
-    -18.43,
-    -23.03,
-    -22.43,
-    -17.21,
-    -5.87,
-    -1.18,
-    0.28,
-    -2.31,
-    -2.45,
-    -1.59,
-    -4.15,
-    -4.85,
-    -7.93,
-    -10.32,
-    -10.68,
-    -11.79,
-    -13.04,
-    -13.33,
-    -13.96,
-    -14.31,
-    -15.12,
-    -14.37,
-    -14.05,
-    -14.29,
-    -13.82
+    1.89,
+    2.25,
+    2.81,
+    2.78,
+    2.56,
+    3.6,
+    3.45,
+    4.02,
+    4.47,
+    4.42,
+    4.42,
+    2.93,
+    -0.36,
+    -2.06,
+    -2.4,
+    -2.17,
+    0.18,
+    1.92,
+    0.73,
+    -2.24,
+    -2.38,
+    2.44,
+    12.84,
+    17.21,
+    17.39,
+    15.78,
+    15.23,
+    15.91,
+    15.14,
+    12.34,
+    9.93,
+    8.67,
+    7.13,
+    5.93,
+    5.32
    ],
    "waterLevelM": [
-    1.03,
-    1.08,
-    1.08,
-    1.04,
-    1.91,
-    1.96,
-    1.96,
-    1.96,
     1.96,
     1.96,
     2.57,
@@ -578,27 +442,11 @@
     5.47,
     3.17,
     2.91,
-    4.17,
-    4.17,
-    3.27,
-    3.27,
-    2.63,
-    2.63,
-    3.96,
-    3.96,
-    3.96
+    4.17
    ]
   },
   "NW-SE": {
    "offsetM": [
-    -500.0,
-    -480.0,
-    -460.0,
-    -440.0,
-    -420.0,
-    -400.0,
-    -380.0,
-    -360.0,
     -340.0,
     -320.0,
     -300.0,
@@ -633,78 +481,46 @@
     280.0,
     300.0,
     320.0,
-    340.0,
-    360.0,
-    380.0,
-    400.0,
-    420.0,
-    440.0,
-    460.0,
-    480.0,
-    500.0
+    340.0
    ],
    "elevationM": [
-    -18.86,
-    -18.63,
-    -18.73,
-    -18.88,
-    -19.0,
-    -18.97,
-    -18.96,
-    -18.99,
-    -19.07,
-    -19.07,
-    -18.96,
-    -18.85,
-    -18.56,
-    -17.01,
-    -16.71,
-    -16.75,
-    -16.73,
-    -16.62,
-    -16.94,
-    -19.36,
-    -21.47,
-    -23.23,
-    -22.99,
-    -21.97,
-    -19.3,
-    -16.76,
-    -15.74,
-    -17.6,
-    -21.16,
-    -22.38,
-    -18.27,
-    -6.76,
-    2.27,
-    2.93,
-    1.79,
-    1.31,
-    -2.05,
-    -6.02,
-    -9.75,
-    -12.97,
-    -15.36,
-    -16.06,
-    -16.44,
-    -16.57,
-    -16.6,
-    -16.12,
-    -14.71,
-    -14.06,
-    -13.74,
-    -14.02,
-    -13.75
+    -1.36,
+    -1.34,
+    -1.23,
+    -0.97,
+    -0.74,
+    0.65,
+    1.74,
+    2.15,
+    2.49,
+    2.63,
+    2.16,
+    0.05,
+    -1.41,
+    -2.4,
+    -2.4,
+    -1.67,
+    0.14,
+    1.92,
+    2.58,
+    1.16,
+    -1.49,
+    -2.39,
+    1.34,
+    11.55,
+    19.59,
+    20.52,
+    19.42,
+    18.13,
+    14.84,
+    11.2,
+    8.3,
+    5.54,
+    3.66,
+    2.61,
+    2.34
    ],
    "waterLevelM": [
-    0.84,
-    0.84,
-    0.84,
-    0.84,
-    0.84,
-    0.84,
-    0.84,
-    0.84,
     0.84,
     0.84,
     0.84,
@@ -739,15 +555,7 @@
     4.0,
     4.0,
     4.0,
-    4.0,
-    4.0,
-    4.0,
-    4.0,
-    4.0,
-    3.93,
-    4.12,
-    1.12,
-    4.16
+    4.0
    ]
   }
  },
@@ -764,8 +572,8 @@
    {
     "riverBand": 3,
     "label": "major",
-    "cellsInRadius": 47,
-    "lengthInRadiusM": 257.7,
+    "cellsInRadius": 43,
+    "lengthInRadiusM": 235.8,
     "nearestDistanceM": 74.9,
     "nearestBearing": "S"
    }
@@ -773,62 +581,57 @@
   "waterDepthM": {
    "p5": 0.12,
    "p50": 1.56,
-   "p95": 5.28,
-   "p100": 9.24
+   "p95": 3.72,
+   "p100": 3.72
   },
-  "openWaterAreaHa": 26.65,
+  "openWaterAreaHa": 8.9,
   "waterKindAreaHa": {
-   "none": 51.891,
-   "horizontal-channel": 0.171,
-   "ocean": 5.674,
-   "lagoon": 0.174,
-   "marsh-fringe": 5.08,
-   "swamp": 14.753,
-   "backswamp": 0.699,
-   "mudflat": 0.1
+   "none": 29.583,
+   "horizontal-channel": 0.163,
+   "ocean": 0.127,
+   "lagoon": 0.055,
+   "marsh-fringe": 1.724,
+   "swamp": 6.832
   },
-  "wetSeasonNewlyInundatedFraction": 0.015,
-  "wetSeasonFraction": 0.339,
-  "marshFraction": 0.265,
-  "tidalFraction": 0.076,
+  "wetSeasonNewlyInundatedFraction": 0.009,
+  "wetSeasonFraction": 0.233,
+  "marshFraction": 0.224,
+  "tidalFraction": 0.005,
   "lakeFraction": 0.0,
   "waterSalinity": {
    "p5": 0.0,
    "p50": 0.0,
-   "p95": 0.47
+   "p95": 0.0
   },
-  "salineFraction": 0.081,
+  "salineFraction": 0.007,
   "distanceToOpenSeaM": 1279.6
  },
  "context": {
   "regionMixPct": {
-   "ocean": 4.7,
-   "coastal lagoon & salt marsh": 0.9,
-   "interior swamp": 11.0,
-   "fringe marsh": 42.2,
-   "seasonal floodplain": 0.3,
-   "firm lowland": 21.8,
-   "lake & standing water": 15.7,
-   "mangrove forest": 3.4
+   "interior swamp": 13.0,
+   "fringe marsh": 36.1,
+   "seasonal floodplain": 0.5,
+   "firm lowland": 38.8,
+   "lake & standing water": 10.7,
+   "mangrove forest": 0.8
   },
   "dangerMixPct": {
-   "0": 7.0,
-   "1": 4.7,
-   "2": 53.9,
-   "3": 32.8,
-   "4": 1.7
+   "0": 0.3,
+   "1": 9.3,
+   "2": 85.7,
+   "3": 4.4,
+   "4": 0.3
   },
   "cultureMixPct": {
-   "unclaimed": 4.7,
-   "imperial-penal-south": 84.3,
-   "naga-kur-deeps": 11.0
+   "imperial-penal-south": 87.0,
+   "naga-kur-deeps": 13.0
   },
   "soilMixPct": {
-   "unclassified": 7.0,
+   "unclassified": 0.3,
    "rock/upland firm": 0.1,
-   "firm lowland": 70.8,
-   "soft marsh": 20.1,
-   "mud": 1.9
+   "firm lowland": 86.0,
+   "soft marsh": 13.1,
+   "mud": 0.5
   }
  },
  "access": {
@@ -963,24 +766,12 @@
   "nearestAnchor": "blackrose",
   "distanceToNearestAnchorM": 0.1,
   "dangerBand": 1,
-  "effortScore": 0.033
+  "effortScore": 0.022
  },
  "vegetation": {
   "compiled": true,
   "chunksRead": [
    [
-    3,
-    12
-   ],
-   [
-    3,
-    13
-   ],
-   [
-    3,
-    14
-   ],
-   [
     4,
     12
    ],
@@ -1002,160 +793,77 @@
    ],
    [
     5,
-    14
-   ],
-   [
-    6,
-    12
-   ],
-   [
-    6,
-    13
-   ],
-   [
-    6,
     14
    ]
   ],
   "chunksMissing": [],
-  "instancesInRadius": 17491,
-  "perHectare": 222.7,
+  "instancesInRadius": 5983,
+  "perHectare": 155.5,
   "canopyClosureFromClimate": 0.337,
   "speciesMixTop": [
    {
     "species": "bmv:landscape/plants/esloebush08",
-    "count": 1538,
-    "pct": 8.8
+    "count": 628,
+    "pct": 10.5
    },
    {
     "species": "bmv:landscape/trees/tropicalplant01",
-    "count": 1502,
-    "pct": 8.6
-   },
-   {
-    "species": "bmv:landscape/plants/braken",
-    "count": 1387,
-    "pct": 7.9
+    "count": 609,
+    "pct": 10.2
    },
    {
     "species": "bmv:vvardenfell/flora/algrass03b",
-    "count": 1231,
-    "pct": 7.0
+    "count": 549,
+    "pct": 9.2
    },
    {
-    "species": "bmv:landscape/grass/riverbedpebbles",
-    "count": 1032,
-    "pct": 5.9
+    "species": "bmv:landscape/plants/braken",
+    "count": 539,
+    "pct": 9.0
    },
    {
-    "species": "bmv:landscape/grass/vurt_reeds",
-    "count": 982,
-    "pct": 5.6
+    "species": "bmv:landscape/plants/espfernbrakencluster05",
+    "count": 430,
+    "pct": 7.2
    },
    {
     "species": "bmv:landscape/plants/fernlarge03",
-    "count": 958,
-    "pct": 5.5
+    "count": 365,
+    "pct": 6.1
    },
    {
     "species": "bmv:landscape/plants/fern01",
-    "count": 705,
-    "pct": 4.0
+    "count": 289,
+    "pct": 4.8
    },
    {
-    "species": "bmv:landscape/grass/smallpebbles",
-    "count": 693,
-    "pct": 4.0
+    "species": "bmv:landscape/trees/bambooplant",
+    "count": 248,
+    "pct": 4.1
    },
    {
-    "species": "bmv:landscape/trees/reedmed1",
-    "count": 613,
-    "pct": 3.5
+    "species": "bmv:landscape/grass/vurt_reeds",
+    "count": 241,
+    "pct": 4.0
    },
    {
     "species": "bmv:landscape/plants/bigshrub2(colorful)",
-    "count": 538,
-    "pct": 3.1
+    "count": 228,
+    "pct": 3.8
    },
    {
-    "species": "bmv:landscape/trees/reedlarge1",
-    "count": 479,
-    "pct": 2.7
+    "species": "vanilla:plants/floraswampfungalpod02",
+    "count": 205,
+    "pct": 3.4
+   },
+   {
+    "species": "tropical:plants/tropical/manfern",
+    "count": 205,
+    "pct": 3.4
    }
   ],
-  "distinctSpecies": 93,
+  "distinctSpecies": 57,
   "chunkRecords": [
-   {
-    "chunk": [
-     3,
-     12
-    ],
-    "region": 7,
-    "regionName": "interior swamp",
-    "regionsPresent": [
-     5,
-     7,
-     8,
-     9,
-     11,
-     12
-    ],
-    "instances": 4751,
-    "tiers": {
-     "T1": 388,
-     "T2": 4363
-    },
-    "perHectare": 217.0
-   },
-   {
-    "chunk": [
-     3,
-     13
-    ],
-    "region": 8,
-    "regionName": "fringe marsh",
-    "regionsPresent": [
-     0,
-     3,
-     4,
-     5,
-     8,
-     9,
-     11,
-     12,
-     14
-    ],
-    "instances": 3213,
-    "tiers": {
-     "T1": 241,
-     "T2": 2972
-    },
-    "perHectare": 146.7
-   },
-   {
-    "chunk": [
-     3,
-     14
-    ],
-    "region": 8,
-    "regionName": "fringe marsh",
-    "regionsPresent": [
-     0,
-     3,
-     4,
-     8,
-     9,
-     11,
-     12,
-     14
-    ],
-    "instances": 6913,
-    "tiers": {
-     "T1": 643,
-     "T2": 6270
-    },
-    "perHectare": 315.7
-   },
    {
     "chunk": [
      4,
@@ -1292,73 +1000,6 @@
      "T2": 5892
     },
     "perHectare": 289.9
-   },
-   {
-    "chunk": [
-     6,
-     12
-    ],
-    "region": 7,
-    "regionName": "interior swamp",
-    "regionsPresent": [
-     7,
-     8,
-     9,
-     11,
-     12
-    ],
-    "instances": 4929,
-    "tiers": {
-     "T1": 501,
-     "T2": 4428
-    },
-    "perHectare": 225.1
-   },
-   {
-    "chunk": [
-     6,
-     13
-    ],
-    "region": 8,
-    "regionName": "fringe marsh",
-    "regionsPresent": [
-     0,
-     4,
-     7,
-     8,
-     9,
-     11,
-     12,
-     14
-    ],
-    "instances": 5954,
-    "tiers": {
-     "T1": 464,
-     "T2": 5490
-    },
-    "perHectare": 271.9
-   },
-   {
-    "chunk": [
-     6,
-     14
-    ],
-    "region": 0,
-    "regionName": "ocean",
-    "regionsPresent": [
-     0,
-     4,
-     8,
-     9,
-     11,
-     14
-    ],
-    "instances": 12278,
-    "tiers": {
-     "T1": 305,
-     "T2": 11973
-    },
-    "perHectare": 560.8
    }
   ]
  },
@@ -1366,68 +1007,18 @@
   "radial": {
    "rays": 72,
    "radiusM": 1500.0,
-   "visibleFraction": 0.1172,
+   "visibleFraction": 0.111,
    "horizonAngleDeg": {
-    "p5": 0.13,
-    "p50": 2.63,
-    "p95": 7.3,
-    "max": 8.37
+    "p5": 0.07,
+    "p50": 2.28,
+    "p95": 6.64,
+    "max": 7.08
    },
    "openAzimuthFraction": 0.0,
    "medianFirstBlockM": 153.5
   },
   "landmarksVisible": [],
-  "landmarksOccluded": [
-   {
-    "id": "lilmoth",
-    "kind": "anchor",
-    "distanceM": 1251.7,
-    "bearing": "E",
-    "elevationM": -1.1
-   },
-   {
-    "id": "soulrest",
-    "kind": "anchor",
-    "distanceM": 1844.7,
-    "bearing": "W",
-    "elevationM": -12.4
-   },
-   {
-    "id": "archon",
-    "kind": "anchor",
-    "distanceM": 3314.0,
-    "bearing": "NE",
-    "elevationM": -17.8
-   },
-   {
-    "id": "gideon",
-    "kind": "anchor",
-    "distanceM": 3452.6,
-    "bearing": "N",
-    "elevationM": 42.3
-   },
-   {
-    "id": "helstrom",
-    "kind": "anchor",
-    "distanceM": 3778.6,
-    "bearing": "N",
-    "elevationM": -19.9
-   },
-   {
-    "id": "alten-corimont",
-    "kind": "anchor",
-    "distanceM": 5474.5,
-    "bearing": "N",
-    "elevationM": -10.2
-   },
-   {
-    "id": "stormhold",
-    "kind": "anchor",
-    "distanceM": 5685.3,
-    "bearing": "N",
-    "elevationM": 15.8
-   }
-  ],
+  "landmarksOccluded": [],
   "visibleFromRoutes": [
    {
     "kind": "road",
@@ -1442,24 +1033,24 @@
     "from": "blackrose",
     "to": "lilmoth",
     "sampledPointsWithin2km": 67,
-    "withLineOfSight": 15,
-    "fraction": 0.224
+    "withLineOfSight": 12,
+    "fraction": 0.179
    },
    {
     "kind": "road",
     "from": "soulrest",
     "to": "blackrose",
     "sampledPointsWithin2km": 116,
-    "withLineOfSight": 13,
-    "fraction": 0.112
+    "withLineOfSight": 14,
+    "fraction": 0.121
    },
    {
     "kind": "road",
     "from": "gideon",
     "to": "soulrest",
     "sampledPointsWithin2km": 125,
-    "withLineOfSight": 0,
-    "fraction": 0.0
+    "withLineOfSight": 6,
+    "fraction": 0.048
    },
    {
     "kind": "boat",
@@ -1478,78 +1069,78 @@
     "fraction": 0.0
    }
   ],
-  "approachVisibility": 0.074,
+  "approachVisibility": 0.081,
   "routePointsSampledWithin2km": 581,
-  "concealment": 0.926,
+  "concealment": 0.919,
   "method": "radial (R2) line of sight over the terrain skeleton (height smoothed to ~11 m); 1.7 m eye. Vegetation and buildings are not occluders here."
  },
  "minedFormAnalogues": [
   {
    "source": "bmv",
-   "index": 24,
-   "buildings": 9,
-   "radiusM": 48.3,
-   "buildingsPerHectare": 12.29,
-   "orientationCoherence": 0.889,
-   "medianWaterDistanceM": 7.5,
-   "medianRoadDistanceM": null,
-   "kits": [
-    [
-     "architecture/markarth",
-     7
-    ],
-    [
-     "sheogorad",
-     2
-    ]
-   ],
-   "formDistance": 0.083
-  },
-  {
-   "source": "bmv",
-   "index": 23,
-   "buildings": 9,
-   "radiusM": 52.6,
-   "buildingsPerHectare": 10.37,
-   "orientationCoherence": 0.778,
-   "medianWaterDistanceM": 7.6,
-   "medianRoadDistanceM": null,
-   "kits": [
-    [
-     "architecture/riften",
-     6
-    ],
-    [
-     "sheogorad",
-     3
-    ]
-   ],
-   "formDistance": 0.12
-  },
-  {
-   "source": "bmv",
-   "index": 12,
-   "buildings": 13,
-   "radiusM": 75.6,
-   "buildingsPerHectare": 7.23,
-   "orientationCoherence": 0.692,
-   "medianWaterDistanceM": 8.6,
+   "index": 3,
+   "buildings": 76,
+   "radiusM": 271.2,
+   "buildingsPerHectare": 3.29,
+   "orientationCoherence": 1.0,
+   "medianWaterDistanceM": 3.1,
    "medianRoadDistanceM": null,
    "kits": [
     [
      "architecture/phitt",
+     76
+    ]
+   ],
+   "formDistance": 0.376
+  },
+  {
+   "source": "bmv",
+   "index": 2,
+   "buildings": 94,
+   "radiusM": 207.3,
+   "buildingsPerHectare": 6.96,
+   "orientationCoherence": 0.457,
+   "medianWaterDistanceM": 2.9,
+   "medianRoadDistanceM": null,
+   "kits": [
+    [
+     "architecture",
+     59
+    ],
+    [
+     "architecture/small house",
+     28
+    ],
+    [
+     "architecture/docks",
+     5
+    ]
+   ],
+   "formDistance": 0.406
+  },
+  {
+   "source": "bmv",
+   "index": 10,
+   "buildings": 15,
+   "radiusM": 126.1,
+   "buildingsPerHectare": 3.0,
+   "orientationCoherence": 0.667,
+   "medianWaterDistanceM": 3.1,
+   "medianRoadDistanceM": null,
+   "kits": [
+    [
+     "architecture",
      9
     ],
     [
-     "sheogorad",
+     "architecture/shackkit",
      2
     ],
     [
-     "dlc02/architecture",
-     2
+     "architecture/ships",
+     1
     ]
    ],
-   "formDistance": 0.286
+   "formDistance": 0.465
   }
  ]
 }

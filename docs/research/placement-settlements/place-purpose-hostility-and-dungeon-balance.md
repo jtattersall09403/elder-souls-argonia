@@ -156,29 +156,17 @@ D2`; `sanctuary` ⇒ `dangerTier ≤ D3` unless the danger is environmental.
 
 ---
 
-## 4. Proposed `interior` block (Phase 12 placeholders)
+## 4. The `interior` block
 
-```jsonc
-"interior": {
-  "kind": "delve",                 // none | building | delve | dungeon | complex | warren
-  "family": "root-cavern",         // world 70 §47 family id
-  "sizeBand": "S2",                // S0 single room … S4 multi-level complex
-  "wetFraction": 0.25,             // 0–1 of floor area that is swim/wade
-  "entranceCount": 2,              // ≥1; second entrance = a loop/shortcut reward
-  "exteriorShell": true,           // is there an above-ground built exterior too?
-  "verticalRelationship": "below", // below | behind | within | above-and-below
-  "programRef": null,              // Phase 12 InteriorProgram id, null until authored
-  "schemaVersion": 1
-}
-```
+The proposal in this section shipped and has since been superseded. The design
+statement is [docs/world/70-dungeons-interiors.md](../../world/70-dungeons-interiors.md)
+§48 — the promise vocabulary a dungeon-kind place carries.
 
-`family` = world 70 §47 verbatim (`xanmeer-complex`, `root-cavern`,
-`flooded-cave`, `smuggler-den`, `kothringi-lilmothiit-site`, `ayleid-nedic-ruin`,
-`imperial-fort`, `abandoned-plantation`, `hist-sanctum`, `sinkhole-ruin`).
-Sizes: S0 = 1 room, S1 = 2–5, S2 = 6–14, S3 = 15–30, S4 = multi-level + boss;
-§2's minor/standard/major map to S0–S1 / S2 / S3–S4.
+The binding schema is `tooling/world-generation/worldgen/catalogue.py`
+(`interior`, schemaVersion 3), with the family realisation recipes in
+`world/sources/catalogue/interior-recipes.json`.
 
----
+Read those two, not this section.
 
 ## 5. Proposed `playerPurpose` block
 

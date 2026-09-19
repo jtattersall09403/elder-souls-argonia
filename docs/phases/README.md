@@ -512,9 +512,13 @@ positions.
   complex, the two optional Eye-route chains, the Lost City in the deep
   basin beyond Helstrom, the stronghold site; the opening-scene places
   (quests 00) if any interior is theirs;
-- a delivery manifest per interior against the record's promises
-  (`verify_delivery_manifest` hard-fails missing, empty, duplicate and stale
-  rows); the automation-readiness checklist (96 §3) ticked per family.
+- a delivery manifest per interior against the record's promises. The
+  promises project to record-only obligations today
+  (`worldgen.place_obligations.record_obligations`, owner `phase-12`, 16g);
+  the manifest verifier is written by the first chunk that emits a
+  manifest (16i, tier A interiors) and hard-fails missing, empty,
+  duplicate and stale rows; the automation-readiness checklist (96 §3)
+  ticked per family.
 
 **The place-obligation contract (binding for this phase, 13 and the quest
 compilers).** `worldgen.place_obligations` projects every delivery-bearing

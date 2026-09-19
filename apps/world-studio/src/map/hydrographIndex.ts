@@ -3,7 +3,14 @@
  * 2D map: which river / reach / body / fall sits under a map pixel, and the
  * lines the tooltip shows for it. Reads world/sources/hydrology/hydrology-graph.json
  * as published to province/hydrology-graph.json; nothing here draws.
+ *
+ * Names are a separate record (world/sources/hydrology/names.json, published as
+ * province/hydrology-names.json): the graph is not edited to carry them, because
+ * its `contentSha256` is recorded downstream. The tooltip joins on entity id.
  */
+
+/** The published name record, keyed by the entity id the graph already carries. */
+export interface HydrologyNames { names: { entityId: string; name: string; aliases?: string[] }[] }
 
 export interface HgRiver {
   id: string; strahler: number; water: string; accumKm2: number; lengthM: number;
@@ -45,12 +52,16 @@ export interface HydrographIndex {
   entityIdAt(px: number, py: number): string | null | undefined;
   river(id: string): HgRiver | undefined;
   body(id: string): HgBody | undefined;
+  /** The name this entity carries in the naming record, if it has one. */
+  nameOf(id: string): string | undefined;
 }
 
 /** Build the per-map-pixel index. `width` is the map raster width (1345). */
 export function buildHydrographIndex(
   graph: HgGraph, width: number, height: number, entities?: EntitySource,
+  names?: HydrologyNames | null,
 ): HydrographIndex {
+  const namesById = new Map((names?.names ?? []).map((n) => [n.entityId, n.name]));
   const mpp = graph.grid.metresPerSample * graph.grid.coarseStep;
   const step = graph.grid.coarseStep;
   const reaches = new Map(graph.reaches.map((r) => [r.id, r]));
@@ -121,6 +132,7 @@ export function buildHydrographIndex(
     },
     river: (id) => rivers.get(id),
     body: (id) => bodies.get(id),
+    nameOf: (id) => namesById.get(id),
   };
 }
 
@@ -149,7 +161,8 @@ export function describeHydrograph(
         ? `joins ${river.mouth.river ?? river.tributaryOf?.river ?? "?"}`
         : river.mouth.kind === "sea" ? `the sea (${river.mouth.form ?? "estuary"})`
         : river.mouth.kind === "lake" ? `lake ${river.mouth.bodyId}` : `the ${river.mouth.kind}`;
-      out.push({ title: `River ${river.id}`, rows: [
+      const riverName = index.nameOf(river.id);
+      out.push({ title: `${riverName ? riverName + " · " : ""}River ${river.id}`, rows: [
         ["water", river.water], ["order", String(river.strahler)],
         ["catchment", `${river.accumKm2.toFixed(1)} km²`], ["length", `${(river.lengthM / 1000).toFixed(1)} km`],
         ["river ends downstream at", mouth],
@@ -167,11 +180,12 @@ export function describeHydrograph(
       const suspect = (reach.fall as { suspect?: string }).suspect;
       if (suspect) rows.push(["flag", `${suspect}: a source-terrain step, 16b smooths it`]);
     }
-    out.push({ title: `Reach ${reach.id}`, rows });
+    const reachName = index.nameOf(reach.id);
+    out.push({ title: `${reachName ? reachName + " · " : ""}Reach ${reach.id}`, rows });
     if (reach.bodyId && !body) body = index.body(reach.bodyId) ?? null;
   }
   if (body) {
-    const name = (body as { name?: string | null }).name;
+    const name = index.nameOf(body.id) ?? (body as { name?: string | null }).name;
     out.push({ title: `${name ? name + " · " : ""}Body ${body.id}`, rows: [
       ["kind", `${body.kind}${body.origin !== "measured" ? ` (${body.origin})` : ""}`], ["altitude", body.altitudeBand],
       ["level", `${body.levelM} m`], ["area", ha(body.areaM2)], ["max depth", `${body.maxDepthM} m`],

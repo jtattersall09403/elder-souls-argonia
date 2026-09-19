@@ -129,9 +129,13 @@ class ProvinceSurvey:
         # routes, so scoring on the graded surface would feed that back and
         # move committed records. The graded surface is what the chunks and
         # colliders carry; siting keeps the ungraded raster when it exists.
-        natural = province / "refined" / "height-natural-rg.png"
-        self.fields = ProvinceFields(
-            province, "height-natural-rg.png" if natural.exists() else "height-rg.png")
+        # `refined/height-rg.png` IS the natural array (apply_terrain_patches
+        # writes it from refined-height-natural-f32.npy). A stale
+        # `height-natural-rg.png` from the 2026-09-09 world was preferred
+        # here until 2026-09-19 and put every height and slope the plot, the
+        # scour and the city tool sampled 17 m below the frozen ground
+        # (16g ledger §0b); it is deleted and never read again.
+        self.fields = ProvinceFields(province, "height-rg.png")
         # The water bake follows the graded ground, so siting reads the
         # natural-state snapshot of it that `grade_routes` keeps beside it.
         water_dir = province / "water" / "natural"

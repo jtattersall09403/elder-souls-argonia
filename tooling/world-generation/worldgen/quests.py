@@ -41,6 +41,15 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 QUEST_DIR = REPO_ROOT / "world" / "sources" / "quests"
 REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "registries" / "quests.json"
 PLACE_MAP_PATH = REPO_ROOT / "docs" / "quests" / "25-quest-place-map.md"
+# The three quest docs whose tables DECLARE the World-generation provisions.
+# 30 is the main quest (tier 0): a provision it declares with no live record
+# is a hole in the spine and a hard error. 40/50 are faction and side lines:
+# a missing one is reported and worked off, not a build stopper.
+PROVISION_DOCS = {
+    REPO_ROOT / "docs" / "quests" / "30-main-quest.md": 0,
+    REPO_ROOT / "docs" / "quests" / "40-factions.md": 2,
+    REPO_ROOT / "docs" / "quests" / "50-side-quests.md": 2,
+}
 
 # docs/quests/25 §20b writes provisions in the quest docs' own notation
 # (`LOC dungeon.eye_observatory`). The mechanical id is the tag dropped and
@@ -160,6 +169,43 @@ def place_map_provisions(path: Path = PLACE_MAP_PATH) -> list[str]:
             if tag or name.startswith("poi."):
                 tokens.add(name)
     return sorted(tokens)
+
+
+def declared_provisions(docs: dict[Path, int] | None = None) -> dict[str, int]:
+    """Every provision id DECLARED in the World-generation provision column of
+    docs/quests/30, 40 and 50, mapped to the lowest tier that declares it.
+
+    25 §20f rule 5's outstanding debt: "every provision id declared in 30/40/50
+    appearing on at least one live record". The column is markdown, so the ids
+    are read the way `questHooks.provisions` ids are formed (catalogue README
+    §questHooks): a backticked token, its §11 tag dropped, its `={...}` state
+    list dropped, dots and underscores turned to dashes.
+    """
+    out: dict[str, int] = {}
+    for path, tier in (docs or PROVISION_DOCS).items():
+        if not path.exists():
+            continue
+        header_col: int | None = None
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.startswith("|"):
+                continue
+            cells = line.split("|")[1:-1]
+            if "World-generation provision" in line:
+                header_col = next((i for i, c in enumerate(cells)
+                                   if c.strip() == "World-generation provision"), None)
+                continue
+            if header_col is None or header_col >= len(cells):
+                continue
+            cell = cells[header_col]
+            for tag, name in re.findall(
+                    r"`(?:(LOC|STATE|BOSS|FAST|POI|SCENE|EVIDENCE|NPC|LOOT)\s+)?"
+                    r"([A-Za-z0-9_.]+)(?:=\{[^`]*\})?`", cell):
+                if not (tag or name.startswith("poi.")):
+                    continue
+                pid = provision_id(name)
+                pid = PROVISION_ALIASES.get(pid, pid)
+                out[pid] = min(out.get(pid, tier), tier)
+    return out
 
 
 def region_names(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> list[str]:
@@ -307,6 +353,20 @@ def check(quest_dir: Path = QUEST_DIR,
         if pid not in live_prov:
             errors.append(f"docs/quests/25 §20b names provision `{token}` ({pid}) "
                           f"but no LIVE catalogue record carries it")
+
+    # 25 §20f rule 5's outstanding debt: every provision DECLARED in 30/40/50
+    # has to be carried by a live record. A tier-0 hole stops the build; the
+    # rest is reported so the next pass works it off.
+    owed = declared_provisions()
+    missing = sorted(pid for pid in owed if pid not in live_prov)
+    hard = [pid for pid in missing if owed[pid] == 0]
+    soft = [pid for pid in missing if owed[pid] != 0]
+    for pid in hard:
+        errors.append(f"docs/quests/30 declares provision {pid} and no LIVE catalogue record "
+                      f"carries it — a tier-0 provision with no place (25 §20f rule 3)")
+    if soft:
+        print(f"note: {len(soft)} provisions declared in docs/quests/40 and 50 are carried by "
+              f"no live record: {', '.join(soft)}")
 
     # registry parity, both directions
     reg = json.loads(registry_path.read_text(encoding="utf-8"))

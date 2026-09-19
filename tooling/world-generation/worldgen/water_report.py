@@ -176,8 +176,14 @@ class ShippedWater:
         """(reaches by id, bodies by id) from the hydrology graph, loaded on
         first use so a caller that only wants depths never pays for it."""
         graph = json.loads(self.graph_path.read_text(encoding="utf-8"))
+        self._rivers = {r["id"]: r for r in graph.get("rivers", [])}
         return ({r["id"]: r for r in graph["reaches"]},
                 {b["id"]: b for b in graph["bodies"]})
+
+    def river(self, river_id: str) -> dict | None:
+        """The graph's river record for an id, or None."""
+        self._graph_index
+        return self._rivers.get(river_id)
 
     def reach(self, entity_id: str) -> dict | None:
         """The graph's reach record for an id, or None."""
@@ -187,10 +193,38 @@ class ShippedWater:
         """The graph's body record for an id, or None."""
         return self._graph_index[1].get(entity_id)
 
+    @cached_property
+    def _names(self) -> dict[str, dict]:
+        """`world/sources/hydrology/names.json` by entity id (16g): the names
+        record lives beside the graph, never inside it, because the carve and
+        the water compile recorded the graph's content hash into their meta
+        and editing the graph would stale those silently."""
+        path = self.graph_path.with_name("names.json")
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return {}
+        return {n["entityId"]: n for n in doc.get("names", []) if "entityId" in n}
+
+    def name_of(self, entity_id: str) -> str | None:
+        """The entity's name (a literal for tools; the text key is
+        `textKey` on the same row), or None when it has none."""
+        row = self._names.get(entity_id)
+        return row.get("name") if row else None
+
     def record(self, entity_id: str) -> dict | None:
-        """Reach or body record for an id, whichever the graph holds."""
+        """Reach or body record for an id, whichever the graph holds, with
+        `name` merged from the names record when one exists."""
         rec = self.reach(entity_id)
-        return rec if rec is not None else self.body(entity_id)
+        if rec is None:
+            rec = self.body(entity_id)
+        if rec is None:
+            rec = self.river(entity_id)
+        if rec is None:
+            return None
+        # a reach with no name of its own carries its river's
+        name = self.name_of(entity_id) or (self.name_of(rec["river"]) if rec.get("river") else None)
+        return {**rec, "name": name} if name and not rec.get("name") else rec
 
     def water_at(self, east_m: float, south_m: float) -> dict | None:
         """The water record at a world point: the compiled entity merged with
@@ -284,7 +318,8 @@ class ShippedWater:
 
     def record_depth_grid(self) -> np.ndarray | None:
         """float32 surface-grid raster of the RECORD's depth of the entity
-        under each texel: a reach's declared `depthM`, a body's `maxDepthM`,
+        under each texel: a reach's declared `depthM`, a body's level realised
+        on the ground (the compiled depth),
         0 where there is no entity. None without an id raster.
 
         This is the record's designed depth, not a measurement of the bake —
@@ -302,8 +337,15 @@ class ShippedWater:
                 continue
             rec = bodies.get(eid)
             if rec is not None:
-                lut[i] = float(rec.get("maxDepthM") or 0.0)
-        return lut[self.ids]
+                # a body's record is its LEVEL; its depth at a texel is that
+                # level realised on the frozen ground, which is the compiled
+                # depth (0065). `maxDepthM` here gave the whole ocean 106 m
+                # at its 0.1 m shore (measured 2026-09-19, 16g review).
+                lut[i] = -1.0
+        out = lut[self.ids]
+        body_px = out < 0.0
+        out[body_px] = np.maximum(self.depth2[body_px], 0.0)
+        return out
 
     def river_of(self, entity_id: str) -> str | None:
         """The `river` id the reach with this id belongs to, or None."""

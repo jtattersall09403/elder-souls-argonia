@@ -192,7 +192,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -324,7 +324,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -348,7 +348,7 @@
       "questLinks": [
         {
           "code": "LD17",
-          "title": "What the Causeway Was For",
+          "title": "The Causeway's Purpose",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -451,7 +451,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -691,7 +691,7 @@
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -791,7 +791,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -899,7 +899,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -1154,7 +1154,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -1220,7 +1220,7 @@
         },
         {
           "code": "LD71",
-          "title": "Nobody Uses the Ladder Sober",
+          "title": "The Fast Way Out of the Diggings",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -1443,7 +1443,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -1559,7 +1559,7 @@
         "wetFraction": 0.3,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -1752,7 +1752,7 @@
       "purpose": "combat-challenge (real) + quest-anchor, service-hub",
       "hook": "The deepest hole in the northern water, seldom empty. A stake on the bank carries the four villages' rotation.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 90%",
+      "interior": "delve · flooded-cave · S2 · wet 90%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -1771,11 +1771,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.9,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -1883,7 +1883,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -1995,7 +1995,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -2096,7 +2096,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -2202,7 +2202,7 @@
       "purpose": "combat-challenge (real) + quest-anchor",
       "hook": "The village feeds its dead animals to the birds on this wall; walk under it unannounced and the birds will come down.",
       "stance": "hostile",
-      "interior": "warren · burrow-warren · S1 · wet 0%",
+      "interior": "warren · burrow-warren · S2 · wet 0%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -2220,11 +2220,11 @@
       "interiorDetail": {
         "kind": "warren",
         "family": "burrow-warren",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -2328,7 +2328,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -2462,7 +2462,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -2558,7 +2558,7 @@
         },
         {
           "code": "LD83",
-          "title": "What the Trial Is For",
+          "title": "The Trial Goes Wrong",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -2666,7 +2666,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -2802,7 +2802,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "surface-swim",
@@ -2961,7 +2961,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -3072,7 +3072,7 @@
         "wetFraction": 0.8,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
@@ -3186,7 +3186,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -3415,9 +3415,9 @@
         "family": "root-cavern",
         "sizeBand": "S2",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -3579,13 +3579,14 @@
       },
       "travelStation": null,
       "questProvisions": [
-        "quest.provision.dungeon-empty-cradle"
+        "quest.provision.dungeon-empty-cradle",
+        "quest.provision.shadowscales-safehouse-mainquest"
       ],
       "tierOwnership": "SS03 · tier-2; LD26 · tier-3; LV32 · tier-3",
       "questLinks": [
         {
           "code": "LD26",
-          "title": "The Fittings Are Still Bolted On",
+          "title": "The Fittings Are Still Bolted to the Trees",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -3821,7 +3822,7 @@
       "questLinks": [
         {
           "code": "LV34",
-          "title": "Eight Ways Around",
+          "title": "Eight Other Fords",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -4028,7 +4029,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -4148,7 +4149,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -4295,7 +4296,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -4402,7 +4403,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -4550,7 +4551,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -4679,7 +4680,7 @@
         "wetFraction": 0.1,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -4805,7 +4806,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -4934,7 +4935,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -5045,7 +5046,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -5172,7 +5173,7 @@
         "wetFraction": 0.1,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "within"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -5477,7 +5478,7 @@
         },
         {
           "code": "LD17",
-          "title": "What the Causeway Was For",
+          "title": "The Causeway's Purpose",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -5558,7 +5559,7 @@
         },
         {
           "code": "LD26",
-          "title": "The Fittings Are Still Bolted On",
+          "title": "The Fittings Are Still Bolted to the Trees",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -6072,7 +6073,7 @@
         },
         {
           "code": "LD94",
-          "title": "The Cargo That Was Never Aboard",
+          "title": "The Cargo That Was Not Aboard",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -6161,7 +6162,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -6271,7 +6272,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "surface-swim",
@@ -6476,7 +6477,7 @@
         "wetFraction": 0.3,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -6707,7 +6708,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -6818,7 +6819,7 @@
         "wetFraction": 0.1,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -6939,7 +6940,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -7061,7 +7062,7 @@
         "wetFraction": 0.9,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -7170,7 +7171,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -7280,7 +7281,7 @@
         "wetFraction": 0.1,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -7599,7 +7600,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -7729,7 +7730,7 @@
         },
         {
           "code": "LD71",
-          "title": "Nobody Uses the Ladder Sober",
+          "title": "The Fast Way Out of the Diggings",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -7819,7 +7820,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -7917,7 +7918,7 @@
       "purpose": "traversal-puzzle (real) + lore-reveal, vista-landmark",
       "hook": "For a few weeks a year the lake pulls back and a drain hole opens in the mud; after that it is under three metres.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 60%",
+      "interior": "delve · flooded-cave · S2 · wet 60%",
       "purposeDetail": {
         "primary": "traversal-puzzle",
         "impact": "real",
@@ -7936,11 +7937,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "shallow-dive",
@@ -8052,7 +8053,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -8288,7 +8289,7 @@
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -8399,7 +8400,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -8691,7 +8692,7 @@
       "purpose": "dungeon-delve (real) + lore-reveal",
       "hook": "The first Flu dead, counted and stacked below Stormhold's south gate, with the count still legible.",
       "stance": "neutral",
-      "interior": "delve · sinkhole-ruin · S1 · wet 30%",
+      "interior": "delve · sinkhole-ruin · S2 · wet 30%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -8709,11 +8710,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "sinkhole-ruin",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.3,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -8936,7 +8937,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -9047,7 +9048,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -9146,7 +9147,7 @@
       "purpose": "combat-challenge (real) + quest-anchor, service-hub",
       "hook": "A basin that holds water two months longer than the plain, with three herds' worth of marks on the same posts.",
       "stance": "hostile",
-      "interior": "delve · burrow-warren · S1 · wet 20%",
+      "interior": "delve · burrow-warren · S2 · wet 20%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -9165,11 +9166,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "burrow-warren",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.2,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -9265,7 +9266,7 @@
       "purpose": "dungeon-delve (real) + quest-anchor, lore-reveal",
       "hook": "The second island's dead are wrapped fourteen metres up a triple fork. The hollow above them is occupied.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 20%",
+      "interior": "delve · root-cavern · S2 · wet 20%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -9284,11 +9285,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.2,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -9545,7 +9546,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -9656,7 +9657,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -9977,7 +9978,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -10166,7 +10167,7 @@
       "purpose": "wonder-oddity (mild) + quest-anchor, lore-reveal",
       "hook": "An Imperial road that stops mid-formation with the next pegs still in the ground and a half-bored culvert the crew abandoned.",
       "stance": "neutral",
-      "interior": "delve · sinkhole-ruin · S0 · wet 40%",
+      "interior": "delve · sinkhole-ruin · S1 · wet 40%",
       "purposeDetail": {
         "primary": "wonder-oddity",
         "impact": "mild",
@@ -10185,11 +10186,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "sinkhole-ruin",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.4,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "surface-swim",
@@ -10307,7 +10308,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -10426,7 +10427,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -10637,7 +10638,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -10767,7 +10768,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -10878,7 +10879,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -11109,7 +11110,7 @@
       "purpose": "social-drama (real) + unique-item, quest-anchor, lore-reveal",
       "hook": "Cyrodilic Collections' licensed dig on Outer Silyanorn's edge, short of hands and shorter of honest ones.",
       "stance": "guarded",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "social-drama",
         "impact": "real",
@@ -11129,11 +11130,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -11256,7 +11257,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -11399,7 +11400,7 @@
         "wetFraction": 0.25,
         "entranceCount": 3,
         "exteriorShell": true,
-        "verticalRelationship": "below"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -11533,7 +11534,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -11642,7 +11643,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -11729,7 +11730,7 @@
       "purpose": "stealth-challenge (real) + service-hub",
       "hook": "An uncounted ledge route past the border post. Salt one way, people the other, for a fee.",
       "stance": "hostile",
-      "interior": "delve · smuggler-den · S1 · wet 0%",
+      "interior": "delve · smuggler-den · S2 · wet 0%",
       "purposeDetail": {
         "primary": "stealth-challenge",
         "impact": "real",
@@ -11749,11 +11750,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "smuggler-den",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "exteriorShell": false,
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -11861,7 +11862,7 @@
         "wetFraction": 0.3,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -11971,7 +11972,7 @@
         "wetFraction": 0.8,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -12183,7 +12184,7 @@
         "wetFraction": 0.1,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -12290,7 +12291,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "shallow-dive",
@@ -12405,7 +12406,7 @@
         "wetFraction": 0.2,
         "entranceCount": 3,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "shallow-dive",
@@ -12515,7 +12516,7 @@
       "purpose": "wonder-oddity (real) + lore-reveal, hidden-secret",
       "hook": "A ledge behind Stormhold's falls, into an undercut chamber. There is no door on it.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 40%",
+      "interior": "delve · flooded-cave · S2 · wet 40%",
       "purposeDetail": {
         "primary": "wonder-oddity",
         "impact": "real",
@@ -12534,11 +12535,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "shallow-dive",
@@ -12651,7 +12652,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -12775,7 +12776,7 @@
         "wetFraction": 0.1,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -12889,7 +12890,7 @@
         "wetFraction": 0.6,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -13006,7 +13007,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -13116,7 +13117,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -13240,7 +13241,7 @@
         "wetFraction": 0.5,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "surface-swim",
@@ -13689,7 +13690,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -13811,7 +13812,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -14014,7 +14015,7 @@
       "purpose": "stealth-challenge (real) + unique-item, service-hub",
       "hook": "An unpermitted cut behind the spoil ridge, out of the licensed dig's sight. Whoever pays for it is not local.",
       "stance": "hostile",
-      "interior": "delve · smuggler-den · S1 · wet 0%",
+      "interior": "delve · smuggler-den · S2 · wet 0%",
       "purposeDetail": {
         "primary": "stealth-challenge",
         "impact": "real",
@@ -14035,11 +14036,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "smuggler-den",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "exteriorShell": false,
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -14249,7 +14250,7 @@
       "purpose": "dungeon-delve (major) + quest-anchor, hidden-secret",
       "hook": "A wild rootworm burrow close enough to the tamed line to worry the Waykeepers and far enough that they leave it be.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "major",
@@ -14268,11 +14269,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -14373,7 +14374,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -15226,7 +15227,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -15539,7 +15540,7 @@
       "purpose": "lore-reveal (real) + quest-anchor, hidden-secret",
       "hook": "The best-drained ground in the district, which is why it sank. The houses are still standing, level as they went down.",
       "stance": "neutral",
-      "interior": "delve · abandoned-plantation · S1 · wet 40%",
+      "interior": "delve · abandoned-plantation · S2 · wet 40%",
       "purposeDetail": {
         "primary": "lore-reveal",
         "impact": "real",
@@ -15558,11 +15559,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "abandoned-plantation",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "shallow-dive",
@@ -15852,9 +15853,9 @@
         "family": "root-cavern",
         "sizeBand": "S2",
         "wetFraction": 0.0,
-        "entranceCount": 1,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "entranceCount": 2,
+        "exteriorShell": false,
+        "verticalRelationship": "within"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -15883,7 +15884,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.hist-heartland.air-pocket-station-basin",
@@ -15962,7 +15963,7 @@
         "wetFraction": 0.8,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
@@ -16175,7 +16176,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -16321,7 +16322,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -16419,7 +16420,7 @@
         "wetFraction": 0.6,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -16967,7 +16968,7 @@
         },
         {
           "code": "LH34",
-          "title": "A Rate the Tribes Will Wear",
+          "title": "The Coordinated Tolls",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -17058,7 +17059,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -17167,7 +17168,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -17275,7 +17276,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -17352,7 +17353,7 @@
       "purpose": "faction-gateway (mild) + vista-landmark, lore-reveal",
       "hook": "A fallen rootworm tower lying full length like a felled column, its mouth open at the broken end and going down a shaft the Waykeepers have written off.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "faction-gateway",
         "impact": "mild",
@@ -17371,11 +17372,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -17497,7 +17498,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -17611,7 +17612,7 @@
       "purpose": "lore-reveal (mild) + vista-landmark",
       "hook": "Charred pile stumps in a rectangle, with the grave-poles planted inside the burnt footprint rather than outside it. Under them lies a root cellar which the fire missed.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S0 · wet 10%",
+      "interior": "delve · root-cavern · S1 · wet 10%",
       "purposeDetail": {
         "primary": "lore-reveal",
         "impact": "mild",
@@ -17629,11 +17630,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.1,
         "entranceCount": 1,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "exteriorShell": false,
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -17798,7 +17799,7 @@
       "purpose": "traversal-puzzle (mild) + lore-reveal, dungeon-delve",
       "hook": "Two ropes over a whitewater reach and an expedition's cache at the far anchor, in a hollow that is not empty.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 30%",
+      "interior": "delve · root-cavern · S2 · wet 30%",
       "purposeDetail": {
         "primary": "traversal-puzzle",
         "impact": "mild",
@@ -17817,11 +17818,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.3,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -17898,7 +17899,7 @@
       "purpose": "wonder-oddity (real) + vista-landmark, lore-reveal",
       "hook": "Every ground-level door is sealed. The way in is over four terraces and down through a broken roof slab.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "wonder-oddity",
         "impact": "real",
@@ -17917,11 +17918,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -18020,9 +18021,9 @@
         "family": "root-cavern",
         "sizeBand": "S2",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -18039,7 +18040,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.hist-heartland.cult-raid-camp-unbound",
@@ -18211,7 +18212,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -18342,7 +18343,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -18443,7 +18444,7 @@
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "well-shaft",
       "underwaterAccess": "deep-dive",
@@ -18541,7 +18542,7 @@
         "wetFraction": 0.5,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "surface-swim",
@@ -18812,7 +18813,7 @@
       "purpose": "traversal-puzzle (mild)",
       "hook": "A depth stake with the fatal mark painted on it and the dates of the last four drownings cut beside it. The nearest village posts a watch through the season.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S0 · wet 40%",
+      "interior": "delve · root-cavern · S1 · wet 40%",
       "purposeDetail": {
         "primary": "traversal-puzzle",
         "impact": "mild",
@@ -18828,11 +18829,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.4,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "surface-swim",
@@ -18932,7 +18933,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -18952,7 +18953,7 @@
       "questLinks": [
         {
           "code": "LH44",
-          "title": "What the Stone Was For",
+          "title": "The Plan Behind the Stone",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -19144,7 +19145,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -19243,7 +19244,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -19419,7 +19420,7 @@
         },
         {
           "code": "MQ27",
-          "title": "The Road No Map Keeps",
+          "title": "The Road That No Map Keeps",
           "line": "quest.line.main",
           "lineName": "The Eye and the Root",
           "group": "main",
@@ -19563,7 +19564,7 @@
         },
         {
           "code": "MQ27",
-          "title": "The Road No Map Keeps",
+          "title": "The Road That No Map Keeps",
           "line": "quest.line.main",
           "lineName": "The Eye and the Root",
           "group": "main",
@@ -19630,7 +19631,7 @@
       "purpose": "combat-challenge (mild) + vista-landmark",
       "hook": "Two hundred birds leave in one movement at first light. The beast-keepers below have wanted them culled for three generations.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S0 · wet 0%",
+      "interior": "delve · root-cavern · S1 · wet 0%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "mild",
@@ -19648,11 +19649,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -19738,7 +19739,7 @@
       "purpose": "dungeon-delve (real) + lore-reveal",
       "hook": "Burial terraces stacked up through the canopy, with the oldest dead highest. Grave-singers visit; no household is permitted on the crown.",
       "stance": "neutral",
-      "interior": "delve · root-cavern · S1 · wet 20%",
+      "interior": "delve · root-cavern · S2 · wet 20%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -19756,11 +19757,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.2,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -19859,7 +19860,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -20576,7 +20577,7 @@
         },
         {
           "code": "LH44",
-          "title": "What the Stone Was For",
+          "title": "The Plan Behind the Stone",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -20666,7 +20667,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -20765,7 +20766,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -21057,7 +21058,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -21476,9 +21477,9 @@
         "family": "flooded-cave",
         "sizeBand": "S2",
         "wetFraction": 0.6,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "deep-dive",
@@ -21496,7 +21497,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.hist-heartland.lost-city",
@@ -21579,7 +21580,7 @@
         "wetFraction": 0.6,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -21701,7 +21702,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -22165,7 +22166,7 @@
       "purpose": "combat-challenge (real) + unique-item, hidden-secret",
       "hook": "What failed to get past lies where it fell in a hundred-metre band, sorted by age, newest nearest. The way in is behind it.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S0 · wet 20%",
+      "interior": "delve · root-cavern · S1 · wet 20%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -22184,11 +22185,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.2,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -22298,7 +22299,7 @@
         "wetFraction": 0.5,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "shallow-dive",
@@ -22490,7 +22491,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -22903,7 +22904,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -23021,7 +23022,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -23139,7 +23140,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -23653,7 +23654,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -23789,7 +23790,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -23819,7 +23820,7 @@
         },
         {
           "code": "MQ27",
-          "title": "The Road No Map Keeps",
+          "title": "The Road That No Map Keeps",
           "line": "quest.line.main",
           "lineName": "The Eye and the Root",
           "group": "main",
@@ -23886,7 +23887,7 @@
       "purpose": "dungeon-delve (real) + hidden-secret, lore-reveal",
       "hook": "A porter train is still under two metres of fallen root with its load. People are still digging toward it.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 40%",
+      "interior": "delve · root-cavern · S2 · wet 40%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -23905,11 +23906,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "shallow-dive",
@@ -24021,7 +24022,7 @@
         "wetFraction": 0.4,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "shallow-dive",
@@ -24120,7 +24121,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "shallow-dive",
@@ -24196,7 +24197,7 @@
       "purpose": "dungeon-delve (real) + hidden-secret",
       "hook": "Four held breaths and a courier is through in an afternoon, where the surface route takes a day. The marks of who got how far are cut at each landing.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 60%",
+      "interior": "delve · root-cavern · S2 · wet 60%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -24214,11 +24215,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.6,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -24420,7 +24421,7 @@
       "purpose": "dungeon-delve (real) + combat-challenge, hidden-secret",
       "hook": "A blue light held over deep water. Two empty rafts are tied at the mouth.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 70%",
+      "interior": "delve · root-cavern · S2 · wet 70%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -24439,11 +24440,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.7,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "shallow-dive",
@@ -24520,7 +24521,7 @@
       "purpose": "dungeon-delve (real) + hidden-secret",
       "hook": "Growers have colonised the gallery and farm luminous fungus on the root walls. They sell light to every village above them.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 40%",
+      "interior": "delve · root-cavern · S2 · wet 40%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -24540,11 +24541,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "shallow-dive",
@@ -24782,7 +24783,7 @@
       "purpose": "dungeon-delve (real) + vista-landmark, lore-reveal",
       "hook": "A dry, wide, straight tunnel with the worm's own skeleton filling the last forty metres of it.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -24801,11 +24802,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -24902,9 +24903,9 @@
         "family": "root-cavern",
         "sizeBand": "S2",
         "wetFraction": 0.0,
-        "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "entranceCount": 2,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -24921,7 +24922,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.hist-heartland.rootworm-station-helstrom",
@@ -25004,7 +25005,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -25181,7 +25182,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -25295,7 +25296,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -25404,9 +25405,9 @@
         "family": "root-cavern",
         "sizeBand": "S2",
         "wetFraction": 0.5,
-        "entranceCount": 3,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "entranceCount": 4,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -25425,7 +25426,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior with 3 entrances"
+      "interiorScope": "one interior with 4 entrances"
     },
     {
       "id": "place.hist-heartland.sealed-xanmeer-living",
@@ -25508,7 +25509,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -25617,7 +25618,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -25716,7 +25717,7 @@
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "none",
@@ -25816,7 +25817,7 @@
         "wetFraction": 0.3,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "surface-swim",
@@ -25894,7 +25895,7 @@
       "purpose": "social-drama (mild) + hidden-secret, service-hub",
       "hook": "One household cooking in a carved offering niche without damaging the carving. They trade with whatever passes the door.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "social-drama",
         "impact": "mild",
@@ -25913,11 +25914,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -26018,7 +26019,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "shallow-dive",
@@ -26497,7 +26498,7 @@
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -26596,7 +26597,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -26673,7 +26674,7 @@
       "purpose": "dungeon-delve (mild) + lore-reveal",
       "hook": "Three hundred years of pilgrims have carved their tending rota down one door jamb. The names of the last twenty years are thinner.",
       "stance": "hostile",
-      "interior": "delve · xanmeer-complex · S1 · wet 0%",
+      "interior": "delve · xanmeer-complex · S2 · wet 0%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "mild",
@@ -26691,11 +26692,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "xanmeer-complex",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -26810,7 +26811,7 @@
         "wetFraction": 0.15,
         "entranceCount": 3,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -27128,7 +27129,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -27233,9 +27234,9 @@
         "family": "root-cavern",
         "sizeBand": "S3",
         "wetFraction": 0.0,
-        "entranceCount": 2,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "entranceCount": 3,
+        "exteriorShell": false,
+        "verticalRelationship": "within"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -27253,7 +27254,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.hist-heartland.urn-vault-blasphemers",
@@ -27334,7 +27335,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -27555,9 +27556,9 @@
         "family": "flooded-cave",
         "sizeBand": "S2",
         "wetFraction": 0.4,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "well-shaft",
       "underwaterAccess": "shallow-dive",
@@ -27574,7 +27575,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.hist-heartland.waiting-vigil-village",
@@ -27656,9 +27657,9 @@
         "family": "root-cavern",
         "sizeBand": "S2",
         "wetFraction": 0.4,
-        "entranceCount": 3,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "entranceCount": 4,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -27677,7 +27678,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior with 3 entrances"
+      "interiorScope": "one interior with 4 entrances"
     },
     {
       "id": "place.hist-heartland.walkway-junction-high-crossroads",
@@ -27775,7 +27776,7 @@
         },
         {
           "code": "LH34",
-          "title": "A Rate the Tribes Will Wear",
+          "title": "The Coordinated Tolls",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -27873,7 +27874,7 @@
         "wetFraction": 0.7,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "surface-swim",
@@ -27952,7 +27953,7 @@
       "purpose": "combat-challenge (real) + resource-source",
       "hook": "Three grown wamasu in one warm pan. Charged bone is worth carrying out.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S0 · wet 60%",
+      "interior": "delve · flooded-cave · S1 · wet 60%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -27970,11 +27971,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.6,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "shallow-dive",
@@ -28073,7 +28074,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "shallow-dive",
@@ -28150,7 +28151,7 @@
       "purpose": "traversal-puzzle (mild)",
       "hook": "The rapids here are made of submerged root rather than rock. The lattice has to be read before a boat is committed. The portage crew charges by the hull.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S0 · wet 30%",
+      "interior": "delve · root-cavern · S1 · wet 30%",
       "purposeDetail": {
         "primary": "traversal-puzzle",
         "impact": "mild",
@@ -28166,11 +28167,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.3,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "surface-swim",
@@ -28425,7 +28426,7 @@
       "purpose": "combat-challenge (real) + hidden-secret",
       "hook": "The lights repeat the guides' lantern signal, three short and one long, from the wrong place.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S0 · wet 30%",
+      "interior": "delve · root-cavern · S1 · wet 30%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -28443,11 +28444,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.3,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "surface-swim",
@@ -28558,7 +28559,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "surface-swim",
@@ -28880,7 +28881,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -28987,7 +28988,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -29102,7 +29103,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -29604,7 +29605,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -29709,7 +29710,7 @@
         "wetFraction": 0.15,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -29824,7 +29825,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -29928,7 +29929,7 @@
       "purpose": "social-drama (real) + faction-gateway, lore-reveal",
       "hook": "A licensed dig. The Cyrodilic Collections foremen pay cash for finds and settle up the same day.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "social-drama",
         "impact": "real",
@@ -29949,11 +29950,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -30077,7 +30078,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -30293,7 +30294,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -30662,7 +30663,7 @@
         "wetFraction": 0.4,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "below"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -31358,7 +31359,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -31494,7 +31495,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -31931,7 +31932,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -32055,7 +32056,7 @@
         "wetFraction": 0.1,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -32175,7 +32176,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -32283,7 +32284,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -32511,7 +32512,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -33038,7 +33039,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -33165,7 +33166,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -33713,7 +33714,7 @@
         "wetFraction": 0.3,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -33814,7 +33815,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -34050,7 +34051,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -34173,7 +34174,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -34284,9 +34285,9 @@
         "family": "root-cavern",
         "sizeBand": "S3",
         "wetFraction": 0.0,
-        "entranceCount": 1,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "entranceCount": 2,
+        "exteriorShell": false,
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -34325,7 +34326,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.imperial-fringe.red-cart-yard",
@@ -34409,7 +34410,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -34642,7 +34643,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -34837,7 +34838,7 @@
       "purpose": "combat-challenge (real) + resource-source",
       "hook": "A usable stone landing on the western lake, held by the crocodiles that lie on the warm rock.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 60%",
+      "interior": "delve · flooded-cave · S2 · wet 60%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -34855,11 +34856,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": "a cut stone shelf in the lake wall with the slipway still in it",
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "surface-swim",
@@ -35137,7 +35138,7 @@
       "purpose": "dungeon-delve (major) + lore-reveal, unique-item",
       "hook": "A Kothringi river town that emptied in a single season and has not been entered since. The stone quay is still there.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "major",
@@ -35156,11 +35157,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "exteriorShell": false,
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -35358,7 +35359,7 @@
       "purpose": "combat-challenge (real) + resource-source, traversal-puzzle",
       "hook": "A drowned field full of death hoppers. The culvert under it would drain the lot.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S0 · wet 80%",
+      "interior": "delve · flooded-cave · S1 · wet 80%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -35377,11 +35378,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.8,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "shallow-dive",
@@ -35700,7 +35701,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -35824,7 +35825,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -36559,7 +36560,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -36669,7 +36670,7 @@
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -36779,7 +36780,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -37029,7 +37030,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -37138,7 +37139,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -37226,7 +37227,7 @@
       "purpose": "wonder-oddity (real) + lore-reveal, resource-source, dungeon-delve",
       "hook": "A dead lake arm where the water lights when it is disturbed. The raft village will not swim in it after dark.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 90%",
+      "interior": "delve · flooded-cave · S2 · wet 90%",
       "purposeDetail": {
         "primary": "wonder-oddity",
         "impact": "real",
@@ -37246,11 +37247,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.9,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -37461,7 +37462,7 @@
         "wetFraction": 0.3,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -37551,7 +37552,7 @@
       "purpose": "dungeon-delve (real) + combat-challenge, lore-reveal",
       "hook": "A farmhouse the marsh finally drowned for good; the roof holds the last air above water; something ambushes from the rooms below it.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 80%",
+      "interior": "delve · flooded-cave · S2 · wet 80%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -37570,11 +37571,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.8,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -37684,7 +37685,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -38103,7 +38104,7 @@
       "purpose": "dungeon-delve (real) + combat-challenge, social-drama",
       "hook": "A river station with a walled yard, a well and its own landing, left in the last bad flood; whoever clears it can have it.",
       "stance": "hostile",
-      "interior": "delve · abandoned-plantation · S1 · wet 20%",
+      "interior": "delve · abandoned-plantation · S2 · wet 20%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -38122,10 +38123,10 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "abandoned-plantation",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.2,
         "entranceCount": 2,
-        "exteriorShell": true,
+        "exteriorShell": false,
         "verticalRelationship": "within"
       },
       "entrance": "door",
@@ -38454,7 +38455,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": "within"
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -38571,7 +38572,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -38693,7 +38694,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -38814,7 +38815,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "surface-swim",
@@ -39036,7 +39037,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -39257,7 +39258,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -39371,7 +39372,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -39487,7 +39488,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -39598,7 +39599,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -39697,7 +39698,7 @@
       "purpose": "resource-source (real) + combat-challenge",
       "hook": "Niben-crystal in an exposed ravine seam that enchanters in two provinces will buy. The workings will not simply hand it over.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "resource-source",
         "impact": "real",
@@ -39717,11 +39718,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "exteriorShell": false,
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -39820,7 +39821,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -39932,7 +39933,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -40043,7 +40044,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -40131,7 +40132,7 @@
       "purpose": "stealth-challenge (real) + social-drama, quest-anchor",
       "hook": "The Owing is a debt worked off rather than paid. It builds no prisons. It uses a roofed pit at the back of a broker's yard and calls it waiting.",
       "stance": "hostile",
-      "interior": "delve · imperial-fort · S1 · wet 0%",
+      "interior": "delve · imperial-fort · S2 · wet 0%",
       "purposeDetail": {
         "primary": "stealth-challenge",
         "impact": "real",
@@ -40152,11 +40153,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "imperial-fort",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -40287,7 +40288,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -40419,7 +40420,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "well-shaft",
       "underwaterAccess": "none",
@@ -40530,7 +40531,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -40627,7 +40628,7 @@
       "purpose": "dungeon-delve (real) + lore-reveal, traversal-puzzle",
       "hook": "A stone staircase of locks built to make the river climb, abandoned unfinished. The chambers below the gates have not drained since.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 40%",
+      "interior": "delve · flooded-cave · S2 · wet 40%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -40646,11 +40647,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "shallow-dive",
@@ -40768,7 +40769,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -40979,7 +40980,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -41081,7 +41082,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "shallow-dive",
@@ -41184,7 +41185,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -41286,7 +41287,7 @@
         "wetFraction": 0.4,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "shallow-dive",
@@ -41512,7 +41513,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -41666,7 +41667,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "none",
@@ -41880,7 +41881,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -42083,7 +42084,7 @@
       "purpose": "hidden-secret (real) + wonder-oddity, traversal-puzzle",
       "hook": "There is a dry room behind the waterfall. People have kept things in it for longer than the village has stood.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 40%",
+      "interior": "delve · flooded-cave · S2 · wet 40%",
       "purposeDetail": {
         "primary": "hidden-secret",
         "impact": "real",
@@ -42102,11 +42103,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "shallow-dive",
@@ -42405,7 +42406,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -42536,7 +42537,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": "within"
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -42623,7 +42624,7 @@
       "purpose": "combat-challenge (real) + vista-landmark",
       "hook": "A signal tower with a snake in its fallen stair. Four miles of road are visible from the top.",
       "stance": "hostile",
-      "interior": "delve · imperial-fort · S0 · wet 0%",
+      "interior": "delve · imperial-fort · S1 · wet 0%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -42641,11 +42642,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "imperial-fort",
-        "sizeBand": "S0",
+        "sizeBand": "S1",
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -42745,7 +42746,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -42856,7 +42857,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -43002,7 +43003,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -43662,7 +43663,7 @@
         },
         {
           "code": "LR21",
-          "title": "Clean Water, Signed For",
+          "title": "The Unopened Cisterns",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -43689,7 +43690,7 @@
         },
         {
           "code": "LR24",
-          "title": "Bodies Out, Names In",
+          "title": "Out on Another Name",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -43993,7 +43994,7 @@
         "wetFraction": 0.1,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -44034,7 +44035,7 @@
         },
         {
           "code": "LR24",
-          "title": "Bodies Out, Names In",
+          "title": "Out on Another Name",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -44399,7 +44400,7 @@
         "wetFraction": 0.05,
         "entranceCount": 3,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -44541,8 +44542,8 @@
         "family": "imperial-fort",
         "sizeBand": "S2",
         "wetFraction": 0.0,
-        "entranceCount": 2,
-        "exteriorShell": true,
+        "entranceCount": 3,
+        "exteriorShell": false,
         "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
@@ -44601,7 +44602,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.imperial-penal-south.drawdown-flat",
@@ -44661,7 +44662,7 @@
       "purpose": "traversal-puzzle (real) + dungeon-delve, lore-reveal",
       "hook": "For six weeks a year the lake bed is walked as a market. For the rest of the year it is a dive.",
       "stance": "hostile",
-      "interior": "warren · burrow-warren · S1 · wet 40%",
+      "interior": "warren · burrow-warren · S2 · wet 40%",
       "purposeDetail": {
         "primary": "traversal-puzzle",
         "impact": "real",
@@ -44682,10 +44683,10 @@
       "interiorDetail": {
         "kind": "warren",
         "family": "burrow-warren",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.4,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "verticalRelationship": "below"
       },
       "entrance": "burrow",
@@ -45174,7 +45175,7 @@
         "wetFraction": 0.1,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -45294,8 +45295,8 @@
         "family": "imperial-fort",
         "sizeBand": "S2",
         "wetFraction": 0.05,
-        "entranceCount": 2,
-        "exteriorShell": true,
+        "entranceCount": 3,
+        "exteriorShell": false,
         "verticalRelationship": "within"
       },
       "entrance": "gate",
@@ -45325,7 +45326,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
@@ -45405,8 +45406,8 @@
         "family": "kothringi-lilmothiit-site",
         "sizeBand": "S2",
         "wetFraction": 0.05,
-        "entranceCount": 2,
-        "exteriorShell": true,
+        "entranceCount": 3,
+        "exteriorShell": false,
         "verticalRelationship": "within"
       },
       "entrance": "door",
@@ -45436,7 +45437,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.imperial-penal-south.lake-boardwalk-village",
@@ -45519,7 +45520,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -45668,7 +45669,7 @@
         "wetFraction": 0.1,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "deep-dive",
@@ -46293,8 +46294,8 @@
         "family": "kothringi-lilmothiit-site",
         "sizeBand": "S2",
         "wetFraction": 0.1,
-        "entranceCount": 2,
-        "exteriorShell": false,
+        "entranceCount": 3,
+        "exteriorShell": true,
         "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
@@ -46332,7 +46333,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.imperial-penal-south.longmont",
@@ -46416,7 +46417,7 @@
         "wetFraction": 0.15,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -46566,7 +46567,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -46696,7 +46697,7 @@
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -46808,7 +46809,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": "within"
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -46919,8 +46920,8 @@
         "family": "flooded-cave",
         "sizeBand": "S2",
         "wetFraction": 0.95,
-        "entranceCount": 2,
-        "exteriorShell": false,
+        "entranceCount": 3,
+        "exteriorShell": true,
         "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
@@ -46948,7 +46949,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.imperial-penal-south.necromantic-dig",
@@ -47244,7 +47245,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -47470,7 +47471,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -47589,7 +47590,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -47627,7 +47628,7 @@
         },
         {
           "code": "LR24",
-          "title": "Bodies Out, Names In",
+          "title": "Out on Another Name",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -47851,8 +47852,8 @@
         "family": "imperial-fort",
         "sizeBand": "S2",
         "wetFraction": 0.15,
-        "entranceCount": 2,
-        "exteriorShell": true,
+        "entranceCount": 3,
+        "exteriorShell": false,
         "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
@@ -47912,7 +47913,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.imperial-penal-south.rose-supply-town",
@@ -47996,7 +47997,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -48206,7 +48207,7 @@
         "wetFraction": 0.7,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -48441,7 +48442,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -48827,7 +48828,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -49119,7 +49120,7 @@
       "purpose": "dungeon-delve (real) + wonder-oddity, unique-item, lore-reveal",
       "hook": "A First-Era warship sitting upright in eleven metres, with its holds still shut.",
       "stance": "hostile",
-      "interior": "delve · shipwreck · S1 · wet 90%",
+      "interior": "delve · shipwreck · S2 · wet 90%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -49139,10 +49140,10 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "shipwreck",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.9,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
@@ -49316,7 +49317,7 @@
         },
         {
           "code": "LM65",
-          "title": "Asks No Questions, Secures Less",
+          "title": "Robbed on Meerhleel's Quay",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -49486,7 +49487,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -49630,7 +49631,7 @@
         },
         {
           "code": "LM74",
-          "title": "The Last Hist Between",
+          "title": "The Last Hist Before the Burn",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -50627,7 +50628,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -50746,7 +50747,7 @@
         "wetFraction": 0.9,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -50986,7 +50987,7 @@
         "wetFraction": 0.3,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -51233,7 +51234,7 @@
         },
         {
           "code": "LM79",
-          "title": "Rice, Coin and Tenancy",
+          "title": "Rice and Tenancy",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -51251,7 +51252,7 @@
         },
         {
           "code": "LM81",
-          "title": "Letting the Flood In",
+          "title": "The Early Flood Channel",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -51444,7 +51445,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -51556,7 +51557,7 @@
         "wetFraction": 0.5,
         "entranceCount": 3,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -51679,7 +51680,7 @@
         "wetFraction": 0.15,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -51779,9 +51780,9 @@
         "family": "dwelling",
         "sizeBand": "S2",
         "wetFraction": 0.2,
-        "entranceCount": 2,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "entranceCount": 3,
+        "exteriorShell": false,
+        "verticalRelationship": "within"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -51810,7 +51811,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.mercantile-coast.ixtaxh-xanmeer",
@@ -53087,7 +53088,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -53474,7 +53475,7 @@
       "purpose": "combat-challenge (real) + lore-reveal, hidden-secret",
       "hook": "Tribeless Naga hold the old water court and tax the bay-side track from it.",
       "stance": "hostile",
-      "interior": "delve · dwelling · S1 · wet 30%",
+      "interior": "delve · dwelling · S2 · wet 30%",
       "purposeDetail": {
         "primary": "combat-challenge",
         "impact": "real",
@@ -53496,11 +53497,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "dwelling",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.3,
         "entranceCount": 2,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "exteriorShell": false,
+        "verticalRelationship": "within"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -53770,7 +53771,7 @@
         "wetFraction": 0.45,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": "within"
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
@@ -54469,7 +54470,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -54750,8 +54751,8 @@
         "family": "abandoned-plantation",
         "sizeBand": "S2",
         "wetFraction": 0.1,
-        "entranceCount": 3,
-        "exteriorShell": true,
+        "entranceCount": 4,
+        "exteriorShell": false,
         "verticalRelationship": "within"
       },
       "entrance": "door",
@@ -54790,7 +54791,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 3 entrances"
+      "interiorScope": "one interior with 4 entrances"
     },
     {
       "id": "place.mercantile-coast.root-gallery-murkmire",
@@ -54869,8 +54870,8 @@
         "family": "root-cavern",
         "sizeBand": "S2",
         "wetFraction": 0.1,
-        "entranceCount": 3,
-        "exteriorShell": false,
+        "entranceCount": 4,
+        "exteriorShell": true,
         "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
@@ -54901,7 +54902,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 3 entrances"
+      "interiorScope": "one interior with 4 entrances"
     },
     {
       "id": "place.mercantile-coast.sacked-customs-suburb",
@@ -54982,8 +54983,8 @@
         "family": "imperial-fort",
         "sizeBand": "S2",
         "wetFraction": 0.25,
-        "entranceCount": 2,
-        "exteriorShell": true,
+        "entranceCount": 3,
+        "exteriorShell": false,
         "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
@@ -55012,7 +55013,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.mercantile-coast.screen-watch",
@@ -56243,7 +56244,7 @@
       "purpose": "lore-reveal (real) + dungeon-delve, hidden-secret",
       "hook": "Umbriel took the village in a night; the houses stand furnished, with every door open.",
       "stance": "hostile",
-      "interior": "delve · dwelling · S1 · wet 5%",
+      "interior": "delve · dwelling · S2 · wet 5%",
       "purposeDetail": {
         "primary": "lore-reveal",
         "impact": "real",
@@ -56262,10 +56263,10 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "dwelling",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.05,
         "entranceCount": 2,
-        "exteriorShell": true,
+        "exteriorShell": false,
         "verticalRelationship": "within"
       },
       "entrance": "door",
@@ -56507,7 +56508,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -57107,7 +57108,7 @@
         "wetFraction": 0.3,
         "entranceCount": 3,
         "exteriorShell": true,
-        "verticalRelationship": "above-and-below"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -57215,7 +57216,7 @@
       "purpose": "dungeon-delve (real) + navigation-aid, combat-challenge, resource-source",
       "hook": "A foot under at high water, with the wrecks still on it.",
       "stance": "hostile",
-      "interior": "delve · shipwreck · S1 · wet 85%",
+      "interior": "delve · shipwreck · S2 · wet 85%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -57235,10 +57236,10 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "shipwreck",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.85,
         "entranceCount": 2,
-        "exteriorShell": false,
+        "exteriorShell": true,
         "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
@@ -57575,7 +57576,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -57814,9 +57815,9 @@
         "family": "flooded-cave",
         "sizeBand": "S2",
         "wetFraction": 0.8,
-        "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "entranceCount": 2,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
@@ -57846,7 +57847,7 @@
           "role": "owner"
         }
       ],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.naga-kur-deeps.art-and-destroy-site-deeps",
@@ -57930,9 +57931,9 @@
         "family": "root-cavern",
         "sizeBand": "S2",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -57951,7 +57952,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.naga-kur-deeps.beast-keeper-crocodile",
@@ -58035,7 +58036,7 @@
         "wetFraction": 0.6,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -58259,7 +58260,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -58384,7 +58385,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -58654,7 +58655,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -58772,7 +58773,7 @@
         "wetFraction": 0.8,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "argonian-only-depth",
@@ -58850,7 +58851,7 @@
       "purpose": "dungeon-delve (real) + combat-challenge, lore-reveal",
       "hook": "The moving village's last mooring. It tied up here for the calm water over the bone field.",
       "stance": "hostile",
-      "interior": "delve · shipwreck · S1 · wet 80%",
+      "interior": "delve · shipwreck · S2 · wet 80%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -58871,11 +58872,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "shipwreck",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.8,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -58996,7 +58997,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -59100,7 +59101,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -59343,7 +59344,7 @@
         "wetFraction": 0.6,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -59654,7 +59655,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "well-shaft",
       "underwaterAccess": "shallow-dive",
@@ -59767,9 +59768,9 @@
         "family": "flooded-cave",
         "sizeBand": "S2",
         "wetFraction": 0.6,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "deep-dive",
@@ -59787,7 +59788,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.naga-kur-deeps.leviathan-bone-field",
@@ -59849,7 +59850,7 @@
       "purpose": "resource-source (real) + combat-challenge, lore-reveal, vista-landmark",
       "hook": "A house built under the rib cage, with the bone left uncut. Other animals have taken shelter in the same ribs.",
       "stance": "hostile",
-      "interior": "delve · burrow-warren · S1 · wet 30%",
+      "interior": "delve · burrow-warren · S2 · wet 30%",
       "purposeDetail": {
         "primary": "resource-source",
         "impact": "real",
@@ -59871,11 +59872,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "burrow-warren",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.3,
         "entranceCount": 2,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "exteriorShell": false,
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "surface-swim",
@@ -60075,7 +60076,7 @@
         "wetFraction": 0.3,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "root-mouth",
       "underwaterAccess": "none",
@@ -60404,7 +60405,7 @@
         "wetFraction": 0.4,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -60667,7 +60668,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -61000,7 +61001,7 @@
       "purpose": "dungeon-delve (mild) + combat-challenge, lore-reveal",
       "hook": "A raft village that sank still tied together in one night, its knotted mooring-cord lost with it.",
       "stance": "neutral",
-      "interior": "delve · shipwreck · S1 · wet 90%",
+      "interior": "delve · shipwreck · S2 · wet 90%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "mild",
@@ -61019,11 +61020,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "shipwreck",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.9,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -61232,7 +61233,7 @@
         "wetFraction": 0.4,
         "entranceCount": 3,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "shallow-dive",
@@ -61335,9 +61336,9 @@
         "family": "root-cavern",
         "sizeBand": "S3",
         "wetFraction": 0.0,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -61473,7 +61474,7 @@
         "wetFraction": 0.2,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -61589,7 +61590,7 @@
         "wetFraction": 0.1,
         "entranceCount": 3,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -61689,9 +61690,9 @@
         "family": "flooded-cave",
         "sizeBand": "S2",
         "wetFraction": 0.6,
-        "entranceCount": 1,
+        "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "deep-dive",
@@ -61708,7 +61709,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior"
+      "interiorScope": "one interior with 2 entrances"
     },
     {
       "id": "place.naga-kur-deeps.sithis-temple-mass-sacrifice",
@@ -61795,7 +61796,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -61900,7 +61901,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -62021,7 +62022,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "surface-swim",
@@ -62228,7 +62229,7 @@
       "purpose": "dungeon-delve (real) + lore-reveal, hidden-secret",
       "hook": "Her cargo seals are intact and legible. Goods lifted from her carry the mark of a company a century dead.",
       "stance": "hostile",
-      "interior": "delve · shipwreck · S1 · wet 80%",
+      "interior": "delve · shipwreck · S2 · wet 80%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -62249,11 +62250,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "shipwreck",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.8,
         "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -63512,7 +63513,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -63729,7 +63730,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -63856,7 +63857,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -64357,7 +64358,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "well-shaft",
       "underwaterAccess": "none",
@@ -64473,7 +64474,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -64605,7 +64606,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -64728,7 +64729,7 @@
         "wetFraction": 0.6,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -64843,7 +64844,7 @@
         "wetFraction": 0.0,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "none",
@@ -64945,7 +64946,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -65041,7 +65042,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -65162,7 +65163,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -65240,7 +65241,7 @@
       "purpose": "social-drama (real) + unique-item, lore-reveal, hidden-secret",
       "hook": "A day's climb above the snowline to a cell where one exile keeps an observance the order below abandoned.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "social-drama",
         "impact": "real",
@@ -65260,11 +65261,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
@@ -65365,7 +65366,7 @@
         "wetFraction": 0.2,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -65475,7 +65476,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -65671,7 +65672,7 @@
         "wetFraction": 0.1,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": "within"
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "surface-swim",
@@ -65815,7 +65816,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -65946,7 +65947,7 @@
         "wetFraction": 0.05,
         "entranceCount": 6,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "gate",
       "underwaterAccess": "shallow-dive",
@@ -66006,7 +66007,7 @@
         },
         {
           "code": "SX02",
-          "title": "Three Tongues, Three Manifests",
+          "title": "One Cargo, Three Manifests",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -66420,7 +66421,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -66540,7 +66541,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -66665,7 +66666,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
@@ -66782,7 +66783,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -66901,7 +66902,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "cellar-door",
       "underwaterAccess": "none",
@@ -67022,7 +67023,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "shallow-dive",
@@ -67344,7 +67345,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -67836,7 +67837,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "none",
@@ -67962,7 +67963,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -68059,9 +68060,9 @@
         "family": "shipwreck",
         "sizeBand": "S2",
         "wetFraction": 0.75,
-        "entranceCount": 2,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "entranceCount": 3,
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -68080,7 +68081,7 @@
       "questProvisions": [],
       "tierOwnership": null,
       "questLinks": [],
-      "interiorScope": "one interior with 2 entrances"
+      "interiorScope": "one interior with 3 entrances"
     },
     {
       "id": "place.saxhleel-coast.jungle-root-hollow",
@@ -68139,7 +68140,7 @@
       "purpose": "dungeon-delve (real) + unique-item, hidden-secret",
       "hook": "A lair dug into the root layer, an hour off the last hunting path. The bone scatter at its mouth holds three generations of other people's tools.",
       "stance": "hostile",
-      "interior": "delve · root-cavern · S1 · wet 0%",
+      "interior": "delve · root-cavern · S2 · wet 0%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -68158,11 +68159,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "root-cavern",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.0,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "sinkhole-lip",
       "underwaterAccess": "none",
@@ -68273,7 +68274,7 @@
         "wetFraction": 0.8,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
@@ -68362,7 +68363,7 @@
       "purpose": "wonder-oddity (real) + hidden-secret, lore-reveal",
       "hook": "A dry room with a chest in it, 20 metres down and no way in but a held breath.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 60%",
+      "interior": "delve · flooded-cave · S2 · wet 60%",
       "purposeDetail": {
         "primary": "wonder-oddity",
         "impact": "real",
@@ -68381,11 +68382,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.6,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
@@ -68578,7 +68579,7 @@
         "wetFraction": 0.35,
         "entranceCount": 2,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "deep-dive",
@@ -68655,7 +68656,7 @@
       "purpose": "resource-source (real) + dungeon-delve, hidden-secret",
       "hook": "Pearl beds under a living reef, with a flooded cut in the wall that only Argonian lungs will reach.",
       "stance": "hostile",
-      "interior": "delve · flooded-cave · S1 · wet 85%",
+      "interior": "delve · flooded-cave · S2 · wet 85%",
       "purposeDetail": {
         "primary": "resource-source",
         "impact": "real",
@@ -68674,11 +68675,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "flooded-cave",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.85,
         "entranceCount": 1,
-        "exteriorShell": false,
-        "verticalRelationship": null
+        "exteriorShell": true,
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
@@ -69109,7 +69110,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -69345,7 +69346,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "behind"
       },
       "entrance": "door",
       "underwaterAccess": "none",
@@ -69557,7 +69558,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "trapdoor",
       "underwaterAccess": "none",
@@ -69655,7 +69656,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "burrow",
       "underwaterAccess": "shallow-dive",
@@ -69733,7 +69734,7 @@
       "purpose": "dungeon-delve (real) + combat-challenge, lore-reveal",
       "hook": "A terrace village that slid down its own hillside when the spring failed, now home to whatever moved into the broken platforms.",
       "stance": "hostile",
-      "interior": "delve · dwelling · S1 · wet 20%",
+      "interior": "delve · dwelling · S2 · wet 20%",
       "purposeDetail": {
         "primary": "dungeon-delve",
         "impact": "real",
@@ -69754,11 +69755,11 @@
       "interiorDetail": {
         "kind": "delve",
         "family": "dwelling",
-        "sizeBand": "S1",
+        "sizeBand": "S2",
         "wetFraction": 0.2,
         "entranceCount": 2,
-        "exteriorShell": true,
-        "verticalRelationship": null
+        "exteriorShell": false,
+        "verticalRelationship": "below"
       },
       "entrance": "stair-throat",
       "underwaterAccess": "none",
@@ -69951,7 +69952,7 @@
         "wetFraction": 0.4,
         "entranceCount": 1,
         "exteriorShell": true,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
@@ -70065,7 +70066,7 @@
         "wetFraction": 0.0,
         "entranceCount": 1,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "grave-cut",
       "underwaterAccess": "none",
@@ -70178,7 +70179,7 @@
         "wetFraction": 0.7,
         "entranceCount": 2,
         "exteriorShell": false,
-        "verticalRelationship": null
+        "verticalRelationship": "below"
       },
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",

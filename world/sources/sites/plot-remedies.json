@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "_": "The 16g review's remedies: ONE row per failing record, applied by `python3 -m worldgen.plot_remedies --apply` so the review is reproducible and idempotent. Never hand-write a position (docs/world/96-placement-playbook.md §1): a re-site row removes the record's position fields and the chain's seeded macro_plot re-sites it; a sub-150 m nudge writes a macro-plot-overrides row that `apply_sitings --stage` applies. Kinds: pin-by-siting, meso-move, re-type, re-reference, prose, merge, cut, status, field. Every row carries the measured reason in `why`. Add the row, run --apply, then --check.",
+  "remedies": []
+}

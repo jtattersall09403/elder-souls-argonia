@@ -44,6 +44,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import functools
 import math
 import re
 import zlib
@@ -58,6 +59,7 @@ from . import plot_stats
 from .site_fields import ProvinceSurvey, shared_survey
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
+HYDROLOGY_GRAPH = REPO_ROOT / "world/sources/hydrology/hydrology-graph.json"
 SITES_DIR = REPO_ROOT / "world" / "sources" / "sites"
 SCOUR_PATH = SITES_DIR / "candidate-sites.json"
 REPORT_JSON = SITES_DIR / "macro-plot.json"
@@ -255,6 +257,8 @@ class Demand:
     bound_to: str | None = None                              # must sit within bound_max of this (hard)
     bound_max: float = BOUND_MAX_M
     near_point: tuple[float, float, float] | None = None       # (x, z, maxM): typed `sitingPrefs.nearPoint`
+    near_water: tuple[str, float] | None = None              # (graph entity id, maxM): typed `sitingPrefs.nearWater`
+    min_depth_m: float = 0.0                                 # typed `sitingPrefs.minDepthM` (RECORD depth)
     scour_site_ids: list[str] = field(default_factory=list)  # typed `sitingPrefs.scourSiteIds`: the record's own claim
     purpose: str = "wonder-oddity"                           # playerPurpose.primary (v2)
     stance: str = "neutral"                                  # hostility.baseline (v2)
@@ -612,6 +616,16 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
             # `sitingPrefs.nearPoint {x, z, maxM}` (metres): a hard radius around a
             # world point — how the hostility-frequency report's route gaps are
             # filled without hand-writing a position (positions stay plot-owned).
+            # `sitingPrefs.nearWater {entityId, maxM}` and `sitingPrefs.minDepthM`
+            # (16g): the two ties the prose used to carry and nothing read — a
+            # hatchery "on the warm pools of central Shadowfen" landed on the sea
+            # coast, wrecks on 0.0 m ground. Both are HARD and are identity, like
+            # the footprint: no relaxation stage weakens them.
+            nw_ = prefs.get("nearWater")
+            near_water = None
+            if isinstance(nw_, dict) and nw_.get("entityId"):
+                near_water = (str(nw_["entityId"]), float(nw_.get("maxM") or 0.0))
+            min_depth_m = float(prefs.get("minDepthM") or 0.0)
             np_ = prefs.get("nearPoint")
             near_point = None
             if isinstance(np_, dict) and "x" in np_ and "z" in np_:
@@ -636,6 +650,7 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
                 landforms_from_recipe=from_recipe, regions=regions,
                 parents=parents, hints=hints, record=rec, sightline_to=sight, bound_to=bound,
                 bound_max=bound_max, near_point=near_point,
+                near_water=near_water, min_depth_m=min_depth_m,
                 scour_site_ids=[str(sid) for sid in (prefs.get("scourSiteIds") or [])],
                 purpose=(rec.get("playerPurpose") or {}).get("primary", "wonder-oddity"),
                 stance=(rec.get("hostility") or {}).get("baseline", "neutral"),
@@ -967,6 +982,51 @@ def promised_navigable_depth_m(d: Demand) -> float:
     return promised
 
 
+@functools.lru_cache(maxsize=1)
+def _water_entity_names() -> dict[str, str]:
+    """{graph id: display name} for rivers, reaches and bodies (id when unnamed)."""
+    doc = json.loads(HYDROLOGY_GRAPH.read_text())
+    out: dict[str, str] = {}
+    for key in ("rivers", "reaches", "bodies"):
+        for e in doc.get(key) or []:
+            out[e["id"]] = e.get("name") or e["id"]
+    return out
+
+
+def near_water_ok(d: Demand, c: Candidate, survey: "ProvinceSurvey | None") -> bool:
+    """Typed `sitingPrefs.nearWater`: the candidate's NEAREST dry-season water
+    entity must BE the named one (a reach counts as its river) and be within
+    `maxM`. Naming the water the record's prose names is the whole point, so
+    "a different river, closer" fails."""
+    if d.near_water is None or survey is None:
+        return True
+    want, max_m = d.near_water
+    near = survey.nearest_water_entity(c.x, c.z)
+    if not near or not near.get("entityId"):
+        return False
+    eid = near["entityId"]
+    if eid != want:
+        if not want.startswith("river."):
+            return False
+        reach = survey.water.reach(eid)
+        if not reach or reach.get("river") != want:
+            return False
+    return float(near.get("distanceM") or 0.0) <= max_m + 1e-9
+
+
+def min_depth_ok(d: Demand, c: Candidate, survey: "ProvinceSurvey | None" = None) -> bool:
+    """Typed `sitingPrefs.minDepthM`: the RECORD depth within
+    `NAVIGABLE_REACH_M` must reach it, and a `submerged` record must also
+    MEASURE it at its own dot."""
+    if d.min_depth_m <= 0.0:
+        return True
+    if c.navigable_depth_m + 1e-9 < d.min_depth_m:
+        return False
+    if d.hints.get("submerged") and c.depth_m + 1e-9 < d.min_depth_m:
+        return False
+    return True
+
+
 def water_identity_ok(d: Demand, c: Candidate, survey: ProvinceSurvey) -> bool:
     if d.hints.get("submerged"):
         return c.depth_m + 1e-9 >= SUBMERGED_MIN_DEPTH_M
@@ -1010,6 +1070,11 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     parts: dict[str, float] = {}
     if survey is not None and not water_identity_ok(d, c, survey):
         return -9.0, {"water-identity": -9.0}
+    # Typed water ties (16g). Identity, never relaxed.
+    if not near_water_ok(d, c, survey):
+        return -9.0, {"near-water": -9.0}
+    if not min_depth_ok(d, c, survey):
+        return -9.0, {"min-depth": -9.0}
     # A record's typed terrain promise is a siting constraint, never a wish
     # the compiler is left to discover it cannot keep. No relaxation stage
     # weakens it: the owner's ruling is to cut a record rather than a promise.
@@ -1530,6 +1595,13 @@ def committed_invalid_reason(d: Demand, c: Candidate, plotted: dict[str, tuple[f
         point = _point_depth_m(s, c.x, c.z)
         if point > OPEN_WATER_ALLOWANCE_M:
             return f"dry record now stands in {point:.1f} m of open water"
+    if d.near_water and not near_water_ok(d, c, s):
+        near = s.nearest_water_entity(c.x, c.z) or {}
+        return (f"nearest water is now {near.get('entityId')} at {near.get('distanceM')} m, "
+                f"not {d.near_water[0]} within {d.near_water[1]:.0f} m")
+    if d.min_depth_m and not min_depth_ok(d, c, s):
+        return (f"recorded depth {c.navigable_depth_m:.1f} m within {NAVIGABLE_REACH_M:.0f} m "
+                f"is under the record's {d.min_depth_m:g} m")
     # Danger band and region class are authored rasters, and the committed
     # facts are the winning candidate's own (a scour site's cell can disagree
     # with the grid by a pixel), so the test is "did the RASTER move": the
@@ -1603,6 +1675,24 @@ def seed_from_committed(s: ProvinceSurvey, demands: list[Demand],
     return seeded, resite, pinned
 
 
+def city_centres(files=None) -> dict[str, tuple[float, float]]:
+    """anchor slug -> the city's `cityLayout.centre`, for the records that
+    carry one (owner rule 2026-09-18: the city PIN is the gate on the road,
+    and the record's dot is the CENTRE the gate leads to). A city without a
+    block — an owner call in `worldgen.city_layout` — is simply absent, and
+    its anchor is placed exactly where the anchor says, as before."""
+    from . import catalogue as _catalogue
+    if files is None:
+        files = _catalogue.load_region_files()
+    out: dict[str, tuple[float, float]] = {}
+    for rf in files:
+        for rec in rf.places:
+            centre = (rec.get("cityLayout") or {}).get("centre")
+            if isinstance(centre, list) and len(centre) == 2:
+                out[rec["id"].rsplit(".", 1)[-1]] = (float(centre[0]), float(centre[1]))
+    return out
+
+
 def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
            anchors: dict[str, tuple[float, float]],
            preplaced: dict[str, dict] | None = None,
@@ -1616,11 +1706,15 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
     if thomas_prior is None:
         thomas_prior = build_thomas_prior(demands, cands, DEFAULT_SEED)
 
-    # 1. the owner-approved anchors, exactly where they are
+    # 1. the owner-approved anchors, exactly where they are — except a city
+    # whose record carries a `cityLayout`: there the anchor pixel is the GATE
+    # on the main road, and the record's dot is the city CENTRE the gate leads
+    # to (owner rule 2026-09-18). The roads still end at the gate.
+    centres = city_centres()
     for d in demands:
         slug = d.id.rsplit(".", 1)[-1]
         if d.tier == 0 and slug in anchors:
-            ax, az = anchors[slug]
+            ax, az = centres.get(slug, anchors[slug])
             # The anchor's position is the owner's; every PHYSICAL fact about
             # it is the ground's. This used to build the candidate with literal
             # `route_m=0.0, water_m=0.0, slope=0.0`, and `measure_candidate_water`
@@ -1643,7 +1737,12 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             plotted_xy[d.id] = (ax, az)
             plotted_d[d.id] = (d, c)
             result[d.id] = {"candidate": c, "score": None, "parts": {}, "runners": [],
-                            "why": f"Owner-approved settlement anchor '{slug}' (world/sources/anchors, Phase 2 gate); position kept exactly."}
+                            "why": (f"Owner-approved settlement anchor '{slug}' "
+                                    f"(world/sources/anchors, Phase 2 gate); "
+                                    + ("the anchor pixel is the city gate on the main road, "
+                                       "and the record sits at the solved city centre "
+                                       "(cityLayout, owner rule 2026-09-18)."
+                                       if slug in centres else "position kept exactly."))}
 
     # 1b. the committed plot, seeded: these records are already on the map, so
     # every gate the solver judges (sightlines, binds, separation, clustering)
@@ -2075,6 +2174,10 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                 failed.append("site taken")
             if not water_identity_ok(d, c, s):
                 failed.append("water identity")
+            if not near_water_ok(d, c, s):
+                failed.append("near-water")
+            if not min_depth_ok(d, c, s):
+                failed.append("min-depth")
             if cluster is None:
                 failed.append("culture clump")
             elif sc + cluster < RELAXED_SCORE:
@@ -2181,9 +2284,44 @@ def why_text(d: Demand, c: Candidate, parts: dict[str, float], relaxed_stage: st
         bits.append("won on " + ", ".join(k for k, _ in strong))
     if relaxed_stage:
         bits.append(f"placed from the homeless batch at stage '{relaxed_stage}'")
+    if d.near_water:
+        want, max_m = d.near_water
+        bits.append(f"bound to {_water_entity_names().get(want, want)} within {max_m:.0f} m")
+    if d.min_depth_m:
+        bits.append(f"needs {d.min_depth_m:g} m of water")
     if d.landforms_from_recipe:
         bits.append("landform wishes taken from the type recipe (record had none)")
     return "; ".join(bits) + "."
+
+
+@functools.lru_cache(maxsize=1)
+def _recipe_footprints() -> dict[str, tuple[float, str]]:
+    from .migrate_catalogue_16g import recipe_footprints
+    return recipe_footprints()
+
+
+def apply_footprint_fields(rec: dict) -> None:
+    """A POSITIONED record must carry `footprintRadiusM`/`footprintSource`.
+
+    `plot_remedies` (pin-by-siting, re-type) clears a record's position and
+    with it these fields, so the re-plot has to write them back or the
+    validator fails. Same source of truth as `migrate_catalogue_16g`: the five
+    authored blueprints keep their measured radius, everything else takes its
+    type recipe's. An authored `footprintPolygon` (source 'polygon') is the
+    stronger statement and is left alone."""
+    from .migrate_catalogue_16g import BLUEPRINT_FOOTPRINT_M
+    if rec.get("footprintSource") == "polygon" or rec.get("footprintPolygon") is not None:
+        return
+    rid = rec.get("id")
+    if rid in BLUEPRINT_FOOTPRINT_M:
+        radius, source = float(BLUEPRINT_FOOTPRINT_M[rid]), "blueprint"
+    else:
+        got = _recipe_footprints().get((rec.get("classification") or {}).get("type"))
+        if got is None:
+            return
+        radius, source = got
+    rec["footprintRadiusM"] = radius
+    rec["footprintSource"] = source
 
 
 def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Demand],
@@ -2193,9 +2331,13 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
         for rec in rf.places:
             r = result.get(rec["id"])
             if not r:
-                if rec.get("status") in ("deferred", "cut"):
-                    # a record deferred after an earlier plot must not keep a stale dot
-                    for k in ("position", "positionM", "scourSiteId", "candidatesConsidered", "whySiteWon", "plotFacts"):
+                if rec.get("status") in ("deferred", "cut") or rec["id"] in by_d:
+                    # a record deferred after an earlier plot, or a LIVE record
+                    # the solve left homeless, must not keep a stale dot: a
+                    # position it cannot stand on is a lie every downstream
+                    # stage would build on (16g review, 2026-09-19)
+                    for k in ("position", "positionM", "scourSiteId", "candidatesConsidered", "whySiteWon",
+                              "plotFacts", "footprintRadiusM", "footprintSource", "footprintPolygon"):
                         rec.pop(k, None)
                     if rec.get("workflow") == "plotted":
                         rec["workflow"] = "derived"
@@ -2207,6 +2349,7 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
             u, v = s.m_to_uv(c.x, c.z)
             rec["position"] = {"u": round(u, 5), "v": round(v, 5)}
             rec["positionM"] = [round(c.x, 1), round(c.z, 1)]
+            apply_footprint_fields(rec)
             if c.kind == "scour":
                 rec["scourSiteId"] = c.id
             else:
@@ -2216,10 +2359,15 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
             rec["whySiteWon"] = r["why"] if "why" in r else why_text(d, c, r["parts"], r.get("homelessStage"))
             if r.get("swapped"):
                 rec["whySiteWon"] = rec["whySiteWon"][:-1] + f"; site exchanged in the swap pass {r['swapped']}."
+            # one source for the distance to water: the graph-keyed fact
+            # (a candidate's `water_m` is the scour's own measure and can sit
+            # a cell off the transform on a shoreline)
+            water_fact = s.nearest_water_entity(c.x, c.z)
             rec["plotFacts"] = {
                 "landform": c.landform, "regionClass": c.region, "dangerBand": c.danger,
-                "distanceToRouteM": round(c.route_m, 1), "distanceToWaterM": round(c.water_m, 1),
-                "water": s.nearest_water_entity(c.x, c.z),
+                "distanceToRouteM": round(c.route_m, 1),
+                "distanceToWaterM": water_fact["distanceM"] if water_fact else round(c.water_m, 1),
+                "water": water_fact,
                 "score": None if r["score"] is None else round(r["score"], 3),
             }
             rec["workflow"] = "plotted"
@@ -2393,6 +2541,14 @@ def typed_siting_violations(demands: list[Demand], result: dict[str, dict],
             if near is None or near > limit:
                 out.append({"id": d.id, "gate": "maxFromM", "other": cls,
                             "distM": None if near is None else round(near, 1), "needM": limit})
+        if d.near_water and s is not None and not near_water_ok(d, c, s):
+            near = s.nearest_water_entity(c.x, c.z) or {}
+            out.append({"id": d.id, "gate": "nearWater", "other": d.near_water[0],
+                        "distM": near.get("distanceM"), "needM": d.near_water[1],
+                        "actual": near.get("entityId")})
+        if d.min_depth_m and not min_depth_ok(d, c, s):
+            out.append({"id": d.id, "gate": "minDepthM", "other": None,
+                        "distM": round(c.navigable_depth_m, 1), "needM": d.min_depth_m})
         for blocker in terrain_promise_blockers(d, c, s):
             out.append({"id": d.id, "gate": "terrainPromise", "other": blocker,
                         "distM": None, "needM": None})
@@ -2513,6 +2669,16 @@ def build_report(demands: list[Demand], result: dict[str, dict], unresolved: lis
             rc = result[d.bound_to]["candidate"]
             named_checks.append({"id": d.id, "kind": "bound", "to": d.bound_to,
                                  "distM": round(math.hypot(c.x - rc.x, c.z - rc.z))})
+        if d.near_water:
+            near = s.nearest_water_entity(c.x, c.z) or {}
+            named_checks.append({"id": d.id, "kind": "nearWater", "to": d.near_water[0],
+                                 "distM": near.get("distanceM"), "needM": d.near_water[1],
+                                 "actual": near.get("entityId"),
+                                 "ok": near_water_ok(d, c, s)})
+        if d.min_depth_m:
+            named_checks.append({"id": d.id, "kind": "minDepth", "to": None,
+                                 "distM": round(c.navigable_depth_m, 1),
+                                 "needM": d.min_depth_m, "ok": min_depth_ok(d, c, s)})
 
     landform_used = {}
     for r in result.values():
@@ -2618,7 +2784,7 @@ def digest(rep: dict, result: dict[str, dict], demands: list[Demand]) -> str:
             L.append(f"- {b['zone']}: {b['type']} × {b['count']} ({b['share'] * 100:.0f} %)")
     else:
         L.append("- none")
-    L += ["", "## Named constraints (sightline / bound), as plotted", "",
+    L += ["", "## Named constraints (sightline / bound / water), as plotted", "",
           "| record | kind | to | m | line of sight |", "|---|---|---|---|---|"]
     for n in rep["namedConstraintChecks"]:
         L.append(f"| `{n['id']}` | {n['kind']} | `{n['to']}` | {n['distM']} | {n.get('lineOfSight', '—')} |")

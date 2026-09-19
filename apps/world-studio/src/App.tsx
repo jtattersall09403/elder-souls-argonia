@@ -447,6 +447,9 @@ export function App() {
           for (const [name, legend] of Object.entries(hg.legends ?? {})) collected[name] = legend as typeof collected[string];
           setLayerAbout(hg.layers ?? {});
           const graph = await (await fetch(`${base}province/hydrology-graph.json`)).json();
+          // Names live beside the graph, not in it (world/sources/hydrology/names.json).
+          const hydroNames = await fetch(`${base}province/hydrology-names.json`)
+            .then((r) => (r.ok ? r.json() : null)).catch(() => null);
           // The compiled water's own record of what stands where (decision 0066:
           // read the signed record, never re-solve it). Missing rasters just mean
           // the map falls back to the graph bboxes.
@@ -477,7 +480,7 @@ export function App() {
           } catch {
             console.warn("[map] compiled water id raster unavailable; hover falls back to graph bounding boxes");
           }
-          hydroIndexRef.current = buildHydrographIndex(graph, m.imageWidth, m.imageHeight, entitySource);
+          hydroIndexRef.current = buildHydrographIndex(graph, m.imageWidth, m.imageHeight, entitySource, hydroNames);
           decode("hydrograph-bodies");
           decode("hydrograph-falls");
           decode("hydrograph-wetline");

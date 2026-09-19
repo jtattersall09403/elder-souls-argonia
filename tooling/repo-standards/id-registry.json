@@ -200,7 +200,7 @@
   },
   {
    "path": "world/sources/registries/npcs.json",
-   "what": "world registries \u2014 NPC register, PLACEHOLDER until Phase 13 (worldgen.registries)",
+   "what": "world registries — NPC roster, GENERATED from the catalogue's notableNpcSlots by worldgen.npc_roster (world 92 §84)",
    "idKey": "id",
    "collectionKey": "entries",
    "idShape": "flat"

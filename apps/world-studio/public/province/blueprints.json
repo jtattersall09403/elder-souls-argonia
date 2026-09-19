@@ -182,16 +182,16 @@
               1334.539
             ],
             [
-              1973.388,
-              1336.058
+              1973.311,
+              1336.237
             ],
             [
-              1975.714,
-              1354.898
+              1977.075,
+              1353.702
             ],
             [
-              1994.453,
-              1350.385
+              1994.36,
+              1350.408
             ],
             [
               2007.545,
@@ -258,8 +258,8 @@
           "notes": null,
           "polygon": [
             [
-              1970.874,
-              1316.705
+              1970.896,
+              1316.701
             ],
             [
               1969.774,
@@ -322,12 +322,16 @@
               1320.658
             ],
             [
-              2007.514,
-              1319.981
+              2007.49,
+              1319.971
             ],
             [
-              1988.077,
-              1315.107
+              1989.204,
+              1315.638
+            ],
+            [
+              1987.413,
+              1315.349
             ]
           ],
           "why": "A night fight in the pens when the labourer who remembers is taken to be held harder (LV28), between the shells and against the fence."
@@ -522,8 +526,8 @@
         },
         {
           "centreM": [
-            1984.499,
-            1351.008
+            1983.027,
+            1350.149
           ],
           "cultureKit": "neutral-works",
           "id": "district.mazzatun.staging",
@@ -531,8 +535,12 @@
           "notes": "The lower step and the stream lip, 196-203 m. Block face, hoist, scaffolds, gate and cart. The stockade scaffold family is placed per its own snap logic.",
           "polygon": [
             [
-              1951.25,
-              1346.485
+              1963.901,
+              1338.954
+            ],
+            [
+              1951.227,
+              1346.505
             ],
             [
               1943.738,
@@ -579,8 +587,8 @@
               1332.892
             ],
             [
-              2040.882,
-              1294.877
+              2040.887,
+              1294.883
             ]
           ],
           "wealth": "poor",
@@ -678,7 +686,7 @@
           ]
         },
         {
-          "facingDeg": 142.8,
+          "facingDeg": 180.7,
           "id": "door.dunmer-north.mazzatun.3",
           "interiorClaim": {
             "culture": "argonian",
@@ -687,8 +695,8 @@
           },
           "parcelId": "parcel.mazzatun.pen-b",
           "thresholdM": [
-            1993.178,
-            1326.195
+            1991.291,
+            1327.031
           ]
         },
         {
@@ -764,8 +772,8 @@
           "id": "terminal.mazzatun.terrace-head",
           "kind": "track",
           "positionM": [
-            1967.605,
-            1345.68
+            1966.265,
+            1341.911
           ],
           "routeId": "track.dunmer-north.mazzatun",
           "wayId": "route.mazzatun.terrace-head",
@@ -2145,12 +2153,12 @@
           "districtId": "district.mazzatun.pens",
           "entrance": {
             "arcM": null,
-            "bearingDeg": 142.8,
+            "bearingDeg": 180.7,
             "interiorRef": "mudmother-hut-int",
             "kind": "esp-door",
             "worldM": [
-              1993.178,
-              1323.452
+              1991.291,
+              1327.031
             ]
           },
           "front": null,
@@ -2159,125 +2167,125 @@
           "interior": {
             "kind": "dwelling"
           },
-          "notes": "Door side: the flat panel on the shell's local south face, turned by the yaw to bearing 157.",
-          "orientationWhy": "Turned to 30.8°, its doorway on 143° onto the pen lane, so the second shell is entered off the same walk as the first.",
+          "notes": "Door side: the flat panel on the shell's local south face, turned by the yaw to bearing 181.",
+          "orientationWhy": "Turned to 68.7°, its doorway on 181° onto the pen lane, so the second shell is entered off the same walk as the first.",
           "polygon": [
             [
-              1984.696,
-              1320.594
+              1986.353,
+              1319.566
             ],
             [
-              1984.745,
-              1320.531
+              1986.431,
+              1319.546
             ],
             [
-              1985.291,
-              1319.889
+              1987.255,
+              1319.375
             ],
             [
-              1986.328,
-              1319.321
+              1988.423,
+              1319.564
             ],
             [
-              1986.383,
-              1319.307
+              1988.475,
+              1319.586
             ],
             [
-              1987.767,
-              1319.153
+              1989.661,
+              1320.316
             ],
             [
-              1988.78,
-              1319.524
+              1990.232,
+              1321.23
             ],
             [
-              1989.588,
-              1320.239
+              1990.431,
+              1322.291
             ],
             [
-              1990.111,
-              1321.529
+              1990.052,
+              1323.63
             ],
             [
-              1990.125,
-              1321.584
+              1990.029,
+              1323.682
             ],
             [
-              1990.118,
-              1322.767
+              1989.296,
+              1324.611
             ],
             [
-              1989.813,
-              1323.552
+              1988.574,
+              1325.043
             ],
             [
-              1989.347,
-              1324.333
+              1987.726,
+              1325.374
             ],
             [
-              1988.378,
-              1325.002
+              1986.551,
+              1325.306
             ],
             [
-              1987.796,
-              1325.236
+              1985.947,
+              1325.134
             ],
             [
-              1987.654,
-              1325.28
+              1985.809,
+              1325.08
             ],
             [
-              1986.535,
-              1325.672
+              1984.685,
+              1324.703
             ],
             [
-              1986.408,
-              1325.631
+              1984.609,
+              1324.593
             ],
             [
-              1986.308,
-              1325.584
+              1984.56,
+              1324.494
             ],
             [
-              1984.625,
-              1324.58
+              1983.848,
+              1322.668
             ],
             [
-              1984.535,
-              1324.515
+              1983.818,
+              1322.562
             ],
             [
-              1984.439,
-              1324.423
+              1983.798,
+              1322.429
             ],
             [
-              1984.252,
-              1323.252
+              1984.37,
+              1321.391
             ],
             [
-              1984.223,
-              1323.106
+              1984.436,
+              1321.258
             ],
             [
-              1984.152,
-              1322.482
+              1984.764,
+              1320.722
             ],
             [
-              1984.279,
-              1321.312
+              1985.583,
+              1319.877
             ]
           ],
           "spans": null,
           "use": "pen",
           "why": {
-            "microGeography": "Dug into the middle of the step at about 207 m, 4 m above the works terrace. Its door stands 1.7 m from the lane, its nearest wall 2.1 m.",
+            "microGeography": "Dug into the middle of the step at about 207 m, 4 m above the works terrace. Its door stands 0.8 m from the lane, its nearest wall 2.4 m.",
             "playerPurpose": "The overseers watch this pen hardest. A shift spent inside it is how their rota is learnt.",
             "what": "The middle pen, a mud shell for four or five taken labourers.",
             "whyHere": "Three pens hold the labour that the resumed building needs; the record's taken labourers are housed here and nowhere else.",
             "whyNeighbours": "It sits between the first pen and the pens stair, so the gang that files down to the works each shift passes its door.",
             "whySpot": "The middle of the upper step, where the ground is flattest, so it is a pad and not a cut."
           },
-          "yawDeg": 30.8
+          "yawDeg": 68.7
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
@@ -3037,52 +3045,52 @@
           "orientationWhy": "Set parallel to the ridge track's 292° bearing, modulo 180°, so the measured 7.3 m wall run stands square across the track it spans.",
           "polygon": [
             [
-              1979.058,
-              1348.44
+              1980.302,
+              1349.902
             ],
             [
-              1979.135,
-              1349.96
+              1979.613,
+              1351.258
             ],
             [
-              1979.082,
-              1350.089
+              1979.503,
+              1351.345
             ],
             [
-              1977.494,
-              1354.021
+              1976.171,
+              1353.966
             ],
             [
-              1977.441,
-              1354.15
+              1976.061,
+              1354.053
             ],
             [
-              1976.331,
-              1355.19
+              1974.58,
+              1354.403
             ],
             [
-              1974.81,
-              1354.576
+              1973.566,
+              1353.114
             ],
             [
-              1974.734,
-              1353.057
+              1974.255,
+              1351.758
             ],
             [
-              1974.786,
-              1352.927
+              1974.365,
+              1351.671
             ],
             [
-              1976.375,
-              1348.995
+              1977.698,
+              1349.05
             ],
             [
-              1976.427,
-              1348.866
+              1977.808,
+              1348.963
             ],
             [
-              1977.538,
-              1347.826
+              1979.288,
+              1348.613
             ]
           ],
           "spans": "route.mazzatun.terrace-head",
@@ -3095,7 +3103,7 @@
             "whyNeighbours": "The frontage dais stands eleven metres west of it, outside; the pen lane runs behind it; the terrace begins on its inner face.",
             "whySpot": "Nine metres inside the shelf head, where the shoulder narrows between the pens above and the fall to the yard below, set on the ridge track's own line so the way runs straight through the opening rather than kinking at it."
           },
-          "yawDeg": 112.0
+          "yawDeg": 141.811
         },
         {
           "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
@@ -4716,8 +4724,8 @@
           "notes": null,
           "points": [
             [
-              1979.135,
-              1349.96
+              1980.163,
+              1349.042
             ],
             [
               1984.5,
@@ -4790,19 +4798,19 @@
           "notes": null,
           "points": [
             [
-              1967.606,
-              1345.68
+              1965.919,
+              1342.408
             ],
             [
-              1978.288,
-              1352.055
+              1976.032,
+              1350.36
             ]
           ],
           "routing": "straight",
           "via": [
             [
-              1967.605,
-              1345.68
+              1966.265,
+              1341.911
             ],
             [
               1976.934,
@@ -4810,7 +4818,7 @@
             ]
           ],
           "waterOk": null,
-          "why": "The eleven metres between the shelf head and the gate: the ridge track's own line carried past the frontage dais to the gate that closes it, so the way in and the terrace inside are one track with one wall across it.",
+          "why": "The thirteen metres between the shelf head and the gate: the ridge track's own line carried past the frontage dais to the gate that closes it, so the way in and the terrace inside are one track with one wall across it.",
           "widthM": 2.5
         },
         {
@@ -6292,8 +6300,8 @@
           "id": "terminal.nine-trunks.gate-head",
           "kind": "track",
           "positionM": [
-            4959.103,
-            3757.981
+            4957.642,
+            3759.969
           ],
           "routeId": "track.hist-heartland.nine-trunks",
           "wayId": "route.nine-trunks.spur",
@@ -6331,36 +6339,36 @@
           "orientationWhy": "The arch faces on the heartland track's measured 220° bearing, placing its long frame square across the road so a walker passes through the opening rather than round the posts.",
           "polygon": [
             [
-              4963.813,
-              3760.122
+              4959.784,
+              3760.787
             ],
             [
-              4963.607,
-              3760.196
+              4959.565,
+              3760.783
             ],
             [
-              4958.861,
-              3759.661
+              4955.333,
+              3758.568
             ],
             [
-              4958.075,
-              3759.523
+              4954.65,
+              3758.157
             ],
             [
-              4958.175,
-              3758.954
+              4954.948,
+              3757.662
             ],
             [
-              4958.19,
-              3758.889
+              4954.986,
+              3757.606
             ],
             [
-              4962.892,
-              3757.547
+              4959.855,
+              3758.055
             ],
             [
-              4963.155,
-              3758.277
+              4959.837,
+              3758.83
             ]
           ],
           "spans": "route.nine-trunks.spur",
@@ -6373,7 +6381,7 @@
             "whyNeighbours": "The pitch-taker's hut stands on its right hand and the road-side trunk on its left; the chime frame hangs inside it.",
             "whySpot": "The south-western gap faces the spur and the landing path together, so one arch serves both approaches."
           },
-          "yawDeg": 220.0
+          "yawDeg": 241.179
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
@@ -9147,16 +9155,20 @@
               3768.599
             ],
             [
-              4965.4,
+              4970.4,
               3768.4
             ],
             [
-              4958.4,
-              3761.4
+              4959.4,
+              3757.4
             ],
             [
-              4958.075,
-              3759.523
+              4955.4,
+              3757.4
+            ],
+            [
+              4955.333,
+              3758.568
             ]
           ],
           "routing": "terrain",
@@ -9233,16 +9245,16 @@
           "notes": null,
           "points": [
             [
-              4962.892,
-              3757.547
+              4959.855,
+              3758.055
             ],
             [
-              4957.827,
-              3747.512
+              4957.812,
+              3745.632
             ],
             [
-              4958.189,
-              3739.758
+              4958.301,
+              3739.739
             ],
             [
               4960.426,
@@ -9390,24 +9402,20 @@
               3780.397
             ],
             [
-              4950.4,
-              3765.4
+              4945.4,
+              3770.4
             ],
             [
-              4952.674,
-              3765.642
+              4945.082,
+              3765.693
             ],
             [
               4952.4,
-              3759.4
-            ],
-            [
-              4953.4,
               3758.4
             ],
             [
-              4959.274,
-              3758.58
+              4956.733,
+              3759.301
             ]
           ],
           "routing": "terrain",
@@ -9433,12 +9441,12 @@
               3780.397
             ],
             [
-              4952.674,
-              3765.642
+              4945.082,
+              3765.693
             ],
             [
-              4959.103,
-              3757.981
+              4956.617,
+              3759.522
             ]
           ],
           "waterOk": null,
@@ -9460,12 +9468,12 @@
           "notes": null,
           "points": [
             [
-              4961.41,
-              3757.97
+              4959.855,
+              3758.055
             ],
             [
               4969.4,
-              3750.4
+              3748.4
             ],
             [
               4969.233,
@@ -12572,8 +12580,8 @@
           },
           "parcelId": "parcel.lilmoth.quay-lamp",
           "thresholdM": [
-            3850.13,
-            6338.067
+            3852.124,
+            6338.26
           ]
         },
         {
@@ -12922,8 +12930,8 @@
           },
           "parcelId": "parcel.lilmoth.tariff-bell",
           "thresholdM": [
-            3764.153,
-            6302.333
+            3766.155,
+            6302.243
           ]
         }
       ],
@@ -21499,8 +21507,12 @@
               6373.6
             ],
             [
-              3641.503,
-              6373.503
+              3615.503,
+              6371.503
+            ],
+            [
+              3643.503,
+              6371.503
             ],
             [
               3659.503,
@@ -21941,16 +21953,12 @@
           "notes": null,
           "polygon": [
             [
-              2425.503,
-              4383.782
+              2425.803,
+              4383.866
             ],
             [
-              2425.503,
-              4399.712
-            ],
-            [
-              2434.251,
-              4412.834
+              2433.864,
+              4412.332
             ],
             [
               2508.467,
@@ -21989,8 +21997,8 @@
               4365.657
             ],
             [
-              2433.551,
-              4362.107
+              2433.493,
+              4362.09
             ]
           ],
           "why": "The retreat ground for the pond fight: the offering shelf, the chime and the cairn steps are deliberately cluttered, so that they are worse ground for the animal's charge and better ground for a fighter's retreat."
@@ -22001,16 +22009,12 @@
           "notes": null,
           "polygon": [
             [
-              2425.503,
-              4383.782
+              2425.803,
+              4383.866
             ],
             [
-              2425.503,
-              4399.712
-            ],
-            [
-              2434.251,
-              4412.834
+              2433.864,
+              4412.332
             ],
             [
               2508.467,
@@ -22049,8 +22053,8 @@
               4365.657
             ],
             [
-              2433.551,
-              4362.107
+              2433.493,
+              4362.09
             ]
           ],
           "why": "The lair is the fight: the adult wamasu holds the pan and charges anything that enters it, so the water and its rim are kept clear of everything but the three dead trees. The animal is the armoured daedroth build on the werewolfbeast rig with a body of roughly 5 m, which needs room to turn, charge and be circled; LN05 and the province hostility system both put the boss fight here."
@@ -22225,8 +22229,8 @@
         },
         {
           "centreM": [
-            2442.602,
-            4389.068
+            2444.478,
+            4387.842
           ],
           "cultureKit": "neutral-works",
           "id": "district.wamasu-pond-adult.stand",
@@ -22234,16 +22238,12 @@
           "notes": "The knoll north-west of the pond, 2.5 m above the water, with the hunter's abandoned stand on it.",
           "polygon": [
             [
-              2425.503,
-              4383.782
+              2425.803,
+              4383.866
             ],
             [
-              2425.503,
-              4399.712
-            ],
-            [
-              2434.394,
-              4413.049
+              2433.938,
+              4412.592
             ],
             [
               2448.009,
@@ -22270,8 +22270,8 @@
               4364.901
             ],
             [
-              2433.496,
-              4362.256
+              2433.439,
+              4362.242
             ]
           ],
           "wealth": "poor",
@@ -23270,20 +23270,12 @@
               4410.5
             ],
             [
-              2437.998,
-              4406.002
+              2437.503,
+              4391.5
             ],
             [
-              2436.503,
-              4405.5
-            ],
-            [
-              2429.503,
-              4398.5
-            ],
-            [
-              2429.503,
-              4384.5
+              2429.998,
+              4383.999
             ],
             [
               2435.503,

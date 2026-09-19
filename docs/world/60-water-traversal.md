@@ -313,7 +313,11 @@ wishlist here was being read as scope):
 
 - **ferries and boat fast travel are Morrowind-style**: speak to the
   ferryman/boat owner, pay, arrive — instant travel over a defined,
-  geographically sensible service graph (Phase 4 lanes + placed docks);
+  geographically sensible service graph: the one travel-service record
+  (`world/sources/routes/travel-services.json`, 16e/16g) whose hops follow
+  the recorded lanes, reach chains and rootways, with a harbour station per
+  major city and connectedness as the gate (depth is reported, never gated;
+  owner 2026-09-18);
   NPC passengers are set dressing (parented props at most).
 
 *Deferred until a quest brief or playtest demands them (none currently does):*

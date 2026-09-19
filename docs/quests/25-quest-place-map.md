@@ -81,7 +81,8 @@ the lead re-runs the plot.
 
 | Provision | Place(s) | Plotted |
 |---|---|---|
-| `LOC shadowscales.safehouse_ruin` / `.safehouse_mainquest` | `saxhleel-coast.archon-shadowscale-sanctuary` | yes |
+| `LOC shadowscales.safehouse_ruin` | `saxhleel-coast.archon-shadowscale-sanctuary` | yes |
+| `LOC shadowscales.safehouse_mainquest` | `dunmer-north.murkwater-shadowscale-ground` | yes · MQ23 second stage: the survivor's hide, distinct from the sealed facility (quests 30) |
 | `LOC dungeon.empty_cradle` (SS03) | `dunmer-north.murkwater-shadowscale-ground` | yes |
 | `LOC soulrest.night_reed_den` (TG01) | `mercantile-coast.soulrest-quay-tradehouse` | yes |
 | `LOC lilmoth.pusbottom_vault` (TG08) | `mercantile-coast.lilmoth`, `.villa-cellars` | yes |

@@ -19,7 +19,7 @@ def _taxonomy(dirpath):
 def _record(**over):
     rec = {
         "id": "place.testreg.reed-cut-camp",
-        "schemaVersion": 2,
+        "schemaVersion": 3,
         "name": "Reed-Cut Camp",
         "classification": {"class": "camp", "family": "hostile", "type": "bandit", "variant": "riverine", "magnitude": None},
         "status": "active",
@@ -56,7 +56,7 @@ def _record(**over):
 
 def _region_file(dirpath, places):
     _write(dirpath, "places-testreg.json",
-           {"schemaVersion": 2, "region": "testreg", "seed": "s1", "places": places})
+           {"schemaVersion": 3, "region": "testreg", "seed": "s1", "places": places})
 
 
 def test_valid_catalogue_passes(tmp_path):
@@ -98,7 +98,7 @@ def test_wrong_id_prefix_and_bad_sockets_fail(tmp_path):
     _taxonomy(tmp_path)
     rec = _record(id="place.otherreg.x", sockets={"scene": []})
     _write(tmp_path, "places-testreg.json",
-           {"schemaVersion": 2, "region": "testreg", "seed": "s1", "places": [rec]})
+           {"schemaVersion": 3, "region": "testreg", "seed": "s1", "places": [rec]})
     errs = catalogue.validate_catalogue(tmp_path, check_permanence=False)
     assert any("place.testreg.<slug>" in e for e in errs)
     assert any("sockets" in e for e in errs)
@@ -406,8 +406,8 @@ def _member(rid, pos, **over):
 def test_a_record_schemaVersion_above_the_files_fails(tmp_path):
     """MUTATION: drop the per-record comparison — green on a record claiming
     a shape its file does not have."""
-    errs = _errs(tmp_path, [_record(schemaVersion=3)])
-    assert any("schemaVersion 3 is above the file's 2" in e for e in errs), errs
+    errs = _errs(tmp_path, [_record(schemaVersion=4)])
+    assert any("schemaVersion 4 is above the file's 3" in e for e in errs), errs
 
 
 def test_a_record_without_a_schemaVersion_fails(tmp_path):
@@ -623,3 +623,160 @@ def test_every_underwater_entry_says_how_you_get_in():
     assert missing == [], (
         f"{len(missing)} underwater-entry records do not say how you get in, e.g. "
         + ", ".join(missing[:5]))
+
+
+# --- world 70 §48 rule 1: two neighbours of one family may not be the same ---
+#
+# 292 offending pairs came out of the derivation; the defaults pass and then
+# the fact variation (owner ruling 2026-09-19: one size band or one extra
+# entrance, then the exterior shell, recorded on the record as
+# `interior.factsVariedForVariety`) cleared all but these 49.
+#
+# They cannot be cleared by any lever the ruling authorises. Three of the
+# seven axes are immovable by those levers: `lock` follows hostility.baseline,
+# `combat` follows dangerTier, and `traversal` cannot move at all on a dry
+# interior (swimM stays 0 whatever the size band). 26 of these pairs agree on
+# all three, which leaves {rooms, loop, light, sockets} needing to differ
+# FOUR ways out of four for every pair in clusters where one record ties with
+# up to five neighbours — arithmetically impossible. Clearing them means
+# varying dangerTier, hostility or wetFraction, which are world facts, not
+# defaults. The comment on each row is the pair's shared facts.
+#
+# The gate still fails on any NEW pair and on any growth in the total.
+KNOWN_SAMENESS_PAIRS = frozenset({
+    ("place.dunmer-north.feeds-the-north",
+     "place.imperial-fringe.the-drowned-furrow"),   # flooded-cave S2 wet 0.9 D3 underwater-entry x1 hostile
+    ("place.dunmer-north.hackwing-wall",
+     "place.dunmer-north.the-guar-ground"),   # burrow-warren S2 wet 0.0 D3 cave-mouth x2 hostile
+    ("place.dunmer-north.the-high-wrappings",
+     "place.dunmer-north.zuuk"),   # root-cavern S2 wet 0.2 D3 hollow-trunk x2 hostile
+    ("place.dunmer-north.the-permit-dig",
+     "place.imperial-fringe.collections-dig"),   # root-cavern S2 wet 0.0 D2 trapdoor x1 guarded
+    ("place.dunmer-north.the-salt-ledge",
+     "place.dunmer-north.the-whispers-dig"),   # smuggler-den S2 wet 0.0 D3 cellar-door x1 hostile
+    ("place.hist-heartland.bubble-spire-collapsed",
+     "place.hist-heartland.climbable-ruin-roof-terrace"),   # root-cavern S2 wet 0.0 D4 hollow-trunk x1 hostile
+    ("place.hist-heartland.bubble-spire-collapsed",
+     "place.saxhleel-coast.jungle-root-hollow"),   # root-cavern S2 wet 0.0 D4 hollow-trunk x1 hostile
+    ("place.hist-heartland.burn-scar-village-ash",
+     "place.hist-heartland.drowning-narrows-current"),   # root-cavern S1 wet 0.1 D4 cellar-door x1 hostile
+    ("place.hist-heartland.burn-scar-village-ash",
+     "place.hist-heartland.whitewater-reach-panther"),   # root-cavern S1 wet 0.1 D4 cellar-door x1 hostile
+    ("place.hist-heartland.burn-scar-village-ash",
+     "place.hist-heartland.wisp-lure-basin"),   # root-cavern S1 wet 0.1 D4 cellar-door x1 hostile
+    ("place.hist-heartland.canopy-crossing-rope-basin",
+     "place.hist-heartland.hammock-crown-ancestor"),   # root-cavern S2 wet 0.3 D4 root-mouth x2 hostile
+    ("place.hist-heartland.canopy-crossing-rope-basin",
+     "place.mercantile-coast.root-gallery-murkmire"),   # root-cavern S2 wet 0.3 D4 root-mouth x2 hostile
+    ("place.hist-heartland.climbable-ruin-roof-terrace",
+     "place.saxhleel-coast.jungle-root-hollow"),   # root-cavern S2 wet 0.0 D4 stair-throat x1 hostile
+    ("place.hist-heartland.drowning-narrows-current",
+     "place.hist-heartland.whitewater-reach-panther"),   # root-cavern S1 wet 0.4 D4 root-mouth x1 hostile
+    ("place.hist-heartland.drowning-narrows-current",
+     "place.hist-heartland.wisp-lure-basin"),   # root-cavern S1 wet 0.4 D4 root-mouth x1 hostile
+    ("place.hist-heartland.hackwing-roost-wild",
+     "place.hist-heartland.squatted-ruin-home-hollow"),   # root-cavern S1 wet 0.0 D3 hollow-trunk x1 hostile
+    ("place.hist-heartland.hackwing-roost-wild",
+     "place.hist-heartland.whitewater-reach-panther"),   # root-cavern S1 wet 0.0 D3 hollow-trunk x1 hostile
+    ("place.hist-heartland.miregaunt-ward-approach",
+     "place.hist-heartland.wisp-lure-basin"),   # root-cavern S1 wet 0.2 D5 burrow x1 hostile
+    ("place.hist-heartland.root-gallery-collapsed-nine",
+     "place.hist-heartland.root-gallery-lantern-hollow"),   # root-cavern S2 wet 0.4 D4 sinkhole-lip x1 hostile
+    ("place.hist-heartland.root-gallery-drowned-stair",
+     "place.hist-heartland.root-gallery-kept-light"),   # root-cavern S2 wet 0.6 D4 underwater-entry x2 hostile
+    ("place.hist-heartland.root-gallery-kept-light",
+     "place.hist-heartland.sap-touched-miredancer"),   # root-cavern S2 wet 0.7 D4 root-mouth x2 hostile
+    ("place.hist-heartland.rootworm-burrow-live",
+     "place.hist-heartland.umpholo-mission"),   # root-cavern S2 wet 0.0 D4 burrow x2 hostile
+    ("place.hist-heartland.rootworm-burrow-live",
+     "place.hist-heartland.waiting-vigil-village"),   # root-cavern S2 wet 0.0 D4 burrow x2 hostile
+    ("place.hist-heartland.squatted-ruin-home-hollow",
+     "place.hist-heartland.whitewater-reach-panther"),   # root-cavern S2 wet 0.0 D3 cellar-door x1 hostile
+    ("place.hist-heartland.whitewater-reach-panther",
+     "place.hist-heartland.wisp-lure-basin"),   # root-cavern S1 wet 0.3 D3 root-mouth x1 hostile
+    ("place.imperial-fringe.orma-tactile-ruin",
+     "place.mercantile-coast.root-gallery-murkmire"),   # root-cavern S3 wet 0.0 D4 stair-throat x2 hostile
+    ("place.imperial-fringe.sink-field",
+     "place.imperial-fringe.the-cold-lights"),   # flooded-cave S1 wet 0.8 D3 cave-mouth x2 hostile
+    ("place.imperial-fringe.the-empty-steading",
+     "place.mercantile-coast.rockpark"),   # abandoned-plantation S2 wet 0.2 D3 door x2 hostile
+    ("place.imperial-penal-south.cordon-cellars",
+     "place.imperial-penal-south.intact-fort"),   # imperial-fort S2 wet 0.0 D3 cellar-door x3 hostile
+    ("place.imperial-penal-south.drawdown-flat",
+     "place.naga-kur-deeps.leviathan-bone-field"),   # burrow-warren S2 wet 0.4 D4 burrow x2 hostile
+    ("place.imperial-penal-south.intact-fort",
+     "place.imperial-penal-south.rose-outworks"),   # imperial-fort S2 wet 0.05 D3 gate x3 hostile
+    ("place.imperial-penal-south.intact-fort",
+     "place.mercantile-coast.sacked-customs-suburb"),   # imperial-fort S2 wet 0.05 D3 gate x3 hostile
+    ("place.imperial-penal-south.kothringi-ruin-basin",
+     "place.imperial-penal-south.lilmothiit-quarry"),   # kothringi-lilmothiit-site S2 wet 0.05 D3 door x3 hostile
+    ("place.imperial-penal-south.natural-dive-shaft",
+     "place.naga-kur-deeps.air-pocket-station-deeps"),   # flooded-cave S2 wet 0.95 D4 underwater-entry x3 hostile
+    ("place.imperial-penal-south.rose-outworks",
+     "place.mercantile-coast.sacked-customs-suburb"),   # imperial-fort S2 wet 0.15 D3 trapdoor x3 hostile
+    ("place.mercantile-coast.alessian-hull",
+     "place.mercantile-coast.whitebone-reef"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 hostile
+    ("place.mercantile-coast.alessian-hull",
+     "place.naga-kur-deeps.drifting-village-wet-mooring"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 hostile
+    ("place.mercantile-coast.alessian-hull",
+     "place.naga-kur-deeps.raft-village-lashed"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 hostile
+    ("place.mercantile-coast.alessian-hull",
+     "place.naga-kur-deeps.wreck-submerged-barge"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 hostile
+    ("place.mercantile-coast.insular-jungle-village",
+     "place.mercantile-coast.stripped-village-north"),   # dwelling S2 wet 0.2 D4 door x3 hostile
+    ("place.mercantile-coast.naga-village-oliis",
+     "place.saxhleel-coast.terrace-village-ridge"),   # dwelling S2 wet 0.3 D3 door x2 hostile
+    ("place.mercantile-coast.whitebone-reef",
+     "place.naga-kur-deeps.drifting-village-wet-mooring"),   # shipwreck S2 wet 0.85 D3 underwater-entry x2 hostile
+    ("place.mercantile-coast.whitebone-reef",
+     "place.naga-kur-deeps.raft-village-lashed"),   # shipwreck S2 wet 0.85 D3 underwater-entry x2 hostile
+    ("place.mercantile-coast.whitebone-reef",
+     "place.saxhleel-coast.gap-reef"),   # shipwreck S2 wet 0.85 D3 underwater-entry x2 hostile
+    ("place.naga-kur-deeps.drifting-village-wet-mooring",
+     "place.naga-kur-deeps.raft-village-lashed"),   # shipwreck S2 wet 0.8 D3 underwater-entry x2 hostile
+    ("place.naga-kur-deeps.drifting-village-wet-mooring",
+     "place.naga-kur-deeps.wreck-submerged-barge"),   # shipwreck S2 wet 0.8 D3 underwater-entry x2 hostile
+    ("place.naga-kur-deeps.drifting-village-wet-mooring",
+     "place.saxhleel-coast.gap-reef"),   # shipwreck S2 wet 0.8 D3 underwater-entry x2 hostile
+    ("place.naga-kur-deeps.raft-village-lashed",
+     "place.naga-kur-deeps.wreck-submerged-barge"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 neutral
+    ("place.saxhleel-coast.mangrove-air-pocket",
+     "place.saxhleel-coast.outer-reef"),   # flooded-cave S2 wet 0.6 D3 underwater-entry x1 hostile
+})
+
+
+def test_two_neighbours_of_one_family_are_not_the_same_place_twice():
+    """§48 rule 1: two live dungeon-kind records of one family within 2 km may
+    not agree on more than three of the seven promise axes.
+
+    MUTATION: give two neighbouring root caverns the same light and room set
+    and this goes red on a pair that is not in the recorded list."""
+    from . import migrate_interior_promises as mig
+    records = [r for rf in catalogue.load_region_files() for r in rf.places]
+    pairs = mig.sameness_pairs(records)
+    new = [(a, b, n) for a, b, n in pairs if (a, b) not in KNOWN_SAMENESS_PAIRS]
+    assert new == [], (
+        f"{len(new)} NEW same-place-twice pairs, e.g. "
+        + "; ".join(f"{a} / {b} agree on {n} axes" for a, b, n in new[:5]))
+    assert len(pairs) <= len(KNOWN_SAMENESS_PAIRS), (
+        f"{len(pairs)} offending pairs, past the recorded {len(KNOWN_SAMENESS_PAIRS)}")
+
+
+def test_an_unknown_near_water_entity_fails(tmp_path):
+    """The typed tie names the hydrology graph's own id, never a prose name."""
+    prefs = dict(_record()["sitingPrefs"], nearWater={"entityId": "river.not-a-river", "maxM": 200})
+    errs = _errs(tmp_path, [_record(sitingPrefs=prefs)])
+    assert any("is not a river, reach or body in the hydrology graph" in e for e in errs), errs
+    good = dict(_record()["sitingPrefs"], nearWater={"entityId": "river.381-1264", "maxM": 200})
+    assert _errs(tmp_path, [_record(sitingPrefs=good)]) == []
+
+
+def test_near_water_max_m_and_min_depth_out_of_range_fail(tmp_path):
+    base = _record()["sitingPrefs"]
+    wide = dict(base, nearWater={"entityId": "river.381-1264", "maxM": 5000})
+    assert any("nearWater.maxM must be 10-1500 m" in e for e in _errs(tmp_path, [_record(sitingPrefs=wide)]))
+    tight = dict(base, nearWater={"entityId": "river.381-1264", "maxM": 5})
+    assert any("nearWater.maxM must be 10-1500 m" in e for e in _errs(tmp_path, [_record(sitingPrefs=tight)]))
+    shallow = dict(base, minDepthM=0.1)
+    assert any("minDepthM must be 0.3-40 m" in e for e in _errs(tmp_path, [_record(sitingPrefs=shallow)]))
+    assert _errs(tmp_path, [_record(sitingPrefs=dict(base, minDepthM=1.5))]) == []

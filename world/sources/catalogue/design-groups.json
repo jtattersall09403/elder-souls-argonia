@@ -1,16 +1,16 @@
 {
-  "schemaVersion": 1,
-  "_": "Places that are ONE design: one blueprint, one build, one agent. A row here is the reason two records may sit inside each other's footprint and must be authored together; every member carries `designGroup` pointing back at the row, and worldgen.catalogue checks the membership, the liveness and the spread. See world/sources/catalogue/README.md.",
-  "groups": [
-    {
-      "id": "group.lost-city",
-      "anchor": "place.hist-heartland.lost-city",
-      "members": [
-        "place.hist-heartland.lost-city",
-        "place.hist-heartland.xal-krona-making-ground"
-      ],
-      "loreReason": "The Made Ground is reached through the Lost City after MQ29 (quests 25 §20e); one blueprint, one build (plan 16 §10, item F1)",
-      "maxSpreadM": 120
-    }
-  ]
+ "schemaVersion": 1,
+ "_": "Places that are ONE design: one blueprint, one build, one agent. A row here is the reason two records may sit inside each other's footprint and must be authored together; every member carries `designGroup` pointing back at the row, and worldgen.catalogue checks the membership, the liveness and the spread. See world/sources/catalogue/README.md.",
+ "groups": [
+  {
+   "id": "group.lost-city",
+   "anchor": "place.hist-heartland.lost-city",
+   "members": [
+    "place.hist-heartland.lost-city",
+    "place.hist-heartland.xal-krona-making-ground"
+   ],
+   "loreReason": "The Made Ground is reached through the Lost City after MQ29 (quests 25 §20e); one blueprint, one build (plan 16 §10, item F1) The spread limit equals the Made Ground's boundTo.maxM (220 m): one number for one fact.",
+   "maxSpreadM": 220
+  }
+ ]
 }

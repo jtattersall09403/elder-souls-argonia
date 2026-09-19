@@ -388,3 +388,85 @@ def test_named_person_cannot_be_delivered_by_an_unrelated_same_place_object():
     errors = po.verify_delivery_manifest(obligations, manifest, "phase-13",
                                          object_registry=registry)
     assert any("expected one of" in error for error in errors)
+
+
+# --- record-only obligations: the 16g interior promises (world 70 §48) -----
+
+def _dungeon_record_for_projection():
+    return {
+        "id": "place.testreg.root-hollow",
+        "interior": {
+            "kind": "delve", "family": "root-cavern", "sizeBand": "S1",
+            "roomFunctions": ["root-throat", "gallery", "cache"],
+            "combatSpaces": [{"scale": "smallGroup", "footing": "dry", "clearance": "tight"}],
+            "anchorSockets": [{"id": "socket.root-hollow.cache", "kind": "cache",
+                               "whereInInterior": "hidden"}],
+        },
+        "contents": {
+            "creatures": [{"slotId": "c1", "role": "apex-ambusher", "registerRef": None,
+                           "whereInInterior": "deep"}],
+            "npcs": [], "loot": [],
+        },
+    }
+
+
+def test_a_record_with_no_blueprint_still_projects_its_interior_promises():
+    rows = po.record_obligations(_dungeon_record_for_projection())
+    paths = {row.sourcePath for row in rows}
+    assert "interior.roomFunctions[cache]" in paths
+    assert "interior.anchorSockets[socket.root-hollow.cache]" in paths
+    assert "interior.combatSpaces[smallGroup:dry:tight]" in paths
+    assert "contents.creatures[c1].whereInInterior" in paths
+    assert {row.deliveryOwner for row in rows} == {"phase-12"}
+
+
+def test_record_obligation_ids_are_stable_and_unique():
+    rec = _dungeon_record_for_projection()
+    first = [row.id for row in po.record_obligations(rec)]
+    second = [row.id for row in po.record_obligations(copy.deepcopy(rec))]
+    assert first == second == sorted(first)
+    assert len(first) == len(set(first))
+
+
+def test_a_record_with_no_interior_projects_nothing():
+    assert po.record_obligations({"id": "place.testreg.x", "interior": {"kind": "none"}}) == []
+
+
+def test_an_unlocated_contents_slot_is_not_projected():
+    rec = _dungeon_record_for_projection()
+    del rec["contents"]["creatures"][0]["whereInInterior"]
+    paths = {row.sourcePath for row in po.record_obligations(rec)}
+    assert not any(p.startswith("contents.") for p in paths)
+
+
+def test_every_live_dungeon_record_projects_something():
+    records = _records()
+    thin = [rid for rid, rec in records.items()
+            if (rec.get("interior") or {}).get("kind") in catalogue.DUNGEON_KINDS
+            and rec.get("status") not in ("cut", "deferred")
+            and not po.record_obligations(rec)]
+    assert thin == [], f"{len(thin)} dungeon-kind records project no obligation: {thin[:5]}"
+
+
+def test_the_document_carries_record_only_places():
+    records = _records()
+    place_id = next(rid for rid, rec in records.items()
+                    if (rec.get("interior") or {}).get("kind") in catalogue.DUNGEON_KINDS
+                    and rid not in po.PHASE11_EXEMPLAR_PLACE_IDS)
+    document, errors = po.obligation_document(
+        records, list(_blueprints()),
+        expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS,
+        record_only_place_ids=[place_id])
+    assert document["recordOnlyPlaceIds"] == [place_id]
+    assert any(row["placeId"] == place_id for row in document["rows"])
+    assert not [e for e in errors if place_id in e]
+
+
+def test_a_record_only_place_that_is_also_blueprinted_is_rejected():
+    records = _records()
+    place_id = sorted(po.PHASE11_EXEMPLAR_PLACE_IDS)[0]
+    _document, errors = po.obligation_document(
+        records, list(_blueprints()),
+        expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS,
+        record_only_place_ids=[place_id])
+    assert any("both blueprinted and record-only" in e for e in errors), errors

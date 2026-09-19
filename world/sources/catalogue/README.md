@@ -44,6 +44,7 @@ distance, the scoring terms that carried it, and whether it came from the
 homeless batch), `plotFacts` (the land under the dot). Positions are
 approximate; Part 6's compiler sites the footprint on real terrain. To move a
 place, change its `sitingPrefs` or a scoring weight and re-run the plot.
+Typed siting in `sitingPrefs`: `boundTo {place, maxM}`, `sightlineTo [ids]`, `nearWater {entityId, maxM}` (a hydrology-graph river, reach or body id; a reach counts as its river; maxM 10-1500) and `minDepthM` (0.3-40 m of recorded water within 150 m) — the plot reads all four as hard gates, so a tie written only as prose is a tie nothing honours.
 
 ## `rewardProfile.valueTier` — the one scale (0041 enrichment, 2026-09-02)
 
@@ -148,6 +149,42 @@ still the source of truth; this is the one-line index.
 loreReason, maxSpreadM}]}`. A row is the reason two records may stand inside
 each other's footprint: one agent blueprints and builds them together. It is
 registered in both `tooling/repo-standards` registries.
+
+## interior promises (schemaVersion 3, 16g)
+
+What must be *inside* a dungeon-kind place, promised with the place. The design
+statement is
+[docs/world/70-dungeons-interiors.md](../../../docs/world/70-dungeons-interiors.md)
+§48 and the binding schema is `worldgen/catalogue.py`; the two never disagree.
+Filled by `worldgen.migrate_interior_promises` from fields the record already
+carries, then `worldgen.quest_promises` adds the pins the quest plan asks for.
+
+| field | what it promises |
+|---|---|
+| `interior.verticalRelationship` | below / behind / within / above-and-below / across-water — on every record with an interior, buildings included |
+| `interior.roomFunctions[]` | the ordered reveal, from the closed room list; at least `entrance` plus one, and what the family needs, never a menu |
+| `interior.loop` | none / shortcut-back / second-entrance / vertical-return / water-loop; a second entrance implies second-entrance |
+| `interior.traversal` | `{swimM, diveM, climbM, breathGated, current, darkFraction}` — what the body must do, so a capability profile can answer "can I" |
+| `interior.combatSpaces[]` | ≤ 3 `{scale, footing, clearance}` intents; Phase 12 compiles the §49 blueprint from them |
+| `interior.anchorSockets[]` | `{id, kind, whereInInterior, provision?}` — the pins the quest and loot compilers address; a `provision` must already be on `questHooks.provisions` |
+| `interior.light` | daylit / torchlit / bioluminescent / dark / mixed |
+| `interior.lock` | none / simple / hard / unpickable-key / quest-sealed |
+| `contents.*[].whereInInterior` | entrance / threshold / main / deep / boss / hidden / flooded / above, on every slot |
+
+`interior.factsVariedForVariety` records the facts the sameness pass changed
+on a record (one size band, one more entrance, the exterior shell) so the pass
+is idempotent and the review can see which places were made different on
+purpose. `worldgen.migrate_interior_promises --refresh <ids|all>` re-derives
+every promise from the facts after one of them changes; run
+`worldgen.quest_promises --apply` after it, because a refresh rebuilds the
+socket list.
+
+Every family maps to a realisation recipe in
+[`interior-recipes.json`](interior-recipes.json) backed by a kit that exists in
+`apps/world-studio/public/kits/` or `tooling/asset-pipeline/output/kits/`; a
+family with no recipe is re-typed or sourced, never promised. Two live
+dungeon-kind records of one family within 2 km may not agree on more than three
+of the seven promise axes — `test_catalogue` is the gate.
 
 ## `services[]` — which services, not "services" (2026-09-05)
 
