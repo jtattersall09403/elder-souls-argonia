@@ -155,6 +155,10 @@ def obj_material(objects, textures):
         except TypeError:
             pass
     for obj in objects:
+        count = len(obj.data.materials)
+        if count > 1:
+            SUMMARY["warnings"].append(
+                "%s: %d material groups flattened onto one material" % (obj.name, count))
         obj.data.materials.clear()
         obj.data.materials.append(material)
         # An OBJ with several `usemtl` groups (the cleaver: handle and blade)
@@ -176,6 +180,24 @@ def world_bounds(objects):
     return low, high
 
 
+def apply_to_meshes(objects, matrix):
+    """Bake `matrix` into the meshes, transforming each datablock exactly once.
+
+    Two objects can share one mesh datablock (an OBJ with mirrored halves), and
+    transforming per object would then apply the matrix twice to the same
+    vertices. Datablocks are tracked by name, and every object is reset to the
+    identity afterwards so the world transform is in the mesh, not on the node.
+    """
+    seen = set()
+    for obj in objects:
+        if obj.data.name in seen:
+            continue
+        seen.add(obj.data.name)
+        obj.data.transform(matrix @ obj.matrix_world.copy())
+    for obj in objects:
+        obj.matrix_world = Matrix.Identity(4)
+
+
 def normalise_scale(objects, target_length):
     """Scale to real metres about the native origin (the hand attach point)."""
     bpy.context.view_layer.update()
@@ -183,10 +205,7 @@ def normalise_scale(objects, target_length):
     size = high - low
     longest = max(size.x, size.y, size.z)
     scale = target_length / longest if longest else 1.0
-    matrix = Matrix.Scale(scale, 4)
-    for obj in objects:
-        obj.data.transform(matrix @ obj.matrix_world.copy())
-        obj.matrix_world = Matrix.Identity(4)
+    apply_to_meshes(objects, Matrix.Scale(scale, 4))
     bpy.context.view_layer.update()
     return scale, [round(v, 4) for v in size]
 
@@ -202,13 +221,20 @@ def grip_centre(objects, long_axis, pommel, length):
     low = Vector((1e9, 1e9, 1e9))
     high = Vector((-1e9, -1e9, -1e9))
     near = length * 0.2
+    found = False
     for obj in objects:
         for vertex in obj.data.vertices:
             point = obj.matrix_world @ vertex.co
             if abs(point[long_axis] - pommel) <= near:
+                found = True
                 for axis in range(3):
                     low[axis] = min(low[axis], point[axis])
                     high[axis] = max(high[axis], point[axis])
+    if not found:
+        # No vertex in the pommel fifth (a mesh that is all head, or a stray
+        # long axis): the bounding-box centre is wrong but finite, where the
+        # sentinels would fling the mesh a thousand kilometres off the socket.
+        low, high = world_bounds(objects)
     return (low + high) * 0.5
 
 
@@ -219,9 +245,13 @@ def orient_obj(objects, orient):
     under the Y-up export), the width on X and the hand at the origin. An OBJ
     is authored about whatever its modeller chose, so the plan states which
     native axis end strikes (`tip`) and where the hand sits as a fraction of
-    the length up from the pommel (`grip`); the second-longest extent becomes
-    the width, the cross-section is centred, and the mesh is rewritten in
-    place so the exporter sees a NIF-shaped object.
+    the length up from the pommel (`grip`); the cross-section is centred, and
+    the mesh is rewritten in place so the exporter sees a NIF-shaped object.
+
+    The plan may also name `edge`: the native axis whose positive end the
+    cutting edge faces, which becomes the exported +X. Without it the widest
+    remaining extent is taken as the width, which is right for a symmetric
+    blade and a guess for anything else.
     """
     bpy.context.view_layer.update()
     low, high = world_bounds(objects)
@@ -229,11 +259,16 @@ def orient_obj(objects, orient):
     tip_dir = OBJ_AXIS_TO_BLENDER[orient["tip"][1]] * (1 if orient["tip"][0] == "+" else -1)
     long_axis = max(range(3), key=lambda i: abs(tip_dir[i]))
     other = [i for i in range(3) if i != long_axis]
-    wide_axis = max(other, key=lambda i: size[i])
-    wide_dir = Vector((0, 0, 0))
-    wide_dir[wide_axis] = 1.0
+    edge = orient.get("edge")
+    if edge:
+        new_x = OBJ_AXIS_TO_BLENDER[edge[1]] * (1 if edge[0] == "+" else -1)
+        if abs(new_x.dot(tip_dir)) > 1e-6:
+            raise ValueError("orient.edge must be perpendicular to orient.tip")
+    else:
+        wide_axis = max(other, key=lambda i: size[i])
+        new_x = Vector((0, 0, 0))
+        new_x[wide_axis] = 1.0
     new_y = -tip_dir                       # blade along Blender -Y (GLB +Z)
-    new_x = wide_dir                       # width along X
     new_z = new_x.cross(new_y)             # right-handed, so no mirroring
     rotation = Matrix((new_x, new_y, new_z)).to_4x4()   # rows: old -> new
     length = size[long_axis]
@@ -246,11 +281,17 @@ def orient_obj(objects, orient):
     centre[long_axis] = pommel
     shift = Vector((0, orient["grip"] * length, 0)) - rotation @ centre
     matrix = Matrix.Translation(shift) @ rotation
-    for obj in objects:
-        obj.data.transform(matrix @ obj.matrix_world.copy())
-        obj.matrix_world = Matrix.Identity(4)
+    apply_to_meshes(objects, matrix)
     bpy.context.view_layer.update()
-    return {"tip": orient["tip"], "grip": orient["grip"], "lengthNative": round(length, 4)}
+    return {
+        "tip": orient["tip"],
+        "edge": orient.get("edge"),
+        "grip": orient["grip"],
+        "lengthNative": round(length, 4),
+        # Native units: the pommel sits this far below the origin. The host
+        # multiplies it by the scale it applies to reach metres.
+        "gripOffset": round(orient["grip"] * length, 4),
+    }
 
 
 def render_icon(objects, path):
@@ -336,13 +377,22 @@ for item in PLAN["items"]:
     if item.get("obj"):
         # An OBJ item ships no scabbard and no shader: every shape is the weapon,
         # and its material comes from the maps the arsenal entry names.
-        bpy.ops.wm.obj_import(filepath=item["obj"])
+        # Axes pinned: OBJ_AXIS_TO_BLENDER assumes exactly this import mapping.
+        bpy.ops.wm.obj_import(filepath=item["obj"], forward_axis="NEGATIVE_Z", up_axis="Y")
         kept = [o for o in bpy.data.objects if o.type == "MESH"]
         if not kept:
             SUMMARY["warnings"].append("%s: the OBJ imported no mesh" % item["id"])
             continue
+        orient = item.get("orient")
+        if orient is None:
+            SUMMARY["warnings"].append("%s: obj item without an orient block" % item["id"])
+            continue
         obj_material(kept, item.get("textures", {}))
-        oriented = orient_obj(kept, item["orient"])
+        try:
+            oriented = orient_obj(kept, orient)
+        except ValueError as error:
+            SUMMARY["warnings"].append("%s: %s" % (item["id"], error))
+            continue
     else:
         bpy.ops.import_scene.pynifly(
             filepath=item["nif"],

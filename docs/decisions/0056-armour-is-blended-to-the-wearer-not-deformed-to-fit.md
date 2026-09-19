@@ -174,3 +174,14 @@ The full table, per build, is `docs/evidence/races/armour-neck-check.measured.js
 The remaining negatives are all authored-opening cases and are queued in
 [`docs/phases/P-polish/backlog.md`](../phases/P-polish/backlog.md) with their causes; the evidence
 sheet shows no magenta on any of the eighteen cards.
+
+## Addendum 2026-09-19: the inventory icons rendered the reference bodies
+
+The owner saw armour icons as small body figures with magenta patches
+instead of item pictures. Cause: the four reference bodies stay loaded in
+the Blender scene for the whole batch and stand exactly where each piece is
+framed, so the icon camera, framed on the piece alone, still rendered the
+body behind it in its untextured underwear. Every gauntlet icon was about
+an eighth magenta. `render_icon` in `blender/build_armour.py` now hides
+every object that is not the piece for the render; all 35 icons re-rendered
+with zero magenta and show only the piece.

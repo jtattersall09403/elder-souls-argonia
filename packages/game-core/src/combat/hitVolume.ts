@@ -126,10 +126,13 @@ export function measureHeldObject(object: THREE.Object3D): MeasuredBox {
 /**
  * Read a pipeline `sizeMeters` triple as a measured box.
  *
- * The pipeline reports extents, not bounds, so the near end is taken as the
- * origin: weapons are built with the grip there. Runtime callers that can see
- * the real mesh should measure it instead — this exists so the arsenal's
- * volumes can be reasoned about and tested without loading GLBs.
+ * The pipeline reports extents, not bounds, so this box assumes the grip sits
+ * at z = 0. That is a design-time simplification, not the built geometry: a
+ * built weapon, NIF or OBJ alike, carries a pommel below its origin, so its
+ * real box starts at a negative z. Both the runtime and the baked reach
+ * measure the loaded GLB (`measureHeldObject`), so nothing in the game depends
+ * on the assumption — this exists so the arsenal's volumes can be reasoned
+ * about and tested without loading GLBs.
  */
 export function boxFromSizeMeters(size: readonly [number, number, number]): MeasuredBox {
   return { width: size[0], height: size[1], length: size[2], minZ: 0 };

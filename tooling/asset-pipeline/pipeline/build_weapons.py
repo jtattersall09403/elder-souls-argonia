@@ -51,10 +51,23 @@ def obj_orientation(item_id, entry):
     tip = str(orient.get("tip", ""))
     if len(tip) != 2 or tip[0] not in "+-" or tip[1] not in "xyz":
         raise ValueError(f"{item_id}: orient.tip must be one of +x -x +y -y +z -z")
-    grip = float(orient.get("grip", -1))
-    if not 0.0 <= grip <= 1.0:
-        raise ValueError(f"{item_id}: orient.grip is a fraction of the length (0..1)")
-    return {"tip": tip, "grip": grip}
+    edge = orient.get("edge")
+    if edge is not None:
+        edge = str(edge)
+        if len(edge) != 2 or edge[0] not in "+-" or edge[1] not in "xyz":
+            raise ValueError(f"{item_id}: orient.edge must be one of +x -x +y -y +z -z")
+        if edge[1] == tip[1]:
+            raise ValueError(f"{item_id}: orient.edge must be a different axis from orient.tip")
+    try:
+        grip = float(orient.get("grip", -1))
+    except (TypeError, ValueError):
+        raise ValueError(
+            f"{item_id}: orient.grip must be a number (fraction of the length)")
+    # A hand sits low on the haft: below a fiftieth of the length the origin is
+    # off the end of the grip, above three fifths it is up the blade.
+    if not 0.02 <= grip <= 0.6:
+        raise ValueError(f"{item_id}: orient.grip is a fraction of the length (0.02..0.6)")
+    return {"tip": tip, "grip": grip, **({"edge": edge} if edge else {})}
 
 
 def resolve_set(set_id: str, only: list[str] | None) -> dict:
@@ -318,6 +331,23 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
 
     # The item manifest is the game's contract: ids, classes, sheath sockets and
     # measured sizes, with no Bethesda filenames in it.
+    def orient_record(item_id: str) -> dict:
+        """What the Blender side did to turn an OBJ onto the hand convention.
+
+        Only OBJ items carry it: a NIF is already authored about the hand node,
+        so there is nothing to record. `gripOffsetMeters` is how far the pommel
+        hangs below the origin, which is what a grip-relative reach has to use.
+        """
+        oriented = built[item_id].get("oriented")
+        if not oriented:
+            return {}
+        return {"orient": {
+            "tip": oriented["tip"],
+            **({"edge": oriented["edge"]} if oriented.get("edge") else {}),
+            "grip": oriented["grip"],
+            "gripOffsetMeters": round(oriented["gripOffset"] * built[item_id]["scale"], 5),
+        }}
+
     manifest = {
         "set": set_id,
         "items": {
@@ -329,6 +359,7 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
                 "icon": f"{Path(config['iconDir']).name}/{item['id']}.png",
                 "lengthMeters": item["target_length"],
                 "sizeMeters": built[item["id"]]["sizeMeters"],
+                **orient_record(item["id"]),
                 **({
                     "quiver": f"{Path(config['quiverDir']).name}/{item['id']}.glb",
                     "quiverSizeMeters": built[f"{item['id']}{QUIVER_SUFFIX}"]["sizeMeters"],

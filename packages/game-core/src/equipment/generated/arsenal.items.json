@@ -1065,7 +1065,12 @@
         0.106,
         0.02654,
         0.42
-      ]
+      ],
+      "orient": {
+        "tip": "+y",
+        "grip": 0.24,
+        "gripOffsetMeters": 0.10084
+      }
     },
     "steel-great-cleaver": {
       "class": "greatsword",
@@ -1078,7 +1083,12 @@
         0.4514,
         0.09179,
         1.42
-      ]
+      ],
+      "orient": {
+        "tip": "+y",
+        "grip": 0.18,
+        "gripOffsetMeters": 0.25562
+      }
     },
     "obsidian-warhammer": {
       "class": "warhammer",
@@ -1091,7 +1101,12 @@
         0.29735,
         0.16883,
         1.3
-      ]
+      ],
+      "orient": {
+        "tip": "+y",
+        "grip": 0.42,
+        "gripOffsetMeters": 0.54597
+      }
     },
     "silver-jagged-katana": {
       "class": "katana",
@@ -1104,7 +1119,12 @@
         0.08065,
         0.02594,
         1.05
-      ]
+      ],
+      "orient": {
+        "tip": "+y",
+        "grip": 0.18,
+        "gripOffsetMeters": 0.18892
+      }
     },
     "wooden-ball-club": {
       "class": "mace",
@@ -1117,7 +1137,12 @@
         0.2215,
         0.11569,
         0.8
-      ]
+      ],
+      "orient": {
+        "tip": "+z",
+        "grip": 0.28,
+        "gripOffsetMeters": 0.22398
+      }
     },
     "iron-trident": {
       "class": "pike",

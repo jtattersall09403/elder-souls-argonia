@@ -167,7 +167,19 @@ def render_icon(objects, path):
     except TypeError:
         pass
     scene.render.filepath = path
-    bpy.ops.render.render(write_still=True)
+    # The reference bodies (both sexes, both weights) live in the scene for
+    # the whole batch and stand exactly where the piece is framed: rendered,
+    # they put a body in untextured underwear behind every gauntlet and
+    # cuirass. Only the piece is the item; everything else sits the render out.
+    wanted = set(objects) | {camera, *lights}
+    hidden = [o for o in scene.objects if o not in wanted and not o.hide_render]
+    for obj in hidden:
+        obj.hide_render = True
+    try:
+        bpy.ops.render.render(write_still=True)
+    finally:
+        for obj in hidden:
+            obj.hide_render = False
     for obj in [camera, *lights]:
         bpy.data.objects.remove(obj, do_unlink=True)
 

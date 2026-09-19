@@ -8,6 +8,7 @@ import {
   parryCapsuleFor,
 } from "./hitVolume";
 import { ARSENAL_WEAPONS } from "./../equipment/arsenal";
+import manifest from "./../equipment/generated/arsenal.items.json";
 
 /**
  * The point of these is the property the old hard-coded capsule broke: a
@@ -76,5 +77,37 @@ describe("the arsenal's volumes", () => {
     const daggerSpan = hitCapsuleFor(boxFromSizeMeters(dagger!.visual.sizeMeters));
     const greatswordSpan = hitCapsuleFor(boxFromSizeMeters(greatsword!.visual.sizeMeters));
     expect(greatswordSpan.halfLength).toBeGreaterThan(daggerSpan.halfLength * 1.5);
+  });
+});
+
+describe("the built manifest", () => {
+  /**
+   * `boxFromSizeMeters` reads `sizeMeters[2]` as grip-to-tip, so the pipeline
+   * has to put the long axis there for every weapon it builds — including the
+   * OBJ items, which are rotated onto that convention rather than born on it.
+   *
+   * Two classes are excluded and neither is a hand-held blade along +Z: a
+   * shield has no length at all, and a claw is worn across the knuckles, so
+   * its longest extent is its width. Both are measured at runtime from the
+   * mesh; nothing reads a grip-to-tip length off them.
+   */
+  const EXCLUDED_CLASSES = new Set(["shield", "claw"]);
+  const built = manifest.items as unknown as Record<
+    string,
+    { class: string; lengthMeters: number; sizeMeters: [number, number, number] }
+  >;
+
+  it("puts every weapon's grip-to-tip length on the Z extent", () => {
+    const checked: string[] = [];
+    for (const [id, item] of Object.entries(built)) {
+      if (EXCLUDED_CLASSES.has(item.class)) continue;
+      if (!ARSENAL_WEAPONS[id]) continue;
+      const [x, y, z] = item.sizeMeters;
+      expect(z, id).toBeGreaterThanOrEqual(x);
+      expect(z, id).toBeGreaterThanOrEqual(y);
+      expect(Math.abs(z - item.lengthMeters), id).toBeLessThan(1e-3);
+      checked.push(id);
+    }
+    expect(checked.length).toBeGreaterThan(50);
   });
 });

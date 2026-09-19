@@ -71,6 +71,65 @@ def test_resolve_set_carries_an_obj_and_its_named_textures():
     assert set(item["textures"]) == {"diffuse", "normal", "specular"}
 
 
+def _obj_config(tmp_path, monkeypatch, entry):
+    """One-item config around an entry, so `orient` validation can be exercised."""
+    from pipeline import build_weapons as bw
+
+    config = tmp_path / "weapons"
+    config.mkdir(exist_ok=True)
+    (config / "one.json").write_text(json.dumps({
+        "classes": {"mace": {"lengthMeters": 0.8, "sheathSocket": "WeaponMace"}},
+        "items": [{"id": "club", "class": "mace", "material": "wood", **entry}],
+    }))
+    monkeypatch.setattr(bw, "CONFIG", config)
+    return bw
+
+
+def test_obj_without_an_orient_block_is_rejected(tmp_path, monkeypatch):
+    """An OBJ with no orient would build lying on whatever axis its modeller used."""
+    bw = _obj_config(tmp_path, monkeypatch, {"obj": "a.obj"})
+    with pytest.raises(ValueError, match="club"):
+        bw.resolve_set("one", None)
+
+
+def test_orient_tip_syntax_is_rejected(tmp_path, monkeypatch):
+    bw = _obj_config(tmp_path, monkeypatch,
+                     {"obj": "a.obj", "orient": {"tip": "y", "grip": 0.1}})
+    with pytest.raises(ValueError, match="orient.tip"):
+        bw.resolve_set("one", None)
+
+
+def test_orient_grip_outside_the_handle_is_rejected(tmp_path, monkeypatch):
+    """0.9 up the length is the blade, not the hand: a typo, not a choice."""
+    bw = _obj_config(tmp_path, monkeypatch,
+                     {"obj": "a.obj", "orient": {"tip": "+y", "grip": 0.9}})
+    with pytest.raises(ValueError, match="orient.grip"):
+        bw.resolve_set("one", None)
+
+
+def test_orient_edge_on_the_tip_axis_is_rejected(tmp_path, monkeypatch):
+    """The edge faces across the blade; along it, the rotation is degenerate."""
+    bw = _obj_config(tmp_path, monkeypatch,
+                     {"obj": "a.obj", "orient": {"tip": "+y", "edge": "+y", "grip": 0.1}})
+    with pytest.raises(ValueError, match="orient.edge"):
+        bw.resolve_set("one", None)
+
+
+def test_a_nif_item_carries_no_orient():
+    """A NIF is authored about the hand node already; orienting it would move it."""
+    resolved = resolve_set("arsenal", ["iron-sword"])
+    assert resolved["items"][0]["orient"] is None
+
+
+def test_every_arsenal_obj_item_declares_an_orient_and_no_nif_item_does():
+    import json as _json
+    from pipeline.build_weapons import CONFIG
+
+    config = _json.loads((CONFIG / "arsenal.json").read_text())
+    for entry in config["items"]:
+        assert bool(entry.get("obj")) == bool(entry.get("orient")), entry["id"]
+
+
 def test_declaring_both_a_nif_and_an_obj_is_rejected(tmp_path, monkeypatch):
     """Exactly one mesh per item: two would silently build whichever came first."""
     import json
