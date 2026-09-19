@@ -55,6 +55,11 @@ asset registry.
 
 ### In use now
 
+- **rtk** (rtk-ai, Apache-2.0, v0.49.0, sha256
+  `7278231dfd7e6a730a4ab7f847b195bcf02289c2d57622b0dab75a6411100c8f` for the
+  x86_64 musl tarball) — a local shell-output filter our coding agents run
+  commands through so build, test and git output reaches the model trimmed;
+  a developer tool on the agents' machine, never shipped (decision 0079).
 - **Basis Universal transcoder** (Binomial LLC, Apache-2.0) — the
   `basis_transcoder.js`/`.wasm` three.js ships, served at `<app>/basis/` so
   every kit's KTX2/UASTC textures transcode to the device's GPU format

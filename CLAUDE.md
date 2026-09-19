@@ -2,7 +2,8 @@
 
 Guidance for AI agents working in this repo. Keep it lean — this file is loaded
 into every agent's context. Detail lives in [docs/](docs/README.md); link, don't
-duplicate.
+duplicate. Each rule below is one operative statement; the dated owner
+history behind it lives in the decision it cites.
 
 You are operating in the elder-souls-argonia repo, within elder-souls-dev/. elder-souls-argonia will be the canonical repo for the real game, amongst other things (see the master plan doc referenced below).
 
@@ -24,14 +25,14 @@ The overall goal at this point is to build the province-scale world, in a way th
    `20-world-provisions.md` module is required reading when placing anything
    (locations, settlements, POIs, dungeons, routes, sockets).
 2. **Read [docs/world/00-core.md](docs/world/00-core.md) IN FULL, every
-   session** (~4k tokens: goals, binding rules, acceptance criteria — the
-   universal core of the world-generation master plan). Then use
+   session** (~4k tokens: goals, binding rules, acceptance criteria). Then use
    [docs/world/README.md](docs/world/README.md) to route to the detail
-   modules your task touches (owner decision 2026-08-23, superseding the
-   earlier full-plan read; decision 0010).
+   modules your task touches (decision 0010).
 3. Run `git status` and `git log -5`. A dirty tree or an `in progress` row means
    a previous agent stopped mid-work — follow the crash-recovery protocol in
-   PROGRESS.md before starting anything new.
+   PROGRESS.md before starting anything new. (Other agents may be working in
+   the same tree on disjoint folders: dirty is not always crashed; commit by
+   pathspec only.)
 4. **Ask explicitly: does any part of my task decide or depend on what the
    world is like?** Placing a POI means answering "why does this exist, here?"
    — that answer must be lore-grounded (dossiers first, then UESP for gaps, per
@@ -40,137 +41,43 @@ The overall goal at this point is to build the province-scale world, in a way th
 5. Update PROGRESS.md as you work (statuses commit together with the work).
    Record non-obvious choices as short records in docs/decisions/.
 
-
 ## GOLDEN RULES - you must obey all of these
 
-- **Plan for scaling**. The game that we are building within this repo will be very big, with many systems, objects, playable races, animations, quests, factions, stats, UI screens, etc etc etc - on the scale of Skyrim or Morrowind. So whatever you are doing, do it in a way that will scale *effectively*, *efficiently* and with *minimal context bloat* for future agents. You may inherit poor previous decisions on this - you can fix them as you go. e.g. if you're working on weapons and you find that the current way of architecting weapons data will scale poorly to Morrowind/Skyrim level, don't just continue with it because it's there - rearchitect it and improve it as you go.
-- **Check the build-out skeleton/plan and make your work support it.** Look at the 'build out' skeleton, which is a rough outline for what we'll do after world build is complete, on the remaining systems we're going to build for the real game. (It's a start, it might be incomplete). Think about if there is anything you need to be doing/structuring/setting up data structures or contracts or anything else for in the work you're doing now, that will be important to make our lives easier later. We don't want to have to do any big refactors later on. There are usually sensible things we should be putting in place now that will later be extended/required by other systems/phases/whatever. I'm not sure what. Think about it and incorporate in your work (and record wherever sensible per the rest of CLAUDE.md and the docs).
-- **Model policy for agents (owner 2026-09-05, extended 2026-09-07, tightened
-  2026-09-11).** Fable 5.1 is the planner and architect: it scopes, decides
-  the high-level shape, weighs breadth and interdependence, **finds root
-  causes, spots the shared cause behind a batch of symptoms and batches the
-  fixes** (one elegant fix over five patches), writes the briefs and judges
-  the results. **Opus 5 subagents at low effort** (`subagent_type: "deliver"`
-  for implementation and mechanical passes, `"research"` for read-only audit,
-  sourcing and mining, both in `.claude/agents/`) exist only to save cost on
-  work Fable has **already fully planned**: the brief names the files, the
-  mechanism, the numbers to hit and the checks to run, and every piece of
-  hard reasoning (root causes, design choices, what "right" looks like) is
-  done before the handoff. An Opus subagent never diagnoses, designs or
-  decides; if a job needs that, Fable (or a Fable subagent at low effort)
-  does it first. **Work on water cosmetics and implementation in the 3d world is done by
-  Fable at low effort, never Opus, unless the owner explicitly allows Opus
-  for it** (owner 2026-09-11: Opus has never handled it; 2026-09-14: the owner
-  may lift this for a session, e.g. when Fable usage is near its limit, and
-  a brief that quotes that authorisation is enough for the Opus agent; the
-  design still comes fully specified from Fable). Fable subagents beyond that only for genuinely open design
-  reasoning the owner has asked for, and sparingly: the owner's subscription
-  limit is the constraint.
-- **Plan for agentic coding.** Assume that this repo will be almost entirely coded by coding agents, most of whom will be starting from fresh context. It is essential that we make our repo(s) modular, easy and *efficient* to navigate for coding agents. This goes for **docs as well as code**. We need to ensure we don't have lots of clashing documents or instructions, and that agents neither need to read huge amounts of context to work effectively nor miss important context they genuinely need for their task. I don't know what else to think of so you should do the thinking - "how do I do my work in such a way as to maximise the chances that future work will be able to continue smoothly and efficiently for other agents picking up bits of this project?"
-- **High performance by design**. This game will be played in a browser on machines and mobiles with mid range GPUs. When writing or reviewing code, or building anything for the game/world in any way, you **must** apply all game dev industry standard approaches (especially standards from open-world RPG game dev) to build in a way that is high performance by design, for high framerates and smooth gameplay. This doesn't mean cut corners and reduce the quality of what you're creating; it means use *efficient* approaches that ensure high performance and high visual quality where it matters. (Usually this will be things like having high quality visuals within a certain distance of player character/fly3d camera and/or within a certain visibility range or line of sight range, with gradually reducing quality further away. This of course should be dynamic as the player/camera moves, with objects wuality upgrading and downgrading through bands as appropriate. This is just one example - you should **always** think about what the high-performance-by-design approach is for whatever work you are doing.) **What ships is compressed and the download is a budget with a gate** (owner 2026-09-18, standard 16): kits publish as UASTC/KTX2 + meshopt through `pipeline/kit_compress.py`, work that adds to the player's download measures it, and the startup and site budgets fail the build rather than being guidelines.
-- **Ground decisions in lore.** Any world/design decision (places, cultures, danger, routes, names, history) must be grounded in canon. Check the dossiers in `world/sources/lore/` first; if they're thin for your topic, extract more from the vault UESP extract (`../elder-scrolls-asset-pipeline/skyrim-source/mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`) or the UESP MediaWiki API (`en.uesp.net/w/api.php`, works with a project user-agent; plain page fetches get 403), and record a new dossier *before* deciding. Cite UESP page names; respect the era policy (decision 0002). Community/fan material is a prior, never canon.
-- **Estimate at agent speed, and never park a job behind a "holding position"** (owner 2026-09-07). A sourcing search, a kit build, a data mine or a re-author is minutes of agent time, not the hours a human would need; size every job that way before deciding to defer it. A holding position ("accept X for now, revisit later") is forbidden unless the owner has explicitly chosen it: it gets forgotten or read by a later agent as a locked decision. Do the proper thing in the same session, or record the exact blocker (a missing asset that exists nowhere, an owner call) with its evidence.
-- **A defect found is never "out of scope"** (owner 2026-09-07). If you find a bug, a wrong number, a stale doc or a check that cannot fail — in anything — either fix it now, or queue it where the next agent will act on it without the owner remembering: the chunk brief that owns it in the active phase plan (currently docs/phases/16-foundation-and-places/) or a row in docs/phases/P-polish/backlog.md, with the file, the evidence and the mechanism. Logging a defect under a heading like "not fixed here" and moving on is a failure of the task.
-- **Fix root causes.** If you're fixing bugs, find the root cause and fix it, don't do sticking plasters.
-- **Prevent context bloat.** Read only what you need (the session-start read of docs/world/00-core.md is the deliberate exception); docs/ are modular so filenames are the map. Whatever you are doing, consider how to do it in a way that prevents context bloat and keeps future agents able to run in a token-efficient way, processing what they need and only what they need.
-- **We never make art. Ever.** No new 3D models, no new textures, **no new animations** — everything comes from vanilla Skyrim or from mods, chosen on
-  availability and quality. A missing asset (a climbing animation, a boat, a
-  creature) is a **sourcing job, not a modelling job**: check the asset vault
-  and the candidate tables in [docs/world/90-asset-strategy.md](docs/world/90-asset-strategy.md)
-  §71/§74.3 for what we already have, research the mod scene for the best
-  source, then download it with the owner's **Nexus premium API key** on this VM
-  (`apikey:` header, `api.nexusmods.com`; never echo the key), and record the
-  source link, credits and file hash before relying on it. **Recording the
-  source is not just a pipeline/provenance doc note — add the credit line to
-  root [README.md](README.md) § Credits and third-party sources in the same
-  change** (or the same session) that ships the asset; a mod credited only in
-  a pipeline audit doc is a gap the next credits review has to re-find.
-  **Fill gaps when you find them** (owner 2026-09-05): a sourcing gap is a job
-  done in the same session, not a row on a list; the register in
-  `docs/research/placement-settlements/settlement-kit-sourcing-log.md` records the outcome, and an
-  OPEN row needs a written reason for the deferral. **What goes with what is read from the mod's own plugin data** (door teleports, interior cells, co-placements — `world/sources/placement/exterior-interior-links.json`, `kit-assemblies-mined.json`), never guessed from filenames. Take
-  mods' *assets*, not their Papyrus/SKSE code — that we cannot run, and it is
-  only a design reference. Procedural motion (IK, physics) drives sourced
-  clips; it never replaces them.
-- **Kits only combine pieces that were designed to combine** (owner ruling
-  2026-09-04). Never jam two meshes together because their descriptions sound
-  compatible (a stilt house "standing on" a stone quay arch). Assemble only
-  pieces authored to fit each other, in the ways and with the snap/placement
-  rules their authors intended; a composition that needs a piece nobody made is
-  a sourcing gap, and it is shown as a gap, never faked. **Placement decisions
-  are made on the actual geometry** (owner ruling 2026-09-04): footprints,
-  silhouettes, full 3D volumes with all their detail, and the authored
-  snap/combination rules — never on a piece's label or description.
-- **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
-- **Controller-independent.** Combat/input/lock-on/animation depend on
-  `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to
-- **Anything the final game will need lives in `packages/`, from the moment it's written** (owner ruling 2026-08-30, decision 0038 addendum). This
-  extends the old combat package rule (0013) to *everything* — rendering
-  included (sky, water, weather, terrain streaming, vegetation, HUD-free
-  systems). Apps (`combat-sandbox`, `world-studio`, `game`) hold only scene
-  composition, app-only tooling and debug UI. Don't couple via new
-  module-level singletons or `__STUDIO_*` globals — inject, or put debug
-  hooks behind a dev-only export. Pre-existing app-private runtime code is
-  recorded debt (audit §1, docs/research/combat-and-systems/game-buildout-systems-audit.md):
-  when you touch such a file substantially, extract it rather than growing it.
-- **Don't casually retune gameplay** (damage, stamina, i-frames, hit/parry windows,
-  speeds) unless asked to. Fix visual/animation timing on the animation side instead.
-  This protects the calibrated *feel*, not the code: the sandbox's systems are
-  **not finished or frozen** — re-architect and extend them when the game needs
-  it (see world module 75 §51.1), keeping the controller boundary and the
-  package rule intact.
-- **Obey the seventeen engineering standards** ([docs/standards/engineering.md](docs/standards/engineering.md),
-  decision 0042): stable IDs on everything placed; every player-visible string
-  in `packages/text-catalogue`, never a literal; `schemaVersion` on runtime
-  data; determinism in world building; no new module-level mutable singletons
-  in `packages/`; asset source+hash+credit in the same change; quest gates only
-  in the typed vocabulary ([docs/quests/85](docs/quests/85-condition-vocabulary.md));
-  prose written against the record it describes, never promising what the
-  typed fields cannot deliver (standard 12).
-  Nine are checked mechanically by `npm test` (incl. standard 13: placement
-  work that changes without the placement playbook or decision 0041 moving
-  fails the gate) — cheap now, brutal to retrofit.
-- **All prose is reviewed by a separate agent before commit.** Any text a
-  player reads or a world record carries (catalogue prose, quest rows,
-  text-catalogue strings, dialogue) is written against
-  [docs/standards/text/style-guide.md](docs/standards/text/style-guide.md) and then reviewed by a
-  fresh agent running the `text-review` skill (`.claude/skills/text-review/`).
-  The prose linter is an `npm test` gate; the skill is the part a regex
-  cannot do. Text that skipped review is a defect, not a shortcut.
-- **Test locally; deploy only when the owner says so** (owner 2026-09-12).
-  Pushing to `main` deploys, so commit locally and do NOT push until the owner
-  asks for a deploy. For a check, run `npm run preflight` (every deploy gate,
-  in parallel), then `npm run studio` and hand the owner the local URL: the
-  server listens on `$ES_STUDIO_PORT` and is reached at `$ES_TUNNEL_URL`
-  (same `?view=character&x=..&z=..&t=..` parameters as the deployed studio).
-  Both values are ENVIRONMENT, never committed: they live in the gitignored
-  `.claude/settings.local.json` `env` block on this machine. One dev server
-  at a time on that port; never `pkill -f` to free it.
-- **Run `npm run preflight` once before every commit** (owner 2026-09-12): it
-  runs every gate the deploy runs — `npm test`, typecheck, the placement,
-  water and pipeline suites, the raster manifest — in parallel (~2 min) and
-  lists every failure at once, so one wait replaces a fix-wait-fix loop.
-  **Prose first** (owner 2026-09-18): the moment you finish writing or
-  editing any docs or player-visible text, run `npm run docs:check` (the
-  prose and docs-currency gates alone, seconds) and fix what it names, so
-  preflight is run once, not once per prose slip.
-- **Don't over-validate.** `npm test` and `npm run typecheck` are the routine
-  gates. If you touched animation/movement/physics/camera code, also run
-  `npm run visual:check -w @elder-souls/combat-sandbox -- <group>` (fast, no video). Nothing else is required
-  and nothing visual gates CI or deploy.
-- **Use cheap Sonnet subagents for visual ingestion**. This is an update to an earlier golden rule that prohibited any visual ingestion unless explicitly told - the owner has updated their preference.  (The older preference may be referenced in other places, e.g. "Phase 16 chunks: at most six per chunk under the plan's §8 budget"). For validating visual things, do what you can with tooling, measurements, data, probes etc. And you often should also do visual ingestion checks (usually outside of the actual built world though, as you don't have a GPU on your VM, so it is very slow to load). Sonnet is perfectly capable at visually ingesting an image and describing it in detail, especially if you give it a careful prompt telling it what to look at and how to feed back. You should use this (in addition to measurement and whatever else you think useful) for visually inspecting assets, composites, place blueprints, and so on, in cases where that sort of thing would be useful. Do *not* run lots of slow probes on the built world - the user would prefer to do quick visual checks themselves rather than wait ages for slow probes/tests to run. You decide what method of visual checking will be most efficient at getting good results and achieving a smooth workflow between you and the user on your task.
-- **Get playtest/visual feedback from the user.** Ideally deliver the whole of the phase and have the user review at the end, unless there is a good reason to pause partway through and get feedback then (e.g. if something needs a steer based on a playtest/visual check that would be hard to change if reviewed at the end). Then hand off to the user, tell them what to do, what to check, and how to feed back, in plain english (especially non-technical language - the user is not an expert in game dev or technical concepts). List out everything to check in a structured bulleted list, one check per bullet. If, for your work, it makes sense to check specific sites or files, then with each bullet include specific urls for the user to go to (e.g. studio urls with arguments that take you to specific coordinates; or repo urls to specific files).
-- **Research known solutions.** We aren't working on something particularly unique or unusual. For any task, decide if it would be worth researching online to find if there are already known-good or proven solutions, or whether the thing you're doing is simple enough that you can just get straight to it. If it would be worth researching, first check the filenames in docs/ and it's sub-folders to see if any other agent has done the research already. If yes, read it, then think about whether further research is necessary or if you now have what you need. If you do need to do further online research, do it, and record key findings in docs/ . Use and create sub-directories as appropriate, and remember that future agents will go off filenames when deciding whether to read a doc you've written.
-**Update and improve the docs as you go along**. While you work, always think about whether something you're doing means the docs should be changed or updated. If you're editing a doc, don't think you have to just append - this will lead to context bloat. You can edit, delete and overwrite as well. Same goes for the structure of docs/ itself. You might be the first agent that has ever run in this folder or you might be the 100th - it doesn't matter, you should be thinking about how docs/ is structured, what's in the README, what's needed (including whether the file map needs to be updated in the README), what you've changed (if anything), and make fixes/improvements as required. This goes for the docs/world/ plan modules as well: you are a more capable model than the one that wrote that plan, and you may find flaws in it that need correcting; or as you work, you may make discoveries that mean something in it needs to be tweaked. Make those changes when needed. Similarly, you can update claude.md itself if necessary - but whilst being very conscious of the golden rule on preventing context bloat. Same goes for overall project README. You must always reconcile docs, identifing any internal contradictions or inconsistencies, editing to create 'one version of the truth.
-- **Re-use wherever possible and sensible.** For any task within the broader piece of work you are doing, *always* investigate and consider whether something already exists that you can re-use - e.g. some existing data, rules, code, functions, modules, approaches, methods, principles, *whatever* - before deciding to create something new, re-derive something, or reverse-engineer something. Only create new when re-use is either not possible or not sensible for some good reason.
-- **Do not over-engineer.** Prefer simplicity over complexity, all else being equal. Work smarter not harder. This doesn't mean that you should cut corners or deliver lower quality output - it means you should find the **simplest ways of achieving the required outcomes**, and do that.
-- **Use git sensibly and safely**. You are an experienced lead, you know what this means in practical terms.
-- **Update on progress**. After orienting yourself at the start and before you start substantive work, output to the terminal for the user a short summary of what you're planning to do, then crack on with doing it (don't want for use to OK it). Then while you're working, give the user frequent, short, plain-english progress updates. Assume that they are not experienced in the techical aspects of this project so use plain non-jargon english. (Especially non-technical language - the user is not an expert in game dev or technical concepts)
-- **Don't search by keyword in skyrim/mod/asset files**. Keyword searching isn't reliable. Read directory names and infer which ones to look in; read all filenames in a directory and decide what you need.
-- **Keep the repo tidy**. Everything needs to be neatly organised, modular and structured, so it's easy to navigate and find what you need and we don't get lost and confused (which can quietly happen when you have many agents creating things over time). Follow general good practices for this.
-- **Ask for steers on the biggest load-bearing decisions if there are multiple viable directions**. You don't want the user to have to input on all of the many decisions that may be required during your work. But you **should** seek their steer **if** (a) a decision is substantially load-bearing - e.g. would change/affect something big about the game's overall direction and feel; **and** (b) there is more than one similarly viable option - no point asking for a steer if one option is clearly miles better than all the others. If you do ask for a steer, present the options *and* a description of the implications of each, and their pros and cons. Use your judgment about what needs a user steer and what doesn't. Also take into account how much a decision 'locks us into' a particular direction. If something can be set up so that it would be trivial to change later, then do that, and present at the end as part of things you ask for user to feed back on. But if that can't be done, and a big decision has to be made, and it will set us on a particular path that then would be very hard to change later - ask for a steer.
-- **Self-check for gotchas.** Whatever you're planning to do, at appropriate points (you decide when), do a quick sense check for potential 'gotchas' and prevent/resolve them.
-- **Make asset-aware decisions**. If you are ever writing something that will eventually have an impact on what is physically present in our game, it **must** be possible for us to actually deliver that thing with existing assets (meshes, textures, animations etc) without creating our own. e.g. if you're writing a creature register or a quest, there is no point saying our game will have giant rootworms physically present and visible if we don't have any assets for them. That is one small example, there will be many others. Whatever you are doing, think about whether this rule is relevant, and apply it. If it is relevant, then you will need to check what assets we already have available. If there is a gap, then you need to decide how important the thing you're writing is - could you change it to something else that we **do** have assets for, without making the game too samey/boring? e.g. switch one type of fish for another, or whatever. If you **don't** want to do that for whatever reason, you should instead **source** an asset from mods on Nexus (and/or other sources if you can think of any good ones that will work) to fill the gap. If it's not possible to find an asset for something anywhere, then we can't have it in our game. (The exception to all of this is UI elements, which we can create ourselves).
+- **Plan for scaling.** This game will be Skyrim/Morrowind-sized (systems, races, animations, quests, factions, UI). Do everything in a way that scales effectively, efficiently and with minimal context bloat for future agents; if you inherit a structure that will scale poorly (e.g. weapons data), re-architect it as you go rather than continuing it.
+- **Check the build-out skeleton and make your work support it.** Read the build-out outline ([docs/phases/buildout/](docs/phases/buildout/README.md)) and put in place now the data structures and contracts later systems will extend, so we never need a big refactor; record them per the docs.
+- **Model policy** (decision 0079, from the owner's 2026-09-05/07/11 rulings). Fable 5.1 is the planner and architect: it scopes, decides the shape, finds root causes, spots the shared cause behind a batch of symptoms and fixes it once, writes the briefs and judges the results. Four subagents in `.claude/agents/` do the rest, and Fable uses them by default rather than doing the work itself: `find` (Haiku, read-only) for every exploratory read, search, measurement or git look-up; `run` (Sonnet, low) for every whole job (compile, publish, test, preflight, chain stage), returning pass/fail and the lines that matter; `deliver` (Opus, low) for implementation Fable has **fully** planned (files, mechanism, numbers, checks named; every hard decision made before the handoff); `research` (Opus, low) for read-only audit, sourcing and mining. An Opus/Sonnet/Haiku subagent never diagnoses, designs or decides. **Water cosmetics and implementation in the 3D world are Fable's work, never Opus's**, unless the brief quotes an explicit owner authorisation for that session (owner 2026-09-11, amended 2026-09-14). Fable subagents only for open design reasoning the owner asked for, sparingly: the subscription limit is the constraint.
+- **One chunk or round per session, and the planner's context stays small** (decision 0079). The bill is turns × context length. Start a new session from PROGRESS.md for the next chunk; never let a session run on into the next job. Shell output is filtered through `rtk` on this machine (`rtk test …`, `rtk err …`, `rtk git …`; `rtk recall <id>` for the full text).
+- **Plan for agentic coding.** Nearly all code here is written by agents starting from fresh context. Keep code *and* docs modular, non-contradictory and cheap to navigate: an agent must neither read huge context nor miss what it genuinely needs. Always ask "how do I do this so the next agent can continue smoothly and efficiently?"
+- **High performance by design.** The game runs in a browser on mid-range GPUs and mobiles. Apply open-world RPG industry practice everywhere (distance/visibility quality bands that upgrade and downgrade dynamically, streaming, budgets), without lowering visual quality where it matters. What ships is compressed and the download is a budget with a gate (standard 16): kits publish as UASTC/KTX2 + meshopt through `pipeline/kit_compress.py`, anything that adds to the download measures it, and the startup and site budgets fail the build.
+- **Ground decisions in lore.** Every world/design decision (places, cultures, danger, routes, names, history) is grounded in canon: dossiers in `world/sources/lore/` first; if thin, extract from the vault UESP extract (`../elder-scrolls-asset-pipeline/skyrim-source/mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`) or the UESP MediaWiki API (`en.uesp.net/w/api.php`, project user-agent; plain page fetches get 403) and record a new dossier *before* deciding. Cite UESP page names; respect the era policy (decision 0002). Community/fan material is a prior, never canon.
+- **Estimate at agent speed, and never park a job behind a "holding position"** (owner 2026-09-07). A sourcing search, kit build, data mine or re-author is minutes of agent time. "Accept X for now, revisit later" is forbidden unless the owner chose it: do the proper thing this session, or record the exact blocker (an asset that exists nowhere, an owner call) with its evidence.
+- **A defect found is never "out of scope"** (owner 2026-09-07). A bug, a wrong number, a stale doc, a check that cannot fail: fix it now, or queue it where the next agent will act without the owner remembering (the owning chunk brief in the active phase plan, or a row in docs/phases/P-polish/backlog.md) with file, evidence and mechanism. "Not fixed here" and moving on is a failure of the task.
+- **Fix root causes**, never sticking plasters.
+- **Prevent context bloat.** Read only what you need (the session-start read of docs/world/00-core.md is the deliberate exception); docs/ are modular so filenames are the map. Do your work so future agents process what they need and only that.
+- **We never make art. Ever.** No new models, textures or animations: everything comes from vanilla Skyrim or mods, chosen on availability and quality. A missing asset is a **sourcing job**: check the vault and the candidate tables in [docs/world/90-asset-strategy.md](docs/world/90-asset-strategy.md) §71/§74.3, research the mod scene, download with the owner's Nexus premium API key on this VM (`apikey:` header, `api.nexusmods.com`; never echo the key), and record source link, credits and file hash before relying on it, **including the credit line in root [README.md](README.md) § Credits in the same change**. A sourcing gap is filled in the same session (owner 2026-09-05); the register in `docs/research/placement-settlements/settlement-kit-sourcing-log.md` records the outcome and an OPEN row needs a written reason. **What goes with what is read from the mod's own plugin data** (`world/sources/placement/exterior-interior-links.json`, `kit-assemblies-mined.json`), never guessed from filenames. Take mods' *assets*, never their Papyrus/SKSE code (design reference only). Procedural motion (IK, physics) drives sourced clips; it never replaces them.
+- **Kits only combine pieces that were designed to combine, and placement decisions are made on the actual geometry** (owner 2026-09-04): footprints, silhouettes, full 3D volumes and the authored snap rules, never a piece's label or description. A composition that needs a piece nobody made is a sourcing gap, shown as a gap, never faked.
+- **Game played from GitHub Pages.** Built by GitHub Actions, played in the browser; everything the game needs (e.g. animation files) must be included in that build.
+- **Controller-independent.** Combat, input, lock-on and animation depend on `PlayerMovementController`, never on ecctrl directly (it sits behind `EcctrlAdapter`), so the controller can be swapped.
+- **Anything the final game will need lives in `packages/` from the moment it's written** (decision 0038 addendum, extending 0013): rendering included (sky, water, weather, terrain streaming, vegetation). Apps (`combat-sandbox`, `world-studio`, `game`) hold only scene composition, app-only tooling and debug UI. No new module-level singletons or `__STUDIO_*` globals: inject, or put debug hooks behind a dev-only export. When you touch pre-existing app-private runtime code substantially (audit §1, docs/research/combat-and-systems/game-buildout-systems-audit.md), extract it rather than growing it.
+- **Don't casually retune gameplay** (damage, stamina, i-frames, hit/parry windows, speeds) unless asked; fix visual/animation timing on the animation side. This protects the calibrated *feel*, not the code: re-architect and extend the systems when the game needs it (world module 75 §51.1), keeping the controller boundary and the package rule intact.
+- **Obey the seventeen engineering standards** ([docs/standards/engineering.md](docs/standards/engineering.md), decision 0042): stable IDs on everything placed; every player-visible string in `packages/text-catalogue`; `schemaVersion` on runtime data; determinism in world building; no new module-level mutable singletons in `packages/`; asset source+hash+credit in the same change; quest gates only in the typed vocabulary ([docs/quests/85](docs/quests/85-condition-vocabulary.md)); prose written against the record it describes (standard 12); placement work that changes without the placement playbook or decision 0041 moving fails the gate (standard 13). Nine are checked by `npm test`.
+- **All prose is reviewed by a separate agent before commit.** Any text a player reads or a world record carries is written against [docs/standards/text/style-guide.md](docs/standards/text/style-guide.md) and reviewed by a fresh agent running the `text-review` skill. The linter is an `npm test` gate; the skill is what a regex cannot do. Text that skipped review is a defect.
+- **Test locally; deploy only when the owner says so** (owner 2026-09-12). Pushing to `main` deploys, so commit locally and do NOT push until asked. For a check, run `npm run preflight`, then `npm run studio` and hand the owner the local URL: the server listens on `$ES_STUDIO_PORT` and is reached at `$ES_TUNNEL_URL` (same `?view=character&x=..&z=..&t=..` parameters as the deployed studio). Both are ENVIRONMENT (gitignored `.claude/settings.local.json` `env`), never committed. One dev server at a time on that port; never `pkill -f` to free it.
+- **Run `npm run preflight` once before every commit** (owner 2026-09-12): every deploy gate in parallel (~2 min), all failures listed at once. **Prose first** (owner 2026-09-18): the moment you finish editing docs or player-visible text, run `npm run docs:check` (seconds) and fix what it names, so preflight runs once.
+- **Don't over-validate.** `npm test` and `npm run typecheck` are the routine gates. If you touched animation/movement/physics/camera code, also run `npm run visual:check -w @elder-souls/combat-sandbox -- <group>`. Nothing else is required and nothing visual gates CI or deploy.
+- **Use cheap Sonnet subagents for visual ingestion** (this supersedes the older prohibition on visual ingestion that some Phase 16 text still echoes). Validate with tooling, measurements and probes first, and add visual checks where useful, usually outside the built world (no GPU here, so it loads slowly): a Sonnet agent with a careful "what to look at" prompt inspects assets, composites and blueprints and reports in words. Do *not* run many slow probes on the built world; the owner prefers to do quick visual checks themselves. Choose the method that gets good results with the smoothest owner workflow.
+- **Get playtest/visual feedback from the user.** Deliver the whole phase and have the user review at the end unless a mid-way steer would be hard to change later. Hand off in plain, non-technical English (the user is not a game-dev or technical expert): a structured bulleted list, one check per bullet, with specific studio URLs (coordinates) or repo file URLs where they apply, and how to feed back.
+- **Research known solutions.** Decide whether the task merits looking for proven solutions. If so, first check filenames in docs/ and its subfolders for prior research; read it; research online only if still needed, and record key findings in docs/ under a filename future agents will find.
+- **Update and improve the docs as you go.** Edit, delete and restructure, never just append; keep the README file map current; reconcile contradictions into one version of the truth. This includes the docs/world/ plan modules and CLAUDE.md itself (mindful of context bloat) and the project README.
+- **Re-use wherever possible and sensible.** Before creating, re-deriving or reverse-engineering anything, check whether data, rules, code, methods or principles already exist for it; create new only when re-use is impossible or unwise for a stated reason.
+- **Do not over-engineer.** Find the simplest way of achieving the required outcome at full quality.
+- **Use git sensibly and safely.** You are an experienced lead; act like one.
+- **Update on progress.** After orienting and before substantive work, print a short plan and crack on (don't wait for approval). While working, give frequent, short, plain-English progress updates for a non-technical reader.
+- **Don't search by keyword in Skyrim/mod/asset files.** Keyword search is unreliable there: read directory names, infer which to look in, read all filenames in a directory and decide.
+- **Keep the repo tidy.** Neatly organised, modular, structured, so many agents over time never leave it lost and confused.
+- **Ask for steers only on the biggest load-bearing decisions with more than one similarly viable option.** Present the options with implications, pros and cons, weighing how much each locks us in. If a choice can be made trivially reversible, do that and present it for feedback at the end; if it cannot, and it sets a hard-to-change path, ask.
+- **Self-check for gotchas** at the points you judge appropriate, and prevent or resolve them.
+- **Make asset-aware decisions.** Anything that will eventually be physically present in the game must be deliverable with existing assets (meshes, textures, animations) or ones sourced from mods; never assume. Check what we have; if there is a gap, either change the thing to something we have (without making the game samey) or source the asset from Nexus or elsewhere. If nothing exists anywhere, it cannot be in the game. UI elements are the one exception (we may create those).
 
 ## Map
 
