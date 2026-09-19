@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { clipConfig } from "../anim/animationManifest";
 import { WEAPON_CLASSES, classPoiseDamage, resolveMoveset } from "./weaponClasses";
 import { MOVESETS } from "./movesets";
+import { ARSENAL_WEAPONS } from "./arsenal";
 import type { AttackId } from "./types";
 
 /**
@@ -57,6 +58,12 @@ const MEASURED: Record<string, Record<AttackId | string, [number, number]>> = {
     light1: [0.256, 0.425], light2: [0.331, 0.400], light3: [0.240, 0.353],
     heavy: [0.451, 0.569], heavy2: [0.464, 0.571],
   },
+  katana: {
+    light1: [0.356, 0.425], light2: [0.375, 0.500],
+    // Unmeasured lunge; carries the one-handed LIGHT_3 window (see blades.ts).
+    light3: [0.476, 0.774],
+    heavy: [0.745, 0.783], heavy2: [0.375, 0.429],
+  },
   claw: {
     light1: [0.394, 0.500], light2: [0.406, 0.500],
     // Unmeasured lunge; carries the one-handed LIGHT_3 window (see blades.ts).
@@ -83,4 +90,22 @@ describe("the sourced movesets' contact windows", () => {
       }
     });
   }
+});
+
+/**
+ * A class wired to its own authored pack no longer borrows motion.
+ *
+ * `borrowedMoveset` is what the inventory shows a player as provisional, so the
+ * katana items are the observable end of the wiring: if the class table or the
+ * moveset registry slips back to the one-handed set, every katana in the
+ * arsenal goes provisional again and this fails.
+ */
+describe("the katana arsenal", () => {
+  it("no longer flags a borrowed moveset", () => {
+    const katanas = Object.values(ARSENAL_WEAPONS).filter((w) => w.classId === "katana");
+    expect(katanas.length).toBeGreaterThan(0);
+    for (const weapon of katanas) {
+      expect(weapon.borrowedMoveset, weapon.id).toBe(false);
+    }
+  });
 });

@@ -118,8 +118,8 @@ commit. Enemies in the sandbox fight with the NPC sets.
 Delivered and committed: `pipeline/hkx_interleaved.py` converts
 interleaved-uncompressed Havok animation to the spline form the importer
 reads (round trip on all 59 katana clips: max 0.0003 units, 0.10°); the
-`katana` pack (idle, five attacks, four guard clips, equip, sprint) is built
-and installed; the owner cleared Animated
+`katana` pack (idle, five attacks, four guard clips, equip, sprint) is built,
+installed and wired to the katana class; the owner cleared Animated
 Heavy Armory, Skyrim Spear Mechanic and Black Marsh Import (permissions
 read 2026-09-19), and eleven weapons from the first and third are built
 (three tridents on `pike`, three half-pikes on `spear`, the five Black Marsh
@@ -131,7 +131,7 @@ the claw does).
 
 **Resume with "resume weapons workstream round 1". Remaining, in order (one
 Opus `deliver` brief, .ts only, then Fable closes):**
-1. Wire the katana: KATANA_* names into the `AnimationState` union
+1. DONE 2026-09-19 (commit follows): the katana is wired. Was: KATANA_* names into the `AnimationState` union
    (core/types.ts); `KATANA_ANIMATIONS`/`KATANA_MOVESET` in
    `equipment/movesets/blades.ts` in the rapier pattern (own idle, five
    attacks, four guard clips, equip, sprint; parry/riposte/backstab/unequip

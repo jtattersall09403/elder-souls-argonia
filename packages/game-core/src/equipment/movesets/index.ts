@@ -1,6 +1,13 @@
 import type { AttackId, AttackSpec, WeaponAnimationProfile, WeaponClass } from "../types";
 import { BOW_ANIMATIONS } from "./bow";
-import { CLAW_ANIMATIONS, CLAW_MOVESET, RAPIER_ANIMATIONS, RAPIER_MOVESET } from "./blades";
+import {
+  CLAW_ANIMATIONS,
+  CLAW_MOVESET,
+  KATANA_ANIMATIONS,
+  KATANA_MOVESET,
+  RAPIER_ANIMATIONS,
+  RAPIER_MOVESET,
+} from "./blades";
 import {
   HALBERD_ANIMATIONS,
   HALBERD_MOVESET,
@@ -60,7 +67,8 @@ export type MovesetId =
   | "halberd"
   | "quarterstaff"
   | "rapier"
-  | "claw";
+  | "claw"
+  | "katana";
 
 export const MOVESETS: Readonly<Record<MovesetId, MovesetDefinition>> = {
   oneHanded: {
@@ -117,6 +125,14 @@ export const MOVESETS: Readonly<Record<MovesetId, MovesetDefinition>> = {
     animations: RAPIER_ANIMATIONS,
     attacks: RAPIER_MOVESET,
     pack: "rapier",
+    speedReference: "straightSword",
+  },
+  katana: {
+    id: "katana",
+    label: "Katana",
+    animations: KATANA_ANIMATIONS,
+    attacks: KATANA_MOVESET,
+    pack: "katana",
     speedReference: "straightSword",
   },
   claw: {

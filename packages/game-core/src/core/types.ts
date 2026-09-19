@@ -219,6 +219,20 @@ export type AnimationState =
   | "CLAW_GUARD"
   | "CLAW_GUARD_HIT_A"
   | "CLAW_GUARD_HIT_B"
+  // Katana: a one-handed set with its own carriage, sprint, guard and draw;
+  // parry, riposte and the criticals are the one-handed set's.
+  | "KATANA_IDLE"
+  | "KATANA_LIGHT_1"
+  | "KATANA_LIGHT_2"
+  | "KATANA_LIGHT_3"
+  | "KATANA_HEAVY"
+  | "KATANA_HEAVY_2"
+  | "KATANA_GUARD_ENTER"
+  | "KATANA_GUARD"
+  | "KATANA_GUARD_HIT_A"
+  | "KATANA_GUARD_HIT_B"
+  | "KATANA_EQUIP"
+  | "KATANA_SPRINT"
   | "BACKSTABBED_FORWARD";
 
 export type CombatPhase = "windup" | "active" | "recovery" | "none";

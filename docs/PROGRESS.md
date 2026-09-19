@@ -48,7 +48,7 @@ open only the plan sections the active phase needs.
 
 | Lane | Status | Evidence / current task |
 |---|---|---|
-| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | in progress: rounds 0 and 1 delivered ([0076](decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md), [0077](decisions/0077-weapons-lane-round-1-animated-armoury-movesets-and-meshes.md)); round 1b PAUSED 2026-09-19 with the katana pack built and 11 cleared-mod weapons installed, wiring left (brief § Round 1b); resume with "resume weapons workstream round 1" | [brief](phases/lanes/weapons-lane.md) |
+| Weapons — every kept class with its own motion, effects slot, skill inputs, sandbox picker, landing | in progress: rounds 0 and 1 delivered ([0076](decisions/0076-weapons-lane-round-0-effects-slot-skill-inputs-and-skyrim-calibrated-tables.md), [0077](decisions/0077-weapons-lane-round-1-animated-armoury-movesets-and-meshes.md)); round 1b PAUSED 2026-09-19 with the katana wired and 11 cleared-mod weapons in; the OBJ-mesh orientation fix is left (brief § Round 1b); owner playtest pending; resume with "resume weapons workstream round 1" | [brief](phases/lanes/weapons-lane.md) |
 
 ## Waiting on user
 

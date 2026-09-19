@@ -11,16 +11,18 @@ import {
 
 /**
  * The one-handed variant movesets from the Animated Armoury packs: a thrusting
- * blade (rapier) and a worn weapon (claw).
+ * blade (rapier), a worn weapon (claw) and a katana.
  *
- * Both are one-handed sets in the sandbox's sense, so both spread the reference
+ * All three are one-handed sets in the sandbox's sense, so both spread the reference
  * one-handed profile and override only the clips their pack ships. The rapier
  * pack is carriage, five attacks and a draw; guard, parry, riposte and backstab
  * are the one-handed set's, because Animated Armoury authors none of them and
  * a rapier is held and parried with like a sword. The claw pack adds its own
  * guard *hold* — you block with the back of the hand, not an edge — but not the
  * entry into it, so `guard.enter` stays `GUARD_ENTER`; and it has no draw, so
- * the sword draw stands in.
+ * the sword draw stands in. The katana pack is the fullest of the three:
+ * carriage, sprint, five attacks, its own guard entry, hold and hit reactions,
+ * and a draw; only parry, riposte and the criticals are inherited.
  *
  * ## Timing
  *
@@ -28,13 +30,16 @@ import {
  *
  *     node scripts/measure-contact-windows.mjs --blade 1.1 RAPIER_LIGHT_1 ...
  *     node scripts/measure-contact-windows.mjs --blade 0.45 CLAW_LIGHT_1 ...
+ *     node scripts/measure-contact-windows.mjs --blade 1.05 KATANA_LIGHT_1 ...
  */
 
 type BladeSwing =
   | "RAPIER_LIGHT_1" | "RAPIER_LIGHT_2" | "RAPIER_LIGHT_3"
   | "RAPIER_HEAVY" | "RAPIER_HEAVY_2"
   | "CLAW_LIGHT_1" | "CLAW_LIGHT_2" | "CLAW_LIGHT_3"
-  | "CLAW_HEAVY" | "CLAW_HEAVY_2";
+  | "CLAW_HEAVY" | "CLAW_HEAVY_2"
+  | "KATANA_LIGHT_1" | "KATANA_LIGHT_2" | "KATANA_LIGHT_3"
+  | "KATANA_HEAVY" | "KATANA_HEAVY_2";
 
 const CONTACT: Record<BladeSwing, { start: number; end: number }> = {
   // Rapier, measured at 1.1 m.
@@ -54,6 +59,17 @@ const CONTACT: Record<BladeSwing, { start: number; end: number }> = {
   CLAW_LIGHT_3: { start: 0.476, end: 0.774 },
   CLAW_HEAVY: { start: 0.458, end: 0.528 },
   CLAW_HEAVY_2: { start: 0.419, end: 0.475 },
+  // Katana, measured at 1.05 m.
+  KATANA_LIGHT_1: { start: 0.356, end: 0.425 },
+  KATANA_LIGHT_2: { start: 0.375, end: 0.500 },
+  // UNMEASURED. KATANA_LIGHT_3 is a lunge: the hand travels with the body and
+  // the tool finds no tip sweep to select a contact phase from. The reference
+  // one-handed LIGHT_3 window stands in as the authored-slot analogue, which is
+  // the same construction the chain's other borrowed clips use — replace it the
+  // moment the clip can be measured against a moving body.
+  KATANA_LIGHT_3: { start: 0.476, end: 0.774 },
+  KATANA_HEAVY: { start: 0.745, end: 0.783 },
+  KATANA_HEAVY_2: { start: 0.375, end: 0.429 },
 };
 
 /** Split each clip's own duration around its measured contact window. */
@@ -115,6 +131,20 @@ export const CLAW_ANIMATIONS: WeaponAnimationProfile = {
   heavyAttacks: ["CLAW_HEAVY", "CLAW_HEAVY_2"],
 };
 
+export const KATANA_ANIMATIONS: WeaponAnimationProfile = {
+  ...ONE_HANDED_ANIMATIONS,
+  combatIdle: "KATANA_IDLE",
+  sprintOverride: "KATANA_SPRINT",
+  guard: {
+    enter: "KATANA_GUARD_ENTER",
+    loop: "KATANA_GUARD",
+    hitVariants: ["KATANA_GUARD_HIT_A", "KATANA_GUARD_HIT_B"],
+  },
+  lightAttacks: ["KATANA_LIGHT_1", "KATANA_LIGHT_2", "KATANA_LIGHT_3"],
+  heavyAttacks: ["KATANA_HEAVY", "KATANA_HEAVY_2"],
+  equip: "KATANA_EQUIP",
+};
+
 export const RAPIER_MOVESET = oneHandedVariantMoveset(
   ["RAPIER_LIGHT_1", "RAPIER_LIGHT_2", "RAPIER_LIGHT_3"],
   ["RAPIER_HEAVY", "RAPIER_HEAVY_2"],
@@ -123,4 +153,9 @@ export const RAPIER_MOVESET = oneHandedVariantMoveset(
 export const CLAW_MOVESET = oneHandedVariantMoveset(
   ["CLAW_LIGHT_1", "CLAW_LIGHT_2", "CLAW_LIGHT_3"],
   ["CLAW_HEAVY", "CLAW_HEAVY_2"],
+);
+
+export const KATANA_MOVESET = oneHandedVariantMoveset(
+  ["KATANA_LIGHT_1", "KATANA_LIGHT_2", "KATANA_LIGHT_3"],
+  ["KATANA_HEAVY", "KATANA_HEAVY_2"],
 );

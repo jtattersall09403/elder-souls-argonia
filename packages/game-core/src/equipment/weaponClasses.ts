@@ -230,9 +230,6 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     effects: [],
     sheathSocket: "WeaponSword",
   },
-  // The katana ships on its meshes alone: its source clips are in a Havok
-  // format the pipeline cannot read, so it borrows the one-handed moveset and
-  // `borrowedMoveset` on the item tells the player so.
   katana: {
     id: "katana", label: "Katana", moveset: "oneHanded", twoHanded: false,
     lengthMeters: 1.05, weightKg: 2.8, speedScale: 0.95, criticalEntryRangeBonus: 0,

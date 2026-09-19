@@ -11,8 +11,8 @@
     "criticals": "stationary weapon extent; entry limits remain paired choreography"
   },
   "provenance": {
-    "inputsSha256": "71bd3941d343c44a05e86d74f89c14dc7dfd5d21325e38ccf38df4a7494441a0",
-    "animationManifestSha256": "d50b13aa8b47bc52645fb8c880727a96dd86534fc29106a34ff2282e049a0f9a",
+    "inputsSha256": "07123c37d500941d4000d8cef67422cf1a386e87e8a29c274c05630f8c1c4bdf",
+    "animationManifestSha256": "17ab9576bbbe72a92aa8c273df9ca5407cbb9442cbcb8f9905a4dad102bae3cf",
     "assets": {
       "races/dunmer-male.glb": "e4748eb1253ea1699b58a47fc51b1944bc35a5414b2db6e8f4dd715ecf5f8ac4",
       "weapons/iron-dagger.glb": "d405a720f11bf7217ca7157ccc32b67ba8cbc94ba0f4b932cd4c1c54bfac6449",
@@ -60,6 +60,7 @@
       "weapons/elven-rapier.glb": "f6632f667728af1862c261027fef717bbd0d36a61b9cf1e7b91518777a5f68bf",
       "weapons/ebony-rapier.glb": "ab5a372a043f185fd2695598cad1e38577b7fee2cf5a75905895574a23a9f7d6",
       "weapons/iron-katana.glb": "3882013ad2c454192233b6176eae18dd5a40eb73f62971f1fde53c9ffbfadd67",
+      "rig-skyrim-humanoid.katana.glb": "31fa8b91e1050254789f4ab3884cc36ebb5d78e8821c2558eba8699e852d1914",
       "weapons/steel-katana.glb": "ba6077fd8f4cb71dd47d17aabfef9bd1ba88f57169144c832f259bed8bc3e624",
       "weapons/elven-katana.glb": "3d778c1204ea306b5b4dbd9ec4a67a1b7c2de4bfde8863df70eebb9a1ef14229",
       "weapons/ebony-katana.glb": "9357822afe0813e46528651d1ae20cbc6d106b56fc7280625750f210c54cac04",
@@ -3303,59 +3304,59 @@
       "lengthMeters": 1.05,
       "attacks": {
         "light1": {
-          "animation": "LIGHT_1",
+          "animation": "KATANA_LIGHT_1",
           "activeSourceWindow": [
-            0.4225,
-            0.6695
+            0.4108,
+            0.6045
           ],
-          "range": 1.494214,
-          "stationaryRange": 1.419306,
-          "atSeconds": 0.590742,
-          "sourceTime": 0.621833
+          "range": 1.207398,
+          "stationaryRange": 1.163131,
+          "atSeconds": 0.566097,
+          "sourceTime": 0.595891
         },
         "light2": {
-          "animation": "LIGHT_2",
+          "animation": "KATANA_LIGHT_2",
           "activeSourceWindow": [
-            0.3978,
-            0.6019
+            0.4355,
+            0.702
           ],
-          "range": 1.10833,
-          "stationaryRange": 1.160311,
-          "atSeconds": 0.56768,
-          "sourceTime": 0.597557
+          "range": 1.523246,
+          "stationaryRange": 1.402636,
+          "atSeconds": 0.56314,
+          "sourceTime": 0.592779
         },
         "light3": {
-          "animation": "LIGHT_3",
+          "animation": "KATANA_LIGHT_3",
           "activeSourceWindow": [
-            0.595881,
-            1.112494
+            0.6104,
+            1.1396
           ],
-          "range": 1.872402,
-          "stationaryRange": 1.688991,
-          "atSeconds": 0.682544,
-          "sourceTime": 0.718467
+          "range": 2.001121,
+          "stationaryRange": 1.317326,
+          "atSeconds": 0.854102,
+          "sourceTime": 0.899055
         },
         "heavy": {
-          "animation": "HEAVY",
+          "animation": "KATANA_HEAVY",
           "activeSourceWindow": [
-            0.58685,
-            0.886692
+            1.0575,
+            1.2345
           ],
-          "range": 2.880916,
-          "stationaryRange": 1.600425,
-          "atSeconds": 0.69374,
-          "sourceTime": 0.730253
+          "range": 3.051251,
+          "stationaryRange": 1.25974,
+          "atSeconds": 1.094852,
+          "sourceTime": 1.152476
         },
         "heavy2": {
-          "animation": "HEAVY_2",
+          "animation": "KATANA_HEAVY_2",
           "activeSourceWindow": [
-            0.573319,
-            0.777314
+            0.5025,
+            0.7035
           ],
-          "range": 1.565053,
-          "stationaryRange": 1.475387,
-          "atSeconds": 0.622996,
-          "sourceTime": 0.655785
+          "range": 2.636262,
+          "stationaryRange": 1.529568,
+          "atSeconds": 0.614361,
+          "sourceTime": 0.646696
         },
         "riposte": {
           "animation": "RIPOSTE",
@@ -3385,59 +3386,59 @@
       "lengthMeters": 1.05,
       "attacks": {
         "light1": {
-          "animation": "LIGHT_1",
+          "animation": "KATANA_LIGHT_1",
           "activeSourceWindow": [
-            0.4225,
-            0.6695
+            0.4108,
+            0.6045
           ],
-          "range": 1.504976,
-          "stationaryRange": 1.42924,
-          "atSeconds": 0.590742,
-          "sourceTime": 0.621833
+          "range": 1.215981,
+          "stationaryRange": 1.172184,
+          "atSeconds": 0.566097,
+          "sourceTime": 0.595891
         },
         "light2": {
-          "animation": "LIGHT_2",
+          "animation": "KATANA_LIGHT_2",
           "activeSourceWindow": [
-            0.3978,
-            0.6019
+            0.4355,
+            0.702
           ],
-          "range": 1.117005,
-          "stationaryRange": 1.168875,
-          "atSeconds": 0.56768,
-          "sourceTime": 0.597557
+          "range": 1.532715,
+          "stationaryRange": 1.411973,
+          "atSeconds": 0.56314,
+          "sourceTime": 0.592779
         },
         "light3": {
-          "animation": "LIGHT_3",
+          "animation": "KATANA_LIGHT_3",
           "activeSourceWindow": [
-            0.595881,
-            1.112494
+            0.6104,
+            1.1396
           ],
-          "range": 1.880915,
-          "stationaryRange": 1.69826,
-          "atSeconds": 0.682544,
-          "sourceTime": 0.718467
+          "range": 2.011218,
+          "stationaryRange": 1.327424,
+          "atSeconds": 0.854102,
+          "sourceTime": 0.899055
         },
         "heavy": {
-          "animation": "HEAVY",
+          "animation": "KATANA_HEAVY",
           "activeSourceWindow": [
-            0.58685,
-            0.886692
+            1.0575,
+            1.2345
           ],
-          "range": 2.891693,
-          "stationaryRange": 1.611127,
-          "atSeconds": 0.69374,
-          "sourceTime": 0.730253
+          "range": 3.055691,
+          "stationaryRange": 1.269768,
+          "atSeconds": 1.094852,
+          "sourceTime": 1.152476
         },
         "heavy2": {
-          "animation": "HEAVY_2",
+          "animation": "KATANA_HEAVY_2",
           "activeSourceWindow": [
-            0.573319,
-            0.777314
+            0.5025,
+            0.7035
           ],
-          "range": 1.57579,
-          "stationaryRange": 1.484613,
-          "atSeconds": 0.622996,
-          "sourceTime": 0.655785
+          "range": 2.641642,
+          "stationaryRange": 1.539065,
+          "atSeconds": 0.614361,
+          "sourceTime": 0.646696
         },
         "riposte": {
           "animation": "RIPOSTE",
@@ -3467,59 +3468,59 @@
       "lengthMeters": 1.05,
       "attacks": {
         "light1": {
-          "animation": "LIGHT_1",
+          "animation": "KATANA_LIGHT_1",
           "activeSourceWindow": [
-            0.4225,
-            0.6695
+            0.4108,
+            0.6045
           ],
-          "range": 1.488146,
-          "stationaryRange": 1.413713,
-          "atSeconds": 0.590742,
-          "sourceTime": 0.621833
+          "range": 1.202557,
+          "stationaryRange": 1.158028,
+          "atSeconds": 0.566097,
+          "sourceTime": 0.595891
         },
         "light2": {
-          "animation": "LIGHT_2",
+          "animation": "KATANA_LIGHT_2",
           "activeSourceWindow": [
-            0.3978,
-            0.6019
+            0.4355,
+            0.702
           ],
-          "range": 1.103454,
-          "stationaryRange": 1.155498,
-          "atSeconds": 0.56768,
-          "sourceTime": 0.597557
+          "range": 1.517905,
+          "stationaryRange": 1.397381,
+          "atSeconds": 0.56314,
+          "sourceTime": 0.592779
         },
         "light3": {
-          "animation": "LIGHT_3",
+          "animation": "KATANA_LIGHT_3",
           "activeSourceWindow": [
-            0.595881,
-            1.112494
+            0.6104,
+            1.1396
           ],
-          "range": 1.867597,
-          "stationaryRange": 1.683759,
-          "atSeconds": 0.682544,
-          "sourceTime": 0.718467
+          "range": 1.995422,
+          "stationaryRange": 1.311626,
+          "atSeconds": 0.854102,
+          "sourceTime": 0.899055
         },
         "heavy": {
-          "animation": "HEAVY",
+          "animation": "KATANA_HEAVY",
           "activeSourceWindow": [
-            0.58685,
-            0.886692
+            1.0575,
+            1.2345
           ],
-          "range": 2.874837,
-          "stationaryRange": 1.594391,
-          "atSeconds": 0.69374,
-          "sourceTime": 0.730253
+          "range": 3.048745,
+          "stationaryRange": 1.25408,
+          "atSeconds": 1.094852,
+          "sourceTime": 1.152476
         },
         "heavy2": {
-          "animation": "HEAVY_2",
+          "animation": "KATANA_HEAVY_2",
           "activeSourceWindow": [
-            0.573319,
-            0.777314
+            0.5025,
+            0.7035
           ],
-          "range": 1.558999,
-          "stationaryRange": 1.47019,
-          "atSeconds": 0.622996,
-          "sourceTime": 0.655785
+          "range": 2.633228,
+          "stationaryRange": 1.52421,
+          "atSeconds": 0.614361,
+          "sourceTime": 0.646696
         },
         "riposte": {
           "animation": "RIPOSTE",
@@ -3549,59 +3550,59 @@
       "lengthMeters": 1.05,
       "attacks": {
         "light1": {
-          "animation": "LIGHT_1",
+          "animation": "KATANA_LIGHT_1",
           "activeSourceWindow": [
-            0.4225,
-            0.6695
+            0.4108,
+            0.6045
           ],
-          "range": 1.481615,
-          "stationaryRange": 1.407697,
-          "atSeconds": 0.590742,
-          "sourceTime": 0.621833
+          "range": 1.197343,
+          "stationaryRange": 1.152538,
+          "atSeconds": 0.566097,
+          "sourceTime": 0.595891
         },
         "light2": {
-          "animation": "LIGHT_2",
+          "animation": "KATANA_LIGHT_2",
           "activeSourceWindow": [
-            0.3978,
-            0.6019
+            0.4355,
+            0.702
           ],
-          "range": 1.098218,
-          "stationaryRange": 1.15033,
-          "atSeconds": 0.56768,
-          "sourceTime": 0.597557
+          "range": 1.512154,
+          "stationaryRange": 1.391724,
+          "atSeconds": 0.56314,
+          "sourceTime": 0.592779
         },
         "light3": {
-          "animation": "LIGHT_3",
+          "animation": "KATANA_LIGHT_3",
           "activeSourceWindow": [
-            0.595881,
-            1.112494
+            0.6104,
+            1.1396
           ],
-          "range": 1.86242,
-          "stationaryRange": 1.678121,
-          "atSeconds": 0.682544,
-          "sourceTime": 0.718467
+          "range": 1.989281,
+          "stationaryRange": 1.305485,
+          "atSeconds": 0.854102,
+          "sourceTime": 0.899055
         },
         "heavy": {
-          "animation": "HEAVY",
+          "animation": "KATANA_HEAVY",
           "activeSourceWindow": [
-            0.58685,
-            0.886692
+            1.0575,
+            1.2345
           ],
-          "range": 2.868291,
-          "stationaryRange": 1.587897,
-          "atSeconds": 0.69374,
-          "sourceTime": 0.730253
+          "range": 3.046045,
+          "stationaryRange": 1.247982,
+          "atSeconds": 1.094852,
+          "sourceTime": 1.152476
         },
         "heavy2": {
-          "animation": "HEAVY_2",
+          "animation": "KATANA_HEAVY_2",
           "activeSourceWindow": [
-            0.573319,
-            0.777314
+            0.5025,
+            0.7035
           ],
-          "range": 1.55248,
-          "stationaryRange": 1.464599,
-          "atSeconds": 0.622996,
-          "sourceTime": 0.655785
+          "range": 2.629962,
+          "stationaryRange": 1.518439,
+          "atSeconds": 0.614361,
+          "sourceTime": 0.646696
         },
         "riposte": {
           "animation": "RIPOSTE",
@@ -5517,59 +5518,59 @@
       "lengthMeters": 0.025944,
       "attacks": {
         "light1": {
-          "animation": "LIGHT_1",
+          "animation": "KATANA_LIGHT_1",
           "activeSourceWindow": [
-            0.4225,
-            0.6695
+            0.4108,
+            0.6045
           ],
-          "range": 1.358062,
-          "stationaryRange": 1.362147,
-          "atSeconds": 0.500175,
-          "sourceTime": 0.5265
+          "range": 1.204513,
+          "stationaryRange": 1.142901,
+          "atSeconds": 0.447509,
+          "sourceTime": 0.471062
         },
         "light2": {
-          "animation": "LIGHT_2",
+          "animation": "KATANA_LIGHT_2",
           "activeSourceWindow": [
-            0.3978,
-            0.6019
+            0.4355,
+            0.702
           ],
-          "range": 1.226978,
-          "stationaryRange": 1.245108,
-          "atSeconds": 0.452168,
-          "sourceTime": 0.475966
+          "range": 1.424502,
+          "stationaryRange": 1.317846,
+          "atSeconds": 0.534087,
+          "sourceTime": 0.562197
         },
         "light3": {
-          "animation": "LIGHT_3",
+          "animation": "KATANA_LIGHT_3",
           "activeSourceWindow": [
-            0.595881,
-            1.112494
+            0.6104,
+            1.1396
           ],
-          "range": 1.904096,
-          "stationaryRange": 1.705794,
-          "atSeconds": 0.665907,
-          "sourceTime": 0.700955
+          "range": 1.793274,
+          "stationaryRange": 1.109234,
+          "atSeconds": 0.833327,
+          "sourceTime": 0.877187
         },
         "heavy": {
-          "animation": "HEAVY",
+          "animation": "KATANA_HEAVY",
           "activeSourceWindow": [
-            0.58685,
-            0.886692
+            1.0575,
+            1.2345
           ],
-          "range": 2.716562,
-          "stationaryRange": 1.451823,
-          "atSeconds": 0.677227,
-          "sourceTime": 0.712871
+          "range": 3.339074,
+          "stationaryRange": 1.196817,
+          "atSeconds": 1.168674,
+          "sourceTime": 1.230183
         },
         "heavy2": {
-          "animation": "HEAVY_2",
+          "animation": "KATANA_HEAVY_2",
           "activeSourceWindow": [
-            0.573319,
-            0.777314
+            0.5025,
+            0.7035
           ],
-          "range": 1.652147,
-          "stationaryRange": 1.41558,
-          "atSeconds": 0.734325,
-          "sourceTime": 0.772974
+          "range": 2.826299,
+          "stationaryRange": 1.408062,
+          "atSeconds": 0.601908,
+          "sourceTime": 0.633587
         },
         "riposte": {
           "animation": "RIPOSTE",

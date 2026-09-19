@@ -1,4 +1,4 @@
-# 0077 — Weapons lane round 1: five polearm and blade movesets and 28 weapons from Animated Armoury; the katana waits on an HKX reader; three mods held on permissions
+# 0077 — Weapons lane round 1: five polearm and blade movesets and 28 weapons from Animated Armoury; the katana read through a new interleaved-HKX converter; the three other mods cleared and their weapons in
 
 **Date:** 2026-09-19. **Status:** delivered; owner playtest pending (with
 round 0, lane brief § Owner check). Implements decision 0074 §2 round 1.
@@ -61,13 +61,22 @@ round 0, lane brief § Owner check). Implements decision 0074 §2 round 1.
    character mode down). Unmapped items are listed once in a console warning
    and `UNMAPPED_ARSENAL_ITEMS`; the record gate still holds the manifest
    and the arsenal to one item set.
-5. **Gaps recorded, not parked.** (a) An interleaved-uncompressed HKX reader
-   for the importer: a bounded job (the class is a per-frame array of
-   transforms, simpler than the spline path) that unlocks the katana set and
-   twelve more Animated Armoury clips; queued in the polish backlog with the
-   file list. (b) Permissions for the three held mods: an owner read of the
-   three pages. (c) Black Marsh Import needs (b) plus an OBJ import path in
-   the weapon builder; it stays out until (b) says yes.
+5. **The two gaps closed the same day (round 1b, 2026-09-19).** (a) The
+   owner ruled the reader had to be built, not queued: `pipeline/hkx_interleaved.py`
+   parses `hkaInterleavedUncompressedAnimation` (a frame-major array of
+   transforms) and writes the clip back spline-compressed through PyNifly's
+   own writer; all 59 katana clips round-trip within 0.0003 units and
+   0.10°, and the `katana` pack (12 clips) is built, installed and wired to
+   the class. (b) The owner read the three permission boxes and cleared
+   Animated Heavy Armory, Skyrim Spear Mechanic and Black Marsh Import:
+   three tridents (pike) and three half-pikes (spear) ship from Heavy
+   Armory with records from its plugin, and the five Black Marsh OBJ
+   weapons ship through a new OBJ path in `build_weapons.py` (TGA re-encoded
+   to PNG at 1024 max, hand-authored records naming their vanilla source,
+   new `wood`, `bone` and `obsidian` materials). Skyrim Spear Mechanic's
+   one-handed thrust set is round 2's first item. Open: the five OBJ meshes
+   are built with their length on Y rather than about the hand node and sit
+   wrong in the hand until the builder rotates them (lane brief § Round 1b).
 6. **Weapon GLBs are raw** (JPEG textures, no meshopt), the 54 old ones and
    the 28 new alike: standard 16 says what ships is compressed. Queued in
    the backlog as one pass through the kit compressor over the weapon set,
