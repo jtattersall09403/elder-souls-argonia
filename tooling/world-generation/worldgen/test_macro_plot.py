@@ -139,6 +139,11 @@ def test_the_solve_keeps_every_committed_cell(survey):
     exemptions, so any invalid committed site is now a hard failure.
     Slow; shares the process-wide province survey with the water-role gate."""
     _d, _f, _sc, _fr, result, unresolved, resite, pinned, _cr = macro_plot.solve(survey)
+    # A record on the accepted-homeless register is accepted as homeless: the
+    # solve reporting it unresolved is the register doing its job, not a
+    # regression. Same loader as the other tests on this file.
+    unresolved = [h for h in unresolved if h.get("id") not in ACCEPTED_HOMELESS_IDS]
+    resite = [h for h in resite if h.get("id") not in ACCEPTED_HOMELESS_IDS]
     assert not unresolved
     assert not resite, (
         "records the current fields invalidate. Do NOT re-run the full plot to clear this: "
@@ -202,12 +207,92 @@ def test_navigable_roles_sit_on_navigable_water(survey):
     """97 A8 / G5: a record whose prose claims navigable water (`navigable`
     hint) must plot where the published depth within 150 m clears its hull
     class. There are no exemptions after the owner-approved full re-plot.
-    Slow: loads the survey."""
+    Slow: loads the survey.
+
+    A city (M5) whose harbour is DECLARED in `harbour-stations.json` is judged
+    at that harbour's berth, not at the city dot: decision 0078 item 9 (owner
+    2026-09-18, "connectedness over depth") makes the city's boat access the
+    station it boards from. A shortfall at a declared berth is a warning line,
+    not an assertion; a declared berth on dry ground (0 m) still fails, because
+    that is a landing no hull can reach at all.
+    """
     bad = macro_plot.navigable_violations(survey)
-    assert not bad, (
+    harboured = _harbour_berths(survey)
+    hard, warned = [], []
+    for v in bad:
+        berth = harboured.get(v["id"])
+        if berth is None:
+            hard.append(v)
+        elif berth["depthM"] <= 0.0:
+            hard.append(dict(v, depthM=berth["depthM"], berth=berth["stationId"]))
+        else:
+            warned.append(dict(v, depthM=berth["depthM"], berth=berth["stationId"]))
+    for v in warned:
+        print(f"warn: 97 A8/G5 {v['id']}: the city dot is shallow, but its declared "
+              f"harbour berth {v['berth']} carries {v['depthM']} m against the "
+              f"{v['hullClass']} need of {v['needM']} m (0078 item 9: connectedness "
+              f"over depth)")
+    assert not hard, (
         "97 A8/G5 — navigable roles on water too shallow for their hull class: "
-        + "; ".join(f"{v['id']} ({v['hullClass']}: {v['depthM']} m < {v['needM']} m)" for v in bad)
+        + "; ".join(f"{v['id']} ({v['hullClass']}: {v['depthM']} m < {v['needM']} m)"
+                    for v in hard)
     )
+
+
+def _harbour_berths(survey) -> dict[str, dict]:
+    """`{cityPlaceId: {stationId, depthM}}` for every M5 record whose harbour is
+    declared in `harbour-stations.json`.
+
+    The berth depth is the hop's own `laneDepthM` for that station where the
+    travel compile wrote one (it is only written on hops it re-resolved onto
+    the lane network); otherwise it is the record depth within
+    `macro_plot.NAVIGABLE_REACH_M` of the station's plotted point — the same
+    measurement `navigable_violations` makes, taken at the berth instead of at
+    the city dot.
+    """
+    from scipy import ndimage
+
+    root = macro_plot.REPO_ROOT / "world" / "sources" / "routes"
+    declared = json.loads((root / "harbour-stations.json").read_text())["harbours"]
+    services = json.loads((root / "travel-services.json").read_text())
+    resolved = services.get("harbourStations") or {}
+    stations = {s["id"]: s for s in services.get("stations", [])}
+    lane_depth: dict[str, float] = {}
+    for svc in services.get("services", []):
+        for hop in svc.get("hops", []):
+            for sid, d in (hop.get("laneDepthM") or {}).items():
+                if d is not None:
+                    lane_depth[sid] = max(lane_depth.get(sid, 0.0), float(d))
+
+    magnitude = {rec["id"]: (rec.get("classification") or {}).get("magnitude")
+                 for _z, rec in _live()}
+    rec_depth = survey.recorded_depth_m
+    n = rec_depth.shape[0]
+    px = survey.extent_m / n
+    deep = ndimage.maximum_filter(
+        rec_depth, size=int(round(2 * macro_plot.NAVIGABLE_REACH_M / px)) + 1)
+
+    out: dict[str, dict] = {}
+    for key in declared:
+        row = resolved.get(key) or declared[key]
+        sid = row.get("stationId")
+        station = stations.get(sid) if sid else None
+        if station is None:
+            continue
+        city = station.get("placeId") or row.get("placeId")
+        if city is None or magnitude.get(city) != "M5":
+            continue
+        if sid in lane_depth:
+            depth = lane_depth[sid]
+        else:
+            pos = station.get("positionM")
+            if not isinstance(pos, list) or len(pos) != 2:
+                continue
+            r = min(n - 1, max(0, int(pos[1] / px)))
+            c = min(n - 1, max(0, int(pos[0] / px)))
+            depth = float(deep[r, c])
+        out[city] = {"stationId": sid, "depthM": round(depth, 2)}
+    return out
 
 
 # --------------------------------------------------------------------------- #

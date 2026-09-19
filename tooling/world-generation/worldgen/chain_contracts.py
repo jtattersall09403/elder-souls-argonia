@@ -535,7 +535,11 @@ READS: dict[str, list[Check]] = {
         P(exists, SOURCES / "blueprints"),
         P(json_doc, PROVINCE / "blueprints.json", ("blueprints",), 2),
         P(exists, SOURCES / "catalogue"),
-        P(exists, SOURCES / "sites" / "macro-plot-overrides.json"),
+        # apply_sitings REWRITES this file (it is in its own WRITES row), so
+        # the copy it read is always the previous run's: a self feedback edge.
+        stale_ok(P(exists, SOURCES / "sites" / "macro-plot-overrides.json"),
+                 reason="apply_sitings writes this file itself; the read is "
+                        "the previous run's overrides by construction"),
     ],
     "macro_plot": [
         *_survey(),
@@ -698,7 +702,12 @@ READS: dict[str, list[Check]] = {
     "compile_water_dressing": [
         P(json_doc, WATER / "water-meta.json", ("schemaVersion", "entities", "surface", "season"), 3),
         P(png, WATER / "water-id.png"),
-        P(json_doc, PROVINCE / "vegetation" / "vegetation-index.json", ("speciesOrder", "chunks")),
+        # apply_vegetation_patches (a LATER stage) rewrites the index's
+        # per-chunk instance counts after the patches land, so this read is of
+        # the previous run's index by construction.
+        stale_ok(P(json_doc, PROVINCE / "vegetation" / "vegetation-index.json", ("speciesOrder", "chunks")),
+                 reason="apply_vegetation_patches rewrites vegetation-index.json "
+                        "after this stage runs: a chain feedback edge"),
         P(json_doc, SOURCES / "flora" / "palettes.json", ("byRegionClass",)),
         P(exists, PROVINCE.parent / "kits" / "flora-province-v1.kit.json"),
     ],
@@ -755,7 +764,11 @@ WRITES: dict[str, list[Path]] = {
     "export_routes": [PROVINCE / "routes-index.json", PROVINCE / "route-grades.json",
                       PROVINCE / "crossings.json", PROVINCE / "travel-services.json"],
     "paint_route_overlays": [],
-    "apply_vegetation_patches": [],
+    # The stage rewrites the scatter index's per-chunk instance counts once the
+    # patches have landed (`apply_vegetation_patches.run`), so it publishes the
+    # index too — undeclared until 2026-09-19, which hid the feedback edge into
+    # `compile_water_dressing`.
+    "apply_vegetation_patches": [PROVINCE / "vegetation" / "vegetation-index.json"],
     "terrain_request_postconditions": [],
 }
 

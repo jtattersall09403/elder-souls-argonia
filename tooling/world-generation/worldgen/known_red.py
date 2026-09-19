@@ -34,7 +34,63 @@ KNOWN_RED_DOC = "docs/phases/P-polish/backlog.md"
 #: Each row: ``match`` (a stable identifying substring of the failure text),
 #: ``why`` (the reason), ``owner``, and optionally ``queuedIn``.
 #: An EMPTY register is the healthy state: nothing is suppressed anywhere.
-KNOWN_RED: dict[str, list[dict]] = {}
+#: The 2026-09-19 re-plot moved five live blueprint places; their authored
+#: geometry (streets, boardwalks, docks, terminals, fences) still describes
+#: the ground each place stood on before the move. 16i re-authors it.
+_REPLOT_WHY = (
+    "re-plot 2026-09-19 moved the record; 16i re-authors the blueprint "
+    "where it landed (16g brief, deliverable 2)")
+
+KNOWN_RED: dict[str, list[dict]] = {
+    "worldgen/test_blueprint.py::test_live_dir_validates": [
+        {"match": 'route.mazzatun.haul:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.mazzatun.pen-lane:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'dock.nine-trunks.landing: hullClass',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.nine-trunks.spur:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.nine-trunks.landing-path:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'terminal.nine-trunks.gate-head:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.sap-tapping-licensed.track:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.sap-tapping-licensed.sap-track:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": "serving route 'route.boat.soulrest-lilmoth'",
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": "serving route 'route.boat.blackrose-lilmoth'",
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.lilmoth.spine-track:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.lilmoth.court-path:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.lilmoth.court-approach:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.lilmoth.tender-path:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.lilmoth.fishers-path:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'boardwalk.lilmoth.pusbottom-loop:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'boardwalk.lilmoth.quay-lane:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'boardwalk.lilmoth.shore-lane:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'fence.lilmoth.imperial-curtain-north:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'dock.wamasu-pond-adult.lane-landing: hullClass',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.wamasu-pond-adult.bank-path:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'route.wamasu-pond-adult.stand-path:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+        {"match": 'canal.wamasu-pond-adult.pole-lane:',
+         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+    ],
+}
 
 #: What the last checked gates classified, for the terminal summary.
 _SEEN: list[tuple[str, list[tuple[str, dict]], list[str], list[dict]]] = []
