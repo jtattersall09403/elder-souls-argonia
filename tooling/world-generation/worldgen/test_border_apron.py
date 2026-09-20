@@ -17,7 +17,13 @@ from .compile_chunks import DEFAULT_HEIGHTS, LODS
 from .export_web_chunks import decode_rg16
 from .ladder import requires_layer
 
+# One xdist group for the whole module (`--dist=loadgroup` in `test:placement`):
+# the `inputs` fixture loads a 670 MB heightfield and a near block, module-scoped,
+# so scattering this file across workers loads them once PER WORKER and the 12 GiB
+# cgroup kills one — a lost worker, never an assertion. One group, one worker, one
+# load.
 pytestmark = [requires_layer("apron"),
+              pytest.mark.xdist_group("border_apron"),
               pytest.mark.skipif(not apron.MANIFEST_PATH.exists(), reason="no apron built")]
 
 # The province manifest rounds minM/maxM to 3 dp, which moves a decoded value

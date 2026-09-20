@@ -1064,6 +1064,17 @@ def _quantise_up(value: float) -> int:
     return max(0, min(255, int(math.ceil(value * 255.0 - 1e-9))))
 
 
+def shipped_position(x: float, y: float, z: float) -> tuple[float, float, float]:
+    """The position exactly as the bundle will carry it: `encode` packs x, y
+    and z as float32s (`INSTANCE_STRUCT`), so this is that round-trip.
+
+    Exposed because a stage that applies several patches to one bundle in
+    memory must see the positions the previous patch LEFT — the same values a
+    re-read of the file would give — without paying for an encode and a decode
+    between them (`apply_vegetation_patches._chunk_job`)."""
+    return struct.unpack("<fff", struct.pack("<fff", x, y, z))
+
+
 def shipped_pose(yaw: float, tilt_x: float, tilt_z: float) -> tuple[float, float, float]:
     """The yaw and tilts exactly as the bundle will carry them (a byte each:
     1.4° of yaw, 0.7° of tilt). The burial rule must seat the rock at THIS

@@ -39,7 +39,7 @@ import numpy as np
 
 from . import vegetation_patches as vp
 from .composition import _quantised
-from .scatter import Instance, decode, encode, hash64, uniform_at
+from .scatter import Instance, decode, encode, hash64, shipped_position, uniform_at
 
 BUNDLE_DIR = vp.PROVINCE / "vegetation"
 RECEIPT_NAME = "vegetation-patches-receipt.json"
@@ -176,10 +176,17 @@ def species_radii(kits_dir: Path = KITS_DIR) -> dict[str, float]:
     return out
 
 
-def _apply_decoded(groups: list[dict], species_order: list[str], patch: dict,
-                   seed: int, radii: dict[str, float]) -> tuple[bytes | None, Counter]:
+def _prune_decoded(groups: list[dict], species_order: list[str], patch: dict,
+                   seed: int, radii: dict[str, float]) -> Counter:
+    """Remove the patch's instances from `groups` IN PLACE; what came back.
+
+    The survivors of a group the patch touched get the encoder's POSITION
+    quantisation (`scatter.shipped_position`, a float32 each) applied, so the
+    in-memory groups carry exactly what a re-read of the written bundle would
+    give and a later patch judges the same numbers. That is the whole reason
+    the stage used to re-encode and re-decode between patches.
+    """
     id_hash = patch_id_hash(patch["id"])
-    kept: list[Instance] = []
     removed: Counter = Counter()
     for group in groups:
         species = species_order[group["index"]]
@@ -190,19 +197,31 @@ def _apply_decoded(groups: list[dict], species_order: list[str], patch: dict,
         zs = np.fromiter((i["z"] for i in items), dtype=np.float64, count=len(items))
         mask = survives_mask(xs, zs, patch, seed, id_hash, radii.get(species, 0.0))
         gone = int(len(items) - int(mask.sum()))
-        if gone:
-            removed[species] += gone
-        for item, alive in zip(items, mask.tolist()):
-            if alive:
-                kept.append(Instance(
-                    species=species, tier="T2",
-                    x=item["x"], y=item["y"], z=item["z"],
-                    yaw=item["yaw"], scale=item["scale"],
-                    tilt_x=item["tiltX"], tilt_z=item["tiltZ"],
-                    anchor=item["anchor"], sink=item["sink"]))
+        if not gone:
+            continue
+        removed[species] += gone
+        kept = [i for i, alive in zip(items, mask.tolist()) if alive]
+        for item in kept:
+            item["x"], item["y"], item["z"] = shipped_position(item["x"], item["y"], item["z"])
+        group["instances"] = kept
+    return removed
+
+
+def _encode_groups(groups: list[dict], species_order: list[str]) -> bytes:
+    return encode([Instance(species=species_order[group["index"]], tier="T2",
+                            x=i["x"], y=i["y"], z=i["z"], yaw=i["yaw"], scale=i["scale"],
+                            tilt_x=i["tiltX"], tilt_z=i["tiltZ"],
+                            anchor=i["anchor"], sink=i["sink"])
+                   for group in groups for i in group["instances"]], species_order)
+
+
+def _apply_decoded(groups: list[dict], species_order: list[str], patch: dict,
+                   seed: int, radii: dict[str, float]) -> tuple[bytes | None, Counter]:
+    """The surviving bundle, or None if nothing was removed. Mutates `groups`."""
+    removed = _prune_decoded(groups, species_order, patch, seed, radii)
     if not removed:
         return None, removed
-    return encode(kept, species_order), removed
+    return _encode_groups(groups, species_order), removed
 
 
 def apply_to_chunk(path: Path, species_order: list[str], patch: dict,
@@ -220,28 +239,26 @@ def _chunk_job(job: tuple) -> tuple[str, list[tuple[int, dict]], int]:
     that path) and returns what the PARENT needs to update the shared index and
     receipt. Nothing here is shared mutable state.
 
-    Between patches the bundle is re-encoded and re-decoded exactly as the
-    serial stage did when it wrote the file after each patch — the encode is
-    lossy (bytes per angle), so a later patch must see the quantised positions
-    the earlier one left, or the output would not be byte-identical.
+    Between patches the surviving instances get the encoder's POSITION
+    quantisation (`_prune_decoded`) and nothing else: that is the only part of
+    the encode a later patch can see (it judges x/z), so the chunk is encoded
+    ONCE, at the end, and the bytes are identical to the old encode-and-decode
+    round per patch.
     """
     key, path_str, species_order, patch_items, seed, radii = job
     path = Path(path_str)
-    blob = path.read_bytes()
-    groups = decode(blob)
+    groups = decode(path.read_bytes())
     out: list[tuple[int, dict]] = []
     dirty = False
     for index, patch in patch_items:
-        new_blob, removed = _apply_decoded(groups, species_order, patch, seed, radii)
-        if new_blob is None:
+        removed = _prune_decoded(groups, species_order, patch, seed, radii)
+        if not removed:
             continue
-        blob = new_blob
-        groups = decode(blob)
         dirty = True
         out.append((index, {"removed": int(sum(removed.values())),
                             "bySpecies": dict(sorted(removed.items()))}))
     if dirty:
-        path.write_bytes(blob)
+        path.write_bytes(_encode_groups(groups, species_order))
     kept = sum(len(g["instances"]) for g in groups)
     return key, out, kept
 
@@ -250,7 +267,11 @@ def _worker_count() -> int:
     override = os.environ.get("ES_PATCH_WORKERS")
     if override:
         return max(1, int(override))
-    return min(6, os.cpu_count() or 1)
+    # Three, not one per core: each worker holds a whole decoded chunk (tens of
+    # thousands of instances as Python dicts) plus its numpy lanes, and the
+    # session runs in a 12 GiB cgroup that OOM-killed this stage at six
+    # workers. Three keeps the peak inside it; `ES_PATCH_WORKERS` overrides.
+    return min(3, os.cpu_count() or 1)
 
 
 def run(bundles: Path, patches_path: Path, seed: int) -> dict:
