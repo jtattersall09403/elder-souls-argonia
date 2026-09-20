@@ -219,9 +219,14 @@ H3 Slotted into the phase plan as the current work and integrated with the route
   **next** chunk's Starting state in the same commit; a brief whose
   Starting state is older than the last chain run is re-audited before
   work starts (the `routing-audit` step, docs/README.md § Where to record).
-- **Owner check between chunks.** Every brief ends with a plain-English
-  checklist with studio URLs. Nothing is marked done until that check passes
-  or the owner explicitly accepts it as good enough.
+- **Owner check between chunks; inside a chunk too, wherever a steer is
+  cheap now and costly later** (owner 2026-09-20). Every brief ends with a
+  plain-English checklist with studio URLs. A brief may split its chunk
+  into parts, one session each, with an interim check-in after each part
+  placed where a change is still a record edit (a 2D plot or plan before
+  the ground or the vegetation is touched: the 16g lesson). Nothing is
+  marked done until the last check passes or the owner explicitly accepts
+  it as good enough.
 - **Two agents share the tree.** Commit by pathspec; the chain lock in the
   vault is honoured; the province rasters must be still before any settlement
   compile (settlement-build skill §0).
@@ -237,7 +242,7 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 | 16e | [Routes, grading, spans and ferries on the frozen world](16e-routes-grading-spans-ferries.md) — routes on the record, grading as a patch stack, span pips, crossings and ferries decided from the graph, the one travel-service graph with a talk-pay-arrive contract, paint on the published line; nothing drawn in 3D that 16h's runtime cannot yet draw right | walk three roads, two fords; use one ferry; spans and services on the 2D map | 9 | delivered 2026-09-15, owner walk pending ([ledger](../../research/phase16/16e-ledger.md), [0068](../../decisions/0068-routes-below-the-gate-records-here-realised-in-16h.md)) |
 | 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md) — the bake and the scatter ported to the record; channel membership; ground cover restored with a floor; the existing boulder ladder extended to cliffs, falls, rapids beds, rocky surf, the uplands and one authored boulder field (dressing zones); rows, hanging roots, bare rock under trees; the submerged band and the wreck kit (0062); life over the water, the algae constituent and the seasonal foliage response (the strays sent here); the chain contract pass; vegetation clearance for tracks and settlements defined as a patch kind applied later by 16g/16h; seasonal foliage to the polish backlog (owner 2026-09-16) | five region sites + one river + one fall + the beach + the boulder field | 10 | delivered 2026-09-16, owner walk pending ([ledger](../../research/phase16/16f-ledger.md), [0070](../../decisions/0070-vegetation-and-dressing-read-the-record.md)) |
 | 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md) — the province-wide re-plot and the review of every record on the frozen ground (move, re-type, rewrite, merge, cut); design groups and co-siting sets; the minor tracks and waterways; the travel-service graph re-authored with the places (fast travel, harbour stations, the rootworm stations at the hero Hist); the stronghold, hero Hist, owner-guided and wreck records; then the promise vocabulary for dungeon-kind places and its migration (0062), the NPC roster and the names of the water and the land. Brief rewritten with a delivery plan 2026-09-18 | one check: the 2D plot, tracks, lanes and the fast-travel network + the review report, the recipe table, a promise sample, the names | 11 | delivered 2026-09-19, owner check pending ([0078](../../decisions/0078-places-adapt-to-the-frozen-world.md), [0080](../../decisions/0080-the-chain-runs-by-dependency-not-position.md), [ledger](../../research/phase16/16g-ledger.md), [remedy plan](../../research/phase16/16g-remedy-plan.md)) |
-| 16h | [Settlement runtime and kit QA](16h-settlement-runtime-and-kit-qa.md) — yaw sign, real colliders, anchoring, pads as patches, mounts, nav, stairs, composites, renderable kinds; the off-world kit loop | Lilmoth gate walk-through; the kit sheets | 12 | todo |
+| 16h | [Settlement runtime, places on the ground, kit QA](16h-settlement-runtime-and-kit-qa.md) — per-asset designed sink and mounts mined from the plugins, yaw sign, real colliders, the LOD ladder for buildings, kit data shipped; renderable kinds incl. 16e's route structures, hulls and entrances; doors as records with reachability; pads and settlement clearance as patches, plus a new additive dressing patch; the assembly renderer, Sonnet ingestion and the `kit-qa` skill. Brief rewritten with a three-part delivery plan 2026-09-20 | three: kit sheets + gate walk; 2D place plans before any ground or vegetation is touched; the walk | 12 | todo: "deliver 16h part 1" |
 | 16i | [Exemplars end to end](16i-exemplars-end-to-end.md) — five places exterior + tier A interiors verbatim + the interior load contract + reserved doors (0062) + approach + nav + dressing; owner walk; skill v2 | walk all five, inside and out | 13 | todo |
 | 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) — one region packet through the skill unattended, dungeon sites with reserved doors included; automation-readiness gate; the packet roadmap and brief template; Phase 16 closes, 9a thin swim is next (0062) | walk the packet | — | todo |
 
@@ -439,6 +444,13 @@ cameras and a plan view, with the collider boxes drawn as wireframes. Then:
 
 This is the owner's "short iterative loop that yields principles or skills";
 it costs the owner two sheet reviews, not hundreds of approvals.
+
+**Owner amendment (2026-09-20), binding, supersedes the six-image cap
+for subagents.** Sonnet subagents ingest images liberally, each with a
+careful prompt naming what to look at and the report format, for assets, composites,
+plan sheets and studio shots rendered by tooling; the six-image cap binds
+only the planner's own eyes. The protocol is in the 16h brief
+§ Visual ingestion and the `kit-qa` skill.
 
 **Owner amendments (2026-09-11), binding.** (a) Every image an agent renders
 for judgement must actually show the thing being judged, legibly, under the
