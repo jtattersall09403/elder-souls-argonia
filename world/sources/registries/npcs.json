@@ -1246,6 +1246,42 @@
       }
     },
     {
+      "id": "npc.dunmer-north.murkwater.adult-shadow-born",
+      "name": "Iiran-Vekh",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [],
+      "home": {
+        "placeId": "place.dunmer-north.murkwater",
+        "slotIndex": 2,
+        "socketId": null
+      },
+      "role": "the adult Shadow-born who wants to build boats",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the adult Shadow-born who wants to build boats (Murkwater).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.dunmer-north.murkwater.naheesh",
       "name": "Okan-Nasha",
       "kind": "slot",
@@ -2190,6 +2226,44 @@
       }
     },
     {
+      "id": "npc.dunmer-north.stormhold.archive-s-keeper-wet",
+      "name": "Xul-Nasha",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.stormhold-vicecanons"
+      ],
+      "home": {
+        "placeId": "place.dunmer-north.stormhold",
+        "slotIndex": 7,
+        "socketId": null
+      },
+      "role": "the Archive's keeper of the wet-and-dry collection rooms",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Archive's keeper of the wet-and-dry collection rooms (Stormhold).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.dunmer-north.stormhold.collections-alcove-keeper",
       "name": "Heita-Kanna",
       "kind": "slot",
@@ -2228,6 +2302,44 @@
       }
     },
     {
+      "id": "npc.dunmer-north.stormhold.college-whispers-magister-adjunct",
+      "name": "Magister-Adjunct Tarien Loryn",
+      "kind": "principal",
+      "nameForm": "foreign",
+      "race": "imperial",
+      "sex": "female",
+      "factionIds": [
+        "faction.stormhold-vicecanons"
+      ],
+      "home": {
+        "placeId": "place.dunmer-north.stormhold",
+        "slotIndex": 8,
+        "socketId": null
+      },
+      "role": "the College of Whispers magister-adjunct lodged in the guest laboratory",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the College of Whispers magister-adjunct lodged in the guest laboratory (Stormhold).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Imperial race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.dunmer-north.stormhold.conclave-baal-s-reader",
       "name": "Brother Iulus Cato",
       "kind": "principal",
@@ -2262,6 +2374,120 @@
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Imperial race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.dunmer-north.stormhold.crystal-trade-counting-house",
+      "name": "Dravyna Andalen",
+      "kind": "principal",
+      "nameForm": "foreign",
+      "race": "dunmer",
+      "sex": "female",
+      "factionIds": [
+        "faction.stormhold-vicecanons"
+      ],
+      "home": {
+        "placeId": "place.dunmer-north.stormhold",
+        "slotIndex": 9,
+        "socketId": null
+      },
+      "role": "the crystal-trade counting house's Argonia-born Dunmer principal",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the crystal-trade counting house's Argonia-born Dunmer principal (Stormhold).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Dunmer race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.dunmer-north.stormhold.reed-officer",
+      "name": "Never-Writes-Twice",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.stormhold-vicecanons"
+      ],
+      "home": {
+        "placeId": "place.dunmer-north.stormhold",
+        "slotIndex": 5,
+        "socketId": null
+      },
+      "role": "the Reed officer who files the honest report",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Reed officer who files the honest report (Stormhold).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.dunmer-north.stormhold.reed-records-clerk",
+      "name": "Spills-The-Ink",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [
+        "faction.stormhold-vicecanons"
+      ],
+      "home": {
+        "placeId": "place.dunmer-north.stormhold",
+        "slotIndex": 6,
+        "socketId": null
+      },
+      "role": "the Reed records clerk who wants a posting",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Reed records clerk who wants a posting (Stormhold).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
         "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
       }
     },
@@ -3026,82 +3252,6 @@
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.dunmer-north.the-field-gate-garrison.captain",
-      "name": "Two-Boats",
-      "kind": "slot",
-      "nameForm": "epithet",
-      "race": "argonian",
-      "sex": "male",
-      "factionIds": [
-        "faction.thorn-field-owners"
-      ],
-      "home": {
-        "placeId": "place.dunmer-north.the-field-gate-garrison",
-        "slotIndex": 0,
-        "socketId": null
-      },
-      "role": "the captain who is a field-owner's second son",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.dunmer-north.the-field-gate-garrison notableNpcSlots[0]"
-      ],
-      "notes": "Holds the post: the captain who is a field-owner's second son (Field Gate).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.dunmer-north.the-field-gate-garrison.dunmer-serjeant-everybody-actually",
-      "name": "Arara Indoril",
-      "kind": "slot",
-      "nameForm": "foreign",
-      "race": "dunmer",
-      "sex": "female",
-      "factionIds": [
-        "faction.thorn-field-owners"
-      ],
-      "home": {
-        "placeId": "place.dunmer-north.the-field-gate-garrison",
-        "slotIndex": 1,
-        "socketId": null
-      },
-      "role": "the Dunmer serjeant everybody actually obeys",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.dunmer-north.the-field-gate-garrison notableNpcSlots[1]"
-      ],
-      "notes": "Holds the post: the Dunmer serjeant everybody actually obeys (Field Gate).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Dunmer race (meshes/actors/character) with vanilla humanoid animation sets",
         "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
       }
     },
@@ -4602,6 +4752,44 @@
       }
     },
     {
+      "id": "npc.dunmer-north.thorn.head-dunmer-quarter-s",
+      "name": "Andas Verano",
+      "kind": "principal",
+      "nameForm": "foreign",
+      "race": "dunmer",
+      "sex": "male",
+      "factionIds": [
+        "faction.thorn-field-owners"
+      ],
+      "home": {
+        "placeId": "place.dunmer-north.thorn",
+        "slotIndex": 5,
+        "socketId": null
+      },
+      "role": "the head of the Dunmer quarter's militia hall",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the head of the Dunmer quarter's militia hall (Thorn).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Dunmer race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.dunmer-north.thorn.largest-field-owner",
       "name": "Ssa-Moro",
       "kind": "slot",
@@ -4633,6 +4821,44 @@
         "place.dunmer-north.thorn notableNpcSlots[1]"
       ],
       "notes": "Holds the post: the largest field-owner (Thorn).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.dunmer-north.thorn.vicecanon-magistracy",
+      "name": "Vicecanon Neetra-Sei",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.thorn-field-owners"
+      ],
+      "home": {
+        "placeId": "place.dunmer-north.thorn",
+        "slotIndex": 4,
+        "socketId": null
+      },
+      "role": "the vicecanon of the magistracy, who hears hard cases afloat",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the vicecanon of the magistracy, who hears hard cases afloat (Thorn).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -5558,6 +5784,44 @@
       }
     },
     {
+      "id": "npc.hist-heartland.cult-raid-camp-unbound.leader-unbound-root",
+      "name": "Cuts-the-Old-Knot",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.unbound-root"
+      ],
+      "home": {
+        "placeId": "place.hist-heartland.cult-raid-camp-unbound",
+        "slotIndex": 1,
+        "socketId": null
+      },
+      "role": "the leader of the Unbound Root",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the leader of the Unbound Root (The Quiet Camp).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.hist-heartland.cut-and-carried.naheesh",
       "name": "Deesh-Neel",
       "kind": "slot",
@@ -6064,6 +6328,44 @@
       }
     },
     {
+      "id": "npc.hist-heartland.helstrom.archivist",
+      "name": "Sings-Over-Stone",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.helstrom-assembly"
+      ],
+      "home": {
+        "placeId": "place.hist-heartland.helstrom",
+        "slotIndex": 4,
+        "socketId": null
+      },
+      "role": "the archivist who keeps the years",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the archivist who keeps the years (Helstrom).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.hist-heartland.helstrom.assembly-s-speaking-elder",
       "name": "Neexa-Moro",
       "kind": "slot",
@@ -6171,6 +6473,44 @@
         "docs/quests/36-cast-roster.md:115"
       ],
       "notes": "Holds the post: the grove's senior tree-minder (Helstrom).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.hist-heartland.helstrom.nisswo-interpreter-debating-house",
+      "name": "Ei-Tuja",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [
+        "faction.helstrom-assembly"
+      ],
+      "home": {
+        "placeId": "place.hist-heartland.helstrom",
+        "slotIndex": 5,
+        "socketId": null
+      },
+      "role": "the nisswo interpreter at the debating house",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the nisswo interpreter at the debating house (Helstrom).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -7932,13 +8272,15 @@
       "nameForm": "chosen",
       "race": "argonian",
       "sex": "male",
-      "factionIds": [],
+      "factionIds": [
+        "faction.stormhold-vicecanons"
+      ],
       "home": {
         "placeId": "place.dunmer-north.stormhold",
-        "slotIndex": null,
+        "slotIndex": 4,
         "socketId": null
       },
-      "role": "Director of the Veiled Reed; no catalogue slot (16g-mining 3.1)",
+      "role": "the Director of the Veiled Reed",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -8776,6 +9118,82 @@
       }
     },
     {
+      "id": "npc.imperial-fringe.gideon.advocate-courthouse",
+      "name": "Advocate Oshu-Kai",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [
+        "faction.gideon-civic-council"
+      ],
+      "home": {
+        "placeId": "place.imperial-fringe.gideon",
+        "slotIndex": 6,
+        "socketId": null
+      },
+      "role": "the advocate at the courthouse",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the advocate at the courthouse (Gideon).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.imperial-fringe.gideon.clerk-civic-registry",
+      "name": "Hisska",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.gideon-civic-council"
+      ],
+      "home": {
+        "placeId": "place.imperial-fringe.gideon",
+        "slotIndex": 5,
+        "socketId": null
+      },
+      "role": "the clerk of the civic registry",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the clerk of the civic registry (Gideon).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.imperial-fringe.gideon.collections-chapter-agent",
       "name": "Curator Aulus Pell",
       "kind": "principal",
@@ -8848,6 +9266,120 @@
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Imperial race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.imperial-fringe.gideon.gloommire-claimant",
+      "name": "Tuwul of Gloommire",
+      "kind": "principal",
+      "nameForm": "epithet",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.gideon-civic-council"
+      ],
+      "home": {
+        "placeId": "place.imperial-fringe.gideon",
+        "slotIndex": 7,
+        "socketId": null
+      },
+      "role": "the Gloommire claimant who attends the hearing on the city Hist",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Gloommire claimant who attends the hearing on the city Hist (Gideon).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.imperial-fringe.gideon.league-delegate-hall",
+      "name": "Delegate Anseia Martius",
+      "kind": "principal",
+      "nameForm": "foreign",
+      "race": "imperial",
+      "sex": "female",
+      "factionIds": [
+        "faction.gideon-civic-council"
+      ],
+      "home": {
+        "placeId": "place.imperial-fringe.gideon",
+        "slotIndex": 4,
+        "socketId": null
+      },
+      "role": "the League delegate at the hall, a devout Dibellan",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the League delegate at the hall, a devout Dibellan (Gideon).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Imperial race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.imperial-fringe.gideon.orsimer-smith",
+      "name": "Urzoga gra-Dush",
+      "kind": "slot",
+      "nameForm": "foreign",
+      "race": "orc",
+      "sex": "female",
+      "factionIds": [
+        "faction.gideon-civic-council"
+      ],
+      "home": {
+        "placeId": "place.imperial-fringe.gideon",
+        "slotIndex": 8,
+        "socketId": null
+      },
+      "role": "an Orsimer smith who arms and shoes the Leyawiin road caravans",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "generated",
+      "sources": [
+        "place.imperial-fringe.gideon notableNpcSlots[8]"
+      ],
+      "notes": "Holds the post: an Orsimer smith who arms and shoes the Leyawiin road caravans (Gideon).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Orc race (meshes/actors/character) with vanilla humanoid animation sets",
         "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
       }
     },
@@ -9875,9 +10407,9 @@
     },
     {
       "id": "npc.imperial-fringe.rockgrove.mask-bearer",
-      "name": "Hires-The-Same-Crew",
+      "name": "Tsono-Jei",
       "kind": "slot",
-      "nameForm": "translated",
+      "nameForm": "jel",
       "race": "argonian",
       "sex": "male",
       "factionIds": [],
@@ -10155,6 +10687,42 @@
         "place.imperial-fringe.stonewastes notableNpcSlots[0]"
       ],
       "notes": "Holds the post: the four captains (Stonewastes).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.imperial-fringe.stonewastes.ka-deelith-four-winds",
+      "name": "Ka-Deelith Ushu",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [],
+      "home": {
+        "placeId": "place.imperial-fringe.stonewastes",
+        "slotIndex": 2,
+        "socketId": null
+      },
+      "role": "the ka-deelith of the Four Winds hall",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the ka-deelith of the Four Winds hall (Stonewastes).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -10998,82 +11566,6 @@
       }
     },
     {
-      "id": "npc.imperial-fringe.the-stone-talkers-watch.eldest-stone-talker",
-      "name": "Bux-Ei",
-      "kind": "slot",
-      "nameForm": "jel",
-      "race": "argonian",
-      "sex": "female",
-      "factionIds": [
-        "faction.ca-uxith-tribe"
-      ],
-      "home": {
-        "placeId": "place.imperial-fringe.the-stone-talkers-watch",
-        "slotIndex": 0,
-        "socketId": null
-      },
-      "role": "the eldest stone-talker, who can hear a crack before it opens",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.imperial-fringe.the-stone-talkers-watch notableNpcSlots[0]"
-      ],
-      "notes": "Holds the post: the eldest stone-talker, who can hear a crack before it opens (Holds-The-Stone).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.imperial-fringe.the-stone-talkers-watch.young",
-      "name": "Jeen-Sei",
-      "kind": "slot",
-      "nameForm": "jel",
-      "race": "argonian",
-      "sex": "male",
-      "factionIds": [
-        "faction.ca-uxith-tribe"
-      ],
-      "home": {
-        "placeId": "place.imperial-fringe.the-stone-talkers-watch",
-        "slotIndex": 1,
-        "socketId": null
-      },
-      "role": "the young one who wants the charge ended",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.imperial-fringe.the-stone-talkers-watch notableNpcSlots[1]"
-      ],
-      "notes": "Holds the post: the young one who wants the charge ended (Holds-The-Stone).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
       "id": "npc.imperial-fringe.the-turned-out.eldest",
       "name": "Heita-Tuja",
       "kind": "slot",
@@ -11518,6 +12010,44 @@
       }
     },
     {
+      "id": "npc.imperial-penal-south.blackrose.chainbreaker-patron",
+      "name": "Never-Sold",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.blackrose-island-council"
+      ],
+      "home": {
+        "placeId": "place.imperial-penal-south.blackrose",
+        "slotIndex": 4,
+        "socketId": null
+      },
+      "role": "the Chainbreaker patron who audits ledgers above a boat-shed",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Chainbreaker patron who audits ledgers above a boat-shed (Blackrose).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.imperial-penal-south.blackrose.island-core-castellan",
       "name": "Tavynu Dalomax",
       "kind": "slot",
@@ -11552,6 +12082,44 @@
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Dunmer race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.imperial-penal-south.blackrose.magnate",
+      "name": "Oleen-Tei",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [
+        "faction.blackrose-island-council"
+      ],
+      "home": {
+        "placeId": "place.imperial-penal-south.blackrose",
+        "slotIndex": 5,
+        "socketId": null
+      },
+      "role": "the magnate who signs himself Tibus Oleen",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the magnate who signs himself Tibus Oleen (Blackrose).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
         "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
       }
     },
@@ -11595,7 +12163,7 @@
     },
     {
       "id": "npc.imperial-penal-south.blackrose.toll-compact-s-outside",
-      "name": "Pays-In-Small-Coin",
+      "name": "Hires-The-Same-Crew",
       "kind": "slot",
       "nameForm": "translated",
       "race": "argonian",
@@ -11861,9 +12429,9 @@
     },
     {
       "id": "npc.imperial-penal-south.drawdown-flat.stall-holder",
-      "name": "Argues-Every-Price",
+      "name": "Reeh-Leel",
       "kind": "slot",
-      "nameForm": "translated",
+      "nameForm": "jel",
       "race": "argonian",
       "sex": "male",
       "factionIds": [
@@ -11899,9 +12467,9 @@
     },
     {
       "id": "npc.imperial-penal-south.feeder-portage.windlass-master",
-      "name": "Prices-The-Salvage",
+      "name": "Ssa-Vei",
       "kind": "slot",
-      "nameForm": "translated",
+      "nameForm": "jel",
       "race": "argonian",
       "sex": "male",
       "factionIds": [
@@ -11970,44 +12538,6 @@
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Khajiit race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.imperial-penal-south.longmont.deck-master-village-s",
-      "name": "Reeh-Rekh",
-      "kind": "slot",
-      "nameForm": "jel",
-      "race": "argonian",
-      "sex": "male",
-      "factionIds": [
-        "faction.longmont-freight-households"
-      ],
-      "home": {
-        "placeId": "place.imperial-penal-south.longmont",
-        "slotIndex": 0,
-        "socketId": null
-      },
-      "role": "deck-master at the village's south end",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.imperial-penal-south.longmont notableNpcSlots[0]"
-      ],
-      "notes": "Holds the post: deck-master at the village's south end (Longmont).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
         "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
       }
     },
@@ -12350,158 +12880,6 @@
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Bosmer race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.imperial-penal-south.three-gate-toll.compact-s-counting-mother",
-      "name": "Keshu-Rekh",
-      "kind": "slot",
-      "nameForm": "jel",
-      "race": "argonian",
-      "sex": "female",
-      "factionIds": [
-        "faction.three-gate-compact"
-      ],
-      "home": {
-        "placeId": "place.imperial-penal-south.three-gate-toll",
-        "slotIndex": 0,
-        "socketId": null
-      },
-      "role": "compact's counting-mother",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.imperial-penal-south.three-gate-toll notableNpcSlots[0]"
-      ],
-      "notes": "Holds the post: compact's counting-mother (Three Gates).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.imperial-penal-south.three-gate-toll.gate-keeper-disputed-third",
-      "name": "Ninx-Tuja",
-      "kind": "slot",
-      "nameForm": "jel",
-      "race": "argonian",
-      "sex": "male",
-      "factionIds": [
-        "faction.three-gate-compact"
-      ],
-      "home": {
-        "placeId": "place.imperial-penal-south.three-gate-toll",
-        "slotIndex": 1,
-        "socketId": null
-      },
-      "role": "gate-keeper of the disputed third channel",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.imperial-penal-south.three-gate-toll notableNpcSlots[1]"
-      ],
-      "notes": "Holds the post: gate-keeper of the disputed third channel (Three Gates).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.imperial-penal-south.west-market-town.blackrose-inspector-retainer",
-      "name": "Ta'Juna",
-      "kind": "slot",
-      "nameForm": "foreign",
-      "race": "khajiit",
-      "sex": "female",
-      "factionIds": [
-        "faction.marsh-charter"
-      ],
-      "home": {
-        "placeId": "place.imperial-penal-south.west-market-town",
-        "slotIndex": 1,
-        "socketId": null
-      },
-      "role": "Blackrose 'inspector' on retainer",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.imperial-penal-south.west-market-town notableNpcSlots[1]"
-      ],
-      "notes": "Holds the post: Blackrose 'inspector' on retainer (Threewater).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Khajiit race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.imperial-penal-south.west-market-town.market-speaker-no-title",
-      "name": "Ux-Leel",
-      "kind": "slot",
-      "nameForm": "jel",
-      "race": "argonian",
-      "sex": "male",
-      "factionIds": [
-        "faction.marsh-charter"
-      ],
-      "home": {
-        "placeId": "place.imperial-penal-south.west-market-town",
-        "slotIndex": 0,
-        "socketId": null
-      },
-      "role": "market speaker (no title, total authority)",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.imperial-penal-south.west-market-town notableNpcSlots[0]"
-      ],
-      "notes": "Holds the post: market speaker (no title, total authority) (Threewater).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
         "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
       }
     },
@@ -12958,6 +13336,42 @@
       }
     },
     {
+      "id": "npc.mercantile-coast.hammock-village-murkmire.miredancer-sap-speaker-honoured",
+      "name": "Sap-Speaker Miril-Tei",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [],
+      "home": {
+        "placeId": "place.mercantile-coast.hammock-village-murkmire",
+        "slotIndex": 1,
+        "socketId": null
+      },
+      "role": "the Miredancer sap-speaker honoured for her sap-poisoning",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Miredancer sap-speaker honoured for her sap-poisoning (Tzelvei).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.mercantile-coast.head-of-tide.league-porter-master",
       "name": "Meets-The-Late-Hull",
       "kind": "slot",
@@ -13149,7 +13563,7 @@
     },
     {
       "id": "npc.mercantile-coast.hist-village-keel-sakka.speaker-floor",
-      "name": "Prices-The-Late-Hull",
+      "name": "Pays-In-Small-Coin",
       "kind": "slot",
       "nameForm": "translated",
       "race": "argonian",
@@ -13261,7 +13675,7 @@
     },
     {
       "id": "npc.mercantile-coast.insular-jungle-village.boundary-speaker",
-      "name": "Hires-Too-Many",
+      "name": "Prices-The-Late-Hull",
       "kind": "slot",
       "nameForm": "translated",
       "race": "argonian",
@@ -13291,44 +13705,6 @@
         "place.mercantile-coast.insular-jungle-village notableNpcSlots[0]"
       ],
       "notes": "Holds the post: boundary speaker (Xel-Nahkta).",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
-        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
-      }
-    },
-    {
-      "id": "npc.mercantile-coast.keel-sakka-stilts.landing-master",
-      "name": "Knows-The-Whole-Quay",
-      "kind": "slot",
-      "nameForm": "translated",
-      "race": "argonian",
-      "sex": "female",
-      "factionIds": [
-        "faction.keel-sakka-landing"
-      ],
-      "home": {
-        "placeId": "place.mercantile-coast.keel-sakka-stilts",
-        "slotIndex": 0,
-        "socketId": null
-      },
-      "role": "landing-master",
-      "archetype": null,
-      "statblock": null,
-      "hostility": null,
-      "fightFleeAlarm": null,
-      "marks": [],
-      "schedules": [],
-      "patrols": [],
-      "dialogueTopics": [],
-      "services": [],
-      "crime": null,
-      "standing": null,
-      "status": "generated",
-      "sources": [
-        "place.mercantile-coast.keel-sakka-stilts notableNpcSlots[0]"
-      ],
-      "notes": "Holds the post: landing-master (Keel-Sakka Landing).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -13488,6 +13864,82 @@
       }
     },
     {
+      "id": "npc.mercantile-coast.lilmoth.altmer-alchemist-licensed-dock",
+      "name": "Alenwen",
+      "kind": "slot",
+      "nameForm": "foreign",
+      "race": "altmer",
+      "sex": "female",
+      "factionIds": [
+        "faction.lilmoth-merchant-council"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.lilmoth",
+        "slotIndex": 10,
+        "socketId": null
+      },
+      "role": "an Altmer alchemist licensed to the dock quarter, buying marsh reagents that no Summerset garden grows",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "generated",
+      "sources": [
+        "place.mercantile-coast.lilmoth notableNpcSlots[10]"
+      ],
+      "notes": "Holds the post: an Altmer alchemist licensed to the dock quarter, buying marsh reagents no Summerset garden grows (Lilmoth).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Altmer race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.lilmoth.canal-warden",
+      "name": "the Eel-Keeper",
+      "kind": "principal",
+      "nameForm": "epithet",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [
+        "faction.lilmoth-merchant-council"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.lilmoth",
+        "slotIndex": 4,
+        "socketId": null
+      },
+      "role": "the canal warden who keeps the ripper eels",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the canal warden who keeps the ripper eels (Lilmoth).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.mercantile-coast.lilmoth.council-factor-quest-giver",
       "name": "Pays-The-Day-Wage",
       "kind": "slot",
@@ -13519,6 +13971,158 @@
         "place.mercantile-coast.lilmoth notableNpcSlots[0]"
       ],
       "notes": "Holds the post: council factor (quest-giver, tariff line) (Lilmoth).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.lilmoth.fence",
+      "name": "Tsuun-Wai",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.lilmoth-merchant-council"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.lilmoth",
+        "slotIndex": 5,
+        "socketId": null
+      },
+      "role": "the fence who is bad at fencing",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the fence who is bad at fencing (Lilmoth).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.lilmoth.keeper-descendants-room-behind",
+      "name": "Neexa-Tul",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.lilmoth-merchant-council"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.lilmoth",
+        "slotIndex": 9,
+        "socketId": null
+      },
+      "role": "the keeper of the descendants' room behind a Pusbottom chandlery",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the keeper of the descendants' room behind a Pusbottom chandlery (Lilmoth).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.lilmoth.society-s-archive-room",
+      "name": "Keeps-The-Count",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [
+        "faction.lilmoth-merchant-council"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.lilmoth",
+        "slotIndex": 7,
+        "socketId": null
+      },
+      "role": "the Society's archive-room keeper",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Society's archive-room keeper (Lilmoth).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.lilmoth.the-one",
+      "name": "Still-Wet",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [
+        "faction.lilmoth-merchant-council"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.lilmoth",
+        "slotIndex": 8,
+        "socketId": null
+      },
+      "role": "the one who claims to remember Umbriel",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the one who claims to remember Umbriel (Lilmoth).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -13633,6 +14237,44 @@
         "place.mercantile-coast.lilmoth notableNpcSlots[3]"
       ],
       "notes": "Holds the post: An-Xileel resident agent (deniable) (Lilmoth).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.lilmoth.young-climber-chapter-sends",
+      "name": "Silt",
+      "kind": "principal",
+      "nameForm": "epithet",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.lilmoth-merchant-council"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.lilmoth",
+        "slotIndex": 6,
+        "socketId": null
+      },
+      "role": "the young climber that the chapter sends up walls",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the young climber the chapter sends up walls (Lilmoth).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -14021,7 +14663,7 @@
     },
     {
       "id": "npc.mercantile-coast.screen-watch.senior-pilot-household-head",
-      "name": "Ohl-Hassa",
+      "name": "Ux-Leel",
       "kind": "slot",
       "nameForm": "jel",
       "race": "argonian",
@@ -14172,6 +14814,82 @@
       }
     },
     {
+      "id": "npc.mercantile-coast.soulrest.free-pilot",
+      "name": "Walks-Against-Current",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "male",
+      "factionIds": [
+        "faction.unclaimed"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.soulrest",
+        "slotIndex": 7,
+        "socketId": null
+      },
+      "role": "the free pilot who takes divers out to the wrecks",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the free pilot who takes divers out to the wrecks (Soulrest).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.soulrest.keeper-harbour-den",
+      "name": "Deep-In-Her-Cups",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.league-of-open-water"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.soulrest",
+        "slotIndex": 5,
+        "socketId": null
+      },
+      "role": "the keeper of the harbour den",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the keeper of the harbour den (Soulrest).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.mercantile-coast.soulrest.khajiit-caravan-factor",
       "name": "S'Tabi",
       "kind": "slot",
@@ -14203,6 +14921,44 @@
         "place.mercantile-coast.soulrest notableNpcSlots[1]"
       ],
       "notes": "Holds the post: Khajiit caravan factor (Soulrest).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Khajiit race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.soulrest.marine-underwriter",
+      "name": "Ahnjazzi",
+      "kind": "principal",
+      "nameForm": "foreign",
+      "race": "khajiit",
+      "sex": "female",
+      "factionIds": [
+        "faction.unclaimed"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.soulrest",
+        "slotIndex": 4,
+        "socketId": null
+      },
+      "role": "the marine underwriter whose desk never moves",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the marine underwriter whose desk never moves (Soulrest).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Khajiit race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -14244,6 +15000,44 @@
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Imperial race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.mercantile-coast.soulrest.reed-sail-compact-s",
+      "name": "Route-Keeper Sesha-Ku",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.unclaimed"
+      ],
+      "home": {
+        "placeId": "place.mercantile-coast.soulrest",
+        "slotIndex": 6,
+        "socketId": null
+      },
+      "role": "the Reed-Sail Compact's route-keeper at the waterfront hall",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Reed-Sail Compact's route-keeper at the waterfront hall (Soulrest).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
         "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
       }
     },
@@ -15559,7 +16353,7 @@
     },
     {
       "id": "npc.naga-kur-deeps.naga-village-settled.grave-singer",
-      "name": "Xuth-Nakka",
+      "name": "Jeen-Sei",
       "kind": "slot",
       "nameForm": "jel",
       "race": "argonian",
@@ -16046,13 +16840,15 @@
       "nameForm": "jel",
       "race": "argonian",
       "sex": "female",
-      "factionIds": [],
+      "factionIds": [
+        "faction.corimont-free-port-halls"
+      ],
       "home": {
         "placeId": "place.pirate-freeholds.alten-corimont",
-        "slotIndex": null,
+        "slotIndex": 3,
         "socketId": null
       },
-      "role": "Veiled Reed field handler; no catalogue slot (16g-mining 3.1)",
+      "role": "the Veiled Reed's field handler for the freeholds",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -16302,6 +17098,78 @@
       }
     },
     {
+      "id": "npc.pirate-freeholds.corimont-hiring-yard.charter-s-hiring-floor",
+      "name": "Halvar the Damp",
+      "kind": "principal",
+      "nameForm": "foreign",
+      "race": "nord",
+      "sex": "male",
+      "factionIds": [],
+      "home": {
+        "placeId": "place.pirate-freeholds.corimont-hiring-yard",
+        "slotIndex": 1,
+        "socketId": null
+      },
+      "role": "the Charter's hiring-floor captain",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Charter's hiring-floor captain (The Hiring Yard).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Nord race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.pirate-freeholds.corimont-hiring-yard.charter-s-surgeon",
+      "name": "Yeel-Nakka",
+      "kind": "principal",
+      "nameForm": "jel",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [],
+      "home": {
+        "placeId": "place.pirate-freeholds.corimont-hiring-yard",
+        "slotIndex": 2,
+        "socketId": null
+      },
+      "role": "the Charter's surgeon",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Charter's surgeon (The Hiring Yard).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
       "id": "npc.pirate-freeholds.corimont-hiring-yard.npc-corimont-owing-broker",
       "name": "Ties-The-Bad-Knot",
       "kind": "slot",
@@ -16483,7 +17351,7 @@
     },
     {
       "id": "npc.pirate-freeholds.half-chartered-anchorage.npc-salt-teeth-passage",
-      "name": "Hassk-Xeek",
+      "name": "Ninx-Tuja",
       "kind": "slot",
       "nameForm": "jel",
       "race": "argonian",
@@ -16783,7 +17651,7 @@
     },
     {
       "id": "npc.pirate-freeholds.upriver-hist-village.npc-opening-upriver-elder",
-      "name": "Deeka-Seesh",
+      "name": "Hassk-Xeek",
       "kind": "slot",
       "nameForm": "jel",
       "race": "argonian",
@@ -17002,19 +17870,21 @@
       }
     },
     {
-      "id": "npc.saxhleel-coast.archon-shipyard.npc-archon-yard-master",
-      "name": "Varro Gemellus",
-      "kind": "slot",
-      "nameForm": "foreign",
-      "race": "imperial",
-      "sex": "male",
-      "factionIds": [],
+      "id": "npc.saxhleel-coast.archon.fence-den-patron",
+      "name": "Sails-By-Morning",
+      "kind": "principal",
+      "nameForm": "translated",
+      "race": "argonian",
+      "sex": "female",
+      "factionIds": [
+        "faction.archon-harbour-authority"
+      ],
       "home": {
-        "placeId": "place.saxhleel-coast.archon-shipyard",
-        "slotIndex": 0,
+        "placeId": "place.saxhleel-coast.archon",
+        "slotIndex": 4,
         "socketId": null
       },
-      "role": "npc.archon.yard-master",
+      "role": "the fence-den patron who holds nothing overnight",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -17026,14 +17896,52 @@
       "services": [],
       "crime": null,
       "standing": null,
-      "status": "generated",
+      "status": "cast",
       "sources": [
-        "place.saxhleel-coast.archon-shipyard notableNpcSlots[0]"
+        "docs/quests/36-cast-roster.md"
       ],
-      "notes": "Holds the post: npc.archon.yard-master (The Long Stocks).",
+      "notes": "Holds the post: the fence-den patron who holds nothing overnight (Archon).",
       "assetAvailability": {
         "status": "vanilla",
-        "via": "vanilla Imperial race (meshes/actors/character) with vanilla humanoid animation sets",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.saxhleel-coast.archon.morag-tong-s-desk",
+      "name": "Rasha",
+      "kind": "principal",
+      "nameForm": "foreign",
+      "race": "khajiit",
+      "sex": "male",
+      "factionIds": [
+        "faction.archon-harbour-authority"
+      ],
+      "home": {
+        "placeId": "place.saxhleel-coast.archon",
+        "slotIndex": 3,
+        "socketId": null
+      },
+      "role": "the Morag Tong's desk at a rented dockside guesthouse",
+      "archetype": null,
+      "statblock": null,
+      "hostility": null,
+      "fightFleeAlarm": null,
+      "marks": [],
+      "schedules": [],
+      "patrols": [],
+      "dialogueTopics": [],
+      "services": [],
+      "crime": null,
+      "standing": null,
+      "status": "cast",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Holds the post: the Morag Tong's desk at a rented dockside guesthouse (Archon).",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Khajiit race (meshes/actors/character) with vanilla humanoid animation sets",
         "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
       }
     },

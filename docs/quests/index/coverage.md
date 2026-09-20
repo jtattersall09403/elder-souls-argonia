@@ -42,11 +42,11 @@ Generated from the quest data and the live place catalogue. The gaps here *are* 
 
 ## The demand ladder (Morrowind density, research §4)
 
-103 live settlements. Target band per magnitude: M5 35–60, M4 10–20, M3 3–8, M2 1–3, M1 0–2.
+95 live settlements. Target band per magnitude: M5 35–60, M4 10–20, M3 3–8, M2 1–3, M1 0–2.
 
-Summed settlement demand: **589–1230** quests. Province target: **550–740** at maturity, **170–210** at Milestone 1. Written today: **715** rows (168 live).
+Summed settlement demand: **554–1148** quests. Province target: **550–740** at maturity, **170–210** at Milestone 1. Written today: **715** rows (168 live).
 
-**Read the bands as ceilings, not quotas.** The province plotted 103 live settlements against Morrowind's 35, so applying every band at its floor would demand 589 quests — above the province target. The ladder sizes each settlement RELATIVE to its neighbours; the 550–740 total is the binding number, so the M5/M4 rows should reach their bands and the long M3/M2 tail should sit at the low end, many of them on one quest or none.
+**Read the bands as ceilings, not quotas.** The province plotted 95 live settlements against Morrowind's 35, so applying every band at its floor would demand 554 quests — above the province target. The ladder sizes each settlement RELATIVE to its neighbours; the 550–740 total is the binding number, so the M5/M4 rows should reach their bands and the long M3/M2 tail should sit at the low end, many of them on one quest or none.
 
 | Settlement | Region | Mag | Target | Anchored | Short by |
 |---|---|---|---|---:|---:|
@@ -54,21 +54,19 @@ Summed settlement demand: **589–1230** quests. Province target: **550–740** 
 | Thorn | dunmer-north | M5 | 35–60 | 35 | 0 |
 | Helstrom | hist-heartland | M5 | 35–60 | 35 | 0 |
 | Gideon | imperial-fringe | M5 | 35–60 | 35 | 0 |
-| Blackrose | imperial-penal-south | M5 | 35–60 | 35 | 0 |
+| Blackrose | imperial-penal-south | M5 | 35–60 | 41 | 0 |
 | Lilmoth | mercantile-coast | M5 | 35–60 | 35 | 0 |
 | Soulrest | mercantile-coast | M5 | 35–60 | 35 | 0 |
 | Archon | saxhleel-coast | M5 | 35–60 | 35 | 0 |
 | Crystalgate | dunmer-north | M4 | 10–20 | 10 | 0 |
 | Hissmir | dunmer-north | M4 | 10–20 | 10 | 0 |
 | Tearmouth | dunmer-north | M4 | 10–20 | 10 | 0 |
-| Field Gate | dunmer-north | M4 | 10–20 | 10 | 0 |
 | Wolk Market | dunmer-north | M4 | 10–20 | 10 | 0 |
 | Fig Market | imperial-fringe | M4 | 10–20 | 10 | 0 |
 | Glenbridge | imperial-fringe | M4 | 10–20 | 10 | 0 |
 | Stonewastes | imperial-fringe | M4 | 10–20 | 10 | 0 |
 | Swampmoth Town | imperial-fringe | M4 | 10–20 | 10 | 0 |
-| Vaunting | imperial-penal-south | M4 | 10–20 | 10 | 0 |
-| Threewater | imperial-penal-south | M4 | 10–20 | 10 | 0 |
+| Vaunting | imperial-penal-south | M4 | 10–20 | 20 | 0 |
 | Alten Meerhleel | mercantile-coast | M4 | 10–20 | 10 | 0 |
 | Alten Corimont | pirate-freeholds | M4 | 10–20 | 10 | 0 |
 | Branchmont | dunmer-north | M3 | 3–8 | 3 | 0 |
@@ -78,7 +76,7 @@ Summed settlement demand: **589–1230** quests. Province target: **550–740** 
 | Hutan-Tzel | dunmer-north | M3 | 3–8 | 3 | 0 |
 | Mazzatun | dunmer-north | M3 | 3–8 | 3 | 0 |
 | Murkwater | dunmer-north | M3 | 3–8 | 3 | 0 |
-| Nine Fords | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Nine Fords | dunmer-north | M3 | 3–8 | 13 | 0 |
 | Reedmoor | dunmer-north | M3 | 3–8 | 3 | 0 |
 | Riverwalk | dunmer-north | M3 | 3–8 | 3 | 0 |
 | Saltmarch | dunmer-north | M3 | 3–8 | 3 | 0 |
@@ -98,17 +96,12 @@ Summed settlement demand: **589–1230** quests. Province target: **550–740** 
 | Two-Poles | hist-heartland | M3 | 3–8 | 3 | 0 |
 | Ux-Aneet | hist-heartland | M3 | 3–8 | 3 | 0 |
 | Cartwright's Cross | imperial-fringe | M3 | 3–8 | 3 | 0 |
-| Fenmarch | imperial-fringe | M3 | 3–8 | 3 | 0 |
-| Holds-The-Stone | imperial-fringe | M3 | 3–8 | 3 | 0 |
+| Fenmarch | imperial-fringe | M3 | 3–8 | 6 | 0 |
 | Vellum Estate | imperial-fringe | M3 | 3–8 | 3 | 0 |
 | Westfield | imperial-fringe | M3 | 3–8 | 3 | 0 |
-| Spine | imperial-penal-south | M3 | 3–8 | 3 | 0 |
-| Longmont | imperial-penal-south | M3 | 3–8 | 3 | 0 |
-| Three Gates | imperial-penal-south | M3 | 3–8 | 3 | 0 |
 | Ashroot | mercantile-coast | M3 | 3–8 | 3 | 0 |
 | Sees-No-Root | mercantile-coast | M3 | 3–8 | 3 | 0 |
 | Hereguard Plantation | mercantile-coast | M3 | 3–8 | 3 | 0 |
-| Keel-Sakka Landing | mercantile-coast | M3 | 3–8 | 3 | 0 |
 | Mudfoot | mercantile-coast | M3 | 3–8 | 3 | 0 |
 | Xul-Vaat | mercantile-coast | M3 | 3–8 | 3 | 0 |
 | Walks-The-Mangrove | mercantile-coast | M3 | 3–8 | 3 | 0 |
@@ -140,29 +133,28 @@ Summed settlement demand: **589–1230** quests. Province target: **550–740** 
 | Open House | imperial-penal-south | M2 | 1–3 | 1 | 0 |
 | Holding Fields, Cordon Three | imperial-penal-south | M2 | 1–3 | 1 | 0 |
 | Third Generation | imperial-penal-south | M2 | 1–3 | 0 | 1 |
-| Rockspring | imperial-penal-south | M2 | 1–3 | 1 | 0 |
+| Rockspring | imperial-penal-south | M2 | 1–3 | 4 | 0 |
 | Bright-Throat Village | mercantile-coast | M2 | 1–3 | 1 | 0 |
 | Chasepoint | mercantile-coast | M2 | 1–3 | 1 | 0 |
 | Lighter Flotilla | mercantile-coast | M2 | 1–3 | 1 | 0 |
 | Moonmarch | mercantile-coast | M2 | 1–3 | 1 | 0 |
-| Screen-Watch | mercantile-coast | M2 | 1–3 | 1 | 0 |
+| Screen-Watch | mercantile-coast | M2 | 1–3 | 4 | 0 |
 | Chasecreek | pirate-freeholds | M2 | 1–3 | 1 | 0 |
 | No-Tree | pirate-freeholds | M2 | 1–3 | 1 | 0 |
 | Rockpoint | pirate-freeholds | M2 | 1–3 | 1 | 0 |
 | Nothing-Planted | saxhleel-coast | M2 | 1–3 | 1 | 0 |
 | Portdun Mont | saxhleel-coast | M2 | 1–3 | 2 | 0 |
 | Keeps-Its-Own-Cordon | saxhleel-coast | M2 | 1–3 | 1 | 0 |
-| The Empty Steading | imperial-fringe | M1 | 0–2 | 0 | 0 |
 
 ## Per-region totals against the province target
 
 | Region | Settlements | Settlement demand | Quests today | Milestone 1 |
 |---|---:|---|---:|---:|
-| dunmer-north | 26 | 165–342 | 180 | 52 |
+| dunmer-north | 25 | 155–322 | 180 | 52 |
 | hist-heartland | 17 | 77–173 | 101 | 34 |
-| imperial-fringe | 19 | 98–206 | 111 | 21 |
-| imperial-penal-south | 10 | 68–136 | 75 | 10 |
-| mercantile-coast | 15 | 106–211 | 146 | 59 |
+| imperial-fringe | 17 | 95–196 | 111 | 21 |
+| imperial-penal-south | 6 | 49–92 | 75 | 10 |
+| mercantile-coast | 14 | 103–203 | 146 | 59 |
 | naga-kur-deeps | 5 | 15–40 | 22 | 4 |
 | pirate-freeholds | 7 | 22–53 | 23 | 7 |
 | saxhleel-coast | 4 | 38–69 | 57 | 19 |

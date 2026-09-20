@@ -2815,11 +2815,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-fringe-collections-dig.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.collections-dig.the-find-table",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -2828,6 +2823,11 @@
             "id": "scene.collections-dig.the-trench",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.imperial-fringe-collections-dig.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           },
           {
             "id": "station.collections-dig.chapter-agent",
@@ -3594,7 +3594,7 @@
         ],
         "tags": [],
         "opportunity": "The westernmost Hist has chosen no speaker for two years, so a quest can turn on who is permitted to ask it.",
-        "tierOwnership": "MQ15 · tier-0; LF73 · tier-3; LF74 · tier-3; LF75 · tier-3"
+        "tierOwnership": "MQ15 · tier-0; LF73 · tier-3; LF74 · tier-3; LF75 · tier-3; LF56 · tier-3; LF76 · tier-3; LF77 · tier-3; LF78 · tier-3"
       },
       "rumourPoolKey": "rumour.marsh-edge",
       "deedCounterKeys": [
@@ -3714,11 +3714,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-fringe-fenmarch-village.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.fenmarch-village.the-cutting-scar",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -3727,6 +3722,11 @@
             "id": "scene.fenmarch-village.the-uxith",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.imperial-fringe-fenmarch-village.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           },
           {
             "id": "station.fenmarch-village.naheesh",
@@ -4798,7 +4798,12 @@
         "the sitting magistrate",
         "the Collections chapter-agent",
         "the gardens' Hist-minder",
-        "the wintertide rootworm waykeeper"
+        "the wintertide rootworm waykeeper",
+        "the League delegate at the hall, a devout Dibellan",
+        "the clerk of the civic registry",
+        "the advocate at the courthouse",
+        "the Gloommire claimant who attends the hearing on the city Hist",
+        "an Orsimer smith who arms and shoes the Leyawiin road caravans"
       ],
       "dangerTier": "D0",
       "approachDanger": "D2",
@@ -5387,11 +5392,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-fringe-gideon-rootworm-terminus.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.gideon-rootworm-terminus.daub-marks",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -5400,6 +5400,11 @@
             "id": "scene.gideon-rootworm-terminus.tally-post",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.imperial-fringe-gideon-rootworm-terminus.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           },
           {
             "id": "station.gideon-rootworm-terminus.waykeeper",
@@ -6636,21 +6641,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-fringe-glenbridge-sermon-xanmeer.boss",
-            "kind": "boss",
-            "whereInInterior": "deep"
-          },
-          {
-            "id": "socket.imperial-fringe-glenbridge-sermon-xanmeer.boss-chest",
-            "kind": "boss-chest",
-            "whereInInterior": "deep"
-          },
-          {
-            "id": "socket.imperial-fringe-glenbridge-sermon-xanmeer.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.glenbridge-sermon-xanmeer.numbered-blocks",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -6664,6 +6654,21 @@
             "id": "scene.glenbridge-sermon-xanmeer.the-seal",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.imperial-fringe-glenbridge-sermon-xanmeer.boss",
+            "kind": "boss",
+            "whereInInterior": "deep"
+          },
+          {
+            "id": "socket.imperial-fringe-glenbridge-sermon-xanmeer.boss-chest",
+            "kind": "boss-chest",
+            "whereInInterior": "deep"
+          },
+          {
+            "id": "socket.imperial-fringe-glenbridge-sermon-xanmeer.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           }
         ],
         "light": "bioluminescent",
@@ -12807,16 +12812,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-fringe-orma-tactile-ruin.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
-            "id": "socket.imperial-fringe-orma-tactile-ruin.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "evidence.orma-tactile-ruin.a-tactile-door-mark",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -12835,6 +12830,16 @@
             "id": "scene.orma-tactile-ruin.the-door-that-is-read-not-seen",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.imperial-fringe-orma-tactile-ruin.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.imperial-fringe-orma-tactile-ruin.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           },
           {
             "id": "station.orma-tactile-ruin.collections-scholar",
@@ -13927,8 +13932,7 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-fringe.stonewastes",
-          "place.imperial-fringe.the-stone-talkers-watch"
+          "place.imperial-fringe.stonewastes"
         ],
         "patrols": [
           "route.road.gideon-soulrest"
@@ -14140,7 +14144,12 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.imperial-fringe.gideon"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "rivals": [
+          "place.imperial-fringe.the-stone-talkers-watch"
+        ]
+      }
     },
     {
       "id": "place.imperial-fringe.rufios-landing",
@@ -16060,13 +16069,17 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
+          "place.imperial-fringe.bonded-shed-of-the-onkobra",
+          "place.imperial-fringe.fig-market",
           "place.imperial-fringe.gideon",
           "place.imperial-fringe.onkobra-ferry",
-          "place.imperial-fringe.fig-market",
-          "place.imperial-fringe.bonded-shed-of-the-onkobra"
+          "place.mercantile-coast.moonmarch",
+          "place.mercantile-coast.mudfoot",
+          "place.mercantile-coast.quinrawl-anchorage"
         ]
       },
       "relationsReserved": {
@@ -16743,8 +16756,7 @@
           "guide"
         ],
         "destinations": [
-          "place.imperial-fringe.the-ravine-doors",
-          "place.imperial-fringe.the-stone-talkers-watch"
+          "place.imperial-fringe.the-ravine-doors"
         ]
       },
       "services": [
@@ -16841,7 +16853,8 @@
       ],
       "notableNpcSlots": [
         "the four captains",
-        "the keep's Hist-minder"
+        "the keep's Hist-minder",
+        "the ka-deelith of the Four Winds hall"
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -17023,7 +17036,6 @@
           "guide"
         ],
         "destinations": [
-          "place.imperial-fringe.the-stone-talkers-watch",
           "place.imperial-fringe.fenmarch-village"
         ]
       },
@@ -22046,7 +22058,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "cut",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -22320,7 +22332,6 @@
           "note": "the channel junction and the steading's own landing: navigable water up to the yard wall"
         }
       ],
-      "services": [],
       "reservedFor": "player-stronghold"
     },
     {
@@ -31175,7 +31186,7 @@
         "variant": null,
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "cut",
       "season": "all-year",
       "eraLayers": [
         "first-era",
@@ -31420,13 +31431,6 @@
           "place.imperial-fringe.stonefoot-terrace-village"
         ]
       },
-      "services": [
-        "ferry",
-        "guild-hall",
-        "lodging",
-        "shrine",
-        "trader"
-      ],
       "proseRefs": [
         {
           "sourcePath": "why.pressures",

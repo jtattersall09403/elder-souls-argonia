@@ -255,6 +255,26 @@
         ],
         "anchorSockets": [
           {
+            "id": "evidence.andalen-plantation.the-labour-registers",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "evidence.andalen-plantation.the-unrenewed-paint",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.andalen-plantation.the-counting-room",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
+            "id": "scene.andalen-plantation.the-shuttered-house",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
             "id": "socket.dunmer-north-andalen-plantation.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -268,26 +288,6 @@
             "id": "socket.dunmer-north-andalen-plantation.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
-          },
-          {
-            "id": "evidence.andalen-plantation.the-labour-registers",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "evidence.andalen-plantation.the-unrenewed-paint",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.andalen-plantation.the-shuttered-house",
-            "kind": "scene",
-            "whereInInterior": "main"
-          },
-          {
-            "id": "scene.andalen-plantation.the-counting-room",
-            "kind": "scene",
-            "whereInInterior": "main"
           }
         ],
         "light": "mixed",
@@ -4968,11 +4968,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-greylight-village.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.greylight-village.the-four-stages",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -4981,6 +4976,11 @@
             "id": "scene.greylight-village.the-uxith",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.dunmer-north-greylight-village.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           },
           {
             "id": "station.greylight-village.naheesh",
@@ -5636,11 +5636,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-hatching-pools.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.hatching-pools.counting-stones",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -5651,12 +5646,17 @@
             "whereInInterior": "main"
           },
           {
-            "id": "station.hatching-pools.warden-mother",
+            "id": "socket.dunmer-north-hatching-pools.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "station.hatching-pools.egg-tender",
             "kind": "station",
             "whereInInterior": "main"
           },
           {
-            "id": "station.hatching-pools.egg-tender",
+            "id": "station.hatching-pools.warden-mother",
             "kind": "station",
             "whereInInterior": "main"
           }
@@ -6001,11 +6001,14 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           "place.dunmer-north.channel-cross-village",
-          "place.dunmer-north.murkwater"
+          "place.dunmer-north.murkwater",
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-tide-fair"
         ]
       },
       "services": [
@@ -6551,16 +6554,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-hutan-tzel.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
-            "id": "socket.dunmer-north-hutan-tzel.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "evidence.hutan-tzel.a-recut-post",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -6571,14 +6564,24 @@
             "whereInInterior": "threshold"
           },
           {
+            "id": "scene.hutan-tzel.the-naheesh-house",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
             "id": "scene.hutan-tzel.the-totem-line",
             "kind": "scene",
             "whereInInterior": "main"
           },
           {
-            "id": "scene.hutan-tzel.the-naheesh-house",
-            "kind": "scene",
-            "whereInInterior": "main"
+            "id": "socket.dunmer-north-hutan-tzel.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.dunmer-north-hutan-tzel.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           },
           {
             "id": "station.hutan-tzel.naheesh-nurwul",
@@ -6652,9 +6655,11 @@
       "travelStation": {
         "modes": [
           "boat",
+          "canoe",
           "guide"
         ],
         "destinations": [
+          "place.dunmer-north.the-black-stage",
           "place.dunmer-north.the-last-landing",
           "place.saxhleel-coast.archon"
         ]
@@ -8148,7 +8153,8 @@
       ],
       "notableNpcSlots": [
         "the retired ku-vastei",
-        "the naheesh who was a child in 2E 582"
+        "the naheesh who was a child in 2E 582",
+        "the adult Shadow-born who wants to build boats"
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -8391,14 +8397,17 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           "place.dunmer-north.channel-cross-village",
           "place.dunmer-north.hissmir",
           "place.dunmer-north.hixinoag",
           "place.dunmer-north.reedmoor-stilts",
+          "place.dunmer-north.riverwalk",
           "place.dunmer-north.stormhold",
+          "place.dunmer-north.the-tide-fair",
           "place.pirate-freeholds.alten-corimont"
         ]
       },
@@ -9020,7 +9029,7 @@
         ],
         "tags": [],
         "opportunity": "a toll that can be paid, avoided or broken, with eight visible alternatives · a bridge proposal the town keeps buying off",
-        "tierOwnership": "LV34 · tier-3; LV35 · tier-3; PP13 · tier-3; Reed track · tier-2"
+        "tierOwnership": "LV34 · tier-3; LV35 · tier-3; PP13 · tier-3; Reed track · tier-2; LD95 · tier-3; LD96 · tier-3; LD97 · tier-3; LD98 · tier-3; LD99 · tier-3; LV01 · tier-3; LV02 · tier-3; LV03 · tier-3; LV04 · tier-3; LV05 · tier-3"
       },
       "rumourPoolKey": "rumour.northern-hinge",
       "deedCounterKeys": [
@@ -9154,7 +9163,6 @@
           "cart"
         ],
         "destinations": [
-          "place.dunmer-north.the-field-gate-garrison",
           "place.dunmer-north.wolk-market"
         ]
       },
@@ -10905,13 +10913,17 @@
       "travelStation": {
         "modes": [
           "boat",
+          "canoe",
           "ferry"
         ],
         "destinations": [
           "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.hissmir",
+          "place.dunmer-north.murkwater",
           "place.dunmer-north.reedmoor-stilts",
           "place.dunmer-north.stormhold",
-          "place.dunmer-north.the-last-landing"
+          "place.dunmer-north.the-last-landing",
+          "place.dunmer-north.the-tide-fair"
         ]
       },
       "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern.",
@@ -10988,7 +11000,6 @@
           "place.dunmer-north.thorn-paddy-terraces"
         ],
         "supplies": [
-          "place.dunmer-north.the-field-gate-garrison",
           "place.dunmer-north.thorn"
         ],
         "rivals": [
@@ -11174,7 +11185,12 @@
         "lodging",
         "shrine",
         "trader"
-      ]
+      ],
+      "relationsReserved": {
+        "supplies": [
+          "place.dunmer-north.the-field-gate-garrison"
+        ]
+      }
     },
     {
       "id": "place.dunmer-north.seam-chasers",
@@ -13042,7 +13058,13 @@
         "the two rival vicecanons",
         "the Conclave of Baal's reader",
         "the Collections alcove-keeper",
-        "the tunnel overseer"
+        "the tunnel overseer",
+        "the Director of the Veiled Reed",
+        "the Reed officer who files the honest report",
+        "the Reed records clerk who wants a posting",
+        "the Archive's keeper of the wet-and-dry collection rooms",
+        "the College of Whispers magister-adjunct lodged in the guest laboratory",
+        "the crystal-trade counting house's Argonia-born Dunmer principal"
       ],
       "dangerTier": "D0",
       "approachDanger": "D2",
@@ -14463,7 +14485,7 @@
       "proseRefs": [
         {
           "sourcePath": "why.founding",
-          "placeRef": "place.dunmer-north.tenmar-wall"
+          "placeRef": "place.dunmer-north.ten-maur-wolk"
         }
       ],
       "scourSiteId": "site.scour.upland-hills.box-canyon-016"
@@ -15773,10 +15795,12 @@
       "travelStation": {
         "modes": [
           "boat",
+          "canoe",
           "ferry"
         ],
         "destinations": [
           "place.dunmer-north.hixinoag",
+          "place.dunmer-north.hutan-tzel",
           "place.dunmer-north.stormhold"
         ]
       },
@@ -17312,16 +17336,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-the-charge-pond.boss",
-            "kind": "boss",
-            "whereInInterior": "deep"
-          },
-          {
-            "id": "socket.dunmer-north-the-charge-pond.boss-chest",
-            "kind": "boss-chest",
-            "whereInInterior": "deep"
-          },
-          {
             "id": "evidence.the-charge-pond.the-dead-ring",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -17330,6 +17344,16 @@
             "id": "scene.the-charge-pond.the-margin",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.dunmer-north-the-charge-pond.boss",
+            "kind": "boss",
+            "whereInInterior": "deep"
+          },
+          {
+            "id": "socket.dunmer-north-the-charge-pond.boss-chest",
+            "kind": "boss-chest",
+            "whereInInterior": "deep"
           }
         ],
         "light": "dark",
@@ -18037,7 +18061,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "On a hammock the ground is precious and the crown is dry, so Stands-On-The-Hammock puts its dead in the canopy rather than in the ground. The terrace is a platform in the canopy, above the houses and above the flood.",
+        "founding": "On a hammock the ground is precious and the crown is dry, so the households here put their dead in the canopy rather than in the ground. The terrace is a platform in that canopy, above the houses and above the flood, an hour up the hammock from Last Landing and within a day's traffic of Thorn.",
         "siteAdvantages": "The hammock's tallest stand, with three trunks close enough to carry a terrace and a canopy dense enough to hide it from the marsh.",
         "occupantsMotive": "The hammock's whole population, by turns. Tending the terrace is a rotating duty. A household that refuses its turn is put off the hammock.",
         "pressures": "The terrace is full. The village is arguing whether to build a second, extend this one, or start burying in the soil after all.",
@@ -18058,16 +18082,18 @@
         "neighbourRelation": "one per inhabited hammock; the region's signature sacred form",
         "hardConstraints": [
           "three trunks close enough to carry a terrace",
-          "part of Stands-On-The-Hammock"
+          "on the same hammock as the houses it serves"
         ],
         "preferences": [
           "a railed platform in three trunks",
           "the dead laid in order of arrival"
         ],
         "scourSiteIds": [],
-        "boundTo": {
-          "place": "place.dunmer-north.stands-on-the-hammock",
-          "maxM": 200
+        "boundTo": null,
+        "nearPoint": {
+          "x": 6248.5,
+          "z": 298.9,
+          "maxM": 100.0
         }
       },
       "relations": {
@@ -18162,49 +18188,6 @@
         "tended",
         "neglected (a household refused its duty and the island answered)"
       ],
-      "position": {
-        "u": 0.84742,
-        "v": 0.04053
-      },
-      "positionM": [
-        6248.5,
-        298.9
-      ],
-      "footprintRadiusM": 35.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0227",
-          "score": 4.467,
-          "whyLost": "too close to place.dunmer-north.wolk-market"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0146",
-          "score": 4.348,
-          "whyLost": "too close to place.dunmer-north.thorn"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0117",
-          "score": 3.82,
-          "whyLost": "too close to place.dunmer-north.thorn"
-        }
-      ],
-      "whySiteWon": "firm ground in upland hills (danger band 2), 155 m from the nearest route; its choice #3 landform; won on route, landform, hinterland.",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 2,
-        "distanceToRouteM": 155.2,
-        "distanceToWaterM": 73.6,
-        "water": {
-          "entityId": "body.3364-188",
-          "kind": "pond",
-          "levelM": 71.42,
-          "season": "perennial",
-          "distanceM": 73.6
-        },
-        "score": 3.125
-      },
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -18276,7 +18259,15 @@
           "note": "the hammock crown the terrace stands on: the one ground on the island that the flood does not reach"
         }
       ],
-      "sitingNote": "The landform this record names is supplied by its terrainRequests: Part 6's meso compiler carves it, so the plotted landform class is the pre-carve ground."
+      "sitingNote": "The landform this record names is supplied by its terrainRequests: Part 6's meso compiler carves it, so the plotted landform class is the pre-carve ground.",
+      "position": {
+        "u": 0.84742,
+        "v": 0.04053
+      },
+      "positionM": [
+        6248.5,
+        298.9
+      ]
     },
     {
       "id": "place.dunmer-north.the-crystal-prospectors",
@@ -20022,9 +20013,7 @@
         "scourSiteIds": []
       },
       "relations": {
-        "rivals": [
-          "place.dunmer-north.the-field-gate-garrison"
-        ],
+        "rivals": [],
         "patrols": [
           "route.road.thorn-tear-road"
         ],
@@ -20213,6 +20202,9 @@
       "relationsReserved": {
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
+        ],
+        "rivals": [
+          "place.dunmer-north.the-field-gate-garrison"
         ]
       }
     },
@@ -21039,7 +21031,7 @@
         "variant": null,
         "magnitude": "M4"
       },
-      "status": "active",
+      "status": "cut",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -21274,18 +21266,7 @@
           "place.dunmer-north.nine-fords",
           "place.dunmer-north.thorn"
         ]
-      },
-      "services": [
-        "apothecary",
-        "council",
-        "ferry",
-        "lodging",
-        "shrine",
-        "smith",
-        "stable",
-        "tavern",
-        "trader"
-      ]
+      }
     },
     {
       "id": "place.dunmer-north.the-first-count",
@@ -27402,11 +27383,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-the-outer-silyanorn.shrine",
-            "kind": "shrine",
-            "whereInInterior": "main"
-          },
-          {
             "id": "evidence.the-outer-silyanorn.the-unquarried-arcade",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -27414,6 +27390,11 @@
           {
             "id": "scene.the-outer-silyanorn.the-sunken-rooms",
             "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
+            "id": "socket.dunmer-north-the-outer-silyanorn.shrine",
+            "kind": "shrine",
             "whereInInterior": "main"
           }
         ],
@@ -27886,7 +27867,7 @@
             "to": "hostile",
             "when": {
               "placeStanceIs": [
-                "place.dunmer-north.rope-field",
+                "place.dunmer-north.the-dres-rows",
                 "hostile"
               ]
             },
@@ -28185,11 +28166,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-the-permit-dig.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.the-permit-dig.the-permit-board",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -28198,6 +28174,11 @@
             "id": "scene.the-permit-dig.the-fence",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.dunmer-north-the-permit-dig.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           },
           {
             "id": "station.the-permit-dig.alcove-keeper",
@@ -28757,19 +28738,10 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-the-quiet-landing.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
-            "id": "socket.dunmer-north-the-quiet-landing.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "evidence.mq08.evidence-board",
             "kind": "evidence",
-            "whereInInterior": "threshold"
+            "whereInInterior": "threshold",
+            "provision": "quest.provision.cult-cell01"
           },
           {
             "id": "evidence.mq08.harvest-notes",
@@ -28780,6 +28752,16 @@
             "id": "scene.mq08.cellar-shrine",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.dunmer-north-the-quiet-landing.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.dunmer-north-the-quiet-landing.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           }
         ],
         "light": "mixed",
@@ -29390,9 +29372,7 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [
-          "place.dunmer-north.the-field-gate-garrison"
-        ],
+        "supplies": [],
         "rivals": [],
         "patrols": [],
         "tolls": [],
@@ -29634,6 +29614,11 @@
             "provenance": "whatever the current occupants have taken",
             "whereInInterior": "hidden"
           }
+        ]
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.dunmer-north.the-field-gate-garrison"
         ]
       }
     },
@@ -32071,7 +32056,7 @@
         ],
         "scourSiteIds": [],
         "boundTo": {
-          "place": "place.dunmer-north.the-field-gate-garrison",
+          "place": "place.dunmer-north.nine-fords",
           "maxM": 1200
         },
         "nearPoint": {
@@ -34005,9 +33990,13 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
+          "place.dunmer-north.hissmir",
+          "place.dunmer-north.murkwater",
+          "place.dunmer-north.riverwalk",
           "place.dunmer-north.tearmouth",
           "place.dunmer-north.the-pilots-rest",
           "place.saxhleel-coast.archon"
@@ -34890,9 +34879,7 @@
           "place.dunmer-north.tear-road-stage"
         ],
         "dependsOn": [],
-        "supplies": [
-          "place.dunmer-north.the-field-gate-garrison"
-        ],
+        "supplies": [],
         "patrols": [],
         "tolls": [],
         "reachedVia": [],
@@ -35095,6 +35082,9 @@
         ],
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
+        ],
+        "supplies": [
+          "place.dunmer-north.the-field-gate-garrison"
         ]
       },
       "services": [
@@ -35587,11 +35577,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.dunmer-north-the-whispers-dig.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.the-whispers-dig.the-instruction-sheet",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -35600,6 +35585,11 @@
             "id": "scene.the-whispers-dig.the-cut",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.dunmer-north-the-whispers-dig.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           }
         ],
         "light": "bioluminescent",
@@ -36585,7 +36575,6 @@
           "place.dunmer-north.saltmarch-village"
         ],
         "supplies": [
-          "place.dunmer-north.the-field-gate-garrison",
           "place.dunmer-north.thorn-paddy-terraces"
         ],
         "rivals": [
@@ -36616,7 +36605,9 @@
         "the vicecanon nobody obeys",
         "the largest field-owner",
         "the Dunmer factor from Tear",
-        "the field-edge tree's minder"
+        "the field-edge tree's minder",
+        "the vicecanon of the magistracy, who hears hard cases afloat",
+        "the head of the Dunmer quarter's militia hall"
       ],
       "dangerTier": "D0",
       "approachDanger": "D2",
@@ -36810,7 +36801,6 @@
         ],
         "destinations": [
           "place.dunmer-north.tearmouth",
-          "place.dunmer-north.the-field-gate-garrison",
           "place.dunmer-north.the-last-landing",
           "place.dunmer-north.the-pilots-rest",
           "place.dunmer-north.the-thorn-bond",
@@ -36926,7 +36916,12 @@
           682.7
         ]
       ],
-      "ownerGuided": true
+      "ownerGuided": true,
+      "relationsReserved": {
+        "supplies": [
+          "place.dunmer-north.the-field-gate-garrison"
+        ]
+      }
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",

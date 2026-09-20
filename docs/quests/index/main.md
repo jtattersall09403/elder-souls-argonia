@@ -23,7 +23,7 @@
 | MQ20 | Dreams for Sale | imperial-fringe | `RECKONING` | Sap-dream testimony used to classify dissenters, until the handler falls | `imperial-fringe.gideon` | live |
 | MQ21 | The Black Sap House | hist-heartland | `CONTAMINATION` | A cult lab forcing a Mnemic Egg out of volunteers | `hist-heartland.sap-collection-facility-daedric` | live |
 | MQ22 | The Second Report | hist-heartland | `FRAUD` | Two incompatible reports, one of them acted on before the other is read | `dunmer-north.the-quiet-landing`<br>`hist-heartland.helstrom`<br>`hist-heartland.the-cut-circle` | live |
-| MQ23 | Marks Only the Eye Can See | hist-heartland | `EXPEDITION`, `MISSING` | An Eye-revealed route walked under a Shadowscale manhunt | `hist-heartland.guide-camp-gate-side`<br>`hist-heartland.root-gallery-helstrom-underway`<br>`hist-heartland.rootworm-station-helstrom` | live |
+| MQ23 | Marks Only the Eye Can See | hist-heartland | `EXPEDITION`, `MISSING` | An Eye-revealed route walked under a Shadowscale manhunt | `dunmer-north.murkwater-shadowscale-ground`<br>`hist-heartland.guide-camp-gate-side`<br>`hist-heartland.root-gallery-helstrom-underway`<br>`hist-heartland.rootworm-station-helstrom` | live |
 | MQ25 | Council Behind Closed Gates | hist-heartland | `NEGOTIATION` | The council hearing, attacked mid-session | `hist-heartland.helstrom` | live |
 | MQ26 | The Root of Accord | hist-heartland | `RECKONING` | The hidden archive; the Accord's conversion | `hist-heartland.helstrom` | live |
 | MQ27 | The Road That No Map Keeps | hist-heartland | `EXPEDITION` | Bargain for an expedition, then cross D5 country | `hist-heartland.guide-camp-far-shelter`<br>`hist-heartland.guide-camp-gate-side`<br>`hist-heartland.refuge-station-interior` | live |

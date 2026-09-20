@@ -107,9 +107,9 @@
       "settlement": null,
       "anchorPlaces": [
         "place.imperial-penal-south.lake-divers-yard",
-        "place.naga-kur-deeps.wreck-submerged-barge"
+        "place.naga-kur-deeps.sinkhole-mouth-deeps"
       ],
-      "premise": "The wreck's cargo seals are intact and legible, so a bar lifted off her traces back to whoever holds it",
+      "premise": "The cargo seals sunk in the sinkhole are intact and legible, so a bar lifted out traces back to whoever holds it",
       "costTier": null,
       "milestone": 2,
       "touches": [],

@@ -67,8 +67,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -290,7 +289,12 @@
           "placeRef": "place.imperial-fringe.gideon"
         }
       ],
-      "designGroup": "group.blackrose-siege-works"
+      "designGroup": "group.blackrose-siege-works",
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
@@ -352,9 +356,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -505,7 +507,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
         ]
       }
     },
@@ -568,8 +571,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -666,6 +668,11 @@
             "provenance": null
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -729,8 +736,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -827,6 +833,11 @@
             "valueTier": "tier-2",
             "provenance": null
           }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
         ]
       }
     },
@@ -1073,8 +1084,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -1189,7 +1199,12 @@
           "sourcePath": "why.pressures",
           "routeRef": "route.road.deeps-narrows-drag"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-sinkhole",
@@ -1251,8 +1266,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -1453,7 +1467,12 @@
           },
           "note": "A collapse throat wide enough to swallow a stream, with an undercut ledge below the rim; the record's whole identity is the hole."
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-squat",
@@ -1512,8 +1531,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -1608,6 +1626,11 @@
             "provenance": null
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -1670,8 +1693,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -1778,6 +1800,11 @@
             "provenance": null
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -1832,21 +1859,17 @@
         "rivals": [
           "place.mercantile-coast.lilmoth"
         ],
-        "tolls": [
-          "place.imperial-penal-south.three-gate-toll"
-        ],
+        "tolls": [],
         "reachedVia": [
           "route.boat.soulrest-blackrose",
           "route.boat.gideon-onkobra"
         ],
         "dependsOn": [
           "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.saltrice-village",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.saltrice-village"
         ],
         "supplies": [
-          "place.imperial-penal-south.blackrose-prison",
-          "place.imperial-penal-south.longmont"
+          "place.imperial-penal-south.blackrose-prison"
         ],
         "patrols": [
           "place.imperial-penal-south.manned-toll-tower"
@@ -1866,7 +1889,9 @@
         "island-core castellan",
         "toll compact's outside voice",
         "An-Xileel resident (unwelcome, tolerated)",
-        "Rose liaison"
+        "Rose liaison",
+        "the Chainbreaker patron who audits ledgers above a boat-shed",
+        "the magnate who signs himself Tibus Oleen"
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -1917,7 +1942,7 @@
           "WATER"
         ],
         "opportunity": "A quest could set the city's clerks, founding houses and toll-farmers against each other over a single page of the record.",
-        "tierOwnership": "LR01 · tier-3; LR02 · tier-3; LR03 · tier-3; LR04 · tier-3; LR05 · tier-3; LR06 · tier-3; LR07 · tier-3; LR08 · tier-3; LR09 · tier-3; LR10 · tier-3; LR11 · tier-3; LR12 · tier-3; LR13 · tier-3; LR14 · tier-3; LR15 · tier-3; LR16 · tier-3; LR17 · tier-3; LR18 · tier-3; LR19 · tier-3; LR20 · tier-3; LR21 · tier-3; LR22 · tier-3; LR23 · tier-3; LR24 · tier-3; LR25 · tier-3; LR26 · tier-3; LR27 · tier-3; LR28 · tier-3; LR29 · tier-3; LR30 · tier-3; LR31 · tier-3; LR32 · tier-3; LR33 · tier-3; LR34 · tier-3; LR35 · tier-3; LR61 · tier-3; tier-0"
+        "tierOwnership": "LR01 · tier-3; LR02 · tier-3; LR03 · tier-3; LR04 · tier-3; LR05 · tier-3; LR06 · tier-3; LR07 · tier-3; LR08 · tier-3; LR09 · tier-3; LR10 · tier-3; LR11 · tier-3; LR12 · tier-3; LR13 · tier-3; LR14 · tier-3; LR15 · tier-3; LR16 · tier-3; LR17 · tier-3; LR18 · tier-3; LR19 · tier-3; LR20 · tier-3; LR21 · tier-3; LR22 · tier-3; LR23 · tier-3; LR24 · tier-3; LR25 · tier-3; LR26 · tier-3; LR27 · tier-3; LR28 · tier-3; LR29 · tier-3; LR30 · tier-3; LR31 · tier-3; LR32 · tier-3; LR33 · tier-3; LR34 · tier-3; LR35 · tier-3; LR61 · tier-3; tier-0; LR56 · tier-3; LR57 · tier-3; LR58 · tier-3; LR59 · tier-3; LR60 · tier-3; RS04 · tier-2"
       },
       "rumourPoolKey": "rumour.blackrose.city",
       "deedCounterKeys": [
@@ -2083,6 +2108,15 @@
       "relationsReserved": {
         "patrols": [
           "place.imperial-penal-south.chainlink-watchtower"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "dependsOn": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "tolls": [
+          "place.imperial-penal-south.three-gate-toll"
         ]
       },
       "travelStation": {
@@ -2092,9 +2126,8 @@
           "pilot"
         ],
         "destinations": [
-          "place.imperial-penal-south.longmont",
-          "place.imperial-penal-south.west-market-town",
-          "place.imperial-penal-south.three-gate-toll",
+          "place.imperial-penal-south.lake-divers-yard",
+          "place.imperial-penal-south.manned-toll-tower",
           "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.bramman-head"
         ]
@@ -2284,7 +2317,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-ferry-stage"
         ],
         "travelServiceEdges": []
@@ -2470,6 +2502,11 @@
           "distanceM": 0.0
         },
         "score": 1.928
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
       }
     },
     {
@@ -2732,7 +2769,8 @@
           "entrance",
           "barracks",
           "cell-block",
-          "archive"
+          "archive",
+          "boss"
         ],
         "loop": "second-entrance",
         "traversal": {
@@ -2752,11 +2790,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-penal-south-blackrose-prison.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "evidence.rose.direnni-foundation-stone",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -2767,14 +2800,25 @@
             "whereInInterior": "threshold"
           },
           {
+            "id": "scene.rose.stair-opening",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
             "id": "scene.rose.yard-parley",
             "kind": "scene",
             "whereInInterior": "main"
           },
           {
-            "id": "scene.rose.stair-opening",
-            "kind": "scene",
-            "whereInInterior": "main"
+            "id": "socket.imperial-penal-south-blackrose-prison.boss",
+            "kind": "boss",
+            "whereInInterior": "deep",
+            "provision": "quest.provision.blackrose-archive-wing"
+          },
+          {
+            "id": "socket.imperial-penal-south-blackrose-prison.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           },
           {
             "id": "station.rose.causeway-gate",
@@ -2907,8 +2951,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -3123,6 +3166,11 @@
           "distanceM": 51.7
         },
         "score": 1.494
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -3181,8 +3229,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -3294,7 +3341,12 @@
           "sourcePath": "why.founding",
           "itemRef": "item.bog-iron"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.bramman-head",
@@ -3360,17 +3412,13 @@
           "place.mercantile-coast.screen-watch"
         ],
         "supplies": [
-          "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.blackrose"
         ],
-        "rivals": [
-          "place.imperial-penal-south.three-gate-toll"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-ferry-stage"
         ],
         "travelServiceEdges": [
@@ -3429,7 +3477,7 @@
           "WATER"
         ],
         "opportunity": "A quest could ask why a landing's crew all took other work in the same week.",
-        "tierOwnership": "LR48 · tier-3; RS-line · tier-2"
+        "tierOwnership": "LR48 · tier-3; RS-line · tier-2; LR53 · tier-3; LR54 · tier-3; LR55 · tier-3"
       },
       "rumourPoolKey": "rumour.brammans-river",
       "deedCounterKeys": [],
@@ -3529,11 +3577,11 @@
       "travelStation": {
         "modes": [
           "boat",
+          "ferry",
           "pilot"
         ],
         "destinations": [
-          "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.blackrose"
         ]
       },
       "sitingNote": "Bound to (1941, 6295), the inland head of the Bramman channel, which is the role the record describes. The region list was widened to the lake and fringe-marsh classes the head actually meets, per its own founding line, rather than moving the head off its water.",
@@ -3564,6 +3612,17 @@
           "distanceM": 0.0
         },
         "score": 1.939
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.west-market-town"
+        ]
       }
     },
     {
@@ -3622,9 +3681,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3736,7 +3793,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
         ]
       },
       "proseRefs": [
@@ -3806,9 +3864,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3936,7 +3992,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
         ]
       }
     },
@@ -4003,9 +4060,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4218,6 +4273,9 @@
         ],
         "rivals": [
           "place.imperial-penal-south.owing-camp-basin"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
         ]
       },
       "terrainRequests": [
@@ -4295,8 +4353,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -4403,7 +4460,12 @@
           "sourcePath": "why.founding",
           "routeRef": "route.track.rose-causeway"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.cliff-vista-basin",
@@ -4465,8 +4527,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -4558,6 +4619,11 @@
             "provenance": null
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
       }
     },
     {
@@ -4639,8 +4705,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": [
           "porter:route.track.blackrose-cordon-line"
@@ -4703,7 +4768,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "The Owing's distraint from Longmont to the Rose is racked in here, tagged and dated. Never-Sold's people have spent a year trying to read the tags.",
+        "hook": "The Owing's distraint from the lake villages to the Rose is racked in here, tagged and dated. Never-Sold's people have spent a year trying to read the tags.",
         "reviewed": true
       },
       "hostility": {
@@ -4863,13 +4928,18 @@
       "proseRefs": [
         {
           "sourcePath": "playerPurpose.hook",
-          "placeRef": "place.imperial-penal-south.longmont"
+          "placeRef": "place.imperial-penal-south.blackrose"
         },
         {
           "sourcePath": "vibe.approach",
           "routeRef": "route.track.blackrose-cordon-line"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.daril-den",
@@ -4929,8 +4999,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -5064,6 +5133,11 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
       }
     },
     {
@@ -5116,9 +5190,7 @@
         }
       },
       "relations": {
-        "dependsOn": [
-          "place.imperial-penal-south.west-market-town"
-        ],
+        "dependsOn": [],
         "supplies": [
           "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.rose-supply-town"
@@ -5127,9 +5199,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.west-market-town"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "mixed",
@@ -5222,10 +5292,14 @@
       },
       "relationsReserved": {
         "dependsOn": [
-          "place.imperial-penal-south.retired-arbiter-house"
+          "place.imperial-penal-south.retired-arbiter-house",
+          "place.imperial-penal-south.west-market-town"
         ],
         "rivals": [
           "place.imperial-penal-south.imperial-farmstead-basin"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
         ]
       }
     },
@@ -5292,7 +5366,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-ferry-stage"
         ],
         "travelServiceEdges": []
@@ -5567,7 +5640,12 @@
           "sourcePath": "why.occupantsMotive",
           "placeRef": "place.imperial-penal-south.rockspring"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
+      }
     },
     {
       "aliases": [],
@@ -5648,7 +5726,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-divers-yard"
         ],
         "travelServiceEdges": []
@@ -5849,6 +5926,11 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
       }
     },
     {
@@ -5912,7 +5994,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-ferry-stage"
         ],
         "travelServiceEdges": []
@@ -5957,7 +6038,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "A quest could make the windlass's own tally the evidence, since it counted loads the Three Gates books leave out.",
+        "opportunity": "A quest could make the windlass's own tally the evidence, since it counted loads that the toll tower's books omit.",
         "tierOwnership": "LR43 · tier-3"
       },
       "rumourPoolKey": "rumour.the-drag",
@@ -6091,9 +6172,14 @@
       "proseRefs": [
         {
           "sourcePath": "questHooks.opportunity",
-          "placeRef": "place.imperial-penal-south.three-gate-toll"
+          "placeRef": "place.imperial-penal-south.manned-toll-tower"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.feeder-whitewater",
@@ -6151,9 +6237,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6236,7 +6320,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
         ]
       }
     },
@@ -6298,8 +6383,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -6492,7 +6576,12 @@
           "sourcePath": "why.founding",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.flu-quarantine-village",
@@ -6553,9 +6642,7 @@
           "place.imperial-penal-south.plague-cordon"
         ],
         "supplies": [],
-        "rivals": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -6817,7 +6904,12 @@
           "sourcePath": "why.siteAdvantages",
           "routeRef": "route.road.soulrest-blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "rivals": [
+          "place.imperial-penal-south.longmont"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.frog-pond-farm-basin",
@@ -6874,9 +6966,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6971,7 +7061,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
         ]
       }
     },
@@ -7030,9 +7121,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7125,7 +7214,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
         ]
       }
     },
@@ -7185,9 +7275,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.three-gate-toll"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -7277,6 +7365,9 @@
       "relationsReserved": {
         "rivals": [
           "place.imperial-penal-south.disputed-estate-village"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
         ]
       }
     },
@@ -7305,7 +7396,7 @@
         "siteAdvantages": "On the saddle which the canal would have crossed, which is still the only viable line.",
         "occupantsMotive": "Nobody. The instruments were carried away; the pegs and the levelling book were not.",
         "pressures": "The book proves the canal was feasible, which is a politically significant fact in a basin that lives on portage tolls.",
-        "wouldChangeIf": "Anybody producing that book to a party with money would threaten the drag crew, the toll families and Threewater at once."
+        "wouldChangeIf": "Anybody producing that book to a party with money would threaten the drag crew, the toll families and Vaunting."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7338,8 +7429,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -7445,13 +7535,18 @@
       "proseRefs": [
         {
           "sourcePath": "why.wouldChangeIf",
-          "placeRef": "place.imperial-penal-south.west-market-town"
+          "placeRef": "place.imperial-penal-south.rose-supply-town"
         },
         {
           "sourcePath": "why.wouldChangeIf",
           "routeRef": "route.road.deeps-narrows-drag"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.intact-fort",
@@ -7513,8 +7608,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -7754,7 +7848,12 @@
           "routeRef": "route.road.soulrest-blackrose"
         }
       ],
-      "scourSiteId": "site.scour.fringe-marsh.flood-high-048"
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-048",
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
@@ -7820,8 +7919,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -8043,7 +8141,12 @@
           "placeRef": "place.imperial-penal-south.rockspring"
         }
       ],
-      "scourSiteId": "site.scour.firm-lowland.headland-051"
+      "scourSiteId": "site.scour.firm-lowland.headland-051",
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-boardwalk-village",
@@ -8057,7 +8160,7 @@
         "variant": "single-spine",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "cut",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -8103,9 +8206,7 @@
         "supplies": [
           "place.imperial-penal-south.blackrose"
         ],
-        "rivals": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -8180,7 +8281,7 @@
             "to": "friendly",
             "when": {
               "settlementStandingAtLeast": [
-                "place.imperial-penal-south.lake-boardwalk-village",
+                "place.imperial-penal-south.bramman-head",
                 1
               ]
             },
@@ -8252,6 +8353,9 @@
       "relationsReserved": {
         "supplies": [
           "place.imperial-penal-south.lake-stall-row"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.longmont"
         ]
       },
       "travelStation": {
@@ -8260,17 +8364,11 @@
           "ferry"
         ],
         "destinations": [
-          "place.imperial-penal-south.longmont",
+          "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.blackrose"
         ]
-      },
-      "services": [
-        "ferry",
-        "lodging",
-        "shrine",
-        "trader"
-      ]
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-divers-yard",
@@ -8333,7 +8431,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-ferry-stage"
         ],
         "travelServiceEdges": []
@@ -8471,7 +8568,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "ferry"
+      ],
       "position": {
         "u": 0.32164,
         "v": 0.88238
@@ -8515,6 +8614,21 @@
           "distanceM": 11.0
         },
         "score": 1.529
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "ferry",
+          "boat"
+        ],
+        "destinations": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.manned-toll-tower"
+        ]
       }
     },
     {
@@ -8529,7 +8643,7 @@
         "variant": "lake",
         "magnitude": "M2"
       },
-      "status": "drowned",
+      "status": "cut",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -8575,9 +8689,7 @@
         "minDepthM": 3.0
       },
       "relations": {
-        "dependsOn": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "dependsOn": [],
         "supplies": [],
         "rivals": [
           "place.imperial-penal-south.lake-divers-yard"
@@ -8585,9 +8697,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8763,6 +8873,14 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
       }
     },
     {
@@ -8822,17 +8940,13 @@
       "relations": {
         "dependsOn": [],
         "supplies": [
-          "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.longmont",
-          "place.imperial-penal-south.lake-boardwalk-village"
+          "place.imperial-penal-south.blackrose"
         ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": [
           "ferry:route.boat.blackrose-lake-ferry",
           "boat:route.boat.blackrose-lilmoth"
@@ -8952,8 +9066,8 @@
         ],
         "destinations": [
           "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.longmont",
-          "place.imperial-penal-south.lake-boardwalk-village"
+          "place.imperial-penal-south.lake-divers-yard",
+          "place.imperial-penal-south.bramman-head"
         ]
       },
       "position": {
@@ -9013,7 +9127,16 @@
           "sourcePath": "why.siteAdvantages",
           "placeRef": "place.mercantile-coast.lilmoth"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "supplies": [
+          "place.imperial-penal-south.lake-boardwalk-village",
+          "place.imperial-penal-south.longmont"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-raft-village",
@@ -9235,8 +9358,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -9327,7 +9449,12 @@
           "sourcePath": "why.founding",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-submerged-xanmeer",
@@ -9391,7 +9518,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-ferry-stage"
         ],
         "travelServiceEdges": []
@@ -9573,6 +9699,16 @@
         ],
         "anchorSockets": [
           {
+            "id": "evidence.lake-meer.unlooted-cache",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.lake-meer.top-terrace",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
             "id": "socket.imperial-penal-south-lake-submerged-xanmeer.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -9585,12 +9721,8 @@
           {
             "id": "socket.imperial-penal-south-lake-submerged-xanmeer.cache",
             "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
-            "id": "socket.imperial-penal-south-lake-submerged-xanmeer.shrine",
-            "kind": "shrine",
-            "whereInInterior": "main"
+            "whereInInterior": "hidden",
+            "provision": "quest.provision.dq02-anchor"
           },
           {
             "id": "socket.imperial-penal-south-lake-submerged-xanmeer.escape",
@@ -9598,13 +9730,8 @@
             "whereInInterior": "entrance"
           },
           {
-            "id": "evidence.lake-meer.unlooted-cache",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.lake-meer.top-terrace",
-            "kind": "scene",
+            "id": "socket.imperial-penal-south-lake-submerged-xanmeer.shrine",
+            "kind": "shrine",
             "whereInInterior": "main"
           }
         ],
@@ -9661,6 +9788,11 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
       }
     },
     {
@@ -9714,11 +9846,11 @@
           "densityGradient": "lake core, dense"
         },
         "boundTo": {
-          "place": "place.imperial-penal-south.three-gate-toll",
+          "place": "place.imperial-penal-south.manned-toll-tower",
           "maxM": 250
         },
         "sightlineTo": [
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.manned-toll-tower"
         ]
       },
       "relations": {
@@ -9730,9 +9862,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9939,6 +10069,9 @@
       "relationsReserved": {
         "rivals": [
           "place.imperial-penal-south.chainlink-watchtower"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
         ]
       },
       "sitingNote": "On the lake's western edge, where the culture raster reads mercantile-coast: a book-keeping smuggler crew belongs on the seam between the city's water and the coast's, not inside either. Region list widened to include the standing water beneath it.",
@@ -9963,26 +10096,7 @@
       "positionM": [
         1647.8,
         5020.2
-      ],
-      "footprintRadiusM": 45.0,
-      "footprintSource": "band",
-      "candidatesConsidered": [],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 35 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, parent, hinterland; placed from the homeless batch at stage 'eviction-repair'; landform wishes taken from the type recipe (record had none).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 35.1,
-        "distanceToWaterM": 24.5,
-        "water": {
-          "entityId": "body.894-2731",
-          "kind": "marsh-deep",
-          "levelM": 4.7,
-          "season": "perennial",
-          "distanceM": 24.5
-        },
-        "score": 1.418
-      }
+      ]
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
@@ -10052,8 +10166,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -10295,7 +10408,12 @@
           "sourcePath": "why.occupantsMotive",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.living-treasure-camp",
@@ -10356,8 +10474,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -10460,7 +10577,12 @@
           "sourcePath": "why.siteAdvantages",
           "placeRef": "place.imperial-penal-south.lake-submerged-xanmeer"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.longmont",
@@ -10474,7 +10596,7 @@
         "variant": "shallow-flat",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "cut",
       "provenance": "canon-named",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -10526,13 +10648,10 @@
         ],
         "dependsOn": [],
         "rivals": [
-          "place.imperial-penal-south.flu-quarantine-village",
-          "place.imperial-penal-south.lake-boardwalk-village"
+          "place.imperial-penal-south.flu-quarantine-village"
         ],
         "patrols": [],
-        "tolls": [
-          "place.imperial-penal-south.three-gate-toll"
-        ],
+        "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
           "place.imperial-penal-south.lake-ferry-stage"
@@ -10625,7 +10744,7 @@
             "to": "friendly",
             "when": {
               "settlementStandingAtLeast": [
-                "place.imperial-penal-south.longmont",
+                "place.imperial-penal-south.blackrose",
                 1
               ]
             },
@@ -10697,6 +10816,12 @@
       "relationsReserved": {
         "supplies": [
           "place.imperial-penal-south.lake-stall-row"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.lake-boardwalk-village"
+        ],
+        "tolls": [
+          "place.imperial-penal-south.three-gate-toll"
         ]
       },
       "travelStation": {
@@ -10707,15 +10832,9 @@
         "destinations": [
           "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.lake-ferry-stage",
-          "place.imperial-penal-south.lake-boardwalk-village"
+          "place.imperial-penal-south.bramman-head"
         ]
       },
-      "services": [
-        "ferry",
-        "lodging",
-        "shrine",
-        "trader"
-      ],
       "proseRefs": [
         {
           "sourcePath": "why.wouldChangeIf",
@@ -10784,8 +10903,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -10821,13 +10939,14 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [
-          "quest.provision.reed-writ-enforcement-point"
+          "quest.provision.reed-writ-enforcement-point",
+          "quest.provision.rs04-anchor"
         ],
         "tags": [],
         "opportunity": "A quest could work the difference between what the Reckoning counts and what actually passes it.",
-        "tierOwnership": "LR02 · tier-3; LR08 · tier-3; LR54 · tier-3; Reed track · tier-2"
+        "tierOwnership": "LR02 · tier-3; LR08 · tier-3; LR54 · tier-3; Reed track · tier-2; LR45 · tier-3; LR59 · tier-3; LR60 · tier-3; RS04 · tier-3"
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.imperial-penal-south.manned-toll-tower",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
@@ -10960,6 +11079,21 @@
           "distanceM": 0.0
         },
         "score": 3.992
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "ferry",
+          "boat"
+        ],
+        "destinations": [
+          "place.imperial-penal-south.lake-divers-yard",
+          "place.imperial-penal-south.rose-supply-town"
+        ]
       }
     },
     {
@@ -11018,8 +11152,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -11226,7 +11359,12 @@
         },
         "score": 1.518
       },
-      "sitingNote": "Kept on the Murkwood side of the lake (culture raster: naga-kur-deeps) because the range is defined by having no settlement in it. Given the wallow-mouth den the 'trodden ground' implies, so the lair can be entered."
+      "sitingNote": "Kept on the Murkwood side of the lake (culture raster: naga-kur-deeps) because the range is defined by having no settlement in it. Given the wallow-mouth den the 'trodden ground' implies, so the lair can be entered.",
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.murkwood-verge",
@@ -11288,8 +11426,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -11474,6 +11611,16 @@
         ],
         "anchorSockets": [
           {
+            "id": "evidence.murkwood-verge.drowned-stump-survey",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.murkwood-verge.the-line",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
             "id": "socket.imperial-penal-south-murkwood-verge.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -11487,16 +11634,6 @@
             "id": "socket.imperial-penal-south-murkwood-verge.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
-          },
-          {
-            "id": "evidence.murkwood-verge.drowned-stump-survey",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.murkwood-verge.the-line",
-            "kind": "scene",
-            "whereInInterior": "main"
           },
           {
             "id": "station.murkwood-verge.watch-camp",
@@ -11562,7 +11699,12 @@
           "sourcePath": "why.founding",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.natural-dive-shaft",
@@ -11629,7 +11771,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-ferry-stage"
         ],
         "travelServiceEdges": []
@@ -11837,6 +11978,11 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
       }
     },
     {
@@ -11909,8 +12055,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -12132,6 +12277,11 @@
           "distanceM": 66.3
         },
         "score": 2.255
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -12191,8 +12341,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -12285,6 +12434,11 @@
             "provenance": null
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -12310,8 +12464,8 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Households evicted for owed labour by an estate on the western feeder, camped on the boundary because leaving forfeits the claim.",
-        "siteAdvantages": "On the estate boundary, in sight of their fields and within reach of Threewater's market.",
-        "occupantsMotive": "The camp is the claim; Threewater feeds them because it is cheaper than the alternative.",
+        "siteAdvantages": "On the estate boundary, in sight of their fields and within reach of Vaunting's market.",
+        "occupantsMotive": "The camp is how the claim is held. Vaunting feeds them because feeding them is cheaper than the alternative.",
         "pressures": "The estate is waiting them out and the Chainbreakers have started paying their market debts, which changes the arithmetic.",
         "wouldChangeIf": "A Chainbreaker purchase of the debt would end the eviction and set a precedent."
       },
@@ -12346,9 +12500,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.three-gate-toll"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -12421,7 +12573,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "On the estate boundary, in sight of their fields and within reach of Threewater's market",
+        "hook": "On the estate boundary, in sight of their fields and within reach of Vaunting's market",
         "reviewed": false
       },
       "interior": {
@@ -12444,20 +12596,23 @@
       "relationsReserved": {
         "supplies": [
           "place.imperial-penal-south.disputed-estate-village"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
         ]
       },
       "proseRefs": [
         {
           "sourcePath": "playerPurpose.hook",
-          "placeRef": "place.imperial-penal-south.west-market-town"
+          "placeRef": "place.imperial-penal-south.rose-supply-town"
         },
         {
           "sourcePath": "why.occupantsMotive",
-          "placeRef": "place.imperial-penal-south.west-market-town"
+          "placeRef": "place.imperial-penal-south.rose-supply-town"
         },
         {
           "sourcePath": "why.siteAdvantages",
-          "placeRef": "place.imperial-penal-south.west-market-town"
+          "placeRef": "place.imperial-penal-south.rose-supply-town"
         }
       ]
     },
@@ -12524,8 +12679,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": [
           "porter:route.track.blackrose-cordon-line"
@@ -12673,6 +12827,11 @@
           "distanceM": 46.9
         },
         "score": 5.386
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -12722,7 +12881,7 @@
           "densityGradient": "Rose approach, thin"
         },
         "boundTo": {
-          "place": "place.imperial-penal-south.longmont",
+          "place": "place.imperial-penal-south.blackrose",
           "maxM": 600
         }
       },
@@ -12738,9 +12897,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -12951,7 +13108,12 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.dunmer-north.hissmir"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.raid-refugee-camp",
@@ -13012,8 +13174,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -13107,6 +13268,11 @@
             "provenance": null
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -13169,8 +13335,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -13358,6 +13523,11 @@
           "distanceM": 17.3
         },
         "score": 2.301
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
       }
     },
     {
@@ -13420,8 +13590,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -13514,6 +13683,11 @@
             "provenance": null
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -13539,7 +13713,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A retired city arbiter who kept the case books and now settles more disputes from a private house than the courthouse settles in session.",
-        "siteAdvantages": "On the lake shore between the city gate and Longmont, reachable by both without either conceding anything.",
+        "siteAdvantages": "On the lake shore between the city gate and the lake landings, reachable from both without either side conceding ground.",
         "occupantsMotive": "They arbitrate for a fee they set by the parties' means, and their rulings are honoured because refusing one is socially fatal.",
         "pressures": "Their case books contain the toll compact's actual origins, and both sides know it.",
         "wouldChangeIf": "Their death without a successor would push a decade of quiet settlements back into the city's courts."
@@ -13574,8 +13748,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -13655,7 +13828,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "On the lake shore between the city gate and Longmont, reachable by both without either conceding anything",
+        "hook": "On the lake shore between the city gate and the lake landings, reachable from both without either side conceding ground",
         "reviewed": false
       },
       "interior": {
@@ -13685,13 +13858,18 @@
       "proseRefs": [
         {
           "sourcePath": "playerPurpose.hook",
-          "placeRef": "place.imperial-penal-south.longmont"
+          "placeRef": "place.imperial-penal-south.blackrose"
         },
         {
           "sourcePath": "why.siteAdvantages",
-          "placeRef": "place.imperial-penal-south.longmont"
+          "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.rockspring",
@@ -13718,8 +13896,8 @@
         "founding": "A village south-west of Blackrose, built along a natural levee around a hard spring that runs clear when the flats are brown.",
         "siteAdvantages": "A levee crest a metre above every recorded flood, with a rock spring rising on it.",
         "occupantsMotive": "The spring is the asset. In a bad year the village sells water to boats by the cup.",
-        "pressures": "They want Longmont's freight trade. The feeder is too shallow for laden hulls.",
-        "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village and end Longmont's monopoly."
+        "pressures": "They want the lake landings' freight trade. The feeder is too shallow for laden hulls.",
+        "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village. The lake landings' monopoly on that trade would end."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -13750,12 +13928,9 @@
         }
       },
       "relations": {
-        "dependsOn": [
-          "place.imperial-penal-south.west-market-town"
-        ],
+        "dependsOn": [],
         "supplies": [
-          "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.blackrose"
         ],
         "rivals": [
           "place.imperial-penal-south.saltrice-village"
@@ -13763,9 +13938,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.west-market-town"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -13808,7 +13981,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": "A quest could set a lawful lease against a village's water.",
-        "tierOwnership": "LR46 · tier-3; LR62 · tier-3"
+        "tierOwnership": "LR46 · tier-3; LR62 · tier-3; LR53 · tier-3; LR54 · tier-3; LR55 · tier-3"
       },
       "rumourPoolKey": "rumour.rockspring",
       "deedCounterKeys": [],
@@ -13941,13 +14114,24 @@
       "proseRefs": [
         {
           "sourcePath": "why.pressures",
-          "placeRef": "place.imperial-penal-south.longmont"
+          "placeRef": "place.imperial-penal-south.blackrose"
         },
         {
           "sourcePath": "why.wouldChangeIf",
-          "placeRef": "place.imperial-penal-south.longmont"
+          "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "dependsOn": [
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
@@ -14013,8 +14197,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -14182,7 +14365,12 @@
           "sourcePath": "why.siteAdvantages",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.rose-flooded-passage",
@@ -14255,7 +14443,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.longmont",
           "place.imperial-penal-south.lake-ferry-stage"
         ],
         "travelServiceEdges": []
@@ -14408,21 +14595,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-penal-south-rose-flooded-passage.boss",
-            "kind": "boss",
-            "whereInInterior": "deep"
-          },
-          {
-            "id": "socket.imperial-penal-south-rose-flooded-passage.boss-chest",
-            "kind": "boss-chest",
-            "whereInInterior": "deep"
-          },
-          {
-            "id": "socket.imperial-penal-south-rose-flooded-passage.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "evidence.rose-lower.umbriel-residue",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -14431,6 +14603,28 @@
             "id": "scene.rose-lower.first-chamber",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.imperial-penal-south-rose-flooded-passage.boss",
+            "kind": "boss",
+            "whereInInterior": "deep",
+            "provision": "quest.provision.blackrose-tunnels"
+          },
+          {
+            "id": "socket.imperial-penal-south-rose-flooded-passage.boss-chest",
+            "kind": "boss-chest",
+            "whereInInterior": "deep"
+          },
+          {
+            "id": "socket.imperial-penal-south-rose-flooded-passage.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden",
+            "provision": "quest.provision.blackrose-tunnels"
+          },
+          {
+            "id": "socket.imperial-penal-south-rose-flooded-passage.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           }
         ],
         "light": "dark",
@@ -14519,6 +14713,11 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ]
       }
     },
     {
@@ -14732,14 +14931,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.imperial-penal-south-rose-outworks.captive",
-            "kind": "captive",
-            "whereInInterior": "deep"
-          },
-          {
             "id": "socket.imperial-penal-south-rose-outworks.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.imperial-penal-south-rose-outworks.captive",
+            "kind": "captive",
+            "whereInInterior": "deep"
           },
           {
             "id": "socket.imperial-penal-south-rose-outworks.escape",
@@ -14916,9 +15115,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.three-gate-toll"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": [
           "boat:route.boat.gideon-onkobra",
           "cart:route.track.rose-causeway"
@@ -14969,11 +15166,12 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [
-          "quest.provision.lq04-anchor"
+          "quest.provision.lq04-anchor",
+          "quest.provision.lq25-anchor"
         ],
         "tags": [],
         "opportunity": "A quest could put Vaunting's carters between the Rose that pays them and the city that licenses them.",
-        "tierOwnership": "LQ04 · tier-3; LR36 · tier-3; LR37 · tier-3; LR38 · tier-3; LR39 · tier-3; LR40 · tier-3; LR41 · tier-3; LR42 · tier-3; LR43 · tier-3; PP05 · tier-3"
+        "tierOwnership": "LQ04 · tier-3; LR36 · tier-3; LR37 · tier-3; LR38 · tier-3; LR39 · tier-3; LR40 · tier-3; LR41 · tier-3; LR42 · tier-3; LR43 · tier-3; PP05 · tier-3; LQ25 · tier-3; LR45 · tier-3; LR44 · tier-3; LR46 · tier-3; LR47 · tier-3; LR48 · tier-3; LR49 · tier-3; LR50 · tier-3; LR51 · tier-3; LR52 · tier-3"
       },
       "rumourPoolKey": "rumour.vaunting",
       "deedCounterKeys": [],
@@ -15092,6 +15290,9 @@
       "relationsReserved": {
         "dependsOn": [
           "place.imperial-penal-south.imperial-farmstead-basin"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
         ]
       },
       "travelStation": {
@@ -15100,7 +15301,7 @@
           "cart"
         ],
         "destinations": [
-          "place.imperial-penal-south.three-gate-toll",
+          "place.imperial-penal-south.manned-toll-tower",
           "place.imperial-penal-south.blackrose"
         ]
       },
@@ -15202,9 +15403,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.three-gate-toll"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "mixed",
@@ -15243,10 +15442,12 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [],
+        "provisions": [
+          "quest.provision.mr09-anchor"
+        ],
         "tags": [],
         "opportunity": "A quest could trace bad saltrice from the drowned fields to the market that certified it sound.",
-        "tierOwnership": "LR47 · tier-3"
+        "tierOwnership": "LR47 · tier-3; LR34 · tier-3; LR56 · tier-3; MR09 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -15430,6 +15631,9 @@
           "place.imperial-penal-south.blackrose-prison",
           "place.imperial-penal-south.rose-supply-town",
           "place.mercantile-coast.soulrest"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
         ]
       },
       "underwaterAccessDetail": {
@@ -15498,8 +15702,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": []
       },
@@ -15679,7 +15882,12 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.three-gate-toll",
@@ -15695,7 +15903,7 @@
         "variant": "argonian-held",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "cut",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -15748,8 +15956,7 @@
           "place.imperial-penal-south.blackrose"
         ],
         "rivals": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "patrols": [
           "place.imperial-penal-south.manned-toll-tower"
@@ -15814,7 +16021,7 @@
         "opportunity": "A quest could expose three gate books that agree too well to have been kept separately.",
         "tierOwnership": "RS04 · tier-2; LR45 · tier-3; LR59 · tier-3; LR60 · tier-3; Reed track · tier-2"
       },
-      "rumourPoolKey": "rumour.imperial-penal-south.three-gate-toll",
+      "rumourPoolKey": null,
       "deedCounterKeys": [
         "deed.blackrose.tolls"
       ],
@@ -15921,6 +16128,9 @@
       "relationsReserved": {
         "patrols": [
           "place.imperial-penal-south.xanmeer-span-bridge"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.west-market-town"
         ]
       },
       "travelStation": {
@@ -15930,19 +16140,11 @@
         ],
         "destinations": [
           "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.west-market-town",
+          "place.imperial-penal-south.rose-supply-town",
           "place.imperial-penal-south.rose-supply-town"
         ]
       },
-      "sitingNote": "Bound to the western confluence at (1607, 6520) where the Bramman and three-gate channels meet. Its identity is a toll the western freight must pass; the claim was narrowed from the whole basin to those waters. The record was moved onto the junction it names (round 4 network-role pass).",
-      "services": [
-        "council",
-        "ferry",
-        "guild-hall",
-        "lodging",
-        "shrine",
-        "trader"
-      ]
+      "sitingNote": "Bound to the western confluence at (1607, 6520) where the Bramman and three-gate channels meet. Its identity is a toll the western freight must pass; the claim was narrowed from the whole basin to those waters. The record was moved onto the junction it names (round 4 network-role pass)."
     },
     {
       "id": "place.imperial-penal-south.vampiric-cloud-ground",
@@ -16002,8 +16204,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -16244,7 +16445,12 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.imperial-penal-south.blackrose"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.voriplasm-vault",
@@ -16310,8 +16516,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -16537,7 +16742,12 @@
         },
         "score": 3.51
       },
-      "scourSiteId": "site.scour.fringe-marsh.water-narrows-004"
+      "scourSiteId": "site.scour.fringe-marsh.water-narrows-004",
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.west-market-town",
@@ -16551,7 +16761,7 @@
         "variant": "river-junction",
         "magnitude": "M4"
       },
-      "status": "active",
+      "status": "cut",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -16603,8 +16813,7 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.blackrose"
         ],
         "dependsOn": [
           "place.imperial-penal-south.rockspring"
@@ -16616,8 +16825,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": [
           "boat:route.boat.blackrose-lilmoth",
@@ -16790,6 +16998,12 @@
       "relationsReserved": {
         "dependsOn": [
           "place.imperial-penal-south.disputed-estate-village"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.three-gate-toll"
         ]
       },
       "travelStation": {
@@ -16799,22 +17013,11 @@
         ],
         "destinations": [
           "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.three-gate-toll",
+          "place.imperial-penal-south.manned-toll-tower",
           "place.imperial-penal-south.bramman-head"
         ]
       },
       "sitingNote": "Plotted east of Blackrose on the junction of the eastern channel and the Prison road; the prose that called it the western feeder market contradicted its own ground and was corrected rather than the town moved, because the junction that it needs exists here and the western confluence is already the Three Gates toll. The culture raster reads mercantile-coast at this position; the town trades with the coast to undercut the city.",
-      "services": [
-        "apothecary",
-        "boatwright",
-        "council",
-        "ferry",
-        "lodging",
-        "smith",
-        "tavern",
-        "temple",
-        "trader"
-      ],
       "proseRefs": [
         {
           "sourcePath": "sitingNote",
@@ -16888,8 +17091,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -17044,7 +17246,12 @@
           "placeRef": "place.imperial-penal-south.rose-supply-town"
         }
       ],
-      "scourSiteId": "site.scour.fringe-marsh.water-narrows-000"
+      "scourSiteId": "site.scour.fringe-marsh.water-narrows-000",
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.xanmeer-span-bridge",
@@ -17103,9 +17310,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.longmont"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -17207,7 +17412,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
         ]
       },
       "proseRefs": [
@@ -17275,8 +17481,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.west-market-town"
+          "place.imperial-penal-south.bramman-head"
         ],
         "travelServiceEdges": []
       },
@@ -17389,7 +17594,12 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.imperial-penal-south.lilmothiit-quarry"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ]
+      }
     }
   ]
 }

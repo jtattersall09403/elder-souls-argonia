@@ -35,12 +35,12 @@
    "lagoon": 10850
   },
   "1": {
-   "horizontal-channel": 3876,
+   "horizontal-channel": 3863,
    "horizontal-tidal": 40,
    "horizontal-backwater": 1921,
-   "sloped-riffle": 1904,
-   "sloped-rapid": 12191,
-   "sloped-chute": 1302,
+   "sloped-riffle": 1894,
+   "sloped-rapid": 12120,
+   "sloped-chute": 1288,
    "vertical-fall": 68,
    "ocean": 2,
    "lake-lowland": 59258,
@@ -50,21 +50,21 @@
    "plunge-pool": 2074
   },
   "2": {
-   "horizontal-channel": 5803,
-   "horizontal-tidal": 88,
+   "horizontal-channel": 5762,
+   "horizontal-tidal": 82,
    "horizontal-backwater": 203,
-   "sloped-riffle": 3457,
-   "sloped-rapid": 16886,
-   "sloped-chute": 1751,
+   "sloped-riffle": 3432,
+   "sloped-rapid": 16765,
+   "sloped-chute": 1736,
    "vertical-fall": 90,
    "ocean": 22,
-   "lake-lowland": 3907,
-   "tarn-upland": 6529,
+   "lake-lowland": 3885,
+   "tarn-upland": 6462,
    "pond": 27,
    "pool": 1,
    "plunge-pool": 18,
    "marsh-deep": 16,
-   "swamp": 3,
+   "swamp": 2,
    "backswamp": 3
   },
   "3": {
@@ -82,38 +82,38 @@
    "mudflat": 5941
   },
   "4": {
-   "ocean": 8054,
-   "lagoon": 3566,
-   "pond": 8376,
-   "pool": 1375,
+   "ocean": 8025,
+   "lagoon": 3563,
+   "pond": 8291,
+   "pool": 1353,
    "plunge-pool": 189,
-   "marsh-fringe": 79065,
-   "marsh-deep": 415895,
-   "swamp": 396373,
-   "backswamp": 23368,
-   "mudflat": 1870
+   "marsh-fringe": 78850,
+   "marsh-deep": 415691,
+   "swamp": 396207,
+   "backswamp": 23346,
+   "mudflat": 1869
   },
   "5": {
    "lake-lowland": 3060,
    "tarn-upland": 5623
   },
   "7": {
-   "pond": 4408,
-   "pool": 1074,
+   "pond": 4297,
+   "pool": 1062,
    "plunge-pool": 63,
-   "marsh-fringe": 45496,
-   "marsh-deep": 69262,
-   "swamp": 53185,
-   "backswamp": 3052,
-   "mudflat": 2064
+   "marsh-fringe": 45021,
+   "marsh-deep": 68858,
+   "swamp": 52831,
+   "backswamp": 2998,
+   "mudflat": 2030
   },
   "8": {
-   "horizontal-channel": 1241,
+   "horizontal-channel": 1233,
    "horizontal-backwater": 42,
-   "sloped-riffle": 706,
+   "sloped-riffle": 703,
    "sloped-rapid": 65,
-   "ocean": 10321,
-   "lagoon": 4032,
+   "ocean": 10272,
+   "lagoon": 4025,
    "lake-lowland": 72,
    "swamp": 8,
    "mudflat": 2388
@@ -122,11 +122,11 @@
    "ocean": 216
   },
   "32": {
-   "ocean": 23428
+   "ocean": 23283
   },
   "33": {
    "horizontal-tidal": 123,
-   "ocean": 208584
+   "ocean": 208480
   },
   "34": {
    "sloped-riffle": 5034,

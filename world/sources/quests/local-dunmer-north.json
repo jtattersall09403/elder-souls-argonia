@@ -2553,11 +2553,11 @@
         "NEGOTIATION"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-field-gate-garrison"
+        "place.dunmer-north.nine-fords"
       ],
-      "premise": "The garrison's crossing regime can be used, forged or made unworkable; all three are being tried",
+      "premise": "The toll town's crossing regime can be used, forged or made unworkable; all three are being tried",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -2579,12 +2579,12 @@
         "HAUNTING"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.nine-fords",
         "place.dunmer-north.the-stripped-village"
       ],
-      "premise": "A garrison still holds records for a village Umbriel emptied; the buildings stand, the pole field is bare",
+      "premise": "The toll town still holds records for a village Umbriel emptied; the buildings stand, the pole field is bare",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -2606,9 +2606,9 @@
         "FRAUD"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.nine-fords",
         "place.dunmer-north.the-north-cut"
       ],
       "premise": "An abandoned roadworks floods ground the district has not connected to it",
@@ -2633,10 +2633,10 @@
         "DISPUTE"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
         "place.dunmer-north.buried-blades",
-        "place.dunmer-north.the-field-gate-garrison"
+        "place.dunmer-north.nine-fords"
       ],
       "premise": "Four villages buried their arms together; one of the four is having second thoughts",
       "costTier": "M",
@@ -2660,10 +2660,10 @@
         "BONDAGE"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-ash-causeway",
-        "place.dunmer-north.the-field-gate-garrison"
+        "place.dunmer-north.nine-fords",
+        "place.dunmer-north.the-ash-causeway"
       ],
       "premise": "A hard causeway across impassable ground is being tolled by people with no right to toll it",
       "costTier": "M",
@@ -2687,12 +2687,12 @@
         "EXPEDITION"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.nine-fords",
         "place.dunmer-north.the-terrace-watch"
       ],
-      "premise": "The watch knoll reports a column that the garrison's own books say cannot exist",
+      "premise": "The watch knoll reports a column that the toll town's own books say cannot exist",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2714,9 +2714,9 @@
         "THEFT"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-field-gate-garrison"
+        "place.dunmer-north.nine-fords"
       ],
       "premise": "The border runs through a field, so the crop is harvested twice by two claimants",
       "costTier": "S",
@@ -2740,9 +2740,9 @@
         "WONDER"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.nine-fords",
         "place.dunmer-north.the-last-stone-course"
       ],
       "premise": "A xanmeer kept unfinished since the Duskfall attracts somebody who wants to finish it",
@@ -2767,9 +2767,9 @@
         "PREDATOR"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.nine-fords",
         "place.dunmer-north.the-opened-terrace"
       ],
       "premise": "A broken-open xanmeer holds what the first diggers could not carry, which is what the second party came to take",
@@ -2794,11 +2794,11 @@
         "SMUGGLING"
       ],
       "region": "dunmer-north",
-      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "settlement": "place.dunmer-north.nine-fords",
       "anchorPlaces": [
-        "place.dunmer-north.the-field-gate-garrison"
+        "place.dunmer-north.nine-fords"
       ],
-      "premise": "A garrison soldier is on two payrolls; the second one is across the border",
+      "premise": "A gate levy's own man is on two payrolls; the second one is across the border",
       "costTier": "S",
       "milestone": 2,
       "touches": [],

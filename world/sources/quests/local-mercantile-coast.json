@@ -372,9 +372,9 @@
       "settlement": "place.mercantile-coast.lilmoth",
       "anchorPlaces": [
         "place.mercantile-coast.lilmoth",
-        "place.mercantile-coast.whitebone-reef"
+        "place.mercantile-coast.oliis-drake-deep"
       ],
-      "premise": "The dying reef head has begun sounding at the turn of the tide, so the bay pilots have started steering by it",
+      "premise": "The dying reef head over the drake hole has begun sounding at the turn of the tide, so the bay pilots have started steering by it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1590,10 +1590,10 @@
       "region": "mercantile-coast",
       "settlement": "place.mercantile-coast.soulrest",
       "anchorPlaces": [
-        "place.mercantile-coast.soulrest",
-        "place.mercantile-coast.whitebone-reef"
+        "place.mercantile-coast.oliis-drake-deep",
+        "place.mercantile-coast.soulrest"
       ],
-      "premise": "River silt is turning the living reef head to rubble, which makes the bar deadlier every season",
+      "premise": "River silt is turning the reef head over the drake hole to rubble, which makes the bar deadlier every season",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1894,7 +1894,7 @@
       "settlement": "place.mercantile-coast.alten-meerhleel",
       "anchorPlaces": [
         "place.mercantile-coast.alten-meerhleel",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.screen-watch"
       ],
       "premise": "A cargo must go above the last supplied bed on the Keel-Sakka, on a reach that the polers have refused",
       "costTier": "M",
@@ -2241,11 +2241,11 @@
         "NEGOTIATION"
       ],
       "region": "mercantile-coast",
-      "settlement": "place.mercantile-coast.keel-sakka-stilts",
+      "settlement": "place.mercantile-coast.screen-watch",
       "anchorPlaces": [
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.screen-watch"
       ],
-      "premise": "Bright-Throat's chime-relay reaches the landing where Lilmoth's writ does not, which a cargo is using",
+      "premise": "Bright-Throat's chime-relay reaches the platform village where Lilmoth's writ does not. A cargo is moving through the gap",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2267,12 +2267,12 @@
         "DISPUTE"
       ],
       "region": "mercantile-coast",
-      "settlement": "place.mercantile-coast.keel-sakka-stilts",
+      "settlement": "place.mercantile-coast.screen-watch",
       "anchorPlaces": [
         "place.mercantile-coast.bright-throat-village",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.screen-watch"
       ],
-      "premise": "The polers have set one rate for the whole river, which the landing's boat-owners will not honour",
+      "premise": "The polers have set one rate for the whole river, which the platform village's boat-owners will not honour",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -2294,12 +2294,12 @@
         "PREDATOR"
       ],
       "region": "mercantile-coast",
-      "settlement": "place.mercantile-coast.keel-sakka-stilts",
+      "settlement": "place.mercantile-coast.screen-watch",
       "anchorPlaces": [
         "place.mercantile-coast.hist-village-keel-sakka",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.screen-watch"
       ],
-      "premise": "Something denned in the outer root galleries upriver has started coming down to the landing",
+      "premise": "Something denned in the outer root galleries upriver has started coming down to the platform village",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

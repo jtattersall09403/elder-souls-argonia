@@ -63,7 +63,7 @@ Consent, ecology and stewardship: discovered in danger, decided in council.
 | MR06 | Root Against Road | hist-heartland | `DISPUTE`, `RITE` | A causeway cuts living roots and burial ground, then a span fails while the parties argue | `hist-heartland.walkway-junction-high-crossroads` | live |
 | MR07 | The Tree That Chose Another | hist-heartland | `SUCCESSION`, `WONDER` | A Hist speaks more clearly to a channel-digger than to its appointed Tree-Minder | `hist-heartland.officeholder-tree-minder-house` | live |
 | MR08 | Council of Many Roots | hist-heartland | `NEGOTIATION`, `PREDATOR` | The Conclave's great council cannot convene, because each delegation is stuck for a different reason | `hist-heartland.helstrom`<br>`hist-heartland.root-talk-ground` | live |
-| MR09 | The Price of Guidance | imperial-penal-south | `RECKONING`, `CONTAMINATION` | A Tree-Minder hid a flood warning and saved some people. He had moved the boundary stakes beforehand | `imperial-penal-south.lake-drowned-village` | live |
+| MR09 | The Price of Guidance | imperial-penal-south | `RECKONING`, `CONTAMINATION` | A Tree-Minder hid a flood warning and saved some people. He had moved the boundary stakes beforehand | `imperial-penal-south.saltrice-village` | live |
 | MR10 | No Tree Owns the Marsh | hist-heartland | `DISPUTE`, `NEGOTIATION` | Mid-ratification, a chartered crew is taking a cutting under paper the mid-game reform issued | — | live |
 
 ## Marsh Charter (FG)
@@ -127,7 +127,7 @@ Routes, labour and monopoly; the Salt-Teeth pirate branch (ST) sits inside this 
 | RS01 | Earn Your Pole | mercantile-coast | `EXPEDITION`, `NEGOTIATION` | Qualify on a working ferry route against current, passengers and a staged obstruction | `mercantile-coast.oliis-ferry-stage` | live |
 | RS02 | Ferry in the Dark | mercantile-coast | `SMUGGLING`, `MISSING` | A night ferry carries someone hunted by law and by criminals alike | — | live |
 | RS03 | Cargo with a Pulse | mercantile-coast | `SMUGGLING`, `CONTAMINATION` | A sealed crate holds a living creature trafficked for alchemy | — | live |
-| RS04 | The Drowned Toll | imperial-penal-south | `FRAUD`, `NEGOTIATION` | An official toll sinks financially while guards and pilots run a private tariff | `imperial-penal-south.three-gate-toll` | live |
+| RS04 | The Drowned Toll | imperial-penal-south | `FRAUD`, `NEGOTIATION` | An official toll sinks financially while guards and pilots run a private tariff | `imperial-penal-south.blackrose`<br>`imperial-penal-south.manned-toll-tower` | live |
 | RS05 | Pirates of Topal | mercantile-coast | `THEFT`, `NEGOTIATION` | A pirate crew is half former ferry workers displaced by a monopoly | `mercantile-coast.quinrawl-anchorage`<br>`pirate-freeholds.channel-pirate-anchorage` | live |
 | RS06 | Broken Pilots | mercantile-coast | `DISPUTE`, `WONDER` | Veteran pilots give wrong directions on purpose, resisting a map registry | `mercantile-coast.screen-watch` | live |
 | RS07 | Storm at Archon | mercantile-coast | `EXPEDITION`, `DISPUTE` | A storm traps ships outside Archon, so limited rescue capacity must be allocated | — | live |

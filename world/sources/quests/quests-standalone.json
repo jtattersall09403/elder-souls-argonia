@@ -847,9 +847,9 @@
         "FRAUD"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "premise": "A real predator moves into the waterfront where merchants had been staging monster scares",
       "costTier": null,

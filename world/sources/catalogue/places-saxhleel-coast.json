@@ -205,7 +205,6 @@
       "relations": {
         "dependsOn": [
           "place.saxhleel-coast.archon-bonded-row",
-          "place.saxhleel-coast.archon-shipyard",
           "place.saxhleel-coast.seafalls"
         ],
         "supplies": [
@@ -242,7 +241,9 @@
       "notableNpcSlots": [
         "npc.archon.harbour-master",
         "npc.archon.customs-vicecanon",
-        "npc.archon.dunmer-factor"
+        "npc.archon.dunmer-factor",
+        "the Morag Tong's desk at a rented dockside guesthouse",
+        "the fence-den patron who holds nothing overnight"
       ],
       "dangerTier": "D0",
       "traversalModes": [
@@ -705,7 +706,7 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
-        "tierOwnership": "SX01 · tier-3; SX20 · tier-3; tier-2",
+        "tierOwnership": "SX01 · tier-3; SX20 · tier-3; tier-2; SX18 · tier-3; SX21 · tier-3; SX35 · tier-3",
         "tags": [
           "APP",
           "LOC"
@@ -1422,13 +1423,13 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.saxhleel-coast-archon-harbour-hist.shrine",
-            "kind": "shrine",
+            "id": "scene.archon.hist-vigil",
+            "kind": "scene",
             "whereInInterior": "main"
           },
           {
-            "id": "scene.archon.hist-vigil",
-            "kind": "scene",
+            "id": "socket.saxhleel-coast-archon-harbour-hist.shrine",
+            "kind": "shrine",
             "whereInInterior": "main"
           },
           {
@@ -2402,16 +2403,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.saxhleel-coast-archon-shadowscale-sanctuary.boss",
-            "kind": "boss",
-            "whereInInterior": "deep"
-          },
-          {
-            "id": "socket.saxhleel-coast-archon-shadowscale-sanctuary.boss-chest",
-            "kind": "boss-chest",
-            "whereInInterior": "deep"
-          },
-          {
             "id": "evidence.archon.birth-sign-roll",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -2425,6 +2416,16 @@
             "id": "scene.ss01.the-empty-cradle",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.saxhleel-coast-archon-shadowscale-sanctuary.boss",
+            "kind": "boss",
+            "whereInInterior": "deep"
+          },
+          {
+            "id": "socket.saxhleel-coast-archon-shadowscale-sanctuary.boss-chest",
+            "kind": "boss-chest",
+            "whereInInterior": "deep"
           }
         ],
         "light": "dark",
@@ -2535,7 +2536,7 @@
         "variant": "building",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "cut",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -2733,8 +2734,7 @@
         "opportunity": "The build register names every hull on this coast, so the yard is where a quest about a missing boat starts.",
         "tierOwnership": "SX18 · tier-3; SX21 · tier-3; SX35 · tier-3"
       },
-      "sitingNote": "Bound to Archon: 'the yard at the province's principal legal port' has to be at that port. D1 is the guarded waterfront's tier, not the mangrove band around it.",
-      "services": []
+      "sitingNote": "Bound to Archon: 'the yard at the province's principal legal port' has to be at that port. D1 is the guarded waterfront's tier, not the mangrove band around it."
     },
     {
       "id": "place.saxhleel-coast.archon-thalmor-post",
@@ -11873,6 +11873,16 @@
         ],
         "anchorSockets": [
           {
+            "id": "evidence.xanmeer.tended-until-a-date",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.xanmeer.topmost-chamber",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
             "id": "socket.saxhleel-coast-lagoon-submerged-xanmeer.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -11885,16 +11895,6 @@
           {
             "id": "socket.saxhleel-coast-lagoon-submerged-xanmeer.shrine",
             "kind": "shrine",
-            "whereInInterior": "main"
-          },
-          {
-            "id": "evidence.xanmeer.tended-until-a-date",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.xanmeer.topmost-chamber",
-            "kind": "scene",
             "whereInInterior": "main"
           }
         ],
@@ -12452,7 +12452,7 @@
         "variant": "harvest",
         "magnitude": null
       },
-      "status": "active",
+      "status": "cut",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -14567,11 +14567,13 @@
       },
       "travelStation": {
         "modes": [
-          "ferry",
           "boat",
+          "canoe",
+          "ferry",
           "pilot"
         ],
         "destinations": [
+          "place.hist-heartland.treasure-hunters-live-camp",
           "place.saxhleel-coast.archon",
           "place.saxhleel-coast.seafalls"
         ]
@@ -19327,11 +19329,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.saxhleel-coast-tide-street-village.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.drowned.street-plan",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -19340,6 +19337,11 @@
             "id": "scene.drowned.street-dive",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.saxhleel-coast-tide-street-village.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           }
         ],
         "light": "mixed",

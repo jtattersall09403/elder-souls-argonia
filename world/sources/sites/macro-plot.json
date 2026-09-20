@@ -8,9 +8,9 @@
     "freeGroundSites": 3057
   },
   "demand": {
-    "live": 580,
+    "live": 567,
     "plotted": 567,
-    "homelessUnresolved": 13,
+    "homelessUnresolved": 0,
     "placedFromHomelessBatch": {
       "region-relaxed": 1,
       "neighbour-zone": 1
@@ -18,9 +18,9 @@
   },
   "byZone": {
     "dunmer-north": {
-      "live": 127,
+      "live": 126,
       "plotted": 126,
-      "homeless": 1,
+      "homeless": 0,
       "fromRecipe": 0,
       "byLandform": {
         "any-firm-ground": 70,
@@ -96,9 +96,9 @@
       }
     },
     "imperial-fringe": {
-      "live": 120,
+      "live": 118,
       "plotted": 118,
-      "homeless": 2,
+      "homeless": 0,
       "fromRecipe": 0,
       "byLandform": {
         "any-firm-ground": 79,
@@ -134,9 +134,9 @@
       }
     },
     "imperial-penal-south": {
-      "live": 44,
+      "live": 39,
       "plotted": 39,
-      "homeless": 5,
+      "homeless": 0,
       "fromRecipe": 43,
       "byLandform": {
         "any-firm-ground": 19,
@@ -166,9 +166,9 @@
       }
     },
     "mercantile-coast": {
-      "live": 65,
+      "live": 63,
       "plotted": 63,
-      "homeless": 2,
+      "homeless": 0,
       "fromRecipe": 65,
       "byLandform": {
         "any-firm-ground": 27,
@@ -200,9 +200,9 @@
       }
     },
     "naga-kur-deeps": {
-      "live": 40,
+      "live": 39,
       "plotted": 39,
-      "homeless": 1,
+      "homeless": 0,
       "fromRecipe": 27,
       "byLandform": {
         "any-shallow-marsh": 25,
@@ -255,9 +255,9 @@
       }
     },
     "saxhleel-coast": {
-      "live": 37,
+      "live": 35,
       "plotted": 35,
-      "homeless": 2,
+      "homeless": 0,
       "fromRecipe": 0,
       "byLandform": {
         "any-firm-ground": 17,
@@ -3127,314 +3127,7 @@
       }
     ]
   },
-  "homeless": [
-    {
-      "id": "place.saxhleel-coast.archon-shipyard",
-      "tier": 0,
-      "stage": "strict",
-      "whyHomeless": {
-        "near-water": 4392,
-        "culture clump": 4241,
-        "separation": 2478,
-        "water identity": 2203,
-        "score below the honest bar": 154,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "separation": 10
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 74,
-        "place.mercantile-coast.lilmoth": 55,
-        "place.dunmer-north.thorn": 52,
-        "place.mercantile-coast.soulrest": 52,
-        "place.dunmer-north.stormhold": 43
-      }
-    },
-    {
-      "id": "place.imperial-fringe.the-stone-talkers-watch",
-      "tier": 1,
-      "stage": "strict",
-      "whyHomeless": {
-        "culture clump": 3701,
-        "separation": 3343,
-        "water identity": 996,
-        "score below the honest bar": 532,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "culture clump": 610,
-        "score below the honest bar": 70,
-        "separation": 9
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 86,
-        "place.hist-heartland.greenspring": 78,
-        "place.mercantile-coast.lilmoth": 66,
-        "place.mercantile-coast.white-rose-prison": 63,
-        "place.dunmer-north.thorn": 61
-      }
-    },
-    {
-      "id": "place.imperial-penal-south.longmont",
-      "tier": 1,
-      "stage": "strict",
-      "whyHomeless": {
-        "near-water": 4193,
-        "culture clump": 3990,
-        "separation": 3354,
-        "water identity": 996,
-        "score below the honest bar": 223,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "separation": 29
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 89,
-        "place.mercantile-coast.lilmoth": 71,
-        "place.dunmer-north.thorn": 68,
-        "place.mercantile-coast.white-rose-prison": 61,
-        "place.mercantile-coast.soulrest": 59
-      }
-    },
-    {
-      "id": "place.imperial-penal-south.three-gate-toll",
-      "tier": 1,
-      "stage": "strict",
-      "whyHomeless": {
-        "near-water": 4225,
-        "culture clump": 3989,
-        "separation": 3376,
-        "water identity": 996,
-        "score below the honest bar": 276,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "separation": 9
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 89,
-        "place.mercantile-coast.lilmoth": 71,
-        "place.dunmer-north.thorn": 68,
-        "place.mercantile-coast.white-rose-prison": 61,
-        "place.mercantile-coast.soulrest": 59
-      }
-    },
-    {
-      "id": "place.imperial-penal-south.west-market-town",
-      "tier": 1,
-      "stage": "strict",
-      "tieFault": "no in-zone candidate within 150 m of body.1290-3508",
-      "whyHomeless": {
-        "near-water": 4193,
-        "culture clump": 3962,
-        "separation": 3592,
-        "water identity": 1325,
-        "score below the honest bar": 274,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "separation": 6
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 93,
-        "place.mercantile-coast.lilmoth": 81,
-        "place.dunmer-north.thorn": 77,
-        "place.dunmer-north.stormhold": 66,
-        "place.imperial-penal-south.blackrose": 65
-      }
-    },
-    {
-      "id": "place.dunmer-north.the-field-gate-garrison",
-      "tier": 2,
-      "stage": "strict",
-      "whyHomeless": {
-        "culture clump": 3678,
-        "separation": 3588,
-        "water identity": 996,
-        "score below the honest bar": 521,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "culture clump": 478,
-        "separation": 43,
-        "score below the honest bar": 30
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 93,
-        "place.mercantile-coast.lilmoth": 81,
-        "place.dunmer-north.thorn": 77,
-        "place.dunmer-north.stormhold": 66,
-        "place.imperial-penal-south.blackrose": 65
-      }
-    },
-    {
-      "id": "place.imperial-penal-south.lake-boardwalk-village",
-      "tier": 2,
-      "stage": "strict",
-      "whyHomeless": {
-        "near-water": 4193,
-        "culture clump": 3990,
-        "separation": 3362,
-        "water identity": 996,
-        "score below the honest bar": 218,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "separation": 34
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 89,
-        "place.mercantile-coast.lilmoth": 71,
-        "place.dunmer-north.thorn": 68,
-        "place.mercantile-coast.white-rose-prison": 61,
-        "place.mercantile-coast.soulrest": 59
-      }
-    },
-    {
-      "id": "place.imperial-penal-south.lake-drowned-village",
-      "tier": 2,
-      "stage": "strict",
-      "whyHomeless": {
-        "near-water": 4224,
-        "culture clump": 3990,
-        "min-depth": 3528,
-        "separation": 3398,
-        "water identity": 2415,
-        "score below the honest bar": 621,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "separation": 2
-      },
-      "separationBlockers": {
-        "max-from:settlement": 489,
-        "place.imperial-penal-south.blackrose": 190,
-        "place.imperial-penal-south.manned-toll-tower": 96,
-        "place.imperial-penal-south.lake-divers-yard": 77,
-        "place.imperial-fringe.gideon": 74
-      }
-    },
-    {
-      "id": "place.imperial-fringe.the-empty-steading",
-      "tier": 3,
-      "stage": "strict",
-      "whyHomeless": {
-        "near-water": 4357,
-        "culture clump": 3700,
-        "separation": 2828,
-        "water identity": 996,
-        "score below the honest bar": 663,
-        "site taken": 4
-      },
-      "soleBlocker": {},
-      "separationBlockers": {
-        "place.naga-kur-deeps.deepmire-refuge": 148,
-        "place.naga-kur-deeps.wild-hist-rogue-deeps": 76,
-        "place.mercantile-coast.white-rose-prison": 72,
-        "place.imperial-fringe.gideon": 70,
-        "place.hist-heartland.refuge-station-interior": 58
-      }
-    },
-    {
-      "id": "place.mercantile-coast.keel-sakka-stilts",
-      "tier": 3,
-      "stage": "strict",
-      "whyHomeless": {
-        "near-water": 4163,
-        "culture clump": 3902,
-        "separation": 3367,
-        "water identity": 996,
-        "score below the honest bar": 340,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "culture clump": 2
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 89,
-        "place.mercantile-coast.lilmoth": 71,
-        "place.dunmer-north.thorn": 68,
-        "place.mercantile-coast.white-rose-prison": 61,
-        "place.mercantile-coast.soulrest": 59
-      }
-    },
-    {
-      "id": "place.mercantile-coast.whitebone-reef",
-      "tier": 3,
-      "stage": "strict",
-      "whyHomeless": {
-        "culture clump": 3890,
-        "near-water": 3614,
-        "water identity": 2415,
-        "separation": 2232,
-        "score below the honest bar": 355,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "culture clump": 124,
-        "score below the honest bar": 5
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 70,
-        "place.dunmer-north.thorn": 48,
-        "place.mercantile-coast.soulrest": 46,
-        "place.mercantile-coast.lilmoth": 44,
-        "place.saxhleel-coast.gap-reef": 39
-      }
-    },
-    {
-      "id": "place.naga-kur-deeps.wreck-submerged-barge",
-      "tier": 3,
-      "stage": "strict",
-      "whyHomeless": {
-        "culture clump": 4013,
-        "min-depth": 3819,
-        "water identity": 2415,
-        "separation": 2280,
-        "score below the honest bar": 229,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "culture clump": 244,
-        "score below the honest bar": 3
-      },
-      "separationBlockers": {
-        "place.imperial-fringe.gideon": 70,
-        "place.pirate-freeholds.reach-wreck": 65,
-        "place.mercantile-coast.alessian-hull": 62,
-        "place.dunmer-north.thorn": 48,
-        "place.mercantile-coast.soulrest": 46
-      }
-    },
-    {
-      "id": "place.saxhleel-coast.mangrove-reef",
-      "tier": 4,
-      "stage": "strict",
-      "whyHomeless": {
-        "culture clump": 4216,
-        "near-water": 3789,
-        "separation": 2481,
-        "water identity": 1018,
-        "min-depth": 439,
-        "score below the honest bar": 212,
-        "site taken": 4
-      },
-      "soleBlocker": {
-        "culture clump": 109,
-        "separation": 92,
-        "score below the honest bar": 9
-      },
-      "separationBlockers": {
-        "place.saxhleel-coast.gap-reef": 296,
-        "place.imperial-fringe.gideon": 70,
-        "place.dunmer-north.thorn": 48,
-        "place.mercantile-coast.soulrest": 46,
-        "place.mercantile-coast.lilmoth": 44
-      }
-    }
-  ],
+  "homeless": [],
   "feedbackChecks": {
     "restCadenceGaps": [
       {
@@ -4693,5 +4386,6 @@
         "R": 1.201
       }
     }
-  }
+  },
+  "demandNote": "13 cut by plot-remedies, owner 2026-09-20"
 }

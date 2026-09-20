@@ -930,7 +930,7 @@
     {
       "id": "quest.local.lr34",
       "code": "LR34",
-      "title": "What Under-Longmont Sends Back",
+      "title": "What Wide-Furrow Sends Back",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -943,7 +943,7 @@
       "settlement": "place.imperial-penal-south.blackrose",
       "anchorPlaces": [
         "place.imperial-penal-south.blackrose",
-        "place.imperial-penal-south.lake-drowned-village"
+        "place.imperial-penal-south.saltrice-village"
       ],
       "premise": "A drowned village is returning objects its neighbours lost this year",
       "costTier": "M",
@@ -1209,7 +1209,7 @@
     {
       "id": "quest.local.lr44",
       "code": "LR44",
-      "title": "Three Waters, One Price",
+      "title": "Three Rivers, One Price",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1219,11 +1219,11 @@
         "NEGOTIATION"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "Threewater's price board quotes three rivers on which the town no longer trades",
+      "premise": "Vaunting's price board quotes three rivers on which the town no longer trades",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1246,12 +1246,12 @@
         "SMUGGLING"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
-        "place.imperial-penal-south.three-gate-toll",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.manned-toll-tower",
+        "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "Cargo booked for Gideon leaves Threewater by a different road every week",
+      "premise": "Cargo booked for Gideon leaves Vaunting by a different road every week",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1274,12 +1274,12 @@
         "SUCCESSION"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
         "place.imperial-penal-south.rockspring",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "A Threewater buyer is drawing down Rockspring's spring under a lawful lease",
+      "premise": "A Vaunting buyer is drawing down Rockspring's spring under a lawful lease",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1302,10 +1302,10 @@
         "PREDATOR"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
-        "place.imperial-penal-south.saltrice-village",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town",
+        "place.imperial-penal-south.saltrice-village"
       ],
       "premise": "Saltrice lifted from the drowned fields is sold as sound; the buyers are falling ill",
       "costTier": "M",
@@ -1330,10 +1330,10 @@
         "DISPUTE"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
         "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "premise": "A landing's whole crew has taken other work at a week's notice, leaving the trading season unmanned",
       "costTier": "M",
@@ -1358,10 +1358,10 @@
         "MURDER"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
         "place.imperial-penal-south.kothringi-ruin-basin",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "premise": "A Kothringi ruin the town quarries for hardcore holds the town's own founders",
       "costTier": "M",
@@ -1386,12 +1386,12 @@
         "PREDATOR"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
         "place.imperial-penal-south.marsh-giant-ground-basin",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "A marsh giant has settled across the dry line Threewater's drovers use to reach the north",
+      "premise": "A marsh giant has settled across the dry line Vaunting's drovers use to reach the north",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -1414,11 +1414,11 @@
         "FRAUD"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "Threewater's market charter names a family that died out sixty years ago",
+      "premise": "Vaunting's market charter names a family that died out sixty years ago",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1441,10 +1441,10 @@
         "CONTAMINATION"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.west-market-town",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
       "anchorPlaces": [
-        "place.imperial-penal-south.voriplasm-vault",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.rose-supply-town",
+        "place.imperial-penal-south.voriplasm-vault"
       ],
       "premise": "Something in a sealed western vault eats whatever is put in front of it, then goes quiet",
       "costTier": "L",
@@ -1469,11 +1469,12 @@
         "CONTAMINATION"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.lake-boardwalk-village",
+      "settlement": "place.imperial-penal-south.rockspring",
       "anchorPlaces": [
-        "place.imperial-penal-south.lake-boardwalk-village"
+        "place.imperial-penal-south.bramman-head",
+        "place.imperial-penal-south.rockspring"
       ],
-      "premise": "Something is taking Spine's dogs from beneath the walkways",
+      "premise": "Something is taking the landing's dogs from beneath the walkways",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1496,12 +1497,13 @@
         "DISPUTE"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.lake-boardwalk-village",
+      "settlement": "place.imperial-penal-south.rockspring",
       "anchorPlaces": [
-        "place.imperial-penal-south.lake-boardwalk-village",
-        "place.imperial-penal-south.manned-toll-tower"
+        "place.imperial-penal-south.bramman-head",
+        "place.imperial-penal-south.manned-toll-tower",
+        "place.imperial-penal-south.rockspring"
       ],
-      "premise": "Spine's polers run unlit cargo across the lake for the toll tower's own clerks",
+      "premise": "The landing's polers run unlit cargo across the lake for the toll tower's own clerks",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1524,12 +1526,13 @@
         "WONDER"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.lake-boardwalk-village",
+      "settlement": "place.imperial-penal-south.rockspring",
       "anchorPlaces": [
-        "place.imperial-penal-south.lake-boardwalk-village",
-        "place.imperial-penal-south.lake-submerged-xanmeer"
+        "place.imperial-penal-south.bramman-head",
+        "place.imperial-penal-south.lake-submerged-xanmeer",
+        "place.imperial-penal-south.rockspring"
       ],
-      "premise": "A xanmeer under the lake lights up on the nights Spine's oldest boardwalk works in its piles",
+      "premise": "A xanmeer under the lake lights up on the nights the landing's oldest boardwalk works in its piles",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -1552,12 +1555,12 @@
         "EXPEDITION"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.longmont",
+      "settlement": "place.imperial-penal-south.blackrose",
       "anchorPlaces": [
-        "place.imperial-penal-south.lake-drowned-village",
-        "place.imperial-penal-south.longmont"
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.saltrice-village"
       ],
-      "premise": "Longmont hires a dive to bring up its parish register from the village drowned beneath it",
+      "premise": "Blackrose hires a dive to bring up a parish register from the village drowned on its shore",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1580,12 +1583,12 @@
         "DISPUTE"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.longmont",
+      "settlement": "place.imperial-penal-south.blackrose",
       "anchorPlaces": [
-        "place.imperial-penal-south.lake-ferry-stage",
-        "place.imperial-penal-south.longmont"
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.lake-ferry-stage"
       ],
-      "premise": "Longmont wants its own ferry stage; the concession holds that one crossing is enough",
+      "premise": "Blackrose's lake quarter wants its own ferry stage; the concession holds that one crossing is enough",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1608,11 +1611,11 @@
         "SUCCESSION"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.longmont",
+      "settlement": "place.imperial-penal-south.blackrose",
       "anchorPlaces": [
-        "place.imperial-penal-south.longmont"
+        "place.imperial-penal-south.blackrose"
       ],
-      "premise": "Longmont's water-reader is dying; her two apprentices were taught different readings",
+      "premise": "Blackrose's lake-shore water-reader is dying; her two apprentices were taught different readings",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1625,7 +1628,7 @@
     {
       "id": "quest.local.lr59",
       "code": "LR59",
-      "title": "Three Gates, One Book",
+      "title": "One Book, Three Hands",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1635,11 +1638,12 @@
         "FRAUD"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.three-gate-toll",
+      "settlement": "place.imperial-penal-south.blackrose",
       "anchorPlaces": [
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.manned-toll-tower"
       ],
-      "premise": "All three gates keep the same book, so two of them are copying it after the fact",
+      "premise": "The toll tower's day book agrees too well with the two books it copies, so two of the three are written after the fact",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1662,11 +1666,12 @@
         "THEFT"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.three-gate-toll",
+      "settlement": "place.imperial-penal-south.blackrose",
       "anchorPlaces": [
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.manned-toll-tower"
       ],
-      "premise": "Travellers who cannot pay at Three Gates are held to work the gate itself",
+      "premise": "Travellers who cannot pay at the toll tower are held to work the crossing itself",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

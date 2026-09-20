@@ -507,9 +507,9 @@
       "settlement": "place.saxhleel-coast.archon",
       "anchorPlaces": [
         "place.saxhleel-coast.archon",
-        "place.saxhleel-coast.archon-shipyard"
+        "place.saxhleel-coast.archon-bonded-row"
       ],
-      "premise": "A hull left the stocks eleven years ago, reached nowhere, yet is still carried as afloat.",
+      "premise": "A hull left the stocks eleven years ago, reached nowhere, yet is still carried as afloat",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -592,9 +592,9 @@
       "settlement": "place.saxhleel-coast.archon",
       "anchorPlaces": [
         "place.saxhleel-coast.archon",
-        "place.saxhleel-coast.archon-shipyard"
+        "place.saxhleel-coast.archon-bonded-row"
       ],
-      "premise": "Imported fastenings are walking out of the yard's locked store, which stops hulls being built.",
+      "premise": "Imported fastenings are walking out of the bonded store, which stops hulls being built",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -975,7 +975,7 @@
     {
       "id": "quest.local.sx35",
       "code": "SX35",
-      "title": "Yard Master",
+      "title": "Master of Works",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -987,9 +987,9 @@
       "settlement": "place.saxhleel-coast.archon",
       "anchorPlaces": [
         "place.saxhleel-coast.archon",
-        "place.saxhleel-coast.archon-shipyard"
+        "place.saxhleel-coast.archon-bonded-row"
       ],
-      "premise": "The yard master is dying and three shipwrights can lay a keel. The build register will decide which of them succeeds him.",
+      "premise": "The company's master of works is dying and three shipwrights can lay a keel. The build register will decide which of them succeeds him.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

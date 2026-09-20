@@ -3154,11 +3154,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.naga-kur-deeps-deepmire-refuge.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.deepmire-refuge.deepmire-founding-testimony",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -3167,6 +3162,11 @@
             "id": "scene.deepmire-refuge.deepmire-memorial-ground",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.naga-kur-deeps-deepmire-refuge.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           },
           {
             "id": "station.deepmire-refuge.deepmire-caretakers-camp",
@@ -12882,7 +12882,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": null
+        "tierOwnership": "LN06 · tier-3; PP04 · tier-3"
       },
       "rumourPoolKey": "rumour.deeps.bone-country",
       "deedCounterKeys": [],
@@ -16092,7 +16092,7 @@
         "magnitude": "M1",
         "variant": "submerged"
       },
-      "status": "drowned",
+      "status": "cut",
       "provenance": "density-fill",
       "sources": [
         "openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)",

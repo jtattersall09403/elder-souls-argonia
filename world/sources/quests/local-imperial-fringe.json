@@ -846,7 +846,7 @@
     {
       "id": "quest.local.lf32",
       "code": "LF32",
-      "title": "The Empty Steading Claim",
+      "title": "The Rockpoint Claim",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -859,9 +859,9 @@
       "settlement": "place.imperial-fringe.gideon",
       "anchorPlaces": [
         "place.imperial-fringe.gideon",
-        "place.imperial-fringe.the-empty-steading"
+        "place.pirate-freeholds.rockpoint"
       ],
-      "premise": "A river steading whose family left for Leyawiin goes to whoever satisfies three separate offices",
+      "premise": "A derelict landing whose owner left for Stormhold goes to whoever satisfies three separate offices",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1498,8 +1498,8 @@
       "region": "imperial-fringe",
       "settlement": "place.imperial-fringe.stonewastes",
       "anchorPlaces": [
-        "place.imperial-fringe.stonewastes",
-        "place.imperial-fringe.the-stone-talkers-watch"
+        "place.imperial-fringe.fenmarch-village",
+        "place.imperial-fringe.stonewastes"
       ],
       "premise": "Two stone-speaking villages will not talk to one another, though both need the same pass kept open",
       "costTier": "M",
@@ -2017,7 +2017,7 @@
     {
       "id": "quest.local.lf76",
       "code": "LF76",
-      "title": "Holds-The-Stone, Holds-The-Grudge",
+      "title": "The Stone-Speaker's Grudge",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2026,9 +2026,9 @@
         "RECKONING"
       ],
       "region": "imperial-fringe",
-      "settlement": "place.imperial-fringe.the-stone-talkers-watch",
+      "settlement": "place.imperial-fringe.fenmarch-village",
       "anchorPlaces": [
-        "place.imperial-fringe.the-stone-talkers-watch"
+        "place.imperial-fringe.fenmarch-village"
       ],
       "premise": "A stone-speaker's judgement from forty years ago is being enforced against a grandchild",
       "costTier": "S",
@@ -2052,10 +2052,10 @@
         "RITE"
       ],
       "region": "imperial-fringe",
-      "settlement": "place.imperial-fringe.the-stone-talkers-watch",
+      "settlement": "place.imperial-fringe.fenmarch-village",
       "anchorPlaces": [
-        "place.imperial-fringe.the-kept-terrace",
-        "place.imperial-fringe.the-stone-talkers-watch"
+        "place.imperial-fringe.fenmarch-village",
+        "place.imperial-fringe.the-kept-terrace"
       ],
       "premise": "The tended xanmeer's terrace is swept nightly by a village that says it stopped years ago",
       "costTier": "M",
@@ -2079,10 +2079,10 @@
         "BONDAGE"
       ],
       "region": "imperial-fringe",
-      "settlement": "place.imperial-fringe.the-stone-talkers-watch",
+      "settlement": "place.imperial-fringe.fenmarch-village",
       "anchorPlaces": [
-        "place.imperial-fringe.the-ravine-doors",
-        "place.imperial-fringe.the-stone-talkers-watch"
+        "place.imperial-fringe.fenmarch-village",
+        "place.imperial-fringe.the-ravine-doors"
       ],
       "premise": "A gorge community's upper shelf has cut the ladders to its lower shelf over an unpaid Owing",
       "costTier": "M",

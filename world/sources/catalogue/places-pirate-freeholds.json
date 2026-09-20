@@ -28,8 +28,8 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A river port ESE of the Hatching Pools, grown into a town by being neutral about cargo. It sits on the northern trunk between Stormhold and Thorn, on water a shallow-draft hull can reach and far enough from either customs regime that both of them use it.",
-        "siteAdvantages": "The last reach of navigable river below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
+        "founding": "A river port ESE of the Hatching Pools, grown into a town by being neutral about cargo. It sits on the back-channels between Stormhold and Thorn, on water a shallow-draft hull can reach and far enough from either customs regime that both of them use it.",
+        "siteAdvantages": "The last navigable water below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
         "occupantsMotive": "A captain of the port who governs by a nailed-up price list, freeholder crews with no tribe and no tree, Dunmer factors from the Morrowind trade and Nord hands off the northern hulls.",
         "pressures": "There is no Hist here. What holds a crew to the town is the price list and the depth of water. Stormhold's vicecanons would like the trade but cannot reach it. Rockpoint downriver failed trying to undercut the list.",
         "wouldChangeIf": "If either Stormhold or Thorn made the port lawful, the trade would move elsewhere. If the river silted below the oxbow, the town would be a village in five years."
@@ -101,7 +101,8 @@
       "notableNpcSlots": [
         "npc.alten-corimont.port-captain",
         "npc.alten-corimont.dunmer-factor",
-        "npc.alten-corimont.list-keeper"
+        "npc.alten-corimont.list-keeper",
+        "the Veiled Reed's field handler for the freeholds"
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -1074,9 +1075,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port sells to whoever pays the list and guards no hull once it leaves the basin. The crews that will not keep to the price list anchor a reach away and take what they would otherwise have bought.",
-        "siteAdvantages": "A blind reach with a cut bank, out of sight of the port and above the last mooring the chartered hulls use.",
-        "occupantsMotive": "A Salt-Teeth crew working the reach between the port and the head of navigation, keeping their prizes in the bank until they can be sold as salvage.",
+        "founding": "The free port sells to whoever pays the list and guards no hull once it leaves the basin. The crews that will not keep to the price list anchor a bend away and take what they would otherwise have bought.",
+        "siteAdvantages": "A blind side-channel with a cut bank, out of sight of the port and above the last mooring the chartered hulls use.",
+        "occupantsMotive": "A Salt-Teeth crew working the channels between the port and the head of navigation, keeping their prizes in the bank until they can be sold as salvage.",
         "pressures": "The port halls tolerate them while the price list is not undercut in public.",
         "wouldChangeIf": "If the port ever set a rate for salvage, the crew would come in and pay it."
       },
@@ -1275,9 +1276,9 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.pirate-freeholds-channel-pirate-anchorage.captive",
-            "kind": "captive",
-            "whereInInterior": "deep"
+            "id": "evidence.salt-teeth.cut-seals",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
           },
           {
             "id": "socket.pirate-freeholds-channel-pirate-anchorage.cache",
@@ -1285,14 +1286,14 @@
             "whereInInterior": "hidden"
           },
           {
+            "id": "socket.pirate-freeholds-channel-pirate-anchorage.captive",
+            "kind": "captive",
+            "whereInInterior": "deep"
+          },
+          {
             "id": "socket.pirate-freeholds-channel-pirate-anchorage.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
-          },
-          {
-            "id": "evidence.salt-teeth.cut-seals",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
           }
         ],
         "light": "mixed",
@@ -2011,7 +2012,7 @@
       "why": {
         "founding": "The free port is built around a hull that was dragged up the bank sixty years ago. Its masts were left standing because they were useful. From the crosstrees both the roofs and the canopy are in sight. No gable in the port stands high enough for that.",
         "siteAdvantages": "The beached hull sits on the highest firm ground in the basin, with the canopy cut back around it so the lookout can work.",
-        "occupantsMotive": "The port's lookout watches for hulls coming up the reach and takes no fee; the halls below pay her in beer for the early word.",
+        "occupantsMotive": "The port's lookout watches for hulls coming up the channel and takes no fee; the halls below pay her in beer for the early word.",
         "pressures": "The rigging is sixty years past its rope. The ladder gets rebuilt every wet season by whoever is free that week.",
         "wouldChangeIf": "If the hull finally goes over, the freehold loses its high ground and starts posting watchers on the water instead."
       },
@@ -2071,7 +2072,7 @@
         "silhouette": "two masts standing over a roofline, with a plank stage lashed across them",
         "palette": "grey timber, tarred rope, one strip of faded flag left up since the hull came ashore",
         "materials": "ship spars, lashed plank, a ladder of salvaged batten",
-        "signatureFeature": "a stage at the crosstrees with three notches cut in the rail, one for each reach the lookout watches",
+        "signatureFeature": "a stage at the crosstrees with three notches cut in the rail, one for each of the channels that the lookout watches",
         "condition": "old rigging, patched stage",
         "mood": "quiet, with the port's noise under it",
         "approach": "the ladder starts behind the hull-hall, out of the weather",
@@ -2649,7 +2650,9 @@
         "D2 gang overseer"
       ],
       "notableNpcSlots": [
-        "npc.corimont.owing-broker"
+        "npc.corimont.owing-broker",
+        "the Charter's hiring-floor captain",
+        "the Charter's surgeon"
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -3285,6 +3288,11 @@
         ],
         "anchorSockets": [
           {
+            "id": "evidence.corimont.cut-bond-seal",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
             "id": "socket.pirate-freeholds-corimont-low-store.cache",
             "kind": "cache",
             "whereInInterior": "hidden"
@@ -3293,11 +3301,6 @@
             "id": "socket.pirate-freeholds-corimont-low-store.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
-          },
-          {
-            "id": "evidence.corimont.cut-bond-seal",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
           }
         ],
         "light": "torchlit",
@@ -3838,16 +3841,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.pirate-freeholds-dres-holding-pens.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
-            "id": "socket.pirate-freeholds-dres-holding-pens.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "evidence.pens.gatepost-tally",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -3856,6 +3849,16 @@
             "id": "scene.pens.count-marks",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.pirate-freeholds-dres-holding-pens.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
+          },
+          {
+            "id": "socket.pirate-freeholds-dres-holding-pens.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           }
         ],
         "light": "mixed",
@@ -6193,7 +6196,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Half the crews on this water hold a charter from somebody. Asked whose, a captain names a port rather than a man. Long Water is where they lie up between charters. The port halls count it as a berth.",
-        "siteAdvantages": "A long straight reach with deep water on one bank, room for four hulls and a clear run out in either direction.",
+        "siteAdvantages": "A long straight side-channel with deep water on one bank, room for four hulls and a clear run out in either direction.",
         "occupantsMotive": "Crews resting and refitting between charters. A broker sells passage to a traveller who does not ask what else the hull is carrying.",
         "pressures": "One bad prize and the port halls withdraw the berth. The crews that lose it end up at Short Rope.",
         "wouldChangeIf": "If the League of Open Water ever chartered these crews properly, the freehold would have a navy."
@@ -6248,13 +6251,13 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "four hulls on a long reach, two of them careened over, no building on the bank",
+        "silhouette": "four hulls on a long side-channel, two of them careened over, no building on the bank",
         "palette": "tar, bare timber and every crew's own paint on its own bow",
         "materials": "hulls, stages between hulls and one plank walk to the bank",
         "signatureFeature": "no building on the bank; hiring is done on deck",
         "condition": "busy; strikes and moves in a morning",
         "mood": "civil, by the crews' own rules",
-        "approach": "the reach opens on four hulls, with the watch on deck already looking at the bank",
+        "approach": "the channel opens on four hulls, with the watch on deck already looking at the bank",
         "senses": "hammering, careening tar, four conversations that stop at the approach of a stranger"
       },
       "assetPlan": [
@@ -6922,7 +6925,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The free port pays to keep its channel open. The cheapest way to keep it open is a dredging gang that owes money. The barge is where the gang lives and where a new hand is read onto the roll.",
-        "siteAdvantages": "Moored in the channel off the port, close enough to work the reach and far enough that the port does not have to look at it.",
+        "siteAdvantages": "Moored off the port, close enough to work the channels and far enough that the port does not have to look at it.",
         "occupantsMotive": "A broker's detail, a handful of overseers and thirty people who owe months; two of them are visibly washed out from years away from their Hist.",
         "pressures": "The ledger is read aloud at every intake, with the months added for food. Arguing costs months, so the roll is heard out in silence.",
         "wouldChangeIf": "If the port stopped paying for the dredging, the owings would be sold on to an estate upriver and the barge would be broken for planking."
@@ -11643,7 +11646,7 @@
         ],
         "tags": [],
         "opportunity": "an intact landing with no owner invites a claim, in a zone where Alten Corimont answers claims",
-        "tierOwnership": "LP20 · tier-3; player · tier-1"
+        "tierOwnership": "LP20 · tier-3; player · tier-1; LF32 · tier-3"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.rockpoint",
       "deedCounterKeys": [
@@ -11801,7 +11804,8 @@
           "sourcePath": "why.founding",
           "placeRef": "place.dunmer-north.stormhold"
         }
-      ]
+      ],
+      "reservedFor": "player-stronghold"
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",
@@ -12371,8 +12375,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The road from the free port to Stormhold has to cross the channel. The span at this reach is privately owned.",
-        "siteAdvantages": "A steep-cut bank on both sides, at the reach of the Corimont-to-Stormhold road where the channel can be spanned rather than waded.",
+        "founding": "The road from the free port to Stormhold has to cross the channel. The span here is privately owned.",
+        "siteAdvantages": "A steep-cut bank on both sides, at the point on the Corimont-to-Stormhold road where the channel can be spanned rather than waded.",
         "occupantsMotive": "Four toll-takers working for a freehold syndicate that bought the span outright.",
         "pressures": "The Owing operates at this crossing, as it does at every tolled crossing on the road. The ledger is kept in the open.",
         "wouldChangeIf": "If the free port bought the span outright, Stormhold's road trade would be paying Alten Corimont directly."

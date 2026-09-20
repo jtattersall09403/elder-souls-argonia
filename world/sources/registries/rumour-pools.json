@@ -384,8 +384,8 @@
       "notes": "Rumour pool drawn on by NPCs near the places that declare it."
     },
     {
-      "id": "rumour.imperial-penal-south.three-gate-toll",
-      "name": "Imperial Penal South three Gate Toll",
+      "id": "rumour.imperial-penal-south.manned-toll-tower",
+      "name": "Imperial Penal South manned Toll Tower",
       "kind": "pool",
       "status": "derived",
       "sources": [

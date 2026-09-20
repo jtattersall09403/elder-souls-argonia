@@ -2660,14 +2660,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.hist-heartland-bog-blight-ground-stakes.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.bog-blight-ground-stakes.grave-stake-pulled",
             "kind": "evidence",
             "whereInInterior": "threshold"
+          },
+          {
+            "id": "socket.hist-heartland-bog-blight-ground-stakes.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           }
         ],
         "light": "mixed",
@@ -5033,7 +5033,8 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the camp's speaker, who does not give a name"
+        "the camp's speaker, who does not give a name",
+        "the leader of the Unbound Root"
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -9647,7 +9648,9 @@
         "the assembly's speaking-elder",
         "the root-herald who meets outsiders at the gate",
         "the grove's senior tree-minder",
-        "the dock factor who prices every foreign hull"
+        "the dock factor who prices every foreign hull",
+        "the archivist who keeps the years",
+        "the nisswo interpreter at the debating house"
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -12574,8 +12577,13 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.hist-heartland-lost-city.shrine",
-            "kind": "shrine",
+            "id": "evidence.lost-city.accord-consent-records",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.lost-city.lost-city-first-terrace",
+            "kind": "scene",
             "whereInInterior": "main"
           },
           {
@@ -12584,13 +12592,8 @@
             "whereInInterior": "entrance"
           },
           {
-            "id": "evidence.lost-city.accord-consent-records",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.lost-city.lost-city-first-terrace",
-            "kind": "scene",
+            "id": "socket.hist-heartland-lost-city.shrine",
+            "kind": "shrine",
             "whereInInterior": "main"
           }
         ],
@@ -14787,14 +14790,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.hist-heartland-necropolis-dead-tenders.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.necropolis-dead-tenders.grave-stake-readable",
             "kind": "evidence",
             "whereInInterior": "threshold"
+          },
+          {
+            "id": "socket.hist-heartland-necropolis-dead-tenders.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           }
         ],
         "light": "bioluminescent",
@@ -20500,8 +20503,13 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.hist-heartland-sap-collection-facility-daedric.shrine",
-            "kind": "shrine",
+            "id": "evidence.sap-collection-facility-daedric.sap-facility-extraction-ledger",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.sap-collection-facility-daedric.sap-facility-channel-floor",
+            "kind": "scene",
             "whereInInterior": "main"
           },
           {
@@ -20510,13 +20518,8 @@
             "whereInInterior": "entrance"
           },
           {
-            "id": "evidence.sap-collection-facility-daedric.sap-facility-extraction-ledger",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.sap-collection-facility-daedric.sap-facility-channel-floor",
-            "kind": "scene",
+            "id": "socket.hist-heartland-sap-collection-facility-daedric.shrine",
+            "kind": "shrine",
             "whereInInterior": "main"
           }
         ],
@@ -24928,6 +24931,14 @@
             "provenance": "a share tally everyone disputes"
           }
         ]
+      },
+      "travelStation": {
+        "modes": [
+          "canoe"
+        ],
+        "destinations": [
+          "place.saxhleel-coast.portdun-mont"
+        ]
       }
     },
     {
@@ -28563,21 +28574,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.hist-heartland-xal-krona-making-ground.boss",
-            "kind": "boss",
-            "whereInInterior": "deep"
-          },
-          {
-            "id": "socket.hist-heartland-xal-krona-making-ground.boss-chest",
-            "kind": "boss-chest",
-            "whereInInterior": "deep"
-          },
-          {
-            "id": "socket.hist-heartland-xal-krona-making-ground.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.xal-krona-making-ground.accord-making-record",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -28591,6 +28587,21 @@
             "id": "scene.xal-krona-making-ground.warden-making-basin",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.hist-heartland-xal-krona-making-ground.boss",
+            "kind": "boss",
+            "whereInInterior": "deep"
+          },
+          {
+            "id": "socket.hist-heartland-xal-krona-making-ground.boss-chest",
+            "kind": "boss-chest",
+            "whereInInterior": "deep"
+          },
+          {
+            "id": "socket.hist-heartland-xal-krona-making-ground.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           }
         ],
         "light": "bioluminescent",

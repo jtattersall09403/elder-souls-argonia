@@ -878,7 +878,7 @@
       "region": "imperial-penal-south",
       "settlement": null,
       "anchorPlaces": [
-        "place.imperial-penal-south.lake-drowned-village"
+        "place.imperial-penal-south.saltrice-village"
       ],
       "premise": "A Tree-Minder hid a flood warning and saved some people. He had moved the boundary stakes beforehand",
       "costTier": null,
@@ -1247,9 +1247,10 @@
         "NEGOTIATION"
       ],
       "region": "imperial-penal-south",
-      "settlement": "place.imperial-penal-south.three-gate-toll",
+      "settlement": "place.imperial-penal-south.blackrose",
       "anchorPlaces": [
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.manned-toll-tower"
       ],
       "premise": "An official toll sinks financially while guards and pilots run a private tariff",
       "costTier": null,

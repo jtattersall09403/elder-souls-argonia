@@ -646,6 +646,390 @@
       "why": "The registry lane `route.boat.stormhold-alten-corimont` joins two catalogue stations that both declare `boat` in `travelStation.modes`. The edge is written down so the travel system reads one graph rather than re-deriving it from the place records."
     },
     {
+      "available": [],
+      "craft": "dugout-canoe",
+      "fare": {
+        "freeIf": [],
+        "gold": 2
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lanes": [
+              "waterway.dunmer-north.hutan-tzel",
+              "waterway.dunmer-north.the-black-stage"
+            ]
+          },
+          "from": "station.dunmer-north.hutan-tzel",
+          "jettyM": {
+            "station.dunmer-north.hutan-tzel": 15.4,
+            "station.dunmer-north.the-black-stage": 137.0
+          },
+          "lengthM": 382.1,
+          "to": "station.dunmer-north.the-black-stage"
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "canoe.dunmer-north.hutan-tzel-the-black-stage",
+      "operator": {
+        "nearestPlaceId": "place.dunmer-north.hutan-tzel",
+        "ownerFaction": null,
+        "role": "canoe poler",
+        "slotId": "canoe-slot.hutan-tzel-the-black-stage.owner",
+        "socket": {
+          "stationId": "station.dunmer-north.hutan-tzel"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "canoe",
+      "stations": [
+        "station.dunmer-north.hutan-tzel",
+        "station.dunmer-north.the-black-stage"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.canoe.hutan-tzel-the-black-stage.hail",
+        "name": "text.canoe.hutan-tzel-the-black-stage.name"
+      },
+      "why": "A poler works this chain of minor waterways (waterway.dunmer-north.hutan-tzel, waterway.dunmer-north.the-black-stage), which joins Hutan-Tzel and Black Stage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+    },
+    {
+      "available": [],
+      "craft": "dugout-canoe",
+      "fare": {
+        "freeIf": [],
+        "gold": 2
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lanes": [
+              "waterway.dunmer-north.riverwalk",
+              "waterway.dunmer-north.hissmir"
+            ]
+          },
+          "from": "station.dunmer-north.riverwalk",
+          "jettyM": {
+            "station.dunmer-north.hissmir": 227.4,
+            "station.dunmer-north.riverwalk": 27.4
+          },
+          "lengthM": 705.6,
+          "to": "station.dunmer-north.hissmir"
+        },
+        {
+          "follows": {
+            "lanes": [
+              "waterway.dunmer-north.hissmir",
+              "waterway.dunmer-north.murkwater"
+            ]
+          },
+          "from": "station.dunmer-north.hissmir",
+          "jettyM": {
+            "station.dunmer-north.hissmir": 227.4,
+            "station.dunmer-north.murkwater": 62.0
+          },
+          "lengthM": 846.0,
+          "to": "station.dunmer-north.murkwater"
+        },
+        {
+          "follows": {
+            "lanes": [
+              "waterway.dunmer-north.murkwater",
+              "route.boat.archon-thorn",
+              "waterway.dunmer-north.reedmoor-stilts"
+            ]
+          },
+          "from": "station.dunmer-north.murkwater",
+          "jettyM": {
+            "station.dunmer-north.murkwater": 62.0,
+            "station.dunmer-north.the-tide-fair": 191.6
+          },
+          "lengthM": 2424.7,
+          "to": "station.dunmer-north.the-tide-fair"
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "canoe.dunmer-north.riverwalk-the-tide-fair",
+      "operator": {
+        "nearestPlaceId": "place.dunmer-north.riverwalk",
+        "ownerFaction": null,
+        "role": "canoe poler",
+        "slotId": "canoe-slot.riverwalk-the-tide-fair.owner",
+        "socket": {
+          "stationId": "station.dunmer-north.riverwalk"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "canoe",
+      "stations": [
+        "station.dunmer-north.riverwalk",
+        "station.dunmer-north.hissmir",
+        "station.dunmer-north.murkwater",
+        "station.dunmer-north.the-tide-fair"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.canoe.riverwalk-the-tide-fair.hail",
+        "name": "text.canoe.riverwalk-the-tide-fair.name"
+      },
+      "why": "A poler works this chain of minor waterways (waterway.dunmer-north.hissmir, waterway.dunmer-north.murkwater, waterway.dunmer-north.riverwalk, ...), which joins Riverwalk and Hissmir and Murkwater and Tide Fair on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+    },
+    {
+      "available": [],
+      "craft": "dugout-canoe",
+      "fare": {
+        "freeIf": [],
+        "gold": 2
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lanes": [
+              "waterway.hist-heartland.treasure-hunters-live-camp",
+              "waterway.saxhleel-coast.portdun-mont"
+            ]
+          },
+          "from": "station.hist-heartland.treasure-hunters-live-camp",
+          "jettyM": {
+            "station.hist-heartland.treasure-hunters-live-camp": 7.7,
+            "station.saxhleel-coast.portdun-mont": 39.1
+          },
+          "lengthM": 1041.1,
+          "to": "station.saxhleel-coast.portdun-mont"
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "canoe.hist-heartland.treasure-hunters-live-camp-portdun-mont",
+      "operator": {
+        "nearestPlaceId": "place.hist-heartland.treasure-hunters-live-camp",
+        "ownerFaction": null,
+        "role": "canoe poler",
+        "slotId": "canoe-slot.treasure-hunters-live-camp-portdun-mont.owner",
+        "socket": {
+          "stationId": "station.hist-heartland.treasure-hunters-live-camp"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "canoe",
+      "stations": [
+        "station.hist-heartland.treasure-hunters-live-camp",
+        "station.saxhleel-coast.portdun-mont"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.canoe.treasure-hunters-live-camp-portdun-mont.hail",
+        "name": "text.canoe.treasure-hunters-live-camp-portdun-mont.name"
+      },
+      "why": "A poler works this chain of minor waterways (waterway.hist-heartland.dive-shaft-xanmeer-well, waterway.hist-heartland.mist-locked-hollow-basin, waterway.hist-heartland.treasure-hunters-live-camp, ...), which joins Fortune's Own and Portdun Mont on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+    },
+    {
+      "available": [],
+      "craft": "dugout-canoe",
+      "fare": {
+        "freeIf": [],
+        "gold": 2
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lanes": [
+              "waterway.imperial-fringe.slough-point",
+              "waterway.mercantile-coast.moonmarch",
+              "waterway.imperial-fringe.the-white-throat"
+            ]
+          },
+          "from": "station.imperial-fringe.slough-point",
+          "jettyM": {
+            "station.imperial-fringe.slough-point": 216.3,
+            "station.mercantile-coast.moonmarch": 15.9
+          },
+          "lengthM": 745.5,
+          "to": "station.mercantile-coast.moonmarch"
+        },
+        {
+          "follows": {
+            "lanes": [
+              "waterway.imperial-fringe.the-white-throat",
+              "waterway.mercantile-coast.moonmarch",
+              "waterway.mercantile-coast.mudfoot"
+            ]
+          },
+          "from": "station.mercantile-coast.moonmarch",
+          "jettyM": {
+            "station.mercantile-coast.moonmarch": 15.9,
+            "station.mercantile-coast.mudfoot": 203.5
+          },
+          "lengthM": 1051.9,
+          "to": "station.mercantile-coast.mudfoot"
+        },
+        {
+          "follows": {
+            "lanes": [
+              "waterway.mercantile-coast.mudfoot",
+              "waterway.mercantile-coast.quinrawl-anchorage"
+            ]
+          },
+          "from": "station.mercantile-coast.mudfoot",
+          "jettyM": {
+            "station.mercantile-coast.mudfoot": 203.5,
+            "station.mercantile-coast.quinrawl-anchorage": 150.6
+          },
+          "lengthM": 1062.7,
+          "to": "station.mercantile-coast.quinrawl-anchorage"
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "canoe.imperial-fringe.slough-point-quinrawl-anchorage",
+      "operator": {
+        "nearestPlaceId": "place.imperial-fringe.slough-point",
+        "ownerFaction": null,
+        "role": "canoe poler",
+        "slotId": "canoe-slot.slough-point-quinrawl-anchorage.owner",
+        "socket": {
+          "stationId": "station.imperial-fringe.slough-point"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "canoe",
+      "stations": [
+        "station.imperial-fringe.slough-point",
+        "station.mercantile-coast.moonmarch",
+        "station.mercantile-coast.mudfoot",
+        "station.mercantile-coast.quinrawl-anchorage"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.canoe.slough-point-quinrawl-anchorage.hail",
+        "name": "text.canoe.slough-point-quinrawl-anchorage.name"
+      },
+      "why": "A poler works this chain of minor waterways (waterway.imperial-fringe.slough-point, waterway.imperial-fringe.the-white-throat, waterway.mercantile-coast.moonmarch, ...), which joins Slough Point and Moonmarch and Mudfoot and Quin'rawl Anchorage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+    },
+    {
+      "available": [],
+      "craft": "dugout-canoe",
+      "fare": {
+        "freeIf": [],
+        "gold": 2
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lanes": [
+              "waterway.imperial-penal-south.lake-divers-yard",
+              "waterway.imperial-penal-south.lake-ferry-stage"
+            ]
+          },
+          "from": "station.imperial-penal-south.lake-divers-yard",
+          "jettyM": {
+            "station.imperial-penal-south.lake-divers-yard": 11.0,
+            "station.imperial-penal-south.lake-ferry-stage": 171.7
+          },
+          "lengthM": 361.9,
+          "to": "station.imperial-penal-south.lake-ferry-stage"
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "canoe.imperial-penal-south.lake-divers-yard-lake-ferry-stage",
+      "operator": {
+        "nearestPlaceId": "place.imperial-penal-south.lake-divers-yard",
+        "ownerFaction": null,
+        "role": "canoe poler",
+        "slotId": "canoe-slot.lake-divers-yard-lake-ferry-stage.owner",
+        "socket": {
+          "stationId": "station.imperial-penal-south.lake-divers-yard"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "canoe",
+      "stations": [
+        "station.imperial-penal-south.lake-divers-yard",
+        "station.imperial-penal-south.lake-ferry-stage"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.canoe.lake-divers-yard-lake-ferry-stage.hail",
+        "name": "text.canoe.lake-divers-yard-lake-ferry-stage.name"
+      },
+      "why": "A poler works this chain of minor waterways (waterway.imperial-penal-south.blackrose-drowned-hist, waterway.imperial-penal-south.lake-divers-yard, waterway.imperial-penal-south.lake-ferry-stage, ...), which joins The Barge Yard and The North Stage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+    },
+    {
+      "available": [],
+      "craft": "dugout-canoe",
+      "fare": {
+        "freeIf": [],
+        "gold": 2
+      },
+      "form": "station-run",
+      "hops": [
+        {
+          "follows": {
+            "lanes": [
+              "waterway.mercantile-coast.bright-throat-village",
+              "route.boat.soulrest-lilmoth"
+            ]
+          },
+          "from": "station.mercantile-coast.bright-throat-village",
+          "jettyM": {
+            "station.mercantile-coast.bright-throat-village": 48.2,
+            "station.mercantile-coast.screen-watch": 35.0
+          },
+          "lengthM": 525.5,
+          "to": "station.mercantile-coast.screen-watch"
+        },
+        {
+          "follows": {
+            "lanes": [
+              "route.boat.soulrest-lilmoth",
+              "waterway.mercantile-coast.oliis-ferry-stage",
+              "waterway.mercantile-coast.glowfen-murkmire"
+            ]
+          },
+          "from": "station.mercantile-coast.screen-watch",
+          "jettyM": {
+            "station.mercantile-coast.oliis-ferry-stage": 10.9,
+            "station.mercantile-coast.screen-watch": 35.0
+          },
+          "lengthM": 725.0,
+          "to": "station.mercantile-coast.oliis-ferry-stage"
+        }
+      ],
+      "hullClass": "canoe",
+      "id": "canoe.mercantile-coast.bright-throat-village-oliis-ferry-stage",
+      "operator": {
+        "nearestPlaceId": "place.mercantile-coast.bright-throat-village",
+        "ownerFaction": null,
+        "role": "canoe poler",
+        "slotId": "canoe-slot.bright-throat-village-oliis-ferry-stage.owner",
+        "socket": {
+          "stationId": "station.mercantile-coast.bright-throat-village"
+        }
+      },
+      "questUse": null,
+      "refusedIf": [],
+      "serviceKind": "canoe",
+      "stations": [
+        "station.mercantile-coast.bright-throat-village",
+        "station.mercantile-coast.screen-watch",
+        "station.mercantile-coast.oliis-ferry-stage"
+      ],
+      "status": "active",
+      "text": {
+        "hail": "text.canoe.bright-throat-village-oliis-ferry-stage.hail",
+        "name": "text.canoe.bright-throat-village-oliis-ferry-stage.name"
+      },
+      "why": "A poler works this chain of minor waterways (waterway.mercantile-coast.bright-throat-village, waterway.mercantile-coast.glowfen-murkmire, waterway.mercantile-coast.oliis-ferry-stage, ...), which joins Bright-Throat Village and Screen-Watch and Estuary Stage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+    },
+    {
       "available": [
         {
           "is": "wet",
@@ -800,7 +1184,6 @@
     {
       "available": [],
       "craft": "swamp-rowboat-ferry",
-      "deferredWhy": "station.imperial-penal-south.lake-boardwalk-village, station.imperial-penal-south.longmont, station.imperial-penal-south.three-gate-toll are in the accepted-homeless register",
       "fare": {
         "freeIf": [],
         "gold": 8
@@ -817,51 +1200,57 @@
         },
         {
           "follows": {
-            "lanes": [
-              "waterway.imperial-penal-south.lake-ferry-stage",
-              "route.boat.blackrose-lilmoth",
-              "route.boat.soulrest-lilmoth",
-              "waterway.imperial-penal-south.saltrice-village"
+            "bodies": [
+              "body.1284-3448"
             ]
           },
           "from": "station.imperial-penal-south.lake-ferry-stage",
           "jettyM": {
-            "station.imperial-penal-south.lake-boardwalk-village": 153.6,
+            "station.imperial-penal-south.bramman-head": 153.6,
             "station.imperial-penal-south.lake-ferry-stage": 171.7
           },
           "laneDepthM": {
-            "station.imperial-penal-south.lake-boardwalk-village": 7.92,
+            "station.imperial-penal-south.bramman-head": 7.92,
             "station.imperial-penal-south.lake-ferry-stage": 0.24
           },
-          "lengthM": 3274.7,
-          "to": "station.imperial-penal-south.lake-boardwalk-village"
+          "lengthM": 829.8,
+          "to": "station.imperial-penal-south.bramman-head"
         },
         {
           "follows": {
             "bodies": [
-              "body.ocean"
+              "body.1284-3448"
             ]
           },
-          "from": "station.imperial-penal-south.lake-boardwalk-village",
+          "from": "station.imperial-penal-south.bramman-head",
           "jettyM": {
-            "station.imperial-penal-south.lake-boardwalk-village": 153.6,
-            "station.imperial-penal-south.longmont": 129.1
+            "station.imperial-penal-south.bramman-head": 153.6,
+            "station.imperial-penal-south.lake-divers-yard": 129.1
           },
           "laneDepthM": {
-            "station.imperial-penal-south.lake-boardwalk-village": 7.92,
-            "station.imperial-penal-south.longmont": 1.08
+            "station.imperial-penal-south.bramman-head": 7.92,
+            "station.imperial-penal-south.lake-divers-yard": 1.08
           },
-          "lengthM": 894.4,
-          "to": "station.imperial-penal-south.longmont"
+          "lengthM": 569.3,
+          "to": "station.imperial-penal-south.lake-divers-yard"
         },
         {
           "follows": {
-            "reaches": []
+            "lanes": [
+              "waterway.imperial-penal-south.lake-divers-yard"
+            ]
           },
-          "from": "station.imperial-penal-south.longmont",
-          "lengthM": 867.2,
-          "to": "station.imperial-penal-south.three-gate-toll",
-          "unresolved": true
+          "from": "station.imperial-penal-south.lake-divers-yard",
+          "jettyM": {
+            "station.imperial-penal-south.lake-divers-yard": 11.0,
+            "station.imperial-penal-south.manned-toll-tower": 5.5
+          },
+          "laneDepthM": {
+            "station.imperial-penal-south.lake-divers-yard": 0.0,
+            "station.imperial-penal-south.manned-toll-tower": 0.84
+          },
+          "lengthM": 125.4,
+          "to": "station.imperial-penal-south.manned-toll-tower"
         }
       ],
       "hullClass": "small-draft",
@@ -889,11 +1278,11 @@
       "stations": [
         "station.imperial-penal-south.blackrose",
         "station.imperial-penal-south.lake-ferry-stage",
-        "station.imperial-penal-south.lake-boardwalk-village",
-        "station.imperial-penal-south.longmont",
-        "station.imperial-penal-south.three-gate-toll"
+        "station.imperial-penal-south.bramman-head",
+        "station.imperial-penal-south.lake-divers-yard",
+        "station.imperial-penal-south.manned-toll-tower"
       ],
-      "status": "deferred",
+      "status": "active",
       "text": {
         "hail": "text.ferry.stage-generic.hail",
         "name": "text.ferry.blackrose-lake.name",
@@ -1047,78 +1436,6 @@
         "name": "the Saxhleel estuary"
       },
       "why": "Archon and Soulrest are two of the three major seaports (Lore:Sea Transportation) and both already declare `ferry`. The long open-water leg is the one run in the province that a storm can stop, which is what the refusal predicate is for."
-    },
-    {
-      "available": [],
-      "craft": "native-plank-ferry",
-      "fare": {
-        "freeIf": [],
-        "gold": 6
-      },
-      "form": "station-run",
-      "hops": [
-        {
-          "follows": {
-            "reaches": []
-          },
-          "from": "station.saxhleel-coast.archon",
-          "lengthM": null,
-          "to": "station.saxhleel-coast.jungle-ferry-stage",
-          "unresolved": true
-        },
-        {
-          "follows": {
-            "reaches": []
-          },
-          "from": "station.saxhleel-coast.jungle-ferry-stage",
-          "lengthM": null,
-          "to": "station.mercantile-coast.soulrest",
-          "unresolved": true
-        },
-        {
-          "follows": {
-            "reaches": []
-          },
-          "from": "station.mercantile-coast.soulrest",
-          "lengthM": null,
-          "to": "station.saxhleel-coast.estuary-ferry-stage",
-          "unresolved": true
-        }
-      ],
-      "hullClass": "canoe",
-      "id": "ferry.saxhleel-coast.jungle-stage",
-      "measured": null,
-      "operator": {
-        "nearestPlaceId": "place.saxhleel-coast.archon",
-        "ownerFaction": null,
-        "role": "village poler",
-        "slotId": "ferry-slot.jungle-stage.poler",
-        "socket": {
-          "stationId": "station.saxhleel-coast.archon"
-        }
-      },
-      "questUse": null,
-      "refusedIf": [],
-      "retiredWhy": "No lane exists: `route.boat.archon-estuary` was never published, and both stages were unsited. Archon rides `route.boat.lilmoth-archon`.",
-      "serviceKind": "ferry",
-      "severs": [],
-      "stations": [
-        "station.saxhleel-coast.archon",
-        "station.saxhleel-coast.jungle-ferry-stage",
-        "station.mercantile-coast.soulrest",
-        "station.saxhleel-coast.estuary-ferry-stage"
-      ],
-      "status": "retired",
-      "text": {
-        "hail": "text.ferry.stage-generic.hail",
-        "name": "text.ferry.jungle-stage.name",
-        "refusal": "text.ferry.refused-weather"
-      },
-      "water": {
-        "class": "estuary",
-        "name": "the Saxhleel estuary"
-      },
-      "why": "Two deferred stages that Archon and Soulrest already name as ferry destinations. Reserved, not live."
     },
     {
       "available": [],
@@ -1366,12 +1683,72 @@
       "why": "The northern terminus is Stormhold's own slot, at 2706.0, 781.0."
     },
     {
+      "id": "station.dunmer-north.hissmir",
+      "kind": "place",
+      "placeId": "place.dunmer-north.hissmir",
+      "positionM": [
+        6917.5,
+        595.0
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.dunmer-north.hutan-tzel",
+      "kind": "place",
+      "placeId": "place.dunmer-north.hutan-tzel",
+      "positionM": [
+        2996.7,
+        1000.7
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.dunmer-north.murkwater",
+      "kind": "place",
+      "placeId": "place.dunmer-north.murkwater",
+      "positionM": [
+        7032.6,
+        863.7
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.dunmer-north.riverwalk",
+      "kind": "place",
+      "placeId": "place.dunmer-north.riverwalk",
+      "positionM": [
+        7197.1,
+        584.0
+      ],
+      "status": "active"
+    },
+    {
       "id": "station.dunmer-north.stormhold",
       "kind": "place",
       "placeId": "place.dunmer-north.stormhold",
       "positionM": [
         2656.8,
         737.5
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.dunmer-north.the-black-stage",
+      "kind": "place",
+      "placeId": "place.dunmer-north.the-black-stage",
+      "positionM": [
+        2728.1,
+        1236.5
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.dunmer-north.the-tide-fair",
+      "kind": "place",
+      "placeId": "place.dunmer-north.the-tide-fair",
+      "positionM": [
+        6818.8,
+        1417.5
       ],
       "status": "active"
     },
@@ -1396,12 +1773,32 @@
       "status": "active"
     },
     {
+      "id": "station.hist-heartland.treasure-hunters-live-camp",
+      "kind": "place",
+      "placeId": "place.hist-heartland.treasure-hunters-live-camp",
+      "positionM": [
+        4438.9,
+        3610.9
+      ],
+      "status": "active"
+    },
+    {
       "id": "station.imperial-fringe.gideon",
       "kind": "place",
       "placeId": "place.imperial-fringe.gideon",
       "positionM": [
         1417.5,
         3095.4
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.imperial-fringe.slough-point",
+      "kind": "place",
+      "placeId": "place.imperial-fringe.slough-point",
+      "positionM": [
+        529.2,
+        4762.4
       ],
       "status": "active"
     },
@@ -1416,15 +1813,24 @@
       "status": "active"
     },
     {
-      "id": "station.imperial-penal-south.lake-boardwalk-village",
+      "id": "station.imperial-penal-south.bramman-head",
       "kind": "place",
-      "placeId": "place.imperial-penal-south.lake-boardwalk-village",
+      "placeId": "place.imperial-penal-south.bramman-head",
       "positionM": [
-        2612.9,
-        6868.1
+        1806.8,
+        6434.9
       ],
-      "status": "unmatched",
-      "unmatchedWhy": "place place.imperial-penal-south.lake-boardwalk-village carries no positionM — a station cannot stand nowhere"
+      "status": "active"
+    },
+    {
+      "id": "station.imperial-penal-south.lake-divers-yard",
+      "kind": "place",
+      "placeId": "place.imperial-penal-south.lake-divers-yard",
+      "positionM": [
+        2371.6,
+        6506.2
+      ],
+      "status": "active"
     },
     {
       "id": "station.imperial-penal-south.lake-ferry-stage",
@@ -1437,26 +1843,14 @@
       "status": "active"
     },
     {
-      "id": "station.imperial-penal-south.longmont",
+      "id": "station.imperial-penal-south.manned-toll-tower",
       "kind": "place",
-      "placeId": "place.imperial-penal-south.longmont",
+      "placeId": "place.imperial-penal-south.manned-toll-tower",
       "positionM": [
-        1719.1,
-        6835.2
+        2371.6,
+        6407.5
       ],
-      "status": "unmatched",
-      "unmatchedWhy": "place place.imperial-penal-south.longmont carries no positionM — a station cannot stand nowhere"
-    },
-    {
-      "id": "station.imperial-penal-south.three-gate-toll",
-      "kind": "place",
-      "placeId": "place.imperial-penal-south.three-gate-toll",
-      "positionM": [
-        1368.1,
-        6484.3
-      ],
-      "status": "unmatched",
-      "unmatchedWhy": "place place.imperial-penal-south.three-gate-toll carries no positionM — a station cannot stand nowhere"
+      "status": "active"
     },
     {
       "id": "station.mercantile-coast.bramman-river-ferry",
@@ -1465,6 +1859,16 @@
       "positionM": [
         918.5,
         6922.9
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.bright-throat-village",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.bright-throat-village",
+      "positionM": [
+        2856.3,
+        6542.4
       ],
       "status": "active"
     },
@@ -1489,6 +1893,26 @@
       "status": "active"
     },
     {
+      "id": "station.mercantile-coast.moonmarch",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.moonmarch",
+      "positionM": [
+        370.1,
+        5086.0
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.mudfoot",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.mudfoot",
+      "positionM": [
+        435.9,
+        5771.4
+      ],
+      "status": "active"
+    },
+    {
       "id": "station.mercantile-coast.oliis-boardwalk",
       "kind": "place",
       "placeId": "place.mercantile-coast.oliis-boardwalk",
@@ -1505,6 +1929,26 @@
       "positionM": [
         3451.9,
         6884.6
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.quinrawl-anchorage",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.quinrawl-anchorage",
+      "positionM": [
+        315.3,
+        6243.0
+      ],
+      "status": "active"
+    },
+    {
+      "id": "station.mercantile-coast.screen-watch",
+      "kind": "place",
+      "placeId": "place.mercantile-coast.screen-watch",
+      "positionM": [
+        3155.8,
+        6886.7
       ],
       "status": "active"
     },
@@ -1539,22 +1983,6 @@
       "status": "active"
     },
     {
-      "id": "station.saxhleel-coast.estuary-ferry-stage",
-      "kind": "place",
-      "placeId": "place.saxhleel-coast.estuary-ferry-stage",
-      "positionM": null,
-      "status": "unmatched",
-      "unmatchedWhy": "place place.saxhleel-coast.estuary-ferry-stage carries no positionM — a station cannot stand nowhere"
-    },
-    {
-      "id": "station.saxhleel-coast.jungle-ferry-stage",
-      "kind": "place",
-      "placeId": "place.saxhleel-coast.jungle-ferry-stage",
-      "positionM": null,
-      "status": "unmatched",
-      "unmatchedWhy": "place place.saxhleel-coast.jungle-ferry-stage carries no positionM — a station cannot stand nowhere"
-    },
-    {
       "id": "station.saxhleel-coast.portdun-mont",
       "kind": "place",
       "placeId": "place.saxhleel-coast.portdun-mont",
@@ -1562,8 +1990,8 @@
         4819.9,
         4244.3
       ],
-      "retiredWhy": "its two services, estuary-run and jungle-stage, were retired (no lane, no sited stage); Archon is served by lilmoth-archon and archon-thorn",
-      "status": "retired"
+      "status": "active",
+      "why": "Boards the canoe run canoe.hist-heartland.treasure-hunters-live-camp-portdun-mont (2026-09-20). Its two earlier ferry services, estuary-run and jungle-stage, were cut in 16g for want of a lane and a sited stage; the published minor channels are that lane."
     }
   ],
   "transferEdges": [
@@ -1581,6 +2009,26 @@
       "from": "root-node.north-shadowfen",
       "to": "station.dunmer-north.stormhold",
       "why": "both stand at place.dunmer-north.stormhold"
+    },
+    {
+      "from": "station.dunmer-north.hissmir",
+      "to": "station.dunmer-north.thorn",
+      "why": "724 m apart, within the 800 m walk to the canoe run canoe.dunmer-north.riverwalk-the-tide-fair"
+    },
+    {
+      "from": "station.dunmer-north.hutan-tzel",
+      "to": "root-node.north-shadowfen",
+      "why": "430 m apart, within the 800 m walk to the canoe run canoe.dunmer-north.hutan-tzel-the-black-stage"
+    },
+    {
+      "from": "station.mercantile-coast.quinrawl-anchorage",
+      "to": "station.mercantile-coast.soulrest",
+      "why": "354 m apart, within the 400 m walk to the canoe run canoe.imperial-fringe.slough-point-quinrawl-anchorage"
+    },
+    {
+      "from": "station.saxhleel-coast.portdun-mont",
+      "to": "root-node.east-estuary",
+      "why": "473 m apart, within the 800 m walk to the canoe run canoe.hist-heartland.treasure-hunters-live-camp-portdun-mont"
     }
   ],
   "vocabulary": {
@@ -1593,6 +2041,7 @@
     "kinds": [
       "ferry",
       "boat",
+      "canoe",
       "rootworm",
       "guide",
       "cart",

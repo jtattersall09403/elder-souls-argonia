@@ -63,17 +63,14 @@
         "minDepthM": 8.0
       },
       "relations": {
-        "dependsOn": [
-          "place.mercantile-coast.whitebone-reef"
-        ],
+        "dependsOn": [],
         "supplies": [],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.bramman-river-ferry",
-          "place.mercantile-coast.whitebone-reef"
+          "place.mercantile-coast.bramman-river-ferry"
         ],
         "travelServiceEdges": []
       },
@@ -296,6 +293,14 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.mercantile-coast.whitebone-reef"
+        ],
+        "reachedVia": [
+          "place.mercantile-coast.whitebone-reef"
+        ]
       }
     },
     {
@@ -360,8 +365,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage",
-          "place.mercantile-coast.keel-sakka-stilts"
+          "place.mercantile-coast.coast-road-stage"
         ],
         "travelServiceEdges": [
           "boat:route.boat.lilmoth-archon"
@@ -550,6 +554,9 @@
         ],
         "rivals": [
           "place.saxhleel-coast.archon"
+        ],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "travelStation": {
@@ -944,9 +951,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1033,7 +1038,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -1361,9 +1367,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1500,6 +1504,9 @@
       "relationsReserved": {
         "rivals": [
           "place.mercantile-coast.hist-village-hammock"
+        ],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "services": [
@@ -1854,9 +1861,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1964,7 +1969,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -2718,11 +2724,13 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           "place.mercantile-coast.lilmoth",
-          "place.mercantile-coast.oliis-ferry-stage"
+          "place.mercantile-coast.oliis-ferry-stage",
+          "place.mercantile-coast.screen-watch"
         ]
       },
       "services": [
@@ -2785,9 +2793,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2923,7 +2929,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       }
     },
@@ -3378,9 +3385,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3486,7 +3491,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -4132,9 +4138,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4230,7 +4234,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -4528,9 +4533,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4620,7 +4623,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -5139,9 +5143,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -5263,7 +5265,8 @@
           "place.saxhleel-coast.archon-bonded-row"
         ],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -5334,9 +5337,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "mixed",
@@ -5434,7 +5435,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -6148,9 +6150,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6245,7 +6245,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -7569,15 +7570,14 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "field-speaker"
+        "field-speaker",
+        "the Miredancer sap-speaker honoured for her sap-poisoning"
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -7806,6 +7806,9 @@
         ],
         "dependsOn": [
           "place.mercantile-coast.hist-village-keel-sakka"
+        ],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       }
     },
@@ -8299,9 +8302,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "mixed",
@@ -8480,6 +8481,9 @@
         ],
         "rivals": [
           "place.mercantile-coast.mirtis-plantation"
+        ],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "terrainRequests": [
@@ -8569,9 +8573,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -8667,7 +8669,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -9435,9 +9438,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9533,6 +9534,11 @@
             "provenance": null
           }
         ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ]
       }
     },
     {
@@ -9584,9 +9590,7 @@
         }
       },
       "relations": {
-        "dependsOn": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "dependsOn": [],
         "supplies": [],
         "rivals": [
           "place.mercantile-coast.insular-jungle-village"
@@ -9594,9 +9598,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9835,12 +9837,16 @@
       },
       "relationsReserved": {
         "dependsOn": [
-          "place.mercantile-coast.tree-minder-house"
+          "place.mercantile-coast.tree-minder-house",
+          "place.mercantile-coast.keel-sakka-stilts"
         ],
         "supplies": [
           "place.mercantile-coast.hammock-village-murkmire",
           "place.mercantile-coast.hist-village-hammock",
           "place.mercantile-coast.lilmoth"
+        ],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -10086,9 +10092,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10181,7 +10185,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -11464,11 +11469,8 @@
         }
       },
       "relations": {
-        "dependsOn": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "dependsOn": [],
         "supplies": [
-          "place.mercantile-coast.keel-sakka-stilts",
           "place.mercantile-coast.lilmoth"
         ],
         "rivals": [],
@@ -11570,6 +11572,12 @@
       "relationsReserved": {
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "supplies": [
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "travelStation": {
@@ -11600,7 +11608,7 @@
         "variant": "channel-edge",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "cut",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -11795,12 +11803,6 @@
           "place.mercantile-coast.oliis-ferry-stage"
         ]
       },
-      "services": [
-        "ferry",
-        "lodging",
-        "shrine",
-        "trader"
-      ],
       "proseRefs": [
         {
           "sourcePath": "why.founding",
@@ -11871,8 +11873,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage",
-          "place.mercantile-coast.keel-sakka-stilts"
+          "place.mercantile-coast.coast-road-stage"
         ],
         "travelServiceEdges": []
       },
@@ -12047,6 +12048,11 @@
           "distanceM": 5.5
         },
         "score": 3.716
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ]
       }
     },
     {
@@ -12533,7 +12539,6 @@
         ],
         "dependsOn": [
           "place.mercantile-coast.hereguard-plantation",
-          "place.mercantile-coast.keel-sakka-stilts",
           "place.mercantile-coast.lighter-flotilla"
         ],
         "patrols": [],
@@ -12553,7 +12558,14 @@
         "council factor (quest-giver, tariff line)",
         "third-Hist tree-minder (neutral broker)",
         "under-quarter dive-master",
-        "An-Xileel resident agent (deniable)"
+        "An-Xileel resident agent (deniable)",
+        "the canal warden who keeps the ripper eels",
+        "the fence who is bad at fencing",
+        "the young climber that the chapter sends up walls",
+        "the Society's archive-room keeper",
+        "the one who claims to remember Umbriel",
+        "the keeper of the descendants' room behind a Pusbottom chandlery",
+        "an Altmer alchemist licensed to the dock quarter, buying marsh reagents that no Summerset garden grows"
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -12804,7 +12816,8 @@
       },
       "relationsReserved": {
         "dependsOn": [
-          "place.mercantile-coast.tidewrack-stilts"
+          "place.mercantile-coast.tidewrack-stilts",
+          "place.mercantile-coast.keel-sakka-stilts"
         ],
         "supplies": [
           "place.mercantile-coast.lilmoth-beast-market",
@@ -12821,7 +12834,6 @@
         ],
         "destinations": [
           "place.mercantile-coast.alten-meerhleel",
-          "place.mercantile-coast.keel-sakka-stilts",
           "place.mercantile-coast.lighter-flotilla",
           "place.mercantile-coast.oliis-ferry-stage"
         ]
@@ -12995,9 +13007,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -13084,7 +13094,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -13581,9 +13592,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "mixed",
@@ -13686,7 +13695,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       }
     },
@@ -14694,14 +14704,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.mercantile-coast-mirtis-plantation.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.mirtis.burn-order",
             "kind": "evidence",
             "whereInInterior": "threshold"
+          },
+          {
+            "id": "socket.mercantile-coast-mirtis-plantation.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           }
         ],
         "light": "mixed",
@@ -15044,11 +15054,15 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
+          "place.imperial-fringe.slough-point",
           "place.mercantile-coast.alten-meerhleel",
-          "place.mercantile-coast.lilmoth"
+          "place.mercantile-coast.lilmoth",
+          "place.mercantile-coast.mudfoot",
+          "place.mercantile-coast.quinrawl-anchorage"
         ]
       },
       "services": [
@@ -15300,10 +15314,14 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
+          "place.imperial-fringe.slough-point",
           "place.mercantile-coast.alten-meerhleel",
+          "place.mercantile-coast.moonmarch",
+          "place.mercantile-coast.quinrawl-anchorage",
           "place.mercantile-coast.soulrest"
         ]
       },
@@ -15378,9 +15396,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -15469,7 +15485,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -15694,9 +15711,7 @@
           "place.mercantile-coast.oliis-ferry-stage"
         ],
         "supplies": [],
-        "rivals": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -15970,7 +15985,8 @@
           "place.mercantile-coast.lilmoth-beast-market"
         ],
         "rivals": [
-          "place.mercantile-coast.naga-camp-north-road"
+          "place.mercantile-coast.naga-camp-north-road",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -16233,19 +16249,20 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.mercantile-coast-necropolis-village-murkmire.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
             "id": "evidence.xul-vaat.a-particular-stake",
             "kind": "evidence",
-            "whereInInterior": "threshold"
+            "whereInInterior": "threshold",
+            "provision": "quest.provision.canon.grave-stakes"
           },
           {
             "id": "scene.xul-vaat.stake-reading",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.mercantile-coast-necropolis-village-murkmire.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden"
           },
           {
             "id": "station.xul-vaat.carving-shed",
@@ -16516,14 +16533,14 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.mercantile-coast-oliis-air-station.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "evidence.breathing-stone.name-slate",
             "kind": "evidence",
             "whereInInterior": "threshold"
+          },
+          {
+            "id": "socket.mercantile-coast-oliis-air-station.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           },
           {
             "id": "station.breathing-stone.rest",
@@ -16930,7 +16947,7 @@
           "WATER"
         ],
         "opportunity": null,
-        "tierOwnership": null
+        "tierOwnership": "LM14 · tier-3; LM58 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -17290,14 +17307,16 @@
       },
       "travelStation": {
         "modes": [
-          "ferry",
-          "boat"
+          "boat",
+          "canoe",
+          "ferry"
         ],
         "destinations": [
           "place.mercantile-coast.bramman-river-ferry",
           "place.mercantile-coast.bright-throat-village",
           "place.mercantile-coast.lilmoth",
-          "place.mercantile-coast.oliis-boardwalk"
+          "place.mercantile-coast.oliis-boardwalk",
+          "place.mercantile-coast.screen-watch"
         ]
       },
       "terrainRequests": [
@@ -18167,9 +18186,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -18267,7 +18284,8 @@
           "place.mercantile-coast.goldworks-concession"
         ],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       }
     },
@@ -18326,9 +18344,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -18425,7 +18441,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -19174,10 +19191,13 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
-          "place.mercantile-coast.moonmarch"
+          "place.imperial-fringe.slough-point",
+          "place.mercantile-coast.moonmarch",
+          "place.mercantile-coast.mudfoot"
         ]
       },
       "proseRefs": [
@@ -20088,8 +20108,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.lilmoth",
-          "place.mercantile-coast.keel-sakka-stilts"
+          "place.mercantile-coast.lilmoth"
         ],
         "travelServiceEdges": []
       },
@@ -20319,6 +20338,9 @@
       "relationsReserved": {
         "rivals": [
           "place.mercantile-coast.wallside-platforms"
+        ],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "sitingNote": "Its identity is a role in the network, the customs suburb astride Lilmoth's north-gate road, so it is bound to Lilmoth and that road rather than sited on merit (round 4 network-role pass)."
@@ -20377,9 +20399,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -20485,7 +20505,8 @@
           "place.mercantile-coast.illicit-sap-camp"
         ],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -20616,7 +20637,7 @@
         ],
         "tags": [],
         "opportunity": "Keep the river a rumour, open it as a road, or hand it to the customs office.",
-        "tierOwnership": "RS06 · tier-2; LM49 · tier-3; LM50 · tier-3; RS-line · tier-2"
+        "tierOwnership": "RS06 · tier-2; LM49 · tier-3; LM50 · tier-3; RS-line · tier-2; LM69 · tier-3; LM82 · tier-3; LM83 · tier-3; LM84 · tier-3"
       },
       "rumourPoolKey": "rumour.screen-watch",
       "deedCounterKeys": [],
@@ -20712,10 +20733,13 @@
       "travelStation": {
         "modes": [
           "boat",
+          "canoe",
           "pilot"
         ],
         "destinations": [
           "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.bright-throat-village",
+          "place.mercantile-coast.oliis-ferry-stage",
           "place.mercantile-coast.soulrest"
         ]
       },
@@ -21359,8 +21383,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage",
-          "place.mercantile-coast.keel-sakka-stilts"
+          "place.mercantile-coast.coast-road-stage"
         ],
         "travelServiceEdges": []
       },
@@ -21605,7 +21628,12 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.mercantile-coast.lilmoth"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ]
+      }
     },
     {
       "id": "place.mercantile-coast.smoulder-cuts",
@@ -21845,7 +21873,11 @@
         "orphaned Imperial magistrate (no jurisdiction, full procedure)",
         "Khajiit caravan factor",
         "river-interest broker for Bramman's water",
-        "tribal delegate lodging in the palace"
+        "tribal delegate lodging in the palace",
+        "the marine underwriter whose desk never moves",
+        "the keeper of the harbour den",
+        "the Reed-Sail Compact's route-keeper at the waterfront hall",
+        "the free pilot who takes divers out to the wrecks"
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -22518,9 +22550,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -22627,7 +22657,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       }
     },
@@ -22690,9 +22721,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -22791,7 +22820,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -23067,9 +23097,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "mixed",
@@ -23168,7 +23196,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -23236,9 +23265,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -23390,7 +23417,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -23704,9 +23732,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -23805,7 +23831,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -23878,9 +23905,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -23980,7 +24005,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -25964,8 +25990,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage",
-          "place.mercantile-coast.keel-sakka-stilts"
+          "place.mercantile-coast.coast-road-stage"
         ],
         "travelServiceEdges": []
       },
@@ -26149,7 +26174,12 @@
           "sourcePath": "why.founding",
           "placeRef": "place.mercantile-coast.alten-meerhleel"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ]
+      }
     },
     {
       "id": "place.mercantile-coast.teeth-of-sithis",
@@ -26209,8 +26239,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage",
-          "place.mercantile-coast.keel-sakka-stilts"
+          "place.mercantile-coast.coast-road-stage"
         ],
         "travelServiceEdges": []
       },
@@ -26414,6 +26443,17 @@
         ],
         "anchorSockets": [
           {
+            "id": "evidence.teeth.scrub-line-rule",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.teeth.colonnade-rite",
+            "kind": "scene",
+            "whereInInterior": "main",
+            "provision": "quest.provision.murkmire-teeth-of-sithis"
+          },
+          {
             "id": "socket.mercantile-coast-teeth-of-sithis.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -26424,23 +26464,13 @@
             "whereInInterior": "deep"
           },
           {
-            "id": "socket.mercantile-coast-teeth-of-sithis.shrine",
-            "kind": "shrine",
-            "whereInInterior": "main"
-          },
-          {
             "id": "socket.mercantile-coast-teeth-of-sithis.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
           },
           {
-            "id": "evidence.teeth.scrub-line-rule",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.teeth.colonnade-rite",
-            "kind": "scene",
+            "id": "socket.mercantile-coast-teeth-of-sithis.shrine",
+            "kind": "shrine",
             "whereInInterior": "main"
           },
           {
@@ -26503,6 +26533,9 @@
         ],
         "rivals": [
           "place.imperial-fringe.glenbridge"
+        ],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -26574,8 +26607,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage",
-          "place.mercantile-coast.keel-sakka-stilts"
+          "place.mercantile-coast.coast-road-stage"
         ],
         "travelServiceEdges": []
       },
@@ -26765,7 +26797,12 @@
           "sourcePath": "why.pressures",
           "placeRef": "place.mercantile-coast.lilmoth"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ]
+      }
     },
     {
       "id": "place.mercantile-coast.tidewrack-stilts",
@@ -26989,9 +27026,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -27103,7 +27138,8 @@
           "place.saxhleel-coast.derelict-timber-concession"
         ],
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       }
     },
@@ -27719,9 +27755,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -27827,7 +27861,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -28640,16 +28675,6 @@
         ],
         "anchorSockets": [
           {
-            "id": "socket.mercantile-coast-villa-cellars.cache",
-            "kind": "cache",
-            "whereInInterior": "hidden"
-          },
-          {
-            "id": "socket.mercantile-coast-villa-cellars.escape",
-            "kind": "escape",
-            "whereInInterior": "entrance"
-          },
-          {
             "id": "evidence.villa-cellars.abandoned-rope",
             "kind": "evidence",
             "whereInInterior": "threshold"
@@ -28658,6 +28683,17 @@
             "id": "scene.villa-cellars.mosaic-floor",
             "kind": "scene",
             "whereInInterior": "main"
+          },
+          {
+            "id": "socket.mercantile-coast-villa-cellars.cache",
+            "kind": "cache",
+            "whereInInterior": "hidden",
+            "provision": "quest.provision.lilmoth-pusbottom-vault"
+          },
+          {
+            "id": "socket.mercantile-coast-villa-cellars.escape",
+            "kind": "escape",
+            "whereInInterior": "entrance"
           }
         ],
         "light": "bioluminescent",
@@ -28757,9 +28793,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -28860,7 +28894,12 @@
           "sourcePath": "why.founding",
           "itemRef": "item.vossa-satl"
         }
-      ]
+      ],
+      "relationsReserved": {
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ]
+      }
     },
     {
       "id": "place.mercantile-coast.wallside-platforms",
@@ -29425,6 +29464,22 @@
         ],
         "anchorSockets": [
           {
+            "id": "evidence.white-rose.commitment-roll",
+            "kind": "evidence",
+            "whereInInterior": "threshold",
+            "provision": "quest.provision.whiterose-prison-ruin"
+          },
+          {
+            "id": "evidence.white-rose.repatriation-tally",
+            "kind": "evidence",
+            "whereInInterior": "threshold"
+          },
+          {
+            "id": "scene.white-rose.open-gate",
+            "kind": "scene",
+            "whereInInterior": "main"
+          },
+          {
             "id": "socket.mercantile-coast-white-rose-prison.boss",
             "kind": "boss",
             "whereInInterior": "deep"
@@ -29437,27 +29492,13 @@
           {
             "id": "socket.mercantile-coast-white-rose-prison.cache",
             "kind": "cache",
-            "whereInInterior": "hidden"
+            "whereInInterior": "hidden",
+            "provision": "quest.provision.whiterose-prison-ruin"
           },
           {
             "id": "socket.mercantile-coast-white-rose-prison.escape",
             "kind": "escape",
             "whereInInterior": "entrance"
-          },
-          {
-            "id": "evidence.white-rose.commitment-roll",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "evidence.white-rose.repatriation-tally",
-            "kind": "evidence",
-            "whereInInterior": "threshold"
-          },
-          {
-            "id": "scene.white-rose.open-gate",
-            "kind": "scene",
-            "whereInInterior": "main"
           }
         ],
         "light": "mixed",
@@ -29536,7 +29577,7 @@
         "variant": "wrecking",
         "magnitude": null
       },
-      "status": "active",
+      "status": "cut",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -30523,9 +30564,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -30662,7 +30701,8 @@
       },
       "relationsReserved": {
         "reachedVia": [
-          "place.mercantile-coast.coast-road-stage"
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
         ]
       },
       "proseRefs": [
@@ -30945,7 +30985,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.mercantile-coast.keel-sakka-stilts",
           "place.mercantile-coast.coast-road-stage"
         ],
         "travelServiceEdges": []
@@ -31147,6 +31186,11 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ]
       }
     },
     {

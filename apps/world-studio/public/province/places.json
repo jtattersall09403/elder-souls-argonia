@@ -35,7 +35,7 @@
       "group": "faction",
       "label": "Many-Root",
       "line": "quest.line.many-root",
-      "places": 13
+      "places": 14
     },
     {
       "group": "faction",
@@ -59,7 +59,7 @@
       "group": "faction",
       "label": "Reed-Sail",
       "line": "quest.line.reed-sail",
-      "places": 11
+      "places": 13
     },
     {
       "group": "faction",
@@ -101,13 +101,13 @@
       "group": "local",
       "label": "local",
       "line": null,
-      "places": 400
+      "places": 402
     },
     {
       "group": "proposed",
       "label": "proposed",
       "line": null,
-      "places": 48
+      "places": 49
     }
   ],
   "places": [
@@ -2475,7 +2475,8 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           {
@@ -2485,6 +2486,14 @@
           {
             "id": "place.dunmer-north.murkwater",
             "name": "Murkwater"
+          },
+          {
+            "id": "place.dunmer-north.riverwalk",
+            "name": "Riverwalk"
+          },
+          {
+            "id": "place.dunmer-north.the-tide-fair",
+            "name": "Tide Fair"
           }
         ]
       },
@@ -2821,9 +2830,14 @@
       "travelStation": {
         "modes": [
           "boat",
+          "canoe",
           "guide"
         ],
         "destinations": [
+          {
+            "id": "place.dunmer-north.the-black-stage",
+            "name": "Black Stage"
+          },
           {
             "id": "place.dunmer-north.the-last-landing",
             "name": "Last Landing"
@@ -3427,7 +3441,8 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           {
@@ -3447,8 +3462,16 @@
             "name": "Reedmoor"
           },
           {
+            "id": "place.dunmer-north.riverwalk",
+            "name": "Riverwalk"
+          },
+          {
             "id": "place.dunmer-north.stormhold",
             "name": "Stormhold"
+          },
+          {
+            "id": "place.dunmer-north.the-tide-fair",
+            "name": "Tide Fair"
           },
           {
             "id": "place.pirate-freeholds.alten-corimont",
@@ -3808,10 +3831,6 @@
         ],
         "destinations": [
           {
-            "id": "place.dunmer-north.the-field-gate-garrison",
-            "name": "Field Gate"
-          },
-          {
             "id": "place.dunmer-north.wolk-market",
             "name": "Wolk Market"
           }
@@ -3820,8 +3839,98 @@
       "questProvisions": [
         "quest.provision.reed-writ-enforcement-point"
       ],
-      "tierOwnership": "LV34 · tier-3; LV35 · tier-3; PP13 · tier-3; Reed track · tier-2",
+      "tierOwnership": "LV34 · tier-3; LV35 · tier-3; PP13 · tier-3; Reed track · tier-2; LD95 · tier-3; LD96 · tier-3; LD97 · tier-3; LD98 · tier-3; LD99 · tier-3; LV01 · tier-3; LV02 · tier-3; LV03 · tier-3; LV04 · tier-3; LV05 · tier-3",
       "questLinks": [
+        {
+          "code": "LD95",
+          "title": "Passes and Permits",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LD96",
+          "title": "The Records Outlive the Village",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LD97",
+          "title": "Still Drawing on a Dead Road",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LD98",
+          "title": "A District's Weapons, Buried",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LD99",
+          "title": "The Winter Causeway",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LV01",
+          "title": "Who Is Coming",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LV02",
+          "title": "The Saltrice Line",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LV03",
+          "title": "Stopped Mid-Course on Purpose",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LV04",
+          "title": "What Could Not Be Carried",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LV05",
+          "title": "The Levy's Own Man",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
         {
           "code": "LV34",
           "title": "Eight Other Fords",
@@ -4421,12 +4530,21 @@
       "travelStation": {
         "modes": [
           "boat",
+          "canoe",
           "ferry"
         ],
         "destinations": [
           {
             "id": "place.dunmer-north.channel-cross-village",
             "name": "Channel Cross"
+          },
+          {
+            "id": "place.dunmer-north.hissmir",
+            "name": "Hissmir"
+          },
+          {
+            "id": "place.dunmer-north.murkwater",
+            "name": "Murkwater"
           },
           {
             "id": "place.dunmer-north.reedmoor-stilts",
@@ -4439,6 +4557,10 @@
           {
             "id": "place.dunmer-north.the-last-landing",
             "name": "Last Landing"
+          },
+          {
+            "id": "place.dunmer-north.the-tide-fair",
+            "name": "Tide Fair"
           }
         ]
       },
@@ -6594,12 +6716,17 @@
       "travelStation": {
         "modes": [
           "boat",
+          "canoe",
           "ferry"
         ],
         "destinations": [
           {
             "id": "place.dunmer-north.hixinoag",
             "name": "Hixinoag"
+          },
+          {
+            "id": "place.dunmer-north.hutan-tzel",
+            "name": "Hutan-Tzel"
           },
           {
             "id": "place.dunmer-north.stormhold",
@@ -7336,24 +7463,10 @@
         6248.5,
         298.9
       ],
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 2,
-        "distanceToRouteM": 155.2,
-        "distanceToWaterM": 73.6,
-        "water": {
-          "entityId": "body.3364-188",
-          "kind": "pond",
-          "levelM": 71.42,
-          "season": "perennial",
-          "distanceM": 73.6
-        },
-        "score": 3.125
-      },
-      "whySiteWon": "firm ground in upland hills (danger band 2), 155 m from the nearest route; its choice #3 landform; won on route, landform, hinterland.",
+      "plotFacts": null,
+      "whySiteWon": null,
       "why": {
-        "founding": "On a hammock the ground is precious and the crown is dry, so Stands-On-The-Hammock puts its dead in the canopy rather than in the ground. The terrace is a platform in the canopy, above the houses and above the flood.",
+        "founding": "On a hammock the ground is precious and the crown is dry, so the households here put their dead in the canopy rather than in the ground. The terrace is a platform in that canopy, above the houses and above the flood, an hour up the hammock from Last Landing and within a day's traffic of Thorn.",
         "siteAdvantages": "The hammock's tallest stand, with three trunks close enough to carry a terrace and a canopy dense enough to hide it from the marsh.",
         "occupantsMotive": "The hammock's whole population, by turns. Tending the terrace is a rotating duty. A household that refuses its turn is put off the hammock.",
         "pressures": "The terrace is full. The village is arguing whether to build a second, extend this one, or start burying in the soil after all.",
@@ -7361,7 +7474,7 @@
       },
       "hardConstraints": [
         "three trunks close enough to carry a terrace",
-        "part of Stands-On-The-Hammock"
+        "on the same hammock as the houses it serves"
       ],
       "reachedVia": [
         "place.dunmer-north.climbs-to-see",
@@ -10808,7 +10921,7 @@
         "clearable": false,
         "respawn": "none",
         "flips": [
-          "→ hostile when placeStanceIs place.dunmer-north.rope-field hostile [occupantGroup]"
+          "→ hostile when placeStanceIs place.dunmer-north.the-dres-rows hostile [occupantGroup]"
         ]
       },
       "interiorDetail": null,
@@ -13160,9 +13273,22 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
+          {
+            "id": "place.dunmer-north.hissmir",
+            "name": "Hissmir"
+          },
+          {
+            "id": "place.dunmer-north.murkwater",
+            "name": "Murkwater"
+          },
+          {
+            "id": "place.dunmer-north.riverwalk",
+            "name": "Riverwalk"
+          },
           {
             "id": "place.dunmer-north.tearmouth",
             "name": "Tearmouth"
@@ -14307,10 +14433,6 @@
           {
             "id": "place.dunmer-north.tearmouth",
             "name": "Tearmouth"
-          },
-          {
-            "id": "place.dunmer-north.the-field-gate-garrison",
-            "name": "Field Gate"
           },
           {
             "id": "place.dunmer-north.the-last-landing",
@@ -26824,7 +26946,17 @@
           "ledger-or-document · rumour · tier-2 · a share tally everyone disputes"
         ]
       },
-      "travelStation": null,
+      "travelStation": {
+        "modes": [
+          "canoe"
+        ],
+        "destinations": [
+          {
+            "id": "place.saxhleel-coast.portdun-mont",
+            "name": "Portdun Mont"
+          }
+        ]
+      },
       "questProvisions": [
         "quest.provision.lq22-anchor"
       ],
@@ -30119,8 +30251,17 @@
       "questProvisions": [
         "quest.provision.hist02"
       ],
-      "tierOwnership": "MQ15 · tier-0; LF73 · tier-3; LF74 · tier-3; LF75 · tier-3",
+      "tierOwnership": "MQ15 · tier-0; LF73 · tier-3; LF74 · tier-3; LF75 · tier-3; LF56 · tier-3; LF76 · tier-3; LF77 · tier-3; LF78 · tier-3",
       "questLinks": [
+        {
+          "code": "LF56",
+          "title": "Silence for the Stone-Talkers",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
         {
           "code": "LF73",
           "title": "The Westernmost Hist",
@@ -30142,6 +30283,33 @@
         {
           "code": "LF75",
           "title": "The Village at the Marsh's Limit",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF76",
+          "title": "Holds-The-Stone, Holds-The-Grudge",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF77",
+          "title": "The Terrace That Was Swept",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LF78",
+          "title": "Two Ladders, One Wall",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -35284,9 +35452,18 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
+          {
+            "id": "place.imperial-fringe.bonded-shed-of-the-onkobra",
+            "name": "Bonded Shed"
+          },
+          {
+            "id": "place.imperial-fringe.fig-market",
+            "name": "Fig Market"
+          },
           {
             "id": "place.imperial-fringe.gideon",
             "name": "Gideon"
@@ -35296,12 +35473,16 @@
             "name": "Onkobra Ferry"
           },
           {
-            "id": "place.imperial-fringe.fig-market",
-            "name": "Fig Market"
+            "id": "place.mercantile-coast.moonmarch",
+            "name": "Moonmarch"
           },
           {
-            "id": "place.imperial-fringe.bonded-shed-of-the-onkobra",
-            "name": "Bonded Shed"
+            "id": "place.mercantile-coast.mudfoot",
+            "name": "Mudfoot"
+          },
+          {
+            "id": "place.mercantile-coast.quinrawl-anchorage",
+            "name": "Quin'rawl Anchorage"
           }
         ]
       },
@@ -35513,10 +35694,6 @@
           {
             "id": "place.imperial-fringe.the-ravine-doors",
             "name": "The Ravine Doors"
-          },
-          {
-            "id": "place.imperial-fringe.the-stone-talkers-watch",
-            "name": "Holds-The-Stone"
           }
         ]
       },
@@ -35634,10 +35811,6 @@
           "guide"
         ],
         "destinations": [
-          {
-            "id": "place.imperial-fringe.the-stone-talkers-watch",
-            "name": "Holds-The-Stone"
-          },
           {
             "id": "place.imperial-fringe.fenmarch-village",
             "name": "Fenmarch"
@@ -42706,8 +42879,7 @@
         "commands an old strategic line"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "document",
       "valueTier": "tier-3",
@@ -42817,8 +42989,7 @@
         "standing water at the base"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "road",
       "valueTier": "tier-3",
@@ -42977,16 +43148,12 @@
         ],
         "destinations": [
           {
-            "id": "place.imperial-penal-south.longmont",
-            "name": "Longmont"
+            "id": "place.imperial-penal-south.lake-divers-yard",
+            "name": "The Barge Yard"
           },
           {
-            "id": "place.imperial-penal-south.west-market-town",
-            "name": "Threewater"
-          },
-          {
-            "id": "place.imperial-penal-south.three-gate-toll",
-            "name": "Three Gates"
+            "id": "place.imperial-penal-south.manned-toll-tower",
+            "name": "The Water Reckoning"
           },
           {
             "id": "place.imperial-penal-south.lake-ferry-stage",
@@ -42999,7 +43166,7 @@
         ]
       },
       "questProvisions": [],
-      "tierOwnership": "LR01 · tier-3; LR02 · tier-3; LR03 · tier-3; LR04 · tier-3; LR05 · tier-3; LR06 · tier-3; LR07 · tier-3; LR08 · tier-3; LR09 · tier-3; LR10 · tier-3; LR11 · tier-3; LR12 · tier-3; LR13 · tier-3; LR14 · tier-3; LR15 · tier-3; LR16 · tier-3; LR17 · tier-3; LR18 · tier-3; LR19 · tier-3; LR20 · tier-3; LR21 · tier-3; LR22 · tier-3; LR23 · tier-3; LR24 · tier-3; LR25 · tier-3; LR26 · tier-3; LR27 · tier-3; LR28 · tier-3; LR29 · tier-3; LR30 · tier-3; LR31 · tier-3; LR32 · tier-3; LR33 · tier-3; LR34 · tier-3; LR35 · tier-3; LR61 · tier-3; tier-0",
+      "tierOwnership": "LR01 · tier-3; LR02 · tier-3; LR03 · tier-3; LR04 · tier-3; LR05 · tier-3; LR06 · tier-3; LR07 · tier-3; LR08 · tier-3; LR09 · tier-3; LR10 · tier-3; LR11 · tier-3; LR12 · tier-3; LR13 · tier-3; LR14 · tier-3; LR15 · tier-3; LR16 · tier-3; LR17 · tier-3; LR18 · tier-3; LR19 · tier-3; LR20 · tier-3; LR21 · tier-3; LR22 · tier-3; LR23 · tier-3; LR24 · tier-3; LR25 · tier-3; LR26 · tier-3; LR27 · tier-3; LR28 · tier-3; LR29 · tier-3; LR30 · tier-3; LR31 · tier-3; LR32 · tier-3; LR33 · tier-3; LR34 · tier-3; LR35 · tier-3; LR61 · tier-3; tier-0; LR56 · tier-3; LR57 · tier-3; LR58 · tier-3; LR59 · tier-3; LR60 · tier-3; RS04 · tier-2",
       "questLinks": [
         {
           "code": "LR01",
@@ -43317,12 +43484,66 @@
           "role": "owner"
         },
         {
+          "code": "LR56",
+          "title": "The Register Below",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR57",
+          "title": "The Second Stage",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR58",
+          "title": "Who Reads the Water",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR59",
+          "title": "Three Gates, One Book",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR60",
+          "title": "Tolled in Person",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
           "code": "LR61",
           "title": "Provocation",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
           "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "RS04",
+          "title": "The Drowned Toll",
+          "line": "quest.line.reed-sail",
+          "lineName": "Reed-Sail",
+          "group": "faction",
+          "tier": 2,
           "role": "owner"
         }
       ],
@@ -43378,7 +43599,6 @@
         "inland of the coast plain, on the Blackrose lake system"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-ferry-stage"
       ],
       "discovery": "road",
@@ -43641,8 +43861,7 @@
         "dry, sealed"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.rose-supply-town",
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "discovery": "rumour",
       "valueTier": "tier-3",
@@ -43756,7 +43975,6 @@
         "at the head of a screened lagoon, hidden from the open water"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-ferry-stage"
       ],
       "discovery": "rumour",
@@ -43798,27 +44016,51 @@
       "travelStation": {
         "modes": [
           "boat",
+          "ferry",
           "pilot"
         ],
         "destinations": [
           {
             "id": "place.imperial-penal-south.blackrose",
             "name": "Blackrose"
-          },
-          {
-            "id": "place.imperial-penal-south.west-market-town",
-            "name": "Threewater"
           }
         ]
       },
       "questProvisions": [
         "quest.provision.canon.brammans-river"
       ],
-      "tierOwnership": "LR48 · tier-3; RS-line · tier-2",
+      "tierOwnership": "LR48 · tier-3; RS-line · tier-2; LR53 · tier-3; LR54 · tier-3; LR55 · tier-3",
       "questLinks": [
         {
           "code": "LR48",
           "title": "Bramman's Head",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR53",
+          "title": "Under the Boards",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR54",
+          "title": "The Night Poles",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR55",
+          "title": "Lake Meer",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -43885,9 +44127,7 @@
       "hardConstraints": [
         "escape route by water"
       ],
-      "reachedVia": [
-        "place.imperial-penal-south.longmont"
-      ],
+      "reachedVia": [],
       "discovery": "rumour",
       "valueTier": "tier-3",
       "purpose": "faction-gateway (real) + safe-rest, social-drama, quest-anchor",
@@ -44030,13 +44270,12 @@
         "on the cordon line"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.rose-supply-town",
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "discovery": "rumour",
       "valueTier": "tier-3",
       "purpose": "stealth-challenge (real) + combat-challenge, faction-gateway, lore-reveal",
-      "hook": "The Owing's distraint from Longmont to the Rose is racked in here, tagged and dated. Never-Sold's people have spent a year trying to read the tags.",
+      "hook": "The Owing's distraint from the lake villages to the Rose is racked in here, tagged and dated. Never-Sold's people have spent a year trying to read the tags.",
       "stance": "hostile",
       "interior": "delve · imperial-fort · S2 · wet 0%",
       "purposeDetail": {
@@ -44174,7 +44413,6 @@
         "inland of the coast plain, on the Blackrose lake system"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-ferry-stage"
       ],
       "discovery": "road",
@@ -44298,7 +44536,6 @@
         "running under the levee toward place.imperial-penal-south.blackrose-prison, its landward mouth outside the Rose's walls"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-divers-yard"
       ],
       "discovery": "document",
@@ -44421,7 +44658,6 @@
         "at a shoaling sill in a confined channel"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-ferry-stage"
       ],
       "discovery": "road",
@@ -44525,8 +44761,7 @@
         "varies"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.rose-supply-town",
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "discovery": "road",
       "valueTier": "tier-2",
@@ -44783,8 +45018,7 @@
         "commands something that no longer matters"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "road",
       "valueTier": "tier-3",
@@ -44897,8 +45131,7 @@
         "coastal and riverine — they were sea-going"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "document",
       "valueTier": "tier-3",
@@ -45008,7 +45241,6 @@
         "beside drowned ground"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-ferry-stage"
       ],
       "discovery": "road",
@@ -45056,7 +45288,22 @@
           "ledger-or-document · map-knowledge · tier-2 · the sinkings chart, kept as bookkeeping"
         ]
       },
-      "travelStation": null,
+      "travelStation": {
+        "modes": [
+          "ferry",
+          "boat"
+        ],
+        "destinations": [
+          {
+            "id": "place.imperial-penal-south.bramman-head",
+            "name": "Bramman's Head"
+          },
+          {
+            "id": "place.imperial-penal-south.manned-toll-tower",
+            "name": "The Water Reckoning"
+          }
+        ]
+      },
       "questProvisions": [],
       "tierOwnership": "LR17 · tier-3; PP04 · tier-3",
       "questLinks": [
@@ -45129,9 +45376,7 @@
       "hardConstraints": [
         "on a boat lane, on firm shelving shore"
       ],
-      "reachedVia": [
-        "place.imperial-penal-south.longmont"
-      ],
+      "reachedVia": [],
       "discovery": "road",
       "valueTier": "tier-1",
       "purpose": "navigation-aid (mild) + service-hub",
@@ -45176,12 +45421,12 @@
             "name": "Blackrose"
           },
           {
-            "id": "place.imperial-penal-south.longmont",
-            "name": "Longmont"
+            "id": "place.imperial-penal-south.lake-divers-yard",
+            "name": "The Barge Yard"
           },
           {
-            "id": "place.imperial-penal-south.lake-boardwalk-village",
-            "name": "Spine"
+            "id": "place.imperial-penal-south.bramman-head",
+            "name": "Bramman's Head"
           }
         ]
       },
@@ -45267,7 +45512,6 @@
         "submerged"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-ferry-stage"
       ],
       "discovery": "rumour",
@@ -45363,22 +45607,8 @@
         1647.8,
         5020.2
       ],
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 35.1,
-        "distanceToWaterM": 24.5,
-        "water": {
-          "entityId": "body.894-2731",
-          "kind": "marsh-deep",
-          "levelM": 4.7,
-          "season": "perennial",
-          "distanceM": 24.5
-        },
-        "score": 1.418
-      },
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 35 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, parent, hinterland; placed from the homeless batch at stage 'eviction-repair'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": null,
+      "whySiteWon": null,
       "why": {
         "founding": "The Blackguards' heirs of the Blackrose region run their business as a counting house. What they inherited from the Rose was its ledger.",
         "siteAdvantages": "An unremarkable water-house on a settled back channel with three exits and a clear view of the toll quay. The ground here is safe. The house is guarded.",
@@ -45389,9 +45619,7 @@
       "hardConstraints": [
         "boat access, concealed"
       ],
-      "reachedVia": [
-        "place.imperial-penal-south.longmont"
-      ],
+      "reachedVia": [],
       "discovery": "rumour",
       "valueTier": "tier-3",
       "purpose": "combat-challenge (real) + faction-gateway, stealth-challenge, social-drama",
@@ -45506,8 +45734,7 @@
         "within 400 m of Blackrose — the city stands on it"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "sightline",
       "valueTier": "tier-3",
@@ -45625,8 +45852,7 @@
         "commands a channel or a road"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.rose-supply-town",
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "discovery": "document",
       "valueTier": "tier-2",
@@ -45672,11 +45898,27 @@
           "ledger-or-document · rumour · tier-1 · thirty years of hull counts"
         ]
       },
-      "travelStation": null,
+      "travelStation": {
+        "modes": [
+          "ferry",
+          "boat"
+        ],
+        "destinations": [
+          {
+            "id": "place.imperial-penal-south.lake-divers-yard",
+            "name": "The Barge Yard"
+          },
+          {
+            "id": "place.imperial-penal-south.rose-supply-town",
+            "name": "Vaunting"
+          }
+        ]
+      },
       "questProvisions": [
-        "quest.provision.reed-writ-enforcement-point"
+        "quest.provision.reed-writ-enforcement-point",
+        "quest.provision.rs04-anchor"
       ],
-      "tierOwnership": "LR02 · tier-3; LR08 · tier-3; LR54 · tier-3; Reed track · tier-2",
+      "tierOwnership": "LR02 · tier-3; LR08 · tier-3; LR54 · tier-3; Reed track · tier-2; LR45 · tier-3; LR59 · tier-3; LR60 · tier-3; RS04 · tier-3",
       "questLinks": [
         {
           "code": "LR02",
@@ -45697,12 +45939,48 @@
           "role": "owner"
         },
         {
+          "code": "LR45",
+          "title": "Off the Blackwood Road",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
           "code": "LR54",
           "title": "The Night Poles",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
           "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR59",
+          "title": "Three Gates, One Book",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR60",
+          "title": "Tolled in Person",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "RS04",
+          "title": "The Drowned Toll",
+          "line": "quest.line.reed-sail",
+          "lineName": "Reed-Sail",
+          "group": "faction",
+          "tier": 2,
           "role": "owner"
         }
       ],
@@ -45757,8 +46035,7 @@
         "wallows and deep marsh"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "road",
       "valueTier": "tier-4",
@@ -45868,8 +46145,7 @@
         "deep marsh, never firm lowland or coast"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "document",
       "valueTier": "tier-5",
@@ -45982,7 +46258,6 @@
         "submerged entrance"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-ferry-stage"
       ],
       "discovery": "rumour",
@@ -46091,8 +46366,7 @@
         "at a ruin"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.rose-supply-town",
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "discovery": "rumour",
       "valueTier": "tier-4",
@@ -46206,8 +46480,7 @@
         "uses water as part of the line where it can"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.rose-supply-town",
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "discovery": "document",
       "valueTier": "tier-1",
@@ -46303,9 +46576,7 @@
       "hardConstraints": [
         "wherever they were allowed to stop"
       ],
-      "reachedVia": [
-        "place.imperial-penal-south.longmont"
-      ],
+      "reachedVia": [],
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "social-drama (real) + safe-rest, lore-reveal",
@@ -46427,8 +46698,7 @@
         "dry ground with a view of the target"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "document",
       "valueTier": "tier-2",
@@ -46526,15 +46796,13 @@
         "founding": "A village south-west of Blackrose, built along a natural levee around a hard spring that runs clear when the flats are brown.",
         "siteAdvantages": "A levee crest a metre above every recorded flood, with a rock spring rising on it.",
         "occupantsMotive": "The spring is the asset. In a bad year the village sells water to boats by the cup.",
-        "pressures": "They want Longmont's freight trade. The feeder is too shallow for laden hulls.",
-        "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village and end Longmont's monopoly."
+        "pressures": "They want the lake landings' freight trade. The feeder is too shallow for laden hulls.",
+        "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village. The lake landings' monopoly on that trade would end."
       },
       "hardConstraints": [
         "above the seasonal maximum, beside a channel"
       ],
-      "reachedVia": [
-        "place.imperial-penal-south.west-market-town"
-      ],
+      "reachedVia": [],
       "discovery": "road",
       "valueTier": "tier-1",
       "purpose": "safe-rest (mild) + resource-source",
@@ -46578,11 +46846,38 @@
       },
       "travelStation": null,
       "questProvisions": [],
-      "tierOwnership": "LR46 · tier-3; LR62 · tier-3",
+      "tierOwnership": "LR46 · tier-3; LR62 · tier-3; LR53 · tier-3; LR54 · tier-3; LR55 · tier-3",
       "questLinks": [
         {
           "code": "LR46",
           "title": "Rockspring's Water",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR53",
+          "title": "Under the Boards",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR54",
+          "title": "The Night Poles",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR55",
+          "title": "Lake Meer",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -46650,8 +46945,7 @@
         "on a walked or poled route"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.rose-supply-town",
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "discovery": "road",
       "valueTier": "tier-2",
@@ -46788,7 +47082,6 @@
         "a flooded stair under the prison yard"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.longmont",
         "place.imperial-penal-south.lake-ferry-stage"
       ],
       "discovery": "document",
@@ -47054,9 +47347,7 @@
       "hardConstraints": [
         "at a crossing or a road"
       ],
-      "reachedVia": [
-        "place.imperial-penal-south.three-gate-toll"
-      ],
+      "reachedVia": [],
       "discovery": "road",
       "valueTier": "tier-3",
       "purpose": "service-hub (real) + safe-rest, faction-gateway, social-drama",
@@ -47110,8 +47401,8 @@
         ],
         "destinations": [
           {
-            "id": "place.imperial-penal-south.three-gate-toll",
-            "name": "Three Gates"
+            "id": "place.imperial-penal-south.manned-toll-tower",
+            "name": "The Water Reckoning"
           },
           {
             "id": "place.imperial-penal-south.blackrose",
@@ -47120,13 +47411,23 @@
         ]
       },
       "questProvisions": [
-        "quest.provision.lq04-anchor"
+        "quest.provision.lq04-anchor",
+        "quest.provision.lq25-anchor"
       ],
-      "tierOwnership": "LQ04 · tier-3; LR36 · tier-3; LR37 · tier-3; LR38 · tier-3; LR39 · tier-3; LR40 · tier-3; LR41 · tier-3; LR42 · tier-3; LR43 · tier-3; PP05 · tier-3",
+      "tierOwnership": "LQ04 · tier-3; LR36 · tier-3; LR37 · tier-3; LR38 · tier-3; LR39 · tier-3; LR40 · tier-3; LR41 · tier-3; LR42 · tier-3; LR43 · tier-3; PP05 · tier-3; LQ25 · tier-3; LR45 · tier-3; LR44 · tier-3; LR46 · tier-3; LR47 · tier-3; LR48 · tier-3; LR49 · tier-3; LR50 · tier-3; LR51 · tier-3; LR52 · tier-3",
       "questLinks": [
         {
           "code": "LQ04",
           "title": "The Prisoner Who Stayed",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LQ25",
+          "title": "The River Monster's Rent",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -47206,6 +47507,87 @@
           "role": "owner"
         },
         {
+          "code": "LR44",
+          "title": "Three Waters, One Price",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR45",
+          "title": "Off the Blackwood Road",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR46",
+          "title": "Rockspring's Water",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR47",
+          "title": "Wide-Furrow",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR48",
+          "title": "Bramman's Head",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR49",
+          "title": "Ash-Hand",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR50",
+          "title": "The Trodden Ground",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR51",
+          "title": "A Dead Licence",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR52",
+          "title": "The Sealed Vault",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
           "code": "PP05",
           "title": "Cordon Two, Under-Stores",
           "line": "quest.line.proposed",
@@ -47265,9 +47647,7 @@
       "hardConstraints": [
         "flood-fed and drained, sluiced"
       ],
-      "reachedVia": [
-        "place.imperial-penal-south.three-gate-toll"
-      ],
+      "reachedVia": [],
       "discovery": "road",
       "valueTier": "tier-3",
       "purpose": "dungeon-delve (real) + combat-challenge, lore-reveal",
@@ -47314,9 +47694,20 @@
         ]
       },
       "travelStation": null,
-      "questProvisions": [],
-      "tierOwnership": "LR47 · tier-3",
+      "questProvisions": [
+        "quest.provision.mr09-anchor"
+      ],
+      "tierOwnership": "LR47 · tier-3; LR34 · tier-3; LR56 · tier-3; MR09 · tier-3",
       "questLinks": [
+        {
+          "code": "LR34",
+          "title": "What Under-Longmont Sends Back",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
         {
           "code": "LR47",
           "title": "Wide-Furrow",
@@ -47324,6 +47715,24 @@
           "lineName": "Local quests",
           "group": "local",
           "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LR56",
+          "title": "The Register Below",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "MR09",
+          "title": "The Price of Guidance",
+          "line": "quest.line.many-root",
+          "lineName": "Many-Root",
+          "group": "faction",
+          "tier": 2,
           "role": "owner"
         }
       ],
@@ -47378,8 +47787,7 @@
         "drainage is the cruelty"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.rose-supply-town",
-        "place.imperial-penal-south.three-gate-toll"
+        "place.imperial-penal-south.rose-supply-town"
       ],
       "discovery": "document",
       "valueTier": "tier-3",
@@ -47501,8 +47909,7 @@
         "where an army could deploy — rare here"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "rumour",
       "valueTier": "tier-3",
@@ -47614,8 +48021,7 @@
         "under a ruined works"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "document",
       "valueTier": "tier-4",
@@ -47725,8 +48131,7 @@
         "open standing water on a night route"
       ],
       "reachedVia": [
-        "place.imperial-penal-south.bramman-head",
-        "place.imperial-penal-south.west-market-town"
+        "place.imperial-penal-south.bramman-head"
       ],
       "discovery": "road",
       "valueTier": "tier-2",
@@ -47827,8 +48232,7 @@
         "within a boat-hour of place.mercantile-coast.soulrest, on a wreck ground the salvage market has a live claim on"
       ],
       "reachedVia": [
-        "place.mercantile-coast.bramman-river-ferry",
-        "place.mercantile-coast.whitebone-reef"
+        "place.mercantile-coast.bramman-river-ferry"
       ],
       "discovery": "rumour",
       "valueTier": "tier-3",
@@ -47949,8 +48353,7 @@
         "sheltered navigable water off the legal lanes"
       ],
       "reachedVia": [
-        "place.mercantile-coast.coast-road-stage",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.coast-road-stage"
       ],
       "discovery": "road",
       "valueTier": "tier-3",
@@ -48431,9 +48834,7 @@
       "hardConstraints": [
         "as a hist-village"
       ],
-      "reachedVia": [
-        "place.mercantile-coast.keel-sakka-stilts"
-      ],
+      "reachedVia": [],
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "social-drama (real) + safe-rest, quest-anchor, lore-reveal",
@@ -48965,7 +49366,8 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           {
@@ -48975,6 +49377,10 @@
           {
             "id": "place.mercantile-coast.oliis-ferry-stage",
             "name": "Estuary Stage"
+          },
+          {
+            "id": "place.mercantile-coast.screen-watch",
+            "name": "Screen-Watch"
           }
         ]
       },
@@ -49671,9 +50077,7 @@
       "hardConstraints": [
         "a wooded rise in permanent marsh, reached only by water"
       ],
-      "reachedVia": [
-        "place.mercantile-coast.keel-sakka-stilts"
-      ],
+      "reachedVia": [],
       "discovery": "road",
       "valueTier": "tier-3",
       "purpose": "dungeon-delve (real) + combat-challenge, lore-reveal",
@@ -49882,9 +50286,7 @@
       "hardConstraints": [
         "a river terrace that floods seasonally, with slack water at its foot"
       ],
-      "reachedVia": [
-        "place.mercantile-coast.keel-sakka-stilts"
-      ],
+      "reachedVia": [],
       "discovery": "road",
       "valueTier": "tier-2",
       "purpose": "service-hub (real) + safe-rest, social-drama, resource-source",
@@ -50237,9 +50639,7 @@
       "hardConstraints": [
         "channel bank or spring, always with a landing"
       ],
-      "reachedVia": [
-        "place.mercantile-coast.keel-sakka-stilts"
-      ],
+      "reachedVia": [],
       "discovery": "road",
       "valueTier": "tier-3",
       "purpose": "dungeon-delve (real) + combat-challenge, lore-reveal",
@@ -50686,8 +51086,7 @@
         "spring or still water at the root"
       ],
       "reachedVia": [
-        "place.mercantile-coast.coast-road-stage",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.coast-road-stage"
       ],
       "discovery": "rumour",
       "valueTier": "tier-3",
@@ -50970,10 +51369,6 @@
           {
             "id": "place.mercantile-coast.alten-meerhleel",
             "name": "Alten Meerhleel"
-          },
-          {
-            "id": "place.mercantile-coast.keel-sakka-stilts",
-            "name": "Keel-Sakka Landing"
           },
           {
             "id": "place.mercantile-coast.lighter-flotilla",
@@ -51788,9 +52183,14 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
+          {
+            "id": "place.imperial-fringe.slough-point",
+            "name": "Slough Point"
+          },
           {
             "id": "place.mercantile-coast.alten-meerhleel",
             "name": "Alten Meerhleel"
@@ -51798,6 +52198,14 @@
           {
             "id": "place.mercantile-coast.lilmoth",
             "name": "Lilmoth"
+          },
+          {
+            "id": "place.mercantile-coast.mudfoot",
+            "name": "Mudfoot"
+          },
+          {
+            "id": "place.mercantile-coast.quinrawl-anchorage",
+            "name": "Quin'rawl Anchorage"
           }
         ]
       },
@@ -51922,12 +52330,25 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           {
+            "id": "place.imperial-fringe.slough-point",
+            "name": "Slough Point"
+          },
+          {
             "id": "place.mercantile-coast.alten-meerhleel",
             "name": "Alten Meerhleel"
+          },
+          {
+            "id": "place.mercantile-coast.moonmarch",
+            "name": "Moonmarch"
+          },
+          {
+            "id": "place.mercantile-coast.quinrawl-anchorage",
+            "name": "Quin'rawl Anchorage"
           },
           {
             "id": "place.mercantile-coast.soulrest",
@@ -52627,8 +53048,27 @@
       },
       "travelStation": null,
       "questProvisions": [],
-      "tierOwnership": null,
-      "questLinks": [],
+      "tierOwnership": "LM14 · tier-3; LM58 · tier-3",
+      "questLinks": [
+        {
+          "code": "LM14",
+          "title": "What the Reef Is Saying",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LM58",
+          "title": "Silt from the Burn Country",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
       "interiorScope": "one interior"
     },
     {
@@ -52716,8 +53156,9 @@
       },
       "travelStation": {
         "modes": [
-          "ferry",
-          "boat"
+          "boat",
+          "canoe",
+          "ferry"
         ],
         "destinations": [
           {
@@ -52735,6 +53176,10 @@
           {
             "id": "place.mercantile-coast.oliis-boardwalk",
             "name": "Walks-The-Mangrove"
+          },
+          {
+            "id": "place.mercantile-coast.screen-watch",
+            "name": "Screen-Watch"
           }
         ]
       },
@@ -53189,12 +53634,21 @@
       },
       "travelStation": {
         "modes": [
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           {
+            "id": "place.imperial-fringe.slough-point",
+            "name": "Slough Point"
+          },
+          {
             "id": "place.mercantile-coast.moonmarch",
             "name": "Moonmarch"
+          },
+          {
+            "id": "place.mercantile-coast.mudfoot",
+            "name": "Mudfoot"
           }
         ]
       },
@@ -53523,8 +53977,7 @@
         "on the road out of Lilmoth’s north gate, at the gate itself"
       ],
       "reachedVia": [
-        "place.mercantile-coast.lilmoth",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.lilmoth"
       ],
       "discovery": "document",
       "valueTier": "tier-3",
@@ -53677,12 +54130,21 @@
       "travelStation": {
         "modes": [
           "boat",
+          "canoe",
           "pilot"
         ],
         "destinations": [
           {
             "id": "place.mercantile-coast.bramman-river-ferry",
             "name": "Tideward Stage"
+          },
+          {
+            "id": "place.mercantile-coast.bright-throat-village",
+            "name": "Bright-Throat Village"
+          },
+          {
+            "id": "place.mercantile-coast.oliis-ferry-stage",
+            "name": "Estuary Stage"
           },
           {
             "id": "place.mercantile-coast.soulrest",
@@ -53694,7 +54156,7 @@
         "quest.provision.canon.brammans-river",
         "quest.provision.rs06-anchor"
       ],
-      "tierOwnership": "RS06 · tier-2; LM49 · tier-3; LM50 · tier-3; RS-line · tier-2",
+      "tierOwnership": "RS06 · tier-2; LM49 · tier-3; LM50 · tier-3; RS-line · tier-2; LM69 · tier-3; LM82 · tier-3; LM83 · tier-3; LM84 · tier-3",
       "questLinks": [
         {
           "code": "LM49",
@@ -53708,6 +54170,42 @@
         {
           "code": "LM50",
           "title": "Pilots or Customs",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LM69",
+          "title": "Poling Water",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LM82",
+          "title": "Where the Writ Stops",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LM83",
+          "title": "The Poler's Rate",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "LM84",
+          "title": "Above the Supplied Bed",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -53883,8 +54381,7 @@
         "varies"
       ],
       "reachedVia": [
-        "place.mercantile-coast.coast-road-stage",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.coast-road-stage"
       ],
       "discovery": "road",
       "valueTier": "tier-2",
@@ -55046,8 +55543,7 @@
         "level ground, near a settlement"
       ],
       "reachedVia": [
-        "place.mercantile-coast.coast-road-stage",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.coast-road-stage"
       ],
       "discovery": "road",
       "valueTier": "tier-2",
@@ -55176,8 +55672,7 @@
         "raised above water"
       ],
       "reachedVia": [
-        "place.mercantile-coast.coast-road-stage",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.coast-road-stage"
       ],
       "discovery": "rumour",
       "valueTier": "tier-4",
@@ -55293,8 +55788,7 @@
         "concealed approach"
       ],
       "reachedVia": [
-        "place.mercantile-coast.coast-road-stage",
-        "place.mercantile-coast.keel-sakka-stilts"
+        "place.mercantile-coast.coast-road-stage"
       ],
       "discovery": "rumour",
       "valueTier": "tier-3",
@@ -55998,7 +56492,6 @@
         "in standing water deep enough to dive the entrance"
       ],
       "reachedVia": [
-        "place.mercantile-coast.keel-sakka-stilts",
         "place.mercantile-coast.coast-road-stage"
       ],
       "discovery": "rumour",
@@ -60158,8 +60651,27 @@
       },
       "travelStation": null,
       "questProvisions": [],
-      "tierOwnership": null,
-      "questLinks": [],
+      "tierOwnership": "LN06 · tier-3; PP04 · tier-3",
+      "questLinks": [
+        {
+          "code": "LN06",
+          "title": "Lintels Downriver",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "PP04",
+          "title": "Provably Stolen",
+          "line": "quest.line.proposed",
+          "lineName": "Proposed from the plotted province",
+          "group": "proposed",
+          "tier": 3,
+          "role": "owner"
+        }
+      ],
       "interiorScope": "one interior with 2 entrances"
     },
     {
@@ -60653,8 +61165,8 @@
       },
       "whySiteWon": "Owner-approved settlement anchor 'alten-corimont' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
-        "founding": "A river port ESE of the Hatching Pools, grown into a town by being neutral about cargo. It sits on the northern trunk between Stormhold and Thorn, on water a shallow-draft hull can reach and far enough from either customs regime that both of them use it.",
-        "siteAdvantages": "The last reach of navigable river below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
+        "founding": "A river port ESE of the Hatching Pools, grown into a town by being neutral about cargo. It sits on the back-channels between Stormhold and Thorn, on water a shallow-draft hull can reach and far enough from either customs regime that both of them use it.",
+        "siteAdvantages": "The last navigable water below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
         "occupantsMotive": "A captain of the port who governs by a nailed-up price list, freeholder crews with no tribe and no tree, Dunmer factors from the Morrowind trade and Nord hands off the northern hulls.",
         "pressures": "There is no Hist here. What holds a crew to the town is the price list and the depth of water. Stormhold's vicecanons would like the trade but cannot reach it. Rockpoint downriver failed trying to undercut the list.",
         "wouldChangeIf": "If either Stormhold or Thorn made the port lawful, the trade would move elsewhere. If the river silted below the oxbow, the town would be a village in five years."
@@ -61136,9 +61648,9 @@
       },
       "whySiteWon": "box canyon in firm lowland (danger band 3), 16 m from the nearest route; at the water's edge; won on culture-clump, nearPoint, region.",
       "why": {
-        "founding": "The free port sells to whoever pays the list and guards no hull once it leaves the basin. The crews that will not keep to the price list anchor a reach away and take what they would otherwise have bought.",
-        "siteAdvantages": "A blind reach with a cut bank, out of sight of the port and above the last mooring the chartered hulls use.",
-        "occupantsMotive": "A Salt-Teeth crew working the reach between the port and the head of navigation, keeping their prizes in the bank until they can be sold as salvage.",
+        "founding": "The free port sells to whoever pays the list and guards no hull once it leaves the basin. The crews that will not keep to the price list anchor a bend away and take what they would otherwise have bought.",
+        "siteAdvantages": "A blind side-channel with a cut bank, out of sight of the port and above the last mooring the chartered hulls use.",
+        "occupantsMotive": "A Salt-Teeth crew working the channels between the port and the head of navigation, keeping their prizes in the bank until they can be sold as salvage.",
         "pressures": "The port halls tolerate them while the price list is not undercut in public.",
         "wouldChangeIf": "If the port ever set a rate for salvage, the crew would come in and pay it."
       },
@@ -61356,7 +61868,7 @@
       "why": {
         "founding": "The free port is built around a hull that was dragged up the bank sixty years ago. Its masts were left standing because they were useful. From the crosstrees both the roofs and the canopy are in sight. No gable in the port stands high enough for that.",
         "siteAdvantages": "The beached hull sits on the highest firm ground in the basin, with the canopy cut back around it so the lookout can work.",
-        "occupantsMotive": "The port's lookout watches for hulls coming up the reach and takes no fee; the halls below pay her in beer for the early word.",
+        "occupantsMotive": "The port's lookout watches for hulls coming up the channel and takes no fee; the halls below pay her in beer for the early word.",
         "pressures": "The rigging is sixty years past its rope. The ladder gets rebuilt every wet season by whoever is free that week.",
         "wouldChangeIf": "If the hull finally goes over, the freehold loses its high ground and starts posting watchers on the water instead."
       },
@@ -62525,7 +63037,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 3), 85 m from the nearest route; at the water's edge; no free 'any-channel-bank' site was left in the zone, so plain ground; won on region, hinterland, parent; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
         "founding": "Half the crews on this water hold a charter from somebody. Asked whose, a captain names a port rather than a man. Long Water is where they lie up between charters. The port halls count it as a berth.",
-        "siteAdvantages": "A long straight reach with deep water on one bank, room for four hulls and a clear run out in either direction.",
+        "siteAdvantages": "A long straight side-channel with deep water on one bank, room for four hulls and a clear run out in either direction.",
         "occupantsMotive": "Crews resting and refitting between charters. A broker sells passage to a traveller who does not ask what else the hull is carrying.",
         "pressures": "One bad prize and the port halls withdraw the berth. The crews that lose it end up at Short Rope.",
         "wouldChangeIf": "If the League of Open Water ever chartered these crews properly, the freehold would have a navy."
@@ -62749,7 +63261,7 @@
       "whySiteWon": "cliff bench in firm lowland (danger band 3), 78 m from the nearest route; at the water's edge; won on bound, region, parent; needs 0.6 m of water.",
       "why": {
         "founding": "The free port pays to keep its channel open. The cheapest way to keep it open is a dredging gang that owes money. The barge is where the gang lives and where a new hand is read onto the roll.",
-        "siteAdvantages": "Moored in the channel off the port, close enough to work the reach and far enough that the port does not have to look at it.",
+        "siteAdvantages": "Moored off the port, close enough to work the channels and far enough that the port does not have to look at it.",
         "occupantsMotive": "A broker's detail, a handful of overseers and thirty people who owe months; two of them are visibly washed out from years away from their Hist.",
         "pressures": "The ledger is read aloud at every intake, with the months added for food. Arguing costs months, so the roll is heard out in silence.",
         "wouldChangeIf": "If the port stopped paying for the dredging, the owings would be sold on to an estate upriver and the barge would be broken for planking."
@@ -63704,8 +64216,17 @@
         "quest.provision.player-stronghold-candidate",
         "quest.provision.rival-landing"
       ],
-      "tierOwnership": "LP20 · tier-3; player · tier-1",
+      "tierOwnership": "LP20 · tier-3; player · tier-1; LF32 · tier-3",
       "questLinks": [
+        {
+          "code": "LF32",
+          "title": "The Empty Steading Claim",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
         {
           "code": "LP20",
           "title": "A Claim on the Empty Landing",
@@ -63859,8 +64380,8 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 3), 8 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region.",
       "why": {
-        "founding": "The road from the free port to Stormhold has to cross the channel. The span at this reach is privately owned.",
-        "siteAdvantages": "A steep-cut bank on both sides, at the reach of the Corimont-to-Stormhold road where the channel can be spanned rather than waded.",
+        "founding": "The road from the free port to Stormhold has to cross the channel. The span here is privately owned.",
+        "siteAdvantages": "A steep-cut bank on both sides, at the point on the Corimont-to-Stormhold road where the channel can be spanned rather than waded.",
         "occupantsMotive": "Four toll-takers working for a freehold syndicate that bought the span outright.",
         "pressures": "The Owing operates at this crossing, as it does at every tolled crossing on the road. The ledger is kept in the open.",
         "wouldChangeIf": "If the free port bought the span outright, Stormhold's road trade would be paying Alten Corimont directly."
@@ -64759,7 +65280,7 @@
       },
       "travelStation": null,
       "questProvisions": [],
-      "tierOwnership": "SX01 · tier-3; SX20 · tier-3; tier-2",
+      "tierOwnership": "SX01 · tier-3; SX20 · tier-3; tier-2; SX18 · tier-3; SX21 · tier-3; SX35 · tier-3",
       "questLinks": [
         {
           "code": "SX01",
@@ -64771,8 +65292,35 @@
           "role": "owner"
         },
         {
+          "code": "SX18",
+          "title": "The Build Register",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
           "code": "SX20",
           "title": "Bonded And Gone",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "SX21",
+          "title": "Iron Store",
+          "line": "quest.line.local",
+          "lineName": "Local quests",
+          "group": "local",
+          "tier": 3,
+          "role": "owner"
+        },
+        {
+          "code": "SX35",
+          "title": "Yard Master",
           "line": "quest.line.local",
           "lineName": "Local quests",
           "group": "local",
@@ -67240,11 +67788,16 @@
       },
       "travelStation": {
         "modes": [
-          "ferry",
           "boat",
+          "canoe",
+          "ferry",
           "pilot"
         ],
         "destinations": [
+          {
+            "id": "place.hist-heartland.treasure-hunters-live-camp",
+            "name": "Fortune's Own"
+          },
           {
             "id": "place.saxhleel-coast.archon",
             "name": "Archon"

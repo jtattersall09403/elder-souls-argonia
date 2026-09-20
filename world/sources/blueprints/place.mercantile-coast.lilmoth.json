@@ -10477,7 +10477,7 @@
       {
         "id": "travel.lilmoth.water-taxi-keel-sakka",
         "kind": "water-taxi",
-        "toPlaceId": "place.mercantile-coast.keel-sakka-stilts",
+        "toPlaceId": "place.mercantile-coast.screen-watch",
         "timetable": "on demand"
       },
       {
