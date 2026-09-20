@@ -47,8 +47,12 @@ chunk.
    designs no place: kit truth, the runtime boundary, door records,
    renderable kinds, the three patch kinds, the route-structure exemplar
    set and the `kit-qa` skill, proved on off-world sheets, on gates first
-   made to fail, on the five blueprints replayed and on a handful of road
-   structures. 16i designs six exemplars (the five plus one dungeon-kind
+   made to fail, on a **proving ground** (a scratch yard on real ground
+   with one of everything, `fixture: true`, never exported to the shipped build,
+   kept as a regression fixture; owner feedback 2026-09-20: nobody walks
+   a place that is not yet designed) and on a handful of the road chunk's
+   recorded structures. The five old blueprints are replayed only as a
+   numeric fixture. 16i designs six exemplars (the five plus one dungeon-kind
    place) on paper, builds them once, walks them and writes skill v2
    from the sixth. 16j runs the skill unattended on one packet, closes
    the gaps in the skill, writes the Phase 15 roadmap and template.
@@ -90,6 +94,14 @@ chunk.
    what to look at and the report format** (owner 2026-09-20); the
    planner's own six-image cap stays. The protocol lives in the `kit-qa`
    skill and every brief points at it.
+7. **16i reconciles the first round before designing** (owner
+   2026-09-20): every Phase 11 lesson, owner steer and interior-matching
+   claim (world 96 §2, 0041's taste ledger, the rounds archive, the
+   interiors research and the kits' interior index) is sorted kept /
+   superseded / open in one memo; the open rows are ruled at 16i
+   check-in 1. Ruling recorded now: a kit's `matched` interior mesh is
+   not 0062's tier A unless a furnished plugin cell is linked; such a
+   door is reserved with its shell recorded for Phase 12.
 6. **A sixth exemplar of dungeon kind is chosen in 16i part 1** by
    measured criteria (not owner-guided; family with a recipe and a kit;
    entrance piece exists; near the likely 16j region; promises complete),

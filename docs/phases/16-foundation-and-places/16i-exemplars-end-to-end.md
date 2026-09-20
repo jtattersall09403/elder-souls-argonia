@@ -212,6 +212,55 @@ sheet, its Sonnet report and the owner's answer.
 Nothing in part 1 touches the ground, the vegetation or the published
 settlement bundle. Its output is records and pictures.
 
+0. **Reconcile the first round's lessons and the interior research
+   before designing anything** (owner 2026-09-20). The first build of
+   these places (Phase 11, 2026-09-01 to 09-10) left a large written
+   record; later decisions overruled parts of it. A `research` lane
+   reads all of it and writes
+   `docs/research/phase16/16i-lessons-and-interiors-reconciled.md`: one
+   row per lesson, rule or claim, with its source and one of three
+   verdicts: **kept** (still binding; cite where it now lives),
+   **superseded** (by which decision, in one line) or **open** (a
+   contradiction that needs an owner ruling; listed at check-in 1 with a
+   recommendation).
+   Fable rules on every open row it can from the decisions; the rest go
+   to the owner. Sources, all of them:
+   - Lessons: [world 96 §2](../../world/96-placement-playbook.md) (the
+     lessons list), [0041 § Taste ledger, § Places have EXTENT, § Part
+     3b/3c](../../decisions/0041-phase11-settlement-decisions.md), the
+     [Phase 11 rounds archive](../../research/archive/phase11-rounds/)
+     (the round log's owner steers, the Round A audit and owner-eye
+     review, the plot review, the 2026-09-09 walkthrough, the gap plan,
+     the promise ledger), [research/phase11/](../../research/phase11/)
+     (the vibe-sheet asset audit and the critique folder), the
+     [settlements audit](../../research/phase16/audit-settlements-delivered.md)
+     §9 (the doors round), the backlog's settlement rows and
+     [world 10](../../world/10-vvardenfell-lessons.md) Part I for the
+     authoring cascade.
+   - Interiors: [exterior-interior-linking-in-skyrim-mods.md](../../research/placement-settlements/exterior-interior-linking-in-skyrim-mods.md),
+     [mined-interior-assembly-and-settlement-form.md](../../research/placement-settlements/mined-interior-assembly-and-settlement-form.md),
+     [world 70 §47–50](../../world/70-dungeons-interiors.md) including
+     the owner ruling of 2026-09-05 at §48 ("everything intended to have
+     an interior must have a door; derive from our kits which buildings
+     have interiors"), `tooling/asset-pipeline/pipeline/interiors_index.py`
+     and the 23 `<kit>.interiors.json` files it writes (`interior:
+     matched | tileset | shell | none`, the five ranked doorway
+     evidences, the `radial` entrance), `worldgen/blueprint_interiors.py`,
+     `world/sources/placement/exterior-interior-links.json` (plugin door
+     links to furnished cells), `bmv-interior-assembly.json` and the
+     placement README rows, decision 0062 and 0081.
+   Known contradictions to rule on in that memo (Fable's ruling, to be
+   confirmed by the owner at check-in 1): the kits' `matched` interior
+   (a mod ships a sibling interior *mesh* for the shell) is not the same
+   as 0062's tier A (a *furnished cell* a plugin links to the shell):
+   a shell with both is tier A; a shell with a matched mesh and no
+   furnished cell has its room shell but no furniture, so its door is
+   `reserved` and Phase 12 furnishes the mesh; `tileset` shells are
+   Phase 12's; the fit rule borrows a furnished cell only where a shell
+   has neither. The 2026-09-05 "derive which buildings have interiors
+   from the kits" ruling stands and is what `interiors_index.py`
+   implements; the 2026-09-07 "one entrance per piece" ruling stands.
+
 1. **Confirm the exemplar set and choose the sixth.** Keep the five
    (ruling 13). Choose one dungeon-kind record (`interior.kind` in delve,
    dungeon, warren, complex) as the sixth exemplar by these criteria, all
@@ -264,7 +313,10 @@ settlement bundle. Its output is records and pictures.
    in the six places decide and write `interiorClaim` and `interiorStatus`:
    - **Tier A, `evidence: plugin-link`**: the shell has a linked furnished
      cell in `exterior-interior-links.json`; claim that cell (cell id, plugin,
-     door model, `interiorSizeM`).
+     door model, `interiorSizeM`). A shell whose kit record says
+     `interior: matched` but has no linked furnished cell is **not** tier
+     A: its door is `reserved` with `interiorShell: <mesh>` recorded so
+     Phase 12 furnishes that mesh (item 0's ruling).
    - **Fit rule, `evidence: fit-rule`** (0062 §4 relaxed preference 1):
      the shell has no link; pick a furnished vanilla or mod cell whose
      plan extent is within 0.6–1.5× the shell's footprint on both axes,
@@ -414,6 +466,9 @@ the walk that finds what paper cannot; check-in 3 is the second round the
 city needs and the skill on which the rollout depends. Each is a batch.
 
 **Check-in 1 — the six plans, before any ground is touched.**
+- The reconciliation memo's open rows: each a one-line contradiction
+  between something written in the first round and something decided
+  since, with a recommendation; say yes or no to each.
 - One plan sheet per place: buildings and which way they face, doors on
   paths, stairs to decks, boats at landings, the cave mouth and any
   underwater entrance, the pads with their height change, the clearing by
@@ -480,10 +535,13 @@ city needs and the skill on which the rollout depends. Each is a batch.
 **Part 1 (`deliver 16i part 1`).**
 - Step 0: `routing-audit` on this brief against the 16h ending state;
   confirm the 16h contract (§ What 16i needs from 16h) with `find`
-  look-ups; stop on a gap.
+  look-ups; stop on a gap. At the same time, one `research` lane writes
+  the reconciliation memo (item 0); Fable rules on its open rows before
+  step 1 and carries the rest to check-in 1.
 - Step 1 (Fable): choose the sixth (item 1) with `research` measuring the
   candidates; decide each place's districts, kit sets, grammar and the
-  interior claim policy per door (item 4's rules applied by Fable).
+  interior claim policy per door (item 4's rules applied by Fable),
+  reading the kept lessons as constraints.
 - Step 2, lanes at once:
   - A `deliver` (code, independent of design): the interior runtime
     (item 5): load contract, door transition, interior bundle exporter,
@@ -548,7 +606,12 @@ stone town, the sap-tapping camp and the Wamasu pond hazard) plus one
 dungeon-type place, a cave or root cavern with an entrance, chosen here
 so the rollout has an example of that kind too.
 
-*Part 1: on paper.* Each place is laid out as a drawing: where every
+*Part 1: on paper.* First, everything we learned the first time we
+built these places (a long list of your steers and the agents' own
+lessons, plus a large body of research on which room goes behind which
+building) is read again and sorted into "still true", "overruled since"
+and "you need to decide", so that none of it is lost and none of it is
+followed by mistake. Then each place is laid out as a drawing: where every
 building goes and which way it faces, the paths to every door, the stairs
 up to decks, the boats at the landings, the cave mouth with its rocks, the
 small pads, the clearing in the trees with the trees we keep. Beside each
@@ -562,8 +625,9 @@ the building's size and purpose, or "closed for now" with a short message
 when you try the door (those rooms are built much later, in the interiors
 phase). The cave's inside is closed for now too. Meanwhile the code that
 does the door trick is built in parallel, since it does not depend on the
-drawings. **Your first check** is the six drawings, the door tables and
-pictures of the rooms. This is the cheap moment to move a path or shrink
+drawings. **Your first check** is the short list of things you need to decide
+from the first round, the six drawings, the door tables and pictures of
+the rooms. This is the cheap moment to move a path or shrink
 a clearing; after it the trees are cut.
 
 *Part 2: built once and walked.* We apply your steers, cut the clearings,

@@ -14,8 +14,11 @@ chunks and rebuild nothing above them; and a picture-checking loop
 (`kit-qa`) lets a fresh agent judge an assembly or a plan from rendered
 sheets with cheap Sonnet eyes. Design happens in 16i; this chunk proves
 its mechanisms on off-world sheets, on tests that were first made to fail,
-on the five stale blueprints replayed on the frozen ground and on one
-small exemplar set of the road chunk's structures and ferries.
+on a **proving ground** (a scratch yard on real frozen ground, not a
+catalogue place, carrying one of everything: § Deliver item 9) and on
+one small exemplar set of the road chunk's recorded structures and the
+Drowning Gate ferry. The owner never walks a designed place in 16h,
+because none is designed until 16i.
 
 **Delivered in two parts, one fresh agent each, an owner check-in after
 each** (owner 2026-09-20): `deliver 16h part 1`, `deliver 16h part 2`.
@@ -44,12 +47,23 @@ Needs ruling 12 (plan §8, given 2026-09-11), amended by the owner's
 15   rollout             one pass per packet from the roadmap, the same rhythm
 ```
 
-This chunk designs no place. The five existing blueprints
-(`world/sources/blueprints/place.*.json`, 2026-09-09, hollow: see
-Starting state) are **replayed** on the frozen ground only to prove the
-runtime and the gates; 16i re-authors them. Whatever the old 16h plan said
-about laying out the five places here is withdrawn (planner 2026-09-20):
-the owner would have been steering layouts 16i then discards.
+This chunk designs no place. Three things that need no design carry it;
+the owner walks two of them: off-world rendered sheets of
+assemblies; the **proving ground**, a scratch yard on an empty stretch of
+real frozen ground beside recorded water, holding one instance of every
+mechanism (a gate arch in a wall, a stilt hut with its deck and stair, a
+lantern on a post, a hull at a berth, a cave entrance piece with its
+door, a pad, a clearing, an added rock group), kept afterwards as a
+permanent regression fixture and never exported to the shipped build; and the
+**route-structure exemplar set**, real structures the road chunk (16e)
+already recorded on real roads, which depend on no place. The five
+existing blueprints (`world/sources/blueprints/place.*.json`, 2026-09-09,
+hollow: see Starting state) are replayed on the frozen ground **only as
+a numeric fixture** for the replay tests (floats, sills, corners); nobody
+walks or judges them; 16i re-authors them. Whatever the old 16h plan
+said about laying out the five places here is withdrawn (planner
+2026-09-20): the owner would have been steering layouts 16i then
+discards.
 
 ## What this chunk realises and what it leaves to others
 
@@ -62,17 +76,20 @@ the owner would have been steering layouts 16i then discards.
   terrain patches, `vegetation-clearance` by tier, the new `dressing-add`);
   the bundle format that the build-out register requires; kit data shipped and
   compressed; the assembly and plan renderers, the Sonnet ingestion
-  protocol and the `kit-qa` skill; the **route-structure exemplar set**
-  stood up in 3D (one structure of each recorded kind, the Drowning Gate
-  ferry, the berths of the five places; the rest `pending: packet`, owner
-  2026-09-20); the 16g owner calls that are record remedies (Blackrose
-  centre onto its island).
+  protocol and the `kit-qa` skill; the **proving ground** (item 9); the
+  **route-structure exemplar set** stood up in 3D (one structure of each
+  recorded kind and the Drowning Gate ferry with its two berths and
+  hulls; the rest `pending: packet`, owner 2026-09-20); the 16g owner
+  calls that are record remedies (Blackrose centre onto its island).
 - **Leaves to 16i:** the design of the six exemplar places (the five plus
   one dungeon-kind place, 16i part 1 chooses it) as assemblies on the
-  frozen ground; the interior side of the door (transition, load contract,
-  interior lighting, tier A cells, the reserved-door message); the
-  approach checklist; every pad, clearance and dressing patch a *place*
-  wants; the `settlement-build` skill v2.
+  frozen ground, their berths and hulls included; the interior side of
+  the door (transition, load contract, interior lighting, tier A cells,
+  the reserved-door message); the approach checklist; every pad,
+  clearance and dressing patch a *place* wants; the `settlement-build`
+  skill v2. The three patch kinds are built and proved here on the
+  proving ground and the route exemplars; they are used for real places
+  first in 16i.
 - **Leaves to 10b:** the province navmesh bake. This chunk gives the
   character its step height and slope limit on placed geometry and makes
   the navigation widget honest; it bakes nothing.
@@ -422,15 +439,36 @@ gate that passes on the current bundle is not a gate.
    owner sees at check-in 1 is the residue: the sheets the rules still
    flag and one sheet per culture that passed.
 
-9. **Export gates and the replay.** GLB header and chunk-length parse on
-   every published kit; `test:placement` selects by directory or marker;
-   the `shippedWithKnownErrors` waiver removed (pads are patches from part
-   2; until then a pad-needing parcel is reported, not waived). Rebuild
-   the five stale blueprints' bundle on the frozen ground
+9. **The proving ground, export gates and the replay.** Stand up a
+   scratch yard, `world/sources/sites/proving-ground.json` (a site record
+   with `fixture: true`: excluded from the catalogue, the quests, the
+   density budget, the shipped-build export and every province count; shown in
+   the studio under the settlements layer at its own
+   `?view=character` URL), on an empty stretch of real frozen ground
+   chosen by measurement: no live record within 300 m, mean slope under
+   5°, a recorded body or reach along one edge so a hull can float. It
+   carries one instance of every mechanism the runtime must draw right:
+   the Lilmoth gate + wall + tower assembly from the mined template; a
+   stilt hut with its deck and a kit stair; a mud hut and an Imperial
+   house on their designed sink; a lantern on a post and a sign on a
+   wall from `kit-mounts-mined.json`; a hull at a berth on the recorded
+   level; a cave entrance piece (16i's sixth exemplar will use the same
+   kind); a fence run and a boardwalk length. It compiles through
+   `compile_settlement` like a place and is the walk at check-in 1; part
+   2 adds a pad, a clearing and an added rock group to it (item 16). It
+   stays in the tree as a regression fixture: every 16h test that walks
+   a bundle runs on it. Also: GLB header and chunk-length parse on every
+   published kit; `test:placement` selects by directory or marker; the
+   `shippedWithKnownErrors` waiver removed (pads are patches from part 2;
+   until then a pad-needing parcel is reported, not waived). Rebuild the
+   five stale blueprints' bundle on the frozen ground
    (`rederive_blueprints` → `compile_settlement` →
-   `export_settlement_bundle`) as the replay fixture for items 1–7; its
-   layout is not judged. Test: a truncated GLB fails; a new test file
-   under the directory is collected without editing `package.json`.
+   `export_settlement_bundle`) **as a numeric fixture only** for the
+   replay tests of items 1–7 (733 placements is a better sample than the
+   yard); nobody walks it and its layout is not judged. Test: a truncated
+   GLB fails; a new test file under the directory is collected without
+   editing `package.json`; the shipped-build export refuses a `fixture: true`
+   site.
 
 ### Part 2 — the place machinery, proven on the route exemplars (to owner check-in 2)
 
@@ -447,9 +485,11 @@ gate that passes on the current bundle is not a gate.
     **route-structure exemplar set**, recorded in
     `world/sources/routes/route-structure-exemplars.json`: one structure of
     each recorded kind (stair, deck, lip-step, bridge), chosen to include
-    the Nine-Trunks stair flight and the Xul-Vaat walkway, plus the
-    Drowning Gate ferry crossing and every berth that belongs to one of
-    the five places. The other structures and berths keep their records
+    the Nine-Trunks stair flight and the Xul-Vaat walkway (both on the
+    road, outside the village plots), plus the Drowning Gate ferry
+    crossing with its two berths and hulls. The berths that belong to the
+    six exemplar places are 16i's, with the places. The other structures
+    and berths keep their records
     and are placed per packet by 16j and Phase 15 through the same kinds;
     the export lists them as `pending: packet` so nothing is skipped
     silently; the `route-structures` layer (`SHOWN_FROM`) shows what is
@@ -538,16 +578,17 @@ gate that passes on the current bundle is not a gate.
     patch that adds an instance inside a clearance polygon of a higher tier
     fails.
 
-16. **Prove the three patch kinds on the route exemplar set, small and
-    real.** Author and apply: the clearance the Xul-Vaat walkway and the
-    Nine-Trunks stair flight need (their `walkSurface` footprint plus the
-    C13 margin); a `dressing-add` at the Drowning Gate landings (reeds or
-    rocks by the bank, from the region palette, with `why` and `sources`)
-    and one at the foot of the exemplar bridge; a `settlement-pad` only if
-    an exemplar structure's record needs one (expected none; if none,
-    prove the kind on a scratch window and say so). These are the only
-    patches applied to the ground or the bundles in 16h; they are a few
-    tens of metres each and 16i may re-emit them.
+16. **Prove the three patch kinds on the proving ground and the route
+    exemplar set, small and real.** On the proving ground: one
+    `settlement-pad` under the Imperial house, one `vegetation-clearance`
+    by tier over the yard with one tree named `kept`, one `dressing-add`
+    rock group at the cave entrance piece. On the route exemplars: the
+    clearance the Xul-Vaat walkway and the Nine-Trunks stair flight need
+    (their `walkSurface` footprint plus the C13 margin); a `dressing-add`
+    at the Drowning Gate landings (reeds or rocks by the bank, from the
+    region palette, with `why` and `sources`). These are the only patches
+    applied to the ground or the bundles in 16h; each is a few tens of
+    metres; 16i may re-emit the route ones.
 
 17. **Dressing vocabulary** (D11). Per-rule draws with a distinct-asset
     floor; interior-kit assets never placed outside. Test: ≥ 4 distinct
@@ -610,6 +651,7 @@ gate that passes on the current bundle is not a gate.
   tier A cells, the reserved message text): 16i, in a lane that runs from
   the start of 16i part 1 on this chunk's door records.
 - The province navmesh bake: 10b, which may start once part 1 lands.
+- The berths and hulls of the six exemplar places: 16i, with the places.
 - Every route structure and ferry berth outside the exemplar set: placed
   per packet by 16j and Phase 15 through this chunk's renderable kinds.
 - Water crossings with no recorded pier: the sourcing gap stays in the
@@ -624,9 +666,11 @@ gate that passes on the current bundle is not a gate.
 - Every test above green and shown failing first; the record-reads
   allowlist empty; every kit asset with `designedSinkM` and an anchor
   class; every door with an id, an arrival marker and a reachability
-  verdict; every exemplar berth with a hull; the three patch kinds each
-  applied at least once with a receipt naming only their tiles or chunks;
-  the site budget gate reading the shipped kit bytes; `kit-qa` runnable.
+  verdict; the proving ground compiled, published and excluded from the
+  shipped-build export; the Drowning Gate berths with hulls; the three patch kinds
+  each applied at least once with a receipt naming only their tiles or
+  chunks; the site budget gate reading the shipped kit bytes; `kit-qa`
+  runnable.
 - Two owner check-ins passed or explicitly accepted as good enough.
 
 ## Owner check-ins
@@ -646,21 +690,28 @@ and one walk.
   of that kind meets the ground?
 - The mount sheets: does every lantern, sign and banner hang from the
   part of the parent it should?
-- Lilmoth gate `?view=character&x=3.61&z=6.38&t=12:00` (stale design,
-  correct runtime): walk through the arch, then any open frame. Pieces
-  face the way the blueprint view `?bp=1` shows. Nothing floats; nothing
-  is sunk to its windows.
+- The proving ground (URL in the ledger; it is a test yard, not a
+  place): walk through the gate arch and the open frames; up the stair
+  onto the stilt deck; round the huts, which sit on the ground at their
+  sills; the lantern hangs from its post and the sign from its wall; the
+  boat floats at the berth; the cave entrance reads as an entrance. Say
+  what looks wrong in one line each.
 - The Blackrose centre on the island in its lake on the 2D map (`?cat=1`).
 
 **Check-in 2 — does the machinery stand up on real ground?** (after
 part 2).
-- The route layer, first time drawn: the Nine-Trunks stair flight
-  `x=4.517&z=3.608` and the Xul-Vaat walkway `x=1.203&z=5.730` with the
-  deck at road height and the trees cleared from its line; the Drowning
-  Gate ferry `x=0.458&z=3.132` with a boat at each landing sitting on the
-  water and the added reeds or rocks at the bank; the exemplar bridge and
-  lip-step (URLs in the ledger).
-- One plan sheet of a replayed place and one of the Drowning Gate: can
+- The proving ground again, now with its three local edits: the pad
+  under the Imperial house, the clearing with its one kept tree, the
+  rocks at the cave mouth. Does the clearing read as cleared and kept,
+  not stamped; do the rocks sit like rocks that were always there.
+- The route layer, first time drawn (these are the road chunk's own
+  recorded structures on real roads, not places): the Nine-Trunks stair
+  flight `x=4.517&z=3.608` and the Xul-Vaat walkway `x=1.203&z=5.730`
+  with the deck at road height and the trees cleared from its line; the
+  Drowning Gate ferry `x=0.458&z=3.132` with a boat at each landing
+  sitting on the water and the added reeds or rocks at the bank; the
+  exemplar bridge and lip-step (URLs in the ledger).
+- One plan sheet of the proving ground and one of the Drowning Gate: can
   you read it in a minute (fronts, doors, ways, clearance tiers, dressing)?
   This is the format every 16i and 16j plan will use; say what is missing
   from it now.
@@ -730,8 +781,12 @@ elapsed time at every hand-back.
   the protocol; Fable reads the reports, writes each shared cause as a 97
   §C rule and a `blueprint_integration` check (`deliver`), re-renders.
   Two loops at most, then the residue.
-- Step 3: the replay (item 9) as a `run` job with `--out` scratch, then
-  published; the replay tests; `npm run docs:check`, preflight, commit by
+- Step 3: the proving ground (item 9): `research` measures three
+  candidate stretches of ground, Fable picks one and lists the yard's
+  contents by asset and template id, `deliver` authors the site record
+  and its blueprint, `run` compiles and publishes it; then the five-blueprint
+  replay as a `run` job with `--out` scratch (numeric fixture only); the
+  replay and yard tests; `npm run docs:check`, preflight, commit by
   pathspec.
 - Step 4: the check-in 1 packet in PROGRESS.md § Waiting on user and the
   ledger; this brief's part 2 Starting-state lines added under
@@ -761,9 +816,10 @@ elapsed time at every hand-back.
   Then, after I's clearance author lands: K `deliver`: the additive patch
   kind (item 15), with Fable having first specified the lifted emission
   function's signature; L `deliver`: dressing vocabulary (item 17).
-- Step 2 (Fable): author the exemplar-set patches (item 16: lore- and
-  asset-aware, `why` and `sources` on each) and hand them to `deliver` to
-  apply; render the plan sheets; Sonnet pass; fix shared causes.
+- Step 2 (Fable): author the proving-ground and exemplar-set patches
+  (item 16: lore- and asset-aware, `why` and `sources` on each) and hand
+  them to `deliver` to apply; render the plan sheets; Sonnet pass; fix
+  shared causes.
 - Step 3: the ladder row, order fix and camp-track fix landed; one chain
   run from the freeze gate as a `run` job; two lanes at once: M `deliver`
   the `kit-qa` skill (item 20); N `deliver` audit §7's gates made to
@@ -806,10 +862,14 @@ its real shape when you walk through it and how it fades with distance
 as the trees already do. We also fix the drawing program itself.
 Then we render pictures of assembled pieces in a blank test space and a
 cheap helper looks at each picture and says what it sees. Anything the
-helper keeps flagging becomes a rule. **Your first check** is a handful of
-those pictures and one short walk through the Lilmoth gate: "right" or
-"wrong" per picture. This is cheap to change now and expensive later,
-because every place is built from these rules.
+helper keeps flagging becomes a rule. We also build a **test yard**: not
+a village, just an empty patch of real ground by real water with one of
+everything on it (a gate arch in a wall, a stilt hut with its deck and
+stair, a couple of huts, a lantern on a post, a boat at a landing, a
+cave entrance). It never ships; it is where the tools are tried. **Your first check** is a handful of those pictures and a short
+walk round the test yard: "right" or "wrong" per picture and per thing
+in the yard. This is cheap to change now and expensive later, because
+every place is built from these rules.
 
 *Part 2: the machinery for places.* With the pieces right, we build
 what every place needs: paths that lead to doors, a stair to every
@@ -824,11 +884,16 @@ under a building; clearing trees and plants under buildings and paths the
 realistic way (big trees go, low grass stays between the huts, the trees
 the village was built around are kept, the Hist tree is never touched);
 and adding set dressing such as rocks around a cave mouth or reeds at a
-landing. We prove all of it on a handful of real road structures: one
-stair, one walkway, one bridge, one river step and the Drowning Gate ferry
-with its boats. **Your second check** is a walk to those few structures
-and a look at one flat plan drawing, because that drawing format is what
-you will be steering from in the next chunk.
+landing. These three edits are tried on the test yard (a pad under one
+hut, a clearing with one tree kept, rocks at the cave mouth) and used on
+real places for the first time in the next chunk. We also stand up a
+handful of the road chunk's own structures, which were recorded weeks
+ago on real roads and are not villages, so they need no design: one
+stair, one walkway, one bridge, one river step and the Drowning Gate
+ferry with its boats. **Your second check** is a walk round the test
+yard with its three edits, a walk to those few road structures and a
+look at one flat plan drawing, because that drawing format is what you
+will be steering from in the next chunk.
 
 **What we have at the end.** Building pieces that sit right, face right
 and have open doorways; a drawing program that is correct; a way to
