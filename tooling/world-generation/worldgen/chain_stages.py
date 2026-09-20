@@ -244,8 +244,20 @@ def run(key: str, stage: str, argv: list[str], force: bool) -> tuple[float, bool
     argv_saved = sys.argv[:]
     sys.argv = [f"worldgen/{stage}.py", *argv]
     t0 = time.perf_counter()
+    # A stage module ends in `raise SystemExit(main())`. Letting that propagate
+    # skipped the stamp and the receipt for EVERY stage that exits this way —
+    # even a clean run — so the chain re-ran work it had already done and the
+    # receipt stayed at whatever seeded it. Exit 0/None is a success and is
+    # stamped; a non-zero exit is re-raised after the failure is recorded, so
+    # a failed stage still leaves no stamp and no receipt.
     try:
         runpy.run_module(f"worldgen.{stage}", run_name="__main__", alter_sys=True)
+    except SystemExit as exc:
+        if exc.code not in (0, None):
+            elapsed = time.perf_counter() - t0
+            sys.argv = argv_saved
+            shutil.rmtree(audit_dir, ignore_errors=True)
+            raise
     finally:
         elapsed = time.perf_counter() - t0
         sys.argv = argv_saved

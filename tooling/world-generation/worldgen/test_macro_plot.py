@@ -161,7 +161,13 @@ def test_the_solve_keeps_every_committed_cell(survey):
         "(re-author the claim). Moving a dot is the owner's call, via pin_overrides. "
         + "; ".join(f"{h['id']} ({h['reason']})" for h in resite))
     assert not pinned
-    committed = {rec["id"]: rec["positionM"] for _z, rec in _live()}
+    # An accepted-homeless record holds no ground, so it carries no
+    # `positionM`: reading one raised KeyError here and took the whole gate
+    # down with it. The dict is built from the records that DO have a cell (a
+    # `promise-unmet` record keeps its own, and is checked below like the
+    # rest); the register's homeless rows are asserted to carry none.
+    committed = {rec["id"]: rec["positionM"] for _z, rec in _live() if rec.get("positionM")}
+    assert ACCEPTED_HOMELESS_IDS.isdisjoint(committed), sorted(ACCEPTED_HOMELESS_IDS & set(committed))
     for did, r in result.items():
         c = r["candidate"]
         assert committed[did] == [round(c.x, 1), round(c.z, 1)], did

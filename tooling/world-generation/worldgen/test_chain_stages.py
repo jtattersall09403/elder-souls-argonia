@@ -237,3 +237,51 @@ def test_the_chain_always_prints_a_cascade_line():
     ran_line = _run_cascade(no_cascade="", ran=["apply_vegetation_patches"],
                             stub="publish_rasters")
     assert "cascade: publish_rasters" in ran_line
+
+
+# --- a stage that ends in `raise SystemExit(main())` still gets stamped ------
+#
+# Every stage module ends that way. Until 2026-09-20 `run` let the SystemExit
+# propagate out of `runpy.run_module`, so the stamp write and `write_receipt`
+# below it never executed: a clean run left no receipt and looked stale for
+# ever. Made to fail first by reverting the catch: the exit-0 case raised
+# SystemExit out of `run` instead of writing a receipt.
+
+def _stub_stage(name: str, body: str):
+    """Write an importable `worldgen.<name>` stub and yield its path."""
+    from pathlib import Path
+    path = Path(__file__).resolve().parent / f"{name}.py"
+    path.write_text(body, encoding="utf-8")
+    return path
+
+
+def _run_stub(tmp_path, monkeypatch, name: str, body: str):
+    out = _receipt_dir(tmp_path, monkeypatch)
+    monkeypatch.setattr(cs, "STAMPS", tmp_path / "stamps.json")
+    path = _stub_stage(name, body)
+    try:
+        return cs.run(name, name, [], force=True), out, tmp_path / "stamps.json"
+    finally:
+        path.unlink(missing_ok=True)
+
+
+def test_a_stage_that_exits_zero_is_stamped_and_gets_a_receipt(tmp_path, monkeypatch):
+    import json
+    (result, out, stamps) = _run_stub(
+        tmp_path, monkeypatch, "fake_ok_stage",
+        "def main():\n    return 0\n\n\nif __name__ == '__main__':\n    raise SystemExit(main())\n")
+    _elapsed, ran = result
+    assert ran
+    assert (out / "fake_ok_stage.json").is_file()
+    assert json.loads(stamps.read_text())["fake_ok_stage"]["stage"] == "fake_ok_stage"
+
+
+def test_a_stage_that_exits_non_zero_is_not_stamped_and_raises(tmp_path, monkeypatch):
+    import pytest
+    with pytest.raises(SystemExit) as caught:
+        _run_stub(tmp_path, monkeypatch, "fake_bad_stage",
+                  "def main():\n    return 2\n\n\nif __name__ == '__main__':\n"
+                  "    raise SystemExit(main())\n")
+    assert caught.value.code == 2
+    assert not (tmp_path / "receipts" / "fake_bad_stage.json").exists()
+    assert not (tmp_path / "stamps.json").exists()
