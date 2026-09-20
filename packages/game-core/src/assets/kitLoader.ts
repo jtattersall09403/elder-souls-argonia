@@ -49,17 +49,40 @@ export function createKitDecoders(renderer: THREE.WebGLRenderer, baseUrl: string
 }
 
 const DECODERS = Symbol.for("elder-souls.kitDecoders");
-type Carrier = THREE.WebGLRenderer & { [DECODERS]?: KitDecoders };
+interface Slot { decoders: KitDecoders; refs: number }
+type Carrier = THREE.WebGLRenderer & { [DECODERS]?: Slot };
 
 /** The renderer's decoders, created on first use and shared by every kit load. */
 export function kitDecodersFor(renderer: THREE.WebGLRenderer, baseUrl: string): KitDecoders {
   const carrier = renderer as Carrier;
   const existing = carrier[DECODERS];
-  if (existing && existing.baseUrl === baseUrl) return existing;
-  existing?.dispose();
+  if (existing && existing.decoders.baseUrl === baseUrl) return existing.decoders;
+  existing?.decoders.dispose();
   const created = createKitDecoders(renderer, baseUrl);
-  carrier[DECODERS] = created;
+  carrier[DECODERS] = { decoders: created, refs: 0 };
   return created;
+}
+
+/**
+ * Hold the renderer's decoders alive (one call per mounted consumer). A
+ * `KTX2Loader` owns a worker pool: when the last consumer releases, the pool
+ * is disposed, so a later Canvas on a new renderer never leaves two live.
+ */
+export function retainKitDecoders(renderer: THREE.WebGLRenderer, baseUrl: string): KitDecoders {
+  const decoders = kitDecodersFor(renderer, baseUrl);
+  (renderer as Carrier)[DECODERS]!.refs += 1;
+  return decoders;
+}
+
+/** Drop one hold; at zero, dispose and clear the slot. Below zero is a no-op. */
+export function releaseKitDecoders(renderer: THREE.WebGLRenderer, baseUrl: string): void {
+  const carrier = renderer as Carrier;
+  const slot = carrier[DECODERS];
+  if (!slot || slot.decoders.baseUrl !== baseUrl) return;
+  slot.refs -= 1;
+  if (slot.refs > 0) return;
+  slot.decoders.dispose();
+  delete carrier[DECODERS];
 }
 
 /** Wire a GLTFLoader (R3F's `useLoader` extension callback, or any instance). */

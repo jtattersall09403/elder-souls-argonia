@@ -4,6 +4,8 @@ import { useRapier } from "@react-three/rapier";
 import type { World, RigidBody } from "@dimforge/rapier3d-compat";
 import * as THREE from "three";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
+import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
+import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
 import {
   selectNearestSolids,
   type FloraCollider,
@@ -179,6 +181,11 @@ interface ColliderDebug {
   bodies: number;
   trimeshesBuilt: number;
   trimeshMs: number;
+  /** Pump calls the rebuild spanned, and the wall clock across them;
+   * `lastBuildMs` is the main-thread time actually SPENT, summed over the
+   * sliced steps (walking-stutter fix, 2026-09-20). */
+  frames: number;
+  elapsedMs: number;
 }
 
 export function VegetationColliders({
@@ -209,6 +216,12 @@ export function VegetationColliders({
   const seenShapes = useRef<Map<string, FloraCollider[]> | null>(null);
   const seenSolids = useRef<SolidInstance[] | null>(null);
   const vertexCache = useRef(new Map<string, Float32Array>());
+  // Bodies are created ONE PER STEP on the shared frame-work queue at
+  // priority 10: colliders come before any visual rebuild, because the player
+  // must not walk through a trunk that is already drawn.
+  const queue = useFrameWork();
+  const running = useRef<FrameJobHandle | null>(null);
+  useEffect(() => () => { running.current?.cancel(); running.current = null; }, []);
 
   // Shapes and per-species collider cost, cached: the manifest never changes
   // within a session and `collidersFor` allocates.
@@ -262,15 +275,24 @@ export function VegetationColliders({
     ) {
       return;
     }
-    const debug: ColliderDebug = { lastBuildMs: 0, bodies: 0, trimeshesBuilt: 0, trimeshMs: 0 };
+    const debug: ColliderDebug = {
+      lastBuildMs: 0, bodies: 0, trimeshesBuilt: 0, trimeshMs: 0, frames: 0, elapsedMs: 0 };
+    // Sliced work: sum each resumed segment, never the wall clock across them.
+    let cpuMs = 0;
     const buildStart = performance.now();
+    // A rebuild that became due while the last one was still creating bodies
+    // cancels it: whatever it already built is in `bodies.current`, so the
+    // diff below simply keeps it. Nothing leaks, nothing is built twice.
+    running.current?.cancel();
+    running.current = null;
     const { chosen, coveredRadiusM } = selectNearestSolids(
       solidsRef.current, focus, RING_M, COLLIDER_BUDGET, caches.costOf, MAX_BODIES,
     );
     builtAt.current = { x: focus.x, z: focus.z, covered: coveredRadiusM };
 
     // Diff against the live set: only the ring's leading and trailing edges
-    // actually change on a rebuild.
+    // actually change on a rebuild. Selection and the diff are cheap and stay
+    // synchronous; only body creation is sliced.
     const wanted = new Map<string, SolidInstance>();
     for (const instance of chosen) wanted.set(instanceKey(instance), instance);
     for (const [key, entry] of bodies.current) {
@@ -279,6 +301,7 @@ export function VegetationColliders({
         bodies.current.delete(key);
       }
     }
+    const toBuild: { key: string; instance: SolidInstance }[] = [];
     for (const [key, instance] of wanted) {
       const live = bodies.current.get(key);
       if (live) {
@@ -290,27 +313,43 @@ export function VegetationColliders({
         }
         continue;
       }
-      const shapes = caches.shapesFor(instance.species);
-      if (!shapes.length) continue;
-      bodies.current.set(
-        key,
-        {
-          body: buildBody(world, rapier, instance, shapes, vertexCache.current, debug),
+      if (!caches.shapesFor(instance.species).length) continue;
+      toBuild.push({ key, instance });
+    }
+    // Nearest first: what the player could touch this second is solid first.
+    toBuild.sort((a, b) =>
+      Math.hypot(a.instance.x - focus.x, a.instance.z - focus.z)
+      - Math.hypot(b.instance.x - focus.x, b.instance.z - focus.z));
+
+    cpuMs += performance.now() - buildStart;
+    function* buildJob(): Generator<void> {
+      for (const { key, instance } of toBuild) {
+        const segmentStart = performance.now();
+        bodies.current.set(key, {
+          body: buildBody(world, rapier, instance,
+            caches.shapesFor(instance.species), vertexCache.current, debug),
           y: instance.y,
-        },
-      );
+        });
+        debug.frames++;
+        cpuMs += performance.now() - segmentStart;
+        yield;
+      }
+      running.current = null;
+      onCount?.(bodies.current.size);
+      if (import.meta.env.DEV) {
+        debug.lastBuildMs = Math.round(cpuMs * 10) / 10;
+        debug.elapsedMs = Math.round(performance.now() - buildStart);
+        debug.trimeshMs = Math.round(debug.trimeshMs * 10) / 10;
+        debug.bodies = bodies.current.size;
+        (window as unknown as { __STUDIO_VEG_COLLIDERS_DEBUG__?: ColliderDebug })
+          .__STUDIO_VEG_COLLIDERS_DEBUG__ = debug;
+        console.debug(
+          `flora colliders rebuild ${debug.lastBuildMs} ms over ${debug.frames} frames `
+          + `(${debug.elapsedMs} ms elapsed), `
+          + `${debug.bodies} bodies, ${debug.trimeshesBuilt} trimeshes in ${debug.trimeshMs} ms`);
+      }
     }
-    onCount?.(bodies.current.size);
-    if (import.meta.env.DEV) {
-      debug.lastBuildMs = Math.round((performance.now() - buildStart) * 10) / 10;
-      debug.trimeshMs = Math.round(debug.trimeshMs * 10) / 10;
-      debug.bodies = bodies.current.size;
-      (window as unknown as { __STUDIO_VEG_COLLIDERS_DEBUG__?: ColliderDebug })
-        .__STUDIO_VEG_COLLIDERS_DEBUG__ = debug;
-      console.debug(
-        `flora colliders rebuild ${debug.lastBuildMs} ms, ${debug.bodies} bodies, `
-        + `${debug.trimeshesBuilt} trimeshes in ${debug.trimeshMs} ms`);
-    }
+    running.current = queue.add(buildJob(), { priority: 10, label: "flora-colliders" });
   });
 
   return null;

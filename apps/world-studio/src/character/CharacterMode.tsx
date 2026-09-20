@@ -48,6 +48,7 @@ import { useBoundaryMessage } from "@elder-souls/game-core/boundary/useBoundaryM
 import { PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M } from "../provinceScale";
 import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
+import { FrameWorkProvider } from "./FrameWorkProvider";
 import { lastWeatherSample } from "../weather/weatherState";
 import { headingOf } from "../compass";
 import { Minimap } from "./Minimap";
@@ -390,6 +391,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
           <CanvasErrorBoundary onError={setCanvasError}>
+          {/* Walking-stutter fix (owner 2026-09-20): the per-crossing rebuilds
+              below run as budgeted generator jobs on this queue. */}
+          <FrameWorkProvider>
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
@@ -482,7 +486,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 onCount={setFloraColliderCount}
               />
             )}
-            <SettlementColliders solidsRef={settlementSolidsRef} />
+            <SettlementColliders solidsRef={settlementSolidsRef} focusRef={focusRef} />
             {/* 16e: operator sockets, the talk prompt and the travel menu.
                 16g: `travel_services` is the stage that sites them, so they
                 are not mounted while the ladder hides the services layer —
@@ -536,6 +540,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </Physics>
           </Suspense>
           </WorldSky>
+          </FrameWorkProvider>
           </CanvasErrorBoundary>
         </Canvas>
       ) : (

@@ -884,6 +884,13 @@ Deliverables:
   app, menus and deploy slice stay in the build-out);
 - production chunk format;
 - dependency-aware streaming (nav tiles stream with chunks, §114);
+- **main-thread work moved to workers** — terrain grid geometry, flora
+  collider bodies (trimesh BVH), settlement far-merges and vegetation cell
+  builds are built in web workers and handed over as transferables; the
+  `FrameWorkQueue` (`packages/game-core/src/scheduling/`, 16g follow-up
+  2026-09-20) stays as the main-thread hand-over budget. Queued 2026-09-20
+  from the walking-stutter root cause: every crossing into new ground ran
+  those builds synchronously in one frame;
 - LOD and instance batching; vegetation quality tiers locked as one
   declarative table (T3 ring, T2 caps, impostor distances — §112);
 - **billboard/impostor audit for the flora kit** — DONE in 16f round 2 (2026-09-18, decision 0071): the audit found no card mapped by a wrong filename (11 explicit borrows only) but 115 of 159 flora species, all 61 ground-cover species and all underwater species had NO card; the kit builder now bakes a card per asset from its own mesh (`bakeCards`), rocks ship one mesh level; the runtime crossfades every level by dither. What stays here for Phase 14: locking the distances as one declarative table and the per-device budgets. Original observation kept for the record (owner,

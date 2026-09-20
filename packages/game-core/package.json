@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./settlement/SettlementLayer": "./src/settlement/SettlementLayer.tsx",
+    "./scheduling/frameWorkContext": "./src/scheduling/frameWorkContext.tsx",
     "./terrain/BorderApron": "./src/terrain/BorderApron.tsx",
     "./boundary/BoundaryWalls": "./src/boundary/BoundaryWalls.tsx",
     "./air/AmbientAir": "./src/air/AmbientAir.tsx",

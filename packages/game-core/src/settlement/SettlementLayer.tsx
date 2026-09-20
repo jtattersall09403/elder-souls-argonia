@@ -3,6 +3,8 @@ import { useFrame } from "@react-three/fiber";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import { createKitLoader } from "../assets/kitLoader";
+import { useFrameWork } from "../scheduling/frameWorkContext";
+import type { FrameJobHandle } from "../scheduling/frameWork";
 import { useKitDecoders } from "../assets/useKitDecoders";
 import {
   anchorPlacement,
@@ -52,6 +54,29 @@ const EMPTY_FINAL_TRANSFORM_EVIDENCE = Object.freeze({
   groundBoundInstances: 0, shadowPairedDraws: 0,
   shadowPairFailures: Object.freeze([] as string[]),
 });
+
+/** Dispose and detach everything the layer put in `group`. Used both when a
+ * finished build swaps its detached group in and on unmount. */
+function disposeChildren(group: THREE.Group): void {
+  const depthMaterials = new Set<THREE.Material>();
+  for (const child of [...group.children]) {
+    group.remove(child);
+    if (child instanceof THREE.Mesh && child.customDepthMaterial) {
+      depthMaterials.add(child.customDepthMaterial);
+    }
+    if (child instanceof THREE.InstancedMesh) {
+      child.dispose();
+      if (child.userData.esSettlementOwnedGeometry) child.geometry.dispose();
+    }
+    else if (child instanceof THREE.Mesh) {
+      child.geometry.dispose();
+      if (!child.userData.esSettlementFarMerge) {
+        (child.material as THREE.Material).dispose();
+      }
+    }
+  }
+  depthMaterials.forEach((material) => material.dispose());
+}
 
 const REBUILD_MOVE_M = 40;
 const MAX_RENDER_DISTANCE_M = 5000;
@@ -194,6 +219,12 @@ export function SettlementLayer({
   const incomplete = useRef(false);
   const retryAt = useRef(0);
   const collisionFailure = useRef<SettlementProofState["collision"] | null>(null);
+  // The whole build is sliced over frames at priority 40 — last, behind
+  // colliders, terrain and vegetation — and assembled into a DETACHED group
+  // that replaces the live one in a single final step, so a half-built
+  // settlement is never on screen (owner 2026-09-20, walking stutter).
+  const running = useRef<FrameJobHandle | null>(null);
+  const queue = useFrameWork();
   const uniforms = useMemo<SettlementMaterialUniforms>(() => ({
     esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 },
   }), []);
@@ -291,11 +322,17 @@ export function SettlementLayer({
     // must surface as its own fatal sentinel. Uncaught, it unmounts the whole
     // React subtree the layer sits in — which is how one two-tier-LOD asset
     // took the studio's entire HUD down with it (2026-09-09).
-    const build = (): (() => void) | void => {
+    function* build(): Generator<void> {
       const group = root.current;
       if (!group || !bundle || fatalError) return;
-      group.clear();
+      // Built DETACHED: the live group keeps drawing the last finished build
+      // until the final step swaps this one in.
+      const next = new THREE.Group();
       const focus = focusRef.current;
+      // A cancelled build (a new revision, or unmount) must not strand the
+      // meshes it had already made: `finally` runs on the generator's
+      // `return()`, and after a successful swap `next` is empty.
+      try {
       const residentPlacementIds = residentPlacementIdsAt(bundle.settlements, focus);
       builtAt.current = { ...focus, coveredRadiusM: 0 };
       const buckets = new Map<string, DrawBucket>();
@@ -305,7 +342,9 @@ export function SettlementLayer({
       const placementGrounding: SettlementPlacementGroundAudit[] = [];
       let placementCount = 0;
       incomplete.current = false;
+      let sinceYield = 0;
       for (const placement of bundle.placements) {
+        if (++sinceYield >= 64) { sinceYield = 0; yield; }
         // Audit every physical place reference, not just what this quality tier
         // happens to draw. settlement.placementIds includes dressing, so the
         // expected and measured populations remain exactly comparable.
@@ -382,6 +421,7 @@ export function SettlementLayer({
       let nearInstances = 0; let groundBoundInstances = 0; let shadowPairedDraws = 0;
       const shadowPairFailures: string[] = [];
       for (const bucket of buckets.values()) {
+        yield;
         const material = bucket.part.material;
         validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
         const windowMaterial = /window|glow/i.test(material.name);
@@ -405,7 +445,7 @@ export function SettlementLayer({
           if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
           mesh.userData.esSettlementLodAuthority = true;
           mesh.userData.esSettlementOwnedGeometry = true;
-          group.add(mesh);
+          next.add(mesh);
           draws += 1;
           nearInstances += bucket.transforms.length;
           groundBoundInstances += bucket.transforms.length;
@@ -419,7 +459,7 @@ export function SettlementLayer({
           mesh.castShadow = true; mesh.receiveShadow = true;
           if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
           mesh.userData.esSettlementFarMerge = true;
-          group.add(mesh);
+          next.add(mesh);
           draws += 1;
           farMeshes += 1;
           farInstances += bucket.farTransforms.length;
@@ -430,14 +470,19 @@ export function SettlementLayer({
         triangles += bucket.part.triangles * bucket.farTransforms.length;
       }
       // Fine wall-foot skirt/contact AO: near-only, never part of far LOD.
+      yield;
       for (const treatment of bundle.groundTreatments) {
         const cx = treatment.footprintM.reduce((n, p) => n + p[0], 0) / treatment.footprintM.length;
         const cz = treatment.footprintM.reduce((n, p) => n + p[1], 0) / treatment.footprintM.length;
         if (Math.hypot(cx - focus.x, cz - focus.z) > 300) continue;
         const skirt = treatmentMesh(treatment.footprintM, treatment.baseSkirtWidthM, groundAt);
-        if (skirt) group.add(skirt);
+        if (skirt) next.add(skirt);
       }
       const grounding = settlementGroundAudits(bundle.settlements, placementGrounding);
+      // Final step: the finished build replaces the live one atomically.
+      disposeChildren(group);
+      // Snapshot: `add` detaches each child from `next` as it goes.
+      group.add(...[...next.children]);
       onSolids?.(collision.chosen);
       const collisionAudit = {
         status: collision.activeSettlementIds.length ? "resident" as const : "ring" as const,
@@ -481,35 +526,31 @@ export function SettlementLayer({
         finalTransformEvidence,
         collision: collisionAudit,
       });
-      return () => {
-        const depthMaterials = new Set<THREE.Material>();
-        for (const child of [...group.children]) {
-          group.remove(child);
-          if (child instanceof THREE.Mesh && child.customDepthMaterial) {
-            depthMaterials.add(child.customDepthMaterial);
-          }
-          if (child instanceof THREE.InstancedMesh) {
-            child.dispose();
-            if (child.userData.esSettlementOwnedGeometry) child.geometry.dispose();
-          }
-          else if (child instanceof THREE.Mesh) {
-            child.geometry.dispose();
-            if (!child.userData.esSettlementFarMerge) {
-              (child.material as THREE.Material).dispose();
-            }
-          }
-        }
-        depthMaterials.forEach((material) => material.dispose());
-      };
-    };
-    try {
-      return build();
-    } catch (error) {
-      onSolids?.([]);
-      setFatalError(error instanceof Error ? error : new Error(String(error)));
-      return undefined;
+      } finally {
+        // A successful swap leaves `next` empty; a cancelled build does not.
+        disposeChildren(next);
+      }
     }
-  }, [bundle, kits, revision, groundAt, quality?.architectureDrawScale,
+
+    running.current?.cancel();
+    running.current = queue.add(build(), {
+      priority: 40,
+      label: "settlement",
+      onDone: () => { running.current = null; },
+      // Every throw from ANY step is the settlement layer's own failure, the
+      // same as the synchronous try/catch this replaced.
+      onError: (error) => {
+        running.current = null;
+        onSolids?.([]);
+        setFatalError(error instanceof Error ? error : new Error(String(error)));
+      },
+    });
+    return () => {
+      running.current?.cancel();
+      running.current = null;
+      if (root.current) disposeChildren(root.current);
+    };
+  }, [queue, bundle, kits, revision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError]);
 
   // A conspicuous runtime sentinel makes missing settlement data visible in

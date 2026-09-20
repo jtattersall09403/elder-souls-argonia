@@ -6,6 +6,8 @@ import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import { lodForDistance, type ChunkGrid, type ChunkMeta, type ChunkStore, type ChunksManifest } from "./chunkStore";
 import { useHiddenLayers } from "../ladder";
 import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
+import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
+import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
 
 /**
  * Chunked terrain renderer: every province chunk is its own mesh, LOD chosen
@@ -21,18 +23,14 @@ import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeo
 
 const desiredLod = lodForDistance;   // rings: 1 near (LOD 1), 3 mid (LOD 2), beyond LOD 4
 
-function ChunkMesh({ grid, material, verticalScale, uvExtentM, uvOriginM }: {
+function ChunkMesh({ grid, geometry, material }: {
   grid: ChunkGrid;
+  /** Built under the frame budget by `ChunkTerrain` and cached there, which
+   * also owns its disposal: a chunk arriving used to build its grid geometry
+   * inside the React commit that mounted it (owner 2026-09-20). */
+  geometry: THREE.BufferGeometry;
   material: THREE.Material;
-  verticalScale: number;
-  uvExtentM: number;
-  uvOriginM?: [number, number];
 }) {
-  const geometry = useMemo(
-    () => buildTerrainGridGeometry(grid, verticalScale, uvExtentM, uvOriginM ?? [0, 0]),
-    [grid, verticalScale, uvExtentM, uvOriginM],
-  );
-  useEffect(() => () => geometry.dispose(), [geometry]);
   // ONLY the near ring casts sun shadows: the character-mode shadow frustum
   // ends at 300 m, so mid/far chunks drawn into the cascades were pure waste
   // — a large share of the post-load jerky-fps period (owner round 4).
@@ -125,6 +123,20 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     return max;
   }, [manifest]);
 
+  // Chunk geometry cache, keyed `cx,cy,lod`, filled ONE PER STEP on the
+  // shared frame-work queue (priority 20: after colliders, before the visual
+  // rebuilds). A chunk whose geometry is not cached yet draws nothing this
+  // pass, exactly as an undecoded chunk does.
+  const geometries = useRef(new Map<string, THREE.BufferGeometry>());
+  const queue = useFrameWork();
+  const meshJob = useRef<FrameJobHandle | null>(null);
+  const [, setGeometryVersion] = useState(0);
+  useEffect(() => () => {
+    meshJob.current?.cancel();
+    for (const geometry of geometries.current.values()) geometry.dispose();
+    geometries.current.clear();
+  }, []);
+
   const [focusCell, setFocusCell] = useState<[number, number]>([-99, -99]);
   const [, setLoadedVersion] = useState(0);
   useFrame(() => {
@@ -170,23 +182,62 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     ...manifest.chunks.map((chunk) => ({ chunk, apron: false })),
     ...(apron?.chunks ?? []).map((chunk) => ({ chunk, apron: true })),
   ];
-  const meshes = drawn.map(({ chunk, apron: isApron }) => {
+  const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
+  const resolved = drawn.map(({ chunk, apron: isApron }) => {
     const want = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
     // Render the desired LOD if decoded; otherwise the best fallback we have.
     const grid = store.loaded(chunk.cx, chunk.cy, want)
       ?? store.loaded(chunk.cx, chunk.cy, "4")
       ?? store.loaded(chunk.cx, chunk.cy, "2")
       ?? store.loaded(chunk.cx, chunk.cy, "1");
+    return { chunk, isApron, grid };
+  });
+  const wantedKeys = new Set<string>();
+  const missing: { key: string; grid: ChunkGrid; isApron: boolean; distance: number }[] = [];
+  const focus = focusRef.current;
+  for (const { chunk, isApron, grid } of resolved) {
+    if (!grid) continue;
+    const key = `${chunk.cx},${chunk.cy},${grid.lod}`;
+    wantedKeys.add(key);
+    if (geometries.current.has(key)) continue;
+    const centreX = (chunk.cx + 0.5) * manifest.chunkMetres;
+    const centreZ = (chunk.cy + 0.5) * manifest.chunkMetres;
+    missing.push({ key, grid, isApron,
+      distance: Math.hypot(centreX - focus.x, centreZ - focus.z) });
+  }
+  // Evict what is no longer drawn (this replaces ChunkMesh's own dispose).
+  for (const [key, geometry] of geometries.current) {
+    if (wantedKeys.has(key)) continue;
+    geometry.dispose();
+    geometries.current.delete(key);
+  }
+  if (missing.length) {
+    missing.sort((a, b) => a.distance - b.distance);
+    meshJob.current?.cancel();
+    const build = function* (): Generator<void> {
+      for (const { key, grid, isApron } of missing) {
+        if (geometries.current.has(key)) continue;
+        geometries.current.set(key, buildTerrainGridGeometry(
+          grid, scale,
+          isApron && apron ? apron.uvExtentM : uvExtentM,
+          (isApron && apron ? apron.uvOriginM : undefined) ?? [0, 0]));
+        yield;
+      }
+      meshJob.current = null;
+      setGeometryVersion((v) => v + 1);
+    };
+    meshJob.current = queue.add(build(), { priority: 20, label: "terrain-mesh" });
+  }
+  const meshes = resolved.map(({ chunk, isApron, grid }) => {
     if (!grid) return null;
-    const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
+    const geometry = geometries.current.get(`${chunk.cx},${chunk.cy},${grid.lod}`);
+    if (!geometry) return null;
     return (
       <ChunkMesh
         key={`${chunk.cx},${chunk.cy},${grid.lod}`}
         grid={grid}
+        geometry={geometry}
         material={isApron && apron ? apron.material : material}
-        verticalScale={scale}
-        uvExtentM={isApron && apron ? apron.uvExtentM : uvExtentM}
-        uvOriginM={isApron && apron ? apron.uvOriginM : undefined}
       />
     );
   });

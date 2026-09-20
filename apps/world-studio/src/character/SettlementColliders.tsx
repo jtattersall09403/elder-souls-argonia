@@ -4,14 +4,24 @@ import { useRapier } from "@react-three/rapier";
 import type { RigidBody } from "@dimforge/rapier3d-compat";
 import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
+import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
+import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
 
 /** Imperative fixed-body diff for the package's nearby architecture solids. */
-export function SettlementColliders({ solidsRef }: {
+export function SettlementColliders({ solidsRef, focusRef }: {
   solidsRef: React.MutableRefObject<SettlementSolid[]>;
+  /** Where the player is, when the caller has it: bodies are then created
+   * nearest first, so what could be touched this second is solid first. */
+  focusRef?: React.MutableRefObject<{ x: number; z: number }>;
 }) {
   const { world, rapier } = useRapier();
   const bodies = useRef(new Map<string, RigidBody>());
   const revision = useRef("");
+  // One body per step on the shared queue (priority 10, with the flora
+  // colliders): a settlement arriving used to create every wall at once.
+  const queue = useFrameWork();
+  const running = useRef<FrameJobHandle | null>(null);
+  useEffect(() => () => { running.current?.cancel(); running.current = null; }, []);
   useEffect(() => {
     const live = bodies.current;
     const bodySet = captureBodySet(world);
@@ -28,29 +38,42 @@ export function SettlementColliders({ solidsRef }: {
     const nextRevision = solids.map((s) => s.id).join("|");
     if (revision.current === nextRevision) return;
     revision.current = nextRevision;
+    running.current?.cancel();
+    running.current = null;
     const wanted = new Set(solids.map((s) => s.id));
     for (const [id, body] of bodies.current) {
       if (!wanted.has(id)) { world.removeRigidBody(body); bodies.current.delete(id); }
     }
-    for (const solid of solids) {
-      if (bodies.current.has(solid.id)) continue;
-      const half = solid.yaw / 2;
-      const body = world.createRigidBody(rapier.RigidBodyDesc.fixed()
-        .setTranslation(...solid.position)
-        .setRotation({ x: 0, y: Math.sin(half), z: 0, w: Math.cos(half) }));
-      for (const part of solid.parts) {
-        world.createCollider(rapier.ColliderDesc.cuboid(
-          part.halfExtentsM[0] * solid.scale,
-          part.halfExtentsM[1] * solid.scale,
-          part.halfExtentsM[2] * solid.scale,
-        ).setTranslation(
-          part.offsetM[0] * solid.scale,
-          part.offsetM[1] * solid.scale,
-          part.offsetM[2] * solid.scale,
-        ), body);
-      }
-      bodies.current.set(solid.id, body);
+    const toBuild = solids.filter((solid) => !bodies.current.has(solid.id));
+    const focus = focusRef?.current;
+    if (focus) {
+      toBuild.sort((a, b) =>
+        Math.hypot(a.position[0] - focus.x, a.position[2] - focus.z)
+        - Math.hypot(b.position[0] - focus.x, b.position[2] - focus.z));
     }
+    function* buildJob(): Generator<void> {
+      for (const solid of toBuild) {
+        const half = solid.yaw / 2;
+        const body = world.createRigidBody(rapier.RigidBodyDesc.fixed()
+          .setTranslation(...solid.position)
+          .setRotation({ x: 0, y: Math.sin(half), z: 0, w: Math.cos(half) }));
+        for (const part of solid.parts) {
+          world.createCollider(rapier.ColliderDesc.cuboid(
+            part.halfExtentsM[0] * solid.scale,
+            part.halfExtentsM[1] * solid.scale,
+            part.halfExtentsM[2] * solid.scale,
+          ).setTranslation(
+            part.offsetM[0] * solid.scale,
+            part.offsetM[1] * solid.scale,
+            part.offsetM[2] * solid.scale,
+          ), body);
+        }
+        bodies.current.set(solid.id, body);
+        yield;
+      }
+      running.current = null;
+    }
+    running.current = queue.add(buildJob(), { priority: 10, label: "settlement-colliders" });
   });
   return null;
 }

@@ -34,7 +34,7 @@ it("loads terrain independently of either vegetation asset and retains a ground 
 
 it('retains macro terrain until an actual detail mesh exists, then excludes macro from the detail group', () => {
   const source = readFileSync(new URL('./character/ChunkTerrain.tsx', import.meta.url), 'utf8');
-  const built = source.indexOf('const meshes = drawn.map(');
+  const built = source.indexOf('const meshes = resolved.map(');
   const gate = source.indexOf("if (!meshes.slice(0, manifest.chunks.length).some((mesh) => mesh !== null)) return <>{loadingFallback ?? null}</>;");
   const detailed = source.indexOf('return <group>{meshes}</group>;');
   expect(built).toBeGreaterThan(0); expect(gate).toBeGreaterThan(built); expect(detailed).toBeGreaterThan(gate);
@@ -42,5 +42,9 @@ it('retains macro terrain until an actual detail mesh exists, then excludes macr
   // or decoded chunks.
   const selection = source.slice(built, gate);
   expect(selection).toContain('if (!grid) return null');
+  // Since the walking-stutter fix the geometry is built under a frame budget
+  // and cached: a chunk whose geometry is not ready yet draws nothing this
+  // pass, exactly as an undecoded chunk does, so the fallback still stands.
+  expect(selection).toContain('if (!geometry) return null');
   expect(selection).toContain('<ChunkMesh');
 });

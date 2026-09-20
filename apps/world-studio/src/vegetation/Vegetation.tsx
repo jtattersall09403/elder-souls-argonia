@@ -54,6 +54,7 @@ import {
 } from "@elder-souls/game-core/physics/floraSolids";
 import { lastWeatherSample } from "../weather/weatherState";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
+import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { groundHeightM } from "./terrainHeight";
 import {
   ANCHOR_PIVOT_TERRAIN,
@@ -109,7 +110,15 @@ export interface VegetationStats {
    * LOD, bucket), `fill` is pass two (matrices, attributes, pool), `total`
    * the whole effect. Published so the walking stutter is measured, not
    * guessed (16f round 3). */
-  rebuildMs: { total: number; bucket: number; fill: number };
+  /** `frames` is how many frame-work pump calls the rebuild spanned
+   * (walking-stutter fix, owner 2026-09-20). */
+  rebuildMs: {
+    /** Main-thread milliseconds the rebuild actually SPENT, summed across the
+     * frames it was sliced over — never the wall clock between them. */
+    total: number; bucket: number; fill: number;
+    /** Pump calls it spanned, and the wall clock from first step to last. */
+    frames: number; elapsedMs: number;
+  };
 }
 
 function chunkKey(cx: number, cz: number): string {
@@ -238,6 +247,9 @@ export function Vegetation({
   const loaded = useRef(new Map<string, ChunkVegetation>());
   const pending = useRef(new Set<string>());
   const groups = useRef<DrawGroup[]>([]);
+  // The rebuild runs as a budgeted generator job (priority 30) rather than
+  // one synchronous burst per crossing (owner 2026-09-20).
+  const queue = useFrameWork();
   /**
    * Persistent instanced meshes keyed `species|level|block|part`, alive for
    * the component's life (the ground-cover ring's mechanism 7). A rebuild
@@ -508,10 +520,25 @@ export function Vegetation({
     const group = root.current;
     if (!group || !kit || !index) return;
 
+    // Bound here, not read through the closure: the rebuild below is a nested
+    // generator, where TypeScript cannot keep the guard's narrowing.
+    const liveGroup = group;
+    const liveKit = kit;
+    const liveIndex = index;
     const rebuildStart = performance.now();
+    let frames = 0;
+    // The job is sliced, so `performance.now()` differences across a yield are
+    // wall clock, not work. Each resumed segment is timed and summed instead.
+    let cpuMs = 0;
+    let segmentStart = rebuildStart;
+    const closeSegment = () => { cpuMs += performance.now() - segmentStart; };
     // Nothing is destroyed here (mechanism 7): every pooled mesh this
     // rebuild does not fill is parked at `count = 0` at the end.
-    groups.current = [];
+    // `groups.current` is NOT blanked up front: the job spans frames, and the
+    // live draw list must stay valid until the new one is complete.
+    const built: DrawGroup[] = [];
+
+    function* rebuildJob(): Generator<void> {
 
     // One instanced mesh per (species, LOD level, geometry part) across ALL
     // loaded chunks, not per chunk: per-chunk meshes cost a draw call each and
@@ -592,7 +619,7 @@ export function Vegetation({
     // A chunk instance can sit anywhere in its 468 m square, so chunk-level
     // culls must allow for the worst case: focus at one corner, instance at
     // the opposite one.
-    const halfDiagonal = index.chunkMetres * Math.SQRT1_2;
+    const halfDiagonal = liveIndex.chunkMetres * Math.SQRT1_2;
     // One InstancedMesh per species spanning the whole 5x5 neighbourhood
     // (~2.3 km) can never be frustum-rejected, so `frustumCulled` bought
     // nothing. The neighbourhood is instead QUARTERED at the focus chunk's
@@ -601,8 +628,8 @@ export function Vegetation({
     // level, quarter): a quarter behind the camera is genuinely rejected,
     // for 4x the bucket count rather than the 9x a finer grid cost (measured
     // ~554 potential draws at 9 blocks, too many for the browser).
-    const focusChunkX = Math.floor(focus.x / index.chunkMetres);
-    const focusChunkZ = Math.floor(focus.z / index.chunkMetres);
+    const focusChunkX = Math.floor(focus.x / liveIndex.chunkMetres);
+    const focusChunkZ = Math.floor(focus.z / liveIndex.chunkMetres);
     const blockAxis = (delta: number): number => (delta < 0 ? 0 : 1);
     let culled = 0;
     let billboardInstances = 0;
@@ -611,7 +638,7 @@ export function Vegetation({
     // ground. The canopy top is the tallest species in the kit, so a cell is
     // only called hidden when even that would be hidden.
     let tallestM = 0;
-    for (const species of kit.values()) {
+    for (const species of liveKit.values()) {
       if (species.heightM > tallestM) tallestM = species.heightM;
     }
     const sampleGround = chunksManifest
@@ -631,18 +658,19 @@ export function Vegetation({
     const underwaterOnly = new Set(underwaterManifest?.assets.map((a) => a.id) ?? []);
     for (const a of manifest?.assets ?? []) underwaterOnly.delete(a.id);
     let needsUnderwater = false;
-    for (const chunk of loaded.current.values()) {
-      const centreX = chunk.originX + index.chunkMetres / 2;
-      const centreZ = chunk.originZ + index.chunkMetres / 2;
+    const chunkList = [...loaded.current.values()];
+    for (const chunk of chunkList) {
+      const centreX = chunk.originX + liveIndex.chunkMetres / 2;
+      const centreZ = chunk.originZ + liveIndex.chunkMetres / 2;
       const chunkDistance = Math.hypot(eye.x - centreX, eye.z - centreZ);
       const blockIndex =
-        blockAxis(Math.round(chunk.originZ / index.chunkMetres) - focusChunkZ) * 2
-        + blockAxis(Math.round(chunk.originX / index.chunkMetres) - focusChunkX);
+        blockAxis(Math.round(chunk.originZ / liveIndex.chunkMetres) - focusChunkZ) * 2
+        + blockAxis(Math.round(chunk.originX / liveIndex.chunkMetres) - focusChunkX);
 
       for (const speciesGroup of chunk.bundle.species) {
         if (speciesGroup.count === 0) continue;
-        const id = index.speciesOrder?.[speciesGroup.index];
-        const entry = id ? kit.get(id) : undefined;
+        const id = liveIndex.speciesOrder?.[speciesGroup.index];
+        const entry = id ? liveKit.get(id) : undefined;
         if (!entry) {
           // A sea-bed species the (unloaded) underwater kit holds: request
           // the kit once one of its instances comes within the lead distance.
@@ -679,7 +707,7 @@ export function Vegetation({
         const maxDraw = entry.submerged
           ? Math.min(maxDrawDistance(entry.heightM) * drawScale, SUBMERGED_MAX_DRAW_M)
           : entry.category === "tree"
-            ? treeDrawDistance(chunkRing, index.chunkMetres)
+            ? treeDrawDistance(chunkRing, liveIndex.chunkMetres)
             : maxDrawDistance(entry.heightM) * drawScale;
         if (chunkDistance - halfDiagonal > maxDraw) {
           culled += speciesGroup.count;
@@ -780,6 +808,9 @@ export function Vegetation({
             });
           }
         }
+        // One species group of one chunk is the indivisible step of pass one.
+        frames++;
+        closeSegment(); yield; segmentStart = performance.now();
       }
     }
 
@@ -818,7 +849,7 @@ export function Vegetation({
       buckets.set(`${key}|${UNSPLIT_BLOCK}`, merged);
     }
 
-    const bucketMs = performance.now() - rebuildStart;
+    const bucketMs = cpuMs + (performance.now() - segmentStart);
     // Pass two: one InstancedMesh per bucket per geometry part, from the pool.
     const filled = new Set<string>();
     let instances = 0;
@@ -835,7 +866,7 @@ export function Vegetation({
           if (y > seen.maxY) seen.maxY = y;
         }
       }
-      const entry = kit.get(bucket.species)!;
+      const entry = liveKit.get(bucket.species)!;
       // `level` is clamped to a valid index where it is chosen, so this is a
       // real lookup, not a fallback.
       const parts = entry.levels[bucket.level].parts;
@@ -869,13 +900,13 @@ export function Vegetation({
         if (!mesh || mesh.instanceMatrix.count < bucket.count) {
           // Too small (or new): grow by 1.5x so a neighbourhood that keeps
           // creeping up by a few instances does not reallocate every 16 m.
-          if (mesh) { group.remove(mesh); mesh.dispose(); }
+          if (mesh) { liveGroup.remove(mesh); mesh.dispose(); }
           mesh = new THREE.InstancedMesh(
             geometry, part.material, Math.max(64, Math.ceil(bucket.count * 1.5)));
           mesh.frustumCulled = true;
           mesh.boundingSphere = new THREE.Sphere();
           pool.current.set(meshKey, mesh);
-          group.add(mesh);
+          liveGroup.add(mesh);
         }
         mesh.count = bucket.count;
         filled.add(meshKey);
@@ -929,28 +960,41 @@ export function Vegetation({
           bucket.level === 0
           && centre !== undefined
           && Math.hypot(centre.x - focus.x, centre.z - focus.z) <= SHADOW_CAST_RANGE_M;
-        groups.current.push({ mesh, species: bucket.species, level: bucket.level });
+        built.push({ mesh, species: bucket.species, level: bucket.level });
         const geometryIndex = geometry.getIndex();
         triangles +=
           ((geometryIndex ? geometryIndex.count : geometry.attributes.position.count) / 3)
           * bucket.count;
+        // One (bucket, geometry part) mesh fill is the step of pass two.
+        frames++;
+        closeSegment(); yield; segmentStart = performance.now();
       }
     }
+
+    // The new draw list is complete: publish it, and only now.
+    groups.current = built;
+    frames++;
+    closeSegment(); yield; segmentStart = performance.now();
 
     // Park every pooled mesh this rebuild did not fill: drawn nothing, but
     // its buffers stay for the next crossing.
     for (const [meshKey, mesh] of pool.current) {
       if (!filled.has(meshKey)) mesh.count = 0;
     }
-    const totalMs = performance.now() - rebuildStart;
+    closeSegment();
+    const totalMs = cpuMs;
     const rebuildMs = {
       total: Math.round(totalMs * 10) / 10,
       bucket: Math.round(bucketMs * 10) / 10,
       fill: Math.round((totalMs - bucketMs) * 10) / 10,
+      frames,
+      elapsedMs: Math.round(performance.now() - rebuildStart),
     };
     if (import.meta.env.DEV) {
       console.debug(
-        `vegetation rebuild ${rebuildMs.total} ms (bucket ${rebuildMs.bucket}, fill ${rebuildMs.fill}), `
+        `vegetation rebuild ${rebuildMs.total} ms over ${frames} frames `
+        + `(${rebuildMs.elapsedMs} ms elapsed) `
+        + `(bucket ${rebuildMs.bucket}, fill ${rebuildMs.fill}), `
         + `${groups.current.length} draws, ${instances} instances, pool ${pool.current.size}`);
     }
     const stats: VegetationStats = {
@@ -977,7 +1021,12 @@ export function Vegetation({
       (window as unknown as { __STUDIO_VEGETATION_MESHES__?: DrawGroup[] })
         .__STUDIO_VEGETATION_MESHES__ = groups.current;
     }
-  }, [kit, index, manifest, underwaterManifest, revision, verticalScale, onStats, onSolids, focusRef,
+    }
+
+    const handle = queue.add(rebuildJob(), { priority: 30, label: "vegetation" });
+    // A new revision mid-run cancels and restarts: the intended behaviour.
+    return () => handle.cancel();
+  }, [queue, kit, index, manifest, underwaterManifest, revision, verticalScale, onStats, onSolids, focusRef,
       drawScale, chunksManifest, store, wind, lodFade]);
 
   return <group ref={root} name="vegetation" />;
