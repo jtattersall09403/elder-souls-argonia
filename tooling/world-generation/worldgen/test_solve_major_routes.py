@@ -252,7 +252,11 @@ def test_a_gradable_step_costs_earthworks_and_a_cliff_is_a_wall():
     from .routes import grade_factor
     lip = grade_factor(2.0, 5.48, 8.0, gradable_m=8.0)      # a 2 m terrace lip on a road
     walled = grade_factor(2.0, 5.48, 8.0)                    # the same lip on a track
-    assert 20.0 < lip < 60.0, lip                            # a short ramp's worth, not a wall
+    # Band re-based 2026-09-20 on the road tuning the owner walked and froze in
+    # 16e round 3 (af6f4f64): grade_factor now returns 91.2 here. The claim the
+    # test makes is the comparison below — a gradable step costs a short ramp's
+    # worth, a cliff on a track is a wall an order of magnitude dearer.
+    assert 60.0 < lip < 140.0, lip                           # a short ramp's worth, not a wall
     assert walled > 10 * lip                                 # tracks are never graded: the cap walls them
     assert grade_factor(8.5, 5.48, 8.0, gradable_m=8.0) == np.inf
     assert grade_factor(0.0, 5.48, 8.0, gradable_m=8.0) == 1.0

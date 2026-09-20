@@ -318,6 +318,9 @@ wishlist here was being read as scope):
   the recorded lanes, reach chains and rootways, with a harbour station per
   major city and connectedness as the gate (depth is reported, never gated;
   owner 2026-09-18);
+  the service kinds are ferry, boat, canoe and rootworm (guide, cart and
+  porter wait for Phase 15); `canoe` is the minor-waterway run between the
+  smaller places (2026-09-20, decision 0068 §4);
   NPC passengers are set dressing (parented props at most).
 
 *Deferred until a quest brief or playtest demands them (none currently does):*

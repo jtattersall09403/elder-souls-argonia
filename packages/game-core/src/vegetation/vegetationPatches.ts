@@ -204,13 +204,65 @@ export function patchesNear(
   x: number, z: number, indexed: readonly IndexedPatch[], padM = 0,
 ): VegetationClearancePatch[] {
   const out: VegetationClearancePatch[] = [];
-  for (const entry of indexed) {
+  // 183 patches x every candidate plant was the 2026-09-20 hitch: the grid
+  // narrows it to the one cell holding (x, z). Cells are stamped from each
+  // patch's bounds PLUS PATCH_GRID_PAD_M, so the single lookup is exact for
+  // any pad within that margin; a wider pad falls back to the full scan.
+  const grid = padM <= PATCH_GRID_PAD_M
+    ? (indexed as { grid?: PatchGrid }).grid
+    : undefined;
+  const candidates = grid ? grid.cells.get(gridKey(x, z, grid.cellM)) : null;
+  if (grid && !candidates) return out;
+  const scan: readonly IndexedPatch[] = candidates
+    ? candidates.map((i) => indexed[i])
+    : indexed;
+  for (const entry of scan) {
     const b = entry.bounds;
     if (x < b.minX - padM || x > b.maxX + padM
       || z < b.minZ - padM || z > b.maxZ + padM) continue;
     out.push(entry.clearance);
   }
   return out;
+}
+
+/** Uniform grid over the patch bounds: cell key -> indices into the patch
+ * list. Deterministic; built once at index time, never touched at runtime. */
+export interface PatchGrid {
+  readonly cellM: number;
+  readonly cells: ReadonlyMap<string, readonly number[]>;
+}
+
+/** Cell size, metres. Patch bounds are settlement-sized (tens to a few
+ * hundred metres), so 128 m keeps most patches in a handful of cells. */
+export const PATCH_GRID_CELL_M = 128;
+
+/** The pad margin the grid is stamped with, metres: the largest plant radius
+ * any caller passes as `padM`. Larger than any flora extent by design. */
+export const PATCH_GRID_PAD_M = 16;
+
+function gridKey(x: number, z: number, cellM: number): string {
+  return `${Math.floor(x / cellM)},${Math.floor(z / cellM)}`;
+}
+
+export function buildPatchGrid(
+  indexed: readonly IndexedPatch[], cellM = PATCH_GRID_CELL_M,
+): PatchGrid {
+  const cells = new Map<string, number[]>();
+  for (let i = 0; i < indexed.length; i++) {
+    const b = indexed[i].bounds;
+    const cx0 = Math.floor((b.minX - PATCH_GRID_PAD_M) / cellM);
+    const cx1 = Math.floor((b.maxX + PATCH_GRID_PAD_M) / cellM);
+    const cz0 = Math.floor((b.minZ - PATCH_GRID_PAD_M) / cellM);
+    const cz1 = Math.floor((b.maxZ + PATCH_GRID_PAD_M) / cellM);
+    for (let cz = cz0; cz <= cz1; cz++) {
+      for (let cx = cx0; cx <= cx1; cx++) {
+        const key = `${cx},${cz}`;
+        const bucket = cells.get(key);
+        if (bucket) bucket.push(i); else cells.set(key, [i]);
+      }
+    }
+  }
+  return { cellM, cells };
 }
 
 /**
@@ -249,8 +301,12 @@ export interface VegetationPatchesDoc {
   readonly patches?: readonly VegetationPatchRecord[];
 }
 
+/** The indexed patch list with its spatial grid carried alongside, so every
+ * existing caller keeps the same array and still gets the cell lookup. */
+export type IndexedPatches = IndexedPatch[] & { grid?: PatchGrid };
+
 /** Index a streamed `province/vegetation-patches.json`. */
-export function indexPatches(doc: VegetationPatchesDoc): IndexedPatch[] {
+export function indexPatches(doc: VegetationPatchesDoc): IndexedPatches {
   if (doc.schemaVersion !== 1) {
     throw new Error(
       `vegetation-patches.json: schemaVersion ${String(doc.schemaVersion)}, expected 1`,
@@ -262,5 +318,7 @@ export function indexPatches(doc: VegetationPatchesDoc): IndexedPatch[] {
     if (!bounds) continue;
     out.push({ id: patch.id, clearance: patch, bounds });
   }
-  return out;
+  const indexed: IndexedPatches = out;
+  indexed.grid = buildPatchGrid(out);
+  return indexed;
 }

@@ -121,7 +121,13 @@ export default defineConfig(({ command }) => ({
     port: TUNNEL_PORT,
     strictPort: true,
     allowedHosts: [TUNNEL_HOST],
-    hmr: { host: TUNNEL_HOST, protocol: "wss", clientPort: 443 },
+    // HMR talks to the browser over the tunnel. A probe (scripts/dev-server.mjs)
+    // drives a headless browser on 127.0.0.1 that cannot reach the tunnel host,
+    // and every failed reconnect lands in the probe's page-error list — so
+    // probes turn HMR off; they never edit source mid-run (2026-09-20).
+    hmr: process.env.ES_PROBE === "1"
+      ? false
+      : { host: TUNNEL_HOST, protocol: "wss", clientPort: 443 },
     fs: { allow: ["../.."] },
   },
   preview: {

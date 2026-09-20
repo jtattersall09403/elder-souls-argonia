@@ -14202,7 +14202,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A temple to Boethiah and Vaermina raised by Dunmer dissidents who fled the Tribunal, then abandoned by them. The Third Empire's surveyors renamed it Tenmar Wall on their maps. The north kept the old name. The market that carries the shortened form grew half a morning's walk away where the carters' tracks bend, the closest point at which the carters were willing to build.",
+        "founding": "A temple to Boethiah and Vaermina raised by Dunmer dissidents who fled the Tribunal, then abandoned by them. The Third Empire's surveyors recorded a different name for the site. Northern carters and market clerks still use the Dunmer one. The market that carries the shortened form grew half a morning's walk away where the carters' tracks bend, the closest point at which the carters were willing to build.",
         "siteAdvantages": "Off the road, in a hollow that the tracks curve to avoid. Every carter in the north can point at the hollow from the bend.",
         "occupantsMotive": "Nobody occupies it. The marker posts around it are maintained.",
         "pressures": "The market town that borrowed its name lives off the road and pretends the ruin is somebody else's business; the second atrocity on this ground is the Dres slave road that ran past the district, not the dissidents' work.",
@@ -14482,12 +14482,6 @@
           "place.dunmer-north.the-pass-station"
         ]
       },
-      "proseRefs": [
-        {
-          "sourcePath": "why.founding",
-          "placeRef": "place.dunmer-north.ten-maur-wolk"
-        }
-      ],
       "scourSiteId": "site.scour.upland-hills.box-canyon-016"
     },
     {
@@ -18188,6 +18182,49 @@
         "tended",
         "neglected (a household refused its duty and the island answered)"
       ],
+      "position": {
+        "u": 0.84742,
+        "v": 0.04053
+      },
+      "positionM": [
+        6248.5,
+        298.9
+      ],
+      "footprintRadiusM": 35.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0227",
+          "score": 4.467,
+          "whyLost": "too close to place.dunmer-north.wolk-market"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0146",
+          "score": 4.348,
+          "whyLost": "too close to place.dunmer-north.thorn"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0117",
+          "score": 3.82,
+          "whyLost": "too close to place.dunmer-north.thorn"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 2), 155 m from the nearest route; its choice #3 landform; won on route, landform, hinterland.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 155.2,
+        "distanceToWaterM": 73.6,
+        "water": {
+          "entityId": "body.3364-188",
+          "kind": "pond",
+          "levelM": 71.42,
+          "season": "perennial",
+          "distanceM": 73.6
+        },
+        "score": 3.125
+      },
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -18260,13 +18297,11 @@
         }
       ],
       "sitingNote": "The landform this record names is supplied by its terrainRequests: Part 6's meso compiler carves it, so the plotted landform class is the pre-carve ground.",
-      "position": {
-        "u": 0.84742,
-        "v": 0.04053
-      },
-      "positionM": [
-        6248.5,
-        298.9
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.the-last-landing"
+        }
       ]
     },
     {
@@ -36921,7 +36956,13 @@
         "supplies": [
           "place.dunmer-north.the-field-gate-garrison"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "occupantRef": "npc.dunmer-north.thorn.vicecanon-magistracy"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",

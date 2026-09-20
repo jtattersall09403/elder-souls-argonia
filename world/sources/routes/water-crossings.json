@@ -282,9 +282,9 @@
       ],
       "spanM": 40.2,
       "maxDepthM": 1.92,
-      "nearestPlaceId": "place.naga-kur-deeps.deepmire-refuge",
-      "nearestPlaceName": "Deepmire, the Refuge",
-      "nearestPlaceM": 297.4,
+      "nearestPlaceId": "place.imperial-penal-south.ledgered-blackguards",
+      "nearestPlaceName": "The Book House",
+      "nearestPlaceM": 237.4,
       "servesRoutes": [
         "route.road.gideon-soulrest"
       ],
@@ -1019,9 +1019,9 @@
       ],
       "spanM": 2.4,
       "maxDepthM": -0.37,
-      "nearestPlaceId": "place.naga-kur-deeps.deepmire-refuge",
-      "nearestPlaceName": "Deepmire, the Refuge",
-      "nearestPlaceM": 281.5,
+      "nearestPlaceId": "place.imperial-penal-south.ledgered-blackguards",
+      "nearestPlaceName": "The Book House",
+      "nearestPlaceM": 256.8,
       "servesRoutes": [
         "route.road.gideon-soulrest"
       ],

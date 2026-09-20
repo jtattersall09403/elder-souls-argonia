@@ -1,11 +1,12 @@
-// Phase 8a sky/light probe: boots the built studio, pins fixed WorldInstants
+// Phase 8a sky/light probe: boots the studio DEV server (the debug handles
+// are DEV-only, 2026-09-20), pins fixed WorldInstants
 // (module 55: fixed-instant screenshot probes so material A/B comparisons are
 // lit identically), reads window.__STUDIO_SKY_DEBUG__ and asserts the
 // ephemeris/exposure agree with expectations; screenshots each preset.
 // Run from apps/combat-sandbox (owns the playwright dep):
 //   node ../world-studio/scripts/probe-sky.mjs
 import { mkdirSync, writeFileSync } from "node:fs";
-import { spawn } from "node:child_process";
+import { startStudioDevServer } from "./dev-server.mjs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -13,8 +14,6 @@ const studioDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..
 const artifacts = path.join(studioDir, "artifacts");
 mkdirSync(artifacts, { recursive: true });
 
-const PORT = 4322;
-const BASE = `http://127.0.0.1:${PORT}/elder-souls-argonia/studio/`;
 
 // Scenarios: the four named region light presets plus a dusk check.
 // Expectations are on the debug hook (deterministic), brightness is a sanity
@@ -237,24 +236,9 @@ const SCENARIOS = [
   },
 ];
 
-const server = spawn(
-  "npx",
-  ["vite", "preview", "--base", "/elder-souls-argonia/studio/", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"],
-  { cwd: studioDir, detached: true, stdio: "ignore" },
-);
+const server = await startStudioDevServer();
+const BASE = server.url;
 
-async function waitFor(url) {
-  for (let i = 0; i < 120; i++) {
-    try {
-      const r = await fetch(url);
-      if (r.ok) return;
-    } catch {
-      /* retry */
-    }
-    await new Promise((res) => setTimeout(res, 500));
-  }
-  throw new Error(`server never came up at ${url}`);
-}
 
 const only = process.env.SKY_SCENARIO;
 const RUN = only ? SCENARIOS.filter((s) => s.id === only) : SCENARIOS;
@@ -262,7 +246,6 @@ const { chromium } = await import("playwright");
 const failures = [];
 const report = [];
 try {
-  await waitFor(BASE);
   const browser = await chromium.launch({
     headless: true,
     args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
@@ -429,11 +412,7 @@ try {
   failures.push(String(e));
   report.push(`## crash\n${String(e)}`);
 } finally {
-  try {
-    process.kill(-server.pid);
-  } catch {
-    /* already gone */
-  }
+  server.stop();
 }
 
 const summary = `\n\n${report.join("\n")}`;

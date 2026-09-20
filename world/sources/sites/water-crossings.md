@@ -25,7 +25,7 @@ are published at the time of the run — re-run after any route rebuild.
 | `crossing.major.005` | marsh | `body.1293-692` | 62.1 | 2.13 | span | 2304.3, 1183.1 | Hixinoag | 107.5 |
 | `crossing.major.006` | marsh | `body.1284-3448` | 55.0 | 2.85 | span | 2290.9, 6394.5 | Speaks-Below-The-Water | 68.9 |
 | `crossing.major.007` | marsh | `body.2442-1212` | 54.1 | 1.8 | span | 3844.3, 1181.7 | Crosstrees | 42.7 |
-| `crossing.major.008` | lake | `body.1015-2680` | 40.2 | 1.92 | span | 1859.0, 4911.9 | Deepmire, the Refuge | 297.4 |
+| `crossing.major.008` | lake | `body.1015-2680` | 40.2 | 1.92 | span | 1859.0, 4911.9 | The Book House | 237.4 |
 | `crossing.major.009` | marsh | `body.2442-1212` | 36.3 | 1.32 | span | 4469.4, 1598.4 | The Turning House | 245.1 |
 | `crossing.major.010` | marsh | `body.699-3093` | 29.8 | 0.7 | span | 1261.9, 5697.4 | The Hire Stage | 51.5 |
 | `crossing.major.011` | river | `reach.1747-253` | 26.9 | 1.31 | span | 3235.8, 433.6 | Hackwing Wall | 113.4 |
@@ -48,7 +48,7 @@ are published at the time of the run — re-run after any route rebuild.
 | `crossing.major.028` | river | `reach.3043-787` | 3.3 | 0.43 | ford | 5584.2, 1462.1 | Ten-Thousand-Nests | 103.8 |
 | `crossing.major.029` | marsh | `body.2760-2066` | 3.1 | 0.45 | ford | 4946.1, 3845.3 | Nine-Trunks | 93.3 |
 | `crossing.major.030` | lake | `body.2643-1904` | 3.1 | 0.0 | ford | 4736.5, 3542.4 | The Open Mouth | 95.6 |
-| `crossing.major.031` | river | `reach.976-2536` | 2.4 | -0.37 | ford | 1864.4, 4882.3 | Deepmire, the Refuge | 281.5 |
+| `crossing.major.031` | river | `reach.976-2536` | 2.4 | -0.37 | ford | 1864.4, 4882.3 | The Book House | 256.8 |
 | `crossing.major.032` | lake | `body.692-1779` | 1.6 | -0.73 | ford | 1190.5, 3323.0 | Moonmarch Ground | 56.5 |
 | `crossing.major.033` | lake | `body.2643-1904` | 1.1 | -0.36 | ford | 4771.8, 3549.0 | The Open Mouth | 124.7 |
 | `crossing.major.034` | lake | `body.221-1650` | 1.1 | -5.04 | ford | 474.3, 3270.9 | Drowned Embankment | 33.3 |

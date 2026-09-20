@@ -606,12 +606,18 @@ READS: dict[str, list[Check]] = {
         # and the route registry's condition, never the pass-1 rasters.
         P(json_doc, SOURCES / "hydrology" / "hydrology-graph.json", ("reaches", "bodies"), 1),
         stale_ok(P(json_items, SOURCES / "routes" / "registry.json", "routes", ("id",)),
-                 reason="the bake and the scatter read the major roads 16e published; the minor "
-                        "tracks are applied afterwards as a clearance patch, decision 0070"),
+                 reason="the bake reads the major roads 16e published and the minor tracks "
+                        "compile_minor_routes solved just above it; only compile_minor_waterways "
+                        "touches the registry later, and it moves no road"),
         stale_ok(P(json_items, PROVINCE / "routes.json", "routes", ("px",)),
-                 reason="the bake and the scatter read the major roads 16e published; the minor "
-                        "tracks are applied afterwards as a clearance patch, decision 0070"),
+                 reason="the bake reads the major roads 16e published and the minor tracks "
+                        "compile_minor_routes solved just above it; only compile_minor_waterways "
+                        "touches the registry later, and it moves no road"),
         P(json_doc, SOURCES / "routes" / "route-structures.json", ("structures",), 1),
+        # The bake PAINTS the minor tracks and footpaths (`rasterize_minor_paint`),
+        # so it reads what `compile_minor_routes` published and must run after it
+        # (2026-09-20: it did not, and the shipped ground held the old network).
+        P(json_doc, PROVINCE / "routes-minor.json", ("tracks",), 1),
     ],
     "export_routes": [
         P(json_items, SOURCES / "routes" / "registry.json", "routes", ("id", "from", "to")),

@@ -4,6 +4,7 @@ import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
+import { CanvasErrorBoundary, CanvasErrorBanner } from "./CanvasErrorBoundary";
 import { CityMarkers } from "./CityMarkers";
 import { ApronTerrain } from "./ApronTerrain";
 import { Vegetation, type VegetationStats } from "./vegetation/Vegetation";
@@ -269,11 +270,14 @@ export function Fly3D(props: Fly3DProps) {
     const height = groundHeightM(store, chunkManifest, x, z);
     return height === null ? null : height * props.exaggeration;
   }, [store, chunkManifest, props.exaggeration]);
+  const [canvasError, setCanvasError] = useState<string | null>(null);
   const settlementEnvironment = useMemo(() => () => {
     const sample = lastWeatherSample();
     return sample ? { rainIntensity: sample.rainIntensity, minuteOfDay: worldClock.now().minuteOfDay } : null;
   }, []);
   return (
+    <>
+    {canvasError && <CanvasErrorBanner message={canvasError} />}
     <Canvas
       camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
       // Cap pixel density: retina 2× quadruples every fullscreen pass (scene
@@ -296,6 +300,7 @@ export function Fly3D(props: Fly3DProps) {
         }
       }}
     >
+      <CanvasErrorBoundary onError={setCanvasError}>
       {/* Natural light and sky (Phase 8a): sun/moons/stars, CSM shadows,
           exposure and the aerial haze all come from WorldSky — the old fixed
           hemisphere+directional pair and hand-tuned fog are gone. */}
@@ -370,6 +375,8 @@ export function Fly3D(props: Fly3DProps) {
           maxDistance={40000}
         />
       )}
+      </CanvasErrorBoundary>
     </Canvas>
+    </>
   );
 }

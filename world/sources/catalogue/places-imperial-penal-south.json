@@ -2304,7 +2304,7 @@
           "densityGradient": "lake core, dense"
         },
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 30
         },
         "minDepthM": 3.0
@@ -4768,7 +4768,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "The Owing's distraint from the lake villages to the Rose is racked in here, tagged and dated. Never-Sold's people have spent a year trying to read the tags.",
+        "hook": "Goods distrained by the Owing from the lake villages to Blackrose are racked in the cellars, tagged and dated. Never-Sold's people have spent a year trying to read the tags.",
         "reviewed": true
       },
       "hostility": {
@@ -4926,6 +4926,10 @@
         "score": 3.148
       },
       "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "occupantRef": "npc.imperial-penal-south.blackrose.chainbreaker-patron"
+        },
         {
           "sourcePath": "playerPurpose.hook",
           "placeRef": "place.imperial-penal-south.blackrose"
@@ -6038,7 +6042,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "A quest could make the windlass's own tally the evidence, since it counted loads that the toll tower's books omit.",
+        "opportunity": "The windlass crew's own tally counts loads that The Water Reckoning's books omit.",
         "tierOwnership": "LR43 · tier-3"
       },
       "rumourPoolKey": "rumour.the-drag",
@@ -8195,7 +8199,7 @@
           "densityGradient": "lake shore, dense"
         },
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
@@ -8419,7 +8423,7 @@
           "densityGradient": "lake shore, moderate"
         },
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
@@ -8623,11 +8627,13 @@
       "travelStation": {
         "modes": [
           "ferry",
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.manned-toll-tower"
+          "place.imperial-penal-south.manned-toll-tower",
+          "place.imperial-penal-south.lake-ferry-stage"
         ]
       }
     },
@@ -8683,7 +8689,7 @@
           "densityGradient": "lake shore, moderate"
         },
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 30
         },
         "minDepthM": 3.0
@@ -8869,7 +8875,7 @@
       "underwaterAccessDetail": {
         "gating": "breath-gated",
         "depthM": 3.0,
-        "entityId": "body.1290-3508",
+        "entityId": "body.1284-3448",
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
@@ -9062,7 +9068,8 @@
       "travelStation": {
         "modes": [
           "ferry",
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           "place.imperial-penal-south.blackrose",
@@ -10087,6 +10094,10 @@
         {
           "sourcePath": "why.founding",
           "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "occupantRef": "npc.imperial-penal-south.blackrose.chainbreaker-patron"
         }
       ],
       "position": {
@@ -10096,7 +10107,26 @@
       "positionM": [
         1647.8,
         5020.2
-      ]
+      ],
+      "footprintRadiusM": 45.0,
+      "footprintSource": "band",
+      "candidatesConsidered": [],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 35 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, parent, hinterland; placed from the homeless batch at stage 'eviction-repair'; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 35.1,
+        "distanceToWaterM": 24.5,
+        "water": {
+          "entityId": "body.894-2731",
+          "kind": "marsh-deep",
+          "levelM": 4.7,
+          "season": "perennial",
+          "distanceM": 24.5
+        },
+        "score": 1.418
+      }
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
@@ -10638,7 +10668,7 @@
           "densityGradient": "lake shore, dense"
         },
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
@@ -11758,7 +11788,7 @@
           "densityGradient": "lake core, moderate"
         },
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 80
         },
         "minDepthM": 1.0
@@ -13713,7 +13743,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A retired city arbiter who kept the case books and now settles more disputes from a private house than the courthouse settles in session.",
-        "siteAdvantages": "On the lake shore between the city gate and the lake landings, reachable from both without either side conceding ground.",
+        "siteAdvantages": "On the shore between Blackrose's gate and the lake landings. Both parties to a dispute can reach it without setting foot on the other's ground.",
         "occupantsMotive": "They arbitrate for a fee they set by the parties' means, and their rulings are honoured because refusing one is socially fatal.",
         "pressures": "Their case books contain the toll compact's actual origins, and both sides know it.",
         "wouldChangeIf": "Their death without a successor would push a decade of quiet settlements back into the city's courts."
@@ -13828,7 +13858,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "On the lake shore between the city gate and the lake landings, reachable from both without either side conceding ground",
+        "hook": "A retired arbiter settles disputes at a private house on the shore between Blackrose's gate and the lake landings.",
         "reviewed": false
       },
       "interior": {
@@ -13896,8 +13926,8 @@
         "founding": "A village south-west of Blackrose, built along a natural levee around a hard spring that runs clear when the flats are brown.",
         "siteAdvantages": "A levee crest a metre above every recorded flood, with a rock spring rising on it.",
         "occupantsMotive": "The spring is the asset. In a bad year the village sells water to boats by the cup.",
-        "pressures": "They want the lake landings' freight trade. The feeder is too shallow for laden hulls.",
-        "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village. The lake landings' monopoly on that trade would end."
+        "pressures": "They want Blackrose's lake-landing freight trade. The feeder is too shallow for laden hulls.",
+        "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village and end Blackrose's monopoly on that trade."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -15944,7 +15974,7 @@
           "maxM": 250.0
         },
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
@@ -16807,7 +16837,7 @@
           "maxM": 250.0
         },
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },

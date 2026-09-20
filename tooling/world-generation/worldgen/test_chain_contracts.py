@@ -427,7 +427,12 @@ def test_the_three_consumers_cannot_sit_on_their_own_ladder_row(monkeypatch):
     order = cc.script_stages()
     after = {"export_routes": "compile_route_structures",
              "paint_route_overlays": "compile_route_structures",
-             "apply_vegetation_patches": "compile_water_dressing"}
+             # 2026-09-20: `compile_water_dressing` itself moved BELOW
+             # `compile_minor_routes` (the land-cover bake had to, to paint the
+             # minor network, and the apron/scatter/dressing follow it), so it
+             # is no longer "higher" for this stage. The last stage above the
+             # 16g block is the anchor that still tests the claim.
+             "apply_vegetation_patches": "export_settlement_bundle"}
     for stage, anchor in after.items():
         moved = [s for s in order if s != stage]
         moved.insert(moved.index(anchor) + 1, stage)

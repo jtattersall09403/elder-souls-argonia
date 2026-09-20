@@ -47,6 +47,16 @@ rootworm network was to be re-authored before the Hist trees it hangs on are pla
    authored in **16g**, at the hero Hist nodes 16g places, with its quest
    ties finalised in the packet co-design loop (16j, Phase 15). A minimal
    talk-pay-arrive contract lives in `packages/`.
+
+   **Canoe services (2026-09-20).** A `canoe` serviceKind carries paid
+   passage on the minor waterways: one station-run per connected chain of
+   published minor channels, hull `canoe`, fare 2 gold. A chain earns a
+   service when at least two of the places it terminates at are live, sited
+   and no harbour city among them. Each run joins the existing web at an
+   existing station on the run or by a transfer edge of 800 m or less (owner
+   2026-09-20: a walk under a kilometre suits the province's scale); a chain
+   that joins nowhere within that walk gets no service, which is why the
+   Naga-Kur deeps stay remote.
 5. **The lane re-liner runs once**, after the water compile; the second
    chain entry goes. **No byte-identical two-run proof** for this chunk: the
    network is frozen when the owner accepts it; a plain second run must

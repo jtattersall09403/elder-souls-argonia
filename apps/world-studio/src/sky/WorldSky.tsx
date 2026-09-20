@@ -673,8 +673,16 @@ export function WorldSky({
   const base = import.meta.env.BASE_URL;
   const rainBudget = useMemo(() => rainDropBudget(), []);
   ensureAirPixels(base);
-  (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
-  (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
+  // Debug handles for the headless probes (probe-sky, probe-air-diff,
+  // diagnose-sky, probe-sampler-count). Dev-only, so a shipped build carries
+  // no globals: probes must run against a build made with
+  // `vite build --mode development` (owner 2026-09-20).
+  if (import.meta.env.DEV) {
+    (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
+    (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
+    (window as unknown as { __RENDERER__?: THREE.WebGLRenderer }).__RENDERER__ =
+      gl as unknown as THREE.WebGLRenderer;
+  }
 
   // Climate rasters as GPU textures for the haze term (shared uniforms).
   useEffect(() => {

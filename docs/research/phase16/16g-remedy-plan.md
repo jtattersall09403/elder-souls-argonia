@@ -41,17 +41,27 @@ quotes the measurement). Ledger §2's reasoning rows point here.
   with the dependants following by `boundTo`; the cheap fix is (a) rewrite
   the 21 to marsh language. Recommendation: (b). Until the call, only the
   zone's non-water faults are remedied.
-- **Blackrose "built in a lake".** Centre 109 m from `body.1290-3508`; the
+  2026-09-20 owner: zone stays; prose adjusted to side-channels and backwaters
+  of the river country (13 sentences across 8 records touched).
+- **Blackrose "built in a lake".** Centre 109 m from the lake body; the
   gate is on its road. Recommendation: move the centre (not the gate) onto
   the lake shore in 16h's city pass; the harbour station meanwhile is
   `place.imperial-penal-south.intact-fort` (0 m from the lake, 69.9 m from
   the lane, 3.76 m).
+  2026-09-20 owner: the centre goes on the island in the middle of the lake,
+  in 16h's city pass (not the shore).
+  2026-09-20 owner: the lake is `body.1284-3448`, the id the compiled water
+  record carries. The graph's `body.1290-3508` is marked
+  `realisedBy: body.1284-3448` and never compiles, so every remedy row and
+  the attested name "Blackrose Lake" now sit on `body.1284-3448`.
 - **The stronghold.** `the-empty-steading` (approach, no landing) vs
   `rockpoint` (landing, no approach, §20e sightline false). Decision taken
   here, reversible: the Empty Steading, pinned to the 1.72 m marsh edge
   40 m off with the Gideon–Soulrest road at ~230 m; `reservedFor:
   player-stronghold`. Rockpoint keeps its record. `xal-meeruth-station` is
   the named alternative if the owner rejects both.
+  2026-09-20: Empty Steading cut with the homeless 13 (owner rule); stronghold
+  is Rockpoint.
 - **Opening ring danger.** `opening-work-camp` has no D4/D5 *place* within
   250 m but band-4 *ground* on 22 of 24 bearings. Read here as places, not
   ground bands; no move.
@@ -130,7 +140,7 @@ under the stated rule and records it in `why`.
 - `lower-onkobra-paddies` pin `nearWater <Onkobra chain reach> 60`; `the-cold-lights` pin `nearWater <its named reach> 60`, `minDepthM 1.0`; `hangs-above-the-water` pin `nearWater <Onkobra chain reach> 40`.
 
 ### imperial-penal-south
-- `blackrose-drowned-hist` pin `nearWater body.1290-3508 0`, `minDepthM 5.0`; `lake-submerged-xanmeer` prose eighteen → the recorded 3.3 m; `lake-drowned-village` pin `nearWater body.1290-3508 0`, `minDepthM 5.0`; `lake-boardwalk-village`, `lake-divers-yard`, `west-market-town` pin `nearWater body.1290-3508 60`; `natural-dive-shaft` pin `nearWater body.1290-3508 30`, `minDepthM 1.0`; `three-gate-toll` pin `nearWater body.1290-3508 80`; `bramman-head` pin `minDepthM 1.2`.
+- `blackrose-drowned-hist` pin `nearWater body.1284-3448 0`, `minDepthM 5.0`; `lake-submerged-xanmeer` prose eighteen → the recorded 3.3 m; `lake-drowned-village` pin `nearWater body.1284-3448 0`, `minDepthM 5.0`; `lake-boardwalk-village`, `lake-divers-yard`, `west-market-town` pin `nearWater body.1284-3448 60`; `natural-dive-shaft` pin `nearWater body.1284-3448 30`, `minDepthM 1.0`; `three-gate-toll` pin `nearWater body.1284-3448 80`; `bramman-head` pin `minDepthM 1.2`.
 - `drawdown-flat` prose (no four-square-kilometre arm exists).
 - `rose-outworks` pin `nearPoint` 320 m outside the prison on its bearing, maxM 60; `lilmothiit-quarry` meso-move 80 m toward Blackrose.
 - `longmont`, `flu-quarantine-village`, `murkwood-verge`, `vampiric-cloud-ground`, `basin-sinkhole`, `marsh-giant-ground-basin` prose the compass word.

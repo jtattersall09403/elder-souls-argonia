@@ -122,7 +122,7 @@ Reed writ points keep their existing ids).
 | Cyrodilic Collections refounded at Gideon | `imperial-fringe.collections-dig`, `.onkobra-field-station` |
 | The Owing (gangs, ledger offices, hiring halls) | `pirate-freeholds.corimont-hiring-yard`, `imperial-fringe.the-quiet-pit`, `.the-turned-out`, `dunmer-north.the-north-holding-pit`, `imperial-penal-south.cordon-cellars`, `.scandal-holding-pit`, `mercantile-coast.hereguard-plantation` |
 | `washed-out` NPC material variant | `pirate-freeholds.corimont-hiring-yard`, `dunmer-north.the-dres-rows`, `imperial-fringe.the-vellum-estate` |
-| The player stronghold site | `imperial-fringe.the-empty-steading`, `pirate-freeholds.rockpoint` |
+| The player stronghold site | `pirate-freeholds.rockpoint` |
 | Reed writ enforcement points | eleven toll/crossing/customs records — see `quest.provision.reed-writ-enforcement-point` |
 | Root-transit network (Pass-1 → re-authored) | `hist-heartland.rootworm-station-helstrom`, `saxhleel-coast.east-estuary-rootworm-station`, `imperial-fringe.gideon-rootworm-terminus`, `hist-heartland.bubble-spire-open-helstrom`, `.bubble-spire-collapsed` (**promoted**, the hidden/damaged station RW03 needs) |
 
@@ -218,7 +218,6 @@ built.
 | `hist-heartland.xal-krona-making-ground` | at the deep end of the Lost City approach, reached *through* the city | the boss should not be findable before MQ29 |
 | `mercantile-coast.pusbottom-barge` | off the sunken quarter, water side of the stilts | Pusbottom reachable without entering Lilmoth |
 | `saxhleel-coast.lagoon-submerged-xanmeer` | tower top clear of the water | MQ16's dry approach and its dive are the same building |
-| `imperial-fringe.the-empty-steading` | own landing, one land approach | a stronghold you can see approached |
 | `pirate-freeholds.rockpoint` | within sight of the trunk road but off it | the stronghold reads as a claim on the road, not a hideout |
 
 ## 20f. The rule, from now on
@@ -239,7 +238,12 @@ built.
 5. **The validator cross-checks, and it is live.**
    `python3 -m worldgen.quests --check` (from `tooling/world-generation`, run in
    `npm test` by `worldgen/test_quests.py`) asserts that every quest row's
-   `anchorPlaces` and `settlement` resolve to **live** catalogue records; that
+   `anchorPlaces` and `settlement` resolve to catalogue records that are
+   **live and sited** — a record with no `position` is nowhere, so a quest
+   anchored on it has nowhere to be played and must be re-sited or re-pointed
+   (2026-09-20, the cut of the thirteen unsited places); that the claim runs
+   **both ways**, so every quest code in a record's `questHooks.tierOwnership`
+   names a real quest that anchors on that record (2026-09-20); that
    every `registries/quests.json` entry has a data row and the reverse; and that
    the §47c shape budget holds. `--sync` then writes `questHooks.tierOwnership`
    back onto those records from the data (`"<CODE> · tier-N"`, lowest tier

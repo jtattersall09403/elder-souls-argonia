@@ -1,5 +1,6 @@
 """The quest data validates, and docs/quests/index/ is a fresh render of it."""
 
+import json
 from pathlib import Path
 
 import pytest
@@ -60,3 +61,62 @@ def test_generated_docs_carry_the_generated_header():
 def test_registry_render_is_byte_stable():
     a = Q.build_registry()
     assert Q.build_registry() == a
+
+
+def _catalogue_copy(tmp_path: Path) -> Path:
+    """A scratch copy of the live catalogue, safe to break on purpose."""
+    out = tmp_path / "catalogue"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.mkdir()
+    for src in sorted(catalogue.CATALOGUE_DIR.glob("*.json")):
+        (out / src.name).write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+    return out
+
+
+def _edit(cat_dir: Path, place_id: str, mutate) -> None:
+    region = place_id.split(".")[1]
+    path = cat_dir / f"places-{region}.json"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    for rec in doc["places"]:
+        if rec["id"] == place_id:
+            mutate(rec)
+            break
+    else:                                    # pragma: no cover - test bug
+        raise AssertionError(f"{place_id} not in {path.name}")
+    path.write_text(json.dumps(doc, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+
+
+@skip
+def test_an_anchor_on_an_unsited_record_fails(tmp_path: Path):
+    """A quest anchored on a record with no dot has nowhere to be played
+    (owner 2026-09-20: the cut of the unsited 13)."""
+    cat = _catalogue_copy(tmp_path)
+    pid = "place.dunmer-north.nine-fords"
+    _edit(cat, pid, lambda rec: (rec.pop("position", None), rec.pop("positionM", None)))
+    errors = Q.check(catalogue_dir=cat)
+    assert any(f"anchorPlace {pid} is live but unsited" in e for e in errors), errors
+
+
+@skip
+def test_questhooks_claiming_a_quest_that_does_not_anchor_here_fails(tmp_path: Path):
+    """The claim runs both ways: a code on a record must name a quest that
+    anchors on that record."""
+    cat = _catalogue_copy(tmp_path)
+    pid = "place.dunmer-north.nine-fords"
+
+    def add(rec, claim):
+        hooks = rec.setdefault("questHooks", {"provisions": [], "tags": [],
+                                              "opportunity": "", "tierOwnership": ""})
+        hooks["tierOwnership"] = "; ".join(filter(None, [hooks.get("tierOwnership"), claim]))
+
+    _edit(cat, pid, lambda rec: add(rec, "ZZ99 · tier-3"))
+    errors = Q.check(catalogue_dir=cat)
+    assert any(f"questHooks on {pid} names ZZ99, which is not a quest" in e
+               for e in errors), errors
+
+    cat2 = _catalogue_copy(tmp_path / "second")
+    other = "place.dunmer-north.tearmouth"
+    _edit(cat2, other, lambda rec: add(rec, "LD95 · tier-3"))
+    errors = Q.check(catalogue_dir=cat2)
+    assert any(f"questHooks on {other} names LD95, which does not anchor here" in e
+               for e in errors), errors

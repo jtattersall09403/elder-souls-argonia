@@ -57,7 +57,7 @@ ATTESTED_JOINS = {
     "river.879-763": "the Archon Estuary",
     "river.889-484": "the Stormhold River",
     "river.292-1189": "the Bramman",
-    "body.1290-3508": "Blackrose Lake",
+    "body.1284-3448": "Blackrose Lake",  # the compiled lake; 1290-3508 is unrealised (owner 2026-09-20)
     "body.1189-2027": "Lake Blackwood",
     "sea.oliis-bay": "Oliis Bay",
     "sea.topal-bay": "Topal Bay",
@@ -194,6 +194,11 @@ def check(doc: dict, graph: dict | None = None, sites: dict | None = None) -> li
                 errs.append(f"{x['id']}: qualifies for a name (strahler/accumulation) but has none")
         for x in graph["bodies"]:
             if x["id"] == "body.ocean":
+                continue
+            # A body the graph marks `realisedBy` another is never compiled
+            # (decision 0065: the compile realises the graph); the name lives
+            # on the body that ships (owner 2026-09-20, Blackrose Lake).
+            if x.get("realisedBy"):
                 continue
             if (x["areaM2"] >= 10000 or x["kind"] == "lagoon") and x["id"] not in have:
                 errs.append(f"{x['id']}: qualifies for a name (area/lagoon) but has none")

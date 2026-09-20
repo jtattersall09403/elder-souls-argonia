@@ -406,6 +406,18 @@ def _high_precision(entity: Entity, kinds_by_name: dict[str, frozenset[str]]) ->
     return True
 
 
+#: What ends a sentence (or a "·" list item) before a capitalised word.
+_SENTENCE_BREAK = set(".!?:;·\u2022\n")
+
+
+def _sentence_initial(text: str, offset: int) -> bool:
+    """True when the token at ``offset`` is the first word of its sentence."""
+    i = offset - 1
+    while i >= 0 and text[i] in " \t\"'\u2018\u201c([":
+        i -= 1
+    return i < 0 or text[i] in _SENTENCE_BREAK
+
+
 def _mentioned_entities(text: str, entities: tuple[Entity, ...]):
     """Yield ``(entity, offset)`` for complete phrases in one linear pass."""
     trie, by_name, kinds_by_name = _mention_index(entities)
@@ -439,6 +451,18 @@ def _mentioned_entities(text: str, entities: tuple[Entity, ...]):
             if (entity.kind in {"place", "faction", "npc", "quest"} and entity.name != entity.id
                     and matched != entity.name):
                 continue  # proper-name vocabularies keep their authored case
+            # A one-word NPC name (no space, no hyphen) is often an ordinary
+            # noun too: the Lilmoth climber is called "Silt", and six place
+            # records open a field with "Silt brown…", "Silt is filling the
+            # pocket…". Sentence-initial capitals carry no evidence, so a bare
+            # one-word name is a mention only mid-sentence, where the capital
+            # is the author's choice. Multi-word and hyphenated names
+            # (Never-Sold, Vicecanon Neetra-Sei) are distinctive enough to
+            # match anywhere and keep the old rule.
+            if (entity.kind == "npc" and entity.name != entity.id
+                    and len(entity.name.split()) == 1 and "-" not in entity.name
+                    and _sentence_initial(text, i)):
+                continue
             # Service vocabulary is intentionally terse and therefore
             # polysemous (court, stable, market). Count it only when the prose
             # describes availability, not when the noun is scenery or mood.

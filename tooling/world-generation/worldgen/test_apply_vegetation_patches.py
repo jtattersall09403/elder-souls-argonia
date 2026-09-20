@@ -152,20 +152,29 @@ def test_running_the_stage_twice_changes_nothing(tmp_path):
     second = avp.run(bundles, path, seed=5)
     assert (bundles / "chunk_0_0_vegetation.bin").read_bytes() == blob
     assert first["patches"][0]["removed"] > 0
-    assert second["patches"][0]["removed"] == 0
-    assert second["totals"] == {"removed": 0, "chunksTouched": 0}
+    # The re-run removed nothing, so it does not get to speak for the bundles:
+    # the receipt still carries what the first run took.
+    assert second["totals"] == first["totals"]
+    assert second["patches"][0]["removed"] == first["patches"][0]["removed"]
 
 
-def test_an_empty_patch_list_writes_a_receipt_and_moves_nothing(tmp_path):
+def test_a_re_run_that_removes_nothing_keeps_the_first_receipt(tmp_path):
+    """The 16h defect: an idempotent re-run rebuilt the receipt from its own
+    zero counters and overwrote the real numbers. It must append instead."""
     bundles = build(tmp_path, {(0, 0): grid_instances()})
-    blob = (bundles / "chunk_0_0_vegetation.bin").read_bytes()
-    index = (bundles / "vegetation-index.json").read_text()
-    receipt = avp.run(bundles, patches_file(tmp_path, []), seed=5)
-    assert receipt["patches"] == []
-    assert receipt["totals"] == {"removed": 0, "chunksTouched": 0}
-    assert json.loads((bundles / avp.RECEIPT_NAME).read_text())["schemaVersion"] == 1
-    assert (bundles / "chunk_0_0_vegetation.bin").read_bytes() == blob
-    assert (bundles / "vegetation-index.json").read_text() == index
+    path = patches_file(tmp_path, [patch()])
+    first = avp.run(bundles, path, seed=5)
+    assert first["totals"]["removed"] > 0
+    assert "reRuns" not in first
+
+    avp.run(bundles, path, seed=5)
+    avp.run(bundles, path, seed=5)
+    receipt = json.loads((bundles / avp.RECEIPT_NAME).read_text())
+    assert receipt["totals"] == first["totals"]
+    assert receipt["patches"][0]["byChunk"] == first["patches"][0]["byChunk"]
+    assert len(receipt["reRuns"]) == 2
+    assert receipt["reRuns"][0] == {"at": receipt["reRuns"][0]["at"],
+                                    "removed": 0, "chunksTouched": 0}
 
 
 def test_the_patch_list_is_published_beside_the_bundles(tmp_path):

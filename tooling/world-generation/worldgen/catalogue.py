@@ -289,7 +289,7 @@ NPC_ROLES = {"named-keeper", "lieutenant", "rank-and-file", "captive", "merchant
              "quest-giver", "priest", "official", "crew", "family", "patrol", "trainer", "boss"}
 LOOT_ROLES = {"hidden-cache", "grave-goods", "strongroom", "workshop-stock", "shrine-offerings",
               "wreck-cargo", "personal-effects", "ledger-or-document", "unique-item", "provisions"}
-TRAVEL_MODES = {"boat", "ferry", "rootworm", "guide", "lighter", "pilot", "cart", "porter"}
+TRAVEL_MODES = {"boat", "canoe", "ferry", "rootworm", "guide", "lighter", "pilot", "cart", "porter"}
 FACTION_PRESENCE_ROLES = {"seat", "chapter", "outpost", "office", "territory"}
 # --- services[] (promise ledger, 2026-09-05) -------------------------------
 # WHAT THE PLACE PROMISES A PLAYER IT WILL DO FOR THEM. Typed because

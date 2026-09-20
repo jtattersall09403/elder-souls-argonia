@@ -212,6 +212,27 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
       return new ImageData(buf, w, h);
     })()
     : surfImg;
+  // The strip/fall owner mask rides the ALPHA of the surface raster's
+  // province rows (the shader reads only RGB of uSurfTex): a sampler of its
+  // own was the 17th on a 16-unit GPU (owner's console, 2026-09-20). Same
+  // grid, same NEAREST filter, so the ownership decision stays per texel.
+  const hasOwner = !!ownerImg;
+  if (ownerImg) {
+    if (ownerImg.width !== meta.surface.size || ownerImg.height !== meta.surface.size) {
+      throw new Error(
+        `water-owner raster must match surface.size: owner is ${ownerImg.width}x${ownerImg.height}, `
+        + `surface.size is ${meta.surface.size}`,
+      );
+    }
+    // Identity copy over the province rows only (packChannel would resample
+    // the mask over the apron rows too, because the atlas is taller).
+    const n = meta.surface.size * meta.surface.size;
+    const sw = ownerImg.width;
+    for (let i = 0; i < n; i++) {
+      const y = Math.floor(i / meta.surface.size), x = i - y * meta.surface.size;
+      surfaceAtlas.data[i * 4 + 3] = ownerImg.data[(Math.min(y, ownerImg.height - 1) * sw + Math.min(x, sw - 1)) * 4];
+    }
+  }
 
   const basin = (floodStates?.basins?.[0] ?? {}) as {
     tidalAmplitudeM?: number;
@@ -269,9 +290,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     flowTex: dataTexture(flowImg, THREE.LinearFilter),
     klassTex: dataTexture(klassImg, THREE.LinearFilter),
     shoreTex: dataTexture(shoreImg, THREE.LinearFilter),
-    // NEAREST: the mask is a hard ownership decision per surface texel —
-    // filtering it would bleed a half-texel hole around every strip.
-    ownerTex: ownerImg ? dataTexture(ownerImg, THREE.NearestFilter) : null,
+    hasOwner,
     tidalAmplitudeM,
     seasonalAmplitudeM,
     apron,

@@ -415,6 +415,10 @@ export function Vegetation({
   const REBUILD_MOVE_M = LOD_REBUILD_MOVE_M;
   const REBUILD_MIN_INTERVAL_S = 0.75;
   const lastBuildTime = useRef(0);
+  /** A chunk has arrived and its plants are not in the built set yet. Set by
+   * the fetch path, consumed by the throttled rebuild below (2026-09-20 hitch
+   * fix: 25 arrivals in a second used to force 25 synchronous rebuilds). */
+  const chunksDirty = useRef(false);
   /** The REAL camera, for the LOD fade uniform and the occlusion eye. The
    * focus is a ground position and in fly mode is nowhere near the camera. */
   const cameraPos = useRef(new THREE.Vector3(NaN, NaN, NaN));
@@ -445,7 +449,16 @@ export function Vegetation({
     // "hang" while flying. Rebuild at most once per REBUILD_MIN_INTERVAL_S;
     // the LOD is a fraction of a second stale at speed, nothing else.
     const now = state.clock.elapsedTime;
-    if (last && Math.hypot(eye.x - last.x, eye.z - last.z) > REBUILD_MOVE_M
+    if (chunksDirty.current && now - lastBuildTime.current >= REBUILD_MIN_INTERVAL_S) {
+      // 2026-09-20 hitch fix: chunk arrivals are coalesced here, one rebuild
+      // per REBUILD_MIN_INTERVAL_S, instead of rebuilding per arrival.
+      chunksDirty.current = false;
+      lastBuildTime.current = now;
+      // A pending move eye is NOT cleared here: this rebuild was triggered by
+      // a chunk arrival, not by the move, so the movement branch below still
+      // owns that eye and consumes it on its own next rebuild.
+      setRevision((r) => r + 1);
+    } else if (last && Math.hypot(eye.x - last.x, eye.z - last.z) > REBUILD_MOVE_M
         && now - lastBuildTime.current >= REBUILD_MIN_INTERVAL_S) {
       lastBuildTime.current = now;
       pendingBuildEye.current = { x: eye.x, z: eye.z };
@@ -481,8 +494,9 @@ export function Vegetation({
               originZ: (cz + dz) * size,
               bundle: decodeVegetationBundle(buffer),
             });
-            pendingBuildEye.current = null;
-            setRevision((r) => r + 1);
+            // 2026-09-20 hitch fix: mark dirty, let the throttled path above
+            // rebuild once, rather than a full synchronous rebuild per chunk.
+            chunksDirty.current = true;
           })
           .catch(() => undefined)
           .finally(() => pending.current.delete(key));

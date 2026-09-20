@@ -162,7 +162,6 @@ export interface WaterUniforms extends FoamFieldUniforms {
   uBodyCount: { value: number };
   /** Strip/fall ownership mask (0 field, 128 strip, 255 fall) + its toggle:
    * the field surface discards where a strip mesh or sheet owns the cell. */
-  uOwnerTex: { value: THREE.Texture | null };
   uHasOwner: { value: number };
   uSurfExtentM: { value: number };
   /** x, z, radius (m), strength — nearest waterfall plunge pools. */
@@ -227,8 +226,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uRainRipple: { value: 0 },
     uBodies: { value: Array.from({ length: MAX_CONTACT_BODIES }, () => new THREE.Vector4()) },
     uBodyCount: { value: 0 },
-    uOwnerTex: { value: assets.ownerTex },
-    uHasOwner: { value: assets.ownerTex ? 1 : 0 },
+    uHasOwner: { value: assets.hasOwner ? 1 : 0 },
     uSurfExtentM: { value: m.surface.size * m.surface.metresPerPixel },
     uPlunges: { value: Array.from({ length: MAX_PLUNGE_SOURCES }, () => new THREE.Vector4()) },
     uPlungeCount: { value: 0 },
@@ -585,8 +583,10 @@ float esOwnedFrac(vec2 wpos){
   float owned = 0.0;
   for (int i = 0; i < 5; i++) {
     vec2 uv = taps[i] / max(uSurfExtentM, 1.0);
+    // Owner mask = ALPHA of the surface raster's province rows (packed at
+    // load; one sampler fewer on a 16-unit GPU). texelFetch keeps it NEAREST.
     if (all(greaterThanEqual(uv, vec2(0.0))) && all(lessThan(uv, vec2(1.0)))
-        && texture2D(uOwnerTex, uv).r > 0.25) owned += 1.0;
+        && texelFetch(uSurfTex, ivec2(uv * uSurfSize), 0).a > 0.25) owned += 1.0;
   }
   return owned / 5.0;
 }
@@ -632,7 +632,6 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
   uniform sampler2D uRipple;
   uniform vec4 uRippleInfo;
   uniform float uRainRipple;
-  uniform sampler2D uOwnerTex;
   uniform float uHasOwner;
   uniform float uSurfExtentM;
   uniform vec4 uPlunges[${MAX_PLUNGE_SOURCES}];

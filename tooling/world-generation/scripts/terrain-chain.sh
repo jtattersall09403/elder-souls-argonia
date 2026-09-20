@@ -193,22 +193,9 @@ STAGES=(
   "grade_settlement_pads"
   "compile_chunks"
   "export_web_chunks"
-  "rebake_landcover"
-  # The beyond-border apron (16d) reads the province's border chunks and the
-  # land-cover bake it just wrote, and runs in seconds: the 670 MB heightmap
-  # decode lives in `extract_apron_source` (run once by hand, never here).
-  "build_border_apron"
-  # The settlement ground paint sits BETWEEN the land-cover bake and the
-  # scatter, and it has to: `rebake_landcover` rewrites `ground-control.png`
-  # from scratch, `compile_scatter` reads it and the settlement clearance.
   "rederive_blueprints"
   "compile_settlement"
   "export_settlement_bundle"
-  "settlement_ground_control"
-  "compile_scatter"
-  # 16f: the insects' habitat and the water's colour constituents, read from
-  # the record and the scatter output; sidecar rasters, the water untouched.
-  "compile_water_dressing"
   # 16g: THE PLOT IS RE-SOLVED LAST, on the finished ground. Everything above
   # builds the world; these read it and put the places, the minor networks and
   # the services on it. `apply_sitings --stage` is the write-back ONLY (no
@@ -218,6 +205,23 @@ STAGES=(
   "macro_plot"
   # the minor networks on the re-validated plot (never graded)
   "compile_minor_routes"
+  # The land-cover bake PAINTS the minor tracks and footpaths
+  # (`routes_raster.rasterize_minor_paint`), so it has to run AFTER
+  # `compile_minor_routes` solves them; before 2026-09-20 it ran above the
+  # plot and the shipped ground held the previous network's paint.
+  "rebake_landcover"
+  # The beyond-border apron (16d) reads the province's border chunks and the
+  # land-cover bake it just wrote, and runs in seconds: the 670 MB heightmap
+  # decode lives in `extract_apron_source` (run once by hand, never here).
+  "build_border_apron"
+  # The settlement ground paint sits BETWEEN the land-cover bake and the
+  # scatter, and it has to: `rebake_landcover` rewrites `ground-control.png`
+  # from scratch, `compile_scatter` reads it and the settlement clearance.
+  "settlement_ground_control"
+  "compile_scatter"
+  # 16f: the insects' habitat and the water's colour constituents, read from
+  # the record and the scatter output; sidecar rasters, the water untouched.
+  "compile_water_dressing"
   "compile_minor_waterways"
   # the services' hops follow the minor waterways, so they are solved after them
   "travel_services"

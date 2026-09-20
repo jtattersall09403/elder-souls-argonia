@@ -89,7 +89,7 @@ ANCHORS = REPO_ROOT / "world" / "sources" / "anchors" / "settlement-anchors.json
 
 SCHEMA_VERSION = 1
 
-SERVICE_KINDS = ["ferry", "boat", "rootworm", "guide", "cart", "porter"]
+SERVICE_KINDS = ["ferry", "boat", "canoe", "rootworm", "guide", "cart", "porter"]
 STATION_KINDS = ["place", "ferry-landing", "root-node"]
 HOP_FOLLOWS = ["lane", "lanes", "bodies", "rivers", "reaches", "rootway", "road"]
 FORMS = {"road-crossing", "station-run"}
@@ -1121,7 +1121,7 @@ def _berth(sw, bank, other, hull: str, need: float) -> dict:
 # check
 # --------------------------------------------------------------------------
 
-ID_PREFIXES = ("ferry.", "boat.", "rootworm.", "guide.", "cart.", "porter.")
+ID_PREFIXES = ("ferry.", "boat.", "canoe.", "rootworm.", "guide.", "cart.", "porter.")
 
 STATION_PREFIXES = {"place": "station.", "ferry-landing": "ferry-landing.",
                     "root-node": "root-node."}
@@ -1236,7 +1236,7 @@ def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
                 continue
             if s.get("form") == "station-run" and st.get("placeId"):
                 modes = (places.get(st["placeId"], {}).get("travelStation") or {}).get("modes") or []
-                if kind in ("ferry", "boat", "rootworm") and kind not in modes:
+                if kind in ("ferry", "boat", "canoe", "rootworm") and kind not in modes:
                     errs.append(f"service {sid}: station {stid!r} does not declare {kind!r} in "
                                 f"travelStation.modes — the catalogue and this graph must agree")
         if s.get("form") == "station-run" and len(ids) < 2:

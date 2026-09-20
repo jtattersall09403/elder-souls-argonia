@@ -54,8 +54,20 @@ export default function characterAssets({ sharedBase } = {}) {
       isBuild = config.command === "build" && !sharedBase;
     },
     configureServer(server) {
+      // The dev server's configured base ("/" by default, but a probe or a
+      // sub-path preview may run under e.g. "/elder-souls-argonia/studio/").
+      // Matching req.url verbatim ignored it, so under any non-root base the
+      // rig GLB request missed this middleware, fell through to the SPA
+      // fallback and the loader was handed index.html — a throw inside the
+      // R3F tree, which unmounted the canvas and read as "Context Lost"
+      // (2026-09-20). Strip the base before matching; root base is unchanged.
+      const base = server.config?.base ?? "/";
+      const prefix = base === "/" ? null : base.endsWith("/") ? base.slice(0, -1) : base;
       server.middlewares.use((req, res, next) => {
-        const url = (req.url ?? "").split("?")[0];
+        let url = (req.url ?? "").split("?")[0];
+        if (prefix && (url === prefix || url.startsWith(`${prefix}/`))) {
+          url = url.slice(prefix.length) || "/";
+        }
         // Resist path traversal; only plain top-level asset paths exist here.
         const relative = normalize(decodeURIComponent(url)).replace(/^[/\\]+/, "");
         if (relative.includes("..")) return next();

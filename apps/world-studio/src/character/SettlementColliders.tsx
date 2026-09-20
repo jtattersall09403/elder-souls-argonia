@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useRapier } from "@react-three/rapier";
 import type { RigidBody } from "@dimforge/rapier3d-compat";
 import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
+import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 
 /** Imperative fixed-body diff for the package's nearby architecture solids. */
 export function SettlementColliders({ solidsRef }: {
@@ -13,7 +14,14 @@ export function SettlementColliders({ solidsRef }: {
   const revision = useRef("");
   useEffect(() => {
     const live = bodies.current;
-    return () => { for (const body of live.values()) world.removeRigidBody(body); live.clear(); };
+    const bodySet = captureBodySet(world);
+    return () => {
+      // Physics frees the world before child cleanups run
+      // (react-three-rapier 2.2 proxy); a dead set means nothing to remove.
+      if (!bodySetAlive(bodySet)) { live.clear(); return; }
+      for (const body of live.values()) world.removeRigidBody(body);
+      live.clear();
+    };
   }, [world]);
   useFrame(() => {
     const solids = solidsRef.current;

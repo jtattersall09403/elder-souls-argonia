@@ -711,6 +711,29 @@ def main(argv: list[str] | None = None) -> None:
     (args.out / "candidate-sites.md").write_text(digest(doc))
     print(f"{len(doc['sites'])} candidate sites -> {args.out / 'candidate-sites.json'}")
     print(f"authored land {doc['authoredLand']['authoredLandKm2']} km2")
+    _check_names_still_join(doc)
+
+
+def _check_names_still_join(doc: dict) -> None:
+    """Fail the stage if this sweep just orphaned a peak name.
+
+    Renumbering the summits silently invalidated `world/sources/hydrology/
+    names.json` once already (the 16g rows re-pointed 2026-09-20): the names
+    record joins on site ids, so this sweep is the moment to prove the join.
+    """
+    from . import hydrology_names as hn
+
+    if not hn.NAMES.exists():
+        return
+    names = json.loads(hn.NAMES.read_text())
+    bad = [e for e in hn.check(names, None, doc)
+           if "candidate-sites.json" in e or "summit" in e]
+    if bad:
+        raise SystemExit(
+            "candidate sites no longer carry the peak names in "
+            f"{hn.NAMES.relative_to(REPO_ROOT)} — re-point them:\n  "
+            + "\n  ".join(bad))
+    print(f"peak names still join ({hn.NAMES.relative_to(REPO_ROOT)})")
 
 
 if __name__ == "__main__":

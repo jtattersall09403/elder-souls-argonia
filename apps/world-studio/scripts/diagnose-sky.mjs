@@ -1,17 +1,16 @@
-// One-off Phase 8a light-defect diagnosis: opens CHARACTER view at three
+// One-off Phase 8a light-defect diagnosis (runs the DEV server: the debug
+// handles it reads are DEV-only, 2026-09-20): opens CHARACTER view at three
 // instants, dumps every light, the exposure, the terrain material patch state
 // and the moon meshes. Run from apps/combat-sandbox (owns playwright):
 //   node ../world-studio/scripts/diagnose-sky.mjs
 import { mkdirSync, writeFileSync } from "node:fs";
-import { spawn } from "node:child_process";
+import { startStudioDevServer } from "./dev-server.mjs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const studioDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const artifacts = path.join(studioDir, "artifacts");
 mkdirSync(artifacts, { recursive: true });
-const PORT = 4323;
-const BASE = `http://127.0.0.1:${PORT}/elder-souls-argonia/studio/`;
 
 const SCENARIOS = [
   { id: "char-morning", q: "view=character&x=2.93&z=5.46&ex=1&t=10:00&d=6-17" },
@@ -19,23 +18,12 @@ const SCENARIOS = [
   { id: "char-dusk-moonrise", q: "view=character&x=2.93&z=5.46&ex=1&t=17:00&d=6-17" },
 ];
 
-const server = spawn(
-  "npx",
-  ["vite", "preview", "--base", "/elder-souls-argonia/studio/", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"],
-  { cwd: studioDir, detached: true, stdio: "ignore" },
-);
-async function waitFor(url) {
-  for (let i = 0; i < 120; i++) {
-    try { if ((await fetch(url)).ok) return; } catch { /* retry */ }
-    await new Promise((r) => setTimeout(r, 500));
-  }
-  throw new Error(`server never came up at ${url}`);
-}
+const server = await startStudioDevServer();
+const BASE = server.url;
 
 const { chromium } = await import("playwright");
 const report = [];
 try {
-  await waitFor(BASE);
   const browser = await chromium.launch({
     headless: true,
     args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
@@ -99,7 +87,7 @@ try {
 } catch (e) {
   report.push(`## crash\n${String(e)}`);
 } finally {
-  try { process.kill(-server.pid); } catch { /* gone */ }
+  server.stop();
 }
 writeFileSync(path.join(artifacts, "diagnose-result.txt"), report.join("\n"));
 console.log(report.join("\n").slice(0, 400));

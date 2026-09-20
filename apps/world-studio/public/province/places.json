@@ -6246,7 +6246,7 @@
       },
       "whySiteWon": "box canyon in upland hills (danger band 3), 1146 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote.",
       "why": {
-        "founding": "A temple to Boethiah and Vaermina raised by Dunmer dissidents who fled the Tribunal, then abandoned by them. The Third Empire's surveyors renamed it Tenmar Wall on their maps. The north kept the old name. The market that carries the shortened form grew half a morning's walk away where the carters' tracks bend, the closest point at which the carters were willing to build.",
+        "founding": "A temple to Boethiah and Vaermina raised by Dunmer dissidents who fled the Tribunal, then abandoned by them. The Third Empire's surveyors recorded a different name for the site. Northern carters and market clerks still use the Dunmer one. The market that carries the shortened form grew half a morning's walk away where the carters' tracks bend, the closest point at which the carters were willing to build.",
         "siteAdvantages": "Off the road, in a hollow that the tracks curve to avoid. Every carter in the north can point at the hollow from the bend.",
         "occupantsMotive": "Nobody occupies it. The marker posts around it are maintained.",
         "pressures": "The market town that borrowed its name lives off the road and pretends the ruin is somebody else's business; the second atrocity on this ground is the Dres slave road that ran past the district, not the dissidents' work.",
@@ -7463,8 +7463,22 @@
         6248.5,
         298.9
       ],
-      "plotFacts": null,
-      "whySiteWon": null,
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 155.2,
+        "distanceToWaterM": 73.6,
+        "water": {
+          "entityId": "body.3364-188",
+          "kind": "pond",
+          "levelM": 71.42,
+          "season": "perennial",
+          "distanceM": 73.6
+        },
+        "score": 3.125
+      },
+      "whySiteWon": "firm ground in upland hills (danger band 2), 155 m from the nearest route; its choice #3 landform; won on route, landform, hinterland.",
       "why": {
         "founding": "On a hammock the ground is precious and the crown is dry, so the households here put their dead in the canopy rather than in the ground. The terrace is a platform in that canopy, above the houses and above the flood, an hour up the hammock from Last Landing and within a day's traffic of Thorn.",
         "siteAdvantages": "The hammock's tallest stand, with three trunks close enough to carry a terrace and a canopy dense enough to hide it from the marsh.",
@@ -44275,7 +44289,7 @@
       "discovery": "rumour",
       "valueTier": "tier-3",
       "purpose": "stealth-challenge (real) + combat-challenge, faction-gateway, lore-reveal",
-      "hook": "The Owing's distraint from the lake villages to the Rose is racked in here, tagged and dated. Never-Sold's people have spent a year trying to read the tags.",
+      "hook": "Goods distrained by the Owing from the lake villages to Blackrose are racked in the cellars, tagged and dated. Never-Sold's people have spent a year trying to read the tags.",
       "stance": "hostile",
       "interior": "delve · imperial-fort · S2 · wet 0%",
       "purposeDetail": {
@@ -45291,7 +45305,8 @@
       "travelStation": {
         "modes": [
           "ferry",
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           {
@@ -45301,6 +45316,10 @@
           {
             "id": "place.imperial-penal-south.manned-toll-tower",
             "name": "The Water Reckoning"
+          },
+          {
+            "id": "place.imperial-penal-south.lake-ferry-stage",
+            "name": "The North Stage"
           }
         ]
       },
@@ -45413,7 +45432,8 @@
       "travelStation": {
         "modes": [
           "ferry",
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           {
@@ -45607,8 +45627,22 @@
         1647.8,
         5020.2
       ],
-      "plotFacts": null,
-      "whySiteWon": null,
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 35.1,
+        "distanceToWaterM": 24.5,
+        "water": {
+          "entityId": "body.894-2731",
+          "kind": "marsh-deep",
+          "levelM": 4.7,
+          "season": "perennial",
+          "distanceM": 24.5
+        },
+        "score": 1.418
+      },
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 35 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, parent, hinterland; placed from the homeless batch at stage 'eviction-repair'; landform wishes taken from the type recipe (record had none).",
       "why": {
         "founding": "The Blackguards' heirs of the Blackrose region run their business as a counting house. What they inherited from the Rose was its ledger.",
         "siteAdvantages": "An unremarkable water-house on a settled back channel with three exits and a clear view of the toll quay. The ground here is safe. The house is guarded.",
@@ -46796,8 +46830,8 @@
         "founding": "A village south-west of Blackrose, built along a natural levee around a hard spring that runs clear when the flats are brown.",
         "siteAdvantages": "A levee crest a metre above every recorded flood, with a rock spring rising on it.",
         "occupantsMotive": "The spring is the asset. In a bad year the village sells water to boats by the cup.",
-        "pressures": "They want the lake landings' freight trade. The feeder is too shallow for laden hulls.",
-        "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village. The lake landings' monopoly on that trade would end."
+        "pressures": "They want Blackrose's lake-landing freight trade. The feeder is too shallow for laden hulls.",
+        "wouldChangeIf": "A dredged feeder would make Rockspring the western freight village and end Blackrose's monopoly on that trade."
       },
       "hardConstraints": [
         "above the seasonal maximum, beside a channel"

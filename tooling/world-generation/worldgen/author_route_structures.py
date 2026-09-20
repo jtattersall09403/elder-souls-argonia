@@ -198,8 +198,8 @@ WHY = {
    "The track leaves the moth farms by a break in the scarp. That break is already a rock stair. Widening it would drop the ledge on which the farms stand onto the road.",
  "track.dunmer-north.the-diggings-ladder":
    "This is the way down into the diggings. The diggings are a hole, so the way down is built as steps.",
- "track.dunmer-north.the-field-gate-garrison":
-   "The garrison sits on the high field above a run of terraces. Each terrace lip is a wall of packed clay that would slump if it were cut back.",
+ "track.dunmer-north.nine-fords":
+   "The town keeps the nine crossings of the saltrice country. It stands on the field above them. Each terrace lip below it is a wall of packed clay that would slump if it were cut back.",
  "track.imperial-fringe.stonefoot-terrace-village":
    "Stonefoot's terraces are held up by their own retaining stone, so the path steps between them rather than trenching through the walls that keep the fields.",
  "track.dunmer-north.the-flu-cordon":
@@ -403,8 +403,6 @@ WHY = {
    "Cassian's fields sit on a loam shoulder above the flood line, with the barn on the shoulder's dry edge. The track steps up that edge. It is what has kept the barn dry since the family walked off the grant.",
  "track.imperial-fringe.hangs-above-the-water":
    "The chambers and galleries are cut and built into the gorge wall, above the worst water and below the wind. Anything that reaches them climbs the face. The village argues every year about cutting a stair.",
- "track.imperial-fringe.the-empty-steading":
-   "The steading holds a firm bank at a channel junction, with its own landing, a walled yard and a well. The path up from the landing takes the bank in one step. The claim has been unsettled for four years and nothing has been dug.",
  "track.imperial-fringe.the-vellum-estate":
    "Vellum's land is drained river terrace held in one block. The drains run along the terrace edge and the track crosses them at the boundary. A cut there would put the river back into the fields.",
  "track.imperial-penal-south.basin-sinkhole":
@@ -419,8 +417,8 @@ WHY = {
    "The yard stands on the shore nearest the deep hole, with a crane frame and a drying floor above the water. Cargo comes up wet and heavy under the frame. The way down to the boats steps off the yard edge, which carries the frame's footing.",
  "track.imperial-penal-south.saltrice-village":
    "The village stood on flood-fed grassland and the flood has stopped receding. The grain barns' stone staddles are the last dry footing. The path climbs onto them, because the ground between them is under water.",
- "track.imperial-penal-south.three-gate-toll":
-   "The toll town sits at the confluence of the three western waters, where a hull off any feeder must come past the quay. The quay stands the full height of the bank. Goods and travellers come up it at the gates. The toll families have kept that bank steep since before the current city government.",
+ "track.imperial-penal-south.manned-toll-tower":
+   "The tower commands the channel where a hull off any western feeder must come past the quay. The quay stands the full height of the bank. Goods and travellers come up it at the gate. The toll families have kept that bank steep since before the current city government.",
  "track.mercantile-coast.ashfield":
    "Ashfield's ground is deep burn ash on a dry rise, with the coast road along the field edge. The road stands above the fields on the rise's lip. Ash will not hold a cut face, so the track steps up instead.",
  "track.mercantile-coast.ashroot-village":
@@ -458,8 +456,8 @@ WHY = {
    "The counting ground was cut into the slope rather than dug, with the earliest counts in a chamber beneath it. The road climbs to it and drops away beyond it on built steps. A cut at either end would open the chamber.",
  "track.hist-heartland.insular-hereditary-watch":
    "The wardens hold the ridge end above a sealed xanmeer. Visitors are turned back at the top of the approach. That approach crosses the standing water below the ridge on deck. It is kept too narrow for a cart.",
- "track.mercantile-coast.keel-sakka-stilts":
-   "The landing takes Lilmoth's freight off the road and onto the river. The channel edge is the deep-water face along which the boats lie, so the road reaches it without breaking it. The short rise from the water is built.",
+ "track.mercantile-coast.screen-watch":
+   "The platform village takes Lilmoth's freight off the road and onto the river. The channel edge is the deep-water face along which the boats lie, so the road reaches it without breaking it. The short rise from the water is built.",
 }
 
 

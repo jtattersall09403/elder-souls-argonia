@@ -12,6 +12,10 @@
  * twisted syntax. If a line feels portentous, cut it in half.
  */
 import { buildCatalogue, type TextEntry } from "./catalogue.js";
+import { HYDROLOGY_NAME_TEXT } from "./generated/hydrology-names.js";
+
+/** Names for the water and the land (16g): generated from world/sources/hydrology/names.json. */
+export { HYDROLOGY_NAME_TEXT };
 
 export const SYSTEM_TEXT: readonly TextEntry[] = [
   {
@@ -374,6 +378,78 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     text: "The worm is awake. Say where you are going and stand in the mouth.",
     note: "The Waykeeper at a root node. Placeholder line until the hero Hist nodes are authored in 16g.",
   },
+  {
+    id: "text.canoe.slough-point-quinrawl-anchorage.name",
+    surface: "descriptive",
+    text: "Slough Point to Quin'rawl Anchorage, by canoe",
+    note: "Service-menu label for the canoe run along the Slough Point channels, calling at Moonmarch and Mudfoot.",
+  },
+  {
+    id: "text.canoe.slough-point-quinrawl-anchorage.hail",
+    surface: "dialogue",
+    text: "Two drakes down the channels to the anchorage. Keep your weight in the middle.",
+    note: "The poler at Slough Point. Fare stated, then the one rule of the canoe.",
+  },
+  {
+    id: "text.canoe.bright-throat-village-oliis-ferry-stage.name",
+    surface: "descriptive",
+    text: "Bright-Throat Village to the Estuary Stage, by canoe",
+    note: "Service-menu label for the canoe run from Bright-Throat Village to the Estuary Stage, calling at Screen-Watch.",
+  },
+  {
+    id: "text.canoe.bright-throat-village-oliis-ferry-stage.hail",
+    surface: "dialogue",
+    text: "Two drakes to the stage, by way of Screen-Watch. Bail when the water comes over the side.",
+    note: "The poler at Bright-Throat Village. Fare stated, then the one rule of the canoe.",
+  },
+  {
+    id: "text.canoe.treasure-hunters-live-camp-portdun-mont.name",
+    surface: "descriptive",
+    text: "Fortune's Own to Portdun Mont, by canoe",
+    note: "Service-menu label for the canoe run between the Fortune's Own camp and Portdun Mont.",
+  },
+  {
+    id: "text.canoe.treasure-hunters-live-camp-portdun-mont.hail",
+    surface: "dialogue",
+    text: "Two drakes out to Portdun Mont. Whatever you dug up travels at your feet.",
+    note: "The poler at Fortune's Own. Fare stated, then the one rule of the canoe.",
+  },
+  {
+    id: "text.canoe.lake-divers-yard-lake-ferry-stage.name",
+    surface: "descriptive",
+    text: "The Barge Yard to the North Stage, by canoe",
+    note: "Service-menu label for the canoe run across the lake channel between the Barge Yard and the North Stage.",
+  },
+  {
+    id: "text.canoe.lake-divers-yard-lake-ferry-stage.hail",
+    surface: "dialogue",
+    text: "Two drakes across to the North Stage. Stay seated the whole way.",
+    note: "The poler at the Barge Yard. Fare stated, then the one rule of the canoe.",
+  },
+  {
+    id: "text.canoe.riverwalk-the-tide-fair.name",
+    surface: "descriptive",
+    text: "Riverwalk to Tide Fair, by canoe",
+    note: "Service-menu label for the canoe run along the Riverwalk channels, calling at Hissmir and Murkwater.",
+  },
+  {
+    id: "text.canoe.riverwalk-the-tide-fair.hail",
+    surface: "dialogue",
+    text: "Two drakes to Tide Fair, calling at Hissmir and Murkwater. Hands inside the hull.",
+    note: "The poler at Riverwalk. Fare stated, then the one rule of the canoe.",
+  },
+  {
+    id: "text.canoe.hutan-tzel-the-black-stage.name",
+    surface: "descriptive",
+    text: "Hutan-Tzel to the Black Stage, by canoe",
+    note: "Service-menu label for the short canoe run between Hutan-Tzel and the Black Stage.",
+  },
+  {
+    id: "text.canoe.hutan-tzel-the-black-stage.hail",
+    surface: "dialogue",
+    text: "Two drakes over to the Black Stage. I take four and no more.",
+    note: "The poler at Hutan-Tzel. Fare stated, then the one rule of the canoe.",
+  },
 ];
 
 /**
@@ -430,4 +506,5 @@ export const CATALOGUE = buildCatalogue([
   ...FERRY_TEXT,
   ...TRAVEL_TEXT,
   ...TRAVEL_UI_TEXT,
+  ...HYDROLOGY_NAME_TEXT,
 ]);

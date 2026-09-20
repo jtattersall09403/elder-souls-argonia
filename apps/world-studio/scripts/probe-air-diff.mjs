@@ -1,13 +1,19 @@
-// On/off test for the ambient air layer on the deployed studio (or SHOT_BASE).
+// On/off test for the ambient air layer. With SHOT_BASE set it runs against
+// that URL (the deployed studio); with it unset it starts a local studio DEV
+// server — the window.__SCENE__ / __STUDIO_SKY_DEBUG__ handles it reads are
+// DEV-only (WorldSky, 2026-09-20), so a production build has none.
 // At Q, wait for the character, dump each swarm's live state from the scene,
 // then shoot the same paused frame with window.__STUDIO_AIR__ = 0 and = GAIN
 // to /tmp/shots/air-off.png and air-on.png. Diff them outside (PIL/numpy):
 // a layer that draws changes centre-screen pixels; one that does not, cannot.
 import { chromium } from "playwright";
 import { writeFileSync } from "node:fs";
-const BASE = process.env.SHOT_BASE ?? "https://jtattersall09403.github.io/elder-souls-argonia/studio/";
+import { startStudioDevServer } from "./dev-server.mjs";
+const server = process.env.SHOT_BASE ? null : await startStudioDevServer();
+const BASE = process.env.SHOT_BASE ?? server.url;
 const q = process.env.Q;
 const GAIN = Number(process.env.GAIN ?? 6);
+try {
 const browser = await chromium.launch({ headless: true, args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
 const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
 const errs = [];
@@ -53,3 +59,8 @@ await shot(0, "air-off");
 await shot(GAIN, "air-on");
 console.log("errors:", errs.slice(0, 6).join("\n  "));
 await browser.close();
+} finally {
+  // Like probe-sky.mjs: the dev server is stopped even when the probe throws,
+  // so a failed run never leaves the studio port held.
+  server?.stop();
+}

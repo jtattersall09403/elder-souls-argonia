@@ -131,27 +131,14 @@
     {
       "entityId": "body.1284-3448",
       "kind": "body",
-      "name": "Surveyor's Waste",
+      "name": "Blackrose Lake",
       "aliases": [],
       "textKey": "text.hydrology.name.body.1284-3448",
       "culture": "imperial-penal-south",
       "grounding": {
-        "kind": "extrapolated",
-        "rule": "imperial-penal-south",
-        "why": "3.7 ha of swamp written off in the same ledger"
-      }
-    },
-    {
-      "entityId": "body.1290-3508",
-      "kind": "body",
-      "name": "Blackrose Lake",
-      "aliases": [],
-      "textKey": "text.hydrology.name.body.1290-3508",
-      "culture": "imperial-penal-south",
-      "grounding": {
         "kind": "attested",
         "uesp": "Lore:Blackrose",
-        "why": "the lake-lowland basin 5 m from the Blackrose anchor"
+        "why": "the compiled lake body at the Blackrose anchor; the graph's body.1290-3508 is marked realisedBy body.1284-3448 and never compiles, so the attested name moves to the body that ships (owner 2026-09-20; supersedes the extrapolated 'Surveyor's Waste')"
       }
     },
     {
@@ -2004,21 +1991,21 @@
       ]
     },
     {
-      "entityId": "site.scour.border-mountains.summit-006",
+      "entityId": "site.scour.border-mountains.summit-007",
       "kind": "peak",
       "name": "Ashanen Height",
       "aliases": [],
-      "textKey": "text.hydrology.name.site.scour.border-mountains.summit-006",
+      "textKey": "text.hydrology.name.site.scour.border-mountains.summit-007",
       "culture": "dunmer-north",
       "grounding": {
         "kind": "extrapolated",
         "rule": "dunmer-north",
         "why": "the corner crown where the north and west walls meet"
       },
-      "siteId": "site.scour.border-mountains.summit-006",
+      "siteId": "site.scour.border-mountains.summit-007",
       "centreM": [
-        584.4,
-        200.3
+        584.0,
+        200.1
       ]
     },
     {
@@ -2040,57 +2027,57 @@
       ]
     },
     {
-      "entityId": "site.scour.firm-lowland.summit-010",
+      "entityId": "site.scour.firm-lowland.summit-009",
       "kind": "peak",
       "name": "Gaverin Knoll",
       "aliases": [],
-      "textKey": "text.hydrology.name.site.scour.firm-lowland.summit-010",
+      "textKey": "text.hydrology.name.site.scour.firm-lowland.summit-009",
       "culture": "dunmer-north",
       "grounding": {
         "kind": "extrapolated",
         "rule": "dunmer-north",
-        "why": "a knoll standing 82 m over firm lowland"
+        "why": "a knoll standing 78 m over firm lowland"
       },
-      "siteId": "site.scour.firm-lowland.summit-010",
+      "siteId": "site.scour.firm-lowland.summit-009",
       "centreM": [
         2596.4,
-        1248.6
+        1247.5
       ]
     },
     {
-      "entityId": "site.scour.upland-hills.summit-007",
+      "entityId": "site.scour.upland-hills.summit-006",
       "kind": "peak",
       "name": "Low Kandril",
       "aliases": [],
-      "textKey": "text.hydrology.name.site.scour.upland-hills.summit-007",
+      "textKey": "text.hydrology.name.site.scour.upland-hills.summit-006",
       "culture": "dunmer-north",
       "grounding": {
         "kind": "extrapolated",
         "rule": "dunmer-north",
-        "why": "a lone hill 99 m above the Thorn flats and only 94 m above the sea"
+        "why": "a lone hill 106 m above the Thorn flats and only 108 m above the sea"
       },
-      "siteId": "site.scour.upland-hills.summit-007",
+      "siteId": "site.scour.upland-hills.summit-006",
       "centreM": [
-        6610.4,
-        858.2
+        6621.4,
+        869.1
       ]
     },
     {
-      "entityId": "site.scour.upland-hills.summit-009",
+      "entityId": "site.scour.upland-hills.summit-010",
       "kind": "peak",
       "name": "Low Warden",
       "aliases": [],
-      "textKey": "text.hydrology.name.site.scour.upland-hills.summit-009",
+      "textKey": "text.hydrology.name.site.scour.upland-hills.summit-010",
       "culture": "imperial-fringe",
       "grounding": {
         "kind": "extrapolated",
         "rule": "imperial-fringe",
         "why": "the inland outlier of the western wall"
       },
-      "siteId": "site.scour.upland-hills.summit-009",
+      "siteId": "site.scour.upland-hills.summit-010",
       "centreM": [
         1121.4,
-        2339.8
+        2338.7
       ]
     }
   ]

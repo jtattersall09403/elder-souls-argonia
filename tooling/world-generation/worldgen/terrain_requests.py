@@ -421,8 +421,15 @@ def verify_fulfillment_manifest(plan: dict, manifest: dict) -> list[str]:
     return errors
 
 
+#: statuses whose records are not in the world, so their terrain requests are
+#: not planned (the notion `export_places` uses: a cut or deferred record is
+#: never drawn and never shaped). Owner 2026-09-20, the cut of the unsited 13.
+NOT_IN_WORLD = {"cut", "deferred"}
+
+
 def catalogue_records() -> list[dict]:
-    return [record for region in catalogue.load_region_files() for record in region.places]
+    return [record for region in catalogue.load_region_files() for record in region.places
+            if record.get("status") not in NOT_IN_WORLD]
 
 
 def main(argv: list[str] | None = None) -> int:

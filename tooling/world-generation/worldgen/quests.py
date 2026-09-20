@@ -299,10 +299,16 @@ def check(quest_dir: Path = QUEST_DIR,
             for pid in anchors:
                 if pid not in places:
                     bad(f"anchorPlace {pid} is not a LIVE catalogue record")
+                elif not places[pid].get("position"):
+                    bad(f"anchorPlace {pid} is live but unsited (no position): "
+                        "re-site or re-point the quest")
             sett = q.get("settlement")
             if sett is not None:
                 if sett not in places:
                     bad(f"settlement {sett} is not a LIVE catalogue record")
+                elif not places[sett].get("position"):
+                    bad(f"anchorPlace {sett} is live but unsited (no position): "
+                        "re-site or re-point the quest")
                 elif places[sett]["classification"]["class"] != "settlement":
                     bad(f"settlement {sett} is not classified as a settlement")
                 elif sett not in anchors:
@@ -313,6 +319,21 @@ def check(quest_dir: Path = QUEST_DIR,
             for key in ("touches", "sources"):
                 if not isinstance(q.get(key), list):
                     bad(f"{key} must be a list")
+
+    # the claim runs both ways (owner 2026-09-20): a code on a record's
+    # questHooks must name a quest that actually anchors here, or the map and
+    # the catalogue disagree about where a quest is played.
+    quest_codes = {q["code"] for q in load_quests(quest_dir)}
+    owners = ownership_lines(quest_dir)
+    for pid, rec in sorted(places.items()):
+        hooks = rec.get("questHooks") or {}
+        claimed = {c for c, _t in parse_ownership(hooks.get("tierOwnership"))}
+        anchored = {code for _tier, code in owners.get(pid, [])}
+        for code in sorted(claimed):
+            if code not in quest_codes:
+                errors.append(f"questHooks on {pid} names {code}, which is not a quest")
+            elif code not in anchored:
+                errors.append(f"questHooks on {pid} names {code}, which does not anchor here")
 
     # 55 §47c shape budget, per line (or per packet for line-less quests)
     excused: dict[str, dict[str, str]] = {}
@@ -429,6 +450,20 @@ def build_registry(quest_dir: Path = QUEST_DIR,
 
 
 _OWN_RE = re.compile(r"^([A-Z]{2}\d{2}(?:,\s*[A-Z]{2}\d{2})*)\s*·\s*tier-(\d)$")
+
+
+def parse_ownership(value: str | None) -> list[tuple[str, int]]:
+    """`"LR45 · tier-3; tier-2 shared"` -> [("LR45", 3)]. Entries the writer
+    kept but cannot explain (no code, or a role such as `player`) are skipped:
+    only real quest codes are claims this checker can hold to a quest."""
+    out: list[tuple[str, int]] = []
+    for part in (value or "").split(";"):
+        m = _OWN_RE.match(part.strip())
+        if not m:
+            continue
+        for code in m.group(1).split(","):
+            out.append((code.strip(), int(m.group(2))))
+    return out
 
 
 def ownership_lines(quest_dir: Path = QUEST_DIR) -> dict[str, list[tuple[int, str]]]:

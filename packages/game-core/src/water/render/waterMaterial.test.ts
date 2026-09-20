@@ -26,7 +26,7 @@ function assetsFor(version: 1 | 2): WaterAssets {
       klass: { file: "k.png", size: 1345, metresPerPixel: 5.48, classes: ["none"] },
     },
     surfaceTex: texture, flowTex: texture, klassTex: texture, shoreTex: texture,
-    ownerTex: texture,
+    hasOwner: true,
   } as unknown as WaterAssets;
 }
 const assets = assetsFor(2);

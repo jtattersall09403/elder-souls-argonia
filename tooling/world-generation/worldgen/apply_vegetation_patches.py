@@ -353,7 +353,26 @@ def run(bundles: Path, patches_path: Path, seed: int) -> dict:
         "patches": receipt_patches,
         "totals": {"removed": total_removed, "chunksTouched": len(touched)},
     }
-    (bundles / RECEIPT_NAME).write_text(json.dumps(receipt, indent=1) + "\n")
+    # A re-run of an idempotent stage removes nothing, and a receipt rebuilt
+    # from THAT run's counters reads "removed 0" over ground the first run
+    # cleared — which is what overwrote the 2026-09-19 receipt and cost us the
+    # real numbers (16h). A run that removed nothing never speaks for the
+    # bundles: it appends itself to `reRuns` and leaves the prior truth alone.
+    receipt_path = bundles / RECEIPT_NAME
+    if total_removed == 0 and not touched and receipt_path.exists():
+        try:
+            prior = json.loads(receipt_path.read_text())
+        except json.JSONDecodeError:
+            prior = None
+        if isinstance(prior, dict) and int(
+                prior.get("totals", {}).get("removed", 0)) > 0:
+            re_runs = list(prior.get("reRuns") or [])
+            re_runs.append({
+                "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "removed": 0, "chunksTouched": 0})
+            prior["reRuns"] = re_runs
+            receipt = prior
+    receipt_path.write_text(json.dumps(receipt, indent=1) + "\n")
     # The runtime streams the published copy, never the authored source.
     published = bundles.parent / "vegetation-patches.json"
     if patches_path.exists() and published.resolve() != patches_path.resolve():

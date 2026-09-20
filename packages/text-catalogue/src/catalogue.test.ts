@@ -93,6 +93,21 @@ describe("the shipped entries", () => {
     }
   });
 
+  it("register every ID exactly once, across every block", () => {
+    // A duplicate id is not hypothetical: 2026-09-20 a canoe service's name and
+    // hail were written twice, in two blocks-worth of edits, with different
+    // text. `buildCatalogue` throws on it at module load, but a throw at import
+    // reads as "the whole suite is broken"; this names the offender. The check
+    // is on the raw blocks, so it holds even if the live catalogue is ever
+    // built from something else.
+    const seen = new Set<string>();
+    const twice = ALL.map((e) => e.id).filter((id) => (seen.has(id) ? true : (seen.add(id), false)));
+    expect(twice, "text IDs registered more than once").toEqual([]);
+    expect(() => buildCatalogue([entry(), entry({ text: "You have died again." })])).toThrow(
+      DuplicateTextError,
+    );
+  });
+
   it("carry a note on every entry — context is what the voice review reads", () => {
     // `ui` chrome is exempt: a button reading "Max reach" has no context a
     // reviewer could use. Everything with a voice must explain itself.

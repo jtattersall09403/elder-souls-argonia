@@ -3,6 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import { useRapier } from "@react-three/rapier";
 import type { World, RigidBody } from "@dimforge/rapier3d-compat";
 import * as THREE from "three";
+import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import {
   selectNearestSolids,
   type FloraCollider,
@@ -227,7 +228,11 @@ export function VegetationColliders({
   // Drop every body on unmount (mode switches), not per rebuild.
   useEffect(() => {
     const live = bodies.current;
+    const bodySet = captureBodySet(world);
     return () => {
+      // Physics frees the world before child cleanups run
+      // (react-three-rapier 2.2 proxy); a dead set means nothing to remove.
+      if (!bodySetAlive(bodySet)) { live.clear(); return; }
       for (const entry of live.values()) world.removeRigidBody(entry.body);
       live.clear();
     };

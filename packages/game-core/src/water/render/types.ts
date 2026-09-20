@@ -22,10 +22,12 @@ export interface WaterAssets {
   klassTex: THREE.DataTexture;
   /** Shore distance / season response / tannin (RGBA8). Linear. */
   shoreTex: THREE.DataTexture;
-  /** Strip/fall owner mask (0 field, 128 strip, 255 fall), NEAREST — null
-   * when the compile declared no `surface.ownerFile`. The field surface
-   * discards where this is set; the strip/sheet meshes draw there instead. */
-  ownerTex: THREE.DataTexture | null;
+  /** True when the compile declared `surface.ownerFile`: the strip/fall owner
+   * mask (0 field, 128 strip, 255 fall) is packed into the ALPHA of
+   * `surfaceTex`'s province rows (NEAREST, so the decision stays per texel).
+   * The field surface dissolves where it is set; the strip/sheet meshes draw
+   * there instead. */
+  hasOwner: boolean;
   /** 16f water dressing (decision 0070), read from `water-dressing.json`
    * beside the compile's outputs and absent on a build without it:
    * `habitat` RGB = standing water / wet ground / canopy fraction (the air

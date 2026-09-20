@@ -66,7 +66,7 @@ PROSE_FIELDS = {"why.founding", "why.siteAdvantages", "why.pressures",
 
 #: The first path segment a `field` remedy may write: the schema fields 16g
 #: added. Anything else is refused — `field` is an escape hatch, not a hole.
-FIELD_ALLOWLIST = {"ownerGuided", "vasteiTutorialScene", "reservedFor",
+FIELD_ALLOWLIST = {"ownerGuided", "vasteiTutorialScene", "reservedFor", "questHooks", "rumourPoolKey",
                    "coSitedWith", "underwaterAccessDetail", "heroHist", "interior",
                    "terrainRequests", "travelStation"}
 
@@ -253,7 +253,11 @@ def _pin_by_siting(ctx: Context, rec: dict, rem: dict, apply: bool) -> list[str]
         changes.append(f"sitingPrefs += {sorted(patch)}")
         if apply:
             merge_prefs(prefs, patch)
-    if not position_cleared(rec):
+    # A row that only re-states the preferences does NOT unplot the record: a
+    # plotted record keeps its dot here, and the new sitingPrefs are acted on
+    # at the next `macro_plot --resolve-all`, or when a re-type clears the
+    # position (2026-09-20). Only an unplotted record is cleared here.
+    if rec.get("workflow") != "plotted" and not position_cleared(rec):
         changes.append("position fields removed, workflow → derived (the seeded plot re-sites it)")
         if apply:
             clear_position(rec)

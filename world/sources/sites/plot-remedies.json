@@ -169,91 +169,91 @@
       "kind": "pin-by-siting",
       "sitingPrefs": {
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 30
         },
         "minDepthM": 3.0
       },
-      "why": "Canon puts the drowned Hist in Blackrose Lake. The record is tied to body.1290-3508 within 10 m on 5.0 m of water; the dot at 1642.3, 6023.6 reads body.973-3292 (marsh-fringe, level 1.62 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.) loosened: nearWater.maxM 10 → 30; minDepthM 5 → 3, the ground could not hold the tighter tie."
+      "why": "Canon puts the drowned Hist in Blackrose Lake. The record is tied to body.1284-3448 within 10 m on 5.0 m of water; the dot at 1642.3, 6023.6 reads body.973-3292 (marsh-fringe, level 1.62 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.) loosened: nearWater.maxM 10 → 30; minDepthM 5 → 3, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.imperial-penal-south.longmont",
       "kind": "pin-by-siting",
       "sitingPrefs": {
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
-      "why": "Longmont is the Blackrose lake ferry's station (ferry.imperial-penal-south.blackrose-lake); its record keyed to body.ocean 66 m off, so the lake hop could not follow one body. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie."
+      "why": "Longmont is the Blackrose lake ferry's station (ferry.imperial-penal-south.blackrose-lake); its record keyed to body.ocean 66 m off, so the lake hop could not follow one body. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.imperial-penal-south.lake-drowned-village",
       "kind": "pin-by-siting",
       "sitingPrefs": {
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 30
         },
         "minDepthM": 3.0
       },
-      "why": "Canon puts the drowned village in Blackrose Lake. The record is tied to body.1290-3508 within 10 m on 5.0 m of water; the dot at 1598.4, 6511.7 reads body.877-3568 (lagoon, level 0.0 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.) loosened: nearWater.maxM 10 → 30; minDepthM 5 → 3, the ground could not hold the tighter tie."
+      "why": "Canon puts the drowned village in Blackrose Lake. The record is tied to body.1284-3448 within 10 m on 5.0 m of water; the dot at 1598.4, 6511.7 reads body.877-3568 (lagoon, level 0.0 m) 0.0 m away. (10 m is the schema's floor for nearWater.maxM; the intent is on the water itself, and the minDepthM gate carries that.) loosened: nearWater.maxM 10 → 30; minDepthM 5 → 3, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.imperial-penal-south.lake-boardwalk-village",
       "kind": "pin-by-siting",
       "sitingPrefs": {
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
-      "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2612.9, 6868.1 reads body.ocean (ocean, level 0.0 m) 0.0 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie."
+      "why": "A lake village needs the lake at its edge. The record is tied to body.1284-3448 within 60 m; the dot at 2612.9, 6868.1 reads body.ocean (ocean, level 0.0 m) 0.0 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.imperial-penal-south.lake-divers-yard",
       "kind": "pin-by-siting",
       "sitingPrefs": {
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
-      "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2481.3, 6747.5 reads body.ocean (ocean, level 0.0 m) 0.0 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie."
+      "why": "A lake village needs the lake at its edge. The record is tied to body.1284-3448 within 60 m; the dot at 2481.3, 6747.5 reads body.ocean (ocean, level 0.0 m) 0.0 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.imperial-penal-south.west-market-town",
       "kind": "pin-by-siting",
       "sitingPrefs": {
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
-      "why": "A lake village needs the lake at its edge. The record is tied to body.1290-3508 within 60 m; the dot at 2750.0, 6281.4 reads body.1496-3444 (mudflat, level 0.54 m) 19.8 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie."
+      "why": "A lake village needs the lake at its edge. The record is tied to body.1284-3448 within 60 m; the dot at 2750.0, 6281.4 reads body.1496-3444 (mudflat, level 0.54 m) 19.8 m away. loosened: nearWater.maxM 60 → 150, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.imperial-penal-south.natural-dive-shaft",
       "kind": "pin-by-siting",
       "sitingPrefs": {
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 80
         },
         "minDepthM": 1.0
       },
-      "why": "The shaft is dived from the lake. The record is tied to body.1290-3508 within 30 m on 1.0 m of water; the dot at 2563.5, 6144.3 reads body.1209-3032 (swamp, level 0.84 m) 0.0 m away. loosened: nearWater.maxM 30 → 80, the ground could not hold the tighter tie."
+      "why": "The shaft is dived from the lake. The record is tied to body.1284-3448 within 30 m on 1.0 m of water; the dot at 2563.5, 6144.3 reads body.1209-3032 (swamp, level 0.84 m) 0.0 m away. loosened: nearWater.maxM 30 → 80, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.imperial-penal-south.three-gate-toll",
       "kind": "pin-by-siting",
       "sitingPrefs": {
         "nearWater": {
-          "entityId": "body.1290-3508",
+          "entityId": "body.1284-3448",
           "maxM": 150
         }
       },
-      "why": "The toll stands on the lake approach. The record is tied to body.1290-3508 within 80 m; the dot at 1368.1, 6484.3 reads body.712-3516 (marsh-fringe, level 1.64 m) 36.8 m away. loosened: nearWater.maxM 80 → 150, the ground could not hold the tighter tie."
+      "why": "The toll stands on the lake approach. The record is tied to body.1284-3448 within 80 m; the dot at 1368.1, 6484.3 reads body.712-3516 (marsh-fringe, level 1.64 m) 36.8 m away. loosened: nearWater.maxM 80 → 150, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.mercantile-coast.whitebone-reef",
@@ -468,7 +468,7 @@
           "maxM": 150
         }
       },
-      "why": "The cordon is drawn round the supply town and is one design with it. the dot at 2484.1, 6426.8 reads body.1284-3448 (swamp, level 1.36 m) 11.0 m away. loosened: boundTo.maxM 60 → 150, the ground could not hold the tighter tie."
+      "why": "The cordon is drawn round the supply town and is one design with it. the dot at 2484.1, 6426.8 reads body.1284-3448 (swamp, level 1.36 m) 11.0 m away. loosened: boundTo.maxM 60 → 150, the ground could not hold the tighter tie. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.pirate-freeholds.opening-work-barge",
@@ -2442,12 +2442,12 @@
       "value": {
         "gating": "breath-gated",
         "depthM": 3.0,
-        "entityId": "body.1290-3508",
+        "entityId": "body.1284-3448",
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
       },
-      "why": "underwaterAccess 'shallow-dive' is breath-gated; 3.0 m by accepted-homeless: the depth it asks for, in the water it asks for; the portal is below the water line, so no surface node at the entry."
+      "why": "underwaterAccess 'shallow-dive' is breath-gated; 3.0 m by accepted-homeless: the depth it asks for, in the water it asks for; the portal is below the water line, so no surface node at the entry. (realised body, owner 2026-09-20)"
     },
     {
       "id": "place.imperial-penal-south.lake-submerged-xanmeer",
@@ -3114,7 +3114,8 @@
       "value": {
         "modes": [
           "ferry",
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           "place.imperial-penal-south.blackrose",
@@ -3122,7 +3123,7 @@
           "place.imperial-penal-south.bramman-head"
         ]
       },
-      "why": "owner 2026-09-20: destinations naming cut places move to the sited station that replaced them, or are dropped where the replacement is not on the water"
+      "why": "owner 2026-09-20: destinations naming cut places move to the sited station that replaced them, or are dropped where the replacement is not on the water. The lake canoe run canoe.imperial-penal-south.lake-divers-yard-lake-ferry-stage also calls here, so canoe is among the modes and the other end of the run is a destination."
     },
     {
       "id": "place.imperial-penal-south.rose-supply-town",
@@ -3147,14 +3148,16 @@
       "value": {
         "modes": [
           "ferry",
-          "boat"
+          "boat",
+          "canoe"
         ],
         "destinations": [
           "place.imperial-penal-south.bramman-head",
-          "place.imperial-penal-south.manned-toll-tower"
+          "place.imperial-penal-south.manned-toll-tower",
+          "place.imperial-penal-south.lake-ferry-stage"
         ]
       },
-      "why": "owner 2026-09-20: the cut lake stations' ferry service moves onto this record, so the catalogue declares the mode the graph uses"
+      "why": "owner 2026-09-20: the cut lake stations' ferry service moves onto this record, so the catalogue declares the mode the graph uses. The lake canoe run canoe.imperial-penal-south.lake-divers-yard-lake-ferry-stage also calls here, so canoe is among the modes and the other end of the run is a destination."
     },
     {
       "id": "place.imperial-penal-south.manned-toll-tower",

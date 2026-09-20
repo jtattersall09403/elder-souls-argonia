@@ -75,7 +75,15 @@ block, not a second one. Built and unpublished kits also exist:
   land-cover bake, the apron and the whole scatter for nothing.
   `travel_services` sits *before* the minor stages although its hops follow
   the minor waterways. Deliverable 0b fixes the order; do not run the chain
-  before it.
+  before it. **2026-09-20: 0b left the order still wrong for `rebake_landcover`** —
+  the only stage that paints the minor tracks and footpaths
+  (`routes_raster.rasterize_minor_paint`) still ran *before*
+  `compile_minor_routes`, so the shipped `refined/ground-control.png` held
+  the previous network's paint. It now sits immediately after
+  `compile_minor_routes` (the apron, the settlement ground paint, the
+  scatter and the water dressing follow it). `chain_contracts.py` now
+  declares its read of `routes-minor.json`, so `--check-contracts` catches a
+  regression.
 - **The record-reads allowlist has seven rows; five are yours**
   (`worldgen/record-reads-allowlist.json`: `audit_place_semantics`,
   `hostility_frequency`, `macro_plot`, `site_dossier`, `terrain_scour`;

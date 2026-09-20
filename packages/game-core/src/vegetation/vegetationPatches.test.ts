@@ -3,11 +3,14 @@ import {
   FRINGE_MIN_KEEP,
   indexPatches,
   keepAt,
+  PATCH_GRID_PAD_M,
   keepForExtent,
   patchesNear,
   survivesPatches,
+  type IndexedPatch,
   type VegetationClearancePatch,
   type VegetationPatchesDoc,
+  type VegetationPatchRecord,
 } from "./vegetationPatches";
 
 const HARD = [[[100, 100], [200, 100], [200, 200], [100, 200]]] as const;
@@ -109,5 +112,51 @@ describe("vegetation-clearance patches, runtime side", () => {
     expect(indexed[0].id).toBe("patch.test.town");
     expect(patchesNear(150, 150, indexed)).toHaveLength(1);
     expect(patchesNear(5000, 5000, indexed)).toHaveLength(0);
+  });
+});
+
+describe("patch grid (2026-09-20 hitch fix)", () => {
+  // A deterministic LCG: the test must not depend on Math.random.
+  function lcg(seed: number) {
+    let s = seed >>> 0;
+    return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
+  }
+
+  it("returns exactly what the linear scan returns", () => {
+    const rnd = lcg(20260920);
+    const patches: VegetationPatchRecord[] = [];
+    for (let i = 0; i < 50; i++) {
+      const x = (rnd() - 0.5) * 6000;
+      const z = (rnd() - 0.5) * 6000;
+      const w = 10 + rnd() * 400;
+      const h = 10 + rnd() * 400;
+      patches.push({
+        id: `p${i}`,
+        hardClear: [[[x, z], [x + w, z], [x + w, z + h], [x, z + h]]],
+      });
+    }
+    const indexed = indexPatches({ schemaVersion: 1, patches });
+    expect(indexed.grid).toBeTruthy();
+    // The same entries with the grid stripped: the linear path.
+    const linear: IndexedPatch[] = indexed.map((e) => e);
+
+    for (let i = 0; i < 500; i++) {
+      const x = (rnd() - 0.5) * 7000;
+      const z = (rnd() - 0.5) * 7000;
+      const pad = rnd() * PATCH_GRID_PAD_M;
+      const viaGrid = patchesNear(x, z, indexed, pad);
+      const viaScan = patchesNear(x, z, linear, pad);
+      expect(new Set(viaGrid)).toEqual(new Set(viaScan));
+      expect(viaGrid.length).toBe(viaScan.length);
+    }
+  });
+
+  it("falls back to the full scan when the pad exceeds the stamped margin", () => {
+    const indexed = indexPatches({
+      schemaVersion: 1,
+      patches: [{ id: "a", hardClear: [[[0, 0], [10, 0], [10, 10], [0, 10]]] }],
+    });
+    const far = PATCH_GRID_PAD_M + 200;
+    expect(patchesNear(-100, 5, indexed, far)).toHaveLength(1);
   });
 });

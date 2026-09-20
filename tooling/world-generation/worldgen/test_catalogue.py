@@ -709,8 +709,6 @@ KNOWN_SAMENESS_PAIRS = frozenset({
      "place.mercantile-coast.root-gallery-murkmire"),   # root-cavern S3 wet 0.0 D4 stair-throat x2 hostile
     ("place.imperial-fringe.sink-field",
      "place.imperial-fringe.the-cold-lights"),   # flooded-cave S1 wet 0.8 D3 cave-mouth x2 hostile
-    ("place.imperial-fringe.the-empty-steading",
-     "place.mercantile-coast.rockpark"),   # abandoned-plantation S2 wet 0.2 D3 door x2 hostile
     ("place.imperial-penal-south.cordon-cellars",
      "place.imperial-penal-south.intact-fort"),   # imperial-fort S2 wet 0.0 D3 cellar-door x3 hostile
     ("place.imperial-penal-south.drawdown-flat",
@@ -726,31 +724,17 @@ KNOWN_SAMENESS_PAIRS = frozenset({
     ("place.imperial-penal-south.rose-outworks",
      "place.mercantile-coast.sacked-customs-suburb"),   # imperial-fort S2 wet 0.15 D3 trapdoor x3 hostile
     ("place.mercantile-coast.alessian-hull",
-     "place.mercantile-coast.whitebone-reef"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 hostile
-    ("place.mercantile-coast.alessian-hull",
      "place.naga-kur-deeps.drifting-village-wet-mooring"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 hostile
     ("place.mercantile-coast.alessian-hull",
      "place.naga-kur-deeps.raft-village-lashed"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 hostile
-    ("place.mercantile-coast.alessian-hull",
-     "place.naga-kur-deeps.wreck-submerged-barge"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 hostile
     ("place.mercantile-coast.insular-jungle-village",
      "place.mercantile-coast.stripped-village-north"),   # dwelling S2 wet 0.2 D4 door x3 hostile
     ("place.mercantile-coast.naga-village-oliis",
      "place.saxhleel-coast.terrace-village-ridge"),   # dwelling S2 wet 0.3 D3 door x2 hostile
-    ("place.mercantile-coast.whitebone-reef",
-     "place.naga-kur-deeps.drifting-village-wet-mooring"),   # shipwreck S2 wet 0.85 D3 underwater-entry x2 hostile
-    ("place.mercantile-coast.whitebone-reef",
-     "place.naga-kur-deeps.raft-village-lashed"),   # shipwreck S2 wet 0.85 D3 underwater-entry x2 hostile
-    ("place.mercantile-coast.whitebone-reef",
-     "place.saxhleel-coast.gap-reef"),   # shipwreck S2 wet 0.85 D3 underwater-entry x2 hostile
     ("place.naga-kur-deeps.drifting-village-wet-mooring",
      "place.naga-kur-deeps.raft-village-lashed"),   # shipwreck S2 wet 0.8 D3 underwater-entry x2 hostile
     ("place.naga-kur-deeps.drifting-village-wet-mooring",
-     "place.naga-kur-deeps.wreck-submerged-barge"),   # shipwreck S2 wet 0.8 D3 underwater-entry x2 hostile
-    ("place.naga-kur-deeps.drifting-village-wet-mooring",
      "place.saxhleel-coast.gap-reef"),   # shipwreck S2 wet 0.8 D3 underwater-entry x2 hostile
-    ("place.naga-kur-deeps.raft-village-lashed",
-     "place.naga-kur-deeps.wreck-submerged-barge"),   # shipwreck S2 wet 0.9 D3 underwater-entry x2 neutral
     ("place.saxhleel-coast.mangrove-air-pocket",
      "place.saxhleel-coast.outer-reef"),   # flooded-cave S2 wet 0.6 D3 underwater-entry x1 hostile
     # 16g re-plot 2026-09-19: the variation ladder is spent on both ends;
@@ -801,7 +785,10 @@ def test_two_neighbours_of_one_family_are_not_the_same_place_twice():
     MUTATION: give two neighbouring root caverns the same light and room set
     and this goes red on a pair that is not in the recorded list."""
     from . import migrate_interior_promises as mig
-    records = [r for rf in catalogue.load_region_files() for r in rf.places]
+    # LIVE only (the docstring's word): a cut or deferred record is not in the
+    # world, so it cannot make a neighbour feel samey. Owner 2026-09-20.
+    records = [r for rf in catalogue.load_region_files() for r in rf.places
+               if r.get("status") not in ("cut", "deferred")]
     pairs = mig.sameness_pairs(records)
     new = [(a, b, n) for a, b, n in pairs if (a, b) not in KNOWN_SAMENESS_PAIRS]
     assert new == [], (

@@ -260,3 +260,25 @@ def test_province_gate_includes_cut_and_deferred_records(monkeypatch):
 def test_live_referential_prose_has_zero_debt():
     result = pl.check_all()
     assert result.findings == []
+
+
+def test_one_word_npc_name_is_a_mention_mid_sentence_only():
+    """"Silt" is a climber in Lilmoth and also what the rivers carry."""
+    silt = pl.Entity("npc", "npc.test.silt", "Silt")
+    opener = pl.check_record(
+        {"id": "place.test.a"}, [("vibe.palette", "Silt grey, weathered pale mortar.")], [silt],
+    )
+    assert opener.findings == []
+    mid = pl.check_record(
+        {"id": "place.test.a"}, [("why.founding", "The mason asked Silt for the rope.")], [silt],
+    )
+    assert [f.entity_id for f in mid.hard] == ["npc.test.silt"]
+
+
+def test_hyphenated_npc_name_still_fires_at_the_start_of_a_sentence():
+    """Only bare one-word names are position-sensitive."""
+    never = pl.Entity("npc", "npc.test.never-sold", "Never-Sold")
+    result = pl.check_record(
+        {"id": "place.test.a"}, [("why.pressures", "Never-Sold wants the ledger.")], [never],
+    )
+    assert [f.entity_id for f in result.hard] == ["npc.test.never-sold"]

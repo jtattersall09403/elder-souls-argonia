@@ -4,6 +4,7 @@ import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import type { EcctrlHandle } from "ecctrl";
+import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
 import { FollowCamera, FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
@@ -162,6 +163,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // The square of built ground the boundary wall closes (16d): the manifest's
   // own value when it is loaded, the contract's otherwise.
   const terrainExtentM = manifest?.terrainSupportExtentM ?? TERRAIN_SUPPORT_EXTENT_M;
+  const [canvasError, setCanvasError] = useState<string | null>(null);
   const [edgeMessage, setEdgeMessage] = useState<string | null>(null);
   const glRef = useRef<HTMLCanvasElement | null>(null);
   const [touch, setTouch] = useState(false);
@@ -372,6 +374,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 6, background: "#10141a" }}>
+      {canvasError && <CanvasErrorBanner message={canvasError} />}
       {manifest && spawn ? (
         <Canvas
           camera={{ fov: FOLLOW_CAMERA.fieldOfView, near: 0.3, far: 60000, up: [0, 1, 0] }}
@@ -386,6 +389,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           onCreated={({ gl }) => { glRef.current = gl.domElement; }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
+          <CanvasErrorBoundary onError={setCanvasError}>
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
@@ -532,6 +536,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </Physics>
           </Suspense>
           </WorldSky>
+          </CanvasErrorBoundary>
         </Canvas>
       ) : (
         <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", color: "#e6ecf5" }}>

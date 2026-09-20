@@ -3,6 +3,7 @@ import { useRapier } from "@react-three/rapier";
 import type { RigidBody } from "@dimforge/rapier3d-compat";
 import { PROVINCE_BOUNDARY } from "@elder-souls/contracts";
 import { boundaryWallBoxes } from "./walls";
+import { bodySetAlive, captureBodySet } from "../physics/rapierWorldAlive";
 
 /**
  * Four invisible fixed cuboids closing the square of built ground (16d).
@@ -20,6 +21,7 @@ export function BoundaryWalls({ extentM = PROVINCE_BOUNDARY.extentM, verticalSca
   const { world, rapier } = useRapier();
   useEffect(() => {
     const bodies: RigidBody[] = [];
+    const bodySet = captureBodySet(world);
     for (const box of boundaryWallBoxes(extentM)) {
       const body = world.createRigidBody(rapier.RigidBodyDesc.fixed()
         .setTranslation(box.centre[0], box.centre[1] * verticalScale, box.centre[2]));
@@ -29,7 +31,12 @@ export function BoundaryWalls({ extentM = PROVINCE_BOUNDARY.extentM, verticalSca
       );
       bodies.push(body);
     }
-    return () => { for (const body of bodies) world.removeRigidBody(body); };
+    return () => {
+      // Physics frees the world before child cleanups run
+      // (react-three-rapier 2.2 proxy); a dead set means nothing to remove.
+      if (!bodySetAlive(bodySet)) return;
+      for (const body of bodies) world.removeRigidBody(body);
+    };
   }, [world, rapier, extentM, verticalScale]);
   return null;
 }

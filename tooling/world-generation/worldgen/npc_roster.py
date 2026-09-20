@@ -23,6 +23,11 @@ The rule, in order (92 84; mining 16g-mining.md 3):
               record's zone, restricted by the record's `culture` and
               overridden by any race word the slot text names.
   4. Sex      even by the same seed, unless the slot text fixes it.
+  4b. Sticky  (2026-09-20) an id already in `npcs.json` keeps its name, name
+              form, race and sex exactly: the registry is the ratchet, the way
+              stable ids are. Every registered name is reserved in the picker
+              before the first draw, so inserting a slot only ever adds a
+              person — it never renames one who is already published.
   5. Name     by form (name_forms.py), with the caps of quests 35 54
               enforced mechanically: at most a third of a region's roster
               Verb-the-Noun, one imagery word per place, no name twice in
@@ -196,23 +201,155 @@ CAST_JOIN: dict[tuple[str, str], dict] = {
      "the field-holder who takes the crop and will not go in"): {
         "name": "Field-Holder Uxa-Meen", "form": "jel", "race": "argonian",
         "sex": "female", "source": "docs/quests/36-cast-roster.md:56"},
+    ('place.pirate-freeholds.alten-corimont',
+     "the Veiled Reed's field handler for the freeholds"): {
+        "name": 'Nesh-Deeka', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.stormhold',
+     'the Director of the Veiled Reed'): {
+        "name": 'Holds-the-Reed', "form": 'chosen', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.stormhold',
+     'the Reed officer who files the honest report'): {
+        "name": 'Never-Writes-Twice', "form": 'translated', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.stormhold',
+     'the Reed records clerk who wants a posting'): {
+        "name": 'Spills-The-Ink', "form": 'translated', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.stormhold',
+     "the Archive's keeper of the wet-and-dry collection rooms"): {
+        "name": 'Xul-Nasha', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.stormhold',
+     'the College of Whispers magister-adjunct lodged in the guest laboratory'): {
+        "name": 'Magister-Adjunct Tarien Loryn', "form": 'foreign', "race": 'imperial',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.stormhold',
+     "the crystal-trade counting house's Argonia-born Dunmer principal"): {
+        "name": 'Dravyna Andalen', "form": 'foreign', "race": 'dunmer',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.pirate-freeholds.corimont-hiring-yard',
+     "the Charter's hiring-floor captain"): {
+        "name": 'Halvar the Damp', "form": 'foreign', "race": 'nord',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.pirate-freeholds.corimont-hiring-yard',
+     "the Charter's surgeon"): {
+        "name": 'Yeel-Nakka', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.hist-heartland.helstrom',
+     'the archivist who keeps the years'): {
+        "name": 'Sings-Over-Stone', "form": 'translated', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.hist-heartland.helstrom',
+     'the nisswo interpreter at the debating house'): {
+        "name": 'Ei-Tuja', "form": 'jel', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.soulrest',
+     'the marine underwriter whose desk never moves'): {
+        "name": 'Ahnjazzi', "form": 'foreign', "race": 'khajiit',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.soulrest',
+     'the keeper of the harbour den'): {
+        "name": 'Deep-In-Her-Cups', "form": 'translated', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.soulrest',
+     "the Reed-Sail Compact's route-keeper at the waterfront hall"): {
+        "name": 'Route-Keeper Sesha-Ku', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.soulrest',
+     'the free pilot who takes divers out to the wrecks'): {
+        "name": 'Walks-Against-Current', "form": 'translated', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.lilmoth',
+     'the canal warden who keeps the ripper eels'): {
+        "name": 'the Eel-Keeper', "form": 'epithet', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.lilmoth',
+     'the fence who is bad at fencing'): {
+        "name": 'Tsuun-Wai', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.lilmoth',
+     'the young climber that the chapter sends up walls'): {
+        "name": 'Silt', "form": 'epithet', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.lilmoth',
+     "the Society's archive-room keeper"): {
+        "name": 'Keeps-The-Count', "form": 'translated', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.lilmoth',
+     'the one who claims to remember Umbriel'): {
+        "name": 'Still-Wet', "form": 'translated', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.lilmoth',
+     "the keeper of the descendants' room behind a Pusbottom chandlery"): {
+        "name": 'Neexa-Tul', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.saxhleel-coast.archon',
+     "the Morag Tong's desk at a rented dockside guesthouse"): {
+        "name": 'Rasha', "form": 'foreign', "race": 'khajiit',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.saxhleel-coast.archon',
+     'the fence-den patron who holds nothing overnight'): {
+        "name": 'Sails-By-Morning', "form": 'translated', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.imperial-fringe.stonewastes',
+     'the ka-deelith of the Four Winds hall'): {
+        "name": 'Ka-Deelith Ushu', "form": 'jel', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.imperial-fringe.gideon',
+     'the League delegate at the hall, a devout Dibellan'): {
+        "name": 'Delegate Anseia Martius', "form": 'foreign', "race": 'imperial',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.imperial-fringe.gideon',
+     'the clerk of the civic registry'): {
+        "name": 'Hisska', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.imperial-fringe.gideon',
+     'the advocate at the courthouse'): {
+        "name": 'Advocate Oshu-Kai', "form": 'jel', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.imperial-fringe.gideon',
+     'the Gloommire claimant who attends the hearing on the city Hist'): {
+        "name": 'Tuwul of Gloommire', "form": 'epithet', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.imperial-penal-south.blackrose',
+     'the Chainbreaker patron who audits ledgers above a boat-shed'): {
+        "name": 'Never-Sold', "form": 'translated', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.imperial-penal-south.blackrose',
+     'the magnate who signs himself Tibus Oleen'): {
+        "name": 'Oleen-Tei', "form": 'jel', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.murkwater',
+     'the adult Shadow-born who wants to build boats'): {
+        "name": 'Iiran-Vekh', "form": 'jel', "race": 'argonian',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.mercantile-coast.hammock-village-murkmire',
+     'the Miredancer sap-speaker honoured for her sap-poisoning'): {
+        "name": 'Sap-Speaker Miril-Tei', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.hist-heartland.cult-raid-camp-unbound',
+     'the leader of the Unbound Root'): {
+        "name": 'Cuts-the-Old-Knot', "form": 'translated', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.thorn',
+     'the vicecanon of the magistracy, who hears hard cases afloat'): {
+        "name": 'Vicecanon Neetra-Sei', "form": 'jel', "race": 'argonian',
+        "sex": 'female', "source": 'docs/quests/36-cast-roster.md'},
+    ('place.dunmer-north.thorn',
+     "the head of the Dunmer quarter's militia hall"): {
+        "name": 'Andas Verano', "form": 'foreign', "race": 'dunmer',
+        "sex": 'male', "source": 'docs/quests/36-cast-roster.md'},
 }
 
 #: Cast members the mining pass found NO slot for. Not invented here: they
 #: are reported for Fable, who decides whether a slot is owed.
 CAST_WITHOUT_SLOT = (
-    "Nesh-Deeka", "Holds-the-Reed", "Never-Writes-Twice", "Spills-The-Ink",
-    "Ei-Tuja", "Sings-Over-Stone", "Cuts-the-Old-Knot", "Walks-Against-Current",
-    "Ahnjazzi", "The Last Warden", "Ux-Teeba the Last", "Ohl-Katta", "Rasha",
-    "Iiran-Vekh", "Deep-In-Her-Cups", "the Eel-Keeper", "Tsuun-Wai", "Silt",
-    "Sails-By-Morning", "Ka-Deelith Ushu", "Halvar the Damp", "Yeel-Nakka",
-    "Xul-Nasha", "Tarien Loryn", "Zaxeel of the Jade Mask", "Hana-Vei",
-    "Sap-Speaker Miril-Tei", "Tuwul of Gloommire", "Route-Keeper Sesha-Ku",
-    "Captain Salt Ma'ren", "the toll-holder at the Chain", "Anseia Martius",
-    "Hisska", "Advocate Oshu-Kai", "Never-Sold", "Grave-Singer Ossu",
-    "Vicecanon Neetra-Sei", "Andas Verano", "Keeps-The-Count", "Still-Wet",
-    "Neexa-Tul", "Waykeeper Tuxo", "Dravyna Andalen", "Oleen-Tei",
-    "the Wet Consort",
+    "The Last Warden", "Ux-Teeba the Last", "Ohl-Katta",
+    "Zaxeel of the Jade Mask", "Hana-Vei", "Captain Salt Ma'ren",
+    "the toll-holder at the Chain", "Grave-Singer Ossu",
+    "Waykeeper Tuxo", "the Wet Consort",
 )
 
 CAST_NAMES = {v["name"] for v in CAST_JOIN.values()} | set(CAST_WITHOUT_SLOT)
@@ -436,6 +573,15 @@ class NamePicker:
             return name, form
         raise RuntimeError(f"name pool '{key}' exhausted for {npc_id}")
 
+    def register(self, name: str, form: str, place_id: str, region: str) -> None:
+        """Count a name this run did not draw (a sticky identity) against the
+        same caps a drawn one pays, so the imagery and Verb-the-Noun limits
+        still hold over the whole roster."""
+        self.used.add(name)
+        self.place_imagery.setdefault(place_id, set()).update(imagery_of(name))
+        counts = self.region_counts.setdefault(region, {})
+        counts[form] = counts.get(form, 0) + 1
+
 
 # ---------------------------------------------------------------- generation
 
@@ -494,11 +640,20 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
     picker = NamePicker(place_names)
     existing_ids = _existing_cast_ids()
     existing = _existing_entries()
-
     region_slots: dict[str, int] = {}
+    generated_ids: set[str] = set()
     for place in places:
         region_slots[region_of(place["id"])] = region_slots.get(
             region_of(place["id"]), 0) + len(place.get("notableNpcSlots") or [])
+        generated_ids.update(_slot_ids(place))
+    # Sticky identity (2026-09-20): a held name is reserved BEFORE the first
+    # draw, so a new slot can only take what is left — but only for entries
+    # this run still generates (a live slot id, or a cast/derived principal).
+    # A slot that has been deleted burns nothing: its name comes free again.
+    live_ids = generated_ids | set(existing_ids.values())
+    for _id, _prior in existing.items():
+        if _prior.get("name") and _id in live_ids:
+            picker.used.add(_prior["name"])
 
     entries: list[dict] = []
     cast_joins: list[str] = []
@@ -516,13 +671,21 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
                 picker.used.add(name)
                 cast_joins.append(f"{name} -> {place['id']} :: {text}")
             else:
-                race = pick_race(place, text, npc_id, priors)
-                sex = pick_sex(text, npc_id)
-                form = pick_form(place, text, race)
-                name, form = picker.take(form, race, region, place["id"],
-                                         npc_id, region_slots[region], sex)
                 entry_id, status = npc_id, "generated"
                 sources = [f"{place['id']} notableNpcSlots[{index}]"]
+                held = existing.get(npc_id)
+                if held and held.get("name"):
+                    # Sticky: the registry is the ratchet. Identity never moves.
+                    name = held["name"]
+                    race, sex = held["race"], held["sex"]
+                    form = held.get("nameForm") or pick_form(place, text, race)
+                    picker.register(name, form, place["id"], region)
+                else:
+                    race = pick_race(place, text, npc_id, priors)
+                    sex = pick_sex(text, npc_id)
+                    form = pick_form(place, text, race)
+                    name, form = picker.take(form, race, region, place["id"],
+                                             npc_id, region_slots[region], sex)
             prior = existing.get(entry_id, {})
             entry = {
                 "id": entry_id,

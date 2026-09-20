@@ -78,7 +78,7 @@ def test_a_cast_slot_yields_the_cast_identity(generated):
     assert kaska[0]["status"] == "cast"
     assert kaska[0]["home"]["placeId"] == "place.hist-heartland.helstrom"
     assert kaska[0]["role"] == "the grove's senior tree-minder"
-    assert len(stats["castJoins"]) == len(nr.CAST_JOIN) == 11
+    assert len(stats["castJoins"]) == len(nr.CAST_JOIN) == 46
 
 
 def test_no_cast_member_has_two_identities(generated):
@@ -278,3 +278,50 @@ def test_shipped_registry_matches_the_generator(generated):
 
 def test_check_is_clean():
     assert nr.check() == []
+
+
+# sticky identity (2026-09-20) ----------------------------------------------
+
+def test_inserting_a_slot_never_renames_a_published_entry(tmp_path, monkeypatch):
+    """The registry is the ratchet: --apply is additive (npc_roster 4b)."""
+    places = [
+        _place("place.dunmer-north.alpha", ["the harbour clerk", "the net-mender"]),
+        _place("place.dunmer-north.beta", ["the ferryman", "the stall-holder"]),
+    ]
+    registry = tmp_path / "npcs.json"
+    monkeypatch.setattr(nr, "REGISTRY", registry)
+
+    first, _ = nr.generate([dict(p) for p in places])
+    nr.write(first)
+    before = {e["id"]: (e["name"], e["nameForm"], e["race"], e["sex"]) for e in first}
+
+    places[0]["notableNpcSlots"].insert(0, "the tide-caller who is new here")
+    second, _ = nr.generate([dict(p) for p in places])
+    after = {e["id"]: (e["name"], e["nameForm"], e["race"], e["sex"]) for e in second}
+
+    assert set(before) <= set(after)
+    for npc_id, identity in before.items():
+        assert after[npc_id] == identity, npc_id
+    added = sorted(set(after) - set(before))
+    assert len(added) == 1
+    assert len({v[0] for v in after.values()}) == len(after)
+
+
+def test_a_deleted_slots_name_is_free_again(tmp_path, monkeypatch):
+    """Reservation covers live ids only: a cut slot burns no name."""
+    places = [_place("place.dunmer-north.alpha", ["the harbour clerk", "the net-mender"])]
+    registry = tmp_path / "npcs.json"
+    monkeypatch.setattr(nr, "REGISTRY", registry)
+
+    first, _ = nr.generate([dict(p) for p in places])
+    nr.write(first)
+
+    # The slots are cut; the registry still holds their entries. Those names
+    # must not be reserved, so the same place re-drawn from scratch gets the
+    # identical draw it would get with no registry at all.
+    places[0]["id"] = "place.dunmer-north.beta"
+    places[0]["notableNpcSlots"] = ["the harbour clerk", "the net-mender"]
+    with_stale_registry, _ = nr.generate([dict(p) for p in places])
+    monkeypatch.setattr(nr, "REGISTRY", tmp_path / "empty.json")
+    virgin, _ = nr.generate([dict(p) for p in places])
+    assert [e["name"] for e in with_stale_registry] == [e["name"] for e in virgin]

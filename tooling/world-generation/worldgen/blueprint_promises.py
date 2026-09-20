@@ -93,7 +93,7 @@ REWARD_NEEDS = {
     "faction-access": {"guild-hall", "council", "court"},
 }
 # travelStation mode -> the travelServices `kind` that runs it.
-MODE_KIND = {"boat": "boat", "ferry": "ferry", "lighter": "ferry", "pilot": "ferry",
+MODE_KIND = {"boat": "boat", "canoe": "canoe", "ferry": "ferry", "lighter": "ferry", "pilot": "ferry",
              "rootworm": "root", "cart": None, "guide": None, "porter": None}
 HARD_FROM_MAGNITUDE = ("M3", "M4", "M5")
 
