@@ -41,15 +41,20 @@ Needs ruling 12 (plan §8, given 2026-09-11), amended by the owner's
   the navigation widget honest; it bakes nothing.
 - **Leaves to 16j and Phase 15:** every place beyond the five. No city
   pass happens here: cities are owner-guided (0062). The Blackrose centre
-  move the owner called in 16g is a plot-record remedy, applied at the
+  move the owner called in 16g (onto the island in the middle of its lake)
+  is a plot-record remedy, applied at the
   start of part 2 through 16g's remedy machinery (§ Deliver, item 0b).
 
 ## Starting state (2026-09-20; written by the 16h planner from the verified tree)
 
-**What 16g settled.** 567 of 580 live records sited on the frozen world;
-13 accepted homeless (`world/sources/sites/plot-homeless-accepted.json`);
+**What 16g settled.** 567 live records sited on the frozen world, 567 of
+567: the thirteen that could not be sited were cut on the owner walk
+(2026-09-20), so the register's `homeless` rows are gone; its four
+`promise-unmet` rows stay open as owner calls
+(`world/sources/sites/plot-homeless-accepted.json`);
 171 minor tracks and 134 waterway channels; one travel-service graph
-(`world/sources/routes/travel-services.json`, 28 stations, 19 services);
+(`world/sources/routes/travel-services.json`, 39 stations, 24 services,
+including 6 dugout-canoe runs);
 harbour stations, rootworm stations, design groups; the chain runs by
 dependency with receipts (0080). 183 `vegetation-clearance` patches for
 the tracks are authored (`world/sources/flora/vegetation-patches.json`,
@@ -58,11 +63,15 @@ all `owner.chunk: "16g"`).
 **What 16g handed you** (quotes in the 16g brief § Moved out and the
 [remedy plan](../../research/phase16/16g-remedy-plan.md)):
 the stilt over-water share and the quay flood-section rule scope, decided
-(§ Record reads); Blackrose's centre onto its lake shore (the record, not
+(§ Record reads); Blackrose's centre onto the island in the middle of its
+lake (the record, not
 the gate: remedy plan :46); villages with `underwaterAccessDetail` get
 their entrance on the bank and the volume off it (remedy plan :25); the
-pirate-freeholds zone water identity, open with the owner; the stronghold
-reserved at the Empty Steading, reversible. The Blackrose lake is named
+pirate-freeholds zone water identity, closed 2026-09-20: prose adjusted,
+zone unchanged; the stronghold
+reserved at Rockpoint (the Empty Steading was cut with the unsited
+thirteen, owner 2026-09-20); `compile_minor_routes` re-lays four authored
+tracks re-pointed 2026-09-20 at its next run. The Blackrose lake is named
 `body.1290-3508` in the remedy plan and `body.1284-3448` in the ledger:
 resolve which id the graph carries before touching the record.
 
@@ -383,7 +392,8 @@ gate that passes on the current bundle is not a gate.
 ### Part 2 — places on the ground, authored and shown, not yet applied (to owner check-in 2)
 
 0b. **Apply the owner's 16g calls as record remedies** where they change
-    a record (Blackrose centre onto the lake shore; the pirate-zone water
+    a record (Blackrose centre onto the island in the middle of its lake;
+    the pirate-zone water
     identity if ruled; any of the 13 homeless the owner loosened or cut),
     through `plot-remedies.json` and 16g's stages from `apply_sitings`
     (a data remedy below the gate; nothing above re-runs). Then
@@ -584,7 +594,7 @@ touched?** (after part 2). 2D only.
   clearing or a piece of dressing.
 - The province sheet of route structures and the sheet of ferry berths:
   any structure or berth that should not be there.
-- The Blackrose centre on its lake shore on the 2D map (`?cat=1`).
+- The Blackrose centre on the island in the middle of its lake on the 2D map (`?cat=1`).
 
 **Check-in 3 — does it stand and can you walk it?** (after part 3).
 - Lilmoth gate: through the arch and every open frame; the harbour
@@ -751,14 +761,19 @@ a handful of those pictures and one short walk through the Lilmoth gate:
 you say "right" or "wrong" per picture. This is cheap to change now and
 expensive later, because every place is built from these rules.
 
-*Part 2: lay the places out on paper.* With the pieces right, we work out
-what each place needs to be walkable: paths from the road to every door,
-a stair to every raised deck, a boat at every ferry landing, an entrance
-piece at every cave and at every way in from underwater, plus the small
-levelled pads and the clearings in the trees that a village needs. None
-of that is done to the world yet. It is drawn as flat plans, one per
-place, plus one map of every bridge and stair on the roads and one of
-every ferry. **Your second check** is those plans. If you want a path
+*Part 2: lay the places out on paper.* This is still example-first: only
+the five example places we already have (Lilmoth, Nine-Trunks, Mazzatun,
+the sap-tapping camp and Wamasu Pond) are laid out here; even those
+are properly redesigned in the next chunk. The rest of the province waits
+for the rollout. With the pieces right, we work out what each of the five
+needs to be walkable: paths from the road to every door, a stair to every
+raised deck, a boat at every ferry landing, an entrance piece at every
+cave and at every way in from underwater, plus the small levelled pads
+and the clearings in the trees that a village needs. None of that is
+done to the world yet. It is drawn as five flat plans, one per place.
+Beside them come two province-wide maps of things the road chunk already
+recorded and that only need drawing: every bridge and stair on the roads
+on one, every ferry crossing on the other. **Your second check** is those plans. If you want a path
 moved, a clearing made smaller or a boat put somewhere else, this is the
 moment: a line on a plan moves in minutes. After this point, the
 clearings are cut and the pads are levelled. Undoing that costs a session. (This is the lesson from the
