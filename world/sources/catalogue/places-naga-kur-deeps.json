@@ -16130,7 +16130,11 @@
           "z": 6300,
           "maxM": 400
         },
-        "minDepthM": 4.0
+        "minDepthM": 4.0,
+        "nearWater": {
+          "entityId": "body.819-2283",
+          "maxM": 60
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -16322,6 +16326,14 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 4.0,
+        "entityId": "body.819-2283",
+        "surfaceAccessNodes": 0,
+        "airPockets": false,
+        "submergedPortal": true
       }
     }
   ]

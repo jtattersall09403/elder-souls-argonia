@@ -86,9 +86,27 @@
    "id": "place.naga-kur-deeps.wreck-submerged-barge",
    "kind": "pin-by-siting",
    "sitingPrefs": {
-    "minDepthM": 4.0
+    "minDepthM": 4.0,
+    "nearWater": {
+     "entityId": "body.819-2283",
+     "maxM": 60
+    }
    },
-   "why": "A submerged barge needs 4.0 m over it: the dot at 1170.7, 6281.4 reads body.763-3395 (marsh-fringe, level 1.81 m) 0.0 m away, which does not float it; the record needs 4.0 m of water at its own dot."
+   "why": "A submerged barge needs 4.0 m over it: the dot at 1170.7, 6281.4 reads body.763-3395 (marsh-fringe, level 1.81 m) 0.0 m away, which does not float it; the record needs 4.0 m of water at its own dot. The tie is body.819-2283, the deepest water in the zone (lake-lowland, maxDepthM 19.28, areaM2 16986, deepest cell 1501, 4105 m), within 60 m."
+  },
+  {
+   "id": "place.naga-kur-deeps.wreck-submerged-barge",
+   "kind": "field",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 4.0,
+    "entityId": "body.819-2283",
+    "surfaceAccessNodes": 0,
+    "airPockets": false,
+    "submergedPortal": true
+   },
+   "why": "a barge wreck on >=4 m of water, entered by a dive through the hull; the record is homeless so the tie names the water",
+   "path": "underwaterAccessDetail"
   },
   {
    "id": "place.pirate-freeholds.reach-wreck",
