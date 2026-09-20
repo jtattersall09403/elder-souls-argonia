@@ -78,3 +78,11 @@ costs a build step; every proxy cost a round.
 - Phase 14 locks the band distances as one table; the mechanism is here.
 - A new vegetation asset gets a card, a collider and a burial rule for free
   from the kit build and the scatter; nothing is hand-typed per species.
+
+## Addendum 2026-09-20 (decision 0082)
+
+The terrain-occlusion rule (beyond 120 m, per 32 m cell) is unchanged, but
+its evaluation moves from "once per vegetation rebuild" to "incrementally
+per frame": a one-texel-per-cell mask over the neighbourhood is refreshed a
+few cells per frame from the live camera and the vertex shader collapses
+hidden instances. No instance is revisited on the CPU for occlusion.

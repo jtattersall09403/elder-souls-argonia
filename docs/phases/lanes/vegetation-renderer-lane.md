@@ -85,20 +85,26 @@ CPU pass over every instance. Draw calls stay at or below today's count.
    bounding sphere (three does this) or per cell in the gating loop; pick
    one in round 0 by measurement, never both.
 
-Not decided, round 0 decides with numbers: quality tiers' draw scale
-(`drawScale`) applied at gating time; whether the underwater kit's species
-share the same `BatchedMesh` per material; whether the BatchedMesh per-object
-frustum cull (per instance, CPU) is affordable at 80 k or cell-level culling
-must replace it.
+Round 0 settled the three open points in
+[0082](../../decisions/0082-vegetation-cells-are-built-once-and-the-gpu-picks-the-rung.md):
+`drawScale` applies at gating time; underwater species share a batch when
+they share a material; per-instance frustum culling is off (2.6 ms per
+frame at 80 k on this VM against microseconds for cell spheres) and cells
+are culled in the gating loop. Two facts for round 1 from the same record:
+a batch's capacity is fixed at construction (size for the ring, re-create to
+grow); the wind and fade patches are gated on `USE_INSTANCING` and need
+a `USE_BATCHING` branch reading a texture indexed by
+`getIndirectIndex(gl_DrawID)`.
 
 ## Rounds
 
-### Round 0 — measure, confirm, record (one session)
+### Round 0 — measure, confirm, record (one session) — DELIVERED 2026-09-20 (0082)
 
-- Baseline on the deployed data at three sites (a jungle chunk, a coast, an
-  upland) with the studio's DEV hooks (`__STUDIO_VEGETATION_DEBUG__`,
-  `__STUDIO_FRAME_WORK__`) and a `longtask` observer: rebuild ms, frames per
-  rebuild, draws, instances, triangles. Record in
+- Baseline at the jungle site (planned as three sites; the owner cut it to
+  the jungle on 2026-09-20, the densest region deciding for all) with the
+  studio's DEV hooks (`__STUDIO_VEGETATION_DEBUG__`, `__STUDIO_FRAME_WORK__`)
+  and a `longtask` observer: rebuild ms, frames per rebuild, draws,
+  instances, triangles. Recorded in
   `docs/research/vegetation/renderer-rewrite-baseline.md`.
 - Confirm in three 0.184: `BatchedMesh` API (geometry ids, `setVisibleAt`,
   bounding-sphere culling, the batch id the shader sees), `WEBGL_multi_draw`
@@ -123,9 +129,11 @@ must replace it.
 - Parity gate (vitest, on a fixture chunk): per species, the set of
   instances the new path emits equals the old path's pass-1 set minus
   occlusion; every instance has one copy per ladder rung.
-- Numbers at the three baseline sites: draws, ms per frame spent in the
-  gating loop, long tasks while walking 200 m. Target: zero rebuilds on
-  movement, gating loop under 0.5 ms, draws at or below baseline.
+- Numbers at the jungle baseline site (the lane's only measuring site,
+  owner 2026-09-20: densest region, most species): draws, ms per frame
+  spent in the gating loop, long tasks while walking 200 m, with
+  `probe-frame-work.mjs`. Target: zero rebuilds on movement, gating loop
+  under 0.5 ms, draws at or below baseline (191–227).
 
 ### Round 2 — switch over, gates, walk
 

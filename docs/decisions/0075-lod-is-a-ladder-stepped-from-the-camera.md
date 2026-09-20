@@ -115,3 +115,11 @@ is in the [16f ledger §18](../research/phase16/16f-ledger.md).
 - A future kit build ships fewer bytes for free (3); the underwater kit's
   rocks, which carry decimated levels against the 0071 rule, are corrected
   at the same rebuild (backlog row).
+
+## Addendum 2026-09-20 (decision 0082)
+
+Every instance is emitted into every rung of its ladder, both band edges
+closed, when its cell is built; the per-pixel Bayer choice of one copy is
+unchanged. The `lodCopies` margin (emit only the rungs within reach of the
+next rebuild) is retired with the rebuild itself; rungs a cell cannot need
+at its distance are switched off per cell, never re-emitted.

@@ -43,6 +43,14 @@ const readout = () => {
     floraColliderElapsedMs: window.__STUDIO_VEG_COLLIDERS_DEBUG__?.elapsedMs ?? null,
     floraCollidersMs: window.__STUDIO_VEG_COLLIDERS_DEBUG__?.lastBuildMs ?? null,
     frameWork: window.__STUDIO_FRAME_WORK__ ?? null,
+    vegetationChunks: veg?.chunks ?? null,
+    vegetationInstances: veg?.instances ?? null,
+    vegetationDraws: veg?.draws ?? null,
+    vegetationTriangles: veg?.triangles ?? null,
+    vegetationCulled: veg?.culled ?? null,
+    vegetationOccluded: veg?.occluded ?? null,
+    vegetationBucketMs: veg?.rebuildMs?.bucket ?? null,
+    vegetationFillMs: veg?.rebuildMs?.fill ?? null,
   };
 };
 
@@ -54,15 +62,29 @@ try {
   const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
   const rows = [];
   for (const [label, x] of [["site", X], ["site+200m", X + STEP_KM]]) {
-    await page.goto(`${BASE}?view=character&x=${x.toFixed(2)}&z=${Z.toFixed(2)}&t=12:00&hud=0&markers=0`);
-    for (let i = 0; i < 40; i++) {
-      await page.waitForTimeout(5000);
-      const ready = await page.evaluate(() => !!window.__STUDIO_VEGETATION_DEBUG__);
-      if (ready) break;
+    try {
+      await page.goto(`${BASE}?view=character&x=${x.toFixed(2)}&z=${Z.toFixed(2)}&t=12:00&hud=0&markers=0`, {
+        waitUntil: "domcontentloaded",
+        timeout: 180000,
+      });
+      const deadline = Date.now() + 180000;
+      while (Date.now() < deadline) {
+        const ready = await page.evaluate(() => !!window.__STUDIO_VEGETATION_DEBUG__);
+        if (ready) break;
+        await page.waitForTimeout(5000);
+      }
+      await page.evaluate(install);
+      let vegetationRebuilds = 0;
+      const onConsole = (msg) => {
+        if (msg.text().startsWith("vegetation rebuild")) vegetationRebuilds++;
+      };
+      page.on("console", onConsole);
+      await page.waitForTimeout(RECORD_MS);
+      page.off("console", onConsole);
+      rows.push({ label, x: +x.toFixed(2), vegetationRebuilds, ...(await page.evaluate(readout)) });
+    } catch (err) {
+      rows.push({ label, x: +x.toFixed(2), error: String(err?.message ?? err) });
     }
-    await page.evaluate(install);
-    await page.waitForTimeout(RECORD_MS);
-    rows.push({ label, x: +x.toFixed(2), ...(await page.evaluate(readout)) });
   }
   console.log(JSON.stringify(rows, null, 2));
   await browser.close();
