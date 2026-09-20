@@ -116,6 +116,12 @@ a `USE_BATCHING` branch reading a texture indexed by
   evaluated incrementally) and 0075 (every rung emitted; per-pixel choice
   unchanged).
 
+Owner 2026-09-20: rounds 1 and 2 run in **one session**, invoked as
+"deliver vegetation renderer rounds 1 and 2". The session builds the new
+path behind the flag, runs the parity gate and the jungle numbers, and only
+then removes the old path; if a round-1 target is missed, it stops at round
+1, commits, and hands off with the numbers.
+
 ### Round 1 — build it beside the old path
 
 - New renderer in `apps/world-studio/src/vegetation/VegetationCells.tsx`
