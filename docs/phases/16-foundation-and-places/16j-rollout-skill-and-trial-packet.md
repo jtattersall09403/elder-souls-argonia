@@ -55,6 +55,12 @@ thin swim slice.
    are always owner-guided). **Dungeon-kind records are in the packet as
    places**: sited, promised (16g vocabulary), their entrance pieces built
    on the ground and their doors in the reserved state; no interior geometry.
+   **The packet's route structures and ferry berths are in it too** (owner
+   2026-09-20, exemplar first): 16h stands up one structure of each kind
+   and the Drowning Gate ferry as the pattern and lists every other
+   recorded structure and berth as `pending: packet`; the packet places
+   its own through 16h's renderable kinds; a packet that leaves one
+   pending fails its gate.
    The packet's places are the **second exemplar of their type** for the
    automation checklist (96 §3) — one exemplar in 16i plus one here.
 2. **Run the skill unattended** (a `deliver` subagent per place, against the

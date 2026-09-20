@@ -23,8 +23,11 @@ Needs ruling 12 (plan §8, given 2026-09-11), amended by the owner's
 - **Realises:** the runtime boundary (rotation sign, colliders, per-asset
   ground contact, mounts, quality bands); the compile's renderable kinds
   (ways, boardwalks, stairs, doors as records, berths and hulls, landings,
-  dungeon and underwater entrances); 16e's route structures drawn for the
-  first time; pads as terrain patches; settlement vegetation clearance as
+  dungeon and underwater entrances); an **exemplar set** of 16e's route
+  structures and ferry berths stood up in 3D for the first time (one of
+  each recorded kind plus the berths of the five places; the rest are
+  placed per packet by 16j and Phase 15 through the same kinds, exemplar
+  first like everything else); pads as terrain patches; settlement vegetation clearance as
   patches; a new **additive dressing patch** (scatter added locally as
   set dressing); stable door ids with an interior-claim slot and a
   reachability gate; the bundle format required by the build-out register;
@@ -406,15 +409,26 @@ gate that passes on the current bundle is not a gate.
     hull at every berth of its class (`travel-services.json`), the operator
     socket as a stand-in marker, **dungeon entrance pieces** for every
     dungeon-kind record with a blueprint (16j :56), **underwater-access
-    entrances on the bank** from `underwaterAccessDetail`; and 16e's 55
-    route structures with their `walkSurface`. Then reveal the
-    `route-structures` layer (`SHOWN_FROM`). Roads carry their 4E 201
+    entrances on the bank** from `underwaterAccessDetail`; and 16e's
+    route structures with their `walkSurface`. **Exemplar first, as with
+    the places:** this chunk stands up an exemplar set only, recorded in
+    `world/sources/routes/route-structure-exemplars.json`: one structure
+    of each recorded kind (stair, deck, lip-step, bridge), chosen to
+    include the Nine-Trunks stair flight and the Xul-Vaat walkway, plus
+    the Drowning Gate ferry crossing and every berth that belongs to one
+    of the five places. The other structures and berths keep their
+    records and are placed per packet by 16j and Phase 15 through the
+    same kinds; the export lists them as `pending: packet` so nothing is
+    skipped silently; the `route-structures` layer (`SHOWN_FROM`)
+    shows what is placed. Roads carry their 4E 201
     `condition`: a `broken` road's structure may be authored collapsed or
     overgrown where the kit has such a piece; the record says which pieces
     exist for that (16f deliverable 5's condition dressing). The three
     OPEN sourcing rows stay gaps, shown as gaps. Test: each renderable
-    kind owns ≥ 1 placement; every berth has a hull; every structure has a
-    placement whose `walkSurface` heights match the record within 0.1 m.
+    kind owns ≥ 1 placement within the exemplar set; every exemplar berth
+    has a hull; every placed structure's `walkSurface` heights match the
+    record within 0.1 m; every recorded structure or berth is either
+    placed or listed `pending: packet`, never absent.
 
 11. **Doors as records** (build-out register :94-97; docs/phases/README
     :345). Every enterable shell gets a stable door id
@@ -501,10 +515,13 @@ gate that passes on the current bundle is not a gate.
 18. **The plan sheet.** A plan renderer to PNG per place (footprints with
     front arrows and door dots, ways, pads with their delta in metres,
     clearance polygons by tier, kept trees, stairs, berths and hulls,
-    entrances, additive dressing), plus one province sheet of the 55
-    route structures on the road lines and one of the ferry berths. Sonnet
-    reads every sheet against the C-rules first; the owner sees the five
-    place sheets, the two province sheets and the `?bp=1` studio links.
+    entrances, additive dressing) plus one sheet per exemplar route
+    structure and ferry crossing outside the five places (the structure on
+    its road line with its `walkSurface`, the berths with their hulls).
+    The province-wide picture is already the 2D map; no new province
+    sheet. Sonnet reads every sheet against the C-rules first; the owner
+    sees the five place sheets, the exemplar route sheets and the `?bp=1`
+    studio links.
     Nothing in items 13–15 is applied to the ground or the bundles before
     check-in 2.
 
@@ -548,6 +565,10 @@ gate that passes on the current bundle is not a gate.
   vegetation clearance and pad patches for those five will be re-emitted
   by 16i when it moves parcels; that is by design (patches are cheap).
 - The province navmesh bake: 10b, which may start once part 1 lands.
+- Every route structure and ferry berth outside the exemplar set: placed
+  per region packet by 16j and Phase 15 through this chunk's renderable
+  kinds, with the exemplar set as the pattern (the 16j brief's packet
+  scope names them).
 - Water crossings with no recorded pier (backlog :282-300): the sourcing
   gap stays in the log with its OPEN reason; 16h draws every crossing
   that has a record.
@@ -592,8 +613,10 @@ touched?** (after part 2). 2D only.
   height change), the clearance polygons by tier and the kept trees, any
   added dressing. Say where you would move, keep or cut a way, a pad, a
   clearing or a piece of dressing.
-- The province sheet of route structures and the sheet of ferry berths:
-  any structure or berth that should not be there.
+- The exemplar route sheets (one stair, one deck, one lip-step, one
+  bridge, the Drowning Gate ferry): does each sit on its road at road
+  height with its berths where the boats can float; is this exemplar set
+  the right one for proving the kinds.
 - The Blackrose centre on the island in the middle of its lake on the 2D map (`?cat=1`).
 
 **Check-in 3 — does it stand and can you walk it?** (after part 3).
@@ -771,9 +794,12 @@ raised deck, a boat at every ferry landing, an entrance piece at every
 cave and at every way in from underwater, plus the small levelled pads
 and the clearings in the trees that a village needs. None of that is
 done to the world yet. It is drawn as five flat plans, one per place.
-Beside them come two province-wide maps of things the road chunk already
-recorded and that only need drawing: every bridge and stair on the roads
-on one, every ferry crossing on the other. **Your second check** is those plans. If you want a path
+The same example-first rule applies to the roads: the road chunk
+recorded every bridge, stair and ferry crossing in the province, but
+here we stand up only a handful of them, one of each kind plus the
+Drowning Gate ferry, to prove the method; the rest follow region by
+region in the rollout. Each of those few gets its own small plan.
+**Your second check** is those plans. If you want a path
 moved, a clearing made smaller or a boat put somewhere else, this is the
 moment: a line on a plan moves in minutes. After this point, the
 clearings are cut and the pads are levelled. Undoing that costs a session. (This is the lesson from the
@@ -802,7 +828,8 @@ look at one village clearing and one dressed entrance.
 the ground as their makers designed, have open doorways, have paths to
 their doors, stairs to their decks and boats at their landings;
 every door with a fixed name and a slot waiting for its interior; the
-roads' bridges and stairs standing for the first time; places that clear
+first few of the roads' bridges, stairs and ferries standing, as the
+pattern for the rest; places that clear
 and dress their own ground locally; and a repeatable way to check all of
 it from pictures. That is the floor on which the next chunk stands, where
 the five example places are properly redesigned and get their interiors.
