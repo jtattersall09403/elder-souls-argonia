@@ -3931,9 +3931,9 @@
       ]
     },
     "vegetation": {
-      "sha256": "bf570de10fc10fafbc0260d0e18b855765fd44cbffbf147c46d15de065ea56e2",
-      "sizeBytes": 19744430,
-      "asset": "province-vegetation-bf570de10fc1.tar.gz",
+      "sha256": "d025c1d71acadd9b13cb3c24987dd1eb28e6eb56e13ed8ea1b4b7bc6be3d9363",
+      "sizeBytes": 19669450,
+      "asset": "province-vegetation-d025c1d71aca.tar.gz",
       "files": [
         {
           "path": "vegetation/chunk_0_0_vegetation.bin",
@@ -5222,8 +5222,8 @@
         },
         {
           "path": "vegetation/vegetation-patches-receipt.json",
-          "sha256": "0b8ed96a66106133fe6867c8ed2cdfde4d9a5b3c84227d9dab79b2a0706ca9e8",
-          "bytes": 132586
+          "sha256": "77c9f15ec0ee7cccdd1cace842fb8e700c4b0fb41f6ea83149f1f43a86064aaa",
+          "bytes": 57606
         }
       ]
     },

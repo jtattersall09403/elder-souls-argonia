@@ -82,7 +82,10 @@ TARGET_RATIOS: dict[int, float] = {
     11: 0.55,  # firm lowland — our largest lowland class, must sit below 13
     12: 0.02,  # lake & standing water — drowned snags only
     13: 1.00,  # tropical jungle — the reference (owner: do not change)
-    14: 1.40,  # mangrove forest — more STEMS, lower roof: a thicket
+    14: 1.24,  # mangrove forest — more STEMS, lower roof: a thicket
+    # re-based 2026-09-20 from the shipped bundle (region tripled since the
+    # ladder was measured at ff71bdda; backlog row): owner to confirm on the
+    # walk
 }
 
 #: What the UNREBASED region tables in `build_palettes.REGIONS` deliver, in
