@@ -2192,6 +2192,622 @@
     "rootworm"
    ],
    "why": "The rootworm network's southern terminus root-node.naga-deeps is sited on this record, and the graph check requires the catalogue and the graph to agree: its modes were guide and boat, and rootworm is added to them."
+  },
+  {
+   "id": "place.dunmer-north.feeds-the-north",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 2.04,
+    "entityId": "body.3525-81",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 2.04 m by nearest cell at or above minDepthM 1.0 m, 11.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.dunmer-north.loriasel-caverns",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "argonian-immediate",
+    "depthM": 0.0,
+    "entityId": "reach.796-760",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'argonian-only-depth' is argonian-immediate; 0.0 m by no cell at or above minDepthM 1.0 m within 150 m (nearest 172.1 m); the dot's own depth; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.dunmer-north.the-charge-pond",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 3.0,
+    "entityId": "body.824-179",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 3.0 m by nearest cell at or above minDepthM 1.0 m, 17.3 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.dunmer-north.the-divers-landing",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 1.08,
+    "entityId": "body.1253-59",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 1.08 m by nearest cell at or above minDepthM 1.0 m, 12.3 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.dunmer-north.the-drowned-terrace",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 2.64,
+    "entityId": "body.1178-42",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 2.64 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.dunmer-north.the-shoal-bank",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 6.84,
+    "entityId": "body.1696-704",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 6.84 m by nearest cell at or above minDepthM 1.5 m, 11.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.dunmer-north.the-tear-wreck",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 2.28,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 2.28 m by nearest cell at or above minDepthM 1.5 m, 24.5 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.hist-heartland.air-pocket-station-basin",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "argonian-immediate",
+    "depthM": 1.56,
+    "entityId": "body.2909-1833",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'argonian-only-depth' is argonian-immediate; 1.56 m by nearest cell at or above minDepthM 1.0 m, 17.3 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.hist-heartland.lost-city",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.0,
+    "entityId": "body.2442-1212",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.hist-heartland.root-gallery-drowned-stair",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 1.08,
+    "entityId": "body.2848-1068",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 1.08 m by nearest cell at or above minDepthM 1.0 m, 16.4 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.hist-heartland.submerged-xanmeer-topmost",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 2.88,
+    "entityId": "body.2836-1104",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 2.88 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.hist-heartland.wamasu-pond-nest",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 1.56,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": false,
+    "surfaceAccessNodes": 1
+   },
+   "why": "underwaterAccess 'surface-swim' is breath-gated; 1.56 m by nearest cell at or above minDepthM 1.0 m, 50.5 m away; the entry point surfaces."
+  },
+  {
+   "id": "place.imperial-fringe.the-black-tarn",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.0,
+    "entityId": "body.34-1253",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.imperial-fringe.the-cold-lights",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "body.1071-1366",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.imperial-fringe.the-drowned-furrow",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "body.379-1186",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.imperial-penal-south.drowned-gallery",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 1.56,
+    "entityId": "body.1183-3666",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 1.56 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.imperial-penal-south.lake-drowned-village",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 3.0,
+    "entityId": "body.1290-3508",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 3.0 m by accepted-homeless: the depth it asks for, in the water it asks for; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.imperial-penal-south.lake-submerged-xanmeer",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 3.6,
+    "entityId": "body.1209-3032",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 3.6 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.imperial-penal-south.natural-dive-shaft",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 1.56,
+    "entityId": "body.1209-3032",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 1.56 m by nearest cell at or above minDepthM 1.0 m, 19.8 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.imperial-penal-south.rose-flooded-passage",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.84,
+    "entityId": "body.1183-3666",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.84 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.imperial-penal-south.saltrice-village",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "reach.1306-3547",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.mercantile-coast.alessian-hull",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 9.6,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 9.6 m by nearest cell at or above minDepthM 8.0 m, 132.7 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.mercantile-coast.glowfen-murkmire",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "body.1917-3723",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.mercantile-coast.ixtaxh-xanmeer",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.6,
+    "entityId": "body.763-3395",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.6 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.mercantile-coast.oliis-air-station",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "argonian-immediate",
+    "depthM": 0.96,
+    "entityId": "body.1209-3032",
+    "airPockets": true,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 1
+   },
+   "why": "underwaterAccess 'argonian-only-depth' is argonian-immediate; 0.96 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry, and the interior names an air pocket."
+  },
+  {
+   "id": "place.mercantile-coast.oliis-drake-deep",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "argonian-immediate",
+    "depthM": 6.6,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'argonian-only-depth' is argonian-immediate; 6.6 m by nearest cell at or above minDepthM 4.0 m, 137.2 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.mercantile-coast.sunkfoot",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.12,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.12 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.mercantile-coast.villa-cellars",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.12,
+    "entityId": "body.278-2618",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.12 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.mercantile-coast.whitebone-reef",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by accepted-homeless: the depth it asks for, in the water it asks for; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.mercantile-coast.xhon-mehl-shrine",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "reach.356-3069",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.naga-kur-deeps.air-pocket-station-deeps",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "argonian-immediate",
+    "depthM": 1.56,
+    "entityId": "body.1209-3032",
+    "airPockets": true,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 1
+   },
+   "why": "underwaterAccess 'argonian-only-depth' is argonian-immediate; 1.56 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry, and the interior names an air pocket."
+  },
+  {
+   "id": "place.naga-kur-deeps.drifting-village-wet-mooring",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.0,
+    "entityId": "body.1687-2614",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.naga-kur-deeps.drowned-village-lake-deeps",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 1.92,
+    "entityId": "body.1209-3032",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 1.92 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.naga-kur-deeps.drowning-narrows-tidal-gate",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "body.1291-2700",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.naga-kur-deeps.flooded-passage-tunnel-deeps",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.0,
+    "entityId": "body.908-2849",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.naga-kur-deeps.raft-village-lashed",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.0,
+    "entityId": "body.1208-2442",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.pirate-freeholds.reach-wreck",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 7.56,
+    "entityId": "body.1787-344",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 7.56 m by nearest cell at or above minDepthM 6.5 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.saxhleel-coast.archon-glowgill-byre",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "body.2650-2201",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.saxhleel-coast.gap-reef",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 1.2,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 1.2 m by nearest cell at or above minDepthM 1.0 m, 32.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.saxhleel-coast.lagoon-submerged-xanmeer",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "argonian-immediate",
+    "depthM": 6.0,
+    "entityId": "body.2455-2973",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'argonian-only-depth' is argonian-immediate; 6.0 m by nearest cell at or above minDepthM 6.0 m, 22.6 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.saxhleel-coast.mangrove-air-pocket",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.12,
+    "entityId": "body.2401-2515",
+    "airPockets": true,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 1
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.12 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry, and the interior names an air pocket."
+  },
+  {
+   "id": "place.saxhleel-coast.outer-reef",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "argonian-immediate",
+    "depthM": 1.08,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'argonian-only-depth' is argonian-immediate; 1.08 m by nearest cell at or above minDepthM 1.0 m, 27.4 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.saxhleel-coast.tide-street-village",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "breath-gated",
+    "depthM": 0.0,
+    "entityId": "body.2598-2135",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'shallow-dive' is breath-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
+  },
+  {
+   "id": "place.saxhleel-coast.wall-hist-village",
+   "kind": "field",
+   "path": "underwaterAccessDetail",
+   "value": {
+    "gating": "equipment-gated",
+    "depthM": 0.0,
+    "entityId": "body.ocean",
+    "airPockets": false,
+    "submergedPortal": true,
+    "surfaceAccessNodes": 0
+   },
+   "why": "underwaterAccess 'deep-dive' is equipment-gated; 0.0 m by nearest cell at or above minDepthM 0.0 m, 0.0 m away; the portal is below the water line, so no surface node at the entry."
   }
  ]
 }

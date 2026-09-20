@@ -4151,6 +4151,14 @@
           "distanceM": 0.0
         },
         "score": 2.684
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 2.04,
+        "entityId": "body.3525-81",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -7443,6 +7451,14 @@
           "distanceM": 149.8
         },
         "score": 2.64
+      },
+      "underwaterAccessDetail": {
+        "gating": "argonian-immediate",
+        "depthM": 0.0,
+        "entityId": "reach.796-760",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -17409,6 +17425,14 @@
           "distanceM": 16.5
         },
         "score": 1.892
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 3.0,
+        "entityId": "body.824-179",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -19359,6 +19383,14 @@
           "distanceM": 11.0
         },
         "score": 3.946
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 1.08,
+        "entityId": "body.1253-59",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -20495,6 +20527,14 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 2.64,
+        "entityId": "body.1178-42",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -30485,6 +30525,14 @@
           "distanceM": 11.0
         },
         "score": 2.314
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 6.84,
+        "entityId": "body.1696-704",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -32877,6 +32925,14 @@
           "distanceM": 24.5
         },
         "score": 2.532
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 2.28,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {

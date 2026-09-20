@@ -288,6 +288,14 @@
           "distanceM": 11.0
         },
         "score": 3.668
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 9.6,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -6686,6 +6694,14 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "body.1917-3723",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -11187,7 +11203,15 @@
           "placeRef": "place.mercantile-coast.lilmoth"
         }
       ],
-      "scourSiteId": "site.scour.lake-standing-water.cove-001"
+      "scourSiteId": "site.scour.lake-standing-water.cove-001",
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.6,
+        "entityId": "body.763-3395",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.mercantile-coast.keel-sakka-falls",
@@ -16533,6 +16557,14 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "argonian-immediate",
+        "depthM": 0.96,
+        "entityId": "body.1209-3032",
+        "airPockets": true,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 1
       }
     },
     {
@@ -17061,6 +17093,14 @@
           "distanceM": 57.2
         },
         "score": 4.162
+      },
+      "underwaterAccessDetail": {
+        "gating": "argonian-immediate",
+        "depthM": 6.6,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -25686,7 +25726,15 @@
         "score": 4.908
       },
       "approachDanger": "D2",
-      "sitingNote": "Pinned 50 m west onto the coastal lagoon cell, where the danger raster reads band 2: a drowned hamlet with an apex ambusher in it cannot sit on band-0 city apron."
+      "sitingNote": "Pinned 50 m west onto the coastal lagoon cell, where the danger raster reads band 2: a drowned hamlet with an apex ambusher in it cannot sit on band-0 city apron.",
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.12,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.mercantile-coast.tapped-hist-ashroot",
@@ -28640,7 +28688,15 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.ford-049"
+      "scourSiteId": "site.scour.firm-lowland.ford-049",
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.12,
+        "entityId": "body.278-2618",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.mercantile-coast.vossa-satl-village",
@@ -29688,7 +29744,15 @@
           }
         ]
       },
-      "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon named by its regionClasses."
+      "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon named by its regionClasses.",
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.mercantile-coast.witness-vigil-camp",
@@ -31075,7 +31139,15 @@
           "placeRef": "place.mercantile-coast.lilmoth"
         }
       ],
-      "scourSiteId": "site.scour.fringe-marsh.isthmus-047"
+      "scourSiteId": "site.scour.fringe-marsh.isthmus-047",
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "reach.356-3069",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.mercantile-coast.xinchei-konu",

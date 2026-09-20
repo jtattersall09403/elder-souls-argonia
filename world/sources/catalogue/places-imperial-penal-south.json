@@ -5841,6 +5841,14 @@
           "distanceM": 0.0
         },
         "score": 4.298
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 1.56,
+        "entityId": "body.1183-3666",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -8747,6 +8755,14 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 3.0,
+        "entityId": "body.1290-3508",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -9637,7 +9653,15 @@
           }
         ]
       },
-      "sitingNote": "In the lake's western arm, which the culture raster reads as mercantile-coast hinterland. The xanmeer predates both cultures and is left on its own water rather than dragged inland."
+      "sitingNote": "In the lake's western arm, which the culture raster reads as mercantile-coast hinterland. The xanmeer predates both cultures and is left on its own water rather than dragged inland.",
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 3.6,
+        "entityId": "body.1209-3032",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.imperial-penal-south.ledgered-blackguards",
@@ -11805,6 +11829,14 @@
           "distanceM": 12.3
         },
         "score": 2.338
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 1.56,
+        "entityId": "body.1209-3032",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -14479,6 +14511,14 @@
           "distanceM": 0.0
         },
         "score": 3.37
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.84,
+        "entityId": "body.1183-3666",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -15391,6 +15431,14 @@
           "place.imperial-penal-south.rose-supply-town",
           "place.mercantile-coast.soulrest"
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "reach.1306-3547",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {

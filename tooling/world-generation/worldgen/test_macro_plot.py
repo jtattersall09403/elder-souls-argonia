@@ -19,9 +19,11 @@ from . import catalogue, macro_plot
 
 ANCHORS = json.loads(macro_plot.REPO_ROOT.joinpath("world/sources/anchors/settlement-anchors.json").read_text())
 
-ACCEPTED_HOMELESS_IDS = {
-    r["id"] for r in json.loads(macro_plot.HOMELESS_ACCEPTED.read_text())["records"]
-}
+#: The register's two kinds are opposites: a `homeless` row ships with NO dot,
+#: a `promise-unmet` row KEEPS its committed dot and owes only a promise.
+_ACCEPTED_ROWS = json.loads(macro_plot.HOMELESS_ACCEPTED.read_text())["records"]
+ACCEPTED_HOMELESS_IDS = {r["id"] for r in _ACCEPTED_ROWS if r["kind"] == "homeless"}
+PROMISE_UNMET_IDS = {r["id"] for r in _ACCEPTED_ROWS if r["kind"] == "promise-unmet"}
 
 
 def _live():
@@ -144,6 +146,9 @@ def test_the_solve_keeps_every_committed_cell(survey):
     # regression. Same loader as the other tests on this file.
     unresolved = [h for h in unresolved if h.get("id") not in ACCEPTED_HOMELESS_IDS]
     resite = [h for h in resite if h.get("id") not in ACCEPTED_HOMELESS_IDS]
+    # a `promise-unmet` row is the other kind: it must NOT be re-sited, so its
+    # appearance in `resite` is a regression, and it must be in `result`
+    assert PROMISE_UNMET_IDS <= set(result), sorted(PROMISE_UNMET_IDS - set(result))
     assert not unresolved
     assert not resite, (
         "records the current fields invalidate. Do NOT re-run the full plot to clear this: "
@@ -671,7 +676,11 @@ def test_the_accepted_register_ships_the_schema_the_solver_reads():
     doc = json.loads(macro_plot.HOMELESS_ACCEPTED.read_text())
     assert doc["schemaVersion"] == 1
     for r in doc["records"]:
-        assert set(r) == {"id", "reason", "since"} and r["reason"] and r["since"]
+        assert set(r) == {"id", "kind", "reason", "since"} and r["reason"] and r["since"]
+        assert r["kind"] in {"homeless", "promise-unmet"}
+    assert set(macro_plot.accepted_homeless()) == ACCEPTED_HOMELESS_IDS
+    assert macro_plot.promise_unmet_ids() == PROMISE_UNMET_IDS
+    assert ACCEPTED_HOMELESS_IDS.isdisjoint(PROMISE_UNMET_IDS)
 
 
 def test_a_kept_seeded_record_with_a_cleared_footprint_gets_one():

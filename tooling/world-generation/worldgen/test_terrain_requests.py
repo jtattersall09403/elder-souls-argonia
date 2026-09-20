@@ -56,9 +56,9 @@ def _good_manifest(plan: dict) -> dict:
 #: Records the owner has ACCEPTED as unsited (`plot-homeless-accepted.json`).
 #: They carry no dot, so a terrain request on one cannot be planned; that is
 #: the register's consequence, not a planning failure (16g, 2026-09-19).
-ACCEPTED_HOMELESS_IDS = {
-    r["id"] for r in json.loads(macro_plot.HOMELESS_ACCEPTED.read_text())["records"]
-}
+#: `promise-unmet` rows are excluded: those records ARE sited, so their
+#: requests are planned like any other.
+ACCEPTED_HOMELESS_IDS = set(macro_plot.accepted_homeless())
 
 
 def test_live_catalogue_is_exhaustively_planned():

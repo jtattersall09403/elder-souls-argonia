@@ -8161,6 +8161,14 @@
           "distanceM": 0.0
         },
         "score": 3.122
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 7.56,
+        "entityId": "body.1787-344",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {

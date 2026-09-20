@@ -18766,7 +18766,15 @@
           "sourcePath": "questHooks.opportunity",
           "placeRef": "place.imperial-fringe.gideon"
         }
-      ]
+      ],
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.0,
+        "entityId": "body.34-1253",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.imperial-fringe.the-borrowed-house",
@@ -20119,7 +20127,15 @@
           "sourcePath": "questHooks.opportunity",
           "placeRef": "place.imperial-fringe.fenmarch-village"
         }
-      ]
+      ],
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "body.1071-1366",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.imperial-fringe.the-cordon-stones",
@@ -20974,6 +20990,14 @@
           "distanceM": 85.1
         },
         "score": 4.963
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "body.379-1186",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {

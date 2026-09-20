@@ -1152,6 +1152,14 @@
           "distanceM": 35.1
         },
         "score": 2.609
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "body.2650-2201",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -9770,6 +9778,14 @@
           "distanceM": 11.0
         },
         "score": 5.39
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 1.2,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -11973,6 +11989,14 @@
           "distanceM": 0.0
         },
         "score": 2.806
+      },
+      "underwaterAccessDetail": {
+        "gating": "argonian-immediate",
+        "depthM": 6.0,
+        "entityId": "body.2455-2973",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -12238,7 +12262,15 @@
         ]
       },
       "sitingNote": "Held off-route by constraint rather than a nearPoint: the published off-route gap list has no point inside the Saxhleel coast zone.",
-      "scourSiteId": "site.scour.tropical-jungle.cove-034"
+      "scourSiteId": "site.scour.tropical-jungle.cove-034",
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.12,
+        "entityId": "body.2401-2515",
+        "airPockets": true,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 1
+      }
     },
     {
       "id": "place.saxhleel-coast.mangrove-cut-village",
@@ -13539,6 +13571,14 @@
           "distanceM": 5.5
         },
         "score": 2.51
+      },
+      "underwaterAccessDetail": {
+        "gating": "argonian-immediate",
+        "depthM": 1.08,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -19382,6 +19422,14 @@
           "distanceM": 5.5
         },
         "score": 1.149
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "body.2598-2135",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -20504,7 +20552,15 @@
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
       },
-      "scourSiteId": "site.scour.fringe-marsh.flood-high-004"
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-004",
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.0,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.saxhleel-coast.wall-poacher-camp",

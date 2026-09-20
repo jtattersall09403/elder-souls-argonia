@@ -237,6 +237,14 @@
           "distanceM": 5.5
         },
         "score": 4.661
+      },
+      "underwaterAccessDetail": {
+        "gating": "argonian-immediate",
+        "depthM": 1.56,
+        "entityId": "body.2909-1833",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -12661,7 +12669,15 @@
           "itemRef": "item.eye-of-the-root"
         }
       ],
-      "scourSiteId": "site.scour.rootland-deep-marsh.enclosed-clearing-002"
+      "scourSiteId": "site.scour.rootland-deep-marsh.enclosed-clearing-002",
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.0,
+        "entityId": "body.2442-1212",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.hist-heartland.marsh-giant-ground-basin",
@@ -18378,6 +18394,14 @@
           "distanceM": 0.0
         },
         "score": 4.313
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 1.08,
+        "entityId": "body.2848-1068",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -23642,6 +23666,14 @@
             "whereInInterior": "main"
           }
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 2.88,
+        "entityId": "body.2836-1104",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -26868,6 +26900,14 @@
           "distanceM": 17.3
         },
         "score": 2.905
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 1.56,
+        "entityId": "body.ocean",
+        "airPockets": false,
+        "submergedPortal": false,
+        "surfaceAccessNodes": 1
       }
     },
     {

@@ -1962,6 +1962,9 @@ def seed_from_committed(s: ProvinceSurvey, demands: list[Demand],
     # a record pinned by a Part 6 blueprint siting is never re-judged here:
     # `pin_overrides` is the authority for those dots (owner ruling, 0041)
     pinned_ids = {o["id"] for o in load_overrides()}
+    # a record the owner has accepted with an undeliverable terrain promise
+    # keeps its committed cell: the promise is the open question, not the dot
+    unmet_ids = promise_unmet_ids()
     scour_depth = {c.id: c.depth_m for c in load_scour(s)}
     cands: dict[str, Candidate] = {}
     plotted: dict[str, tuple[float, float]] = {}
@@ -1985,8 +1988,12 @@ def seed_from_committed(s: ProvinceSurvey, demands: list[Demand],
         if c is None:
             resite.append({"id": d.id, "reason": "no committed position"})
             continue
-        why = None if (d.id in pinned_ids or committed.get(d.id, {}).get("plotOverride")) \
-            else committed_invalid_reason(d, c, plotted, s)
+        if d.id in unmet_ids:
+            print(f"accepted promise-unmet: {d.id}")
+            why = None
+        else:
+            why = None if (d.id in pinned_ids or committed.get(d.id, {}).get("plotOverride")) \
+                else committed_invalid_reason(d, c, plotted, s)
         if why is not None:
             entry = {"id": d.id, "reason": why, "fromM": [round(c.x, 1), round(c.z, 1)]}
             resite.append(entry)
@@ -2702,12 +2709,34 @@ def accepted_homeless(path: Path | None = None) -> dict[str, str]:
     the frozen ground is a different thing: it cannot be solved below the gate
     at all, and naming it here says so out loud instead of blocking every other
     stage. It still ships unpositioned, `workflow: derived`; nothing downstream
-    may read a dot for it."""
+    may read a dot for it.
+
+    Only `kind: "homeless"` rows are returned. The register also carries
+    `kind: "promise-unmet"` rows, which are the opposite case: the record IS
+    sited and keeps its committed cell — what the frozen ground cannot deliver
+    is its terrain promise (`promise_unmet_ids`)."""
+    return _register_rows(path, "homeless")
+
+
+def promise_unmet_ids(path: Path | None = None) -> set[str]:
+    """The ids the owner has accepted as SITED but with a terrain promise the
+    frozen ground cannot deliver.
+
+    Such a record must not be re-sited: moving it would trade an undeliverable
+    promise for a lost dot, and the owner's call (drop the promise, re-type, or
+    refreeze) is pending. The seeded solve therefore keeps its committed cell
+    exactly as a `pin_overrides` pin is kept."""
+    return set(_register_rows(path, "promise-unmet"))
+
+
+def _register_rows(path: Path | None, kind: str) -> dict[str, str]:
     p = path or HOMELESS_ACCEPTED
     if not p.exists():
         return {}
     doc = json.loads(p.read_text())
-    return {r["id"]: r.get("reason", "") for r in doc.get("records") or []}
+    # a row with no `kind` predates the field and is a plain homeless row
+    return {r["id"]: r.get("reason", "") for r in doc.get("records") or []
+            if r.get("kind", "homeless") == kind}
 
 
 def blocking_homeless(unresolved: list[dict], accepted: dict[str, str]) -> list[dict]:

@@ -302,7 +302,15 @@
           },
           "note": "the flooded shortcut needs six metres of standing water over the root chamber, or the dive is not a dive"
         }
-      ]
+      ],
+      "underwaterAccessDetail": {
+        "gating": "argonian-immediate",
+        "depthM": 1.56,
+        "entityId": "body.1209-3032",
+        "airPockets": true,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 1
+      }
     },
     {
       "id": "place.naga-kur-deeps.art-and-destroy-site-deeps",
@@ -3986,7 +3994,15 @@
           "place.naga-kur-deeps.ferry-stage-guide-hire"
         ]
       },
-      "ownerFaction": null
+      "ownerFaction": null,
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.0,
+        "entityId": "body.1687-2614",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.naga-kur-deeps.drowned-village-lake-deeps",
@@ -4254,6 +4270,14 @@
         "rivals": [
           "place.naga-kur-deeps.drawdown-flat-refilling-deeps"
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 1.92,
+        "entityId": "body.1209-3032",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -4529,6 +4553,14 @@
           "distanceM": 24.5
         },
         "score": 5.089
+      },
+      "underwaterAccessDetail": {
+        "gating": "breath-gated",
+        "depthM": 0.0,
+        "entityId": "body.1291-2700",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -5210,6 +5242,14 @@
             "whereInInterior": "hidden"
           }
         ]
+      },
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.0,
+        "entityId": "body.908-2849",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
       }
     },
     {
@@ -10800,7 +10840,15 @@
           "place.naga-kur-deeps.boardwalk-single-spine"
         ]
       },
-      "ownerFaction": null
+      "ownerFaction": null,
+      "underwaterAccessDetail": {
+        "gating": "equipment-gated",
+        "depthM": 0.0,
+        "entityId": "body.1208-2442",
+        "airPockets": false,
+        "submergedPortal": true,
+        "surfaceAccessNodes": 0
+      }
     },
     {
       "id": "place.naga-kur-deeps.refugee-camp-raid",
