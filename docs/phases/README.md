@@ -933,7 +933,12 @@ and probes of 10b, the compiled numbers of 10c, the budgets of 14. The
 **The packet roadmap** (ordered packets, rough scope, the place types each
 needs, cities and opening-scene places flagged owner-guided) is drafted by
 16j for owner sign-off and kept in `docs/phases/15-rollout/roadmap.md`;
-each packet is a chunk brief from the template 16j ships.
+each packet is a chunk brief from the template 16j ships. **Every packet
+runs in two parts with an owner check-in after each** (decision 0081: the
+plans and door tables on paper before any ground or vegetation is
+touched, then the walk); the rhythm is sketched in
+[15-rollout/README.md](15-rollout/README.md) and the steps below are
+distributed across those two parts by the template.
 
 **The owner is hands-on for every major city and for the opening-scene
 places.** No skill runs unattended on them; the packet brief names them
