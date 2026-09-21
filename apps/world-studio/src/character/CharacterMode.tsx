@@ -695,6 +695,9 @@ interface FrameGpuStats {
    * 60-frame window as `avg` (every pass, see the manual `info.reset`). */
   tris: number;
   calls: number;
+  /** The LAST frame's triangle total, unaveraged — the number another DEV
+   * readout wants when it needs this frame rather than the window. */
+  lastTris: number;
 }
 
 /** Mean of a bounded sample ring; 0 when it is empty. */
@@ -751,7 +754,8 @@ function FrameRateProbe() {
     // happens once per frame below, so `info.render` accumulates every pass.
     gl.info.autoReset = false;
     host.__STUDIO_GPU_MS__ = {
-      avg: 0, max: 0, supported: Boolean(ctx && ext), tris: 0, calls: 0,
+      avg: 0, max: 0, supported: Boolean(ctx && ext),
+      tris: 0, calls: 0, lastTris: 0,
     };
     return () => {
       const g = gpu.current;
@@ -765,8 +769,6 @@ function FrameRateProbe() {
       g.open = null; g.pending = [];
       gl.info.autoReset = true;
       delete host.__STUDIO_GPU_MS__;
-      delete (window as unknown as { __STUDIO_FRAME_TRIS__?: number })
-        .__STUDIO_FRAME_TRIS__;
     };
   }, [gl]);
 
@@ -788,8 +790,9 @@ function FrameRateProbe() {
     if (tris > 0) {
       g.triSamples.push(tris); if (g.triSamples.length > 60) g.triSamples.shift();
       g.callSamples.push(calls); if (g.callSamples.length > 60) g.callSamples.shift();
-      (window as unknown as { __STUDIO_FRAME_TRIS__?: number })
-        .__STUDIO_FRAME_TRIS__ = tris;
+      const published = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats })
+        .__STUDIO_GPU_MS__;
+      if (published) published.lastTris = tris;
     }
     gl.info.reset();
     const { ctx, ext } = g;
@@ -828,6 +831,7 @@ function FrameRateProbe() {
           supported: true,
           tris: mean(g.triSamples),
           calls: Math.round(mean(g.callSamples)),
+          lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
         };
       }
       // Open the next frame's query (bounded: never more than a few in flight).
@@ -842,6 +846,7 @@ function FrameRateProbe() {
       }).__STUDIO_GPU_MS__ = {
         avg: 0, max: 0, supported: false,
         tris: mean(g.triSamples), calls: Math.round(mean(g.callSamples)),
+        lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
       };
     }
   }, -100);
