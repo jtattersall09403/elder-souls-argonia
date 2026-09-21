@@ -131,10 +131,25 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const queue = useFrameWork();
   const meshJob = useRef<FrameJobHandle | null>(null);
   const [, setGeometryVersion] = useState(0);
-  useEffect(() => () => {
-    meshJob.current?.cancel();
-    for (const geometry of geometries.current.values()) geometry.dispose();
-    geometries.current.clear();
+  // The mesh job is created DURING RENDER (below), so its completion can reach
+  // `setGeometryVersion` before this component has mounted or after it has
+  // unmounted — React's "state update on a component that hasn't mounted yet"
+  // warning. The bump is held until the mount effect runs, and dropped once
+  // the component is gone.
+  const mounted = useRef(false);
+  const bumpPending = useRef(false);
+  useEffect(() => {
+    mounted.current = true;
+    if (bumpPending.current) {
+      bumpPending.current = false;
+      setGeometryVersion((v) => v + 1);
+    }
+    return () => {
+      mounted.current = false;
+      meshJob.current?.cancel();
+      for (const geometry of geometries.current.values()) geometry.dispose();
+      geometries.current.clear();
+    };
   }, []);
 
   const [focusCell, setFocusCell] = useState<[number, number]>([-99, -99]);
@@ -224,7 +239,8 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
         yield;
       }
       meshJob.current = null;
-      setGeometryVersion((v) => v + 1);
+      if (mounted.current) setGeometryVersion((v) => v + 1);
+      else bumpPending.current = true;
     };
     meshJob.current = queue.add(build(), { priority: 20, label: "terrain-mesh" });
   }

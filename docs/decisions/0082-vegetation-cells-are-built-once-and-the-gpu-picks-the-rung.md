@@ -285,3 +285,21 @@ fill, inside a window the probe itself reports as `steady: false`.
   differently-patched materials could share one compiled program; it now
   appends `|es-aerial` and guards itself with `userData.esAerialApplied`
   against WorldSky's once-a-second traversal.
+
+- **Movement cost: the gate is widened, run on a step cadence, and applied a
+  few batches at a time.** Walking cost the owner's machine thousands of
+  `setVisibleAt` calls a frame across hundreds of batches (`flips 1105/8003`,
+  stutter and heat), while standing still and turning were smooth. The call
+  itself is cheap; the batch it touches is not, because three re-walks that
+  whole `BatchedMesh` in `onBeforeRender` and re-uploads its indirect texture,
+  so the cost is per BATCH TOUCHED per frame. `gateSpecies` now widens every
+  band by `GATE_MARGIN_M = 24` at both edges, so a rung switches on before the
+  shader needs it and off long after; the pass runs only when the eye has
+  moved 4 m, turned 15deg (the frustum test is all a rotation can change), a
+  cell was built or dropped, or 120 frames have passed; and it ENQUEUES into a
+  batch-keyed map that applies at most `FLIP_BATCH_BUDGET = 6` batches a
+  frame, batches with an ON flip first and then the nearest. ON before OFF
+  plus the 24 m margin keeps the resident set a superset of what the shader is
+  about to read (a runner at 7 m/s takes 3.4 s to cross the margin; a
+  300-batch backlog drains in 50 frames). Standing still now costs nothing at
+  all. `pendingBatches` and a rolling `fps` joined the HUD line.

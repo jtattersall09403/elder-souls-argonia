@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  GATE_MARGIN_M,
   gateSpecies,
   rangeDistances,
   rungVisible,
@@ -86,12 +87,12 @@ describe("gateSpecies", () => {
     const entry = cellEntry([nearRung, farRung]);
     const s = stats();
     gateSpecies([entry], { x: 0, y: 0, z: 0 }, { intersectsSphere: () => false },
-      () => undefined, s);
+      () => undefined, s, 0);
     expect(nearRung.uniform).toBe(1);
     expect(farRung.uniform).toBe(0);
     expect(s.visibleCopies).toBe(nearRung.copies);
     gateSpecies([entry], { x: 0, y: 0, z: 0 }, { intersectsSphere: () => true },
-      () => undefined, s);
+      () => undefined, s, 0);
     expect(farRung.uniform).toBe(1);
   });
 
@@ -99,7 +100,7 @@ describe("gateSpecies", () => {
     const r = rung([0, 60, 0, 8], false, allTiles());
     const s = stats();
     gateSpecies([cellEntry([r])], { x: -5000, y: 0, z: -5000 }, null,
-      () => undefined, s);
+      () => undefined, s, 0);
     expect(s.checksTile).toBe(0);
     expect(s.visibleCopies).toBe(0);
     expect(r.uniform).toBe(0);
@@ -110,12 +111,28 @@ describe("gateSpecies", () => {
     const s = stats();
     const applied: boolean[] = [];
     gateSpecies([cellEntry([r])], { x: 0, y: 0, z: 0 }, null,
-      (_t, v) => applied.push(v), s);
+      (_t, v) => applied.push(v), s, 0);
     expect(s.checksTile).toBe(64);
     // The tiles nearest the eye are on, the far corner is off.
     expect(r.state[0]).toBe(1);
     expect(r.state[63]).toBe(0);
     expect(applied.filter((v) => v).length).toBe(s.visibleCopies);
+  });
+
+  it("holds a tile just outside a band on, with the margin", () => {
+    const tiles = [tileAt(0, 0)];
+    // The tile spans 0..58.5 m; an eye 78.5 m away in x is 20 m beyond the
+    // band's outer edge, which the 24 m margin still covers.
+    const eye = { x: -78.5, y: 0, z: 0 };
+    const withMargin = rung([0, 58.5, 0, 0], false, tiles);
+    const s = stats();
+    gateSpecies([{ ...cellEntry([withMargin]), cellBox: tiles[0].box }], eye,
+      null, () => undefined, s, GATE_MARGIN_M);
+    expect(withMargin.uniform).not.toBe(0);
+    const without = rung([0, 58.5, 0, 0], false, [tileAt(0, 0)]);
+    gateSpecies([{ ...cellEntry([without]), cellBox: without.tiles[0].box }],
+      eye, null, () => undefined, s, 0);
+    expect(without.uniform).toBe(0);
   });
 
   it("matches a brute-force per-tile evaluation at 200 random eyes", () => {
@@ -134,7 +151,7 @@ describe("gateSpecies", () => {
       const eye = {
         x: random() * CELL * 3 - CELL, y: 0, z: random() * CELL * 3 - CELL,
       };
-      gateSpecies([entry], eye, null, () => undefined, s);
+      gateSpecies([entry], eye, null, () => undefined, s, 0);
       for (const r of rungs) {
         for (let i = 0; i < r.tiles.length; i++) {
           const d = rangeDistances(r.tiles[i].box, eye.x, eye.z);

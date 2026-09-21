@@ -669,8 +669,9 @@ function VegetationHudLine() {
   if (!veg) return null;
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
-      {`veg: gate ${veg.gatingMs}/${veg.gatingMaxMs} ms`}
+      {`veg: ${veg.fps} fps · gate ${veg.gatingMs}/${veg.gatingMaxMs} ms`}
       {` · flips ${veg.flipInstances}/${veg.flipInstancesMax}`}
+      {` · pending ${veg.pendingBatches}`}
       {` · build ${veg.buildStepMs}/${veg.buildStepMaxMs} ms`}
       {` · draws ${veg.draws}`}
     </span>

@@ -110,6 +110,15 @@ export interface GateStats {
 }
 
 /**
+ * Distance margin, metres: every band is widened by this at both edges, so a
+ * rung switches ON before the eye needs it and OFF well after. Movement then
+ * flips a tile once per 24 m of travel instead of once per band crossing, and
+ * the gate pass can run on a step cadence without the shader ever asking for a
+ * rung that is not resident (round 2, decision 0082).
+ */
+export const GATE_MARGIN_M = 24;
+
+/**
  * Resolve every tile's visibility, cheapest level first: a cell whose whole
  * distance range misses a band, or which lies wholly inside one, answers for
  * all 64 of its tiles at once, and only a cell the band's edge CROSSES pays a
@@ -121,6 +130,7 @@ export function gateSpecies(
   frustum: GateFrustum | null,
   apply: (tile: GateTile, visible: boolean) => void,
   stats: GateStats,
+  marginM: number = GATE_MARGIN_M,
 ): void {
   stats.visibleCopies = 0;
   stats.visibleTriangles = 0;
@@ -128,7 +138,9 @@ export function gateSpecies(
   stats.checksTile = 0;
   for (const entry of list) {
     stats.checksCell++;
-    const { dMin, dMax } = rangeDistances(entry.cellBox, eye.x, eye.z);
+    const raw = rangeDistances(entry.cellBox, eye.x, eye.z);
+    const dMin = Math.max(0, raw.dMin - marginM);
+    const dMax = raw.dMax + marginM;
     // The near rung is never frustum-culled: it casts into the cascades from
     // behind the camera, and dropping it drops the shadow with it.
     const offScreen = frustum !== null && !frustum.intersectsSphere(entry.cellSphere);
@@ -168,7 +180,8 @@ export function gateSpecies(
         const tile = rung.tiles[i];
         stats.checksTile++;
         const d = rangeDistances(tile.box, eye.x, eye.z);
-        const on = rungVisible(rung.band, d.dMin, d.dMax);
+        const on = rungVisible(
+          rung.band, Math.max(0, d.dMin - marginM), d.dMax + marginM);
         if (on) {
           stats.visibleCopies += tile.copies;
           stats.visibleTriangles += tile.triangles;
