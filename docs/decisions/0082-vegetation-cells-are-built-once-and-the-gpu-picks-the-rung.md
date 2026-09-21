@@ -266,3 +266,22 @@ fill, inside a window the probe itself reports as `steady: false`.
 - **Kit arrival.** The underwater kit arriving rebuilds only the cells that
   SKIPPED one of its species — 13 of 25 cells at the jungle, once, when the
   kit lands. No other event rebuilds a cell except a quality-tier change.
+- **White silhouettes: the haze patch needed a batching branch.** The owner
+  saw every batched tree and bush as a white cut-out.
+  `apps/world-studio/src/sky/aerial.ts` built `vEsWorldPos` from
+  `modelMatrix * (instanceMatrix *) transformed` with no `USE_BATCHING`
+  branch, so every copy in a `BatchedMesh` hazed as if it stood at the world
+  origin — kilometres of inscatter at province scale, which saturates.
+  The rule this sets: **every material patch that reads an instance's
+  placement carries both branches.** The patches audited, with their
+  verdicts: `fx/lodFade.ts` and `fx/windSway.ts` both branches already;
+  `fx/batchData.ts` batching-only by construction; `water/render/causticReceiver.ts`
+  both already; `fx/billboardQuad.ts` instancing-only but unreachable — the
+  card rung's material is never passed to `applyCylindricalBillboard`
+  (no caller outside its own test), so no `BatchedMesh` reaches it;
+  `settlement/materials.ts` and `vegetation/Groundcover.tsx` instancing-only
+  and correct — both draw `InstancedMesh` only. `aerial.ts` also replaced
+  the shared `customProgramCacheKey` instead of appending to it, so two
+  differently-patched materials could share one compiled program; it now
+  appends `|es-aerial` and guards itself with `userData.esAerialApplied`
+  against WorldSky's once-a-second traversal.

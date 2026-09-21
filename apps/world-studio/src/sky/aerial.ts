@@ -373,6 +373,13 @@ export const AERIAL_VARYING_VERTEX = /* glsl */ `
       // Instanced meshes (vegetation) carry their placement in instanceMatrix;
       // without this every instance fogged as if it stood at the mesh origin.
       esWp = instanceMatrix * esWp;
+    #elif defined(USE_BATCHING)
+      // BatchedMesh (the vegetation batches) carries the placement in
+      // batchingMatrix instead; without this branch every batched copy hazed
+      // as if it stood at the world origin — at province scale that is a
+      // fully saturated inscatter, so every tree and bush drew as a white
+      // silhouette (decision 0082 round 2).
+      esWp = batchingMatrix * esWp;
     #endif
     vEsWorldPos = (modelMatrix * esWp).xyz;
   }
@@ -388,6 +395,12 @@ export function applyAerialPerspective(
   uniforms: AerialUniforms,
 ): void {
   (material as THREE.Material & { fog?: boolean }).fog = false;
+  // Idempotence: WorldSky re-traverses the scene once a second, and a second
+  // wrap would stack another onBeforeCompile (and another cache-key suffix)
+  // on every pass.
+  const state = material.userData as { esAerialApplied?: boolean };
+  if (state.esAerialApplied) return;
+  state.esAerialApplied = true;
   const previous = material.onBeforeCompile;
   material.onBeforeCompile = (shader, renderer) => {
     previous?.call(material, shader, renderer);
@@ -405,6 +418,12 @@ export function applyAerialPerspective(
       .replace("#include <alphatest_fragment>", `${MIP_ALPHA_BOOST_GLSL}\n#include <alphatest_fragment>`)
       .replace("#include <tonemapping_fragment>", `${AERIAL_APPLY_GLSL}\n#include <tonemapping_fragment>`);
   };
-  material.customProgramCacheKey = () => "es-aerial";
+  // APPEND, never replace: the previous key carries whatever the other
+  // patches (lodFade, windSway, batchData, billboard) contributed. Replacing
+  // it made two differently-patched materials share one compiled program.
+  const previousKey = material.customProgramCacheKey;
+  material.customProgramCacheKey = function customProgramCacheKey(this: THREE.Material) {
+    return `${previousKey.call(this)}|es-aerial`;
+  };
   material.needsUpdate = true;
 }

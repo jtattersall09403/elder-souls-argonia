@@ -363,6 +363,21 @@ export function App() {
       for (const [k, v] of Object.entries(encodePlacesUrl(placesUrl))) q.set(k, v);
       for (const [k, v] of Object.entries(encodeRoutesUrl(routesUrl))) q.set(k, v);
     }
+    // Carry through every parameter this effect does not own (diagnostic
+    // switches like `?vegshader=0`, anything a future view adds): rebuilding
+    // the query string from the managed set alone silently dropped them on
+    // the first state change after load.
+    const managed = new Set<string>([
+      "waterDataset", "wq", "hud", "layer", "markers", "view", "cam", "x", "z",
+      "ex", "alt", "yaw", "pitch", "spd", "mats", "wet", "tint", "lanes",
+      "race", "profile", "t", "d", "rate", "w", "lat", "bp", "cat",
+      ...Object.keys(encodeBlueprintUrl(blueprintUrl)),
+      ...Object.keys(encodePlacesUrl(placesUrl)),
+      ...Object.keys(encodeRoutesUrl(routesUrl)),
+    ]);
+    for (const [k, v] of new URLSearchParams(window.location.search)) {
+      if (!managed.has(k) && !q.has(k)) q.append(k, v);
+    }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
   }, [view, camMode, spawnKm, exaggeration, flyAltM, flyAim, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, showBlueprints, blueprintUrl, timeVersion, layers]);

@@ -127,6 +127,19 @@ export interface VegetationStats {
   cellsPending: number;
   /** Monotonic frame counter, so a probe can see the renderer is alive. */
   frame: number;
+  /** Visibility churn this frame, and the worst of the last 120 (DEV stutter
+   * hunt, round 2): tiles whose state flipped, `setVisibleAt` calls those
+   * flips cost, and how many batches a flip touched. */
+  flipTiles: number;
+  flipTilesMax: number;
+  flipInstances: number;
+  flipInstancesMax: number;
+  batchesTouched: number;
+  batchesTouchedMax: number;
+  /** Main-thread ms spent in cell-build job steps since the previous frame,
+   * and the worst of the last 120. */
+  buildStepMs: number;
+  buildStepMaxMs: number;
 }
 
 const CHUNK_RING = 2;
@@ -140,15 +153,22 @@ const MIN_BATCH_CAPACITY = 256;
 const MASK_SIZE = 128;
 
 /**
- * DIAGNOSTIC SWITCH (DEV only, `?vegshader=0`): draw every batch with the
- * plain cloned kit material — no wind sway, no LOD fade, no batch-data
- * occlusion. Every rung then draws on top of every other one, unfaded. It
- * exists to tell "the geometry is not there" from "the shader hides it";
- * it is never a rendering mode.
+ * DIAGNOSTIC SWITCH (DEV only, `?vegshader=…`), for telling "the geometry is
+ * not there" from "a shader patch hides it". Never a rendering mode.
+ *   `0`        no batch patch at all (plain cloned kit material)
+ *   `lod`      LOD fade + batch data only (no wind)
+ *   `wind`     wind + batch data only (no fade)
+ *   `noaerial` all three, but the haze traversal skips these materials
+ * Read once, at module load.
  */
-const VEG_SHADER_OFF = import.meta.env.DEV
-  && typeof window !== "undefined"
-  && new URLSearchParams(window.location.search).get("vegshader") === "0";
+type VegShaderMode = "all" | "off" | "lod" | "wind" | "noaerial";
+const VEG_SHADER_MODE: VegShaderMode = ((): VegShaderMode => {
+  if (!import.meta.env.DEV || typeof window === "undefined") return "all";
+  const v = new URLSearchParams(window.location.search).get("vegshader");
+  if (v === "0") return "off";
+  if (v === "lod" || v === "wind" || v === "noaerial") return v;
+  return "all";
+})();
 
 function chunkKey(cx: number, cz: number): string {
   return `${cx}_${cz}`;
@@ -312,7 +332,14 @@ export function Vegetation({
   const counters = useRef({
     builds: 0, gatingMs: 0, gatingMaxMs: 0, maskMs: 0, frame: 0,
     lastBuild: { total: 0, frames: 0, elapsedMs: 0 },
+    flipTiles: 0, flipTilesMax: 0,
+    flipInstances: 0, flipInstancesMax: 0,
+    batchesTouched: 0, batchesTouchedMax: 0,
+    buildStepMs: 0, buildStepMaxMs: 0,
   });
+  /** Batches a visibility flip touched this frame — cleared at frame end, so
+   * `batchesTouched` counts distinct batches, not flips. */
+  const flippedBatches = useRef(new Set<Batch>());
   const [revision, setRevision] = useState(0);
   /** 32 m cells that hold at least one instance, and how many — recomputed
    * when a cell is built or dropped, never per frame. `occupiedList` is the
@@ -534,11 +561,15 @@ export function Vegetation({
       // `sways` test here silenced whichever species did not create the batch.
       // Stillness is per INSTANCE — a non-swaying species and every card copy
       // carry stiffness -1 in the data texture.
-      // `?vegshader=0` (DEV diagnostic) leaves the clone unpatched.
-      if (!VEG_SHADER_OFF) {
-        applyWindSwayWithShadow(clone, depthClone, wind);
-        applyLodFadeWithShadow(clone, depthClone, lodFade);
+      // `?vegshader=…` (DEV diagnostic) drops patches one at a time.
+      if (VEG_SHADER_MODE !== "off") {
+        if (VEG_SHADER_MODE !== "lod") applyWindSwayWithShadow(clone, depthClone, wind);
+        if (VEG_SHADER_MODE !== "wind") applyLodFadeWithShadow(clone, depthClone, lodFade);
         applyBatchData(clone, depthClone, uniforms);
+      }
+      if (VEG_SHADER_MODE === "noaerial") {
+        clone.userData.esAerial = false;
+        if (depthClone) depthClone.userData.esAerial = false;
       }
       owned = { material: clone, depthMaterial: depthClone, uniforms };
       batchMaterials.current.set(key, owned);
@@ -691,8 +722,22 @@ export function Vegetation({
     // Published often enough that a probe on a sub-1 fps software renderer
     // still sees the numbers; the gating maximum is a 60-frame window.
     counters.current.frame++;
-    if (counters.current.frame % 60 === 0) publishStats();
-    if (counters.current.frame % 60 === 0) counters.current.gatingMaxMs = 0;
+    const c = counters.current;
+    c.batchesTouched = flippedBatches.current.size;
+    if (c.flipTiles > c.flipTilesMax) c.flipTilesMax = c.flipTiles;
+    if (c.flipInstances > c.flipInstancesMax) c.flipInstancesMax = c.flipInstances;
+    if (c.batchesTouched > c.batchesTouchedMax) c.batchesTouchedMax = c.batchesTouched;
+    if (c.buildStepMs > c.buildStepMaxMs) c.buildStepMaxMs = c.buildStepMs;
+    if (c.frame % 60 === 0) publishStats();
+    if (c.frame % 60 === 0) c.gatingMaxMs = 0;
+    // The churn maxima roll on a 120-frame window (the gating maximum is 60:
+    // a stutter is rarer than a slow frame, so it needs the longer memory).
+    if (c.frame % 120 === 0) {
+      c.flipTilesMax = 0; c.flipInstancesMax = 0;
+      c.batchesTouchedMax = 0; c.buildStepMaxMs = 0;
+    }
+    c.flipTiles = 0; c.flipInstances = 0; c.buildStepMs = 0;
+    flippedBatches.current.clear();
 
     function cellDistance(key: string): number {
       const cell = cells.current.get(key);
@@ -831,7 +876,7 @@ export function Vegetation({
       segmentStart = performance.now();
       const { needs, specs } = planBatches(sources, liveKit!);
       reserveBatches(needs, specs);
-      cpuMs += performance.now() - segmentStart;
+      cpuMs += buildStepElapsed(segmentStart);
       frames++;
       yield;
       for (;;) {
@@ -843,7 +888,7 @@ export function Vegetation({
           const entry = fillSpecies(cell!, step.value, liveKit!, touched);
           if (entry) filled.push(entry);
         }
-        cpuMs += performance.now() - segmentStart;
+        cpuMs += buildStepElapsed(segmentStart);
         frames++;
         if (step.done) return;
         yield;
@@ -1124,13 +1169,26 @@ export function Vegetation({
     return ids;
   }
 
+  /** One cell-build job step's main-thread cost; also rolled into the DEV
+   * per-frame `buildStepMs` counter, which is what a stutter shows up in. */
+  function buildStepElapsed(segmentStart: number): number {
+    const dt = performance.now() - segmentStart;
+    if (import.meta.env.DEV) counters.current.buildStepMs += dt;
+    return dt;
+  }
+
   /** Switch one tile's copies on or off across every part it spans. */
   function applyTile(tile: CellTile, visible: boolean): void {
+    if (import.meta.env.DEV) counters.current.flipTiles++;
     for (let p = 0; p < tile.ids.length; p++) {
       const batch = tile.batches[p];
       const ids = tile.ids[p];
       for (let i = 0; i < ids.length; i++) batch.mesh.setVisibleAt(ids[i], visible);
       batch.visibleCopies += visible ? ids.length : -ids.length;
+      if (import.meta.env.DEV) {
+        counters.current.flipInstances += ids.length;
+        flippedBatches.current.add(batch);
+      }
     }
   }
 
@@ -1318,6 +1376,14 @@ export function Vegetation({
       copiesTotal: total,
       cellsPending,
       frame: counters.current.frame,
+      flipTiles: counters.current.flipTiles,
+      flipTilesMax: counters.current.flipTilesMax,
+      flipInstances: counters.current.flipInstances,
+      flipInstancesMax: counters.current.flipInstancesMax,
+      batchesTouched: counters.current.batchesTouched,
+      batchesTouchedMax: counters.current.batchesTouchedMax,
+      buildStepMs: Math.round(counters.current.buildStepMs * 1000) / 1000,
+      buildStepMaxMs: Math.round(counters.current.buildStepMaxMs * 1000) / 1000,
     };
     onStats?.(stats);
     (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })

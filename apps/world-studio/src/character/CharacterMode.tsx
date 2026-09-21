@@ -21,6 +21,7 @@ import {
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
 import { visualSupportY } from "@elder-souls/game-core/physics/visualSupport";
 import { spawnBodyY } from "./spawnHeight";
+import type { VegetationStats } from "../vegetation/Vegetation";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
 import { DEFAULT_SEX, RACE_IDS, resolveBuild, type RaceId } from "@elder-souls/game-core/actors/races";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./chunkStore";
@@ -643,6 +644,35 @@ function CharacterHud({ channel }: { channel: HudChannel }) {
       {hud.visibilityM !== undefined ? ` · vis ~${hud.visibilityM} m` : ""}
       {" · "}{["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(hud.headingDeg / 45) % 8]} {Math.round(hud.headingDeg)}°
       {" · "}{hud.grounded ? `${hud.speed.toFixed(1)} m/s` : "airborne"}
+      <VegetationHudLine />
+    </span>
+  );
+}
+
+/**
+ * DEV stutter line (decision 0082 round 2): the vegetation renderer's own
+ * per-frame costs and visibility churn, polled from the debug object once a
+ * second so the HUD never re-renders at frame rate. One line, DEV only.
+ */
+function VegetationHudLine() {
+  const [veg, setVeg] = useState<VegetationStats | null>(null);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const read = () => setVeg(
+      (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })
+        .__STUDIO_VEGETATION_DEBUG__ ?? null,
+    );
+    read();
+    const timer = window.setInterval(read, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  if (!veg) return null;
+  return (
+    <span style={{ display: "block", opacity: 0.75 }}>
+      {`veg: gate ${veg.gatingMs}/${veg.gatingMaxMs} ms`}
+      {` · flips ${veg.flipInstances}/${veg.flipInstancesMax}`}
+      {` · build ${veg.buildStepMs}/${veg.buildStepMaxMs} ms`}
+      {` · draws ${veg.draws}`}
     </span>
   );
 }
