@@ -241,19 +241,17 @@ is a local commit on `main`, none pushed.
 | Rest 13 fps with vegetation, 60 without, CPU zero | vertex load: 58 m tiles + 24 m margin drew the near rung to ~140 m over 360° | 29 m tiles as flat arrays, 8 m margin, behind-camera cull with hysteresis (3b392676) |
 | `?veg=0` walk 60→5 fps; `gen` 110–555 ms a tile | clearance patches (183, 64 840 vertices) tested per candidate against every segment | segment index per patch, one nearby-patch lookup per tile; GPU timer + shadow switch (832abc14) |
 | Rest 21 fps, gpu 27.7 ms, CPU idle; vegshadow=0 saved 3 ms; q=low (36% fewer pixels) saved 35% of the GPU time; "slightly jerky" at 45 fps | GPU fill-bound; at 16 ms GPU the frame straddles the 16.7 ms vsync line and alternates 60/30 fps; batches drew in insertion order across materials; out-of-band rungs were already collapsed in the vertex shader (the collapse predicate stopped at fadeOut >= 1 where the Bayer ceiling is 15/16) | nearest-first batch renderOrder from the gating pass; predicate at the Bayer ceiling; switches `&gc=0`, `&dpr=n`, `&aa=0`, `&vegorder=0` (11fd432b) |
+| Rest 20 fps, gpu 28 ms; triangle attribution: 10.8 M/frame = veg 2.6 M + 2.4 M shadow, terrain 1.8 M + 0.7 M, ground cover 2.4 M, other 0.9 M (water 0.6 M); ~2.6 ms per million on the owner's card; veg=0 60 fps at 14.4 ms | geometry-bound: the near rung cast into both cascades; nine chunks at LOD 1 (1.8 m) out to 700 m and LOD 4 for the whole province; ground-cover hero plants (2 298 and 1 424 triangles) drawn as full meshes to 30 m at the highest densities | shadows cast by the mid rung from distance zero (39e2f777); terrain LOD by edge distance 150/900/2800 m with hysteresis, stride-2 LOD 8 beyond, LOD 1-2 cast (560481b4); ground-cover mesh reach proportional to mesh cost, >1000 triangles card-only (0a7e1696); HUD line 3 attribution (fe1b5698) |
 
-### Open at hand-off (next round starts from the owner's reading of 11fd432b)
+### Open at hand-off (next round starts from the owner's reading of 0a7e1696)
 
-1. **Attribution readings.** The next round starts from the owner's rest
-   readings at the jungle URL with, one reload each: no switches;
-   `&vegorder=0`; `&gc=0`; `&dpr=1`; `&aa=0`; `&vegshader=off`; `&vegshadow=0`.
-   Each reading's `gpu` avg attributes that cost, and whatever carries the most
-   decides the next fix. Candidates in order of expected size: pixel count, so
-   the medium preset's `dprMax`; ground-cover fill; foliage fragment shading
-   with two PCF cascades and IBL, where a depth pre-pass would shade each pixel
-   once; canvas antialias. The vsync rule holds throughout: any GPU time above
-   16.7 ms cannot show 60 fps, and near 16.7 ms the frame alternates 60/30, so
-   the target is GPU under ~12 ms.
+1. **The next reading.** The jungle URL at rest with no switches, HUD lines
+   1-3 pasted. The target is `tris` near 5 M and `gpu` under 12 ms. If `gpu`
+   stays above that with `tris` near 5 M, the cost is per-vertex work (three
+   vertex texel fetches per batched vertex, CSM) or fill, and the next switch
+   reading is `&vegshader=off` against on at the new triangle count. The vsync
+   rule holds throughout: any GPU time above 16.7 ms cannot show 60 fps, and
+   near 16.7 ms the frame alternates 60/30.
 2. **Walking with ground cover**: `gen` and `tile` should now be single-digit
    ms; `fill` (2–20 ms at 1–4 rebuilds/s) is the next ground-cover cost if it
    still hitches: it rewrites every live tile's buffers on each 8 m rebuild.
