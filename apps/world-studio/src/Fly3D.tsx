@@ -7,7 +7,9 @@ import { headingOf } from "./compass";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "./CanvasErrorBoundary";
 import { CityMarkers } from "./CityMarkers";
 import { ApronTerrain } from "./ApronTerrain";
-import { Vegetation, type VegetationStats } from "./vegetation/Vegetation";
+import {
+  Vegetation, VEGETATION_ENABLED, type VegetationStats,
+} from "./vegetation/Vegetation";
 import { Groundcover } from "./vegetation/Groundcover";
 import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
 
@@ -327,11 +329,13 @@ export function Fly3D(props: Fly3DProps) {
                 of the province still has none. */}
             {props.showVegetation !== false && !hiddenLayers.has("vegetation") && (
               <>
+                {VEGETATION_ENABLED && (
                 <Suspense fallback={null}>
                   <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
                     verticalScale={props.exaggeration} onStats={props.onVegetationStats}
                     quality={FLY_QUALITY} />
                 </Suspense>
+                )}
                 {/* T3 groundcover ring: runtime grass keyed on the painted
                     ground, province-wide (it needs no compiled bundles). */}
                 <Suspense fallback={null}>

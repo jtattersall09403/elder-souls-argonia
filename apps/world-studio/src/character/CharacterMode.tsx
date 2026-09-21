@@ -39,7 +39,7 @@ import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter";
 import { worldClock } from "../sky/timeState";
 import { CityMarkers } from "../CityMarkers";
-import { Vegetation } from "../vegetation/Vegetation";
+import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import { useHiddenLayers } from "../ladder";
@@ -395,6 +395,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           {/* Walking-stutter fix (owner 2026-09-20): the per-crossing rebuilds
               below run as budgeted generator jobs on this queue. */}
           <FrameWorkProvider>
+          {/* The HUD's frame rate is sampled HERE, inside the canvas, so
+              `?veg=0` (no vegetation renderer mounted) still has one. */}
+          <FrameRateProbe />
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
@@ -415,14 +418,16 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 defect (owner, Phase 10 round 2). */}
             {!hiddenLayers.has("vegetation") && (
               <>
-                <Vegetation
-                  focusRef={focusRef}
-                  baseUrl={import.meta.env.BASE_URL}
-                  verticalScale={verticalScale}
-                  quality={quality}
-                  onSolids={handleSolids}
-                  shapesRef={floraShapesRef}
-                />
+                {VEGETATION_ENABLED && (
+                  <Vegetation
+                    focusRef={focusRef}
+                    baseUrl={import.meta.env.BASE_URL}
+                    verticalScale={verticalScale}
+                    quality={quality}
+                    onSolids={handleSolids}
+                    shapesRef={floraShapesRef}
+                  />
+                )}
                 {/* T3 groundcover ring around the walking character — same
                     component and constants as the flyover. */}
                 <Groundcover
@@ -649,30 +654,61 @@ function CharacterHud({ channel }: { channel: HudChannel }) {
   );
 }
 
+/** A 60-frame rolling frame rate for the HUD line, published from inside the
+ * canvas because the HUD is DOM and `useFrame` is not available to it. */
+function FrameRateProbe() {
+  const acc = useRef({ sum: 0, count: 0 });
+  useFrame((_, delta) => {
+    if (!import.meta.env.DEV) return;
+    const a = acc.current;
+    a.sum += delta; a.count++;
+    if (a.count < 60) return;
+    (window as unknown as { __STUDIO_FPS__?: number }).__STUDIO_FPS__ =
+      Math.round(a.count / Math.max(a.sum, 1e-3));
+    a.sum = 0; a.count = 0;
+  });
+  return null;
+}
+
 /**
  * DEV stutter line (decision 0082 round 2): the vegetation renderer's own
  * per-frame costs and visibility churn, polled from the debug object once a
- * second so the HUD never re-renders at frame rate. One line, DEV only.
+ * second so the HUD never re-renders at frame rate. With `?veg=0` the
+ * renderer is not mounted and the line carries the frame rate alone, which is
+ * the A/B the owner reads. One line, DEV only.
  */
 function VegetationHudLine() {
-  const [veg, setVeg] = useState<VegetationStats | null>(null);
+  const [sample, setSample] = useState<
+    { veg: VegetationStats | null; fps: number } | null>(null);
   useEffect(() => {
     if (!import.meta.env.DEV) return;
-    const read = () => setVeg(
-      (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })
-        .__STUDIO_VEGETATION_DEBUG__ ?? null,
-    );
+    const host = window as unknown as {
+      __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
+      __STUDIO_FPS__?: number;
+    };
+    const read = () => setSample({
+      veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null,
+      fps: host.__STUDIO_FPS__ ?? 0,
+    });
     read();
     const timer = window.setInterval(read, 1000);
     return () => window.clearInterval(timer);
   }, []);
-  if (!veg) return null;
+  if (!sample) return null;
+  const { veg, fps } = sample;
+  if (!VEGETATION_ENABLED || !veg) {
+    return (
+      <span style={{ display: "block", opacity: 0.75 }}>
+        {`veg: off · ${fps} fps`}
+      </span>
+    );
+  }
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
-      {`veg: ${veg.fps} fps · gate ${veg.gatingMs}/${veg.gatingMaxMs} ms`}
-      {` · flips ${veg.flipInstances}/${veg.flipInstancesMax}`}
+      {`veg: ${fps} fps · gate ${veg.gatingMs}/${veg.gatingMaxMs} ms`}
+      {` · flip ${veg.flipMs}/${veg.flipMaxMs} ms (${veg.flipInstances})`}
       {` · pending ${veg.pendingBatches}`}
-      {` · build ${veg.buildStepMs}/${veg.buildStepMaxMs} ms`}
+      {` · queue ${veg.queueMs}/${veg.queueMaxMs} ms ${veg.queueTop}`}
       {` · draws ${veg.draws}`}
     </span>
   );

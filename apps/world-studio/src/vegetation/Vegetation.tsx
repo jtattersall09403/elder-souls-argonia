@@ -141,6 +141,15 @@ export interface VegetationStats {
    * budget was spent. Steady state is 0; a walk drains a backlog in tens of
    * frames (round 2). */
   pendingBatches: number;
+  /** Milliseconds this frame spent applying queued flips, and the worst of
+   * the last 120. */
+  flipMs: number;
+  flipMaxMs: number;
+  /** The shared frame-work queue's pump cost this frame and the worst of 120,
+   * with the label that ran most often over that window. */
+  queueMs: number;
+  queueMaxMs: number;
+  queueTop: string;
   /** Rolling 60-frame average frame rate, so the HUD line carries the number
    * the stutter is actually about. */
   fps: number;
@@ -162,15 +171,15 @@ const MASK_SIZE = 128;
 /** Camera travel that re-runs the gate pass. With the 24 m band margin a 4 m
  * step keeps the resident rung set a superset of what the shader reads. */
 const GATE_STEP_M = 4;
-/** Camera yaw change that re-runs it (the frustum test is the only thing a
- * pure rotation can change). */
-const GATE_YAW_RAD = (15 * Math.PI) / 180;
 /** Frames after which the pass runs anyway, whatever the camera did. */
 const GATE_MAX_FRAMES = 120;
-/** Batches whose queued flips are applied per frame. Each one costs three a
- * full walk of that BatchedMesh in `onBeforeRender` plus an indirect-texture
- * upload, so hundreds in a frame is the walking stutter; six is not. */
-const FLIP_BATCH_BUDGET = 6;
+/** Main-thread milliseconds one frame may spend APPLYING queued flips. A
+ * batch's cost is not its `setVisibleAt` calls but the `onBeforeRender` walk
+ * and indirect-texture upload they force, and that cost varies by an order of
+ * magnitude between batches: a fixed batch count bounded the wrong thing
+ * (owner walk 2026-09-21, 15 898 flips in a frame). At least one batch is
+ * always applied, so a backlog can never stall. */
+const FLIP_BUDGET_MS = 1.5;
 
 /**
  * DIAGNOSTIC SWITCH (DEV only, `?vegshader=…`), for telling "the geometry is
@@ -188,6 +197,16 @@ const VEG_SHADER_MODE: VegShaderMode = ((): VegShaderMode => {
   if (v === "0") return "off";
   if (v === "lod" || v === "wind" || v === "noaerial") return v;
   return "all";
+})();
+
+/**
+ * A/B switch (DEV only, `?veg=0`), read once at module load: the renderer is
+ * not MOUNTED at all, so the HUD line shows what the frame costs without it
+ * (owner walk 2026-09-21). Not a rendering mode — a measurement.
+ */
+export const VEGETATION_ENABLED: boolean = (() => {
+  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  return new URLSearchParams(window.location.search).get("veg") !== "0";
 })();
 
 function chunkKey(cx: number, cz: number): string {
@@ -349,17 +368,25 @@ export function Vegetation({
   });
   const maskChunk = useRef<{ cx: number; cz: number } | null>(null);
   const cameraPos = useRef(new THREE.Vector3(NaN, NaN, NaN));
-  const frustum = useMemo(() => new THREE.Frustum(), []);
-  const frustumMatrix = useMemo(() => new THREE.Matrix4(), []);
-  const sphere = useMemo(() => new THREE.Sphere(), []);
   const lastScan = useRef<{ cx: number; cz: number; loaded: number; pending: number } | null>(null);
   const counters = useRef({
     builds: 0, gatingMs: 0, gatingMaxMs: 0, maskMs: 0, frame: 0,
     lastBuild: { total: 0, frames: 0, elapsedMs: 0 },
     flipTiles: 0, flipTilesMax: 0,
     flipInstances: 0, flipInstancesMax: 0,
+    flipMs: 0, flipMaxMs: 0,
+    queueMs: 0, queueMaxMs: 0,
     batchesTouched: 0, batchesTouchedMax: 0,
     buildStepMs: 0, buildStepMaxMs: 0,
+  });
+  /** Frame-work labels seen over the rolling 120-frame window, and how often:
+   * the queue reports labels, not per-label time, so `queueTop` is the label
+   * that ran most often. */
+  const queueLabels = useRef(new Map<string, number>());
+  /** Scratch stats for the fill-time gate pass, so the frame's own gate
+   * counters are never clobbered by a cell arriving. */
+  const fillStats = useRef<GateStats>({
+    visibleCopies: 0, visibleTriangles: 0, checksCell: 0, checksTile: 0,
   });
   /** Batches a visibility flip touched this frame — cleared at frame end, so
    * `batchesTouched` counts distinct batches, not flips. */
@@ -369,7 +396,7 @@ export function Vegetation({
   const pendingFlips = useRef(new Map<Batch, Map<CellTile, boolean>>());
   /** Camera state at the last gate pass, and whether a build or drop has
    * invalidated it. */
-  const lastGate = useRef({ x: NaN, z: NaN, yaw: NaN, frame: -1e9 });
+  const lastGate = useRef({ x: NaN, z: NaN, frame: -1e9 });
   const gateDirty = useRef(true);
   const fps = useRef({ sum: 0, count: 0, value: 0, last: 0 });
   const [revision, setRevision] = useState(0);
@@ -617,7 +644,7 @@ export function Vegetation({
       capacity, budget.vertices, budget.indices, clone);
     mesh.perObjectFrustumCulled = false;   // measured 2.6 ms at 80 k (0082)
     mesh.sortObjects = false;              // 108 ms at 300 k
-    mesh.frustumCulled = false;            // cells are culled in the gating loop
+    mesh.frustumCulled = false;            // gated by distance, never culled
     mesh.castShadow = near;
     mesh.receiveShadow = !isCard;
     if (depthClone) mesh.customDepthMaterial = depthClone;
@@ -736,40 +763,42 @@ export function Vegetation({
     counters.current.maskMs = performance.now() - maskStart;
 
     // --- gating ---
-    // The pass is not per frame: the 24 m band margin means the answer cannot
-    // change until the eye has moved 4 m, turned 15deg (the frustum test) or a
-    // cell has arrived. Standing still costs nothing at all.
+    // The pass is not per frame: visibility is distance only, and the 24 m
+    // band margin means the answer cannot change until the eye has moved 4 m
+    // or a cell has arrived. Standing still, and turning on the spot, cost
+    // nothing at all (owner walk 2026-09-21).
     const gateStart = performance.now();
-    const m = state.camera.matrixWorld.elements;
-    const yaw = Math.atan2(-m[8], -m[10]);
     const g = lastGate.current;
     const moved = Math.hypot(eye.x - g.x, eye.z - g.z);
-    const turned = Math.abs(Math.atan2(
-      Math.sin(yaw - g.yaw), Math.cos(yaw - g.yaw)));
     const runGate = gateDirty.current
-      || !(moved < GATE_STEP_M) || !(turned < GATE_YAW_RAD)
+      || !(moved < GATE_STEP_M)
       || counters.current.frame - g.frame >= GATE_MAX_FRAMES;
     if (runGate) {
       gateDirty.current = false;
-      g.x = eye.x; g.z = eye.z; g.yaw = yaw; g.frame = counters.current.frame;
-      frustumMatrix.multiplyMatrices(
-        state.camera.projectionMatrix, state.camera.matrixWorldInverse);
-      frustum.setFromProjectionMatrix(frustumMatrix);
-      gateSpecies(allSpecies.current, eye, {
-        intersectsSphere: (s) => {
-          sphere.center.set(s.x, s.y, s.z);
-          sphere.radius = s.r;
-          return frustum.intersectsSphere(sphere);
-        },
-      }, enqueueTile as (tile: GateTile, visible: boolean) => void,
-      gateStats.current);
+      g.x = eye.x; g.z = eye.z; g.frame = counters.current.frame;
+      gateSpecies(allSpecies.current, eye,
+        enqueueTile as (tile: GateTile, visible: boolean) => void,
+        gateStats.current);
     }
     const gatingMs = performance.now() - gateStart;
     counters.current.gatingMs = gatingMs;
     if (gatingMs > counters.current.gatingMaxMs) counters.current.gatingMaxMs = gatingMs;
 
     // --- drain the flip queue, ON before OFF, nearest first ---
+    const flipStart = performance.now();
     drainFlips(eye);
+    counters.current.flipMs = performance.now() - flipStart;
+
+    // --- the shared frame-work queue's own report, for the same HUD line ---
+    if (import.meta.env.DEV) {
+      const report = (window as unknown as {
+        __STUDIO_FRAME_WORK__?: { lastPumpMs?: number; labels?: string[] };
+      }).__STUDIO_FRAME_WORK__;
+      counters.current.queueMs = report?.lastPumpMs ?? 0;
+      for (const label of report?.labels ?? []) {
+        queueLabels.current.set(label, (queueLabels.current.get(label) ?? 0) + 1);
+      }
+    }
 
     // Rolling frame rate: a 60-frame average, latched.
     const nowMs = performance.now();
@@ -788,6 +817,8 @@ export function Vegetation({
     c.batchesTouched = flippedBatches.current.size;
     if (c.flipTiles > c.flipTilesMax) c.flipTilesMax = c.flipTiles;
     if (c.flipInstances > c.flipInstancesMax) c.flipInstancesMax = c.flipInstances;
+    if (c.flipMs > c.flipMaxMs) c.flipMaxMs = c.flipMs;
+    if (c.queueMs > c.queueMaxMs) c.queueMaxMs = c.queueMs;
     if (c.batchesTouched > c.batchesTouchedMax) c.batchesTouchedMax = c.batchesTouched;
     if (c.buildStepMs > c.buildStepMaxMs) c.buildStepMaxMs = c.buildStepMs;
     if (c.frame % 60 === 0) publishStats();
@@ -796,7 +827,9 @@ export function Vegetation({
     // a stutter is rarer than a slow frame, so it needs the longer memory).
     if (c.frame % 120 === 0) {
       c.flipTilesMax = 0; c.flipInstancesMax = 0;
+      c.flipMaxMs = 0; c.queueMaxMs = 0;
       c.batchesTouchedMax = 0; c.buildStepMaxMs = 0;
+      queueLabels.current.clear();
     }
     c.flipTiles = 0; c.flipInstances = 0; c.buildStepMs = 0;
     flippedBatches.current.clear();
@@ -1291,20 +1324,17 @@ export function Vegetation({
   }
 
   /**
-   * Apply at most `FLIP_BATCH_BUDGET` batches' queued flips. A `setVisibleAt`
-   * is cheap on its own, but the batch it touches is re-walked and its
-   * indirect texture re-uploaded before the next draw, so the cost is per
-   * BATCH: bounding the batches bounds the frame. Batches that turn something
-   * ON go first, then the nearest, so the resident set is always a superset of
-   * what the shader is about to read.
+   * Apply queued flips until `FLIP_BUDGET_MS` of this frame is spent, or the
+   * queue is empty — at least one batch always. A `setVisibleAt` is cheap on
+   * its own, but the batch it touches is re-walked and its indirect texture
+   * re-uploaded before the next draw, so what has to be bounded is TIME, not
+   * a batch count. Batches that turn something ON go first, then the nearest,
+   * so the resident set is always a superset of what the shader is about to
+   * read.
    */
   function drainFlips(eye: THREE.Vector3): void {
     const queue = pendingFlips.current;
     if (queue.size === 0) return;
-    if (queue.size <= FLIP_BATCH_BUDGET) {
-      for (const batch of [...queue.keys()]) applyBatchFlips(batch);
-      return;
-    }
     const order: { batch: Batch; on: number; d: number }[] = [];
     for (const [batch, tiles] of queue) {
       let on = 0;
@@ -1317,7 +1347,11 @@ export function Vegetation({
       order.push({ batch, on, d: nearest });
     }
     order.sort((a, b) => (b.on - a.on) || (a.d - b.d));
-    for (let i = 0; i < FLIP_BATCH_BUDGET; i++) applyBatchFlips(order[i].batch);
+    const deadline = performance.now() + FLIP_BUDGET_MS;
+    for (let i = 0; i < order.length; i++) {
+      if (i > 0 && performance.now() > deadline) break;
+      applyBatchFlips(order[i].batch);
+    }
   }
 
   function applyBatchFlips(batch: Batch): void {
@@ -1354,8 +1388,6 @@ export function Vegetation({
       const params = speciesParams.get(sb.species);
       if (!entry || !params) return null;
       const margin = params.reachM * sb.maxScale;
-      const radius = Math.hypot(
-        sb.maxX - sb.minX, sb.maxY - sb.minY, sb.maxZ - sb.minZ) / 2 + margin;
       const speciesEntry: CellSpeciesEntry = {
         key: `${cell.key}|${sb.species}`,
         cell: cell.key,
@@ -1364,12 +1396,6 @@ export function Vegetation({
         cellBox: {
           minX: sb.minX - margin, minZ: sb.minZ - margin,
           maxX: sb.maxX + margin, maxZ: sb.maxZ + margin,
-        },
-        cellSphere: {
-          x: (sb.minX + sb.maxX) / 2,
-          y: (sb.minY + sb.maxY) / 2,
-          z: (sb.minZ + sb.maxZ) / 2,
-          r: radius,
         },
         rungs: [],
         near: sb.rungs.length > 0,
@@ -1452,8 +1478,30 @@ export function Vegetation({
         for (const batch of partBatches) batch.rungs.add(rungEntry);
         speciesEntry.rungs.push(rungEntry);
       }
+      // Initial visibility is applied HERE, not queued: a fresh cell's copies
+      // are all invisible, so every tile the camera can already see would sit
+      // in the drain queue behind whatever else is flipping — the tens of
+      // seconds of `pending` the owner saw at first load. The queue is for
+      // LATER changes only.
+      if (Number.isFinite(cameraPos.current.x)) {
+        gateSpecies([speciesEntry], cameraPos.current,
+          applyTile as (tile: GateTile, visible: boolean) => void,
+          fillStats.current);
+      }
       return speciesEntry;
     }
+  }
+
+  /** The frame-work label seen most often over the rolling window. The queue
+   * reports which jobs are pending, not how long each took, so frequency is
+   * the signal available. */
+  function topQueueLabel(): string {
+    let top = "-";
+    let best = 0;
+    for (const [label, count] of queueLabels.current) {
+      if (count > best) { best = count; top = label; }
+    }
+    return top;
   }
 
   function publishStats(): void {
@@ -1530,6 +1578,11 @@ export function Vegetation({
       batchesTouched: counters.current.batchesTouched,
       batchesTouchedMax: counters.current.batchesTouchedMax,
       pendingBatches: pendingFlips.current.size,
+      flipMs: Math.round(counters.current.flipMs * 1000) / 1000,
+      flipMaxMs: Math.round(counters.current.flipMaxMs * 1000) / 1000,
+      queueMs: Math.round(counters.current.queueMs * 1000) / 1000,
+      queueMaxMs: Math.round(counters.current.queueMaxMs * 1000) / 1000,
+      queueTop: topQueueLabel(),
       fps: fps.current.value,
       buildStepMs: Math.round(counters.current.buildStepMs * 1000) / 1000,
       buildStepMaxMs: Math.round(counters.current.buildStepMaxMs * 1000) / 1000,

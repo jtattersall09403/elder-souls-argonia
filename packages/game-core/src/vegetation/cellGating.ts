@@ -4,11 +4,15 @@
  * The only per-frame CPU cost of the cell renderer: a loop over
  * cells × species × rungs (hundreds), never instances. A range whose band
  * cannot intersect the cell's distance range from the eye is switched off
- * through `BatchedMesh.setVisibleAt`; a range whose cell is outside the
- * frustum is switched off too, EXCEPT the nearest rung, which casts shadows
- * into view from off-screen.
+ * through `BatchedMesh.setVisibleAt`.
  *
- * Pure: no three.js beyond the frustum's `intersectsSphere` shape.
+ * Visibility is DISTANCE ONLY: the frustum test left this loop after the
+ * owner's walk of 2026-09-21, because toggling a copy is the expensive
+ * operation and panning the camera in place flipped 11 800 of them a frame
+ * for no change in what the distance bands hold (decision 0082, round 2
+ * addendum).
+ *
+ * Pure: no three.js at all.
  */
 
 import { LOD_OPEN_M } from "../fx/lodFade";
@@ -18,13 +22,6 @@ export interface GateBox {
   minZ: number;
   maxX: number;
   maxZ: number;
-}
-
-export interface GateSphere {
-  x: number;
-  y: number;
-  z: number;
-  r: number;
 }
 
 /** One 58 m gate tile of one rung: the unit that is switched on or off. */
@@ -61,9 +58,8 @@ export interface GateSpecies {
   species: string;
   maxDraw: number;
   cellBox: GateBox;
-  cellSphere: GateSphere;
   rungs: GateRung[];
-  /** True when any rung casts shadows and so escapes the frustum test. */
+  /** True when any rung casts shadows (rung 0 exists). */
   near: boolean;
 }
 
@@ -96,10 +92,6 @@ export function rungVisible(
   return dMin < dOut + wOut;
 }
 
-export interface GateFrustum {
-  intersectsSphere(sphere: GateSphere): boolean;
-}
-
 export interface GateStats {
   visibleCopies: number;
   visibleTriangles: number;
@@ -127,7 +119,6 @@ export const GATE_MARGIN_M = 24;
 export function gateSpecies(
   list: readonly GateSpecies[],
   eye: { x: number; y: number; z: number },
-  frustum: GateFrustum | null,
   apply: (tile: GateTile, visible: boolean) => void,
   stats: GateStats,
   marginM: number = GATE_MARGIN_M,
@@ -141,17 +132,13 @@ export function gateSpecies(
     const raw = rangeDistances(entry.cellBox, eye.x, eye.z);
     const dMin = Math.max(0, raw.dMin - marginM);
     const dMax = raw.dMax + marginM;
-    // The near rung is never frustum-culled: it casts into the cascades from
-    // behind the camera, and dropping it drops the shadow with it.
-    const offScreen = frustum !== null && !frustum.intersectsSphere(entry.cellSphere);
     for (const rung of entry.rungs) {
       const dIn = rung.band[0];
       const dOut = rung.band[1];
       const wOut = rung.band[3];
       const open = dOut <= 0 || dOut >= LOD_OPEN_M;
       let mode: 0 | 1 | -1;
-      if (offScreen && !rung.near) mode = 0;
-      else if (dMax < dIn || (!open && dMin > dOut + wOut)) mode = 0;
+      if (dMax < dIn || (!open && dMin > dOut + wOut)) mode = 0;
       else if (dMin >= dIn && (open || dMax < dOut)) mode = 1;
       else mode = -1;
       if (mode === 0) {

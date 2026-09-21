@@ -303,3 +303,9 @@ fill, inside a window the probe itself reports as `steady: false`.
   about to read (a runner at 7 m/s takes 3.4 s to cross the margin; a
   300-batch backlog drains in 50 frames). Standing still now costs nothing at
   all. `pendingBatches` and a rolling `fps` joined the HUD line.
+
+- **Addendum (owner walk 2026-09-21), amending §4 and §8.** Cells are no
+  longer frustum-culled in the gate loop: toggling visibility is the expensive
+  operation, and panning the camera in place flipped 11 800 copies. Visibility
+  is distance-only, initial visibility is set at fill, and the drain is
+  time-boxed at 1.5 ms.
