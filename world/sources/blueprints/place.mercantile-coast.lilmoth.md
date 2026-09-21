@@ -31,7 +31,7 @@ Seven districts, one kit set each.
 | `north-gate` (the Blackrose gate) | imperial | 13–16 m saddle | 6 | the arch across the road, its tower, two curtain stubs, the rubble of the south tower; named for the road it faces (owner 2026-09-07), the id keeps the survey name |
 | `hist-court` | argonian-stilt | 19–23 m crest | 6 | the third Hist inside a ring of poles open to the east, two tenders' lodges, the vigil awning |
 | `council-crown` | argonian-stilt (declares `routing: straight`) | 11–13 m bench | 9 | hall, record room, strongroom, market deck, elders' house, council floor, factor's house, tariff bell |
-| `pusbottom` | argonian-stilt | −1 to 3 m flat | 16 | the tall block and fifteen huts hung off a loop walkway that bends with the bluff foot, and a skewed cross lane; spacing and offsets vary hut by hut |
+| `pusbottom` | argonian-stilt | −1 to 3 m flat | 16 | the tall block and fifteen huts hung off a loop walkway that bends with the bluff foot and off a skewed cross lane; spacing and offsets vary hut by hut |
 | `lighter-quay` | argonian-stilt | 0–2 m shore | 9 | the deck, the lamp, the licence house, the lighter shed, the divers' shed, the salvage bench, the smith, the boatwright and the roofed dues board (`bmv:advertising_board`, works-v1) on the east side of the quay lane, facing the licence house door |
 | `shore-quarter` | argonian-stilt | 1.5–3 m south flat | 8 | seven fishers' huts staggered either side of a bending lane, the boat awning at its end, behind the pole wall; the fishers' path climbs from here to the gate yard |
 | `drowned-quarter` | neutral-underwater | 1–15 m of water | 7 | the ridge, two villa blocks, two floors, the hall, the shrine |
@@ -73,14 +73,14 @@ Every parcel is centre + exact asset + yaw + reason; footprints are derived by `
 | `factor-house` | council-crown | `bamboohut01` | 8.2 × 8.2 × 5.8 | 3745, 6300 | 229.7° | 11.7–12.4 (Δ 0.6) | stilt |
 | `tariff-bell` | council-crown | `kiosk01` | 8.6 × 8.6 × 20.7 | 3766, 6302 | 15.9° | 9.1–10.0 (Δ 0.9) | stilt |
 | `pus-tower` | pusbottom | `stilthouseext` | 11.3 × 17.8 × 10.8 | 3787, 6340 | 8° | 0.7–4.2 (Δ 3.4) | stilt |
-| `pus-vault-house` … `pus-south-b` (15 huts) | pusbottom | `bamboohut01`/`02` alternating | 8.2 × 8.2 × 5.8 | on the loop and cross lane at 6.8 m from the centreline | 250°–299° (west side), 71°–108° (east side), 104°–143° (cross lane), 14°/350° (south lane) | −0.8–2.1 (Δ 0.0–1.4) | stilt |
+| `pus-vault-house` to `pus-south-b` (15 huts) | pusbottom | `bamboohut01`/`02` alternating | 8.2 × 8.2 × 5.8 | on the loop and cross lane at 6.8 m from the centreline | 250°–299° (west side), 71°–108° (east side), 104°–143° (cross lane), 14°/350° (south lane) | −0.8–2.1 (Δ 0.0–1.4) | stilt |
 | `quay-deck` | lighter-quay | `stilthouseplatform` | 11.3 × 17.8 × 11.2 | 3852, 6368 | 0° | −1.4–−0.3 (Δ 1.0) | stilt |
 | `quay-lamp` | lighter-quay | `kiosk01` | 8.6 × 8.6 × 20.7 | 3852, 6338 | 24° | 0.1–1.4 (Δ 1.2) | stilt |
 | `licence-house` | lighter-quay | `bamboohut02` | 8.2 × 8.2 × 5.8 | 3840, 6330 | 148.4° | 1.7–2.3 (Δ 0.6) | stilt |
 | `lighter-shed` | lighter-quay | `bamboohut01` | 8.2 × 8.2 × 5.8 | 3840, 6346 | 148.3° | 1.3–1.7 (Δ 0.3) | stilt |
 | `divers-shed` | lighter-quay | `bamboohut01` | 8.2 × 8.2 × 5.8 | 3836, 6400 | 354.4° | −0.9–−0.4 (Δ 0.5) | stilt |
 | `salvage-bench` | lighter-quay | `bamboohut02` | 8.2 × 8.2 × 5.8 | 3825, 6422 | 132.5° | −1.1–−0.6 (Δ 0.5) | stilt |
-| `fisher-a` … `fisher-g` (7 huts) | shore-quarter | `bamboohut01`/`02` | 8.2 × 8.2 × 5.8 | two rows at 6463 and 6449, x 3716–3761 | 341°–17° (south row), 172°–199° (north row) | 1.2–2.5 (Δ 0.2–0.5) | stilt |
+| `fisher-a` to `fisher-g` (7 huts) | shore-quarter | `bamboohut01`/`02` | 8.2 × 8.2 × 5.8 | two rows at 6463 and 6449, x 3716–3761 | 341°–17° (south row), 172°–199° (north row) | 1.2–2.5 (Δ 0.2–0.5) | stilt |
 | `boat-awning` | shore-quarter | `orcawninghalf01` | 8.2 × 5.0 × 5.8 | 3700, 6456 | 233° | 2.3–2.5 (Δ 0.1) | stilt |
 | `drowned-ridge` | drowned-quarter | `arblockfreehollow` | 7.3 × 7.3 × 4.5 | 3888, 6350 | 24° | −1.9–−0.8 (Δ 1.2) | dug-in |
 | `villa-north-block` | drowned-quarter | `arblockfreehollow` | 7.3 × 7.3 × 4.5 | 3925, 6347 | 24° | −3.8–−1.2 (Δ 2.6) | dug-in |
@@ -94,7 +94,7 @@ Orientation logic per district:
 
 - **North gate.** The Imperial work is set to the road rather than to the compass. The four standing pieces form one chain. All of them carry 58.7°, square to the road's 59° bearing; each is then laid so that its own joining face sits on the next piece's face, measured from the kit's geometry by `pipeline.measure_connectors` and checked by the `abuts-snap` rule (97 C14/E3). Running from the country inward: the north curtain stub's east face on the tower's west face, the tower's east face on the arch's western pier and the south curtain stub's west face on the arch's eastern pier. The moves that closed those three joints were 0.18 m, 0.29 m and 0.13 m. The gap reported on 2026-09-08 was a hand's width of daylight at each joint. The south stub also gave up its old 71.9°, because the Imperial set joins a flanking curtain to its gate; the piece was exchanged for the mirror segment (`mwimparchwall01destroyed01`, as on the north side) whose show face falls outward at the gate's own bearing. The rubble of the south tower is not part of the chain. The kit has no authored joint from a rubble heap to a wall, so the rubble lies further down its own fall line.
 - **Hist court.** Both lodges are turned to face the trunk (108° from the west, 186° from the north); the awning's open side faces the tree; the ring is open toward the spine.
-- **Council crown.** Declared a surveyed line: the bench walkway is the one straight walkway in the city, and the block is laid out on it. Each doored piece was then turned by `blueprint_footprints --orient` so that its own shipped doorway looks at the walk it is entered from (the hall to its plank landing at 342.3°, the bell kiosk to the bench walk at 15.9°), which is why the yaws are no longer one shared pair.
+- **Council crown.** Declared a surveyed line: the bench walkway is the one straight walkway in the city; the block is laid out on it. Each doored piece was then turned by `blueprint_footprints --orient` so that its own shipped doorway looks at the walk it is entered from (the hall to its plank landing at 342.3°, the bell kiosk to the bench walk at 15.9°), which is why the yaws are no longer one shared pair.
 - **Pusbottom.** Each hut stands 4.9–6.1 m off its lane at its own spacing (12–19 m to its nearest neighbour) and is canted between 38° one way and 60° the other off the door line, as each household set its own piles; no bearing is shared by more than two huts (97 C8). The hut composites' doorway is radial (any side is a way in), so the door is placed on the lane side and the body is turned freely.
 - **Shore quarter.** Three huts north of the lane and four south of it, staggered so no two face each other, each canted its own way; the doors look at the lane.
 - **Drowned quarter.** The old street grid at 24°, a slumped block at 45°, the shrine opening west (264°) toward the stair.
@@ -152,7 +152,7 @@ The three boat lanes that name Lilmoth (`route.boat.soulrest-lilmoth`,
 `route.boat.lilmoth-archon`, `route.boat.blackrose-lilmoth`) once ended at the
 plotted dot inland of the gate yard, 295 m from the head of the compiled
 lighter channel. `world/sources/routes/lane-terminals.json` now names the
-berth those lanes serve, so `compile_society` runs all three to the lighter
+berth that those lanes serve, so `compile_society` runs all three to the lighter
 quay at 0.529192, 0.863633 and the blueprint declares a terminal on each:
 `terminal.lilmoth.lighter-quay-soulrest`, `-archon` and `-blackrose`, all three
 continued inside the city by `boardwalk.lilmoth.lighter-pier`. The pier carries
@@ -166,7 +166,7 @@ the cargo up to the quay deck and the quay lane takes it into the city.
 - Three Imperial pieces were `pad` over Δ ≥ 2 m; they are `dug-in`, which is also what happened to Imperial masonry here.
 - **Repair round, 2026-09-07.** The door-orientation pass had turned buildings without re-running the way clearance behind them; twenty-two compile errors followed. The bench walk stays the surveyed straight line and the four pieces it clipped stepped off it instead: the council hall 4.2 m north (the strongroom moved 4.0 m north behind it to keep clear), the guild hall 4.3 m south, the market deck and the council floor 0.8 m each; the factor's house came 1.5 m in so its door reaches the walk. Everywhere else the way moved and the buildings stood still: the spine track now bends in past the trader's door and out again round the tavern, the fishers' path swings west of the gate lodging, the shore lane starts clear of the south corner hut, the Pusbottom loop runs north of the divers' shed. The council landing `endsAt` the hall on which it lands; the fishers' path `endsAt` the boat awning. In the salvage corner the diver's hut moved 4.8 m off the shed in which it was standing. Two huts, `pus-cross-d` and `pus-south-b`, had their thresholds over open water: each moved about 4 m onto the water's edge so the doorstep is on dry ground with the hut still on its piles.
 - **Two defects the repair found and fixed.** `compile_settlement`'s asset resolver read the district's kit set directly instead of `blueprint.kits_for_district`, so it refused the works notice board that the 97 C1a dressing rule had already admitted (the dues board). And `blueprint_footprints --orient` derives a threshold by casting from the pivot to the *stored* footprint, so running it before `--apply` has rewritten that footprint leaves the door a few tens of centimetres out: the order is `--apply`, then `--orient`, then the compile.
-- **Still out, queued in the gap plan.** Four parcels sit outside their own district rectangle: `pus-cross-c`, `pus-cross-d` and `salvage-bench` across the Pusbottom/lighter-quay seam at x = 3832, and nothing separates the two there because the quay's working pieces and the district's huts genuinely interleave. `hist-court`'s east edge was 4 m short of its own tavern and has been extended to 3676. The seam is a district-boundary question, not a placement one; it is queued in the Phase 11 gap plan.
+- **Still out, queued in the gap plan.** Four parcels sit outside their own district rectangle: `pus-cross-c`, `pus-cross-d` and `salvage-bench` across the Pusbottom/lighter-quay seam at x = 3832; nothing separates the two there because the quay's working pieces and the district's huts genuinely interleave. `hist-court`'s east edge was 4 m short of its own tavern and has been extended to 3676. The seam is a district-boundary question, not a placement one; it is queued in the Phase 11 gap plan.
 - The module 97 checks landed during this round: the council crown declares its surveyed line (C8), Pusbottom and the shore quarter carry per-hut yaws with no bearing shared by more than two (C8), the gate pieces declare `abuts` (C5), roads are 4.3 m (C3). Remaining WARN: civic is 16 % of classified parcels against a 5–10 % band — a capital with a council floor, a hall, a bell, a gate and a Hist court is meant to be over that band.
 
 ## 7. Lore grounding
@@ -198,7 +198,7 @@ the cargo up to the quay deck and the quay lane takes it into the city.
 
 - **97 C7, closed 2026-09-07.** The earlier draft ran civic at 20 % against the 5–10 % band. The trade and service buildings added since (smith, boatwright, tavern, apothecary, trader, guild hall, gate lodging) and the re-classing of the gate pieces as `gate` rather than `civic` moved the mix to 65 % dwelling, 21 % work, 7 % civic and 7 % storage over 43 classified buildings — inside every band, so the check no longer fires.
 - **97 C4, the market between gate and Hist.** The walk runs gate → Hist court (passed on the left hand) → market deck at the head of the bench, so commerce is the first node on the bench rather than a deck between the gate and the tree. The Hist stands on the crest because C2 puts it on the highest dry ground; the crest is the ground nearest the gate; the two rules cannot both hold on this site. Owner check.
-- **Part F, argonian-stilt enclosure (none).** The pole wall facing the estuary is the lore's own detail (Lore:Lilmoth: Argonian walls facing the estuary); it stands. **Where it stands was decided from the survey on 2026-09-08.** The first draft ran it along the bank, so it lay across the shoreline with the water on both sides of it in places. The lore calls the wall the city's estuary face, and the first draft drew it on the land behind that face. Read off the depth raster, the tidal flat off the fishers' quarter drops to about 1.3 m within 11 m of the waterline and to 3.5 m within 22 m, so there is a narrow shelf into which a pole can be driven, and no more: `fence.lilmoth.estuary-pole-wall` is now a `pole-wall` with `waterOk.maxDepthM` 1.1, routed 50.2 m from (3818, 6443) to (3802, 6481) with 100 of its 102 sampled metres in water at 0.60–1.08 m, on ground 0.5–0.9 m below the water surface. It weaves seaward of the Pusbottom stilt huts rather than through them (the router's parcel cost, checked hard by the validator), and the fishers' quarter now reads from the water as the lore describes it: a line of poles standing out of the flat with the huts behind it.
+- **Part F, argonian-stilt enclosure (none).** The pole wall facing the estuary is the lore's own detail (Lore:Lilmoth: Argonian walls facing the estuary); it stands. **Where it stands was decided from the survey on 2026-09-08.** The first draft ran it along the bank, so it lay across the shoreline with the water on both sides of it in places. The lore calls the wall the city's estuary face; the first draft drew it on the land behind that face. Read off the depth raster, the tidal flat off the fishers' quarter drops to about 1.3 m within 11 m of the waterline and to 3.5 m within 22 m, so there is a narrow shelf into which a pole can be driven and no more: `fence.lilmoth.estuary-pole-wall` is now a `pole-wall` with `waterOk.maxDepthM` 1.1, routed 50.2 m from (3818, 6443) to (3802, 6481) with 100 of its 102 sampled metres in water at 0.60–1.08 m, on ground 0.5–0.9 m below the water surface. It weaves seaward of the Pusbottom stilt huts rather than through them (the router's parcel cost, checked hard by the validator). The fishers' quarter now reads from the water as the lore describes it: a line of poles standing out of the flat with the huts behind it.
 - **97 B4, dwellings in the flood band.** Pusbottom's fifteen huts stand on the −1 to 3 m flat, in flood band 1, on stilts. That is the quarter's name and its lore (the low criminal quarter, repopulated after the rebuild); the over-water share is not measured yet (97 G8).
 - **97 C12, outdoor dressing.** No dressing pass exists (97 G18); nothing here is authored beyond the board.
 
@@ -295,15 +295,15 @@ Oliis ferry stage is now served by `travel.lilmoth.ferry-oliis`.
 
 ## Player purposes (owner ruling 2026-09-07)
 
-Forty-three parcels here carry a door, and each of them now carries a typed
+Forty-three parcels here carry a door. Each of them now carries a typed
 `playerPurpose[]` (vocabulary and tiers: `worldgen/player_purpose.py`, evidence
 in [player-purpose-spectrum.md](../../../docs/research/placement-settlements/player-purpose-spectrum.md)).
 Seventeen are major-tier at their best entry, twenty-six medium, none
 flavour-only. That is 40 % major, which is the ceiling the validator sets for any settlement.
 
-Where the purposes come from:
+Why each purpose is where it is:
 
-- **Pusbottom** is canon's criminal quarter, so the sixteen doors under the
+- **Pusbottom** is the lore's criminal quarter, so the sixteen doors under the
   bluff are a criminal economy rather than sixteen households. The Owing
   brokerage prices deeds and debts; one hut is the district's fence; one is a
   safehouse with a locked back room; a porter keeps a stash of cargo that never
@@ -333,7 +333,7 @@ already reached them, so the compiler re-ended the channels on the berths
 (`fit: water-to-dock`) rather than moving the piles.
 
 **Sockets and purposes.** Every purpose that names a quest now carries the
-socket at which the player meets it, and every socket bound to a building is
+socket at which a traveller meets it. Every socket bound to a building is
 answered by a purpose on that building. Seven sockets were added for
 quest-giver doors that had none: the retired rota at the elders' house, the
 factor at home, the Rockpark broker, the An-Xileel agent, the licensed-lot

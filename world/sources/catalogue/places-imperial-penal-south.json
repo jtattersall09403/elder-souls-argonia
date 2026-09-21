@@ -2008,7 +2008,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'blackrose' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'blackrose' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road; the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "fringe marsh",
@@ -2588,7 +2588,7 @@
       "occupants": [],
       "notableNpcSlots": [
         "third-generation Rose family head",
-        "the one person who remembers what was bricked up",
+        "the last person who remembers what was bricked up",
         "Chainbreaker envoy camped on the causeway"
       ],
       "dangerTier": "D4",
@@ -2668,7 +2668,7 @@
       "complexityBudget": "complex",
       "importanceTier": 0,
       "workflow": "plotted",
-      "complexityJustification": "A canon fortress-prison with three occupancies stacked in it (prison-born families, outlaws, and Umbriel's dead below) and a defended approach — the zone's largest single authored site.",
+      "complexityJustification": "A fortress-prison attested in the sources, with three occupancies stacked in it (prison-born families, outlaws, Umbriel's dead below) and a defended approach — the zone's largest single authored site.",
       "season": "all-year",
       "eraLayers": [
         "second-empire",
@@ -3428,7 +3428,7 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "lagoon pilot who decides who is brought in",
+        "lagoon pilot who decides which boats enter",
         "Night-Reed fence working out of a tent"
       ],
       "dangerTier": "D3",
@@ -5454,11 +5454,11 @@
       "localStateVariants": [
         {
           "id": "state.bare-lake.drawn-down",
-          "description": "Six weeks a year the bed is dry, walked and traded on."
+          "description": "Six weeks a year the bed is dry; people walk and trade across it."
         },
         {
           "id": "state.bare-lake.refilled",
-          "description": "Open water, nothing above the surface, and the market is a dive site."
+          "description": "Open water, nothing above the surface; the market is a dive site."
         }
       ],
       "position": {
@@ -11531,7 +11531,7 @@
       "complexityBudget": "standard",
       "importanceTier": 1,
       "workflow": "plotted",
-      "reconciliationNote": "Contestable CONFIRMED here (2026-09-02 reconciliation). The flag suspected a mercantile-coast double-claim; there is none. Canon last locates Murkwood north-east of Blackrose, which is this region, so the record stays where the source puts it. Its 'moves' property is expressed as the verge plus an absent state, not as a second record elsewhere.",
+      "reconciliationNote": "Contestable CONFIRMED here (2026-09-02 reconciliation). The flag suspected a mercantile-coast double-claim; there is none. The sources last locate Murkwood north-east of Blackrose, which is this region, so the record stays where the source puts it. Its 'moves' property is expressed as the verge plus an absent state, not as a second record elsewhere.",
       "season": "varies",
       "eraLayers": [
         "merethic",
@@ -12907,7 +12907,7 @@
             "flood-high",
             "island"
           ],
-          "neighbourRelation": "on the edge of somewhere that would not take them in",
+          "neighbourRelation": "on the edge of somewhere that refused them",
           "densityGradient": "Rose approach, thin"
         },
         "boundTo": {

@@ -86,6 +86,14 @@ writing the same line twice). New UI and content code uses the catalogue;
 existing sandbox/studio debug UI is exempt (debug strings are not player-facing)
 and is not retrofitted.
 
+**Player-facing, defined** (owner 2026-09-21, final): any string that will
+appear in the game **or in any of our apps** — world-studio, combat-sandbox,
+anything built later — the studio's review panels included. So the world
+records are player-facing too: place `why`/`vibe`/`hook` fields and notes,
+quest rows, blueprints, routes and registries. The prose linter (standard 14)
+walks `packages/text-catalogue` and `world/sources` in full, with reasoned
+exemptions only; `docs/**` is excluded.
+
 **Owner.** Live now; every text-producing phase from 11 onwards.
 
 ## 5. The quest runtime is headlessly drivable from day one
@@ -217,8 +225,10 @@ whenever a typed record grows a prose neighbour, the prose drifts from the
 data unless writing it *starts* from the data and a check reads it back.
 
 **Enforcement.** rule for the writing agent (the brief for any prose pass
-names the fields it must be written against); mechanical where a lexicon
-exists — `worldgen.audit_place_semantics` (prose vs ground) and the
+names the fields it must be written against); the prose linter walks every
+world record under `world/sources` on `npm test`, because a world record is
+player-facing text under the owner's 2026-09-21 definition (standard 4);
+mechanical where a lexicon exists — `worldgen.audit_place_semantics` (prose vs ground) and the
 built-form/creature noun scan of
 [research/placement-settlements/place-asset-deliverability-audit.md](../research/placement-settlements/place-asset-deliverability-audit.md)
 (prose vs kits and registries), both run in the Phase 11 QA gate; the text
@@ -262,7 +272,8 @@ Checked mechanically where it can be: the hydrology graph (`worldgen
 .hydrology_graph check`, decision 0058) and the player-text prose
 linter (`lint_prose`, owner 2026-09-21) run in `npm test`; their failure
 demonstrations are `test_hydrology_graph.py` and `test_lint_prose.py`. The
-prose linter covers `packages/text-catalogue` (hand-written and generated) in full, which by standard 2 is every player-visible string; it lints by **exclusion** — every prose-looking string there (≥6 words, or sentence punctuation with ≥3) is in scope, so a new kind of text (dialogue, item descriptions, book text, signs) is linted the day it exists, with no list to maintain. The only way to skip a string is a key or a path listed in `lint_prose.py` **with its reason** (`EXEMPT_KEYS`, `EXEMPT_DIRS`, `EXEMPT_FILES`). A tripwire (`lint_prose --tripwire`, run by the standard-8 check in `check.mjs`) fails on prose data elsewhere under `packages/` or `apps/*/src/`. World records and docs are not linted (owner 2026-09-21): catalogue why/vibe/hook fields, quest premises, blueprints and route structures are designer notes that render only in world-studio's review panels, and `--catalogue` reports over them on request without failing.
+prose linter lints by **exclusion** over two roots walked in full,
+`packages/text-catalogue` and `world/sources`: every prose-looking string (≥6 words, or sentence punctuation with ≥3) is in scope, so a new kind of text (dialogue, item descriptions, book text, signs) is linted the day it exists, with no list to maintain. World records are player-facing under the owner's 2026-09-21 definition (any string shown in the game or in any of our apps, the studio's review panels included), so catalogue why/vibe/hook fields, quest rows, blueprints, routes and registries are all walked; `docs/**` is not. The only way to skip a string is a key or a path listed in `lint_prose.py` **with its reason** (`EXEMPT_KEYS`, `EXEMPT_DIRS`, `EXEMPT_FILES`, `EXEMPT_NAMES`). A tripwire (`lint_prose --tripwire`, run by the standard-8 check in `check.mjs`) fails on prose data elsewhere under `packages/` or `apps/*/src/`. `lint_prose --file <path>` checks one file as it is written; a post-edit hook runs it on every edit under the two roots.
 
 ## 15. Live documents are current: links resolve, retired words are gone, research is indexed
 

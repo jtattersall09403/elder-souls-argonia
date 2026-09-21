@@ -101,7 +101,7 @@ Distances are from the camp anchor. The recipe's satellite slot allows 200 to
 
 Before the dredge the two tidal pools and the main body were separated by
 sills of **0.053 m** against a surface of 0.05 m. Three millimetres of mudflat
-is not a bar, and the dredge has cut through both of them along the serving
+is not a bar; the dredge has cut through both of them along the serving
 line. What remains is 11.0 m of flat at the far end, which the tide covers and
 a poled hull is dragged over at low water. That is what a tidal creek is. The
 serving waterway re-solved from 849 m to **382 m** when the berth moved. It now
@@ -459,10 +459,10 @@ water already deep enough: the dredged reach is continuous with the pool below.
 mudflat between the pools, which is bank rather than bed; the rule leaves bank
 uncut.
 
-**One chain pass is not enough, and that is a finding.** `dock_dredge` runs
+**One chain pass is not enough. That is a finding.** `dock_dredge` runs
 inside `refine_province` and cuts a 12 m trench along the poling line **as it
 was published before the chain**. `compile_minor_waterways` then re-solves that
-line on the terrain the trench has just changed, and the new line is not the
+line on the terrain the trench has just changed; the new line is not the
 old one: over the first 30 m it now runs (3315, 4823), (3319, 4829),
 (3326, 4834) where it used to run (3309, 4823), (3312, 4831), (3316, 4838), a
 divergence of up to 9 m against a trench half-width of 6 m. Every vertex of the
@@ -470,7 +470,7 @@ new line reads 0.84 m, but one resampled point between two of them, at
 (3322, 4832), falls outside the trench and reads **0.36 m**, so
 `blueprint --check` fails the 97 B5/G9 depth promise on a single sample of 34.
 A second `refine_province` pass cuts along the line that is now published and
-closes it. This is a tool-order defect, not a placement one, and it is logged
+closes it. This is a tool-order defect, not a placement one; it is logged
 for the water workstream.
 
 The chain writes that cut, so the numbers above are the shipped ones:

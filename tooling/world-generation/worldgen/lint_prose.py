@@ -32,24 +32,27 @@ Two severities:
   and-closer heuristic over-reports, and that is the point — the reviewer
   decides, the tool makes sure the reviewer looks.
 
-SCOPE (owner, 2026-09-21): the gate is the TEXT-CATALOGUE FUNNEL. Standard 2
-puts every player-visible string in `packages/text-catalogue`, so linting that
-package in full — `src/entries.ts` by hand and `src/generated/*` from the
-generators — lints every string a player can read, with no field list to
-maintain: `lint_roots()` lints every prose-looking string there (>=6 words, or
-sentence punctuation with >=3), and the only way to skip one is a key or a path
-in EXEMPT_KEYS / EXEMPT_DIRS / EXEMPT_FILES, each with its reason. `--tripwire`
-fails on prose data that lives under packages/ or apps/ OUTSIDE that package,
-where no gate would see it. `--strict` (what the repo-standards gate runs) is
-those two together.
+SCOPE (owner, 2026-09-21, final). PLAYER-FACING means any string that will
+appear in the game OR in any of our apps (world-studio, combat-sandbox, any
+future app), the studio's review panels included. So world-record design prose
+— place why/vibe/hook/notes, quest rows, blueprints, routes, registries — is
+player-facing and IS linted, alongside the text catalogue.
 
-What is NOT linted: world records (the place catalogue's why/vibe/hook fields,
-quest premises, blueprints, route structures) and docs. They are designer and
-agent context — the catalogue prose renders only in world-studio's review
-panels — and the style guide was written for player text. `--catalogue` still
-runs the record-aware reporter over them on request (it never fails), because
-`iter_catalogue_prose` is also the prose surface `prose_links.py` and
-`npc_roster.py` read.
+The gate therefore walks two roots in full, `world/sources` and
+`packages/text-catalogue`, and lints by EXCLUSION: every prose-looking string
+(>=6 words, or sentence punctuation with >=3) is in scope, so a new kind of
+text — dialogue, item descriptions, book text, signs — is linted the day it
+exists, and the only way to skip one is a key or a path in EXEMPT_KEYS /
+EXEMPT_DIRS / EXEMPT_FILES / EXEMPT_NAMES, each carrying its reason. `docs/**`
+is NOT linted (the owner excluded it). `--tripwire` fails on prose data under
+packages/ or apps/ outside those roots, where no gate would see it. `--strict`
+(what the repo-standards gate runs) is the walk and the tripwire together.
+`--file <path>` lints named files with the same rules, for the post-edit hook.
+
+`--catalogue` still runs the record-aware reporter (per-record rules: field
+echo, generaliser caps, duplicate fields) on request; it never fails, because
+the root walk is the gate. `iter_catalogue_prose` is also the prose surface
+`prose_links.py` and `npc_roster.py` read.
 """
 
 from __future__ import annotations
@@ -224,7 +227,17 @@ DESIGN_EXEMPT_RULES = {"canon-marker"}
 
 
 def is_design_field(fld: str) -> bool:
-    return fld in DESIGN_FIELDS or fld.startswith(DESIGN_FIELD_PREFIXES)
+    if fld in DESIGN_FIELDS or fld.startswith(DESIGN_FIELD_PREFIXES):
+        return True
+    # The root walk addresses a value by JSON pointer, not by dotted field
+    # name, so the same design-voice fields have to be recognised there too:
+    # /districts/3/why/playerPurpose and /questHooks/0/opportunity are the same
+    # records as the dotted names above, and the canon-marker rule is off for
+    # them for the reason given at DESIGN_FIELDS.
+    if fld.startswith("/"):
+        parts = [p for p in fld.split("/") if p and not p.isdigit()]
+        return "playerPurpose" in parts or parts[-2:] == ["questHooks", "opportunity"]
+    return False
 
 
 @dataclass
@@ -671,6 +684,7 @@ def render_report(res: LintResult, title: str) -> str:
 
 LINT_ROOTS = (
     Path("packages") / "text-catalogue",
+    Path("world") / "sources",
 )
 DATA_SUFFIXES = {".json", ".jsonl", ".yaml", ".yml"}
 TEXT_SUFFIXES = {".md"}
@@ -690,16 +704,49 @@ EXEMPT_KEY_SUFFIXES = ("Id", "Ids", "Ref", "Refs", "Path", "Paths", "Hash", "Url
 # Directories under the roots that hold machine data, not text. Each row is a
 # directory relative to the repo root and the reason it is not prose.
 EXEMPT_DIRS: dict[str, str] = {
-    # Directories under the linted root that are not text. Each row is a path
+    # Directories under the linted roots that are not text. Each row is a path
     # relative to the repo root and the reason it is not a player-visible
     # string. There is no other way to skip one.
+    "world/sources/placement":
+        "mined plugin data: Bethesda/mod ESP records, micrositing tables and "
+        "kit assemblies, extracted verbatim from the plugins — not our words, "
+        "and re-extracted by the miner rather than authored",
+    "world/sources/assets":
+        "asset registries mined from the vault (one JSONL row per mesh, with "
+        "the mod author's own description) — sourced material, never rewritten",
+    "world/sources/flora":
+        "scatter tables and palettes: numeric vegetation data, no text surface",
+    "world/sources/terrain":
+        "height/patch arrays and freeze receipts: numbers and hashes only",
+    "world/sources/hydrology":
+        "the hydrology graph and body tables: derived geometry (decision 0065 "
+        "— the graph IS the classification), not authored text",
+    "world/sources/sky":
+        "star catalogue: astronomical coordinates",
+    "world/sources/sites":
+        "tool-generated reports and dossiers, written by the placement tooling "
+        "from the catalogue records that are themselves linted",
+    "world/sources/lore":
+        "sourced canon extracts and agent working notes; never rendered in any app",
 }
 EXEMPT_FILES: dict[str, str] = {
-    # Individual files under the linted root, same rule, same reason column.
+    # Individual files under the linted roots, same rule, same reason column.
+    "world/sources/catalogue/type-recipes.json":
+        "schema documentation for the authoring agents (field semantics, "
+        "ranking rules) — instructions, not a world record",
+    "world/sources/catalogue/README.md":
+        "agent-facing schema documentation, not a world record (docs are exempt)",
     "packages/text-catalogue/src/catalogue.test.ts":
         "the package's own tests: fixture lines written to BE rejected and "
         "assertion messages, neither of which ships to a player (the tripwire "
         "skips *.test.* files for the same reason)",
+}
+# Every folder README under world/sources is the same class as the row above:
+# documentation for the agents who author the records, never rendered anywhere.
+EXEMPT_NAMES: dict[str, str] = {
+    "README.md":
+        "agent-facing folder documentation under world/sources — the same "
+        "class as docs/**, which the owner excluded (2026-09-21)",
 }
 
 _SENTENCE_PUNCT = re.compile(r"[.!?;:]")
@@ -726,7 +773,11 @@ def _exempt_dir_reason(rel: str) -> str | None:
     for d, why in EXEMPT_DIRS.items():
         if rel == d or rel.startswith(d + "/"):
             return why
-    return EXEMPT_FILES.get(rel)
+    if rel in EXEMPT_FILES:
+        return EXEMPT_FILES[rel]
+    if rel.startswith("world/sources/"):
+        return EXEMPT_NAMES.get(rel.rsplit("/", 1)[-1])
+    return None
 
 
 # A record the world does not contain is not player-visible text: the same
@@ -871,8 +922,53 @@ def tripwire_hits() -> list[tuple[str, str, str]]:
     return out
 
 
+def lint_one_file(res: LintResult, path: Path) -> str | None:
+    """Lint a single file with the root walk's rules. Returns a skip reason.
+
+    This is the post-edit hook's entry point: it loads only the named file, so
+    a run costs milliseconds.
+    """
+    # A path may be absolute, relative to the repo root, or relative to the
+    # caller's cwd (the hook passes whatever the editor gave it).
+    for cand in (path, catalogue.REPO_ROOT / path, Path.cwd() / path):
+        if cand.is_file():
+            path = cand.resolve()
+            break
+    try:
+        rel = str(path.relative_to(catalogue.REPO_ROOT))
+    except ValueError:
+        return "outside the repository"
+    if not any(rel == str(r) or rel.startswith(str(r) + "/") for r in LINT_ROOTS):
+        return "outside the linted roots"
+    why = _exempt_dir_reason(rel)
+    if why:
+        return why
+    suffix = path.suffix.lower()
+    if suffix in TEXT_SUFFIXES:
+        lint_markdown(res, path)
+    elif suffix in CODE_SUFFIXES:
+        lint_source_file(res, path, rel)
+    elif suffix in DATA_SUFFIXES:
+        for pointer, text in iter_prose_strings(_load_data(path)):
+            res.add_text(rel, rel, pointer, text)
+    else:
+        return "not a data, markdown or source file"
+    return None
+
+
+def run_files(paths: list[Path]) -> int:
+    """`--file`: lint just these files, one hit per line, exit 1 on any hit."""
+    res = LintResult()
+    for p in paths:
+        lint_one_file(res, p)
+    hits = res.hard_hits()
+    for h in hits:
+        print(f"{h.where}:{h.fld}: {h.rule}: {h.excerpt}")
+    return 1 if hits else 0
+
+
 def run_gate(strict: bool) -> int:
-    """The gate: the text-catalogue walk plus the outside-prose tripwire.
+    """The gate: the world-record + text-catalogue walk plus the tripwire.
 
     `strict` makes it fail; without it the same run is a report.
     """
@@ -883,28 +979,32 @@ def run_gate(strict: bool) -> int:
         print(f"{h.where} {h.fld}: {h.rule} — …{h.excerpt}…")
     trip = tripwire_hits()
     for f, ptr, ex in trip:
-        print(f"{f} {ptr}: prose data outside packages/text-catalogue — {ex}")
+        print(f"{f} {ptr}: prose data outside the linted roots — {ex}")
     print(f"{res.texts} texts, {res.words:,} words, {len(hard)} hard hits, "
-          f"{len(skipped)} files exempt, {len(trip)} prose strings outside the catalogue")
+          f"{len(skipped)} files exempt, {len(trip)} prose strings outside the linted roots")
     return 1 if (strict and (hard or trip)) else 0
 
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--catalogue", action="store_true",
-                    help="the record-aware REPORTER over world records (place catalogue, quests, blueprints, route structures); never fails — they are not player-visible (owner 2026-09-21)")
+                    help="the record-aware REPORTER over world records (per-record rules: field echo, generaliser caps, duplicate fields); never fails — the root walk is the gate")
     ap.add_argument("--region", action="append", help="with --catalogue: limit to a region (repeatable)")
     ap.add_argument("--md", nargs="*", default=[], help="markdown files to lint as well (globs ok)")
     ap.add_argument("--quests", action="store_true", help="with --catalogue: lint the quest data rows (title/premise)")
-    ap.add_argument("--strict", action="store_true", help="exit 1 on any hit in packages/text-catalogue or any prose data outside it")
+    ap.add_argument("--strict", action="store_true", help="exit 1 on any hit under the linted roots or any prose data outside them")
     ap.add_argument("--json", type=Path, help="with --catalogue: write hits as JSON here")
     ap.add_argument("--report", type=Path, default=None, help="with --catalogue: markdown report path ('-' for none)")
     ap.add_argument("--roots", action="store_true",
                     help="the gate's walk as a standalone report (same as a bare run)")
     ap.add_argument("--tripwire", action="store_true",
-                    help="only the tripwire: prose data outside packages/text-catalogue")
+                    help="only the tripwire: prose data outside the linted roots")
+    ap.add_argument("--file", action="append", type=Path, default=[],
+                    help="lint just this file with the same rules and exemptions (repeatable); for the post-edit hook")
     ap.add_argument("--quiet", action="store_true")
     a = ap.parse_args(argv)
+    if a.file:
+        return run_files(a.file)
     if a.tripwire:
         hits = tripwire_hits()
         for f, ptr, ex in hits:

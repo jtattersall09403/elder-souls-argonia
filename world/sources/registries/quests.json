@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "domain": "quest",
-  "_": "Every quest and questline id. Codes (MQ01, LW03) are the authoring handles; ids are the stable save-safe form. Quest gates use docs/quests/85-condition-vocabulary.md, and reference these ids.",
+  "_": "Every quest and questline id. Codes (MQ01, LW03) are the authoring handles; ids are the stable save-safe form. Quest gates use docs/quests/85-condition-vocabulary.md and reference these ids.",
   "entries": [
     {
       "id": "quest.bc.bc01",
@@ -927,7 +927,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A cordon cellar people will not go near is the driest shelter on the rim, so somebody has moved in",
+      "notes": "A cordon cellar people will not go near is the driest shelter on the rim, so somebody has moved into it",
       "code": "LD18",
       "tier": "local",
       "milestone": 2,
@@ -961,7 +961,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A field-owner's roofed pit holds people the city has no record of",
+      "notes": "A field-owner's roofed pit holds people unrecorded by the city",
       "code": "LD20",
       "tier": "local",
       "milestone": 2,
@@ -995,7 +995,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A Dunmer holding's cellars joined into a single warren when the ground gave way, then something moved in",
+      "notes": "A Dunmer holding's cellars joined into a single warren when the ground gave way, then something moved into them",
       "code": "LD22",
       "tier": "local",
       "milestone": 2,
@@ -1029,7 +1029,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "Two charged-goods works bid for the same wamasu stock until the hunters stop coming in",
+      "notes": "Two charged-goods works bid for the same wamasu stock until the hunters stop arriving",
       "code": "LD24",
       "tier": "local",
       "milestone": 2,
@@ -1369,7 +1369,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A crossroads tradehouse moves goods under a floor the toll-holder has never asked about",
+      "notes": "A crossroads tradehouse moves goods under a floor that the toll-holder has never questioned",
       "code": "LD44",
       "tier": "local",
       "milestone": 1,
@@ -1403,7 +1403,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "An uncounted ledge past the border post carries salt out and people in, for a fee",
+      "notes": "An uncounted ledge past the border post carries salt outward and people inward, for a fee",
       "code": "LD46",
       "tier": "local",
       "milestone": 2,
@@ -1522,7 +1522,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A ruined chapel's carved number implies eight earlier missions nobody has looked for",
+      "notes": "A ruined chapel's carved number implies eight earlier missions that nobody has sought",
       "code": "LD53",
       "tier": "local",
       "milestone": 2,
@@ -1794,7 +1794,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "Claim-jumpers on the scree hold ground they cannot legally sell from",
+      "notes": "Claim-jumpers on the scree hold ground that they cannot legally sell",
       "code": "LD69",
       "tier": "local",
       "milestone": 2,
@@ -2032,7 +2032,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A Trial goes wrong in a way the Stewards have no procedure for",
+      "notes": "A Trial goes wrong in a way that the Stewards have no procedure to meet",
       "code": "LD83",
       "tier": "local",
       "milestone": 2,
@@ -2389,7 +2389,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "Cyrodilic Collections holds a licence to dig ground the nearest village holds a burial claim on",
+      "notes": "Cyrodilic Collections holds a licence to dig ground over which the nearest village holds a burial claim",
       "code": "LF05",
       "tier": "local",
       "milestone": 2,
@@ -2406,7 +2406,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "Specimen jars leaving the field station arrive at the city short by exactly one crate a month",
+      "notes": "Specimen jars leaving the field station arrive at the city short by one crate a month",
       "code": "LF06",
       "tier": "local",
       "milestone": 2,
@@ -2491,7 +2491,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A smithy whose fire gives no heat will work for a customer who can say what the metal is for",
+      "notes": "A smithy whose fire gives no heat will work for a customer who can name the metal's purpose",
       "code": "LF11",
       "tier": "local",
       "milestone": 2,
@@ -2899,7 +2899,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A camp working the fig country takes more than fruit, with the market buying whatever comes in",
+      "notes": "A camp working the fig country takes more than fruit, with the market buying whatever arrives",
       "code": "LF35",
       "tier": "local",
       "milestone": 2,
@@ -3035,7 +3035,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "The pilgrim camp a mile short of the shrine has become a village the shrine will not feed",
+      "notes": "The pilgrim camp a mile short of the shrine has become a village that the shrine will not feed",
       "code": "LF43",
       "tier": "local",
       "milestone": 2,
@@ -3324,7 +3324,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "The shelter's arrivals book records a party of four leaving, though three walked in",
+      "notes": "The shelter's arrivals book records a party of four leaving, though three arrived",
       "code": "LF60",
       "tier": "local",
       "milestone": 2,
@@ -3871,7 +3871,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-hist-heartland.json"
       ],
-      "notes": "One stage of the passenger register carries a paid fare against a name nobody boarded under",
+      "notes": "One stage of the passenger register carries a paid fare against a name that no passenger gave",
       "code": "LH03",
       "tier": "local",
       "milestone": 2,
@@ -3925,7 +3925,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-hist-heartland.json"
       ],
-      "notes": "Something on the gate approach has learnt the lantern rhythm the basin guides answer to",
+      "notes": "Something on the gate approach has learnt the lantern rhythm that summons an answer from the basin guides",
       "code": "LH06",
       "tier": "local",
       "milestone": 2,
@@ -4141,7 +4141,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-hist-heartland.json"
       ],
-      "notes": "A market row's roofing is killing a grove limb, so the traders and the tree-minders each hold a case the assembly must hear",
+      "notes": "A market row's roofing is killing a grove limb, so the traders and the tree-minders each hold a case that the assembly must hear",
       "code": "LH18",
       "tier": "local",
       "milestone": 2,
@@ -4447,7 +4447,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-hist-heartland.json"
       ],
-      "notes": "The carried cutting is old enough to name children by, with no agreement on who may stand for a tree that young",
+      "notes": "The carried cutting is old enough that children are named after it, with no agreement on who may stand for a tree that young",
       "code": "LH35",
       "tier": "local",
       "milestone": 2,
@@ -4591,7 +4591,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-hist-heartland.json"
       ],
-      "notes": "A Nisswo is asked to bless courses the masons themselves admit are worse than what they sit on",
+      "notes": "A Nisswo is asked to bless courses the masons themselves admit are worse than the courses beneath them",
       "code": "LH43",
       "tier": "local",
       "milestone": 2,
@@ -4717,7 +4717,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-hist-heartland.json"
       ],
-      "notes": "Somebody is fouling the chime-lines with a paste that dulls them, in a village that has nothing else to steer by",
+      "notes": "Somebody is fouling the chime-lines with a paste that dulls them, in a village with no other means of steering",
       "code": "LH50",
       "tier": "local",
       "milestone": 2,
@@ -4789,7 +4789,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-hist-heartland.json"
       ],
-      "notes": "The pile stumps of four earlier villages still hold what each left behind, with the water dropping far enough to reach them",
+      "notes": "The pile stumps of four earlier villages still hold what each village abandoned, with the water dropping far enough to reach them",
       "code": "LH54",
       "tier": "local",
       "milestone": 2,
@@ -4951,7 +4951,7 @@
         "docs/quests/25-quest-place-map.md",
         "world/sources/catalogue/places-mercantile-coast.json"
       ],
-      "notes": "A salvage lot on the bench is recognised by the family it was lifted from, though the diving licence behind it is genuine",
+      "notes": "A salvage lot on the bench is recognised by the family that lost it, though the diving licence behind it is genuine",
       "code": "LM01",
       "tier": "local",
       "milestone": 2,
@@ -5131,7 +5131,7 @@
         "docs/quests/25-quest-place-map.md",
         "world/sources/catalogue/places-mercantile-coast.json"
       ],
-      "notes": "Cheydinhal has sent a claimant to an intake the retired Shadowscales cannot agree how to hand on",
+      "notes": "Cheydinhal has sent a claimant to an intake that the retired Shadowscales cannot agree how to transfer",
       "code": "LM11",
       "tier": "local",
       "milestone": 2,
@@ -5275,7 +5275,7 @@
         "docs/quests/25-quest-place-map.md",
         "world/sources/catalogue/places-mercantile-coast.json"
       ],
-      "notes": "The junction deck carries more traffic than its timbers were cut for, with its households split over who pays to cut new ones",
+      "notes": "The junction deck carries more traffic than the timbers were cut to carry, with its households split over who pays to cut new ones",
       "code": "LM19",
       "tier": "local",
       "milestone": 2,
@@ -6121,7 +6121,7 @@
         "docs/quests/25-quest-place-map.md",
         "world/sources/catalogue/places-mercantile-coast.json"
       ],
-      "notes": "The warehouse row has begun charging the Argonian raft quarter for the water it floats on",
+      "notes": "The warehouse row has begun charging the Argonian raft quarter for the water beneath its hulls",
       "code": "LM66",
       "tier": "local",
       "milestone": 2,
@@ -6211,7 +6211,7 @@
         "docs/quests/25-quest-place-map.md",
         "world/sources/catalogue/places-mercantile-coast.json"
       ],
-      "notes": "Something has been working at the far terrace of the dry crown four villages bury on",
+      "notes": "Something has been working at the far terrace of the dry crown where four villages bury their dead",
       "code": "LM71",
       "tier": "local",
       "milestone": 2,
@@ -6625,7 +6625,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "The blue-flowering Hist has begun putting out red, which the tribe reads as poison in the water the stake fields drain into",
+      "notes": "The blue-flowering Hist has begun putting out red, which the tribe reads as poison in the water that drains off the stake fields",
       "code": "LN04",
       "tier": "local",
       "milestone": 2,
@@ -7169,7 +7169,7 @@
         "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ],
-      "notes": "The refuge has a clutch to name and no Hist to name it under, so an upriver village has offered to do it for them",
+      "notes": "The refuge has a clutch to name and no Hist to give it a name, so an upriver village has offered to do it for them",
       "code": "LP19",
       "tier": "local",
       "milestone": 2,
@@ -8506,7 +8506,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "Threewater's price board quotes three rivers the town stopped trading on",
+      "notes": "Threewater's price board quotes three rivers where the town stopped trading",
       "code": "LR44",
       "tier": "local",
       "milestone": 2,
@@ -8898,7 +8898,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A broken-open xanmeer keeps what could not be carried, which is what the diggers actually came for",
+      "notes": "A broken-open xanmeer keeps what could not be carried, which is what the diggers actually wanted",
       "code": "LV04",
       "tier": "local",
       "milestone": 2,
@@ -9119,7 +9119,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "One owner's rent book records tenants the other owner's book has never heard of",
+      "notes": "One owner's rent book records tenants that the other owner's book never names",
       "code": "LV17",
       "tier": "local",
       "milestone": 2,
@@ -9136,7 +9136,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "Somebody living in a Dunmer tomb can name the household it belongs to, which is why he is left alone",
+      "notes": "Somebody living in a Dunmer tomb can name the household that owns it, which is why nobody troubles him",
       "code": "LV18",
       "tier": "local",
       "milestone": 2,
@@ -9391,7 +9391,7 @@
         "docs/quests/index/coverage.md",
         "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ],
-      "notes": "A hummock village floods from a direction it has no defence against",
+      "notes": "A hummock village floods from a direction that its defences do not cover",
       "code": "LV33",
       "tier": "local",
       "milestone": 2,
@@ -9766,7 +9766,7 @@
         "world/sources/catalogue/places-saxhleel-coast.json",
         "world/sources/lore/archon.md"
       ],
-      "notes": "One cargo is declared as three different things in the three languages the customs desk works in.",
+      "notes": "One cargo is declared as three different things in the three languages of the customs desk.",
       "code": "SX02",
       "tier": "local",
       "milestone": 2,
@@ -10165,7 +10165,7 @@
         "world/sources/catalogue/places-saxhleel-coast.json",
         "world/sources/lore/archon.md"
       ],
-      "notes": "A customs enforcer was found drowned in water shallow enough to stand in.",
+      "notes": "A customs enforcer was found drowned where the water is shallow enough to stand.",
       "code": "SX23",
       "tier": "local",
       "milestone": 2,
@@ -10241,7 +10241,7 @@
         "world/sources/catalogue/places-saxhleel-coast.json",
         "world/sources/lore/archon.md"
       ],
-      "notes": "Indenture papers were signed by people who could not read the language they were written in.",
+      "notes": "Indenture papers were signed by people who could not read the language of the papers.",
       "code": "SX27",
       "tier": "local",
       "milestone": 2,
@@ -11385,7 +11385,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "A scheduled boat service quietly stopped calling at one landing, and the crews will not say who decided it",
+      "notes": "A scheduled boat service stopped calling at one landing without notice; the crews will not say who decided it",
       "code": "PP01",
       "tier": "proposed",
       "milestone": 2,
@@ -11402,7 +11402,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "A raiding camp will sell a season's safe passage, and the price is a person",
+      "notes": "A raiding camp will sell a season's safe passage; the price is a person",
       "code": "PP02",
       "tier": "proposed",
       "milestone": 2,
@@ -11419,7 +11419,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "A man fell out of the sky, his scrolls outlived him, and none of them says where he was going",
+      "notes": "A man fell out of the sky, his scrolls outlived him, but none of them says where he was going",
       "code": "PP03",
       "tier": "proposed",
       "milestone": 2,
@@ -11453,7 +11453,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "Everything the Owing seized in the south is racked, tagged and dated in one cellar, and most of the owners are dead",
+      "notes": "Everything the Owing seized in the south is racked, tagged and dated in one cellar; most of the owners are dead",
       "code": "PP05",
       "tier": "proposed",
       "milestone": 2,
@@ -11470,7 +11470,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "A camp has sat on a Dres boundary for forty years waiting for someone who came back wrong, and no grave-singer will go out to it",
+      "notes": "A camp has sat on a Dres boundary for forty years waiting for someone who came back wrong; no grave-singer will go out to it",
       "code": "PP06",
       "tier": "proposed",
       "milestone": 2,
@@ -11487,7 +11487,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "A village whose entire history is a guard roster has no one left to put on it, and will not say what it guards",
+      "notes": "A village whose entire history is a guard roster has no one left to put on it; the village will not say what it guards",
       "code": "PP07",
       "tier": "proposed",
       "milestone": 2,
@@ -11504,7 +11504,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "Umbriel emptied four villages in a night, one of them has begun refilling, and somebody is maintaining the containment ring",
+      "notes": "Umbriel emptied four villages in a night, one of them has begun refilling; somebody is maintaining the containment ring",
       "code": "PP08",
       "tier": "proposed",
       "milestone": 2,
@@ -11521,7 +11521,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "Five air-pocket stations on five dives were stocked by one person for thirty years, and this season they were not",
+      "notes": "Five air-pocket stations on five dives were stocked by one person for thirty years; this season they were not",
       "code": "PP09",
       "tier": "proposed",
       "milestone": 2,
@@ -11538,7 +11538,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "The lake pulls back for six weeks a year, and this year the bed has a body on it that everyone had agreed was a drowning",
+      "notes": "The lake pulls back for six weeks a year; this year the bed has a body on it that everyone had agreed was a drowning",
       "code": "PP10",
       "tier": "proposed",
       "milestone": 2,
@@ -11555,7 +11555,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "The bundle at the bottom of the rack has been rewrapped four times, and no carrier will take it the last stage home",
+      "notes": "The bundle at the bottom of the rack has been rewrapped four times; no carrier will take it the last stage home",
       "code": "PP11",
       "tier": "proposed",
       "milestone": 2,
@@ -11572,7 +11572,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "Somebody is pulling grave-stakes on purpose, in a pattern, and the pattern is the point",
+      "notes": "Somebody is pulling grave-stakes on purpose, in a pattern; the pattern is the point",
       "code": "PP12",
       "tier": "proposed",
       "milestone": 2,
@@ -11606,7 +11606,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "Two calcinator courts are laid out to a sky with nothing in it, and the work done in them can be done nowhere else",
+      "notes": "Two calcinator courts are laid out to a sky with nothing in it; the work done in them can be done nowhere else",
       "code": "PP14",
       "tier": "proposed",
       "milestone": 2,
@@ -11623,7 +11623,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "The province's working ancient calendar has one hereditary keeper, no successor, and canon says it can turn the weather",
+      "notes": "The province's working ancient calendar has one hereditary keeper, no successor; the sources say it can turn the weather",
       "code": "PP15",
       "tier": "proposed",
       "milestone": 2,
@@ -11640,7 +11640,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "Sluices nobody attends still open and close on the season, and four villages have built their year on a machine with no owner",
+      "notes": "Sluices nobody attends still open and close on the season; four villages have built their year on a machine with no owner",
       "code": "PP16",
       "tier": "proposed",
       "milestone": 2,
@@ -11657,7 +11657,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "An Imperial roadworks stopped mid-formation centuries ago, and something is still drawing against its account",
+      "notes": "An Imperial roadworks stopped mid-formation centuries ago; something is still drawing against its account",
       "code": "PP17",
       "tier": "proposed",
       "milestone": 2,
@@ -11674,7 +11674,7 @@
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
       ],
-      "notes": "The Flu cordon's ration ledgers are still in the store, they show who was fed and who was not, and Blackrose has left them undiscussed",
+      "notes": "The Flu cordon's ration ledgers are still in the store, they show who was fed and who was not; Blackrose has left them undiscussed",
       "code": "PP18",
       "tier": "proposed",
       "milestone": 2,

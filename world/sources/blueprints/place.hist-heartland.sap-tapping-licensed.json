@@ -1185,7 +1185,7 @@
         },
         "hullClass": "canoe",
         "fit": "water-to-dock",
-        "fixedBerthReason": "The water fixes the berth. This is the highest cell of the creek that floats a canoe, and the ground above it is a falling reach."
+        "fixedBerthReason": "The water fixes the berth. This is the highest cell of the creek that floats a canoe. The ground above it is a falling reach."
       }
     ],
     "combatSpaces": [
@@ -1607,7 +1607,7 @@
       "questId": "quest.mr.mr04",
       "provisionId": "quest.provision.mr04-anchor",
       "needs": [
-        "the licence itself, legible in the world and carrying a counter-signature the player can match elsewhere",
+        "the licence itself, legible in the world and carrying a counter-signature that can be matched elsewhere",
         "a stage a player can climb and search without combat",
         "a channel bank where a night landing can be watched from cover"
       ],

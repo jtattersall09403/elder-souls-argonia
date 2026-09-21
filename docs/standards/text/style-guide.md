@@ -10,6 +10,32 @@ name. Where we deliberately *depart* from Morrowind, it says so and why.
 
 ---
 
+## Before you write
+
+**Player-facing** (owner 2026-09-21) = any string that will appear in the game
+**or in any of our apps** — world-studio, combat-sandbox, anything later, the
+studio's review panels included. World records count: place why/vibe/hook and
+notes, quest rows, blueprints, routes, registries. All of it obeys this guide.
+
+The linter's hard bans, one example each:
+
+| Rule | Banned | Instead |
+|---|---|---|
+| `comma-and` | "the tide runs out, and the punts strand" | split the sentence |
+| `final-preposition` | "the berth the ferrymen pole from." | "the berth the ferrymen use." |
+| `canon-marker` | "the player can hire a guide here" | "a guide can be hired here" |
+| `zero-relative` | "ground the tribes leave alone" | "ground that the tribes avoid" |
+| `the-one-thing`, `only-one`, `exactly-n`, `the-very` | "the one door that opens" | state the fact plainly |
+| `register-vocab` | "nestled", "testament to", "intricate" | a concrete noun |
+| `it-is-said`, `not-x-but-y`, `self-gloss`, `ellipsis` | "it is said…" | attribute it, or cut |
+| `feelings-formula`, `soft-idiom`, `second-person` | "quietly resentful", "gets by" | name what is done |
+
+Check your file as you save: `python3 -m worldgen.lint_prose --file <path>`
+from `tooling/world-generation` (a hook runs it for you on every edit under
+`world/sources` and `packages/text-catalogue`).
+
+---
+
 ## 1. House rules
 
 ### 1.1 Spelling — **British** (owner ruling 2026-09-03)

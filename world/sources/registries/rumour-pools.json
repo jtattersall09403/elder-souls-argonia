@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "domain": "rumour",
-  "_": "Every rumourPoolKey in the catalogue. Pools group the ambient talk a region's NPCs draw on; the lines themselves live in packages/text-catalogue, keyed by these ids.",
+  "_": "Every rumourPoolKey in the catalogue. Pools group the ambient talk available to a region's NPCs; the lines themselves live in packages/text-catalogue, keyed by these ids.",
   "entries": [
     {
       "id": "rumour.ashroot",

@@ -33,7 +33,7 @@
       ],
       "dressingKits": [],
       "waterPlane": false,
-      "note": "Shored earth, not sculpted burrow — the audit's rewrite rule; the root kit's mud-shell pieces stand in.",
+      "note": "Shored earth, not sculpted burrow — the audit's rewrite rule; the root kit's mud-shell pieces serve here.",
       "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:112 (burrow-warren, deliverable-if-rewritten)"
     },
     "civic-hall": {
@@ -59,7 +59,7 @@
       ],
       "dressingKits": [],
       "waterPlane": false,
-      "note": "One to a few furnished rooms; the 16i fit rule chooses which kit by the exterior it sits behind.",
+      "note": "One to a few furnished rooms; the 16i fit rule chooses the kit from the exterior behind which it sits.",
       "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:110 (dwelling, deliverable)"
     },
     "flooded-cave": {

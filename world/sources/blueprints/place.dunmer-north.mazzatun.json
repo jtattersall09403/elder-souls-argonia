@@ -853,7 +853,7 @@
           ]
         ],
         "class": "curtain",
-        "routingWhy": "Surveyed. The yard shelf below was cut on the same square, and the course follows that cut rather than the fall.",
+        "routingWhy": "Surveyed. The yard shelf below was cut on the same square. The course follows that cut rather than the fall.",
         "moduleM": 6.38,
         "abuts": [
           "parcel.mazzatun.gate-frontage"

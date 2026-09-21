@@ -16,7 +16,7 @@
         "slotIndex": 0,
         "socketId": null
       },
-      "role": "the field-holder who takes the crop and will not go in",
+      "role": "the field-holder who takes the crop but will not enter the house",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -32,7 +32,7 @@
       "sources": [
         "docs/quests/36-cast-roster.md:56"
       ],
-      "notes": "Holds the post: the field-holder who takes the crop and will not go in (Andalen Plantation).",
+      "notes": "Holds the post: the field-holder who takes the crop but will not enter the house (Andalen Plantation).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -196,7 +196,7 @@
         "slotIndex": 0,
         "socketId": null
       },
-      "role": "the diver who came back, and will not discuss the one who did not",
+      "role": "the diver who came back but will not discuss the one who did not",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -212,7 +212,7 @@
       "sources": [
         "place.dunmer-north.breathes-underneath notableNpcSlots[0]"
       ],
-      "notes": "Holds the post: the diver who came back, and will not discuss the one who did not (Breathes-Underneath).",
+      "notes": "Holds the post: the diver who came back but will not discuss the one who did not (Breathes-Underneath).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -5578,7 +5578,7 @@
         "slotIndex": 1,
         "socketId": null
       },
-      "role": "the naheesh who will not have the clutch spoken of",
+      "role": "the naheesh who forbids talk of the clutch",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -5594,7 +5594,7 @@
       "sources": [
         "place.hist-heartland.bereaved-mnemic notableNpcSlots[1]"
       ],
-      "notes": "Holds the post: the naheesh who will not have the clutch spoken of (Keeps-the-Egg).",
+      "notes": "Holds the post: the naheesh who forbids talk of the clutch (Keeps-the-Egg).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -11290,7 +11290,7 @@
         "slotIndex": 0,
         "socketId": null
       },
-      "role": "the party you would rather not be shut in with",
+      "role": "the party best avoided in a closed room",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -11306,7 +11306,7 @@
       "sources": [
         "place.imperial-fringe.the-pass-shelter notableNpcSlots[0]"
       ],
-      "notes": "Holds the post: the party you would rather not be shut in with (Pass Shelter).",
+      "notes": "Holds the post: the party best avoided in a closed room (Pass Shelter).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -11948,7 +11948,7 @@
         "slotIndex": 1,
         "socketId": null
       },
-      "role": "the one person who remembers what was bricked up",
+      "role": "the last person who remembers what was bricked up",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -11964,7 +11964,7 @@
       "sources": [
         "place.imperial-penal-south.blackrose-prison notableNpcSlots[1]"
       ],
-      "notes": "Holds the post: the one person who remembers what was bricked up (Blackrose Prison).",
+      "notes": "Holds the post: the last person who remembers what was bricked up (Blackrose Prison).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Khajiit race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -12252,7 +12252,7 @@
         "slotIndex": 0,
         "socketId": null
       },
-      "role": "lagoon pilot who decides who is brought in",
+      "role": "lagoon pilot who decides which boats enter",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -12268,7 +12268,7 @@
       "sources": [
         "place.imperial-penal-south.bramman-head notableNpcSlots[0]"
       ],
-      "notes": "Holds the post: lagoon pilot who decides who is brought in (Bramman's Head).",
+      "notes": "Holds the post: lagoon pilot who decides which boats enter (Bramman's Head).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -13840,7 +13840,7 @@
         "slotIndex": 0,
         "socketId": null
       },
-      "role": "valuer who does not ask where things came from",
+      "role": "valuer who never asks a thing's provenance",
       "archetype": null,
       "statblock": null,
       "hostility": null,
@@ -13856,7 +13856,7 @@
       "sources": [
         "place.mercantile-coast.lilmoth-divers-yard notableNpcSlots[0]"
       ],
-      "notes": "Holds the post: valuer who does not ask where things came from (Under-Yard).",
+      "notes": "Holds the post: valuer who never asks a thing's provenance (Under-Yard).",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
@@ -16864,7 +16864,7 @@
       "sources": [
         "docs/quests/36-cast-roster.md"
       ],
-      "notes": "Veiled Reed field handler at Alten Corimont; the player's handler, removed at the midpoint. Full brief in docs/quests/36-cast-roster.md.",
+      "notes": "Veiled Reed field handler at Alten Corimont; the recruit's handler, removed at the midpoint. Full brief in docs/quests/36-cast-roster.md.",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",

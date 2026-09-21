@@ -4890,7 +4890,7 @@
         "kind": "city tree",
         "powerSlot": "power.hist.imperial-fringe.gideon",
         "status": "hero",
-        "note": "Hero Hist 4/10. EXTRAPOLATED (hist-placement.md §3): a cutting planted in the city gardens among the Ayleid ruins — speaking, but young by Hist standards and of disputed provenance, with a Gloommire tribe claiming it was taken. Canon permits transplanting (the Blackwood Company's smuggled tree) and the quest plan's MR03 assumes exactly this. Gideon is also the western terminus of the rootworm line."
+        "note": "Hero Hist 4/10. EXTRAPOLATED (hist-placement.md §3): a cutting planted in the city gardens among the Ayleid ruins — speaking, but young by Hist standards and of disputed provenance, with a Gloommire tribe claiming it was taken. Transplanting is attested in the sources (the Blackwood Company's smuggled tree) and the quest plan's MR03 assumes it. Gideon is also the western terminus of the rootworm line."
       },
       "densityLayer": "landmark",
       "entrance": "gate",
@@ -4906,7 +4906,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road; the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "firm lowland",
@@ -7178,7 +7178,7 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "ladders down (day)",
-        "ladders up (night, and you are staying on the water)"
+        "ladders up (night, with the crew staying on the water)"
       ],
       "position": {
         "u": 0.15059,
@@ -11711,7 +11711,7 @@
             "current": "slack",
             "access": "poling"
           },
-          "note": "a slack double bend narrow enough to pole across"
+          "note": "a slack double bend narrow enough for a pole crossing"
         },
         {
           "kind": "pool",
@@ -12699,7 +12699,7 @@
       "discovery": "document",
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "singularClaim": "countBand [1,1]: canon says the Orma left almost nothing — a second site would contradict the source.",
+      "singularClaim": "countBand [1,1]: the sources say the Orma left almost nothing — a second site would contradict the source.",
       "season": "all-year",
       "eraLayers": [
         "ayleid",
@@ -13605,7 +13605,7 @@
             "depthClass": "shallow",
             "current": "slow"
           },
-          "note": "shallow slow water the villagers can drive piles into"
+          "note": "shallow slow water for driving piles"
         },
         {
           "kind": "narrows",
@@ -18269,7 +18269,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "kiln cold (open for business)",
-        "kiln fired (the den closed, the room genuinely being used)"
+        "kiln fired (the den closed, the room in use for firing)"
       ],
       "position": {
         "u": 0.29933,
@@ -19078,7 +19078,7 @@
           "enclosed-clearing",
           "any-firm-ground"
         ],
-        "waterRelation": "a stream in the ravine behind",
+        "waterRelation": "a stream in the ravine at its back",
         "neighbourRelation": "on the border road, between two settlements a day apart",
         "hardConstraints": [
           "on the road, at a blind bend between two settlements a day apart",
@@ -19366,7 +19366,7 @@
           "dry sand above flood line"
         ],
         "preferences": [
-          "a marker no outsider would read",
+          "a marker that no outsider would read",
           "no surface disturbance"
         ],
         "scourSiteIds": []
@@ -23689,7 +23689,7 @@
           "any-firm-ground"
         ],
         "waterRelation": "water at the gallery's low points; some branches fully flooded",
-        "neighbourRelation": "the root layer is continuous — galleries connect, and that connection is the map",
+        "neighbourRelation": "the root layer is continuous — galleries connect, so that connection is the map",
         "hardConstraints": [
           "a live root roof over a drained void",
           "must sit below the rim break, in the lowland fringe, never in the border mountains"
@@ -27369,7 +27369,7 @@
         "in storm: whoever is caught out, in any combination"
       ],
       "notableNpcSlots": [
-        "the party you would rather not be shut in with"
+        "the party best avoided in a closed room"
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -29007,7 +29007,7 @@
           "island"
         ],
         "waterRelation": "wherever they were allowed to stop",
-        "neighbourRelation": "on the edge of somewhere that would not take them in",
+        "neighbourRelation": "on the edge of somewhere that refused them",
         "hardConstraints": [
           "no Hist within a day"
         ],
@@ -30951,7 +30951,7 @@
           "saddle"
         ],
         "waterRelation": "a seep under the scree",
-        "neighbourRelation": "above the road it feeds on, within sight of the fort it hides from",
+        "neighbourRelation": "above the road on which it preys, within sight of the fort from which it hides",
         "hardConstraints": [
           "screened from the road below",
           "two ways down onto the road"
@@ -32292,7 +32292,7 @@
           "any-firm-ground"
         ],
         "waterRelation": "controls a crossing or a landing",
-        "neighbourRelation": "holds the crossing its neighbours must use",
+        "neighbourRelation": "holds the crossing that its neighbours must use",
         "hardConstraints": [
           "one undivided block of good land",
           "an estate house with a strong room"

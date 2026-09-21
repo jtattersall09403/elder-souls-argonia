@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "_": "Places that are ONE design: one blueprint, one build, one agent. A row here is the reason two records may sit inside each other's footprint and must be authored together; every member carries `designGroup` pointing back at the row, and worldgen.catalogue checks the membership, the liveness and the spread. See world/sources/catalogue/README.md.",
+ "_": "Places that are ONE design: one blueprint, one build, one agent. A row here is the reason two records may sit inside each other's footprint and must be authored together; every member carries `designGroup` pointing back at the row. worldgen.catalogue checks the membership, the liveness and the spread. See world/sources/catalogue/README.md.",
  "groups": [
   {
    "id": "group.blackrose-siege-works",

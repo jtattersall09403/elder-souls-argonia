@@ -1106,7 +1106,7 @@
         "preferences": [
           "landforms: flood-high, any-firm-ground, oxbow",
           "water relation: as a hist-village",
-          "neighbours: neighbours argue about taking them in"
+          "neighbours: neighbours argue over whether to take them"
         ]
       },
       "relations": {
@@ -4598,7 +4598,7 @@
           "lake & standing water"
         ],
         "hardConstraints": [
-          "on the outer edge of the naga-kur-deeps culture zone, on the side outsiders arrive from",
+          "on the outer edge of the naga-kur-deeps culture zone, on the side where outsiders arrive",
           "the last landing reachable without a local poler"
         ],
         "preferences": [
@@ -5980,7 +5980,7 @@
             "lengthM": 60,
             "waterRelation": "channel-linked"
           },
-          "note": "the sixty-metre channel between the caged tree and the bank its tribe camps on; without it there is no standoff"
+          "note": "the sixty-metre channel between the caged tree and the bank where its tribe camps; without it there is no standoff"
         }
       ]
     },
@@ -7195,7 +7195,7 @@
         "hardConstraints": [
           "culture zone: naga-kur-deeps",
           "at least 12 km inland — this is the deep interior",
-          "shallow water a hull can work from",
+          "shallow water for a hull to work",
           "standing ribs that break the canopy line"
         ],
         "preferences": [
@@ -7244,7 +7244,7 @@
       "discovery": "sightline",
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "singularClaim": "countBand [1,1]: skeletons of this size are canon-plural in Deepmire but only one is authored as a place; the rest are dressing.",
+      "singularClaim": "countBand [1,1]: the sources put several skeletons of this size in Deepmire; this one is authored as a place and the rest are dressing.",
       "season": "dry-peak",
       "eraLayers": [
         "merethic",
@@ -9148,7 +9148,7 @@
         "preferences": [
           "landforms: any-shallow-marsh, oxbow, flood-high, enclosed-clearing",
           "water relation: as a tribal village, with hidden boat sheds",
-          "neighbours: near the routes its tribeless relatives work"
+          "neighbours: near the routes that its tribeless relatives work"
         ],
         "landformClasses": [
           "any-shallow-marsh",
@@ -9465,7 +9465,7 @@
         "preferences": [
           "landforms: any-firm-ground, any-shallow-marsh, any-channel-bank",
           "water relation: on the main poling route, with a deep landing",
-          "neighbours: near the routes its tribeless relatives work"
+          "neighbours: near the routes that its tribeless relatives work"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -10890,7 +10890,7 @@
         "preferences": [
           "landforms: flood-high, any-firm-ground, enclosed-clearing",
           "water relation: wherever they were allowed to stop",
-          "neighbours: just outside a settlement that has not taken them in"
+          "neighbours: just outside a settlement that has refused them"
         ]
       },
       "relations": {
@@ -11130,7 +11130,7 @@
         "preferences": [
           "landforms: flood-high, sinkhole, ravine, enclosed-clearing, any-firm-ground",
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map"
+          "neighbours: the root layer is continuous — galleries connect, so that connection is the map"
         ],
         "nearPoint": {
           "x": 3900,
@@ -11444,7 +11444,7 @@
         "preferences": [
           "landforms: flood-high, sinkhole, ravine, enclosed-clearing, any-firm-ground",
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map"
+          "neighbours: the root layer is continuous — galleries connect, so that connection is the map"
         ]
       },
       "relations": {
@@ -11655,7 +11655,7 @@
         "preferences": [
           "landforms: flood-high, sinkhole, ravine, enclosed-clearing, any-firm-ground",
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map"
+          "neighbours: the root layer is continuous — galleries connect, so that connection is the map"
         ]
       },
       "relations": {
@@ -14998,7 +14998,7 @@
           "delivery": {
             "feature": "dry-rise"
           },
-          "note": "the rice ground four villages still argue over sat on a rise, and the houses on it are standing yet"
+          "note": "the rice ground four villages still argue over sat on a rise; the houses on it are standing yet"
         }
       ],
       "proseRefs": [

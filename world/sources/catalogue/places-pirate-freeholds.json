@@ -44,7 +44,7 @@
           "navigable water for a shallow-draft hull",
           "sheltered basin off the legal lanes",
           "firm bank for warehousing",
-          "no Hist within the settlement — canon"
+          "no Hist within the settlement — fixed by the lore"
         ],
         "preferences": [
           "an oxbow or confluence basin",
@@ -209,7 +209,7 @@
       "footprintRadiusM": 140.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'alten-corimont' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'alten-corimont' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "firm lowland",
@@ -1435,7 +1435,7 @@
         ],
         "hardConstraints": [
           "ground that stays above the flood",
-          "a creek under the rise with a beach a hull can be laid on",
+          "a creek under the rise with a beach on which a hull can be laid",
           "the mooring screened from the main channel"
         ],
         "preferences": [
@@ -2824,7 +2824,7 @@
           "place.imperial-fringe.the-turned-out"
         ]
       },
-      "promotedWhy": "Owner feedback / opening-hours research §6.1: the Owing institution the player is processed into in MQ01 must exist as a live place.",
+      "promotedWhy": "Owner feedback / opening-hours research §6.1: the Owing institution that processes new arrivals in MQ01 must exist as a live place.",
       "position": {
         "u": 0.5608,
         "v": 0.20786
@@ -2907,7 +2907,7 @@
         ],
         "hardConstraints": [
           "outside the settlement's jurisdiction",
-          "no Hist within reach — canon"
+          "no Hist within reach — fixed by the lore"
         ],
         "preferences": [
           "on the landward fringe of the free port"
@@ -4399,7 +4399,7 @@
           "above the settlement"
         ],
         "preferences": [
-          "overlooking the ruin it belongs to"
+          "overlooking the ruin to which it belongs"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -6213,7 +6213,7 @@
         ],
         "preferences": [
           "a long straight reach",
-          "a bank firm enough to careen against"
+          "a bank firm enough for careening"
         ],
         "landformClasses": [
           "any-channel-bank",
@@ -6695,7 +6695,7 @@
           "place.pirate-freeholds.rim-porter-yard"
         ]
       },
-      "promotedWhy": "Dungeon balance: a standard delve with lore payoff on the water, and the region's Knahaten Flu layer.",
+      "promotedWhy": "Dungeon balance: a standard delve with lore payoff on the water, carrying the region's Knahaten Flu layer.",
       "position": {
         "u": 0.5202,
         "v": 0.13498
@@ -8190,7 +8190,7 @@
         "world/sources/lore/extrapolation/settlement-register.md §6 (Fort Swampmoth model: held, but not by the Empire)",
         "world/sources/lore/topics/foreign-powers.md",
         "world/sources/catalogue/type-recipes.json#abandoned-fort",
-        "lore: module 20 §11 (the six-stage foreign-infrastructure life cycle)"
+        "lore: module 20 §11 (the six-stage life cycle of foreign works)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -8484,7 +8484,7 @@
           "place.pirate-freeholds.rim-porter-yard"
         ]
       },
-      "promotedWhy": "Region ask: a pirate freehold with no armed ground. Gorrey's outfit is the land-side counterweight to the anchorages, and carries the province's first Gothic trespass ring.",
+      "promotedWhy": "Region ask: a pirate freehold with no armed ground. Gorrey's outfit is the land-side counterweight to the anchorages. It carries the province's first Gothic trespass ring.",
       "position": {
         "u": 0.52422,
         "v": 0.11386
@@ -9518,7 +9518,7 @@
             "feature": "flood-high-ravine-wall",
             "waterRelation": "above-flood"
           },
-          "note": "the ravine wall the chamber is cut into, above the flood and below the snow"
+          "note": "the ravine wall into which the chamber is cut, above the flood and below the snow"
         }
       ]
     },
@@ -9695,7 +9695,7 @@
         "uesp:Lore:Black Marsh",
         "docs/world/55-light-sky-time.md (orographic conditions on the rim)",
         "world/sources/catalogue/type-recipes.json#mountain-pass-station",
-        "lore: scour: a quarter of the interesting ground is on the rim, and it is the only ground with range; region grammar: border mountains"
+        "lore: scour: a quarter of the interesting ground is on the rim; it is the only ground with range; region grammar: border mountains"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -11558,7 +11558,7 @@
       "sources": [
         "uesp:Lore:Alten Corimont (neighbours)",
         "world/sources/lore/extrapolation/settlement-register.md §4 (Rockpoint, SE of Alten Corimont: Alten Corimont's rival — a competing landing that lost)",
-        "docs/quests/20-world-provisions.md §12b (the player stronghold site: one reoccupied xanmeer or abandoned river station)",
+        "docs/quests/20-world-provisions.md §12b (the stronghold site: one reoccupied xanmeer or abandoned river station)",
         "world/sources/catalogue/type-recipes.json#claimable-steading",
         "lore: build-out register: player ownership needs a place shape reserved now, or it is a refactor later (0041 forward-compatibility block)"
       ],
@@ -12269,7 +12269,7 @@
       "underwaterAccess": "none",
       "name": "Mile Twelve",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'tradehouse' is over its province count band (17 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'tradehouse' is over its province count band (17 max); the record is neither lore-named, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "friendly",
         "owner": null,

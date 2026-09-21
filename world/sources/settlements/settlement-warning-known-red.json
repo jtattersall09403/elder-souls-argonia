@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "settlement-warning-known-red",
-  "why": "Settlement compile warnings that are named, owned and tracked rather than silently tolerated. The exporter still refuses to publish on any UNEXPLAINED warning: a warning outside this register is a hard error, a register row that has started passing is a hard error, and a row whose place is not in the compiled set is a hard error. Each row names the owner and where the work is queued, so a row can never become a quiet holding position. Keys are (placeId, subjectId, ruleId) taken from the compiled floodBandReport's structured rows, so a row survives a change in the measured sample counts and dies when the finding itself dies.",
+  "why": "Settlement compile warnings that are named, owned and tracked rather than silently tolerated. The exporter still refuses to publish on any UNEXPLAINED warning: a warning outside this register is a hard error; so is a register row that has started passing; so is a row whose place is not in the compiled set. Each row names the owner and where the work is queued, so a row can never become a quiet holding position. Keys are (placeId, subjectId, ruleId) taken from the compiled floodBandReport's structured rows, so a row survives a change in the measured sample counts and dies when the finding itself dies.",
   "measuredOn": "2026-09-09",
   "warnings": [
     {
@@ -34,7 +34,7 @@
       "rule": "argonian-stilt-open-water-share",
       "owner": "settlement",
       "queuedIn": "docs/phases/P-polish/backlog.md",
-      "why": "Not a water finding: the crown's buildings are genuinely dry (0 open-water, 0 flood, 0 wet-season on six of seven). The district's own record puts it on the 11-13 m bench east of the crest, so 15-30% of it can never stand over water; the defect is the culture rule's scope, applied to every argonian-stilt district regardless of the ground it stands on. Fixing that is a rule design decision, queued rather than taken here."
+      "why": "Not a water finding: the crown's buildings are dry on every sample (0 open-water, 0 flood, 0 wet-season on six of seven). The district's own record puts it on the 11-13 m bench east of the crest, so 15-30% of it can never stand over water; the defect is the culture rule's scope, applied to every argonian-stilt district regardless of the ground on which it stands. Fixing that is a rule design decision, queued rather than taken here."
     },
     {
       "placeId": "place.hist-heartland.sap-tapping-licensed",
@@ -42,7 +42,7 @@
       "rule": "works-quays-flood-section",
       "owner": "settlement",
       "queuedIn": "docs/phases/P-polish/backlog.md",
-      "why": "Not a placement defect and not a water finding: the tapping stage itself samples 0 open-water, 0 flood-band and 0 wet-season, and so does every other parcel here. The rule asks every `work` parcel to touch water, which is written for quays. This is a licensed tapping camp on a jungle terrace at 30.7-32.7 m; its own siting record measures the nearest water a canoe can leave by at 370 m away, and the landing is a separate berth at the head of the tide. The camp cannot satisfy a quay rule and should not: the same rule-scope defect as the two Lilmoth rows above."
+      "why": "Not a placement defect and not a water finding: the tapping stage itself samples 0 open-water, 0 flood-band and 0 wet-season, and so does every other parcel here. The rule asks every `work` parcel to touch water, which is written for quays. This is a licensed tapping camp on a jungle terrace at 30.7-32.7 m; its own siting record measures the nearest water a canoe can leave by at 370 m away. The landing is a separate berth at the head of the tide. The camp cannot satisfy a quay rule and should not: the same rule-scope defect as the two Lilmoth rows above."
     },
     {
       "placeId": "place.hist-heartland.sap-tapping-licensed",
@@ -50,7 +50,7 @@
       "rule": "works-quays-flood-section",
       "owner": "settlement",
       "queuedIn": "docs/phases/P-polish/backlog.md",
-      "why": "Not a placement defect and not a water finding: the stage deck it carries samples 0 open-water, 0 flood-band and 0 wet-season, and so does every other parcel here. The rule asks every `work` parcel to touch water, which is written for quays. This is a licensed tapping camp on a jungle terrace at 30.7-32.7 m; its own siting record measures the nearest water a canoe can leave by at 370 m away, and the landing is a separate berth at the head of the tide. The camp cannot satisfy a quay rule and should not: the same rule-scope defect as the two Lilmoth rows above."
+      "why": "Not a placement defect and not a water finding: the stage deck it carries samples 0 open-water, 0 flood-band and 0 wet-season, and so does every other parcel here. The rule asks every `work` parcel to touch water, which is written for quays. This is a licensed tapping camp on a jungle terrace at 30.7-32.7 m; its own siting record measures the nearest water a canoe can leave by at 370 m away. The landing is a separate berth at the head of the tide. The camp cannot satisfy a quay rule and should not: the same rule-scope defect as the two Lilmoth rows above."
     },
     {
       "placeId": "place.hist-heartland.sap-tapping-licensed",
@@ -58,7 +58,7 @@
       "rule": "works-quays-flood-section",
       "owner": "settlement",
       "queuedIn": "docs/phases/P-polish/backlog.md",
-      "why": "Not a placement defect and not a water finding: the stair up to that deck samples 0 open-water, 0 flood-band and 0 wet-season, and so does every other parcel here. The rule asks every `work` parcel to touch water, which is written for quays. This is a licensed tapping camp on a jungle terrace at 30.7-32.7 m; its own siting record measures the nearest water a canoe can leave by at 370 m away, and the landing is a separate berth at the head of the tide. The camp cannot satisfy a quay rule and should not: the same rule-scope defect as the two Lilmoth rows above."
+      "why": "Not a placement defect and not a water finding: the stair up to that deck samples 0 open-water, 0 flood-band and 0 wet-season, and so does every other parcel here. The rule asks every `work` parcel to touch water, which is written for quays. This is a licensed tapping camp on a jungle terrace at 30.7-32.7 m; its own siting record measures the nearest water a canoe can leave by at 370 m away. The landing is a separate berth at the head of the tide. The camp cannot satisfy a quay rule and should not: the same rule-scope defect as the two Lilmoth rows above."
     },
     {
       "placeId": "place.hist-heartland.sap-tapping-licensed",
@@ -66,7 +66,7 @@
       "rule": "works-quays-flood-section",
       "owner": "settlement",
       "queuedIn": "docs/phases/P-polish/backlog.md",
-      "why": "Not a placement defect and not a water finding: the mule trough and tie line samples 0 open-water, 0 flood-band and 0 wet-season, and so does every other parcel here. The rule asks every `work` parcel to touch water, which is written for quays. This is a licensed tapping camp on a jungle terrace at 30.7-32.7 m; its own siting record measures the nearest water a canoe can leave by at 370 m away, and the landing is a separate berth at the head of the tide. The camp cannot satisfy a quay rule and should not: the same rule-scope defect as the two Lilmoth rows above."
+      "why": "Not a placement defect and not a water finding: the mule trough and tie line samples 0 open-water, 0 flood-band and 0 wet-season, and so does every other parcel here. The rule asks every `work` parcel to touch water, which is written for quays. This is a licensed tapping camp on a jungle terrace at 30.7-32.7 m; its own siting record measures the nearest water a canoe can leave by at 370 m away. The landing is a separate berth at the head of the tide. The camp cannot satisfy a quay rule and should not: the same rule-scope defect as the two Lilmoth rows above."
     }
   ]
 }

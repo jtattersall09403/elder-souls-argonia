@@ -4,7 +4,7 @@
   "seed": "quests-quests-standalone-v1",
   "budgetExceptions": {
     "quest.line.daedric": {
-      "WONDER": "By design: the Daedric and oddity packet IS the province's WONDER seam, and eight quests are too few for a percentage to mean much."
+      "WONDER": "By design: the Daedric and oddity packet IS the province's WONDER seam; eight quests are too few for a percentage to mean much."
     },
     "quest.line.local": {
       "DISPUTE": "Inherited from the 2026-08-28 hand-written index: seven of the thirty-four standalone rows open on two parties with a real claim. Region agents writing new local rows must pick other shapes until DISPUTE falls back inside the band."

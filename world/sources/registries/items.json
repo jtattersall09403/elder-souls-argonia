@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "domain": "item",
-  "_": "PLACEHOLDER register. rewardProfile is typed (kinds + valueTier), not named, so the catalogue names no item ids yet: seeded from the canon material culture and the named main-quest objects so contents.loot[].registerRef and quest rewards have somewhere to point. Phase 13's item register grows it.",
+  "_": "PLACEHOLDER register. rewardProfile is typed (kinds + valueTier), not named, so the catalogue names no item ids yet: seeded from the attested material culture and the named main-quest objects so contents.loot[].registerRef and quest rewards have somewhere to point. Phase 13's item register grows it.",
   "entries": [
     {
       "id": "item.bog-iron",
@@ -41,7 +41,7 @@
       "sources": [
         "docs/quests/30-main-quest.md"
       ],
-      "notes": "The main quest's artefact; the object every MQ faction is bidding for.",
+      "notes": "The main quest's artefact; the object of every MQ faction's bidding.",
       "assetAvailability": {
         "status": "sourced",
         "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) Xanmeer and Ayleid gem/relic props",
@@ -270,7 +270,7 @@
       "sources": [
         "docs/quests/30-main-quest.md"
       ],
-      "notes": "The Owing labour roll destroyed in MQ01 — the reason the player is officially dead.",
+      "notes": "The Owing labour roll destroyed in MQ01 — the reason its named bearer is officially dead.",
       "assetAvailability": {
         "status": "vanilla",
         "via": "vanilla scroll/book clutter",

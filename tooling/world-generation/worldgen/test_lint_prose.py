@@ -1,6 +1,7 @@
-"""Prose-lint gate: packages/text-catalogue — every string a player can read
-(standard 2's funnel) — carries no hard AI-tell hits, and no prose data lives
-outside it (owner 2026-09-21). World records and docs are not linted."""
+"""Prose-lint gate: `packages/text-catalogue` and `world/sources` — every
+string a player can read in the game or in any of our apps, the studio's review
+panels included (owner 2026-09-21) — carries no hard AI-tell hits, and no prose
+data lives outside those roots. `docs/**` is not linted."""
 from pathlib import Path
 
 from . import lint_prose
@@ -11,11 +12,14 @@ def test_the_gate_is_green_on_the_tree():
     lint_prose.lint_roots(res)
     hard = res.hard_hits()
     assert not hard, [f"{h.where} {h.fld}: {h.rule} …{h.excerpt}…" for h in hard[:12]]
-    assert res.texts > 100, res.texts        # it cannot pass by linting nothing
+    # The floor is the world-record walk: ~20,000 texts on the tree today, so
+    # a walk that silently stopped reaching the records would fail here.
+    assert res.texts > 15000, res.texts      # it cannot pass by linting nothing
 
 
-def test_only_the_text_catalogue_is_walked():
-    assert [str(r) for r in lint_prose.LINT_ROOTS] == ["packages/text-catalogue"]
+def test_the_catalogue_and_the_world_records_are_walked():
+    assert sorted(str(r) for r in lint_prose.LINT_ROOTS) == [
+        "packages/text-catalogue", "world/sources"]
 
 
 def test_a_generated_catalogue_file_is_linted():
@@ -149,3 +153,61 @@ def test_tripwire_fires_on_prose_data_under_packages(tmp_path, monkeypatch):
 
 def test_tripwire_is_green_on_the_tree():
     assert lint_prose.tripwire_hits() == []
+
+
+def test_an_unlisted_field_in_a_places_file_is_linted(tmp_path, monkeypatch):
+    """A places-*.json record grows a field no inclusion list names: it is
+    linted anyway, because the walk lints by exclusion."""
+    d = tmp_path / "world" / "sources" / "catalogue"
+    d.mkdir(parents=True)
+    (d / "places-test.json").write_text(
+        '{"places": [{"id": "place.test", "freshlyInventedField":'
+        ' "The wardens closed the gate, and the tide took the punts."}]}',
+        encoding="utf-8")
+    monkeypatch.setattr(lint_prose.catalogue, "REPO_ROOT", tmp_path)
+    res = lint_prose.LintResult()
+    lint_prose.lint_roots(res)
+    assert "comma-and" in {h.rule for h in res.hard_hits()}
+
+
+def test_a_lore_file_is_not_linted(tmp_path, monkeypatch):
+    """world/sources/lore is sourced canon and agent notes: exempt with reason."""
+    d = tmp_path / "world" / "sources" / "lore"
+    d.mkdir(parents=True)
+    (d / "dossier.json").write_text(
+        '{"note": "The city is nestled in the marsh, and it is a testament to the Hist."}',
+        encoding="utf-8")
+    monkeypatch.setattr(lint_prose.catalogue, "REPO_ROOT", tmp_path)
+    res = lint_prose.LintResult()
+    skipped = lint_prose.lint_roots(res)
+    assert not res.hard_hits()
+    assert any("lore" in s_ for s_ in skipped), skipped
+
+
+def test_an_exempt_machine_dir_is_not_linted(tmp_path, monkeypatch):
+    """Mined plugin data under world/sources/placement is not our words."""
+    d = tmp_path / "world" / "sources" / "placement"
+    d.mkdir(parents=True)
+    (d / "mined.json").write_text(
+        '{"desc": "The hall is nestled beside the dock, and it is a testament to nothing."}',
+        encoding="utf-8")
+    monkeypatch.setattr(lint_prose.catalogue, "REPO_ROOT", tmp_path)
+    res = lint_prose.LintResult()
+    skipped = lint_prose.lint_roots(res)
+    assert not res.hard_hits()
+    assert any("placement" in s_ for s_ in skipped), skipped
+
+
+def test_file_flag_fails_on_a_hit_and_passes_on_clean_text(tmp_path, monkeypatch):
+    """--file is the post-edit hook's entry point: 1 on a hit, 0 when clean."""
+    d = tmp_path / "world" / "sources" / "catalogue"
+    d.mkdir(parents=True)
+    dirty = d / "places-dirty.json"
+    dirty.write_text('{"why": {"founding": "It is said the wardens built it here."}}',
+                     encoding="utf-8")
+    clean = d / "places-clean.json"
+    clean.write_text('{"why": {"founding": "The wardens built the gate above the tide line."}}',
+                     encoding="utf-8")
+    monkeypatch.setattr(lint_prose.catalogue, "REPO_ROOT", tmp_path)
+    assert lint_prose.main(["--file", str(dirty)]) == 1
+    assert lint_prose.main(["--file", str(clean)]) == 0

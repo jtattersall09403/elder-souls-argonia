@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "_": "Points the major roads are routed THROUGH, as a record (decision 0068): `solve_major_routes` routes every road listed on an entry through its position, so where a road goes is a design fact and not an accident of the solve. `positionM` is metres [east, south] in the province frame. Each entry carries a lore or owner `why`. Kinds: a `junction` (no `kind`) is where two named roads MEET, added only where the meeting point is itself a world fact (none exist today: the former Archon-Gideon x Helstrom-Blackrose crossroads went with the Helstrom road, owner 2026-09-16); a `pin` is one road steered through a point the owner chose (a river crossing, a bank to follow, a mountain-foot lowland); an `approach` pin (`approach: true`) fixes the side a road ENTERS a city from: the leg between it and its city is solved inside a straight 30 m corridor, so the road cannot pass the pin and loop round to enter from another side. Pins are chosen by measurement inside the owner's described box (dry, gentle, the intended side of the water) and honoured in start-to-goal order.",
+  "_": "Points through which the major roads are routed, as a record (decision 0068): `solve_major_routes` routes every road listed on an entry through its position, so where a road goes is a design fact and not an accident of the solve. `positionM` is metres [east, south] in the province frame. Each entry carries a lore or owner `why`. Kinds: a `junction` (no `kind`) is where two named roads MEET, added only where the meeting point is itself a world fact (none exist today: the former Archon-Gideon x Helstrom-Blackrose crossroads went with the Helstrom road, owner 2026-09-16); a `pin` is one road steered through a point the owner chose (a river crossing, a bank to follow, a mountain-foot lowland); an `approach` pin (`approach: true`) fixes the side from which a road ENTERS a city: the leg between it and its city is solved inside a straight 30 m corridor, so the road cannot pass the pin and loop round to enter from another side. Pins are chosen by measurement inside the owner's described box (dry, gentle, the intended side of the water) and honoured in start-to-goal order.",
   "junctions": [
     {
       "id": "junction.pin.stormhold-thorn.south-of-the-lake",
@@ -15,7 +15,7 @@
       "kind": "pin",
       "positionM": [3707.0, 642.0],
       "roads": ["route.road.stormhold-thorn"],
-      "why": "Owner steer 2026-09-16 (round 3): the road hugs the flat dry land on the south-west side of river.889-484, close to the river and the marsh it crosses, and does not veer south into the Hist heartland.",
+      "why": "Owner steer 2026-09-16 (round 3): the road hugs the flat dry land on the south-west side of river.889-484, close to the river and the marsh it crosses. It does not veer south into the Hist heartland.",
       "confidence": "OWNER_DECISION"
     },
     {

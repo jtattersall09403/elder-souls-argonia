@@ -81,7 +81,7 @@
         "D3 inside the house"
       ],
       "notableNpcSlots": [
-        "the field-holder who takes the crop and will not go in"
+        "the field-holder who takes the crop and will not enter the house"
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -990,7 +990,7 @@
           "any-firm-ground"
         ],
         "waterRelation": "controls a crossing or a landing",
-        "neighbourRelation": "holds the crossing its neighbours must use",
+        "neighbourRelation": "holds the crossing that its neighbours must use",
         "hardConstraints": [
           "prime saltrice ground",
           "an estate house with no occupant"
@@ -1251,7 +1251,7 @@
         "neighbourRelation": "hidden; discovered by exploring water",
         "hardConstraints": [
           "a limestone void sealed by its own roof",
-          "one crawl in, no second exit"
+          "one crawl entrance, no second exit"
         ],
         "preferences": [
           "a marked slot in the shelf",
@@ -1278,7 +1278,7 @@
         "D3 in the water on the way"
       ],
       "notableNpcSlots": [
-        "the diver who came back, and will not discuss the one who did not"
+        "the diver who came back but will not discuss the one who did not"
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -3990,7 +3990,7 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [
         "rotation held",
-        "rotation broken (six boats where two should be, and the notches ignored)"
+        "rotation broken (six boats where two should be; the notches ignored)"
       ],
       "hostility": {
         "baseline": "hostile",
@@ -5823,7 +5823,7 @@
       "sources": [
         "uesp:Lore:Hissmir",
         "uesp:Online:Trials of the Burnished Scales",
-        "world/sources/lore/topics/hist-and-sap.md §(Hissmir is canon's answer for the Hist-less; Zaht stones of Hist amber)",
+        "world/sources/lore/topics/hist-and-sap.md §(Hissmir is the lore's answer for the Hist-less; Zaht stones of Hist amber)",
         "world/sources/lore/topics/hist-placement.md §3 (Hissmir: a Hist reachable through the Trials, uniquely open to the Hist-less and to non-Argonians)",
         "world/sources/lore/extrapolation/settlement-register.md §4 (M4: shops, services, Mages and Fighters Guild branches)",
         "world/sources/catalogue/type-recipes.json#pilgrim-trial-village"
@@ -5848,7 +5848,7 @@
         ],
         "preferences": [
           "neighbours: terminus of a pilgrim route, deliberately reachable",
-          "a genuinely dangerous fen within 400 m to hold the trial ground"
+          "a dangerous fen within 400 m to hold the trial ground"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -5894,7 +5894,7 @@
       "discovery": "rumour",
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "singularClaim": "countBand [1,1]: canon names exactly one settlement whose institution is the Trials of the Burnished Scales.",
+      "singularClaim": "countBand [1,1]: the lore names a single settlement whose institution is the Trials of the Burnished Scales.",
       "season": "all-year",
       "eraLayers": [
         "first-era",
@@ -6046,7 +6046,7 @@
       "sources": [
         "world/sources/lore/extrapolation/PROGRESS.md (Hixinoag: Arena/novel name, no UESP article)",
         "uesp:Lore:Black Marsh (most villages do not stay put)",
-        "world/sources/lore/extrapolation/settlement-register.md §5 (G3.3: genuinely drifting villages, hand-authored; Hixinoag is the canon-named one of two)"
+        "world/sources/lore/extrapolation/settlement-register.md §5 (G3.3: drifting villages, hand-authored; Hixinoag is the lore-named one of two)"
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
@@ -7282,7 +7282,7 @@
       "discovery": "rumour",
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "singularClaim": "countBand [1,1]: canon attaches lamia caverns to Loriasel specifically, and to nowhere else in the province.",
+      "singularClaim": "countBand [1,1]: the lore attaches lamia caverns to Loriasel specifically and to nowhere else in the province.",
       "season": "wet",
       "eraLayers": [
         "ayleid",
@@ -13167,7 +13167,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'stormhold' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'stormhold' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "firm lowland",
@@ -13649,7 +13649,7 @@
       "sources": [
         "uesp:Lore:Tear",
         "uesp:Lore:House Dres",
-        "uesp:Lore:Black Marsh (canon exit roads)"
+        "uesp:Lore:Black Marsh (exit roads in the lore)"
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
@@ -14048,7 +14048,7 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "transferring (both banks working)",
-        "river in spate (six weeks of nothing moving, and a town full of stuck cargo)"
+        "river in spate (six weeks of nothing moving; a town full of stuck cargo)"
       ],
       "position": {
         "u": 0.367,
@@ -18293,7 +18293,7 @@
             "feature": "dry-rise",
             "waterRelation": "above-flood"
           },
-          "note": "the hammock crown the terrace stands on: the one ground on the island that the flood does not reach"
+          "note": "the hammock crown on which the terrace stands: the one ground on the island that the flood does not reach"
         }
       ],
       "sitingNote": "The landform this record names is supplied by its terrainRequests: Part 6's meso compiler carves it, so the plotted landform class is the pre-carve ground.",
@@ -18968,7 +18968,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "hoist working",
-        "hoist failed (the ladder only, and a queue)"
+        "hoist failed (the ladder only; a queue)"
       ],
       "position": {
         "u": 0.19299,
@@ -21749,7 +21749,7 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "out of season (a clean flat and a weir footing)",
-        "the Feast (three days, fires, and too many people)"
+        "the Feast (three days, fires, too many people)"
       ],
       "position": {
         "u": 0.75446,
@@ -22783,7 +22783,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "in rotation (fence up, one user's banners)",
-        "overstocked (two users at once, and an argument at the water)"
+        "overstocked (two users at once; an argument at the water)"
       ],
       "position": {
         "u": 0.10969,
@@ -24081,7 +24081,7 @@
         "neighbourRelation": "the only reason to live this close to that water",
         "hardConstraints": [
           "running water for flushing",
-          "a rock face to work against"
+          "a rock face against which to work"
         ],
         "preferences": [
           "a lantern shed",
@@ -24183,7 +24183,7 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "yard working (the shed lit)",
-        "yard dark (no stock, and a boat channel with no landmark)"
+        "yard dark (no stock; a boat channel with no landmark)"
       ],
       "position": {
         "u": 0.62283,
@@ -24226,7 +24226,7 @@
           "vista-landmark"
         ],
         "impact": "real",
-        "hook": "The second wamasu works: charged goods, a rock face to work against and apprentices who pay to be shown.",
+        "hook": "The second wamasu works: charged goods, a rock face against which to work and apprentices who pay to be shown.",
         "reviewed": true
       },
       "interior": {
@@ -24903,7 +24903,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "empty",
-        "occupied (travellers, and whoever they turn out to be)"
+        "occupied (travellers; whoever they turn out to be)"
       ],
       "position": {
         "u": 0.77781,
@@ -25465,7 +25465,7 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "dry season (the pegs visible)",
-        "wet season (a kilometre of it under water, and the drainage obvious)"
+        "wet season (a kilometre of it under water; the drainage obvious)"
       ],
       "position": {
         "u": 0.53582,
@@ -26167,7 +26167,7 @@
           "any-firm-ground"
         ],
         "waterRelation": "water at the gallery's low points; some branches fully flooded",
-        "neighbourRelation": "the root layer is continuous — galleries connect, and that connection is the map",
+        "neighbourRelation": "the root layer is continuous — galleries connect; that connection is the map",
         "hardConstraints": [
           "roots over rock rather than mud"
         ],
@@ -35958,7 +35958,7 @@
           "ridge-end"
         ],
         "waterRelation": "dry root ground",
-        "neighbourRelation": "on or beside the root-transit network, which is why it matters",
+        "neighbourRelation": "on or beside the root-transit network",
         "hardConstraints": [
           "root-bound soft ground",
           "near but not on the Waykeepers' line"
@@ -36740,7 +36740,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'thorn' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'thorn' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "firm lowland",
@@ -37614,7 +37614,7 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "all four arms sound",
-        "one arm failed (a village cut off, and the argument about whose job it was)"
+        "one arm failed (a village cut off; the argument about whose job it was)"
       ],
       "position": {
         "u": 0.85188,
@@ -38147,7 +38147,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "waiting",
-        "moved on the ground (the camp across the bank, and everything changed)"
+        "moved on the ground (the camp across the bank; everything changed)"
       ],
       "position": {
         "u": 0.73141,
@@ -38411,7 +38411,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "orderly (the board honoured)",
-        "broken order (someone jumped, and the camp deciding what to do about it)"
+        "broken order (someone jumped; the camp deciding what to do about it)"
       ],
       "position": {
         "u": 0.94113,

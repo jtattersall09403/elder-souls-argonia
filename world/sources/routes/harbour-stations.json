@@ -8,7 +8,7 @@
   },
   "thorn": {
    "placeId": "place.dunmer-north.the-thorn-bond",
-   "why": "Pinned this round to at least 1.2 m of water within 250 m of Thorn, and the only boat station Thorn has."
+   "why": "Pinned this round to at least 1.2 m of water within 250 m of Thorn. It is the only boat station Thorn has."
   },
   "gideon": {
    "placeId": null,
@@ -17,7 +17,7 @@
   },
   "helstrom": {
    "placeId": "place.hist-heartland.helstrom",
-   "why": "The lane route.boat.alten-corimont-helstrom ends at the gate on 0.0 m of water; compile_minor_waterways re-lines the lane to its last floating sample about 421 m out, and the station reads the lane end."
+   "why": "The lane route.boat.alten-corimont-helstrom ends at the gate on 0.0 m of water; compile_minor_waterways re-lines the lane to its last floating sample about 421 m out; the station reads the lane end."
   },
   "archon": {
    "placeId": "place.saxhleel-coast.quay-tradehouse",

@@ -40,8 +40,8 @@ surface about 1.2 m and its eastern bank at 3.4 m.
 round a clearing on a radius of 20–23 m (21 m on average) at 33–46° apart
 (40° on average): a ring that grew, not one that was set out with a cord. The
 owner-eye review of 2026-09-07 warped the first draft's exact nonagon by a
-seeded jitter of up to 6.5° and 2 m per trunk, because a ring of nine at
-exactly 40° read as a compass drawing (taste ledger). Chords now run
+seeded jitter of up to 6.5° and 2 m per trunk, because a ring of nine set at
+40° apart read as a compass drawing (taste ledger). Chords now run
 13.4–16.1 m and the clear gap between trunk faces 7.6–10.3 m. A mud hut of
 5.92 × 6.47 m sits in each of eight gaps; what is left each side, 0.8–2.2 m,
 is closed with a woven panel cut to the gap, so the wall line is unbroken and
@@ -346,18 +346,18 @@ Nine doors, all typed. Three are major (the pitch-taker who gives Pitch-Rights,
 the boat household that carries passage to Uxaneet, the naheesh's hearing
 house), six medium, none flavour-only: 33 % major, inside the 40 % ceiling for
 a village. The rented huts earn their doors as beds and as evidence rather than
-as three copies of the same room, and the swept unlet hut is now information
+as three copies of the same room. The swept unlet hut is now information
 about a tribe that stopped coming rather than an empty prop.
 
 ## The berth and its channel (owner review, 2026-09-08)
 
 The landing was drawn on the western pool and nothing in the published water
 network ended there, so it read as a dock beside the water rather than on it.
-The berth keeps its place, because the village was built on this pool, and the
+The berth keeps its place, because the village was built on this pool; the
 poling channel is now solved to it (`fit: water-to-dock`,
 `terminal.nine-trunks.landing-channel` on
 `waterway.hist-heartland.nine-trunks.landing`). The berth is `canoe` class:
-the pool is marsh water the province classifies but publishes no depth for, so
+the pool is marsh water that the province classifies without publishing a depth, so
 it is credited with the 0.6 m a poled hull needs and no more. Every socket
 bound to a building is answered by a quest purpose on it. The pitch-taker
 socket is bound to the hut that gives Pitch-Rights.

@@ -117,7 +117,7 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 
 **Ground fit.** The stand is `plinth`: terrain delta across its footprint at 2.8 deg is roughly 0.19 m. The offering platform is `direct` at 0.8 deg. The dock is piled in the creek head at 1 m elevation.
 
-**Budget** (declared; the compiler agrees): 420 instances, 14 unique materials, 24 MB textures, 120 colliders. Compile: 4 placements, 0 errors. `buildingsPlanned` is 2: the ground carries two structures, and the stand's stacked deck is part of the stand rather than a third (the validator counts by derived kind since 2026-09-07).
+**Budget** (declared; the compiler agrees): 420 instances, 14 unique materials, 24 MB textures, 120 colliders. Compile: 4 placements, 0 errors. `buildingsPlanned` is 2: the ground carries two structures; the stand's stacked deck is part of the stand rather than a third (the validator counts by derived kind since 2026-09-07).
 
 ## Lair rules (what the other 37 beast lairs inherit)
 
@@ -152,10 +152,10 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 ## Open questions for the owner
 
 Answered (owner 2026-09-07, decision 0041 § Review 2026-09-07 and the Taste
-ledger). What was decided, and where each answer now lives:
+ledger). What was decided and where each answer now lives:
 
 1. **The lane comes from the south-east.** Accepted; the blueprint follows the
-   water. No northern water approach is asked for.
+   water. Nothing asks for a northern water approach.
 2. **Pond depth: 2.5 m.** A swimmable fight with a dive to the cache; the
    swimming pillar gets its first fight here. The pool request in
    § Catalogue record carries the depth.
@@ -200,7 +200,7 @@ without standing in it.
 ## Player purposes (owner ruling 2026-09-07)
 
 No parcel here carries a door: the stand, the platform and the bank works are
-all dressing, and dressing is out of scope of the enterable-purpose rule. The
+all dressing; dressing is out of scope of the enterable-purpose rule. The
 place's returns are its boss, its offerings and its flooded cave mouth, which
 are sockets rather than interiors.
 

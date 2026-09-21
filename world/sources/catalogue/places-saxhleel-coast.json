@@ -344,7 +344,7 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [
         "harbour open (customs staffed, the boom down, three currencies on the board)",
-        "harbour shut (the boom up, the bonded row sealed, and the tide streets doing the trade instead)"
+        "harbour shut (the boom up, the bonded row sealed, with the tide streets doing the trade instead)"
       ],
       "position": {
         "u": 0.66685,
@@ -357,7 +357,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road; the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "tropical jungle",
@@ -1318,7 +1318,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "reachable (the low branch within an adult's arm, the harbour treating it as furniture)",
-        "raised (the branch cut or grown out of reach, and the harbour suddenly arguing about whose tree it is)"
+        "raised (the branch cut or grown out of reach, with the harbour suddenly arguing about whose tree it is)"
       ],
       "position": {
         "u": 0.68976,
@@ -2334,7 +2334,7 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [
         "closed (the 4E 187 order still nailed up, nobody inside)",
-        "answering (the order gone, one lamp lit, and a name expected)"
+        "answering (the order gone, one lamp lit, a name expected)"
       ],
       "hostility": {
         "baseline": "sanctuary",
@@ -4733,7 +4733,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "quiet (empty niches, a house mark nobody claims)",
-        "claimed (somebody has begun filling the niches, and it is not Velothi work)"
+        "claimed (somebody has begun filling the niches; the work is not Velothi)"
       ],
       "hostility": {
         "baseline": "hostile",
@@ -8939,7 +8939,7 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "world/sources/lore/topics/labour-and-bondage.md (crossings have owners, and therefore keepers)",
+        "world/sources/lore/topics/labour-and-bondage.md (crossings have owners, therefore keepers)",
         "world/sources/catalogue/type-recipes.json#keepers-lodge",
         "lore: labour-and-bondage dossier (crossings have owners and therefore keepers)"
       ],
@@ -12106,7 +12106,7 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
       "name": "One-Chest",
-      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): air-pocket-station was over band (4/3-3) and air-pocket-grotto under (2/4-4); this record's own content - a submerged entrance, a hoard too heavy to swim out with, no surface expression - is the grotto recipe, not the staffed way-station one.",
+      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): air-pocket-station was over band (4/3-3) and air-pocket-grotto under (2/4-4); this record's own content - a submerged entrance, a hoard too heavy for a swimmer to carry out, no surface expression - is the grotto recipe, not the staffed way-station one.",
       "position": {
         "u": 0.59978,
         "v": 0.62803
@@ -13836,7 +13836,7 @@
           "mangrove forest"
         ],
         "hardConstraints": [
-          "a shelving beach a laden hull can ground on",
+          "a shelving beach that grounds a laden hull",
           "no settlement in line of sight of the fire",
           "on the open Padomaic shore, with the sea in front of it"
         ],
@@ -14585,7 +14585,7 @@
           "delivery": {
             "feature": "village-cliff-shelf"
           },
-          "note": "The village type is a cliff-shelf village; the plot found flood-high ground, so Part 6 cuts the shelf the houses stand on."
+          "note": "The village type is a cliff-shelf village; the plot found flood-high ground, so Part 6 cuts the shelf that carries the houses."
         }
       ],
       "questHooks": {
@@ -14904,7 +14904,7 @@
           "an island with open water on every side and a single landing"
         ],
         "preferences": [
-          "within sight of the mainland it will not go to"
+          "within sight of the mainland, which it will not approach"
         ],
         "landformClasses": [
           "island",
@@ -15084,7 +15084,7 @@
             "waterRelation": "ringed-by-water",
             "access": "one-landing"
           },
-          "note": "The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet the record's identity depends on."
+          "note": "The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet on which the record's identity depends."
         }
       ],
       "services": [],
@@ -18890,7 +18890,7 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "open (the board chalked before dawn, two hours of walkable flat)",
-        "shut (the board not chalked, and whoever went out on yesterday's timing still out there)"
+        "shut (the board not chalked, with whoever went out on yesterday's timing still out there)"
       ],
       "position": {
         "u": 0.62432,

@@ -1495,7 +1495,7 @@
         ],
         "preferences": [
           "water relation: as a hist-village",
-          "neighbours: neighbours argue about taking them in"
+          "neighbours: neighbours argue about whether to admit them"
         ],
         "landformClasses": [
           "flood-high",
@@ -1530,7 +1530,7 @@
       "occupants": [],
       "notableNpcSlots": [
         "the egg-tender who kept the log",
-        "the naheesh who will not have the clutch spoken of"
+        "the naheesh who forbids talk of the clutch"
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -3991,7 +3991,7 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "traversal: no canon tree-way network; treat arboreal routes as local, not a system",
+        "traversal: the lore gives no tree-way network; treat arboreal routes as local, not a system",
         "world/sources/lore/regions/murkmire.md",
         "world/sources/lore/topics/material-culture.md",
         "world/sources/catalogue/type-recipes.json#canopy-crossing"
@@ -4190,7 +4190,7 @@
       "status": "abandoned",
       "provenance": "geography-derived",
       "sources": [
-        "traversal: no canon tree-way network; treat arboreal routes as local, not a system",
+        "traversal: the lore gives no tree-way network; treat arboreal routes as local, not a system",
         "world/sources/lore/regions/murkmire.md",
         "world/sources/catalogue/type-recipes.json#canopy-crossing"
       ],
@@ -5243,7 +5243,7 @@
         "preferences": [
           "water relation: channel bank or spring, always with a landing",
           "neighbours: one to two hours from its neighbours by water; clusters along a drainage",
-          "water relation: at a spring the cutting can be watered from"
+          "water relation: at a spring from which the cutting can be watered"
         ],
         "landformClasses": [
           "spring-head",
@@ -6916,7 +6916,7 @@
             "feature": "narrows",
             "current": "lethal-wet-season"
           },
-          "note": "the hazard is the pinch: the channel must close to a width the wet-season flow can run lethal through"
+          "note": "the hazard is the pinch: the channel must close to a width through which the wet-season flow can run lethal"
         }
       ]
     },
@@ -6960,7 +6960,7 @@
         "preferences": [
           "water relation: raised",
           "neighbours: in xanmeer country; contrasts directly with the tended and sealed ones",
-          "isolated: nothing a traveller in their first hours would walk into"
+          "isolated: nothing that a traveller in their first hours would meet"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -9761,7 +9761,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'helstrom' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road, and the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'helstrom' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "rootland deep marsh",
@@ -10814,7 +10814,7 @@
         "id": "hist.hist-heartland.hist-agaceph-needle",
         "powerSlot": "power.hist.hist-heartland.hist-agaceph-needle",
         "status": "hero",
-        "note": "Hero Hist 6/10. EXTRAPOLATED under hist-placement R1/R6: the Agaceph's own tree, its gloor producing the needle-faced, rainbow-scaled morphology canon gives them.",
+        "note": "Hero Hist 6/10. EXTRAPOLATED under hist-placement R1/R6: the Agaceph's own tree, its gloor producing the needle-faced, rainbow-scaled morphology described in the lore.",
         "kind": "tribal Hist"
       },
       "season": "all-year",
@@ -11043,7 +11043,7 @@
         "kind": "grove, reserve",
         "powerSlot": null,
         "status": "reserve",
-        "note": "Register grove of hero rank, but NOT one of the ten power slots — reserve. The three canon interior peoples (Agaceph, Paatru, Sarpa) hold the interior's three slots; this fourth grove stands as a swap candidate."
+        "note": "Register grove of hero rank, but NOT among the ten power slots — reserve. The three interior peoples named in the lore (Agaceph, Paatru, Sarpa) hold the interior's three slots; this fourth grove stands as a swap candidate."
       },
       "season": "all-year",
       "eraLayers": [
@@ -11184,7 +11184,7 @@
         ],
         "preferences": [
           "water relation: wherever they were allowed to stop",
-          "neighbours: on the edge of somewhere that would not take them in",
+          "neighbours: on the edge of somewhere that would not admit them",
           "off every route and out of any settlement's sightline — MQ19's subject has to be somewhere neither claimant would think to look"
         ],
         "landformClasses": [
@@ -11526,7 +11526,7 @@
         "id": "hist.hist-heartland.hist-paatru-lowcrown",
         "powerSlot": "power.hist.hist-heartland.hist-paatru-lowcrown",
         "status": "hero",
-        "note": "Hero Hist 7/10. EXTRAPOLATED under hist-placement R1/R6: the Paatru's tree, its gloor producing the toad-like morphology canon gives them.",
+        "note": "Hero Hist 7/10. EXTRAPOLATED under hist-placement R1/R6: the Paatru's tree, its gloor producing the toad-like morphology described in the lore.",
         "kind": "tribal Hist"
       },
       "season": "all-year",
@@ -11751,7 +11751,7 @@
         "id": "hist.hist-heartland.hist-sarpa-highflower",
         "powerSlot": "power.hist.hist-heartland.hist-sarpa-highflower",
         "status": "hero",
-        "note": "Hero Hist 8/10. EXTRAPOLATED under hist-placement R1/R6: the Sarpa's tree, its gloor producing the winged morphology canon gives them.",
+        "note": "Hero Hist 8/10. EXTRAPOLATED under hist-placement R1/R6: the Sarpa's tree, its gloor producing the winged morphology described in the lore.",
         "kind": "tribal Hist"
       },
       "season": "all-year",
@@ -12123,12 +12123,12 @@
         ],
         "hardConstraints": [
           "culture zone: hist-heartland",
-          "remote: at least a kilometre from Alten Corimont, in water no beginner would be on"
+          "remote: at least a kilometre from Alten Corimont, in water where no beginner would be"
         ],
         "preferences": [
           "water relation: varies by variant",
           "neighbours: the apex hazard of its region; routes bend around it",
-          "isolated: nothing a traveller in their first hours would walk into"
+          "isolated: nothing that a traveller in their first hours would meet"
         ],
         "landformClasses": [
           "cove",
@@ -14891,7 +14891,7 @@
         ],
         "preferences": [
           "water relation: dark standing water, heavy canopy",
-          "neighbours: within a night's travel of a hatchery it preys on"
+          "neighbours: within a night's travel of a hatchery on which it preys"
         ],
         "landformClasses": [
           "gorge",
@@ -17228,7 +17228,7 @@
       "importanceTier": 1,
       "workflow": "plotted",
       "singularClaim": "countBand [1,1]: one province-wide refuge of last resort; sited in the interior it serves",
-      "reconciliation": "canon associates 'the Refuge' with Deepmire — confirm zone ownership before Part 3",
+      "reconciliation": "the lore associates 'the Refuge' with Deepmire — confirm zone ownership before Part 3",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -17372,7 +17372,7 @@
         ],
         "preferences": [
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map",
+          "neighbours: the root layer is continuous — galleries connect; that connection is the map",
           "on the route it serves, close enough that traffic passes it"
         ],
         "landformClasses": [
@@ -17615,7 +17615,7 @@
         ],
         "preferences": [
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map"
+          "neighbours: the root layer is continuous — galleries connect; that connection is the map"
         ],
         "landformClasses": [
           "flood-high",
@@ -17917,7 +17917,7 @@
         ],
         "preferences": [
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map"
+          "neighbours: the root layer is continuous — galleries connect; that connection is the map"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -18171,7 +18171,7 @@
         ],
         "preferences": [
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map",
+          "neighbours: the root layer is continuous — galleries connect; that connection is the map",
           "water relation: deep water at the mouth, the stair descending below it"
         ],
         "landformClasses": [
@@ -18445,7 +18445,7 @@
         ],
         "preferences": [
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map"
+          "neighbours: the root layer is continuous — galleries connect; that connection is the map"
         ],
         "landformClasses": [
           "flood-high",
@@ -18973,7 +18973,7 @@
         ],
         "preferences": [
           "water relation: water at the gallery's low points; some branches fully flooded",
-          "neighbours: the root layer is continuous — galleries connect, and that connection is the map"
+          "neighbours: the root layer is continuous — galleries connect; that connection is the map"
         ],
         "landformClasses": [
           "any-shallow-marsh",
@@ -19348,7 +19348,7 @@
       "complexityBudget": "standard",
       "importanceTier": 1,
       "workflow": "plotted",
-      "singularClaim": "countBand [1,1]: canon fixes the convocation at Helstrom",
+      "singularClaim": "countBand [1,1]: the lore fixes the convocation at Helstrom",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -19502,7 +19502,7 @@
         ],
         "preferences": [
           "water relation: dry root ground",
-          "neighbours: on or beside the root-transit network, which is why it matters"
+          "neighbours: on or beside the root-transit network"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -19761,7 +19761,7 @@
         ],
         "preferences": [
           "water relation: dry root ground",
-          "neighbours: on or beside the root-transit network, which is why it matters"
+          "neighbours: on or beside the root-transit network"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -22193,7 +22193,7 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "module 20 §11 (stage five of the foreign-infrastructure life cycle: reuse)",
+        "module 20 §11 (stage five of the life cycle of foreign works: reuse)",
         "uesp:Lore:Xanmeer",
         "world/sources/lore/tribes.md",
         "world/sources/lore/topics/material-culture.md"
@@ -23798,7 +23798,7 @@
       "complexityBudget": "standard",
       "importanceTier": 2,
       "workflow": "plotted",
-      "reconciliation": "canon sites Xal Irasotl near Hutan-Tzel/Rockguard — confirm which agent owns that village",
+      "reconciliation": "the lore sites Xal Irasotl near Hutan-Tzel/Rockguard — confirm which agent owns that village",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -25266,7 +25266,7 @@
       "complexityBudget": "simple",
       "importanceTier": 1,
       "workflow": "plotted",
-      "singularClaim": "countBand [1,1]: Umpholo is the canon interior mission and the type's only instance",
+      "singularClaim": "countBand [1,1]: Umpholo is the interior mission named in the lore and the type's only instance",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -26959,7 +26959,7 @@
         ],
         "preferences": [
           "off any walked path",
-          "soft ground the whole way in"
+          "soft ground for the whole approach"
         ],
         "landformClasses": [
           "pool",

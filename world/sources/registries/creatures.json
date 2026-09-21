@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "domain": "creature",
- "_": "PLACEHOLDER register. Seeded from the canon bestiary so contents.creatures[].registerRef has somewhere to point; Phase 13's creature register adds stats and spawn tables. assetAvailability records what asset can actually deliver each creature (docs/research/lore/creature-asset-availability.md).",
+ "_": "PLACEHOLDER register. Seeded from the bestiary in the sources so contents.creatures[].registerRef has somewhere to point; Phase 13's creature register adds stats and spawn tables. assetAvailability records what asset can actually deliver each creature (docs/research/lore/creature-asset-availability.md).",
  "entries": [
   {
    "id": "creature.bog-blight",
@@ -57,7 +57,7 @@
    "sources": [
     "world/sources/lore/topics/fauna-hazards.md"
    ],
-   "notes": "Said to inhabit the depths of Black Marsh; unelaborated in canon.",
+   "notes": "Said to inhabit the depths of Black Marsh; the sources give no more.",
    "assetAvailability": {
     "status": "none",
     "via": "no rig; deliver instead as the kaj-thux great-serpent build, BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snakes/character assets/oldsnake.nif",
@@ -180,11 +180,11 @@
     "UESP:Lore:Haynekhtnamet",
     "world/sources/lore/topics/fauna-hazards.md"
    ],
-   "notes": "The legendary Shadowfen wamasu locals made offerings to.",
+   "notes": "The legendary Shadowfen wamasu that received offerings from locals.",
    "assetAvailability": {
     "status": "sourced",
     "via": "same build as creature.wamasu (HTBM Wamasu.nif/WamasuALT.nif), uniquely scaled and re-materialled",
-    "notes": "Follows whatever creature.wamasu resolves to."
+    "notes": "Follows the resolution of creature.wamasu."
    }
   },
   {
