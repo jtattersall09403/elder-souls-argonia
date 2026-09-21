@@ -579,6 +579,83 @@ function nearTreatment(
 
 /** Reject by origin PLUS species radius: a fern rooted outside a floor may
  * still put two metres of frond through it. */
+/** An axis-aligned box in world metres. */
+export interface MaskBox {
+  readonly minX: number;
+  readonly maxX: number;
+  readonly minZ: number;
+  readonly maxZ: number;
+}
+
+/** Cell size of the per-tile mask, metres. Building footprints and clearance
+ * corridors are metres wide, so a 1 m cell resolves them; the mask is only a
+ * REJECT filter, never the answer, so its resolution costs no accuracy. */
+export const MASK_CELL_M = 1;
+export const MASK_N = TILE_M / MASK_CELL_M;
+/** Bit 0: a building footprint may reach this cell. Bit 1: a clearance patch
+ * may. A cell with neither bit cannot fail either test for any candidate in
+ * it, so both are skipped outright. */
+export const MASK_EXCLUDE = 1;
+export const MASK_PATCH = 2;
+
+/** Distance from a point to an axis-aligned box, 0 inside it. */
+function boxDistance(x: number, z: number, b: MaskBox): number {
+  const dx = Math.max(b.minX - x, 0, x - b.maxX);
+  const dz = Math.max(b.minZ - z, 0, z - b.maxZ);
+  return Math.hypot(dx, dz);
+}
+
+/**
+ * Rasterise a tile's footprint boxes and clearance-patch bounds into a cell
+ * mask, ONCE per tile, so the per-candidate tests become one array index
+ * instead of a polygon walk each (2026-09-21: one tile beside a road-track
+ * clearance was measured at 31 ms while walking).
+ *
+ * The mask is CONSERVATIVE and therefore exact: a cell is marked whenever a
+ * shape's bounding box comes within `reachM` of the cell centre, where
+ * `reachM` is the cell's half-diagonal plus the widest species radius — the
+ * furthest any candidate in the cell can reach out of it. A marked cell still
+ * runs the full `excludedByFootprints` / `survivesPatchesIn` test, so no
+ * plant moves; an unmarked cell provably fails neither, so the test is
+ * skipped. Rotated boxes and polygons need no special case: it is their
+ * bounding box that is rasterised, never the shape.
+ *
+ * `out` is the caller's reused buffer (`MASK_N x MASK_N`), filled in place.
+ */
+export function rasteriseTileMask(
+  out: Uint8Array,
+  x0: number,
+  z0: number,
+  reachM: number,
+  exclusionBounds: readonly MaskBox[],
+  patchBounds: readonly MaskBox[],
+): void {
+  out.fill(0);
+  if (exclusionBounds.length === 0 && patchBounds.length === 0) return;
+  const reach = reachM + MASK_CELL_M * Math.SQRT1_2;
+  for (let iz = 0; iz < MASK_N; iz++) {
+    const cz = z0 + (iz + 0.5) * MASK_CELL_M;
+    for (let ix = 0; ix < MASK_N; ix++) {
+      const cx = x0 + (ix + 0.5) * MASK_CELL_M;
+      let flags = 0;
+      for (const b of exclusionBounds) {
+        if (boxDistance(cx, cz, b) <= reach) { flags |= MASK_EXCLUDE; break; }
+      }
+      for (const b of patchBounds) {
+        if (boxDistance(cx, cz, b) <= reach) { flags |= MASK_PATCH; break; }
+      }
+      out[iz * MASK_N + ix] = flags;
+    }
+  }
+}
+
+/** The mask cell holding a point at tile-local metres. */
+export function maskCellIndex(lx: number, lz: number): number {
+  const ix = Math.min(MASK_N - 1, Math.max(0, Math.floor(lx / MASK_CELL_M)));
+  const iz = Math.min(MASK_N - 1, Math.max(0, Math.floor(lz / MASK_CELL_M)));
+  return iz * MASK_N + ix;
+}
+
 export function excludedByFootprints(
   x: number, z: number, radiusM: number, footprints: readonly Footprint[],
 ): boolean {
@@ -908,15 +985,11 @@ const EMPTY_TILE_SPECIES: TileSpecies = {
   count: 0, farCount: 0, matrices: new Float32Array(0), colours: new Float32Array(0),
 };
 
-/** One candidate while a tile is being generated; composed into the tile's
- * typed arrays at the end of generation and never kept. */
-interface TilePlacement {
-  x: number; y: number; z: number; yaw: number;
-  scale: number;
-  keep: number;
-  farKeep: number;
-  r: number; g: number; b: number;
-}
+/** Floats per candidate in the per-species scratch array while a tile is
+ * being generated: x, y, z, yaw, scale, keep, farKeep, r, g, b. Candidates
+ * were objects until 2026-09-21; a dense tile allocated a thousand of them
+ * only to compose and drop them in the same call. */
+const PLACEMENT_STRIDE = 10;
 
 export interface GroundcoverStats {
   instances: number;
@@ -1620,6 +1693,32 @@ export function Groundcover({
     const grid = new Float32Array(TILE_GRID_N * TILE_GRID_N);
     const depthGrid = new Float32Array(TILE_GRID_N * TILE_GRID_N);
     const slotsPresent = new Set<number>();
+    // Reused across tiles: a mask allocated per tile would be 256 bytes of
+    // garbage every 16 m of walking, on the frame budget that generates them.
+    const tileMask = new Uint8Array(MASK_N * MASK_N);
+    const tileExclusionBounds: MaskBox[] = [];
+    const tilePatchBounds: MaskBox[] = [];
+    // Candidate placements per species, in ONE reused typed array each
+    // (x, y, z, yaw, scale, keep, farKeep, r, g, b), grown 1.5x when a denser
+    // tile needs more room and never shrunk.
+    const placements: Float32Array[] = SPECIES_PLANS.map(() => new Float32Array(0));
+    const placementCount: number[] = SPECIES_PLANS.map(() => 0);
+    let orderBuffer = new Uint32Array(0);
+    const growPlacements = (speciesIndex: number, needed: number): Float32Array => {
+      const have = placements[speciesIndex];
+      if (have.length >= needed * PLACEMENT_STRIDE) return have;
+      const size = Math.max(64, Math.ceil(needed * 1.5)) * PLACEMENT_STRIDE;
+      const grown = new Float32Array(size);
+      grown.set(have);
+      placements[speciesIndex] = grown;
+      return grown;
+    };
+    const growOrder = (needed: number): Uint32Array => {
+      if (orderBuffer.length < needed) {
+        orderBuffer = new Uint32Array(Math.max(64, Math.ceil(needed * 1.5)));
+      }
+      return orderBuffer;
+    };
 
     /** Bilinear read of a per-tile grid at local metres (0..TILE_M). */
     const gridAt = (g: Float32Array, lx: number, lz: number): number => {
@@ -1695,12 +1794,23 @@ export function Groundcover({
         ? EMPTY_PATCHES
         : patchEntriesNear(tileCx, tileCz, clearanceIndex, tilePadM);
       const tileExclusions: Footprint[] = [];
+      tileExclusionBounds.length = 0;
       for (const box of exclusionBoxes) {
         const dx = Math.max(box.minX - tileCx, 0, tileCx - box.maxX);
         const dz = Math.max(box.minZ - tileCz, 0, tileCz - box.maxZ);
-        if (Math.hypot(dx, dz) <= tilePadM) tileExclusions.push(box.poly);
+        if (Math.hypot(dx, dz) <= tilePadM) {
+          tileExclusions.push(box.poly);
+          tileExclusionBounds.push(box);
+        }
       }
-      const perSpecies: TilePlacement[][] = SPECIES_PLANS.map(() => []);
+      // Both narrowed lists are rasterised into ONE cell mask (above), so a
+      // candidate pays an array index rather than a polygon walk per test.
+      tilePatchBounds.length = 0;
+      for (const entry of tilePatches) tilePatchBounds.push(entry.bounds);
+      rasteriseTileMask(
+        tileMask, x0, z0, maxSpeciesRadiusM, tileExclusionBounds, tilePatchBounds,
+      );
+      for (let i = 0; i < placementCount.length; i++) placementCount[i] = 0;
       for (const plan of SPECIES_PLANS) {
         let bound = false;
         for (const key of slotsPresent) if (plan.bySlot.has(key)) { bound = true; break; }
@@ -1740,14 +1850,15 @@ export function Groundcover({
           const accept = (rule.density / plan.maxDensity) * (0.35 + 1.3 * clump);
           if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= accept) { rej.accept++; continue; }
 
-          if (tileExclusions.length > 0
+          const maskFlags = tileMask[maskCellIndex(lx, lz)];
+          if ((maskFlags & MASK_EXCLUDE) !== 0
             && excludedByFootprints(x, z, speciesRadiusM, tileExclusions)) {
             rej.footprint++; continue;
           }
           // Vegetation patches (0041 gotcha (b)): the published bundles were
           // patched by the stage, but this layer is generated here and has to
           // obey the same patch list or grass grows through the floors.
-          if (tilePatches.length > 0
+          if ((maskFlags & MASK_PATCH) !== 0
             && !survivesPatchesIn(x, z, speciesRadiusM, tilePatches,
               u01(hash32(tx, tz, plan.index, k * 8 + 7)))) { rej.patch++; continue; }
 
@@ -1786,37 +1897,58 @@ export function Groundcover({
             b = Math.min(1, (tint.rgb[o + 2] / 255) * drift);
           }
           const vary = (u01(hash32(tx, tz, plan.index, k * 8 + 5)) - 0.5) * 2;
-          perSpecies[plan.index].push({
-            x, y: h * verticalScale, z,
-            yaw: u01(hash32(tx, tz, plan.index, k * 8 + 4)) * Math.PI * 2,
-            scale: 1 + vary * rule.heightVariance,
-            keep: u01(hash32(tx, tz, plan.index, k * 8 + 6)),
-            farKeep: keepP > 0 ? genKeep / keepP : 1,
-            r, g: gg, b,
-          });
+          // Straight into the species' reused typed array: one candidate used
+          // to allocate a `TilePlacement` object, and a dense tile allocated
+          // a thousand of them for the collector to take back a frame later.
+          const slot = placementCount[plan.index]++;
+          const data = growPlacements(plan.index, slot + 1);
+          const o = slot * PLACEMENT_STRIDE;
+          data[o] = x;
+          data[o + 1] = h * verticalScale;
+          data[o + 2] = z;
+          data[o + 3] = u01(hash32(tx, tz, plan.index, k * 8 + 4)) * Math.PI * 2;
+          data[o + 4] = 1 + vary * rule.heightVariance;
+          data[o + 5] = u01(hash32(tx, tz, plan.index, k * 8 + 6));
+          data[o + 6] = keepP > 0 ? genKeep / keepP : 1;
+          data[o + 7] = r;
+          data[o + 8] = gg;
+          data[o + 9] = b;
         }
       }
       // Compose the tile's arrays once: far subset first, each block sorted
       // by `keep`, so every later fill is a block copy.
-      const composed: TileSpecies[] = perSpecies.map((list) => {
-        if (list.length === 0) return EMPTY_TILE_SPECIES;
-        const farPart = list.filter((p) => p.farKeep < FAR_THIN).sort((a, c) => a.keep - c.keep);
-        const restPart = list.filter((p) => p.farKeep >= FAR_THIN).sort((a, c) => a.keep - c.keep);
-        const ordered = farPart.concat(restPart);
-        const matrices = new Float32Array(ordered.length * 16);
-        const colours = new Float32Array(ordered.length * 3);
-        for (let i = 0; i < ordered.length; i++) {
-          const item = ordered[i];
-          position.set(item.x, item.y, item.z);
-          quaternion.setFromAxisAngle(up, item.yaw);
-          scale.setScalar(item.scale);
+      const composed: TileSpecies[] = placementCount.map((count, speciesIndex) => {
+        if (count === 0) return EMPTY_TILE_SPECIES;
+        const data = placements[speciesIndex];
+        // Partition in place: far subset first, then each block sorted by
+        // `keep`, which is what makes every later fill a block copy.
+        const order = growOrder(count);
+        let far = 0;
+        for (let i = 0; i < count; i++) {
+          if (data[i * PLACEMENT_STRIDE + 6] < FAR_THIN) order[far++] = i;
+        }
+        let rest = far;
+        for (let i = 0; i < count; i++) {
+          if (data[i * PLACEMENT_STRIDE + 6] >= FAR_THIN) order[rest++] = i;
+        }
+        const byKeep = (a: number, c: number) =>
+          data[a * PLACEMENT_STRIDE + 5] - data[c * PLACEMENT_STRIDE + 5];
+        order.subarray(0, far).sort(byKeep);
+        order.subarray(far, count).sort(byKeep);
+        const matrices = new Float32Array(count * 16);
+        const colours = new Float32Array(count * 3);
+        for (let i = 0; i < count; i++) {
+          const o = order[i] * PLACEMENT_STRIDE;
+          position.set(data[o], data[o + 1], data[o + 2]);
+          quaternion.setFromAxisAngle(up, data[o + 3]);
+          scale.setScalar(data[o + 4]);
           matrix.compose(position, quaternion, scale);
           matrix.toArray(matrices, i * 16);
-          colours[i * 3] = item.r;
-          colours[i * 3 + 1] = item.g;
-          colours[i * 3 + 2] = item.b;
+          colours[i * 3] = data[o + 7];
+          colours[i * 3 + 1] = data[o + 8];
+          colours[i * 3 + 2] = data[o + 9];
         }
-        return { count: ordered.length, farCount: farPart.length, matrices, colours };
+        return { count, farCount: far, matrices, colours };
       });
       return {
         far: wantFar, perSpecies: composed,
