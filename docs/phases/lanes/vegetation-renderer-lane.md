@@ -234,15 +234,20 @@ is a local commit on `main`, none pushed.
 | Panning flipped 11 800 copies; load took 30 s to settle | frustum culling by visibility; initial fill went through the queue | distance-only gating, first visibility set at fill, drain time-boxed 1.5 ms (27776d1b) |
 | Rest 13 fps with vegetation, 60 without, CPU zero | vertex load: 58 m tiles + 24 m margin drew the near rung to ~140 m over 360° | 29 m tiles as flat arrays, 8 m margin, behind-camera cull with hysteresis (3b392676) |
 | `?veg=0` walk 60→5 fps; `gen` 110–555 ms a tile | clearance patches (183, 64 840 vertices) tested per candidate against every segment | segment index per patch, one nearby-patch lookup per tile; GPU timer + shadow switch (832abc14) |
+| Rest 21 fps, gpu 27.7 ms, CPU idle; vegshadow=0 saved 3 ms; q=low (36% fewer pixels) saved 35% of the GPU time; "slightly jerky" at 45 fps | GPU fill-bound; at 16 ms GPU the frame straddles the 16.7 ms vsync line and alternates 60/30 fps; batches drew in insertion order across materials; out-of-band rungs were already collapsed in the vertex shader (the collapse predicate stopped at fadeOut >= 1 where the Bayer ceiling is 15/16) | nearest-first batch renderOrder from the gating pass; predicate at the Bayer ceiling; switches `&gc=0`, `&dpr=n`, `&aa=0`, `&vegorder=0` (11fd432b) |
 
-### Open at hand-off (next round starts from the owner's reading of 832abc14)
+### Open at hand-off (next round starts from the owner's reading of 11fd432b)
 
-1. **Rest fps with vegetation on** was 18 before 832abc14 (60 without); read
-   `gpu` and try `&vegshadow=0` and `&q=low`. If `gpu` carries the gap, the
-   next candidates are the near-rung shadow casters (every near copy casts,
-   three cascades), alpha-tested double-sided overdraw, and the per-copy
-   vertex shader (wind + fade + two texture fetches per vertex); measure by
-   switching each off before designing anything.
+1. **Attribution readings.** The next round starts from the owner's rest
+   readings at the jungle URL with, one reload each: no switches;
+   `&vegorder=0`; `&gc=0`; `&dpr=1`; `&aa=0`; `&vegshader=off`; `&vegshadow=0`.
+   Each reading's `gpu` avg attributes that cost, and whatever carries the most
+   decides the next fix. Candidates in order of expected size: pixel count, so
+   the medium preset's `dprMax`; ground-cover fill; foliage fragment shading
+   with two PCF cascades and IBL, where a depth pre-pass would shade each pixel
+   once; canvas antialias. The vsync rule holds throughout: any GPU time above
+   16.7 ms cannot show 60 fps, and near 16.7 ms the frame alternates 60/30, so
+   the target is GPU under ~12 ms.
 2. **Walking with ground cover**: `gen` and `tile` should now be single-digit
    ms; `fill` (2–20 ms at 1–4 rebuilds/s) is the next ground-cover cost if it
    still hitches: it rewrites every live tile's buffers on each 8 m rebuild.
