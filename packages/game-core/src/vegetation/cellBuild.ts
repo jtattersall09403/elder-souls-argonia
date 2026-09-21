@@ -72,11 +72,14 @@ export interface CellRung {
 
 /**
  * Gate tiles per cell edge. A cell is switched on and off at TILE resolution
- * (468 / 8 ≈ 58.5 m), because a whole 468 m cell switched on by one corner
+ * (468 / 16 ≈ 29.3 m), because a whole 468 m cell switched on by one corner
  * inside a 24 m plant's draw distance submits an order of magnitude more
  * vertices than the plant can be seen through (round-1 vertex-load defect).
+ * 16 replaced 8 in the round 2 addendum: with 58 m tiles the near rung was
+ * still drawn out to ~140 m, which is the vertex load the owner measured at
+ * 13 fps on a real GPU.
  */
-export const CELL_TILES = 8;
+export const CELL_TILES = 16;
 /** minX, minY, minZ, maxX, maxY, maxZ, maxScale. */
 export const TILE_BOUNDS_STRIDE = 7;
 
@@ -88,7 +91,8 @@ export interface CellSpeciesBuild {
   /** Stride 2: (stiffness − 1, sink). Sorted with `placements`. */
   windTune: Float32Array;
   rungs: CellRung[];
-  /** CSR offsets into `placements` per tile: 65 entries, tile t is [t, t+1). */
+  /** CSR offsets into `placements` per tile: `CELL_TILES²+1` entries, tile t
+   * is [t, t+1). */
   tileOffsets: Uint32Array;
   /** Stride `TILE_BOUNDS_STRIDE` per tile; an empty tile is all zero. */
   tileBounds: Float32Array;
@@ -201,7 +205,7 @@ function buildSpecies(
   const tiles = CELL_TILES * CELL_TILES;
   const read = new Float32Array(count * PLACEMENT_STRIDE);
   const readWind = new Float32Array(count * 2);
-  const tileOf = new Uint8Array(count);
+  const tileOf = new Uint16Array(count);
   const tileOffsets = new Uint32Array(tiles + 1);
   const placements = new Float32Array(count * PLACEMENT_STRIDE);
   const windTune = new Float32Array(count * 2);

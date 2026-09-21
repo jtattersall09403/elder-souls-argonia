@@ -22,6 +22,7 @@ import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabil
 import { visualSupportY } from "@elder-souls/game-core/physics/visualSupport";
 import { spawnBodyY } from "./spawnHeight";
 import type { VegetationStats } from "../vegetation/Vegetation";
+import type { GroundcoverPerf } from "../vegetation/Groundcover";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
 import { DEFAULT_SEX, RACE_IDS, resolveBuild, type RaceId } from "@elder-souls/game-core/actors/races";
 import { prefetchChunks, sharedChunkStore, type ChunksManifest } from "./chunkStore";
@@ -650,6 +651,7 @@ function CharacterHud({ channel }: { channel: HudChannel }) {
       {" · "}{["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(hud.headingDeg / 45) % 8]} {Math.round(hud.headingDeg)}°
       {" · "}{hud.grounded ? `${hud.speed.toFixed(1)} m/s` : "airborne"}
       <VegetationHudLine />
+      <GroundcoverHudLine />
     </span>
   );
 }
@@ -710,6 +712,30 @@ function VegetationHudLine() {
       {` · pending ${veg.pendingBatches}`}
       {` · queue ${veg.queueMs}/${veg.queueMaxMs} ms ${veg.queueTop}`}
       {` · draws ${veg.draws}`}
+    </span>
+  );
+}
+
+/** The same DEV line for the groundcover ring, polled once a second. */
+function GroundcoverHudLine() {
+  const [gc, setGc] = useState<GroundcoverPerf | null>(null);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const host = window as unknown as {
+      __STUDIO_GROUNDCOVER_DEBUG__?: { perf?: GroundcoverPerf };
+    };
+    const read = () => setGc(host.__STUDIO_GROUNDCOVER_DEBUG__?.perf ?? null);
+    read();
+    const timer = window.setInterval(read, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  if (!gc) return null;
+  return (
+    <span style={{ display: "block", opacity: 0.75 }}>
+      {`gc: rebuilds ${gc.rebuildsPerSec}/s`}
+      {` · gen ${gc.generateMs}/${gc.generateMaxMs} ms`}
+      {` · fill ${gc.fillMs}/${gc.fillMaxMs} ms (${gc.fillInstances})`}
+      {` · tiles ${gc.tilesLive}/${gc.tilesPending}`}
     </span>
   );
 }

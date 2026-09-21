@@ -866,6 +866,25 @@ export interface GroundcoverStats {
   /** Main-thread cost: tile generation since the last fill (spread over
    * frames within GENERATE_BUDGET_MS each) and this fill. */
   rebuildMs: { generate: number; fill: number };
+  /** DEV per-frame instrumentation (no behaviour), republished every frame on
+   * `__STUDIO_GROUNDCOVER_DEBUG__` so the HUD can poll it. */
+  perf?: GroundcoverPerf;
+}
+
+/** Per-frame groundcover counters (DEV only). `fillMs`/`fillInstances` are
+ * the MOST RECENT fill, which happens on a fraction of frames; the max fields
+ * are over the last 120 frames. */
+export interface GroundcoverPerf {
+  frame: number;
+  rebuildsStarted: number;
+  rebuildsPerSec: number;
+  generateMs: number;
+  generateMaxMs: number;
+  fillMs: number;
+  fillMaxMs: number;
+  fillInstances: number;
+  tilesLive: number;
+  tilesPending: number;
 }
 
 export function Groundcover({
@@ -925,6 +944,15 @@ export function Groundcover({
   /** Set once the inputs exist; `useFrame` calls it with a time budget. */
   const generateRef = useRef<((budgetMs: number) => { generated: number; remaining: number }) | null>(null);
   const [revision, setRevision] = useState(0);
+  /** DEV instrumentation only: nothing here is read by the renderer. */
+  const perf = useRef<GroundcoverPerf>({
+    frame: 0, rebuildsStarted: 0, rebuildsPerSec: 0,
+    generateMs: 0, generateMaxMs: 0, fillMs: 0, fillMaxMs: 0,
+    fillInstances: 0, tilesLive: 0, tilesPending: 0,
+  });
+  /** Timestamps of the rebuilds in the last second, for `rebuildsPerSec`. */
+  const rebuildTimes = useRef<number[]>([]);
+  const maxWindowFrame = useRef(0);
 
   const decoders = useKitDecoders(baseUrl);
   const gltf = useLoader(GLTFLoader, `${baseUrl}kits/groundcover-province-v1.glb`,
@@ -1071,9 +1099,22 @@ export function Groundcover({
     if (moved >= REBUILD_MOVE_M) fill = true;
     // Generate a few tiles a frame, nearest first, inside the budget; ask
     // for a fill when the queue drains or has been draining for a while.
+    const p = perf.current;
+    p.frame++;
+    if (p.frame - maxWindowFrame.current >= 120) {
+      maxWindowFrame.current = p.frame;
+      p.generateMaxMs = 0;
+      p.fillMaxMs = 0;
+    }
+    p.generateMs = 0;
+    let pendingTiles = 0;
     if (genPending.current && generateRef.current) {
+      const tGen0 = performance.now();
       const { generated, remaining } = generateRef.current(
         coldStart.current ? GENERATE_BUDGET_COLD_MS : GENERATE_BUDGET_MS);
+      p.generateMs = Math.round((performance.now() - tGen0) * 10) / 10;
+      if (p.generateMs > p.generateMaxMs) p.generateMaxMs = p.generateMs;
+      pendingTiles = remaining;
       coldStart.current = remaining > GENERATE_COLD_TILES;
       generatedSinceFill.current += generated;
       if (remaining === 0) genPending.current = false;
@@ -1082,11 +1123,29 @@ export function Groundcover({
         fill = true;
       }
     }
+    p.tilesPending = pendingTiles + generatedSinceFill.current;
     if (fill) {
       lastBuildFocus.current = { x: focus.x, z: focus.z };
       lastFillTime.current = state.clock.elapsedTime;
       generatedSinceFill.current = 0;
       setRevision((r) => r + 1);
+      p.rebuildsStarted++;
+      const now = performance.now();
+      rebuildTimes.current.push(now);
+      while (rebuildTimes.current.length && now - rebuildTimes.current[0] > 1000) {
+        rebuildTimes.current.shift();
+      }
+    } else {
+      const now = performance.now();
+      while (rebuildTimes.current.length && now - rebuildTimes.current[0] > 1000) {
+        rebuildTimes.current.shift();
+      }
+    }
+    p.rebuildsPerSec = rebuildTimes.current.length;
+    if (import.meta.env.DEV) {
+      const host = window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats };
+      if (host.__STUDIO_GROUNDCOVER_DEBUG__) host.__STUDIO_GROUNDCOVER_DEBUG__.perf = p;
+      else host.__STUDIO_GROUNDCOVER_DEBUG__ = { perf: p } as unknown as GroundcoverStats;
     }
   });
 
@@ -1379,6 +1438,11 @@ export function Groundcover({
     }
 
     const tFilled = performance.now();
+    const perfNow = perf.current;
+    perfNow.fillMs = Math.round((tFilled - tGenerated) * 10) / 10;
+    if (perfNow.fillMs > perfNow.fillMaxMs) perfNow.fillMaxMs = perfNow.fillMs;
+    perfNow.fillInstances = instances;
+    perfNow.tilesLive = tiles;
     const stats: GroundcoverStats = {
       instances,
       draws: liveMeshes.size + (visibleScatter.length ? 1 : 0),
@@ -1394,6 +1458,7 @@ export function Groundcover({
         generate: Math.round(stats0.ms * 10) / 10,
         fill: Math.round((tFilled - tGenerated) * 10) / 10,
       },
+      perf: perfNow,
     };
     onStats?.(stats);
     if (import.meta.env.DEV) {

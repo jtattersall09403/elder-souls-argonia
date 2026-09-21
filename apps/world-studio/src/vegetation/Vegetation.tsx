@@ -67,11 +67,13 @@ import {
 } from "@elder-souls/game-core/vegetation/cellBuild";
 import {
   gateSpecies,
+  GATE_TILE_COUNT,
   rangeDistances,
+  tileBox,
+  type GateBox,
   type GateSpecies,
   type GateRung,
   type GateStats,
-  type GateTile,
 } from "@elder-souls/game-core/vegetation/cellGating";
 import {
   CellRegistry,
@@ -168,9 +170,14 @@ const MASK_CELLS_PER_FRAME = 64;
 /** Instances a brand-new batch reserves, whatever the first cell needs. */
 const MIN_BATCH_CAPACITY = 256;
 const MASK_SIZE = 128;
-/** Camera travel that re-runs the gate pass. With the 24 m band margin a 4 m
+/** Camera travel that re-runs the gate pass. With the 8 m band margin a 2 m
  * step keeps the resident rung set a superset of what the shader reads. */
-const GATE_STEP_M = 4;
+const GATE_STEP_M = 2;
+/** Camera TURN that re-runs the gate pass: the behind-the-camera test depends
+ * on the forward vector, so a turn changes the answer even standing still.
+ * 20° is a fifth of the hysteresis gap's worth of angle; the time-boxed drain
+ * keeps the flips it produces off the frame. */
+const GATE_TURN_RAD = 20 * Math.PI / 180;
 /** Frames after which the pass runs anyway, whatever the camera did. */
 const GATE_MAX_FRAMES = 120;
 /** Main-thread milliseconds one frame may spend APPLYING queued flips. A
@@ -228,26 +235,21 @@ interface ReplaySpec {
   geometry: THREE.BufferGeometry;
 }
 
-/** A tile carries the shared per-part batch array of its rung. */
-interface CellTile extends GateTile {
-  batches: Batch[];
-  /** Visibility ACTUALLY applied to each part's batch, one byte per part. The
-   * gate pass writes a DESIRED state into the pending queue; this is what the
-   * meshes hold, and the two differ while a backlog drains. */
-  appliedParts: Uint8Array;
-}
-
-/** One species × rung of one cell, tiled, with the instances it owns. */
+/** One species × rung of one cell, tiled, with the instances it owns. The
+ * tiles are the flat arrays of `GateRung`; nothing per tile is allocated. */
 interface CellRungEntry extends GateRung {
-  tiles: CellTile[];
   level: number;
   isCard: boolean;
   species: string;
+  /** The species' kit reach, for a tile's box (`tileBox`). */
+  reachM: number;
   /** One batch per kit part; replaced in place when a batch grows. */
   partBatches: Batch[];
-  /** One id array per kit part, in tile order; rewritten in place on grow. */
-  partIds: Int32Array[];
   partSpecs: ReplaySpec[];
+  /** Visibility ACTUALLY applied, `tile × part`. The gate pass writes a
+   * DESIRED state into the pending queue; this is what the meshes hold, and
+   * the two differ while a backlog drains. */
+  appliedParts: Uint8Array;
 }
 
 interface CellSpeciesEntry extends GateSpecies {
@@ -393,10 +395,14 @@ export function Vegetation({
   const flippedBatches = useRef(new Set<Batch>());
   /** Queued visibility flips, batch by batch: the gate pass ENQUEUES here and
    * a bounded number of batches are applied per frame. */
-  const pendingFlips = useRef(new Map<Batch, Map<CellTile, boolean>>());
+  const pendingFlips = useRef(
+    new Map<Batch, Map<CellRungEntry, Map<number, boolean>>>());
+  /** Camera forward on XZ at the last gate pass; the behind test reads it. */
+  const cameraFwd = useRef({ x: 0, z: -1 });
+  const gateBox = useRef<GateBox>({ minX: 0, minZ: 0, maxX: 0, maxZ: 0 });
   /** Camera state at the last gate pass, and whether a build or drop has
    * invalidated it. */
-  const lastGate = useRef({ x: NaN, z: NaN, frame: -1e9 });
+  const lastGate = useRef({ x: NaN, z: NaN, fx: 0, fz: -1, frame: -1e9 });
   const gateDirty = useRef(true);
   const fps = useRef({ sum: 0, count: 0, value: 0, last: 0 });
   const [revision, setRevision] = useState(0);
@@ -763,22 +769,26 @@ export function Vegetation({
     counters.current.maskMs = performance.now() - maskStart;
 
     // --- gating ---
-    // The pass is not per frame: visibility is distance only, and the 24 m
-    // band margin means the answer cannot change until the eye has moved 4 m
-    // or a cell has arrived. Standing still, and turning on the spot, cost
-    // nothing at all (owner walk 2026-09-21).
+    // The pass is not per frame: the 8 m band margin and the behind-test
+    // hysteresis mean the answer cannot change until the eye has moved 2 m,
+    // turned 20°, or a cell has arrived (round 2 addendum, decision 0082).
     const gateStart = performance.now();
     const g = lastGate.current;
+    const fwd = cameraFwd.current;
+    forwardVec.set(0, 0, -1).applyQuaternion(state.camera.quaternion);
+    const flen = Math.hypot(forwardVec.x, forwardVec.z);
+    if (flen > 1e-6) { fwd.x = forwardVec.x / flen; fwd.z = forwardVec.z / flen; }
     const moved = Math.hypot(eye.x - g.x, eye.z - g.z);
+    const turned = fwd.x * g.fx + fwd.z * g.fz;
     const runGate = gateDirty.current
       || !(moved < GATE_STEP_M)
+      || !(turned > Math.cos(GATE_TURN_RAD))
       || counters.current.frame - g.frame >= GATE_MAX_FRAMES;
     if (runGate) {
       gateDirty.current = false;
-      g.x = eye.x; g.z = eye.z; g.frame = counters.current.frame;
-      gateSpecies(allSpecies.current, eye,
-        enqueueTile as (tile: GateTile, visible: boolean) => void,
-        gateStats.current);
+      g.x = eye.x; g.z = eye.z; g.fx = fwd.x; g.fz = fwd.z;
+      g.frame = counters.current.frame;
+      gateSpecies(allSpecies.current, eye, fwd, enqueueTile, gateStats.current);
     }
     const gatingMs = performance.now() - gateStart;
     counters.current.gatingMs = gatingMs;
@@ -894,14 +904,13 @@ export function Vegetation({
         hideRung(rung);   // keeps the per-batch visible counters honest
         for (let p = 0; p < rung.partBatches.length; p++) {
           const batch = rung.partBatches[p];
-          const ids = rung.partIds[p];
+          const ids = rung.ids[p];
           for (let i = 0; i < ids.length; i++) batch.mesh.deleteInstance(ids[i]);
           batch.used -= ids.length;
           batch.rungs.delete(rung);
         }
-        rung.tiles = [];
         rung.partBatches = [];
-        rung.partIds = [];
+        rung.ids = [];
       }
       entry.rungs = [];
     }
@@ -1081,6 +1090,8 @@ export function Vegetation({
   const euler = useMemo(() => new THREE.Euler(), []);
   const quaternion = useMemo(() => new THREE.Quaternion(), []);
   const scaleVec = useMemo(() => new THREE.Vector3(), []);
+  /** Camera forward, re-derived each frame for the gate's behind test. */
+  const forwardVec = useMemo(() => new THREE.Vector3(), []);
 
   /** What `reserveBatches` needs to CREATE a batch for a key. */
   interface PartSpec {
@@ -1187,9 +1198,9 @@ export function Vegetation({
           geometryId = fresh.mesh.addGeometry(spec.geometry);
           fresh.geometryIds.set(spec.geometryKey, geometryId);
         }
-        // Ids are rewritten IN PLACE, so every tile's subarray view of this
-        // array carries the new ids without being rebuilt.
-        const ids = rung.partIds[p];
+        // Ids are rewritten IN PLACE, so every tile's slice of this array
+        // carries the new ids without anything being rebuilt.
+        const ids = rung.ids[p];
         for (let i = 0; i < ids.length; i++) {
           const oldId = ids[i];
           const newId = fresh.mesh.addInstance(geometryId);
@@ -1220,11 +1231,11 @@ export function Vegetation({
     // Every tile, not just the visible ones: a tile with a queued ON flip must
     // lose it here, or the queue would reach instances this rung is about to
     // delete or replay into a fresh mesh. `applyTile` is idempotent.
-    for (let i = 0; i < rung.tiles.length; i++) {
-      rung.state[i] = 0;
-      applyTile(rung.tiles[i], false);
+    for (let t = 0; t < GATE_TILE_COUNT; t++) {
+      rung.state[t] = 0;
+      applyTile(rung, t, false);
     }
-    rung.uniform = 0;
+    rung.onTiles = 0;
   }
 
   /**
@@ -1280,22 +1291,30 @@ export function Vegetation({
    * for the structural paths (a rung being hidden before a drop or a batch
    * growth), which cannot wait for the queue; the gate pass enqueues instead.
    */
-  function applyTile(tile: CellTile, visible: boolean): void {
+  function applyTile(rung: CellRungEntry, tile: number, visible: boolean): void {
     if (import.meta.env.DEV) counters.current.flipTiles++;
-    for (let p = 0; p < tile.ids.length; p++) {
-      const batch = tile.batches[p];
+    const from = rung.tileOffsets[tile];
+    const to = rung.tileOffsets[tile + 1];
+    const parts = rung.partBatches.length;
+    for (let p = 0; p < parts; p++) {
+      const batch = rung.partBatches[p];
       const queued = pendingFlips.current.get(batch);
       if (queued) {
-        queued.delete(tile);
+        const tiles = queued.get(rung);
+        if (tiles) {
+          tiles.delete(tile);
+          if (tiles.size === 0) queued.delete(rung);
+        }
         if (queued.size === 0) pendingFlips.current.delete(batch);
       }
-      if (tile.appliedParts[p] === (visible ? 1 : 0)) continue;
-      const ids = tile.ids[p];
-      for (let i = 0; i < ids.length; i++) batch.mesh.setVisibleAt(ids[i], visible);
-      batch.visibleCopies += visible ? ids.length : -ids.length;
-      tile.appliedParts[p] = visible ? 1 : 0;
+      const at = tile * parts + p;
+      if (rung.appliedParts[at] === (visible ? 1 : 0)) continue;
+      const ids = rung.ids[p];
+      for (let i = from; i < to; i++) batch.mesh.setVisibleAt(ids[i], visible);
+      batch.visibleCopies += visible ? to - from : from - to;
+      rung.appliedParts[at] = visible ? 1 : 0;
       if (import.meta.env.DEV) {
-        counters.current.flipInstances += ids.length;
+        counters.current.flipInstances += to - from;
         flippedBatches.current.add(batch);
       }
     }
@@ -1303,23 +1322,31 @@ export function Vegetation({
 
   /** Queue one tile's desired visibility; last write wins, and a write that
    * matches what the meshes already hold cancels the entry. */
-  function enqueueTile(tile: CellTile, visible: boolean): void {
+  function enqueueTile(
+    gateRung: GateRung, tile: number, visible: boolean,
+  ): void {
+    const rung = gateRung as CellRungEntry;
     if (import.meta.env.DEV) counters.current.flipTiles++;
-    for (let p = 0; p < tile.ids.length; p++) {
-      const batch = tile.batches[p];
+    const parts = rung.partBatches.length;
+    for (let p = 0; p < parts; p++) {
+      const batch = rung.partBatches[p];
       let queued = pendingFlips.current.get(batch);
-      if (tile.appliedParts[p] === (visible ? 1 : 0)) {
-        if (queued) {
-          queued.delete(tile);
-          if (queued.size === 0) pendingFlips.current.delete(batch);
+      if (rung.appliedParts[tile * parts + p] === (visible ? 1 : 0)) {
+        const tiles = queued?.get(rung);
+        if (tiles) {
+          tiles.delete(tile);
+          if (tiles.size === 0) queued!.delete(rung);
+          if (queued!.size === 0) pendingFlips.current.delete(batch);
         }
         continue;
       }
       if (!queued) {
-        queued = new Map<CellTile, boolean>();
+        queued = new Map<CellRungEntry, Map<number, boolean>>();
         pendingFlips.current.set(batch, queued);
       }
-      queued.set(tile, visible);
+      let tiles = queued.get(rung);
+      if (!tiles) { tiles = new Map<number, boolean>(); queued.set(rung, tiles); }
+      tiles.set(tile, visible);
     }
   }
 
@@ -1336,13 +1363,17 @@ export function Vegetation({
     const queue = pendingFlips.current;
     if (queue.size === 0) return;
     const order: { batch: Batch; on: number; d: number }[] = [];
-    for (const [batch, tiles] of queue) {
+    for (const [batch, rungs] of queue) {
       let on = 0;
       let nearest = Infinity;
-      for (const [tile, visible] of tiles) {
-        if (visible) on = 1;
-        const d = rangeDistances(tile.box, eye.x, eye.z).dMin;
-        if (d < nearest) nearest = d;
+      for (const [rung, tiles] of rungs) {
+        for (const [tile, visible] of tiles) {
+          if (visible) on = 1;
+          const d = rangeDistances(
+            tileBox(rung.tileBounds, tile, rung.reachM, gateBox.current),
+            eye.x, eye.z).dMin;
+          if (d < nearest) nearest = d;
+        }
       }
       order.push({ batch, on, d: nearest });
     }
@@ -1355,18 +1386,24 @@ export function Vegetation({
   }
 
   function applyBatchFlips(batch: Batch): void {
-    const tiles = pendingFlips.current.get(batch);
+    const rungs = pendingFlips.current.get(batch);
     pendingFlips.current.delete(batch);
-    if (!tiles) return;
-    for (const [tile, visible] of tiles) {
-      for (let p = 0; p < tile.ids.length; p++) {
-        if (tile.batches[p] !== batch) continue;
-        if (tile.appliedParts[p] === (visible ? 1 : 0)) continue;
-        const ids = tile.ids[p];
-        for (let i = 0; i < ids.length; i++) batch.mesh.setVisibleAt(ids[i], visible);
-        batch.visibleCopies += visible ? ids.length : -ids.length;
-        tile.appliedParts[p] = visible ? 1 : 0;
-        if (import.meta.env.DEV) counters.current.flipInstances += ids.length;
+    if (!rungs) return;
+    for (const [rung, tiles] of rungs) {
+      const parts = rung.partBatches.length;
+      for (const [tile, visible] of tiles) {
+        const from = rung.tileOffsets[tile];
+        const to = rung.tileOffsets[tile + 1];
+        for (let p = 0; p < parts; p++) {
+          if (rung.partBatches[p] !== batch) continue;
+          const at = tile * parts + p;
+          if (rung.appliedParts[at] === (visible ? 1 : 0)) continue;
+          const ids = rung.ids[p];
+          for (let i = from; i < to; i++) batch.mesh.setVisibleAt(ids[i], visible);
+          batch.visibleCopies += visible ? to - from : from - to;
+          rung.appliedParts[at] = visible ? 1 : 0;
+          if (import.meta.env.DEV) counters.current.flipInstances += to - from;
+        }
       }
     }
     if (import.meta.env.DEV) flippedBatches.current.add(batch);
@@ -1393,6 +1430,7 @@ export function Vegetation({
         cell: cell.key,
         species: sb.species,
         maxDraw: params.maxDraw,
+        reachM: params.reachM,
         cellBox: {
           minX: sb.minX - margin, minZ: sb.minZ - margin,
           maxX: sb.maxX + margin, maxZ: sb.maxZ + margin,
@@ -1440,40 +1478,23 @@ export function Vegetation({
           partTriangles.push(
             (idx ? idx.count : part.geometry.attributes.position.count) / 3);
         }
-        // One gate tile per non-empty 58 m tile of the cell. The placements
-        // are sorted by tile, so a tile's ids are one contiguous run.
-        const tiles: CellTile[] = [];
-        let copies = 0;
-        let triangles = 0;
-        for (let t = 0; t < CELL_TILES * CELL_TILES; t++) {
-          const from = sb.tileOffsets[t];
-          const to = sb.tileOffsets[t + 1];
-          if (to === from) continue;
-          const b = t * TILE_BOUNDS_STRIDE;
-          const tileMargin = params.reachM * sb.tileBounds[b + 6];
-          const tile: CellTile = {
-            box: {
-              minX: sb.tileBounds[b] - tileMargin,
-              minZ: sb.tileBounds[b + 2] - tileMargin,
-              maxX: sb.tileBounds[b + 3] + tileMargin,
-              maxZ: sb.tileBounds[b + 5] + tileMargin,
-            },
-            ids: partIds.map((ids) => ids.subarray(from, to)),
-            copies: (to - from) * partIds.length,
-            triangles: 0,
-            batches: partBatches,
-            appliedParts: new Uint8Array(partBatches.length),
-          };
-          for (const tris of partTriangles) tile.triangles += tris * (to - from);
-          copies += tile.copies;
-          triangles += tile.triangles;
-          tiles.push(tile);
-        }
+        // The gate's tiles are the build's own CSR arrays, shared by
+        // reference: the rung adds only its applied-state bytes.
+        let trianglesPerInstance = 0;
+        for (const tris of partTriangles) trianglesPerInstance += tris;
         const rungEntry: CellRungEntry = {
-          band: rung.band, near, tiles, state: new Uint8Array(tiles.length),
-          copies, triangles, uniform: 0,
-          level, isCard, species: sb.species,
-          partBatches, partIds, partSpecs,
+          band: rung.band, near,
+          tileOffsets: sb.tileOffsets,
+          tileBounds: sb.tileBounds,
+          state: new Uint8Array(GATE_TILE_COUNT),
+          ids: partIds,
+          copies: sb.count * partIds.length,
+          triangles: sb.count * trianglesPerInstance,
+          trianglesPerInstance,
+          onTiles: 0,
+          level, isCard, species: sb.species, reachM: params.reachM,
+          partBatches, partSpecs,
+          appliedParts: new Uint8Array(GATE_TILE_COUNT * partIds.length),
         };
         for (const batch of partBatches) batch.rungs.add(rungEntry);
         speciesEntry.rungs.push(rungEntry);
@@ -1484,8 +1505,8 @@ export function Vegetation({
       // seconds of `pending` the owner saw at first load. The queue is for
       // LATER changes only.
       if (Number.isFinite(cameraPos.current.x)) {
-        gateSpecies([speciesEntry], cameraPos.current,
-          applyTile as (tile: GateTile, visible: boolean) => void,
+        gateSpecies([speciesEntry], cameraPos.current, cameraFwd.current,
+          applyTile as (rung: GateRung, tile: number, visible: boolean) => void,
           fillStats.current);
       }
       return speciesEntry;
@@ -1524,10 +1545,11 @@ export function Vegetation({
       let drawn = 0;
       for (const rung of entry.rungs) {
         let onCopies = 0;
-        if (rung.uniform === 1) onCopies = rung.copies;
-        else if (rung.uniform !== 0) {
-          for (let i = 0; i < rung.tiles.length; i++) {
-            if (rung.state[i] === 1) onCopies += rung.tiles[i].copies;
+        if (rung.onTiles > 0) {
+          const parts = rung.ids.length;
+          for (let t = 0; t < GATE_TILE_COUNT; t++) {
+            if ((rung.state[t] & 1) === 0) continue;
+            onCopies += (rung.tileOffsets[t + 1] - rung.tileOffsets[t]) * parts;
           }
         }
         drawn += onCopies;

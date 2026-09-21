@@ -309,3 +309,19 @@ fill, inside a window the probe itself reports as `steady: false`.
   operation, and panning the camera in place flipped 11 800 copies. Visibility
   is distance-only, initial visibility is set at fill, and the drain is
   time-boxed at 1.5 ms.
+
+- **Addendum (GPU load, 2026-09-21).** At rest the owner's GPU held 13 fps
+  with vegetation and 60 with `?veg=0`, at a renderer CPU cost of about zero:
+  the load is vertices. 58 m tiles plus a 24 m margin drew the near rung for
+  tiles out to ~140 m instead of the ~84 m it is worth, and with the frustum
+  test gone the full 360deg was vertex-shaded. `CELL_TILES` is now 16 (tiles of
+  ~29 m), `GATE_MARGIN_M` 8 and `GATE_STEP_M` 2, and a tile whose centre is
+  over `BEHIND_MIN_M = 40` m behind the eye is off whatever its band says —
+  near rungs included, because a shadow cast from behind the camera at over
+  40 m is not worth the vertices. The behind test latches with hysteresis
+  (off below dot −0.5, back on above −0.2) and the gate pass also runs on a
+  20deg turn, since the answer depends on the forward vector; the time-boxed
+  drain keeps a turn smooth. Tiles are flat data: a rung shares the build's
+  `tileOffsets` and `tileBounds` by reference and carries one state byte per
+  tile, so quadrupling the tile count costs a rung less memory than the 64
+  tile objects it replaced.
