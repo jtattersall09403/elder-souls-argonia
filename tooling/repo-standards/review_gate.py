@@ -17,7 +17,7 @@ on stderr, so a broken reviewer never blocks work; it is visible in the stamp.
 
 Manual: `python3 tooling/repo-standards/review_gate.py --run` reviews now.
 """
-import hashlib, json, os, subprocess, sys, time
+import hashlib, json, os, re, subprocess, sys, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 STAMP = os.path.join(ROOT, ".claude", "review-stamp.json")
@@ -27,33 +27,73 @@ MAX_DIFF_BYTES = 250_000
 TIMEOUT_S = 540
 MODEL = "opus"  # low effort via the machine-wide modelSettings; owner 2026-09-19: Opus has headroom, review is judgement
 
-PROMPT = """You are a code reviewer for this repo (read CLAUDE.md's golden rules and
+PROMPT = """You are the code reviewer for this repo (read CLAUDE.md's golden rules and
 docs/standards/engineering.md if you need them; both are short). Below is the
 uncommitted diff. Review it for: correctness bugs; inefficient implementations
 where a simpler or cheaper one exists; violations of the engineering standards
-(stable IDs, text-catalogue strings, schemaVersion, determinism, no new
-module-level singletons, credits with assets); and code that will scale badly
-for a Skyrim-sized game. Do not review prose style. You may Read/Grep/Glob the
-repo to verify a suspicion; verify before you report.
+(stable IDs, player-visible strings in packages/text-catalogue, schemaVersion,
+determinism, no new module-level singletons, credits with assets); and code
+that will scale badly for a Skyrim-sized game. Do not review prose style in
+docs, comments or strings: a separate linter and skill own prose. You may
+Read/Grep/Glob the repo to verify a suspicion; verify before you report.
 
-You report SYMPTOMS with evidence. You do NOT propose fixes: the planner
-finds the root cause behind the confirmed items and fixes it once, and a
-suggested patch from you anchors it on the wrong thing. Before raising any
-item that is about design, structure, naming, data shape or "this should be
-done differently", Read docs/decisions/README.md (the index of decision
-records) and open the record(s) whose titles touch it, and Read the active
-phase brief named in docs/PROGRESS.md; if a record already decided it, do
-not raise it. Every design-shaped item names the record(s) you checked.
+You report SYMPTOMS with evidence. You do NOT propose fixes: the planner finds
+the root cause behind the confirmed items and fixes it once, and a suggested
+patch from you anchors it on the wrong thing. Before raising any item that is
+about design, structure, naming, data shape or "this should be done
+differently", Read docs/decisions/README.md (the index of decision records)
+and open the record(s) whose titles touch it, and Read the active phase brief
+named in docs/PROGRESS.md; if a record already decided it, do not raise it.
+Every design-shaped item names the record(s) you checked.
+
+Your report is re-read by the planner on every later turn, so every line is
+paid for many times. Write it so: items only, no preamble, no summary of the
+diff, no narration of what you checked, no sign-off; each fact once; evidence
+is a path:line and at most one quoted line, never a code block; no hedges
+("may", "might be worth") and no suggestions. When several items share one
+likely cause, say so in one line under the first of them ("same cause as
+items 3 and 5: <cause>") rather than describing the cause three times.
+CONFIRMED means you read the surrounding code and it is definitely wrong;
+PLAUSIBLE means you could not verify it, and you say what would settle it.
+An item you could have verified and did not is not raised.
 
 Output ONLY a markdown list, most severe first, at most 12 items, each:
 - **CONFIRMED|PLAUSIBLE** `path:line` — one-sentence defect; one-sentence
-  failure scenario (concrete input -> wrong result); evidence (the line(s)
-  or record(s) you checked). No fix.
-CONFIRMED means you checked the surrounding code and it is definitely wrong.
+  failure scenario (concrete input -> wrong result); evidence. No fix.
 If nothing is worth raising, output exactly: NO FINDINGS
 
 DIFF:
 """
+
+
+def is_preflight_command(cmd: str) -> bool:
+    """True when `cmd` actually runs preflight (not merely mentions the word)."""
+    lines, skip_until = [], None
+    for line in (cmd or "").splitlines():
+        if skip_until is not None:
+            if line.strip() == skip_until:
+                skip_until = None
+            continue
+        m = re.search(r"<<-?\s*['\"]?([A-Za-z_][A-Za-z0-9_]*)['\"]?", line)
+        if m:
+            skip_until = m.group(1)
+            line = line[: m.start()]
+        lines.append(line)
+    text = "\n".join(lines)
+    text = re.sub(r"'[^']*'|\"[^\"]*\"", " ", text)
+    for seg in re.split(r"&&|\|\||[;|\n]", text):
+        toks = seg.split()
+        while toks and re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", toks[0]):
+            toks.pop(0)
+        if not toks:
+            continue
+        if toks[0] == "npm" and len(toks) > 2 and toks[1] == "run" and toks[2].startswith("preflight"):
+            return True
+        if toks[0] == "npx" and any(t == "preflight" or t.startswith("preflight") for t in toks[1:]):
+            return True
+        if any(os.path.basename(t) in ("preflight.mjs", "preflight.py") for t in toks[:2]):
+            return True
+    return False
 
 
 def sh(*args):
@@ -104,7 +144,7 @@ def main():
         if d.get("tool_name") != "Bash" or d.get("agent_id"):
             return 0
         cmd = (d.get("tool_input") or {}).get("command", "")
-        if "preflight" not in cmd:
+        if not is_preflight_command(cmd):
             return 0
     diff = current_diff()
     if not diff.strip():
