@@ -123,3 +123,12 @@ closed, when its cell is built; the per-pixel Bayer choice of one copy is
 unchanged. The `lodCopies` margin (emit only the rungs within reach of the
 next rebuild) is retired with the rebuild itself; rungs a cell cannot need
 at its distance are switched off per cell, never re-emitted.
+
+## Addendum 2026-09-21 (owner: "jump between rungs, no gradual fade")
+
+Every rung edge and every ground-cover tier edge is a hard step: `LOD_BAND_M`
+is 0 and `TIER_BAND_M` is all zeroes, so `esLodRamp` degenerates to `step()`
+and the partition between the outgoing and incoming copy stays exact.
+The dither survives only at the vanish at the end of a ladder
+(`LOD_CULL_BAND_M`, 8 m), and `lodRings` no longer widens a rung to fit a
+band — it only holds the ladder in order.

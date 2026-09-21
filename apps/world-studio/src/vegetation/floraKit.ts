@@ -10,7 +10,6 @@
 
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { LOD_BAND_M } from "@elder-souls/game-core/fx/lodFade";
 
 export interface KitLevel {
   readonly parts: {
@@ -391,21 +390,18 @@ export function treeDrawDistance(chunkRing: number, chunkMetres: number): number
  * The ring ladder a species runs at a quality scale, submerged or not — the
  * one place `Vegetation.tsx` gets its rings. Ring 0 (full mesh) is never
  * scaled down, or plants beside the camera would regress to cards (the
- * round-2 defect); the outer rings scale, and are then pushed apart so every
- * level keeps a band at least `2 × LOD_BAND_M` wide. Without that the low
- * preset (`vegDrawScale` 0.55) left a 20–28 m tree a level-1 band only
- * 5–6 m wide (submerged: 2.5 m) — narrower than the crossfade itself, so
- * that level never finished fading in before it started fading out.
+ * round-2 defect); the outer rings scale, and are then held in order so a
+ * scaled ring never falls inside the one before it (the round-4 inverted
+ * ladder). Rung edges are hard steps since 2026-09-21 (`LOD_BAND_M` is 0), so
+ * there is no minimum band width left to enforce: a narrow rung is simply a
+ * short interval, not a fade that never completes.
  */
 export function lodRings(heightM: number, drawScale: number, submerged: boolean): number[] {
   const rings = lodDistances(heightM)
     .map((r, i) => (i === 0 ? r : r * drawScale))
     .map((r) => (submerged ? r * SUBMERGED_LOD_SCALE : r));
-  // Ring 0 keeps one crossfade band even submerged: at the 18 m mesh floor the
-  // submerged scale puts it at 9 m, narrower than the fade itself.
-  rings[0] = Math.max(rings[0], 2 * LOD_BAND_M);
   for (let i = 1; i < rings.length; i++) {
-    rings[i] = Math.max(rings[i], rings[i - 1] + 2 * LOD_BAND_M);
+    rings[i] = Math.max(rings[i], rings[i - 1]);
   }
   return rings;
 }

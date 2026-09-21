@@ -1,18 +1,27 @@
 import { describe, expect, it } from "vitest";
-import { LOD_BAND_M } from "@elder-souls/game-core/fx/lodFade";
-import { lodDistances, lodRings, maxDrawDistance, treeDrawDistance } from "./floraKit";
+import {
+  lodDistances,
+  lodRings,
+  maxDrawDistance,
+  treeDrawDistance,
+  MIN_MESH_LOD_REACH_M,
+  SUBMERGED_LOD_SCALE,
+} from "./floraKit";
 
 describe("lodRings", () => {
-  it("keeps every level at least one crossfade band wide at every quality scale", () => {
+  it("keeps the ladder ordered and the mesh reach at its floor at every quality scale", () => {
     // 16f round 4: the low preset (0.55) scaled ring 1 INSIDE ring 0 for tall
     // species — an inverted ladder that skipped level 1 (see `lodRings`).
+    // Rung edges are hard steps since 2026-09-21, so there is no band width to
+    // assert: what still matters is the order and the full-mesh reach.
     for (const drawScale of [0.55, 0.8, 1]) {
       for (const submerged of [false, true]) {
         for (let heightM = 0.3; heightM <= 70; heightM += 0.7) {
           const rings = lodRings(heightM, drawScale, submerged);
-          expect(rings[0]).toBeGreaterThanOrEqual(2 * LOD_BAND_M);
+          const floor = MIN_MESH_LOD_REACH_M * (submerged ? SUBMERGED_LOD_SCALE : 1);
+          expect(rings[0]).toBeGreaterThanOrEqual(floor - 1e-9);
           for (let i = 1; i < rings.length; i++) {
-            expect(rings[i] - rings[i - 1]).toBeGreaterThanOrEqual(2 * LOD_BAND_M - 1e-9);
+            expect(rings[i]).toBeGreaterThanOrEqual(rings[i - 1] - 1e-9);
           }
         }
       }

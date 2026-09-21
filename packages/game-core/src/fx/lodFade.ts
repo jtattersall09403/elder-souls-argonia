@@ -31,9 +31,10 @@
  * The dither, where it is used, is a partition: the copy fading IN keeps the
  * pixels whose Bayer threshold is BELOW its factor, the copy fading OUT keeps
  * those AT OR ABOVE the same factor. With a half-width of 0 both factors are
- * `step(edge, d)` and the partition is the hard step. The ground-cover ring
- * still dissolves its tile bands this way (every tier copy of a plant exists
- * at once there, so its partition is exact by construction). It works in the
+ * `step(edge, d)` and the partition is the hard step, which since 2026-09-21
+ * is what every rung and every ground-cover tier edge uses (the owner reads
+ * the dissolve as smearing; only the vanish at the end of a ladder keeps
+ * it). The partition is exact either way. It works in the
  * depth pass and on opaque rocks because the discard is the first statement
  * of `main()`, before any texture fetch.
  *
@@ -71,11 +72,14 @@ export const LOD_BAND_ATTRIBUTE = "esLodBand";
 export const LOD_OPEN_M = 1e9;
 
 /**
- * Half-width, in metres, of a dithered edge where one is used (the ground
- * ring's tile bands; `lodRings` keeps mesh rungs at least 2× this apart so a
- * rung is never narrower than one band).
+ * Half-width, in metres, of a dithered edge between two mesh rungs. ZERO from
+ * 2026-09-21 (owner: "jump between rungs, no gradual fade" — decision 0075
+ * addendum): every rung edge is a hard step, `esLodRamp` degenerating to
+ * `step()`. The constant stays because the partition arithmetic is written in
+ * terms of it and a half-width of 0 is the hard step by construction; the one
+ * surviving dither is the vanish at the end of a ladder (`LOD_CULL_BAND_M`).
  */
-export const LOD_BAND_M = 5;
+export const LOD_BAND_M = 0;
 
 /** Dither half-width of the vanish at the end of a ladder. */
 export const LOD_CULL_BAND_M = 8;
