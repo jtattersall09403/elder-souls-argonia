@@ -40,7 +40,7 @@ export function loadPlaces(baseUrl: string): Promise<PlottedPlacesBundle> {
       const r = await fetch(`${baseUrl}province/places.json`);
       if (!r.ok) throw new Error(`places.json: HTTP ${r.status}`);
       const data = (await r.json()) as PlottedPlacesBundle;
-      if (data.schemaVersion !== 2) throw new Error(`places.json schemaVersion ${data.schemaVersion} unsupported — re-run python3 -m worldgen.export_places`);
+      if (data.schemaVersion !== 3) throw new Error(`places.json schemaVersion ${data.schemaVersion} unsupported — re-run python3 -m worldgen.export_places`);
       return data;
     })();
     p.catch(() => placesCache.delete(baseUrl));

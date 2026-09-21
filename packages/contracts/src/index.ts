@@ -240,7 +240,8 @@ export interface PlottedPlaceTravelStation {
 }
 
 export interface PlottedPlacesBundle {
-  schemaVersion: 2;
+  /** 3: quest links carry `questId`, not a raw title (standard 2/3). */
+  schemaVersion: 3;
   source: string;
   /** Region zone → CSS hex, copied from society.CULTURES so pictures agree. */
   zoneColours: Record<string, string>;

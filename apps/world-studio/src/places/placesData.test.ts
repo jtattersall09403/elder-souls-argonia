@@ -12,8 +12,8 @@ const bundle = JSON.parse(
 ) as PlottedPlacesBundle;
 
 describe("plotted places bundle (worldgen.export_places)", () => {
-  it("is schemaVersion 2, sorted by id, every dot inside the province", () => {
-    expect(bundle.schemaVersion).toBe(2);
+  it("is schemaVersion 3, sorted by id, every dot inside the province", () => {
+    expect(bundle.schemaVersion).toBe(3);
     const ids = bundle.places.map((p) => p.id);
     expect(ids).toEqual([...ids].sort());
     for (const p of bundle.places) {

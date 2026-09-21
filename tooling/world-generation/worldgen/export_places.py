@@ -39,7 +39,7 @@ KIND_GROUP = {"main-quest": "main", "faction-quest": "faction", "daedric-quest":
 # 100 % of settlement structures enterable; docs/research/placement-settlements/morrowind-content-density.md §4).
 MAGNITUDE_STRUCTURES = {"M1": "1–3", "M2": "3–8", "M3": "8–20", "M4": "20–60", "M5": "60+"}
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 OUT_PATH = catalogue.REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "places.json"
 
 WHY_FIELDS = ("founding", "siteAdvantages", "occupantsMotive", "pressures", "wouldChangeIf")
