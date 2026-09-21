@@ -342,3 +342,17 @@ fill, inside a window the probe itself reports as `steady: false`.
   takes at most `GENERATE_MAX_TILES_PER_CALL` tiles, since the 5 ms budget
   can only be checked between them, and the HUD's `gc:` line reports the
   per-tile cost.
+
+### Round 2 addendum: shadows are cast from the mid rung (2026-09-21)
+
+At the jungle site at rest the vegetation batches drew 2.6 M triangles in the
+main pass and 2.4 M more across the two shadow cascades, because the rung that
+cast was rung 0 — the full mesh — and it was redrawn in every cascade. The rule
+now: the sun shadow is cast by the MID rung (kit level 1) where a species has
+one, by kit level 0 only where it has none (full mesh straight to card), and by
+no other rung; cards never cast. The casting rung's depth material takes
+`shadowBandFromZero` (`packages/game-core/src/fx/lodFade.ts`), which forces its
+inner edge fully in so it casts from distance 0 while its outer edge is
+untouched — nothing nearer than the mid band loses its shadow. Whether a batch
+casts is part of the batch key, so a flagged depth material is never shared with
+a colour-only batch. `&vegshadow=0` still disables all casting.

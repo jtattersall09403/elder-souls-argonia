@@ -12,6 +12,8 @@ import {
   LOD_CULL_BAND_M,
   LOD_OPEN_M,
   LOD_FRAGMENT_TEST,
+  LOD_SHADOW_FROM_ZERO_LINE,
+  applyLodFadeWithShadow,
 } from "./lodFade";
 import {
   applyBatchData,
@@ -162,6 +164,26 @@ describe("applyLodFade", () => {
     const shader = compile(material);
     expect(shader.vertexShader.match(/varying vec2 vEsLod/g)).toHaveLength(1);
     expect(material.customProgramCacheKey()).toContain("|es-lod");
+  });
+
+  it("casts from distance zero on the depth material only, under the flag", () => {
+    const material = new THREE.MeshStandardMaterial();
+    const depth = new THREE.MeshDepthMaterial();
+    applyLodFadeWithShadow(material, depth, createLodFadeUniforms(),
+      { shadowBandFromZero: true });
+    const colour = compile(material);
+    const shadow = compile(depth);
+    expect(shadow.vertexShader).toContain(LOD_SHADOW_FROM_ZERO_LINE);
+    expect(colour.vertexShader).not.toContain(LOD_SHADOW_FROM_ZERO_LINE);
+    // The outer edge is untouched: the far rung and the cards still cast
+    // nothing, and the mid rung stops casting where its band ends.
+    expect(shadow.vertexShader).toContain("float esLodOut =");
+    expect(depth.customProgramCacheKey()).toContain("|es-lod-shadow0");
+    expect(material.customProgramCacheKey()).not.toContain("shadow0");
+    // Unflagged, both materials keep the normal inner edge.
+    const plain = new THREE.MeshDepthMaterial();
+    applyLodFade(plain, createLodFadeUniforms());
+    expect(compile(plain).vertexShader).not.toContain(LOD_SHADOW_FROM_ZERO_LINE);
   });
 
   it("is a no-op on a material it never touched", () => {

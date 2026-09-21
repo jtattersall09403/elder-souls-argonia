@@ -988,19 +988,33 @@ function GroundcoverHudLine() {
  */
 function TriangleAttributionLine() {
   const [gpu, setGpu] = useState<FrameGpuStats | null>(null);
+  const [veg, setVeg] = useState<VegetationStats | null>(null);
   useEffect(() => {
     if (!import.meta.env.DEV) return;
-    const host = window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats };
-    const read = () => setGpu(host.__STUDIO_GPU_MS__ ?? null);
+    const host = window as unknown as {
+      __STUDIO_GPU_MS__?: FrameGpuStats;
+      __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
+    };
+    const read = () => {
+      setGpu(host.__STUDIO_GPU_MS__ ?? null);
+      setVeg(host.__STUDIO_VEGETATION_DEBUG__ ?? null);
+    };
     read();
     const timer = window.setInterval(read, 1000);
     return () => window.clearInterval(timer);
   }, []);
   if (!gpu) return null;
+  const rung = veg?.trianglesByRung;
   const parts = TRI_BUCKETS.map((name, i) => {
     const main = gpu.buckets[bucketSlot(false, i)] ?? 0;
     const shadow = gpu.buckets[bucketSlot(true, i)] ?? 0;
-    return `${name} ${millions(main)}+${millions(shadow)}`;
+    const text = `${name} ${millions(main)}+${millions(shadow)}`;
+    // The rung split comes from the vegetation GATE, not from the draw calls
+    // this line measures, so its four figures will not add up to `main`
+    // exactly (`VegetationStats.trianglesByRung`).
+    if (name !== "veg" || !rung) return text;
+    return `${text} (near ${millions(rung.near)} · mid ${millions(rung.mid)}`
+      + ` · far ${millions(rung.far)} · card ${millions(rung.card)})`;
   });
   return (
     <span style={{ display: "block", opacity: 0.75 }}>

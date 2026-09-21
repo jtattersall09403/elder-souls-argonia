@@ -108,6 +108,13 @@ export interface VegetationStats {
    * 2026-09-17 for the "underwater band invisible" probe: the aggregate
    * counts cannot tell a missing species from a distant one. */
   bySpecies: Record<string, { drawn: number; minY: number; maxY: number }>;
+  /** Main-pass triangles split by the rung that drew them: `near` = kit level
+   * 0 (full mesh), `mid` = level 1, `far` = level 2 and beyond, `card` = the
+   * billboard. Derived from the tile STATE bytes in the same 60-frame walk as
+   * `bySpecies`, so these are GATING numbers: they count what the gate left
+   * visible, not what the driver drew, and will not exactly equal the
+   * draw-measured `veg` bucket of HUD line 3. */
+  trianglesByRung: { near: number; mid: number; far: number; card: number };
   /** The LAST CELL BUILD, ms: `total` is the main-thread time it actually
    * spent, summed across the frame-work pump calls it was sliced over
    * (`frames`), never the wall clock between them (`elapsedMs`). */
@@ -294,6 +301,8 @@ interface Batch {
   indexCapacity: number;
   near: boolean;
   isCard: boolean;
+  /** This batch's rung is the one that casts the sun shadow (`batchKeyFor`). */
+  casts: boolean;
   /** Copies currently switched visible — the draw-count signal. */
   visibleCopies: number;
   /** Nearest visible tile this gating pass saw, in metres; Infinity when the
@@ -574,8 +583,34 @@ export function Vegetation({
     geometry: THREE.BufferGeometry,
     near: boolean,
     isCard: boolean,
+    casts: boolean,
   ) => `${material.uuid}|${depthMaterial?.uuid ?? "-"}|${attributeSignature(geometry)}`
-    + `|${near ? "near" : "far"}|${isCard ? "card" : "mesh"}`;
+    + `|${near ? "near" : "far"}|${isCard ? "card" : "mesh"}`
+    + `|${casts ? "cast" : "nocast"}`;
+
+  /**
+   * THE SHADOW RULE (round 7). The sun shadow is cast by the MID rung (kit
+   * level 1) where a species has one, never by the full mesh, and by no other
+   * rung; a species whose ladder goes full mesh → card casts from level 0 as
+   * before. Cards never cast. Measured at the jungle site at rest before this
+   * rule: 2.6 M triangles in the main pass and 2.4 M more in the two shadow
+   * cascades, because the near rung is the full mesh and is drawn again in
+   * every cascade. The casting rung's depth material is patched with
+   * `shadowBandFromZero`, so it covers the distances nearer than its own band
+   * too and nothing loses its shadow.
+   */
+  const shadowLevelFor = (
+    rungs: readonly { level: number }[] | undefined,
+    maxLevel: number,
+  ): number => (rungs?.some((r) => Math.min(maxLevel, r.level) === 1) ? 1 : 0);
+
+  /** `level` is the CLAMPED kit level the rung actually draws. */
+  const castsShadowFor = (
+    rungs: readonly { level: number }[] | undefined,
+    maxLevel: number,
+    level: number,
+    isCard: boolean,
+  ): boolean => VEG_CAST_SHADOW && !isCard && level === shadowLevelFor(rungs, maxLevel);
 
   /**
    * Vertex/index room every kit geometry that lands in a batch needs, for
@@ -584,10 +619,12 @@ export function Vegetation({
    */
   const batchGeometryBudgets = useMemo(() => {
     const out = new Map<string, { vertices: number; indices: number }>();
-    for (const entry of kit?.values() ?? []) {
+    for (const [id, entry] of kit ?? []) {
       if (entry.suspect) continue;
+      const ladder = speciesParams.get(id)?.ladder;
       for (let level = 0; level < entry.levels.length; level++) {
         const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
+        const casts = castsShadowFor(ladder, entry.levels.length - 1, level, isCard);
         for (const part of entry.levels[level].parts) {
           const position = part.geometry.getAttribute("position");
           const idx = part.geometry.getIndex();
@@ -599,7 +636,7 @@ export function Vegetation({
           const nears = level === 0 ? [true, false] : [false];
           for (const near of nears) {
             const key = batchKeyFor(
-              part.material, part.depthMaterial, part.geometry, near, isCard);
+              part.material, part.depthMaterial, part.geometry, near, isCard, casts);
             const have = out.get(key);
             if (have) {
               have.vertices += vertices;
@@ -617,7 +654,7 @@ export function Vegetation({
     }
     return out;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [kit]);
+  }, [kit, speciesParams]);
 
   const batchGeometryBudget = (key: string) =>
     batchGeometryBudgets.get(key) ?? { vertices: 64, indices: 64 };
@@ -628,6 +665,7 @@ export function Vegetation({
     depthMaterial: THREE.Material | undefined,
     near: boolean,
     isCard: boolean,
+    casts: boolean,
     capacity: number,
     budget: { vertices: number; indices: number },
   ): Batch => {
@@ -652,7 +690,14 @@ export function Vegetation({
       // `?vegshader=…` (DEV diagnostic) drops patches one at a time.
       if (VEG_SHADER_MODE !== "off") {
         if (VEG_SHADER_MODE !== "lod") applyWindSwayWithShadow(clone, depthClone, wind);
-        if (VEG_SHADER_MODE !== "wind") applyLodFadeWithShadow(clone, depthClone, lodFade);
+        if (VEG_SHADER_MODE !== "wind") {
+          // Only a casting batch's depth material takes `shadowBandFromZero`
+          // (the mid-rung shadow rule above); the colour material is never
+          // flagged, and `casts` is part of the batch key, so the flagged
+          // depth clone is its own instance.
+          applyLodFadeWithShadow(clone, depthClone, lodFade,
+            { shadowBandFromZero: casts });
+        }
         applyBatchData(clone, depthClone, uniforms);
       }
       if (VEG_SHADER_MODE === "noaerial") {
@@ -674,14 +719,17 @@ export function Vegetation({
     mesh.perObjectFrustumCulled = false;   // measured 2.6 ms at 80 k (0082)
     mesh.sortObjects = false;              // 108 ms at 300 k
     mesh.frustumCulled = false;            // gated by distance, never culled
-    mesh.castShadow = near && VEG_CAST_SHADOW;
+    // Shadows come from the casting rung only — see `batchKeyFor`'s shadow
+    // rule. Before it the near (full-mesh) rung cast, and the shadow cascades
+    // drew nearly as many triangles as the whole main pass.
+    mesh.castShadow = casts;
     mesh.receiveShadow = !isCard;
     if (depthClone) mesh.customDepthMaterial = depthClone;
     root.current?.add(mesh);
     return {
       key, mesh, material: clone, depthMaterial: depthClone, capacity, used: 0,
       data, geometryIds: new Map(), vertexCapacity: budget.vertices,
-      indexCapacity: budget.indices, near, isCard,
+      indexCapacity: budget.indices, near, isCard, casts,
       visibleCopies: 0, orderMin: Infinity, rungs: new Set(),
     };
   };
@@ -1139,6 +1187,7 @@ export function Vegetation({
     depthMaterial: THREE.Material | undefined;
     near: boolean;
     isCard: boolean;
+    casts: boolean;
   }
 
   /**
@@ -1167,14 +1216,15 @@ export function Vegetation({
       const level = Math.min(entry.levels.length - 1, sb.rungs[rungIndex].level);
       const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
       const near = rungIndex === 0;
+      const casts = castsShadowFor(sb.rungs, entry.levels.length - 1, level, isCard);
       const keys: string[] = [];
       for (const part of entry.levels[level].parts) {
         const key = batchKeyFor(
-          part.material, part.depthMaterial, part.geometry, near, isCard);
+          part.material, part.depthMaterial, part.geometry, near, isCard, casts);
         if (!specs.has(key)) {
           specs.set(key, {
             material: part.material, depthMaterial: part.depthMaterial,
-            near, isCard,
+            near, isCard, casts,
           });
         }
         keys.push(key);
@@ -1199,7 +1249,7 @@ export function Vegetation({
       const batch = batches.current.get(key);
       if (!batch) {
         batches.current.set(key, makeBatch(
-          key, spec.material, spec.depthMaterial, spec.near, spec.isCard,
+          key, spec.material, spec.depthMaterial, spec.near, spec.isCard, spec.casts,
           Math.max(MIN_BATCH_CAPACITY, Math.ceil(need * 1.5)),
           batchGeometryBudget(key)));
       } else if (batch.used + need > batch.capacity) {
@@ -1221,7 +1271,7 @@ export function Vegetation({
     // the next gating pass re-applies the right answer.
     for (const rung of [...old.rungs]) hideRung(rung);
     const fresh = makeBatch(
-      old.key, old.material, old.depthMaterial, old.near, old.isCard,
+      old.key, old.material, old.depthMaterial, old.near, old.isCard, old.casts,
       capacity, { vertices: old.vertexCapacity, indices: old.indexCapacity });
     // The replay reads the OLD mesh, not a retained CPU copy of the
     // placements: matrix out, matrix in, and the two data texels with it.
@@ -1508,6 +1558,7 @@ export function Vegetation({
         const level = Math.min(entry.levels.length - 1, rung.level);
         const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
         const near = rungIndex === 0;
+        const casts = castsShadowFor(sb.rungs, entry.levels.length - 1, level, isCard);
         const parts = entry.levels[level].parts;
         const partBatches: Batch[] = [];
         const partIds: Int32Array[] = [];
@@ -1516,7 +1567,7 @@ export function Vegetation({
         for (let partIndex = 0; partIndex < parts.length; partIndex++) {
           const part = parts[partIndex];
           const batch = batches.current.get(batchKeyFor(
-            part.material, part.depthMaterial, part.geometry, near, isCard))!;
+            part.material, part.depthMaterial, part.geometry, near, isCard, casts))!;
           touched.add(batch);
           const geometryKey = `${sb.species}|${level}|${partIndex}`;
           const ids = addCopies(
@@ -1592,6 +1643,7 @@ export function Vegetation({
     }
     // A per-species breakdown only a debug panel reads: a walk over tile
     // STATE bytes, no distance maths, once every 60 frames.
+    const trianglesByRung = { near: 0, mid: 0, far: 0, card: 0 };
     for (const entry of allSpecies.current) {
       let drawn = 0;
       for (const rung of entry.rungs) {
@@ -1605,6 +1657,13 @@ export function Vegetation({
         }
         drawn += onCopies;
         if (rung.isCard) billboardInstances += onCopies;
+        if (onCopies > 0) {
+          const tris = (onCopies / rung.ids.length) * rung.trianglesPerInstance;
+          if (rung.isCard) trianglesByRung.card += tris;
+          else if (rung.level === 0) trianglesByRung.near += tris;
+          else if (rung.level === 1) trianglesByRung.mid += tris;
+          else trianglesByRung.far += tris;
+        }
       }
       if (drawn === 0) continue;
       const seen = bySpecies[entry.species]
@@ -1633,6 +1692,7 @@ export function Vegetation({
       billboardInstances,
       occluded,
       bySpecies,
+      trianglesByRung,
       rebuildMs: counters.current.lastBuild,
       cellBuilds: counters.current.builds,
       cellRebuilds: registry.current.rebuilds,

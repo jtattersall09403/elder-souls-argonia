@@ -198,6 +198,17 @@ float esLodRamp(float edge, float w, float d) {
 ${BATCH_DATA_HEAD}
 `;
 
+/**
+ * The vertex line that computes the inner edge, and the line that replaces it
+ * under `shadowBandFromZero` (the depth material of a shadow-casting rung):
+ * the copy casts from distance 0 up to its normal outer edge, so the mid rung
+ * carries the shadow for everything nearer than its own band too. Patched as a
+ * string swap, not a uniform, so the two variants are separate programs.
+ */
+const VERTEX_IN_LINE =
+  "float esLodIn = esBand.x <= 0.0 ? 1.0 : esLodRamp(esBand.x, esBand.z, esLodD);";
+export const LOD_SHADOW_FROM_ZERO_LINE = "float esLodIn = 1.0; // shadowBandFromZero";
+
 const VERTEX_BODY = /* glsl */ `
 {
   #ifdef USE_INSTANCING
@@ -281,11 +292,29 @@ interface LodPatchState {
   esLodUniforms?: LodFadeUniforms;
   esLodWrapped?: THREE.Material["onBeforeCompile"];
   esLodCacheKeyed?: boolean;
+  esLodShadowFromZero?: boolean;
 }
 
-function installLodHook(material: THREE.Material, uniforms: LodFadeUniforms): void {
+/** Options for one patched material. */
+export interface LodFadeOptions {
+  /**
+   * Depth materials only: ignore the copy's inner edge and cast from distance
+   * 0 (the outer edge is untouched). See `LOD_SHADOW_FROM_ZERO_LINE`.
+   */
+  shadowBandFromZero?: boolean;
+}
+
+function installLodHook(
+  material: THREE.Material,
+  uniforms: LodFadeUniforms,
+  shadowFromZero: boolean,
+): void {
   const state = material.userData as LodPatchState;
   state.esLodUniforms = uniforms;
+  state.esLodShadowFromZero = shadowFromZero;
+  const body = shadowFromZero
+    ? VERTEX_BODY.replace(VERTEX_IN_LINE, LOD_SHADOW_FROM_ZERO_LINE)
+    : VERTEX_BODY;
   const previous = material.onBeforeCompile;
   const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
     previous?.call(material, shader, renderer);
@@ -293,7 +322,7 @@ function installLodHook(material: THREE.Material, uniforms: LodFadeUniforms): vo
     shader.uniforms.esLodViewPos = uniforms.esLodViewPos;
     shader.vertexShader = shader.vertexShader
       .replace("void main() {", `${VERTEX_HEAD}\nvoid main() {`)
-      .replace("#include <begin_vertex>", `#include <begin_vertex>\n${VERTEX_BODY}`);
+      .replace("#include <begin_vertex>", `#include <begin_vertex>\n${body}`);
     shader.fragmentShader = shader.fragmentShader.replace(
       "void main() {",
       `${FRAGMENT_HEAD}\nvoid main() {\n${FRAGMENT_BODY}`,
@@ -305,7 +334,8 @@ function installLodHook(material: THREE.Material, uniforms: LodFadeUniforms): vo
     state.esLodCacheKeyed = true;
     const previousKey = material.customProgramCacheKey;
     material.customProgramCacheKey = function (this: THREE.Material) {
-      return `${previousKey.call(this)}|es-lod`;
+      const self = this.userData as LodPatchState;
+      return `${previousKey.call(this)}|es-lod${self.esLodShadowFromZero ? "-shadow0" : ""}`;
     };
   }
   material.needsUpdate = true;
@@ -315,10 +345,11 @@ function installLodHook(material: THREE.Material, uniforms: LodFadeUniforms): vo
 export function applyLodFade(
   material: THREE.Material,
   uniforms: LodFadeUniforms,
+  options?: LodFadeOptions,
 ): void {
   const state = material.userData as LodPatchState;
   if (state.esLodUniforms) return;
-  installLodHook(material, uniforms);
+  installLodHook(material, uniforms, options?.shadowBandFromZero === true);
 }
 
 /**
@@ -330,7 +361,7 @@ export function reapplyLodFade(material: THREE.Material): void {
   const state = material.userData as LodPatchState;
   if (!state.esLodUniforms) return;
   if (material.onBeforeCompile === state.esLodWrapped) return;
-  installLodHook(material, state.esLodUniforms);
+  installLodHook(material, state.esLodUniforms, state.esLodShadowFromZero === true);
 }
 
 /**
@@ -342,7 +373,8 @@ export function applyLodFadeWithShadow(
   material: THREE.Material,
   depthMaterial: THREE.Material | undefined,
   uniforms: LodFadeUniforms,
+  options?: LodFadeOptions,
 ): void {
   applyLodFade(material, uniforms);
-  if (depthMaterial) applyLodFade(depthMaterial, uniforms);
+  if (depthMaterial) applyLodFade(depthMaterial, uniforms, options);
 }
