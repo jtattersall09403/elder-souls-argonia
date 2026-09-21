@@ -34,8 +34,10 @@ CPU pass over every instance. Draw calls stay at or below today's count.
   (ground-cover tiers; 16 samplers), 0075 (LOD ladder, hard steps), 0082
   (this lane). The vegetation data, bundle format and scatter are 16g's and
   frozen: this lane reads them, never re-authors them.
-- Ground cover (`Groundcover.tsx`) is a separate, tile-based, already
-  budgeted renderer. Out of scope.
+- Ground cover (`Groundcover.tsx`, `vegetationPatches.ts`) is a separate,
+  tile-based renderer, and it is IN this lane (owner 2026-09-21: "ground
+  cover is vegetation; the lane resolves the frame-rate issues whatever the
+  cause"). Its generation cost is the round 2 addendum to 0082.
 
 ## Design (decided; round 0 records it as a decision)
 
@@ -154,8 +156,9 @@ oracle; gates green. See [0082 § Round 2](../../decisions/0082-vegetation-cells
 
 ## Folders
 
-Edits: `apps/world-studio/src/vegetation/Vegetation*.tsx` (not
-`Groundcover.tsx`), `packages/game-core/src/vegetation/**`,
+Edits: `apps/world-studio/src/vegetation/Vegetation*.tsx`,
+`apps/world-studio/src/vegetation/Groundcover.tsx`,
+`packages/game-core/src/vegetation/**`,
 `packages/game-core/src/fx/{lodFade,windSway}.ts`,
 `packages/game-core/src/render/terrainOcclusion.ts`,
 `docs/research/vegetation/renderer-rewrite-*.md`, the decision record and
@@ -163,7 +166,7 @@ its addenda, `docs/world/65-vegetation-scatter.md` (round 2), this brief,
 PROGRESS.md (index-blob protocol).
 
 Never: `world/**`, `tooling/world-generation/**`, the vegetation bundle
-format or scatter, `Groundcover.tsx`, `packages/game-core/src/water/**`,
+format or scatter, `packages/game-core/src/water/**`,
 settlements, the character controller, `ChunkTerrain.tsx` (read its store
 only), rasters.
 

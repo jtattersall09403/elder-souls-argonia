@@ -55,11 +55,92 @@ export const KEPT_RADIUS_M: Readonly<Record<string, number>> = {
 };
 export const DEFAULT_KEPT_RADIUS_M = 8;
 
-function pointInPolygon(x: number, z: number, poly: ClearancePolygon): boolean {
+/**
+ * Segment index over one polygon (2026-09-21). A road-track clearance is a
+ * 3,000-vertex corridor, and both the crossing test and the distance test
+ * used to walk EVERY segment for EVERY candidate plant: one 16 m groundcover
+ * tile beside such a patch cost millions of segment visits. The index cuts
+ * each query to the handful of segments that can possibly answer it:
+ *
+ *  - a uniform `PATCH_SEG_CELL_M` grid over the polygon's bounds, each cell
+ *    listing the segments whose bbox meets it, for the distance query;
+ *  - `PATCH_ROW_M` z-bands, each listing the segments spanning it, for the
+ *    crossing-number test (the +x ray only meets segments in the point's
+ *    band).
+ *
+ * Both are exact, not approximate: the answers are bit-identical to the
+ * brute-force scan they replace (`vegetationPatches.test.ts`).
+ */
+export const PATCH_SEG_CELL_M = 8;
+export const PATCH_ROW_M = 4;
+
+interface PolyIndex {
+  readonly xs: Float64Array;
+  readonly zs: Float64Array;
+  readonly n: number;
+  readonly minX: number;
+  readonly minZ: number;
+  readonly maxX: number;
+  readonly maxZ: number;
+  readonly gw: number;
+  readonly gh: number;
+  readonly cells: readonly Int32Array[];
+  readonly rows: readonly Int32Array[];
+}
+
+function buildPolyIndex(poly: ClearancePolygon): PolyIndex {
+  const n = poly.length;
+  const xs = new Float64Array(n);
+  const zs = new Float64Array(n);
+  let minX = Infinity; let minZ = Infinity; let maxX = -Infinity; let maxZ = -Infinity;
+  for (let i = 0; i < n; i++) {
+    const [x, z] = poly[i];
+    xs[i] = x; zs[i] = z;
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (z < minZ) minZ = z;
+    if (z > maxZ) maxZ = z;
+  }
+  const gw = Math.max(1, Math.floor((maxX - minX) / PATCH_SEG_CELL_M) + 1);
+  const gh = Math.max(1, Math.floor((maxZ - minZ) / PATCH_SEG_CELL_M) + 1);
+  const cellLists: number[][] = Array.from({ length: gw * gh }, () => []);
+  const rowCount = Math.max(1, Math.floor((maxZ - minZ) / PATCH_ROW_M) + 1);
+  const rowLists: number[][] = Array.from({ length: rowCount }, () => []);
+  const clamp = (v: number, hi: number) => (v < 0 ? 0 : v > hi ? hi : v);
+  for (let i = 0; i < n; i++) {
+    const j = (i + 1) % n;
+    const ax = xs[i]; const az = zs[i]; const bx = xs[j]; const bz = zs[j];
+    const sx0 = clamp(Math.floor((Math.min(ax, bx) - minX) / PATCH_SEG_CELL_M), gw - 1);
+    const sx1 = clamp(Math.floor((Math.max(ax, bx) - minX) / PATCH_SEG_CELL_M), gw - 1);
+    const sz0 = clamp(Math.floor((Math.min(az, bz) - minZ) / PATCH_SEG_CELL_M), gh - 1);
+    const sz1 = clamp(Math.floor((Math.max(az, bz) - minZ) / PATCH_SEG_CELL_M), gh - 1);
+    for (let cz = sz0; cz <= sz1; cz++) {
+      for (let cx = sx0; cx <= sx1; cx++) cellLists[cz * gw + cx].push(i);
+    }
+    const r0 = clamp(Math.floor((Math.min(az, bz) - minZ) / PATCH_ROW_M), rowCount - 1);
+    const r1 = clamp(Math.floor((Math.max(az, bz) - minZ) / PATCH_ROW_M), rowCount - 1);
+    for (let r = r0; r <= r1; r++) rowLists[r].push(i);
+  }
+  return {
+    xs, zs, n, minX, minZ, maxX, maxZ, gw, gh,
+    cells: cellLists.map((list) => Int32Array.from(list)),
+    rows: rowLists.map((list) => Int32Array.from(list)),
+  };
+}
+
+/** Crossing-number test over the point's z-band only. A segment can only be
+ * crossed by the +x ray at `z` if it spans `z`, so it is in that band. */
+function pointInPolygonIndexed(x: number, z: number, idx: PolyIndex): boolean {
+  if (z < idx.minZ || z > idx.maxZ || x < idx.minX) return false;
+  const r = Math.floor((z - idx.minZ) / PATCH_ROW_M);
+  if (r < 0 || r >= idx.rows.length) return false;
+  const row = idx.rows[r];
   let inside = false;
-  for (let i = 0; i < poly.length; i++) {
-    const [ax, az] = poly[i];
-    const [bx, bz] = poly[(i + 1) % poly.length];
+  for (let k = 0; k < row.length; k++) {
+    const i = row[k];
+    const j = (i + 1) % idx.n;
+    const ax = idx.xs[i]; const az = idx.zs[i];
+    const bx = idx.xs[j]; const bz = idx.zs[j];
     if ((az > z) !== (bz > z)) {
       const t = (z - az) / (bz - az);
       if (x < ax + t * (bx - ax)) inside = !inside;
@@ -68,29 +149,77 @@ function pointInPolygon(x: number, z: number, poly: ClearancePolygon): boolean {
   return inside;
 }
 
-function distanceToPolygon(x: number, z: number, poly: ClearancePolygon): number {
+/** Distance from the point to the polygon's boundary, exact whenever it is
+ * `radiusM` or less. Beyond that the search stops and the caller is told
+ * `Infinity`: every caller clamps at a falloff length anyway. */
+function distanceToPolygonWithin(
+  x: number, z: number, idx: PolyIndex, radiusM: number,
+): number {
+  if (x < idx.minX - radiusM || x > idx.maxX + radiusM
+    || z < idx.minZ - radiusM || z > idx.maxZ + radiusM) return Infinity;
+  const clamp = (v: number, hi: number) => (v < 0 ? 0 : v > hi ? hi : v);
+  const cx0 = clamp(Math.floor((x - radiusM - idx.minX) / PATCH_SEG_CELL_M), idx.gw - 1);
+  const cx1 = clamp(Math.floor((x + radiusM - idx.minX) / PATCH_SEG_CELL_M), idx.gw - 1);
+  const cz0 = clamp(Math.floor((z - radiusM - idx.minZ) / PATCH_SEG_CELL_M), idx.gh - 1);
+  const cz1 = clamp(Math.floor((z + radiusM - idx.minZ) / PATCH_SEG_CELL_M), idx.gh - 1);
   let best = Infinity;
-  for (let i = 0; i < poly.length; i++) {
-    const [ax, az] = poly[i];
-    const [bx, bz] = poly[(i + 1) % poly.length];
-    const dx = bx - ax;
-    const dz = bz - az;
-    const length2 = dx * dx + dz * dz;
-    const t = length2 === 0
-      ? 0
-      : Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / length2));
-    best = Math.min(best, Math.hypot(x - (ax + t * dx), z - (az + t * dz)));
+  for (let cz = cz0; cz <= cz1; cz++) {
+    for (let cx = cx0; cx <= cx1; cx++) {
+      const cell = idx.cells[cz * idx.gw + cx];
+      for (let k = 0; k < cell.length; k++) {
+        const i = cell[k];
+        const j = (i + 1) % idx.n;
+        const ax = idx.xs[i]; const az = idx.zs[i];
+        const dx = idx.xs[j] - ax;
+        const dz = idx.zs[j] - az;
+        const length2 = dx * dx + dz * dz;
+        const t = length2 === 0
+          ? 0
+          : Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / length2));
+        const d = Math.hypot(x - (ax + t * dx), z - (az + t * dz));
+        if (d < best) best = d;
+      }
+    }
   }
   return best;
 }
 
-function nearest(x: number, z: number, polys: readonly ClearancePolygon[]) {
+/** Indexed polygons of one clearance, built once and memoised on the patch
+ * object itself (a WeakMap: no lifetime of its own, no observable state). */
+interface ClearanceIndex {
+  readonly hard: readonly PolyIndex[];
+  readonly thinned: readonly PolyIndex[];
+}
+const CLEARANCE_INDEX = new WeakMap<object, ClearanceIndex>();
+
+function polygonsOf(polys: readonly ClearancePolygon[]): PolyIndex[] {
+  return polys.filter((p) => p.length >= 3).map(buildPolyIndex);
+}
+
+function clearanceIndexOf(clearance: VegetationClearancePatch): ClearanceIndex {
+  const hit = CLEARANCE_INDEX.get(clearance);
+  if (hit) return hit;
+  const built: ClearanceIndex = {
+    hard: polygonsOf(clearance.hardClear ?? []),
+    thinned: polygonsOf(clearance.thinned ?? []),
+  };
+  CLEARANCE_INDEX.set(clearance, built);
+  return built;
+}
+
+/**
+ * `inside`, and the distance to the nearest boundary capped at `radiusM`
+ * (beyond it the caller's own clamp makes the exact value irrelevant).
+ */
+function nearest(
+  x: number, z: number, polys: readonly PolyIndex[], radiusM: number,
+) {
   let inside = false;
   let best = Infinity;
-  for (const poly of polys) {
-    if (poly.length < 3) continue;
-    if (pointInPolygon(x, z, poly)) inside = true;
-    best = Math.min(best, distanceToPolygon(x, z, poly));
+  for (const idx of polys) {
+    if (pointInPolygonIndexed(x, z, idx)) inside = true;
+    const d = distanceToPolygonWithin(x, z, idx, radiusM);
+    if (d < best) best = d;
   }
   return { inside, distance: best };
 }
@@ -113,20 +242,22 @@ export function keepAt(x: number, z: number, clearance: VegetationClearancePatch
     const radius = (kept.kind && KEPT_RADIUS_M[kept.kind]) || DEFAULT_KEPT_RADIUS_M;
     if (Math.hypot(x - kept.positionM[0], z - kept.positionM[1]) <= radius) return 1;
   }
-  const hard = clearance.hardClear ?? [];
-  const thinned = clearance.thinned ?? [];
+  const { hard, thinned } = clearanceIndexOf(clearance);
   const falloff = clearance.fringeFalloffM || FRINGE_FALLOFF_M;
+  // Past this distance nothing the rule computes can still vary: the fringe
+  // is at full keep and the wall band is long gone, so the search stops.
+  const searchR = Math.max(falloff, EDGE_JITTER_M + WALL_ENRICH_BAND_M);
   let dHard = Infinity;
   let dWall = Infinity;
   if (hard.length > 0) {
-    const near = nearest(x, z, hard);
+    const near = nearest(x, z, hard, searchR);
     const jitter = edgeJitter(x, z);
     if (near.inside || near.distance <= jitter) return 0;
     dHard = near.distance;
     // Distance from the built edge as CUT, not from the drawn polygon.
     dWall = dHard - jitter;
   }
-  const thin = nearest(x, z, thinned);
+  const thin = nearest(x, z, thinned, searchR);
   if (!thin.inside) return 1;
   if (hard.length === 0) dHard = Math.max(0, falloff - thin.distance);
   const t = falloff > 0 ? Math.min(1, dHard / falloff) : 1;
@@ -203,7 +334,15 @@ export function clearanceBoundsM(
 export function patchesNear(
   x: number, z: number, indexed: readonly IndexedPatch[], padM = 0,
 ): VegetationClearancePatch[] {
-  const out: VegetationClearancePatch[] = [];
+  return patchEntriesNear(x, z, indexed, padM).map((entry) => entry.clearance);
+}
+
+/** `patchesNear`, keeping the indexed entries so the caller can re-apply the
+ * exact per-point bounds test itself (`survivesPatchesIn`). */
+export function patchEntriesNear(
+  x: number, z: number, indexed: readonly IndexedPatch[], padM = 0,
+): IndexedPatch[] {
+  const out: IndexedPatch[] = [];
   // 183 patches x every candidate plant was the 2026-09-20 hitch: the grid
   // narrows it to the one cell holding (x, z). Cells are stamped from each
   // patch's bounds PLUS PATCH_GRID_PAD_M, so the single lookup is exact for
@@ -220,7 +359,7 @@ export function patchesNear(
     const b = entry.bounds;
     if (x < b.minX - padM || x > b.maxX + padM
       || z < b.minZ - padM || z > b.maxZ + padM) continue;
-    out.push(entry.clearance);
+    out.push(entry);
   }
   return out;
 }
@@ -281,6 +420,31 @@ export function survivesPatches(
   return keep >= 1 || roll < keep;
 }
 
+/**
+ * `survivesPatches` for a caller that has already narrowed the patch list to
+ * a region — a groundcover tile narrows ONCE for its 16 m square and its
+ * widest species, then passes that short list here for each of its ~1,100
+ * candidates, instead of a grid lookup and an array allocation per candidate.
+ * The per-candidate bounds test is still the exact one `patchesNear` applies,
+ * so the answer is the same plant for the same roll.
+ */
+export function survivesPatchesIn(
+  x: number, z: number, radiusM: number,
+  region: readonly IndexedPatch[], roll: number,
+): boolean {
+  if (region.length === 0) return true;
+  const near: VegetationClearancePatch[] = [];
+  for (const entry of region) {
+    const b = entry.bounds;
+    if (x < b.minX - radiusM || x > b.maxX + radiusM
+      || z < b.minZ - radiusM || z > b.maxZ + radiusM) continue;
+    near.push(entry.clearance);
+  }
+  if (near.length === 0) return true;
+  const keep = keepForExtent(x, z, radiusM, near);
+  return keep >= 1 || roll < keep;
+}
+
 export interface IndexedPatch {
   readonly id: string;
   readonly clearance: VegetationClearancePatch;
@@ -317,6 +481,7 @@ export function indexPatches(doc: VegetationPatchesDoc): IndexedPatches {
     const bounds = clearanceBoundsM(patch);
     if (!bounds) continue;
     out.push({ id: patch.id, clearance: patch, bounds });
+    clearanceIndexOf(patch); // segment index built once, at load
   }
   const indexed: IndexedPatches = out;
   indexed.grid = buildPatchGrid(out);

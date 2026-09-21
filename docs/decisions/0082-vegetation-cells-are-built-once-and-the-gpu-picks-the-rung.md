@@ -325,3 +325,20 @@ fill, inside a window the probe itself reports as `steady: false`.
   `tileOffsets` and `tileBounds` by reference and carries one state byte per
   tile, so quadrupling the tile count costs a rung less memory than the 64
   tile objects it replaced.
+
+### Round 2 addendum: ground-cover generation cost (2026-09-21)
+
+- Every clearance polygon carries a segment index built at `indexPatches`
+  time: an 8 m cell grid for the distance query and 4 m z-bands for the
+  crossing test, so a query touches the few hundred segments that can answer
+  it instead of all 64 840 in `vegetation-patches.json`. Exactness is the
+  gate, not the speed: `vegetationPatches.test.ts` runs 2 500 queries over
+  five shapes (one a 3 002-vertex road corridor) against the brute-force
+  implementation it replaced.
+- A ground-cover tile narrows the patch and footprint lists ONCE, for its
+  half-diagonal plus the widest species radius, and skips both tests
+  entirely when nothing is near; `survivesPatchesIn` re-applies the exact
+  per-candidate bounds test, so the plants are unchanged. One generate call
+  takes at most `GENERATE_MAX_TILES_PER_CALL` tiles, since the 5 ms budget
+  can only be checked between them, and the HUD's `gc:` line reports the
+  per-tile cost.

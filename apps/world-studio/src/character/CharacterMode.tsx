@@ -657,18 +657,119 @@ function CharacterHud({ channel }: { channel: HudChannel }) {
 }
 
 /** A 60-frame rolling frame rate for the HUD line, published from inside the
- * canvas because the HUD is DOM and `useFrame` is not available to it. */
+ * canvas because the HUD is DOM and `useFrame` is not available to it.
+ *
+ * It also carries the DEV GPU frame timer: `EXT_disjoint_timer_query_webgl2`
+ * measures how long the GPU spent on a frame, which is the number that tells
+ * a shadow/overdraw cost from a CPU cost. A query cannot be begun and ended
+ * inside one r3f callback (the render happens after every `useFrame`), so a
+ * query begun in this low-priority callback is ENDED at the start of the next
+ * frame: it spans exactly one frame of GPU work. Results are polled
+ * asynchronously and discarded when the driver reports a disjoint.
+ */
 function FrameRateProbe() {
   const acc = useRef({ sum: 0, count: 0 });
+  const gl = useThree((s) => s.gl);
+  const gpu = useRef<{
+    ext: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null;
+    ctx: WebGL2RenderingContext | null;
+    open: WebGLQuery | null;
+    pending: WebGLQuery[];
+    samples: number[];
+    maxWindow: number[];
+  }>({ ext: null, ctx: null, open: null, pending: [], samples: [], maxWindow: [] });
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const host = window as unknown as {
+      __STUDIO_GPU_MS__?: { avg: number; max: number; supported: boolean };
+    };
+    let ctx: WebGL2RenderingContext | null = null;
+    let ext: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null = null;
+    try {
+      const raw = gl.getContext() as unknown;
+      if (typeof WebGL2RenderingContext !== "undefined"
+        && raw instanceof WebGL2RenderingContext) {
+        ctx = raw;
+        ext = ctx.getExtension("EXT_disjoint_timer_query_webgl2") as typeof ext;
+      }
+    } catch { ctx = null; ext = null; }
+    gpu.current.ctx = ctx;
+    gpu.current.ext = ext;
+    host.__STUDIO_GPU_MS__ = { avg: 0, max: 0, supported: Boolean(ctx && ext) };
+    return () => {
+      const g = gpu.current;
+      try {
+        if (g.ctx && g.open) { g.ctx.endQuery(ext!.TIME_ELAPSED_EXT); }
+        if (g.ctx) {
+          for (const q of g.pending) g.ctx.deleteQuery(q);
+          if (g.open) g.ctx.deleteQuery(g.open);
+        }
+      } catch { /* context already lost */ }
+      g.open = null; g.pending = [];
+      delete host.__STUDIO_GPU_MS__;
+    };
+  }, [gl]);
+
   useFrame((_, delta) => {
     if (!import.meta.env.DEV) return;
     const a = acc.current;
     a.sum += delta; a.count++;
-    if (a.count < 60) return;
-    (window as unknown as { __STUDIO_FPS__?: number }).__STUDIO_FPS__ =
-      Math.round(a.count / Math.max(a.sum, 1e-3));
-    a.sum = 0; a.count = 0;
-  });
+    if (a.count >= 60) {
+      (window as unknown as { __STUDIO_FPS__?: number }).__STUDIO_FPS__ =
+        Math.round(a.count / Math.max(a.sum, 1e-3));
+      a.sum = 0; a.count = 0;
+    }
+
+    const g = gpu.current;
+    const { ctx, ext } = g;
+    if (!ctx || !ext) return;
+    try {
+      // End the query opened last frame: it has now spanned one full frame.
+      if (g.open) {
+        ctx.endQuery(ext.TIME_ELAPSED_EXT);
+        g.pending.push(g.open);
+        g.open = null;
+      }
+      // Collect whatever the driver has finished.
+      const disjoint = ctx.getParameter(ext.GPU_DISJOINT_EXT) as boolean;
+      const stillPending: WebGLQuery[] = [];
+      for (const q of g.pending) {
+        const done = ctx.getQueryParameter(q, ctx.QUERY_RESULT_AVAILABLE) as boolean;
+        if (!done) { stillPending.push(q); continue; }
+        if (!disjoint) {
+          const ns = ctx.getQueryParameter(q, ctx.QUERY_RESULT) as number;
+          const ms = ns / 1e6;
+          g.samples.push(ms);
+          if (g.samples.length > 60) g.samples.shift();
+          g.maxWindow.push(ms);
+          if (g.maxWindow.length > 120) g.maxWindow.shift();
+        }
+        ctx.deleteQuery(q);
+      }
+      g.pending = stillPending;
+      if (g.samples.length > 0) {
+        const avg = g.samples.reduce((s, v) => s + v, 0) / g.samples.length;
+        (window as unknown as {
+          __STUDIO_GPU_MS__?: { avg: number; max: number; supported: boolean };
+        }).__STUDIO_GPU_MS__ = {
+          avg: Math.round(avg * 10) / 10,
+          max: Math.round(Math.max(...g.maxWindow) * 10) / 10,
+          supported: true,
+        };
+      }
+      // Open the next frame's query (bounded: never more than a few in flight).
+      if (g.pending.length < 8) {
+        const q = ctx.createQuery();
+        if (q) { ctx.beginQuery(ext.TIME_ELAPSED_EXT, q); g.open = q; }
+      }
+    } catch {
+      g.ctx = null;
+      (window as unknown as {
+        __STUDIO_GPU_MS__?: { avg: number; max: number; supported: boolean };
+      }).__STUDIO_GPU_MS__ = { avg: 0, max: 0, supported: false };
+    }
+  }, -100);
   return null;
 }
 
@@ -681,33 +782,42 @@ function FrameRateProbe() {
  */
 function VegetationHudLine() {
   const [sample, setSample] = useState<
-    { veg: VegetationStats | null; fps: number } | null>(null);
+    {
+      veg: VegetationStats | null;
+      fps: number;
+      gpu: { avg: number; max: number; supported: boolean } | null;
+    } | null>(null);
   useEffect(() => {
     if (!import.meta.env.DEV) return;
     const host = window as unknown as {
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
       __STUDIO_FPS__?: number;
+      __STUDIO_GPU_MS__?: { avg: number; max: number; supported: boolean };
     };
     const read = () => setSample({
       veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null,
       fps: host.__STUDIO_FPS__ ?? 0,
+      gpu: host.__STUDIO_GPU_MS__ ?? null,
     });
     read();
     const timer = window.setInterval(read, 1000);
     return () => window.clearInterval(timer);
   }, []);
   if (!sample) return null;
-  const { veg, fps } = sample;
+  const { veg, fps, gpu } = sample;
+  const gpuText = gpu?.supported
+    ? `gpu ${gpu.avg}/${gpu.max} ms`
+    : "gpu n/a";
   if (!VEGETATION_ENABLED || !veg) {
     return (
       <span style={{ display: "block", opacity: 0.75 }}>
-        {`veg: off · ${fps} fps`}
+        {`veg: off · ${fps} fps · ${gpuText}`}
       </span>
     );
   }
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
-      {`veg: ${fps} fps · gate ${veg.gatingMs}/${veg.gatingMaxMs} ms`}
+      {`veg: ${fps} fps · ${gpuText} · gate ${veg.gatingMs}/${veg.gatingMaxMs} ms`}
       {` · flip ${veg.flipMs}/${veg.flipMaxMs} ms (${veg.flipInstances})`}
       {` · pending ${veg.pendingBatches}`}
       {` · queue ${veg.queueMs}/${veg.queueMaxMs} ms ${veg.queueTop}`}
@@ -734,6 +844,7 @@ function GroundcoverHudLine() {
     <span style={{ display: "block", opacity: 0.75 }}>
       {`gc: rebuilds ${gc.rebuildsPerSec}/s`}
       {` · gen ${gc.generateMs}/${gc.generateMaxMs} ms`}
+      {` · tile ${gc.tileMs}/${gc.tileMaxMs} ms`}
       {` · fill ${gc.fillMs}/${gc.fillMaxMs} ms (${gc.fillInstances})`}
       {` · tiles ${gc.tilesLive}/${gc.tilesPending}`}
     </span>

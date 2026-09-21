@@ -80,7 +80,8 @@ import { groundHeightM } from "./terrainHeight";
 import { hash32, latticeValue, u01 } from "@elder-souls/game-core/vegetation/ringHash";
 import {
   indexPatches,
-  survivesPatches,
+  patchEntriesNear,
+  survivesPatchesIn,
   type IndexedPatch,
 } from "@elder-souls/game-core/vegetation/vegetationPatches";
 import type { WaterData } from "@elder-souls/game-core/water/index";
@@ -145,6 +146,11 @@ const TIER_OVERLAP_M = REBUILD_MOVE_M + 6;
  * queue drains (or every FILL_INTERVAL_S while it is long); the overlap
  * margin hides the tiles still in the queue at the ring's edge. */
 const GENERATE_BUDGET_MS = 5;
+/** Tiles generated in ONE call, however much of the budget is left: the
+ * budget is only checked BETWEEN tiles, and a single tile beside a road-track
+ * clearance was measured at 110-555 ms on the owner's GPU (2026-09-21). */
+const GENERATE_MAX_TILES_PER_CALL = 8;
+const EMPTY_PATCHES: readonly IndexedPatch[] = [];
 /** While more than this many tiles are still wanted (a spawn, a teleport,
  * a raster arriving), the budget rises to GENERATE_BUDGET_COLD_MS so the ring
  * fills in a second or two instead of creeping outward for ten. */
@@ -880,6 +886,10 @@ export interface GroundcoverPerf {
   rebuildsPerSec: number;
   generateMs: number;
   generateMaxMs: number;
+  /** The last SINGLE tile's generation cost and the worst seen, ms. The 5 ms
+   * budget is only checked between tiles, so one slow tile is the hitch. */
+  tileMs: number;
+  tileMaxMs: number;
   fillMs: number;
   fillMaxMs: number;
   fillInstances: number;
@@ -940,14 +950,14 @@ export function Groundcover({
   const generatedSinceFill = useRef(0);
   const coldStart = useRef(true);
   /** Generation counters since the last fill, reported by the fill. */
-  const genStats = useRef({ generated: 0, ms: 0, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } });
+  const genStats = useRef({ generated: 0, ms: 0, tileMs: 0, tileMaxMs: 0, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } });
   /** Set once the inputs exist; `useFrame` calls it with a time budget. */
   const generateRef = useRef<((budgetMs: number) => { generated: number; remaining: number }) | null>(null);
   const [revision, setRevision] = useState(0);
   /** DEV instrumentation only: nothing here is read by the renderer. */
   const perf = useRef<GroundcoverPerf>({
     frame: 0, rebuildsStarted: 0, rebuildsPerSec: 0,
-    generateMs: 0, generateMaxMs: 0, fillMs: 0, fillMaxMs: 0,
+    generateMs: 0, generateMaxMs: 0, tileMs: 0, tileMaxMs: 0, fillMs: 0, fillMaxMs: 0,
     fillInstances: 0, tilesLive: 0, tilesPending: 0,
   });
   /** Timestamps of the rebuilds in the last second, for `rebuildsPerSec`. */
@@ -1104,6 +1114,8 @@ export function Groundcover({
     if (p.frame - maxWindowFrame.current >= 120) {
       maxWindowFrame.current = p.frame;
       p.generateMaxMs = 0;
+      p.tileMaxMs = 0;
+      genStats.current.tileMaxMs = 0;
       p.fillMaxMs = 0;
     }
     p.generateMs = 0;
@@ -1113,6 +1125,8 @@ export function Groundcover({
       const { generated, remaining } = generateRef.current(
         coldStart.current ? GENERATE_BUDGET_COLD_MS : GENERATE_BUDGET_MS);
       p.generateMs = Math.round((performance.now() - tGen0) * 10) / 10;
+      p.tileMs = Math.round(genStats.current.tileMs * 10) / 10;
+      p.tileMaxMs = Math.round(genStats.current.tileMaxMs * 10) / 10;
       if (p.generateMs > p.generateMaxMs) p.generateMaxMs = p.generateMs;
       pendingTiles = remaining;
       coldStart.current = remaining > GENERATE_COLD_TILES;
@@ -1167,7 +1181,7 @@ export function Groundcover({
     const [ftx, ftz] = focusTile.current;
     const cache = tileCache.current;
     const stats0 = genStats.current;
-    genStats.current = { generated: 0, ms: 0, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } };
+    genStats.current = { generated: 0, ms: 0, tileMs: stats0.tileMs, tileMaxMs: stats0.tileMaxMs, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } };
     const matrix = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();
     const position = new THREE.Vector3();
@@ -1507,7 +1521,22 @@ export function Groundcover({
         + (g[i + TILE_GRID_N] * (1 - fx) + g[i + TILE_GRID_N + 1] * fx) * fz;
     };
 
+    // Bounds of every building footprint, once per rebuild, for the per-tile
+    // prefilter below.
+    const exclusionBoxes = exclusions.map((poly) => {
+      let minX = Infinity; let maxX = -Infinity; let minZ = Infinity; let maxZ = -Infinity;
+      for (const [x, z] of poly) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (z < minZ) minZ = z;
+        if (z > maxZ) maxZ = z;
+      }
+      return { poly, minX, maxX, minZ, maxZ };
+    });
+
     const generateTile = (tx: number, tz: number, wantFar: boolean, rej: typeof genStats.current.rejected): CachedTile | null => {
+      let maxSpeciesRadiusM = 0;
+      for (const r of radii.current.values()) if (r > maxSpeciesRadiusM) maxSpeciesRadiusM = r;
       const waterData = water.current;
       const x0 = tx * TILE_M; const z0 = tz * TILE_M;
       // The tile's ground and water ONCE, on a 2 m grid, with the slope's
@@ -1540,6 +1569,25 @@ export function Groundcover({
           const region = regionRaster ? coverAt(regionRaster, x, z) : REGION_UNKNOWN;
           slotsPresent.add(slotKey(region, coverAt(control, x, z)));
         }
+      }
+      // The patch and footprint lists are narrowed ONCE per tile, not once
+      // per candidate (2026-09-21): a road-track clearance carries thousands
+      // of vertices, and the per-candidate grid lookup plus its array ran
+      // ~1,100 times a tile. The pad is the tile's half-diagonal plus the
+      // widest species radius, so the narrowed list is a superset of what
+      // every candidate in the tile would have found; `survivesPatchesIn`
+      // re-applies the exact per-point bounds test, so the plants are
+      // unchanged.
+      const tileCx = x0 + TILE_M / 2; const tileCz = z0 + TILE_M / 2;
+      const tilePadM = TILE_M * Math.SQRT1_2 + maxSpeciesRadiusM;
+      const tilePatches = clearanceIndex.length === 0
+        ? EMPTY_PATCHES
+        : patchEntriesNear(tileCx, tileCz, clearanceIndex, tilePadM);
+      const tileExclusions: Footprint[] = [];
+      for (const box of exclusionBoxes) {
+        const dx = Math.max(box.minX - tileCx, 0, tileCx - box.maxX);
+        const dz = Math.max(box.minZ - tileCz, 0, tileCz - box.maxZ);
+        if (Math.hypot(dx, dz) <= tilePadM) tileExclusions.push(box.poly);
       }
       const perSpecies: TilePlacement[][] = SPECIES_PLANS.map(() => []);
       for (const plan of SPECIES_PLANS) {
@@ -1581,12 +1629,16 @@ export function Groundcover({
           const accept = (rule.density / plan.maxDensity) * (0.35 + 1.3 * clump);
           if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= accept) { rej.accept++; continue; }
 
-          if (excludedByFootprints(x, z, speciesRadiusM, exclusions)) { rej.footprint++; continue; }
+          if (tileExclusions.length > 0
+            && excludedByFootprints(x, z, speciesRadiusM, tileExclusions)) {
+            rej.footprint++; continue;
+          }
           // Vegetation patches (0041 gotcha (b)): the published bundles were
           // patched by the stage, but this layer is generated here and has to
           // obey the same patch list or grass grows through the floors.
-          if (!survivesPatches(x, z, speciesRadiusM, clearanceIndex,
-            u01(hash32(tx, tz, plan.index, k * 8 + 7)))) { rej.patch++; continue; }
+          if (tilePatches.length > 0
+            && !survivesPatchesIn(x, z, speciesRadiusM, tilePatches,
+              u01(hash32(tx, tz, plan.index, k * 8 + 7)))) { rej.patch++; continue; }
 
           const h = gridAt(grid, lx, lz);
           // Slope from the same grid (true metres — the authored limits are
@@ -1687,9 +1739,14 @@ export function Groundcover({
       let i = 0;
       const rej = genStats.current.rejected;
       for (; i < wanted.length; i++) {
-        if (generated > 0 && performance.now() - t0 > budgetMs) break;
+        if (generated > 0 && (performance.now() - t0 > budgetMs
+          || generated >= GENERATE_MAX_TILES_PER_CALL)) break;
         const w = wanted[i];
+        const tileT0 = performance.now();
         const tile = generateTile(w.tx, w.tz, w.far, rej);
+        const tileMs = performance.now() - tileT0;
+        genStats.current.tileMs = tileMs;
+        if (tileMs > genStats.current.tileMaxMs) genStats.current.tileMaxMs = tileMs;
         generated++;
         if (tile) tileCache.current.set(tileKey(w.tx, w.tz), tile);
       }

@@ -207,6 +207,16 @@ const VEG_SHADER_MODE: VegShaderMode = ((): VegShaderMode => {
 })();
 
 /**
+ * DEV shadow switch (`?vegshadow=0`), read once at module load: every batch is
+ * built with `castShadow = false`, so a frame can be measured with the
+ * vegetation shadow pass removed and nothing else changed.
+ */
+const VEG_CAST_SHADOW: boolean = (() => {
+  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  return new URLSearchParams(window.location.search).get("vegshadow") !== "0";
+})();
+
+/**
  * A/B switch (DEV only, `?veg=0`), read once at module load: the renderer is
  * not MOUNTED at all, so the HUD line shows what the frame costs without it
  * (owner walk 2026-09-21). Not a rendering mode — a measurement.
@@ -651,7 +661,7 @@ export function Vegetation({
     mesh.perObjectFrustumCulled = false;   // measured 2.6 ms at 80 k (0082)
     mesh.sortObjects = false;              // 108 ms at 300 k
     mesh.frustumCulled = false;            // gated by distance, never culled
-    mesh.castShadow = near;
+    mesh.castShadow = near && VEG_CAST_SHADOW;
     mesh.receiveShadow = !isCard;
     if (depthClone) mesh.customDepthMaterial = depthClone;
     root.current?.add(mesh);

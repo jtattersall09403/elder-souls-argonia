@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
+  clearanceBoundsM,
+  DEFAULT_KEPT_RADIUS_M,
+  edgeJitter,
+  FRINGE_FALLOFF_M,
   FRINGE_MIN_KEEP,
+  KEPT_RADIUS_M,
+  WALL_ENRICH_BAND_M,
+  WALL_ENRICH_GAIN,
   indexPatches,
   keepAt,
   PATCH_GRID_PAD_M,
@@ -158,5 +165,121 @@ describe("patch grid (2026-09-20 hitch fix)", () => {
     });
     const far = PATCH_GRID_PAD_M + 200;
     expect(patchesNear(-100, 5, indexed, far)).toHaveLength(1);
+  });
+});
+
+describe("patch segment index (2026-09-21 generation cost)", () => {
+  // The implementation this replaced, kept here as the reference answer: a
+  // linear walk of every segment of every polygon.
+  type Poly = readonly (readonly [number, number])[];
+  function bruteInside(x: number, z: number, poly: Poly): boolean {
+    let inside = false;
+    for (let i = 0; i < poly.length; i++) {
+      const [ax, az] = poly[i];
+      const [bx, bz] = poly[(i + 1) % poly.length];
+      if ((az > z) !== (bz > z)) {
+        const t = (z - az) / (bz - az);
+        if (x < ax + t * (bx - ax)) inside = !inside;
+      }
+    }
+    return inside;
+  }
+  function bruteDistance(x: number, z: number, poly: Poly): number {
+    let best = Infinity;
+    for (let i = 0; i < poly.length; i++) {
+      const [ax, az] = poly[i];
+      const [bx, bz] = poly[(i + 1) % poly.length];
+      const dx = bx - ax; const dz = bz - az;
+      const length2 = dx * dx + dz * dz;
+      const t = length2 === 0
+        ? 0
+        : Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / length2));
+      best = Math.min(best, Math.hypot(x - (ax + t * dx), z - (az + t * dz)));
+    }
+    return best;
+  }
+  /** `keepAt` as it was written before the index. */
+  function bruteKeepAt(x: number, z: number, c: VegetationClearancePatch): number {
+    for (const kept of c.kept ?? []) {
+      const radius = (kept.kind && KEPT_RADIUS_M[kept.kind]) || DEFAULT_KEPT_RADIUS_M;
+      if (Math.hypot(x - kept.positionM[0], z - kept.positionM[1]) <= radius) return 1;
+    }
+    const near = (polys: readonly Poly[]) => {
+      let inside = false; let best = Infinity;
+      for (const poly of polys) {
+        if (poly.length < 3) continue;
+        if (bruteInside(x, z, poly)) inside = true;
+        best = Math.min(best, bruteDistance(x, z, poly));
+      }
+      return { inside, distance: best };
+    };
+    const hard = c.hardClear ?? [];
+    const falloff = c.fringeFalloffM || FRINGE_FALLOFF_M;
+    let dHard = Infinity; let dWall = Infinity;
+    if (hard.length > 0) {
+      const n = near(hard);
+      const jitter = edgeJitter(x, z);
+      if (n.inside || n.distance <= jitter) return 0;
+      dHard = n.distance;
+      dWall = dHard - jitter;
+    }
+    const thin = near(c.thinned ?? []);
+    if (!thin.inside) return 1;
+    if (hard.length === 0) dHard = Math.max(0, falloff - thin.distance);
+    const t = falloff > 0 ? Math.min(1, dHard / falloff) : 1;
+    let keep = FRINGE_MIN_KEEP + (1 - FRINGE_MIN_KEEP) * t;
+    if (dWall < WALL_ENRICH_BAND_M) {
+      keep *= 1 + WALL_ENRICH_GAIN * (1 - dWall / WALL_ENRICH_BAND_M);
+    }
+    return Math.min(1, keep);
+  }
+
+  function lcg(seed: number) {
+    let s = seed >>> 0;
+    return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
+  }
+
+  const rnd = lcg(20260921);
+  // A 3,000-vertex road corridor: the shape that cost 110-555 ms a tile.
+  const half = 1500;
+  const spine: [number, number][] = [];
+  for (let i = 0; i <= half; i++) {
+    const t = i / half;
+    spine.push([t * 900, 400 + Math.sin(t * 9) * 60 + Math.cos(t * 23) * 8]);
+  }
+  const corridor: [number, number][] = [
+    ...spine.map(([x, z]) => [x, z - 5] as [number, number]),
+    ...[...spine].reverse().map(([x, z]) => [x, z + 5] as [number, number]),
+  ];
+  const cases: VegetationClearancePatch[] = [
+    { hardClear: [corridor], thinned: [] },
+    CLEARANCE,
+    { hardClear: [[[0, 0], [40, 0], [40, 40], [0, 40]]] as never, thinned: [] },
+    { thinned: [[[-200, -200], [200, -200], [200, 200], [-200, 200]]] as never },
+    {
+      hardClear: [[[300, 300], [360, 305], [355, 380], [290, 350]]] as never,
+      thinned: [[[260, 260], [400, 260], [400, 420], [260, 420]]] as never,
+      fringeFalloffM: 6,
+    },
+  ];
+
+  it("gives the brute-force answer for every query", () => {
+    let cleared = 0; let graded = 0;
+    for (const clearance of cases) {
+      const b = clearanceBoundsM(clearance)!;
+      for (let i = 0; i < 500; i++) {
+        const x = b.minX - 20 + rnd() * (b.maxX - b.minX + 40);
+        const z = b.minZ - 20 + rnd() * (b.maxZ - b.minZ + 40);
+        const mine = keepAt(x, z, clearance);
+        const theirs = bruteKeepAt(x, z, clearance);
+        expect(Math.abs(mine - theirs)).toBeLessThan(1e-9);
+        expect(mine === 0).toBe(theirs === 0);
+        if (mine === 0) cleared++; else if (mine < 1) graded++;
+      }
+    }
+    // fixture: the points must actually land on built ground and in fringes,
+    // or this test agrees with the reference about nothing.
+    expect(cleared).toBeGreaterThan(50);
+    expect(graded).toBeGreaterThan(50);
   });
 });
