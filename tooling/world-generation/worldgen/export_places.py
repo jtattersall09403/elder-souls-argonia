@@ -119,7 +119,7 @@ def _travel_station(rec: dict, names: dict[str, str]) -> dict | None:
 
 
 def load_quest_lookup() -> dict[str, dict]:
-    """Quest code (MQ29, LQ07 …) → {title, line, lineName, group, tier} from the
+    """Quest code (MQ29, LQ07 …) → {questId, line, lineName, group, tier} from the
     registry, plus per-line rows keyed by code prefix ("BC" → the Chainbreakers
     line) so `BC-line · tier-2` ownership strings resolve too. Empty when the
     registry is absent (the export still works; the studio just has no quest filter)."""
@@ -143,14 +143,14 @@ def load_quest_lookup() -> dict[str, dict]:
         tier = e.get("tier")
         out[code] = {
             "code": code,
-            "title": e.get("title") or e.get("name") or code,
+            "questId": e.get("id"),
             "line": line,
             "lineName": ln.get("name") or line_names.get(line) or (line or "").split(".")[-1],
             "group": group,
             "tier": tier if isinstance(tier, int) else ({"main": 0, "faction": 2}.get(group, 3)),
         }
         prefix = code[:2]
-        out.setdefault(prefix + "-line", {**out[code], "code": prefix + "-line", "title": None})
+        out.setdefault(prefix + "-line", {**out[code], "code": prefix + "-line", "questId": None})
     return out
 
 
@@ -175,7 +175,7 @@ def _quest_links(rec: dict, quests: dict[str, dict]) -> list[dict]:
             continue
         links.append({
             "code": code,
-            "title": (info or {}).get("title"),
+            "questId": (info or {}).get("questId"),
             "line": (info or {}).get("line"),
             "lineName": (info or {}).get("lineName") or code[:2],
             "group": (info or {}).get("group") or ("main" if code.startswith("MQ") else "minor"),

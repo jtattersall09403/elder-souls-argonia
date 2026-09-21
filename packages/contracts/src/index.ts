@@ -176,7 +176,10 @@ export type QuestGroup = "main" | "faction" | "other" | "minor";
 export interface PlottedPlaceQuestLink {
   /** Quest code (`MQ29`) or line code (`BC-line`). */
   code: string;
-  title: string | null;
+  /** `quest.<slug>` registry id; `null` on a whole-line row, which is no one
+   * quest. The displayed title is the text-catalogue entry
+   * `text.quest.<slug>.title` (standard 2); no raw string travels here. */
+  questId: string | null;
   /** `quest.line.<slug>` registry id. */
   line: string | null;
   lineName: string;

@@ -40,6 +40,13 @@ function placeName(placeId: string): string {
   return CATALOGUE.get(`text.place.${placeId.split(".").slice(1).join(".")}.name`)?.text ?? "";
 }
 
+/** The displayed title of a quest, same contract as `placeName`: the plotted
+ * link carries the quest id, the string comes from the text catalogue. */
+function questTitle(questId: string | null): string {
+  if (!questId) return "";
+  return CATALOGUE.get(`text.quest.${questId.split(".").slice(1).join(".")}.title`)?.text ?? "";
+}
+
 
 const VB = 1000;
 
@@ -205,7 +212,7 @@ function PlaceV2({ p, onSelect, known }: { p: PlottedPlace; onSelect: (id: strin
         <Section title="quests" colour="#ffd166">
           {p.questLinks.map((l) => (
             <div key={l.code} style={{ marginTop: 3, wordBreak: "break-word" }}>
-              <strong>{l.code}</strong>{l.title ? ` ${l.title}` : ""}
+              <strong>{l.code}</strong>{questTitle(l.questId) ? ` ${questTitle(l.questId)}` : ""}
               <div style={{ opacity: 0.75, paddingLeft: 8 }}>
                 {l.group === "faction" ? l.lineName : GROUP_LABEL[l.group] ?? l.group}
                 {l.tier !== null ? ` · tier ${l.tier}` : ""} · {ROLE_LABEL[l.role] ?? l.role}
