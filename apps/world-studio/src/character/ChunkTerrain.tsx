@@ -35,7 +35,17 @@ function ChunkMesh({ grid, geometry, material }: {
   // ends at 300 m, so mid/far chunks drawn into the cascades were pure waste
   // — a large share of the post-load jerky-fps period (owner round 4).
   const casts = grid.lod === "1";
-  return <mesh geometry={geometry} material={material} castShadow={casts} receiveShadow />;
+  // `perfTag` names this mesh's bucket in the DEV triangle attribution
+  // (HUD line 3, apps/world-studio/src/character/triangleBuckets.ts).
+  return (
+    <mesh
+      geometry={geometry}
+      material={material}
+      castShadow={casts}
+      receiveShadow
+      userData={{ perfTag: "terrain" }}
+    />
+  );
 }
 
 export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap, loadingFallback, apron, onGroundMaterial }: {

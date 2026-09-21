@@ -1339,6 +1339,8 @@ export function Groundcover({
               if (mesh) { group.remove(mesh); mesh.dispose(); }
               const capacity = Math.max(64, Math.ceil(drawn * 1.5));
               mesh = new THREE.InstancedMesh(geometry, part.material, capacity);
+              // DEV triangle attribution bucket (HUD line 3).
+              mesh.userData.perfTag = "gc";
               // The colour attribute is allocated up front (three would
               // create it lazily on the first `setColorAt`, one instance at
               // a time — this fill writes it in blocks).
@@ -1438,6 +1440,7 @@ export function Groundcover({
       const { geometry, material } = foundationParts;
       const mesh = foundationScatterMesh.current ?? new THREE.InstancedMesh(
         geometry, material, Math.max(64, Math.ceil(visibleScatter.length * 1.5)));
+      mesh.userData.perfTag = "gc";
       for (let i = 0; i < visibleScatter.length; i++) {
         const { point: p, heightM } = visibleScatter[i];
         position.set(p.x, heightM * verticalScale + 0.06 * p.scale, p.z);

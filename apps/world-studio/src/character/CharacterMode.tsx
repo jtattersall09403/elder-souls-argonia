@@ -21,6 +21,7 @@ import {
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
 import { visualSupportY } from "@elder-souls/game-core/physics/visualSupport";
 import { spawnBodyY } from "./spawnHeight";
+import { TRI_BUCKETS, bucketIndexOf, bucketSlot, emptyBuckets } from "./triangleBuckets";
 import type { VegetationStats } from "../vegetation/Vegetation";
 import type { GroundcoverPerf } from "../vegetation/Groundcover";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
@@ -672,6 +673,7 @@ function CharacterHud({ channel }: { channel: HudChannel }) {
       {" · "}{hud.grounded ? `${hud.speed.toFixed(1)} m/s` : "airborne"}
       <VegetationHudLine />
       <GroundcoverHudLine />
+      <TriangleAttributionLine />
     </span>
   );
 }
@@ -698,6 +700,9 @@ interface FrameGpuStats {
   /** The LAST frame's triangle total, unaveraged — the number another DEV
    * readout wants when it needs this frame rather than the window. */
   lastTris: number;
+  /** Triangles attributed by source and pass, same 60-frame window as `tris`:
+   * `[main veg, main terrain, main gc, main other, shadow …]` (HUD line 3). */
+  buckets: number[];
 }
 
 /** Mean of a bounded sample ring; 0 when it is empty. */
@@ -706,6 +711,15 @@ function mean(values: number[]): number {
   let sum = 0;
   for (const v of values) sum += v;
   return sum / values.length;
+}
+
+/** Per-slot mean of a ring of bucket rows (all slots zero when empty). */
+function meanBuckets(rows: number[][]): number[] {
+  const out = emptyBuckets();
+  if (rows.length === 0) return out;
+  for (const row of rows) for (let i = 0; i < out.length; i++) out[i] += row[i] ?? 0;
+  for (let i = 0; i < out.length; i++) out[i] /= rows.length;
+  return out;
 }
 
 /** Millions, one decimal — the only scale these counts are read at. */
@@ -725,9 +739,14 @@ function FrameRateProbe() {
     maxWindow: number[];
     triSamples: number[];
     callSamples: number[];
+    /** This frame's per-bucket counters, written by the `renderBufferDirect`
+     * wrapper and drained (then zeroed) once per frame. */
+    frameBuckets: number[];
+    bucketSamples: number[][];
   }>({
     ext: null, ctx: null, open: null, pending: [], samples: [], maxWindow: [],
     triSamples: [], callSamples: [],
+    frameBuckets: emptyBuckets(), bucketSamples: [],
   });
 
   useEffect(() => {
@@ -755,10 +774,34 @@ function FrameRateProbe() {
     gl.info.autoReset = false;
     host.__STUDIO_GPU_MS__ = {
       avg: 0, max: 0, supported: Boolean(ctx && ext),
-      tris: 0, calls: 0, lastTris: 0,
+      tris: 0, calls: 0, lastTris: 0, buckets: emptyBuckets(),
     };
+    // Attribution (HUD line 3). `info.render.triangles` is the only count
+    // three.js keeps, so the per-draw delta around the one call every draw
+    // goes through is what attributes the frame; the shadow-map pass is
+    // recognised by wrapping the call that runs it.
+    const frame = gpu.current.frameBuckets;
+    let inShadow = false;
+    const shadowMap = gl.shadowMap;
+    const shadowRender = shadowMap.render;
+    shadowMap.render = function wrapped(this: unknown, ...args: unknown[]) {
+      inShadow = true;
+      try {
+        return (shadowRender as (...a: unknown[]) => unknown).apply(shadowMap, args);
+      } finally { inShadow = false; }
+    } as typeof shadowMap.render;
+    const renderBufferDirect = gl.renderBufferDirect;
+    gl.renderBufferDirect = function wrapped(this: unknown, ...args: unknown[]) {
+      const before = gl.info.render.triangles;
+      const out = (renderBufferDirect as (...a: unknown[]) => unknown).apply(gl, args);
+      frame[bucketSlot(inShadow, bucketIndexOf(args[4]))] +=
+        gl.info.render.triangles - before;
+      return out;
+    } as typeof gl.renderBufferDirect;
     return () => {
       const g = gpu.current;
+      shadowMap.render = shadowRender;
+      gl.renderBufferDirect = renderBufferDirect;
       try {
         if (g.ctx && g.open) { g.ctx.endQuery(ext!.TIME_ELAPSED_EXT); }
         if (g.ctx) {
@@ -793,7 +836,10 @@ function FrameRateProbe() {
       const published = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats })
         .__STUDIO_GPU_MS__;
       if (published) published.lastTris = tris;
+      g.bucketSamples.push(g.frameBuckets.slice());
+      if (g.bucketSamples.length > 60) g.bucketSamples.shift();
     }
+    g.frameBuckets.fill(0);
     gl.info.reset();
     const { ctx, ext } = g;
     if (!ctx || !ext) return;
@@ -832,6 +878,7 @@ function FrameRateProbe() {
           tris: mean(g.triSamples),
           calls: Math.round(mean(g.callSamples)),
           lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
+          buckets: meanBuckets(g.bucketSamples),
         };
       }
       // Open the next frame's query (bounded: never more than a few in flight).
@@ -847,6 +894,7 @@ function FrameRateProbe() {
         avg: 0, max: 0, supported: false,
         tris: mean(g.triSamples), calls: Math.round(mean(g.callSamples)),
         lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
+        buckets: meanBuckets(g.bucketSamples),
       };
     }
   }, -100);
@@ -902,8 +950,6 @@ function VegetationHudLine() {
       {` · pending ${veg.pendingBatches}`}
       {` · queue ${veg.queueMs}/${veg.queueMaxMs} ms ${veg.queueTop}`}
       {` · draws ${veg.draws}`}
-      {gpu ? ` · tris ${millions(gpu.tris)}` : ""}
-      {` · veg ${millions(veg.triangles)}`}
     </span>
   );
 }
@@ -929,6 +975,36 @@ function GroundcoverHudLine() {
       {` · tile ${gc.tileMs}/${gc.tileMaxMs} ms`}
       {` · fill ${gc.fillMs}/${gc.fillMaxMs} ms (${gc.fillInstances})`}
       {` · tiles ${gc.tilesLive}/${gc.tilesPending}`}
+    </span>
+  );
+}
+
+/**
+ * HUD line 3 (DEV): where the frame's triangles came from. Per source bucket
+ * `main+shadow`, averaged over the same 60-frame window as the totals, so the
+ * four pairs sum to the `tris` figure that opens the line. Independent of the
+ * vegetation renderer: it is shown with `?veg=0` too, which is what makes the
+ * A/B readable.
+ */
+function TriangleAttributionLine() {
+  const [gpu, setGpu] = useState<FrameGpuStats | null>(null);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const host = window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats };
+    const read = () => setGpu(host.__STUDIO_GPU_MS__ ?? null);
+    read();
+    const timer = window.setInterval(read, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  if (!gpu) return null;
+  const parts = TRI_BUCKETS.map((name, i) => {
+    const main = gpu.buckets[bucketSlot(false, i)] ?? 0;
+    const shadow = gpu.buckets[bucketSlot(true, i)] ?? 0;
+    return `${name} ${millions(main)}+${millions(shadow)}`;
+  });
+  return (
+    <span style={{ display: "block", opacity: 0.75 }}>
+      {`tris ${millions(gpu.tris)}: ${parts.join(" · ")}`}
     </span>
   );
 }

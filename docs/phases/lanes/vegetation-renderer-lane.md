@@ -222,6 +222,12 @@ is a local commit on `main`, none pushed.
   (<instances>) · tiles <live>/<pending> · tile <ms>/<max>`: ground cover.
   `gen` is the tile generation step per frame (budget 5 ms, at most 8 tiles);
   `tile` one tile's cost; `fill` the buffer upload after a rebuild.
+- **HUD line 3** `tris <total>: veg <main>+<shadow> · terrain <a>+<b> · gc
+  <a>+<b> · other <a>+<b>`: where the frame's triangles came from, and which
+  of them were drawn into the shadow map. Each draw is attributed from the
+  mesh's `userData.perfTag` (`apps/world-studio/src/character/triangleBuckets.ts`),
+  so the four pairs sum to the total; `other` is settlements, characters,
+  water and the sky. Shown with `&veg=0` as well, which is the A/B.
 - Every number's meaning and every fix's reason is in decision 0082 § Round 2
   and its addenda; read those before touching anything.
 
