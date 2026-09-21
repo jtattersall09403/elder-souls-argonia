@@ -35958,7 +35958,7 @@
           "ridge-end"
         ],
         "waterRelation": "dry root ground",
-        "neighbourRelation": "on or beside the root-transit network",
+        "neighbourRelation": "on or beside the root-transit network, where the Waykeepers' loaded worms pass it",
         "hardConstraints": [
           "root-bound soft ground",
           "near but not on the Waykeepers' line"

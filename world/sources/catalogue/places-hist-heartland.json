@@ -19502,7 +19502,7 @@
         ],
         "preferences": [
           "water relation: dry root ground",
-          "neighbours: on or beside the root-transit network"
+          "neighbours: on or beside the root-transit network, where the Waykeepers' line runs past it"
         ],
         "landformClasses": [
           "any-firm-ground",
@@ -19761,7 +19761,7 @@
         ],
         "preferences": [
           "water relation: dry root ground",
-          "neighbours: on or beside the root-transit network"
+          "neighbours: on or beside the root-transit network, where the Waykeepers' line runs past it"
         ],
         "landformClasses": [
           "any-firm-ground",

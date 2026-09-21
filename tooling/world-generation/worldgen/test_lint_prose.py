@@ -211,3 +211,12 @@ def test_file_flag_fails_on_a_hit_and_passes_on_clean_text(tmp_path, monkeypatch
     monkeypatch.setattr(lint_prose.catalogue, "REPO_ROOT", tmp_path)
     assert lint_prose.main(["--file", str(dirty)]) == 1
     assert lint_prose.main(["--file", str(clean)]) == 0
+
+
+def test_not_x_but_y_catches_the_bare_form():
+    """The rule missed 'not a X but the Y' (mazzatun.md:66, 2026-09-21)."""
+    res = lint_prose.LintResult()
+    res.add_text("t", "r", "note",
+                 "The Redoran gate is not a compromise but the reading that "
+                 "the record already carries.")
+    assert "not-x-but-y" in {h.rule for h in res.hard_hits()}

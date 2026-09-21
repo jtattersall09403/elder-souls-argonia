@@ -16882,7 +16882,7 @@
             "islet",
             "water-narrows"
           ],
-          "neighbourRelation": "on a boat lane",
+          "neighbourRelation": "on a boat lane, so the bay traffic passes over it",
           "densityGradient": "Oliis Bay corridor, thin"
         },
         "boundTo": {

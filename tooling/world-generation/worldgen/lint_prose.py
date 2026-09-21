@@ -140,8 +140,9 @@ RULES: list[Rule] = [
          "unattributed lore opener"),
     Rule("self-gloss", "hard", _r(r",\s+which is (?:the point|the problem|the whole (?:point|story)|why it matters|the trouble)\b"),
          "writer explaining its own image"),
-    Rule("not-x-but-y", "hard", _r(r"\bnot (?:just|only|merely|simply) [^.;]{1,60}\bbut\b|\bis not a [^.;,]{1,40}, (?:it is|it's|but) a\b"),
-         "negative parallelism"),
+    Rule("not-x-but-y", "hard", _r(r"\bnot (?:just|only|merely|simply) [^.;]{1,60}\bbut\b|\bis not a [^.;,]{1,40}, (?:it is|it's|but) a\b|\bnot (?:a|an|the) [^.;,]{1,60} but (?:the|a|an) \b"),
+         "negative parallelism (including the bare 'not a X but the Y' form: "
+         "the rule missed it until 2026-09-21, when a blueprint line carried it)"),
     Rule("register-vocab", "hard", _r(r"\b(?:tapestry|testament to|nestled|timeless|intricate|interplay|underscore\b|pivotal|showcases?|meticulous(?:ly)?|foster(?:s|ed|ing)?|harness(?:es|ed|ing)?|navigat(?:e|es|ed|ing)|leverage|infrastructure|unioni[sz]ed|brute-forced|whispers of|echoes of)\b"),
          "AI register vocabulary / modern idiom"),
     Rule("ellipsis", "hard", _r(r"…|\.\.\."), "trailing ellipsis for mood"),
