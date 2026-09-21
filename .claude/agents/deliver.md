@@ -25,4 +25,23 @@ Rules of the road:
   unless the brief says otherwise.
 - Player-visible or world-record prose goes through the `text-review` skill
   in a separate agent; say in your report whether that ran.
-- Report tersely: what changed (file:line), what was measured, what failed.
+- Report: what changed (file:line), what was measured, what failed.
+
+How to write the report (the caller re-reads it on every later turn, so
+each line is paid for many times; owner 2026-09-21):
+- First line is the outcome (done / done except X / blocked on Y). No
+  preamble, no restating the brief, no narrating what you did in what order,
+  no sign-off.
+- Each fact once. A number in a table is not repeated in prose; a file:line
+  is not followed by a paraphrase of the code.
+- Only what the caller asked for or must now decide on. Drop what you
+  checked and found irrelevant, unless leaving it out would mislead.
+- Evidence is a file:line, a number, or one quoted line. No code block over
+  five lines: raw output the caller may need goes to a file (the path the
+  brief names, else under /tmp) and the path is given once.
+- Plain declarative sentences; no hedges, no suggestions beyond the brief,
+  no praise. A list for parallel items; a table only when three or more rows
+  are worth comparing side by side.
+- As long as the findings need and not a line more.
+- While working: never re-read a file you already read, never run a command
+  to confirm what an earlier one already showed, batch independent commands.

@@ -117,6 +117,38 @@ the lever is the **number of planner turns**, not output size.
    baseline above (111M, 280 turns, 68%). Those numbers should fall; if
    they climb back, the agent says so in its first update.
 
+## Addendum 2026-09-21 (second cost review, owner rulings)
+
+The review (`docs/research/agent-ops/cost-reviews.md` § 2026-09-21) found
+the 0079 controls firing (5 planner shell calls per session, 0 sleeps,
+find/run in use) and the bill now plain turns × context, with three
+turn-wasters left. The owner ruled the same day:
+
+11. **No acknowledgement-only turns.** Every subagent wakes the planner
+    twice (hand-back message, then completion notice) and the whole
+    conversation is re-read on each wake, so a "still waiting" reply costs
+    a full turn and saves nothing. Measured: 14 of 96 planner turns in one
+    lane session, ~15% of its bill. The "Update on progress" golden rule
+    now says updates ride on turns that do work; a non-actionable wake gets
+    no reply; small look-ups are folded into one brief; a fan-out of three
+    or more agents with nothing between them runs as one `Workflow` (the
+    owner's opt-in is the CLAUDE.md line itself).
+12. **The prose linter covers player-visible and world-record text only.**
+    Docs are agent context and their prose is cosmetic; `docs/**/*.md` is
+    exempt and the docs ratchet baseline is gone. The docs-currency checks
+    (retired terms, stale hashes, fact counts) are unchanged. When the
+    linter is red, the `run` agent fixes the named lines and reruns; the
+    planner sees the count. Saves the 5–10 late-session fix turns per gated
+    session.
+13. **Subagent reports are written for re-reading, not capped.** A hard
+    length cap was rejected (some reports must be long). Each agent
+    definition now carries a specific report shape: outcome first, each
+    fact once, only what the caller must decide on, evidence as file:line
+    or a number, no code block over five lines (raw output to a file), no
+    narration, hedges or suggestions, and no re-reading or re-running while
+    working. Target: the 18% of carried planner context that reports had
+    become once shell output was gone.
+
 ## Not done here
 
 `rtk init -g` and the two config edits touch the owner's own Claude Code

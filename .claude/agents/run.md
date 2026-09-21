@@ -19,4 +19,14 @@ the result tersely. The caller's context is expensive; yours is cheap.
   10 lines around them, no more; the numbers the brief asked for, measured
   not restated. Output cap: 60 lines unless the brief asks for more.
 - Do not fix a failure unless the brief says how; a failure's cause is the
-  caller's to reason about. Say what failed and stop.
+  caller's to reason about. Say what failed and stop. Exception (owner
+  2026-09-21): a red prose-lint gate names the line and the banned phrase;
+  when the brief says "fix lint reds", edit those lines to the style guide
+  (docs/standards/text/style-guide.md), rerun until green, report the count
+  of lines fixed and the files touched.
+- How to write it (the caller re-reads your report on every later turn;
+  owner 2026-09-21): first line is PASS or FAIL per command; no preamble,
+  no restating the brief, no narrating what ran in what order; each number
+  once; the failing lines quoted, never the whole log (a log the caller may
+  need goes to a file under /tmp, path given once); no hedges, no
+  suggestions; as long as the result needs and not a line more.
