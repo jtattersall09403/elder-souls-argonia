@@ -430,6 +430,9 @@ function checkPlaybookMoves() {
 // Scope (owner 2026-09-21): player-visible and world-record text only —
 // catalogue prose, quest rows, the text catalogue, blueprints and route
 // structures. docs/**/*.md is not linted.
+// 8b is the tripwire: prose DATA living outside the linted roots, where no
+// gate would ever see it. The heuristic is the linter's own (--tripwire), so
+// there is one detector, not two.
 function checkProse() {
   const cwd = join(ROOT, "tooling", "world-generation");
   try {
@@ -439,6 +442,14 @@ function checkProse() {
     const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(-6).join("\n");
     fail(8, "tooling/world-generation/worldgen/lint_prose.py", 0,
       `prose linter --strict failed (hard hits or a density ceiling): run it from tooling/world-generation for the report.\n${out}`);
+  }
+  try {
+    execSync("python3 -m worldgen.lint_prose --tripwire", { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) {
+    if (e && e.code === "ENOENT") return;
+    const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(0, 8).join("\n");
+    fail(8, "tooling/world-generation/worldgen/lint_prose.py", 0,
+      `prose outside the linted roots: move it under world/sources/ or packages/text-catalogue/ (standard 2), or exempt it in lint_prose.py with a reason.\n${out}`);
   }
 }
 

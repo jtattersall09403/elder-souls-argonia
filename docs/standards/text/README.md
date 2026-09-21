@@ -11,13 +11,26 @@ owner 2026-09-03; scope and rationale in decision
 | [review-process.md](review-process.md) | You are reviewing text, or you are a writer about to commit it |
 | `.claude/skills/text-review/SKILL.md` | **The review, packaged.** Invoke the `text-review` skill in a fresh agent on any new or edited text before commit (CLAUDE.md rule). It runs the linter and applies §3 of the review process, and writes the edits |
 
-**What the linter covers** (owner 2026-09-21). Player-visible and
-world-record text only: catalogue prose fields, quest rows, the text
-catalogue, settlement blueprints and route structures. `npm test` runs
-`python3 -m worldgen.lint_prose --strict` (from `tooling/world-generation`)
-over that set: zero hard hits. Docs under `docs/` are agent context, not
-player text, and are no longer linted; `--md <file>` still lints a named
-markdown file if you want the report.
+**What the linter covers** (owner 2026-09-21). It lints by **exclusion**, not
+by a list of field names: every prose-looking string under `world/sources/`
+and `packages/text-catalogue/` is in scope, where prose-looking means six
+words or more, or sentence punctuation with three or more. A new record type
+or a new kind of player text — dialogue, item descriptions, book text, signs
+— is therefore linted the moment it exists, with nobody adding it to a list.
+The only way a string is skipped is a key name or a directory listed in
+`lint_prose.py` with its reason (`EXEMPT_KEYS` — ids, paths, hashes, types;
+`EXEMPT_DIRS`/`EXEMPT_FILES` — mined plugin data, asset registries, terrain
+and hydrology arrays, generated reports). Docs under `docs/` are agent
+context, not player text, and are not linted; `--md <file>` still lints a
+named markdown file on request.
+
+`npm test` runs `python3 -m worldgen.lint_prose --strict` (from
+`tooling/world-generation`) over the record-aware surfaces — zero hard hits —
+and `--tripwire`, which fails on any data file under `packages/` or
+`apps/*/src/` carrying a sentence of twelve words or more: player text and
+world records live under the linted roots, or they are exempted in
+`lint_prose.py` with a reason. `--roots` runs the whole-root walk and reports
+its hits.
 
 **Related, and not duplicated here:**
 

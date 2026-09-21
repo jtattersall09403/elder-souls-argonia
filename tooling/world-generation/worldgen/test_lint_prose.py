@@ -92,3 +92,44 @@ def test_a_real_final_preposition_is_still_caught(tmp_path):
 
 _HARD_SENTENCE = ("The village is nestled under the scarp, and it is a "
                   "testament to the masons.\n")
+
+
+# --- lint by exclusion (owner 2026-09-21) ----------------------------------
+
+def test_a_new_field_name_is_linted_without_being_listed():
+    """A record type nobody has seen before, with a field name that is in no
+    inclusion list, still reaches the rules."""
+    rec = {"id": "book.new", "bookText": "The gate stood open, and the wardens said nothing of it."}
+    found = dict(lint_prose.iter_prose_strings(rec))
+    assert "/bookText" in found
+    res = lint_prose.LintResult()
+    for ptr, text in found.items():
+        res.add_text("s", "book.new", ptr, text)
+    assert "comma-and" in {h.rule for h in res.hard_hits()}
+
+
+def test_an_exempt_key_is_not_linted():
+    rec = {"sourcePath": "world/sources/x.json, and the loader reads it first.",
+           "assemblyId": "a, and b, and c are joined here as one id."}
+    assert dict(lint_prose.iter_prose_strings(rec)) == {}
+
+
+def test_short_and_unpunctuated_values_are_not_prose():
+    assert not lint_prose.looks_like_prose("marsh bank")
+    assert lint_prose.looks_like_prose("A bank of marsh reed above the tide")
+    assert lint_prose.looks_like_prose("Open at dawn.")
+
+
+def test_tripwire_fires_on_prose_data_under_packages(tmp_path, monkeypatch):
+    pkg = tmp_path / "packages" / "demo"
+    pkg.mkdir(parents=True)
+    (pkg / "strings.json").write_text(
+        '{"greeting": "The warden opens the gate at dawn and closes it again '
+        'before the tide turns."}', encoding="utf-8")
+    monkeypatch.setattr(lint_prose.catalogue, "REPO_ROOT", tmp_path)
+    hits = lint_prose.tripwire_hits()
+    assert [h[0] for h in hits] == ["packages/demo/strings.json"]
+
+
+def test_tripwire_is_green_on_the_tree():
+    assert lint_prose.tripwire_hits() == []
