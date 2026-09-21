@@ -296,3 +296,14 @@ pending the scatter rollout, as designed.
 **Credits.** The three pools on which this round draws (`bmv`, `tropical` and
 `htbm`) are already credited in root `README.md` (lines 98, 129, 162). There
 is no new pool, so there is no new `archiveSha256`.
+
+## Addendum 2026-09-21: two hero plants leave the ladder
+
+`vanilla:plants/floraspikygrass02` (2 298 triangles) and
+`vanilla:landscape/plants/swordferncluster01` (1 424) are replaced everywhere
+in `world/sources/flora/groundcover.json` by same-height drjacopo grasses —
+`icelandicgrassdensedrj` (360 tris, 1.147 m) and `swordferndrj` (336 tris,
+1.111 m) — at the same authored densities. At 12 144 per hectare those two
+carried most of the 39 triangles per instance the ring averaged (2.4 M at
+rest in the jungle); the ladder's density numbers are unchanged, only what
+each rung draws.

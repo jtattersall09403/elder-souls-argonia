@@ -330,12 +330,12 @@
      "fadeM": 75.0
     },
     {
-     "asset": "vanilla:plants/floraspikygrass02",
+     "asset": "drjacopo:landscape/grass/icelandicgrassdensedrj",
      "density": 8184,
      "slopeDegMax": 40,
      "heightVariance": 0.3,
      "waveperiod": 120,
-     "heightM": 1.226,
+     "heightM": 1.147,
      "fadeM": 75.0
     }
    ]
@@ -394,12 +394,12 @@
      "fadeM": 75.0
     },
     {
-     "asset": "vanilla:plants/floraspikygrass02",
+     "asset": "drjacopo:landscape/grass/icelandicgrassdensedrj",
      "density": 10560,
      "slopeDegMax": 34,
      "heightVariance": 0.3,
      "waveperiod": 120,
-     "heightM": 1.226,
+     "heightM": 1.147,
      "fadeM": 75.0
     }
    ]
@@ -650,12 +650,12 @@
      "fadeM": 75.0
     },
     {
-     "asset": "vanilla:landscape/plants/swordferncluster01",
+     "asset": "drjacopo:landscape/grass/swordferndrj",
      "density": 14080,
      "slopeDegMax": 50,
      "heightVariance": 0.33,
      "waveperiod": 240,
-     "heightM": 1.446,
+     "heightM": 1.111,
      "fadeM": 75.0
     }
    ]
@@ -1367,12 +1367,12 @@
       "fadeM": 75.0
      },
      {
-      "asset": "vanilla:plants/floraspikygrass02",
+      "asset": "drjacopo:landscape/grass/icelandicgrassdensedrj",
       "density": 12144,
       "slopeDegMax": 34,
       "heightVariance": 0.3,
       "waveperiod": 120,
-      "heightM": 1.226,
+      "heightM": 1.147,
       "fadeM": 75.0
      }
     ],
