@@ -427,6 +427,9 @@ function checkPlaybookMoves() {
 // tooling/world-generation/worldgen/lint_prose.py. It was documented as an
 // `npm test` gate but nothing ran it (review 2026-09-07); it runs here in
 // ~2 s. Python missing is a note, not a pass: CI installs it.
+// Scope (owner 2026-09-21): player-visible and world-record text only —
+// catalogue prose, quest rows, the text catalogue, blueprints and route
+// structures. docs/**/*.md is not linted.
 function checkProse() {
   const cwd = join(ROOT, "tooling", "world-generation");
   try {
@@ -436,16 +439,6 @@ function checkProse() {
     const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(-6).join("\n");
     fail(8, "tooling/world-generation/worldgen/lint_prose.py", 0,
       `prose linter --strict failed (hard hits or a density ceiling): run it from tooling/world-generation for the report.\n${out}`);
-  }
-  // Ratchet over docs/**/*.md: a doc's hard-hit count may fall, never rise
-  // (baseline: docs/standards/text/docs-lint-baseline.json).
-  try {
-    execSync("python3 -m worldgen.lint_prose --docs-gate --quiet", { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
-  } catch (e) {
-    if (e && e.code === "ENOENT") { note("prose: python3 unavailable; docs prose ratchet not run"); return; }
-    const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(-6).join("\n");
-    fail(8, "docs/standards/text/docs-lint-baseline.json", 0,
-      `a docs/ markdown file gained hard prose hits: fix the prose, or lower the bar with 'python3 -m worldgen.lint_prose --docs-gate --write-baseline' after improving it.\n${out}`);
   }
 }
 
@@ -614,7 +607,8 @@ function checkProvinceRasters() {
 
 // ---------------------------------------------------------------------------
 
-// `--docs`: only the prose and docs-currency gates (seconds), so an agent
+// `--docs`: the player-text prose gate plus the docs-currency gates (seconds),
+// so an agent
 // that has just written prose can fix it before the two-minute preflight
 // instead of learning about it from the preflight (owner, 2026-09-18).
 const docsOnly = process.argv.includes("--docs");

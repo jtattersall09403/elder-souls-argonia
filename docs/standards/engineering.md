@@ -259,8 +259,9 @@ gates were found that could not fail on their own defect. So:
   every image ingested is listed in the chunk's report with what it decided.
 
 Checked mechanically where it can be: the hydrology graph (`worldgen
-.hydrology_graph check`, decision 0058) and the docs prose ratchet
-(`lint_prose --docs-gate`) run in `npm test`; their failure demonstrations are
+.hydrology_graph check`, decision 0058) and the player-text prose
+linter (`lint_prose --strict`, player-visible and world-record text only —
+docs/ markdown is not linted, owner 2026-09-21) run in `npm test`; their failure demonstrations are
 `test_hydrology_graph.py` and `test_lint_prose.py`.
 
 ## 15. Live documents are current: links resolve, retired words are gone, research is indexed

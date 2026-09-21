@@ -342,5 +342,5 @@ the graph's band-3 reaches (2.0 km of `horizontal-river`), not a region paint.
 |---|---|
 | `hydrology_graph check` in `npm test` (repo-standards std 14) | the first derivation: 143 violations (duplicate ids from one-station flickers, 4 rivers ending in sinks, slope classes leaking) — all root-caused and fixed (0058 choices 3, 7) |
 | `test_hydrology_graph.py` (10 tests) | each invariant on a corrupted copy of the shipped graph; id stability on a synthetic world derived twice |
-| docs prose ratchet (`lint_prose --docs-gate`, std 8) | a hard-hit sentence appended to the style guide: rc 1 naming the file, then reverted |
+| docs prose ratchet (`lint_prose --docs-gate`, std 8) — RETIRED 2026-09-21 (docs are no longer linted; the player-text gate `lint_prose --strict` remains) | a hard-hit sentence appended to the style guide: rc 1 naming the file, then reverted |
 | `drainageLoops == 0` | the shipped pass (390 loops) fails it |

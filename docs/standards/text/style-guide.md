@@ -467,8 +467,10 @@ voice rules deliberately stop.
 ## 4. Before you commit
 
 0. **Run the linter** — `python3 -m worldgen.lint_prose --strict` over the
-   catalogue, or `--no-catalogue --md <your file>` for a doc. Zero hard hits is
-   the floor; the density table is what to read next.
+   player-visible and world-record text (catalogue, quests, text catalogue,
+   blueprints, routes). Zero hard hits is the floor; the density table is what
+   to read next. Docs under `docs/` are not linted (owner 2026-09-21), though
+   `--no-catalogue --md <file>` still reports on one if you ask.
 
 
 1. Every string is in `packages/text-catalogue`, keyed, with `surface`,

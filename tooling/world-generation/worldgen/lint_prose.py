@@ -3,7 +3,7 @@
     cd tooling/world-generation
     python3 -m worldgen.lint_prose                 # catalogue, report to stdout + sites/prose-lint.md
     python3 -m worldgen.lint_prose --strict        # exit 1 if any HARD rule fires (the npm-test gate)
-    python3 -m worldgen.lint_prose --md docs/standards/text/culture-registers.md docs/quests/index/*.md
+    python3 -m worldgen.lint_prose --md <file.md>  # lint a named markdown file on request
     python3 -m worldgen.lint_prose --json out.json --region dunmer-north
 
 WHY (owner, touchpoint ③ round 3, 2026-09-04)
@@ -32,11 +32,13 @@ Two severities:
   and-closer heuristic over-reports, and that is the point — the reviewer
   decides, the tool makes sure the reviewer looks.
 
-The linter reads prose FIELDS of live catalogue records, the quest rows, the
-text catalogue and the settlement blueprints (causal model, orientation
-reasons, why blocks, notes and the typed player-purpose notes) — the same set
-the text-review brief names — and, with `--md`, the prose cells and paragraphs
-of markdown files. It never edits anything.
+SCOPE (owner, 2026-09-21): the linter covers PLAYER-VISIBLE and WORLD-RECORD
+text only — prose FIELDS of live catalogue records, the quest rows, the text
+catalogue, the settlement blueprints and the route structures (causal model,
+orientation reasons, why blocks, notes and the typed player-purpose notes) —
+the same set the text-review brief names. `docs/**/*.md` is NOT linted: docs
+are agent context, where the rules are cosmetic. `--md` still lints a named
+markdown file on request. It never edits anything.
 """
 
 from __future__ import annotations
@@ -646,57 +648,6 @@ def render_report(res: LintResult, title: str) -> str:
     return "\n".join(lines) + "\n"
 
 
-DOCS_BASELINE = catalogue.REPO_ROOT / "docs" / "standards" / "text" / "docs-lint-baseline.json"
-DOCS_BASELINE_RULE = ("hard prose hits per docs/ markdown file may only fall; "
-                      "a file absent here must have zero")
-
-
-def _docs_counts() -> tuple[Counter, dict[str, list[Hit]]]:
-    """Hard-hit counts per docs/ markdown file, and the hits themselves."""
-    res = LintResult()
-    for path in sorted((catalogue.REPO_ROOT / "docs").rglob("*.md")):
-        lint_markdown(res, path)
-    counts: Counter = Counter()
-    hits: dict[str, list[Hit]] = defaultdict(list)
-    for h in res.hard_hits():
-        rel = Path(h.where.rsplit(":", 1)[0]).as_posix()
-        counts[rel] += 1
-        hits[rel].append(h)
-    return counts, hits
-
-
-def docs_gate(baseline_path: Path, write: bool = False) -> tuple[int, list[str]]:
-    """Ratchet gate: a docs/ markdown file may improve, never get worse."""
-    counts, hits = _docs_counts()
-    if write:
-        payload = {
-            "schemaVersion": 1,
-            "rule": DOCS_BASELINE_RULE,
-            "files": {k: counts[k] for k in sorted(counts) if counts[k] > 0},
-        }
-        baseline_path.parent.mkdir(parents=True, exist_ok=True)
-        baseline_path.write_text(json.dumps(payload, indent=1) + "\n", encoding="utf-8")
-        return 0, [f"baseline written: {baseline_path} ({len(payload['files'])} files)"]
-
-    base: dict[str, int] = {}
-    if baseline_path.exists():
-        base = json.loads(baseline_path.read_text(encoding="utf-8")).get("files", {})
-    msgs: list[str] = []
-    rc = 0
-    for rel in sorted(set(counts) | set(base)):
-        now = counts.get(rel, 0)
-        was = int(base.get(rel, 0))
-        if now > was:
-            rc = 1
-            msgs.append(f"{rel}: {now} hard hits, baseline {was}")
-            for h in hits[rel][:3]:
-                msgs.append(f"    {h.rule} — …{h.excerpt}…")
-        elif now < was:
-            msgs.append(f"{rel} improved {was} -> {now}; "
-                        "run --docs-gate --write-baseline to lower the bar")
-    return rc, msgs
-
-
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--region", action="append", help="limit to a region (repeatable)")
@@ -707,14 +658,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--json", type=Path, help="write hits as JSON here")
     ap.add_argument("--report", type=Path, default=None, help="markdown report path ('-' for none; default: the shared report for a whole-catalogue run, none for --region runs so concurrent reviewers do not overwrite it)")
     ap.add_argument("--quiet", action="store_true")
-    ap.add_argument("--docs-gate", action="store_true", help="ratchet gate over docs/**/*.md against docs/standards/text/docs-lint-baseline.json (no catalogue run)")
-    ap.add_argument("--write-baseline", action="store_true", help="with --docs-gate: rewrite the baseline from the current counts")
     a = ap.parse_args(argv)
-    if a.docs_gate:
-        rc, msgs = docs_gate(DOCS_BASELINE, write=a.write_baseline)
-        if msgs and (rc or not a.quiet):
-            print("\n".join(msgs))
-        return rc
     if a.report is None:
         a.report = Path("-") if (a.region or a.no_catalogue) else REPORT_PATH
 

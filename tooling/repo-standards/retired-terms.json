@@ -14,8 +14,7 @@
   "exemptPrefixes": [
     "docs/decisions/",
     "docs/research/archive/",
-    "docs/evidence/",
-    "docs/standards/text/docs-lint-baseline.json"
+    "docs/evidence/"
   ],
   "terms": [
     {
