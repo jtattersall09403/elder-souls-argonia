@@ -262,15 +262,7 @@ Checked mechanically where it can be: the hydrology graph (`worldgen
 .hydrology_graph check`, decision 0058) and the player-text prose
 linter (`lint_prose`, owner 2026-09-21) run in `npm test`; their failure
 demonstrations are `test_hydrology_graph.py` and `test_lint_prose.py`. The
-prose linter lints by **exclusion**: every prose-looking string (≥6 words, or
-sentence punctuation with ≥3) under `world/sources/` and
-`packages/text-catalogue/` is in scope by default, so a new kind of text —
-dialogue, item descriptions, book text, signs — is linted the day it exists.
-The only way to skip a string is a key or a directory listed in
-`lint_prose.py` **with its reason** (`EXEMPT_KEYS`, `EXEMPT_DIRS`,
-`EXEMPT_FILES`). `docs/**/*.md` is not linted. A tripwire
-(`lint_prose --tripwire`, run by the standard-8 check in `check.mjs`) fails
-on prose data anywhere else under `packages/` or `apps/*/src/`.
+prose linter covers `packages/text-catalogue` (hand-written and generated) in full, which by standard 2 is every player-visible string; it lints by **exclusion** — every prose-looking string there (≥6 words, or sentence punctuation with ≥3) is in scope, so a new kind of text (dialogue, item descriptions, book text, signs) is linted the day it exists, with no list to maintain. The only way to skip a string is a key or a path listed in `lint_prose.py` **with its reason** (`EXEMPT_KEYS`, `EXEMPT_DIRS`, `EXEMPT_FILES`). A tripwire (`lint_prose --tripwire`, run by the standard-8 check in `check.mjs`) fails on prose data elsewhere under `packages/` or `apps/*/src/`. World records and docs are not linted (owner 2026-09-21): catalogue why/vibe/hook fields, quest premises, blueprints and route structures are designer notes that render only in world-studio's review panels, and `--catalogue` reports over them on request without failing.
 
 ## 15. Live documents are current: links resolve, retired words are gone, research is indexed
 

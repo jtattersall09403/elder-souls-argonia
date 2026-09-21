@@ -24,7 +24,7 @@ export const SYSTEM_TEXT: readonly TextEntry[] = [
     text:
       "You have killed a character that the story needs. Restore an earlier save to continue it.",
     note:
-      "Shown when the player kills a tier-protected character. All NPCs are killable and none are flagged invincible (quests 40 §30b), so this message is the whole protection — it must be plain and instantly actionable. Earlier drafts reached for gravitas ('a root the story grew along is severed', then 'a root is severed'); system text carries no imagery, so it states the cause and the remedy (style guide §3). Owner 2026-09-04: the wording is open to reviewer improvement, not pinned.",
+      "Shown when a tier-protected character is killed. All NPCs are killable and none are flagged invincible (quests 40 §30b), so this message is the whole protection — it must be plain and instantly actionable. Earlier drafts reached for gravitas ('a root the story grew along is severed', then 'a root is severed'); system text carries no imagery, so it states the cause and the remedy (style guide §3). Owner 2026-09-04: the wording is open to reviewer improvement, not pinned.",
   },
   {
     id: "text.system.province-edge",
@@ -57,7 +57,7 @@ export const SYSTEM_TEXT: readonly TextEntry[] = [
     surface: "system",
     text: "You rest. The world holds its place.",
     note:
-      "Save-on-rest (decision 0031). One image, and it says what happened. The only line here permitted any colour, because resting is a deliberate, unhurried act.",
+      "Save-on-rest (decision 0031). One image; it says what happened. The only line here permitted any colour, because resting is a deliberate, unhurried act.",
   },
   {
     id: "text.system.cannot-rest-enemies-near",
@@ -193,7 +193,7 @@ export const FERRY_TEXT: readonly TextEntry[] = [
     surface: "dialogue",
     text: "Where are you bound? I go when the boat is full, or when you pay for the empty seats.",
     note:
-      "The shared hail for a scheduled stage, where the operator is a station keeper rather than a named character. Morrowind's travel NPCs open with the question and nothing else; the second sentence is the fare rule stated as the way the trade works, and it is also the answer to 'why can I leave immediately'.",
+      "The shared hail for a scheduled stage, where the operator is a station keeper rather than a named character. Morrowind's travel NPCs open with the question and nothing else; the second sentence states the fare rule as trade custom; it also answers 'why can I leave immediately'.",
   },
   {
     id: "text.ferry.refused-owing",
@@ -232,7 +232,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.alten-corimont-helstrom.hail",
     surface: "dialogue",
     text: "Five drakes upriver to Helstrom. I leave when you sit down.",
-    note: "The boat owner at Alten Corimont. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Alten Corimont. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.archon-helstrom.name",
@@ -244,7 +244,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.archon-helstrom.hail",
     surface: "dialogue",
     text: "Helstrom, five drakes. Keep your gear out of the bilge.",
-    note: "The boat owner at Archon. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Archon. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.archon-thorn.name",
@@ -256,7 +256,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.archon-thorn.hail",
     surface: "dialogue",
     text: "Five drakes and I put you off at Thorn. Pay before you board.",
-    note: "The boat owner at Archon. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Archon. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.blackrose-lilmoth.name",
@@ -268,7 +268,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.blackrose-lilmoth.hail",
     surface: "dialogue",
     text: "Lilmoth is five drakes. Do not stand up in my boat.",
-    note: "The boat owner at Blackrose. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Blackrose. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.gideon-helstrom.name",
@@ -280,7 +280,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.gideon-helstrom.hail",
     surface: "dialogue",
     text: "Five drakes to Helstrom. If you are late I go without you.",
-    note: "The boat owner at Gideon. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Gideon. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.lake-ferry-stage-blackrose.name",
@@ -292,7 +292,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.lake-ferry-stage-blackrose.hail",
     surface: "dialogue",
     text: "Across to Blackrose, five drakes. Keep your blade sheathed on my boat.",
-    note: "The boat owner at The North Stage. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at The North Stage. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.lilmoth-archon.name",
@@ -304,7 +304,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.lilmoth-archon.hail",
     surface: "dialogue",
     text: "Archon, five drakes. I take no cargo that I cannot lift myself.",
-    note: "The boat owner at Lilmoth. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Lilmoth. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.lilmoth-lighter-flotilla.name",
@@ -316,7 +316,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.lilmoth-lighter-flotilla.hail",
     surface: "dialogue",
     text: "Out to the flotilla, five drakes. Mind the step, it is wet.",
-    note: "The boat owner at Lilmoth. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Lilmoth. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.oliis-ferry-stage-oliis-boardwalk.name",
@@ -328,7 +328,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.oliis-ferry-stage-oliis-boardwalk.hail",
     surface: "dialogue",
     text: "Over to the boardwalk, five drakes. Sit at the back of the boat.",
-    note: "The boat owner at Estuary Stage. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Estuary Stage. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.soulrest-blackrose.name",
@@ -340,7 +340,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.soulrest-blackrose.hail",
     surface: "dialogue",
     text: "Blackrose, five drakes. Once I am off the landing I do not turn back.",
-    note: "The boat owner at Soulrest. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Soulrest. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.soulrest-lilmoth.name",
@@ -352,7 +352,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.soulrest-lilmoth.hail",
     surface: "dialogue",
     text: "Down to Lilmoth for five drakes. One bag each, kept on your knees.",
-    note: "The boat owner at Soulrest. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Soulrest. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.boat.stormhold-alten-corimont.name",
@@ -364,7 +364,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.boat.stormhold-alten-corimont.hail",
     surface: "dialogue",
     text: "Alten Corimont, five drakes. You bail when I tell you.",
-    note: "The boat owner at Stormhold. Fare stated, then the one rule of his boat.",
+    note: "The boat owner at Stormhold. Fare stated, then his rule for the boat.",
   },
   {
     id: "text.rootworm.underground-express.name",
@@ -388,7 +388,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.canoe.slough-point-quinrawl-anchorage.hail",
     surface: "dialogue",
     text: "Two drakes down the channels to the anchorage. Keep your weight in the middle.",
-    note: "The poler at Slough Point. Fare stated, then the one rule of the canoe.",
+    note: "The poler at Slough Point. Fare stated, then his rule for the canoe.",
   },
   {
     id: "text.canoe.bright-throat-village-oliis-ferry-stage.name",
@@ -400,7 +400,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.canoe.bright-throat-village-oliis-ferry-stage.hail",
     surface: "dialogue",
     text: "Two drakes to the stage, by way of Screen-Watch. Bail when the water comes over the side.",
-    note: "The poler at Bright-Throat Village. Fare stated, then the one rule of the canoe.",
+    note: "The poler at Bright-Throat Village. Fare stated, then his rule for the canoe.",
   },
   {
     id: "text.canoe.treasure-hunters-live-camp-portdun-mont.name",
@@ -412,7 +412,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.canoe.treasure-hunters-live-camp-portdun-mont.hail",
     surface: "dialogue",
     text: "Two drakes out to Portdun Mont. Whatever you dug up travels at your feet.",
-    note: "The poler at Fortune's Own. Fare stated, then the one rule of the canoe.",
+    note: "The poler at Fortune's Own. Fare stated, then his rule for the canoe.",
   },
   {
     id: "text.canoe.lake-divers-yard-lake-ferry-stage.name",
@@ -424,7 +424,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.canoe.lake-divers-yard-lake-ferry-stage.hail",
     surface: "dialogue",
     text: "Two drakes across to the North Stage. Stay seated the whole way.",
-    note: "The poler at the Barge Yard. Fare stated, then the one rule of the canoe.",
+    note: "The poler at the Barge Yard. Fare stated, then his rule for the canoe.",
   },
   {
     id: "text.canoe.riverwalk-the-tide-fair.name",
@@ -436,7 +436,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.canoe.riverwalk-the-tide-fair.hail",
     surface: "dialogue",
     text: "Two drakes to Tide Fair, calling at Hissmir and Murkwater. Hands inside the hull.",
-    note: "The poler at Riverwalk. Fare stated, then the one rule of the canoe.",
+    note: "The poler at Riverwalk. Fare stated, then his rule for the canoe.",
   },
   {
     id: "text.canoe.hutan-tzel-the-black-stage.name",
@@ -448,7 +448,7 @@ export const TRAVEL_TEXT: readonly TextEntry[] = [
     id: "text.canoe.hutan-tzel-the-black-stage.hail",
     surface: "dialogue",
     text: "Two drakes over to the Black Stage. I take four and no more.",
-    note: "The poler at Hutan-Tzel. Fare stated, then the one rule of the canoe.",
+    note: "The poler at Hutan-Tzel. Fare stated, then his rule for the canoe.",
   },
 ];
 
@@ -488,7 +488,7 @@ export const TRAVEL_UI_TEXT: readonly TextEntry[] = [
     id: "text.travel.unavailable",
     surface: "system",
     text: "Nobody is taking passengers now.",
-    note: "An availability gate fails, or the record carries a gate this build cannot evaluate. Says only that the service is shut, because the reason is weather or season and the player can see it.",
+    note: "An availability gate fails, or the record carries a gate this build cannot evaluate. Says only that the service is shut, because the reason is weather or season, visible in the world.",
   },
   {
     id: "text.travel.arrived",

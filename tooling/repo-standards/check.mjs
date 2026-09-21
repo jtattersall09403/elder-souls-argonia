@@ -427,9 +427,11 @@ function checkPlaybookMoves() {
 // tooling/world-generation/worldgen/lint_prose.py. It was documented as an
 // `npm test` gate but nothing ran it (review 2026-09-07); it runs here in
 // ~2 s. Python missing is a note, not a pass: CI installs it.
-// Scope (owner 2026-09-21): player-visible and world-record text only —
-// catalogue prose, quest rows, the text catalogue, blueprints and route
-// structures. docs/**/*.md is not linted.
+// Scope (owner 2026-09-21): the text-catalogue funnel — packages/text-catalogue
+// in full (hand-written entries and generated files), which by standard 2 is
+// every player-visible string. World records (catalogue prose, quest rows,
+// blueprints, route structures) and docs are NOT linted: they are designer
+// notes, and `--catalogue` reports over them without failing.
 // 8b is the tripwire: prose DATA living outside the linted roots, where no
 // gate would ever see it. The heuristic is the linter's own (--tripwire), so
 // there is one detector, not two.
@@ -449,7 +451,7 @@ function checkProse() {
     if (e && e.code === "ENOENT") return;
     const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(0, 8).join("\n");
     fail(8, "tooling/world-generation/worldgen/lint_prose.py", 0,
-      `prose outside the linted roots: move it under world/sources/ or packages/text-catalogue/ (standard 2), or exempt it in lint_prose.py with a reason.\n${out}`);
+      `prose outside the text catalogue: move it into packages/text-catalogue (standard 2), or exempt it in lint_prose.py with a reason.\n${out}`);
   }
 }
 

@@ -11,26 +11,31 @@ owner 2026-09-03; scope and rationale in decision
 | [review-process.md](review-process.md) | You are reviewing text, or you are a writer about to commit it |
 | `.claude/skills/text-review/SKILL.md` | **The review, packaged.** Invoke the `text-review` skill in a fresh agent on any new or edited text before commit (CLAUDE.md rule). It runs the linter and applies §3 of the review process, and writes the edits |
 
-**What the linter covers** (owner 2026-09-21). It lints by **exclusion**, not
-by a list of field names: every prose-looking string under `world/sources/`
-and `packages/text-catalogue/` is in scope, where prose-looking means six
-words or more, or sentence punctuation with three or more. A new record type
-or a new kind of player text — dialogue, item descriptions, book text, signs
-— is therefore linted the moment it exists, with nobody adding it to a list.
-The only way a string is skipped is a key name or a directory listed in
-`lint_prose.py` with its reason (`EXEMPT_KEYS` — ids, paths, hashes, types;
-`EXEMPT_DIRS`/`EXEMPT_FILES` — mined plugin data, asset registries, terrain
-and hydrology arrays, generated reports). Docs under `docs/` are agent
-context, not player text, and are not linted; `--md <file>` still lints a
-named markdown file on request.
+**What the linter covers** (owner 2026-09-21). The gate is the
+**text-catalogue funnel**: standard 2 puts every player-visible string in
+`packages/text-catalogue`, so the linter covers that package in full —
+`src/entries.ts` by hand and `src/generated/*` from the generators — and
+nothing else. It lints by **exclusion** inside it: every prose-looking string
+(six words or more, or sentence punctuation with three or more) is in scope,
+so a new kind of player text — dialogue, item descriptions, book text, signs —
+is linted the moment it exists, with nobody adding it to a list. The only way
+a string is skipped is a key name or a path listed in `lint_prose.py` with its
+reason (`EXEMPT_KEYS` — ids, paths, hashes, types; `EXEMPT_DIRS` /
+`EXEMPT_FILES`).
+
+**World records and docs are not linted.** The place catalogue's
+`why`/`vibe`/`hook` fields, quest premises, blueprints and route structures
+render only in world-studio's review panels, for the owner; they are designer
+notes, and the style guide was written for player text. `--catalogue` runs the
+record-aware reporter over them on request and never fails; `--md <file>` still
+lints a named markdown file.
 
 `npm test` runs `python3 -m worldgen.lint_prose --strict` (from
-`tooling/world-generation`) over the record-aware surfaces — zero hard hits —
-and `--tripwire`, which fails on any data file under `packages/` or
-`apps/*/src/` carrying a sentence of twelve words or more: player text and
-world records live under the linted roots, or they are exempted in
-`lint_prose.py` with a reason. `--roots` runs the whole-root walk and reports
-its hits.
+`tooling/world-generation`): the text-catalogue walk — zero hard hits — plus
+the tripwire, which fails on any data file under `packages/` or `apps/*/src/`
+outside the catalogue carrying a sentence of twelve words or more. Player text
+lives in the catalogue, or it is exempted in `lint_prose.py` with a reason. A
+bare run is the same walk as a report.
 
 **Related, and not duplicated here:**
 

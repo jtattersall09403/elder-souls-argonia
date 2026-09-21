@@ -1,16 +1,41 @@
-"""Prose-lint gate: the catalogue carries no hard AI-tell hits (owner rule
-2026-09-04). The soft density ceilings are reported, never failed here."""
-from collections import Counter
+"""Prose-lint gate: packages/text-catalogue — every string a player can read
+(standard 2's funnel) — carries no hard AI-tell hits, and no prose data lives
+outside it (owner 2026-09-21). World records and docs are not linted."""
+from pathlib import Path
 
 from . import lint_prose
 
 
-def test_catalogue_has_no_hard_prose_hits():
-    res = lint_prose.lint_catalogue()
+def test_the_gate_is_green_on_the_tree():
+    res = lint_prose.LintResult()
+    lint_prose.lint_roots(res)
     hard = res.hard_hits()
-    counts = Counter(h.rule for h in hard)
-    sample = [f"{h.where} {h.fld}: …{h.excerpt}…" for h in hard[:12]]
-    assert not hard, f"{len(hard)} hard prose hits {dict(counts)}; first: {sample}"
+    assert not hard, [f"{h.where} {h.fld}: {h.rule} …{h.excerpt}…" for h in hard[:12]]
+    assert res.texts > 100, res.texts        # it cannot pass by linting nothing
+
+
+def test_only_the_text_catalogue_is_walked():
+    assert [str(r) for r in lint_prose.LINT_ROOTS] == ["packages/text-catalogue"]
+
+
+def test_a_generated_catalogue_file_is_linted():
+    """The generators lift world records into src/generated/*.ts; those strings
+    ARE player-visible, so the walk must reach them."""
+    res = lint_prose.LintResult()
+    lint_prose.lint_source_file(
+        res, lint_prose.catalogue.REPO_ROOT / "packages/text-catalogue/src/generated/hydrology-names.ts",
+        "generated")
+    assert res.texts > 50, res.texts
+
+
+def test_a_new_entry_in_entries_ts_is_linted_without_being_listed(tmp_path):
+    """No field list: a key nobody has seen before still reaches the rules."""
+    f = tmp_path / "entries.ts"
+    f.write_text('  { id: "text.new", text: "The gate stood open, and the wardens said nothing." },\n',
+                 encoding="utf-8")
+    res = lint_prose.LintResult()
+    lint_prose.lint_source_file(res, f, "entries.ts")
+    assert "comma-and" in {h.rule for h in res.hard_hits()}
 
 
 def test_rules_catch_owner_examples():
@@ -71,15 +96,6 @@ def test_attributed_quoted_source_material_is_exempt(tmp_path):
     res = lint_prose.LintResult()
     lint_prose.lint_markdown(res, doc)
     assert not res.hard_hits(), [h.rule for h in res.hard_hits()]
-
-
-def test_route_structure_prose_surface_cannot_be_empty():
-    """Defect 2026-09-08: the authored route-structure sentences ship inside
-    route-structures.json and were outside --strict."""
-    res = lint_prose.LintResult()
-    lint_prose.lint_route_structures(res)
-    assert res.texts >= 30, res.texts
-    assert res.by_scope_words["route-structures"] > 500
 
 
 def test_a_real_final_preposition_is_still_caught(tmp_path):
