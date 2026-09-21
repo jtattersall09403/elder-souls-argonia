@@ -80,6 +80,10 @@ import {
   type TerrainLod,
 } from "@elder-souls/game-core/vegetation/cellRegistry";
 import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
+import {
+  castsShadowFor as castsShadowRule,
+  type ShadowRung,
+} from "./shadowRule";
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFloraKit, useColliderShapes } from "./useFloraKit";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
@@ -303,6 +307,8 @@ interface Batch {
   isCard: boolean;
   /** This batch's rung is the one that casts the sun shadow (`batchKeyFor`). */
   casts: boolean;
+  /** Whether its depth material was patched with `shadowBandFromZero`. */
+  fromZero: boolean;
   /** Copies currently switched visible — the draw-count signal. */
   visibleCopies: number;
   /** Nearest visible tile this gating pass saw, in metres; Infinity when the
@@ -584,33 +590,27 @@ export function Vegetation({
     near: boolean,
     isCard: boolean,
     casts: boolean,
+    fromZero: boolean,
   ) => `${material.uuid}|${depthMaterial?.uuid ?? "-"}|${attributeSignature(geometry)}`
     + `|${near ? "near" : "far"}|${isCard ? "card" : "mesh"}`
-    + `|${casts ? "cast" : "nocast"}`;
+    + `|${casts ? "cast" : "nocast"}|${fromZero ? "fromzero" : "ownband"}`;
 
   /**
-   * THE SHADOW RULE (round 7). The sun shadow is cast by the MID rung (kit
-   * level 1) where a species has one, never by the full mesh, and by no other
-   * rung; a species whose ladder goes full mesh → card casts from level 0 as
-   * before. Cards never cast. Measured at the jungle site at rest before this
-   * rule: 2.6 M triangles in the main pass and 2.4 M more in the two shadow
-   * cascades, because the near rung is the full mesh and is drawn again in
-   * every cascade. The casting rung's depth material is patched with
-   * `shadowBandFromZero`, so it covers the distances nearer than its own band
-   * too and nothing loses its shadow.
+   * The shadow rule lives in `shadowRule.ts` (highest non-card level ≤ 1);
+   * here it is only gated by the DEV `?vegshadow=0` switch.
    */
-  const shadowLevelFor = (
-    rungs: readonly { level: number }[] | undefined,
-    maxLevel: number,
-  ): number => (rungs?.some((r) => Math.min(maxLevel, r.level) === 1) ? 1 : 0);
-
-  /** `level` is the CLAMPED kit level the rung actually draws. */
   const castsShadowFor = (
-    rungs: readonly { level: number }[] | undefined,
+    rungs: readonly ShadowRung[] | undefined,
     maxLevel: number,
+    cardIndex: number | null,
     level: number,
-    isCard: boolean,
-  ): boolean => VEG_CAST_SHADOW && !isCard && level === shadowLevelFor(rungs, maxLevel);
+  ): boolean => VEG_CAST_SHADOW && castsShadowRule(rungs, maxLevel, cardIndex, level);
+
+  /**
+   * `shadowBandFromZero` is needed only when the caster is level 1: a level-0
+   * caster's own band already starts at zero.
+   */
+  const shadowFromZeroFor = (casts: boolean, level: number): boolean => casts && level === 1;
 
   /**
    * Vertex/index room every kit geometry that lands in a batch needs, for
@@ -624,7 +624,9 @@ export function Vegetation({
       const ladder = speciesParams.get(id)?.ladder;
       for (let level = 0; level < entry.levels.length; level++) {
         const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
-        const casts = castsShadowFor(ladder, entry.levels.length - 1, level, isCard);
+        const casts = castsShadowFor(
+          ladder, entry.levels.length - 1, entry.billboardIndex, level);
+        const fromZero = shadowFromZeroFor(casts, level);
         for (const part of entry.levels[level].parts) {
           const position = part.geometry.getAttribute("position");
           const idx = part.geometry.getIndex();
@@ -636,7 +638,8 @@ export function Vegetation({
           const nears = level === 0 ? [true, false] : [false];
           for (const near of nears) {
             const key = batchKeyFor(
-              part.material, part.depthMaterial, part.geometry, near, isCard, casts);
+              part.material, part.depthMaterial, part.geometry,
+              near, isCard, casts, fromZero);
             const have = out.get(key);
             if (have) {
               have.vertices += vertices;
@@ -666,6 +669,7 @@ export function Vegetation({
     near: boolean,
     isCard: boolean,
     casts: boolean,
+    fromZero: boolean,
     capacity: number,
     budget: { vertices: number; indices: number },
   ): Batch => {
@@ -696,7 +700,7 @@ export function Vegetation({
           // flagged, and `casts` is part of the batch key, so the flagged
           // depth clone is its own instance.
           applyLodFadeWithShadow(clone, depthClone, lodFade,
-            { shadowBandFromZero: casts });
+            { shadowBandFromZero: fromZero });
         }
         applyBatchData(clone, depthClone, uniforms);
       }
@@ -729,7 +733,7 @@ export function Vegetation({
     return {
       key, mesh, material: clone, depthMaterial: depthClone, capacity, used: 0,
       data, geometryIds: new Map(), vertexCapacity: budget.vertices,
-      indexCapacity: budget.indices, near, isCard, casts,
+      indexCapacity: budget.indices, near, isCard, casts, fromZero,
       visibleCopies: 0, orderMin: Infinity, rungs: new Set(),
     };
   };
@@ -1188,6 +1192,8 @@ export function Vegetation({
     near: boolean;
     isCard: boolean;
     casts: boolean;
+    /** Whether this key's depth material takes `shadowBandFromZero`. */
+    fromZero: boolean;
   }
 
   /**
@@ -1216,15 +1222,18 @@ export function Vegetation({
       const level = Math.min(entry.levels.length - 1, sb.rungs[rungIndex].level);
       const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
       const near = rungIndex === 0;
-      const casts = castsShadowFor(sb.rungs, entry.levels.length - 1, level, isCard);
+      const casts = castsShadowFor(
+        sb.rungs, entry.levels.length - 1, entry.billboardIndex, level);
+      const fromZero = shadowFromZeroFor(casts, level);
       const keys: string[] = [];
       for (const part of entry.levels[level].parts) {
         const key = batchKeyFor(
-          part.material, part.depthMaterial, part.geometry, near, isCard, casts);
+          part.material, part.depthMaterial, part.geometry,
+          near, isCard, casts, fromZero);
         if (!specs.has(key)) {
           specs.set(key, {
             material: part.material, depthMaterial: part.depthMaterial,
-            near, isCard, casts,
+            near, isCard, casts, fromZero,
           });
         }
         keys.push(key);
@@ -1249,7 +1258,8 @@ export function Vegetation({
       const batch = batches.current.get(key);
       if (!batch) {
         batches.current.set(key, makeBatch(
-          key, spec.material, spec.depthMaterial, spec.near, spec.isCard, spec.casts,
+          key, spec.material, spec.depthMaterial,
+          spec.near, spec.isCard, spec.casts, spec.fromZero,
           Math.max(MIN_BATCH_CAPACITY, Math.ceil(need * 1.5)),
           batchGeometryBudget(key)));
       } else if (batch.used + need > batch.capacity) {
@@ -1271,7 +1281,8 @@ export function Vegetation({
     // the next gating pass re-applies the right answer.
     for (const rung of [...old.rungs]) hideRung(rung);
     const fresh = makeBatch(
-      old.key, old.material, old.depthMaterial, old.near, old.isCard, old.casts,
+      old.key, old.material, old.depthMaterial,
+      old.near, old.isCard, old.casts, old.fromZero,
       capacity, { vertices: old.vertexCapacity, indices: old.indexCapacity });
     // The replay reads the OLD mesh, not a retained CPU copy of the
     // placements: matrix out, matrix in, and the two data texels with it.
@@ -1558,7 +1569,9 @@ export function Vegetation({
         const level = Math.min(entry.levels.length - 1, rung.level);
         const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
         const near = rungIndex === 0;
-        const casts = castsShadowFor(sb.rungs, entry.levels.length - 1, level, isCard);
+        const casts = castsShadowFor(
+          sb.rungs, entry.levels.length - 1, entry.billboardIndex, level);
+        const fromZero = shadowFromZeroFor(casts, level);
         const parts = entry.levels[level].parts;
         const partBatches: Batch[] = [];
         const partIds: Int32Array[] = [];
@@ -1567,7 +1580,8 @@ export function Vegetation({
         for (let partIndex = 0; partIndex < parts.length; partIndex++) {
           const part = parts[partIndex];
           const batch = batches.current.get(batchKeyFor(
-            part.material, part.depthMaterial, part.geometry, near, isCard, casts))!;
+            part.material, part.depthMaterial, part.geometry,
+            near, isCard, casts, fromZero))!;
           touched.add(batch);
           const geometryKey = `${sb.species}|${level}|${partIndex}`;
           const ids = addCopies(

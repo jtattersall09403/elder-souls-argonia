@@ -357,6 +357,21 @@ untouched — nothing nearer than the mid band loses its shadow. Whether a batch
 casts is part of the batch key, so a flagged depth material is never shared with
 a colour-only batch. `&vegshadow=0` still disables all casting.
 
+**Corrected (2026-09-21).** The caster is the highest NON-CARD kit level at or
+below 1 — level 1 where the species has a mesh there, level 0 otherwise. Stated
+as "level 1 where a rung resolves to it", the rule cast nothing at all for every
+alpha-tested species, whose ladder folds to [full mesh, card], so level 1 IS the
+card: the trees lost their shadows. `shadowBandFromZero` is set only for a
+level-1 caster (a level-0 caster's band already starts at zero) and is part of
+the batch key. The rule and its test live in
+`apps/world-studio/src/vegetation/shadowRule.ts`. Two other frame-cost calls in
+the same change: the full-mesh floor `MIN_MESH_LOD_REACH_M` is 18 m, not 24 m
+(at rest the near rung is 2.5 M of the 2.6 M vegetation triangles and the
+jungle's small plants sit on that floor), and the default pixel density is
+native — `dprMax` 1 at medium and 1.25 at high, down from 1.25 and 1.5, because
+rendering above native is supersampling and cost 3.4 ms of a 28 ms frame on the
+owner's card.
+
 ### Round 2 addendum: the ground-cover full-mesh reach is proportional to the mesh's cost (2026-09-21)
 
 At the jungle site at rest the ground-cover ring drew 2.4 M triangles for

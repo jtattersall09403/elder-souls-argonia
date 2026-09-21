@@ -30,7 +30,12 @@ export interface QualitySettings {
   readonly groundcoverFarRadiusM: number;
   /** T3 groundcover hard instance budget. */
   readonly groundcoverMaxInstances: number;
-  /** Upper devicePixelRatio clamp for the canvas. */
+  /**
+   * Upper devicePixelRatio clamp for the canvas. Rendering above the display's
+   * native ratio is supersampling: measured at the jungle on the owner's card
+   * it cost 3.4 ms of a 28 ms frame, so the default presets stop at native and
+   * only `high` buys a little beyond it.
+   */
   readonly dprMax: number;
 }
 
@@ -53,7 +58,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     groundcoverRadiusM: 65,
     groundcoverFarRadiusM: 145,
     groundcoverMaxInstances: 45_000,
-    dprMax: 1.25,
+    dprMax: 1,
   },
   high: {
     name: "high",
@@ -63,7 +68,7 @@ export const QUALITY_PRESETS: Record<QualitySettings["name"], QualitySettings> =
     groundcoverRadiusM: 75,
     groundcoverFarRadiusM: 165,
     groundcoverMaxInstances: 60_000,
-    dprMax: 1.5,
+    dprMax: 1.25,
   },
 };
 

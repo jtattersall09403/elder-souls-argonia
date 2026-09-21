@@ -339,10 +339,14 @@ export function lodDistances(heightM: number): number[] {
  * Floor on the full-mesh ring. Height × 6 gives a 2 m shrub only 12 m of full
  * mesh and 33 m before it becomes a flat card — which is why the uplands
  * screenshot (owner round 4, 1.59 km E / 1.63 km S) showed dark leaf-shaped
- * cutouts a few strides away. Small plants are cheap; hold their real geometry
- * out to a distance where the player cannot read the difference.
+ * cutouts a few strides away. Small plants are cheap individually, but not in
+ * the aggregate: measured at the jungle at rest, the near rung is 2.5 M of the
+ * 2.6 M vegetation triangles, and jungle plants sitting ON this floor (a 1 m
+ * plant is a ~273-triangle mesh out to the floor) are a large share of it.
+ * 18 m holds real geometry past the distance the player can read a card at,
+ * and drops the tail the 24 m floor was paying for.
  */
-export const MIN_MESH_LOD_REACH_M = 24;
+export const MIN_MESH_LOD_REACH_M = 18;
 
 /**
  * Billboard cards bake shadowed-canopy lighting into their atlas texture, so
@@ -397,6 +401,9 @@ export function lodRings(heightM: number, drawScale: number, submerged: boolean)
   const rings = lodDistances(heightM)
     .map((r, i) => (i === 0 ? r : r * drawScale))
     .map((r) => (submerged ? r * SUBMERGED_LOD_SCALE : r));
+  // Ring 0 keeps one crossfade band even submerged: at the 18 m mesh floor the
+  // submerged scale puts it at 9 m, narrower than the fade itself.
+  rings[0] = Math.max(rings[0], 2 * LOD_BAND_M);
   for (let i = 1; i < rings.length; i++) {
     rings[i] = Math.max(rings[i], rings[i - 1] + 2 * LOD_BAND_M);
   }
