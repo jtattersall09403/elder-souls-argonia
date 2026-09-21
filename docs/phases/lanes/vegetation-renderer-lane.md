@@ -185,10 +185,73 @@ bursts when crossing into new ground; trees keep their detail steps at the
 same distances as before; nothing pops in behind a ridge; the console shows
 no vegetation rebuild lines while walking.
 
+## Performance rounds (owner walks, 2026-09-21 onward)
+
+Invoke a fresh agent with **"you are continuing performance lane work in line
+with my feedback"** and paste the owner's feedback points and HUD numbers.
+The lane's job is the character-mode frame rate at the jungle site, whatever
+the cause (owner 2026-09-21); ground cover is in the lane. Every round so far
+is a local commit on `main`, none pushed.
+
+### How this works
+
+- **The owner reads, the agent fixes.** No SwiftShader probes on the built
+  world for frame-rate questions: this VM has no GPU and a probe takes 15 min
+  for numbers that are ratios. The owner starts `npm run studio`, opens the
+  jungle URL below, hard-reloads, and reports two DEV HUD lines and what they
+  saw. Each round is one root-cause fix, committed by pathspec, then one
+  owner reading.
+- **The jungle URL:** `?view=character&x=4.02&z=4.61&t=12:00`. DEV switches
+  (they survive the studio's URL rewrite): `&veg=0` unmounts the tree/bush
+  renderer (ground cover stays); `&vegshadow=0` no tree shadows;
+  `&vegshader=off|lod|wind|noaerial` draws batches with those shader patches
+  removed; `&q=low` the low quality preset.
+- **HUD line 1** `veg: <fps> fps · gpu <avg>/<max> ms · gate <ms>/<max> ·
+  flip <ms>/<max> (<copies>) · pending <batches> · queue <ms>/<max> <job> ·
+  draws <n>`: fps is the real frame rate; `gpu` is GPU time per frame (rest
+  fps low with `gpu` high and everything else 0 = GPU-bound); `gate` is the
+  per-frame rung gating loop; `flip` the time and copies switched visible or
+  hidden (three re-walks a batch and re-uploads its index texture per flip);
+  `pending` batches still queued; `queue` the shared FrameWorkQueue pump
+  (cell builds, terrain tiles, colliders) and its most frequent job.
+- **HUD line 2** `gc: rebuilds <n>/s · gen <ms>/<max> · fill <ms>/<max>
+  (<instances>) · tiles <live>/<pending> · tile <ms>/<max>`: ground cover.
+  `gen` is the tile generation step per frame (budget 5 ms, at most 8 tiles);
+  `tile` one tile's cost; `fill` the buffer upload after a rebuild.
+- Every number's meaning and every fix's reason is in decision 0082 § Round 2
+  and its addenda; read those before touching anything.
+
+### What the walks found and what was fixed (commits on main)
+
+| Owner reading | Cause | Fix (commit) |
+|---|---|---|
+| Every tree a white silhouette | haze patch had no batching branch: batched vertices hazed from the world origin | `aerial.ts` batching branch; every placement-reading patch audited (d6cf1365) |
+| Walking: up to 8 000 copies flipped a frame, 4–7 fps; "hasn't mounted" console warning | per-frame visibility toggles across hundreds of batches; ChunkTerrain bumped state from a render-time generator | 24 m gate margin, flips queued six batches a frame; terrain bump deferred to mount (3ab1c661) |
+| Panning flipped 11 800 copies; load took 30 s to settle | frustum culling by visibility; initial fill went through the queue | distance-only gating, first visibility set at fill, drain time-boxed 1.5 ms (27776d1b) |
+| Rest 13 fps with vegetation, 60 without, CPU zero | vertex load: 58 m tiles + 24 m margin drew the near rung to ~140 m over 360° | 29 m tiles as flat arrays, 8 m margin, behind-camera cull with hysteresis (3b392676) |
+| `?veg=0` walk 60→5 fps; `gen` 110–555 ms a tile | clearance patches (183, 64 840 vertices) tested per candidate against every segment | segment index per patch, one nearby-patch lookup per tile; GPU timer + shadow switch (832abc14) |
+
+### Open at hand-off (next round starts from the owner's reading of 832abc14)
+
+1. **Rest fps with vegetation on** was 18 before 832abc14 (60 without); read
+   `gpu` and try `&vegshadow=0` and `&q=low`. If `gpu` carries the gap, the
+   next candidates are the near-rung shadow casters (every near copy casts,
+   three cascades), alpha-tested double-sided overdraw, and the per-copy
+   vertex shader (wind + fade + two texture fetches per vertex); measure by
+   switching each off before designing anything.
+2. **Walking with ground cover**: `gen` and `tile` should now be single-digit
+   ms; `fill` (2–20 ms at 1–4 rebuilds/s) is the next ground-cover cost if it
+   still hitches: it rewrites every live tile's buffers on each 8 m rebuild.
+3. **Load settle time** (was ~1 min with vegetation): cell builds run through
+   the FrameWorkQueue (`queue … vegetation-cell` up to 152 ms max at load);
+   the underwater kit arriving rebuilds the cells that skipped its species.
+4. The lane closes when the owner calls the jungle walk smooth at rest and
+   while walking; then the memory note, and `deliver 16h part 1` may start.
+
 ## Closing the lane
 
-- [x] Row in the lanes README marked closed with the decision number.
-- [x] PROGRESS.md row closed.
+- [x] Row in the lanes README marked closed with the decision number (reopened for the performance rounds above).
+- [x] PROGRESS.md row.
 - [x] The 0071/0075 addenda in place (round 0).
-- [ ] The owner walk above.
+- [ ] The owner calls the walk smooth (§ Performance rounds).
 - [ ] Memory note; 16h may then start.
