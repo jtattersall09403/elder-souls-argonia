@@ -3,7 +3,7 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
-import { lodForDistance, type ChunkGrid, type ChunkMeta, type ChunkStore, type ChunksManifest } from "./chunkStore";
+import { LOD_REEVALUATE_M, lodForDistance, type ChunkGrid, type ChunkMeta, type ChunkStore, type ChunksManifest } from "./chunkStore";
 import { useHiddenLayers } from "../ladder";
 import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
@@ -11,17 +11,17 @@ import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork
 
 /**
  * Chunked terrain renderer: every province chunk is its own mesh, LOD chosen
- * by chunk distance from the player (LOD 1 = 1.83 m near, 2 mid, 4 far),
+ * by the distance from the camera to each chunk's nearest edge (the ladder
+ * in `chunkStore.LOD_BANDS`: LOD 1 under 150 m, 2 under 900 m, 4 under
+ * 2 800 m, the derived LOD 8 beyond),
  * textured by the shared splat material. Near geometry is the SAME LOD-1 grid
  * the Rapier colliders use, so feet and ground agree exactly. Each mesh gets a
  * short dropped skirt to hide hairline gaps at LOD borders.
  *
- * All chunks stay resident: LOD depends only on the focus chunk cell, never on
- * the camera direction, so turning around cannot unmount and rebuild geometry
+ * All chunks stay resident: LOD depends only on camera POSITION, never on the
+ * camera direction, so turning around cannot unmount and rebuild geometry
  * (decision 0046 retired the per-frame frustum residency and its rebuild loop).
  */
-
-const desiredLod = lodForDistance;   // rings: 1 near (LOD 1), 3 mid (LOD 2), beyond LOD 4
 
 function ChunkMesh({ grid, geometry, material }: {
   grid: ChunkGrid;
@@ -31,10 +31,11 @@ function ChunkMesh({ grid, geometry, material }: {
   geometry: THREE.BufferGeometry;
   material: THREE.Material;
 }) {
-  // ONLY the near ring casts sun shadows: the character-mode shadow frustum
-  // ends at 300 m, so mid/far chunks drawn into the cascades were pure waste
-  // — a large share of the post-load jerky-fps period (owner round 4).
-  const casts = grid.lod === "1";
+  // LOD 1 and 2 cast sun shadows: the character-mode shadow frustum ends at
+  // 300 m and CSM culls casters outside the cascades, so this is the terrain
+  // within shadow range now that LOD 1 reaches only ~150 m. LOD 4 and the
+  // derived LOD 8 never cast (owner round 4: mid/far casters were pure waste).
+  const casts = grid.lod === "1" || grid.lod === "2";
   // `perfTag` names this mesh's bucket in the DEV triangle attribution
   // (HUD line 3, apps/world-studio/src/character/triangleBuckets.ts).
   return (
@@ -164,6 +165,14 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
 
   const [focusCell, setFocusCell] = useState<[number, number]>([-99, -99]);
   const [, setLoadedVersion] = useState(0);
+  // LOD each resident chunk is currently assigned, keyed `cx,cy`. The ladder
+  // is re-evaluated in place (no allocation) only once the camera has moved
+  // `LOD_REEVALUATE_M`, and `lodVersion` bumps only when an assignment moved.
+  const lodByCell = useRef(new Map<string, string>());
+  const lastEval = useRef<{ x: number; z: number } | null>(null);
+  const [lodVersion, setLodVersion] = useState(0);
+  const allChunks = useMemo(
+    () => [...manifest.chunks, ...(apron?.chunks ?? [])], [manifest, apron]);
   useFrame(() => {
     const f = focusRef.current;
     const cx = Math.max(0, Math.min(manifest.grid[0] - 1, Math.floor(f.x / manifest.chunkMetres)));
@@ -172,7 +181,25 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       setFocusCell([cx, cy]);
       onLodMap?.([cx, cy]);
     }
+    const last = lastEval.current;
+    if (last && Math.hypot(f.x - last.x, f.z - last.z) < LOD_REEVALUATE_M) return;
+    lastEval.current = { x: f.x, z: f.z };
+    let changed = false;
+    for (const chunk of allChunks) {
+      const key = `${chunk.cx},${chunk.cy}`;
+      const current = lodByCell.current.get(key);
+      const lod = lodForDistance(f.x, f.z, chunk.cx, chunk.cy, manifest.chunkMetres, current);
+      if (lod === current) continue;
+      lodByCell.current.set(key, lod);
+      changed = true;
+    }
+    if (changed) setLodVersion((v) => v + 1);
   });
+  /** The ladder's answer for a chunk; falls back to a fresh evaluation for a
+   * chunk registered since the last frame (the apron's ring 0). */
+  const desiredLod = (chunk: ChunkMeta): string =>
+    lodByCell.current.get(`${chunk.cx},${chunk.cy}`)
+    ?? lodForDistance(focusRef.current.x, focusRef.current.z, chunk.cx, chunk.cy, manifest.chunkMetres);
 
   // Ensure desired LODs are loading. Decode arrivals COALESCE into one
   // re-render per 250 ms window: during initial load ~hundreds of chunks
@@ -189,8 +216,8 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   };
   useEffect(() => () => { if (bumpTimer.current !== null) window.clearTimeout(bumpTimer.current); }, []);
   useEffect(() => {
-    for (const chunk of [...manifest.chunks, ...(apron?.chunks ?? [])]) {
-      const lod = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
+    for (const chunk of allChunks) {
+      const lod = desiredLod(chunk);
       const key = `${chunk.cx},${chunk.cy},${lod}`;
       if (requested.current.has(key)) continue;
       requested.current.add(key);
@@ -199,7 +226,8 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
         .catch((e) => { console.warn(`chunk ${key} failed: ${String(e).slice(0, 200)}`); requested.current.delete(key); });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store, manifest, focusCell, apron]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [store, allChunks, lodVersion]);
 
   // Province chunks and the apron's ring 0 go through one loop: same LOD rule,
   // same skirt, same store — only the material and UV frame differ (16d).
@@ -209,9 +237,10 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   ];
   const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
   const resolved = drawn.map(({ chunk, apron: isApron }) => {
-    const want = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
+    const want = desiredLod(chunk);
     // Render the desired LOD if decoded; otherwise the best fallback we have.
     const grid = store.loaded(chunk.cx, chunk.cy, want)
+      ?? store.loaded(chunk.cx, chunk.cy, "8")
       ?? store.loaded(chunk.cx, chunk.cy, "4")
       ?? store.loaded(chunk.cx, chunk.cy, "2")
       ?? store.loaded(chunk.cx, chunk.cy, "1");

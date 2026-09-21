@@ -10,11 +10,46 @@ export function sharedChunkStore(baseUrl: string): ChunkStore {
   return shared;
 }
 
-/** LOD a chunk is drawn at, by Chebyshev chunk distance from the focus cell
- * (the same rings ChunkTerrain uses: 1 near, 2 mid, 4 far). */
-export function lodForDistance(dx: number, dy: number): string {
-  const d = Math.max(Math.abs(dx), Math.abs(dy));
-  return d <= 1 ? "1" : d <= 3 ? "2" : "4";
+/** Terrain LOD ladder: the band a chunk is drawn at, by the distance from the
+ * camera to the chunk rectangle's NEAREST EDGE (0 inside it), not by its ring
+ * index. Chunks are 467.9 m, so the old Chebyshev rings drew LOD 1 out to
+ * ~700 m in every direction; these thresholds are metres.
+ *
+ * A chunk steps UP in detail the moment it is inside a band, and steps DOWN
+ * only once it is `LOD_HYSTERESIS` beyond it, so a camera sitting on a
+ * boundary cannot flip a chunk back and forth every frame. */
+export const LOD_BANDS: { lod: string; maxM: number }[] = [
+  { lod: "1", maxM: 150 },
+  { lod: "2", maxM: 900 },
+  { lod: "4", maxM: 2800 },
+  { lod: "8", maxM: Infinity },
+];
+export const LOD_HYSTERESIS = 1.15;
+/** The camera must move this far before the whole ladder is re-evaluated. */
+export const LOD_REEVALUATE_M = 8;
+
+/** Distance in metres from (camX, camZ) to the chunk cell's rectangle. */
+export function nearestEdgeM(camX: number, camZ: number, cx: number, cy: number, chunkMetres: number): number {
+  const minX = cx * chunkMetres, minZ = cy * chunkMetres;
+  const dx = Math.max(minX - camX, 0, camX - (minX + chunkMetres));
+  const dz = Math.max(minZ - camZ, 0, camZ - (minZ + chunkMetres));
+  return Math.hypot(dx, dz);
+}
+
+/** The LOD for a chunk cell, given the camera position and (for hysteresis)
+ * the LOD it is currently drawn at. */
+export function lodForDistance(
+  camX: number, camZ: number, cx: number, cy: number, chunkMetres: number, current?: string,
+): string {
+  const d = nearestEdgeM(camX, camZ, cx, cy, chunkMetres);
+  let fine = LOD_BANDS.length - 1;
+  for (let i = 0; i < LOD_BANDS.length; i++) if (d < LOD_BANDS[i].maxM) { fine = i; break; }
+  const ci = current === undefined ? -1 : LOD_BANDS.findIndex((b) => b.lod === current);
+  if (ci < 0) return LOD_BANDS[fine].lod;
+  if (fine < ci) return LOD_BANDS[fine].lod;          // upgrade immediately
+  let coarse = LOD_BANDS.length - 1;
+  for (let i = 0; i < LOD_BANDS.length; i++) if (d < LOD_BANDS[i].maxM * LOD_HYSTERESIS) { coarse = i; break; }
+  return LOD_BANDS[Math.max(ci, coarse)].lod;          // downgrade only past the margin
 }
 
 /** Start every chunk's tile download the moment the manifest is known,
@@ -29,6 +64,7 @@ export function prefetchChunks(store: ChunkStore, manifest: ChunksManifest, focu
   const near: ChunkMeta[] = [], far: ChunkMeta[] = [];
   for (const c of manifest.chunks) (Math.max(Math.abs(c.cx - cx), Math.abs(c.cy - cy)) <= 3 ? near : far).push(c);
   for (const c of [...near, ...far]) {
-    store.load(c.cx, c.cy, lodForDistance(c.cx - cx, c.cy - cy)).catch(() => { /* reported where it is drawn */ });
+    store.load(c.cx, c.cy, lodForDistance(focusXM, focusZM, c.cx, c.cy, manifest.chunkMetres))
+      .catch(() => { /* reported where it is drawn */ });
   }
 }

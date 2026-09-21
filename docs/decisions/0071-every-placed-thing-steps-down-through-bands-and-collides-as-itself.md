@@ -86,3 +86,20 @@ its evaluation moves from "once per vegetation rebuild" to "incrementally
 per frame": a one-texel-per-cell mask over the neighbourhood is refreshed a
 few cells per frame from the live camera and the vertex shader collapses
 hidden instances. No instance is revisited on the CPU for occlusion.
+
+## Addendum 2026-09-21: the terrain chunk band is a distance, not a ring
+
+Terrain chunks stepped down by Chebyshev ring from the focus cell, and a
+chunk is 467.9 m, so the nine LOD-1 chunks reached about 700 m in every
+direction: at rest on the jungle site the terrain drew 1.8 M triangles in
+the main pass and 0.7 M in the shadow cascades. The chunk ladder now reads
+the distance from the camera to the chunk rectangle's nearest edge, like
+every other band in this decision: LOD 1 under 150 m, LOD 2 under 900 m,
+LOD 4 under 2 800 m, LOD 8 beyond. A chunk steps up the moment it is inside
+a band and down only 15% past it, so a camera on a boundary cannot flip it;
+the ladder is re-evaluated for all resident chunks once the camera has moved
+8 m. LOD 8 is no new download: it is the published LOD 4 raster with every
+second sample kept (65x65 to 33x33, 2 048 triangles a chunk), a derived LOD
+in the same DynDOLOD sense as the card bake above. LOD 1 and LOD 2 cast sun
+shadows and the coarser two never do, which keeps terrain shadows across the
+character mode's 300 m cascade range now that LOD 1 stops at 150 m.

@@ -108,7 +108,9 @@ export class ChunkStore {
 
   private async decode(cx: number, cy: number, lod: string): Promise<ChunkGrid> {
     await this.manifest();
-    const meta = this.chunkAt(cx, cy), lodMeta = meta?.lods[lod];
+    const meta = this.chunkAt(cx, cy);
+    if (lod === DERIVED_LOD && meta && !meta.lods[DERIVED_LOD]) return this.deriveCoarsest(cx, cy, meta);
+    const lodMeta = meta?.lods[lod];
     if (!meta || !lodMeta) throw new Error(`No chunk ${cx},${cy} LOD ${lod}`);
     const dir = meta.dir ?? "province/chunks/";
     const response = await fetch(`${this.baseUrl}${dir}${lodMeta.file}`);
@@ -116,6 +118,32 @@ export class ChunkStore {
     const heights = await decodeHeightPng(await response.blob(), lodMeta);
     return { meta, lod, heights, nx: lodMeta.shape[1], ny: lodMeta.shape[0], metresPerSample: lodMeta.metresPerSample };
   }
+
+  /** LOD "8" ships no file: it is LOD "4" with every second sample kept
+   * (65x65 -> 33x33, 2 048 triangles a chunk). The source LOD goes through
+   * the ordinary cache, so the coarse ring costs no extra download. */
+  private async deriveCoarsest(cx: number, cy: number, meta: ChunkMeta): Promise<ChunkGrid> {
+    const source = await this.load(cx, cy, DERIVED_FROM_LOD);
+    const { heights, nx, ny } = subsampleGrid(source.heights, source.nx, source.ny, DERIVED_LOD_STRIDE);
+    return { meta, lod: DERIVED_LOD, heights, nx, ny,
+      metresPerSample: source.metresPerSample * DERIVED_LOD_STRIDE };
+  }
+}
+
+/** The derived coarsest LOD and the published LOD it is decimated from. */
+export const DERIVED_LOD = "8";
+export const DERIVED_FROM_LOD = "4";
+export const DERIVED_LOD_STRIDE = 2;
+
+/** Keep every `stride`-th sample of a row-major [z][x] grid. The last row and
+ * column are kept whenever the count is odd (65 -> 33, 5 -> 3), so the chunk
+ * still spans edge to edge and the skirt rule is unchanged. */
+export function subsampleGrid(heights: Float32Array, nx: number, ny: number, stride: number):
+  { heights: Float32Array; nx: number; ny: number } {
+  const ox = Math.floor((nx - 1) / stride) + 1, oy = Math.floor((ny - 1) / stride) + 1;
+  const out = new Float32Array(ox * oy);
+  for (let z = 0; z < oy; z++) for (let x = 0; x < ox; x++) out[z * ox + x] = heights[z * stride * nx + x * stride];
+  return { heights: out, nx: ox, ny: oy };
 }
 
 /** Decode one RG16 height raster to true metres, row-major [z][x].
