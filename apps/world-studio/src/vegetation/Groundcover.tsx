@@ -57,7 +57,13 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import { configureKitLoader } from "@elder-souls/game-core/assets/kitLoader";
 import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
-import { buildFloraKit, type FloraKit, type KitManifest } from "./floraKit";
+import {
+  buildFloraKit,
+  type FloraKit,
+  type KitLevel,
+  type KitManifest,
+  type KitSpecies,
+} from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { PROVINCE_EXTENT_M } from "../provinceScale";
@@ -108,6 +114,60 @@ const SHORT_SPECIES_M = 0.6;
  * across it (`lodFade.ts`), and the FAR band fades to nothing at its radius.
  */
 const NEAR_FRACTION = 0.4;
+/**
+ * The full-mesh reach is proportional to what the mesh COSTS.
+ *
+ * `0.4 r` for every species spent the same 30 m of full mesh on a 250-triangle
+ * grass clump and on a 2 298-triangle spiky-grass tuft at 12 144 per hectare —
+ * measured at rest in the jungle, 2.4 M triangles for 61 376 instances, 39 a
+ * plant. So the NEAR band is scaled per species by the reference cost over the
+ * mesh's own cost, floored so an expensive plant still has SOME mesh near the
+ * camera, and the card simply takes over where the mesh stops.
+ *
+ *  - `NEAR_TRI_REF` — a typical grass clump (the drjacopo grasses, 250–390):
+ *    full reach, the behaviour before this rule.
+ *  - `NEAR_REACH_MIN` — the floor; 0.3 x 0.4 r is 9 m at the high preset.
+ *  - `NEAR_TRI_MAX` — over this a species does not get its base mesh near at
+ *    all: it uses the coarsest decimated level at or under the cap (and that
+ *    level's own triangle count then sets the reach), or, where the kit ships
+ *    no such level, the card from 0 m.
+ */
+const NEAR_TRI_REF = 250;
+const NEAR_REACH_MIN = 0.3;
+const NEAR_TRI_MAX = 1000;
+
+/** The NEAR band's fraction of `NEAR_FRACTION x r` for a mesh of `meshTris`. */
+export function nearReachFraction(meshTris: number): number {
+  if (!(meshTris > 0)) return 1;
+  return Math.min(1, Math.max(NEAR_REACH_MIN, NEAR_TRI_REF / meshTris));
+}
+
+function partsTriangles(parts: readonly { geometry: THREE.BufferGeometry }[]): number {
+  let total = 0;
+  for (const part of parts) {
+    const index = part.geometry.getIndex();
+    total += (index ? index.count : part.geometry.attributes.position.count) / 3;
+  }
+  return total;
+}
+
+/**
+ * The mesh level the NEAR tier draws: the COARSEST non-billboard level whose
+ * triangle count is at or under `NEAR_TRI_MAX`. Null where every level is over
+ * the cap — that species has no NEAR mesh tier and runs on its card from 0 m.
+ */
+function nearMeshLevel(
+  entry: KitSpecies,
+): { parts: KitLevel["parts"]; tris: number } | null {
+  for (let level = entry.levels.length - 1; level >= 0; level--) {
+    if (level === entry.billboardIndex) continue;
+    const parts = entry.levels[level].parts;
+    const tris = partsTriangles(parts);
+    if (tris <= NEAR_TRI_MAX) return { parts, tris };
+  }
+  return null;
+}
+
 /** Fraction of a species' instances the FAR tier keeps. */
 const FAR_THIN = 0.35;
 /** Short species stop at `1.6 r` where the tall ones stop at `2.2 r`. */
@@ -895,6 +955,10 @@ export interface GroundcoverPerf {
   fillInstances: number;
   tilesLive: number;
   tilesPending: number;
+  /** Triangles of the NEAR-tier (full-mesh) instances currently live:
+   * instances x their mesh's triangles, summed at the last rebuild. The HUD's
+   * `mesh <n>M` — what the per-species reach rule cut. */
+  nearMeshTriangles: number;
 }
 
 /**
@@ -968,7 +1032,7 @@ export function Groundcover({
   const perf = useRef<GroundcoverPerf>({
     frame: 0, rebuildsStarted: 0, rebuildsPerSec: 0,
     generateMs: 0, generateMaxMs: 0, tileMs: 0, tileMaxMs: 0, fillMs: 0, fillMaxMs: 0,
-    fillInstances: 0, tilesLive: 0, tilesPending: 0,
+    fillInstances: 0, tilesLive: 0, tilesPending: 0, nearMeshTriangles: 0,
   });
   /** Timestamps of the rebuilds in the last second, for `rebuildsPerSec`. */
   const rebuildTimes = useRef<number[]>([]);
@@ -1230,6 +1294,23 @@ export function Groundcover({
     // can leave the frustum.
     const nearRadiusM = ringRadiusM * NEAR_FRACTION;
     const shortFarRadiusM = farRadiusM * SHORT_FAR_FRACTION;
+    // The NEAR tier's mesh and its reach, per species, decided ONCE and used
+    // by both the tile assignment below and the band/fill pass after it, so
+    // the card takes over exactly where the mesh stops. A species with no card
+    // (the kit before the billboard levels landed) keeps the full mesh at full
+    // reach: there is nothing to hand over to.
+    const nearPlans = SPECIES_PLANS.map((plan) => {
+      const entry = kit.get(plan.id);
+      if (!entry) return null;
+      if (!cards.has(plan.id)) {
+        const parts = entry.levels[0].parts;
+        return { parts, reach: 1 };
+      }
+      const level = nearMeshLevel(entry);
+      return level === null
+        ? null
+        : { parts: level.parts, reach: nearReachFraction(level.tris) };
+    });
     interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tx: number; tz: number; minY: number; maxY: number }[]; count: number }
     const slots: SlotTiles[][] = SPECIES_PLANS.map(
       () => Array.from({ length: TIER_COUNT * 4 }, () => ({ tiles: [], count: 0 })));
@@ -1245,9 +1326,11 @@ export function Groundcover({
         if (species.count === 0) continue;
         const radiusScale = plan.submerged ? SUBMERGED_RADIUS_SCALE : 1;
         const speciesFarM = (plan.short ? shortFarRadiusM : farRadiusM) * radiusScale;
-        const speciesNearM = nearRadiusM * radiusScale;
+        const nearPlan = nearPlans[plan.index];
+        const speciesNearM = nearRadiusM * radiusScale * (nearPlan?.reach ?? 0);
         const speciesMidM = ringRadiusM * radiusScale;
-        const inNear = entry.nearest <= speciesNearM + TIER_OVERLAP_M;
+        const inNear = nearPlan !== null
+          && entry.nearest <= speciesNearM + TIER_OVERLAP_M;
         const inMid = entry.nearest <= speciesMidM + TIER_OVERLAP_M;
         const inFar = entry.nearest <= speciesFarM + TIER_OVERLAP_M;
         const bucket = slots[plan.index];
@@ -1273,6 +1356,9 @@ export function Groundcover({
 
     let instances = 0;
     let triangles = 0;
+    /** Triangles the NEAR (mesh) tier contributes — the number the reach rule
+     * above exists to cut. Summed at rebuild time, not per frame. */
+    let nearMeshTriangles = 0;
     const byTier: [number, number, number] = [0, 0, 0];
     for (const plan of SPECIES_PLANS) {
       const entry = kit.get(plan.id);
@@ -1283,7 +1369,8 @@ export function Groundcover({
       const card = cards.get(plan.id) ?? null;
       const radiusScale = plan.submerged ? SUBMERGED_RADIUS_SCALE : 1;
       const speciesFarM = (plan.short ? shortFarRadiusM : farRadiusM) * radiusScale;
-      const speciesNearM = nearRadiusM * radiusScale;
+      const nearPlan = nearPlans[plan.index];
+      const speciesNearM = nearRadiusM * radiusScale * (nearPlan?.reach ?? 0);
       const speciesMidM = ringRadiusM * radiusScale;
       const tierBands: [number, number, number, number][] = [
         [0, speciesNearM, TIER_BAND_M[0][0], TIER_BAND_M[0][1]],
@@ -1292,7 +1379,10 @@ export function Groundcover({
       ];
       const speciesHeightM = plan.anyRule.heightM * (1 + plan.anyRule.heightVariance) * 1.5;
       for (let tier = 0; tier < TIER_COUNT; tier++) {
-        const parts = tier === TIER_NEAR || !card ? entry.levels[0].parts : [card];
+        if (tier === TIER_NEAR && !nearPlan) continue;
+        const parts = tier === TIER_NEAR
+          ? nearPlan!.parts
+          : (card ? [card] : entry.levels[0].parts);
         const band = tierBands[tier];
         for (let quadrant = 0; quadrant < 4; quadrant++) {
           const slot = tier * 4 + quadrant;
@@ -1397,9 +1487,10 @@ export function Groundcover({
             sphere.radius = Math.hypot(maxX - minX, maxY - minY + speciesHeightM, maxZ - minZ) / 2 + speciesHeightM;
             liveMeshes.add(meshKey);
             const index = part.geometry.getIndex();
-            triangles +=
-              ((index ? index.count : part.geometry.attributes.position.count) / 3)
-              * drawn;
+            const partTris =
+              (index ? index.count : part.geometry.attributes.position.count) / 3;
+            triangles += partTris * drawn;
+            if (tier === TIER_NEAR) nearMeshTriangles += partTris * drawn;
           }
         }
       }
@@ -1469,6 +1560,7 @@ export function Groundcover({
     perfNow.fillMs = Math.round((tFilled - tGenerated) * 10) / 10;
     if (perfNow.fillMs > perfNow.fillMaxMs) perfNow.fillMaxMs = perfNow.fillMs;
     perfNow.fillInstances = instances;
+    perfNow.nearMeshTriangles = Math.round(nearMeshTriangles);
     perfNow.tilesLive = tiles;
     const stats: GroundcoverStats = {
       instances,

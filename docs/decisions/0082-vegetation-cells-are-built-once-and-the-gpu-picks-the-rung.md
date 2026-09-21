@@ -356,3 +356,29 @@ inner edge fully in so it casts from distance 0 while its outer edge is
 untouched — nothing nearer than the mid band loses its shadow. Whether a batch
 casts is part of the batch key, so a flagged depth material is never shared with
 a colour-only batch. `&vegshadow=0` still disables all casting.
+
+### Round 2 addendum: the ground-cover full-mesh reach is proportional to the mesh's cost (2026-09-21)
+
+At the jungle site at rest the ground-cover ring drew 2.4 M triangles for
+61 376 instances — 39 a plant — because the NEAR tier gave every species the
+same `NEAR_FRACTION` 0.4 x radius of full mesh (30 m at high), whether the mesh
+was a 250-triangle grass clump or the 2 298-triangle spiky grass sown at 12 144
+a hectare. The reach is now per species
+(`apps/world-studio/src/vegetation/Groundcover.tsx`):
+
+    nearReachM = NEAR_FRACTION x radiusM
+               x clamp(NEAR_TRI_REF / meshTris, NEAR_REACH_MIN, 1)
+
+with `NEAR_TRI_REF` 250 (a typical grass clump: full reach), `NEAR_REACH_MIN`
+0.3 and `NEAR_TRI_MAX` 1 000. `meshTris` is the level the NEAR tier actually
+draws: the coarsest non-billboard level at or under the cap, or none at all,
+in which case the species has no NEAR tier and its card is used from 0 m. The
+same per-species reach feeds the tile assignment, the NEAR band's outer edge
+and the MID band's inner edge, so the card takes over exactly where the mesh
+stops; nothing else about the tiers changes. Of the 73 species the ring places,
+63 are at or under 250 triangles and keep the full reach, 8 fall between and
+scale, and 2 are over the cap — `vanilla:plants/floraspikygrass02` (2 298) and
+`vanilla:landscape/plants/swordferncluster01` (1 424) — which, the kit shipping
+no decimated level for either, run on their cards throughout. The HUD's `gc:`
+line carries `mesh <n>M`, the triangles of the live NEAR-tier instances at the
+last rebuild, so the cut is visible from the running studio.

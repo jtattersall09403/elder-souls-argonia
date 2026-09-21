@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   excludedByFootprints,
+  nearReachFraction,
   foundationScatterPoints,
   foundationScatterWeight,
 } from "./Groundcover";
@@ -38,5 +39,20 @@ describe("authored foundation scatter band", () => {
       expect(excludedByFootprints(point.x, point.z, 0, [treatment.footprintM])).toBe(false);
       expect(foundationScatterWeight(point.x, point.z, treatment)).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("near-tier reach scales with the mesh's cost", () => {
+  it("gives a typical grass clump the full reach", () => {
+    expect(nearReachFraction(250)).toBe(1);
+  });
+  it("gives a cheaper mesh no more than the full reach", () => {
+    expect(nearReachFraction(60)).toBe(1);
+  });
+  it("halves the reach for a mesh twice the reference cost", () => {
+    expect(nearReachFraction(500)).toBeCloseTo(0.5, 10);
+  });
+  it("floors the reach for the spiky-grass tuft", () => {
+    expect(nearReachFraction(2298)).toBeCloseTo(0.3, 10);
   });
 });
