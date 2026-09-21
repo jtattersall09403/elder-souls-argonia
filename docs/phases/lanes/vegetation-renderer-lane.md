@@ -209,7 +209,8 @@ is a local commit on `main`, none pushed.
   renderer; `&dpr=<n>` pins the canvas pixel density to n (0.5..2) instead of
   the preset's cap; `&aa=0` creates the canvas without MSAA; `&vegorder=0`
   leaves every batch at `renderOrder = 0` instead of sorting batches front to
-  back.
+  back; `&csm=<cascades>,<maxFar>` sets the shadow cascade count and reach in
+  character mode (the default is `1,160`; `&csm=2,300` is what round 7 ran).
 - **HUD line 1** `veg: <fps> fps · gpu <avg>/<max> ms · gate <ms>/<max> ·
   flip <ms>/<max> (<copies>) · pending <batches> · queue <ms>/<max> <job> ·
   draws <n>`: fps is the real frame rate; `gpu` is GPU time per frame (rest

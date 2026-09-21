@@ -728,16 +728,26 @@ export function WorldSky({
   // mountain-scale reach.
   const csm = useMemo(() => {
     // ?smsize= lets headless probes shrink the cascade maps (software GL).
-    const smsize = Number(new URLSearchParams(window.location.search).get("smsize")) || 2048;
-    // Character play: 2 cascades cover 300 m fine and shave a whole shadow
-    // pass per frame (load/perf, owner round 2). The flyover keeps 3 for
-    // mountain-scale reach.
+    const params = new URLSearchParams(window.location.search);
+    const smsize = Number(params.get("smsize")) || 2048;
+    // Character play: ONE cascade over 160 m (2026-09-21). Every cascade
+    // re-draws every caster in its slice, and at rest the jungle hands the
+    // shadow pass 2.5 M caster triangles — so the second cascade was a second
+    // pass over most of them for shadows past the distance anyone reads. One
+    // 2048 px map over 160 m is ~8 cm a texel, crisper than the two it
+    // replaces. The flyover keeps 3 for mountain-scale reach.
+    // ?csm=<cascades>,<maxFar> overrides both in character mode, so the two
+    // arrangements can be compared on the same spot (?csm=2,300).
+    const csmParam = (params.get("csm") ?? "").split(",").map(Number);
+    const csmCascades = Number.isFinite(csmParam[0]) && csmParam[0] > 0
+      ? Math.round(csmParam[0]) : null;
+    const csmFar = Number.isFinite(csmParam[1]) && csmParam[1] > 0 ? csmParam[1] : null;
     const c = new CSM({
       camera: camera as THREE.PerspectiveCamera,
       parent: scene,
-      cascades: mode === "character" ? 2 : 3,
+      cascades: mode === "character" ? (csmCascades ?? 1) : 3,
       shadowMapSize: smsize,
-      maxFar: mode === "character" ? 300 : 6000,
+      maxFar: mode === "character" ? (csmFar ?? 160) : 6000,
       mode: "practical",
       // Small depth bias + normal-offset bias: the old large depth bias
       // pushed shadows off their casters (~0.5 m "hovering character" gap,
