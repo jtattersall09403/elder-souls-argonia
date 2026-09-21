@@ -897,6 +897,16 @@ export interface GroundcoverPerf {
   tilesPending: number;
 }
 
+/**
+ * A/B switch (DEV only, `?gc=0`), read once at module load: the ground-cover
+ * renderer is not MOUNTED at all, so the HUD line shows what the frame costs
+ * without it — the same measurement `?veg=0` makes for the tree/bush renderer.
+ */
+export const GROUNDCOVER_ENABLED: boolean = (() => {
+  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  return new URLSearchParams(window.location.search).get("gc") !== "0";
+})();
+
 export function Groundcover({
   focusRef,
   baseUrl,

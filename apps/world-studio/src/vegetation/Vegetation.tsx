@@ -226,6 +226,16 @@ export const VEGETATION_ENABLED: boolean = (() => {
   return new URLSearchParams(window.location.search).get("veg") !== "0";
 })();
 
+/**
+ * A/B switch (DEV only, `?vegorder=0`), read once at module load: batches keep
+ * `renderOrder = 0`, so the frame can be measured without the front-to-back
+ * batch order below.
+ */
+const VEG_ORDER_ENABLED: boolean = (() => {
+  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  return new URLSearchParams(window.location.search).get("vegorder") !== "0";
+})();
+
 function chunkKey(cx: number, cz: number): string {
   return `${cx}_${cz}`;
 }
@@ -286,6 +296,9 @@ interface Batch {
   isCard: boolean;
   /** Copies currently switched visible — the draw-count signal. */
   visibleCopies: number;
+  /** Nearest visible tile this gating pass saw, in metres; Infinity when the
+   * batch showed nothing. Drives `mesh.renderOrder` (front to back). */
+  orderMin: number;
   rungs: Set<CellRungEntry>;
 }
 
@@ -669,7 +682,7 @@ export function Vegetation({
       key, mesh, material: clone, depthMaterial: depthClone, capacity, used: 0,
       data, geometryIds: new Map(), vertexCapacity: budget.vertices,
       indexCapacity: budget.indices, near, isCard,
-      visibleCopies: 0, rungs: new Set(),
+      visibleCopies: 0, orderMin: Infinity, rungs: new Set(),
     };
   };
 
@@ -798,7 +811,24 @@ export function Vegetation({
       gateDirty.current = false;
       g.x = eye.x; g.z = eye.z; g.fx = fwd.x; g.fz = fwd.z;
       g.frame = counters.current.frame;
-      gateSpecies(allSpecies.current, eye, fwd, enqueueTile, gateStats.current);
+      // Front to back across batches: three sorts opaques by renderOrder
+      // ascending before material, so the nearest batch draws first and its
+      // depth rejects the far foliage behind it instead of shading it twice.
+      // The distances are the ones this pass already computes, and the two
+      // loops below are over the ~120 batches, not over their copies.
+      // `mesh.sortObjects` (BatchedMesh's per-instance sort) stays off.
+      if (VEG_ORDER_ENABLED) {
+        for (const batch of batches.current.values()) batch.orderMin = Infinity;
+        gateSpecies(allSpecies.current, eye, fwd, enqueueTile,
+          gateStats.current, undefined, markOrder);
+        for (const batch of batches.current.values()) {
+          if (batch.orderMin === Infinity) continue;
+          const next = Math.round(batch.orderMin);
+          if (batch.mesh.renderOrder !== next) batch.mesh.renderOrder = next;
+        }
+      } else {
+        gateSpecies(allSpecies.current, eye, fwd, enqueueTile, gateStats.current);
+      }
     }
     const gatingMs = performance.now() - gateStart;
     counters.current.gatingMs = gatingMs;
@@ -1327,6 +1357,17 @@ export function Vegetation({
         counters.current.flipInstances += to - from;
         flippedBatches.current.add(batch);
       }
+    }
+  }
+
+  /** Every batch a visible tile spans takes that tile's distance if it is the
+   * nearest seen so far this gating pass. Allocation-free. */
+  function markOrder(gateRung: GateRung, _tile: number, d: number): void {
+    const rung = gateRung as CellRungEntry;
+    const parts = rung.partBatches.length;
+    for (let p = 0; p < parts; p++) {
+      const batch = rung.partBatches[p];
+      if (d < batch.orderMin) batch.orderMin = d;
     }
   }
 

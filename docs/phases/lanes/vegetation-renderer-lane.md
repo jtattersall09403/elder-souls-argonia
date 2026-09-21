@@ -205,7 +205,11 @@ is a local commit on `main`, none pushed.
   (they survive the studio's URL rewrite): `&veg=0` unmounts the tree/bush
   renderer (ground cover stays); `&vegshadow=0` no tree shadows;
   `&vegshader=off|lod|wind|noaerial` draws batches with those shader patches
-  removed; `&q=low` the low quality preset.
+  removed; `&q=low` the low quality preset; `&gc=0` unmounts the ground-cover
+  renderer; `&dpr=<n>` pins the canvas pixel density to n (0.5..2) instead of
+  the preset's cap; `&aa=0` creates the canvas without MSAA; `&vegorder=0`
+  leaves every batch at `renderOrder = 0` instead of sorting batches front to
+  back.
 - **HUD line 1** `veg: <fps> fps · gpu <avg>/<max> ms · gate <ms>/<max> ·
   flip <ms>/<max> (<copies>) · pending <batches> · queue <ms>/<max> <job> ·
   draws <n>`: fps is the real frame rate; `gpu` is GPU time per frame (rest

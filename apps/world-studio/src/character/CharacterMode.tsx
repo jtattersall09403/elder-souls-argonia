@@ -41,7 +41,7 @@ import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter
 import { worldClock } from "../sky/timeState";
 import { CityMarkers } from "../CityMarkers";
 import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
-import { Groundcover } from "../vegetation/Groundcover";
+import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
 import { useHiddenLayers } from "../ladder";
 import { useApronManifest } from "../apronMaterials";
@@ -175,6 +175,23 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // cuts, and the fly modes keep their own full distances. `?q=` seeds it.
   const [quality, setQuality] = useState<QualitySettings>(() =>
     parseQuality(new URLSearchParams(window.location.search).get("q"), "medium"));
+  // DEV fill-rate switch (`?dpr=<n>`, 0.5..2): pins the canvas pixel density
+  // to one value so a frame can be measured at a known fill cost. Null keeps
+  // the quality preset's cap.
+  // DEV fill-rate switch (`?aa=0`): the canvas is created without MSAA, so a
+  // frame can be measured with the resolve removed and nothing else changed.
+  const canvasAa = useMemo(() => (
+    !import.meta.env.DEV
+    || new URLSearchParams(window.location.search).get("aa") !== "0"
+  ), []);
+  const dprOverride = useMemo(() => {
+    if (!import.meta.env.DEV) return null;
+    const raw = new URLSearchParams(window.location.search).get("dpr");
+    if (raw === null) return null;
+    const n = Number.parseFloat(raw);
+    if (!Number.isFinite(n)) return null;
+    return Math.min(2, Math.max(0.5, n));
+  }, []);
   // Settlement beacons in walk mode (owner round 6): on by default.
   const [showMarkers, setShowMarkers] = useState(true);
   // Travel sockets (16e deliverable 7): the studio owns the body, so it
@@ -383,7 +400,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           camera={{ fov: FOLLOW_CAMERA.fieldOfView, near: 0.3, far: 60000, up: [0, 1, 0] }}
           // Cap pixel density — see Fly3D (8b round 2 perf); the quality
           // preset tightens it further on foot (fill rate is the retina tax).
-          dpr={[1, quality.dprMax]}
+          dpr={dprOverride === null ? [1, quality.dprMax] : [dprOverride, dprOverride]}
+          gl={{ antialias: canvasAa }}
           // "percentage" = PCFShadowMap, matching Fly3D: "soft" is deprecated
           // in three r184 and r3f re-applies it on every Canvas render, forcing
           // a shadow re-render each frame (WaterPipeline.tsx explains).
@@ -431,13 +449,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 )}
                 {/* T3 groundcover ring around the walking character — same
                     component and constants as the flyover. */}
-                <Groundcover
-                  focusRef={focusRef}
-                  baseUrl={import.meta.env.BASE_URL}
-                  verticalScale={verticalScale}
-                  quality={quality}
-                  settlementsVisible={!hiddenLayers.has("settlements")}
-                />
+                {GROUNDCOVER_ENABLED && (
+                  <Groundcover
+                    focusRef={focusRef}
+                    baseUrl={import.meta.env.BASE_URL}
+                    verticalScale={verticalScale}
+                    quality={quality}
+                    settlementsVisible={!hiddenLayers.has("settlements")}
+                  />
+                )}
               </>
             )}
             {!hiddenLayers.has("settlements") && (

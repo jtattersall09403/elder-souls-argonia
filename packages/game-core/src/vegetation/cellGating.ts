@@ -157,6 +157,12 @@ const scratchBox: GateBox = { minX: 0, minZ: 0, maxX: 0, maxZ: 0 };
  * a cell the band's edge crosses — or one far enough away to hold tiles
  * behind the camera — pays a test per tile. `apply(rung, tile, visible)` is
  * called only where the answer changed.
+ *
+ * `order(rung, tile, d)` — optional — is called for EVERY tile the pass leaves
+ * visible, changed or not, with that tile's camera distance. It is how the
+ * renderer keeps a front-to-back batch order without a second pass: the
+ * distances are the ones this loop already computes (a tile the cell answered
+ * for as a whole reports the cell's own near distance).
  */
 export function gateSpecies(
   list: readonly GateSpecies[],
@@ -165,6 +171,7 @@ export function gateSpecies(
   apply: (rung: GateRung, tile: number, visible: boolean) => void,
   stats: GateStats,
   marginM: number = GATE_MARGIN_M,
+  order?: (rung: GateRung, tile: number, d: number) => void,
 ): void {
   stats.visibleCopies = 0;
   stats.visibleTriangles = 0;
@@ -208,6 +215,9 @@ export function gateSpecies(
         const count = rung.tileOffsets[t + 1] - from;
         if (count === 0) continue;
         let on: boolean;
+        // The cell's own near distance, unless the tile test below measures
+        // the tile itself.
+        let tileD = dMin;
         if (wholeCell) on = true;
         else {
           if (mode === 1) on = true;
@@ -216,8 +226,8 @@ export function gateSpecies(
             const d = rangeDistances(
               tileBox(rung.tileBounds, t, entry.reachM, scratchBox),
               eye.x, eye.z);
-            on = rungVisible(
-              rung.band, Math.max(0, d.dMin - marginM), d.dMax + marginM);
+            tileD = Math.max(0, d.dMin - marginM);
+            on = rungVisible(rung.band, tileD, d.dMax + marginM);
           }
           if (on && mayBeBehind) on = !isBehind(rung, t, eye, forward);
           if (on) {
@@ -225,6 +235,7 @@ export function gateSpecies(
             stats.visibleTriangles += count * rung.trianglesPerInstance;
           }
         }
+        if (on && order) order(rung, t, tileD);
         if (((rung.state[t] & 1) === 1) === on) continue;
         rung.state[t] = on ? (rung.state[t] | 1) : (rung.state[t] & ~1);
         rung.onTiles += on ? 1 : -1;

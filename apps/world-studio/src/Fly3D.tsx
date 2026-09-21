@@ -10,7 +10,7 @@ import { ApronTerrain } from "./ApronTerrain";
 import {
   Vegetation, VEGETATION_ENABLED, type VegetationStats,
 } from "./vegetation/Vegetation";
-import { Groundcover } from "./vegetation/Groundcover";
+import { Groundcover, GROUNDCOVER_ENABLED } from "./vegetation/Groundcover";
 import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
 
 /** The fly camera sees the canopy from above and moves fast: the medium
@@ -338,11 +338,13 @@ export function Fly3D(props: Fly3DProps) {
                 )}
                 {/* T3 groundcover ring: runtime grass keyed on the painted
                     ground, province-wide (it needs no compiled bundles). */}
-                <Suspense fallback={null}>
-                  <Groundcover focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
-                    verticalScale={props.exaggeration} quality={FLY_QUALITY}
-                    settlementsVisible={!hiddenLayers.has("settlements")} />
-                </Suspense>
+                {GROUNDCOVER_ENABLED && (
+                  <Suspense fallback={null}>
+                    <Groundcover focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
+                      verticalScale={props.exaggeration} quality={FLY_QUALITY}
+                      settlementsVisible={!hiddenLayers.has("settlements")} />
+                  </Suspense>
+                )}
               </>
             )}
             {!hiddenLayers.has("settlements") && (

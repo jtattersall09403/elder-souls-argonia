@@ -157,6 +157,13 @@ export const BAYER4_THRESHOLDS: readonly number[] = Array.from(
 );
 
 /**
+ * The LARGEST threshold `esBayer4` produces (15/16). A fragment test
+ * `bayer >= fadeIn` rejects every pixel once `fadeIn <= 0`; `bayer < fadeOut`
+ * rejects every pixel once `fadeOut` passes this value, not at 1.
+ */
+export const BAYER4_MAX: number = BAYER4_THRESHOLDS[BAYER4_THRESHOLDS.length - 1];
+
+/**
  * Whether a fragment with dither threshold `bayer` survives — the fragment
  * shader's discard, inverted. Kept iff `bayer < fadeIn` AND `bayer >= fadeOut`.
  * At a ring the incoming copy has `fadeIn = s` and the outgoing copy has
@@ -172,7 +179,7 @@ export function lodPixelKept(
 
 /** True when the copy draws nothing at all and the vertex shader collapses it. */
 export function lodCopyCollapsed(factors: { fadeIn: number; fadeOut: number }): boolean {
-  return factors.fadeIn <= 0 || factors.fadeOut >= 1;
+  return factors.fadeIn <= 0 || factors.fadeOut > BAYER4_MAX;
 }
 
 const VERTEX_HEAD = /* glsl */ `
@@ -218,8 +225,10 @@ const VERTEX_BODY = /* glsl */ `
   // and a discarded fragment for every pixel it covers — and the crossfade
   // doubles how many such copies exist. Collapsing every vertex onto the
   // pivot makes its triangles zero-area, so the rasteriser produces no
-  // fragments at all and the copy costs vertex work only.
-  if (esLodIn <= 0.0 || esLodOut >= 1.0) transformed = vec3(0.0);
+  // fragments at all and the copy costs vertex work only. The fragment test
+  // below already discards EVERY pixel once esLodOut passes the largest Bayer
+  // threshold, so the collapse tail is BAYER4_MAX, not 1.
+  if (esLodIn <= 0.0 || esLodOut > ${BAYER4_MAX}) transformed = vec3(0.0);
   #ifdef USE_BATCHING
   // Terrain occlusion, read from the incrementally swept mask rather than
   // decided on the CPU per instance (decision 0082 §6). 0071's rule is
