@@ -15,21 +15,18 @@
  * what Skyrim's object fade does too. Land trees never vanish inside the
  * loaded ring (their ladder ends past it), so they never take that edge.
  *
- * Why it cannot hole. The CPU rebuild emits an instance into every interval
- * the camera could reach before the NEXT rebuild (`lodCopies`: interval ±
- * `LOD_MARGIN_M`), and a copy's edge is closed only where the neighbouring
- * copy was also emitted; otherwise that edge is OPEN and the copy keeps
- * drawing past it. So the emitted copies always tile the whole line: at
- * every camera distance exactly one is kept, regardless of where the camera
- * has gone since the rebuild. Outrun the rebuild and you see the wrong level
- * for a few metres — never a hole, never a half-drawn thing. Rounds 2–4 had
- * the copies chosen from the CHARACTER's position with the shader fading
- * from the CAMERA's, closed edges facing copies that were never emitted
- * (every rock: three rungs merged into one band that dissolved at 24 m with
- * nothing behind it), and the whole thing correct only if a rebuild landed
- * within 16 m. The gate walks real ladders with a rebuild cadence and a
- * camera swung ahead of and behind the character and requires one copy per
- * pixel on every frame.
+ * Why it cannot hole. Since decision 0082 the renderer emits every instance
+ * into EVERY rung of its ladder, both band edges closed, once when its cell
+ * is built; the emitted copies therefore tile the whole distance line by
+ * construction and exactly one is kept at any camera distance, forever. There
+ * is no rebuild margin and no rebuild: the CPU never chooses a level, it only
+ * gates whole rungs of a cell that cannot be seen (`vegetation/cellGating`).
+ * Rounds 2–4 instead emitted copies within a margin of the CHARACTER's
+ * position and faded from the CAMERA's, so closed edges faced copies that
+ * were never emitted (every rock: three rungs merged into one band that
+ * dissolved at 24 m with nothing behind it). The pre-0082 rule survives as
+ * the parity ORACLE in `vegetation/cellBuild.test.ts`, which asserts the
+ * emitted rungs pick the same level it did at every distance.
  *
  * The dither, where it is used, is a partition: the copy fading IN keeps the
  * pixels whose Bayer threshold is BELOW its factor, the copy fading OUT keeps
@@ -58,6 +55,8 @@
  */
 
 import * as THREE from "three";
+import { BATCH_DATA_HEAD } from "./batchData";
+import { OCCLUSION_MIN_DISTANCE_M } from "../render/terrainOcclusion";
 
 /** The uniform block a group of vegetation materials shares. */
 export interface LodFadeUniforms {
@@ -77,17 +76,6 @@ export const LOD_OPEN_M = 1e9;
  * rung is never narrower than one band).
  */
 export const LOD_BAND_M = 5;
-
-/** Metres of CAMERA movement between rebuilds (`REBUILD_MOVE_M` in the renderer). */
-export const LOD_REBUILD_MOVE_M = 16;
-
-/**
- * How far past an interval's edges an instance is still emitted into it. Must
- * exceed the rebuild distance; the extra is slack for the rebuild throttle
- * (0.75 s: a sprint covers ~6 m in that time). Overrunning it costs a wrong
- * level until the next rebuild, never a hole (see the header).
- */
-export const LOD_MARGIN_M = LOD_REBUILD_MOVE_M + 8;
 
 /** Dither half-width of the vanish at the end of a ladder. */
 export const LOD_CULL_BAND_M = 8;
@@ -128,52 +116,6 @@ export function lodLadder(
     }
     lo = Math.max(lo, hi);
     if (lo >= maxDraw) break;
-  }
-  return out;
-}
-
-/** One draw an instance is emitted into, with the band it is kept over. */
-export interface LodEmission {
-  level: number;
-  /** (dIn, dOut, wIn, wOut), metres. */
-  band: [number, number, number, number];
-}
-
-/**
- * Which copies one instance at camera distance `d` is emitted into. Every
- * rung within `margin` of `d`; each copy's inner edge closes at its rung's
- * `lo` only if the rung below was emitted too, its outer edge at `hi` only
- * if the rung above was — otherwise the edge is open. The final rung's
- * outer edge is the vanish (dithered over `LOD_CULL_BAND_M`) when `vanish`
- * is set, open otherwise. Pure, so the invariant is testable without a GPU.
- */
-export function lodCopies(
-  d: number,
-  ladder: readonly LodRung[],
-  vanish: boolean,
-  margin: number = LOD_MARGIN_M,
-): LodEmission[] {
-  const emitted: boolean[] = ladder.map((r) => d >= r.lo - margin && d < r.hi + margin);
-  if (!emitted.some(Boolean)) {
-    // Beyond the ladder (the caller culls there) or before it: keep the
-    // nearest rung fully open rather than draw nothing.
-    let best = 0;
-    for (let i = 1; i < ladder.length; i++) {
-      if (Math.abs(d - ladder[i].lo) < Math.abs(d - ladder[best].lo)) best = i;
-    }
-    emitted[best] = true;
-  }
-  const out: LodEmission[] = [];
-  for (let i = 0; i < ladder.length; i++) {
-    if (!emitted[i]) continue;
-    const rung = ladder[i];
-    const dIn = i > 0 && emitted[i - 1] ? rung.lo : 0;
-    const isLast = i === ladder.length - 1;
-    let dOut = LOD_OPEN_M;
-    let wOut = 0;
-    if (!isLast && emitted[i + 1]) dOut = rung.hi;
-    else if (isLast && vanish) { dOut = rung.hi; wOut = LOD_CULL_BAND_M; }
-    out.push({ level: rung.level, band: [dIn, dOut, 0, wOut] });
   }
   return out;
 }
@@ -246,6 +188,7 @@ float esLodRamp(float edge, float w, float d) {
   // vec4(dIn, dOut, wIn, wOut) metres. Unbound => (0,0,0,0) => fully visible.
   attribute vec4 esLodBand;
 #endif
+${BATCH_DATA_HEAD}
 `;
 
 const VERTEX_BODY = /* glsl */ `
@@ -253,6 +196,11 @@ const VERTEX_BODY = /* glsl */ `
   #ifdef USE_INSTANCING
     vec3 esLodOrigin = instanceMatrix[3].xyz;
     vec4 esBand = esLodBand;
+  #elif defined(USE_BATCHING)
+    // BatchedMesh has no instanced attributes: the band rides texel 0 of the
+    // per-instance data texture (decision 0082 §5).
+    vec3 esLodOrigin = batchingMatrix[3].xyz;
+    vec4 esBand = esBatchTexel(0);
   #else
     vec3 esLodOrigin = vec3(0.0);
     vec4 esBand = vec4(0.0);
@@ -272,6 +220,21 @@ const VERTEX_BODY = /* glsl */ `
   // pivot makes its triangles zero-area, so the rasteriser produces no
   // fragments at all and the copy costs vertex work only.
   if (esLodIn <= 0.0 || esLodOut >= 1.0) transformed = vec3(0.0);
+  #ifdef USE_BATCHING
+  // Terrain occlusion, read from the incrementally swept mask rather than
+  // decided on the CPU per instance (decision 0082 §6). 0071's rule is
+  // unchanged: nothing nearer than OCCLUSION_MIN_DISTANCE_M is ever culled.
+  if (esLodD > ${OCCLUSION_MIN_DISTANCE_M.toFixed(1)}) {
+    ivec2 esOccCell =
+      ivec2(floor(esLodOrigin.xz / esOccParams.w)) - ivec2(esOccParams.xy);
+    int esOccSize = int(esOccParams.z);
+    if (esOccCell.x >= 0 && esOccCell.y >= 0
+        && esOccCell.x < esOccSize && esOccCell.y < esOccSize
+        && texelFetch(esOccMask, esOccCell, 0).r > 0.5) {
+      transformed = vec3(0.0);
+    }
+  }
+  #endif
 }
 `;
 

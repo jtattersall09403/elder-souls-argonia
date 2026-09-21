@@ -24,6 +24,7 @@
  */
 
 import * as THREE from "three";
+import { BATCH_DATA_HEAD } from "./batchData";
 
 /** The uniform block a group of vegetation materials shares. */
 export interface WindUniforms {
@@ -145,6 +146,7 @@ uniform float esWindFadeM;
   // vec2(stiffness - 1, sink metres). Unbound => (0, 0) => neutral.
   attribute vec2 esWindTune;
 #endif
+${BATCH_DATA_HEAD}
 
 // Cheap hash for a per-instance phase, so neighbours are never in step.
 float esWindPhase(vec2 p) {
@@ -173,6 +175,16 @@ const VERTEX_BODY = /* glsl */ `
     float esSink = esWindTune.y;
     float esRawHeight = (esBasis * transformed).y;
     // Uniform instance scale, so squared length of any basis column gives s².
+    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
+  #elif defined(USE_BATCHING)
+    // BatchedMesh: the basis is the batching matrix and the tune rides texel
+    // 1 of the per-instance data texture (decision 0082 §5).
+    mat3 esBasis = mat3(batchingMatrix);
+    vec3 esInstanceOrigin = batchingMatrix[3].xyz;
+    vec2 esTune = esBatchTexel(1).xy;
+    float esStiffness = 1.0 + esTune.x;
+    float esSink = esTune.y;
+    float esRawHeight = (esBasis * transformed).y;
     float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
   #else
     mat3 esBasis = mat3(1.0);

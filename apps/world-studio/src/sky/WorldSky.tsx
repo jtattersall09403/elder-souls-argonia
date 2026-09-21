@@ -15,6 +15,7 @@ import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
 import { reapplyLodFade } from "@elder-souls/game-core/fx/lodFade";
+import { reapplyBatchData } from "@elder-souls/game-core/fx/batchData";
 import { reapplyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
 import { reapplyGroundTint } from "../vegetation/Groundcover";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
@@ -809,6 +810,11 @@ export function WorldSky({
           // stops, both copies of a crossfading instance draw solid, and
           // vegetation doubles up at every ring.
           reapplyLodFade(m);
+          // The batched-foliage head (per-instance band, wind tune and the
+          // occlusion mask) rides the same assignment. Lose it and every
+          // batched instance reads a zero band: every rung of every species
+          // draws solid at every distance, unfaded and unoccluded.
+          reapplyBatchData(m);
           // The card tier's cylindrical billboard rides the same vertex seam
           // and is wiped by the same assignment; restored AFTER the fade,
           // which owns the `esLodViewPos` declaration the card reuses. Lose

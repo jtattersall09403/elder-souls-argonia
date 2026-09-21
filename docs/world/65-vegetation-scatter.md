@@ -30,16 +30,28 @@ architecture is four tiers:
 | Tier | What | How | Budget guide (per chunk) |
 |---|---|---|---|
 | **T1 Hero placed statics** | authored/compiler-placed identity assets: hero trees, root formations, rock outcrops, wrecks | `BatchedMesh` per atlas group; compiled colliders (trunk capsules only) | 50–300 refs |
-| **T2 Instanced mid detail** | seed-stable scattered trees/shrubs/large reeds | binary transforms **in the chunk bundle** (`vegetation-instances.bin`, ~12–16 B/instance); rendered via the instancing library with BVH frustum culling + LOD chain (full mesh → reduced → billboard) | 1–5k; ≤~50k visible total |
+| **T2 Instanced mid detail** | seed-stable scattered trees/shrubs/large reeds | binary transforms **in the chunk bundle** (`vegetation-instances.bin`, ~12–16 B/instance); rendered by the cell renderer below (decision 0082) with an LOD ladder (full mesh → reduced → card) | 1–5k; ≤~50k visible total |
 | **T3 Groundcover** | grass, small reeds, ferns, litter | **not in bundles** — regenerated at runtime from the land-cover raster (same deterministic hash as the compiler) in a camera ring; atlas cross-quads; no collision, no shadow casting | 30k / 45k / 60k instances in the ring by quality preset (`packages/game-core/src/core/quality.ts`); per-species fade bands and the ring radius are the quality knob (16f) |
 | **T4 Distant** | tree lines and silhouettes beyond T2 range | octahedral or cross-billboard impostors + compiler-baked merged far-LOD meshes per LOD-2 chunk (the DynDOLOD/OpenMW object-paging lesson) | one draw per chunk/species group |
 
 Library verdicts (details/citations in the research doc): three.js
-`InstancedMesh`/`BatchedMesh` core; **adopt `@three.ez/instanced-mesh`**
-(pinned and wrapped — active but pre-1.0); vendor/adapt the octahedral-impostor
-technique with Skyrim-style cross-billboards as the zero-risk fallback; no
-maintained grass library exists — our own small shader (atlas cross-quads
-default).
+`InstancedMesh`/`BatchedMesh` core, no instancing library (the cell renderer
+below made one unnecessary); vendor/adapt the octahedral-impostor technique
+with Skyrim-style cross-billboards as the zero-risk fallback; no maintained
+grass library exists — our own small shader (atlas cross-quads default).
+
+**The T2 renderer is the cell renderer** ([0082](../decisions/0082-vegetation-cells-are-built-once-and-the-gpu-picks-the-rung.md),
+`apps/world-studio/src/vegetation/Vegetation.tsx`). A CELL is one vegetation
+chunk (468 m). Its buffers are built ONCE, when the chunk decodes and its
+terrain is loaded. Every instance is emitted into EVERY rung of its species
+ladder with both band edges closed; the GPU picks the rung per pixel from
+the live camera distance ([0075](../decisions/0075-lod-is-a-ladder-stepped-from-the-camera.md)).
+Moving the camera never rebuilds anything. Copies live in one
+`THREE.BatchedMesh` per material key, so a species part is one draw where
+`WEBGL_multi_draw` exists. Per frame the CPU only gates — cell first, then
+58 m tile — switching whole runs of copies on and off. It also sweeps a few
+terrain-occlusion rays into a mask texture the vertex shader reads
+([0071](../decisions/0071-every-placed-thing-steps-down-through-bands-and-collides-as-itself.md)).
 
 ## 111. Deterministic scatter, wind, and constraints
 
@@ -107,7 +119,7 @@ seam, variation and determinism probes; the kit builder that turns sourced
 NIFs into runtime GLBs with LOD chains and collision proxies
 (`pipeline/build_kit.py`); the flora palettes and groundcover table
 (`world/sources/flora/`, densities settled by decision 0036); and **T1/T2 of
-the renderer** on plain `InstancedMesh`
+the renderer**
 ([apps/world-studio/src/vegetation/](../../apps/world-studio/src/vegetation/README.md))
 with a probe that reads instance/draw/triangle counters.
 

@@ -3,7 +3,6 @@ import * as THREE from "three";
 import {
   applyLodFade,
   createLodFadeUniforms,
-  lodCopies,
   lodCopyCollapsed,
   lodFadeFactors,
   lodLadder,
@@ -11,11 +10,18 @@ import {
   reapplyLodFade,
   BAYER4_THRESHOLDS,
   LOD_CULL_BAND_M,
-  LOD_MARGIN_M,
   LOD_OPEN_M,
-  LOD_REBUILD_MOVE_M,
   LOD_FRAGMENT_TEST,
 } from "./lodFade";
+import {
+  applyBatchData,
+  createBatchDataTexture,
+  createBatchDataUniforms,
+  reapplyBatchData,
+  writeBatchInstance,
+} from "./batchData";
+import { OCCLUSION_MIN_DISTANCE_M } from "../render/terrainOcclusion";
+
 
 /** How many of `bands` keep the pixel with threshold `bayer` at distance `d`. */
 function coverage(bands: readonly [number, number, number, number][], d: number, bayer: number): number {
@@ -57,62 +63,12 @@ describe("lodLadder", () => {
 });
 
 /**
- * Walk the camera in from `from` to 1 m with a rebuild every
- * LOD_REBUILD_MOVE_M of CHARACTER movement (the throttle at speed adds up to
- * `slack` more) while the camera sits `cameraOffset` metres ahead of (-) or
- * behind (+) the character, and require exactly one copy per pixel on every
- * frame. Returns the frames that broke it.
+ * The coverage invariant, the part that lives without a CPU rebuild: the
+ * ladder itself is walked against `cellRungs` in
+ * `vegetation/cellBuild.test.ts` (decision 0082), where the pre-0082
+ * `lodCopies` rule survives as the parity oracle.
  */
-function walk(
-  { ladder, vanish, maxDraw }: { ladder: ReturnType<typeof lodLadder>; vanish: boolean; maxDraw: number },
-  cameraOffset: number,
-  slack = 0,
-  from = maxDraw + 40,
-): string[] {
-  const holes: string[] = [];
-  let character = from;
-  let copies = lodCopies(character + cameraOffset, ladder, vanish);
-  let lastBuild = character;
-  for (; character > 1; character -= 0.25) {
-    if (lastBuild - character > LOD_REBUILD_MOVE_M + slack) {
-      const eye = character + cameraOffset;
-      copies = lodCopies(eye, ladder, vanish);
-      lastBuild = character;
-    }
-    const d = character + cameraOffset;
-    if (d < 0 || d > maxDraw - LOD_CULL_BAND_M) continue;
-    const bands = copies.map((c) => c.band);
-    for (const bayer of BAYER4_THRESHOLDS) {
-      const n = coverage(bands, d, bayer);
-      if (n !== 1) holes.push(`d=${d.toFixed(2)} bayer=${bayer}: ${n} copies`);
-    }
-  }
-  return holes;
-}
-
-describe("every frame draws exactly one copy per pixel", () => {
-  for (const [name, ladder] of Object.entries(LADDERS)) {
-    for (const cameraOffset of [0, 5.8, -5.8]) {
-      it(`${name}, camera ${cameraOffset} m from the character, rebuild every ${LOD_REBUILD_MOVE_M} m`, () => {
-        expect(walk(ladder, cameraOffset).slice(0, 5)).toEqual([]);
-      });
-    }
-    it(`${name}, a sprint that overruns the rebuild by the throttle slack`, () => {
-      expect(walk(ladder, -5.8, LOD_MARGIN_M - LOD_REBUILD_MOVE_M - 1).slice(0, 5)).toEqual([]);
-    });
-    it(`${name}, a rebuild that never lands still draws one copy per pixel`, () => {
-      // Outrun completely: the level is wrong for a while, never absent.
-      const holes: string[] = [];
-      const copies = lodCopies(ladder.maxDraw - 10, ladder.ladder, ladder.vanish);
-      for (let d = 0; d < ladder.maxDraw - LOD_CULL_BAND_M; d += 0.5) {
-        for (const bayer of BAYER4_THRESHOLDS) {
-          if (coverage(copies.map((c) => c.band), d, bayer) !== 1) holes.push(`d=${d}`);
-        }
-      }
-      expect(holes.slice(0, 5)).toEqual([]);
-    });
-  }
-
+describe("one copy per pixel", () => {
   it("was red on the round-4 rule: a rock's merged band dissolved at its inner ring", () => {
     // What rounds 2–4 emitted for a rock at 55 m: one copy whose band still
     // carried the ring-1 fade-in edge although nothing sat below it.
@@ -156,34 +112,6 @@ describe("every frame draws exactly one copy per pixel", () => {
 
   it("the GLSL discard is the mirror's comparison, both sides", () => {
     expect(LOD_FRAGMENT_TEST).toContain("esLodBayer >= vEsLod.x || esLodBayer < vEsLod.y");
-  });
-});
-
-describe("lodCopies", () => {
-  const { ladder } = LADDERS.palm19;
-  it("emits one open copy well away from any boundary", () => {
-    // The card rung is wide: 300 m is more than a margin from both its edges.
-    const copies = lodCopies(300, ladder, false);
-    expect(copies).toEqual([{ level: 3, band: [0, LOD_OPEN_M, 0, 0] }]);
-  });
-  it("closes an edge only against a neighbour that was emitted", () => {
-    const copies = lodCopies(96 - 10, ladder, false);
-    expect(copies.map((c) => c.level)).toEqual([1, 2]);
-    expect(copies[0].band).toEqual([0, 96, 0, 0]);
-    expect(copies[1].band).toEqual([96, LOD_OPEN_M, 0, 0]);
-  });
-  it("a vanishing species dithers its last edge; a land tree never does", () => {
-    const [rock] = lodCopies(60, LADDERS.rock2m.ladder, true);
-    expect(rock.band).toEqual([0, 70, 0, LOD_CULL_BAND_M]);
-    const [tree] = lodCopies(1900, ladder, false);
-    expect(tree.band[1]).toBe(LOD_OPEN_M);
-  });
-  it("never emits a level outside the ladder and never nothing", () => {
-    for (let d = 0; d <= 2100; d += 3) {
-      const copies = lodCopies(d, ladder, false);
-      expect(copies.length).toBeGreaterThan(0);
-      for (const c of copies) expect(ladder.some((r) => r.level === c.level)).toBe(true);
-    }
   });
 });
 
@@ -241,5 +169,87 @@ describe("applyLodFade", () => {
     const before = material.onBeforeCompile;
     reapplyLodFade(material);
     expect(material.onBeforeCompile).toBe(before);
+  });
+});
+
+describe("the USE_BATCHING branch (decision 0082 round 1)", () => {
+  it("injects both branches and reads the per-instance data texture", () => {
+    const material = new THREE.MeshStandardMaterial();
+    const shader = {
+      uniforms: {} as Record<string, unknown>,
+      vertexShader: "void main() {\n#include <begin_vertex>\n}",
+      fragmentShader: "void main() {\n}",
+    };
+    applyLodFade(material, createLodFadeUniforms());
+    material.onBeforeCompile(
+      shader as unknown as THREE.WebGLProgramParametersWithUniforms,
+      null as unknown as THREE.WebGLRenderer,
+    );
+    expect(shader.vertexShader).toContain("#ifdef USE_INSTANCING");
+    expect(shader.vertexShader).toContain("#elif defined(USE_BATCHING)");
+    expect(shader.vertexShader).toContain("esBatchTexel(0)");
+    expect(shader.vertexShader).toContain("batchingMatrix[3].xyz");
+    expect(shader.vertexShader).toContain("getIndirectIndex(gl_DrawID)");
+    // The terrain-occlusion collapse, read from the swept mask.
+    expect(shader.vertexShader).toContain("esOccMask");
+    expect(shader.vertexShader).toContain(
+      `esLodD > ${OCCLUSION_MIN_DISTANCE_M.toFixed(1)}`);
+  });
+});
+
+describe("applyBatchData", () => {
+  it("binds its uniforms and survives the CSM onBeforeCompile overwrite", () => {
+    const material = new THREE.MeshStandardMaterial();
+    const uniforms = createBatchDataUniforms();
+    applyBatchData(material, undefined, uniforms);
+    material.onBeforeCompile = () => undefined; // what CSM does
+    reapplyBatchData(material);
+    const shader = {
+      uniforms: {} as Record<string, unknown>,
+      vertexShader: "void main() {\n#include <begin_vertex>\n}",
+      fragmentShader: "void main() {\n}",
+    };
+    material.onBeforeCompile(
+      shader as unknown as THREE.WebGLProgramParametersWithUniforms,
+      null as unknown as THREE.WebGLRenderer,
+    );
+    expect(shader.vertexShader).toContain("esBatchTexel");
+    expect(shader.uniforms.esBatchData).toBe(uniforms.esBatchData);
+    expect(shader.uniforms.esOccParams).toBe(uniforms.esOccParams);
+  });
+
+  it("a grown batch reuses the patched material and re-points its texture", () => {
+    // `Material.clone` JSON-copies userData and drops onBeforeCompile, so a
+    // batch that grows must REUSE its material, never re-clone it.
+    const material = new THREE.MeshStandardMaterial();
+    const uniforms = createBatchDataUniforms();
+    applyBatchData(material, undefined, uniforms);
+    const first = createBatchDataTexture(8);
+    uniforms.esBatchData.value = first;
+    // What growBatch does: same material object, a bigger data texture.
+    const grown = createBatchDataTexture(16);
+    uniforms.esBatchData.value = grown;
+    const shader = {
+      uniforms: {} as Record<string, unknown>,
+      vertexShader: "void main() {\n}",
+      fragmentShader: "void main() {\n}",
+    };
+    material.onBeforeCompile(
+      shader as unknown as THREE.WebGLProgramParametersWithUniforms,
+      null as unknown as THREE.WebGLRenderer,
+    );
+    expect(shader.vertexShader).toContain("esBatchTexel");
+    expect(shader.uniforms.esBatchData).toBe(uniforms.esBatchData);
+    expect((shader.uniforms.esBatchData as { value: unknown }).value).toBe(grown);
+    // The husk a clone would have produced patches nothing.
+    const cloned = material.clone();
+    expect(cloned.userData.esBatchWrapped).toBeUndefined();
+  });
+
+  it("writes two RGBA texels per instance", () => {
+    const texture = createBatchDataTexture(4);
+    writeBatchInstance(texture, 2, [1, 2, 3, 4], -0.5, 0.25);
+    const data = texture.image.data as Float32Array;
+    expect([...data.slice(16, 24)]).toEqual([1, 2, 3, 4, -0.5, 0.25, 0, 0]);
   });
 });

@@ -139,3 +139,130 @@ ratios, counts exact); the last rebuild after walking 200 m:
 
 Pass one, the per-instance CPU walk this record removes, is 83–99 % of a
 rebuild. Draws to beat: 191–227.
+
+## Round-1 realisation (2026-09-20)
+
+Built behind `?veg=cells` as `apps/world-studio/src/vegetation/VegetationCells.tsx`,
+with the reusable parts in `packages/game-core/src/vegetation/`
+(`cellBuild.ts`, `cellGating.ts`, `cellRegistry.ts`, `occlusionMask.ts`) and
+`packages/game-core/src/fx/batchData.ts`. The old renderer stays the default.
+
+- **Batch key** is `material.uuid | depthMaterial.uuid | attribute signature |
+  near/far | card/mesh`. Near and far are separate batches because the near
+  one casts shadows and the far one does not; card and mesh are separate
+  because a card never sways and never receives shadow.
+- **Per-instance data** is two RGBA32F texels per instance on a
+  `DataTexture` per batch, indexed by `getIndirectIndex(gl_DrawID)`: texel 2i
+  is the LOD band, texel 2i+1 is (stiffness − 1, sink). `lodFade.ts` and
+  `windSway.ts` both emit the same `#ifndef ES_BATCH_DATA` head, so either
+  may be applied first and the preprocessor drops the duplicate.
+- **Gating is hierarchical: cell, then 58 m tile.** A cell is 468 m across and
+  a plant's draw distance is 24–100 m, so switching a whole cell on because
+  one corner of it is in range submitted an order of magnitude more vertices
+  than could be seen (16–27 M triangles against the old path's 2.7 M). Each
+  species' instances are therefore SORTED at build into an 8 × 8 grid of gate
+  tiles (`tileOffsets`, CSR, with per-tile extents), so a tile's copies are
+  one contiguous run of batch instances. The gate resolves the cheapest level
+  that answers: a cell wholly outside a band, or wholly inside it, answers for
+  all 64 tiles at once and costs one distance test; only a cell the band's
+  edge CROSSES pays a test per tile. `gateSpecies` reports
+  `visibleCopies`, `visibleTriangles`, `checksCell` and `checksTile`. Those
+  counters are the published stats; nothing re-walks the ranges.
+- **Occlusion is a shader mask**: a 128² R8 texture over 32 m cells, 64
+  occupied cells re-rayed per frame from the live camera, with the vertex
+  shader collapsing an instance whose cell is hidden beyond
+  `OCCLUSION_MIN_DISTANCE_M`. 0071's rule is unchanged; only where it is
+  evaluated moved. The window is anchored on the FOCUS CHUNK, not on the
+  camera's 32 m cell: re-anchoring every 32 m wiped the mask faster than a
+  frame's cells could refill it, so occlusion was effectively off while
+  walking, which is the one case it exists to serve. An anchor move reports
+  itself so the wipe is uploaded (the uniform must never point at a window the texture does
+  not hold). The sweep iterates the OCCUPIED cell list, never the 16 k texels.
+  `occluded` is published as INSTANCES in hidden cells, like-for-like with the
+  old path, not as a count of hidden texels. **Only an anchor move wipes the
+  mask.** A cell built or dropped changes the occupied set while every answer
+  the sweep has already paid for stays good. A dropped cell clears its OWN
+  texels (`clearCells`), since nothing sweeps them once it goes. A built cell
+  only appends; its new texels already read 0 = visible. Wiping on every load
+  and eviction left occlusion off for most of a walk.
+- **Materials are owned per BATCH KEY and patched once.** `Material.copy`
+  JSON-clones `userData` and drops `onBeforeCompile`, so cloning an
+  already-patched material yields a husk that every `apply*` guard treats as
+  patched: a batch that grew past capacity drew with no LOD fade, no wind and
+  no occlusion. A capacity growth now re-creates only the `BatchedMesh` and
+  the data texture, re-pointing `uniforms.esBatchData`. `reapplyBatchData`
+  joins `reapplyWindSway`/`reapplyLodFade` in WorldSky's CSM restore list, for
+  the same reason they are there.
+- **Wind is patched onto EVERY batch material, unconditionally.** A batch key
+  is a material. One glTF material is shared across primitives, so a rock and
+  a plant can land on the same key; patching only when the species that
+  created the batch swayed left that plant still for the session. Stillness is
+  per INSTANCE instead: a non-swaying species and every card copy carry
+  stiffness −1 in the data texture.
+- **Near-rung batches cast shadows and are never frustum-culled** — they cast
+  into the cascades from off-screen, so culling the cell would cull the
+  shadow with it. Far batches are culled per cell in the gating loop against
+  the cell's bounding sphere.
+- **A `drawScale` (quality tier) change rebuilds every cell; a kit arrival
+  rebuilds only the cells that SKIPPED one of the arriving species.** A cell
+  records the species it met but the kit did not hold, as `skippedSpecies`. A
+  cell never re-dirties for a species it has already built, so the underwater
+  kit arriving no longer rebuilds the whole ring.
+  Both are rare and user-driven. Movement never does: `CellRegistry`'s
+  `cameraMoved` is a no-op the unit test asserts.
+- **Eviction at ring + 1**: a cell further than that from the focus chunk
+  gives its batch instances back through `deleteInstance`.
+- **The Firefox fallback figure** is reported as `drawsFallback` — the number
+  of visible copies, which is what three issues without `WEBGL_multi_draw`.
+- **Why gating flips are the only per-frame cost**: with
+  `perObjectFrustumCulled = false` and `sortObjects = false`, three's
+  `onBeforeRender` loop runs only on frames where visibility changed, so a
+  frame with no rung transitions costs nothing beyond the uniforms.
+
+## Round 2 (2026-09-21)
+
+The cell renderer is now THE renderer. `VegetationCells.tsx` replaced
+`Vegetation.tsx`; the old per-rebuild path, the `renderer.ts` selector and the
+`?veg=` flag are gone. `Fly3D.tsx` and `CharacterMode.tsx` mount
+`<Vegetation>` directly. `lodCopies`, `LOD_MARGIN_M` and `LOD_REBUILD_MOVE_M`
+left `fx/lodFade.ts`: the rule survives verbatim in
+`vegetation/cellBuild.test.ts` as the PARITY ORACLE, which asserts the emitted
+rungs keep one copy per pixel and pick the same kit level the old rule picked
+at every distance. `probe-frame-work.mjs` lost its `VEG` switch and its
+old-path rebuild counter.
+
+The round-1 numbers at the jungle site (x 4.02, z 4.61, SwiftShader on this
+VM; ms are ratios, counts exact), before and after the tile-gating fix:
+
+| Window | Draws | Triangles | gatingMs / max | Cells built / rebuilt in the window |
+|---|---|---|---|---|
+| site, before | 92 | 16 230 252 | 0.6 / 3.5 | 0 / 0 |
+| site+200 m, before | 95 | 26 736 089 | 0.7 / 3.5 | 2 / 2 |
+| site, after | 161 | 3 958 534 | 0.8 / 201.3 | 1 / 1 |
+| site+200 m, after | 171 | 3 960 257 | 1.0 / 5.5 | 0 / 0 |
+
+The batch shader is checked by the probe's console gate: a float→int mix in
+the `getIndirectIndex` lookup escaped three sessions of SwiftShader probes,
+because a program that fails to compile is silent in every CPU counter while
+the gating loop keeps publishing healthy draws, instances and triangles.
+`probe-frame-work.mjs` now collects every `THREE.WebGLProgram` / shader
+compile message into `shaderErrors` per window and exits 2 if any window has
+one. `WINDOWS=1` runs the first site only; each window writes a PNG.
+
+Round-0 old path, for comparison: 191–227 draws, 2.59–2.71 M triangles, a
+full per-instance rebuild every 16 m. Walking 200 m now builds and rebuilds
+nothing; the 201.3 ms at the site is the first gating pass after the initial
+fill, inside a window the probe itself reports as `steady: false`.
+
+- **Open item.** `gatingMaxMs` is 5.5 in the steady window, against the
+  0.5 ms target. It is spent at visibility flips (a cell or tile crossing
+  a band edge), not on every frame — per-frame `gatingMs` is 0.8–1.0. The
+  owner's machine measured the same jungle work 5× faster than this VM
+  (16f ledger §16), so the expected worst frame there is around 1 ms. It is
+  watched at the owner walk rather than optimised blind.
+- **Firefox fallback.** Without `WEBGL_multi_draw` three issues one draw per
+  visible copy: about 50 000 at the jungle (`drawsFallback`), against 161–171
+  with the extension. Reported, never hidden (§ Decisions 10).
+- **Kit arrival.** The underwater kit arriving rebuilds only the cells that
+  SKIPPED one of its species — 13 of 25 cells at the jungle, once, when the
+  kit lands. No other event rebuilds a cell except a quality-tier change.

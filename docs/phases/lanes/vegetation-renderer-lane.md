@@ -14,32 +14,26 @@ detail level is chosen **per pixel on the GPU from the live camera distance**
 (decision 0075 unchanged); walking on foot never triggers a
 CPU pass over every instance. Draw calls stay at or below today's count.
 
-## Starting state (2026-09-20)
+## Starting state (after round 2, 2026-09-21)
 
-- One rebuild per 16 m (`LOD_REBUILD_MOVE_M`) or per chunk arrival, throttled
-  to 0.75 s: pass 1 walks every instance of every loaded chunk (about 80 k at
-  chunk ring 2) doing distance, a terrain-occlusion horizon test per 32 m
-  cell, a ground-height sample and the LOD-copy choice; pass 2 refills one
-  `InstancedMesh` per (species, level, quarter, part) from a pool. The
-  merge-across-chunks design exists because per-chunk meshes measured 449
-  draws for 13 chunks (comment at Vegetation.tsx ~515).
-- The 16g follow-up round (2026-09-20) slices that rebuild over frames with
-  the shared `FrameWorkQueue` (`packages/game-core/src/scheduling/`), which
-  removes the hitch but not the work. The queue stays: ground tiles,
-  colliders and buildings use it.
-- The shader side already does the right thing: `packages/game-core/src/fx/lodFade.ts`
-  keeps a single copy per pixel by a Bayer test against each copy's
-  distance band (hard steps, 0075; dithered vanish only at the ladder's end).
-  The CPU emits an instance only into the rungs within reach of the next
-  rebuild (`lodCopies`), which is the sole reason the buffers depend on where
-  the camera is.
-- Wind tuning and the LOD band ride per-instance attributes on a per-block
-  geometry view (`WIND_TUNE_ATTRIBUTE`, `LOD_BAND_ATTRIBUTE`).
+- The cell renderer IS the renderer: `apps/world-studio/src/vegetation/Vegetation.tsx`
+  is the round-1 cell path, mounted directly by `Fly3D.tsx` and
+  `CharacterMode.tsx`. The old per-rebuild path, the `renderer.ts` selector
+  and the `?veg=` flag are gone, as is `lodCopies` (it lives on in
+  `packages/game-core/src/vegetation/cellBuild.test.ts` as the parity oracle).
+- Reusable parts sit in `packages/game-core/src/vegetation/`
+  (`cellBuild.ts`, `cellGating.ts`, `cellRegistry.ts`, `occlusionMask.ts`)
+  and `packages/game-core/src/fx/batchData.ts`.
+- Measured at the jungle site (the lane's only measuring site, owner
+  2026-09-20): draws 161–171 against the old path's 191–227; 3.96 M
+  submitted triangles against 2.6–2.7 M; zero cells built or rebuilt while
+  walking 200 m. Open: `gatingMaxMs` 5.5 at visibility flips on this VM,
+  against the 0.5 ms target — watched at the owner walk.
 - Binding records: 0048 (between-region ladder), 0071 (card tier for every
   placed thing; terrain occlusion beyond 120 m per 32 m cell), 0072
-  (ground-cover tiers; 16 samplers), 0075 (LOD ladder, hard steps). The
-  vegetation data, bundle format and scatter are 16g's and frozen: this lane
-  reads them, never re-authors them.
+  (ground-cover tiers; 16 samplers), 0075 (LOD ladder, hard steps), 0082
+  (this lane). The vegetation data, bundle format and scatter are 16g's and
+  frozen: this lane reads them, never re-authors them.
 - Ground cover (`Groundcover.tsx`) is a separate, tile-based, already
   budgeted renderer. Out of scope.
 
@@ -118,11 +112,15 @@ a `USE_BATCHING` branch reading a texture indexed by
 
 Owner 2026-09-20: rounds 1 and 2 run in **one session**, invoked as
 "deliver vegetation renderer rounds 1 and 2". The session builds the new
-path behind the flag, runs the parity gate and the jungle numbers, and only
-then removes the old path; if a round-1 target is missed, it stops at round
-1, commits, and hands off with the numbers.
+path behind the flag, runs the parity gate and the jungle numbers, then
+removes the old path. If a round-1 target is missed it stops at round 1,
+commits, then hands off with the numbers.
 
-### Round 1 — build it beside the old path
+### Round 1 — build it beside the old path — DELIVERED 2026-09-21
+
+Built, measured and fixed: [0082 § Round-1 realisation](../../decisions/0082-vegetation-cells-are-built-once-and-the-gpu-picks-the-rung.md)
+and [the baseline doc § Round 1](../../research/vegetation/renderer-rewrite-baseline.md).
+
 
 - New renderer in `apps/world-studio/src/vegetation/VegetationCells.tsx`
   with the reusable parts in `packages/game-core/src/vegetation/`
@@ -141,7 +139,11 @@ then removes the old path; if a round-1 target is missed, it stops at round
   `probe-frame-work.mjs`. Target: zero rebuilds on movement, gating loop
   under 0.5 ms, draws at or below baseline (191–227).
 
-### Round 2 — switch over, gates, walk
+### Round 2 — switch over, gates, walk — DELIVERED 2026-09-21
+
+Old path, selector and flag removed; `lodCopies` retired to the parity
+oracle; gates green. See [0082 § Round 2](../../decisions/0082-vegetation-cells-are-built-once-and-the-gpu-picks-the-rung.md).
+
 
 - Old path removed; `?veg=` flag removed; `Fly3D` and character mode both
   on the new renderer; underwater kit; shadows; quality tiers.
@@ -182,5 +184,8 @@ no vegetation rebuild lines while walking.
 
 ## Closing the lane
 
-Row in the lanes README marked closed with the decision number; PROGRESS.md
-row closed; memory note; the 0071/0075 addenda in place; 16h may then start.
+- [x] Row in the lanes README marked closed with the decision number.
+- [x] PROGRESS.md row closed.
+- [x] The 0071/0075 addenda in place (round 0).
+- [ ] The owner walk above.
+- [ ] Memory note; 16h may then start.

@@ -1,59 +1,84 @@
 /**
- * Vegetation renderer: the compiler's chunk bundles drawn as instanced meshes,
- * LOD chosen per instance by distance (module 65 §110 tiers T1/T2).
+ * The T2 vegetation renderer: the compiler's chunk bundles drawn as batched
+ * meshes, with the detail rung chosen per pixel on the GPU (decision 0082,
+ * module 65 §110).
  *
- * Everything here is deliberately plain `InstancedMesh` rather than a library:
- * it is what any instancing wrapper is built on, it adds no dependency to
- * pin, and it is the honest baseline the budget probe should measure before
- * anything fancier is justified. The upgrade path (`@three.ez/instanced-mesh`
- * for BVH culling, octahedral impostors for T4) is module 65's, and should be
- * taken on evidence from that measurement rather than in advance.
+ * A CELL is one vegetation chunk (468 m). Its buffers are built ONCE, when
+ * the chunk decodes and its terrain is loaded, and every instance is emitted
+ * into EVERY rung of its species ladder with both band edges closed. The GPU
+ * picks the rung per pixel (`lodFade.ts`, decision 0075); the CPU never
+ * chooses one. A camera move NEVER rebuilds a cell — the gate for that lives
+ * in `CellRegistry` and is unit-tested.
+ *
+ * Copies live in one `THREE.BatchedMesh` per material key, so a species part
+ * is one draw where `WEBGL_multi_draw` exists (the fallback count is
+ * published as `drawsFallback`). Per frame the CPU does three small things
+ * and nothing else:
+ *   1. hierarchical gating — cell, then 58 m tile — switching whole runs of
+ *      batch instances on and off with `setVisibleAt`;
+ *   2. a few terrain-occlusion rays into a 128² mask texture the shader reads
+ *      (decision 0071's rule, evaluated incrementally);
+ *   3. the wind and camera uniforms.
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
-import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
-import { configureKitLoader, createKitLoader } from "@elder-souls/game-core/assets/kitLoader";
-import { useKitDecoders } from "@elder-souls/game-core/assets/useKitDecoders";
 import {
-  buildFloraKit,
-  mergeFloraKits,
   lodRings,
   maxDrawDistance,
   treeDrawDistance,
   SUBMERGED_MAX_DRAW_M,
   type FloraKit,
-  type KitManifest,
 } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import {
   applyWindSwayWithShadow,
   updateWindSway,
   windStiffness,
-  WIND_TUNE_ATTRIBUTE,
 } from "@elder-souls/game-core/fx/windSway";
 import { sharedWindUniforms } from "./windUniforms";
 import {
   applyLodFadeWithShadow,
   createLodFadeUniforms,
-  lodCopies,
   lodLadder,
-  LOD_BAND_ATTRIBUTE,
-  LOD_REBUILD_MOVE_M,
 } from "@elder-souls/game-core/fx/lodFade";
 import {
-  OcclusionCellCache,
-  OCCLUSION_MIN_DISTANCE_M,
-} from "@elder-souls/game-core/render/terrainOcclusion";
+  applyBatchData,
+  BATCH_DATA_TEXELS,
+  createBatchDataTexture,
+  createBatchDataUniforms,
+  writeBatchInstance,
+} from "@elder-souls/game-core/fx/batchData";
+import { OCCLUSION_CELL_M, OCCLUSION_MIN_DISTANCE_M } from "@elder-souls/game-core/render/terrainOcclusion";
+import { isSolid, type FloraCollider, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
 import {
-  collidersFor,
-  isSolid,
-  type FloraCollider,
-  type SolidInstance,
-} from "@elder-souls/game-core/physics/floraSolids";
+  buildCellJob,
+  cellRungs,
+  copiesPerKey,
+  CELL_TILES,
+  TILE_BOUNDS_STRIDE,
+  type CellBuild,
+  type CopiesSpecies,
+  type CellInstance,
+  type CellSpeciesBuild,
+  type CellSpeciesParams,
+  type CellSpeciesSource,
+} from "@elder-souls/game-core/vegetation/cellBuild";
+import {
+  gateSpecies,
+  type GateSpecies,
+  type GateRung,
+  type GateStats,
+  type GateTile,
+} from "@elder-souls/game-core/vegetation/cellGating";
+import {
+  CellRegistry,
+  type TerrainLod,
+} from "@elder-souls/game-core/vegetation/cellRegistry";
+import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
 import { lastWeatherSample } from "../weather/weatherState";
-import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
+import { useFloraKit, useColliderShapes } from "./useFloraKit";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { groundHeightM } from "./terrainHeight";
 import {
@@ -61,149 +86,164 @@ import {
   decodeVegetationBundle,
   readInstance,
   type VegetationBundle,
-  type VegetationIndex,
 } from "./vegetationBundle";
-
-/** Chunks drawn around the focus. Beyond this a chunk is simply not built. */
-const CHUNK_RING = 2;
-/**
- * How close (metres, horizontal) a sea-bed instance must come to the focus
- * before the underwater kit is fetched: 3.3x the 120 m it draws at. A runner
- * (~7 m/s) needs ~40 s to close the 280 m gap; a 27 MB kit on a 20 Mbit/s
- * link takes ~11 s. Underwater spawns are inside it and fetch at once.
- */
-const UNDERWATER_KIT_LEAD_M = 400;
-
-/** Hard cap per (species, level) draw so a pathological chunk cannot stall. */
-const MAX_PER_DRAW = 6000;
-
-interface ChunkVegetation {
-  key: string;
-  originX: number;
-  originZ: number;
-  bundle: VegetationBundle;
-}
-
-interface DrawGroup {
-  mesh: THREE.InstancedMesh;
-  species: string;
-  level: number;
-}
 
 export interface VegetationStats {
   chunks: number;
   instances: number;
   draws: number;
   triangles: number;
-  /** Instances skipped by the per-species draw-distance cull. */
+  /** Copies gated off this frame (not instances; not comparable with the
+   * pre-0082 figure, which counted instances skipped by the draw cull). */
   culled: number;
   /** Instances drawn as their `_lod_flat` far billboard (T4). */
   billboardInstances: number;
-  /** Instances dropped because a ridge stands between them and the camera
-   * (`OcclusionCellCache`, one ray per 32 m cell). */
+  /** Instances in mask cells a ridge hides from the camera (`OcclusionMask`,
+   * one ray per 32 m cell, decision 0071). */
   occluded: number;
-  /** Per-species drawn instances and world-Y range at this rebuild. Added
+  /** Per-species drawn copies and the INSTANCE world-Y range they lie in. Added
    * 2026-09-17 for the "underwater band invisible" probe: the aggregate
    * counts cannot tell a missing species from a distant one. */
   bySpecies: Record<string, { drawn: number; minY: number; maxY: number }>;
-  /** Wall time of the last rebuild, ms: `bucket` is pass one (cull, ground,
-   * LOD, bucket), `fill` is pass two (matrices, attributes, pool), `total`
-   * the whole effect. Published so the walking stutter is measured, not
-   * guessed (16f round 3). */
-  /** `frames` is how many frame-work pump calls the rebuild spanned
-   * (walking-stutter fix, owner 2026-09-20). */
-  rebuildMs: {
-    /** Main-thread milliseconds the rebuild actually SPENT, summed across the
-     * frames it was sliced over — never the wall clock between them. */
-    total: number; bucket: number; fill: number;
-    /** Pump calls it spanned, and the wall clock from first step to last. */
-    frames: number; elapsedMs: number;
-  };
+  /** The LAST CELL BUILD, ms: `total` is the main-thread time it actually
+   * spent, summed across the frame-work pump calls it was sliced over
+   * (`frames`), never the wall clock between them (`elapsedMs`). */
+  rebuildMs: { total: number; frames: number; elapsedMs: number };
+  /** Draws the no-`WEBGL_multi_draw` fallback would issue (visible copies). */
+  drawsFallback: number;
+  cellBuilds: number;
+  cellRebuilds: number;
+  cellRebuildReasons: Record<string, number>;
+  /** Milliseconds the last frame's gating loop took, and the worst of 60. */
+  gatingMs: number;
+  gatingMaxMs: number;
+  /** Milliseconds the last frame's occlusion-mask sweep took. */
+  maskMs: number;
+  batches: number;
+  /** Every copy resident in the batches, visible or not. */
+  copiesTotal: number;
+  /** Cells loaded but not yet built, plus cells with a build job running: a
+   * probe reads 0 as "steady state reached". */
+  cellsPending: number;
+  /** Monotonic frame counter, so a probe can see the renderer is alive. */
+  frame: number;
 }
+
+const CHUNK_RING = 2;
+const UNDERWATER_KIT_LEAD_M = 400;
+const MAX_PER_DRAW = 6000;
+/** Occlusion cells re-rayed per frame. 64 keeps a ~5 000-cell occupied set
+ * under ~80 frames of staleness; the sweep costs ~0.1 ms (`maskMs`). */
+const MASK_CELLS_PER_FRAME = 64;
+/** Instances a brand-new batch reserves, whatever the first cell needs. */
+const MIN_BATCH_CAPACITY = 256;
+const MASK_SIZE = 128;
+
+/**
+ * DIAGNOSTIC SWITCH (DEV only, `?vegshader=0`): draw every batch with the
+ * plain cloned kit material — no wind sway, no LOD fade, no batch-data
+ * occlusion. Every rung then draws on top of every other one, unfaded. It
+ * exists to tell "the geometry is not there" from "the shader hides it";
+ * it is never a rendering mode.
+ */
+const VEG_SHADER_OFF = import.meta.env.DEV
+  && typeof window !== "undefined"
+  && new URLSearchParams(window.location.search).get("vegshader") === "0";
 
 function chunkKey(cx: number, cz: number): string {
   return `${cx}_${cz}`;
 }
 
-/**
- * The `esWindTune` instanced attribute for one kit geometry, allocated once
- * and grown as needed. Cached on the geometry itself so a rebuild reuses the
- * same GPU buffer (see the call site for why a fresh attribute each time is
- * not free).
- */
-function instancedAttribute(
-  geometry: THREE.BufferGeometry,
-  name: string,
-  itemSize: number,
-  instances: number,
-): THREE.InstancedBufferAttribute {
-  const existing = geometry.getAttribute(name) as
-    | THREE.InstancedBufferAttribute
-    | undefined;
-  if (existing && existing.count >= instances) return existing;
-  const grown = new THREE.InstancedBufferAttribute(
-    new Float32Array(Math.max(instances, 64) * itemSize), itemSize);
-  geometry.setAttribute(name, grown);
-  return grown;
-}
-
-/** Flag an instanced buffer for upload, but only its FILLED prefix: pooled
- * buffers are over-allocated by 1.5x, and a bare `needsUpdate` would re-send
- * the slack on every rebuild. */
-function uploadRange(attribute: THREE.BufferAttribute, floats: number): void {
-  attribute.clearUpdateRanges();
-  attribute.addUpdateRange(0, floats);
-  attribute.needsUpdate = true;
+function cellId(cx: number, cz: number): number {
+  return (cx + 32768) * 65536 + (cz + 32768);
 }
 
 /**
- * Metres. A vegetation mesh casts into the shadow cascades only while its
- * bounding sphere's centre is within this of the focus. The character CSM
- * reaches 300 m over 2 cascades; trees further out contribute nothing a
- * player can see and cost a full alpha-tested depth pass each.
+ * What a batch GROWTH needs to re-add one part's geometry to the fresh mesh.
+ * Deliberately holds NO `CellSpeciesBuild`: the instances are copied out of
+ * the old `BatchedMesh` and its data texture, so a finished cell keeps no
+ * second CPU copy of its placements (review, round 2).
  */
-const SHADOW_CAST_RANGE_M = 60;   // 120 m cast every near canopy into both cascades (2026-09-16)
+interface ReplaySpec {
+  geometryKey: string;
+  geometry: THREE.BufferGeometry;
+}
 
-/**
- * Block slot for a (species, level) small enough to stay unsplit. Distinct
- * from the four quarters because the wind-tune attribute is per block: two
- * buckets sharing a slot would share one attribute and re-tune each other.
- */
-const UNSPLIT_BLOCK = 4;
+/** A tile carries the shared per-part batch array of its rung. */
+interface CellTile extends GateTile {
+  batches: Batch[];
+}
 
-/** Per-block geometry views, cached on the source kit geometry. */
-const BLOCK_GEOMETRIES = Symbol("esBlockGeometries");
+/** One species × rung of one cell, tiled, with the instances it owns. */
+interface CellRungEntry extends GateRung {
+  tiles: CellTile[];
+  level: number;
+  isCard: boolean;
+  species: string;
+  /** One batch per kit part; replaced in place when a batch grows. */
+  partBatches: Batch[];
+  /** One id array per kit part, in tile order; rewritten in place on grow. */
+  partIds: Int32Array[];
+  partSpecs: ReplaySpec[];
+}
 
-/**
- * A view of a kit geometry for one neighbourhood block: the same index and
- * the same vertex attributes (by reference — no buffer is copied or
- * uploaded twice), with room for its own `esWindTune` instanced attribute.
- * Cached on the source so a rebuild reuses it; block 0 is the source itself.
- */
-function blockGeometry(source: THREE.BufferGeometry, block: number): THREE.BufferGeometry {
-  if (block === 0) return source;
-  const host = source as unknown as
-    { [BLOCK_GEOMETRIES]?: Map<number, THREE.BufferGeometry> };
-  let cache = host[BLOCK_GEOMETRIES];
-  if (!cache) {
-    cache = new Map();
-    host[BLOCK_GEOMETRIES] = cache;
-  }
-  const cached = cache.get(block);
-  if (cached) return cached;
-  const view = new THREE.BufferGeometry();
-  view.setIndex(source.getIndex());
-  for (const [name, attribute] of Object.entries(source.attributes)) {
-    if (name === WIND_TUNE_ATTRIBUTE || name === LOD_BAND_ATTRIBUTE) continue;
-    view.setAttribute(name, attribute);
-  }
-  for (const group of source.groups) view.addGroup(group.start, group.count, group.materialIndex);
-  source.computeBoundingSphere();
-  source.computeBoundingBox();
-  view.boundingSphere = source.boundingSphere ? source.boundingSphere.clone() : null;
-  view.boundingBox = source.boundingBox ? source.boundingBox.clone() : null;
-  cache.set(block, view);
-  return view;
+interface CellSpeciesEntry extends GateSpecies {
+  rungs: CellRungEntry[];
+  /** The species' INSTANCE Y range in this cell (not the gate sphere), so the
+   * `bySpecies` stat answers "where in the water column is it?" as it did
+   * before 0082. Aggregated over the cell's non-empty gate tiles. */
+  instMinY: number;
+  instMaxY: number;
+}
+
+interface Batch {
+  key: string;
+  mesh: THREE.BatchedMesh;
+  material: THREE.Material;
+  depthMaterial: THREE.Material | undefined;
+  capacity: number;
+  used: number;
+  data: THREE.DataTexture;
+  geometryIds: Map<string, number>;
+  vertexCapacity: number;
+  indexCapacity: number;
+  near: boolean;
+  isCard: boolean;
+  /** Copies currently switched visible — the draw-count signal. */
+  visibleCopies: number;
+  rungs: Set<CellRungEntry>;
+}
+
+/** The patched materials one batch KEY owns, kept across capacity growth. */
+interface BatchMaterials {
+  material: THREE.Material;
+  depthMaterial: THREE.Material | undefined;
+  uniforms: {
+    esBatchData: { value: THREE.DataTexture | null };
+    esOccMask: { value: THREE.DataTexture | null };
+    esOccParams: { value: THREE.Vector4 };
+  };
+}
+
+interface Cell {
+  key: string;
+  originX: number;
+  originZ: number;
+  bundle: VegetationBundle;
+  /** Only what the renderer still needs after the build: the CPU placements
+   * are dropped with the `CellBuild`. */
+  build: { solids: SolidInstance[] } | null;
+  lod: TerrainLod;
+  species: CellSpeciesEntry[];
+  /** (cellX, cellZ, instances) triples of the 32 m cells this cell occupies. */
+  occCells: number[];
+}
+
+function attributeSignature(geometry: THREE.BufferGeometry): string {
+  return Object.keys(geometry.attributes)
+    .sort()
+    .map((name) => `${name}:${geometry.attributes[name].itemSize}`)
+    .join(",");
 }
 
 export function Vegetation({
@@ -215,819 +255,1075 @@ export function Vegetation({
   onSolids,
   shapesRef,
 }: {
-  /** Same shape the chunk terrain uses: ground position, not a camera. */
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   baseUrl: string;
   verticalScale?: number;
   onStats?: (stats: VegetationStats) => void;
   quality?: QualitySettings;
-  /** Solid instances (trunks, boulders, root arches) placed this rebuild, in
-   * final world positions. Character mode turns these into Rapier colliders;
-   * fly mode passes nothing and pays nothing. Injected rather than published
-   * to a global so the two apps stay uncoupled. */
   onSolids?: (solids: SolidInstance[]) => void;
-  /** Filled once the kit is loaded with the collider shape set per species —
-   * ROCKS AS THEIR OWN TRIANGLES, which only this component can build because
-   * only it holds the kit geometry. The collider ring reads it rather than
-   * re-fetching the manifest and boxing everything. */
   shapesRef?: React.MutableRefObject<Map<string, FloraCollider[]> | null>;
 }) {
   const chunkRing = quality?.vegChunkRing ?? CHUNK_RING;
   const drawScale = quality?.vegDrawScale ?? 1;
   const root = useRef<THREE.Group>(null);
-  // Streamed terrain, for re-grounding baked instance heights: the compiler
-  // bakes Y from its own raster, which can sit a metre off the rendered mesh
-  // on banks/slopes — enough to float a root arch (owner round 3).
-  const store = sharedChunkStore(baseUrl);
-  const [chunksManifest, setChunksManifest] = useState<ChunksManifest | null>(null);
-  const [index, setIndex] = useState<VegetationIndex | null>(null);
-  /** Both kit manifests: the land kit and the 16f underwater band kit. */
-  const [manifest, setManifest] = useState<KitManifest | null>(null);
-  const [underwaterManifest, setUnderwaterManifest] = useState<KitManifest | null>(null);
-  const loaded = useRef(new Map<string, ChunkVegetation>());
-  const pending = useRef(new Set<string>());
-  const groups = useRef<DrawGroup[]>([]);
-  // The rebuild runs as a budgeted generator job (priority 30) rather than
-  // one synchronous burst per crossing (owner 2026-09-20).
+  const {
+    kit, index, manifest, underwaterManifest, chunksManifest, store,
+    requestUnderwater,
+  } = useFloraKit(baseUrl);
+  useColliderShapes(kit, manifest, underwaterManifest, shapesRef);
+
   const queue = useFrameWork();
-  /**
-   * Persistent instanced meshes keyed `species|level|block|part`, alive for
-   * the component's life (the ground-cover ring's mechanism 7). A rebuild
-   * used to dispose and recreate every mesh, re-uploading every buffer 16 m
-   * apart — the walking stutter. Now a rebuild writes into the pooled mesh,
-   * grows it by 1.5x only when it is too small, and parks an unfilled one at
-   * `count = 0`. Disposed on unmount only.
-   */
-  const pool = useRef(new Map<string, THREE.InstancedMesh>());
+  const wind = sharedWindUniforms;
+  const lodFade = useMemo(() => createLodFadeUniforms(), []);
+  const batchUniforms = useMemo(() => createBatchDataUniforms(), []);
+  const mask = useMemo(() => new OcclusionMask(MASK_SIZE, OCCLUSION_CELL_M), []);
+  const maskTexture = useMemo(() => {
+    const texture = new THREE.DataTexture(
+      mask.data, MASK_SIZE, MASK_SIZE, THREE.RedFormat, THREE.UnsignedByteType);
+    texture.minFilter = THREE.NearestFilter;
+    texture.magFilter = THREE.NearestFilter;
+    texture.generateMipmaps = false;
+    texture.needsUpdate = true;
+    return texture;
+  }, [mask]);
   useEffect(() => {
-    const live = pool.current;
-    const group = root.current;
-    return () => {
-      for (const mesh of live.values()) {
-        group?.remove(mesh);
-        mesh.dispose();
-      }
-      live.clear();
-    };
-  }, []);
-  /** Last state the chunk-ring scan ran against (see the scan guard). */
-  const lastScan = useRef<
-    { cx: number; cz: number; loaded: number; pending: number } | null>(null);
+    batchUniforms.esOccMask.value = maskTexture;
+    return () => { maskTexture.dispose(); };
+  }, [batchUniforms, maskTexture]);
 
-  // Two kits, one renderer: the palettes place land species (trees, shrubs,
-  // rocks) and the 16f underwater band (kelp, corals, shell beds, wrecks),
-  // which ship in separate GLBs. The land kit loads up front (Suspense); the
-  // 27 MB underwater kit loads ON DEMAND, the first time a rebuild meets an
-  // instance whose species only that kit holds within UNDERWATER_KIT_LEAD_M
-  // of the focus (16f round 4). The sea bed draws to SUBMERGED_MAX_DRAW_M
-  // (120 m), so the request goes out well before a walker can see the bed;
-  // an underwater spawn requests it on the first rebuild, the same moment it
-  // used to start loading. The chunk ring is NOT the trigger: rivers and
-  // lakes carry bed dressing too, so 210 of the province's 256 chunks hold a
-  // sea-bed species and no 5x5 ring is without one.
-  // Kits ship KTX2/meshopt-compressed (pipeline/kit_compress.py); the
-  // decoders are the renderer's, shared by every kit load.
-  const decoders = useKitDecoders(baseUrl);
-  const gltf = useLoader(GLTFLoader, `${baseUrl}kits/flora-province-v1.glb`,
-    (loader) => configureKitLoader(loader, decoders));
-  const [underwaterGltf, setUnderwaterGltf] = useState<GLTF | null>(null);
-  const [underwaterWanted, setUnderwaterWanted] = useState(false);
-  useEffect(() => {
-    if (!underwaterWanted) return;
-    let cancelled = false;
-    createKitLoader(decoders).loadAsync(`${baseUrl}kits/underwater-v1.glb`)
-      .then((g) => { if (!cancelled) setUnderwaterGltf(g); })
-      .catch((error: unknown) => {
-        console.error("[vegetation] underwater kit failed to load", error);
-      });
-    return () => { cancelled = true; };
-  }, [baseUrl, underwaterWanted, decoders]);
-
-  useEffect(() => {
-    let cancelled = false;
-    Promise.all([
-      fetch(`${baseUrl}province/vegetation/vegetation-index.json`).then((r) => r.json()),
-      fetch(`${baseUrl}kits/flora-province-v1.kit.json`).then((r) => r.json()),
-      fetch(`${baseUrl}kits/underwater-v1.kit.json`).then((r) => r.json()),
-    ])
-      .then(([i, m, u]) => {
-        if (!cancelled) {
-          setIndex(i as VegetationIndex);
-          setManifest(m as KitManifest);
-          setUnderwaterManifest(u as KitManifest);
-        }
-      })
-      // Never silent: a bundle index or kit manifest that fails to load is
-      // the whole scatter layer missing, and a swallowed rejection was how
-      // "every tree and rock vanished" reached the owner with no console line.
-      .catch((error: unknown) => {
-        console.error("[vegetation] index or kit manifest failed to load", error);
-      });
-    store.manifest()
-      .then((m) => { if (!cancelled) setChunksManifest(m); })
-      .catch(() => undefined);
-    return () => {
-      cancelled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [baseUrl]);
-
-  const kit: FloraKit | null = useMemo(() => {
-    if (!manifest || !underwaterManifest) return null;
-    // First wins on a duplicate id: a few assets (tbp_seaweed06,
-    // waterkelptall02/03) ship in both kits, and the palettes were authored
-    // against the land kit's copy.
-    const land = buildFloraKit(gltf, manifest);
-    const merged = underwaterGltf
-      ? mergeFloraKits(land, buildFloraKit(underwaterGltf, underwaterManifest, true))
-      : land;
-    if (import.meta.env.DEV) {
-      console.info(`[vegetation] kit: ${merged.size} assets (flora${underwaterGltf ? " + underwater" : ""})`);
-    }
-    return merged;
-  }, [gltf, underwaterGltf, manifest, underwaterManifest]);
-
-  // Collider shapes, built ONCE per kit load. A `convex` species (every rock,
-  // boulder pile and cliff shell) collides as its own LOD0 triangles: a box
-  // around a 30 m cliff walls off the ledge it exists to offer, and a box
-  // around a boulder pile stops the player a metre short of the stone. The
-  // geometry comes from the kit the renderer already holds, so nothing is
-  // fetched or decoded twice.
-  useEffect(() => {
-    if (!shapesRef || !kit || !manifest || !underwaterManifest) return;
-    const assets = new Map(
-      [...underwaterManifest.assets, ...manifest.assets].map((a) => [a.id, a]),
-    );
-    const geometryFor = (assetId: string) => {
-      const parts = kit.get(assetId)?.levels[0]?.parts;
-      if (!parts?.length) return null;
-      // One merged array pair across the level's parts, index offsets applied.
-      let vertexCount = 0;
-      let indexCount = 0;
-      for (const part of parts) {
-        const position = part.geometry.getAttribute("position");
-        const index = part.geometry.getIndex();
-        vertexCount += position.count;
-        indexCount += index ? index.count : position.count;
-      }
-      const positions = new Float32Array(vertexCount * 3);
-      const index = new Uint32Array(indexCount);
-      let vertexAt = 0;
-      let indexAt = 0;
-      for (const part of parts) {
-        const position = part.geometry.getAttribute("position");
-        for (let i = 0; i < position.count; i++) {
-          positions[(vertexAt + i) * 3] = position.getX(i);
-          positions[(vertexAt + i) * 3 + 1] = position.getY(i);
-          positions[(vertexAt + i) * 3 + 2] = position.getZ(i);
-        }
-        const partIndex = part.geometry.getIndex();
-        const count = partIndex ? partIndex.count : position.count;
-        for (let i = 0; i < count; i++) {
-          index[indexAt + i] = (partIndex ? partIndex.getX(i) : i) + vertexAt;
-        }
-        vertexAt += position.count;
-        indexAt += count;
-      }
-      return { positions, index };
-    };
-    const shapes = new Map<string, FloraCollider[]>();
-    for (const id of kit.keys()) {
-      shapes.set(id, collidersFor(assets.get(id), geometryFor));
-    }
-    shapesRef.current = shapes;
-  }, [kit, manifest, underwaterManifest, shapesRef]);
-
-  // Rebuild the instanced meshes whenever the set of loaded chunks changes —
-  // or the CAMERA has moved far enough that per-instance LOD choices are
-  // stale. The camera, not the focus: the shader steps levels on the camera
-  // distance, so the copies must be chosen from the same point (round 5 —
-  // the character-position choice left the camera, orbiting 5.8 m around
-  // the character, outside the copies' reach and drew half-trees).
+  const cells = useRef(new Map<string, Cell>());
+  const pending = useRef(new Set<string>());
+  const batches = useRef(new Map<string, Batch>());
+  const registry = useRef(new CellRegistry());
+  const jobs = useRef(new Map<string, { cancel(): void }>());
+  const batchMaterials = useRef(new Map<string, BatchMaterials>());
+  const mounted = useRef(true);
+  const allSpecies = useRef<CellSpeciesEntry[]>([]);
+  const copiesTotal = useRef(0);
+  const gateStats = useRef<GateStats>({
+    visibleCopies: 0, visibleTriangles: 0, checksCell: 0, checksTile: 0,
+  });
+  const maskChunk = useRef<{ cx: number; cz: number } | null>(null);
+  const cameraPos = useRef(new THREE.Vector3(NaN, NaN, NaN));
+  const frustum = useMemo(() => new THREE.Frustum(), []);
+  const frustumMatrix = useMemo(() => new THREE.Matrix4(), []);
+  const sphere = useMemo(() => new THREE.Sphere(), []);
+  const lastScan = useRef<{ cx: number; cz: number; loaded: number; pending: number } | null>(null);
+  const counters = useRef({
+    builds: 0, gatingMs: 0, gatingMaxMs: 0, maskMs: 0, frame: 0,
+    lastBuild: { total: 0, frames: 0, elapsedMs: 0 },
+  });
   const [revision, setRevision] = useState(0);
+  /** 32 m cells that hold at least one instance, and how many — recomputed
+   * when a cell is built or dropped, never per frame. `occupiedList` is the
+   * same set as a flat (cellX, cellZ) array for the mask sweep. */
+  const occupiedCells = useRef(new Map<number, number>());
+  const occupiedList = useRef(new Int32Array(0));
+
   useEffect(() => {
     if (!import.meta.env.DEV) return;
-    // Dev-only: force a rebuild at the current focus, so a headless probe
-    // (whose software GL runs at well under 1 fps, too slow to walk the
-    // 16 m that triggers one) can time the pooled steady state.
     const host = window as unknown as { __STUDIO_VEGETATION_REBUILD__?: () => void };
-    host.__STUDIO_VEGETATION_REBUILD__ = () => setRevision((r) => r + 1);
+    host.__STUDIO_VEGETATION_REBUILD__ = () => {
+      registry.current.kitChanged();   // the dev hook forces every cell
+
+      setRevision((r) => r + 1);
+    };
     return () => { delete host.__STUDIO_VEGETATION_REBUILD__; };
   }, []);
-  const lastBuildEye = useRef<{ x: number; z: number } | null>(null);
-  /** Eye of the rebuild already SCHEDULED (not yet committed). Comparing
-   * against the committed eye re-fired `setRevision` every frame until
-   * React ran the effect; comparing against the pending one fires once per
-   * crossing. */
-  const pendingBuildEye = useRef<{ x: number; z: number } | null>(null);
-  // The trigger is the rebuild distance `LOD_MARGIN_M` is sized from: past
-  // it an instance may be drawn at the wrong level until the rebuild lands
-  // (never half-drawn — see lodFade.ts). The 0.75 s throttle is what keeps
-  // a fast fly-through from re-walking the instances every frame.
-  const REBUILD_MOVE_M = LOD_REBUILD_MOVE_M;
-  const REBUILD_MIN_INTERVAL_S = 0.75;
-  const lastBuildTime = useRef(0);
-  /** A chunk has arrived and its plants are not in the built set yet. Set by
-   * the fetch path, consumed by the throttled rebuild below (2026-09-20 hitch
-   * fix: 25 arrivals in a second used to force 25 synchronous rebuilds). */
-  const chunksDirty = useRef(false);
-  /** The REAL camera, for the LOD fade uniform and the occlusion eye. The
-   * focus is a ground position and in fly mode is nowhere near the camera. */
-  const cameraPos = useRef(new THREE.Vector3(NaN, NaN, NaN));
 
-  // Wind sway (module 55 §98): one uniform block shared by every plant
-  // material AND its shadow-depth twin, fed from the same weather sample the
-  // sky, rain and waves read — so the world gusts together.
-  const wind = sharedWindUniforms;
-  // LOD crossfade: one uniform block for every vegetation material and its
-  // depth twin. Local to this renderer (the groundcover ring has no LOD chain
-  // to fade between), so no new shared singleton.
-  const lodFade = useMemo(() => createLodFadeUniforms(), []);
+  // The cell → terrain-chunk mapping below assumes the two grids share an
+  // origin and a chunk size; say so loudly, once, if they ever diverge.
+  const gridChecked = useRef(false);
+  useEffect(() => {
+    if (gridChecked.current || !chunksManifest || !index) return;
+    gridChecked.current = true;
+    const origin = store.chunkAt(0, 0)?.originM;
+    // 0.1 m tolerance: the two are rounded differently (467.9 vs 467.93).
+    if (Math.abs(chunksManifest.chunkMetres - index.chunkMetres) > 0.1
+        || !origin || origin[0] !== 0 || origin[1] !== 0) {
+      console.error("[vegetation-cells] terrain and vegetation chunk grids differ", {
+        terrainChunkMetres: chunksManifest.chunkMetres,
+        vegetationChunkMetres: index.chunkMetres,
+        terrainFirstOriginM: origin ?? null,
+      });
+    }
+  }, [chunksManifest, index, store]);
+
+  // A kit arrival dirties only the cells that SKIPPED one of the arriving
+  // species; a quality change dirties every cell. Neither is movement
+  // (decision 0082 round-1 realisation).
+  useEffect(() => {
+    if (!kit) return;
+    registry.current.kitChanged(new Set(kit.keys()));
+  }, [kit]);
+  useEffect(() => { registry.current.drawScaleChanged(); }, [drawScale, chunkRing]);
+
+  useEffect(() => {
+    mounted.current = true;
+    const live = batches.current;
+    const liveJobs = jobs.current;
+    const liveMaterials = batchMaterials.current;
+    const group = root.current;
+    return () => {
+      mounted.current = false;
+      // Cancel first: a job that finishes after this would build fresh
+      // BatchedMeshes with no owner and no parent.
+      for (const job of [...liveJobs.values()]) job.cancel();
+      liveJobs.clear();
+      for (const batch of live.values()) {
+        group?.remove(batch.mesh);
+        batch.mesh.dispose();
+        batch.data.dispose();
+      }
+      live.clear();
+      for (const owned of liveMaterials.values()) {
+        owned.material.dispose();
+        owned.depthMaterial?.dispose();
+      }
+      liveMaterials.clear();
+    };
+  }, []);
+
+  /** Ground in TRUE metres from the finest decoded terrain LOD. */
+  const sampleGround = useMemo(() => (
+    chunksManifest
+      ? (x: number, z: number) => groundHeightM(store, chunksManifest, x, z)
+      : () => null
+  ), [store, chunksManifest]);
+
+  // Per-species build parameters, recomputed only when the kit, the quality
+  // tier or the chunk ring changes — never per frame and never per cell.
+  const speciesParams = useMemo(() => {
+    const out = new Map<string, CellSpeciesParams>();
+    if (!kit || !index) return out;
+    const reach = new Map<string, number>();
+    for (const a of [...(manifest?.assets ?? []), ...(underwaterManifest?.assets ?? [])]) {
+      if (!reach.has(a.id)) {
+        reach.set(a.id, Math.hypot(a.sizeM[2], Math.max(a.sizeM[0], a.sizeM[1]) / 2));
+      }
+    }
+    // Land manifest wins on a shared id: the underwater band's copies carry
+    // no collision.
+    const solidByAsset = new Map(
+      [...(underwaterManifest?.assets ?? []), ...(manifest?.assets ?? [])]
+        .map((a) => [a.id, isSolid(a)]),
+    );
+    for (const [id, entry] of kit) {
+      if (entry.suspect) continue;
+      const maxDraw = entry.submerged
+        ? Math.min(maxDrawDistance(entry.heightM) * drawScale, SUBMERGED_MAX_DRAW_M)
+        : entry.category === "tree"
+          ? treeDrawDistance(chunkRing, index.chunkMetres)
+          : maxDrawDistance(entry.heightM) * drawScale;
+      const rings = lodRings(entry.heightM, drawScale, entry.submerged);
+      const meshLevels = entry.billboardIndex ?? entry.levels.length;
+      const ladder = lodLadder(rings, meshLevels, entry.billboardIndex, maxDraw);
+      const trunkRadius = entry.trunkRadiusM;
+      out.set(id, {
+        species: id,
+        ladder,
+        vanishes: entry.submerged || entry.category !== "tree",
+        maxDraw,
+        sways: entry.sways,
+        trunkRadiusM: trunkRadius,
+        solid: solidByAsset.get(id) ?? false,
+        cardLevel: entry.billboardIndex,
+        reachM: reach.get(id) ?? entry.heightM,
+        heightM: entry.heightM,
+        stiffness: (scale: number) =>
+          trunkRadius === null ? 0 : windStiffness(trunkRadius, scale) - 1,
+      });
+    }
+    return out;
+  }, [kit, index, manifest, underwaterManifest, drawScale, chunkRing]);
+
+  const underwaterOnly = useMemo(() => {
+    const set = new Set(underwaterManifest?.assets.map((a) => a.id) ?? []);
+    for (const a of manifest?.assets ?? []) set.delete(a.id);
+    return set;
+  }, [manifest, underwaterManifest]);
+
+  const tallestM = useMemo(() => {
+    let tallest = 0;
+    for (const species of kit?.values() ?? []) {
+      if (species.heightM > tallest) tallest = species.heightM;
+    }
+    return tallest;
+  }, [kit]);
+
+  // ---- batch plumbing -----------------------------------------------------
+
+  const batchKeyFor = (
+    material: THREE.Material,
+    depthMaterial: THREE.Material | undefined,
+    geometry: THREE.BufferGeometry,
+    near: boolean,
+    isCard: boolean,
+  ) => `${material.uuid}|${depthMaterial?.uuid ?? "-"}|${attributeSignature(geometry)}`
+    + `|${near ? "near" : "far"}|${isCard ? "card" : "mesh"}`;
+
+  /**
+   * Vertex/index room every kit geometry that lands in a batch needs, for
+   * EVERY key at once: one pass over the kit per kit, not one per new batch
+   * (at ~570 batches the per-batch walk was ~10⁶ throwaway key strings).
+   */
+  const batchGeometryBudgets = useMemo(() => {
+    const out = new Map<string, { vertices: number; indices: number }>();
+    for (const entry of kit?.values() ?? []) {
+      if (entry.suspect) continue;
+      for (let level = 0; level < entry.levels.length; level++) {
+        const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
+        for (const part of entry.levels[level].parts) {
+          const position = part.geometry.getAttribute("position");
+          const idx = part.geometry.getIndex();
+          const vertices = position.count;
+          const indices = idx ? idx.count : position.count;
+          // Rung 0 is ALWAYS kit level 0, so a near key can only ever hold
+          // level-0 geometry: sizing it for the whole ladder reserved buffers
+          // several times larger than anything that lands in them.
+          const nears = level === 0 ? [true, false] : [false];
+          for (const near of nears) {
+            const key = batchKeyFor(
+              part.material, part.depthMaterial, part.geometry, near, isCard);
+            const have = out.get(key);
+            if (have) {
+              have.vertices += vertices;
+              have.indices += indices;
+            } else {
+              out.set(key, { vertices, indices });
+            }
+          }
+        }
+      }
+    }
+    for (const budget of out.values()) {
+      budget.vertices = Math.max(64, budget.vertices);
+      budget.indices = Math.max(64, budget.indices);
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [kit]);
+
+  const batchGeometryBudget = (key: string) =>
+    batchGeometryBudgets.get(key) ?? { vertices: 64, indices: 64 };
+
+  const makeBatch = (
+    key: string,
+    material: THREE.Material,
+    depthMaterial: THREE.Material | undefined,
+    near: boolean,
+    isCard: boolean,
+    capacity: number,
+    budget: { vertices: number; indices: number },
+  ): Batch => {
+    // Materials are owned per batch KEY and patched ONCE. Cloning a patched
+    // material is not safe: `Material.copy` JSON-clones userData and drops
+    // `onBeforeCompile`, so every `apply*` guard would see a husk, return
+    // early, and the batch would draw with no LOD fade, wind or occlusion.
+    let owned = batchMaterials.current.get(key);
+    if (!owned) {
+      const clone = material.clone();
+      const depthClone = depthMaterial?.clone();
+      const uniforms = {
+        esBatchData: { value: null as THREE.DataTexture | null },
+        esOccMask: batchUniforms.esOccMask,
+        esOccParams: batchUniforms.esOccParams,
+      };
+      // EVERY batch material is wind-patched, unconditionally: a batch key is
+      // a material, and a rock and a plant can share one glTF material, so a
+      // `sways` test here silenced whichever species did not create the batch.
+      // Stillness is per INSTANCE — a non-swaying species and every card copy
+      // carry stiffness -1 in the data texture.
+      // `?vegshader=0` (DEV diagnostic) leaves the clone unpatched.
+      if (!VEG_SHADER_OFF) {
+        applyWindSwayWithShadow(clone, depthClone, wind);
+        applyLodFadeWithShadow(clone, depthClone, lodFade);
+        applyBatchData(clone, depthClone, uniforms);
+      }
+      owned = { material: clone, depthMaterial: depthClone, uniforms };
+      batchMaterials.current.set(key, owned);
+    }
+    const clone = owned.material;
+    const depthClone = owned.depthMaterial;
+    const data = createBatchDataTexture(capacity);
+    // The data texture is PER BATCH and re-pointed when the batch grows; the
+    // occlusion mask and its window are shared by reference, so one sweep
+    // feeds every batch.
+    owned.uniforms.esBatchData.value = data;
+    const mesh = new THREE.BatchedMesh(
+      capacity, budget.vertices, budget.indices, clone);
+    mesh.perObjectFrustumCulled = false;   // measured 2.6 ms at 80 k (0082)
+    mesh.sortObjects = false;              // 108 ms at 300 k
+    mesh.frustumCulled = false;            // cells are culled in the gating loop
+    mesh.castShadow = near;
+    mesh.receiveShadow = !isCard;
+    if (depthClone) mesh.customDepthMaterial = depthClone;
+    root.current?.add(mesh);
+    return {
+      key, mesh, material: clone, depthMaterial: depthClone, capacity, used: 0,
+      data, geometryIds: new Map(), vertexCapacity: budget.vertices,
+      indexCapacity: budget.indices, near, isCard,
+      visibleCopies: 0, rungs: new Set(),
+    };
+  };
+
+  // ---- the frame ----------------------------------------------------------
 
   useFrame((state) => {
     const weather = lastWeatherSample();
     if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
-    // Every frame, and from the camera rather than the built-in
-    // `cameraPosition`: in the shadow pass that uniform is the light.
     lodFade.esLodViewPos.value.copy(state.camera.position);
     cameraPos.current.copy(state.camera.position);
     if (!index || !root.current) return;
+    const eye = cameraPos.current;
     const focus = focusRef.current;
     const size = index.chunkMetres;
-    const eye = cameraPos.current;
-    const last = pendingBuildEye.current ?? lastBuildEye.current;
-    // A fast camera (fly mode) crosses 16 m several times a second; every
-    // crossing re-walks ~80,000 instances on the main thread, which is the
-    // "hang" while flying. Rebuild at most once per REBUILD_MIN_INTERVAL_S;
-    // the LOD is a fraction of a second stale at speed, nothing else.
-    const now = state.clock.elapsedTime;
-    if (chunksDirty.current && now - lastBuildTime.current >= REBUILD_MIN_INTERVAL_S) {
-      // 2026-09-20 hitch fix: chunk arrivals are coalesced here, one rebuild
-      // per REBUILD_MIN_INTERVAL_S, instead of rebuilding per arrival.
-      chunksDirty.current = false;
-      lastBuildTime.current = now;
-      // A pending move eye is NOT cleared here: this rebuild was triggered by
-      // a chunk arrival, not by the move, so the movement branch below still
-      // owns that eye and consumes it on its own next rebuild.
-      setRevision((r) => r + 1);
-    } else if (last && Math.hypot(eye.x - last.x, eye.z - last.z) > REBUILD_MOVE_M
-        && now - lastBuildTime.current >= REBUILD_MIN_INTERVAL_S) {
-      lastBuildTime.current = now;
-      pendingBuildEye.current = { x: eye.x, z: eye.z };
-      setRevision((r) => r + 1);
-    }
     const cx = Math.floor(focus.x / size);
     const cz = Math.floor(focus.z / size);
-    // The ring scan builds a key string per chunk, so run it only when the
-    // set it could change has changed: the focus chunk, or an arrival. It
-    // used to allocate 25 strings every frame for a no-op.
-    const scan = lastScan.current;
-    if (scan && scan.cx === cx && scan.cz === cz
-        && scan.loaded === loaded.current.size && scan.pending === pending.current.size) {
-      return;
-    }
-    lastScan.current = {
-      cx, cz, loaded: loaded.current.size, pending: pending.current.size,
-    };
+    registry.current.cameraMoved(eye.x, eye.z);
 
-    for (let dz = -chunkRing; dz <= chunkRing; dz++) {
-      for (let dx = -chunkRing; dx <= chunkRing; dx++) {
-        const key = chunkKey(cx + dx, cz + dz);
-        if (!index.chunks[key] || loaded.current.has(key) || pending.current.has(key)) {
-          continue;
+    // --- ring scan and eviction (guarded exactly as the old renderer) ---
+    const scan = lastScan.current;
+    if (!scan || scan.cx !== cx || scan.cz !== cz
+        || scan.loaded !== cells.current.size || scan.pending !== pending.current.size) {
+      lastScan.current = {
+        cx, cz, loaded: cells.current.size, pending: pending.current.size,
+      };
+      for (let dz = -chunkRing; dz <= chunkRing; dz++) {
+        for (let dx = -chunkRing; dx <= chunkRing; dx++) {
+          const key = chunkKey(cx + dx, cz + dz);
+          if (!index.chunks[key] || cells.current.has(key) || pending.current.has(key)) continue;
+          pending.current.add(key);
+          const ox = (cx + dx) * size;
+          const oz = (cz + dz) * size;
+          fetch(`${baseUrl}province/vegetation/chunk_${key}_vegetation.bin`)
+            .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error("missing"))))
+            .then((buffer) => {
+              cells.current.set(key, {
+                key, originX: ox, originZ: oz,
+                bundle: decodeVegetationBundle(buffer),
+                build: null, lod: null, species: [], occCells: [],
+              });
+              registry.current.chunkLoaded(key);
+            })
+            .catch(() => undefined)
+            .finally(() => pending.current.delete(key));
         }
-        pending.current.add(key);
-        fetch(`${baseUrl}province/vegetation/chunk_${key}_vegetation.bin`)
-          .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error("missing"))))
-          .then((buffer) => {
-            loaded.current.set(key, {
-              key,
-              originX: (cx + dx) * size,
-              originZ: (cz + dz) * size,
-              bundle: decodeVegetationBundle(buffer),
-            });
-            // 2026-09-20 hitch fix: mark dirty, let the throttled path above
-            // rebuild once, rather than a full synchronous rebuild per chunk.
-            chunksDirty.current = true;
-          })
-          .catch(() => undefined)
-          .finally(() => pending.current.delete(key));
       }
+      // Eviction: a cell beyond ring + 1 gives its batch instances back.
+      for (const cell of [...cells.current.values()]) {
+        const ccx = Math.round(cell.originX / size);
+        const ccz = Math.round(cell.originZ / size);
+        if (Math.max(Math.abs(ccx - cx), Math.abs(ccz - cz)) <= chunkRing + 1) continue;
+        dropCell(cell);
+      }
+    }
+
+    // --- terrain LOD bookkeeping and the dirty set ---
+    if (chunksManifest) {
+      for (const cell of cells.current.values()) {
+        const tcx = Math.max(0, Math.min(chunksManifest.grid[0] - 1,
+          Math.floor((cell.originX + size / 2) / chunksManifest.chunkMetres)));
+        const tcz = Math.max(0, Math.min(chunksManifest.grid[1] - 1,
+          Math.floor((cell.originZ + size / 2) / chunksManifest.chunkMetres)));
+        const lod: TerrainLod = store.loaded(tcx, tcz, "1") ? "1"
+          : store.loaded(tcx, tcz, "2") ? "2"
+            : store.loaded(tcx, tcz, "4") ? "4" : null;
+        cell.lod = lod;
+        registry.current.terrainLod(cell.key, lod);
+      }
+    }
+    if (kit && speciesParams.size > 0) {
+      const dirty = registry.current.dirty()
+        .filter((d) => !jobs.current.has(d.key))
+        .sort((a, b) => cellDistance(a.key) - cellDistance(b.key));
+      for (const d of dirty) startBuild(d.key, d.serial);
+    }
+
+    // --- occlusion mask ---
+    const maskStart = performance.now();
+    // The window is anchored on the FOCUS CHUNK, not on the camera's 32 m
+    // cell: re-anchoring every 32 m wiped the mask faster than 64 cells a
+    // frame could refill it, so terrain occlusion was off whenever we moved.
+    // 128 cells = 4096 m covers the 5 × 5 chunk neighbourhood with margin.
+    const anchorChunk = maskChunk.current;
+    let anchored = false;
+    if (!anchorChunk || anchorChunk.cx !== cx || anchorChunk.cz !== cz) {
+      maskChunk.current = { cx, cz };
+      anchored = mask.anchor(
+        Math.floor(((cx + 0.5) * size) / OCCLUSION_CELL_M) - MASK_SIZE / 2,
+        Math.floor(((cz + 0.5) * size) / OCCLUSION_CELL_M) - MASK_SIZE / 2,
+      );
+    }
+    const sweep = mask.sweep(
+      MASK_CELLS_PER_FRAME, { x: eye.x, y: eye.y, z: eye.z },
+      (x, z) => {
+        // Rendered space, like the camera.
+        const h = sampleGround(x, z);
+        return h === null ? null : h * verticalScale;
+      },
+      tallestM, OCCLUSION_MIN_DISTANCE_M,
+      occupiedList.current,
+    );
+    // A wipe has to reach the GPU on its own: otherwise the uniform points at
+    // the new window while the texture still holds the old window's 255s.
+    if (anchored || sweep.changed > 0) maskTexture.needsUpdate = true;
+    batchUniforms.esOccParams.value.set(
+      mask.originCellX, mask.originCellZ, MASK_SIZE, OCCLUSION_CELL_M);
+    counters.current.maskMs = performance.now() - maskStart;
+
+    // --- gating ---
+    const gateStart = performance.now();
+    frustumMatrix.multiplyMatrices(
+      state.camera.projectionMatrix, state.camera.matrixWorldInverse);
+    frustum.setFromProjectionMatrix(frustumMatrix);
+    gateSpecies(allSpecies.current, eye, {
+      intersectsSphere: (s) => {
+        sphere.center.set(s.x, s.y, s.z);
+        sphere.radius = s.r;
+        return frustum.intersectsSphere(sphere);
+      },
+    }, applyTile as (tile: GateTile, visible: boolean) => void, gateStats.current);
+    const gatingMs = performance.now() - gateStart;
+    counters.current.gatingMs = gatingMs;
+    if (gatingMs > counters.current.gatingMaxMs) counters.current.gatingMaxMs = gatingMs;
+
+    // Published often enough that a probe on a sub-1 fps software renderer
+    // still sees the numbers; the gating maximum is a 60-frame window.
+    counters.current.frame++;
+    if (counters.current.frame % 60 === 0) publishStats();
+    if (counters.current.frame % 60 === 0) counters.current.gatingMaxMs = 0;
+
+    function cellDistance(key: string): number {
+      const cell = cells.current.get(key);
+      if (!cell) return Infinity;
+      return Math.hypot(
+        cell.originX + size / 2 - eye.x, cell.originZ + size / 2 - eye.z);
     }
   });
 
-  useEffect(() => {
-    const group = root.current;
-    if (!group || !kit || !index) return;
+  function refreshOccupied(): void {
+    const counts = new Map<number, number>();
+    for (const cell of cells.current.values()) {
+      for (let i = 0; i < cell.occCells.length; i += 3) {
+        const id = cellId(cell.occCells[i], cell.occCells[i + 1]);
+        counts.set(id, (counts.get(id) ?? 0) + cell.occCells[i + 2]);
+      }
+    }
+    occupiedCells.current = counts;
+    const list = new Int32Array(counts.size * 2);
+    let at = 0;
+    for (const id of counts.keys()) {
+      const cx = Math.floor(id / 65536);
+      list[at++] = cx - 32768;
+      list[at++] = id - cx * 65536 - 32768;
+    }
+    occupiedList.current = list;
+    // No wipe: a full reset takes ~80 frames to refill, which left occlusion
+    // off for most of a walk. A dropped cell clears its OWN texels
+    // (`dropCell`); a built cell only appends, and new texels are already
+    // 0 = visible.
+  }
 
-    // Bound here, not read through the closure: the rebuild below is a nested
-    // generator, where TypeScript cannot keep the guard's narrowing.
-    const liveGroup = group;
+  function refreshRanges(): void {
+    const out: CellSpeciesEntry[] = [];
+    let copies = 0;
+    for (const cell of cells.current.values()) {
+      for (const entry of cell.species) {
+        out.push(entry);
+        for (const rung of entry.rungs) copies += rung.copies;
+      }
+    }
+    allSpecies.current = out;
+    copiesTotal.current = copies;
+  }
+
+  function publishSolids(): void {
+    if (!onSolids) return;
+    const solids: SolidInstance[] = [];
+    for (const cell of cells.current.values()) {
+      if (cell.build) solids.push(...cell.build.solids);
+    }
+    onSolids(solids);
+  }
+
+  function removeRanges(entries: CellSpeciesEntry[]): void {
+    for (const entry of entries) {
+      for (const rung of entry.rungs) {
+        hideRung(rung);   // keeps the per-batch visible counters honest
+        for (let p = 0; p < rung.partBatches.length; p++) {
+          const batch = rung.partBatches[p];
+          const ids = rung.partIds[p];
+          for (let i = 0; i < ids.length; i++) batch.mesh.deleteInstance(ids[i]);
+          batch.used -= ids.length;
+          batch.rungs.delete(rung);
+        }
+        rung.tiles = [];
+        rung.partBatches = [];
+        rung.partIds = [];
+      }
+      entry.rungs = [];
+    }
+  }
+
+  function dropCell(cell: Cell): void {
+    jobs.current.get(cell.key)?.cancel();
+    jobs.current.delete(cell.key);
+    removeRanges(cell.species);
+    // Its occlusion answers are about to stop being swept: clear them, or
+    // they stay 255 = hidden for as long as the window sits still.
+    if (mask.clearCells(cell.occCells, 3) > 0) maskTexture.needsUpdate = true;
+    cells.current.delete(cell.key);
+    registry.current.chunkUnloaded(cell.key);
+    refreshRanges();
+    refreshOccupied();
+    publishSolids();
+    publishStats();
+  }
+
+  function startBuild(key: string, serial: number): void {
+    const cell = cells.current.get(key);
     const liveKit = kit;
     const liveIndex = index;
-    const rebuildStart = performance.now();
-    let frames = 0;
-    // The job is sliced, so `performance.now()` differences across a yield are
-    // wall clock, not work. Each resumed segment is timed and summed instead.
+    if (!cell || !liveKit || !liveIndex) return;
+    const reason = registry.current.reason(key);
+    const lod = cell.lod;
+    const started = performance.now();
     let cpuMs = 0;
-    let segmentStart = rebuildStart;
-    const closeSegment = () => { cpuMs += performance.now() - segmentStart; };
-    // Nothing is destroyed here (mechanism 7): every pooled mesh this
-    // rebuild does not fill is parked at `count = 0` at the end.
-    // `groups.current` is NOT blanked up front: the job spans frames, and the
-    // live draw list must stay valid until the new one is complete.
-    const built: DrawGroup[] = [];
-
-    function* rebuildJob(): Generator<void> {
-
-    // One instanced mesh per (species, LOD level, geometry part) across ALL
-    // loaded chunks, not per chunk: per-chunk meshes cost a draw call each and
-    // measured 449 draws for 13 chunks, which is the wrong end of the budget
-    // to be spending on bookkeeping.
-    const focus = focusRef.current;
-    // Every distance below is from the CAMERA (`eye`), the point the shader
-    // steps on; the focus only names the chunk neighbourhood's blocks.
-    // Before the first frame has sampled the camera, the focus stands in
-    // (character mode's camera orbits within 6 m of it, inside the margin).
-    const eye = Number.isFinite(cameraPos.current.x)
-      ? cameraPos.current
-      : new THREE.Vector3(focus.x, 0, focus.z);
-    lastBuildEye.current = { x: eye.x, z: eye.z };
-    pendingBuildEye.current = null;
-    const matrix = new THREE.Matrix4();
-    const quaternion = new THREE.Quaternion();
-    const euler = new THREE.Euler();
-    const position = new THREE.Vector3();
-    const scale = new THREE.Vector3();
-
-    // Pass one: bucket every instance by the draw it belongs to.
-    //
-    // A bucket stores the COMPOSE INPUTS, not matrices: a `Matrix4` per
-    // instance was ~81k throwaway objects per rebuild at chunk ring 2. Pass
-    // two composes each one into a single scratch matrix and copies it into
-    // the instance buffer with `setMatrixAt`.
-    const PLACEMENT_STRIDE = 7; // x, y, z, tiltX, yaw, tiltZ, scale
-    interface Bucket {
-      species: string;
-      level: number;
-      /** Neighbourhood block (0-8) — see `blockIndexOf`. */
-      block: number;
-      /** Flat placement tuples, `PLACEMENT_STRIDE` numbers per instance. */
-      placements: number[];
-      count: number;
-      /** Flat (stiffness − 1, sink) pairs, parallel to `placements`. */
-      windTune: number[];
-      /** Flat (dIn, dOut, wIn, wOut) quads, parallel to `placements`. */
-      bands: number[];
-      /** Extents of the instance PIVOTS, for the bounding sphere: tracked
-       * here so the sphere never has to read the instance matrices back. */
-      minX: number; minY: number; minZ: number;
-      maxX: number; maxY: number; maxZ: number;
-      maxScale: number;
+    let segmentStart = started;
+    let frames = 0;
+    const sources: CellSpeciesSource[] = [];
+    for (const group of cell.bundle.species) {
+      if (group.count === 0) continue;
+      const id = liveIndex.speciesOrder?.[group.index];
+      if (!id) continue;
+      sources.push({
+        species: id,
+        // A suspect asset is deliberately absent from `speciesParams`: it is
+        // unrenderable, not a kit that has yet to arrive, so it must never
+        // make its cell look like it is waiting (and rebuild on every kit).
+        suspect: liveKit.get(id)?.suspect === true,
+        anchorPivotTerrain: group.anchorMode === ANCHOR_PIVOT_TERRAIN,
+        count: group.count,
+        underwaterOnly: underwaterOnly.has(id),
+        read: (i: number, out: CellInstance) => {
+          const inst = readInstance(group, i);
+          out.x = inst.x; out.y = inst.y; out.z = inst.z;
+          out.yaw = inst.yaw; out.scale = inst.scale;
+          out.tiltX = inst.tiltX; out.tiltZ = inst.tiltZ; out.sink = inst.sink;
+        },
+      });
     }
-    const emptyExtents = () => ({
-      minX: Infinity, minY: Infinity, minZ: Infinity,
-      maxX: -Infinity, maxY: -Infinity, maxZ: -Infinity, maxScale: 0,
-    });
-    const extend = (b: Bucket, x: number, y: number, z: number, sc: number) => {
-      if (x < b.minX) b.minX = x; if (x > b.maxX) b.maxX = x;
-      if (y < b.minY) b.minY = y; if (y > b.maxY) b.maxY = y;
-      if (z < b.minZ) b.minZ = z; if (z > b.maxZ) b.maxZ = z;
-      if (sc > b.maxScale) b.maxScale = sc;
-    };
-    // Farthest a kit vertex can lie from its pivot at scale 1: the height
-    // (pivot at the base) and half the wider horizontal side, from the
-    // manifest's `sizeM` (x, y horizontal; z up).
-    const reachM = new Map<string, number>();
-    for (const a of [...(manifest?.assets ?? []), ...(underwaterManifest?.assets ?? [])]) {
-      if (!reachM.has(a.id)) {
-        reachM.set(a.id, Math.hypot(a.sizeM[2], Math.max(a.sizeM[0], a.sizeM[1]) / 2));
-      }
-    }
-    const buckets = new Map<string, Bucket>();
-    // Solid instances collected as they are placed — the collider ring needs
-    // the same final world position the mesh got, sink and re-grounding
-    // included, or the invisible wall stands somewhere the tree does not.
-    const solidByAsset = new Map(
-      // Land kit first: the underwater band's plants and debris are
-      // bed-anchored and carry no collision, so a shared id keeps its land
-      // (solid) reading.
-      [...(underwaterManifest?.assets ?? []), ...(manifest?.assets ?? [])]
-        .map((a) => [a.id, isSolid(a)]),
-    );
-    const solids: SolidInstance[] = [];
-    // A chunk instance can sit anywhere in its 468 m square, so chunk-level
-    // culls must allow for the worst case: focus at one corner, instance at
-    // the opposite one.
-    const halfDiagonal = liveIndex.chunkMetres * Math.SQRT1_2;
-    // One InstancedMesh per species spanning the whole 5x5 neighbourhood
-    // (~2.3 km) can never be frustum-rejected, so `frustumCulled` bought
-    // nothing. The neighbourhood is instead QUARTERED at the focus chunk's
-    // centre lines — chunks before the focus on an axis go to 0, the focus
-    // chunk and those after it to 1 — and a mesh is built per (species,
-    // level, quarter): a quarter behind the camera is genuinely rejected,
-    // for 4x the bucket count rather than the 9x a finer grid cost (measured
-    // ~554 potential draws at 9 blocks, too many for the browser).
-    const focusChunkX = Math.floor(focus.x / liveIndex.chunkMetres);
-    const focusChunkZ = Math.floor(focus.z / liveIndex.chunkMetres);
-    const blockAxis = (delta: number): number => (delta < 0 ? 0 : 1);
-    let culled = 0;
-    let billboardInstances = 0;
-    let occluded = 0;
-    // One occlusion ray per 32 m cell, from the camera, against the streamed
-    // ground. The canopy top is the tallest species in the kit, so a cell is
-    // only called hidden when even that would be hidden.
-    let tallestM = 0;
-    for (const species of liveKit.values()) {
-      if (species.heightM > tallestM) tallestM = species.heightM;
-    }
-    const sampleGround = chunksManifest
-      ? (x: number, z: number) => {
-          // Rendered space, like the camera: the terrain mesh is drawn at
-          // `verticalScale`, so an unscaled sample would compare a true-metre
-          // hill against a scaled sight line.
-          const h = groundHeightM(store, chunksManifest, x, z);
-          return h === null ? null : h * verticalScale;
-        }
-      : () => null;
-    const occlusion = new OcclusionCellCache(
-      { x: eye.x, y: eye.y, z: eye.z }, sampleGround, tallestM,
-    );
-    // Species the underwater kit alone holds: meeting one while that kit is
-    // not loaded is the request for it (see the loader above).
-    const underwaterOnly = new Set(underwaterManifest?.assets.map((a) => a.id) ?? []);
-    for (const a of manifest?.assets ?? []) underwaterOnly.delete(a.id);
-    let needsUnderwater = false;
-    const chunkList = [...loaded.current.values()];
-    for (const chunk of chunkList) {
-      const centreX = chunk.originX + liveIndex.chunkMetres / 2;
-      const centreZ = chunk.originZ + liveIndex.chunkMetres / 2;
-      const chunkDistance = Math.hypot(eye.x - centreX, eye.z - centreZ);
-      const blockIndex =
-        blockAxis(Math.round(chunk.originZ / liveIndex.chunkMetres) - focusChunkZ) * 2
-        + blockAxis(Math.round(chunk.originX / liveIndex.chunkMetres) - focusChunkX);
+    const inner = buildCellJob(
+      sources, speciesParams, sampleGround, verticalScale, MAX_PER_DRAW,
+      (build) => { finish(build); },
+      cell.originX, cell.originZ, liveIndex.chunkMetres);
 
-      for (const speciesGroup of chunk.bundle.species) {
-        if (speciesGroup.count === 0) continue;
-        const id = liveIndex.speciesOrder?.[speciesGroup.index];
-        const entry = id ? liveKit.get(id) : undefined;
-        if (!entry) {
-          // A sea-bed species the (unloaded) underwater kit holds: request
-          // the kit once one of its instances comes within the lead distance.
-          if (id && !needsUnderwater && underwaterOnly.has(id)) {
-            const positions = speciesGroup.positions;
-            for (let i = 0; i < speciesGroup.count; i++) {
-              const dx = positions[i * 3] - eye.x;
-              const dz = positions[i * 3 + 2] - eye.z;
-              if (dx * dx + dz * dz <= UNDERWATER_KIT_LEAD_M * UNDERWATER_KIT_LEAD_M) {
-                needsUnderwater = true;
-                break;
-              }
-            }
-          }
-          continue;
-        }
-        if (entry.suspect) {
-          // Broken bounds (geometry far from the pivot): drawing it puts the
-          // mesh underground or in the sky either way. A sourcing job.
-          culled += speciesGroup.count;
-          continue;
-        }
+    // The new copies are built and filled FIRST and the old ones deleted at
+    // the end, so nothing blinks while a cell is re-grounded. `filled` holds
+    // the half-done work, which a cancel has to give back.
+    const filled: CellSpeciesEntry[] = [];
+    const touched = new Set<Batch>();
 
-        // Per-species draw-distance cull (T tiers): understory vanishes a
-        // hundred metres out, canopy persists to the ring edge. This is what
-        // keeps the coming density increase affordable — most instances are
-        // small plants that must not render at two kilometres.
-        // Submerged species draw shorter: underwater sight lines are a few
-        // dozen metres, so a kelp bed resolved at 400 m is triangles behind a
-        // wall of water and scatter.
-        // A tree on land is the exception: it draws to the loaded ring's own
-        // reach (as its baked card beyond ring 2) and never vanish-fades
-        // inside it — visible from the mountains (owner, round 4).
-        const maxDraw = entry.submerged
-          ? Math.min(maxDrawDistance(entry.heightM) * drawScale, SUBMERGED_MAX_DRAW_M)
-          : entry.category === "tree"
-            ? treeDrawDistance(chunkRing, liveIndex.chunkMetres)
-            : maxDrawDistance(entry.heightM) * drawScale;
-        if (chunkDistance - halfDiagonal > maxDraw) {
-          culled += speciesGroup.count;
-          continue;
+    function* job(): Generator<void> {
+      // Step one: make room in every batch this cell will touch, so no growth
+      // can happen with a rung half-filled.
+      segmentStart = performance.now();
+      const { needs, specs } = planBatches(sources, liveKit!);
+      reserveBatches(needs, specs);
+      cpuMs += performance.now() - segmentStart;
+      frames++;
+      yield;
+      for (;;) {
+        segmentStart = performance.now();
+        const step = inner.next();
+        // One species per step covers BOTH halves: its build, then its fill.
+        if (!step.done && step.value
+            && mounted.current && cells.current.get(key) === cell) {
+          const entry = fillSpecies(cell!, step.value, liveKit!, touched);
+          if (entry) filled.push(entry);
         }
-
-        // Quality scales the outer rings, so lower tiers shift work toward
-        // the cheap levels — never the near ring, and never inverted (see
-        // `lodRings`). The ladder tiles [0, maxDraw) with one kit level per
-        // rung; a species whose chain is shorter than the rings (a rock: one
-        // level, no card) gets one rung and one copy.
-        const rings = lodRings(entry.heightM, drawScale, entry.submerged);
-        const meshLevels = entry.billboardIndex ?? entry.levels.length;
-        const ladder = lodLadder(rings, meshLevels, entry.billboardIndex, maxDraw);
-        // A land tree's ladder ends past the loaded ring: nothing to vanish.
-        const vanishes = entry.submerged || entry.category !== "tree";
-        const count = Math.min(speciesGroup.count, MAX_PER_DRAW);
-        for (let i = 0; i < count; i++) {
-          const inst = readInstance(speciesGroup, i);
-          const instDistance = Math.hypot(inst.x - eye.x, inst.z - eye.z);
-          if (instDistance > maxDraw) {
-            culled++;
-            continue;
-          }
-          // Terrain occlusion: a ridge between the camera and this instance
-          // means nothing it draws reaches a pixel. Only beyond
-          // OCCLUSION_MIN_DISTANCE_M — a rebuild is 16 m apart, and a near
-          // instance popping back is worse than the triangles it saved.
-          if (instDistance > OCCLUSION_MIN_DISTANCE_M
-              && occlusion.occluded(inst.x, inst.z)) {
-            occluded++;
-            continue;
-          }
-          // Anchor per the mined authoring conventions (bundle v2,
-          // docs/research/vegetation/vegetation-composition-rules.md): terrain species
-          // put their PIVOT on the live streamed ground minus a baked sink —
-          // never the bbox bottom, whose lowest point is often a hanging
-          // frond tip and lifted whole trunks into the air ("tiptoe trees",
-          // owner round 3). Water-surface species (lilypads) and attachments
-          // (vines on hosts) keep their baked absolute Y and must NOT be
-          // re-grounded to terrain. Sink is world metres, not × verticalScale
-          // (which exaggerates terrain only).
-          let y: number;
-          if (speciesGroup.anchorMode === ANCHOR_PIVOT_TERRAIN) {
-            const ground = chunksManifest
-              ? groundHeightM(store, chunksManifest, inst.x, inst.z)
-              : null;
-            y = (ground ?? inst.y) * verticalScale - inst.sink;
-          } else {
-            y = inst.y * verticalScale;
-          }
-          // LOD per INSTANCE, from the camera distance: the copies this
-          // instance is emitted into are every ladder rung the camera can
-          // reach before the next rebuild, each stepping to its neighbour
-          // only where that neighbour was emitted too (`lodCopies`). The
-          // shader then keeps exactly one copy per pixel at the live camera
-          // distance — a hard step at each rung, a short dither only at the
-          // vanish. Beyond the last ring a billboard species runs on its
-          // baked card; species without one keep their last mesh level.
-          const emissions = lodCopies(instDistance, ladder, vanishes);
-          const drewCard = entry.billboardIndex !== null && emissions.some(
-            (e) => e.level === entry.billboardIndex && instDistance >= e.band[0]);
-          // Wind tuning is per instance because both terms are: stiffness
-          // scales with the trunk's radius AT THIS SCALE, and the sink is
-          // drawn per instance from the species' range. A non-swaying species
-          // (rock, log, crate, sunken wall) is pushed to stiffness 0 as well
-          // as having its material left unpatched — it may SHARE a material
-          // with a plant, and then the only thing standing between a boulder
-          // and a bending boulder is this number.
-          const trunkRadius = entry.trunkRadiusM;
-          const stiffness = !entry.sways
-            ? -1
-            : trunkRadius === null ? 0 : windStiffness(trunkRadius, inst.scale) - 1;
-          const sink = speciesGroup.anchorMode === ANCHOR_PIVOT_TERRAIN ? inst.sink : 0;
-          for (const { level, band } of emissions) {
-            const key = `${id}|${level}|${blockIndex}`;
-            let bucket = buckets.get(key);
-            if (!bucket) {
-              bucket = {
-                species: id!, level, block: blockIndex,
-                placements: [], count: 0, windTune: [], bands: [], ...emptyExtents(),
-              };
-              buckets.set(key, bucket);
-            }
-            bucket.placements.push(
-              inst.x, y, inst.z, inst.tiltX, inst.yaw, inst.tiltZ, inst.scale);
-            bucket.count++;
-            extend(bucket, inst.x, y, inst.z, inst.scale);
-            bucket.windTune.push(stiffness, sink);
-            bucket.bands.push(band[0], band[1], band[2], band[3]);
-          }
-          if (drewCard) billboardInstances++;
-          if (onSolids && solidByAsset.get(id!)) {
-            solids.push({
-              species: id!, x: inst.x, y, z: inst.z,
-              yaw: inst.yaw, tiltX: inst.tiltX, tiltZ: inst.tiltZ,
-              scale: inst.scale,
-            });
-          }
-        }
-        // One species group of one chunk is the indivisible step of pass one.
+        cpuMs += performance.now() - segmentStart;
         frames++;
-        closeSegment(); yield; segmentStart = performance.now();
+        if (step.done) return;
+        yield;
       }
     }
 
-    // Between the passes: a (species, level) with few instances is not worth
-    // quartering. Splitting it multiplies draws for a mesh whose whole set
-    // would be submitted in one cheap call anyway, and most buckets in a
-    // jungle neighbourhood hold a handful. Under this many instances across
-    // the neighbourhood, the quarters are merged back into one unsplit
-    // bucket with its own bounding sphere.
-    const UNSPLIT_BELOW = 120;
-    const byLevel = new Map<string, Bucket[]>();
-    for (const bucket of buckets.values()) {
-      const key = `${bucket.species}|${bucket.level}`;
-      const list = byLevel.get(key);
-      if (list) list.push(bucket);
-      else byLevel.set(key, [bucket]);
-    }
-    for (const [key, list] of byLevel) {
-      if (list.length < 2) continue;
-      let total = 0;
-      for (const bucket of list) total += bucket.count;
-      if (total >= UNSPLIT_BELOW) continue;
-      const merged: Bucket = {
-        species: list[0].species, level: list[0].level,
-        block: UNSPLIT_BLOCK, placements: [], count: total, windTune: [],
-        bands: [], ...emptyExtents(),
+    function finish(build: CellBuild): void {
+      // A cancelled or unmounted owner must not get fresh BatchedMeshes.
+      if (!mounted.current || cells.current.get(key) !== cell) return;
+      const previous = cell!.species;
+      // One upload per batch the whole cell touched, not one per part.
+      for (const batch of touched) batch.data.needsUpdate = true;
+      removeRanges(previous);
+      cell!.species = filled;
+      cell!.build = { solids: build.solids };
+      cell!.occCells = occupiedFor(build);
+      // `finish` runs INSIDE the last frame-work step, so its cost is already
+      // in that step's segment: adding it again would double-count it.
+      registry.current.built(key, lod, build.skippedSpecies, serial);
+      counters.current.builds++;
+      counters.current.lastBuild = {
+        total: Math.round(cpuMs * 10) / 10,
+        frames,
+        elapsedMs: Math.round(performance.now() - started),
       };
-      for (const bucket of list) {
-        extend(merged, bucket.minX, bucket.minY, bucket.minZ, bucket.maxScale);
-        extend(merged, bucket.maxX, bucket.maxY, bucket.maxZ, bucket.maxScale);
-        for (const value of bucket.placements) merged.placements.push(value);
-        for (const value of bucket.windTune) merged.windTune.push(value);
-        for (const value of bucket.bands) merged.bands.push(value);
-        buckets.delete(`${key}|${bucket.block}`);
+      refreshRanges();
+      refreshOccupied();
+      publishSolids();
+      // The underwater kit is 27 MB: ask for it only once a sea-bed species
+      // comes within the lead distance of the focus (16f round 4).
+      if (build.underwaterWanted) {
+        const f = focusRef.current;
+        const dx = Math.max(cell!.originX - f.x, 0, f.x - (cell!.originX + liveIndex!.chunkMetres));
+        const dz = Math.max(cell!.originZ - f.z, 0, f.z - (cell!.originZ + liveIndex!.chunkMetres));
+        if (Math.hypot(dx, dz) <= UNDERWATER_KIT_LEAD_M) requestUnderwater();
       }
-      buckets.set(`${key}|${UNSPLIT_BLOCK}`, merged);
+      if (import.meta.env.DEV) {
+        if (reason && reason !== "first") {
+          console.debug(`vegetation cell rebuilt ${key} (${reason})`);
+        }
+        console.debug(
+          `vegetation cell built ${key} ${counters.current.lastBuild.total} ms `
+          + `${build.copies} copies`);
+      }
+      // Publish NOW, not at the next 10-frame tick: on a sub-1 fps software
+      // renderer that tick is longer than a probe's whole window.
+      publishStats();
     }
 
-    const bucketMs = cpuMs + (performance.now() - segmentStart);
-    // Pass two: one InstancedMesh per bucket per geometry part, from the pool.
-    const filled = new Set<string>();
-    let instances = 0;
-    let triangles = 0;
+    const handle = queue.add(job(), {
+      priority: 30, label: "vegetation-cell",
+      // `finish` runs while the job is still registered, so publish again once
+      // it is retired: otherwise `cellsPending` stays one too high until the
+      // next 10-frame tick.
+      onDone: () => { jobs.current.delete(key); publishStats(); },
+      onError: () => { jobs.current.delete(key); publishStats(); },
+    });
+    jobs.current.set(key, {
+      cancel: () => {
+        handle.cancel();
+        jobs.current.delete(key);
+        // The fill is sliced now, so a cancel can land with some species
+        // already in the batches: give those copies back.
+        if (filled.length > 0 && cell.species !== filled) {
+          removeRanges(filled);
+          filled.length = 0;
+        }
+      },
+    });
+  }
+
+  /** (cellX, cellZ, instances) triples: the count feeds the `occluded` stat. */
+  function occupiedFor(build: CellBuild): number[] {
+    const counts = new Map<number, number>();
+    for (const sb of build.species) {
+      for (let i = 0; i < sb.count; i++) {
+        const x = sb.placements[i * 7];
+        const z = sb.placements[i * 7 + 2];
+        const id = cellId(
+          Math.floor(x / OCCLUSION_CELL_M), Math.floor(z / OCCLUSION_CELL_M));
+        counts.set(id, (counts.get(id) ?? 0) + 1);
+      }
+    }
+    const out: number[] = [];
+    for (const [id, count] of counts) {
+      const cx = Math.floor(id / 65536);
+      out.push(cx - 32768, id - cx * 65536 - 32768, count);
+    }
+    return out;
+  }
+
+  const matrix = useMemo(() => new THREE.Matrix4(), []);
+  const position = useMemo(() => new THREE.Vector3(), []);
+  const euler = useMemo(() => new THREE.Euler(), []);
+  const quaternion = useMemo(() => new THREE.Quaternion(), []);
+  const scaleVec = useMemo(() => new THREE.Vector3(), []);
+
+  /** What `reserveBatches` needs to CREATE a batch for a key. */
+  interface PartSpec {
+    material: THREE.Material;
+    depthMaterial: THREE.Material | undefined;
+    near: boolean;
+    isCard: boolean;
+  }
+
+  /**
+   * The copies one cell will add per batch key, and how to make each of those
+   * batches — worked out from the SOURCES, before anything is built, so every
+   * batch can be grown up front (`reserveBatches`). The count and the rung
+   * ladder here are exactly what `buildSpecies` will produce.
+   */
+  function planBatches(
+    sources: readonly CellSpeciesSource[],
+    liveKit: FloraKit,
+  ): { needs: Map<string, number>; specs: Map<string, PartSpec> } {
+    const plan: CopiesSpecies[] = [];
+    for (const source of sources) {
+      const params = speciesParams.get(source.species);
+      if (!params) continue;
+      const count = Math.min(source.count, MAX_PER_DRAW);
+      const rungs = cellRungs(params.ladder, params.vanishes);
+      if (count === 0 || rungs.length === 0) continue;
+      plan.push({ species: source.species, count, rungs });
+    }
+    const specs = new Map<string, PartSpec>();
+    const needs = copiesPerKey(plan, (sb, rungIndex) => {
+      const entry = liveKit.get(sb.species);
+      if (!entry) return [];
+      const level = Math.min(entry.levels.length - 1, sb.rungs[rungIndex].level);
+      const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
+      const near = rungIndex === 0;
+      const keys: string[] = [];
+      for (const part of entry.levels[level].parts) {
+        const key = batchKeyFor(
+          part.material, part.depthMaterial, part.geometry, near, isCard);
+        if (!specs.has(key)) {
+          specs.set(key, {
+            material: part.material, depthMaterial: part.depthMaterial,
+            near, isCard,
+          });
+        }
+        keys.push(key);
+      }
+      return keys;
+    });
+    return { needs, specs };
+  }
+
+  /**
+   * Grow every batch this cell will overflow, BEFORE its first `addInstance`.
+   * A growth replays whole live rungs into a fresh mesh, which is only sound
+   * while no rung is half-filled — so this is the one place that grows.
+   */
+  function reserveBatches(
+    needs: Map<string, number>,
+    specs: Map<string, PartSpec>,
+  ): void {
+    for (const [key, need] of needs) {
+      const spec = specs.get(key);
+      if (!spec) continue;
+      const batch = batches.current.get(key);
+      if (!batch) {
+        batches.current.set(key, makeBatch(
+          key, spec.material, spec.depthMaterial, spec.near, spec.isCard,
+          Math.max(MIN_BATCH_CAPACITY, Math.ceil(need * 1.5)),
+          batchGeometryBudget(key)));
+      } else if (batch.used + need > batch.capacity) {
+        batches.current.set(key, growBatch(batch, need));
+      }
+    }
+  }
+
+  /**
+   * Re-create a full batch at 1.5× and replay every live rung into it. The
+   * materials are NOT re-created (they are owned per key): only the mesh and
+   * the per-instance data texture are, and the uniform is re-pointed at the
+   * new texture inside `makeBatch`.
+   */
+  function growBatch(old: Batch, need: number): Batch {
+    const capacity = Math.max(MIN_BATCH_CAPACITY, Math.ceil((old.used + need) * 1.5));
+    // Hide everything this batch holds first, so the visible-copy counters and
+    // the tile states are consistent with the fresh (all-invisible) copies;
+    // the next gating pass re-applies the right answer.
+    for (const rung of [...old.rungs]) hideRung(rung);
+    const fresh = makeBatch(
+      old.key, old.material, old.depthMaterial, old.near, old.isCard,
+      capacity, { vertices: old.vertexCapacity, indices: old.indexCapacity });
+    // The replay reads the OLD mesh, not a retained CPU copy of the
+    // placements: matrix out, matrix in, and the two data texels with it.
+    const oldData = old.data.image.data as Float32Array;
+    const freshData = fresh.data.image.data as Float32Array;
+    const stride = BATCH_DATA_TEXELS * 4;
+    for (const rung of [...old.rungs]) {
+      for (let p = 0; p < rung.partBatches.length; p++) {
+        if (rung.partBatches[p] !== old) continue;
+        rung.partBatches[p] = fresh;
+        const spec = rung.partSpecs[p];
+        let geometryId = fresh.geometryIds.get(spec.geometryKey);
+        if (geometryId === undefined) {
+          geometryId = fresh.mesh.addGeometry(spec.geometry);
+          fresh.geometryIds.set(spec.geometryKey, geometryId);
+        }
+        // Ids are rewritten IN PLACE, so every tile's subarray view of this
+        // array carries the new ids without being rebuilt.
+        const ids = rung.partIds[p];
+        for (let i = 0; i < ids.length; i++) {
+          const oldId = ids[i];
+          const newId = fresh.mesh.addInstance(geometryId);
+          old.mesh.getMatrixAt(oldId, matrix);
+          fresh.mesh.setMatrixAt(newId, matrix);
+          const from = oldId * stride;
+          const to = newId * stride;
+          for (let k = 0; k < stride; k++) freshData[to + k] = oldData[from + k];
+          fresh.mesh.setVisibleAt(newId, false);
+          ids[i] = newId;
+        }
+        fresh.used += ids.length;
+        fresh.rungs.add(rung);
+      }
+      old.rungs.delete(rung);
+    }
+    // The replay is a whole-batch rewrite, so this upload is not the
+    // per-species one `addCopies` deliberately leaves to the caller.
+    fresh.data.needsUpdate = true;
+    root.current?.remove(old.mesh);
+    old.mesh.dispose();
+    old.data.dispose();
+    return fresh;
+  }
+
+  /** Switch every visible tile of a rung off (the state bookkeeping with it). */
+  function hideRung(rung: CellRungEntry): void {
+    for (let i = 0; i < rung.tiles.length; i++) {
+      if (rung.state[i] === 0) continue;
+      rung.state[i] = 0;
+      applyTile(rung.tiles[i], false);
+    }
+    rung.uniform = 0;
+  }
+
+  /**
+   * Add one species × rung × part's copies to a batch, writing their ids into
+   * `ids` IN PLACE so the per-tile subarray views survive a batch growth.
+   *
+   * The caller marks `batch.data` dirty ONCE per cell (a `needsUpdate` here
+   * re-uploads the whole RGBA32F texture per species × rung × part).
+   */
+  function addCopies(
+    batch: Batch,
+    geometryKey: string,
+    geometry: THREE.BufferGeometry,
+    sb: CellSpeciesBuild,
+    rungIndex: number,
+    ids: Int32Array,
+  ): Int32Array {
+    let geometryId = batch.geometryIds.get(geometryKey);
+    if (geometryId === undefined) {
+      geometryId = batch.mesh.addGeometry(geometry);
+      batch.geometryIds.set(geometryKey, geometryId);
+    }
+    const rung = sb.rungs[rungIndex];
+    for (let i = 0; i < sb.count; i++) {
+      const id = batch.mesh.addInstance(geometryId);
+      const at = i * 7;
+      position.set(sb.placements[at], sb.placements[at + 1], sb.placements[at + 2]);
+      euler.set(sb.placements[at + 3], sb.placements[at + 4], sb.placements[at + 5], "YXZ");
+      quaternion.setFromEuler(euler);
+      scaleVec.setScalar(sb.placements[at + 6]);
+      batch.mesh.setMatrixAt(id, matrix.compose(position, quaternion, scaleVec));
+      // The card rung never sways, whatever the species does.
+      const stiffness = batch.isCard ? -1 : sb.windTune[i * 2];
+      writeBatchInstance(
+        batch.data, id, rung.band, stiffness, sb.windTune[i * 2 + 1]);
+      batch.mesh.setVisibleAt(id, false);
+      ids[i] = id;
+    }
+    batch.used += sb.count;
+    return ids;
+  }
+
+  /** Switch one tile's copies on or off across every part it spans. */
+  function applyTile(tile: CellTile, visible: boolean): void {
+    for (let p = 0; p < tile.ids.length; p++) {
+      const batch = tile.batches[p];
+      const ids = tile.ids[p];
+      for (let i = 0; i < ids.length; i++) batch.mesh.setVisibleAt(ids[i], visible);
+      batch.visibleCopies += visible ? ids.length : -ids.length;
+    }
+  }
+
+  /**
+   * Fill ONE built species into the batches — the GPU half of the work, done
+   * in the same frame-work step as that species' build. Every batch it touches
+   * was reserved before the cell started, so nothing grows here.
+   */
+  function fillSpecies(
+    cell: Cell,
+    sb: CellSpeciesBuild,
+    liveKit: FloraKit,
+    touched: Set<Batch>,
+  ): CellSpeciesEntry | null {
+    {
+      const entry = liveKit.get(sb.species);
+      const params = speciesParams.get(sb.species);
+      if (!entry || !params) return null;
+      const margin = params.reachM * sb.maxScale;
+      const radius = Math.hypot(
+        sb.maxX - sb.minX, sb.maxY - sb.minY, sb.maxZ - sb.minZ) / 2 + margin;
+      const speciesEntry: CellSpeciesEntry = {
+        key: `${cell.key}|${sb.species}`,
+        cell: cell.key,
+        species: sb.species,
+        maxDraw: params.maxDraw,
+        cellBox: {
+          minX: sb.minX - margin, minZ: sb.minZ - margin,
+          maxX: sb.maxX + margin, maxZ: sb.maxZ + margin,
+        },
+        cellSphere: {
+          x: (sb.minX + sb.maxX) / 2,
+          y: (sb.minY + sb.maxY) / 2,
+          z: (sb.minZ + sb.maxZ) / 2,
+          r: radius,
+        },
+        rungs: [],
+        near: sb.rungs.length > 0,
+        instMinY: Infinity,
+        instMaxY: -Infinity,
+      };
+      // Instance Y from the non-empty gate tiles (an empty tile is all zero
+      // and would drag the range to 0 m).
+      for (let t = 0; t < CELL_TILES * CELL_TILES; t++) {
+        if (sb.tileOffsets[t + 1] === sb.tileOffsets[t]) continue;
+        const b = t * TILE_BOUNDS_STRIDE;
+        if (sb.tileBounds[b + 1] < speciesEntry.instMinY) {
+          speciesEntry.instMinY = sb.tileBounds[b + 1];
+        }
+        if (sb.tileBounds[b + 4] > speciesEntry.instMaxY) {
+          speciesEntry.instMaxY = sb.tileBounds[b + 4];
+        }
+      }
+      for (let rungIndex = 0; rungIndex < sb.rungs.length; rungIndex++) {
+        const rung = sb.rungs[rungIndex];
+        const level = Math.min(entry.levels.length - 1, rung.level);
+        const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
+        const near = rungIndex === 0;
+        const parts = entry.levels[level].parts;
+        const partBatches: Batch[] = [];
+        const partIds: Int32Array[] = [];
+        const partSpecs: ReplaySpec[] = [];
+        const partTriangles: number[] = [];
+        for (let partIndex = 0; partIndex < parts.length; partIndex++) {
+          const part = parts[partIndex];
+          const batch = batches.current.get(batchKeyFor(
+            part.material, part.depthMaterial, part.geometry, near, isCard))!;
+          touched.add(batch);
+          const geometryKey = `${sb.species}|${level}|${partIndex}`;
+          const ids = addCopies(
+            batch, geometryKey, part.geometry, sb, rungIndex,
+            new Int32Array(sb.count));
+          partBatches.push(batch);
+          partIds.push(ids);
+          partSpecs.push({ geometryKey, geometry: part.geometry });
+          const idx = part.geometry.getIndex();
+          partTriangles.push(
+            (idx ? idx.count : part.geometry.attributes.position.count) / 3);
+        }
+        // One gate tile per non-empty 58 m tile of the cell. The placements
+        // are sorted by tile, so a tile's ids are one contiguous run.
+        const tiles: CellTile[] = [];
+        let copies = 0;
+        let triangles = 0;
+        for (let t = 0; t < CELL_TILES * CELL_TILES; t++) {
+          const from = sb.tileOffsets[t];
+          const to = sb.tileOffsets[t + 1];
+          if (to === from) continue;
+          const b = t * TILE_BOUNDS_STRIDE;
+          const tileMargin = params.reachM * sb.tileBounds[b + 6];
+          const tile: CellTile = {
+            box: {
+              minX: sb.tileBounds[b] - tileMargin,
+              minZ: sb.tileBounds[b + 2] - tileMargin,
+              maxX: sb.tileBounds[b + 3] + tileMargin,
+              maxZ: sb.tileBounds[b + 5] + tileMargin,
+            },
+            ids: partIds.map((ids) => ids.subarray(from, to)),
+            copies: (to - from) * partIds.length,
+            triangles: 0,
+            batches: partBatches,
+          };
+          for (const tris of partTriangles) tile.triangles += tris * (to - from);
+          copies += tile.copies;
+          triangles += tile.triangles;
+          tiles.push(tile);
+        }
+        const rungEntry: CellRungEntry = {
+          band: rung.band, near, tiles, state: new Uint8Array(tiles.length),
+          copies, triangles, uniform: 0,
+          level, isCard, species: sb.species,
+          partBatches, partIds, partSpecs,
+        };
+        for (const batch of partBatches) batch.rungs.add(rungEntry);
+        speciesEntry.rungs.push(rungEntry);
+      }
+      return speciesEntry;
+    }
+  }
+
+  function publishStats(): void {
+    // The visible copies and triangles are what the GATING LOOP counted this
+    // frame; nothing is re-walked for them.
+    const instances = gateStats.current.visibleCopies;
+    const triangles = gateStats.current.visibleTriangles;
+    const total = copiesTotal.current;
+    let billboardInstances = 0;
     const bySpecies: VegetationStats["bySpecies"] = {};
-    for (const bucket of buckets.values()) {
-      {
-        const seen = bySpecies[bucket.species]
-          ?? (bySpecies[bucket.species] = { drawn: 0, minY: Infinity, maxY: -Infinity });
-        seen.drawn += bucket.count;
-        for (let i = 0; i < bucket.count; i++) {
-          const y = bucket.placements[i * PLACEMENT_STRIDE + 1];
-          if (y < seen.minY) seen.minY = y;
-          if (y > seen.maxY) seen.maxY = y;
-        }
-      }
-      const entry = liveKit.get(bucket.species)!;
-      // `level` is clamped to a valid index where it is chosen, so this is a
-      // real lookup, not a fallback.
-      const parts = entry.levels[bucket.level].parts;
-      instances += bucket.count;
-      for (let partIndex = 0; partIndex < parts.length; partIndex++) {
-        const part = parts[partIndex];
-        // Per-instance wind tuning lives on the geometry, so each (species,
-        // level, BLOCK) mesh needs its own copy of that attribute: blocks
-        // share a kit geometry, and one shared attribute would let the last
-        // block written re-tune every other block's wind. `blockGeometry`
-        // hands back a per-block view that SHARES every real vertex buffer
-        // and is cached across rebuilds, so the extra cost is one small
-        // object per (part, block), not a duplicated mesh.
-        const geometry = blockGeometry(part.geometry, bucket.block);
-        // The attribute is cached on that geometry and GROWN in place rather
-        // than reallocated. A fresh InstancedBufferAttribute every rebuild
-        // would strand its GPU buffer (nothing disposes a bare attribute).
-        // Over-allocation is harmless: the InstancedMesh draws `count`
-        // instances, not the attribute's length.
-        const windTune = instancedAttribute(
-          geometry, WIND_TUNE_ATTRIBUTE, 2, bucket.count);
-        windTune.array.set(bucket.windTune);
-        uploadRange(windTune, bucket.count * 2);
-        // The crossfade band, same per-block story as the wind tune.
-        const bands = instancedAttribute(
-          geometry, LOD_BAND_ATTRIBUTE, 4, bucket.count);
-        bands.array.set(bucket.bands);
-        uploadRange(bands, bucket.count * 4);
-        const meshKey = `${bucket.species}|${bucket.level}|${bucket.block}|${partIndex}`;
-        let mesh = pool.current.get(meshKey);
-        if (!mesh || mesh.instanceMatrix.count < bucket.count) {
-          // Too small (or new): grow by 1.5x so a neighbourhood that keeps
-          // creeping up by a few instances does not reallocate every 16 m.
-          if (mesh) { liveGroup.remove(mesh); mesh.dispose(); }
-          mesh = new THREE.InstancedMesh(
-            geometry, part.material, Math.max(64, Math.ceil(bucket.count * 1.5)));
-          mesh.frustumCulled = true;
-          mesh.boundingSphere = new THREE.Sphere();
-          pool.current.set(meshKey, mesh);
-          liveGroup.add(mesh);
-        }
-        mesh.count = bucket.count;
-        filled.add(meshKey);
-        const isCard =
-          entry.billboardIndex !== null && bucket.level === entry.billboardIndex;
-        mesh.receiveShadow = !isCard;
-        if (part.depthMaterial) mesh.customDepthMaterial = part.depthMaterial;
-        // Sway the mesh tiers only. Cards are the far/impostor tier — sway is
-        // invisible there and the research is explicit that wind never runs
-        // on it. The shadow-depth twin is patched in the same call: patch the
-        // colour material alone and every tree's shadow stands still while
-        // the tree moves.
-        if (!isCard && entry.sways) {
-          applyWindSwayWithShadow(part.material, part.depthMaterial, wind);
-        }
-        // The fade runs on EVERY tier, cards included: the card tier is where
-        // the worst pop was, and the discard is the first statement in the
-        // fragment shader, so it works on opaque rock materials and in the
-        // depth pass too.
-        applyLodFadeWithShadow(part.material, part.depthMaterial, lodFade);
-        for (let i = 0; i < bucket.count; i++) {
-          const at = i * PLACEMENT_STRIDE;
-          position.set(
-            bucket.placements[at], bucket.placements[at + 1], bucket.placements[at + 2]);
-          euler.set(
-            bucket.placements[at + 3], bucket.placements[at + 4],
-            bucket.placements[at + 5], "YXZ");
-          quaternion.setFromEuler(euler);
-          scale.setScalar(bucket.placements[at + 6]);
-          mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
-        }
-        uploadRange(mesh.instanceMatrix, bucket.count * 16);
-        // Bounding sphere from the bucket's own pivot extents plus the
-        // species' reach at its largest scale — `computeBoundingSphere()`
-        // read every instance matrix back per rebuild.
-        const sphere = mesh.boundingSphere!;
-        sphere.center.set(
-          (bucket.minX + bucket.maxX) / 2, (bucket.minY + bucket.maxY) / 2,
-          (bucket.minZ + bucket.maxZ) / 2);
-        sphere.radius =
-          Math.hypot(bucket.maxX - bucket.minX, bucket.maxY - bucket.minY,
-            bucket.maxZ - bucket.minZ) / 2
-          + (reachM.get(bucket.species) ?? entry.heightM) * bucket.maxScale;
-        // Shadows: only the NEAREST mesh level, and only where the cascades
-        // can see it. Levels 0–1 casting across the whole neighbourhood was
-        // two extra alpha-tested, wind-displaced depth passes over every
-        // species in ~2.3 km of jungle. The flag is recomputed here, on the
-        // rebuild, never per frame.
-        const centre = mesh.boundingSphere?.center;
-        mesh.castShadow =
-          bucket.level === 0
-          && centre !== undefined
-          && Math.hypot(centre.x - focus.x, centre.z - focus.z) <= SHADOW_CAST_RANGE_M;
-        built.push({ mesh, species: bucket.species, level: bucket.level });
-        const geometryIndex = geometry.getIndex();
-        triangles +=
-          ((geometryIndex ? geometryIndex.count : geometry.attributes.position.count) / 3)
-          * bucket.count;
-        // One (bucket, geometry part) mesh fill is the step of pass two.
-        frames++;
-        closeSegment(); yield; segmentStart = performance.now();
-      }
+    let draws = 0;
+    for (const batch of batches.current.values()) if (batch.visibleCopies > 0) draws++;
+    let cellsPending = 0;
+    for (const cell of cells.current.values()) {
+      if (!cell.build || jobs.current.has(cell.key)) cellsPending++;
     }
-
-    // The new draw list is complete: publish it, and only now.
-    groups.current = built;
-    frames++;
-    closeSegment(); yield; segmentStart = performance.now();
-
-    // Park every pooled mesh this rebuild did not fill: drawn nothing, but
-    // its buffers stay for the next crossing.
-    for (const [meshKey, mesh] of pool.current) {
-      if (!filled.has(meshKey)) mesh.count = 0;
+    // A per-species breakdown only a debug panel reads: a walk over tile
+    // STATE bytes, no distance maths, once every 60 frames.
+    for (const entry of allSpecies.current) {
+      let drawn = 0;
+      for (const rung of entry.rungs) {
+        let onCopies = 0;
+        if (rung.uniform === 1) onCopies = rung.copies;
+        else if (rung.uniform !== 0) {
+          for (let i = 0; i < rung.tiles.length; i++) {
+            if (rung.state[i] === 1) onCopies += rung.tiles[i].copies;
+          }
+        }
+        drawn += onCopies;
+        if (rung.isCard) billboardInstances += onCopies;
+      }
+      if (drawn === 0) continue;
+      const seen = bySpecies[entry.species]
+        ?? (bySpecies[entry.species] = { drawn: 0, minY: Infinity, maxY: -Infinity });
+      seen.drawn += drawn;
+      if (entry.instMinY < seen.minY) seen.minY = entry.instMinY;
+      if (entry.instMaxY > seen.maxY) seen.maxY = entry.instMaxY;
     }
-    closeSegment();
-    const totalMs = cpuMs;
-    const rebuildMs = {
-      total: Math.round(totalMs * 10) / 10,
-      bucket: Math.round(bucketMs * 10) / 10,
-      fill: Math.round((totalMs - bucketMs) * 10) / 10,
-      frames,
-      elapsedMs: Math.round(performance.now() - rebuildStart),
-    };
-    if (import.meta.env.DEV) {
-      console.debug(
-        `vegetation rebuild ${rebuildMs.total} ms over ${frames} frames `
-        + `(${rebuildMs.elapsedMs} ms elapsed) `
-        + `(bucket ${rebuildMs.bucket}, fill ${rebuildMs.fill}), `
-        + `${groups.current.length} draws, ${instances} instances, pool ${pool.current.size}`);
+    // Like-for-like with the old path: INSTANCES in hidden mask cells, not
+    // the count of hidden texels.
+    let occluded = 0;
+    for (const [id, count] of occupiedCells.current) {
+      const cx = Math.floor(id / 65536) - 32768;
+      const cz = id - (cx + 32768) * 65536 - 32768;
+      if (mask.hidden((cx + 0.5) * OCCLUSION_CELL_M, (cz + 0.5) * OCCLUSION_CELL_M)) {
+        occluded += count;
+      }
     }
     const stats: VegetationStats = {
-      chunks: loaded.current.size,
+      chunks: cells.current.size,
       instances,
-      draws: groups.current.length,
+      draws,
+      drawsFallback: instances,
       triangles: Math.round(triangles),
-      culled,
+      culled: Math.max(0, total - instances),
       billboardInstances,
       occluded,
       bySpecies,
-      rebuildMs,
+      rebuildMs: counters.current.lastBuild,
+      cellBuilds: counters.current.builds,
+      cellRebuilds: registry.current.rebuilds,
+      cellRebuildReasons: { ...registry.current.reasons },
+      gatingMs: Math.round(counters.current.gatingMs * 1000) / 1000,
+      gatingMaxMs: Math.round(counters.current.gatingMaxMs * 1000) / 1000,
+      maskMs: Math.round(counters.current.maskMs * 1000) / 1000,
+      batches: batches.current.size,
+      copiesTotal: total,
+      cellsPending,
+      frame: counters.current.frame,
     };
     onStats?.(stats);
-    onSolids?.(solids);
-    if (needsUnderwater) setUnderwaterWanted(true);
-    // Same convention as the sky and water debug hooks: probes read the
-    // numbers rather than guessing them from a screenshot.
     (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })
       .__STUDIO_VEGETATION_DEBUG__ = stats;
-    if (import.meta.env.DEV) {
-      // Dev-only probe handle (2026-09-17): the drawn meshes themselves, so a
-      // probe can hide a species and measure what it was painting.
-      (window as unknown as { __STUDIO_VEGETATION_MESHES__?: DrawGroup[] })
-        .__STUDIO_VEGETATION_MESHES__ = groups.current;
-    }
-    }
+  }
 
-    const handle = queue.add(rebuildJob(), { priority: 30, label: "vegetation" });
-    // A new revision mid-run cancels and restarts: the intended behaviour.
-    return () => handle.cancel();
-  }, [queue, kit, index, manifest, underwaterManifest, revision, verticalScale, onStats, onSolids, focusRef,
-      drawScale, chunksManifest, store, wind, lodFade]);
-
+  void revision;
   return <group ref={root} name="vegetation" />;
 }
