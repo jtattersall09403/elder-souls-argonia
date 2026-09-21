@@ -53,6 +53,6 @@ describe("near-tier reach scales with the mesh's cost", () => {
     expect(nearReachFraction(500)).toBeCloseTo(0.5, 10);
   });
   it("floors the reach for the spiky-grass tuft", () => {
-    expect(nearReachFraction(2298)).toBeCloseTo(0.3, 10);
+    expect(nearReachFraction(2298)).toBeCloseTo(0.25, 10);
   });
 });

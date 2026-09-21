@@ -370,15 +370,20 @@ a hectare. The reach is now per species
                x clamp(NEAR_TRI_REF / meshTris, NEAR_REACH_MIN, 1)
 
 with `NEAR_TRI_REF` 250 (a typical grass clump: full reach), `NEAR_REACH_MIN`
-0.3 and `NEAR_TRI_MAX` 1 000. `meshTris` is the level the NEAR tier actually
-draws: the coarsest non-billboard level at or under the cap, or none at all,
-in which case the species has no NEAR tier and its card is used from 0 m. The
-same per-species reach feeds the tile assignment, the NEAR band's outer edge
-and the MID band's inner edge, so the card takes over exactly where the mesh
-stops; nothing else about the tiers changes. Of the 73 species the ring places,
-63 are at or under 250 triangles and keep the full reach, 8 fall between and
-scale, and 2 are over the cap — `vanilla:plants/floraspikygrass02` (2 298) and
-`vanilla:landscape/plants/swordferncluster01` (1 424) — which, the kit shipping
-no decimated level for either, run on their cards throughout. The HUD's `gc:`
+0.25 and `NEAR_TRI_MAX` 1 000. `meshTris` is the level the NEAR tier actually
+draws: the coarsest non-billboard level at or under the cap where the kit ships
+one, otherwise level 0. **No species is card-only.** The first cut let a
+species over the cap with no decimated level fall back to its card from 0 m;
+the owner walked it and read the two such species —
+`vanilla:plants/floraspikygrass02` (2 298 triangles) and
+`vanilla:landscape/plants/swordferncluster01` (1 424) — as faded grey flat
+cards standing beside the player. That case is gone: those two now draw their
+own mesh out to the floored reach, 0.25 x 0.4 r — 7.5 m at the high preset,
+6.5 m at medium — and hand over to the card there. The same per-species reach
+feeds the tile assignment, the NEAR band's outer edge and the MID band's inner
+edge, so the card takes over exactly where the mesh stops; nothing else about
+the tiers changes. Of the 73 species the ring places, 63 are at or under 250
+triangles and keep the full reach and the rest scale down to the floor. The
+HUD's `gc:`
 line carries `mesh <n>M`, the triangles of the live NEAR-tier instances at the
 last rebuild, so the cut is visible from the running studio.

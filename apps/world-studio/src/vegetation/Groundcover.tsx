@@ -126,14 +126,14 @@ const NEAR_FRACTION = 0.4;
  *
  *  - `NEAR_TRI_REF` — a typical grass clump (the drjacopo grasses, 250–390):
  *    full reach, the behaviour before this rule.
- *  - `NEAR_REACH_MIN` — the floor; 0.3 x 0.4 r is 9 m at the high preset.
- *  - `NEAR_TRI_MAX` — over this a species does not get its base mesh near at
- *    all: it uses the coarsest decimated level at or under the cap (and that
- *    level's own triangle count then sets the reach), or, where the kit ships
- *    no such level, the card from 0 m.
+ *  - `NEAR_REACH_MIN` — the floor; 0.25 x 0.4 r is 7.5 m at the high preset.
+ *    No species is ever card-only: a heavy mesh keeps its mesh this close in.
+ *  - `NEAR_TRI_MAX` — the cap for CHOOSING a decimated level: a species uses
+ *    the coarsest level at or under it where the kit ships one (and that
+ *    level's own triangle count then sets the reach), otherwise level 0.
  */
 const NEAR_TRI_REF = 250;
-const NEAR_REACH_MIN = 0.3;
+const NEAR_REACH_MIN = 0.25;
 const NEAR_TRI_MAX = 1000;
 
 /** The NEAR band's fraction of `NEAR_FRACTION x r` for a mesh of `meshTris`. */
@@ -153,19 +153,18 @@ function partsTriangles(parts: readonly { geometry: THREE.BufferGeometry }[]): n
 
 /**
  * The mesh level the NEAR tier draws: the COARSEST non-billboard level whose
- * triangle count is at or under `NEAR_TRI_MAX`. Null where every level is over
- * the cap — that species has no NEAR mesh tier and runs on its card from 0 m.
+ * triangle count is at or under `NEAR_TRI_MAX`, falling back to level 0 where
+ * every level is over the cap — every species has a NEAR mesh tier.
  */
-function nearMeshLevel(
-  entry: KitSpecies,
-): { parts: KitLevel["parts"]; tris: number } | null {
+function nearMeshLevel(entry: KitSpecies): { parts: KitLevel["parts"]; tris: number } {
   for (let level = entry.levels.length - 1; level >= 0; level--) {
     if (level === entry.billboardIndex) continue;
     const parts = entry.levels[level].parts;
     const tris = partsTriangles(parts);
     if (tris <= NEAR_TRI_MAX) return { parts, tris };
   }
-  return null;
+  const parts = entry.levels[0].parts;
+  return { parts, tris: partsTriangles(parts) };
 }
 
 /** Fraction of a species' instances the FAR tier keeps. */
@@ -1307,9 +1306,7 @@ export function Groundcover({
         return { parts, reach: 1 };
       }
       const level = nearMeshLevel(entry);
-      return level === null
-        ? null
-        : { parts: level.parts, reach: nearReachFraction(level.tris) };
+      return { parts: level.parts, reach: nearReachFraction(level.tris) };
     });
     interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tx: number; tz: number; minY: number; maxY: number }[]; count: number }
     const slots: SlotTiles[][] = SPECIES_PLANS.map(
