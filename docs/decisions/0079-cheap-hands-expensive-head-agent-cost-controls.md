@@ -133,13 +133,20 @@ turn-wasters left. The owner ruled the same day:
     no reply; small look-ups are folded into one brief; a fan-out of three
     or more agents with nothing between them runs as one `Workflow` (the
     owner's opt-in is the CLAUDE.md line itself).
-12. **The prose linter covers player-visible and world-record text only.**
-    Docs are agent context and their prose is cosmetic; `docs/**/*.md` is
-    exempt and the docs ratchet baseline is gone. The docs-currency checks
-    (retired terms, stale hashes, fact counts) are unchanged. When the
-    linter is red, the `run` agent fixes the named lines and reruns; the
-    planner sees the count. Saves the 5–10 late-session fix turns per gated
-    session.
+12. **The prose linter covers what will be player-facing, and nothing
+    else.** Docs and world-record design prose (a place's why/vibe/hook
+    fields, quest premises) are agent context; their prose is cosmetic and
+    is not linted. Every player-visible string lives in
+    `packages/text-catalogue` (standard 2), hand-written or generated from
+    world records, so the linter walks that whole package with no field
+    list (a new kind of player text is linted the moment it exists), and a
+    tripwire fails on prose data anywhere else under `packages/` or
+    `apps/`. The docs-currency checks (retired terms, stale hashes, fact
+    counts) are unchanged. When the linter is red, the `run` agent fixes
+    the named lines and reruns; the planner sees the count. Saves the 5–10
+    late-session fix turns per gated session. Known hole, queued in the
+    P-polish backlog: place names and quest titles are still raw strings in
+    world records with no generator lifting them into the catalogue.
 13. **Subagent reports are written for re-reading, not capped.** A hard
     length cap was rejected (some reports must be long). Each agent
     definition now carries a specific report shape: outcome first, each
