@@ -687,6 +687,29 @@ function CharacterHud({ channel }: { channel: HudChannel }) {
  * frame: it spans exactly one frame of GPU work. Results are polled
  * asynchronously and discarded when the driver reports a disjoint.
  */
+interface FrameGpuStats {
+  avg: number;
+  max: number;
+  supported: boolean;
+  /** Triangles and draw calls the WHOLE frame issued, averaged over the same
+   * 60-frame window as `avg` (every pass, see the manual `info.reset`). */
+  tris: number;
+  calls: number;
+}
+
+/** Mean of a bounded sample ring; 0 when it is empty. */
+function mean(values: number[]): number {
+  if (values.length === 0) return 0;
+  let sum = 0;
+  for (const v of values) sum += v;
+  return sum / values.length;
+}
+
+/** Millions, one decimal — the only scale these counts are read at. */
+function millions(n: number): string {
+  return `${(n / 1e6).toFixed(1)}M`;
+}
+
 function FrameRateProbe() {
   const acc = useRef({ sum: 0, count: 0 });
   const gl = useThree((s) => s.gl);
@@ -697,12 +720,17 @@ function FrameRateProbe() {
     pending: WebGLQuery[];
     samples: number[];
     maxWindow: number[];
-  }>({ ext: null, ctx: null, open: null, pending: [], samples: [], maxWindow: [] });
+    triSamples: number[];
+    callSamples: number[];
+  }>({
+    ext: null, ctx: null, open: null, pending: [], samples: [], maxWindow: [],
+    triSamples: [], callSamples: [],
+  });
 
   useEffect(() => {
     if (!import.meta.env.DEV) return;
     const host = window as unknown as {
-      __STUDIO_GPU_MS__?: { avg: number; max: number; supported: boolean };
+      __STUDIO_GPU_MS__?: FrameGpuStats;
     };
     let ctx: WebGL2RenderingContext | null = null;
     let ext: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null = null;
@@ -716,7 +744,15 @@ function FrameRateProbe() {
     } catch { ctx = null; ext = null; }
     gpu.current.ctx = ctx;
     gpu.current.ext = ext;
-    host.__STUDIO_GPU_MS__ = { avg: 0, max: 0, supported: Boolean(ctx && ext) };
+    // The frame is several `renderer.render` calls (the water pipeline's scene
+    // pass, the blit, water, precipitation, the overlay) and three.js clears
+    // `info` at the start of every one of them. Reading after the frame would
+    // therefore report the LAST pass alone. Take the reset over manually: it
+    // happens once per frame below, so `info.render` accumulates every pass.
+    gl.info.autoReset = false;
+    host.__STUDIO_GPU_MS__ = {
+      avg: 0, max: 0, supported: Boolean(ctx && ext), tris: 0, calls: 0,
+    };
     return () => {
       const g = gpu.current;
       try {
@@ -727,7 +763,10 @@ function FrameRateProbe() {
         }
       } catch { /* context already lost */ }
       g.open = null; g.pending = [];
+      gl.info.autoReset = true;
       delete host.__STUDIO_GPU_MS__;
+      delete (window as unknown as { __STUDIO_FRAME_TRIS__?: number })
+        .__STUDIO_FRAME_TRIS__;
     };
   }, [gl]);
 
@@ -742,6 +781,17 @@ function FrameRateProbe() {
     }
 
     const g = gpu.current;
+    // Whole-frame geometry: every pass of the frame just ended, because the
+    // reset below is manual. Averaged over the same 60-frame window as `gpu`.
+    const tris = gl.info.render.triangles;
+    const calls = gl.info.render.calls;
+    if (tris > 0) {
+      g.triSamples.push(tris); if (g.triSamples.length > 60) g.triSamples.shift();
+      g.callSamples.push(calls); if (g.callSamples.length > 60) g.callSamples.shift();
+      (window as unknown as { __STUDIO_FRAME_TRIS__?: number })
+        .__STUDIO_FRAME_TRIS__ = tris;
+    }
+    gl.info.reset();
     const { ctx, ext } = g;
     if (!ctx || !ext) return;
     try {
@@ -771,11 +821,13 @@ function FrameRateProbe() {
       if (g.samples.length > 0) {
         const avg = g.samples.reduce((s, v) => s + v, 0) / g.samples.length;
         (window as unknown as {
-          __STUDIO_GPU_MS__?: { avg: number; max: number; supported: boolean };
+          __STUDIO_GPU_MS__?: FrameGpuStats;
         }).__STUDIO_GPU_MS__ = {
           avg: Math.round(avg * 10) / 10,
           max: Math.round(Math.max(...g.maxWindow) * 10) / 10,
           supported: true,
+          tris: mean(g.triSamples),
+          calls: Math.round(mean(g.callSamples)),
         };
       }
       // Open the next frame's query (bounded: never more than a few in flight).
@@ -786,8 +838,11 @@ function FrameRateProbe() {
     } catch {
       g.ctx = null;
       (window as unknown as {
-        __STUDIO_GPU_MS__?: { avg: number; max: number; supported: boolean };
-      }).__STUDIO_GPU_MS__ = { avg: 0, max: 0, supported: false };
+        __STUDIO_GPU_MS__?: FrameGpuStats;
+      }).__STUDIO_GPU_MS__ = {
+        avg: 0, max: 0, supported: false,
+        tris: mean(g.triSamples), calls: Math.round(mean(g.callSamples)),
+      };
     }
   }, -100);
   return null;
@@ -805,14 +860,14 @@ function VegetationHudLine() {
     {
       veg: VegetationStats | null;
       fps: number;
-      gpu: { avg: number; max: number; supported: boolean } | null;
+      gpu: FrameGpuStats | null;
     } | null>(null);
   useEffect(() => {
     if (!import.meta.env.DEV) return;
     const host = window as unknown as {
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
       __STUDIO_FPS__?: number;
-      __STUDIO_GPU_MS__?: { avg: number; max: number; supported: boolean };
+      __STUDIO_GPU_MS__?: FrameGpuStats;
     };
     const read = () => setSample({
       veg: host.__STUDIO_VEGETATION_DEBUG__ ?? null,
@@ -842,6 +897,8 @@ function VegetationHudLine() {
       {` · pending ${veg.pendingBatches}`}
       {` · queue ${veg.queueMs}/${veg.queueMaxMs} ms ${veg.queueTop}`}
       {` · draws ${veg.draws}`}
+      {gpu ? ` · tris ${millions(gpu.tris)}` : ""}
+      {` · veg ${millions(veg.triangles)}`}
     </span>
   );
 }

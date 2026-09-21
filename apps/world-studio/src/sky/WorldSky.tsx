@@ -1467,7 +1467,10 @@ void main() {
       canopyAtCamera: airRef.current?.canopy ?? 0,
       sunShafts: lastShaftAmount.current,
       airAmounts: lastAirAmounts.current,
-      triangles: gl.info.render.triangles,
+      // Whole-frame total published by the DEV frame probe (CharacterMode):
+      // `info.autoReset` is off there, so the live counter is mid-frame.
+      triangles: (window as unknown as { __STUDIO_FRAME_TRIS__?: number })
+        .__STUDIO_FRAME_TRIS__ ?? gl.info.render.triangles,
       sunLightIntensity: csm.lights[0]?.intensity ?? 0,
       shadowMapEnabled: gl.shadowMap.enabled,
       hemiIntensity: hemiRef.current?.intensity ?? -1,
