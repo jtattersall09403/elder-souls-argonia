@@ -1031,6 +1031,16 @@ export interface GroundcoverPerf {
    * budget is only checked between tiles, so one slow tile is the hitch. */
   tileMs: number;
   tileMaxMs: number;
+  /** The tile generator split by phase, MAX ms over the same window as
+   * `tileMaxMs`: the grid sampling, the mask rasteriser, the candidate loop
+   * and the typed-array composition. `phaseExact` is the worst tile's count
+   * of candidates that ran the exact footprint/patch test (the ones the cell
+   * mask could not reject). */
+  phaseGridMaxMs: number;
+  phaseMaskMaxMs: number;
+  phaseCandMaxMs: number;
+  phaseComposeMaxMs: number;
+  phaseExact: number;
   fillMs: number;
   fillMaxMs: number;
   fillInstances: number;
@@ -1112,9 +1122,15 @@ export function Groundcover({
   /** DEV instrumentation only: nothing here is read by the renderer. */
   const perf = useRef<GroundcoverPerf>({
     frame: 0, rebuildsStarted: 0, rebuildsPerSec: 0,
-    generateMs: 0, generateMaxMs: 0, tileMs: 0, tileMaxMs: 0, fillMs: 0, fillMaxMs: 0,
+    generateMs: 0, generateMaxMs: 0, tileMs: 0, tileMaxMs: 0,
+    phaseGridMaxMs: 0, phaseMaskMaxMs: 0, phaseCandMaxMs: 0, phaseComposeMaxMs: 0,
+    phaseExact: 0,
+    fillMs: 0, fillMaxMs: 0,
     fillInstances: 0, tilesLive: 0, tilesPending: 0, nearMeshTriangles: 0,
   });
+  /** Worst per-tile phase cost since the last window reset (DEV only). One
+   * reused object: the generator writes maxima into it, never allocates. */
+  const phaseMax = useRef({ grid: 0, mask: 0, cand: 0, compose: 0, exact: 0 });
   /** Timestamps of the rebuilds in the last second, for `rebuildsPerSec`. */
   const rebuildTimes = useRef<number[]>([]);
   const maxWindowFrame = useRef(0);
@@ -1271,6 +1287,8 @@ export function Groundcover({
       p.generateMaxMs = 0;
       p.tileMaxMs = 0;
       genStats.current.tileMaxMs = 0;
+      const pm = phaseMax.current;
+      pm.grid = 0; pm.mask = 0; pm.cand = 0; pm.compose = 0; pm.exact = 0;
       p.fillMaxMs = 0;
     }
     p.generateMs = 0;
@@ -1282,6 +1300,12 @@ export function Groundcover({
       p.generateMs = Math.round((performance.now() - tGen0) * 10) / 10;
       p.tileMs = Math.round(genStats.current.tileMs * 10) / 10;
       p.tileMaxMs = Math.round(genStats.current.tileMaxMs * 10) / 10;
+      const pm = phaseMax.current;
+      p.phaseGridMaxMs = Math.round(pm.grid * 10) / 10;
+      p.phaseMaskMaxMs = Math.round(pm.mask * 10) / 10;
+      p.phaseCandMaxMs = Math.round(pm.cand * 10) / 10;
+      p.phaseComposeMaxMs = Math.round(pm.compose * 10) / 10;
+      p.phaseExact = pm.exact;
       if (p.generateMs > p.generateMaxMs) p.generateMaxMs = p.generateMs;
       pendingTiles = remaining;
       coldStart.current = remaining > GENERATE_COLD_TILES;
@@ -1744,7 +1768,12 @@ export function Groundcover({
       return { poly, minX, maxX, minZ, maxZ };
     });
 
+    const DEV = import.meta.env.DEV;
+    const mark = (): number => (DEV ? performance.now() : 0);
+
     const generateTile = (tx: number, tz: number, wantFar: boolean, rej: typeof genStats.current.rejected): CachedTile | null => {
+      const tPhase0 = mark();
+      let exactTests = 0;
       let maxSpeciesRadiusM = 0;
       for (const r of radii.current.values()) if (r > maxSpeciesRadiusM) maxSpeciesRadiusM = r;
       const waterData = water.current;
@@ -1780,6 +1809,7 @@ export function Groundcover({
           slotsPresent.add(slotKey(region, coverAt(control, x, z)));
         }
       }
+      const tPhaseGrid = mark();
       // The patch and footprint lists are narrowed ONCE per tile, not once
       // per candidate (2026-09-21): a road-track clearance carries thousands
       // of vertices, and the per-candidate grid lookup plus its array ran
@@ -1810,6 +1840,7 @@ export function Groundcover({
       rasteriseTileMask(
         tileMask, x0, z0, maxSpeciesRadiusM, tileExclusionBounds, tilePatchBounds,
       );
+      const tPhaseMask = mark();
       for (let i = 0; i < placementCount.length; i++) placementCount[i] = 0;
       for (const plan of SPECIES_PLANS) {
         let bound = false;
@@ -1851,6 +1882,7 @@ export function Groundcover({
           if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= accept) { rej.accept++; continue; }
 
           const maskFlags = tileMask[maskCellIndex(lx, lz)];
+          if (DEV && maskFlags !== 0) exactTests++;
           if ((maskFlags & MASK_EXCLUDE) !== 0
             && excludedByFootprints(x, z, speciesRadiusM, tileExclusions)) {
             rej.footprint++; continue;
@@ -1915,6 +1947,7 @@ export function Groundcover({
           data[o + 9] = b;
         }
       }
+      const tPhaseCand = mark();
       // Compose the tile's arrays once: far subset first, each block sorted
       // by `keep`, so every later fill is a block copy.
       const composed: TileSpecies[] = placementCount.map((count, speciesIndex) => {
@@ -1950,6 +1983,18 @@ export function Groundcover({
         }
         return { count, farCount: far, matrices, colours };
       });
+      if (DEV) {
+        const pm = phaseMax.current;
+        const grid = tPhaseGrid - tPhase0;
+        const mask = tPhaseMask - tPhaseGrid;
+        const cand = tPhaseCand - tPhaseMask;
+        const compose = performance.now() - tPhaseCand;
+        if (grid > pm.grid) pm.grid = grid;
+        if (mask > pm.mask) pm.mask = mask;
+        if (cand > pm.cand) pm.cand = cand;
+        if (compose > pm.compose) pm.compose = compose;
+        if (exactTests > pm.exact) pm.exact = exactTests;
+      }
       return {
         far: wantFar, perSpecies: composed,
         minY: Number.isFinite(minY) ? minY : 0, maxY: Number.isFinite(maxY) ? maxY : 0,
