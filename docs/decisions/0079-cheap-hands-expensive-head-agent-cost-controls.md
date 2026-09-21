@@ -134,19 +134,23 @@ turn-wasters left. The owner ruled the same day:
     or more agents with nothing between them runs as one `Workflow` (the
     owner's opt-in is the CLAUDE.md line itself).
 12. **The prose linter covers what will be player-facing, and nothing
-    else.** Docs and world-record design prose (a place's why/vibe/hook
-    fields, quest premises) are agent context; their prose is cosmetic and
-    is not linted. Every player-visible string lives in
-    `packages/text-catalogue` (standard 2), hand-written or generated from
-    world records, so the linter walks that whole package with no field
-    list (a new kind of player text is linted the moment it exists), and a
-    tripwire fails on prose data anywhere else under `packages/` or
-    `apps/`. The docs-currency checks (retired terms, stale hashes, fact
-    counts) are unchanged. When the linter is red, the `run` agent fixes
-    the named lines and reruns; the planner sees the count. Saves the 5–10
-    late-session fix turns per gated session. Known hole, queued in the
-    P-polish backlog: place names and quest titles are still raw strings in
-    world records with no generator lifting them into the catalogue.
+    else.** Player-facing means it will appear in the game or in any of our
+    apps, the studio's review panels included (owner, same day, correcting
+    a narrower reading that had dropped world records): every world record
+    under `world/sources/` and every string in `packages/text-catalogue`,
+    hand-written or generated. Docs are agent context and are not linted.
+    The linter walks both roots in full with no field list, so a new kind
+    of player text (dialogue, item text) is linted the moment it exists;
+    the only exemptions are machine data and lore dossiers, each with a
+    written reason in `lint_prose.py`; a tripwire fails on prose data
+    anywhere else under `packages/` or `apps/`. A `PostToolUse` hook runs
+    the linter on every file saved under the roots and returns the hits to
+    the editing agent in the same turn, so text is right first time rather
+    than at the gate. Place names and quest titles are generated into the
+    catalogue (`text.place.<id>.name`, `text.quest.<id>.title`) with a
+    freshness gate, closing the standard-2 hole. The docs-currency checks
+    are unchanged. When the gate is red anyway, the `run` agent fixes the
+    named lines and reruns; the planner sees the count.
 13. **Subagent reports are written for re-reading, not capped.** A hard
     length cap was rejected (some reports must be long). Each agent
     definition now carries a specific report shape: outcome first, each
