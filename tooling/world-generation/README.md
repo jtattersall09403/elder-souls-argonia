@@ -132,6 +132,8 @@ python3 -m worldgen.hostility_frequency                  # fights per km² / per
 python3 -m worldgen.lint_prose [--strict] [--md <files>] # mechanical AI-tell lint over player-visible/world-record text (npm test gate: zero hard hits; docs/ not linted)
 python3 -m worldgen.quests --check | --sync              # quest data (world/sources/quests) ↔ registry ↔ place tierOwnership
 python3 -m worldgen.export_quest_index                   # regenerates docs/quests/index/*.md from the quest data
+python3 -m worldgen.place_text --emit-text               # place names + quest titles -> packages/text-catalogue/src/generated/{place-names,quest-titles}.ts
+python3 -m worldgen.place_text --check                   # are those two generated files current? (npm test gate)
 # one-shot, already applied: python3 -m worldgen.migrate_catalogue_v2
 
 # 9. Phase 11: blueprint map (review artefact; seconds, PNG in output/)

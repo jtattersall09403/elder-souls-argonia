@@ -604,6 +604,32 @@ function checkHydrologyGraph() {
 }
 
 // ---------------------------------------------------------------------------
+// Standard 2/4 (stable IDs, one catalogue) — record text is generated, not raw
+// ---------------------------------------------------------------------------
+// Place names and quest titles are player-visible strings held in the world
+// records. `worldgen.place_text` lifts them into
+// packages/text-catalogue/src/generated/{place-names,quest-titles}.ts, and the
+// hydrology names do the same from world/sources/hydrology/names.json. A
+// record edited without regenerating leaves the renderer showing the old name
+// (or nothing), so a stale generated file fails here.
+function checkGeneratedText() {
+  const cwd = join(ROOT, "tooling", "world-generation");
+  for (const [mod, file] of [
+    ["worldgen.place_text", "packages/text-catalogue/src/generated/place-names.ts"],
+    ["worldgen.hydrology_names", "packages/text-catalogue/src/generated/hydrology-names.ts"],
+  ]) {
+    try {
+      execSync(`python3 -m ${mod} --check`, { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+    } catch (e) {
+      if (e && e.code === "ENOENT") { note("generated text: python3 unavailable; check not run"); return; }
+      const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(-8).join("\n");
+      fail(4, file, 0,
+        `generated text is stale or its record failed its checks (python3 -m ${mod} --check from tooling/world-generation).\n${out}`);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // The generated province rasters (~106 MB) live in a rolling GitHub release,
 // not in git; apps/world-studio/public/province/rasters-manifest.json is the
 // committed record of what they are. A tree whose rasters and manifest
@@ -633,6 +659,7 @@ if (docsOnly) {
   checkProvinceRasters();
   checkProse();
   checkHydrologyGraph();
+  checkGeneratedText();
   checkDocsCurrent();
   checkSingletons();
   checkIds();

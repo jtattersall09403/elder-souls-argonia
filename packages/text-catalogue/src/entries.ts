@@ -13,9 +13,17 @@
  */
 import { buildCatalogue, type TextEntry } from "./catalogue.js";
 import { HYDROLOGY_NAME_TEXT } from "./generated/hydrology-names.js";
+import { PLACE_NAME_TEXT } from "./generated/place-names.js";
+import { QUEST_TITLE_TEXT } from "./generated/quest-titles.js";
 
 /** Names for the water and the land (16g): generated from world/sources/hydrology/names.json. */
 export { HYDROLOGY_NAME_TEXT };
+
+/** Place names: generated from world/sources/catalogue/places-*.json by `worldgen.place_text`. */
+export { PLACE_NAME_TEXT };
+
+/** Quest titles: generated from world/sources/quests/*.json by `worldgen.place_text`. */
+export { QUEST_TITLE_TEXT };
 
 export const SYSTEM_TEXT: readonly TextEntry[] = [
   {
@@ -507,4 +515,6 @@ export const CATALOGUE = buildCatalogue([
   ...TRAVEL_TEXT,
   ...TRAVEL_UI_TEXT,
   ...HYDROLOGY_NAME_TEXT,
+  ...PLACE_NAME_TEXT,
+  ...QUEST_TITLE_TEXT,
 ]);

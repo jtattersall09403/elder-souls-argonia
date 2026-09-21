@@ -87,7 +87,14 @@ export function buildCatalogue(entries: readonly TextEntry[]): TextCatalogue {
 
     const fingerprint = textFingerprint(entry.text);
     // Short UI labels legitimately repeat ("Close", "Take"); prose does not.
-    if (entry.surface !== "ui" && fingerprint.length >= 24) {
+    // Place names and quest titles are proper names lifted from the world
+    // records by `worldgen.place_text`, and a quest is often named after the
+    // place it happens in ("The Hollow Under the Figs"). That is one name used
+    // twice on purpose, not one line written twice, so the duplicate-line rule
+    // — which exists to catch two agents restating the same prose — does not
+    // apply to them.
+    const isRecordName = /^text\.(place|quest)\./.test(entry.id);
+    if (entry.surface !== "ui" && !isRecordName && fingerprint.length >= 24) {
       const prior = byFingerprint.get(fingerprint);
       if (prior)
         throw new DuplicateTextError(

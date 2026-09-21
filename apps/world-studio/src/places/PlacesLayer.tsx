@@ -21,12 +21,25 @@
  * canvas's `position: relative` wrapper — the SVG shares its u/v space.
  */
 import { useEffect, useMemo, useState } from "react";
+import { CATALOGUE } from "@elder-souls/text-catalogue";
 import {
   DEAD_STATUSES, dotRadius, isUnderwaterEntry, landformColour,
   loadCandidateSites, loadPlaces, matchesFilter, toggleIn, zoneColour,
   type CandidateSiteSet, type PlacesFilter, type PlacesUrlState,
   type PlottedPlace, type PlottedPlacesBundle, type PlottedQuestGroup,
 } from "./placesData";
+
+/**
+ * The displayed name of a place (engineering standard 2/4). The catalogue
+ * record holds the name; the string the player reads is the text-catalogue
+ * entry `worldgen.place_text` generates from it. No raw-string fallback: a
+ * missing ID means the generated file is stale, and
+ * `python3 -m worldgen.place_text --check` (an npm test gate) catches that.
+ */
+function placeName(placeId: string): string {
+  return CATALOGUE.get(`text.place.${placeId.split(".").slice(1).join(".")}.name`)?.text ?? "";
+}
+
 
 const VB = 1000;
 
@@ -319,7 +332,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly, controls }: P
           ...PANEL, position: "absolute", pointerEvents: "none", zIndex: 4, padding: "3px 7px", whiteSpace: "nowrap",
           left: `${hovered.position.u * 100}%`, top: `${hovered.position.v * 100}%`, transform: "translate(12px, -50%)",
         }}>
-          <strong>{hovered.name}</strong> · {hovered.type ?? hovered.class} · T{hovered.importanceTier}
+          <strong>{placeName(hovered.id)}</strong> · {hovered.type ?? hovered.class} · T{hovered.importanceTier}
         </div>
       )}
 
@@ -384,7 +397,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly, controls }: P
           <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "baseline" }}>
             <button onClick={() => setDetailOpen(!detailOpen)} title={detailOpen ? "collapse" : "expand"}
               style={{ cursor: "pointer", background: "none", border: "none", color: "#e6ecf5", font: "600 14px system-ui", padding: 0, textAlign: "left" }}>
-              {detailOpen ? "▾" : "▸"} {selected.name}
+              {detailOpen ? "▾" : "▸"} {placeName(selected.id)}
             </button>
             <button onClick={() => setSelectedId(null)} style={{ cursor: "pointer", background: "none", border: "none", color: "#8b96a3" }}>✕</button>
           </div>
