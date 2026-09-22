@@ -288,22 +288,93 @@ share one instanced mesh per species, quadrant and part, cutting ground-cover
 draw keys by a third with no visual change. `&gcquad` is the measurement
 switch for the quartering. Details in decision 0084, round 11 addendum.
 
+## Round 12 brief: one instanced draw per plant geometry (planner, 2026-09-22)
+
+**Finding.** With vegetation off and ground cover on, the owner read 59 fps,
+cpu 6.6 ms, 326 calls; with both on, 22 fps, cpu 25 ms, 563 calls. Ground
+cover's ~127 instanced draws cost under a millisecond. Vegetation's 111
+BatchedMesh draws cost ~20 ms, ~170 µs each, far above draw overhead.
+three.js 0.184 BatchedMesh emits one multi-draw RANGE per visible instance
+(`_multiDrawStarts/_multiDrawCounts`, ~50,000 at the jungle at rest, again for
+the shadow pass) via `multiDrawElementsWEBGL`; there is no instanced variant
+in this version. Chrome on Apple hardware (ANGLE over Metal) has no native
+multi-draw: it loops in the GPU process, one Metal draw plus a `gl_DrawID`
+uniform write per range. That is ~100,000 hidden draws per frame, invisible
+to the JS timers and to the (wall-time) GPU line. Its early-out in
+`onBeforeRender` (culling and sorting are off since 0082) means the JS side
+is cheap; the cost is in the GPU process.
+
+**Decision.** Replace BatchedMesh with one InstancedMesh per (batch key,
+geometry): a real instanced draw with `count` = visible copies. Expected
+draws at the jungle: 200-400 (one per species|level|part, split by the
+existing key fields), each ~5-10 µs on the CPU (measured on ground cover),
+so ~2-4 ms instead of ~20 ms, and the GPU process issues hundreds of draws
+instead of ~10^5.
+
+**Mechanism** (files: `apps/world-studio/src/vegetation/Vegetation.tsx`,
+`batchData.ts`, `windSway.ts`, `lodFade.ts`, `cellBuild.ts` as needed).
+
+- Per batch key keep the material, depth material and data texture as today.
+  Inside the batch, one `InstancedMesh` per geometryId (`species|level|part`),
+  capacity = the number of slots that geometry holds in the batch (grown by
+  re-creating the mesh with 1.5x when cells add slots, copying
+  `instanceMatrix` and the slot attribute; `growBatch` already replays
+  instances, extend it).
+- Slots: a plant copy keeps its integer slot id in the batch (what
+  `setVisibleAt(id)` and the tile ranges use today). Per geometry keep:
+  `matrices: Float32Array(16 x slots)` on the CPU, `slotOf[order]` (visible
+  order -> slot), `orderOf[slot]` (slot -> position in the visible order or
+  -1). Visible copies are a compact prefix: flip ON appends (write matrix
+  into `instanceMatrix[count]`, slot id into an `esSlot` InstancedBufferAttribute
+  (float, 1 component), count++); flip OFF swap-removes with the last visible
+  copy. Mark `instanceMatrix`/`esSlot` `needsUpdate` with `addUpdateRange` for
+  only the touched rows; `clearUpdateRanges` after render. Keep the 1.5 ms
+  flip budget.
+- Shader: per-instance data stays in the batch data texture; replace
+  `getIndirectIndex(gl_DrawID)` in `batchData.ts`'s `esBatchTexel` head with
+  `int(esSlot)` read from the attribute. The wind and LOD patches use the
+  standard instancing path (`instanceMatrix`), so remove any
+  `USE_BATCHING`-only code they carry. The custom depth material takes the
+  same attribute.
+- `frustumCulled = false` per mesh as today (cells are gated by distance).
+  `castShadow`/`receiveShadow` per batch key unchanged.
+- Stats: `draws` = InstancedMeshes with count > 0; add `instancedRanges` = sum
+  of counts (what the old path would have issued as ranges) so the HUD shows
+  both: `draws N (ranges M)`.
+- Delete the BatchedMesh path entirely (no switch; the previous commit is the
+  comparison). Update the 0082 references in comments that describe
+  BatchedMesh.
+
+**Checks.** typecheck, `npm test -w @elder-souls/world-studio`, the
+vegetation parity gate from 0082 (cells built once, zero rebuilds on move)
+still green; the shipped visual is identical by construction (same matrices,
+same shader data). Record in 0084 as "Round 12 addendum: the frame was
+multi-draw bound" with the owner's two readings above and the ANGLE
+mechanism. Owner reading afterwards: the five HUD lines at rest at the
+jungle, plus `&veg=0` and `&gc=0` alone.
+
+Invocation for a fresh session: "deliver performance round 12" (this brief is
+fully planned; a deliver agent implements it, then the preflight agent,
+commit by pathspec, NOT before review).
+
 **Next agent, in order:**
 
-1. **Owner reading with `&gcquad=4`, then `2`, then `1`** at the jungle at
+1. `deliver performance round 12` (brief above): one InstancedMesh per plant
+   geometry, replacing BatchedMesh's per-instance multi-draw ranges.
+2. **Owner reading with `&gcquad=4`, then `2`, then `1`** at the jungle at
    rest: calls, cpu, `scene` and fps for each. Fewer quadrants means fewer
    calls and looser frustum culling; the reading decides which the ring keeps.
    Also confirm `wiped` stays put and `built` stops climbing once loaded.
-2. **Vegetation's 111 BatchedMesh draws**, which are one per material key:
+3. **Vegetation's 111 BatchedMesh draws**, which are one per material key:
    measure how many keys share a texture and could merge into one batch
    (`Vegetation.tsx` batch key, `floraKit.ts` materials). This is the same
    mechanism the ground-cover merge just used, applied to the other renderer.
-3. **The ~199 baseline calls** with both renderers off: terrain sub-tile LOD
+4. **The ~199 baseline calls** with both renderers off: terrain sub-tile LOD
    draws per chunk, the shadow cascades, sky, water. Count them by name
    before proposing anything.
-4. **Popping** of small plants at the 30 m card floor if the owner reports
+5. **Popping** of small plants at the 30 m card floor if the owner reports
    it (`lodDistances` floor and slope, floraKit.ts).
-5. The lane closes when the owner calls the jungle walk smooth at rest and
+6. The lane closes when the owner calls the jungle walk smooth at rest and
    while walking, with line 3 under budget; then the memory note, and
    `deliver 16h part 1` may start.
 
