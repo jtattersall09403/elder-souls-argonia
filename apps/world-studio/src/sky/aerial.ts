@@ -370,16 +370,12 @@ export const AERIAL_VARYING_VERTEX = /* glsl */ `
   {
     vec4 esWp = vec4(transformed, 1.0);
     #ifdef USE_INSTANCING
-      // Instanced meshes (vegetation) carry their placement in instanceMatrix;
-      // without this every instance fogged as if it stood at the mesh origin.
+      // Instanced meshes (vegetation and ground cover) carry their placement
+      // in instanceMatrix; without this every instance hazed as if it stood
+      // at the world origin — at province scale that is a fully saturated
+      // inscatter, so every tree and bush drew as a white silhouette
+      // (decision 0082 round 2).
       esWp = instanceMatrix * esWp;
-    #elif defined(USE_BATCHING)
-      // BatchedMesh (the vegetation batches) carries the placement in
-      // batchingMatrix instead; without this branch every batched copy hazed
-      // as if it stood at the world origin — at province scale that is a
-      // fully saturated inscatter, so every tree and bush drew as a white
-      // silhouette (decision 0082 round 2).
-      esWp = batchingMatrix * esWp;
     #endif
     vEsWorldPos = (modelMatrix * esWp).xyz;
   }

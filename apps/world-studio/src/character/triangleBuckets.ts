@@ -4,8 +4,8 @@
  *
  * The buckets are deliberately coarse — the reading answers "where do 11.5 M
  * triangles come from?", not "which mesh". A mesh names its own bucket with
- * `userData.perfTag`; everything untagged that is not a vegetation
- * `BatchedMesh` is `other`, so the four buckets always sum to the frame total.
+ * `userData.perfTag` and everything untagged is `other`, so the four buckets
+ * always sum to the frame total.
  */
 
 export const TRI_BUCKETS = ["veg", "terrain", "gc", "other"] as const;
@@ -13,13 +13,12 @@ export type TriBucket = (typeof TRI_BUCKETS)[number];
 
 /** Index into a bucket row; `other` is the catch-all, so this never fails. */
 export function bucketIndexOf(object: unknown): number {
-  const o = object as { userData?: { perfTag?: unknown }; isBatchedMesh?: boolean };
+  const o = object as { userData?: { perfTag?: unknown } };
   const tag = o?.userData?.perfTag;
   if (typeof tag === "string") {
     const i = (TRI_BUCKETS as readonly string[]).indexOf(tag);
     if (i >= 0) return i;
   }
-  if (o?.isBatchedMesh) return TRI_BUCKETS.indexOf("veg");
   return TRI_BUCKETS.indexOf("other");
 }
 

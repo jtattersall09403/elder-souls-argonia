@@ -75,7 +75,7 @@ const readout = () => {
     vegetationCulled: veg?.culled ?? null,
     vegetationOccluded: veg?.occluded ?? null,
     // Cell renderer (decision 0082).
-    drawsFallback: veg?.drawsFallback ?? null,
+    instancedRanges: veg?.instancedRanges ?? null,
     cellBuilds: veg?.cellBuilds ?? null,
     cellRebuilds: veg?.cellRebuilds ?? null,
     cellRebuildReasons: veg?.cellRebuildReasons ?? null,

@@ -142,8 +142,9 @@ uniform float esWindTime;
 uniform vec3 esWindVec;
 uniform float esWindFadeM;
 
-#ifdef USE_INSTANCING
+#if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)
   // vec2(stiffness - 1, sink metres). Unbound => (0, 0) => neutral.
+  // The foliage batches read the tune from their data texture instead.
   attribute vec2 esWindTune;
 #endif
 ${BATCH_DATA_HEAD}
@@ -168,22 +169,22 @@ const VERTEX_BODY = /* glsl */ `
   // instance's own yaw rotation, so every tree in a stand would bend in a
   // different direction. The offset is therefore computed in WORLD space and
   // converted back into object space before it is applied.
-  #ifdef USE_INSTANCING
+  #ifdef ES_BATCH_SLOTS
+    // The foliage batches: the tune rides texel 1 of the per-slot data
+    // texture (decision 0082 §5).
+    mat3 esBasis = mat3(instanceMatrix);
+    vec3 esInstanceOrigin = instanceMatrix[3].xyz;
+    vec2 esTune = esBatchTexel(1).xy;
+    float esStiffness = 1.0 + esTune.x;
+    float esSink = esTune.y;
+    float esRawHeight = (esBasis * transformed).y;
+    // Uniform instance scale, so squared length of any basis column gives s².
+    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
+  #elif defined(USE_INSTANCING)
     mat3 esBasis = mat3(instanceMatrix);
     vec3 esInstanceOrigin = instanceMatrix[3].xyz;
     float esStiffness = 1.0 + esWindTune.x;
     float esSink = esWindTune.y;
-    float esRawHeight = (esBasis * transformed).y;
-    // Uniform instance scale, so squared length of any basis column gives s².
-    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
-  #elif defined(USE_BATCHING)
-    // BatchedMesh: the basis is the batching matrix and the tune rides texel
-    // 1 of the per-instance data texture (decision 0082 §5).
-    mat3 esBasis = mat3(batchingMatrix);
-    vec3 esInstanceOrigin = batchingMatrix[3].xyz;
-    vec2 esTune = esBatchTexel(1).xy;
-    float esStiffness = 1.0 + esTune.x;
-    float esSink = esTune.y;
     float esRawHeight = (esBasis * transformed).y;
     float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
   #else

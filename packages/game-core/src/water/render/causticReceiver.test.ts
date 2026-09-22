@@ -16,7 +16,6 @@ it('shares injected water state on transformed props and preserves existing ligh
   expect(existing).toBe(true);
   expect(shader.uniforms).toMatchObject({ uWaterReceiverScale: scale, uLocalWaterField: state.uLocalWaterField });
   expect(shader.vertexShader).toContain('instanceMatrix * waterReceiverPos');
-  expect(shader.vertexShader).toContain('batchingMatrix * waterReceiverPos');
   expect(shader.fragmentShader).toContain('inverseTransformDirection(normal, viewMatrix)');
   expect(shader.fragmentShader).toContain('reflectedLight.directDiffuse * localFocus * localVisibility');
   expect(shader.fragmentShader).not.toContain('dfgLUT');

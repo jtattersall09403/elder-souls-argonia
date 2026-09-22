@@ -10,12 +10,14 @@
  * chooses one. A camera move NEVER rebuilds a cell — the gate for that lives
  * in `CellRegistry` and is unit-tested.
  *
- * Copies live in one `THREE.BatchedMesh` per material key, so a species part
- * is one draw where `WEBGL_multi_draw` exists (the fallback count is
- * published as `drawsFallback`). Per frame the CPU does three small things
- * and nothing else:
+ * Copies live in batches keyed by material, and inside a batch in one
+ * `THREE.InstancedMesh` per kit geometry: one instanced draw per species part
+ * (decision 0084 round 12). Its visible copies are a COMPACT PREFIX of the
+ * instance buffer — switching a copy on appends it, switching one off swaps
+ * the last copy into its row — so `count` is the draw and nothing per copy is
+ * submitted. Per frame the CPU does three small things and nothing else:
  *   1. hierarchical gating — cell, then 58 m tile — switching whole runs of
- *      batch instances on and off with `setVisibleAt`;
+ *      copies on and off in that prefix;
  *   2. a few terrain-occlusion rays into a 128² mask texture the shader reads
  *      (decision 0071's rule, evaluated incrementally);
  *   3. the wind and camera uniforms.
@@ -79,7 +81,18 @@ import {
   CellRegistry,
   type TerrainLod,
 } from "@elder-souls/game-core/vegetation/cellRegistry";
+import {
+  disposeSlotGeometry,
+  makeSlotGeometry,
+} from "@elder-souls/game-core/vegetation/slotGeometry";
 import { OcclusionMask } from "@elder-souls/game-core/vegetation/occlusionMask";
+import { compactRows } from "@elder-souls/game-core/vegetation/compactRows";
+import {
+  clearUploadSpans,
+  markUploadRow,
+  newUploadSpans,
+  type UploadSpans,
+} from "@elder-souls/game-core/vegetation/uploadSpans";
 import {
   castsShadowFor as castsShadowRule,
   type ShadowRung,
@@ -124,8 +137,9 @@ export interface VegetationStats {
    * spent, summed across the frame-work pump calls it was sliced over
    * (`frames`), never the wall clock between them (`elapsedMs`). */
   rebuildMs: { total: number; frames: number; elapsedMs: number };
-  /** Draws the no-`WEBGL_multi_draw` fallback would issue (visible copies). */
-  drawsFallback: number;
+  /** Visible copies summed over the instanced meshes — what the pre-round-12
+   * pre-round-12 batched path issued as multi-draw ranges, one per copy. */
+  instancedRanges: number;
   cellBuilds: number;
   cellRebuilds: number;
   cellRebuildReasons: Record<string, number>;
@@ -143,8 +157,8 @@ export interface VegetationStats {
   /** Monotonic frame counter, so a probe can see the renderer is alive. */
   frame: number;
   /** Visibility churn this frame, and the worst of the last 120 (DEV stutter
-   * hunt, round 2): tiles whose state flipped, `setVisibleAt` calls those
-   * flips cost, and how many batches a flip touched. */
+   * hunt, round 2): tiles whose state flipped, copies those flips switched on
+   * or off, and how many batches a flip touched. */
   flipTiles: number;
   flipTilesMax: number;
   flipInstances: number;
@@ -179,8 +193,17 @@ const MAX_PER_DRAW = 6000;
 /** Occlusion cells re-rayed per frame. 64 keeps a ~5 000-cell occupied set
  * under ~80 frames of staleness; the sweep costs ~0.1 ms (`maskMs`). */
 const MASK_CELLS_PER_FRAME = 64;
-/** Instances a brand-new batch reserves, whatever the first cell needs. */
+/** Data-texture slots a brand-new batch reserves, whatever the first cell
+ * needs, and instance rows a brand-new geometry mesh reserves. */
 const MIN_BATCH_CAPACITY = 256;
+const MIN_GEO_CAPACITY = 64;
+/** How long a pooled geometry mesh may sit unused before it is disposed, and
+ * how many may sit pooled at once across every batch: crossing several biomes
+ * inside a minute would otherwise hold the union of them all at peak capacity
+ * until the first idle sweep, so past the cap the oldest entries go whatever
+ * their idle time (review, round 12). */
+const POOL_IDLE_MS = 60_000;
+const POOL_MAX_ENTRIES = 256;
 const MASK_SIZE = 128;
 /** Camera travel that re-runs the gate pass. With the 8 m band margin a 2 m
  * step keeps the resident rung set a superset of what the shader reads. */
@@ -193,10 +216,10 @@ const GATE_TURN_RAD = 20 * Math.PI / 180;
 /** Frames after which the pass runs anyway, whatever the camera did. */
 const GATE_MAX_FRAMES = 120;
 /** Main-thread milliseconds one frame may spend APPLYING queued flips. A
- * batch's cost is not its `setVisibleAt` calls but the `onBeforeRender` walk
- * and indirect-texture upload they force, and that cost varies by an order of
- * magnitude between batches: a fixed batch count bounded the wrong thing
- * (owner walk 2026-09-21, 15 898 flips in a frame). At least one batch is
+ * batch's cost is the matrices it composes into its instance buffers and the
+ * sub-uploads they force, and that cost varies by an order of magnitude
+ * between batches: a fixed batch count bounded the wrong thing (owner walk
+ * 2026-09-21, 15 898 flips in a frame). At least one batch is
  * always applied, so a backlog can never stall. */
 const FLIP_BUDGET_MS = 1.5;
 
@@ -257,14 +280,54 @@ function cellId(cx: number, cz: number): number {
 }
 
 /**
- * What a batch GROWTH needs to re-add one part's geometry to the fresh mesh.
- * Deliberately holds NO `CellSpeciesBuild`: the instances are copied out of
- * the old `BatchedMesh` and its data texture, so a finished cell keeps no
- * second CPU copy of its placements (review, round 2).
+ * One kit geometry inside one batch: a single instanced draw.
+ *
+ * A copy owns a permanent SLOT (`0..next`), which is what the rungs' id
+ * arrays hold and what indexes the CPU-side master arrays. The GPU buffers
+ * are indexed by visible ORDER instead, a compact prefix of length `count`:
+ * `slotOf` maps order to slot, `orderOf` maps slot to order or −1 when the
+ * copy is switched off.
  */
-interface ReplaySpec {
+interface GeoMesh {
   geometryKey: string;
+  /** The kit's geometry, shared with every other batch that draws it. */
+  source: THREE.BufferGeometry;
+  /** This mesh's shallow view of it: the kit's buffers by reference plus this
+   * mesh's own `esSlot` attribute. Disposed only through
+   * `disposeShallowGeometry`, which drops the shared references first — a
+   * plain `dispose()` would free the kit's position and index GL buffers out
+   * from under every other mesh drawing the same kit geometry. */
   geometry: THREE.BufferGeometry;
+  mesh: THREE.InstancedMesh;
+  /** Instance rows the buffers hold. */
+  capacity: number;
+  /** Slots ever handed out, and the ones a dropped cell gave back. */
+  next: number;
+  free: number[];
+  /** Per slot: the CELL RECORD's placement array it was built from and its
+   * copy index in it, its data-texture slot in the batch, and its row in the
+   * visible prefix (−1 when hidden).
+   *
+   * The transform is composed from the record on flip-on rather than kept in
+   * a per-geometry CPU master: a cell owns one copy of every placement it
+   * built and stays resident while it is gated (decision 0082), so a second
+   * CPU copy here would double the per-copy transform memory of the whole
+   * resident world (~32 MB at 500 k copies). A slot's reference is dropped
+   * when the slot is freed, so a record is freed with its cell. */
+  src: Array<Float32Array | null>;
+  srcIndex: Int32Array;
+  dataSlot: Int32Array;
+  orderOf: Int32Array;
+  /** `performance.now()` when this mesh entered the geometry pool; 0 while
+   * it is live. Read by the idle sweep below. */
+  pooledAt: number;
+  /** Per visible row: the slot drawn there. */
+  slotOf: Int32Array;
+  /** Visible copies; kept equal to `mesh.count`. */
+  count: number;
+  /** Rows written since the last flush, as disjoint spans (never one
+   * min..max range: a frame touches rows at both ends of the buffer). */
+  dirty: UploadSpans;
 }
 
 /** One species × rung of one cell, tiled, with the instances it owns. The
@@ -275,9 +338,9 @@ interface CellRungEntry extends GateRung {
   species: string;
   /** The species' kit reach, for a tile's box (`tileBox`). */
   reachM: number;
-  /** One batch per kit part; replaced in place when a batch grows. */
+  /** One batch and one instanced mesh per kit part. */
   partBatches: Batch[];
-  partSpecs: ReplaySpec[];
+  partGeo: GeoMesh[];
   /** Visibility ACTUALLY applied, `tile × part`. The gate pass writes a
    * DESIRED state into the pending queue; this is what the meshes hold, and
    * the two differ while a backlog drains. */
@@ -295,26 +358,34 @@ interface CellSpeciesEntry extends GateSpecies {
 
 interface Batch {
   key: string;
-  mesh: THREE.BatchedMesh;
+  /** One instanced draw per kit geometry, by `species|level|part`. */
+  geometries: Map<string, GeoMesh>;
+  geoList: GeoMesh[];
+  /** Geometry meshes nothing allocates from any more, kept out of the scene
+   * at `count = 0` with their `esSlot`/`instanceMatrix` capacity intact.
+   * Walking the province evicts and re-enters the same cells, so `geoFor`
+   * takes from here rather than building (and later leaking) a new mesh. */
+  geometryPool: Map<string, GeoMesh>;
   material: THREE.Material;
   depthMaterial: THREE.Material | undefined;
+  /** Data-texture slots: the capacity, the high-water mark and the slots
+   * dropped cells gave back. */
   capacity: number;
-  used: number;
+  nextData: number;
+  freeData: number[];
   data: THREE.DataTexture;
-  geometryIds: Map<string, number>;
-  vertexCapacity: number;
-  indexCapacity: number;
   near: boolean;
   isCard: boolean;
   /** This batch's rung is the one that casts the sun shadow (`batchKeyFor`). */
   casts: boolean;
   /** Whether its depth material was patched with `shadowBandFromZero`. */
   fromZero: boolean;
-  /** Copies currently switched visible — the draw-count signal. */
-  visibleCopies: number;
   /** Nearest visible tile this gating pass saw, in metres; Infinity when the
-   * batch showed nothing. Drives `mesh.renderOrder` (front to back). */
+   * batch showed nothing. Drives the meshes' `renderOrder` (front to back). */
   orderMin: number;
+  /** The render order its meshes currently hold, so a mesh created later in
+   * the same batch inherits it. */
+  renderOrder: number;
   rungs: Set<CellRungEntry>;
 }
 
@@ -334,8 +405,10 @@ interface Cell {
   originX: number;
   originZ: number;
   bundle: VegetationBundle;
-  /** Only what the renderer still needs after the build: the CPU placements
-   * are dropped with the `CellBuild`. */
+  /** Only what the renderer still needs after the build. The per-copy
+   * placements are NOT dropped: each geometry slot holds a reference to the
+   * species' placement array (`GeoMesh.src`), which is the one copy of the
+   * cell's transforms and is freed when the cell gives its slots back. */
   build: { solids: SolidInstance[] } | null;
   lod: TerrainLod;
   species: CellSpeciesEntry[];
@@ -411,6 +484,7 @@ export function Vegetation({
   const maskChunk = useRef<{ cx: number; cz: number } | null>(null);
   const cameraPos = useRef(new THREE.Vector3(NaN, NaN, NaN));
   const lastScan = useRef<{ cx: number; cz: number; loaded: number; pending: number } | null>(null);
+  const lastPoolSweep = useRef(0);
   const counters = useRef({
     builds: 0, gatingMs: 0, gatingMaxMs: 0, maskMs: 0, frame: 0,
     lastBuild: { total: 0, frames: 0, elapsedMs: 0 },
@@ -433,6 +507,12 @@ export function Vegetation({
   /** Batches a visibility flip touched this frame — cleared at frame end, so
    * `batchesTouched` counts distinct batches, not flips. */
   const flippedBatches = useRef(new Set<Batch>());
+  /** Geometry meshes whose instance rows changed since the last flush; the
+   * flush turns each one's touched span into a single upload range. */
+  const dirtyGeos = useRef(new Set<GeoMesh>());
+  /** Meshes whose attributes carry a pending WHOLE-buffer upload this frame
+   * (an empty update-range list), so the second flush leaves them alone. */
+  const allPending = useRef(new Set<GeoMesh>());
   /** Queued visibility flips, batch by batch: the gate pass ENQUEUES here and
    * a bounded number of batches are applied per frame. */
   const pendingFlips = useRef(
@@ -499,12 +579,19 @@ export function Vegetation({
     return () => {
       mounted.current = false;
       // Cancel first: a job that finishes after this would build fresh
-      // BatchedMeshes with no owner and no parent.
+      // meshes with no owner and no parent.
       for (const job of [...liveJobs.values()]) job.cancel();
       liveJobs.clear();
       for (const batch of live.values()) {
-        group?.remove(batch.mesh);
-        batch.mesh.dispose();
+        // The kit's GLTF is cached by `useLoader` and shared with
+        // `VegetationCells`, so it OUTLIVES this component: its buffers must
+        // survive. Each shallow view's own `esSlot` still goes, through the
+        // strip-then-dispose helper.
+        for (const geo of [...batch.geoList, ...batch.geometryPool.values()]) {
+          group?.remove(geo.mesh);
+          disposeShallowGeometry(geo);
+        }
+        batch.geometryPool.clear();
         batch.data.dispose();
       }
       live.clear();
@@ -614,56 +701,6 @@ export function Vegetation({
    */
   const shadowFromZeroFor = (casts: boolean, level: number): boolean => casts && level === 1;
 
-  /**
-   * Vertex/index room every kit geometry that lands in a batch needs, for
-   * EVERY key at once: one pass over the kit per kit, not one per new batch
-   * (at ~570 batches the per-batch walk was ~10⁶ throwaway key strings).
-   */
-  const batchGeometryBudgets = useMemo(() => {
-    const out = new Map<string, { vertices: number; indices: number }>();
-    for (const [id, entry] of kit ?? []) {
-      if (entry.suspect) continue;
-      const ladder = speciesParams.get(id)?.ladder;
-      for (let level = 0; level < entry.levels.length; level++) {
-        const isCard = entry.billboardIndex !== null && level === entry.billboardIndex;
-        const casts = castsShadowFor(
-          ladder, entry.levels.length - 1, entry.billboardIndex, level);
-        const fromZero = shadowFromZeroFor(casts, level);
-        for (const part of entry.levels[level].parts) {
-          const position = part.geometry.getAttribute("position");
-          const idx = part.geometry.getIndex();
-          const vertices = position.count;
-          const indices = idx ? idx.count : position.count;
-          // Rung 0 is ALWAYS kit level 0, so a near key can only ever hold
-          // level-0 geometry: sizing it for the whole ladder reserved buffers
-          // several times larger than anything that lands in them.
-          const nears = level === 0 ? [true, false] : [false];
-          for (const near of nears) {
-            const key = batchKeyFor(
-              part.material, part.depthMaterial, part.geometry,
-              near, isCard, casts, fromZero);
-            const have = out.get(key);
-            if (have) {
-              have.vertices += vertices;
-              have.indices += indices;
-            } else {
-              out.set(key, { vertices, indices });
-            }
-          }
-        }
-      }
-    }
-    for (const budget of out.values()) {
-      budget.vertices = Math.max(64, budget.vertices);
-      budget.indices = Math.max(64, budget.indices);
-    }
-    return out;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [kit, speciesParams]);
-
-  const batchGeometryBudget = (key: string) =>
-    batchGeometryBudgets.get(key) ?? { vertices: 64, indices: 64 };
-
   const makeBatch = (
     key: string,
     material: THREE.Material,
@@ -673,7 +710,6 @@ export function Vegetation({
     casts: boolean,
     fromZero: boolean,
     capacity: number,
-    budget: { vertices: number; indices: number },
   ): Batch => {
     // Materials are owned per batch KEY and patched ONCE. Cloning a patched
     // material is not safe: `Material.copy` JSON-clones userData and drops
@@ -720,24 +756,165 @@ export function Vegetation({
     // occlusion mask and its window are shared by reference, so one sweep
     // feeds every batch.
     owned.uniforms.esBatchData.value = data;
-    const mesh = new THREE.BatchedMesh(
-      capacity, budget.vertices, budget.indices, clone);
-    mesh.perObjectFrustumCulled = false;   // measured 2.6 ms at 80 k (0082)
-    mesh.sortObjects = false;              // 108 ms at 300 k
+    return {
+      key, geometries: new Map(), geoList: [], geometryPool: new Map(),
+      material: clone, depthMaterial: depthClone,
+      capacity, nextData: 0, freeData: [],
+      data, near, isCard, casts, fromZero,
+      orderMin: Infinity, renderOrder: 0, rungs: new Set(),
+    };
+  };
+
+  /**
+   * A shallow view of a kit geometry plus this mesh's own `esSlot` attribute
+   * (the shared helper: see `slotGeometry.ts` for why a view and not a
+   * clone). `InstancedMesh.dispose()` frees `instanceMatrix`/`instanceColor`
+   * only, never the view — that goes through `disposeShallowGeometry`.
+   */
+  const slotGeometry = (
+    source: THREE.BufferGeometry, capacity: number,
+  ): THREE.BufferGeometry => {
+    const slots = new THREE.InstancedBufferAttribute(
+      new Float32Array(capacity), 1);
+    // Both instance buffers are rewritten row by row as copies are switched
+    // on and off, never once at upload.
+    slots.setUsage(THREE.DynamicDrawUsage);
+    return makeSlotGeometry(source, { esSlot: slots });
+  };
+
+  /** Free one geometry mesh's owned buffers: its `esSlot` view and the
+   * instance matrix. The kit's shared buffers survive. */
+  const disposeShallowGeometry = (geo: GeoMesh): void => {
+    geo.mesh.dispose();
+    disposeSlotGeometry(geo.geometry, geo.source);
+  };
+
+  const configureGeoMesh = (batch: Batch, mesh: THREE.InstancedMesh): void => {
     mesh.frustumCulled = false;            // gated by distance, never culled
     // Shadows come from the casting rung only — see `batchKeyFor`'s shadow
     // rule. Before it the near (full-mesh) rung cast, and the shadow cascades
     // drew nearly as many triangles as the whole main pass.
-    mesh.castShadow = casts;
-    mesh.receiveShadow = !isCard;
-    if (depthClone) mesh.customDepthMaterial = depthClone;
+    mesh.castShadow = batch.casts;
+    mesh.receiveShadow = !batch.isCard;
+    if (batch.depthMaterial) mesh.customDepthMaterial = batch.depthMaterial;
+    mesh.userData.perfTag = "veg";
+    mesh.renderOrder = batch.renderOrder;
+    mesh.count = 0;
+  };
+
+  const makeGeo = (
+    batch: Batch,
+    geometryKey: string,
+    source: THREE.BufferGeometry,
+    need: number,
+  ): GeoMesh => {
+    const capacity = Math.max(MIN_GEO_CAPACITY, Math.ceil(need * 1.5));
+    const geometry = slotGeometry(source, capacity);
+    const mesh = new THREE.InstancedMesh(geometry, batch.material, capacity);
+    mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    configureGeoMesh(batch, mesh);
     root.current?.add(mesh);
     return {
-      key, mesh, material: clone, depthMaterial: depthClone, capacity, used: 0,
-      data, geometryIds: new Map(), vertexCapacity: budget.vertices,
-      indexCapacity: budget.indices, near, isCard, casts, fromZero,
-      visibleCopies: 0, orderMin: Infinity, rungs: new Set(),
+      geometryKey, source, geometry, mesh, capacity,
+      pooledAt: 0, next: 0, free: [],
+      src: new Array<Float32Array | null>(capacity).fill(null),
+      srcIndex: new Int32Array(capacity),
+      dataSlot: new Int32Array(capacity),
+      orderOf: new Int32Array(capacity).fill(-1),
+      slotOf: new Int32Array(capacity),
+      count: 0, dirty: newUploadSpans(),
     };
+  };
+
+  /**
+   * Re-create one geometry's mesh at 1.5×. SLOT IDS SURVIVE, so nothing is
+   * replayed and no rung is touched: the visible prefix is copied across row
+   * for row and the CPU master arrays are copied slot for slot.
+   */
+  const growGeo = (batch: Batch, geo: GeoMesh, need: number): void => {
+    const capacity = Math.max(MIN_GEO_CAPACITY, Math.ceil((geo.next + need) * 1.5));
+    const geometry = slotGeometry(geo.source, capacity);
+    const mesh = new THREE.InstancedMesh(geometry, batch.material, capacity);
+    mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    configureGeoMesh(batch, mesh);
+    (mesh.instanceMatrix.array as Float32Array).set(
+      (geo.mesh.instanceMatrix.array as Float32Array).subarray(0, geo.count * 16));
+    (geometry.getAttribute("esSlot").array as Float32Array).set(
+      (geo.geometry.getAttribute("esSlot").array as Float32Array)
+        .subarray(0, geo.count));
+    mesh.count = geo.count;
+    mesh.instanceMatrix.needsUpdate = true;
+    geometry.getAttribute("esSlot").needsUpdate = true;
+    root.current?.add(mesh);
+    root.current?.remove(geo.mesh);
+    // The old mesh's own buffers go: `instanceMatrix` and the old `esSlot`,
+    // dropped after the kit's shared references, so nothing else's buffers go
+    // with it. The stripped geometry object itself is then garbage.
+    disposeShallowGeometry(geo);
+    const src = new Array<Float32Array | null>(capacity).fill(null);
+    for (let i = 0; i < geo.src.length; i++) src[i] = geo.src[i];
+    const srcIndex = new Int32Array(capacity);
+    srcIndex.set(geo.srcIndex);
+    const dataSlot = new Int32Array(capacity);
+    dataSlot.set(geo.dataSlot);
+    const orderOf = new Int32Array(capacity).fill(-1);
+    orderOf.set(geo.orderOf);
+    const slotOf = new Int32Array(capacity);
+    slotOf.set(geo.slotOf);
+    geo.geometry = geometry;
+    geo.mesh = mesh;
+    geo.capacity = capacity;
+    geo.src = src;
+    geo.srcIndex = srcIndex;
+    geo.dataSlot = dataSlot;
+    geo.orderOf = orderOf;
+    geo.slotOf = slotOf;
+    // The rows are in a brand-new pair of buffers, so every pending span
+    // names a row of a buffer that no longer exists: the whole prefix is what
+    // needs uploading, and the flush at the end of the frame does it.
+    clearUploadSpans(geo.dirty);
+    geo.dirty.all = true;
+    dirtyGeos.current.add(geo);
+  };
+
+  const geoFor = (
+    batch: Batch,
+    geometryKey: string,
+    source: THREE.BufferGeometry,
+    need: number,
+  ): GeoMesh => {
+    let geo = batch.geometries.get(geometryKey);
+    if (!geo) {
+      // A pooled mesh keeps its buffers and its capacity; only the slot
+      // bookkeeping is reset (it handed every slot back before it was
+      // pruned). Its capacity is whatever the cell that pruned it needed, so
+      // the growth check below runs on it too.
+      const pooled = batch.geometryPool.get(geometryKey);
+      if (pooled) {
+        batch.geometryPool.delete(geometryKey);
+        pooled.pooledAt = 0;
+        pooled.next = 0;
+        pooled.free.length = 0;
+        pooled.count = 0;
+        // Through the same configure as a fresh mesh: `batch.renderOrder` can
+        // have moved while this one sat in the pool, and nothing else rewrites
+        // it once the batch's order stops changing.
+        configureGeoMesh(batch, pooled.mesh);
+        pooled.orderOf.fill(-1);
+        pooled.src.fill(null);
+        clearUploadSpans(pooled.dirty);
+        root.current?.add(pooled.mesh);
+        geo = pooled;
+      } else {
+        geo = makeGeo(batch, geometryKey, source, need);
+      }
+      batch.geometries.set(geometryKey, geo);
+      batch.geoList.push(geo);
+    }
+    if (geo.next - geo.free.length + need > geo.capacity) {
+      growGeo(batch, geo, need);
+    }
+    return geo;
   };
 
   // ---- the frame ----------------------------------------------------------
@@ -745,6 +922,11 @@ export function Vegetation({
   useFrame((state) => {
     // Vegetation gate stage of the frame (decision 0084 round 10).
     segments?.cpuMark("veg");
+    // Site (a): everything the frame-work pump moved since the last render.
+    // The previous frame's render consumed its upload ranges, so the
+    // whole-buffer marks expire here.
+    allPending.current.clear();
+    flushAllDirty();
     const weather = lastWeatherSample();
     if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
     lodFade.esLodViewPos.value.copy(state.camera.position);
@@ -791,6 +973,33 @@ export function Vegetation({
         const ccz = Math.round(cell.originZ / size);
         if (Math.max(Math.abs(ccx - cx), Math.abs(ccz - cz)) <= chunkRing + 1) continue;
         dropCell(cell);
+      }
+    }
+
+    // The pool bounds churn at a biome edge, where the same geometries are
+    // dropped and re-entered every few seconds; the idle rule bounds its
+    // memory to what was actually used in the last minute.
+    const now = performance.now();
+    if (now - lastPoolSweep.current >= 1000) {
+      lastPoolSweep.current = now;
+      const pooled: Array<{ batch: Batch; key: string; geo: GeoMesh }> = [];
+      for (const batch of batches.current.values()) {
+        for (const [key, geo] of [...batch.geometryPool]) {
+          if (now - geo.pooledAt < POOL_IDLE_MS) {
+            pooled.push({ batch, key, geo });
+            continue;
+          }
+          batch.geometryPool.delete(key);
+          disposeShallowGeometry(geo);
+        }
+      }
+      if (pooled.length > POOL_MAX_ENTRIES) {
+        pooled.sort((a, b) => a.geo.pooledAt - b.geo.pooledAt);
+        for (let i = 0; i < pooled.length - POOL_MAX_ENTRIES; i++) {
+          const { batch, key, geo } = pooled[i];
+          batch.geometryPool.delete(key);
+          disposeShallowGeometry(geo);
+        }
       }
     }
 
@@ -872,7 +1081,6 @@ export function Vegetation({
       // depth rejects the far foliage behind it instead of shading it twice.
       // The distances are the ones this pass already computes, and the two
       // loops below are over the ~120 batches, not over their copies.
-      // `mesh.sortObjects` (BatchedMesh's per-instance sort) stays off.
       if (VEG_ORDER_ENABLED) {
         for (const batch of batches.current.values()) batch.orderMin = Infinity;
         gateSpecies(allSpecies.current, eye, fwd, enqueueTile,
@@ -880,7 +1088,9 @@ export function Vegetation({
         for (const batch of batches.current.values()) {
           if (batch.orderMin === Infinity) continue;
           const next = Math.round(batch.orderMin);
-          if (batch.mesh.renderOrder !== next) batch.mesh.renderOrder = next;
+          if (batch.renderOrder === next) continue;
+          batch.renderOrder = next;
+          for (const geo of batch.geoList) geo.mesh.renderOrder = next;
         }
       } else {
         gateSpecies(allSpecies.current, eye, fwd, enqueueTile, gateStats.current);
@@ -940,6 +1150,10 @@ export function Vegetation({
     c.flipTiles = 0; c.flipInstances = 0; c.buildStepMs = 0;
     flippedBatches.current.clear();
 
+    // Site (b): this frame's gate pass, flip drain and eviction, pushed
+    // before r3f renders.
+    flushAllDirty();
+
     function cellDistance(key: string): number {
       const cell = cells.current.get(key);
       if (!cell) return Infinity;
@@ -995,20 +1209,55 @@ export function Vegetation({
   }
 
   function removeRanges(entries: CellSpeciesEntry[]): void {
+    // Geometries touched this call: pruned below once nothing allocates from
+    // them any more, so an emptied cell does not leave a permanent
+    // zero-count mesh parented in the scene (review, round 12).
+    const touched = new Map<GeoMesh, Batch>();
     for (const entry of entries) {
       for (const rung of entry.rungs) {
         hideRung(rung);   // keeps the per-batch visible counters honest
         for (let p = 0; p < rung.partBatches.length; p++) {
           const batch = rung.partBatches[p];
+          const geo = rung.partGeo[p];
           const ids = rung.ids[p];
-          for (let i = 0; i < ids.length; i++) batch.mesh.deleteInstance(ids[i]);
-          batch.used -= ids.length;
+          // Both slot kinds go back on their free lists: the copy's row in
+          // the instance buffers, and its texel pair in the data texture.
+          for (let i = 0; i < ids.length; i++) {
+            const slot = ids[i];
+            setSlotVisible(geo, slot, false);
+            batch.freeData.push(geo.dataSlot[slot]);
+            geo.src[slot] = null;   // the cell's placements go with its slots
+            geo.free.push(slot);
+          }
           batch.rungs.delete(rung);
+          touched.set(geo, batch);
         }
         rung.partBatches = [];
+        rung.partGeo = [];
         rung.ids = [];
       }
       entry.rungs = [];
+    }
+    for (const [geo, batch] of touched) {
+      if (geo.next - geo.free.length > 0) continue;
+      // Nothing allocates from this geometry any more: drop it rather than
+      // keep a permanent, always-visited zero-count mesh in the scene graph.
+      // POOLED, never disposed. Disposing would have to free the shallow
+      // geometry too, and rebuilding it on the next entry re-uploads this
+      // kit mesh's `esSlot` and instance matrices from scratch; the province
+      // walk re-enters the same cells constantly. Out of the scene at
+      // `count = 0` it costs nothing per frame and keeps its capacity.
+      root.current?.remove(geo.mesh);
+      geo.mesh.count = 0;
+      geo.count = 0;
+      clearUploadSpans(geo.dirty);
+      geo.pooledAt = performance.now();
+      batch.geometryPool.set(geo.geometryKey, geo);
+      dirtyGeos.current.delete(geo);
+      allPending.current.delete(geo);
+      batch.geometries.delete(geo.geometryKey);
+      const idx = batch.geoList.indexOf(geo);
+      if (idx >= 0) batch.geoList.splice(idx, 1);
     }
   }
 
@@ -1097,7 +1346,7 @@ export function Vegetation({
     }
 
     function finish(build: CellBuild): void {
-      // A cancelled or unmounted owner must not get fresh BatchedMeshes.
+      // A cancelled or unmounted owner must not get fresh meshes.
       if (!mounted.current || cells.current.get(key) !== cell) return;
       const previous = cell!.species;
       // One upload per batch the whole cell touched, not one per part.
@@ -1248,9 +1497,9 @@ export function Vegetation({
   }
 
   /**
-   * Grow every batch this cell will overflow, BEFORE its first `addInstance`.
-   * A growth replays whole live rungs into a fresh mesh, which is only sound
-   * while no rung is half-filled — so this is the one place that grows.
+   * Make room in the DATA TEXTURE of every batch this cell will touch. The
+   * per-geometry instance buffers grow on demand instead (`geoFor`), because
+   * a geometry growth leaves every slot id where it was.
    */
   function reserveBatches(
     needs: Map<string, number>,
@@ -1264,71 +1513,223 @@ export function Vegetation({
         batches.current.set(key, makeBatch(
           key, spec.material, spec.depthMaterial,
           spec.near, spec.isCard, spec.casts, spec.fromZero,
-          Math.max(MIN_BATCH_CAPACITY, Math.ceil(need * 1.5)),
-          batchGeometryBudget(key)));
-      } else if (batch.used + need > batch.capacity) {
-        batches.current.set(key, growBatch(batch, need));
+          Math.max(MIN_BATCH_CAPACITY, Math.ceil(need * 1.5))));
+      } else if (batch.nextData + Math.max(0, need - batch.freeData.length)
+                 > batch.capacity) {
+        growBatchData(batch, need);
       }
     }
   }
 
   /**
-   * Re-create a full batch at 1.5× and replay every live rung into it. The
-   * materials are NOT re-created (they are owned per key): only the mesh and
-   * the per-instance data texture are, and the uniform is re-pointed at the
-   * new texture inside `makeBatch`.
+   * Re-create one batch's per-slot data texture at 1.5×, copying it texel for
+   * texel. Slot ids are unchanged, so nothing else moves; the materials own
+   * the uniform, so it is re-pointed there.
    */
-  function growBatch(old: Batch, need: number): Batch {
-    const capacity = Math.max(MIN_BATCH_CAPACITY, Math.ceil((old.used + need) * 1.5));
-    // Hide everything this batch holds first, so the visible-copy counters and
-    // the tile states are consistent with the fresh (all-invisible) copies;
-    // the next gating pass re-applies the right answer.
-    for (const rung of [...old.rungs]) hideRung(rung);
-    const fresh = makeBatch(
-      old.key, old.material, old.depthMaterial,
-      old.near, old.isCard, old.casts, old.fromZero,
-      capacity, { vertices: old.vertexCapacity, indices: old.indexCapacity });
-    // The replay reads the OLD mesh, not a retained CPU copy of the
-    // placements: matrix out, matrix in, and the two data texels with it.
-    const oldData = old.data.image.data as Float32Array;
-    const freshData = fresh.data.image.data as Float32Array;
-    const stride = BATCH_DATA_TEXELS * 4;
-    for (const rung of [...old.rungs]) {
-      for (let p = 0; p < rung.partBatches.length; p++) {
-        if (rung.partBatches[p] !== old) continue;
-        rung.partBatches[p] = fresh;
-        const spec = rung.partSpecs[p];
-        let geometryId = fresh.geometryIds.get(spec.geometryKey);
-        if (geometryId === undefined) {
-          geometryId = fresh.mesh.addGeometry(spec.geometry);
-          fresh.geometryIds.set(spec.geometryKey, geometryId);
-        }
-        // Ids are rewritten IN PLACE, so every tile's slice of this array
-        // carries the new ids without anything being rebuilt.
-        const ids = rung.ids[p];
-        for (let i = 0; i < ids.length; i++) {
-          const oldId = ids[i];
-          const newId = fresh.mesh.addInstance(geometryId);
-          old.mesh.getMatrixAt(oldId, matrix);
-          fresh.mesh.setMatrixAt(newId, matrix);
-          const from = oldId * stride;
-          const to = newId * stride;
-          for (let k = 0; k < stride; k++) freshData[to + k] = oldData[from + k];
-          fresh.mesh.setVisibleAt(newId, false);
-          ids[i] = newId;
-        }
-        fresh.used += ids.length;
-        fresh.rungs.add(rung);
-      }
-      old.rungs.delete(rung);
+  function growBatchData(batch: Batch, need: number): void {
+    const capacity = Math.max(
+      MIN_BATCH_CAPACITY, Math.ceil((batch.nextData + need) * 1.5));
+    const data = createBatchDataTexture(capacity);
+    (data.image.data as Float32Array).set(
+      (batch.data.image.data as Float32Array)
+        .subarray(0, batch.nextData * BATCH_DATA_TEXELS * 4));
+    data.needsUpdate = true;
+    batch.data.dispose();
+    batch.data = data;
+    batch.capacity = capacity;
+    const owned = batchMaterials.current.get(batch.key);
+    if (owned) owned.uniforms.esBatchData.value = data;
+  }
+
+  /** The next free data-texture slot of a batch, growing the texture if the
+   * plan under-counted (a reserve is by key, a fill is by part). */
+  function allocDataSlot(batch: Batch): number {
+    const reused = batch.freeData.pop();
+    if (reused !== undefined) return reused;
+    if (batch.nextData >= batch.capacity) growBatchData(batch, MIN_BATCH_CAPACITY);
+    return batch.nextData++;
+  }
+
+  /** Compose one slot's matrix from its cell record straight into `row` of a
+   * mesh's instance-matrix array. */
+  function composeSlot(
+    geo: GeoMesh, slot: number, matrices: Float32Array, row: number,
+  ): void {
+    const placements = geo.src[slot];
+    if (!placements) return;
+    const at = geo.srcIndex[slot] * 7;
+    position.set(placements[at], placements[at + 1], placements[at + 2]);
+    euler.set(placements[at + 3], placements[at + 4], placements[at + 5], "YXZ");
+    quaternion.setFromEuler(euler);
+    scaleVec.setScalar(placements[at + 6]);
+    matrix.compose(position, quaternion, scaleVec).toArray(matrices, row * 16);
+  }
+
+  /** Rows one `hideRows` call is compacting away, and the (donor, target)
+   * pairs `compactRows` plans for them. Reused, so a hide allocates nothing. */
+  const hideRowsScratch: number[] = [];
+  const hideMoveScratch: number[] = [];
+
+  /**
+   * Hide a whole BLOCK of one geometry's copies in one compaction.
+   *
+   * A tile's copies were appended together, so their rows are contiguous and
+   * the surviving tail slides down over them as one move: the upload is the
+   * hidden block, one span, instead of the hundreds of scattered rows a
+   * per-copy swap-remove writes (which collapse `markUploadRow` to a
+   * whole-buffer upload past `MAX_UPLOAD_SPANS`).
+   */
+  function hideRows(
+    geo: GeoMesh, ids: Int32Array, from: number, to: number,
+  ): void {
+    const rows = hideRowsScratch;
+    rows.length = 0;
+    for (let i = from; i < to; i++) {
+      const slot = ids[i];
+      const order = geo.orderOf[slot];
+      if (order < 0) continue;
+      rows.push(order);
+      geo.orderOf[slot] = -1;
     }
-    // The replay is a whole-batch rewrite, so this upload is not the
-    // per-species one `addCopies` deliberately leaves to the caller.
-    fresh.data.needsUpdate = true;
-    root.current?.remove(old.mesh);
-    old.mesh.dispose();
-    old.data.dispose();
-    return fresh;
+    if (rows.length === 0) return;
+    rows.sort((a, b) => a - b);
+    const matrices = geo.mesh.instanceMatrix.array as Float32Array;
+    const slots = geo.geometry.getAttribute("esSlot").array as Float32Array;
+    const moves = hideMoveScratch;
+    const count = compactRows(geo.count, rows, moves);
+    for (let m = 0; m < moves.length; m += 2) {
+      const donor = moves[m];
+      const target = moves[m + 1];
+      const fromAt = donor * 16;
+      const toAt = target * 16;
+      for (let i = 0; i < 16; i++) matrices[toAt + i] = matrices[fromAt + i];
+      slots[target] = slots[donor];
+      const moved = geo.slotOf[donor];
+      geo.slotOf[target] = moved;
+      geo.orderOf[moved] = target;
+      markUploadRow(geo.dirty, target);   // only the targets are written
+    }
+    geo.count = count;
+    geo.mesh.count = count;
+    dirtyGeos.current.add(geo);
+  }
+
+  /** Switch one tile's copies of one geometry on or off. A block hide is one
+   * compaction; a single copy keeps the swap-remove. Both flip paths (the
+   * structural `applyTile` and the gate's `applyBatchFlips`) go through it. */
+  function setTileSlots(
+    geo: GeoMesh, ids: Int32Array, from: number, to: number, visible: boolean,
+  ): void {
+    if (!visible && to - from > 1) {
+      hideRows(geo, ids, from, to);
+      return;
+    }
+    for (let i = from; i < to; i++) setSlotVisible(geo, ids[i], visible);
+  }
+
+  /**
+   * Switch one copy on or off. ON appends it to the visible prefix; OFF swaps
+   * the last visible copy into its row. Both touch one row of the two
+   * instance buffers and move `count`, which IS the draw.
+   */
+  function setSlotVisible(geo: GeoMesh, slot: number, visible: boolean): void {
+    const order = geo.orderOf[slot];
+    if (visible === (order >= 0)) return;
+    const matrices = geo.mesh.instanceMatrix.array as Float32Array;
+    const slots = geo.geometry.getAttribute("esSlot").array as Float32Array;
+    let row: number;
+    if (visible) {
+      row = geo.count;
+      composeSlot(geo, slot, matrices, row);
+      slots[row] = geo.dataSlot[slot];
+      geo.slotOf[row] = slot;
+      geo.orderOf[slot] = row;
+      geo.count++;
+    } else {
+      row = order;
+      const last = geo.count - 1;
+      if (row !== last) {
+        const moved = geo.slotOf[last];
+        const from = last * 16;
+        const to = row * 16;
+        for (let i = 0; i < 16; i++) matrices[to + i] = matrices[from + i];
+        slots[row] = slots[last];
+        geo.slotOf[row] = moved;
+        geo.orderOf[moved] = row;
+        markUploadRow(geo.dirty, row);
+      }
+      geo.orderOf[slot] = -1;
+      geo.count--;
+      // Hiding the last visible row writes nothing: it just leaves the prefix.
+    }
+    geo.mesh.count = geo.count;
+    if (visible) markUploadRow(geo.dirty, row);
+    dirtyGeos.current.add(geo);
+  }
+
+  /**
+   * Push one mesh's pending row spans onto its two instance attributes as
+   * upload ranges.
+   *
+   * `WebGLAttributes.update` calls `attribute.clearUpdateRanges()` once it has
+   * issued the `bufferSubData` calls (three 0.184,
+   * `node_modules/three/build/three.module.js:207`), so the ranges on the
+   * attribute never accumulate across renders: what we push here is exactly
+   * what this frame uploads. When the spans collapsed, the upload is the
+   * VISIBLE PREFIX, not the whole array: the buffers are sized by `capacity`
+   * and the rows past `count` are never drawn, so uploading them would cost
+   * the 1.5x growth headroom for nothing.
+   */
+  function flushDirty(geo: GeoMesh): void {
+    const matrixAttr = geo.mesh.instanceMatrix;
+    const slotAttr = geo.geometry.getAttribute("esSlot") as THREE.BufferAttribute;
+    if (geo.dirty.all || allPending.current.has(geo)) {
+      // A LATER flush this frame must not put a partial range back on the
+      // attribute and shrink the upload to those rows; it re-states the
+      // prefix instead, because `count` can have risen since. The set is
+      // cleared at the top of the frame, after the render that consumed it.
+      matrixAttr.clearUpdateRanges();
+      slotAttr.clearUpdateRanges();
+      allPending.current.add(geo);
+      if (geo.count === 0) {
+        // An empty range list is three's WHOLE-BUFFER upload, so an empty
+        // prefix must not reach `needsUpdate` at all: nothing is drawn from
+        // these buffers until a copy flips on, and that flush states the rows.
+        clearUploadSpans(geo.dirty);
+        return;
+      }
+      matrixAttr.addUpdateRange(0, geo.count * 16);
+      slotAttr.addUpdateRange(0, geo.count);
+    } else {
+      for (const [start, end] of geo.dirty.spans) {
+        const rows = end - start + 1;
+        matrixAttr.addUpdateRange(start * 16, rows * 16);
+        slotAttr.addUpdateRange(start, rows);
+      }
+    }
+    matrixAttr.needsUpdate = true;
+    slotAttr.needsUpdate = true;
+    clearUploadSpans(geo.dirty);
+  }
+
+  /**
+   * Flush every mesh whose rows moved since the last render.
+   *
+   * Called twice per frame and nowhere else: three uploads attributes inside
+   * `renderer.render`, which r3f runs AFTER every `useFrame` subscriber, so a
+   * row whose `count` was raised and whose span was marked before that render
+   * is uploaded before it is drawn. The first call (top of this component's
+   * `useFrame`) covers everything the frame-work pump did since the last
+   * render — cell fills and the `gateSpecies`→`applyTile` inside them. The
+   * pump itself cannot run between the two: its `useFrame` is priority −100
+   * (`FrameWorkProvider.tsx`, and the fly-mode fallback in
+   * `frameWorkContext.ts`), which r3f sorts ahead of this component's default
+   * priority 0. The second call (bottom of the same `useFrame`) covers this
+   * frame's gate pass, flip drain and eviction.
+   */
+  function flushAllDirty(): void {
+    for (const geo of dirtyGeos.current) flushDirty(geo);
+    dirtyGeos.current.clear();
   }
 
   /** Switch every visible tile of a rung off (the state bookkeeping with it). */
@@ -1352,34 +1753,27 @@ export function Vegetation({
    */
   function addCopies(
     batch: Batch,
-    geometryKey: string,
-    geometry: THREE.BufferGeometry,
+    geo: GeoMesh,
     sb: CellSpeciesBuild,
     rungIndex: number,
     ids: Int32Array,
   ): Int32Array {
-    let geometryId = batch.geometryIds.get(geometryKey);
-    if (geometryId === undefined) {
-      geometryId = batch.mesh.addGeometry(geometry);
-      batch.geometryIds.set(geometryKey, geometryId);
-    }
     const rung = sb.rungs[rungIndex];
     for (let i = 0; i < sb.count; i++) {
-      const id = batch.mesh.addInstance(geometryId);
-      const at = i * 7;
-      position.set(sb.placements[at], sb.placements[at + 1], sb.placements[at + 2]);
-      euler.set(sb.placements[at + 3], sb.placements[at + 4], sb.placements[at + 5], "YXZ");
-      quaternion.setFromEuler(euler);
-      scaleVec.setScalar(sb.placements[at + 6]);
-      batch.mesh.setMatrixAt(id, matrix.compose(position, quaternion, scaleVec));
+      const slot = geo.free.pop() ?? geo.next++;
+      const dataSlot = allocDataSlot(batch);
+      geo.dataSlot[slot] = dataSlot;
+      geo.orderOf[slot] = -1;               // every copy arrives switched off
+      // The transform stays in the cell's own placement array; the matrix is
+      // composed straight into the instance buffer when the copy flips on.
+      geo.src[slot] = sb.placements;
+      geo.srcIndex[slot] = i;
       // The card rung never sways, whatever the species does.
       const stiffness = batch.isCard ? -1 : sb.windTune[i * 2];
       writeBatchInstance(
-        batch.data, id, rung.band, stiffness, sb.windTune[i * 2 + 1]);
-      batch.mesh.setVisibleAt(id, false);
-      ids[i] = id;
+        batch.data, dataSlot, rung.band, stiffness, sb.windTune[i * 2 + 1]);
+      ids[i] = slot;
     }
-    batch.used += sb.count;
     return ids;
   }
 
@@ -1414,9 +1808,9 @@ export function Vegetation({
       }
       const at = tile * parts + p;
       if (rung.appliedParts[at] === (visible ? 1 : 0)) continue;
+      const geo = rung.partGeo[p];
       const ids = rung.ids[p];
-      for (let i = from; i < to; i++) batch.mesh.setVisibleAt(ids[i], visible);
-      batch.visibleCopies += visible ? to - from : from - to;
+      setTileSlots(geo, ids, from, to, visible);
       rung.appliedParts[at] = visible ? 1 : 0;
       if (import.meta.env.DEV) {
         counters.current.flipInstances += to - from;
@@ -1468,10 +1862,10 @@ export function Vegetation({
 
   /**
    * Apply queued flips until `FLIP_BUDGET_MS` of this frame is spent, or the
-   * queue is empty — at least one batch always. A `setVisibleAt` is cheap on
-   * its own, but the batch it touches is re-walked and its indirect texture
-   * re-uploaded before the next draw, so what has to be bounded is TIME, not
-   * a batch count. Batches that turn something ON go first, then the nearest,
+   * queue is empty — at least one batch always. One copy's flip is cheap on
+   * its own, but a tile carries hundreds of them and each batch pays for the
+   * rows it writes and uploads, so what has to be bounded is TIME, not a
+   * batch count. Batches that turn something ON go first, then the nearest,
    * so the resident set is always a superset of what the shader is about to
    * read.
    */
@@ -1514,9 +1908,9 @@ export function Vegetation({
           if (rung.partBatches[p] !== batch) continue;
           const at = tile * parts + p;
           if (rung.appliedParts[at] === (visible ? 1 : 0)) continue;
+          const geo = rung.partGeo[p];
           const ids = rung.ids[p];
-          for (let i = from; i < to; i++) batch.mesh.setVisibleAt(ids[i], visible);
-          batch.visibleCopies += visible ? to - from : from - to;
+          setTileSlots(geo, ids, from, to, visible);
           rung.appliedParts[at] = visible ? 1 : 0;
           if (import.meta.env.DEV) counters.current.flipInstances += to - from;
         }
@@ -1527,8 +1921,15 @@ export function Vegetation({
 
   /**
    * Fill ONE built species into the batches — the GPU half of the work, done
-   * in the same frame-work step as that species' build. Every batch it touches
-   * was reserved before the cell started, so nothing grows here.
+   * in the same frame-work step as that species' build.
+   *
+   * Since round 12 the fill DOES grow things: `geoFor` grows a geometry's
+   * instance buffers when its free rows run out, and `allocDataSlot` grows the
+   * batch's data texture. Both copy the live prefix into the new buffer and
+   * mark the whole buffer dirty, and slot ids survive a geometry growth, so
+   * ids taken earlier in this fill stay valid — but the attribute and texture
+   * OBJECTS do not, and nothing may hold a reference to them across a call
+   * into `geoFor` or `allocDataSlot`.
    */
   function fillSpecies(
     cell: Cell,
@@ -1578,8 +1979,8 @@ export function Vegetation({
         const fromZero = shadowFromZeroFor(casts, level);
         const parts = entry.levels[level].parts;
         const partBatches: Batch[] = [];
+        const partGeo: GeoMesh[] = [];
         const partIds: Int32Array[] = [];
-        const partSpecs: ReplaySpec[] = [];
         const partTriangles: number[] = [];
         for (let partIndex = 0; partIndex < parts.length; partIndex++) {
           const part = parts[partIndex];
@@ -1588,12 +1989,12 @@ export function Vegetation({
             near, isCard, casts, fromZero))!;
           touched.add(batch);
           const geometryKey = `${sb.species}|${level}|${partIndex}`;
+          const geo = geoFor(batch, geometryKey, part.geometry, sb.count);
           const ids = addCopies(
-            batch, geometryKey, part.geometry, sb, rungIndex,
-            new Int32Array(sb.count));
+            batch, geo, sb, rungIndex, new Int32Array(sb.count));
           partBatches.push(batch);
+          partGeo.push(geo);
           partIds.push(ids);
-          partSpecs.push({ geometryKey, geometry: part.geometry });
           const idx = part.geometry.getIndex();
           partTriangles.push(
             (idx ? idx.count : part.geometry.attributes.position.count) / 3);
@@ -1613,7 +2014,7 @@ export function Vegetation({
           trianglesPerInstance,
           onTiles: 0,
           level, isCard, species: sb.species, reachM: params.reachM,
-          partBatches, partSpecs,
+          partBatches, partGeo,
           appliedParts: new Uint8Array(GATE_TILE_COUNT * partIds.length),
         };
         for (const batch of partBatches) batch.rungs.add(rungEntry);
@@ -1653,8 +2054,17 @@ export function Vegetation({
     const total = copiesTotal.current;
     let billboardInstances = 0;
     const bySpecies: VegetationStats["bySpecies"] = {};
+    // One draw per instanced mesh with a non-empty visible prefix; the
+    // ranges figure is what the pre-round-12 batched path submitted.
     let draws = 0;
-    for (const batch of batches.current.values()) if (batch.visibleCopies > 0) draws++;
+    let instancedRanges = 0;
+    for (const batch of batches.current.values()) {
+      for (const geo of batch.geoList) {
+        if (geo.count === 0) continue;
+        draws++;
+        instancedRanges += geo.count;
+      }
+    }
     let cellsPending = 0;
     for (const cell of cells.current.values()) {
       if (!cell.build || jobs.current.has(cell.key)) cellsPending++;
@@ -1704,7 +2114,7 @@ export function Vegetation({
       chunks: cells.current.size,
       instances,
       draws,
-      drawsFallback: instances,
+      instancedRanges,
       triangles: Math.round(triangles),
       culled: Math.max(0, total - instances),
       billboardInstances,

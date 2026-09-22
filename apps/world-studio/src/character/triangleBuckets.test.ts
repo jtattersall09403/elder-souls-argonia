@@ -8,7 +8,7 @@ describe("triangle attribution buckets", () => {
   });
 
   it("falls back to veg for batched meshes and other for everything else", () => {
-    expect(bucketOf({ isBatchedMesh: true, userData: {} })).toBe("veg");
+    expect(bucketOf({ userData: { perfTag: "veg" } })).toBe("veg");
     expect(bucketOf({ userData: {} })).toBe("other");
     expect(bucketOf({})).toBe("other");
     expect(bucketOf(null)).toBe("other");
@@ -20,8 +20,8 @@ describe("triangle attribution buckets", () => {
     const draws = [
       { object: { userData: { perfTag: "terrain" } }, shadow: false, tris: 4_000_000 },
       { object: { userData: { perfTag: "terrain" } }, shadow: true, tris: 1_500_000 },
-      { object: { isBatchedMesh: true }, shadow: false, tris: 3_000_000 },
-      { object: { isBatchedMesh: true }, shadow: true, tris: 2_100_000 },
+      { object: { userData: { perfTag: "veg" } }, shadow: false, tris: 3_000_000 },
+      { object: { userData: { perfTag: "veg" } }, shadow: true, tris: 2_100_000 },
       { object: { userData: { perfTag: "gc" } }, shadow: false, tris: 800_000 },
       { object: {}, shadow: false, tris: 400_000 },
     ];

@@ -212,6 +212,63 @@ x axis, 1 draws one mesh. Fewer quadrants trade frustum culling for calls,
 and the owner's next reading decides it. Expected effect at the default:
 ground-cover draws down about a third, roughly 80 calls off the frame.
 
+## Round 12 addendum (2026-09-22): the frame was multi-draw bound
+
+The owner's A/B settled it. With vegetation unmounted the jungle ran 59 fps,
+cpu 6.6 ms, 326 calls; with it mounted, 22–24 fps, cpu 21–25 ms, 480–563
+calls. Ground cover's ~127 instanced draws cost under a millisecond between
+them, so vegetation's 111 draws were carrying ~20 ms — about 170 microseconds
+each, two orders above what a draw call costs.
+
+A `THREE.BatchedMesh` in three 0.184 has no instanced draw path. It emits one
+multi-draw RANGE per VISIBLE INSTANCE (`_multiDrawStarts/_multiDrawCounts`),
+about 50 000 of them at the jungle at rest, and again for the shadow pass.
+Chrome on Apple hardware runs ANGLE over Metal, which has no native
+multi-draw: it loops in the GPU process, one Metal draw plus a `gl_DrawID`
+uniform write per range. That is ~10^5 hidden draws a frame, invisible to the
+JS timers (`onBeforeRender` early-outs, because culling and sorting are off
+since 0082) and invisible to the GPU line, which is wall time on this
+hardware. The draw-call figure the HUD reported — 111 — was the count of
+`multiDrawElementsWEBGL` calls, not of draws.
+
+The fix is one `THREE.InstancedMesh` per (batch key, kit geometry): a real
+instanced draw with `count` = visible copies. A copy keeps a permanent SLOT
+in its batch; the GPU buffers hold a COMPACT PREFIX of the visible copies, so
+switching a copy on appends it and switching one off swaps the last copy into
+its row, and one merged upload range covers the frame's touched rows. The
+per-instance band, wind tune and occlusion cell stay in the batch's data
+texture, now indexed by an `esSlot` instanced attribute instead of
+`getIndirectIndex(gl_DrawID)`; the shader branches move from `USE_BATCHING`
+to an `ES_BATCH_SLOTS` define, because the ground-cover renderer is instanced
+too and its materials carry neither the attribute nor the texture. The
+`WEBGL_multi_draw` requirement in 0082 §4 goes with the BatchedMesh path:
+what is required now is instancing, which is WebGL2 core. The cell build is
+untouched, so the copies, their matrices and their per-instance data are
+identical and the 0082 parity gate is unchanged.
+
+The same reading settled `&gcquad`. Verbatim:
+
+```
+at rest (gcquad=4)
+veg: 24 fps · gpu ~19.7/88.7 ms · cpu 21.7/39.6 ms · calls 480 · gate 0.1/0.1 ms · flip 0/0.1 ms (0) · pending 0 · queue 0/0 ms - · draws 100
+gc: rebuilds 0/s · gen 0/0 ms · tile 0.6/0 ms · phases grid 0.1 · mask 0.0 · cand 19.2 (489 exact) · compose 1.1 · fill 18.2/0 ms (61612) · tiles 352/0 · built 353 staled 0 retiled 0 · mesh 0.75M
+cpu by stage: pre 0.1 · veg 0.5 · gc 0.5 · sky 0.3 · char 1.1 · ripple 2.5 · foam 0.0 · shadow 3.4 · scene 12.2 (max 16.1) · blit 0.0 · water 0.5 · precip 0.3 · overlay 0.2 · post 0.0
+gcquad=2
+veg: 24 fps · gpu ~21.7/102.2 ms · cpu 21.1/39 ms · calls 436 · draws 111
+gc: tiles 350/0 · built 350 staled 0 retiled 0 · mesh 0.79M
+gcquad=1
+veg: 23 fps · gpu ~17.1/75.7 ms · cpu 20.3/32.6 ms · calls 404 · draws 111
+gc: tiles 350/0 · built 350 staled 0 retiled 0 · mesh 0.79M
+```
+
+Quartering costs 76 calls and culls nothing worth them: the frame rate is
+flat at 23–24 across all three. `&gcquad` stays as the measurement switch and
+its default becomes 1.
+
+The HUD's vegetation line now prints `draws N (ranges M)`, where the ranges
+figure is the sum of the visible counts — exactly what the old path submitted
+as multi-draw ranges, kept so the next reading can be compared with this one.
+
 ## Consequences
 
 - `FRAME_TRIANGLE_BUDGET` and the HUD budget line ship with this round; the

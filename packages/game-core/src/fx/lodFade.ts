@@ -195,8 +195,9 @@ float esLodRamp(float edge, float w, float d) {
   return w > 0.0 ? smoothstep(edge - w, edge + w, d) : step(edge, d);
 }
 
-#ifdef USE_INSTANCING
+#if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)
   // vec4(dIn, dOut, wIn, wOut) metres. Unbound => (0,0,0,0) => fully visible.
+  // The foliage batches read the band from their data texture instead.
   attribute vec4 esLodBand;
 #endif
 ${BATCH_DATA_HEAD}
@@ -215,14 +216,15 @@ export const LOD_SHADOW_FROM_ZERO_LINE = "float esLodIn = 1.0; // shadowBandFrom
 
 const VERTEX_BODY = /* glsl */ `
 {
-  #ifdef USE_INSTANCING
+  #ifdef ES_BATCH_SLOTS
+    // The foliage batches: the band rides texel 0 of the per-slot data
+    // texture (decision 0082 §5), because a batch's copies share one material
+    // and the band belongs to the rung, not the mesh.
+    vec3 esLodOrigin = instanceMatrix[3].xyz;
+    vec4 esBand = esBatchTexel(0);
+  #elif defined(USE_INSTANCING)
     vec3 esLodOrigin = instanceMatrix[3].xyz;
     vec4 esBand = esLodBand;
-  #elif defined(USE_BATCHING)
-    // BatchedMesh has no instanced attributes: the band rides texel 0 of the
-    // per-instance data texture (decision 0082 §5).
-    vec3 esLodOrigin = batchingMatrix[3].xyz;
-    vec4 esBand = esBatchTexel(0);
   #else
     vec3 esLodOrigin = vec3(0.0);
     vec4 esBand = vec4(0.0);
@@ -244,7 +246,7 @@ const VERTEX_BODY = /* glsl */ `
   // below already discards EVERY pixel once esLodOut passes the largest Bayer
   // threshold, so the collapse tail is BAYER4_MAX, not 1.
   if (esLodIn <= 0.0 || esLodOut > ${BAYER4_MAX}) transformed = vec3(0.0);
-  #ifdef USE_BATCHING
+  #ifdef ES_BATCH_SLOTS
   // Terrain occlusion, read from the incrementally swept mask rather than
   // decided on the CPU per instance (decision 0082 §6). 0071's rule is
   // unchanged: nothing nearer than OCCLUSION_MIN_DISTANCE_M is ever culled.

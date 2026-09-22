@@ -46,10 +46,12 @@ chunk (468 m). Its buffers are built ONCE, when the chunk decodes and its
 terrain is loaded. Every instance is emitted into EVERY rung of its species
 ladder with both band edges closed; the GPU picks the rung per pixel from
 the live camera distance ([0075](../decisions/0075-lod-is-a-ladder-stepped-from-the-camera.md)).
-Moving the camera never rebuilds anything. Copies live in one
-`THREE.BatchedMesh` per material key, so a species part is one draw where
-`WEBGL_multi_draw` exists. Per frame the CPU only gates — cell first, then
-58 m tile — switching whole runs of copies on and off. It also sweeps a few
+Moving the camera never rebuilds anything. Copies live in batches keyed by
+material and, inside a batch, in one `THREE.InstancedMesh` per kit geometry:
+one instanced draw per species part, whose visible copies are a compact
+prefix of the instance buffer (0084 round 12; the requirement is instancing,
+WebGL2 core). Per frame the CPU only gates — cell first, then 58 m tile —
+switching whole runs of copies on and off. It also sweeps a few
 terrain-occlusion rays into a mask texture the vertex shader reads
 ([0071](../decisions/0071-every-placed-thing-steps-down-through-bands-and-collides-as-itself.md)).
 

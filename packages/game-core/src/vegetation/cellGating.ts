@@ -4,7 +4,7 @@
  * The only per-frame CPU cost of the cell renderer: a loop over
  * cells × species × rungs (hundreds), never instances. A range whose band
  * cannot intersect the cell's distance range from the eye is switched off
- * through `BatchedMesh.setVisibleAt`.
+ * by moving them in and out of each instanced mesh's visible prefix.
  *
  * A rung's tiles are FLAT DATA, never objects: the tile CSR offsets and the
  * tile bounds are the arrays the species build already produced (shared by

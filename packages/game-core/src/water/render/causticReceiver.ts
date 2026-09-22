@@ -17,9 +17,6 @@ export function applySubmergedCaustics(material: Material, uniforms: GroundWetne
       .replace('#include <common>', '#include <common>\nvarying vec3 vWaterReceiverPos;')
       .replace('#include <worldpos_vertex>', /* glsl */ `#include <worldpos_vertex>
       vec4 waterReceiverPos = vec4(transformed, 1.0);
-      #ifdef USE_BATCHING
-        waterReceiverPos = batchingMatrix * waterReceiverPos;
-      #endif
       #ifdef USE_INSTANCING
         waterReceiverPos = instanceMatrix * waterReceiverPos;
       #endif

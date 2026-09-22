@@ -79,6 +79,7 @@ import {
 import {
   applyCylindricalBillboard,
 } from "@elder-souls/game-core/fx/billboardQuad";
+import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry";
 import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
@@ -897,8 +898,8 @@ interface KitLevelPart {
  * quadrants) share one kit geometry, so one shared attribute would let the
  * last slot written re-band every other slot. A view shares every real vertex
  * buffer by reference — nothing is copied or uploaded twice — and only holds
- * its own band attribute. (Vegetation.tsx solves the identical problem for its
- * neighbourhood blocks; that copy is the other agent's file this round.)
+ * its own band attribute. The mechanism is shared with Vegetation.tsx: see
+ * `makeSlotGeometry`.
  */
 const SLOT_GEOMETRIES = Symbol("esSlotGeometries");
 
@@ -909,17 +910,11 @@ function slotGeometry(source: THREE.BufferGeometry, slot: number): THREE.BufferG
   const cache = host[SLOT_GEOMETRIES] ?? (host[SLOT_GEOMETRIES] = new Map());
   const cached = cache.get(slot);
   if (cached) return cached;
-  const view = new THREE.BufferGeometry();
-  view.setIndex(source.getIndex());
-  for (const [name, attribute] of Object.entries(source.attributes)) {
-    if (name === LOD_BAND_ATTRIBUTE) continue;
-    view.setAttribute(name, attribute);
-  }
-  for (const group of source.groups) view.addGroup(group.start, group.count, group.materialIndex);
-  source.computeBoundingSphere();
-  source.computeBoundingBox();
-  view.boundingSphere = source.boundingSphere ? source.boundingSphere.clone() : null;
-  view.boundingBox = source.boundingBox ? source.boundingBox.clone() : null;
+  // The band attribute is the view's own; `bandAttribute` grows it in place.
+  const view = makeSlotGeometry(source, {
+    [LOD_BAND_ATTRIBUTE]: new THREE.InstancedBufferAttribute(
+      new Float32Array(64 * 4), 4),
+  });
   cache.set(slot, view);
   return view;
 }
@@ -1096,16 +1091,17 @@ export const GROUNDCOVER_ENABLED: boolean = (() => {
 })();
 
 /**
- * DEV measurement switch (`?gcquad=1|2|4`, default 4, decision 0084 round 11).
- * How many meshes the ring splits each (species, bucket, part) into: 4 is the
- * quartering around the focus, 2 splits on the focus x axis only, 1 draws one
- * mesh. Fewer quadrants means fewer draw calls and looser frustum culling —
- * the owner's reading decides which wins.
+ * DEV measurement switch (`?gcquad=1|2|4`, default 1, decisions 0084 rounds
+ * 11 and 12). How many meshes the ring splits each (species, bucket, part)
+ * into: 4 is the quartering around the focus, 2 splits on the focus x axis
+ * only, 1 draws one mesh. The owner's reading of 2026-09-22 settled it at 1:
+ * 4 → 2 → 1 quadrants moved the frame's calls 480 → 436 → 404 with the frame
+ * rate flat at 23–24, so the quartering culls nothing worth its draws.
  */
 export const GROUNDCOVER_QUADRANTS: number = (() => {
-  if (!import.meta.env.DEV || typeof window === "undefined") return 4;
+  if (!import.meta.env.DEV || typeof window === "undefined") return 1;
   const raw = new URLSearchParams(window.location.search).get("gcquad");
-  return raw === "1" ? 1 : raw === "2" ? 2 : 4;
+  return raw === "2" ? 2 : raw === "4" ? 4 : 1;
 })();
 
 /** The once-fetched inputs a cached tile depends on (0084 round 11). */

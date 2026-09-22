@@ -81,7 +81,8 @@ three.js facts behind the design and settles its three open questions.
    margin logic goes away. The card rung is emitted like any other (0071).
 3. **Rung gating is per cell, per frame, on the CPU**: a cell whose
    distance range cannot intersect a rung's band has that rung's copies
-   switched off through `setVisibleAt`. Cells × species × rungs, never
+   switched off (through `setVisibleAt` until 0084 round 12 replaced the
+   container; they now leave the instanced meshes' visible prefix). Cells × species × rungs, never
    instances. Quality tiers apply their `drawScale` here, at gating time.
 4. **One `BatchedMesh` per species part**, holding every cell's copies for
    that part. Capacity is the ring's instance budget for that part, sized
@@ -90,12 +91,21 @@ three.js facts behind the design and settles its three open questions.
    `sortObjects = false`: frustum culling is per cell in the gating loop
    (the benchmark above); depth sorting is not needed for opaque
    alpha-tested foliage.
+   **SUPERSEDED by 0084 round 12 (2026-09-22):** a `BatchedMesh` submits one
+   multi-draw range per visible instance, which ANGLE expands into one Metal
+   draw each. The container is now one `THREE.InstancedMesh` per (batch key,
+   kit geometry), whose visible copies are a compact prefix; the requirement
+   is instancing (WebGL2 core), not `WEBGL_multi_draw`.
 5. **Per-instance data rides a `DataTexture` indexed by
    `getIndirectIndex(gl_DrawID)`**: one RGBA float texel (or two) per
    instance for the LOD band and wind tune, plus the 32 m occlusion cell id.
    `lodFade.ts` and `windSway.ts` gain a `USE_BATCHING` branch that reads
    the texture and uses `batchingMatrix`; the `USE_INSTANCING` branch stays
    for ground cover and any remaining instanced user.
+   **Amended by 0084 round 12:** the texture stays and is indexed by the
+   copy's permanent SLOT, carried in an `esSlot` instanced attribute; the
+   shader branches key on an `ES_BATCH_SLOTS` define instead of
+   `USE_BATCHING`, because ground cover is instanced too.
 6. **Terrain occlusion stays and is evaluated incrementally** (0071
    addendum): a small R8 `DataTexture`, one texel per 32 m cell over the
    neighbourhood, refreshed a few cells per frame under the frame budget
@@ -211,13 +221,17 @@ with the reusable parts in `packages/game-core/src/vegetation/`
   Both are rare and user-driven. Movement never does: `CellRegistry`'s
   `cameraMoved` is a no-op the unit test asserts.
 - **Eviction at ring + 1**: a cell further than that from the focus chunk
-  gives its batch instances back through `deleteInstance`.
-- **The Firefox fallback figure** is reported as `drawsFallback` — the number
-  of visible copies, which is what three issues without `WEBGL_multi_draw`.
-- **Why gating flips are the only per-frame cost**: with
-  `perObjectFrustumCulled = false` and `sortObjects = false`, three's
-  `onBeforeRender` loop runs only on frames where visibility changed, so a
-  frame with no rung transitions costs nothing beyond the uniforms.
+  gives its batch instances back (`removeRanges`), returning each row to its
+  geometry's free list; a geometry with no rows left in use is pruned from
+  the scene rather than kept as a permanent zero-count mesh (round 12).
+- **`instancedRanges`** is the number of visible copies drawn, what the
+  pre-round-12 `BatchedMesh` path submitted as multi-draw ranges; `draws` is
+  the count of instanced meshes with a non-empty visible prefix (round 12:
+  `BatchedMesh` is gone, one `THREE.InstancedMesh` per plant geometry).
+- **Why gating flips are the only per-frame cost**: a rung flip moves rows
+  within a geometry's instance buffers and adjusts `mesh.count`, which IS the
+  draw's visible prefix; a frame with no rung transitions costs nothing
+  beyond the uniforms.
 
 ## Round 2 (2026-09-21)
 
@@ -260,9 +274,12 @@ fill, inside a window the probe itself reports as `steady: false`.
   owner's machine measured the same jungle work 5× faster than this VM
   (16f ledger §16), so the expected worst frame there is around 1 ms. It is
   watched at the owner walk rather than optimised blind.
-- **Firefox fallback.** Without `WEBGL_multi_draw` three issues one draw per
-  visible copy: about 50 000 at the jungle (`drawsFallback`), against 161–171
-  with the extension. Reported, never hidden (§ Decisions 10).
+- **Firefox fallback.** Without `WEBGL_multi_draw` three issued one draw per
+  visible copy: about 50 000 at the jungle, against 161–171 with the
+  extension. **0084 round 12 found this was the real cost everywhere, not
+  only on Firefox** — ANGLE on Metal loops the ranges in the GPU process —
+  and removed the BatchedMesh path. The figure survives as `instancedRanges`
+  on the HUD, `draws N (ranges M)`, so the two paths stay comparable.
 - **Kit arrival.** The underwater kit arriving rebuilds only the cells that
   SKIPPED one of its species — 13 of 25 cells at the jungle, once, when the
   kit lands. No other event rebuilds a cell except a quality-tier change.

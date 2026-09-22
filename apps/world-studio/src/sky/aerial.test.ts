@@ -6,15 +6,13 @@ import {
   createAerialUniforms,
 } from "./aerial";
 
-describe("the aerial varying's placement branches (decision 0082 round 2)", () => {
-  it("transforms by instanceMatrix AND by batchingMatrix", () => {
+describe("the aerial varying's placement branch (decision 0082 round 2)", () => {
+  it("transforms by instanceMatrix", () => {
     expect(AERIAL_VARYING_VERTEX).toContain("#ifdef USE_INSTANCING");
     expect(AERIAL_VARYING_VERTEX).toContain("instanceMatrix * esWp");
-    expect(AERIAL_VARYING_VERTEX).toContain("#elif defined(USE_BATCHING)");
-    expect(AERIAL_VARYING_VERTEX).toContain("batchingMatrix * esWp");
   });
 
-  it("injects both branches into a patched material's vertex shader", () => {
+  it("injects the branch into a patched material's vertex shader", () => {
     const material = new THREE.MeshStandardMaterial();
     applyAerialPerspective(material, createAerialUniforms());
     const shader = {
@@ -27,8 +25,7 @@ describe("the aerial varying's placement branches (decision 0082 round 2)", () =
       null as unknown as THREE.WebGLRenderer,
     );
     expect(shader.vertexShader).toContain("#ifdef USE_INSTANCING");
-    expect(shader.vertexShader).toContain("#elif defined(USE_BATCHING)");
-    expect(shader.vertexShader).toContain("batchingMatrix");
+    expect(shader.vertexShader).toContain("instanceMatrix");
   });
 
   it("appends its cache key and wraps only once", () => {

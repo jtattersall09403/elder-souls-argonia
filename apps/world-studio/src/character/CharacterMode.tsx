@@ -1043,7 +1043,7 @@ function VegetationHudLine() {
       {` · flip ${veg.flipMs}/${veg.flipMaxMs} ms (${veg.flipInstances})`}
       {` · pending ${veg.pendingBatches}`}
       {` · queue ${veg.queueMs}/${veg.queueMaxMs} ms ${veg.queueTop}`}
-      {` · draws ${veg.draws}`}
+      {` · draws ${veg.draws} (ranges ${veg.instancedRanges})`}
     </span>
   );
 }

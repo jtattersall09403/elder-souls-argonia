@@ -94,11 +94,12 @@ describe("wind sway shader patch", () => {
     applyWindSway(material, createWindUniforms());
     const shader = compile(material);
     expect(shader.vertexShader).toContain(`attribute vec2 ${WIND_TUNE_ATTRIBUTE}`);
-    // Guarded, because the non-instanced path has no such attribute to bind.
+    // Guarded, because the non-instanced path has no such attribute to bind,
+    // and the foliage batches read the tune from their data texture instead.
     const declaration = shader.vertexShader.indexOf(
       `attribute vec2 ${WIND_TUNE_ATTRIBUTE}`);
-    const guard = shader.vertexShader.lastIndexOf("#ifdef USE_INSTANCING",
-                                                  declaration);
+    const guard = shader.vertexShader.lastIndexOf(
+      "#if defined(USE_INSTANCING) && !defined(ES_BATCH_SLOTS)", declaration);
     expect(guard).toBeGreaterThan(-1);
   });
 
@@ -142,15 +143,15 @@ describe("wind sway shader patch", () => {
   });
 });
 
-describe("the USE_BATCHING branch (decision 0082 round 1)", () => {
+describe("the ES_BATCH_SLOTS branch (0082 round 1, 0084 round 12)", () => {
   it("keeps the instancing branch and reads the batch data texture", () => {
     const material = new THREE.MeshStandardMaterial();
     applyWindSway(material, createWindUniforms());
     const shader = compile(material);
-    expect(shader.vertexShader).toContain("#ifdef USE_INSTANCING");
-    expect(shader.vertexShader).toContain("#elif defined(USE_BATCHING)");
+    expect(shader.vertexShader).toContain("#ifdef ES_BATCH_SLOTS");
+    expect(shader.vertexShader).toContain("#elif defined(USE_INSTANCING)");
     expect(shader.vertexShader).toContain("esBatchTexel(1).xy");
-    expect(shader.vertexShader).toContain("mat3(batchingMatrix)");
-    expect(shader.vertexShader).toContain("getIndirectIndex(gl_DrawID)");
+    expect(shader.vertexShader).toContain("mat3(instanceMatrix)");
+    expect(shader.vertexShader).toContain("int(esSlot)");
   });
 });

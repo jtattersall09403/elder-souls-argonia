@@ -1,12 +1,14 @@
 /**
- * Per-instance data for BATCHED foliage (decision 0082 §5).
+ * Per-instance data for the foliage batches (decision 0082 §5, 0084 round 12).
  *
- * `THREE.BatchedMesh` has no instanced attributes, so the two numbers the
- * vegetation shaders need per instance — the LOD band (`lodFade.ts`) and the
- * wind tune (`windSway.ts`) — ride a `DataTexture` indexed by the instance id
- * the shader can see, `getIndirectIndex(gl_DrawID)`. Two RGBA float texels per
- * instance: texel 2i is the band (dIn, dOut, wIn, wOut), texel 2i+1 is
- * (stiffness − 1, sink, 0, 0).
+ * The two numbers the vegetation shaders need per instance — the LOD band
+ * (`lodFade.ts`) and the wind tune (`windSway.ts`) — ride a `DataTexture`
+ * shared by every instanced mesh of one batch, indexed by the instance's
+ * permanent SLOT in that batch. The slot rides an `esSlot` instanced
+ * attribute, because the visible copies are a compact prefix that moves as
+ * copies are switched on and off, so no ordering the GPU can see is stable.
+ * Two RGBA float texels per slot: texel 2i is the band (dIn, dOut, wIn, wOut),
+ * texel 2i+1 is (stiffness − 1, sink, 0, 0).
  *
  * The same head also carries the terrain-occlusion mask (`occlusionMask.ts`),
  * because it is read from the same place and by the same instances.
@@ -29,7 +31,7 @@ function nextPow2(n: number): number {
   return w;
 }
 
-/** Uniforms every batched foliage material shares with its depth twin. */
+/** Uniforms every foliage batch material shares with its depth twin. */
 export interface BatchDataUniforms {
   esBatchData: { value: THREE.DataTexture | null };
   esOccMask: { value: THREE.DataTexture | null };
@@ -54,7 +56,7 @@ export function createBatchDataTexture(capacity: number): THREE.DataTexture {
   return texture;
 }
 
-/** Write one instance's band and wind tune. */
+/** Write one slot's band and wind tune. */
 export function writeBatchInstance(
   texture: THREE.DataTexture,
   id: number,
@@ -83,27 +85,31 @@ export function createBatchDataUniforms(): BatchDataUniforms {
 }
 
 /**
- * The shared vertex head. Injected before `void main()`, where
- * `<batching_pars_vertex>` (and therefore `getIndirectIndex`) is already in
- * scope. Guarded so `lodFade`, `windSway` and `applyBatchData` can all emit it.
+ * The shared vertex head. Injected before `void main()`. Guarded so
+ * `lodFade`, `windSway` and `applyBatchData` can all emit it, and gated on
+ * `ES_BATCH_SLOTS`, the define `installBatchHook` prepends: the ground-cover
+ * renderer is instanced too, and its materials carry no slot attribute and no
+ * data texture.
  */
 export const BATCH_DATA_HEAD = /* glsl */ `
-#ifdef USE_BATCHING
+#ifdef ES_BATCH_SLOTS
 #ifndef ES_BATCH_DATA
 #define ES_BATCH_DATA
 uniform highp sampler2D esBatchData;
 uniform highp sampler2D esOccMask;
 uniform vec4 esOccParams;
+attribute float esSlot;
 vec4 esBatchTexel(int k) {
-  // three declares \`float getIndirectIndex( const in int i )\`: GLSL ES has no
-  // implicit float -> int, so the cast is load-bearing (round-2 shader gate).
-  int t = int(getIndirectIndex(gl_DrawID)) * ${BATCH_DATA_TEXELS} + k;
+  int t = int(esSlot) * ${BATCH_DATA_TEXELS} + k;
   ivec2 sz = textureSize(esBatchData, 0);
   return texelFetch(esBatchData, ivec2(t % sz.x, t / sz.x), 0);
 }
 #endif
 #endif
 `;
+
+/** The define that turns the head and every `ES_BATCH_SLOTS` branch on. */
+export const ES_BATCH_SLOTS_DEFINE = "#define ES_BATCH_SLOTS\n";
 
 interface BatchPatchState {
   esBatchUniforms?: BatchDataUniforms;
@@ -120,6 +126,12 @@ function installBatchHook(
   const previous = material.onBeforeCompile;
   const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
     previous?.call(material, shader, renderer);
+    // The define goes at the very top, before any patch body that tests it,
+    // and before the early-out below: another patch may already have emitted
+    // the head, but nobody else emits the define.
+    if (!shader.vertexShader.includes(ES_BATCH_SLOTS_DEFINE.trim())) {
+      shader.vertexShader = ES_BATCH_SLOTS_DEFINE + shader.vertexShader;
+    }
     shader.uniforms.esBatchData = uniforms.esBatchData;
     shader.uniforms.esOccMask = uniforms.esOccMask;
     shader.uniforms.esOccParams = uniforms.esOccParams;

@@ -194,8 +194,8 @@ describe("applyLodFade", () => {
   });
 });
 
-describe("the USE_BATCHING branch (decision 0082 round 1)", () => {
-  it("injects both branches and reads the per-instance data texture", () => {
+describe("the ES_BATCH_SLOTS branch (0082 round 1, 0084 round 12)", () => {
+  it("injects both branches and reads the per-slot data texture", () => {
     const material = new THREE.MeshStandardMaterial();
     const shader = {
       uniforms: {} as Record<string, unknown>,
@@ -207,11 +207,11 @@ describe("the USE_BATCHING branch (decision 0082 round 1)", () => {
       shader as unknown as THREE.WebGLProgramParametersWithUniforms,
       null as unknown as THREE.WebGLRenderer,
     );
-    expect(shader.vertexShader).toContain("#ifdef USE_INSTANCING");
-    expect(shader.vertexShader).toContain("#elif defined(USE_BATCHING)");
+    expect(shader.vertexShader).toContain("#ifdef ES_BATCH_SLOTS");
+    expect(shader.vertexShader).toContain("#elif defined(USE_INSTANCING)");
     expect(shader.vertexShader).toContain("esBatchTexel(0)");
-    expect(shader.vertexShader).toContain("batchingMatrix[3].xyz");
-    expect(shader.vertexShader).toContain("getIndirectIndex(gl_DrawID)");
+    expect(shader.vertexShader).toContain("instanceMatrix[3].xyz");
+    expect(shader.vertexShader).toContain("int(esSlot)");
     // The terrain-occlusion collapse, read from the swept mask.
     expect(shader.vertexShader).toContain("esOccMask");
     expect(shader.vertexShader).toContain(

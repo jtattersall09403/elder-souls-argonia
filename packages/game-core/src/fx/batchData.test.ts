@@ -2,15 +2,20 @@ import { describe, expect, it } from "vitest";
 import { BATCH_DATA_HEAD, createBatchDataTexture } from "./batchData";
 
 describe("batch data head", () => {
-  // three declares `float getIndirectIndex( const in int i )`; GLSL ES has no
-  // implicit float -> int, so an uncast use fails to compile every batched
-  // foliage program (round-2 review, CONFIRMED).
-  it("casts getIndirectIndex to int", () => {
-    expect(BATCH_DATA_HEAD).toContain("int(getIndirectIndex(gl_DrawID))");
+  // GLSL ES has no implicit float -> int, and the slot rides a float
+  // attribute, so the cast is load-bearing: an uncast use fails to compile
+  // every foliage program (round-2 review, CONFIRMED; kept at round 12).
+  it("casts the slot attribute to int", () => {
+    expect(BATCH_DATA_HEAD).toContain("int(esSlot)");
   });
 
-  it("never multiplies the raw float index", () => {
-    expect(BATCH_DATA_HEAD).not.toMatch(/[^(]getIndirectIndex\(gl_DrawID\)\s*\*/);
+  it("declares the slot attribute inside its own guard", () => {
+    expect(BATCH_DATA_HEAD).toContain("attribute float esSlot;");
+    expect(BATCH_DATA_HEAD).toContain("#ifdef ES_BATCH_SLOTS");
+  });
+
+  it("carries no multi-draw index", () => {
+    expect(BATCH_DATA_HEAD).not.toContain("gl_DrawID");
   });
 });
 
