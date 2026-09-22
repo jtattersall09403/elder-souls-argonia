@@ -68,6 +68,9 @@ def median(xs):
 
 FRESH_WINDOW = 10  # turns after orientation that define a fresh session's per-turn cost
 HORIZON = 100  # a fixed horizon needs no guess at how long the session will run
+# a resume or compaction re-writes the whole context once; the median over 15
+# turns lets that one-off drop out (owner session 2026-09-22)
+NOW_WINDOW = 15
 
 
 def baseline(directory, exclude, count, orient):
@@ -113,7 +116,7 @@ def assess(t, transcript, directory, orient, count, cached=None):
         return None
     O, C_fresh = base["O"], base["C_fresh"]
     fresh_per_turn = base["fresh_per_turn"]
-    now_per_turn = median([cost_units(u) for u in t[-5:]])
+    now_per_turn = median([cost_units(u) for u in t[-NOW_WINDOW:]])
     s = now_per_turn - fresh_per_turn
     B = math.ceil(O / s) if s > 0 else None
     cont = HORIZON * now_per_turn
