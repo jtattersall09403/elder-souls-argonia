@@ -7,6 +7,7 @@ import type { EcctrlHandle } from "ecctrl";
 import { CanvasErrorBoundary, CanvasErrorBanner } from "../CanvasErrorBoundary";
 import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
+import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
 import { FollowCamera, FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
 import { ExplorerLocomotion } from "@elder-souls/game-core/locomotion/explorerLocomotion";
 import { input } from "@elder-souls/game-core/io/input";
@@ -1325,7 +1326,10 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   onWaterContact?: (x: number, y: number, z: number, verticalVel: number, delta: number) => void;
 }) {
   const rapier = useRapier();
-  const adapter = useMemo(() => new EcctrlAdapter(handleRef, rapier.rigidBodyStates), [handleRef, rapier]);
+  const adapter: PlayerMovementController = useMemo(
+    () => new EcctrlAdapter(handleRef, rapier.rigidBodyStates),
+    [handleRef, rapier],
+  );
   const segments = useFrameSegments();
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
   const camera3P = useMemo(() => new FollowCamera(), []);

@@ -68,6 +68,9 @@ export interface PlayerMovementController {
    * controller cannot resolve a visual root yet.
    */
   applyVisualPose(position: THREE.Vector3, quaternion: THREE.Quaternion): void;
+
+  /** raw controller pose after the last fixed step; the caller interpolates */
+  readPose(outPos: THREE.Vector3, outQuat: THREE.Quaternion): void;
 }
 
 /** Authored per-clip net root translation, in character space. */

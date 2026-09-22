@@ -262,7 +262,15 @@ is a local commit on `main`, none pushed.
 | Reading of ee8ec5cd: tris 5.5 M (near 2.5 M, mid 0, far 0, card 0.1 M; shadow 0.1 M), gpu 21.8 ms; owner: some ground cover was a grey flat card up close | the shadow rule picked the card for alpha-tested trees (no caster); the ground-cover card-only case; the 24 m mesh floor and 1.25 dpr | caster = highest non-card level <= 1; no card-only species, reach floor 0.25 (d30d1e11); mesh floor 18 m; default dpr native (this commit) |
 | Reading of 07cfc504: rest 22 fps, gpu 22.2 ms, tris 8.6 M = veg 2.6 + 2.5 shadow, terrain 0.9 + 0.4, ground cover 1.4, other 0.9; `&veg=0&gc=0` base 11.9 ms at 2.3 M; walking `tile` 31 ms max; ground cover faded between tiers and read low quality close up | the tier and rung dissolves read as smearing; two hero ground-cover meshes carried most of the ring's triangles; the per-candidate footprint and patch tests were O(candidates x shapes) a tile; two cascades re-drew 2.5 M caster triangles | hard steps at every rung and tier edge, dissolve only at the vanish (1457cdca); `floraspikygrass02` and `swordferncluster01` replaced by drjacopo grasses at 360 and 336 triangles (8c85a4bd); per-tile cell mask plus typed-array placements (3f96fd89); one cascade over 160 m with `&csm=<n>,<far>` (c507b467) |
 
-### State at hand-off (2026-09-22, after round 12)
+### State at hand-off (2026-09-22, after round 12 follow-up)
+
+Rounds 11, 12 and the round 12 follow-up are delivered (commits db8034db
+through d2331495 on `dev`): the water opaque pass no longer leaves the scene
+samplers bound for the framebuffer-feedback validator (`e1facbc6`), the
+character body draws at the pose interpolated between fixed physics steps
+(`d2331495`), and the HUD's measurement lines fold behind a `perf` header
+(`59cf430e`). Owner readings on the water fix and the body fix are pending.
+Round 13 (part-aware mid tier) is briefed below and not yet started.
 
 Round 12 is accepted by the owner: 57 fps at rest in the jungle (was 22).
 What follows is the round-11 state it builds on.
@@ -316,21 +324,46 @@ Round 12 accepted by the owner 2026-09-22: 57 fps at rest (was 22), plants
 and ground cover visually unchanged. Details and readings in
 [0084 § Owner reading after round 12](../../decisions/0084-the-frame-is-a-triangle-budget.md).
 
+## Round 13 brief: a part-aware mid tier for the heavy trees (planner, 2026-09-22)
+
+**Why.** Decimation shredded alpha-tested leaves because a simplifier deletes
+leaf cards by geometric error; the trunk and branches are solid and simplify
+fine. Now that the frame is no longer draw-bound (57 fps), the mid tier's
+value is a smoother hand-over to the card and fewer triangles for the
+4,000–11,600-triangle trees (willows, the emergent giant, mangroves, dwarf
+juniper, the canopy tree: list from the census), not raw speed.
+
+**Mechanism.** In `build_kit.py`, split each heavy species by part material
+(bark/solid vs alpha-tested leaf): decimate the solid parts to ~35% (existing
+decimator); replace the leaf cards by clustering (k-means on card centroids,
+~1/4 the count), each cluster becoming one larger quad oriented by the
+cluster's mean normal, textured by baking the cluster's original cards from
+that quad's view (the same offline bake path that makes our cards; derived
+from the plant's own textures, so within the no-new-art rule as the cards
+are). Far tier stays the card. Output the new level into the kit manifest as
+a real mesh level so the existing ladder (0075/0084 §3) picks it up with no
+renderer change.
+
+**Validation**, scaled as one Workflow script over all heavy species:
+(a) an automatic silhouette check: render source and candidate from 8
+azimuths at the tier's distance (offline, headless; the existing card-bake
+renderer), compare coverage masks (IoU ≥ 0.9 and no per-view coverage loss
+> 5%), reject otherwise; (b) a Sonnet image judge per passing species with a
+fixed "what to look at" prompt (trunk present and continuous, canopy density
+and outline preserved, no bald patches, no floating leaf islands), reporting
+pass/fail with a sentence; (c) the owner walks the results at the jungle and
+the willow site. Never ships a level that failed (a) or (b).
+
+**Invocation:** "deliver performance round 13". Budget note: the bake and
+judge run offline on this VM (no GPU: headless renderer as the card bake
+uses), one Workflow of ≤10 agents.
+
 **Next agent, in order:**
 
-1. **The walking dip in water.** With water on, `scene` CPU is 11.0 ms
-   against 4.2 ms with water and ground cover off. Measure which of the
-   water pipeline's scene-layer renders (water surface, precip, overlay
-   passes each re-traverse the scene) and ground cover's water-depth work
-   cost it, in lowland water at `body.2311-2468` (45 fps, dips to ~34 fps at
-   worst).
-2. **The character body stutters slightly while walking although the world
-   is smooth** (owner 2026-09-22): a frame-pacing symptom on the character
-   only, likely the controller's fixed-step position or the animation
-   mixer's delta not interpolated to the render frame. This belongs to the
-   character/controller code (`PlayerMovementController` / `EcctrlAdapter`);
-   check first whether the body position is written from a fixed physics
-   step without render-frame interpolation.
+1. **Owner readings** after the water sampler fix and the body pose
+   interpolation: the jungle at rest, the lowland water walk, and the body
+   while walking.
+2. **Round 13** (part-aware mid tier), brief above.
 3. **Vegetation's material-key count**, which is what sets the batch count:
    measure how many keys share a texture and could merge into one batch
    (`Vegetation.tsx` batch key, `floraKit.ts` materials). This is the same

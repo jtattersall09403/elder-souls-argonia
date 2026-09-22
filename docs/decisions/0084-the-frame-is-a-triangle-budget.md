@@ -303,3 +303,35 @@ ground cover interacting with the water pipeline — the next target.
   card with HUD line 3 under budget.
 - Phase 14 (streaming and budgets) inherits the budget as its per-frame
   geometry gate.
+
+## Round 12 follow-up (2026-09-22): the walk and the body
+
+The walking dip in lowland water: with vegetation on but water and ground
+cover off the main pass cost 4.2 ms of CPU; with everything on 11.0 ms. The
+water code adds no per-frame traversal, no material patches and no readback
+(the earlier candidates); what it does is draw the opaque pass into the same
+target the water surface's scene-colour and scene-depth samplers still point
+at from the previous frame, and a driver that validates framebuffer feedback
+per draw (ANGLE over Metal) pays for that on every opaque draw. Above water
+those samplers are now cleared for the opaque pass and re-pointed after it;
+submerged they stay, because that pass reads the other ping-pong target. The
+blit's uniform block is billed to `blit`. An attempt to skip empty
+precip/overlay passes on a 1 Hz count was dropped: it missed objects mounted
+between ticks. Owner reading pending.
+
+The character body stutter: the studio steps the physics by hand at 1/60 s
+and drew the body at the raw pose from the previous frame's steps, while the
+camera was smoothed and the foot IK computed from this frame's pose; at ~57
+fps the step beat against the frame and only the body showed it. The body is
+now drawn at the pose interpolated between the last two steps (alpha =
+accumulator / step), written through `PlayerMovementController.applyVisualPose`,
+and the camera and the foot support plane read that same pose. Owner check
+pending.
+
+The mid/far tier question (owner 2026-09-22): census of the flora kit: 159
+species; 112 leafy alpha-tested species have exactly one authored mesh level
+plus our baked card; 6 solid species carry decimated levels; the tree mods we
+use ship no lower-detail tree meshes (their only LOD variants are flat
+billboards, which is our card tier; their LOD folders are architecture).
+Skyrim itself is full mesh in the loaded cells and a billboard beyond. A mid
+tier therefore has to be made part-aware, not decimated: see the lane brief.
