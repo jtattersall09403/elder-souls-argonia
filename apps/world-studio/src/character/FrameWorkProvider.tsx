@@ -5,6 +5,7 @@ import {
   frameWorkBudgetMs,
 } from "@elder-souls/game-core/scheduling/frameWork";
 import { FrameWorkContext } from "@elder-souls/game-core/scheduling/frameWorkContext";
+import { STUDIO_TOOLS } from "../studioTools";
 
 /**
  * The scene's shared frame-work queue (owner 2026-09-20, walking stutter,
@@ -24,7 +25,7 @@ export function FrameWorkProvider({ children }: { children: React.ReactNode }) {
   // produced, never half a frame later.
   useFrame((_, delta) => {
     const { ms } = queue.pump(performance.now(), frameWorkBudgetMs(delta * 1000));
-    if (import.meta.env.DEV) {
+    if (STUDIO_TOOLS) {
       (window as unknown as { __STUDIO_FRAME_WORK__?: unknown }).__STUDIO_FRAME_WORK__ = {
         pending: queue.pending,
         labels: queue.labels,

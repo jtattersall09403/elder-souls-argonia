@@ -17,6 +17,7 @@ import {
 import { buildFloraKit, mergeFloraKits, type FloraKit, type KitManifest } from "./floraKit";
 import { sharedChunkStore, type ChunkStore, type ChunksManifest } from "../character/chunkStore";
 import type { VegetationIndex } from "./vegetationBundle";
+import { STUDIO_TOOLS } from "../studioTools";
 
 export interface FloraKitState {
   kit: FloraKit | null;
@@ -91,7 +92,7 @@ export function useFloraKit(baseUrl: string): FloraKitState {
     const merged = underwaterGltf
       ? mergeFloraKits(land, buildFloraKit(underwaterGltf, underwaterManifest, true))
       : land;
-    if (import.meta.env.DEV) {
+    if (STUDIO_TOOLS) {
       console.info(`[vegetation] kit: ${merged.size} assets (flora${underwaterGltf ? " + underwater" : ""})`);
     }
     return merged;

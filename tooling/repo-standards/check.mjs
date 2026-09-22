@@ -157,6 +157,29 @@ function checkSingletons() {
 }
 
 // ---------------------------------------------------------------------------
+// Standard 8 — world studio never gates on the build mode
+// ---------------------------------------------------------------------------
+// The world studio is the owner's own tool: deployed and local builds must
+// behave identically (owner 2026-09-22). `import.meta.env.DEV`/`PROD` under
+// apps/world-studio/src would make the two diverge; STUDIO_TOOLS is the
+// always-on replacement.
+
+function checkStudioEnvGating() {
+  for (const file of walk("apps/world-studio/src", [".ts", ".tsx"])) {
+    if (posix(file).endsWith("apps/world-studio/src/studioTools.ts")) continue;
+    lines(file).forEach((line, i) => {
+      // Comments and docstrings talk about the rule on purpose.
+      if (/^\s*\*/.test(line)) return;
+      const stripped = line.replace(/(\/\/|#).*$/, "");
+      if (/import\.meta\.env\.(DEV|PROD)/.test(stripped))
+        fail(8, posix(file), i + 1,
+          "world-studio must not gate on the build mode: deployed studio == local " +
+            "(owner 2026-09-22); use STUDIO_TOOLS");
+    });
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Standard 2 — stable IDs and the ID registry
 // ---------------------------------------------------------------------------
 // A save file and a quest flag both point at "that door" forever. IDs are
@@ -662,6 +685,7 @@ if (docsOnly) {
   checkGeneratedText();
   checkDocsCurrent();
   checkSingletons();
+  checkStudioEnvGating();
   checkIds();
   checkSchemaVersions();
   checkCredits();

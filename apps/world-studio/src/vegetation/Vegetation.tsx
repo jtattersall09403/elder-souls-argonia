@@ -102,6 +102,7 @@ import { useFloraKit, useColliderShapes } from "./useFloraKit";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { groundHeightM } from "./terrainHeight";
+import { STUDIO_TOOLS } from "../studioTools";
 import {
   ANCHOR_PIVOT_TERRAIN,
   decodeVegetationBundle,
@@ -234,7 +235,7 @@ const FLIP_BUDGET_MS = 1.5;
  */
 type VegShaderMode = "all" | "off" | "lod" | "wind" | "noaerial";
 const VEG_SHADER_MODE: VegShaderMode = ((): VegShaderMode => {
-  if (!import.meta.env.DEV || typeof window === "undefined") return "all";
+  if (typeof window === "undefined") return "all";
   const v = new URLSearchParams(window.location.search).get("vegshader");
   if (v === "0") return "off";
   if (v === "lod" || v === "wind" || v === "noaerial") return v;
@@ -247,7 +248,7 @@ const VEG_SHADER_MODE: VegShaderMode = ((): VegShaderMode => {
  * vegetation shadow pass removed and nothing else changed.
  */
 const VEG_CAST_SHADOW: boolean = (() => {
-  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  if (typeof window === "undefined") return true;
   return new URLSearchParams(window.location.search).get("vegshadow") !== "0";
 })();
 
@@ -257,7 +258,7 @@ const VEG_CAST_SHADOW: boolean = (() => {
  * (owner walk 2026-09-21). Not a rendering mode — a measurement.
  */
 export const VEGETATION_ENABLED: boolean = (() => {
-  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  if (typeof window === "undefined") return true;
   return new URLSearchParams(window.location.search).get("veg") !== "0";
 })();
 
@@ -267,7 +268,7 @@ export const VEGETATION_ENABLED: boolean = (() => {
  * batch order below.
  */
 const VEG_ORDER_ENABLED: boolean = (() => {
-  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  if (typeof window === "undefined") return true;
   return new URLSearchParams(window.location.search).get("vegorder") !== "0";
 })();
 
@@ -533,7 +534,6 @@ export function Vegetation({
   const occupiedList = useRef(new Int32Array(0));
 
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const host = window as unknown as { __STUDIO_VEGETATION_REBUILD__?: () => void };
     host.__STUDIO_VEGETATION_REBUILD__ = () => {
       registry.current.kitChanged();   // the dev hook forces every cell
@@ -1106,7 +1106,7 @@ export function Vegetation({
     counters.current.flipMs = performance.now() - flipStart;
 
     // --- the shared frame-work queue's own report, for the same HUD line ---
-    if (import.meta.env.DEV) {
+    if (STUDIO_TOOLS) {
       const report = (window as unknown as {
         __STUDIO_FRAME_WORK__?: { lastPumpMs?: number; labels?: string[] };
       }).__STUDIO_FRAME_WORK__;
@@ -1375,7 +1375,7 @@ export function Vegetation({
         const dz = Math.max(cell!.originZ - f.z, 0, f.z - (cell!.originZ + liveIndex!.chunkMetres));
         if (Math.hypot(dx, dz) <= UNDERWATER_KIT_LEAD_M) requestUnderwater();
       }
-      if (import.meta.env.DEV) {
+      if (STUDIO_TOOLS) {
         if (reason && reason !== "first") {
           console.debug(`vegetation cell rebuilt ${key} (${reason})`);
         }
@@ -1781,7 +1781,7 @@ export function Vegetation({
    * per-frame `buildStepMs` counter, which is what a stutter shows up in. */
   function buildStepElapsed(segmentStart: number): number {
     const dt = performance.now() - segmentStart;
-    if (import.meta.env.DEV) counters.current.buildStepMs += dt;
+    if (STUDIO_TOOLS) counters.current.buildStepMs += dt;
     return dt;
   }
 
@@ -1791,7 +1791,7 @@ export function Vegetation({
    * growth), which cannot wait for the queue; the gate pass enqueues instead.
    */
   function applyTile(rung: CellRungEntry, tile: number, visible: boolean): void {
-    if (import.meta.env.DEV) counters.current.flipTiles++;
+    if (STUDIO_TOOLS) counters.current.flipTiles++;
     const from = rung.tileOffsets[tile];
     const to = rung.tileOffsets[tile + 1];
     const parts = rung.partBatches.length;
@@ -1812,7 +1812,7 @@ export function Vegetation({
       const ids = rung.ids[p];
       setTileSlots(geo, ids, from, to, visible);
       rung.appliedParts[at] = visible ? 1 : 0;
-      if (import.meta.env.DEV) {
+      if (STUDIO_TOOLS) {
         counters.current.flipInstances += to - from;
         flippedBatches.current.add(batch);
       }
@@ -1836,7 +1836,7 @@ export function Vegetation({
     gateRung: GateRung, tile: number, visible: boolean,
   ): void {
     const rung = gateRung as CellRungEntry;
-    if (import.meta.env.DEV) counters.current.flipTiles++;
+    if (STUDIO_TOOLS) counters.current.flipTiles++;
     const parts = rung.partBatches.length;
     for (let p = 0; p < parts; p++) {
       const batch = rung.partBatches[p];
@@ -1912,11 +1912,11 @@ export function Vegetation({
           const ids = rung.ids[p];
           setTileSlots(geo, ids, from, to, visible);
           rung.appliedParts[at] = visible ? 1 : 0;
-          if (import.meta.env.DEV) counters.current.flipInstances += to - from;
+          if (STUDIO_TOOLS) counters.current.flipInstances += to - from;
         }
       }
     }
-    if (import.meta.env.DEV) flippedBatches.current.add(batch);
+    if (STUDIO_TOOLS) flippedBatches.current.add(batch);
   }
 
   /**

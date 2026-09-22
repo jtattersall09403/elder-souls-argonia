@@ -196,21 +196,18 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // DEV fill-rate switch (`?aa=0`): the canvas is created without MSAA, so a
   // frame can be measured with the resolve removed and nothing else changed.
   const canvasAa = useMemo(() => (
-    !import.meta.env.DEV
-    || new URLSearchParams(window.location.search).get("aa") !== "0"
+    new URLSearchParams(window.location.search).get("aa") !== "0"
   ), []);
   // DEV comparison switch (`?water=0`, decision 0084 round 10): the water
   // pipeline and surface are not mounted, so the frame can be measured
   // without the render-to-target/blit/water/precip/overlay passes.
   const waterPipelineEnabled = useMemo(() => (
-    !import.meta.env.DEV
-    || new URLSearchParams(window.location.search).get("water") !== "0"
+    new URLSearchParams(window.location.search).get("water") !== "0"
   ), []);
   // The segmented frame timer (decision 0084 round 10). Made here, bound to
   // the renderer by the first in-canvas hook, provided to every renderer.
   const frameSegments = useMemo(() => new FrameSegments(), []);
   const dprOverride = useMemo(() => {
-    if (!import.meta.env.DEV) return null;
     const raw = new URLSearchParams(window.location.search).get("dpr");
     if (raw === null) return null;
     const n = Number.parseFloat(raw);
@@ -761,7 +758,6 @@ function PerfHudSection({ children }: { children: ReactNode }) {
   });
   const [fps, setFps] = useState(0);
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const host = window as unknown as { __STUDIO_FPS__?: number };
     const read = () => setFps(host.__STUDIO_FPS__ ?? 0);
     read();
@@ -769,10 +765,6 @@ function PerfHudSection({ children }: { children: ReactNode }) {
     return () => window.clearInterval(timer);
   }, []);
   useEffect(() => {
-    // The section never renders in a deployed build (see the DEV bail-out
-    // below), so a deployed build must not install this listener either —
-    // otherwise F3 would still preventDefault and toggle state for nothing.
-    if (!import.meta.env.DEV) return;
     const onKey = (e: KeyboardEvent) => {
       // Held keys auto-repeat `keydown`; without this guard, holding F3 for
       // a second flips the section dozens of times and hammers localStorage.
@@ -795,10 +787,6 @@ function PerfHudSection({ children }: { children: ReactNode }) {
     return () => document.removeEventListener("pointerlockchange", onLockChange);
   }, []);
   const toggle = () => setOpen(flipPerfOpen);
-  // The five lines' producers are DEV-only (decision 0084): in a deployed
-  // build there is nothing for the header to show, so the header itself
-  // is DEV-only too rather than displaying a permanent "0 fps".
-  if (!import.meta.env.DEV) return null;
   return (
     <>
       <span
@@ -854,7 +842,6 @@ function segmentText(rows: SegmentStat[], order: string[]): string {
 function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
   const [stats, setStats] = useState<FrameSegmentStats | null>(null);
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const read = () => setStats(segments.stats());
     read();
     const timer = window.setInterval(read, 1000);
@@ -971,7 +958,6 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
   });
 
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const host = window as unknown as {
       __STUDIO_GPU_MS__?: FrameGpuStats;
     };
@@ -1027,7 +1013,6 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
   }, [gl, segments]);
 
   useFrame((_, delta) => {
-    if (!import.meta.env.DEV) return;
     // The frame starts here: the first segment of both clocks opens before
     // any other hook runs (decision 0084 round 10).
     segments?.cpuMark("pre");
@@ -1082,7 +1067,6 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
   // renders at priority 1) has happened, so this closes the main-thread span
   // the -100 callback opened and the last segment of both clocks with it.
   useFrame(() => {
-    if (!import.meta.env.DEV) return;
     if (ownsRender) {
       // r3f skips its own render whenever any priority > 0 hook exists, so
       // with `&water=0` (no pipeline) this hook is the frame's render.
@@ -1123,7 +1107,6 @@ function VegetationHudLine() {
       gpu: FrameGpuStats | null;
     } | null>(null);
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const host = window as unknown as {
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;
       __STUDIO_FPS__?: number;
@@ -1166,7 +1149,6 @@ function VegetationHudLine() {
 function GroundcoverHudLine() {
   const [gc, setGc] = useState<GroundcoverPerf | null>(null);
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const host = window as unknown as {
       __STUDIO_GROUNDCOVER_DEBUG__?: { perf?: GroundcoverPerf };
     };
@@ -1204,7 +1186,6 @@ function TriangleAttributionLine() {
   const [gpu, setGpu] = useState<FrameGpuStats | null>(null);
   const [veg, setVeg] = useState<VegetationStats | null>(null);
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
     const host = window as unknown as {
       __STUDIO_GPU_MS__?: FrameGpuStats;
       __STUDIO_VEGETATION_DEBUG__?: VegetationStats;

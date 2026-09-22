@@ -37,6 +37,7 @@ import { lightningNow, weatherAt } from "../weather/weatherState";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
 import { AmbientAir, type AmbientAirConditions } from "@elder-souls/game-core/air/AmbientAir";
 import type { AirWaterSurface } from "@elder-souls/game-core/air/ambientAir";
+import { STUDIO_TOOLS } from "../studioTools";
 import { buriedThresholdM } from "@elder-souls/game-core/water/index";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { airAmounts } from "@elder-souls/game-core/air/ambientAir";
@@ -665,7 +666,7 @@ declare global {
  * else changed.
  */
 const PMREM_REBAKE_ENABLED: boolean = (() => {
-  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  if (typeof window === "undefined") return true;
   return new URLSearchParams(window.location.search).get("pmrem") !== "0";
 })();
 
@@ -688,10 +689,10 @@ export function WorldSky({
   const rainBudget = useMemo(() => rainDropBudget(), []);
   ensureAirPixels(base);
   // Debug handles for the headless probes (probe-sky, probe-air-diff,
-  // diagnose-sky, probe-sampler-count). Dev-only, so a shipped build carries
-  // no globals: probes must run against a build made with
-  // `vite build --mode development` (owner 2026-09-20).
-  if (import.meta.env.DEV) {
+  // diagnose-sky, probe-sampler-count). The studio always carries these
+  // globals (STUDIO_TOOLS): deployed and local studio builds are identical
+  // (owner 2026-09-22).
+  if (STUDIO_TOOLS) {
     (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
     (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
     (window as unknown as { __RENDERER__?: THREE.WebGLRenderer }).__RENDERER__ =

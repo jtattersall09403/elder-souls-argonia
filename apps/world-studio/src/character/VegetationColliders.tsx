@@ -11,6 +11,7 @@ import {
   type FloraCollider,
   type SolidInstance,
 } from "@elder-souls/game-core/physics/floraSolids";
+import { STUDIO_TOOLS } from "../studioTools";
 
 /**
  * Makes the nearby trees, boulders and root arches solid.
@@ -336,7 +337,7 @@ export function VegetationColliders({
       }
       running.current = null;
       onCount?.(bodies.current.size);
-      if (import.meta.env.DEV) {
+      if (STUDIO_TOOLS) {
         debug.lastBuildMs = Math.round(cpuMs * 10) / 10;
         debug.elapsedMs = Math.round(performance.now() - buildStart);
         debug.trimeshMs = Math.round(debug.trimeshMs * 10) / 10;

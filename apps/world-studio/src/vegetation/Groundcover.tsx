@@ -85,6 +85,7 @@ import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { groundHeightM } from "./terrainHeight";
+import { STUDIO_TOOLS } from "../studioTools";
 import { hash32, latticeValue, u01 } from "@elder-souls/game-core/vegetation/ringHash";
 import {
   indexPatches,
@@ -1086,7 +1087,7 @@ export interface GroundcoverPerf {
  * without it — the same measurement `?veg=0` makes for the tree/bush renderer.
  */
 export const GROUNDCOVER_ENABLED: boolean = (() => {
-  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  if (typeof window === "undefined") return true;
   return new URLSearchParams(window.location.search).get("gc") !== "0";
 })();
 
@@ -1099,7 +1100,7 @@ export const GROUNDCOVER_ENABLED: boolean = (() => {
  * rate flat at 23–24, so the quartering culls nothing worth its draws.
  */
 export const GROUNDCOVER_QUADRANTS: number = (() => {
-  if (!import.meta.env.DEV || typeof window === "undefined") return 1;
+  if (typeof window === "undefined") return 1;
   const raw = new URLSearchParams(window.location.search).get("gcquad");
   return raw === "2" ? 2 : raw === "4" ? 4 : 1;
 })();
@@ -1470,7 +1471,7 @@ export function Groundcover({
     p.tilesBuilt = builtTotal.current;
     p.cacheStaled = wipes.current;
     p.tilesRetiled = retiled.current;
-    if (import.meta.env.DEV) {
+    if (STUDIO_TOOLS) {
       const host = window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats };
       if (host.__STUDIO_GROUNDCOVER_DEBUG__) host.__STUDIO_GROUNDCOVER_DEBUG__.perf = p;
       else host.__STUDIO_GROUNDCOVER_DEBUG__ = { perf: p } as unknown as GroundcoverStats;
@@ -1830,7 +1831,7 @@ export function Groundcover({
       perf: perfNow,
     };
     onStats?.(stats);
-    if (import.meta.env.DEV) {
+    if (STUDIO_TOOLS) {
       // What a rebuild actually costs, in the units that matter.
       console.debug(
         "[groundcover] rebuild",
@@ -1926,7 +1927,7 @@ export function Groundcover({
     // prefilter below.
     const exclusionBoxes = exclusions.map((poly, i) => ({ poly, ...exclusionBounds[i] }));
 
-    const DEV = import.meta.env.DEV;
+    const DEV = STUDIO_TOOLS;
     const mark = (): number => (DEV ? performance.now() : 0);
 
     const generateTile = (tx: number, tz: number, wantFar: boolean, rej: typeof genStats.current.rejected): CachedTile | null => {

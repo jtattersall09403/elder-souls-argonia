@@ -156,7 +156,12 @@ rule already forbids it; a rule without a check rots.
 **Enforcement.** check — `repo-standards` flags new module-level `let`/`var`
 exports and mutable exported object literals in `packages/`. Existing violations
 are listed in the check's baseline file and must **shrink, never grow**; the
-check fails if the baseline is exceeded.
+check fails if the baseline is exceeded. The same check forbids
+`import.meta.env.DEV`/`PROD` anywhere under `apps/world-studio/src`: the
+studio is the owner's own tool, deployed and local builds must be identical,
+and gating on the build mode there is a defect (owner 2026-09-22) — use
+`STUDIO_TOOLS` from `apps/world-studio/src/studioTools.ts` instead;
+dev-only gating belongs in the game app.
 
 **Owner.** Live now.
 
