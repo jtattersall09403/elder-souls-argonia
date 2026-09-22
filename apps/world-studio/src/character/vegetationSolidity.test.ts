@@ -12,7 +12,7 @@
  * or the body construction, not this test.
  */
 import { beforeAll, describe, expect, it } from "vitest";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import RAPIER from "@dimforge/rapier3d-compat";
 import * as THREE from "three";
@@ -33,6 +33,11 @@ const PUBLIC = join(__dirname, "../../public");
 // anything about the shipped container — it measures the wood meshes the
 // colliders are fitted to.
 const RAW_KITS = join(__dirname, "../../../../tooling/asset-pipeline/output/kits");
+const RAW_KIT_PATH = join(RAW_KITS, "flora-province-v1.glb");
+// The raw kit is a local build artefact (standard 16: only the compressed
+// kit ships); this gate runs locally in preflight where the kit exists, and
+// skips in CI.
+const RAW_KIT_PRESENT = existsSync(RAW_KIT_PATH);
 // The Phase 16 ladder (province/ladder.json): the shipped vegetation bundles
 // are judged only once their chunk (16f) has delivered them; until then the
 // layer is hidden and the bundles on disk are the old scatter on new ground.
@@ -171,6 +176,7 @@ let instances: Instance[];
 let wood: Map<string, [number, number, number][]>;
 
 beforeAll(async () => {
+  if (!vegetationDelivered() || !RAW_KIT_PRESENT) return;
   await RAPIER.init();
   const manifest = JSON.parse(
     readFileSync(join(PUBLIC, "kits/flora-province-v1.kit.json"), "utf8"));
@@ -226,7 +232,7 @@ beforeAll(async () => {
   world.step();
 });
 
-describe.skipIf(!vegetationDelivered())("trunks at the owner's reported coordinates are solid [skipped until the ladder delivers vegetation, 16f]", () => {
+describe.skipIf(!vegetationDelivered() || !RAW_KIT_PRESENT)("trunks at the owner's reported coordinates are solid [skipped until the ladder delivers vegetation, 16f]", () => {
   it("found trees to test against (the bundle really covers the spot)", () => {
     expect(instances.length).toBeGreaterThan(5);
     expect(instances.some((i) => i.species.includes("anvil-canopy"))).toBe(true);
