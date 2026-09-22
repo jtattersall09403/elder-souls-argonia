@@ -61,6 +61,13 @@ export interface PlayerMovementController {
   isFalling(): boolean;
   /** Controller-reported horizontal move speed (m/s). */
   moveSpeed(): number;
+
+  /**
+   * Write the pose to draw this frame to the controller's visual root
+   * (interpolated between fixed physics steps by the caller). No-op if the
+   * controller cannot resolve a visual root yet.
+   */
+  applyVisualPose(position: THREE.Vector3, quaternion: THREE.Quaternion): void;
 }
 
 /** Authored per-clip net root translation, in character space. */

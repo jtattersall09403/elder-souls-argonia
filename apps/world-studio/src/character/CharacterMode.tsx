@@ -1324,12 +1324,12 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   /** Live water contact for churn foam + splash events (Phase 8b). */
   onWaterContact?: (x: number, y: number, z: number, verticalVel: number, delta: number) => void;
 }) {
-  const adapter = useMemo(() => new EcctrlAdapter(handleRef), [handleRef]);
+  const rapier = useRapier();
+  const adapter = useMemo(() => new EcctrlAdapter(handleRef, rapier.rigidBodyStates), [handleRef, rapier]);
   const segments = useFrameSegments();
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
   const camera3P = useMemo(() => new FollowCamera(), []);
   const { camera } = useThree();
-  const rapier = useRapier();
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
@@ -1344,8 +1344,6 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const visualPos = useMemo(() => new THREE.Vector3(), []);
   const visualQuat = useMemo(() => new THREE.Quaternion(), []);
   const poseSeeded = useRef(false);
-  const poseMatrix = useMemo(() => new THREE.Matrix4(), []);
-  const poseScale = useMemo(() => new THREE.Vector3(), []);
   const netTimer = useRef(0);
   const cameraDir = useMemo(() => new THREE.Vector3(), []);
   const initialised = useRef(false);
@@ -1454,17 +1452,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     const alpha = Math.min(1, Math.max(0, stepAccum.current / DT));
     visualPos.copy(prevPos).lerp(currPos, alpha);
     visualQuat.copy(prevQuat).slerp(currQuat, alpha);
-    const bodyHandle = adapter.rigidBodyHandle();
-    const bodyState = bodyHandle === null ? undefined : rapier.rigidBodyStates.get(bodyHandle);
-    if (bodyState && bodyState.meshType === "mesh"
-      && Number.isFinite(visualPos.x + visualPos.y + visualPos.z)
-      && Number.isFinite(visualQuat.x + visualQuat.y + visualQuat.z + visualQuat.w)) {
-      // Same transform r3r applies: world pose into the object's parent space.
-      poseMatrix
-        .compose(visualPos, visualQuat, bodyState.scale)
-        .premultiply(bodyState.invertedWorldMatrix)
-        .decompose(bodyState.object.position, bodyState.object.quaternion, poseScale);
-    }
+    adapter.applyVisualPose(visualPos, visualQuat);
     animationTimeRef.current += delta;
     // Blow-up recovery: a physics excursion (NaN or a >40 m single-frame
     // jump) must never leave the camera lerping across the province — reseat
