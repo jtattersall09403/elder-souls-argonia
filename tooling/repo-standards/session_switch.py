@@ -19,7 +19,7 @@ limit is metered.
 import argparse, glob, json, math, os, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from session_tokens import PROJ, WEIGHT, cost_units, window_totals  # one cost model, one project path
+from session_tokens import PROJ, WEIGHT, Calls, cost_units, window_totals  # one cost model, one project path
 
 # Only interactive planner sessions belong in the baseline, and only an
 # interactive planner session is advised by the hook. "sdk-cli" is the
@@ -29,12 +29,17 @@ CACHE_TTL = 3600  # seconds a cached baseline stays usable in hook mode
 
 
 def turns_of(path):
-    """(per-turn usage dicts, entrypoint). Main-chain assistant records with message.usage.
+    """(per-turn usage dicts, entrypoint). One entry per model call on the main chain.
 
-    session_tokens.usage_of aggregates a whole transcript, so it cannot serve the
-    per-turn shape this tool needs; the field names and cost weights are shared.
+    Claude Code writes one assistant record per content block (text, then the
+    tool call), each carrying the whole call's usage, so records must be folded
+    by message.id: counting records doubled the turn count, the orientation
+    window and every baseline sum (the 16h session's "turn 79" was 38 calls,
+    owner 2026-09-22). session_tokens.usage_of aggregates a whole transcript, so
+    it cannot serve the per-turn shape this tool needs; the field names and cost
+    weights are shared.
     """
-    out, entry = [], None
+    calls, entry = Calls(), None
     for line in open(path, errors="replace"):
         if entry is not None and '"usage"' not in line:
             continue
@@ -45,15 +50,8 @@ def turns_of(path):
         entry = entry or d.get("entrypoint")
         if d.get("isSidechain"):
             continue
-        m = d.get("message")
-        if not isinstance(m, dict) or not m.get("usage"):
-            continue
-        x = m["usage"]
-        out.append({"cache_read": x.get("cache_read_input_tokens", 0),
-                    "cache_create": x.get("cache_creation_input_tokens", 0),
-                    "input": x.get("input_tokens", 0),
-                    "output": x.get("output_tokens", 0)})
-    return out, entry
+        calls.add(d)
+    return calls.calls, entry
 
 
 def context(u):
@@ -67,7 +65,13 @@ def median(xs):
 
 
 FRESH_WINDOW = 10  # turns after orientation that define a fresh session's per-turn cost
-HORIZON = 100  # a fixed horizon needs no guess at how long the session will run
+# the projection runs over a typical session's length (baseline median calls, floor
+# below): a fixed 100 was ~2.5 sessions once turns were counted per call, and made
+# every young session look worth leaving (owner 2026-09-22)
+HORIZON_MIN = 20
+# leaving costs turns too: PROGRESS row, Starting state, pathspec commits, the
+# preflight hand-off. Charged at this session's per-turn cost on the switch side.
+HANDOFF_TURNS = 4
 # a resume or compaction re-writes the whole context once; the median over 15
 # turns lets that one-off drop out (owner session 2026-09-22)
 NOW_WINDOW = 15
@@ -130,10 +134,18 @@ def assess(t, transcript, directory, orient, count, cached=None):
     # fresh session's own cache writes look like a reason to leave it.
     s = (C_now - C_fresh) * WEIGHT["cache_read"]
     now_per_turn = fresh_per_turn + s
-    B = math.ceil(O / s) if s > 0 else None
-    cont = HORIZON * now_per_turn
-    fresh = HORIZON * fresh_per_turn + O
+    # what a switch costs: the fresh session's orientation plus the hand-off
+    # turns this session spends leaving the tree ready. Only the excess-context
+    # saving can repay it, so B is the number of further planner turns the chunk
+    # must still need before leaving pays; whether it needs them is the
+    # planner's call, not this tool's (owner 2026-09-22).
+    switch = O + HANDOFF_TURNS * now_per_turn
+    B = math.ceil(switch / s) if s > 0 else None
+    horizon = max(HORIZON_MIN, int(base["median_turns"]))
+    cont = horizon * now_per_turn
+    fresh = horizon * fresh_per_turn + switch
     return {"turns": len(t), "C_now": C_now, "C_fresh": C_fresh, "O": O, "s": s, "B": B,
+            "switch": switch, "horizon": horizon,
             "now_per_turn": now_per_turn, "fresh_per_turn": fresh_per_turn,
             "median_turns": base["median_turns"], "cont": cont, "fresh": fresh,
             "week": week, "rows": rows}
@@ -149,21 +161,26 @@ def band_of(B):
     return None
 
 
-ADVICE = {"now": "switch now",
-          "soon": "worth a switch at the next natural break (commit or hand-off)"}
+ADVICE = {"now": "a switch pays back within {B} more planner turns: switch at the next commit "
+                 "unless the chunk is nearly done",
+          "soon": "a switch pays back after {B} more planner turns: worth it at the next natural "
+                  "break (commit or hand-off) only if the chunk still needs more than that"}
 
 
-# What the planner is told alongside the owner's warning (owner 2026-09-22): it
-# leaves the tree ready for a fresh agent and hands the owner the one-line
-# invocation that resumes the work, on a turn that does work, never a turn of its own.
-HANDOFF = (" Planner: a fresh session is now cheaper. Before you end this turn, leave "
-           "everything set up so a fresh agent continues seamlessly from a short instruction "
-           "(PROGRESS.md row current, the active brief's Starting state rewritten, finished "
-           "parts committed by pathspec, open steps and blockers recorded where the brief "
-           "says). Then tell the owner, in plain English, the exact one-line instruction to "
-           "start the next session with (e.g. 'continue phase 12 delivery', 'continue "
-           "renderer lane in line with my feedback below'). Do this on the turn you are on; "
-           "never spend a turn on it alone.")
+# What the planner is told alongside the owner's warning (owner 2026-09-22): the
+# tool cannot see how much of the chunk is left, so the planner judges B against
+# the work remaining; if it leaves, it leaves the tree ready for a fresh agent and
+# hands the owner the one-line invocation, on a turn that does work, never a turn
+# of its own.
+HANDOFF = (" Planner: judge this against the planner turns this chunk still needs (subagent "
+           "work does not count; a job you can finish in fewer turns than the pay-back stays "
+           "here). If you do switch, before you end this turn leave everything set up so a "
+           "fresh agent continues seamlessly from a short instruction (PROGRESS.md row current, "
+           "the active brief's Starting state rewritten, finished parts committed by pathspec, "
+           "open steps and blockers recorded where the brief says). Then tell the owner, in "
+           "plain English, the exact one-line instruction to start the next session with "
+           "(e.g. 'continue phase 12 delivery', 'continue renderer lane in line with my "
+           "feedback below'). Do this on the turn you are on; never spend a turn on it alone.")
 
 
 def message(a, band):
@@ -172,9 +189,10 @@ def message(a, band):
     fresh_share = (f" ({a['fresh']/week*100:.1f}%)" if week else "")
     return (f"[session-switch] each turn here costs ~{a['now_per_turn']/1000:.1f}k units, "
             f"{a['now_per_turn']/a['fresh_per_turn']:.1f}x a fresh-session turn "
-            f"(context {a['C_now']/1000:.0f}k). The next 100 turns cost "
+            f"(context {a['C_now']/1000:.0f}k). Over a typical session ({a['horizon']} turns) that is "
             f"~{a['cont']/1e6:.2f}M units here{cont_share} vs ~{a['fresh']/1e6:.2f}M{fresh_share} "
-            f"in a fresh session including re-orientation. {ADVICE[band]}. (turn {a['turns']})")
+            f"in a fresh session including re-orientation and the hand-off. "
+            f"{ADVICE[band].format(B=a['B'])}. (turn {a['turns']})")
 
 
 def newest(directory):
@@ -202,12 +220,13 @@ def main():
                      f">= {max(20, a.orient_turns + FRESH_WINDOW)} turns)")
         print(f"current: {os.path.basename(path)[:8]}  turns {r['turns']}  "
               f"C_now {r['C_now']/1000:.1f}k  C_fresh {r['C_fresh']/1000:.1f}k  "
-              f"O {r['O']/1000:.1f}k units  saving/turn {r['s']/1000:.1f}k units  "
+              f"O {r['O']/1000:.1f}k units  switch (O + {HANDOFF_TURNS} hand-off turns) {r['switch']/1000:.1f}k  "
+              f"saving/turn {r['s']/1000:.1f}k units  "
               f"B {r['B'] if r['B'] else 'n/a (no saving)'}  (orient-turns {a.orient_turns})")
         print(f"per turn: now {r['now_per_turn']/1000:.1f}k units  fresh {r['fresh_per_turn']/1000:.1f}k units  "
               f"(median session {r['median_turns']:.0f})  "
               f"last 7 d {r['week']/1e6:.1f}M units (interactive planner)")
-        print(f"next {HORIZON} turns: continue ~{r['cont']/1e6:.2f}M units"
+        print(f"next {r['horizon']} turns: continue ~{r['cont']/1e6:.2f}M units"
               + (f" ({r['cont']/r['week']*100:.1f}% of last 7 d)" if r["week"] else "")
               + f"  vs fresh ~{r['fresh']/1e6:.2f}M units"
               + (f" ({r['fresh']/r['week']*100:.1f}%)" if r["week"] else ""))

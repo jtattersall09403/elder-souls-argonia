@@ -51,22 +51,63 @@ def classify(name, inp):
     return name
 
 
+class Calls:
+    """Per-model-call usage for one transcript, folded by message.id.
+
+    Claude Code writes one assistant record per content block (text, then the
+    tool call), each repeating the whole call's usage, so summing records
+    doubles every token count and turn count (a 38-call session reported as
+    81 turns, owner 2026-09-22). `add(record)` folds a record in; `calls` is the
+    list of {"cache_read","cache_create","input","output","model"} per call in
+    order, and `total()` the summed Counter over the four token classes.
+    """
+
+    def __init__(self):
+        self.calls, self._ids = [], {}
+
+    def add(self, d):
+        """Fold one transcript record; True when it carried usage."""
+        m = d.get("message")
+        if not isinstance(m, dict) or not m.get("usage"):
+            return False
+        x = m["usage"]
+        u = {"cache_read": x.get("cache_read_input_tokens", 0),
+             "cache_create": x.get("cache_creation_input_tokens", 0),
+             "input": x.get("input_tokens", 0), "output": x.get("output_tokens", 0),
+             "model": short_model(m.get("model"))}
+        mid = m.get("id")
+        if mid and mid in self._ids:
+            prev = self.calls[self._ids[mid]]  # a later record carries the fuller output count
+            for k in ("cache_read", "cache_create", "input", "output"):
+                prev[k] = max(prev[k], u[k])
+            return False
+        if mid:
+            self._ids[mid] = len(self.calls)
+        self.calls.append(u)
+        return True
+
+    def total(self):
+        u = collections.Counter()
+        for c in self.calls:
+            for k in ("cache_read", "cache_create", "input", "output"):
+                u[k] += c[k]
+        return u
+
+    def models(self):
+        return collections.Counter(c["model"] for c in self.calls)
+
+
 def usage_of(path):
     """Token classes and model counts for one transcript (planner or subagent)."""
-    u = collections.Counter(); models = collections.Counter()
+    calls = Calls()
     for line in open(path, errors="replace"):
         if '"usage"' not in line:
             continue
         try:
-            m = json.loads(line).get("message")
+            calls.add(json.loads(line))
         except ValueError:
             continue
-        if not isinstance(m, dict) or not m.get("usage"):
-            continue
-        x = m["usage"]; models[short_model(m.get("model"))] += 1
-        u["cache_read"] += x.get("cache_read_input_tokens", 0); u["cache_create"] += x.get("cache_creation_input_tokens", 0)
-        u["input"] += x.get("input_tokens", 0); u["output"] += x.get("output_tokens", 0)
-    return u, models
+    return calls.total(), calls.models()
 
 
 def cost_units(u):
@@ -78,7 +119,7 @@ def read_session(path):
     s = {"id": sid[:8], "turns": 0, "first": None, "last": None, "bash": 0, "explore": 0, "sleeps": 0, "guard": 0,
          "agents": collections.Counter(), "added": collections.Counter(), "carried": collections.Counter(),
          "planner": collections.Counter(), "sub": collections.Counter(), "sub_units": 0.0, "model": collections.Counter()}
-    ids, turns = {}, []
+    ids, turns, calls = {}, [], Calls()
     for line in open(path, errors="replace"):
         try:
             d = json.loads(line)
@@ -90,11 +131,8 @@ def read_session(path):
         m = d.get("message")
         if not isinstance(m, dict):
             continue
-        if m.get("usage"):
-            s["turns"] += 1; s["model"][short_model(m.get("model"))] += 1
-            x = m["usage"]
-            s["planner"]["cache_read"] += x.get("cache_read_input_tokens", 0); s["planner"]["cache_create"] += x.get("cache_creation_input_tokens", 0)
-            s["planner"]["input"] += x.get("input_tokens", 0); s["planner"]["output"] += x.get("output_tokens", 0)
+        if calls.add(d):
+            s["turns"] += 1
         c = m.get("content")
         if not isinstance(c, list):
             continue
@@ -112,6 +150,7 @@ def read_session(path):
                     s["guard"] += 1
                 tok = 1600 if k == "image" else len(body) / 4
                 turns.append((s["turns"], k, tok))
+    s["planner"] = calls.total(); s["model"] = calls.models()
     n = s["turns"]
     for at, k, tok in turns:
         s["added"][k] += tok; s["carried"][k] += tok * max(1, n - at)
@@ -141,7 +180,7 @@ def window_totals(directory, days, interactive_only=False):
     cut = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=days)
     units, turns, n = 0.0, 0, 0
     for f in glob.glob(os.path.join(directory, "*.jsonl")):
-        u = collections.Counter(); nturns = 0; last = None; entry = None
+        calls = Calls(); last = None; entry = None
         try:
             for line in open(f, errors="replace"):
                 if entry is not None and '"usage"' not in line:
@@ -153,16 +192,11 @@ def window_totals(directory, days, interactive_only=False):
                 entry = entry or d.get("entrypoint")
                 if interactive_only and d.get("isSidechain"):
                     continue
-                m = d.get("message")
-                if not isinstance(m, dict) or not m.get("usage"):
-                    continue
-                last = d.get("timestamp") or last
-                x = m["usage"]; nturns += 1
-                u["cache_read"] += x.get("cache_read_input_tokens", 0)
-                u["cache_create"] += x.get("cache_creation_input_tokens", 0)
-                u["input"] += x.get("input_tokens", 0); u["output"] += x.get("output_tokens", 0)
+                if calls.add(d):
+                    last = d.get("timestamp") or last
         except OSError:
             continue
+        u, nturns = calls.total(), len(calls.calls)
         if interactive_only and entry != "cli":
             continue
         if not last or dt.datetime.fromisoformat(last.replace("Z", "+00:00")) <= cut:
