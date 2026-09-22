@@ -267,7 +267,10 @@ the shadow cascade reaches 120 m; terrain LOD bands 150/400/1400 m with
 LOD 1/2 chosen per 4x4 sub-tile inside 400 m (estimate 2.12 M -> 0.92 M at
 360 deg); the border apron is 8x8 frustum-culled sectors per ring; HUD line 1
 gains `cpu <avg>/<max> ms · calls <n>`, HUD line 3 starts
-`tris <total> / budget 4.0M`.
+`tris <total> / budget 4.0M`. Round 9b (owner ask the same day): far terrain
+chunks (LOD 4/8) and apron sectors hidden behind terrain are not drawn
+(`terrainOcclusion.ts`, 0084 §7; `&occl=0` to compare; HUD line 3 ends
+`hidden <n>c/<m>s`).
 
 **Next agent, in order:**
 

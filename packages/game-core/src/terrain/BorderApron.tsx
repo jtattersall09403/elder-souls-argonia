@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { createOcclusionCadence } from "./terrainOcclusion";
 import { decodeHeightPng } from "./chunkStore";
 import { buildTerrainGridGeometry, terrainGridIndices } from "./gridGeometry";
 import {
@@ -31,12 +33,18 @@ export const APRON_SECTORS = 8;
  * ~0.5 M triangles were drawn whatever the camera faced. The sectors share the
  * ring's vertex attributes and differ only in their index and their own
  * bounding volume, so splitting costs no extra memory (decision 0084).
+ *
+ * `occluder`, when given, additionally hides a sector the terrain itself
+ * occludes: it answers "is this box hidden from the camera?" and is asked on
+ * the coarse occlusion cadence (0.5 s, or a 10 m move or 10° turn), never per
+ * frame. A hidden sector's mesh stays mounted with `visible = false`.
  */
-export function BorderApron({ manifest, baseUrl, materials, verticalScale }: {
+export function BorderApron({ manifest, baseUrl, materials, verticalScale, occluder }: {
   manifest: ApronManifest;
   baseUrl: string;
   materials: Record<ApronPaintSet, THREE.Material>;
   verticalScale: number;
+  occluder?: (box: THREE.Box3) => boolean;
 }) {
   const [grids, setGrids] = useState<Record<string, Float32Array>>({});
   useEffect(() => {
@@ -68,6 +76,7 @@ export function BorderApron({ manifest, baseUrl, materials, verticalScale }: {
             uvOriginM={frame.originM}
             uvExtentM={paintFrameExtent(frame)}
             material={materials[tile.paint]}
+            occluder={occluder}
           />
         );
       })}
@@ -147,13 +156,14 @@ export function buildApronTileSectors(
   return out;
 }
 
-function ApronTileMesh({ tile, heights, verticalScale, uvOriginM, uvExtentM, material }: {
+function ApronTileMesh({ tile, heights, verticalScale, uvOriginM, uvExtentM, material, occluder }: {
   tile: ApronTile;
   heights: Float32Array;
   verticalScale: number;
   uvOriginM: [number, number];
   uvExtentM: number | [number, number];
   material: THREE.Material;
+  occluder?: (box: THREE.Box3) => boolean;
 }) {
   const sectors = useMemo(
     () => buildApronTileSectors(tile, heights, verticalScale, uvOriginM, uvExtentM),
@@ -161,10 +171,28 @@ function ApronTileMesh({ tile, heights, verticalScale, uvOriginM, uvExtentM, mat
   );
   // Disposed together: the sectors share one position/uv buffer pair.
   useEffect(() => () => { for (const sector of sectors) sector.dispose(); }, [sectors]);
+  // Terrain occlusion (decision 0084), on its own cadence per tile.
+  const meshes = useRef(new Map<number, THREE.Mesh>());
+  const due = useRef(createOcclusionCadence());
+  useFrame(({ camera }) => {
+    if (!occluder) return;
+    if (!due.current(camera, performance.now())) return;
+    for (const [i, mesh] of meshes.current) {
+      const box = sectors[i]?.boundingBox;
+      mesh.visible = !box || !occluder(box);
+    }
+  });
   return (
     <>
       {sectors.map((geometry, i) => (
-        <mesh key={i} geometry={geometry} material={material} castShadow={false} receiveShadow={false} />
+        <mesh
+          key={i}
+          ref={(mesh) => { if (mesh) meshes.current.set(i, mesh); else meshes.current.delete(i); }}
+          geometry={geometry}
+          material={material}
+          castShadow={false}
+          receiveShadow={false}
+        />
       ))}
     </>
   );

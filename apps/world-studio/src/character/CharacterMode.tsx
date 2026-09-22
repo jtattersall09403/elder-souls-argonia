@@ -715,6 +715,11 @@ interface FrameGpuStats {
   /** Triangles attributed by source and pass, same 60-frame window as `tris`:
    * `[main veg, main terrain, main gc, main other, shadow …]` (HUD line 3). */
   buckets: number[];
+  /** Draw units the terrain-occlusion test is currently hiding (decision
+   * 0084): whole chunks at LOD 4/8, and apron ring sectors. Written in place
+   * by the occlusion passes, which own the numbers; undefined until they run. */
+  hiddenChunks?: number;
+  hiddenSectors?: number;
 }
 
 /** Mean of a bounded sample ring; 0 when it is empty. */
@@ -888,9 +893,15 @@ function FrameRateProbe() {
       g.pending = stillPending;
       if (g.samples.length > 0) {
         const avg = g.samples.reduce((s, v) => s + v, 0) / g.samples.length;
+        const prior = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats })
+          .__STUDIO_GPU_MS__;
         (window as unknown as {
           __STUDIO_GPU_MS__?: FrameGpuStats;
         }).__STUDIO_GPU_MS__ = {
+          // The occlusion counts live on this object and are republished with
+          // it, so a re-publish does not blank the HUD between evaluations.
+          hiddenChunks: prior?.hiddenChunks,
+          hiddenSectors: prior?.hiddenSectors,
           avg: Math.round(avg * 10) / 10,
           max: Math.round(Math.max(...g.maxWindow) * 10) / 10,
           supported: true,
@@ -1059,10 +1070,12 @@ function TriangleAttributionLine() {
     return `${text} (near ${millions(rung.near)} · mid ${millions(rung.mid)}`
       + ` · far ${millions(rung.far)} · card ${millions(rung.card)})`;
   });
+  const hidden = gpu.hiddenChunks !== undefined || gpu.hiddenSectors !== undefined
+    ? ` · hidden ${gpu.hiddenChunks ?? 0}c/${gpu.hiddenSectors ?? 0}s` : "";
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
       {`tris ${millions(gpu.tris)} / budget ${millions(FRAME_TRIANGLE_BUDGET)}:`
-        + ` ${parts.join(" · ")}`}
+        + ` ${parts.join(" · ")}${hidden}`}
     </span>
   );
 }

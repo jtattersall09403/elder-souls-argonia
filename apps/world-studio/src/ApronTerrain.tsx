@@ -1,9 +1,12 @@
-import { Suspense, useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { BorderApron } from "@elder-souls/game-core/terrain/BorderApron";
 import type { ApronManifest } from "@elder-souls/game-core/terrain/apronManifest";
 import { paintFrameExtent } from "@elder-souls/game-core/terrain/apronManifest";
 import { ChunkTerrain } from "./character/ChunkTerrain";
+import { hiddenBehindTerrain, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
+import { makeChunkHeightSampler } from "./character/terrainHeightSampler";
 import { useApronMaterials } from "./apronMaterials";
 import { SkyContext } from "./sky/WorldSky";
 import type { ChunkStore, ChunksManifest } from "./character/chunkStore";
@@ -40,6 +43,30 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
     });
     return () => { delete w.__APRON_DEBUG__; };
   }, [apron, ground, materials, store]);
+  // Terrain occlusion for the apron's sectors (decision 0084): the same test
+  // and the same coarse LOD-8 height lookup the chunk renderer uses. The
+  // answer per sector box is kept so the HUD can report how many are hidden;
+  // `&occl=0` removes the occluder altogether.
+  const occlusionOn = useMemo(
+    () => new URLSearchParams(window.location.search).get("occl") !== "0", []);
+  const eye = useRef(new THREE.Vector3());
+  useFrame(({ camera }) => { eye.current.copy(camera.position); });
+  const occluder = useMemo(() => {
+    if (!occlusionOn) return undefined;
+    const heightAt = makeChunkHeightSampler(store, manifest, scale);
+    const byBox = new Map<THREE.Box3, boolean>();
+    return (box: THREE.Box3) => {
+      // The apron meshes sit at the scene origin, so their boxes are world space.
+      const hidden = hiddenBehindTerrain(eye.current, topCornersOfBox(box), heightAt);
+      byBox.set(box, hidden);
+      let count = 0;
+      for (const v of byBox.values()) if (v) count++;
+      const stats = (window as unknown as { __STUDIO_GPU_MS__?: { hiddenSectors?: number } })
+        .__STUDIO_GPU_MS__;
+      if (stats) stats.hiddenSectors = count;
+      return hidden;
+    };
+  }, [occlusionOn, store, manifest, scale]);
   const nearFrame = apron?.paint.near;
   return (
     <>
@@ -59,7 +86,8 @@ export function ApronTerrain({ apron, ...terrain }: TerrainProps & { apron: Apro
         </Suspense>
       )}
       {apron && materials && (
-        <BorderApron manifest={apron} baseUrl={import.meta.env.BASE_URL} materials={materials} verticalScale={scale} />
+        <BorderApron manifest={apron} baseUrl={import.meta.env.BASE_URL} materials={materials}
+          verticalScale={scale} occluder={occluder} />
       )}
     </>
   );

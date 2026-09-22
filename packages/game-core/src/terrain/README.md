@@ -21,12 +21,27 @@ measured to the nearest edge of the rectangle being drawn -- the chunk beyond
 Skyrim's are: it draws full 1.8 m ground only inside its 285 m loaded square
 and 7 m beyond, and the frame here is a triangle budget (decision 0084).
 
+`terrainOcclusion.ts` hides far draw units the terrain itself covers, which
+frustum culling cannot see: `hiddenBehindTerrain` marches the coarse height
+field from the eye to each of `topCornersOfBox`'s five top points and hides the
+unit only when EVERY one is blocked, with the eye raised 5 m, the march
+starting 60 m out and stopping 30 m short of the corner, and a no-data sample
+(NaN) never blocking -- conservative by construction, so it can only ever
+remove something genuinely invisible. `createOcclusionCadence` runs it every
+0.5 s, or sooner on a 10 m move or a 10 degree turn, never per frame; the
+studio samples heights from the resident LOD-8 rasters
+(`apps/world-studio/src/character/terrainHeightSampler.ts`), applies it to
+whole chunks at LOD 4 and 8 and to apron sectors by toggling `visible`, and
+`&occl=0` switches it off (decision 0084).
+
 `BorderApron` (BorderApron.tsx, types and mask helpers in apronManifest.ts)
 draws the land beyond the province border (16d): ring 0 is ordinary chunk
 tiles registered on the store with `ChunkStore.register(chunks, dir)` and drawn
 by the chunk renderer, so the border is an ordinary chunk seam; rings 1 and 2
 are two coarse meshes whose interior quads are dropped by `terrainGridIndices`'
-`skipQuad`. The apron is scenery: no colliders, no shadows, no frustum culling.
+`skipQuad`. The apron is scenery: no colliders and no shadows; each ring is drawn as
+`APRON_SECTORS`^2 frustum-cullable sectors, which the `occluder` prop also
+hides behind terrain.
 `decodeHeightPng` is the RG16 decode both paths share.
 
 `../boundary/` closes the built square: `boundaryWallBoxes` (walls.ts) places

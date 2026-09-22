@@ -10,6 +10,8 @@ import {
 import { useHiddenLayers } from "../ladder";
 import { buildTerrainGridGeometry, subGrid } from "@elder-souls/game-core/terrain/gridGeometry";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
+import { createOcclusionCadence, hiddenBehindTerrain, topCornersOfBox } from "@elder-souls/game-core/terrain/terrainOcclusion";
+import { makeChunkHeightSampler } from "./terrainHeightSampler";
 import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
 
 /**
@@ -27,15 +29,21 @@ import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork
  * All chunks stay resident: LOD depends only on camera POSITION, never on the
  * camera direction, so turning around cannot unmount and rebuild geometry
  * (decision 0046 retired the per-frame frustum residency and its rebuild loop).
+ * A whole chunk drawn at LOD 4 or LOD 8 is additionally hidden (visible=false,
+ * still mounted) when the terrain itself occludes it, tested on a coarse
+ * cadence in `terrainOcclusion.ts` and switched off with `&occl=0` (0084).
  */
 
-function ChunkMesh({ grid, geometry, material }: {
+function ChunkMesh({ grid, geometry, material, meshRef }: {
   grid: ChunkGrid;
   /** Built under the frame budget by `ChunkTerrain` and cached there, which
    * also owns its disposal: a chunk arriving used to build its grid geometry
    * inside the React commit that mounted it (owner 2026-09-20). */
   geometry: THREE.BufferGeometry;
   material: THREE.Material;
+  /** Registers the mesh with the terrain-occlusion pass, which toggles its
+   * `visible` on a coarse cadence (decision 0084). */
+  meshRef?: (mesh: THREE.Mesh | null) => void;
 }) {
   // LOD 1 and 2 cast sun shadows: the character-mode shadow frustum ends at
   // 300 m and CSM culls casters outside the cascades, so this is the terrain
@@ -46,6 +54,7 @@ function ChunkMesh({ grid, geometry, material }: {
   // (HUD line 3, apps/world-studio/src/character/triangleBuckets.ts).
   return (
     <mesh
+      ref={meshRef}
       geometry={geometry}
       material={material}
       castShadow={casts}
@@ -210,6 +219,41 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     }
     if (changed) setLodVersion((v) => v + 1);
   });
+  const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
+  /** The world box of a whole chunk: its cell rectangle and the LOD raster's
+   * own min/max height from the manifest, in display metres. */
+  const chunkBox = (chunk: ChunkMeta): THREE.Box3 | null => {
+    const lodMeta = chunk.lods["8"] ?? chunk.lods["4"] ?? chunk.lods["2"] ?? chunk.lods["1"];
+    if (!lodMeta) return null;
+    const side = manifest.chunkMetres;
+    const x0 = chunk.cx * side, z0 = chunk.cy * side;
+    return new THREE.Box3(
+      new THREE.Vector3(x0, lodMeta.minM * scale, z0),
+      new THREE.Vector3(x0 + side, lodMeta.maxM * scale, z0 + side));
+  };
+
+  // Terrain occlusion (decision 0084): the far draw units currently under the
+  // test, the cadence it runs on, and the coarse height lookup it marches.
+  const occlusionOn = useMemo(
+    () => new URLSearchParams(window.location.search).get("occl") !== "0", []);
+  const occludable = useRef(new Map<string, { mesh: THREE.Mesh; corners: { x: number; y: number; z: number }[] }>());
+  const occlusionDue = useRef(createOcclusionCadence());
+  const heightAt = useMemo(
+    () => makeChunkHeightSampler(store, manifest, scale), [store, manifest, scale]);
+  useFrame(({ camera }) => {
+    if (!occlusionOn) return;
+    if (!occlusionDue.current(camera, performance.now())) return;
+    let hidden = 0;
+    for (const { mesh, corners } of occludable.current.values()) {
+      const out = hiddenBehindTerrain(camera.position, corners, heightAt);
+      if (out) hidden++;
+      mesh.visible = !out;
+    }
+    const stats = (window as unknown as { __STUDIO_GPU_MS__?: { hiddenChunks?: number } })
+      .__STUDIO_GPU_MS__;
+    if (stats) stats.hiddenChunks = hidden;
+  });
+
   /** The ladder's answer for a chunk; falls back to a fresh evaluation for a
    * chunk registered since the last frame (the apron's ring 0). */
   const desiredLod = (chunk: ChunkMeta): string =>
@@ -258,7 +302,6 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     ...manifest.chunks.map((chunk) => ({ chunk, apron: false })),
     ...(apron?.chunks ?? []).map((chunk) => ({ chunk, apron: true })),
   ];
-  const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
   /** Render the desired LOD if decoded; otherwise the best fallback we have. */
   const resolve = (chunk: ChunkMeta, want: string): ChunkGrid | undefined =>
     store.loaded(chunk.cx, chunk.cy, want)
@@ -321,18 +364,31 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     };
     meshJob.current = queue.add(build(), { priority: 20, label: "terrain-mesh" });
   }
+  // ---- Terrain occlusion (decision 0084) -------------------------------
+  // A whole chunk at LOD 4 or LOD 8 whose top face is hidden behind terrain
+  // from the camera is not drawn. Registered meshes are toggled in place on
+  // the cadence below; nothing unmounts, so nothing rebuilds.
+  const occluded = occludable.current;
+  const eligible = (grid: ChunkGrid, sub?: [number, number]) =>
+    occlusionOn && !sub && (grid.lod === "4" || grid.lod === "8");
+
   let provinceDrawn = false;
-  const meshes = resolved.map(({ isApron, grid, key }) => {
+  const meshes = resolved.map(({ chunk, isApron, grid, sub, key }) => {
     if (!grid) return null;
     const geometry = geometries.current.get(key);
     if (!geometry) return null;
     if (!isApron) provinceDrawn = true;
+    const box = eligible(grid, sub) ? chunkBox(chunk) : null;
     return (
       <ChunkMesh
         key={key}
         grid={grid}
         geometry={geometry}
         material={isApron && apron ? apron.material : material}
+        meshRef={(mesh) => {
+          if (mesh && box) occluded.set(key, { mesh, corners: topCornersOfBox(box) });
+          else occluded.delete(key);
+        }}
       />
     );
   });

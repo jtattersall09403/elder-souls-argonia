@@ -58,7 +58,18 @@ sum was never checked.
    behind the camera for free.
 6. **The foliage shadow cascade reaches 120 m** (Skyrim's exterior shadow
    distance is ~114 m); casters are the full meshes inside it.
-7. **Ground cover fades between its tiers again** (owner 2026-09-22: "restore
+7. **Far terrain hidden behind terrain is not drawn** (owner ask 2026-09-22:
+   the apron is visible from few places, and those places carry little
+   vegetation, so the budget balances itself). Whole chunks at LOD 4 or 8
+   and apron sectors are tested every 0.5 s, or after a 10 m move or 10°
+   turn, by marching rays from the camera (raised 5 m) to the five top
+   points of the piece's box over the resident LOD 8 heights; a piece hides
+   only when every point is behind terrain, and no data never blocks.
+   `&occl=0` disables it; HUD line 3 shows `hidden <chunks>c/<sectors>s`.
+   `packages/game-core/src/terrain/terrainOcclusion.ts`. No baked
+   visibility map: the runtime test cannot go stale against the frozen
+   terrain and works for the flyover too.
+8. **Ground cover fades between its tiers again** (owner 2026-09-22: "restore
    the fade for ground cover, I preferred it"); rung edges in the vegetation
    renderer stay hard steps (0075 addendum).
 
