@@ -81,6 +81,7 @@ import {
 } from "@elder-souls/game-core/fx/billboardQuad";
 import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
+import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { groundHeightM } from "./terrainHeight";
 import { hash32, latticeValue, u01 } from "@elder-souls/game-core/vegetation/ringHash";
@@ -1074,6 +1075,7 @@ export function Groundcover({
    * fetched only then. */
   settlementsVisible?: boolean;
 }) {
+  const segments = useFrameSegments();
   const ringRadiusM = quality?.groundcoverRadiusM ?? RING_RADIUS_M;
   const farRadiusM = quality?.groundcoverFarRadiusM ?? RING_FAR_RADIUS_M;
   const maxInstances = quality?.groundcoverMaxInstances ?? MAX_INSTANCES;
@@ -1235,6 +1237,8 @@ export function Groundcover({
   const cards = useMemo(() => buildCardIndex(gltf), [gltf]);
 
   useFrame((state) => {
+    // Ground-cover stage of the frame (decision 0084 round 10).
+    segments?.cpuMark("gc");
     const weather = lastWeatherSample();
     if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
     // The crossfade and the billboard both measure from the REAL camera, not

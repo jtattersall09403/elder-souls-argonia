@@ -87,6 +87,21 @@ sum was never checked.
   (c0b4faf7, 2026-09-17) still had the decimated middle rungs, which is why
   it is smoother.
 
+## Addendum 2026-09-22 (same day): the budget is necessary, not sufficient
+
+The owner's readings after round 9 (jungle at rest: 3.0 M triangles from
+6.4 M, yet GPU 18.6 ms, CPU 18.7 ms, 25 fps; mountains: 1.9 M, GPU 12.3,
+CPU 19.3, 52 fps; `&veg=0&gc=0` GPU 11-12 ms) show two costs that are fixed
+per frame and independent of triangles, resolution and site: ~19 ms of
+main-thread work and ~12 ms of GPU work. The inference above that "GPU time
+tracks triangles" held for the vegetation share only. The budget stays (it
+is what keeps the scene share in bounds); the base is attributed by the
+round-10 instrument (HUD lines 4 and 5: GPU by pass, CPU by stage;
+`&water=0`, `&pmrem=0`) before anything else is changed. Cleared as
+suspects by reading the code: BatchedMesh per-instance culling (off since
+0082), the PMREM re-bake (the clock does not run at `t=`), clouds (in the
+dome shader).
+
 ## Consequences
 
 - `FRAME_TRIANGLE_BUDGET` and the HUD budget line ship with this round; the

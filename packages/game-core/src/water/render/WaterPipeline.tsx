@@ -6,6 +6,7 @@ import { OVERLAY_LAYER, PRECIP_LAYER, WATER_LAYER, type WaterTier } from "./wate
 import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
 import { UnderwaterBubblePass, UNDERWATER_BUBBLE_COMPOSITE_GLSL } from "./UnderwaterBubblePass";
+import { useFrameSegments } from "../../fx/frameSegments";
 
 /**
  * The shared render-pass architecture (module 60 §41, decision 0025) — ONE
@@ -50,6 +51,9 @@ export function WaterPipeline({ runtime, assets, tier, verticalScale, handle, ri
   ripple?: RippleSim | null;
 }) {
   const { gl } = useThree();
+  // Pass attribution only (decision 0084 round 10): the marks below change
+  // no pipeline behaviour.
+  const segments = useFrameSegments();
   const frames = useRef(0);
   const bubblePass = useMemo(() => new UnderwaterBubblePass(tier.name === "low"), [tier.name]);
   useEffect(() => () => bubblePass.dispose(), [bubblePass]);
@@ -307,7 +311,9 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
 
     // ---- pass 0: advance the interactive ripple patch (2 tiny passes) and
     // the persistent foam energy field (one pass; advected by the flow) ----
+    segments?.cpuMark("ripple"); segments?.gpuMark("ripple");
     ripple?.step(renderer, camPos.x, camPos.z, delta);
+    segments?.cpuMark("foam"); segments?.gpuMark("foam");
     h?.foam?.update(renderer, camPos.x, camPos.z, runtime.transportDeltaS?.() ?? delta);
 
     // ---- pass 1: opaques (+ underside when submerged) → RT, linear HDR ----
@@ -322,6 +328,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     cam.layers.mask = underwater ? (1 | (1 << WATER_LAYER)) : 1;
     renderer.setRenderTarget(drawTarget);
     renderer.clear();
+    segments?.cpuMark("scene"); segments?.gpuMark("scene");
     renderer.render(scene, cam);
     renderer.toneMapping = prevTone;
     if (underwater && alt) swap.current = !swap.current;
@@ -360,6 +367,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       drawTarget.depthTexture as THREE.Texture, rw, rh, bu.uUwAbsorb.value, bu.uUwFog.value);
     bu.uBubbleActive.value = bu.uBubbleColor.value ? 1 : 0;
     renderer.setRenderTarget(null);
+    segments?.cpuMark("blit"); segments?.gpuMark("blit");
     renderer.render(blit.scene, blit.camera);
 
     // ---- pass 3: water surface, then the display-referred overlay --------
@@ -370,6 +378,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       renderer.shadowMap.autoUpdate = false;
       if (!underwater && h) {
         cam.layers.mask = 1 << WATER_LAYER;
+        segments?.cpuMark("water"); segments?.gpuMark("water");
         renderer.render(scene, cam);
       }
       // Precipitation AFTER the water surface (round 4): rain is depth-write
@@ -382,12 +391,15 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       // and this pass draws straight to screen, past the underwater fog.)
       if (!underwater) {
         cam.layers.mask = 1 << PRECIP_LAYER;
+        segments?.cpuMark("precip"); segments?.gpuMark("precip");
         renderer.render(scene, cam);
       }
       // markers etc. draw straight to screen (no tone mapping crush),
       // depth-tested against the scene depth the blit wrote
       cam.layers.mask = 1 << OVERLAY_LAYER;
+      segments?.cpuMark("overlay"); segments?.gpuMark("overlay");
       renderer.render(scene, cam);
+      segments?.cpuMark("post"); segments?.gpuMark("post");
       renderer.autoClear = prevAuto;
       renderer.shadowMap.autoUpdate = prevShadow;
     }

@@ -87,6 +87,7 @@ import {
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFloraKit, useColliderShapes } from "./useFloraKit";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
+import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { groundHeightM } from "./terrainHeight";
 import {
   ANCHOR_PIVOT_TERRAIN,
@@ -366,6 +367,7 @@ export function Vegetation({
   onSolids?: (solids: SolidInstance[]) => void;
   shapesRef?: React.MutableRefObject<Map<string, FloraCollider[]> | null>;
 }) {
+  const segments = useFrameSegments();
   const chunkRing = quality?.vegChunkRing ?? CHUNK_RING;
   const drawScale = quality?.vegDrawScale ?? 1;
   const root = useRef<THREE.Group>(null);
@@ -741,6 +743,8 @@ export function Vegetation({
   // ---- the frame ----------------------------------------------------------
 
   useFrame((state) => {
+    // Vegetation gate stage of the frame (decision 0084 round 10).
+    segments?.cpuMark("veg");
     const weather = lastWeatherSample();
     if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
     lodFade.esLodViewPos.value.copy(state.camera.position);

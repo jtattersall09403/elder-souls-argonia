@@ -15,6 +15,7 @@ import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
 import { reapplyLodFade } from "@elder-souls/game-core/fx/lodFade";
+import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
 import { reapplyBatchData } from "@elder-souls/game-core/fx/batchData";
 import { reapplyCylindricalBillboard } from "@elder-souls/game-core/fx/billboardQuad";
 import { reapplyGroundTint } from "../vegetation/Groundcover";
@@ -657,6 +658,17 @@ declare global {
   }
 }
 
+/**
+ * DEV comparison switch (`?pmrem=0`, decision 0084 round 10), read once at
+ * module load: the sky IBL is baked ONCE at mount and never re-baked, so a
+ * frame can be measured with the throttled PMREM re-bake removed and nothing
+ * else changed.
+ */
+const PMREM_REBAKE_ENABLED: boolean = (() => {
+  if (!import.meta.env.DEV || typeof window === "undefined") return true;
+  return new URLSearchParams(window.location.search).get("pmrem") !== "0";
+})();
+
 export function WorldSky({
   mode,
   extentM,
@@ -671,6 +683,7 @@ export function WorldSky({
   children?: React.ReactNode;
 }) {
   const { scene, camera, gl } = useThree();
+  const segments = useFrameSegments();
   const base = import.meta.env.BASE_URL;
   const rainBudget = useMemo(() => rainDropBudget(), []);
   ensureAirPixels(base);
@@ -1064,6 +1077,10 @@ void main() {
   };
 
   useFrame((_s, delta) => {
+    // Sky stage of the frame, the PMREM re-bake included when it fires
+    // (decision 0084 round 10).
+    segments?.cpuMark("sky");
+    segments?.gpuMark("sky");
     const clockRunning = worldClock.rate > 0;
     if (clockRunning) {
       worldClock.advance(Math.min(delta, 0.25));
@@ -1432,9 +1449,10 @@ void main() {
     const bakeCover =
       rig.cloudCov[0] + rig.cloudCov[1] + rig.cloudCov[2] * 0.4 + camFogNow * 2;
     if (
-      !Number.isFinite(state.current.lastBakeSunY) ||
+      (PMREM_REBAKE_ENABLED || state.current.envBakes === 0) &&
+      (!Number.isFinite(state.current.lastBakeSunY) ||
       Math.abs(sunDir.y - state.current.lastBakeSunY) > bakeStep ||
-      Math.abs(bakeCover - (state.current.lastBakeCover || 0)) > 0.06
+      Math.abs(bakeCover - (state.current.lastBakeCover || 0)) > 0.06)
     ) {
       state.current.lastBakeSunY = sunDir.y;
       state.current.lastBakeCover = bakeCover;

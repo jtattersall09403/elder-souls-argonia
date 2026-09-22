@@ -210,7 +210,10 @@ is a local commit on `main`, none pushed.
   the preset's cap; `&aa=0` creates the canvas without MSAA; `&vegorder=0`
   leaves every batch at `renderOrder = 0` instead of sorting batches front to
   back; `&csm=<cascades>,<maxFar>` sets the shadow cascade count and reach in
-  character mode (the default is `1,160`; `&csm=2,300` is what round 7 ran).
+  character mode (the default is `1,160`; `&csm=2,300` is what round 7 ran);
+  `&water=0` does not mount the water pipeline or surface (no render-to-target,
+  blit, water, precipitation or overlay pass); `&pmrem=0` bakes the sky IBL
+  once at mount and never re-bakes it.
 - **HUD line 1** `veg: <fps> fps · gpu <avg>/<max> ms · gate <ms>/<max> ·
   flip <ms>/<max> (<copies>) · pending <batches> · queue <ms>/<max> <job> ·
   draws <n>`: fps is the real frame rate; `gpu` is GPU time per frame (rest
@@ -229,6 +232,14 @@ is a local commit on `main`, none pushed.
   mesh's `userData.perfTag` (`apps/world-studio/src/character/triangleBuckets.ts`),
   so the four pairs sum to the total; `other` is settlements, characters,
   water and the sky. Shown with `&veg=0` as well, which is the A/B.
+- **HUD line 4** `gpu by pass: pre · sky · shadow · scene · blit · water ·
+  precip · overlay · ripple · foam · post`, and **HUD line 5** `cpu by stage:
+  pre · veg · gc · sky · char · ripple · foam · shadow · scene · blit · water ·
+  precip · overlay · post`: the frame's GPU milliseconds per render pass and
+  its main-thread milliseconds per stage, 60-frame averages in frame order
+  (`packages/game-core/src/fx/frameSegments.ts`, decision 0084 round 10). The
+  segment with the worst 120-frame spike carries `(max <ms>)`. The GPU
+  segments sum to the `gpu` figure on line 1.
 - Every number's meaning and every fix's reason is in decision 0082 § Round 2
   and its addenda; read those before touching anything.
 
@@ -246,49 +257,49 @@ is a local commit on `main`, none pushed.
 | Reading of ee8ec5cd: tris 5.5 M (near 2.5 M, mid 0, far 0, card 0.1 M; shadow 0.1 M), gpu 21.8 ms; owner: some ground cover was a grey flat card up close | the shadow rule picked the card for alpha-tested trees (no caster); the ground-cover card-only case; the 24 m mesh floor and 1.25 dpr | caster = highest non-card level <= 1; no card-only species, reach floor 0.25 (d30d1e11); mesh floor 18 m; default dpr native (this commit) |
 | Reading of 07cfc504: rest 22 fps, gpu 22.2 ms, tris 8.6 M = veg 2.6 + 2.5 shadow, terrain 0.9 + 0.4, ground cover 1.4, other 0.9; `&veg=0&gc=0` base 11.9 ms at 2.3 M; walking `tile` 31 ms max; ground cover faded between tiers and read low quality close up | the tier and rung dissolves read as smearing; two hero ground-cover meshes carried most of the ring's triangles; the per-candidate footprint and patch tests were O(candidates x shapes) a tile; two cascades re-drew 2.5 M caster triangles | hard steps at every rung and tier edge, dissolve only at the vanish (1457cdca); `floraspikygrass02` and `swordferncluster01` replaced by drjacopo grasses at 360 and 336 triangles (8c85a4bd); per-tile cell mask plus typed-array placements (3f96fd89); one cascade over 160 m with `&csm=<n>,<far>` (c507b467) |
 
-### State at hand-off (2026-09-22, after round 9)
+### State at hand-off (2026-09-22, after rounds 9, 9b and the round-10 instrument)
 
-**The frame is a triangle budget** (decision 0084). The owner's card is an
-Apple M2 (Chrome, ANGLE over Metal); it draws ~400 M triangles a second, so
-60 fps is ~4 M triangles a frame counting every pass. Pixels and shaders are
-not the lever: `&q=low` and `&dpr=1` moved the base frame by under 1 ms.
-Before round 9 the jungle at rest drew 6.4 M (vegetation 2.4 M + 1.2 M
-shadow, terrain 0.9 M + 0.3 M, ground cover 0.7 M, other 0.9 M of which the
-border apron was ~0.5 M unculled and the water grid 0.2 M) at 19-22 ms GPU
-and 23 fps.
+**What the owner's readings after round 9 showed** (jungle, at rest):
+tris 3.0 M (from 6.4 M), veg 0.9 + 0.4 shadow, terrain 0.3 + 0.0, gc 0.9,
+other 0.5, hidden 48c/1303s; yet gpu 18.6 ms, **cpu 18.7 ms**, 25 fps.
+Mountains: tris 1.9 M, gpu 12.3, cpu 19.3, 52 fps. `&veg=0&gc=0`: gpu 11-12.
+So two costs are FIXED and independent of triangles, resolution and site:
+~19 ms CPU per frame and ~12 ms GPU per frame. Decision 0084's triangle
+budget explained the vegetation share only; it is not the base. Cleared as
+suspects (read from the code): BatchedMesh per-instance culling (already
+off), the PMREM re-bake (the clock does not run at `t=`), clouds (in the
+dome shader). Still open: the water pipeline's seven passes (whole-screen
+water and blit run at dry sites; ripple up to 4 passes at 256 sq; foam one
+pass; waterfall mist ray-marches 20 steps for all cascades, frustumCulled
+false), the CSM update, the character/physics hook, three.js submission of
+~540 draw calls through ANGLE/Metal, and the DEV draw wrapper.
 
-**Round 9** (not yet read by the owner): the ground-cover tier fade is back
-(owner call; `TIER_BAND_M` restored, rung edges in Vegetation stay hard
-steps); a folded ladder (every alpha-tested species) keeps its full mesh to
-`clamp(height x 5, 30, 140)` m and is a card beyond (`lodDistances(h, folded)`;
-census at the jungle site 3.59 M -> 0.37 M full-mesh triangles at 360 deg,
-`python3 -m worldgen.mesh_triangle_census` from tooling/world-generation);
-the shadow cascade reaches 120 m; terrain LOD bands 150/400/1400 m with
-LOD 1/2 chosen per 4x4 sub-tile inside 400 m (estimate 2.12 M -> 0.92 M at
-360 deg); the border apron is 8x8 frustum-culled sectors per ring; HUD line 1
-gains `cpu <avg>/<max> ms · calls <n>`, HUD line 3 starts
-`tris <total> / budget 4.0M`. Round 9b (owner ask the same day): far terrain
-chunks (LOD 4/8) and apron sectors hidden behind terrain are not drawn
-(`terrainOcclusion.ts`, 0084 §7; `&occl=0` to compare; HUD line 3 ends
-`hidden <n>c/<m>s`).
+**Round 10 instrument** (this commit, not yet read by the owner): HUD line 4
+`gpu by pass: pre · sky · shadow · scene · blit · water · precip · overlay ·
+ripple · foam · post` and line 5 `cpu by stage: pre · veg · gc · sky · char ·
+... · post`, 60-frame averages, one `(max)`; `&water=0` (no pipeline, the
+closing hook renders the scene) and `&pmrem=0` (bake once). Line 1's `gpu`
+is now the sum of the segments.
 
 **Next agent, in order:**
 
-1. **Read the owner's feedback**: the three HUD lines at rest and walking
-   after round 9. Expected at rest: total near or under 4.0 M and 60 fps. If
-   `cpu` is high while `gpu` is low, the frame is main-thread bound and the
-   lever is the per-frame work listed in decision 0084's research (physics
-   steps, the CSM update, the DEV draw wrapper).
-2. **Popping**: if the owner sees plants or bushes flip to cards too close,
-   the numbers to move are the 30 m floor and the x 5 slope in
-   `lodDistances` (floraKit.ts); the 140 m cap is Skyrim's and stays. Report
-   the census before and after any change.
-3. **Ground-cover tile hitches** while walking (the `tile` max and its
-   phases on HUD line 2): the mask only skips clear cells because the patch
-   keep is probabilistic (`vegetationPatches.ts` `keepForExtent`); the
-   planner decides whether plants may move by up to 0.5 m to quantise it.
+1. **Read the owner's five HUD lines** at the jungle at rest, then with
+   `&water=0`, then `&veg=0&gc=0`. The largest GPU segment and the largest
+   CPU stage are the targets; design one fix per mechanism and measure by
+   the same lines. If `cpu` stays ~19 ms with `&veg=0&gc=0&water=0`, the
+   remaining stages are sky/char/pre/post: look at `csm.update()` every
+   frame, the 1 s `scene.traverse` patch, and the DEV draw wrapper
+   (`CharacterMode.tsx` `renderBufferDirect` wrap: reads
+   `info.render.triangles` per draw), and Rapier stepping.
+2. **Ground cover not deterministic**: after load, tiles rebuild once and
+   plants near the player (0-2 m) vanish. Find why a tile's second build
+   differs from its first (`Groundcover.tsx` tile generation,
+   `vegetationPatches.ts` `keepForExtent` probabilistic keep: is the RNG
+   seeded per tile?). Standard: determinism in world building.
+3. **Popping** of small plants at the 30 m card floor if the owner reports
+   it (`lodDistances` floor and slope, floraKit.ts).
 4. The lane closes when the owner calls the jungle walk smooth at rest and
-   while walking with HUD line 3 under budget; then the memory note, and
+   while walking, with line 3 under budget; then the memory note, and
    `deliver 16h part 1` may start.
 
 Preflight is red on three pre-existing items outside the lane (the rasters

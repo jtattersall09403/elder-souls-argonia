@@ -44,6 +44,10 @@ import { CityMarkers } from "../CityMarkers";
 import { Vegetation, VEGETATION_ENABLED } from "../vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import {
+  FrameSegments, FrameSegmentsContext, useFrameSegments,
+  type FrameSegmentStats, type SegmentStat,
+} from "@elder-souls/game-core/fx/frameSegments";
 import { useHiddenLayers } from "../ladder";
 import { useApronManifest } from "../apronMaterials";
 import { BoundaryWalls } from "@elder-souls/game-core/boundary/BoundaryWalls";
@@ -190,6 +194,16 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     !import.meta.env.DEV
     || new URLSearchParams(window.location.search).get("aa") !== "0"
   ), []);
+  // DEV comparison switch (`?water=0`, decision 0084 round 10): the water
+  // pipeline and surface are not mounted, so the frame can be measured
+  // without the render-to-target/blit/water/precip/overlay passes.
+  const waterPipelineEnabled = useMemo(() => (
+    !import.meta.env.DEV
+    || new URLSearchParams(window.location.search).get("water") !== "0"
+  ), []);
+  // The segmented frame timer (decision 0084 round 10). Made here, bound to
+  // the renderer by the first in-canvas hook, provided to every renderer.
+  const frameSegments = useMemo(() => new FrameSegments(), []);
   const dprOverride = useMemo(() => {
     if (!import.meta.env.DEV) return null;
     const raw = new URLSearchParams(window.location.search).get("dpr");
@@ -417,12 +431,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
           <CanvasErrorBoundary onError={setCanvasError}>
+          {/* Every renderer marks its segment on this one timer (0084). */}
+          <FrameSegmentsContext.Provider value={frameSegments}>
           {/* Walking-stutter fix (owner 2026-09-20): the per-crossing rebuilds
               below run as budgeted generator jobs on this queue. */}
           <FrameWorkProvider>
           {/* The HUD's frame rate is sampled HERE, inside the canvas, so
               `?veg=0` (no vegetation renderer mounted) still has one. */}
-          <FrameRateProbe />
+          <FrameRateProbe ownsRender={!waterPipelineEnabled || hiddenLayers.has("water")} />
           {/* Natural light and sky (Phase 8a): terrain, character and sea are
               lit by the same sun/moon/sky rig, shadows and exposure as the
               flyover — WorldSky replaces the old per-mode light sets. */}
@@ -479,7 +495,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </Suspense>
           {/* Phase 8b water: the compiled province surface + shared pipeline;
               the wading player feeds a churn ring for contact foam. */}
-          {!hiddenLayers.has("water") && (
+          {!hiddenLayers.has("water") && waterPipelineEnabled && (
             <StudioWater
               base={import.meta.env.BASE_URL}
               verticalScale={verticalScale}
@@ -574,6 +590,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </Suspense>
           </WorldSky>
           </FrameWorkProvider>
+          </FrameSegmentsContext.Provider>
           </CanvasErrorBoundary>
         </Canvas>
       ) : (
@@ -626,7 +643,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <span title="Solid plants and rocks around you (trunks and boulders are solid; reeds and ferns are not)">
           solid {floraColliderCount}
         </span>
-        <CharacterHud channel={hudChannel} />
+        <CharacterHud channel={hudChannel} segments={frameSegments} />
       </div>
       <div style={{
         position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)",
@@ -662,7 +679,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
 
 /** The readout — the only thing that re-renders on a HUD tick. Identical
  * text to the version that lived in the parent; only the ownership moved. */
-function CharacterHud({ channel }: { channel: HudChannel }) {
+function CharacterHud({ channel, segments }: {
+  channel: HudChannel;
+  segments: FrameSegments;
+}) {
   const hud = useHud(channel);
   if (!hud) return null;
   return (
@@ -679,7 +699,65 @@ function CharacterHud({ channel }: { channel: HudChannel }) {
       <VegetationHudLine />
       <GroundcoverHudLine />
       <TriangleAttributionLine />
+      <FrameSegmentLines segments={segments} />
     </span>
+  );
+}
+
+/** Frame order for the two attribution lines (decision 0084 round 10): the
+ * labels read in the order the frame runs them, never by size, so two walks
+ * can be compared column by column. A label the frame never marked is left
+ * out of the line. */
+const GPU_SEGMENT_ORDER = [
+  "pre", "sky", "shadow", "scene", "blit", "water", "precip", "overlay",
+  "ripple", "foam", "post",
+];
+const CPU_SEGMENT_ORDER = [
+  "pre", "veg", "gc", "sky", "char", "ripple", "foam", "shadow", "scene",
+  "blit", "water", "precip", "overlay", "post",
+];
+
+function segmentText(rows: SegmentStat[], order: string[]): string {
+  const by = new Map(rows.map((r) => [r.label, r]));
+  const present = order.filter((label) => by.has(label));
+  // Only the worst spike is worth a second figure; the rest read as averages.
+  let peak: string | null = null;
+  let peakMs = -1;
+  for (const label of present) {
+    const max = by.get(label)!.max;
+    if (max > peakMs) { peakMs = max; peak = label; }
+  }
+  return present.map((label) => {
+    const row = by.get(label)!;
+    const avg = row.avg.toFixed(1);
+    return label === peak ? `${label} ${avg} (max ${row.max.toFixed(1)})` : `${label} ${avg}`;
+  }).join(" · ");
+}
+
+/** HUD lines 4 and 5 (DEV, decision 0084 round 10): where the frame's GPU and
+ * main-thread milliseconds went, pass by pass and stage by stage. Polled once
+ * a second like the lines above it. */
+function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
+  const [stats, setStats] = useState<FrameSegmentStats | null>(null);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const read = () => setStats(segments.stats());
+    read();
+    const timer = window.setInterval(read, 1000);
+    return () => window.clearInterval(timer);
+  }, [segments]);
+  if (!stats) return null;
+  return (
+    <>
+      <span style={{ display: "block", opacity: 0.75 }}>
+        {`gpu by pass: ${stats.gpuSupported
+          ? segmentText(stats.gpu, GPU_SEGMENT_ORDER) || "—"
+          : "n/a"}`}
+      </span>
+      <span style={{ display: "block", opacity: 0.75 }}>
+        {`cpu by stage: ${segmentText(stats.cpu, CPU_SEGMENT_ORDER) || "—"}`}
+      </span>
+    </>
   );
 }
 
@@ -744,16 +822,20 @@ function millions(n: number): string {
   return `${(n / 1e6).toFixed(1)}M`;
 }
 
-function FrameRateProbe() {
+function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
   const acc = useRef({ sum: 0, count: 0 });
   const gl = useThree((s) => s.gl);
+  const scene = useThree((s) => s.scene);
+  const camera = useThree((s) => s.camera);
+  /** Frames rendered by this hook, for the every-other-frame shadow update
+   * the water pipeline normally owns. */
+  const ownFrames = useRef(0);
+  // The segmented timer (decision 0084 round 10) owns BOTH clocks now: the
+  // whole-frame `gpu` figure below is the sum of its segment averages, and
+  // the old single whole-frame query is gone (only one TIME_ELAPSED query
+  // can be active at a time, so two timers cannot coexist).
+  const segments = useFrameSegments();
   const gpu = useRef<{
-    ext: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null;
-    ctx: WebGL2RenderingContext | null;
-    open: WebGLQuery | null;
-    pending: WebGLQuery[];
-    samples: number[];
-    maxWindow: number[];
     triSamples: number[];
     callSamples: number[];
     /** This frame's per-bucket counters, written by the `renderBufferDirect`
@@ -766,7 +848,6 @@ function FrameRateProbe() {
     cpuSamples: number[];
     cpuMaxWindow: number[];
   }>({
-    ext: null, ctx: null, open: null, pending: [], samples: [], maxWindow: [],
     triSamples: [], callSamples: [],
     frameBuckets: emptyBuckets(), bucketSamples: [],
     cpuStart: 0, cpuSamples: [], cpuMaxWindow: [],
@@ -777,18 +858,7 @@ function FrameRateProbe() {
     const host = window as unknown as {
       __STUDIO_GPU_MS__?: FrameGpuStats;
     };
-    let ctx: WebGL2RenderingContext | null = null;
-    let ext: { TIME_ELAPSED_EXT: number; GPU_DISJOINT_EXT: number } | null = null;
-    try {
-      const raw = gl.getContext() as unknown;
-      if (typeof WebGL2RenderingContext !== "undefined"
-        && raw instanceof WebGL2RenderingContext) {
-        ctx = raw;
-        ext = ctx.getExtension("EXT_disjoint_timer_query_webgl2") as typeof ext;
-      }
-    } catch { ctx = null; ext = null; }
-    gpu.current.ctx = ctx;
-    gpu.current.ext = ext;
+    segments?.attach(gl);
     // The frame is several `renderer.render` calls (the water pipeline's scene
     // pass, the blit, water, precipitation, the overlay) and three.js clears
     // `info` at the start of every one of them. Reading after the frame would
@@ -796,7 +866,7 @@ function FrameRateProbe() {
     // happens once per frame below, so `info.render` accumulates every pass.
     gl.info.autoReset = false;
     host.__STUDIO_GPU_MS__ = {
-      avg: 0, max: 0, supported: Boolean(ctx && ext),
+      avg: 0, max: 0, supported: Boolean(segments?.gpuSupported),
       tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0, buckets: emptyBuckets(),
     };
     // Attribution (HUD line 3). `info.render.triangles` is the only count
@@ -809,9 +879,18 @@ function FrameRateProbe() {
     const shadowRender = shadowMap.render;
     shadowMap.render = function wrapped(this: unknown, ...args: unknown[]) {
       inShadow = true;
+      // The cascades run INSIDE the water pipeline's scene pass, so the
+      // shadow segment opens here and the scene segment resumes after it
+      // (decision 0084 round 10).
+      segments?.gpuMark("shadow");
+      segments?.cpuMark("shadow");
       try {
         return (shadowRender as (...a: unknown[]) => unknown).apply(shadowMap, args);
-      } finally { inShadow = false; }
+      } finally {
+        inShadow = false;
+        segments?.gpuMark("scene");
+        segments?.cpuMark("scene");
+      }
     } as typeof shadowMap.render;
     const renderBufferDirect = gl.renderBufferDirect;
     gl.renderBufferDirect = function wrapped(this: unknown, ...args: unknown[]) {
@@ -822,24 +901,20 @@ function FrameRateProbe() {
       return out;
     } as typeof gl.renderBufferDirect;
     return () => {
-      const g = gpu.current;
       shadowMap.render = shadowRender;
       gl.renderBufferDirect = renderBufferDirect;
-      try {
-        if (g.ctx && g.open) { g.ctx.endQuery(ext!.TIME_ELAPSED_EXT); }
-        if (g.ctx) {
-          for (const q of g.pending) g.ctx.deleteQuery(q);
-          if (g.open) g.ctx.deleteQuery(g.open);
-        }
-      } catch { /* context already lost */ }
-      g.open = null; g.pending = [];
+      segments?.dispose();
       gl.info.autoReset = true;
       delete host.__STUDIO_GPU_MS__;
     };
-  }, [gl]);
+  }, [gl, segments]);
 
   useFrame((_, delta) => {
     if (!import.meta.env.DEV) return;
+    // The frame starts here: the first segment of both clocks opens before
+    // any other hook runs (decision 0084 round 10).
+    segments?.cpuMark("pre");
+    segments?.gpuMark("pre");
     const a = acc.current;
     a.sum += delta; a.count++;
     if (a.count >= 60) {
@@ -857,87 +932,51 @@ function FrameRateProbe() {
     if (tris > 0) {
       g.triSamples.push(tris); if (g.triSamples.length > 60) g.triSamples.shift();
       g.callSamples.push(calls); if (g.callSamples.length > 60) g.callSamples.shift();
-      const published = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats })
-        .__STUDIO_GPU_MS__;
-      if (published) published.lastTris = tris;
       g.bucketSamples.push(g.frameBuckets.slice());
       if (g.bucketSamples.length > 60) g.bucketSamples.shift();
     }
     g.frameBuckets.fill(0);
     gl.info.reset();
-    const { ctx, ext } = g;
-    if (!ctx || !ext) return;
-    try {
-      // End the query opened last frame: it has now spanned one full frame.
-      if (g.open) {
-        ctx.endQuery(ext.TIME_ELAPSED_EXT);
-        g.pending.push(g.open);
-        g.open = null;
-      }
-      // Collect whatever the driver has finished.
-      const disjoint = ctx.getParameter(ext.GPU_DISJOINT_EXT) as boolean;
-      const stillPending: WebGLQuery[] = [];
-      for (const q of g.pending) {
-        const done = ctx.getQueryParameter(q, ctx.QUERY_RESULT_AVAILABLE) as boolean;
-        if (!done) { stillPending.push(q); continue; }
-        if (!disjoint) {
-          const ns = ctx.getQueryParameter(q, ctx.QUERY_RESULT) as number;
-          const ms = ns / 1e6;
-          g.samples.push(ms);
-          if (g.samples.length > 60) g.samples.shift();
-          g.maxWindow.push(ms);
-          if (g.maxWindow.length > 120) g.maxWindow.shift();
-        }
-        ctx.deleteQuery(q);
-      }
-      g.pending = stillPending;
-      if (g.samples.length > 0) {
-        const avg = g.samples.reduce((s, v) => s + v, 0) / g.samples.length;
-        const prior = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats })
-          .__STUDIO_GPU_MS__;
-        (window as unknown as {
-          __STUDIO_GPU_MS__?: FrameGpuStats;
-        }).__STUDIO_GPU_MS__ = {
-          // The occlusion counts live on this object and are republished with
-          // it, so a re-publish does not blank the HUD between evaluations.
-          hiddenChunks: prior?.hiddenChunks,
-          hiddenSectors: prior?.hiddenSectors,
-          avg: Math.round(avg * 10) / 10,
-          max: Math.round(Math.max(...g.maxWindow) * 10) / 10,
-          supported: true,
-          tris: mean(g.triSamples),
-          calls: Math.round(mean(g.callSamples)),
-          cpu: Math.round(mean(g.cpuSamples) * 10) / 10,
-          cpuMax: Math.round(Math.max(0, ...g.cpuMaxWindow) * 10) / 10,
-          lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
-          buckets: meanBuckets(g.bucketSamples),
-        };
-      }
-      // Open the next frame's query (bounded: never more than a few in flight).
-      if (g.pending.length < 8) {
-        const q = ctx.createQuery();
-        if (q) { ctx.beginQuery(ext.TIME_ELAPSED_EXT, q); g.open = q; }
-      }
-    } catch {
-      g.ctx = null;
-      (window as unknown as {
-        __STUDIO_GPU_MS__?: FrameGpuStats;
-      }).__STUDIO_GPU_MS__ = {
-        avg: 0, max: 0, supported: false,
-        tris: mean(g.triSamples), calls: Math.round(mean(g.callSamples)),
-        cpu: Math.round(mean(g.cpuSamples) * 10) / 10,
-        cpuMax: Math.round(Math.max(0, ...g.cpuMaxWindow) * 10) / 10,
-        lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
-        buckets: meanBuckets(g.bucketSamples),
-      };
-    }
+
+    const seg = segments?.stats();
+    const prior = (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats })
+      .__STUDIO_GPU_MS__;
+    (window as unknown as { __STUDIO_GPU_MS__?: FrameGpuStats }).__STUDIO_GPU_MS__ = {
+      // The occlusion counts live on this object and are republished with
+      // it, so a re-publish does not blank the HUD between evaluations.
+      hiddenChunks: prior?.hiddenChunks,
+      hiddenSectors: prior?.hiddenSectors,
+      avg: Math.round((seg?.gpuSumAvg ?? 0) * 10) / 10,
+      max: Math.round((seg?.gpuSumMax ?? 0) * 10) / 10,
+      supported: Boolean(seg?.gpuSupported),
+      tris: mean(g.triSamples),
+      calls: Math.round(mean(g.callSamples)),
+      cpu: Math.round(mean(g.cpuSamples) * 10) / 10,
+      cpuMax: Math.round(Math.max(0, ...g.cpuMaxWindow) * 10) / 10,
+      lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
+      buckets: meanBuckets(g.bucketSamples),
+    };
   }, -100);
 
   // The frame's last hook: every render of the frame (the water pipeline
   // renders at priority 1) has happened, so this closes the main-thread span
-  // the -100 callback opened.
+  // the -100 callback opened and the last segment of both clocks with it.
   useFrame(() => {
     if (!import.meta.env.DEV) return;
+    if (ownsRender) {
+      // r3f skips its own render whenever any priority > 0 hook exists, so
+      // with `&water=0` (no pipeline) this hook is the frame's render.
+      // Shadow cadence mirrors the pipeline's: cascades every OTHER frame.
+      gl.shadowMap.autoUpdate = false;
+      if ((ownFrames.current & 1) === 0) gl.shadowMap.needsUpdate = true;
+      ownFrames.current += 1;
+      segments?.cpuMark("scene");
+      segments?.gpuMark("scene");
+      gl.render(scene, camera);
+    }
+    segments?.cpuEnd();
+    segments?.gpuEnd();
+    segments?.collect();
     const g = gpu.current;
     if (g.cpuStart <= 0) return;
     const ms = performance.now() - g.cpuStart;
@@ -1170,6 +1209,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   onWaterContact?: (x: number, y: number, z: number, verticalVel: number, delta: number) => void;
 }) {
   const adapter = useMemo(() => new EcctrlAdapter(handleRef), [handleRef]);
+  const segments = useFrameSegments();
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
   const camera3P = useMemo(() => new FollowCamera(), []);
   const { camera } = useThree();
@@ -1227,6 +1267,8 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   }, [adapter, position]);
 
   useFrame((_, rawDelta) => {
+    // Character + physics stage of the frame (decision 0084 round 10).
+    segments?.cpuMark("char");
     frameCount.current += 1;
     const delta = Math.min(rawDelta, 1 / 30);
     // Bounded fixed-step physics (Physics is mounted `paused`): at most 3
