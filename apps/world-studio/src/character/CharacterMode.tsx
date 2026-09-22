@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { Suspense, type ReactNode, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useRapier } from "@react-three/rapier";
 import { ShapeType } from '@dimforge/rapier3d-compat';
@@ -517,7 +517,23 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               physics steps, which stalls the next frame — the load-time
               death spiral, hover-spring snapping and skyfall loop (owner
               round 3). The combat sandbox at 60 fps never grows the
-              accumulator, which is why it never showed there. */}
+              accumulator, which is why it never showed there.
+
+              `paused` also switches the library's mesh sync to
+              `interpolationAlpha = 1`; with `paused` set, the library's own
+              frame stepper is a no-op, so that sync only ever runs inside
+              the driver's own `rapier.step` call — meaning the body it draws
+              is the raw pose left by the PREVIOUS frame's steps. At
+              ~57 fps the 1/60 step beats against the frame (one step most
+              frames, two every ~20th) and the un-smoothed body shows the
+              beat. So the driver interpolates itself: it brackets each
+              `rapier.step` with prev/curr pose, and after the step loop
+              draws prev→curr at `alpha = stepAccum / (1/60)`, writing that
+              pose onto the same Object3D the library syncs (later write in
+              the frame wins; the library overwrites next frame and we
+              override again). The camera follow and the foot-IK support
+              plane read that same visual pose, so they cannot disagree with
+              what is drawn. */}
           <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} paused>
             {crateOrigin && (
               <FloatTestCrates origin={crateOrigin} waterWorld={() => waterWorldRef.current} verticalScale={verticalScale} />
@@ -696,11 +712,104 @@ function CharacterHud({ channel, segments }: {
       {hud.visibilityM !== undefined ? ` · vis ~${hud.visibilityM} m` : ""}
       {" · "}{["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(hud.headingDeg / 45) % 8]} {Math.round(hud.headingDeg)}°
       {" · "}{hud.grounded ? `${hud.speed.toFixed(1)} m/s` : "airborne"}
-      <VegetationHudLine />
-      <GroundcoverHudLine />
-      <TriangleAttributionLine />
-      <FrameSegmentLines segments={segments} />
+      <PerfHudSection>
+        <VegetationHudLine />
+        <GroundcoverHudLine />
+        <TriangleAttributionLine />
+        <FrameSegmentLines segments={segments} />
+      </PerfHudSection>
     </span>
+  );
+}
+
+/** Where the open/closed state of the measurement section survives a reload. */
+const PERF_OPEN_KEY = "es.hud.perfOpen";
+
+/**
+ * The five measurement lines, collapsed behind a one-line header (owner
+ * 2026-09-22): they cluttered the character view. Header shows the frame rate
+ * alone; click it or press F3 to toggle. Collapsed is the default, and when
+ * collapsed none of the five lines are in the DOM.
+ *
+ * The header word `perf` and the `▸`/`▾` arrows are debug UI and stay literals
+ * here: CLAUDE.md's player-facing-text rule is carried by engineering standard
+ * 4, whose own statement exempts debug and developer UI
+ * (packages/text-catalogue/src/catalogue.ts header), which is also why the
+ * five lines below it were never catalogued.
+ */
+/** Flips `open`, persisting the new value under `PERF_OPEN_KEY`. The one copy
+ * of this read-modify-write used by both the F3 handler and the click
+ * handler, so the two input paths can never desync. */
+function flipPerfOpen(was: boolean): boolean {
+  const next = !was;
+  try { window.localStorage.setItem(PERF_OPEN_KEY, next ? "1" : "0"); } catch { /* private mode */ }
+  return next;
+}
+
+function PerfHudSection({ children }: { children: ReactNode }) {
+  const [open, setOpen] = useState(() => {
+    try {
+      return window.localStorage.getItem(PERF_OPEN_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  const [fps, setFps] = useState(0);
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const host = window as unknown as { __STUDIO_FPS__?: number };
+    const read = () => setFps(host.__STUDIO_FPS__ ?? 0);
+    read();
+    const timer = window.setInterval(read, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  useEffect(() => {
+    // The section never renders in a deployed build (see the DEV bail-out
+    // below), so a deployed build must not install this listener either —
+    // otherwise F3 would still preventDefault and toggle state for nothing.
+    if (!import.meta.env.DEV) return;
+    const onKey = (e: KeyboardEvent) => {
+      // Held keys auto-repeat `keydown`; without this guard, holding F3 for
+      // a second flips the section dozens of times and hammers localStorage.
+      if (e.key !== "F3" || e.repeat) return;
+      e.preventDefault();
+      setOpen(flipPerfOpen);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+  // Once the canvas has pointer lock (normal play — mouse-look is live), a
+  // click anywhere targets the locked canvas, never this span, so the click
+  // affordance below is dead while playing; F3 is the only control that
+  // works locked or not. Track lock state so the header stops claiming to
+  // be clickable when it can't be.
+  const [locked, setLocked] = useState(() => Boolean(document.pointerLockElement));
+  useEffect(() => {
+    const onLockChange = () => setLocked(Boolean(document.pointerLockElement));
+    document.addEventListener("pointerlockchange", onLockChange);
+    return () => document.removeEventListener("pointerlockchange", onLockChange);
+  }, []);
+  const toggle = () => setOpen(flipPerfOpen);
+  // The five lines' producers are DEV-only (decision 0084): in a deployed
+  // build there is nothing for the header to show, so the header itself
+  // is DEV-only too rather than displaying a permanent "0 fps".
+  if (!import.meta.env.DEV) return null;
+  return (
+    <>
+      <span
+        role={locked ? undefined : "button"}
+        tabIndex={locked ? undefined : 0}
+        onClick={locked ? undefined : toggle}
+        title="F3 to toggle"
+        style={{
+          display: "block", opacity: 0.75, userSelect: "none",
+          cursor: locked ? "default" : "pointer",
+        }}
+      >
+        {`perf ${open ? "▾" : "▸"} ${fps} fps`}
+      </span>
+      {open ? children : null}
+    </>
   );
 }
 
@@ -1224,6 +1333,19 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
+  // Fixed-step interpolation state for the DRAWN body (see the <Physics>
+  // comment). `prev`/`curr` bracket the last physics step; `visual*` is the
+  // pose at `alpha` between them and is what the camera, the foot-IK support
+  // plane and the character's Object3D all use. Allocated once.
+  const prevPos = useMemo(() => new THREE.Vector3(), []);
+  const currPos = useMemo(() => new THREE.Vector3(), []);
+  const prevQuat = useMemo(() => new THREE.Quaternion(), []);
+  const currQuat = useMemo(() => new THREE.Quaternion(), []);
+  const visualPos = useMemo(() => new THREE.Vector3(), []);
+  const visualQuat = useMemo(() => new THREE.Quaternion(), []);
+  const poseSeeded = useRef(false);
+  const poseMatrix = useMemo(() => new THREE.Matrix4(), []);
+  const poseScale = useMemo(() => new THREE.Vector3(), []);
   const netTimer = useRef(0);
   const cameraDir = useMemo(() => new THREE.Vector3(), []);
   const initialised = useRef(false);
@@ -1282,11 +1404,34 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     // steps of 1/60 s per rendered frame, EXCESS TIME DROPPED — a slow frame
     // makes the world run briefly slow, never burst-step. See the <Physics>
     // comment for why the library's own loop cannot be used here.
-    if (active) {
-      const DT = 1 / 60;
+    const DT = 1 / 60;
+    if (adapter.ready && !poseSeeded.current) {
+      adapter.readPose(currPos, currQuat);
+      prevPos.copy(currPos);
+      prevQuat.copy(currQuat);
+      poseSeeded.current = true;
+    }
+    if (!active) {
+      // Nothing steps, so there is nothing to interpolate: track the body
+      // exactly. Without this the seeded pose would be stamped on every frame
+      // and the spawn teleport (a useEffect, outside the step loop) would
+      // never reach the drawn character.
+      adapter.readPose(currPos, currQuat);
+      prevPos.copy(currPos);
+      prevQuat.copy(currQuat);
+    } else {
       stepAccum.current = Math.min(stepAccum.current + rawDelta, 3 * DT);
       while (stepAccum.current >= DT) {
+        prevPos.copy(currPos);
+        prevQuat.copy(currQuat);
         rapier.step(DT);
+        adapter.readPose(currPos, currQuat);
+        // A teleport (respawn, `?x=&z=` load, the safety net) is not motion:
+        // interpolating across it would drag the body through the province.
+        if (prevPos.distanceToSquared(currPos) > 25) {
+          prevPos.copy(currPos);
+          prevQuat.copy(currQuat);
+        }
         stepAccum.current -= DT;
         // Contacts follow simulated time and actual substeps. Discarded
         // wall time must neither dilute current-relative speed nor turn
@@ -1301,6 +1446,25 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     const intent = inputToIntent(input);
     if (!adapter.ready) return;
     adapter.position(position);
+    // The drawn pose for THIS frame: `prev`→`curr` at the leftover fraction of
+    // a fixed step. Written straight onto the Object3D @react-three/rapier
+    // syncs from the body, AFTER its own (stale, un-interpolated) write and
+    // after ecctrl's — later write in the frame wins, and r3r overwrites it
+    // again next frame, where we override again.
+    const alpha = Math.min(1, Math.max(0, stepAccum.current / DT));
+    visualPos.copy(prevPos).lerp(currPos, alpha);
+    visualQuat.copy(prevQuat).slerp(currQuat, alpha);
+    const bodyHandle = adapter.rigidBodyHandle();
+    const bodyState = bodyHandle === null ? undefined : rapier.rigidBodyStates.get(bodyHandle);
+    if (bodyState && bodyState.meshType === "mesh"
+      && Number.isFinite(visualPos.x + visualPos.y + visualPos.z)
+      && Number.isFinite(visualQuat.x + visualQuat.y + visualQuat.z + visualQuat.w)) {
+      // Same transform r3r applies: world pose into the object's parent space.
+      poseMatrix
+        .compose(visualPos, visualQuat, bodyState.scale)
+        .premultiply(bodyState.invertedWorldMatrix)
+        .decompose(bodyState.object.position, bodyState.object.quaternion, poseScale);
+    }
     animationTimeRef.current += delta;
     // Blow-up recovery: a physics excursion (NaN or a >40 m single-frame
     // jump) must never leave the camera lerping across the province — reseat
@@ -1315,12 +1479,12 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     if (!initialised.current) {
       initialised.current = true;
       lastPosition.current.copy(position);
-      camera3P.reset(position, Math.PI);
+      camera3P.reset(visualPos, Math.PI);
       camera3P.applyTo(camera);
       return;
     }
     if (position.distanceToSquared(lastPosition.current) > 1600) {
-      camera3P.reset(position, camera3P.yaw - Math.PI);
+      camera3P.reset(visualPos, camera3P.yaw - Math.PI);
     }
     lastPosition.current.copy(position);
     locomotion.update(adapter, intent, camera3P.yaw, delta);
@@ -1329,8 +1493,8 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     // ON (rock, quay, floor), falling back to the terrain. See visualSupport.ts
     // for the landing-into-a-boulder defect the terrain-only plane caused.
     supportYRef.current = visualSupportY(
-      adapter.supportHeight(), world.groundHeight(position.x, position.z), position.y);
-    camera3P.update(intent.camera, position, delta);
+      adapter.supportHeight(), world.groundHeight(visualPos.x, visualPos.z), visualPos.y);
+    camera3P.update(intent.camera, visualPos, delta);
     const cameraGround = world.groundHeight(camera3P.position.x, camera3P.position.z);
     if (cameraGround !== null && camera3P.position.y < cameraGround + 0.6) {
       camera3P.position.y = cameraGround + 0.6;
