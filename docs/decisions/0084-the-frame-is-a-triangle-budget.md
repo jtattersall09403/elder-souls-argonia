@@ -112,6 +112,36 @@ is submission — three.js state setting plus the browser's GPU process — not
 the triangles those calls carry. Vegetation submits 111 of them and ground
 cover about 250.
 
+The three readings as the owner gave them (`?view=character&x=4.02&z=4.61&t=12:00&w=clear`, at rest):
+
+```
+at rest
+veg: 22 fps · gpu 20.6/96.4 ms · cpu 25.3/59.5 ms · calls 563 · gate 0/0.1 ms · flip 0/0 ms (0) · pending 0 · queue 0/0.1 ms - · draws 111
+gc: rebuilds 0/s · gen 0/0 ms · tile 0.3/0 ms · phases grid 0.2 · mask 0.2 · cand 29.9 (686 exact) · compose 0.7 · fill 5.1/0 ms (61216) · tiles 350/0 · mesh 0.79M
+tris 3.1M / budget 4.0M: veg 0.9M+0.4M (near 0.7M · mid 0.0M · far 0.0M · card 0.1M) · terrain 0.4M+0.0M · gc 0.9M+0.0M · other 0.5M+0.0M · hidden 48c/368s
+gpu by pass: pre 0.0 · sky 0.0 · shadow 0.6 · scene 20.0 (max 86.8) · blit 0.0 · water 0.0 · precip 0.0 · overlay 0.0 · ripple 0.0 · foam 0.0 · post 0.0
+cpu by stage: pre 0.1 · veg 0.5 · gc 0.7 · sky 0.5 · char 1.4 · ripple 2.8 · foam 0.0 · shadow 3.8 · scene 14.1 (max 20.9) · blit 0.0 · water 0.6 · precip 0.4 · overlay 0.3 · post 0.0
+
+&water=0
+veg: 24 fps · gpu 26.7/47.2 ms · cpu 17.4/40 ms · calls 522 · gate 0/1.7 ms · flip 0/0 ms (0) · pending 0 · queue 0/0.1 ms - · draws 102
+gc: rebuilds 0/s · gen 0/0 ms · tile 0.5/0 ms · phases grid 0.0 · mask 0.0 · cand 0.0 (0 exact) · compose 0.0 · fill 21/0 ms (60843) · tiles 348/0 · mesh 0.75M
+tris 2.6M / budget 4.0M: veg 0.8M+0.3M (near 0.7M · mid 0.0M · far 0.0M · card 0.1M) · terrain 0.4M+0.0M · gc 0.9M+0.0M · other 0.1M+0.0M · hidden 48c/879s
+gpu by pass: pre 0.0 · sky 0.0 · shadow 7.2 · scene 19.5 (max 31.4)
+cpu by stage: pre 0.1 · veg 0.5 · gc 0.5 · sky 0.2 · char 1.1 · shadow 3.1 · scene 10.5 (max 13.1)
+
+&veg=0&gc=0
+veg: off · 60 fps · gpu 23.4/156.5 ms · cpu 5.7/25.2 ms · calls 199
+tris 0.9M / budget 4.0M: veg 0.0M+0.0M · terrain 0.3M+0.0M · gc 0.0M+0.0M · other 0.5M+0.0M · hidden 48c/300s
+gpu by pass: pre 0.0 · sky 0.0 · shadow 0.4 · scene 22.0 (max 144.5) · blit 0.0 · water 0.0 · precip 0.0 · overlay 0.0 · ripple 0.0 · foam 0.0 · post 0.0
+cpu by stage: pre 0.1 · sky 0.1 · char 0.8 (max 22.3) · ripple 2.0 · foam 0.0 · shadow 0.4 · scene 1.9 · blit 0.0 · water 0.2 · precip 0.1 · overlay 0.1 · post 0.0
+```
+
+Water is not this machine's problem: `&water=0` gained 2 fps and 8 ms of
+CPU, most of it the ripple solver's per-frame bookkeeping (`ripple 2.8`) and
+the water surface's 0.4 M triangles in `other`. The shadow pass reading
+jumping from 0.6 to 7.2 ms when water is off is the same wall-time artefact:
+the first query of the frame absorbs the wait.
+
 The `gpu by pass` figures are not a measurement on this machine. ANGLE on
 Metal answers a timer query with wall time, so the line reported 23 ms per
 frame while the frame rate was 60. The HUD now says so rather than implying
