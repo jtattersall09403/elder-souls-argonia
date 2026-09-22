@@ -70,6 +70,10 @@ import {
 } from "@elder-souls/game-core/core/quality";
 import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
 
+// Module-level so a CharacterMode render does not create a new array and
+// invalidate the rapier context (owner 2026-09-22: re-armed the spawn teleport).
+const GRAVITY: [number, number, number] = [0, -9.81, 0];
+
 /**
  * Physical-character mode (master plan §66 "Physical character", Phase 7):
  * the combat sandbox's character walking the real province — Rapier
@@ -535,7 +539,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               override again). The camera follow and the foot-IK support
               plane read that same visual pose, so they cannot disagree with
               what is drawn. */}
-          <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} paused>
+          <Physics key={verticalScale} gravity={GRAVITY} timeStep={1 / 60} paused>
             {crateOrigin && (
               <FloatTestCrates origin={crateOrigin} waterWorld={() => waterWorldRef.current} verticalScale={verticalScale} />
             )}
@@ -1326,9 +1330,10 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   onWaterContact?: (x: number, y: number, z: number, verticalVel: number, delta: number) => void;
 }) {
   const rapier = useRapier();
+  // depend on the map, not the context: a new adapter re-arms the spawn teleport (owner 2026-09-22: reset every 3 s)
   const adapter: PlayerMovementController = useMemo(
     () => new EcctrlAdapter(handleRef, rapier.rigidBodyStates),
-    [handleRef, rapier],
+    [handleRef, rapier.rigidBodyStates],
   );
   const segments = useFrameSegments();
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
