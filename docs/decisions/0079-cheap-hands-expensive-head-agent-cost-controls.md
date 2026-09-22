@@ -86,7 +86,9 @@ the lever is the **number of planner turns**, not output size.
    cap), writes `.claude/review-findings.md` and a stamp (both gitignored),
    then either lets preflight run (no findings) or refuses it with the
    findings as the message. The orchestrator never has to remember the
-   review; its first preflight attempt *is* the review. A review that
+   review; its first preflight attempt *is* the review. The gate fires for
+   subagents too; the `preflight` agent is the standard caller and reports
+   review + gates in a fixed compact shape (owner 2026-09-22). A review that
    cannot run stamps, allows and says so, so a broken reviewer never blocks
    work. Fable judges: CONFIRMED items are acted on or rejected with the
    ruling named; PLAUSIBLE items are questions. Tested 2026-09-19: two

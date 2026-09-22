@@ -127,6 +127,55 @@ def when(s):
     return dt.datetime.fromisoformat(s["last"].replace("Z", "+00:00")) if s["last"] else None
 
 
+def window_totals(directory, days, interactive_only=False):
+    """Totals over the sessions whose last timestamp falls in the last `days` days.
+
+    {"units": float, "turns": int, "sessions": int}. With interactive_only the
+    measure is the planner's OWN usage — transcripts whose top-level
+    `entrypoint` is "cli", main-chain records only, no subagent transcripts —
+    which is what the weekly limit the owner watches meters. Without it,
+    interactive and headless alike plus subagents, the set the report's newest
+    window counts. Used by session_switch.py to express a saving as a share of
+    the weekly usage.
+    """
+    cut = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=days)
+    units, turns, n = 0.0, 0, 0
+    for f in glob.glob(os.path.join(directory, "*.jsonl")):
+        u = collections.Counter(); nturns = 0; last = None; entry = None
+        try:
+            for line in open(f, errors="replace"):
+                if entry is not None and '"usage"' not in line:
+                    continue
+                try:
+                    d = json.loads(line)
+                except ValueError:
+                    continue
+                entry = entry or d.get("entrypoint")
+                if interactive_only and d.get("isSidechain"):
+                    continue
+                m = d.get("message")
+                if not isinstance(m, dict) or not m.get("usage"):
+                    continue
+                last = d.get("timestamp") or last
+                x = m["usage"]; nturns += 1
+                u["cache_read"] += x.get("cache_read_input_tokens", 0)
+                u["cache_create"] += x.get("cache_creation_input_tokens", 0)
+                u["input"] += x.get("input_tokens", 0); u["output"] += x.get("output_tokens", 0)
+        except OSError:
+            continue
+        if interactive_only and entry != "cli":
+            continue
+        if not last or dt.datetime.fromisoformat(last.replace("Z", "+00:00")) <= cut:
+            continue
+        sub_units = 0.0
+        if not interactive_only:
+            sid = os.path.basename(f)[:-6]
+            for sub in glob.glob(os.path.join(directory, sid, "subagents", "*.jsonl")):
+                sub_units += cost_units(usage_of(sub)[0])
+        units += cost_units(u) + sub_units; turns += nturns; n += 1
+    return {"units": units, "turns": turns, "sessions": n}
+
+
 def summarise(rows):
     n = len(rows) or 1
     agg = {"sessions": len(rows), "turns": sum(r["turns"] for r in rows) / n,

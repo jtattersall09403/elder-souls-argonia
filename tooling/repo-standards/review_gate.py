@@ -141,7 +141,8 @@ def main():
             d = json.load(sys.stdin)
         except Exception:
             return 0
-        if d.get("tool_name") != "Bash" or d.get("agent_id"):
+        # subagents run preflight since 0079; the gate fires for them too (owner 2026-09-22)
+        if d.get("tool_name") != "Bash":
             return 0
         cmd = (d.get("tool_input") or {}).get("command", "")
         if not is_preflight_command(cmd):
@@ -174,6 +175,7 @@ def main():
             print("NO FINDINGS")
         return 0
     sys.stderr.write(
+        f"REVIEW REFUSED: {n} findings in .claude/review-findings.md\n"
         f"[review gate, decision 0079 §8] a {MODEL} code review of the uncommitted diff ran before preflight and "
         f"found {n} item(s) (saved at .claude/review-findings.md). Act on each CONFIRMED item or say in one line "
         f"why not (a phase plan, an owner ruling, the build-out skeleton); treat PLAUSIBLE items as questions. "

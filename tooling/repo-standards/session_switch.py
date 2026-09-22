@@ -4,7 +4,14 @@
 Decision 0079: the bill is turns x context. Every turn re-reads the whole
 context at the cached rate, so a long session gets steadily dearer per turn; a
 fresh session pays a one-off orientation cost and then each turn is cheaper. This
-Stop hook reports the break-even in turns.
+Stop hook reports the break-even in turns, and the cost of not switching as a
+share of last week's usage (owner 2026-09-22: couched in weekly usage). That
+week is the planner's own interactive usage — the limit the owner watches —
+with subagent and headless (`claude -p`) usage excluded.
+
+Cost units are fresh-input-token equivalents under WEIGHT (a cached read counts
+0.1, a cache write 2, an output token 5) — the rule of thumb for how the weekly
+limit is metered.
 
     python3 tooling/repo-standards/session_switch.py            # hook mode (stdin JSON)
     python3 tooling/repo-standards/session_switch.py --report   # numbers + baseline table
@@ -12,7 +19,7 @@ Stop hook reports the break-even in turns.
 import argparse, glob, json, math, os, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from session_tokens import PROJ, WEIGHT, cost_units  # one cost model, one project path
+from session_tokens import PROJ, WEIGHT, cost_units, window_totals  # one cost model, one project path
 
 # Only interactive planner sessions belong in the baseline. "sdk-cli" is the
 # headless entrypoint (the code-review gate, `claude -p`); "cli" is a real session.
@@ -58,15 +65,19 @@ def median(xs):
     return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2
 
 
-def baseline(directory, exclude, count, orient):
-    """(median O, median C_fresh, rows) over other recent interactive transcripts.
+FRESH_WINDOW = 10  # turns after orientation that define a fresh session's per-turn cost
+HORIZON = 100  # a fixed horizon needs no guess at how long the session will run
 
-    A session qualifies only with at least max(20, orient) turns, so the orientation
-    window always sits inside the session.
+
+def baseline(directory, exclude, count, orient):
+    """(medians dict, rows) over other recent interactive transcripts.
+
+    A session qualifies only with at least max(20, orient + FRESH_WINDOW) turns, so
+    both the orientation window and the fresh-per-turn window sit inside the session.
     """
     files = sorted(glob.glob(os.path.join(directory, "*.jsonl")), key=os.path.getmtime, reverse=True)
     rows = []
-    need = max(20, orient)
+    need = max(20, orient + FRESH_WINDOW)
     for f in files:
         if os.path.abspath(f) == os.path.abspath(exclude or ""):
             continue
@@ -76,12 +87,16 @@ def baseline(directory, exclude, count, orient):
         rows.append({"id": os.path.basename(f)[:8],
                      "O": sum(cost_units(u) for u in t[:orient]),
                      "C_fresh": context(t[orient - 1]),
+                     "fresh_per_turn": median([cost_units(u) for u in t[orient:orient + FRESH_WINDOW]]),
                      "turns": len(t)})
         if len(rows) >= count:
             break
     if len(rows) < 3:
-        return None, None, rows
-    return median([r["O"] for r in rows]), median([r["C_fresh"] for r in rows]), rows
+        return None, rows
+    return {"O": median([r["O"] for r in rows]),
+            "C_fresh": median([r["C_fresh"] for r in rows]),
+            "fresh_per_turn": median([r["fresh_per_turn"] for r in rows]),
+            "median_turns": median([r["turns"] for r in rows])}, rows
 
 
 def assess(transcript, directory, orient, count, cached=None):
@@ -89,15 +104,24 @@ def assess(transcript, directory, orient, count, cached=None):
     if not t:
         return None
     C_now = context(t[-1])
-    if cached:
-        O, C_fresh, rows = cached["O"], cached["C_fresh"], []
+    if cached and cached.get("week") is not None:
+        base, rows, week = cached, [], cached["week"]
     else:
-        O, C_fresh, rows = baseline(directory, transcript, count, orient)
-    if O is None:
+        base, rows = baseline(directory, transcript, count, orient)
+        week = window_totals(directory, 7, interactive_only=True)["units"]
+    if base is None:
         return None
-    s = (C_now - C_fresh) * WEIGHT["cache_read"]
+    O, C_fresh = base["O"], base["C_fresh"]
+    fresh_per_turn = base["fresh_per_turn"]
+    now_per_turn = median([cost_units(u) for u in t[-5:]])
+    s = now_per_turn - fresh_per_turn
     B = math.ceil(O / s) if s > 0 else None
-    return {"turns": len(t), "C_now": C_now, "C_fresh": C_fresh, "O": O, "s": s, "B": B, "rows": rows}
+    cont = HORIZON * now_per_turn
+    fresh = HORIZON * fresh_per_turn + O
+    return {"turns": len(t), "C_now": C_now, "C_fresh": C_fresh, "O": O, "s": s, "B": B,
+            "now_per_turn": now_per_turn, "fresh_per_turn": fresh_per_turn,
+            "median_turns": base["median_turns"], "cont": cont, "fresh": fresh,
+            "week": week, "rows": rows}
 
 
 def band_of(B):
@@ -128,10 +152,14 @@ HANDOFF = (" Planner: a fresh session is now cheaper. Before you end this turn, 
 
 
 def message(a, band):
-    return (f"[session-switch] context now ~{a['C_now']/1000:.0f}k tokens vs "
-            f"~{a['C_fresh']/1000:.0f}k after a fresh start; a new session pays for itself in "
-            f"{a['B']} turns (orientation ~ {a['O']/1000:.0f}k cost units). {ADVICE[band]}. "
-            f"(turn {a['turns']})")
+    week = a["week"]
+    cont_share = (f" ({a['cont']/week*100:.1f}% of last week's Fable usage)" if week else "")
+    fresh_share = (f" ({a['fresh']/week*100:.1f}%)" if week else "")
+    return (f"[session-switch] each turn here costs ~{a['now_per_turn']/1000:.1f}k units, "
+            f"{a['now_per_turn']/a['fresh_per_turn']:.1f}x a fresh-session turn "
+            f"(context {a['C_now']/1000:.0f}k). The next 100 turns cost "
+            f"~{a['cont']/1e6:.2f}M units here{cont_share} vs ~{a['fresh']/1e6:.2f}M{fresh_share} "
+            f"in a fresh session including re-orientation. {ADVICE[band]}. (turn {a['turns']})")
 
 
 def newest(directory):
@@ -155,14 +183,22 @@ def main():
         r = assess(path, a.dir, a.orient_turns, a.baseline_sessions)
         if not r:
             sys.exit(f"not enough baseline sessions (need 3 interactive ones with "
-                     f">= {max(20, a.orient_turns)} turns)")
+                     f">= {max(20, a.orient_turns + FRESH_WINDOW)} turns)")
         print(f"current: {os.path.basename(path)[:8]}  turns {r['turns']}  "
               f"C_now {r['C_now']/1000:.1f}k  C_fresh {r['C_fresh']/1000:.1f}k  "
               f"O {r['O']/1000:.1f}k units  saving/turn {r['s']/1000:.1f}k units  "
               f"B {r['B'] if r['B'] else 'n/a (no saving)'}  (orient-turns {a.orient_turns})")
-        print(f"\n{'session':10s}{'O (k units)':>14s}{'C_fresh (k)':>14s}{'turns':>8s}")
+        print(f"per turn: now {r['now_per_turn']/1000:.1f}k units  fresh {r['fresh_per_turn']/1000:.1f}k units  "
+              f"(median session {r['median_turns']:.0f})  "
+              f"last 7 d {r['week']/1e6:.1f}M units (interactive planner)")
+        print(f"next {HORIZON} turns: continue ~{r['cont']/1e6:.2f}M units"
+              + (f" ({r['cont']/r['week']*100:.1f}% of last 7 d)" if r["week"] else "")
+              + f"  vs fresh ~{r['fresh']/1e6:.2f}M units"
+              + (f" ({r['fresh']/r['week']*100:.1f}%)" if r["week"] else ""))
+        print(f"\n{'session':10s}{'O (k units)':>14s}{'C_fresh (k)':>14s}{'fresh/turn (k)':>16s}{'turns':>8s}")
         for row in r["rows"]:
-            print(f"{row['id']:10s}{row['O']/1000:14.1f}{row['C_fresh']/1000:14.1f}{row['turns']:8d}")
+            print(f"{row['id']:10s}{row['O']/1000:14.1f}{row['C_fresh']/1000:14.1f}"
+                  f"{row['fresh_per_turn']/1000:16.1f}{row['turns']:8d}")
         return
 
     # hook mode: a hook must never break a session, so everything below is guarded
@@ -189,7 +225,8 @@ def main():
         if not r:
             return
         if not reuse:
-            b = {"O": r["O"], "C_fresh": r["C_fresh"], "orient": a.orient_turns,
+            b = {"O": r["O"], "C_fresh": r["C_fresh"], "fresh_per_turn": r["fresh_per_turn"],
+                 "median_turns": r["median_turns"], "week": r["week"], "orient": a.orient_turns,
                  "count": a.baseline_sessions, "computed_at": time.time()}
         band = band_of(r["B"])
         last = prev.get("band")
