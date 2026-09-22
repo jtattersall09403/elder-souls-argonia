@@ -15,7 +15,10 @@ On `npm run preflight` (or preflight.mjs):
 A review that cannot run (timeout, CLI error) stamps and allows, and says so
 on stderr, so a broken reviewer never blocks work; it is visible in the stamp.
 
-Manual: `python3 tooling/repo-standards/review_gate.py --run` reviews now.
+Manual: `python3 tooling/repo-standards/review_gate.py --run` reviews the
+uncommitted diff now. `--run --range <rev>[..<rev>]` reviews a COMMITTED diff
+instead (`--range db8034db` means `db8034db^..db8034db`), so a change that was
+committed before preflight still gets reviewed.
 """
 import hashlib, json, os, re, subprocess, sys, time
 
@@ -100,8 +103,18 @@ def sh(*args):
     return subprocess.run(args, cwd=ROOT, capture_output=True, text=True).stdout
 
 
+EXCLUDES = ("--", ".", ":(exclude)*.json", ":(exclude)*.lock", ":(exclude)package-lock.json")
+
+
+def range_diff(rng):
+    """Diff of a committed range; a single rev means <rev>^..<rev>."""
+    if ".." not in rng:
+        rng = f"{rng}^..{rng}"
+    return sh("git", "diff", rng, *EXCLUDES)
+
+
 def current_diff():
-    d = sh("git", "diff", "HEAD", "--", ".", ":(exclude)*.json", ":(exclude)*.lock", ":(exclude)package-lock.json")
+    d = sh("git", "diff", "HEAD", *EXCLUDES)
     for path in sh("git", "ls-files", "--others", "--exclude-standard").split():
         full = os.path.join(ROOT, path)
         if path.endswith((".py", ".ts", ".tsx", ".js", ".mjs", ".md")) and os.path.getsize(full) < 60_000:
@@ -136,6 +149,13 @@ def review(diff):
 
 def main():
     manual = "--run" in sys.argv
+    rng = None
+    if "--range" in sys.argv:
+        i = sys.argv.index("--range")
+        if i + 1 >= len(sys.argv):
+            sys.stderr.write("[review gate] --range needs a revision or range\n")
+            return 2
+        rng = sys.argv[i + 1]
     if not manual:
         try:
             d = json.load(sys.stdin)
@@ -147,8 +167,11 @@ def main():
         cmd = (d.get("tool_input") or {}).get("command", "")
         if not is_preflight_command(cmd):
             return 0
-    diff = current_diff()
+    diff = range_diff(rng) if rng else current_diff()
     if not diff.strip():
+        if manual and not rng:
+            print("[review gate] the working tree is clean: nothing uncommitted to review. "
+                  "To review the last commit, run with `--range HEAD`.")
         return 0
     h = hashlib.sha256(diff.encode()).hexdigest()[:16]
     st = read_stamp()

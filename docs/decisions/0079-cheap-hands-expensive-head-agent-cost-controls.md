@@ -85,7 +85,8 @@ the lever is the **number of planner turns**, not output size.
    (JSON and lockfiles excluded, small new source files included, 250 KB
    cap), writes `.claude/review-findings.md` and a stamp (both gitignored),
    then either lets preflight run (no findings) or refuses it with the
-   findings as the message. The orchestrator never has to remember the
+   findings as the message. `--run` reviews the uncommitted diff on demand;
+   `--range` reviews a committed range. The orchestrator never has to remember the
    review; its first preflight attempt *is* the review. The gate fires for
    subagents too; the `preflight` agent is the standard caller and reports
    review + gates in a fixed compact shape (owner 2026-09-22). A review that
