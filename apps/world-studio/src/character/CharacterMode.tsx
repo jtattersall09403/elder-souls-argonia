@@ -1073,7 +1073,7 @@ function GroundcoverHudLine() {
         + ` · compose ${gc.phaseComposeMaxMs.toFixed(1)}`}
       {` · fill ${gc.fillMs}/${gc.fillMaxMs} ms (${gc.fillInstances})`}
       {` · tiles ${gc.tilesLive}/${gc.tilesPending}`}
-      {` · built ${gc.tilesBuilt} wiped ${gc.cacheWipes}`}
+      {` · built ${gc.tilesBuilt} staled ${gc.cacheStaled} retiled ${gc.tilesRetiled}`}
       {` · mesh ${(gc.nearMeshTriangles / 1e6).toFixed(2)}M`}
     </span>
   );

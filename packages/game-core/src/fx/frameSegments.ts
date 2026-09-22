@@ -141,7 +141,12 @@ export class FrameSegments {
         const name = String(
           (debug ? raw.getParameter(debug.UNMASKED_RENDERER_WEBGL) : null)
           ?? raw.getParameter(raw.RENDERER) ?? "");
-        this.wallTimeOnly = /apple|metal/i.test(name);
+        // Apple hardware means Metal in every browser, and Safari's
+        // UNMASKED_RENDERER string names neither: the platform decides too.
+        const nav = typeof navigator === "undefined" ? null : navigator;
+        const platform = nav ? (nav.platform || nav.userAgent || "") : "";
+        this.wallTimeOnly = /apple|metal/i.test(name)
+          || /mac|iphone|ipad/i.test(platform);
       }
     } catch { this.ctx = null; this.ext = null; }
     if (!this.ext) this.ctx = null;

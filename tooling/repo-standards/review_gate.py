@@ -5,7 +5,8 @@ run BY THIS HOOK, so the orchestrator never has to remember it.
 On `npm run preflight` (or preflight.mjs):
   1. no uncommitted change              -> allow
   2. stamp matches the current diff      -> allow (already reviewed)
-  3. stamp younger than FIX_WINDOW min   -> allow (the fix cycle after a review)
+  3. a WORKING-TREE stamp younger than FIX_WINDOW min -> allow (the fix cycle
+     after a review); a `--range` stamp never exempts the working-tree diff
   4. otherwise run a headless Opus (low) review of the diff (read-only tools),
      write .claude/review-findings.md and the stamp, then
        - no findings -> allow, preflight runs
@@ -18,13 +19,16 @@ on stderr, so a broken reviewer never blocks work; it is visible in the stamp.
 Manual: `python3 tooling/repo-standards/review_gate.py --run` reviews the
 uncommitted diff now. `--run --range <rev>[..<rev>]` reviews a COMMITTED diff
 instead (`--range db8034db` means `db8034db^..db8034db`), so a change that was
-committed before preflight still gets reviewed.
+committed before preflight still gets reviewed. A `--range` review never
+touches the working-tree stamp: it writes only .claude/review-findings-range.md
+and leaves the stamp file (and therefore the working-tree exemption) alone.
 """
 import hashlib, json, os, re, subprocess, sys, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 STAMP = os.path.join(ROOT, ".claude", "review-stamp.json")
 FINDINGS = os.path.join(ROOT, ".claude", "review-findings.md")
+FINDINGS_RANGE = os.path.join(ROOT, ".claude", "review-findings-range.md")
 FIX_WINDOW_MIN = 20
 MAX_DIFF_BYTES = 250_000
 TIMEOUT_S = 540
@@ -32,7 +36,7 @@ MODEL = "opus"  # low effort via the machine-wide modelSettings; owner 2026-09-1
 
 PROMPT = """You are the code reviewer for this repo (read CLAUDE.md's golden rules and
 docs/standards/engineering.md if you need them; both are short). Below is the
-uncommitted diff. Review it for: correctness bugs; inefficient implementations
+{what}. Review it for: correctness bugs; inefficient implementations
 where a simpler or cheaper one exists; violations of the engineering standards
 (stable IDs, player-visible strings in packages/text-catalogue, schemaVersion,
 determinism, no new module-level singletons, credits with assets); and code
@@ -135,13 +139,14 @@ def write_stamp(h, status, n):
     json.dump({"hash": h, "time": time.time(), "status": status, "findings": n}, open(STAMP, "w"))
 
 
-def review(diff):
+def review(diff, what):
+    prompt = PROMPT.replace("{what}", what)
     env = dict(os.environ); env.pop("CLAUDECODE", None)
     try:
         p = subprocess.run(
             ["claude", "-p", "--model", MODEL, "--allowedTools", "Read,Grep,Glob", "--max-turns", "40",
              "--output-format", "text"],
-            input=PROMPT + diff, cwd=ROOT, capture_output=True, text=True, timeout=TIMEOUT_S, env=env)
+            input=prompt + diff, cwd=ROOT, capture_output=True, text=True, timeout=TIMEOUT_S, env=env)
         return (p.stdout or "").strip(), p.returncode, (p.stderr or "")[-400:]
     except subprocess.TimeoutExpired:
         return "", -1, "timeout"
@@ -169,7 +174,10 @@ def main():
             return 0
     diff = range_diff(rng) if rng else current_diff()
     if not diff.strip():
-        if manual and not rng:
+        if rng:
+            print(f"review gate: empty diff for range {rng}")
+            return 2
+        if manual:
             print("[review gate] the working tree is clean: nothing uncommitted to review. "
                   "To review the last commit, run with `--range HEAD`.")
         return 0
@@ -179,30 +187,37 @@ def main():
         return 0
     if not manual and time.time() - st.get("time", 0) < FIX_WINDOW_MIN * 60:
         return 0
+    what = f"diff {rng}" if rng else "uncommitted diff"
     if len(diff) > MAX_DIFF_BYTES:
-        sys.stderr.write(f"[review gate] the uncommitted diff is {len(diff)//1000} KB, too large for one review; "
+        sys.stderr.write(f"[review gate] the {what} is {len(diff)//1000} KB, too large for one review; "
                          "commit the finished part first (pathspec), then preflight the rest.\n")
         return 2
-    out, rc, err = review(diff)
+    out, rc, err = review(diff, what)
+    findings_path = FINDINGS_RANGE if rng else FINDINGS
     if rc != 0 or not out:
-        write_stamp(h, f"review failed: {err.strip()[:120]}", 0)
+        if not rng:
+            write_stamp(h, f"review failed: {err.strip()[:120]}", 0)
         sys.stderr.write(f"[review gate] the automatic review could not run ({err.strip()[:120]}); preflight allowed. "
                          "Run `python3 tooling/repo-standards/review_gate.py --run` to retry.\n")
         return 0
     n = 0 if out.startswith("NO FINDINGS") else sum(1 for l in out.splitlines() if l.lstrip().startswith("- "))
-    with open(FINDINGS, "w") as f:
+    with open(findings_path, "w") as f:
         f.write(f"# Automatic code review ({MODEL}), diff {h}, {time.strftime('%Y-%m-%d %H:%M')}\n\n{out}\n")
-    write_stamp(h, "ok", n)
+    if not rng:
+        write_stamp(h, "ok", n)
     if n == 0:
         if manual:
             print("NO FINDINGS")
         return 0
+    findings_rel = "review-findings-range.md" if rng else "review-findings.md"
+    next_step = ("fix, then run `--run` (working tree) or preflight" if rng
+                 else f"run preflight again (allowed for {FIX_WINDOW_MIN} min)")
     sys.stderr.write(
-        f"REVIEW REFUSED: {n} findings in .claude/review-findings.md\n"
-        f"[review gate, decision 0079 §8] a {MODEL} code review of the uncommitted diff ran before preflight and "
-        f"found {n} item(s) (saved at .claude/review-findings.md). Act on each CONFIRMED item or say in one line "
+        f"REVIEW REFUSED: {n} findings in .claude/{findings_rel}\n"
+        f"[review gate, decision 0079 §8] a {MODEL} code review of the {what} ran before preflight and "
+        f"found {n} item(s) (saved at .claude/{findings_rel}). Act on each CONFIRMED item or say in one line "
         f"why not (a phase plan, an owner ruling, the build-out skeleton); treat PLAUSIBLE items as questions. "
-        f"Then run preflight again (allowed for {FIX_WINDOW_MIN} min).\n\n{out}\n")
+        f"Then {next_step}.\n\n{out}\n")
     return 0 if manual else 2
 
 

@@ -156,14 +156,47 @@ tint raster and the settlement exclusions — all of which arrive after the
 first tiles are already built. Each arrival wiped the lot. The chunk manifest
 never belonged there at all: a tile is cached only once its 9x9 heights
 resolved, and the terrain is frozen, so a chunk arriving cannot change a
-cached tile. The fix inverts the relationship. The once-fetched inputs (and
-the water depth proxy, which was not even listed) now gate GENERATION until
-each has settled, resolved or failed; a later change to one of them still
-clears the cache. The HUD's `gc:` line carries cumulative `built` and `wiped`
-counters so the double build cannot come back unseen. The mesh swap was
-reordered at the same time: the replacement instanced mesh is added to the
-scene before the outgrown one is removed and disposed, which was the frame
-that drew nothing and read as plants vanishing.
+cached tile. The fix inverts the relationship. The small once-fetched inputs
+(the clearance patches, the region and tint rasters, and the water depth
+proxy, which was not even listed) now gate GENERATION until each has settled,
+resolved or failed, with a 10 s ceiling past which generation starts from
+their defaults. The settlement exclusions do NOT gate it: `settlements.json`
+is ~10 MB and optional, so the whole layer would wait on the slowest fetch on
+the page. When exclusions or patches arrive or change after tiles exist, only
+the cached tiles the changed shapes can reach are dropped — the tile
+half-diagonal plus the widest radius over SPECIES_PLANS, which bounds every
+instance the generator places (it reads radii by plan id) — the same bound
+the tile prefilter uses — testing every shape in
+the old and new lists (their union) against the tiles within reach — the
+lists change once or twice a session, so the union is correct and cheap —
+counted on the HUD as
+`retiled` beside `built` and `staled`, so neither the double build nor a
+stealth full wipe can come back unseen. An input that lands after the 10 s
+ceiling is handled by the same two paths as any change: the clearance index
+and settlement footprints invalidate only the tiles within reach, the region
+raster, tint and water proxy mark every tile stale, and a stale tile draws
+until it is rebuilt. The targeted invalidation first drops the changed shapes
+that fall outside the ring's bounding box, grown by the pad, so a
+province-wide footprint list is not tested tile by tile.
+Content invalidation (control, region, tint, water, footprints, clearance)
+never deletes a cached tile: it marks it stale and the tile draws until
+rebuilt, so no content change blanks the ring. The two geometry sliders
+(vertical scale, ring radius) clear the cache and the ring rebuilds from
+empty, by choice: grass hanging at the old height is worse than a brief
+absence.
+
+The whole-cache wipe was also the "ground cover blinks out after load"
+symptom, and the mesh swap was not. The fill runs in one effect pass, so the
+remove and the add land in the same commit and no frame renders between
+them, so removing the outgrown mesh before adding its replacement never
+left a frame drawing nothing; the reorder (add, then drop) is kept because it
+is harmless, but it fixed nothing. What emptied the ring was the wipe: the
+fill ran against a freshly cleared cache and set every mesh's count to 0,
+and the tiles came back only over the 0.25 s generation ticks. The plants at
+the player's own feet that never came back are a different thing again and
+are correct: they are the road-margin clearance, which the rebuild applied
+and the first build had not — it is now applied on the first build, so the
+margin is clear from the start rather than clearing itself late.
 
 The MID and FAR ground-cover tiers use the same card geometry and the same
 material, so they no longer get a mesh each. The slot is now

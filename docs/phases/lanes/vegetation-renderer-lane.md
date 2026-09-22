@@ -270,13 +270,20 @@ SUBMISSION, not by triangles: 364 calls cost 19.6 ms of main thread, about
 timer query with wall time (23 ms reported at 60 fps) — and the HUD now
 marks it as such rather than inviting the wrong conclusion.
 
-**Round 11 (this commit).** Ground-cover tiles are built once: the
-once-fetched inputs gate generation until they settle instead of wiping the
-whole tile cache when they land, and the chunk manifest is no longer an
-invalidation trigger at all (the terrain is frozen and a tile is cached only
-once its heights resolved). That double build, plus a mesh swap that removed
-the old instanced mesh before adding the new, was the "plants vanish after
-load" symptom; the swap is now add-then-drop. The MID and FAR card tiers
+**Round 11 (this commit).** Ground-cover tiles are built once: the small
+once-fetched inputs gate generation until they settle (10 s ceiling) instead
+of wiping the whole tile cache when they land, and the chunk manifest is no
+longer an invalidation trigger at all (the terrain is frozen and a tile is
+cached only once its heights resolved). The 10 MB settlement bundle never
+gates generation; when it lands it drops only the tiles its footprints can
+reach, shown on the HUD as `retiled`. That whole-cache wipe was the "plants
+vanish after load" symptom: the fill ran on an empty cache and set every
+mesh's count to 0 until the tiles regenerated over the 0.25 s ticks. The mesh
+swap is add-then-drop, which is tidy but was never the cause — the fill runs
+in one effect pass, so the remove and the add land in the same commit and no
+frame renders between them. The plants at the player's feet that never
+returned are the road-margin clearance applied on the rebuild: correct
+behaviour arriving late, now applied on the first build. The MID and FAR card tiers
 share one instanced mesh per species, quadrant and part, cutting ground-cover
 draw keys by a third with no visual change. `&gcquad` is the measurement
 switch for the quartering. Details in decision 0084, round 11 addendum.

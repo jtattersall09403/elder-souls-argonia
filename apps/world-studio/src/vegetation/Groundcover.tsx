@@ -600,6 +600,19 @@ export const MASK_N = TILE_M / MASK_CELL_M;
 export const MASK_EXCLUDE = 1;
 export const MASK_PATCH = 2;
 
+/** Axis-aligned bounds of a footprint polygon, in world metres. Infinity on
+ * an empty polygon (caller filters with Number.isFinite). */
+function footprintBounds(poly: Footprint): MaskBox {
+  let minX = Infinity; let maxX = -Infinity; let minZ = Infinity; let maxZ = -Infinity;
+  for (const [x, z] of poly) {
+    if (x < minX) minX = x;
+    if (x > maxX) maxX = x;
+    if (z < minZ) minZ = z;
+    if (z > maxZ) maxZ = z;
+  }
+  return { minX, maxX, minZ, maxZ };
+}
+
 /** Distance from a point to an axis-aligned box, 0 inside it. */
 function boxDistance(x: number, z: number, b: MaskBox): number {
   const dx = Math.max(b.minX - x, 0, x - b.maxX);
@@ -934,6 +947,9 @@ function bandAttribute(
 /** The four ring corners, flat, so the per-frame loop allocates nothing. */
 const CORNER_OFFSETS = [-1, -1, -1, 1, 1, -1, 1, 1] as const;
 const CHUNK_KEY_STRIDE = 4096;
+/** How long the first build waits on the small once-fetched inputs. */
+const INPUT_GATE_CEILING_MS = 10_000;
+
 /** Tile keys are packed integers for the same reason. The province is ~7 km,
  * so a 16 m tile index never leaves +/-16384. */
 const TILE_KEY_ORIGIN = 16_384;
@@ -970,6 +986,11 @@ function tileNearestM(focus: { x: number; z: number }, tx: number, tz: number): 
  */
 interface CachedTile {
   far: boolean;
+  /** Set by an invalidation instead of deleting the entry: the generator
+   * treats a stale tile as missing and rebuilds it, while the fill keeps
+   * drawing this record until the rebuilt one replaces it. No invalidation
+   * can therefore blank the ring. */
+  stale?: boolean;
   perSpecies: TileSpecies[];
   /** World-space extents of the tile's ground, for bounding spheres. */
   minY: number;
@@ -1049,11 +1070,15 @@ export interface GroundcoverPerf {
   tilesLive: number;
   tilesPending: number;
   /** Cumulative since mount (0084 round 11): tiles GENERATED and whole-cache
-   * WIPES. After a load settles, `wiped` must stay at its start value and
-   * `built` must stop climbing while the player stands still — a tile built
-   * twice is the double-build defect returning. */
+   * WIPES. `built` climbs only by as much as `staled` + `retiled` while the
+   * player stands still; any more is the double-build defect returning.
+   * A cleared tile counts in `staled` too. */
   tilesBuilt: number;
-  cacheWipes: number;
+  cacheStaled: number;
+  /** Tiles dropped by a TARGETED invalidation (an exclusion or clearance
+   * list arriving late): only the tiles whose extent the changed shapes can
+   * reach, never the whole cache. */
+  tilesRetiled: number;
   /** Triangles of the NEAR-tier (full-mesh) instances currently live:
    * instances x their mesh's triangles, summed at the last rebuild. The HUD's
    * `mesh <n>M` — what the per-species reach rule cut. */
@@ -1084,7 +1109,7 @@ export const GROUNDCOVER_QUADRANTS: number = (() => {
 })();
 
 /** The once-fetched inputs a cached tile depends on (0084 round 11). */
-type InputKey = "patches" | "region" | "tint" | "water" | "exclusions";
+type InputKey = "patches" | "region" | "tint" | "water";
 
 export function Groundcover({
   focusRef,
@@ -1116,23 +1141,59 @@ export function Groundcover({
   const [tint, setTint] = useState<TintRaster | null>(null);
   const [chunks, setChunks] = useState<ChunksManifest | null>(null);
   const [exclusions, setExclusions] = useState<Footprint[]>([]);
+  // Bounds of every settlement footprint, derived once per list rather than
+  // once per site that needs them (the generator's per-tile prefilter and
+  // the late-arrival invalidation effect below both consume this).
+  const exclusionBounds = useMemo(() => exclusions.map(footprintBounds), [exclusions]);
   const [foundationTreatments, setFoundationTreatments] = useState<FoundationTreatment[]>([]);
   const [clearanceIndex, setClearanceIndex] = useState<IndexedPatch[]>([]);
   /** Which of the once-fetched tile inputs have SETTLED — resolved OR failed
    * (0084 round 11). A tile generated before one of these lands would be
    * wrong, and the old cure (clear the whole cache when it arrives) built
-   * every tile twice on load and emptied the meshes during the swap. The
-   * generator waits for them instead; a LATER change to one of them (the
-   * settlement layer being shown, say) still clears the cache. */
+   * every tile twice on load and, because the fill then ran on an empty
+   * cache, set every mesh's count to 0 until the tiles regenerated — the
+   * "plants vanish after load" symptom. That blanking cannot happen from
+   * these once-fetched inputs any more: no invalidation of theirs deletes a
+   * cached tile, it marks the entry `stale` and the fill keeps drawing it
+   * until the rebuild replaces it. The generator still waits for these
+   * inputs, and a LATER change still invalidates only the tiles the changed
+   * inputs can reach (the targeted effect at the file's end). The ring-radius
+   * and vertical-scale sliders are a separate, deliberate `.clear()` (0084
+   * round 11 addendum): those still blank the ring. */
   const [inputsSettled, setInputsSettled] = useState<Record<InputKey, boolean>>(
-    { patches: false, region: false, tint: false, water: false, exclusions: false });
+    { patches: false, region: false, tint: false, water: false });
   const settleInput = useCallback((key: InputKey, error?: unknown) => {
     if (error !== undefined) {
       console.warn(`[groundcover] ${key} input unavailable; using its default`, error);
     }
     setInputsSettled((prev) => (prev[key] ? prev : { ...prev, [key]: true }));
   }, []);
+  /** Ceiling on the first-build gate: past it the layer generates from the
+   * defaults rather than waiting on a fetch that may never land. */
+  const [inputsTimedOut, setInputsTimedOut] = useState(false);
+  /** Set once the water depth proxy has landed, so its arrival is observable
+   * to an effect (the generator keeps reading `water.current`). */
+  const [waterReady, setWaterReady] = useState(false);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setInputsTimedOut(true), INPUT_GATE_CEILING_MS);
+    return () => window.clearTimeout(timer);
+  }, []);
+  useEffect(() => {
+    if (!inputsTimedOut) return;
+    const pending = (["patches", "region", "tint", "water"] as InputKey[])
+      .filter((k) => !inputsSettled[k]);
+    if (pending.length > 0) {
+      console.warn(
+        `[groundcover] inputs still pending after ${INPUT_GATE_CEILING_MS / 1000} s `
+        + `(${pending.join(", ")}); generating from defaults`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputsTimedOut]);
   const radii = useRef(new Map<string, number>());
+  /** Static maximum species radius over the whole plan table, filled with the
+   * kit manifest; `radii.current` alone under-sizes a pad while a species has
+   * not been generated yet. */
+  const maxPlanRadiusM = useRef(0);
   const water = useRef<WaterData | null>(null);
   const store = sharedChunkStore(baseUrl);
   /** Persistent meshes, keyed `species|tier|quadrant|part` (mechanism 7). A
@@ -1158,6 +1219,15 @@ export function Groundcover({
   /** Set once the inputs exist; `useFrame` calls it with a time budget. */
   const generateRef = useRef<((budgetMs: number) => { generated: number; remaining: number }) | null>(null);
   const [revision, setRevision] = useState(0);
+  /** Counts chunk decode completions only (the `store.load()` completion
+   * site below) — never bumped by any other `setRevision` call. */
+  const chunkArrivals = useRef(0);
+  /** The chunk-arrival count at which the last generate call saw a tile come
+   * back null for undecoded heights, or null once a pass completes clean.
+   * Compared against `chunkArrivals` every frame: a chunk arriving is the
+   * only event that can supply those heights, so that's the only event
+   * worth retrying for. */
+  const incompleteAtChunkArrivals = useRef<number | null>(null);
   /** DEV instrumentation only: nothing here is read by the renderer. */
   const perf = useRef<GroundcoverPerf>({
     frame: 0, rebuildsStarted: 0, rebuildsPerSec: 0,
@@ -1166,11 +1236,12 @@ export function Groundcover({
     phaseExact: 0,
     fillMs: 0, fillMaxMs: 0,
     fillInstances: 0, tilesLive: 0, tilesPending: 0, nearMeshTriangles: 0,
-    tilesBuilt: 0, cacheWipes: 0,
+    tilesBuilt: 0, cacheStaled: 0, tilesRetiled: 0,
   });
-  /** Cumulative counters behind `tilesBuilt`/`cacheWipes`. */
+  /** Cumulative counters behind `tilesBuilt`/`cacheStaled`. */
   const builtTotal = useRef(0);
   const wipes = useRef(0);
+  const retiled = useRef(0);
   /** Worst per-tile phase cost since the last window reset (DEV only). One
    * reused object: the generator writes maxima into it, never allocates. */
   const phaseMax = useRef({ grid: 0, mask: 0, cand: 0, compose: 0, exact: 0 });
@@ -1190,6 +1261,14 @@ export function Groundcover({
         if (!cancelled) {
           setManifest(m);
           radii.current = new Map(m.assets.map((a) => [a.id, Math.max(a.sizeM[0], a.sizeM[1]) / 2]));
+          // The widest radius any species in the plan table can reach, once:
+          // the value the mask rasteriser would use with every species built.
+          let widest = 0;
+          for (const plan of SPECIES_PLANS) {
+            const r = radii.current.get(plan.id) ?? 0;
+            if (r > widest) widest = r;
+          }
+          maxPlanRadiusM.current = widest;
         }
       })
       .catch(() => undefined);
@@ -1221,6 +1300,7 @@ export function Groundcover({
       .then((a) => {
         if (!cancelled && !water.current) {
           water.current = a.data;
+          setWaterReady(true);
           setRevision((r) => r + 1);
         }
       })
@@ -1236,7 +1316,7 @@ export function Groundcover({
   // fetch waits for the layer to be shown (16f round 4: it was 9.7 MB of
   // pure waste on every start-up).
   useEffect(() => {
-    if (!settlementsVisible) return;
+    if (!settlementsVisible) { setExclusions([]); setFoundationTreatments([]); return; }
     let cancelled = false;
     fetch(`${baseUrl}province/settlements.json`)
       .then((r) => r.ok ? r.json() : Promise.reject(new Error("no settlements")))
@@ -1248,10 +1328,9 @@ export function Groundcover({
           setFoundationTreatments(treatments);
         }
       })
-      .catch((e) => { if (!cancelled) settleInput("exclusions", e); })
-      .finally(() => { if (!cancelled) settleInput("exclusions"); });
+      .catch((e) => { if (!cancelled) console.warn("groundcover: settlements fetch failed", e); });
     return () => { cancelled = true; };
-  }, [baseUrl, settlementsVisible, settleInput]);
+  }, [baseUrl, settlementsVisible]);
 
   useEffect(() => {
     if (manifest) setKit(buildFloraKit(gltf, manifest));
@@ -1313,7 +1392,7 @@ export function Groundcover({
         if (requested.current.has(key)) continue;
         requested.current.add(key);
         store.load(cx, cy, "1")
-          .then(() => setRevision((r) => r + 1))
+          .then(() => { chunkArrivals.current += 1; setRevision((r) => r + 1); })
           .catch(() => requested.current.delete(key));
       }
     }
@@ -1343,6 +1422,13 @@ export function Groundcover({
     }
     p.generateMs = 0;
     let pendingTiles = 0;
+    // An incomplete tile is retried when a chunk arrives, the only event
+    // that can supply its heights: re-arm even if the ring otherwise
+    // considers itself fully generated.
+    if (incompleteAtChunkArrivals.current !== null
+        && chunkArrivals.current !== incompleteAtChunkArrivals.current) {
+      genPending.current = true;
+    }
     if (genPending.current && generateRef.current) {
       const tGen0 = performance.now();
       const { generated, remaining } = generateRef.current(
@@ -1386,7 +1472,8 @@ export function Groundcover({
     }
     p.rebuildsPerSec = rebuildTimes.current.length;
     p.tilesBuilt = builtTotal.current;
-    p.cacheWipes = wipes.current;
+    p.cacheStaled = wipes.current;
+    p.tilesRetiled = retiled.current;
     if (import.meta.env.DEV) {
       const host = window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats };
       if (host.__STUDIO_GROUNDCOVER_DEBUG__) host.__STUDIO_GROUNDCOVER_DEBUG__.perf = p;
@@ -1588,8 +1675,10 @@ export function Groundcover({
               // Grow by 1.5x so a ring that keeps creeping up by a few
               // instances does not reallocate on every rebuild.
               // The OLD mesh is dropped after the new one is in the scene
-              // (below): removing it first left a frame drawing nothing,
-              // which is the "plants vanish" flicker (0084 round 11).
+              // (below). Tidiness, not a fix: the fill runs in one effect
+              // pass, so the remove and the add land in the same commit and
+              // no frame renders between them. The vanishing was the
+              // whole-cache wipe (0084 round 11 addendum).
               const previous = mesh ?? null;
               const capacity = Math.max(64, Math.ceil(drawn * 1.5));
               mesh = new THREE.InstancedMesh(geometry, part.material, capacity);
@@ -1760,20 +1849,32 @@ export function Groundcover({
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
-  }, [kit, cards, control, chunks, exclusions, foundationTreatments, clearanceIndex,
+  }, [kit, cards, control, chunks, exclusions, exclusionBounds, foundationTreatments, clearanceIndex,
       regionRaster, tint, foundationParts, revision, verticalScale,
       onStats, focusRef, store, ringRadiusM, farRadiusM, maxInstances, wind,
       lodFade]);
+
+  // The inputs must have SETTLED before a tile is cached: otherwise the
+  // tile is built from defaults and has to be thrown away (0084 round 11).
+  // `exclusions` is NOT a gate: settlements.json is ~10 MB and optional, so
+  // waiting for it would hold the whole layer behind the slowest fetch on
+  // the page. It arrives through the targeted invalidation below instead.
+  // The small inputs still gate the first build (a tile built from their
+  // defaults has to be thrown away), but only for 10 s: past that ceiling
+  // generation starts with defaults and a late arrival invalidates. Memoised
+  // so a settle that does not change readiness (e.g. the second of four
+  // inputs landing) does not rebuild the generator's closure.
+  const inputsReady = useMemo(
+    () => inputsTimedOut
+      || (inputsSettled.patches && inputsSettled.region
+        && inputsSettled.tint && inputsSettled.water),
+    [inputsTimedOut, inputsSettled.patches, inputsSettled.region,
+      inputsSettled.tint, inputsSettled.water]);
 
   // The tile generator, installed for `useFrame` whenever an input changes.
   // Pure per tile (never reads the focus) so a tile is reusable wherever the
   // focus goes; ordered nearest-first per call so the near tier fills first.
   useEffect(() => {
-    // The inputs must have SETTLED before a tile is cached: otherwise the
-    // tile is built from defaults and has to be thrown away (0084 round 11).
-    const inputsReady = inputsSettled.patches && inputsSettled.region
-      && inputsSettled.tint && inputsSettled.water
-      && (!settlementsVisible || inputsSettled.exclusions);
     if (!kit || !control || !chunks || !inputsReady) {
       generateRef.current = null;
       return;
@@ -1827,16 +1928,7 @@ export function Groundcover({
 
     // Bounds of every building footprint, once per rebuild, for the per-tile
     // prefilter below.
-    const exclusionBoxes = exclusions.map((poly) => {
-      let minX = Infinity; let maxX = -Infinity; let minZ = Infinity; let maxZ = -Infinity;
-      for (const [x, z] of poly) {
-        if (x < minX) minX = x;
-        if (x > maxX) maxX = x;
-        if (z < minZ) minZ = z;
-        if (z > maxZ) maxZ = z;
-      }
-      return { poly, minX, maxX, minZ, maxZ };
-    });
+    const exclusionBoxes = exclusions.map((poly, i) => ({ poly, ...exclusionBounds[i] }));
 
     const DEV = import.meta.env.DEV;
     const mark = (): number => (DEV ? performance.now() : 0);
@@ -1844,8 +1936,7 @@ export function Groundcover({
     const generateTile = (tx: number, tz: number, wantFar: boolean, rej: typeof genStats.current.rejected): CachedTile | null => {
       const tPhase0 = mark();
       let exactTests = 0;
-      let maxSpeciesRadiusM = 0;
-      for (const r of radii.current.values()) if (r > maxSpeciesRadiusM) maxSpeciesRadiusM = r;
+      const maxSpeciesRadiusM = maxPlanRadiusM.current;
       const waterData = water.current;
       const x0 = tx * TILE_M; const z0 = tz * TILE_M;
       // The tile's ground and water ONCE, on a 2 m grid, with the slope's
@@ -2088,40 +2179,48 @@ export function Groundcover({
           if (nearest > keepRadiusM) continue;
           const wantFar = nearest > ringRadiusM + TIER_OVERLAP_M;
           const cached = cache.get(tileKey(tx, tz));
-          if (cached && !(cached.far && !wantFar)) continue;
+          // A stale entry counts as missing here (it is rebuilt), but stays in
+          // the cache so the fill keeps drawing it meanwhile.
+          if (cached && !cached.stale && !(cached.far && !wantFar)) continue;
           wanted.push({ tx, tz, nearest, far: wantFar });
         }
       }
       wanted.sort((a, b) => a.nearest - b.nearest);
       let generated = 0;
+      let attempted = 0;
       let i = 0;
       const rej = genStats.current.rejected;
+      const heightRejBefore = rej.height;
       for (; i < wanted.length; i++) {
-        if (generated > 0 && (performance.now() - t0 > budgetMs
+        if (attempted > 0 && (performance.now() - t0 > budgetMs
           || generated >= GENERATE_MAX_TILES_PER_CALL)) break;
         const w = wanted[i];
         const tileT0 = performance.now();
         const tile = generateTile(w.tx, w.tz, w.far, rej);
+        attempted++;
         const tileMs = performance.now() - tileT0;
         genStats.current.tileMs = tileMs;
         if (tileMs > genStats.current.tileMaxMs) genStats.current.tileMaxMs = tileMs;
-        generated++;
         if (tile) {
           tileCache.current.set(tileKey(w.tx, w.tz), tile);
           builtTotal.current++;
+          generated++;
         }
       }
       genStats.current.generated += generated;
       genStats.current.ms += performance.now() - t0;
-      // A tile that came back incomplete (chunk not decoded yet) stays
-      // wanted; it is retried on a later frame rather than spun on now.
+      // A tile that came back null (chunk not decoded yet) is simply not
+      // counted as generated. It is retried once a chunk actually arrives —
+      // recorded here as the arrival count to wait past — the only event
+      // that can supply its heights; a pass that saw none clears the marker.
+      incompleteAtChunkArrivals.current = rej.height > heightRejBefore ? chunkArrivals.current : null;
       return { generated, remaining: wanted.length - i };
     };
     genPending.current = true;
     return () => { generateRef.current = null; };
   }, [kit, control, chunks, exclusions, clearanceIndex, regionRaster, tint,
       verticalScale, ringRadiusM, farRadiusM, store, focusRef,
-      inputsSettled, settlementsVisible]);
+      inputsReady]);
 
   // The pool outlives every rebuild, so it is dropped once, on unmount.
   useEffect(() => () => {
@@ -2132,19 +2231,87 @@ export function Groundcover({
     meshPool.current.clear();
   }, []);
 
-  // A real CHANGE to what the cached tiles were generated from invalidates
-  // them: a different control or region raster, a new patch list, the
-  // settlement layer shown, a different vertical scale or ring radius.
-  // The chunk manifest and the chunk store's decode revision are NOT here
-  // (0084 round 11): a tile is only cached once all its 9x9 heights resolved
-  // and the terrain is frozen, so a chunk arriving cannot change a cached
-  // tile — while listing it rebuilt every tile a second time after load.
+  // Geometry inputs: a cached tile's shape (not just its content) is wrong
+  // once these change, so a stale-but-still-drawing tile would show the old
+  // footprint — the cache is cleared outright rather than staled.
   useEffect(() => {
+    if (tileCache.current.size === 0) return;
+    wipes.current += tileCache.current.size;
     tileCache.current.clear();
-    wipes.current++;
     genPending.current = true;
-  }, [control, regionRaster, tint, exclusions, clearanceIndex,
-      verticalScale, ringRadiusM]);
+  }, [verticalScale, ringRadiusM]);
+
+  // Content inputs: the old tile is still a valid picture (right shape,
+  // stale content), so it is marked stale and keeps drawing until rebuilt
+  // rather than being dropped.
+  useEffect(() => {
+    if (tileCache.current.size === 0) return;
+    for (const tile of tileCache.current.values()) {
+      if (tile.stale) continue;
+      tile.stale = true;
+      wipes.current++;
+    }
+    genPending.current = true;
+  }, [control, regionRaster, tint, waterReady]);
+
+  // `exclusions` (the settlement footprints) and `clearanceIndex` (the
+  // vegetation patches) reach only the ground they cover, so a late arrival
+  // invalidates only the tiles they can touch — the ~10 MB settlement bundle
+  // landing no longer empties the ring. The pad is the widest radius over
+  // SPECIES_PLANS, which bounds every instance the generator places (it reads
+  // radii by plan id) — the same bound the tile prefilter uses. The lists
+  // change once or twice a session (load,
+  // settlement layer toggled), so testing every shape in the old and new
+  // lists is correct and cheap enough; keying shapes by bounds was not
+  // (identical boxes, reshaped polygons).
+  const lastShapeBounds = useRef<MaskBox[] | null>(null);
+  const prevListsRef = useRef<{ exclusions: typeof exclusions; clearanceIndex: typeof clearanceIndex } | null>(null);
+  useEffect(() => {
+    const prev = prevListsRef.current;
+    if (prev && prev.exclusions === exclusions && prev.clearanceIndex === clearanceIndex) return;
+    prevListsRef.current = { exclusions, clearanceIndex };
+
+    const bounds: MaskBox[] = exclusionBounds.filter((b) => Number.isFinite(b.minX));
+    for (const entry of clearanceIndex) bounds.push(entry.bounds);
+    const previous = lastShapeBounds.current;
+    const all = previous === null ? bounds : previous.concat(bounds);
+    lastShapeBounds.current = bounds;
+    // First run: nothing was generated from the old lists, so nothing to drop.
+    if (previous === null) return;
+    const cache = tileCache.current;
+    if (cache.size === 0) return;
+    const padM = TILE_M * Math.SQRT1_2 + maxPlanRadiusM.current;
+    // Only the shapes that can reach the ring are worth testing against the
+    // cached tiles: a province-wide list is ~10^4 boxes and the ring holds
+    // ~10^3 tiles, so the unfiltered pass is 10^7 distance tests on the frame
+    // the bundle lands.
+    const focus = focusRef.current;
+    const reachM = farRadiusM + TIER_OVERLAP_M + padM;
+    const ring = {
+      minX: focus.x - reachM, maxX: focus.x + reachM,
+      minZ: focus.z - reachM, maxZ: focus.z + reachM,
+    };
+    const changed = all.filter((b) =>
+      b.minX <= ring.maxX && b.maxX >= ring.minX
+      && b.minZ <= ring.maxZ && b.maxZ >= ring.minZ);
+    if (changed.length === 0) return;
+    let dropped = 0;
+    for (const [key, tile] of cache) {
+      const tx = Math.floor(key / TILE_KEY_STRIDE) - TILE_KEY_ORIGIN;
+      const tz = (key % TILE_KEY_STRIDE) - TILE_KEY_ORIGIN;
+      const cx = (tx + 0.5) * TILE_M; const cz = (tz + 0.5) * TILE_M;
+      for (const b of changed) {
+        if (boxDistance(cx, cz, b) <= padM) {
+          if (!tile.stale) { tile.stale = true; dropped++; }
+          break;
+        }
+      }
+    }
+    if (dropped > 0) {
+      retiled.current += dropped;
+      genPending.current = true;
+    }
+  }, [exclusions, exclusionBounds, clearanceIndex, farRadiusM]);
 
   return <group ref={root} name="groundcover" />;
 }
