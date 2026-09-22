@@ -32,7 +32,13 @@ const PUBLIC = join(__dirname, "../../public");
 // vet_kit, measure_footprints, the interiors index). Nothing here asserts
 // anything about the shipped container — it measures the wood meshes the
 // colliders are fitted to.
-const RAW_KITS = join(__dirname, "../../../../tooling/asset-pipeline/output/kits");
+// `ES_ASSET_PIPELINE_ROOT` (set by `preflight.mjs --runner` to an empty temp
+// dir) overrides the repo-relative default so runner mode hides this local
+// build the same way the GitHub runner does — RAW_KIT_PRESENT below then
+// correctly skips instead of reaching a path that happens to exist locally.
+const REPO_ROOT = join(__dirname, "../../../..");
+const PIPELINE_ROOT = process.env.ES_ASSET_PIPELINE_ROOT || REPO_ROOT;
+const RAW_KITS = join(PIPELINE_ROOT, "tooling/asset-pipeline/output/kits");
 const RAW_KIT_PATH = join(RAW_KITS, "flora-province-v1.glb");
 // The raw kit is a local build artefact (standard 16: only the compressed
 // kit ships); this gate runs locally in preflight where the kit exists, and

@@ -46,9 +46,14 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 # Tracked record (world/sources/placement/kit-interiors): CI and local both
 # validate against this copy. `output/kits` (the local build) is the fallback
-# for a kit rebuilt but not yet re-committed.
+# for a kit rebuilt but not yet re-committed. `ES_ASSET_PIPELINE_ROOT` (set by
+# `preflight.mjs --runner` to an empty temp dir) overrides the base so runner
+# mode hides this local build the same way the GitHub runner has it hidden.
+import os
+
+_PIPELINE_ROOT = Path(os.environ["ES_ASSET_PIPELINE_ROOT"]).expanduser() if os.environ.get("ES_ASSET_PIPELINE_ROOT") else REPO_ROOT
 TRACKED_KITS_DIR = REPO_ROOT / "world" / "sources" / "placement" / "kit-interiors"
-LOCAL_KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
+LOCAL_KITS_DIR = _PIPELINE_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 
 
 def _default_kits_dir() -> Path:

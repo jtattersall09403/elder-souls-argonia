@@ -60,8 +60,14 @@ from shapely.ops import unary_union
 from . import blueprint_interiors as bi
 from .scale import PROVINCE_EXTENT_M
 
+import os
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
-KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
+# `ES_ASSET_PIPELINE_ROOT` (set by `preflight.mjs --runner` to an empty temp
+# dir) overrides the base so runner mode hides this local build the same way
+# the GitHub runner has it hidden.
+_PIPELINE_ROOT = Path(os.environ["ES_ASSET_PIPELINE_ROOT"]).expanduser() if os.environ.get("ES_ASSET_PIPELINE_ROOT") else REPO_ROOT
+KITS_DIR = _PIPELINE_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 UV_ROUND = 9
 DERIVED_TOLERANCE_UV = 1e-6
 AREA_BUFFER_M = 4.0

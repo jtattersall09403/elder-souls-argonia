@@ -350,6 +350,10 @@ shown failing on all 21 uncompressed kits and on a startup total of 118.9 MB;
 the compose gates, shown failing by planting a reference to a kit that does
 not exist and to a chain-only raster.
 
+Before merging to main run `npm run preflight -- --runner` once: it hides the
+vault and the raw kit build so a test that reaches a local-only file fails
+here, not on main (2026-09-22: two such tests reached main).
+
 ## 17. Saved state is versioned, serialisable data from the moment a system is written
 
 Owner 2026-09-18 (decision 0074 §4). Every runtime system in `packages/`
