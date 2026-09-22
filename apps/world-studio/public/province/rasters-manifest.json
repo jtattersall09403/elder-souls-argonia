@@ -3857,19 +3857,19 @@
       ]
     },
     "refined": {
-      "sha256": "a15a69a0e8ce11780542fdfbbde42312947757979b8713beb15764a78a10cfe7",
-      "sizeBytes": 24472332,
-      "asset": "province-refined-a15a69a0e8ce.tar.gz",
+      "sha256": "58dfd1b4c6984f1ed9d0f38dd2283ee305c8885b05853883fedf18ee19a7d3df",
+      "sizeBytes": 24634284,
+      "asset": "province-refined-58dfd1b4c698.tar.gz",
       "files": [
         {
           "path": "refined/ground-control.png",
-          "sha256": "5240aea21cfc00f7d922960c89b99d62864cc3f375798d4b00180d89ca427a0a",
-          "bytes": 18544661
+          "sha256": "8ec1616a6d64ef54858137516ec7795c916665830e4ccd872a11baa61b2020b3",
+          "bytes": 18704799
         },
         {
           "path": "refined/ground-paint-provenance.png",
-          "sha256": "18983dd99a9a28736198e9b07c00c67dca0dd934c1d6c4339b401642b07a65fe",
-          "bytes": 381881
+          "sha256": "e88e6178e47f402a8de302f2efb0e8cd74c1c5d20f25caeca31a11da1040e3af",
+          "bytes": 383695
         },
         {
           "path": "refined/ground-tint.png",

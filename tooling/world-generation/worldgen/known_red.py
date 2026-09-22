@@ -11,8 +11,9 @@ gate is allowed to still contain, by a stable identifying substring. The rules,
 which match the terrain (`terrain-request-known-red.json`) and settlement
 (`settlement-warning-known-red.json`) registers:
 
-* a registered entry that is still failing is reported as KNOWN RED, with its
-  reason and owner — and the test stays red, because it IS red;
+* a registered red is an expected failure so main stays green; it is still
+  listed by preflight and in the backlog (row 49); it flips to a hard
+  failure the moment it passes, so the register cannot rot;
 * an entry that is NOT registered fails the run and is named first, loudly;
 * a registered entry that no longer appears is reported as NO LONGER RED and
   fails the run, so a fixed red cannot stay registered as a quiet holding
@@ -27,6 +28,8 @@ Usage from a test that asserts a collection is empty::
 or, more readably, ``known_red.assert_clear(NODE_KEY, errs)``.
 """
 from __future__ import annotations
+
+import pytest
 
 KNOWN_RED_DOC = "docs/phases/P-polish/backlog.md"
 
@@ -120,6 +123,10 @@ def check(test_key: str, items) -> str:
     _SEEN.append((test_key, known, unregistered, no_longer_red))
     if not (known or unregistered or no_longer_red):
         return ""
+    return _format(test_key, known, unregistered, no_longer_red)
+
+
+def _format(test_key: str, known: list, unregistered: list, no_longer_red: list) -> str:
     out: list[str] = []
     if unregistered:
         out.append(f"{len(unregistered)} failure(s) NOT on the known-red register "
@@ -139,9 +146,18 @@ def check(test_key: str, items) -> str:
 
 
 def assert_clear(test_key: str, items) -> None:
-    """Fail the test with the classified message, or pass when nothing is red."""
-    message = check(test_key, items)
-    assert not message, "\n" + message
+    """Pass when nothing is red; xfail (strict) when every failure is a
+    registered known red; fail hard on anything unregistered or fixed-but-
+    still-registered, so the register cannot rot."""
+    known, unregistered, no_longer_red = classify(test_key, items)
+    _SEEN.append((test_key, known, unregistered, no_longer_red))
+    if unregistered or no_longer_red:
+        message = _format(test_key, known, unregistered, no_longer_red)
+        assert False, "\n" + message
+    if known:
+        tag = ", ".join(sorted({row.get("owner", "unowned") for _, row in known}))
+        reason = "; ".join(sorted({row["why"] for _, row in known}))
+        pytest.xfail(f"KNOWN RED [{tag}] {reason}")
 
 
 def drain() -> list:

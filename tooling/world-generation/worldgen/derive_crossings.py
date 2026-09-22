@@ -281,7 +281,7 @@ def document(rows: list[dict]) -> dict:
               "`python3 -m worldgen.derive_crossings` — never hand-edited. The "
               "band is set on SPAN AND DEPTH: a ford is narrower than "
               f"{FORD_MAX_M:.0f} m and no deeper than {FORD_MAX_DEPTH_M} m, the "
-              "small-draft hull depth the docks are dredged to. Which of the "
+              "small-draft hull depth to which the docks are dredged. Which of the "
               "`ferry`-band crossings actually "
               "becomes a ferry is authored in "
               "`world/sources/routes/travel-services.json`, against a causal "
