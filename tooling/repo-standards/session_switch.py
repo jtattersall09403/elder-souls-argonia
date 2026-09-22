@@ -21,7 +21,8 @@ import argparse, glob, json, math, os, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from session_tokens import PROJ, WEIGHT, cost_units, window_totals  # one cost model, one project path
 
-# Only interactive planner sessions belong in the baseline. "sdk-cli" is the
+# Only interactive planner sessions belong in the baseline, and only an
+# interactive planner session is advised by the hook. "sdk-cli" is the
 # headless entrypoint (the code-review gate, `claude -p`); "cli" is a real session.
 INTERACTIVE_ENTRYPOINT = "cli"
 CACHE_TTL = 3600  # seconds a cached baseline stays usable in hook mode
@@ -99,8 +100,7 @@ def baseline(directory, exclude, count, orient):
             "median_turns": median([r["turns"] for r in rows])}, rows
 
 
-def assess(transcript, directory, orient, count, cached=None):
-    t, _ = turns_of(transcript)
+def assess(t, transcript, directory, orient, count, cached=None):
     if not t:
         return None
     C_now = context(t[-1])
@@ -180,7 +180,8 @@ def main():
         path = a.transcript or newest(a.dir)
         if not path:
             sys.exit(f"no transcripts under {a.dir}")
-        r = assess(path, a.dir, a.orient_turns, a.baseline_sessions)
+        t, _ = turns_of(path)
+        r = assess(t, path, a.dir, a.orient_turns, a.baseline_sessions)
         if not r:
             sys.exit(f"not enough baseline sessions (need 3 interactive ones with "
                      f">= {max(20, a.orient_turns + FRESH_WINDOW)} turns)")
@@ -210,6 +211,11 @@ def main():
         sid = d.get("session_id") or "unknown"
         if not path or not os.path.exists(path):
             return
+        t, entry = turns_of(path)
+        # only the interactive planner session the owner is in; headless review
+        # runs and `claude -p` never advise (owner 2026-09-22)
+        if entry != INTERACTIVE_ENTRYPOINT:
+            return
         state = os.path.join(os.environ.get("TMPDIR", "/tmp"), f"session_switch_{sid}.json")
         prev = {}
         if os.path.exists(state):
@@ -220,7 +226,7 @@ def main():
         b = prev.get("baseline") or {}
         reuse = (b.get("orient") == a.orient_turns and b.get("count") == a.baseline_sessions
                  and time.time() - b.get("computed_at", 0) < CACHE_TTL)
-        r = assess(path, os.path.dirname(path) or a.dir, a.orient_turns, a.baseline_sessions,
+        r = assess(t, path, os.path.dirname(path) or a.dir, a.orient_turns, a.baseline_sessions,
                    cached=b if reuse else None)
         if not r:
             return
