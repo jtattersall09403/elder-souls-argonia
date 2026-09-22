@@ -269,8 +269,11 @@ through d2331495 on `dev`): the water opaque pass no longer leaves the scene
 samplers bound for the framebuffer-feedback validator (`e1facbc6`), the
 character body draws at the pose interpolated between fixed physics steps
 (`d2331495`), and the HUD's measurement lines fold behind a `perf` header
-(`59cf430e`). Owner readings on the water fix and the body fix are pending.
+(`59cf430e`). Owner accepted 2026-09-22 (water dip, body interpolation after
+the 3 s-reset fix 31324505, HUD fold): "all good"; round 13 deferred by the
+owner until after 16h.
 Round 13 (part-aware mid tier) is briefed below and not yet started.
+Owner 2026-09-22: round 13 after Phase 16h.
 
 Round 12 is accepted by the owner: 57 fps at rest in the jungle (was 22).
 What follows is the round-11 state it builds on.
@@ -360,20 +363,17 @@ uses), one Workflow of ≤10 agents.
 
 **Next agent, in order:**
 
-1. **Owner readings** after the water sampler fix and the body pose
-   interpolation: the jungle at rest, the lowland water walk, and the body
-   while walking.
-2. **Round 13** (part-aware mid tier), brief above.
-3. **Vegetation's material-key count**, which is what sets the batch count:
+1. **Round 13** (part-aware mid tier), brief above.
+2. **Vegetation's material-key count**, which is what sets the batch count:
    measure how many keys share a texture and could merge into one batch
    (`Vegetation.tsx` batch key, `floraKit.ts` materials). This is the same
    mechanism the ground-cover merge used, applied to the other renderer.
-4. **The ~160 baseline calls** with both renderers off: terrain sub-tile LOD
+3. **The ~160 baseline calls** with both renderers off: terrain sub-tile LOD
    draws per chunk, the shadow cascades, sky, water. Count them by name
    before proposing anything.
-5. **Popping** of small plants at the 30 m card floor if the owner reports
+4. **Popping** of small plants at the 30 m card floor if the owner reports
    it (`lodDistances` floor and slope, floraKit.ts).
-6. The lane closes when the owner calls the jungle walk smooth at rest and
+5. The lane closes when the owner calls the jungle walk smooth at rest and
    while walking, with line 3 under budget; then the memory note, and
    `deliver 16h part 1` may start.
 
