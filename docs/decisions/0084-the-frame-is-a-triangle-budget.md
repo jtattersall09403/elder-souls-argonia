@@ -102,6 +102,53 @@ suspects by reading the code: BatchedMesh per-instance culling (off since
 0082), the PMREM re-bake (the clock does not run at `t=`), clouds (in the
 dome shader).
 
+## Round 11 addendum (2026-09-22): the frame is draw-call bound
+
+The owner's reading at the jungle site (`x=4.02 z=4.61`) was 22 fps with cpu
+25.3 ms, of which the `scene` stage was 14.1 ms, and 563 draw calls. The same
+place with `&veg=0&gc=0` was 60 fps, cpu 5.7 ms and 199 calls. The delta is
+364 calls and 19.6 ms of main thread, about 54 microseconds a call: the cost
+is submission — three.js state setting plus the browser's GPU process — not
+the triangles those calls carry. Vegetation submits 111 of them and ground
+cover about 250.
+
+The `gpu by pass` figures are not a measurement on this machine. ANGLE on
+Metal answers a timer query with wall time, so the line reported 23 ms per
+frame while the frame rate was 60. The HUD now says so rather than implying
+otherwise: on an Apple or Metal renderer string the line reads
+`gpu(wall, not work on Metal)` and the summary figure carries a `~`.
+
+Ground cover was building every tile twice. The tile cache was cleared
+whole whenever any of its inputs changed, and that dependency list
+(`Groundcover.tsx`, the effect at the file's end) held the chunk manifest and
+the four once-fetched inputs — the clearance patches, the region raster, the
+tint raster and the settlement exclusions — all of which arrive after the
+first tiles are already built. Each arrival wiped the lot. The chunk manifest
+never belonged there at all: a tile is cached only once its 9x9 heights
+resolved, and the terrain is frozen, so a chunk arriving cannot change a
+cached tile. The fix inverts the relationship. The once-fetched inputs (and
+the water depth proxy, which was not even listed) now gate GENERATION until
+each has settled, resolved or failed; a later change to one of them still
+clears the cache. The HUD's `gc:` line carries cumulative `built` and `wiped`
+counters so the double build cannot come back unseen. The mesh swap was
+reordered at the same time: the replacement instanced mesh is added to the
+scene before the outgrown one is removed and disposed, which was the frame
+that drew nothing and read as plants vanishing.
+
+The MID and FAR ground-cover tiers use the same card geometry and the same
+material, so they no longer get a mesh each. The slot is now
+`bucket * quadrants + quadrant` over two buckets, the near full mesh and the
+card, and the crossfade band is written per tile record rather than per mesh
+because one merged mesh holds records from both bands. The FAR thinning is
+unchanged: density is decided at candidate time, not by the mesh. Draw keys
+per species and part fall from `3 x 4` to `2 x 4`, a third fewer.
+
+`&gcquad=1|2|4` (default 4) sets how many meshes each species, bucket and
+part splits into: 4 is the quartering around the focus, 2 splits on the focus
+x axis, 1 draws one mesh. Fewer quadrants trade frustum culling for calls,
+and the owner's next reading decides it. Expected effect at the default:
+ground-cover draws down about a third, roughly 80 calls off the frame.
+
 ## Consequences
 
 - `FRAME_TRIANGLE_BUDGET` and the HUD budget line ship with this round; the

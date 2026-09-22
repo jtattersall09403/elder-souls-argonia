@@ -51,6 +51,11 @@ export interface FrameSegmentStats {
   gpuSumMax: number;
   /** False when the timer-query extension is missing (GPU rows read n/a). */
   gpuSupported: boolean;
+  /** True on Apple/Metal, where ANGLE reports WALL time for a timer query —
+   * the number is how long the frame took, not how much GPU work the pass
+   * did, so the HUD marks it rather than pretending it is a measurement
+   * (0084 round 11). */
+  gpuWallTimeOnly: boolean;
 }
 
 /** A 60-frame average / 120-frame maximum over per-frame per-label totals. */
@@ -103,6 +108,7 @@ class Window {
 export class FrameSegments {
   private ctx: WebGL2RenderingContext | null = null;
   private ext: TimerExt | null = null;
+  private wallTimeOnly = false;
   private open: PendingQuery | null = null;
   private pending: PendingQuery[] = [];
   /** Frame id of the segments being opened right now. */
@@ -130,6 +136,12 @@ export class FrameSegments {
         && raw instanceof WebGL2RenderingContext) {
         this.ctx = raw;
         this.ext = raw.getExtension("EXT_disjoint_timer_query_webgl2") as TimerExt | null;
+        const debug = raw.getExtension("WEBGL_debug_renderer_info") as
+          { UNMASKED_RENDERER_WEBGL: number } | null;
+        const name = String(
+          (debug ? raw.getParameter(debug.UNMASKED_RENDERER_WEBGL) : null)
+          ?? raw.getParameter(raw.RENDERER) ?? "");
+        this.wallTimeOnly = /apple|metal/i.test(name);
       }
     } catch { this.ctx = null; this.ext = null; }
     if (!this.ext) this.ctx = null;
@@ -250,6 +262,7 @@ export class FrameSegments {
       gpuSumAvg: totals.avg,
       gpuSumMax: totals.max,
       gpuSupported: this.gpuSupported,
+      gpuWallTimeOnly: this.wallTimeOnly,
     };
   }
 

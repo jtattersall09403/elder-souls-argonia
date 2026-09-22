@@ -51,7 +51,7 @@
  *     overlap margin (and so the collapsed near-mesh copies) small.
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
@@ -183,7 +183,14 @@ const BED_COVER_DEPTH_M = 4;
 const TIER_NEAR = 0;
 const TIER_MID = 1;
 const TIER_FAR = 2;
-const TIER_COUNT = 3;
+/** Draw buckets (0084 round 11). MID and FAR share one card geometry and one
+ * material, so they are filled into ONE instanced mesh per (plan, quadrant,
+ * part): the tier still decides the crossfade band (written per instance) and
+ * the FAR thinning still happens at candidate time, but the ring submits a
+ * third fewer draw calls. Bucket 0 is the NEAR full mesh, bucket 1 the card. */
+const BUCKET_NEAR = 0;
+const BUCKET_CARD = 1;
+const BUCKET_COUNT = 2;
 /** Crossfade half-widths, metres: (fade-in, fade-out) per tier. Wider the
  * further out, because the further band is the cheaper one to double up.
  * Ground cover fades between tiers (owner 2026-09-22, "restore the fade for
@@ -1041,6 +1048,12 @@ export interface GroundcoverPerf {
   fillInstances: number;
   tilesLive: number;
   tilesPending: number;
+  /** Cumulative since mount (0084 round 11): tiles GENERATED and whole-cache
+   * WIPES. After a load settles, `wiped` must stay at its start value and
+   * `built` must stop climbing while the player stands still — a tile built
+   * twice is the double-build defect returning. */
+  tilesBuilt: number;
+  cacheWipes: number;
   /** Triangles of the NEAR-tier (full-mesh) instances currently live:
    * instances x their mesh's triangles, summed at the last rebuild. The HUD's
    * `mesh <n>M` — what the per-species reach rule cut. */
@@ -1056,6 +1069,22 @@ export const GROUNDCOVER_ENABLED: boolean = (() => {
   if (!import.meta.env.DEV || typeof window === "undefined") return true;
   return new URLSearchParams(window.location.search).get("gc") !== "0";
 })();
+
+/**
+ * DEV measurement switch (`?gcquad=1|2|4`, default 4, decision 0084 round 11).
+ * How many meshes the ring splits each (species, bucket, part) into: 4 is the
+ * quartering around the focus, 2 splits on the focus x axis only, 1 draws one
+ * mesh. Fewer quadrants means fewer draw calls and looser frustum culling —
+ * the owner's reading decides which wins.
+ */
+export const GROUNDCOVER_QUADRANTS: number = (() => {
+  if (!import.meta.env.DEV || typeof window === "undefined") return 4;
+  const raw = new URLSearchParams(window.location.search).get("gcquad");
+  return raw === "1" ? 1 : raw === "2" ? 2 : 4;
+})();
+
+/** The once-fetched inputs a cached tile depends on (0084 round 11). */
+type InputKey = "patches" | "region" | "tint" | "water" | "exclusions";
 
 export function Groundcover({
   focusRef,
@@ -1089,6 +1118,20 @@ export function Groundcover({
   const [exclusions, setExclusions] = useState<Footprint[]>([]);
   const [foundationTreatments, setFoundationTreatments] = useState<FoundationTreatment[]>([]);
   const [clearanceIndex, setClearanceIndex] = useState<IndexedPatch[]>([]);
+  /** Which of the once-fetched tile inputs have SETTLED — resolved OR failed
+   * (0084 round 11). A tile generated before one of these lands would be
+   * wrong, and the old cure (clear the whole cache when it arrives) built
+   * every tile twice on load and emptied the meshes during the swap. The
+   * generator waits for them instead; a LATER change to one of them (the
+   * settlement layer being shown, say) still clears the cache. */
+  const [inputsSettled, setInputsSettled] = useState<Record<InputKey, boolean>>(
+    { patches: false, region: false, tint: false, water: false, exclusions: false });
+  const settleInput = useCallback((key: InputKey, error?: unknown) => {
+    if (error !== undefined) {
+      console.warn(`[groundcover] ${key} input unavailable; using its default`, error);
+    }
+    setInputsSettled((prev) => (prev[key] ? prev : { ...prev, [key]: true }));
+  }, []);
   const radii = useRef(new Map<string, number>());
   const water = useRef<WaterData | null>(null);
   const store = sharedChunkStore(baseUrl);
@@ -1123,7 +1166,11 @@ export function Groundcover({
     phaseExact: 0,
     fillMs: 0, fillMaxMs: 0,
     fillInstances: 0, tilesLive: 0, tilesPending: 0, nearMeshTriangles: 0,
+    tilesBuilt: 0, cacheWipes: 0,
   });
+  /** Cumulative counters behind `tilesBuilt`/`cacheWipes`. */
+  const builtTotal = useRef(0);
+  const wipes = useRef(0);
   /** Worst per-tile phase cost since the last window reset (DEV only). One
    * reused object: the generator writes maxima into it, never allocates. */
   const phaseMax = useRef({ grid: 0, mask: 0, cand: 0, compose: 0, exact: 0 });
@@ -1151,16 +1198,19 @@ export function Groundcover({
     fetch(`${baseUrl}province/vegetation-patches.json`)
       .then((r) => r.ok ? r.json() : Promise.reject(new Error("no patches")))
       .then((b) => { if (!cancelled) setClearanceIndex(indexPatches(b)); })
-      .catch(() => undefined);
+      .catch((e) => { if (!cancelled) settleInput("patches", e); })
+      .finally(() => { if (!cancelled) settleInput("patches"); });
     sharedControlRaster(baseUrl)
       .then((c) => { if (!cancelled) setControl(c); })
       .catch(() => undefined);
     sharedRegionRaster(baseUrl)
       .then((c) => { if (!cancelled) setRegionRaster(c); })
-      .catch(() => undefined);
+      .catch((e) => { if (!cancelled) settleInput("region", e); })
+      .finally(() => { if (!cancelled) settleInput("region"); });
     sharedTintRaster(baseUrl)
       .then((t) => { if (!cancelled) setTint(t); })
-      .catch(() => undefined);
+      .catch((e) => { if (!cancelled) settleInput("tint", e); })
+      .finally(() => { if (!cancelled) settleInput("tint"); });
     store.manifest()
       .then((m) => { if (!cancelled) setChunks(m); })
       .catch(() => undefined);
@@ -1174,7 +1224,8 @@ export function Groundcover({
           setRevision((r) => r + 1);
         }
       })
-      .catch(() => undefined);
+      .catch((e) => { if (!cancelled) settleInput("water", e); })
+      .finally(() => { if (!cancelled) settleInput("water"); });
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseUrl]);
@@ -1197,9 +1248,10 @@ export function Groundcover({
           setFoundationTreatments(treatments);
         }
       })
-      .catch(() => undefined);
+      .catch((e) => { if (!cancelled) settleInput("exclusions", e); })
+      .finally(() => { if (!cancelled) settleInput("exclusions"); });
     return () => { cancelled = true; };
-  }, [baseUrl, settlementsVisible]);
+  }, [baseUrl, settlementsVisible, settleInput]);
 
   useEffect(() => {
     if (manifest) setKit(buildFloraKit(gltf, manifest));
@@ -1333,6 +1385,8 @@ export function Groundcover({
       }
     }
     p.rebuildsPerSec = rebuildTimes.current.length;
+    p.tilesBuilt = builtTotal.current;
+    p.cacheWipes = wipes.current;
     if (import.meta.env.DEV) {
       const host = window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats };
       if (host.__STUDIO_GROUNDCOVER_DEBUG__) host.__STUDIO_GROUNDCOVER_DEBUG__.perf = p;
@@ -1412,16 +1466,19 @@ export function Groundcover({
       const level = nearMeshLevel(entry);
       return { parts: level.parts, reach: nearReachFraction(level.tris) };
     });
-    interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tx: number; tz: number; minY: number; maxY: number }[]; count: number }
+    const quadCount = GROUNDCOVER_QUADRANTS;
+    interface SlotTiles { tiles: { species: TileSpecies; far: boolean; tier: number; tx: number; tz: number; minY: number; maxY: number }[]; count: number }
     const slots: SlotTiles[][] = SPECIES_PLANS.map(
-      () => Array.from({ length: TIER_COUNT * 4 }, () => ({ tiles: [], count: 0 })));
+      () => Array.from({ length: BUCKET_COUNT * quadCount }, () => ({ tiles: [], count: 0 })));
     let total = 0;
     for (const entry of live) {
       const tile = cache.get(entry.key);
       if (!tile) continue;
       const centreX = (entry.tx + 0.5) * TILE_M;
       const centreZ = (entry.tz + 0.5) * TILE_M;
-      const quadrant = (centreX >= focus.x ? 1 : 0) + (centreZ >= focus.z ? 2 : 0);
+      const quadrant = GROUNDCOVER_QUADRANTS === 1 ? 0
+        : GROUNDCOVER_QUADRANTS === 2 ? (centreX >= focus.x ? 1 : 0)
+          : (centreX >= focus.x ? 1 : 0) + (centreZ >= focus.z ? 2 : 0);
       for (const plan of SPECIES_PLANS) {
         const species = tile.perSpecies[plan.index];
         if (species.count === 0) continue;
@@ -1435,13 +1492,17 @@ export function Groundcover({
         const inMid = entry.nearest <= speciesMidM + TIER_OVERLAP_M;
         const inFar = entry.nearest <= speciesFarM + TIER_OVERLAP_M;
         const bucket = slots[plan.index];
-        const record = { species, far: false, tx: entry.tx, tz: entry.tz, minY: tile.minY, maxY: tile.maxY };
-        if (inNear) { bucket[TIER_NEAR * 4 + quadrant].tiles.push(record); bucket[TIER_NEAR * 4 + quadrant].count += species.count; }
-        if (inMid) { bucket[TIER_MID * 4 + quadrant].tiles.push(record); bucket[TIER_MID * 4 + quadrant].count += species.count; }
+        const record = { species, far: false, tier: TIER_NEAR, tx: entry.tx, tz: entry.tz, minY: tile.minY, maxY: tile.maxY };
+        const nearSlot = BUCKET_NEAR * quadCount + quadrant;
+        const cardSlot = BUCKET_CARD * quadCount + quadrant;
+        if (inNear) { bucket[nearSlot].tiles.push(record); bucket[nearSlot].count += species.count; }
+        if (inMid) {
+          bucket[cardSlot].tiles.push({ ...record, tier: TIER_MID });
+          bucket[cardSlot].count += species.count;
+        }
         if (inFar) {
-          const farRecord = { ...record, far: true };
-          bucket[TIER_FAR * 4 + quadrant].tiles.push(farRecord);
-          bucket[TIER_FAR * 4 + quadrant].count += species.farCount;
+          bucket[cardSlot].tiles.push({ ...record, far: true, tier: TIER_FAR });
+          bucket[cardSlot].count += species.farCount;
         }
         // The budget counts PLANTS, not copies: a tile inside the mid band is
         // its whole list once (its extra tier copies are the overlap cost the
@@ -1479,14 +1540,13 @@ export function Groundcover({
         [speciesMidM, speciesFarM, TIER_BAND_M[2][0], TIER_BAND_M[2][1]],
       ];
       const speciesHeightM = plan.anyRule.heightM * (1 + plan.anyRule.heightVariance) * 1.5;
-      for (let tier = 0; tier < TIER_COUNT; tier++) {
-        if (tier === TIER_NEAR && !nearPlan) continue;
-        const parts = tier === TIER_NEAR
+      for (let bucket = 0; bucket < BUCKET_COUNT; bucket++) {
+        if (bucket === BUCKET_NEAR && !nearPlan) continue;
+        const parts = bucket === BUCKET_NEAR
           ? nearPlan!.parts
           : (card ? [card] : entry.levels[0].parts);
-        const band = tierBands[tier];
-        for (let quadrant = 0; quadrant < 4; quadrant++) {
-          const slot = tier * 4 + quadrant;
+        for (let quadrant = 0; quadrant < quadCount; quadrant++) {
+          const slot = bucket * quadCount + quadrant;
           const slotTiles = slots[plan.index][slot];
           if (slotTiles.count === 0) continue;
           // Count after the budget thin (a prefix per block).
@@ -1498,6 +1558,7 @@ export function Groundcover({
             const farN = Math.ceil(sp.farCount * densityScale);
             const restN = t.far ? 0 : Math.ceil((sp.count - sp.farCount) * densityScale);
             drawn += farN + restN;
+            byTier[t.tier] += farN + restN;
             if (t.tx * TILE_M < minX) minX = t.tx * TILE_M;
             if ((t.tx + 1) * TILE_M > maxX) maxX = (t.tx + 1) * TILE_M;
             if (t.tz * TILE_M < minZ) minZ = t.tz * TILE_M;
@@ -1507,7 +1568,6 @@ export function Groundcover({
           }
           if (drawn === 0) continue;
           instances += drawn;
-          byTier[tier] += drawn;
           for (let partIndex = 0; partIndex < parts.length; partIndex++) {
             const part = parts[partIndex];
             const meshKey = `${plan.index}|${slot}|${partIndex}`;
@@ -1516,18 +1576,21 @@ export function Groundcover({
             // Cards neither sway nor take the wind's per-instance tune: at a
             // card's distance the motion is sub-pixel, and it would fight the
             // billboard rotation that shares the same vertex seam.
-            if (tier === TIER_NEAR || !card) applyWindSway(part.material, wind);
+            if (bucket === BUCKET_NEAR || !card) applyWindSway(part.material, wind);
             // Order is load-bearing: the fade declares `esLodViewPos`, the
             // billboard reuses that declaration (see billboardQuad.ts).
             applyLodFade(part.material, lodFade);
-            if (tier !== TIER_NEAR && card) {
+            if (bucket !== BUCKET_NEAR && card) {
               applyCylindricalBillboard(part.material, lodFade);
             }
             let mesh = meshPool.current.get(meshKey);
             if (!mesh || mesh.instanceMatrix.count < drawn) {
               // Grow by 1.5x so a ring that keeps creeping up by a few
               // instances does not reallocate on every rebuild.
-              if (mesh) { group.remove(mesh); mesh.dispose(); }
+              // The OLD mesh is dropped after the new one is in the scene
+              // (below): removing it first left a frame drawing nothing,
+              // which is the "plants vanish" flicker (0084 round 11).
+              const previous = mesh ?? null;
               const capacity = Math.max(64, Math.ceil(drawn * 1.5));
               mesh = new THREE.InstancedMesh(geometry, part.material, capacity);
               // DEV triangle attribution bucket (HUD line 3).
@@ -1544,17 +1607,29 @@ export function Groundcover({
               // could do, for a shadow nobody reads on a blade of grass.
               mesh.castShadow = false;
               mesh.receiveShadow = false;
-              mesh.name = `groundcover-${plan.id}-t${tier}-q${quadrant}`;
+              mesh.name = `groundcover-${plan.id}-b${bucket}-q${quadrant}`;
               group.add(mesh);
               meshPool.current.set(meshKey, mesh);
+              if (previous) { group.remove(previous); previous.dispose(); }
             }
             const matrices = mesh.instanceMatrix.array as Float32Array;
             const colours = mesh.instanceColor!.array as Float32Array;
+            // The band is per TILE RECORD, not per mesh: the merged card mesh
+            // holds MID and FAR records, which cross different boundaries.
+            const bands = bandAttribute(geometry, drawn);
+            const bandArray = bands.array as Float32Array;
             let at = 0;
             for (const t of slotTiles.tiles) {
               const sp = t.species;
               const farN = Math.ceil(sp.farCount * densityScale);
               const restN = t.far ? 0 : Math.ceil((sp.count - sp.farCount) * densityScale);
+              const band = tierBands[t.tier];
+              for (let i = at; i < at + farN + restN; i++) {
+                bandArray[i * 4] = band[0];
+                bandArray[i * 4 + 1] = band[1];
+                bandArray[i * 4 + 2] = band[2];
+                bandArray[i * 4 + 3] = band[3];
+              }
               if (farN > 0) {
                 matrices.set(sp.matrices.subarray(0, farN * 16), at * 16);
                 colours.set(sp.colours.subarray(0, farN * 3), at * 3);
@@ -1565,17 +1640,6 @@ export function Groundcover({
                 colours.set(sp.colours.subarray(sp.farCount * 3, (sp.farCount + restN) * 3), at * 3);
                 at += restN;
               }
-            }
-            // One band per mesh — every instance in it crosses the same two
-            // boundaries — but the attribute is per instance because that is
-            // the channel the shared fade shader reads.
-            const bands = bandAttribute(geometry, drawn);
-            const bandArray = bands.array as Float32Array;
-            for (let i = 0; i < drawn; i++) {
-              bandArray[i * 4] = band[0];
-              bandArray[i * 4 + 1] = band[1];
-              bandArray[i * 4 + 2] = band[2];
-              bandArray[i * 4 + 3] = band[3];
             }
             bands.needsUpdate = true;
             mesh.count = drawn;
@@ -1591,7 +1655,7 @@ export function Groundcover({
             const partTris =
               (index ? index.count : part.geometry.attributes.position.count) / 3;
             triangles += partTris * drawn;
-            if (tier === TIER_NEAR) nearMeshTriangles += partTris * drawn;
+            if (bucket === BUCKET_NEAR) nearMeshTriangles += partTris * drawn;
           }
         }
       }
@@ -1705,7 +1769,15 @@ export function Groundcover({
   // Pure per tile (never reads the focus) so a tile is reusable wherever the
   // focus goes; ordered nearest-first per call so the near tier fills first.
   useEffect(() => {
-    if (!kit || !control || !chunks) { generateRef.current = null; return; }
+    // The inputs must have SETTLED before a tile is cached: otherwise the
+    // tile is built from defaults and has to be thrown away (0084 round 11).
+    const inputsReady = inputsSettled.patches && inputsSettled.region
+      && inputsSettled.tint && inputsSettled.water
+      && (!settlementsVisible || inputsSettled.exclusions);
+    if (!kit || !control || !chunks || !inputsReady) {
+      generateRef.current = null;
+      return;
+    }
     const tileHa = (TILE_M * TILE_M) / 10_000;
     const matrix = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();
@@ -2034,7 +2106,10 @@ export function Groundcover({
         genStats.current.tileMs = tileMs;
         if (tileMs > genStats.current.tileMaxMs) genStats.current.tileMaxMs = tileMs;
         generated++;
-        if (tile) tileCache.current.set(tileKey(w.tx, w.tz), tile);
+        if (tile) {
+          tileCache.current.set(tileKey(w.tx, w.tz), tile);
+          builtTotal.current++;
+        }
       }
       genStats.current.generated += generated;
       genStats.current.ms += performance.now() - t0;
@@ -2045,7 +2120,8 @@ export function Groundcover({
     genPending.current = true;
     return () => { generateRef.current = null; };
   }, [kit, control, chunks, exclusions, clearanceIndex, regionRaster, tint,
-      verticalScale, ringRadiusM, farRadiusM, store, focusRef]);
+      verticalScale, ringRadiusM, farRadiusM, store, focusRef,
+      inputsSettled, settlementsVisible]);
 
   // The pool outlives every rebuild, so it is dropped once, on unmount.
   useEffect(() => () => {
@@ -2056,14 +2132,18 @@ export function Groundcover({
     meshPool.current.clear();
   }, []);
 
-  // Anything the cached tiles were generated FROM invalidates them: a raster
-  // arriving late, a new patch list, a different vertical scale. Without this
-  // the first tiles placed before the region raster loaded would keep their
-  // unswapped species for as long as the player stayed near them.
+  // A real CHANGE to what the cached tiles were generated from invalidates
+  // them: a different control or region raster, a new patch list, the
+  // settlement layer shown, a different vertical scale or ring radius.
+  // The chunk manifest and the chunk store's decode revision are NOT here
+  // (0084 round 11): a tile is only cached once all its 9x9 heights resolved
+  // and the terrain is frozen, so a chunk arriving cannot change a cached
+  // tile — while listing it rebuilt every tile a second time after load.
   useEffect(() => {
     tileCache.current.clear();
+    wipes.current++;
     genPending.current = true;
-  }, [control, regionRaster, tint, chunks, exclusions, clearanceIndex,
+  }, [control, regionRaster, tint, exclusions, clearanceIndex,
       verticalScale, ringRadiusM]);
 
   return <group ref={root} name="groundcover" />;

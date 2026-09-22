@@ -213,7 +213,9 @@ is a local commit on `main`, none pushed.
   character mode (the default is `1,160`; `&csm=2,300` is what round 7 ran);
   `&water=0` does not mount the water pipeline or surface (no render-to-target,
   blit, water, precipitation or overlay pass); `&pmrem=0` bakes the sky IBL
-  once at mount and never re-bakes it.
+  once at mount and never re-bakes it; `&gcquad=1|2|4` (default 4) sets
+  how many meshes each ground-cover species, bucket and part is split into
+  (4 quarters around the focus, 2 halves on the focus x axis, 1 undivided).
 - **HUD line 1** `veg: <fps> fps · gpu <avg>/<max> ms · gate <ms>/<max> ·
   flip <ms>/<max> (<copies>) · pending <batches> · queue <ms>/<max> <job> ·
   draws <n>`: fps is the real frame rate; `gpu` is GPU time per frame (rest
@@ -257,48 +259,44 @@ is a local commit on `main`, none pushed.
 | Reading of ee8ec5cd: tris 5.5 M (near 2.5 M, mid 0, far 0, card 0.1 M; shadow 0.1 M), gpu 21.8 ms; owner: some ground cover was a grey flat card up close | the shadow rule picked the card for alpha-tested trees (no caster); the ground-cover card-only case; the 24 m mesh floor and 1.25 dpr | caster = highest non-card level <= 1; no card-only species, reach floor 0.25 (d30d1e11); mesh floor 18 m; default dpr native (this commit) |
 | Reading of 07cfc504: rest 22 fps, gpu 22.2 ms, tris 8.6 M = veg 2.6 + 2.5 shadow, terrain 0.9 + 0.4, ground cover 1.4, other 0.9; `&veg=0&gc=0` base 11.9 ms at 2.3 M; walking `tile` 31 ms max; ground cover faded between tiers and read low quality close up | the tier and rung dissolves read as smearing; two hero ground-cover meshes carried most of the ring's triangles; the per-candidate footprint and patch tests were O(candidates x shapes) a tile; two cascades re-drew 2.5 M caster triangles | hard steps at every rung and tier edge, dissolve only at the vanish (1457cdca); `floraspikygrass02` and `swordferncluster01` replaced by drjacopo grasses at 360 and 336 triangles (8c85a4bd); per-tile cell mask plus typed-array placements (3f96fd89); one cascade over 160 m with `&csm=<n>,<far>` (c507b467) |
 
-### State at hand-off (2026-09-22, after rounds 9, 9b and the round-10 instrument)
+### State at hand-off (2026-09-22, after round 11)
 
-**What the owner's readings after round 9 showed** (jungle, at rest):
-tris 3.0 M (from 6.4 M), veg 0.9 + 0.4 shadow, terrain 0.3 + 0.0, gc 0.9,
-other 0.5, hidden 48c/1303s; yet gpu 18.6 ms, **cpu 18.7 ms**, 25 fps.
-Mountains: tris 1.9 M, gpu 12.3, cpu 19.3, 52 fps. `&veg=0&gc=0`: gpu 11-12.
-So two costs are FIXED and independent of triangles, resolution and site:
-~19 ms CPU per frame and ~12 ms GPU per frame. Decision 0084's triangle
-budget explained the vegetation share only; it is not the base. Cleared as
-suspects (read from the code): BatchedMesh per-instance culling (already
-off), the PMREM re-bake (the clock does not run at `t=`), clouds (in the
-dome shader). Still open: the water pipeline's seven passes (whole-screen
-water and blit run at dry sites; ripple up to 4 passes at 256 sq; foam one
-pass; waterfall mist ray-marches 20 steps for all cascades, frustumCulled
-false), the CSM update, the character/physics hook, three.js submission of
-~540 draw calls through ANGLE/Metal, and the DEV draw wrapper.
+**What the owner's reading showed.** The jungle at rest ran 22 fps with cpu
+25.3 ms, `scene` 14.1 ms of it, and 563 draw calls; with `&veg=0&gc=0` the
+same spot ran 60 fps, cpu 5.7 ms, 199 calls. The frame is bound by draw-call
+SUBMISSION, not by triangles: 364 calls cost 19.6 ms of main thread, about
+54 microseconds each. Vegetation submits 111, ground cover about 250. The
+`gpu by pass` line was never a measurement here — ANGLE on Metal answers a
+timer query with wall time (23 ms reported at 60 fps) — and the HUD now
+marks it as such rather than inviting the wrong conclusion.
 
-**Round 10 instrument** (this commit, not yet read by the owner): HUD line 4
-`gpu by pass: pre · sky · shadow · scene · blit · water · precip · overlay ·
-ripple · foam · post` and line 5 `cpu by stage: pre · veg · gc · sky · char ·
-... · post`, 60-frame averages, one `(max)`; `&water=0` (no pipeline, the
-closing hook renders the scene) and `&pmrem=0` (bake once). Line 1's `gpu`
-is now the sum of the segments.
+**Round 11 (this commit).** Ground-cover tiles are built once: the
+once-fetched inputs gate generation until they settle instead of wiping the
+whole tile cache when they land, and the chunk manifest is no longer an
+invalidation trigger at all (the terrain is frozen and a tile is cached only
+once its heights resolved). That double build, plus a mesh swap that removed
+the old instanced mesh before adding the new, was the "plants vanish after
+load" symptom; the swap is now add-then-drop. The MID and FAR card tiers
+share one instanced mesh per species, quadrant and part, cutting ground-cover
+draw keys by a third with no visual change. `&gcquad` is the measurement
+switch for the quartering. Details in decision 0084, round 11 addendum.
 
 **Next agent, in order:**
 
-1. **Read the owner's five HUD lines** at the jungle at rest, then with
-   `&water=0`, then `&veg=0&gc=0`. The largest GPU segment and the largest
-   CPU stage are the targets; design one fix per mechanism and measure by
-   the same lines. If `cpu` stays ~19 ms with `&veg=0&gc=0&water=0`, the
-   remaining stages are sky/char/pre/post: look at `csm.update()` every
-   frame, the 1 s `scene.traverse` patch, and the DEV draw wrapper
-   (`CharacterMode.tsx` `renderBufferDirect` wrap: reads
-   `info.render.triangles` per draw), and Rapier stepping.
-2. **Ground cover not deterministic**: after load, tiles rebuild once and
-   plants near the player (0-2 m) vanish. Find why a tile's second build
-   differs from its first (`Groundcover.tsx` tile generation,
-   `vegetationPatches.ts` `keepForExtent` probabilistic keep: is the RNG
-   seeded per tile?). Standard: determinism in world building.
-3. **Popping** of small plants at the 30 m card floor if the owner reports
+1. **Owner reading with `&gcquad=4`, then `2`, then `1`** at the jungle at
+   rest: calls, cpu, `scene` and fps for each. Fewer quadrants means fewer
+   calls and looser frustum culling; the reading decides which the ring keeps.
+   Also confirm `wiped` stays put and `built` stops climbing once loaded.
+2. **Vegetation's 111 BatchedMesh draws**, which are one per material key:
+   measure how many keys share a texture and could merge into one batch
+   (`Vegetation.tsx` batch key, `floraKit.ts` materials). This is the same
+   mechanism the ground-cover merge just used, applied to the other renderer.
+3. **The ~199 baseline calls** with both renderers off: terrain sub-tile LOD
+   draws per chunk, the shadow cascades, sky, water. Count them by name
+   before proposing anything.
+4. **Popping** of small plants at the 30 m card floor if the owner reports
    it (`lodDistances` floor and slope, floraKit.ts).
-4. The lane closes when the owner calls the jungle walk smooth at rest and
+5. The lane closes when the owner calls the jungle walk smooth at rest and
    while walking, with line 3 under budget; then the memory note, and
    `deliver 16h part 1` may start.
 

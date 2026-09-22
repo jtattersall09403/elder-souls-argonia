@@ -750,9 +750,10 @@ function FrameSegmentLines({ segments }: { segments: FrameSegments }) {
   return (
     <>
       <span style={{ display: "block", opacity: 0.75 }}>
-        {`gpu by pass: ${stats.gpuSupported
-          ? segmentText(stats.gpu, GPU_SEGMENT_ORDER) || "—"
-          : "n/a"}`}
+        {`${stats.gpuWallTimeOnly ? "gpu(wall, not work on Metal)" : "gpu by pass"}: ${
+          stats.gpuSupported
+            ? segmentText(stats.gpu, GPU_SEGMENT_ORDER) || "—"
+            : "n/a"}`}
       </span>
       <span style={{ display: "block", opacity: 0.75 }}>
         {`cpu by stage: ${segmentText(stats.cpu, CPU_SEGMENT_ORDER) || "—"}`}
@@ -776,6 +777,8 @@ interface FrameGpuStats {
   avg: number;
   max: number;
   supported: boolean;
+  /** True where the GPU timer reports wall time, not work (Apple/Metal). */
+  wall?: boolean;
   /** Triangles and draw calls the WHOLE frame issued, averaged over the same
    * 60-frame window as `avg` (every pass, see the manual `info.reset`). */
   tris: number;
@@ -949,6 +952,9 @@ function FrameRateProbe({ ownsRender }: { ownsRender: boolean }) {
       avg: Math.round((seg?.gpuSumAvg ?? 0) * 10) / 10,
       max: Math.round((seg?.gpuSumMax ?? 0) * 10) / 10,
       supported: Boolean(seg?.gpuSupported),
+      // Marked, not corrected: on Apple/Metal the timer query reports wall
+      // time, so the figure is an upper bound, not the pass's work (0084 r11).
+      wall: Boolean(seg?.gpuWallTimeOnly),
       tris: mean(g.triSamples),
       calls: Math.round(mean(g.callSamples)),
       cpu: Math.round(mean(g.cpuSamples) * 10) / 10,
@@ -1021,7 +1027,7 @@ function VegetationHudLine() {
   if (!sample) return null;
   const { veg, fps, gpu } = sample;
   const gpuText = gpu
-    ? `${gpu.supported ? `gpu ${gpu.avg}/${gpu.max} ms` : "gpu n/a"}`
+    ? `${gpu.supported ? `gpu ${gpu.wall ? "~" : ""}${gpu.avg}/${gpu.max} ms` : "gpu n/a"}`
       + ` · cpu ${gpu.cpu}/${gpu.cpuMax} ms · calls ${gpu.calls}`
     : "gpu n/a";
   if (!VEGETATION_ENABLED || !veg) {
@@ -1067,6 +1073,7 @@ function GroundcoverHudLine() {
         + ` · compose ${gc.phaseComposeMaxMs.toFixed(1)}`}
       {` · fill ${gc.fillMs}/${gc.fillMaxMs} ms (${gc.fillInstances})`}
       {` · tiles ${gc.tilesLive}/${gc.tilesPending}`}
+      {` · built ${gc.tilesBuilt} wiped ${gc.cacheWipes}`}
       {` · mesh ${(gc.nearMeshTriangles / 1e6).toFixed(2)}M`}
     </span>
   );
