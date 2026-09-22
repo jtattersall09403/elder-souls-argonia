@@ -264,8 +264,8 @@ is a local commit on `main`, none pushed.
 
 ### State at hand-off (2026-09-22, after round 12)
 
-Round 12 is delivered; the owner's reading is pending. What follows is the
-round-11 state it builds on.
+Round 12 is accepted by the owner: 57 fps at rest in the jungle (was 22).
+What follows is the round-11 state it builds on.
 
 **What the owner's reading showed.** The jungle at rest ran 22 fps with cpu
 25.3 ms, `scene` 14.1 ms of it, and 563 draw calls; with `&veg=0&gc=0` the
@@ -312,22 +312,35 @@ three readings: 480 → 436 → 404 calls with the frame rate flat at 23–24).
 The readings, the numbers and the shader change are in
 [0084 § Round 12 addendum](../../decisions/0084-the-frame-is-a-triangle-budget.md).
 
+Round 12 accepted by the owner 2026-09-22: 57 fps at rest (was 22), plants
+and ground cover visually unchanged. Details and readings in
+[0084 § Owner reading after round 12](../../decisions/0084-the-frame-is-a-triangle-budget.md).
+
 **Next agent, in order:**
 
-1. **The owner's reading after round 12** at the jungle at rest: the five HUD
-   lines, plus `&veg=0` and `&gc=0` alone. Expected: vegetation draws in the
-   low hundreds instead of 111 multi-draw calls, and the ~20 ms of `scene`
-   CPU gone. Also confirm `built` stops climbing once loaded.
-2. **Vegetation's material-key count**, which is what sets the batch count:
+1. **The walking dip in water.** With water on, `scene` CPU is 11.0 ms
+   against 4.2 ms with water and ground cover off. Measure which of the
+   water pipeline's scene-layer renders (water surface, precip, overlay
+   passes each re-traverse the scene) and ground cover's water-depth work
+   cost it, in lowland water at `body.2311-2468` (45 fps, dips to ~34 fps at
+   worst).
+2. **The character body stutters slightly while walking although the world
+   is smooth** (owner 2026-09-22): a frame-pacing symptom on the character
+   only, likely the controller's fixed-step position or the animation
+   mixer's delta not interpolated to the render frame. This belongs to the
+   character/controller code (`PlayerMovementController` / `EcctrlAdapter`);
+   check first whether the body position is written from a fixed physics
+   step without render-frame interpolation.
+3. **Vegetation's material-key count**, which is what sets the batch count:
    measure how many keys share a texture and could merge into one batch
    (`Vegetation.tsx` batch key, `floraKit.ts` materials). This is the same
    mechanism the ground-cover merge used, applied to the other renderer.
-3. **The ~199 baseline calls** with both renderers off: terrain sub-tile LOD
+4. **The ~160 baseline calls** with both renderers off: terrain sub-tile LOD
    draws per chunk, the shadow cascades, sky, water. Count them by name
    before proposing anything.
-4. **Popping** of small plants at the 30 m card floor if the owner reports
+5. **Popping** of small plants at the 30 m card floor if the owner reports
    it (`lodDistances` floor and slope, floraKit.ts).
-5. The lane closes when the owner calls the jungle walk smooth at rest and
+6. The lane closes when the owner calls the jungle walk smooth at rest and
    while walking, with line 3 under budget; then the memory note, and
    `deliver 16h part 1` may start.
 

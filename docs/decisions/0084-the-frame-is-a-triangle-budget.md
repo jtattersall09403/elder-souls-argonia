@@ -269,6 +269,29 @@ The HUD's vegetation line now prints `draws N (ranges M)`, where the ranges
 figure is the sum of the visible counts — exactly what the old path submitted
 as multi-draw ranges, kept so the next reading can be compared with this one.
 
+### Owner reading after round 12 (2026-09-22)
+
+At rest in the jungle the owner read 57 fps (was 22), cpu 16.3 ms, 508 calls,
+`draws 229 (ranges 68683)`. Walking into lowland water (`body.2311-2468`,
+0.4 m deep) dipped to 45 fps, calls 549, draws 258, cpu 20.3 ms, and to about
+34 fps at worst. Isolation readings: vegetation off gave 60 fps and cpu
+7.1 ms; vegetation on with water and ground cover off gave 61 fps, cpu
+6.7 ms, `scene` 4.2 ms; everything off gave 60 fps, cpu 3.7 ms, 160 calls.
+
+```
+at rest, everything on
+veg: 57 fps · gpu ~26.7/72.1 ms · cpu 16.3/30.1 ms · calls 508 · gate 0/0.1 ms · flip 0/0 ms (0) · pending 0 · queue 0/0.1 ms - · draws 229 (ranges 68683)
+gc: rebuilds 0/s · gen 0/0 ms · tile 0.4/0 ms · phases grid 0.2 · mask 0.2 · cand 43.8 (686 exact) · compose 1.4 · fill 7/0 ms (61216) · tiles 350/0 · built 350 staled 0 retiled 0 · mesh 0.79M
+tris 3.0M / budget 4.0M: veg 0.9M+0.4M (near 0.7M · mid 0.0M · far 0.0M · card 0.1M) · terrain 0.3M+0.0M · gc 0.9M+0.0M · other 0.5M+0.0M · hidden 48c/403s
+cpu by stage: pre 0.1 · veg 0.4 · gc 0.2 · sky 0.2 · char 0.6 · ripple 1.7 · foam 0.0 · shadow 1.1 · scene 11.0 (max 15.6) · blit 0.0 · water 0.4 · precip 0.3 · overlay 0.2 · post 0.0
+lowland water, walking: veg: 45 fps · cpu 20.3/34.1 ms · calls 549 · draws 258 (ranges 78099); gc built 1060 (moving, expected)
+```
+
+The owner judged the plants and ground cover visually unchanged and "great".
+The remaining cost with everything on is ~9 ms of CPU `scene` above the
+veg-only figure (11.0 vs 4.2), i.e. water's extra scene-layer passes plus
+ground cover interacting with the water pipeline — the next target.
+
 ## Consequences
 
 - `FRAME_TRIANGLE_BUDGET` and the HUD budget line ship with this round; the
