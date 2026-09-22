@@ -160,6 +160,10 @@ turn-wasters left. The owner ruled the same day:
     working. Target: the 18% of carried planner context that reports had
     become once shell output was gone.
 
+14. **The session itself is a cost.** When continuing costs more than a
+    fresh start, a `Stop` hook says so and gives the break-even in turns
+    (decision 0083).
+
 ## Not done here
 
 `rtk init -g` and the two config edits touch the owner's own Claude Code

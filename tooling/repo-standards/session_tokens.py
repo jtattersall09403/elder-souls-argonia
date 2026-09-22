@@ -14,7 +14,7 @@ Numbers:
   cached/new/out   billed input classes of the PLANNER session (M tokens); cost ≈ turns × length,
                    so cached dominates and is the number to watch
   sub(model)       the subagents' own tokens, by model, from <session>/subagents/*.jsonl
-  cost units       a relative weight: cached×0.1 + new×1.25 + uncached×1 + output×5 (Anthropic's
+  cost units       a relative weight: cached×0.1 + new×2 + uncached×1 + output×5 (Anthropic's
                    published price ratios), summed over planner + subagents; compare windows, not currencies
   planner shell    Bash calls typed by the planner; explore = look-around commands; sleeps; guard = hook refusals
   context sources  share of what the planner carried (each result × the turns after it); images at a
@@ -28,7 +28,9 @@ PROJ = os.path.expanduser(
 import re
 EXPLORE = re.compile(r"(^|[;&|]\s*)(rtk\s+)?(cat|head|tail|sed\s+-n|grep|rg|ls|find|tree|wc|"
                      r"git\s+(log|status|diff|show|grep)|python3?\s+-\s*<<|python3?\s+-c|jq|stat|du|file)\b")
-WEIGHT = {"cache_read": 0.1, "cache_create": 1.25, "input": 1.0, "output": 5.0}
+# 1-hour cache TTL on this machine writes at 2x base (was 1.25, the 5-minute rate;
+# owner-side cost model, 2026-09-22)
+WEIGHT = {"cache_read": 0.1, "cache_create": 2.0, "input": 1.0, "output": 5.0}
 BASELINE = {"cached": 111, "turns": 280, "shell": 68}  # per-session averages, 25 sessions before 0079 (2026-09-19)
 
 
