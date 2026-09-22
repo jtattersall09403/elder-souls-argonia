@@ -7,6 +7,23 @@ import {
   MIN_MESH_LOD_REACH_M,
   SUBMERGED_LOD_SCALE,
 } from "./floraKit";
+import { lodLadder } from "@elder-souls/game-core/fx/lodFade";
+
+describe("lodDistances (folded chain)", () => {
+  it("gives a folded species one reach at clamp(height x 5, 30, 140)", () => {
+    // Round 9: an alpha-tested plant's mesh chain is one geometry, so the
+    // extra rings charged full-mesh triangles to 260 m for nothing. One reach,
+    // then the card (decision 0084; Skyrim's ~140 m loaded grid).
+    expect(lodDistances(0.9, true)).toEqual([30, 30, 30]);
+    expect(lodDistances(9.2, true)).toEqual([46, 46, 46]);
+    expect(lodDistances(28.5, true)).toEqual([140, 140, 140]);
+    // The ladder folds the three identical levels into one mesh rung.
+    expect(lodLadder(lodDistances(9.2, true), 1, 1, 400)).toEqual([
+      { level: 0, lo: 0, hi: 46 },
+      { level: 1, lo: 46, hi: 400 },
+    ]);
+  });
+});
 
 describe("lodRings", () => {
   it("keeps the ladder ordered and the mesh reach at its floor at every quality scale", () => {

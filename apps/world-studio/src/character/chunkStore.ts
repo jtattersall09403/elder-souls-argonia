@@ -10,30 +10,62 @@ export function sharedChunkStore(baseUrl: string): ChunkStore {
   return shared;
 }
 
-/** Terrain LOD ladder: the band a chunk is drawn at, by the distance from the
- * camera to the chunk rectangle's NEAREST EDGE (0 inside it), not by its ring
- * index. Chunks are 467.9 m, so the old Chebyshev rings drew LOD 1 out to
- * ~700 m in every direction; these thresholds are metres.
+/** Terrain LOD ladder: the band a rectangle of ground is drawn at, by the
+ * distance from the camera to its NEAREST EDGE (0 inside it), not by a ring
+ * index. Chunks are 467.9 m; these thresholds are metres.
  *
- * A chunk steps UP in detail the moment it is inside a band, and steps DOWN
- * only once it is `LOD_HYSTERESIS` beyond it, so a camera sitting on a
- * boundary cannot flip a chunk back and forth every frame. */
+ * The two fine bands are much shorter than the chunk they used to be chosen
+ * at: inside 400 m a chunk is not drawn whole but as a 4×4 grid of 117 m
+ * sub-tiles, each taking LOD 1 or LOD 2 from its OWN edge distance
+ * (`SUB_TILE_DIVISIONS`, `subGrid`). Choosing full 1.8 m detail per 468 m
+ * chunk meant a whole chunk's 131 k triangles for a corner of it inside the
+ * band. Skyrim draws its full 1.8 m ground only inside the 285 m loaded
+ * square and 7 m beyond it; this ladder is the same shape.
+ *
+ * A rectangle steps UP in detail the moment it is inside a band, and steps
+ * DOWN only once it is `LOD_HYSTERESIS` beyond it, so a camera sitting on a
+ * boundary cannot flip it back and forth every frame. */
 export const LOD_BANDS: { lod: string; maxM: number }[] = [
   { lod: "1", maxM: 150 },
-  { lod: "2", maxM: 900 },
-  { lod: "4", maxM: 2800 },
+  { lod: "2", maxM: 400 },
+  { lod: "4", maxM: 1400 },
   { lod: "8", maxM: Infinity },
 ];
 export const LOD_HYSTERESIS = 1.15;
 /** The camera must move this far before the whole ladder is re-evaluated. */
 export const LOD_REEVALUATE_M = 8;
+/** A chunk inside the fine bands is drawn as this many sub-tiles per side. */
+export const SUB_TILE_DIVISIONS = 4;
+/** The LODs a sub-tile may take; a chunk coarser than these is drawn whole. */
+export const SUB_TILE_LODS = ["1", "2"];
+
+/** Distance in metres from (camX, camZ) to an axis-aligned ground rectangle. */
+export function nearestEdgeToRectM(
+  camX: number, camZ: number, minX: number, minZ: number, sizeX: number, sizeZ: number,
+): number {
+  const dx = Math.max(minX - camX, 0, camX - (minX + sizeX));
+  const dz = Math.max(minZ - camZ, 0, camZ - (minZ + sizeZ));
+  return Math.hypot(dx, dz);
+}
 
 /** Distance in metres from (camX, camZ) to the chunk cell's rectangle. */
 export function nearestEdgeM(camX: number, camZ: number, cx: number, cy: number, chunkMetres: number): number {
-  const minX = cx * chunkMetres, minZ = cy * chunkMetres;
-  const dx = Math.max(minX - camX, 0, camX - (minX + chunkMetres));
-  const dz = Math.max(minZ - camZ, 0, camZ - (minZ + chunkMetres));
-  return Math.hypot(dx, dz);
+  return nearestEdgeToRectM(camX, camZ, cx * chunkMetres, cy * chunkMetres, chunkMetres, chunkMetres);
+}
+
+/** The band for an edge distance, with the same hysteresis for a chunk and for
+ * a sub-tile: `allowed`, when given, is the subset of LODs this rectangle may
+ * take (a sub-tile is only ever LOD 1 or 2). */
+export function lodForEdgeDistance(d: number, current?: string, allowed?: string[]): string {
+  const bands = allowed ? LOD_BANDS.filter((b) => allowed.includes(b.lod)) : LOD_BANDS;
+  let fine = bands.length - 1;
+  for (let i = 0; i < bands.length; i++) if (d < bands[i].maxM) { fine = i; break; }
+  const ci = current === undefined ? -1 : bands.findIndex((b) => b.lod === current);
+  if (ci < 0) return bands[fine].lod;
+  if (fine < ci) return bands[fine].lod;          // upgrade immediately
+  let coarse = bands.length - 1;
+  for (let i = 0; i < bands.length; i++) if (d < bands[i].maxM * LOD_HYSTERESIS) { coarse = i; break; }
+  return bands[Math.max(ci, coarse)].lod;          // downgrade only past the margin
 }
 
 /** The LOD for a chunk cell, given the camera position and (for hysteresis)
@@ -41,15 +73,31 @@ export function nearestEdgeM(camX: number, camZ: number, cx: number, cy: number,
 export function lodForDistance(
   camX: number, camZ: number, cx: number, cy: number, chunkMetres: number, current?: string,
 ): string {
-  const d = nearestEdgeM(camX, camZ, cx, cy, chunkMetres);
-  let fine = LOD_BANDS.length - 1;
-  for (let i = 0; i < LOD_BANDS.length; i++) if (d < LOD_BANDS[i].maxM) { fine = i; break; }
-  const ci = current === undefined ? -1 : LOD_BANDS.findIndex((b) => b.lod === current);
-  if (ci < 0) return LOD_BANDS[fine].lod;
-  if (fine < ci) return LOD_BANDS[fine].lod;          // upgrade immediately
-  let coarse = LOD_BANDS.length - 1;
-  for (let i = 0; i < LOD_BANDS.length; i++) if (d < LOD_BANDS[i].maxM * LOD_HYSTERESIS) { coarse = i; break; }
-  return LOD_BANDS[Math.max(ci, coarse)].lod;          // downgrade only past the margin
+  return lodForEdgeDistance(nearestEdgeM(camX, camZ, cx, cy, chunkMetres), current);
+}
+
+/** True when a chunk at this LOD is drawn as sub-tiles rather than whole. */
+export function drawsAsSubTiles(lod: string): boolean {
+  return SUB_TILE_LODS.includes(lod);
+}
+
+/** The NW corner and side of sub-tile `(ix, iz)` of a chunk cell, in metres. */
+export function subTileRectM(
+  cx: number, cy: number, ix: number, iz: number, chunkMetres: number,
+): [number, number, number] {
+  const side = chunkMetres / SUB_TILE_DIVISIONS;
+  return [cx * chunkMetres + ix * side, cy * chunkMetres + iz * side, side];
+}
+
+/** The LOD for one sub-tile, by its own edge distance, on the same ladder and
+ * the same hysteresis as a whole chunk. */
+export function lodForSubTile(
+  camX: number, camZ: number, cx: number, cy: number, ix: number, iz: number,
+  chunkMetres: number, current?: string,
+): string {
+  const [minX, minZ, side] = subTileRectM(cx, cy, ix, iz, chunkMetres);
+  return lodForEdgeDistance(
+    nearestEdgeToRectM(camX, camZ, minX, minZ, side, side), current, SUB_TILE_LODS);
 }
 
 /** Start every chunk's tile download the moment the manifest is known,

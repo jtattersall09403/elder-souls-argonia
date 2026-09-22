@@ -734,8 +734,11 @@ export function WorldSky({
     // re-draws every caster in its slice, and at rest the jungle hands the
     // shadow pass 2.5 M caster triangles — so the second cascade was a second
     // pass over most of them for shadows past the distance anyone reads. One
-    // 2048 px map over 160 m is ~8 cm a texel, crisper than the two it
-    // replaces. The flyover keeps 3 for mountain-scale reach.
+    // 2048 px map over 120 m is ~6 cm a texel, crisper than the two it
+    // replaces. The flyover keeps 3 for mountain-scale reach. Round 9: the
+    // reach is 120 m, not 160 — the casters are full meshes and the cascade
+    // frustum is what bounds them, and Skyrim's exterior shadow distance is
+    // ~114 m (decision 0084).
     // ?csm=<cascades>,<maxFar> overrides both in character mode, so the two
     // arrangements can be compared on the same spot (?csm=2,300).
     const csmParam = (params.get("csm") ?? "").split(",").map(Number);
@@ -747,7 +750,7 @@ export function WorldSky({
       parent: scene,
       cascades: mode === "character" ? (csmCascades ?? 1) : 3,
       shadowMapSize: smsize,
-      maxFar: mode === "character" ? (csmFar ?? 160) : 6000,
+      maxFar: mode === "character" ? (csmFar ?? 120) : 6000,
       mode: "practical",
       // Small depth bias + normal-offset bias: the old large depth bias
       // pushed shadows off their casters (~0.5 m "hovering character" gap,

@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { decodeHeightPng } from "./chunkStore";
 import { terrainGridIndices } from "./gridGeometry";
 import { apronSkipQuad, maskBounds, paintFrameExtent, type ApronTile } from "./apronManifest";
-import { buildApronTileGeometry } from "./BorderApron";
+import { APRON_SECTORS, buildApronTileGeometry, buildApronTileSectors } from "./BorderApron";
 
 const tile = (mask: number[] | undefined, shape: [number, number] = [9, 9]): ApronTile => ({
   id: "ring1", file: "ring1-height.png", originM: [-100, -100], shape,
@@ -84,5 +84,62 @@ describe("decodeHeightPng", () => {
     await expect(decodeHeightPng(new Blob(), {
       file: "t.png", shape: [2, 3], metresPerSample: 10, minM: 0, maxM: 1,
     })).rejects.toThrow(/unexpected raster dimensions/);
+  });
+});
+
+describe("the apron ring's frustum sectors", () => {
+  const t = tile([2, 7], [17, 17]);
+  const heights = new Float32Array(t.shape[0] * t.shape[1]);
+  for (let i = 0; i < heights.length; i++) heights[i] = (i % 17) * 2;
+
+  it("draws every quad the single mesh drew, once, across its sectors", () => {
+    const whole = buildApronTileGeometry(t, heights, 1, [-100, -100], 1000);
+    const sectors = buildApronTileSectors(t, heights, 1, [-100, -100], 1000);
+    const total = sectors.reduce((n, s) => n + s.getIndex()!.count, 0);
+    expect(total).toBe(whole.getIndex()!.count);
+    const seen = new Set<string>();
+    for (const sector of sectors) {
+      const index = sector.getIndex()!;
+      for (let i = 0; i < index.count; i += 3) {
+        const key = `${index.getX(i)},${index.getX(i + 1)},${index.getX(i + 2)}`;
+        expect(seen.has(key)).toBe(false);
+        seen.add(key);
+      }
+    }
+    whole.dispose();
+    for (const sector of sectors) sector.dispose();
+  });
+
+  it("gives each sector its own bounding sphere, not the whole ring's", () => {
+    const sectors = buildApronTileSectors(t, heights, 1, [-100, -100], 1000);
+    expect(sectors.length).toBeGreaterThan(1);
+    expect(sectors.length).toBeLessThanOrEqual(APRON_SECTORS * APRON_SECTORS);
+    const whole = buildApronTileGeometry(t, heights, 1, [-100, -100], 1000);
+    whole.computeBoundingSphere();
+    for (const sector of sectors) {
+      expect(sector.boundingSphere!.radius).toBeLessThan(whole.boundingSphere!.radius);
+      // the sphere must actually contain the sector's own vertices
+      const index = sector.getIndex()!;
+      const position = sector.getAttribute("position");
+      for (let i = 0; i < index.count; i++) {
+        const v = index.getX(i);
+        const d = Math.hypot(
+          position.getX(v) - sector.boundingSphere!.center.x,
+          position.getY(v) - sector.boundingSphere!.center.y,
+          position.getZ(v) - sector.boundingSphere!.center.z);
+        expect(d).toBeLessThanOrEqual(sector.boundingSphere!.radius + 1e-4);
+      }
+    }
+    whole.dispose();
+    for (const sector of sectors) sector.dispose();
+  });
+
+  it("shares one position and uv buffer across the sectors", () => {
+    const sectors = buildApronTileSectors(t, heights, 1, [-100, -100], 1000);
+    for (const sector of sectors) {
+      expect(sector.getAttribute("position")).toBe(sectors[0].getAttribute("position"));
+      expect(sector.getAttribute("uv")).toBe(sectors[0].getAttribute("uv"));
+    }
+    for (const sector of sectors) sector.dispose();
   });
 });

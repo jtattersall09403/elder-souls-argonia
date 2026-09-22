@@ -32,6 +32,11 @@ export interface KitSpecies {
   readonly billboardIndex: number | null;
   /** Source-space height in metres at scale 1, for LOD distance choice. */
   readonly heightM: number;
+  /** True where the mesh chain FOLDED to a single level: every mesh level is
+   * the same geometry (today exactly the alpha-tested assets, which are never
+   * decimated). Such a species runs one reach and then its card, not the
+   * three-ring ladder — see `lodDistances`. */
+  readonly folded: boolean;
   /** Trunk radius in metres at scale 1, from the kit's collision capsule.
    * Drives wind stiffness (`windStiffness`): fat trunks barely stir. Null
    * where the species has no trunk capsule (ground plants, aquatics), which
@@ -298,6 +303,7 @@ export function buildFloraKit(
       levels,
       billboardIndex,
       heightM: heights.get(id) ?? 4,
+      folded: alphaTested.has(id),
       trunkRadiusM: trunkRadii.get(id) ?? null,
       category: categories.get(id) ?? null,
       sways: !NON_SWAYING_CATEGORIES.has(categories.get(id) ?? ""),
@@ -314,11 +320,31 @@ export function buildFloraKit(
 /**
  * LOD distances, scaled by how big the thing is: a 60 m landmark tree has to
  * keep its silhouette much further out than a knee-high fern, and one fixed
- * ring would either pop the tree or waste triangles on the fern. Beyond
- * ring 1 a species runs on its `_lod_flat` billboard where the kit carries
- * one (T4, module 65 §110), or its last decimated mesh where it does not.
+ * ring would either pop the tree or waste triangles on the fern.
+ *
+ * There are TWO ladders, because there are two kinds of chain in the kit.
+ *
+ *  - A REAL chain (an opaque species that still decimates) keeps three rings:
+ *    full mesh to height × 2.5 inside 18–60 m, the 0.35 decimation to
+ *    height × 5 inside 50–140 m, the 0.12 decimation to height × 8 inside
+ *    100–260 m, then its flat card.
+ *  - A FOLDED chain (`folded`: every mesh level is the same geometry, which
+ *    today is every alpha-tested plant — decimation shreds leaf cards, 16f
+ *    round 5) has nothing to step down to, so the extra rings only stepped
+ *    one geometry against itself while charging full-mesh triangles out to
+ *    260 m. It gets ONE reach, `clamp(heightM * 5, 30, 140)`, and the card
+ *    takes over there.
+ *
+ * The folded numbers are the frame's triangle budget (decision 0084: ~4 M
+ * triangles a frame on the owner's M2) read against Skyrim's own practice —
+ * full tree meshes only inside its ~140 m loaded grid, sub-2 m plants treated
+ * as grass (hence the 30 m floor).
  */
-export function lodDistances(heightM: number): number[] {
+export function lodDistances(heightM: number, folded = false): number[] {
+  if (folded) {
+    const reach = Math.min(140, Math.max(30, heightM * 5));
+    return [reach, reach, reach];
+  }
   // Measured 2026-09-16 at the jungle site: the old rings (full mesh to
   // height × 6, capped 150 m) drew 3.1 M triangles in character view and
   // 4.7 M from the air — ~2,800 full canopy meshes at 5–12 k triangles
@@ -392,13 +418,26 @@ export function treeDrawDistance(chunkRing: number, chunkMetres: number): number
  * scaled down, or plants beside the camera would regress to cards (the
  * round-2 defect); the outer rings scale, and are then held in order so a
  * scaled ring never falls inside the one before it (the round-4 inverted
- * ladder). Rung edges are hard steps since 2026-09-21 (`LOD_BAND_M` is 0), so
+ * ladder). A FOLDED species has one reach, not three: it IS scaled by
+ * `drawScale` (there is no near rung to protect — the card takes over), but
+ * never below `MIN_MESH_LOD_REACH_M`. Rung edges are hard steps since 2026-09-21 (`LOD_BAND_M` is 0), so
  * there is no minimum band width left to enforce: a narrow rung is simply a
  * short interval, not a fade that never completes.
  */
-export function lodRings(heightM: number, drawScale: number, submerged: boolean): number[] {
-  const rings = lodDistances(heightM)
-    .map((r, i) => (i === 0 ? r : r * drawScale))
+export function lodRings(
+  heightM: number,
+  drawScale: number,
+  submerged: boolean,
+  folded = false,
+): number[] {
+  const rings = lodDistances(heightM, folded)
+    .map((r, i) =>
+      folded
+        ? Math.max(MIN_MESH_LOD_REACH_M, r * drawScale)
+        : i === 0
+          ? r
+          : r * drawScale,
+    )
     .map((r) => (submerged ? r * SUBMERGED_LOD_SCALE : r));
   for (let i = 1; i < rings.length; i++) {
     rings[i] = Math.max(rings[i], rings[i - 1]);

@@ -545,7 +545,7 @@ export function Vegetation({
         : entry.category === "tree"
           ? treeDrawDistance(chunkRing, index.chunkMetres)
           : maxDrawDistance(entry.heightM) * drawScale;
-      const rings = lodRings(entry.heightM, drawScale, entry.submerged);
+      const rings = lodRings(entry.heightM, drawScale, entry.submerged, entry.folded);
       const meshLevels = entry.billboardIndex ?? entry.levels.length;
       const ladder = lodLadder(rings, meshLevels, entry.billboardIndex, maxDraw);
       const trunkRadius = entry.trunkRadiusM;

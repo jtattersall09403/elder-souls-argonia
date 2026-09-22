@@ -35,7 +35,7 @@ it("loads terrain independently of either vegetation asset and retains a ground 
 it('retains macro terrain until an actual detail mesh exists, then excludes macro from the detail group', () => {
   const source = readFileSync(new URL('./character/ChunkTerrain.tsx', import.meta.url), 'utf8');
   const built = source.indexOf('const meshes = resolved.map(');
-  const gate = source.indexOf("if (!meshes.slice(0, manifest.chunks.length).some((mesh) => mesh !== null)) return <>{loadingFallback ?? null}</>;");
+  const gate = source.indexOf("if (!provinceDrawn) return <>{loadingFallback ?? null}</>;");
   const detailed = source.indexOf('return <group>{meshes}</group>;');
   expect(built).toBeGreaterThan(0); expect(gate).toBeGreaterThan(built); expect(detailed).toBeGreaterThan(gate);
   // The checked array is the actual render output, not a count of requested
@@ -47,4 +47,6 @@ it('retains macro terrain until an actual detail mesh exists, then excludes macr
   // pass, exactly as an undecoded chunk does, so the fallback still stands.
   expect(selection).toContain('if (!geometry) return null');
   expect(selection).toContain('<ChunkMesh');
+  // `provinceDrawn` is set only where a PROVINCE mesh is actually returned.
+  expect(selection).toContain('if (!isApron) provinceDrawn = true;');
 });

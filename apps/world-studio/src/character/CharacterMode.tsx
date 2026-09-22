@@ -57,7 +57,12 @@ import { headingOf } from "../compass";
 import { Minimap } from "./Minimap";
 import { TravelSockets } from "../travel/TravelSockets";
 import type { MinimapOverlay } from "./minimapOverlay";
-import { parseQuality, QUALITY_PRESETS, type QualitySettings } from "@elder-souls/game-core/core/quality";
+import {
+  parseQuality,
+  FRAME_TRIANGLE_BUDGET,
+  QUALITY_PRESETS,
+  type QualitySettings,
+} from "@elder-souls/game-core/core/quality";
 import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
 
 /**
@@ -697,6 +702,13 @@ interface FrameGpuStats {
    * 60-frame window as `avg` (every pass, see the manual `info.reset`). */
   tris: number;
   calls: number;
+  /** Main-thread time a frame costs, ms: from the earliest `useFrame`
+   * callback (the one that opens the timer query, priority -100) to the end
+   * of the frame's last render (priority 1000, after the water pipeline).
+   * Averaged/peaked over the same 60/120-frame windows as `avg`/`max`, so a
+   * CPU-bound frame can be told from a GPU-bound one. */
+  cpu: number;
+  cpuMax: number;
   /** The LAST frame's triangle total, unaveraged — the number another DEV
    * readout wants when it needs this frame rather than the window. */
   lastTris: number;
@@ -743,10 +755,16 @@ function FrameRateProbe() {
      * wrapper and drained (then zeroed) once per frame. */
     frameBuckets: number[];
     bucketSamples: number[][];
+    /** `performance.now()` stamped by the priority -100 callback, closed by
+     * the priority 1000 one: the frame's main-thread span. */
+    cpuStart: number;
+    cpuSamples: number[];
+    cpuMaxWindow: number[];
   }>({
     ext: null, ctx: null, open: null, pending: [], samples: [], maxWindow: [],
     triSamples: [], callSamples: [],
     frameBuckets: emptyBuckets(), bucketSamples: [],
+    cpuStart: 0, cpuSamples: [], cpuMaxWindow: [],
   });
 
   useEffect(() => {
@@ -774,7 +792,7 @@ function FrameRateProbe() {
     gl.info.autoReset = false;
     host.__STUDIO_GPU_MS__ = {
       avg: 0, max: 0, supported: Boolean(ctx && ext),
-      tris: 0, calls: 0, lastTris: 0, buckets: emptyBuckets(),
+      tris: 0, calls: 0, cpu: 0, cpuMax: 0, lastTris: 0, buckets: emptyBuckets(),
     };
     // Attribution (HUD line 3). `info.render.triangles` is the only count
     // three.js keeps, so the per-draw delta around the one call every draw
@@ -826,6 +844,7 @@ function FrameRateProbe() {
     }
 
     const g = gpu.current;
+    g.cpuStart = performance.now();
     // Whole-frame geometry: every pass of the frame just ended, because the
     // reset below is manual. Averaged over the same 60-frame window as `gpu`.
     const tris = gl.info.render.triangles;
@@ -877,6 +896,8 @@ function FrameRateProbe() {
           supported: true,
           tris: mean(g.triSamples),
           calls: Math.round(mean(g.callSamples)),
+          cpu: Math.round(mean(g.cpuSamples) * 10) / 10,
+          cpuMax: Math.round(Math.max(0, ...g.cpuMaxWindow) * 10) / 10,
           lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
           buckets: meanBuckets(g.bucketSamples),
         };
@@ -893,11 +914,27 @@ function FrameRateProbe() {
       }).__STUDIO_GPU_MS__ = {
         avg: 0, max: 0, supported: false,
         tris: mean(g.triSamples), calls: Math.round(mean(g.callSamples)),
+        cpu: Math.round(mean(g.cpuSamples) * 10) / 10,
+        cpuMax: Math.round(Math.max(0, ...g.cpuMaxWindow) * 10) / 10,
         lastTris: g.triSamples[g.triSamples.length - 1] ?? 0,
         buckets: meanBuckets(g.bucketSamples),
       };
     }
   }, -100);
+
+  // The frame's last hook: every render of the frame (the water pipeline
+  // renders at priority 1) has happened, so this closes the main-thread span
+  // the -100 callback opened.
+  useFrame(() => {
+    if (!import.meta.env.DEV) return;
+    const g = gpu.current;
+    if (g.cpuStart <= 0) return;
+    const ms = performance.now() - g.cpuStart;
+    g.cpuSamples.push(ms);
+    if (g.cpuSamples.length > 60) g.cpuSamples.shift();
+    g.cpuMaxWindow.push(ms);
+    if (g.cpuMaxWindow.length > 120) g.cpuMaxWindow.shift();
+  }, 1000);
   return null;
 }
 
@@ -933,8 +970,9 @@ function VegetationHudLine() {
   }, []);
   if (!sample) return null;
   const { veg, fps, gpu } = sample;
-  const gpuText = gpu?.supported
-    ? `gpu ${gpu.avg}/${gpu.max} ms`
+  const gpuText = gpu
+    ? `${gpu.supported ? `gpu ${gpu.avg}/${gpu.max} ms` : "gpu n/a"}`
+      + ` · cpu ${gpu.cpu}/${gpu.cpuMax} ms · calls ${gpu.calls}`
     : "gpu n/a";
   if (!VEGETATION_ENABLED || !veg) {
     return (
@@ -1023,7 +1061,8 @@ function TriangleAttributionLine() {
   });
   return (
     <span style={{ display: "block", opacity: 0.75 }}>
-      {`tris ${millions(gpu.tris)}: ${parts.join(" · ")}`}
+      {`tris ${millions(gpu.tris)} / budget ${millions(FRAME_TRIANGLE_BUDGET)}:`
+        + ` ${parts.join(" · ")}`}
     </span>
   );
 }

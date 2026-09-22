@@ -3,18 +3,24 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
-import { LOD_REEVALUATE_M, lodForDistance, type ChunkGrid, type ChunkMeta, type ChunkStore, type ChunksManifest } from "./chunkStore";
+import {
+  LOD_REEVALUATE_M, SUB_TILE_DIVISIONS, SUB_TILE_LODS, drawsAsSubTiles, lodForDistance, lodForSubTile,
+  type ChunkGrid, type ChunkMeta, type ChunkStore, type ChunksManifest,
+} from "./chunkStore";
 import { useHiddenLayers } from "../ladder";
-import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
+import { buildTerrainGridGeometry, subGrid } from "@elder-souls/game-core/terrain/gridGeometry";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
 
 /**
  * Chunked terrain renderer: every province chunk is its own mesh, LOD chosen
  * by the distance from the camera to each chunk's nearest edge (the ladder
- * in `chunkStore.LOD_BANDS`: LOD 1 under 150 m, 2 under 900 m, 4 under
- * 2 800 m, the derived LOD 8 beyond),
- * textured by the shared splat material. Near geometry is the SAME LOD-1 grid
+ * in `chunkStore.LOD_BANDS`: LOD 1 under 150 m, 2 under 400 m, 4 under
+ * 1 400 m, the derived LOD 8 beyond). Inside 400 m a chunk is drawn not whole
+ * but as a 4×4 grid of 117 m sub-tiles, each taking LOD 1 or 2 from its own
+ * edge distance, so a corner of a 468 m chunk inside the fine band no longer
+ * costs the whole chunk's 131 k triangles.
+ * The ground is textured by the shared splat material. Near geometry is the SAME LOD-1 grid
  * the Rapier colliders use, so feet and ground agree exactly. Each mesh gets a
  * short dropped skirt to hide hairline gaps at LOD borders.
  *
@@ -169,6 +175,10 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // is re-evaluated in place (no allocation) only once the camera has moved
   // `LOD_REEVALUATE_M`, and `lodVersion` bumps only when an assignment moved.
   const lodByCell = useRef(new Map<string, string>());
+  // LOD each sub-tile of a chunk inside the fine bands is drawn at, keyed
+  // `cx,cy,ix,iz` — the same ladder and hysteresis, on the sub-tile's own
+  // rectangle (the frame is a triangle budget, decision 0084).
+  const lodBySubTile = useRef(new Map<string, string>());
   const lastEval = useRef<{ x: number; z: number } | null>(null);
   const [lodVersion, setLodVersion] = useState(0);
   const allChunks = useMemo(
@@ -189,9 +199,14 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       const key = `${chunk.cx},${chunk.cy}`;
       const current = lodByCell.current.get(key);
       const lod = lodForDistance(f.x, f.z, chunk.cx, chunk.cy, manifest.chunkMetres, current);
-      if (lod === current) continue;
-      lodByCell.current.set(key, lod);
-      changed = true;
+      if (lod !== current) { lodByCell.current.set(key, lod); changed = true; }
+      if (!drawsAsSubTiles(lod)) continue;
+      for (let iz = 0; iz < SUB_TILE_DIVISIONS; iz++) for (let ix = 0; ix < SUB_TILE_DIVISIONS; ix++) {
+        const subKey = `${key},${ix},${iz}`;
+        const now = lodBySubTile.current.get(subKey);
+        const sub = lodForSubTile(f.x, f.z, chunk.cx, chunk.cy, ix, iz, manifest.chunkMetres, now);
+        if (sub !== now) { lodBySubTile.current.set(subKey, sub); changed = true; }
+      }
     }
     if (changed) setLodVersion((v) => v + 1);
   });
@@ -200,6 +215,10 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const desiredLod = (chunk: ChunkMeta): string =>
     lodByCell.current.get(`${chunk.cx},${chunk.cy}`)
     ?? lodForDistance(focusRef.current.x, focusRef.current.z, chunk.cx, chunk.cy, manifest.chunkMetres);
+  /** The ladder's answer for one sub-tile of a chunk inside the fine bands. */
+  const desiredSubLod = (chunk: ChunkMeta, ix: number, iz: number): string =>
+    lodBySubTile.current.get(`${chunk.cx},${chunk.cy},${ix},${iz}`)
+    ?? lodForSubTile(focusRef.current.x, focusRef.current.z, chunk.cx, chunk.cy, ix, iz, manifest.chunkMetres);
 
   // Ensure desired LODs are loading. Decode arrivals COALESCE into one
   // re-render per 250 ms window: during initial load ~hundreds of chunks
@@ -218,12 +237,16 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   useEffect(() => {
     for (const chunk of allChunks) {
       const lod = desiredLod(chunk);
-      const key = `${chunk.cx},${chunk.cy},${lod}`;
-      if (requested.current.has(key)) continue;
-      requested.current.add(key);
-      store.load(chunk.cx, chunk.cy, lod)
-        .then(bump)
-        .catch((e) => { console.warn(`chunk ${key} failed: ${String(e).slice(0, 200)}`); requested.current.delete(key); });
+      // A chunk inside the fine bands is sliced into sub-tiles that may take
+      // either fine LOD, so both rasters are needed.
+      for (const want of drawsAsSubTiles(lod) ? SUB_TILE_LODS : [lod]) {
+        const key = `${chunk.cx},${chunk.cy},${want}`;
+        if (requested.current.has(key)) continue;
+        requested.current.add(key);
+        store.load(chunk.cx, chunk.cy, want)
+          .then(bump)
+          .catch((e) => { console.warn(`chunk ${key} failed: ${String(e).slice(0, 200)}`); requested.current.delete(key); });
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -236,27 +259,40 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     ...(apron?.chunks ?? []).map((chunk) => ({ chunk, apron: true })),
   ];
   const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
-  const resolved = drawn.map(({ chunk, apron: isApron }) => {
+  /** Render the desired LOD if decoded; otherwise the best fallback we have. */
+  const resolve = (chunk: ChunkMeta, want: string): ChunkGrid | undefined =>
+    store.loaded(chunk.cx, chunk.cy, want)
+    ?? store.loaded(chunk.cx, chunk.cy, "8")
+    ?? store.loaded(chunk.cx, chunk.cy, "4")
+    ?? store.loaded(chunk.cx, chunk.cy, "2")
+    ?? store.loaded(chunk.cx, chunk.cy, "1");
+  // One draw unit per mesh: a whole chunk beyond the fine bands, or one of the
+  // 16 sub-tiles of a chunk inside them.
+  const resolved: { chunk: ChunkMeta; isApron: boolean; grid?: ChunkGrid; sub?: [number, number]; key: string }[] = [];
+  for (const { chunk, apron: isApron } of drawn) {
     const want = desiredLod(chunk);
-    // Render the desired LOD if decoded; otherwise the best fallback we have.
-    const grid = store.loaded(chunk.cx, chunk.cy, want)
-      ?? store.loaded(chunk.cx, chunk.cy, "8")
-      ?? store.loaded(chunk.cx, chunk.cy, "4")
-      ?? store.loaded(chunk.cx, chunk.cy, "2")
-      ?? store.loaded(chunk.cx, chunk.cy, "1");
-    return { chunk, isApron, grid };
-  });
+    if (!drawsAsSubTiles(want)) {
+      const grid = resolve(chunk, want);
+      resolved.push({ chunk, isApron, grid, key: `${chunk.cx},${chunk.cy},${grid?.lod}` });
+      continue;
+    }
+    for (let iz = 0; iz < SUB_TILE_DIVISIONS; iz++) for (let ix = 0; ix < SUB_TILE_DIVISIONS; ix++) {
+      const grid = resolve(chunk, desiredSubLod(chunk, ix, iz));
+      resolved.push({ chunk, isApron, grid, sub: [ix, iz],
+        key: `${chunk.cx},${chunk.cy},${grid?.lod},${ix},${iz}` });
+    }
+  }
   const wantedKeys = new Set<string>();
-  const missing: { key: string; grid: ChunkGrid; isApron: boolean; distance: number }[] = [];
+  const missing: { key: string; grid: ChunkGrid; isApron: boolean; sub?: [number, number]; distance: number }[] = [];
   const focus = focusRef.current;
-  for (const { chunk, isApron, grid } of resolved) {
+  for (const { chunk, isApron, grid, sub, key } of resolved) {
     if (!grid) continue;
-    const key = `${chunk.cx},${chunk.cy},${grid.lod}`;
     wantedKeys.add(key);
     if (geometries.current.has(key)) continue;
-    const centreX = (chunk.cx + 0.5) * manifest.chunkMetres;
-    const centreZ = (chunk.cy + 0.5) * manifest.chunkMetres;
-    missing.push({ key, grid, isApron,
+    const side = manifest.chunkMetres / (sub ? SUB_TILE_DIVISIONS : 1);
+    const centreX = chunk.cx * manifest.chunkMetres + ((sub?.[0] ?? 0) + 0.5) * side;
+    const centreZ = chunk.cy * manifest.chunkMetres + ((sub?.[1] ?? 0) + 0.5) * side;
+    missing.push({ key, grid, isApron, sub,
       distance: Math.hypot(centreX - focus.x, centreZ - focus.z) });
   }
   // Evict what is no longer drawn (this replaces ChunkMesh's own dispose).
@@ -269,10 +305,12 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     missing.sort((a, b) => a.distance - b.distance);
     meshJob.current?.cancel();
     const build = function* (): Generator<void> {
-      for (const { key, grid, isApron } of missing) {
+      for (const { key, grid, isApron, sub } of missing) {
         if (geometries.current.has(key)) continue;
+        // The sub-tile keeps the CHUNK's UV frame (the builder maps UVs from
+        // world metres), so the splat/control textures map exactly as before.
         geometries.current.set(key, buildTerrainGridGeometry(
-          grid, scale,
+          sub ? subGrid(grid, sub[0], sub[1], SUB_TILE_DIVISIONS) : grid, scale,
           isApron && apron ? apron.uvExtentM : uvExtentM,
           (isApron && apron ? apron.uvOriginM : undefined) ?? [0, 0]));
         yield;
@@ -283,13 +321,15 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     };
     meshJob.current = queue.add(build(), { priority: 20, label: "terrain-mesh" });
   }
-  const meshes = resolved.map(({ chunk, isApron, grid }) => {
+  let provinceDrawn = false;
+  const meshes = resolved.map(({ isApron, grid, key }) => {
     if (!grid) return null;
-    const geometry = geometries.current.get(`${chunk.cx},${chunk.cy},${grid.lod}`);
+    const geometry = geometries.current.get(key);
     if (!geometry) return null;
+    if (!isApron) provinceDrawn = true;
     return (
       <ChunkMesh
-        key={`${chunk.cx},${chunk.cy},${grid.lod}`}
+        key={key}
         grid={grid}
         geometry={geometry}
         material={isApron && apron ? apron.material : material}
@@ -299,6 +339,6 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // Keep the caller's macro terrain visible until the first PROVINCE chunk
   // decodes (an apron tile is not the ground the player stands on), but never
   // draw it beneath detail meshes.
-  if (!meshes.slice(0, manifest.chunks.length).some((mesh) => mesh !== null)) return <>{loadingFallback ?? null}</>;
+  if (!provinceDrawn) return <>{loadingFallback ?? null}</>;
   return <group>{meshes}</group>;
 }

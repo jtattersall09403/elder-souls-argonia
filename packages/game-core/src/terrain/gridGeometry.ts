@@ -19,6 +19,39 @@ export function terrainGridIndices(nx: number, ny: number, skipQuad?: (x: number
   return write === indices.length ? indices : indices.slice(0, write);
 }
 
+/**
+ * One sub-tile of a chunk grid: the `(ix, iz)` cell of a `divisions`×`divisions`
+ * split, `(n - 1) / divisions + 1` samples square, sharing its edge rows and
+ * columns with its neighbours (so neighbouring sub-tiles at the same LOD meet
+ * exactly, and at different LODs meet under the skirts the mesh builder adds).
+ *
+ * Used by the character-mode terrain renderer to choose LOD 1 or LOD 2 per
+ * sub-tile rather than per 467.9 m chunk. The returned grid carries the
+ * sub-tile's own world origin, so the shared mesh builder places it and maps
+ * its UVs in province space with no further arithmetic.
+ */
+export function subGrid(grid: ChunkGrid, ix: number, iz: number, divisions: number): ChunkGrid {
+  const { heights, nx, ny, metresPerSample } = grid;
+  if (!Number.isInteger(divisions) || divisions < 1) throw new Error("Invalid sub-tile divisions");
+  if ((nx - 1) % divisions !== 0 || (ny - 1) % divisions !== 0) throw new Error("Grid does not divide into sub-tiles");
+  if (ix < 0 || iz < 0 || ix >= divisions || iz >= divisions) throw new Error("Sub-tile index out of range");
+  const stepX = (nx - 1) / divisions, stepZ = (ny - 1) / divisions;
+  const sx = ix * stepX, sz = iz * stepZ;
+  const sub = new Float32Array((stepX + 1) * (stepZ + 1));
+  for (let z = 0; z <= stepZ; z++) {
+    sub.set(heights.subarray((sz + z) * nx + sx, (sz + z) * nx + sx + stepX + 1), z * (stepX + 1));
+  }
+  const [ox, oz] = grid.meta.originM;
+  return {
+    meta: { ...grid.meta, originM: [ox + sx * metresPerSample, oz + sz * metresPerSample] },
+    lod: grid.lod,
+    heights: sub,
+    nx: stepX + 1,
+    ny: stepZ + 1,
+    metresPerSample,
+  };
+}
+
 /** One chunk mesh: the regular grid with a dropped skirt ring hiding
  * hairline gaps at LOD borders. Shared by the studio and the game. */
 export function buildTerrainGridGeometry(

@@ -18,8 +18,7 @@
  *  2. **Three quality tiers per species**, not one radius and a cliff: full
  *     mesh near, a viewer-facing baked card at the authored density to the
  *     ring radius, the same card at 35 % density out to the far radius, and
- *     every boundary a HARD step (owner 2026-09-21: "jump between rungs, no
- *     gradual fade"; the ring's own far radius steps too). Nothing the
+ *     every boundary dissolved by the dithered LOD crossfade. Nothing the
  *     ring places ever winks out. **Tier membership is decided per TILE with
  *     an overlap margin, never per instance at rebuild time** (owner, 16f
  *     round 3): a plant is in every tier's buffer it could reach before the
@@ -111,9 +110,8 @@ const SHORT_SPECIES_M = 0.6;
  *    proportionally sooner for a species under `SHORT_SPECIES_M`, because a
  *    30 cm tuft at 150 m is a pixel that still costs a vertex.
  *
- * Every tier carries an `esLodBand` (`lodFade.ts`); since 2026-09-21 its
- * half-widths are 0, so each boundary is a hard step from one tier to the
- * next and the FAR band ends at its radius.
+ * Nothing pops at a boundary: every tier carries an `esLodBand` and dissolves
+ * across it (`lodFade.ts`), and the FAR band fades to nothing at its radius.
  */
 const NEAR_FRACTION = 0.4;
 /**
@@ -185,27 +183,23 @@ const TIER_NEAR = 0;
 const TIER_MID = 1;
 const TIER_FAR = 2;
 const TIER_COUNT = 3;
-/** Edge half-widths, metres: (in, out) per tier. ALL ZERO from 2026-09-21
- * (owner: "jump between rungs, no gradual fade" — decision 0075 addendum): a
- * tier edge is a hard step, `esLodRamp` degenerating to `step()`, and the
- * partition between the outgoing and incoming copy stays exact. The shape is
- * kept so a half-width can be restored per tier without touching the band
- * arithmetic below. The tile overlap margin is NOT derived from these: it
- * comes from the rebuild cadence (`TIER_OVERLAP_M`). */
-const TIER_BAND_M: [number, number][] = [[0, 0], [0, 0], [0, 0]];
+/** Crossfade half-widths, metres: (fade-in, fade-out) per tier. Wider the
+ * further out, because the further band is the cheaper one to double up.
+ * Ground cover fades between tiers (owner 2026-09-22, "restore the fade for
+ * ground cover, I preferred it"), including the far outer edge; rung edges in
+ * `Vegetation` stay hard steps (decision 0075 addendum). */
+const TIER_BAND_M: [number, number][] = [[0, 4], [4, 6], [6, 10]];
 /** Metres of focus movement between rebuilds. A tile crossing also rebuilds
  * (that is when tiles are generated); this is the finer cadence the tier
  * overlap is sized from. */
 const REBUILD_MOVE_M = 8;
 /** A tile joins a tier's buffer when its nearest point is within the tier's
  * outer radius PLUS this margin: the furthest the focus can move before the
- * next rebuild, plus a slack so the incoming copy is always in the buffer
- * (collapsed to nothing by the shader) before the camera reaches its edge.
- * Both copies of a crossing plant exist at the moment of the hand-over, which
- * is the whole point. Derived from the rebuild cadence, never from
- * `TIER_BAND_M` — the edges are hard steps and have no width. */
-const TIER_EDGE_SLACK_M = 6;
-const TIER_OVERLAP_M = REBUILD_MOVE_M + TIER_EDGE_SLACK_M;
+ * next rebuild, plus the widest fade-in half-width, so the incoming copy is
+ * always drawn (dithered to nothing by the shader) before the camera reaches
+ * its band. Both copies of a crossing plant then exist at the moment of the
+ * crossfade, which is the whole point. */
+const TIER_OVERLAP_M = REBUILD_MOVE_M + 6;
 /** Main-thread budget per frame for generating tiles (ms). A row of ~22
  * tiles entering the ring used to be generated in one go inside the rebuild
  * effect — ~18 ms a tile, half a second of stall every 16 m of walking,

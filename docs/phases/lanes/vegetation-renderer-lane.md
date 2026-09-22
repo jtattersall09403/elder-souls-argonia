@@ -246,54 +246,47 @@ is a local commit on `main`, none pushed.
 | Reading of ee8ec5cd: tris 5.5 M (near 2.5 M, mid 0, far 0, card 0.1 M; shadow 0.1 M), gpu 21.8 ms; owner: some ground cover was a grey flat card up close | the shadow rule picked the card for alpha-tested trees (no caster); the ground-cover card-only case; the 24 m mesh floor and 1.25 dpr | caster = highest non-card level <= 1; no card-only species, reach floor 0.25 (d30d1e11); mesh floor 18 m; default dpr native (this commit) |
 | Reading of 07cfc504: rest 22 fps, gpu 22.2 ms, tris 8.6 M = veg 2.6 + 2.5 shadow, terrain 0.9 + 0.4, ground cover 1.4, other 0.9; `&veg=0&gc=0` base 11.9 ms at 2.3 M; walking `tile` 31 ms max; ground cover faded between tiers and read low quality close up | the tier and rung dissolves read as smearing; two hero ground-cover meshes carried most of the ring's triangles; the per-candidate footprint and patch tests were O(candidates x shapes) a tile; two cascades re-drew 2.5 M caster triangles | hard steps at every rung and tier edge, dissolve only at the vanish (1457cdca); `floraspikygrass02` and `swordferncluster01` replaced by drjacopo grasses at 360 and 336 triangles (8c85a4bd); per-tile cell mask plus typed-array placements (3f96fd89); one cascade over 160 m with `&csm=<n>,<far>` (c507b467) |
 
-### State at hand-off (2026-09-22, after commit c7343be)
+### State at hand-off (2026-09-22, after round 9)
 
-**Where the frame goes** (owner's card, jungle, at rest, before round 8):
-8.6 M triangles = trees/bushes 2.6 M + 2.5 M shadow, terrain 0.9 M + 0.4 M,
-ground cover 1.4 M, other 0.9 M (of which the water surface is 0.6 M,
-measured). GPU 22.2 ms. With `&veg=0&gc=0` the base is 11.9 ms at 2.3 M
-triangles and feels smooth at 60 fps, so vegetation costs ~9 ms and ground
-cover ~1.5 ms. A vegetation triangle costs ~3x a terrain triangle
-(double-sided alpha-tested leaves); `&dpr=1` saved 3.4 ms and `&vegshader=off`
-nothing. Frame rate is vsync-quantised: any GPU time above 16.7 ms cannot show
-60 fps, and near 16.7 ms the frame alternates 60/30 (felt as "slightly
-jerky"). Target: GPU at or under 12 ms.
+**The frame is a triangle budget** (decision 0084). The owner's card is an
+Apple M2 (Chrome, ANGLE over Metal); it draws ~400 M triangles a second, so
+60 fps is ~4 M triangles a frame counting every pass. Pixels and shaders are
+not the lever: `&q=low` and `&dpr=1` moved the base frame by under 1 ms.
+Before round 9 the jungle at rest drew 6.4 M (vegetation 2.4 M + 1.2 M
+shadow, terrain 0.9 M + 0.3 M, ground cover 0.7 M, other 0.9 M of which the
+border apron was ~0.5 M unculled and the water grid 0.2 M) at 19-22 ms GPU
+and 23 fps.
 
-**Round 8** (not yet read by the owner): hard steps everywhere (`LOD_BAND_M`
-0, ground-cover `TIER_BAND_M` all zero, including the ground ring's far outer
-edge, which now pops - restore `TIER_BAND_M[2][1] = 10` if the owner dislikes
-it); the two hero plants replaced by same-height grasses
-(`icelandicgrassdensedrj`, `swordferndrj`); the ground-cover tile mask and
-typed arrays (3f96fd89); one shadow cascade over 160 m, with `&csm=2,300` to
-compare (c507b467); the tile timer split by phase on the gc HUD line
-(c7343be).
+**Round 9** (not yet read by the owner): the ground-cover tier fade is back
+(owner call; `TIER_BAND_M` restored, rung edges in Vegetation stay hard
+steps); a folded ladder (every alpha-tested species) keeps its full mesh to
+`clamp(height x 5, 30, 140)` m and is a card beyond (`lodDistances(h, folded)`;
+census at the jungle site 3.59 M -> 0.37 M full-mesh triangles at 360 deg,
+`python3 -m worldgen.mesh_triangle_census` from tooling/world-generation);
+the shadow cascade reaches 120 m; terrain LOD bands 150/400/1400 m with
+LOD 1/2 chosen per 4x4 sub-tile inside 400 m (estimate 2.12 M -> 0.92 M at
+360 deg); the border apron is 8x8 frustum-culled sectors per ring; HUD line 1
+gains `cpu <avg>/<max> ms · calls <n>`, HUD line 3 starts
+`tris <total> / budget 4.0M`.
 
 **Next agent, in order:**
 
-1. **Read the owner's feedback**: the rest and walking readings after round 8
-   (three HUD lines each), the graphics card name (asked twice, not yet
-   given), and the `&veg=0&gc=0&q=low` rest reading that attributes the
-   11.9 ms base between water SSR/render scale and terrain/sky. Also the
-   owner's view on: tree shadows after the one-cascade change, ground cover
-   close up, its far-edge pop, and image sharpness at native dpr.
-2. **Ground-cover tile hitches** (31 ms max while walking, 175 instances a
-   tile): the `phases grid · mask · cand (n exact) · compose` maxima name the
-   phase. Open decision: the mask (3f96fd89) only skips clear cells, because
-   the patch keep is probabilistic per species
-   (`vegetationPatches.ts:271` `keepForExtent`); quantising the fringe keep to
-   the 1 m cell grid would make road-side tiles O(cells), and the planner
-   decides whether plants may move by up to 0.5 m for that.
-3. **Vegetation cost after round 8**: if `veg` shadow triangles are still at
-   or above main, the remaining levers are (a) casters only within N m of the
-   camera, (b) a 1024 shadow map for foliage. If the main-pass cost stays
-   ~3 ms per million, the lever is fill: the foliage fragment shader
-   (MeshStandardMaterial + CSM PCF + IBL + haze). Measure with `&vegshadow=0`
-   and `&dpr=1` at the new counts before designing anything.
-4. **The 11.9 ms base**: water is Fable's work (owner rule); the terrain
-   material samples four or more textures per fragment. Use the `&q=low` base
-   reading and `&smsize=1024` to attribute before touching anything.
-5. The lane closes when the owner calls the jungle walk smooth at rest and
-   while walking; then the memory note, and `deliver 16h part 1` may start.
+1. **Read the owner's feedback**: the three HUD lines at rest and walking
+   after round 9. Expected at rest: total near or under 4.0 M and 60 fps. If
+   `cpu` is high while `gpu` is low, the frame is main-thread bound and the
+   lever is the per-frame work listed in decision 0084's research (physics
+   steps, the CSM update, the DEV draw wrapper).
+2. **Popping**: if the owner sees plants or bushes flip to cards too close,
+   the numbers to move are the 30 m floor and the x 5 slope in
+   `lodDistances` (floraKit.ts); the 140 m cap is Skyrim's and stays. Report
+   the census before and after any change.
+3. **Ground-cover tile hitches** while walking (the `tile` max and its
+   phases on HUD line 2): the mask only skips clear cells because the patch
+   keep is probabilistic (`vegetationPatches.ts` `keepForExtent`); the
+   planner decides whether plants may move by up to 0.5 m to quantise it.
+4. The lane closes when the owner calls the jungle walk smooth at rest and
+   while walking with HUD line 3 under budget; then the memory note, and
+   `deliver 16h part 1` may start.
 
 Preflight is red on three pre-existing items outside the lane (the rasters
 manifest held for push day, a stale `water-crossings.json`, a `known_red`

@@ -8,7 +8,18 @@ exported is what renders, collides and answers height queries.
 
 `buildTerrainGridGeometry` (gridGeometry.ts) builds one chunk mesh with a 2.5 m
 dropped skirt at its border, UVs in province space, and no vertex normals: the
-ground shader lights from the province-wide gradient texture.
+ground shader lights from the province-wide gradient texture. `subGrid` cuts
+the same grid into a 4x4 set of sub-tiles sharing their edge rows, so the
+renderer can choose LOD per 117 m sub-tile instead of per 468 m chunk; each
+sub-tile gets its own skirt, which hides the seam at a LOD step exactly as the
+chunk skirts do.
+
+The character-mode ladder (`apps/world-studio/src/character/chunkStore.ts`,
+`LOD_BANDS`) is LOD 1 to 150 m, LOD 2 to 400 m, LOD 4 to 1 400 m, LOD 8 beyond,
+measured to the nearest edge of the rectangle being drawn -- the chunk beyond
+400 m, the sub-tile inside it. The fine bands are short for the same reason
+Skyrim's are: it draws full 1.8 m ground only inside its 285 m loaded square
+and 7 m beyond, and the frame here is a triangle budget (decision 0084).
 
 `BorderApron` (BorderApron.tsx, types and mask helpers in apronManifest.ts)
 draws the land beyond the province border (16d): ring 0 is ordinary chunk

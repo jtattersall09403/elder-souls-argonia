@@ -80,3 +80,12 @@ export function parseQuality(
   const name = value === "low" || value === "medium" || value === "high" ? value : fallback;
   return QUALITY_PRESETS[name];
 }
+
+/**
+ * Triangles a frame may issue across ALL passes (main, shadow, water).
+ * Measured on the owner's Apple M2 in Chrome, 2026-09-22: ~2.6 ms a million
+ * triangles, so 60 fps is about four million a frame. The HUD prints the
+ * frame's total against this (decision 0084); it is a budget to design the
+ * LOD ladders to, not a runtime clamp.
+ */
+export const FRAME_TRIANGLE_BUDGET = 4_000_000;
