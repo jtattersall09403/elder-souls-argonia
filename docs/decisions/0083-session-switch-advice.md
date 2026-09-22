@@ -23,7 +23,19 @@ transcripts long enough to hold both windows: `O` is the cost of their first
 eight turns, `C_fresh` the context at turn eight. The saving per turn is
 `(C_now - C_fresh) x 0.1` and the break-even is `B = O / saving`, rounded up.
 B <= 20 advises a switch at the next natural break, B <= 8 now; above that,
-nothing is said.
+nothing is said. `C_now` is the median context over the last fifteen turns
+(a compaction or resume re-write drops out), and only the excess-context
+re-read is the saving: cache writes and output are the work itself and cost
+the same in either session.
+
+Correction 2026-09-22: the first cut subtracted whole per-turn costs
+(`now_per_turn - fresh_per_turn`, cache writes at 2x and output at 5x
+included) and compared any session, however young, against a baseline
+measured at turns 8 to 18. A fresh session's own early turns write the system
+prompt, CLAUDE.md and the orientation reads to cache once, so the hook told
+two brand-new sessions (turn 3, turn 19) that a fresh session was cheaper.
+The code now uses the formula above, and a session says nothing until it has
+passed its own orientation and fresh windows (18 turns at the defaults).
 
 The hook fires once per turn and costs nothing in the planner's context:
 `systemMessage` shows the owner the line, `additionalContext` lets the planner

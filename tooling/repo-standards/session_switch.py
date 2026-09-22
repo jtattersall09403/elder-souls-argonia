@@ -104,9 +104,16 @@ def baseline(directory, exclude, count, orient):
 
 
 def assess(t, transcript, directory, orient, count, cached=None):
-    if not t:
+    # A session still inside its own orientation + fresh window IS the fresh
+    # session; its early turns carry the one-off cache writes (system prompt,
+    # CLAUDE.md, orientation reads at 2x) that a steady-state baseline never
+    # shows, so any comparison before this point misreads a new session as dear
+    # (fired at turn 3 and turn 19 of fresh sessions, 2026-09-22).
+    if not t or len(t) < orient + FRESH_WINDOW:
         return None
-    C_now = context(t[-1])
+    # the context this session carries: a median over the same window as the
+    # per-turn cost, so a compaction or resume re-write is a one-off, not the reading
+    C_now = median([context(u) for u in t[-NOW_WINDOW:]])
     if cached and cached.get("week") is not None:
         base, rows, week = cached, [], cached["week"]
     else:
@@ -116,8 +123,13 @@ def assess(t, transcript, directory, orient, count, cached=None):
         return None
     O, C_fresh = base["O"], base["C_fresh"]
     fresh_per_turn = base["fresh_per_turn"]
-    now_per_turn = median([cost_units(u) for u in t[-NOW_WINDOW:]])
-    s = now_per_turn - fresh_per_turn
+    # Decision 0083: the only thing a switch saves is re-reading the excess
+    # context every turn, at the cached rate. Cache writes and output are the
+    # work itself and cost the same in either session, so they are not the
+    # difference; subtracting whole per-turn costs (the earlier code) made a
+    # fresh session's own cache writes look like a reason to leave it.
+    s = (C_now - C_fresh) * WEIGHT["cache_read"]
+    now_per_turn = fresh_per_turn + s
     B = math.ceil(O / s) if s > 0 else None
     cont = HORIZON * now_per_turn
     fresh = HORIZON * fresh_per_turn + O
