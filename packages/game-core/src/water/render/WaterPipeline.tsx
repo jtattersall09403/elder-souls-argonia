@@ -240,6 +240,9 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
   // the water layer on every light, re-checked as lights come and go.
   const lightPatchTimer = useRef(0);
   const viewProj = useRef(new THREE.Matrix4());
+  // (The precip and overlay passes are never skipped: an empty-layer walk
+  // costs ~0.3 ms, and a skip keyed on a 1 Hz count missed objects mounted
+  // between ticks for up to a second. Not worth it.)
 
   useFrame(({ gl: renderer, scene, camera }, delta) => {
     const h = handle();
@@ -326,10 +329,31 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     if ((frames.current & 1) === 0) renderer.shadowMap.needsUpdate = true;
     renderer.toneMapping = THREE.NoToneMapping;
     cam.layers.mask = underwater ? (1 | (1 << WATER_LAYER)) : 1;
+    // Above water the surface reads the SAME target pass 1 draws into. Its
+    // scene-colour/depth samplers still point at that target from last
+    // frame's pass 3, and a driver that validates framebuffer feedback per
+    // draw (ANGLE over Metal) pays for it on every opaque draw. The
+    // samplers are only read in pass 3, so they are cleared for pass 1 and
+    // re-pointed after it (round 12 follow-up, owner reading 2026-09-22:
+    // `scene` CPU 11.0 ms with water on against 4.2 ms without). Submerged,
+    // pass 1 IS the pass that draws the water layer, and it reads the other
+    // ping-pong target, so the samplers stay.
+    const sceneColor = h?.uniforms.uSceneColor.value ?? null;
+    const sceneDepth = h?.uniforms.uSceneDepth.value ?? null;
+    if (h && !underwater) {
+      h.uniforms.uSceneColor.value = null;
+      h.uniforms.uSceneDepth.value = null;
+    }
     renderer.setRenderTarget(drawTarget);
     renderer.clear();
     segments?.cpuMark("scene"); segments?.gpuMark("scene");
     renderer.render(scene, cam);
+    // The blit's uniform block below is billed to the blit, not the scene.
+    segments?.cpuMark("blit"); segments?.gpuMark("blit");
+    if (h) {
+      h.uniforms.uSceneColor.value = sceneColor;
+      h.uniforms.uSceneDepth.value = sceneDepth;
+    }
     renderer.toneMapping = prevTone;
     if (underwater && alt) swap.current = !swap.current;
 
@@ -367,7 +391,6 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       drawTarget.depthTexture as THREE.Texture, rw, rh, bu.uUwAbsorb.value, bu.uUwFog.value);
     bu.uBubbleActive.value = bu.uBubbleColor.value ? 1 : 0;
     renderer.setRenderTarget(null);
-    segments?.cpuMark("blit"); segments?.gpuMark("blit");
     renderer.render(blit.scene, blit.camera);
 
     // ---- pass 3: water surface, then the display-referred overlay --------

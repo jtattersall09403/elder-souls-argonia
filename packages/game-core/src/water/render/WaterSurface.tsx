@@ -210,6 +210,8 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     strips.materials.below.dispose();
   }, [strips]);
   const meshRef = useRef<THREE.Mesh>(null);
+  // Spray and splashes take the WaterEffects default layer, PRECIP_LAYER:
+  // that pass runs after the surface, which is the order they need.
   const effects = useMemo(() => new WaterEffects({
     maxParticles: tier.name === "high" ? 768 : 256,
     onReentry: e => ripple?.addDrop(e.position.x, e.position.z, e.radius ?? 0.1, 0.006),
