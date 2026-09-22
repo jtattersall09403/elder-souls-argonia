@@ -44,7 +44,44 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
+# Tracked record (world/sources/placement/kit-interiors): CI and local both
+# validate against this copy. `output/kits` (the local build) is the fallback
+# for a kit rebuilt but not yet re-committed.
+TRACKED_KITS_DIR = REPO_ROOT / "world" / "sources" / "placement" / "kit-interiors"
+LOCAL_KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
+
+
+def _default_kits_dir() -> Path:
+    if TRACKED_KITS_DIR.exists() and any(TRACKED_KITS_DIR.glob("*.interiors.json")):
+        return TRACKED_KITS_DIR
+    return LOCAL_KITS_DIR
+
+
+#: Back-compat single-directory default (some readers only need one path, e.g.
+#: for a glob). Prefer `_merged_interior_files()` where a kit could exist in
+#: only one of the two locations.
+KITS_DIR = _default_kits_dir()
+
+
+def _merged_interior_files() -> list[Path]:
+    """One `*.interiors.json` path per kit, tracked copy first: a kit rebuilt
+    locally but not yet re-committed is still picked up (from `LOCAL_KITS_DIR`)
+    without losing a kit that only exists as the tracked record."""
+    by_name: dict[str, Path] = {}
+    if LOCAL_KITS_DIR.exists():
+        for path in LOCAL_KITS_DIR.glob("*.interiors.json"):
+            by_name[path.name] = path
+    if TRACKED_KITS_DIR.exists():
+        for path in TRACKED_KITS_DIR.glob("*.interiors.json"):
+            by_name[path.name] = path  # tracked wins per kit
+    return [by_name[name] for name in sorted(by_name)]
+
+
+def library_available() -> bool:
+    """True when at least one kit has an `*.interiors.json` in either the
+    tracked record or the local kit build. False means door-facing validation
+    cannot check a piece's measured entrance against any source."""
+    return bool(_merged_interior_files())
 
 # The world facing of a door must be within this of the canonical entrance.
 # Tighter than the footprint-edge check (±100°) because an entrance bearing is a
@@ -73,12 +110,15 @@ def size_class(area_m2: float) -> str:
 class InteriorLibrary:
     """Every built kit's interiors index, keyed by kit asset id."""
 
-    def __init__(self, kits_dir: Path = KITS_DIR):
+    def __init__(self, kits_dir: Path | None = None):
         self.by_asset: dict[str, dict] = {}
         self.kit_of: dict[str, str] = {}
-        if not kits_dir.exists():
-            return
-        for path in sorted(kits_dir.glob("*.interiors.json")):
+        # `kits_dir=None` (the normal case): merge tracked + local per kit,
+        # tracked winning for a kit present in both. An explicit `kits_dir`
+        # (tests, a scratch build) reads that one directory only.
+        paths = _merged_interior_files() if kits_dir is None else (
+            sorted(kits_dir.glob("*.interiors.json")) if kits_dir.exists() else [])
+        for path in paths:
             data = json.loads(path.read_text())
             for asset_id, record in data.get("assets", {}).items():
                 self.by_asset.setdefault(asset_id, record)
@@ -118,11 +158,12 @@ def linked_shells(path: Path = LINKS_PATH) -> dict[str, list[dict]]:
 
 
 _LIBRARY: InteriorLibrary | None = None
-_LIBRARY_DIR: list[Path] = [KITS_DIR]
+_LIBRARY_DIR: list[Path | None] = [None]
 
 
-def library(kits_dir: Path = KITS_DIR) -> InteriorLibrary:
-    """Process-wide cache (read-only data, loaded once)."""
+def library(kits_dir: Path | None = None) -> InteriorLibrary:
+    """Process-wide cache (read-only data, loaded once). `kits_dir=None` (the
+    normal case) merges tracked + local per kit; see `InteriorLibrary`."""
     global _LIBRARY
     if _LIBRARY is None or _LIBRARY_DIR[0] != kits_dir:
         _LIBRARY_DIR[0] = kits_dir

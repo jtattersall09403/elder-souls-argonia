@@ -1,0 +1,1338 @@
+{
+ "assets": {
+  "bmv:architecture/citebosmer/houses/housechampint001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintdoor01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 45.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.48x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 280.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 280\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 105.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 106\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v003": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla45v001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla45v002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 320.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 320\u00b0 in the piece's own frame carries 1.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla45v003": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 225.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 1.50x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwindow001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwindow002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwindow003": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandint001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandintdoor001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandinttrapetdn001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandinttraprcdn001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandinttraprcup001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandinttrapssup001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 136.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 137\u00b0 in the piece's own frame carries 1.37x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandintwindowet001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandintwindowet002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandintwindowet003": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandintwindowrc001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintdooret01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 44.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.55x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintdoorrc01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 45.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintet001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintet90v001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 72.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 72\u00b0 in the piece's own frame carries 1.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintrc001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintrc90v001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 104.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 104\u00b0 in the piece's own frame carries 1.81x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintrcet90v001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 76.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 77\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintss001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwallet001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 132.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 132\u00b0 in the piece's own frame carries 1.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwallet002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 165.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 1.37x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwallet003": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 341.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 341\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwallrc001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 19.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 19\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwallrc002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 49.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 49\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwallrc003": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwindowet001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwindowet002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwindowet003": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwindowrc001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwindowrc002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintwindowrc003": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/cave2": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 314.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 314\u00b0 in the piece's own frame carries 2.11x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/cave3": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/cap": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/cor01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/cor02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/cor03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/cor04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 80.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 80\u00b0 in the piece's own frame carries 3.50x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/doorcaveb": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/exit01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/exit02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/hall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/hall02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/hall03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/hall04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/hall05": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/hall05_a": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/hall05_b": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/hallh01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/small/ram01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/connect": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 73.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 74\u00b0 in the piece's own frame carries 1.84x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/cor01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/cor02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/cor03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/corc": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/corc01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/corc02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/corc03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/corc04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/mid01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/mid02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/mid03a": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/mid03b": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/mid03c": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/mid04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 104.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 105\u00b0 in the piece's own frame carries 1.63x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/mid05": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/room01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/room02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 164.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 164\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/room03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 160.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 161\u00b0 in the piece's own frame carries 2.24x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/room04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 73.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 73\u00b0 in the piece's own frame carries 1.52x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/room05": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/wall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 131.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 132\u00b0 in the piece's own frame carries 1.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/wall02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/wall03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/wall04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/wall05": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/philscaves/srooms/wall06": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_entrance_01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 15.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 16\u00b0 in the piece's own frame carries 1.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_ext_ramp_01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 256.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 256\u00b0 in the piece's own frame carries 1.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_ext_root_01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 190.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 191\u00b0 in the piece's own frame carries 2.18x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_ext_root_02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 205.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 205\u00b0 in the piece's own frame carries 1.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_int_connector_01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_int_gourdhouse01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 49.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 49\u00b0 in the piece's own frame carries 1.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_pod_shelf_01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_ramp_03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 134.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 134\u00b0 in the piece's own frame carries 2.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_root_03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_shelffungus_01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 15.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 15\u00b0 in the piece's own frame carries 1.37x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_stairs_01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_stairs_01b": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 136.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 137\u00b0 in the piece's own frame carries 2.34x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproot": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/clutter/histfruit": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histramp": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 53.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 53\u00b0 in the piece's own frame carries 1.86x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots04": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 74.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 75\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots05": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histroots06": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/histtree": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 45.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 2.29x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/treegiantrootbase01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/treeroots01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/treeroots03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/trees/treeroottrap": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/archwaysticks": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 310.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 311\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/fxhistmist01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/histtree": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 282.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 283\u00b0 in the piece's own frame carries 1.88x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/roundfloor01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/shellhalf": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 132.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 133\u00b0 in the piece's own frame carries 1.69x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/sithisshrine": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "dungeon-root-v1 is an interior kit \u2014 these modules ARE the inside"
+  }
+ },
+ "kit": "dungeon-root-v1",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

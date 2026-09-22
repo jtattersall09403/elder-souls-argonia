@@ -473,7 +473,7 @@ def kit_config_names() -> frozenset[str]:
 
 
 @lru_cache(maxsize=1)
-def built_kit_names(kits_dir: Path = bi.KITS_DIR) -> frozenset[str]:
+def built_kit_names(kits_dir: Path = bi.LOCAL_KITS_DIR) -> frozenset[str]:
     """Every kit that has actually been BUILT — `output/kits/<name>.kit.json`.
 
     A config is an intention; the door teleports the player into the built kit,
@@ -2031,6 +2031,7 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
     parcels_by_id = {p.get("id"): p for p in bp.get("parcels", [])}
     parcel_ids = set(parcels_by_id)
     interiors = bi.library()
+    interiors_available = bi.library_available()
     doors_by_parcel: dict[str, list[dict]] = {}
     for d in bp.get("doors", []):
         if not str(d.get("id", "")).startswith(door_prefix):
@@ -2063,6 +2064,13 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                      f"authored to open on ({parcel.get('assetRef')} measures {float(side):.0f}°, which at "
                      f"yaw {float(parcel.get('yawDeg') or 0.0):.0f}° looks {want:.0f}°, {off:.0f}° away) — "
                      f"re-derive with 'blueprint_footprints --doors'")
+            bearing = None
+        elif not interiors_available:
+            kit_name = fp.library().kit_of.get(parcel.get("assetRef")) if parcel else None
+            fail(f"door {d.get('id')}: interiors library missing for "
+                 f"{kit_name or parcel.get('assetRef')}: door facing unverified — "
+                 f"build {kit_name or 'the kit'} (tooling/asset-pipeline/pipeline/interiors_index.py) "
+                 f"or restore world/sources/placement/kit-interiors")
             bearing = None
         else:
             bearing = _door_edge_bearing(parcel, d.get("thresholdUV")) if parcel else None
@@ -2100,7 +2108,7 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                      f"{KIT_CONFIG_DIR} (configured kits: {', '.join(sorted(known_kits)[:6])}…)")
             elif built and got not in built:
                 fail(f"door {d.get('id')}: interiorClaim.interiorRef {got!r} has a kit config but no BUILT kit "
-                     f"({bi.KITS_DIR}/{got}.kit.json is missing) — a config is an intention, and the door "
+                     f"({bi.LOCAL_KITS_DIR}/{got}.kit.json is missing) — a config is an intention, and the door "
                      f"teleports the player into the built kit; build it before the door can claim it")
         measured_class = record.get("sizeClass")
         if measured_class and (d.get("interiorClaim") or {}).get("sizeClass") != measured_class:

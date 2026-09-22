@@ -1,0 +1,885 @@
+{
+ "assets": {
+  "bmv:architecture/huts/exterior/hutdecking": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 7.03,
+   "heightM": 8.63,
+   "interior": "none",
+   "medianWallM": 8.95,
+   "planAreaM2": 216.45,
+   "provenance": [],
+   "ringFraction": 0.042,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "open sided \u2014 only 4% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "bmv:architecture/huts/exterior/hutexterior": {
+   "category": "architecture",
+   "closedShellPromotedBy": "door-piece",
+   "entrance": {
+    "count": 22,
+    "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
+    "doorwaySource": "assembly",
+    "kind": "assembly",
+    "offsetM": [
+     3.22,
+     5.98
+    ],
+    "radiusM": 6.8,
+    "sideDeg": 151.67
+   },
+   "entranceWhy": "the shell's own mesh has no opening \u2014 its door is a separate piece (doorframe01, ruinswooddoorload01), which the source authors placed against it 22 times at 152 deg in the piece's own frame; measured from placements, not geometry",
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.042,
+   "headroomM": 3.39,
+   "heightM": 7.18,
+   "interior": "tileset",
+   "medianWallM": 4.81,
+   "planAreaM2": 101.07,
+   "provenance": [
+    {
+     "count": 11,
+     "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      3.04,
+      5.57
+     ],
+     "radiusM": 6.34,
+     "sideDeg": 151.38
+    },
+    {
+     "count": 11,
+     "doorAsset": "bmv:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      3.19,
+      5.91
+     ],
+     "radiusM": 6.71,
+     "sideDeg": 151.68
+    },
+    {
+     "count": 11,
+     "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      3.42,
+      6.35
+     ],
+     "radiusM": 7.22,
+     "sideDeg": 151.72
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-farmhouse-int",
+   "why": "BM&V marsh hut exteriors ship no interior; the farmhouse interior tileset is the nearest single-room grammar we own"
+  },
+  "canoe:actors/sfss/canoe/canoe1": {
+   "category": "creature",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 108.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 108\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.12,
+   "interior": "none",
+   "planAreaM2": 9.87,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (9.9 m\u00b2 plan, 2.1 m tall)"
+  },
+  "composite:mud/hut-with-entrance": {
+   "category": "architecture",
+   "closedShellPromotedBy": "door-piece",
+   "entrance": {
+    "count": 22,
+    "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
+    "doorwaySource": "assembly",
+    "kind": "assembly",
+    "offsetM": [
+     3.22,
+     5.98
+    ],
+    "radiusM": 6.8,
+    "sideDeg": 151.67
+   },
+   "entranceWhy": "the shell's own mesh has no opening \u2014 its door is a separate piece (doorframe01), which the source authors placed against it 22 times at 152 deg in the piece's own frame; measured from placements, not geometry",
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.028,
+   "headroomM": 4.38,
+   "heightM": 8.17,
+   "interior": "tileset",
+   "medianWallM": 4.82,
+   "planAreaM2": 107.69,
+   "provenance": [
+    {
+     "count": 11,
+     "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      3.04,
+      5.57
+     ],
+     "radiusM": 6.34,
+     "sideDeg": 151.38
+    },
+    {
+     "count": 11,
+     "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      3.42,
+      6.35
+     ],
+     "radiusM": 7.22,
+     "sideDeg": 151.72
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-farmhouse-int",
+   "why": "BM&V marsh hut exteriors ship no interior; the farmhouse interior tileset is the nearest single-room grammar we own"
+  },
+  "ferries:yamadori/ferries/plank_ferry_swamp_01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 264.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 264\u00b0 in the piece's own frame carries 26.23x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.55,
+   "interior": "none",
+   "planAreaM2": 8.12,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (8.1 m\u00b2 plan, 1.6 m tall)"
+  },
+  "ferries:yamadori/ferries/rowboat_ferry_swamp_01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 259.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 259\u00b0 in the piece's own frame carries 2.31x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.19,
+   "interior": "none",
+   "planAreaM2": 17.96,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (18.0 m\u00b2 plan, 2.2 m tall)"
+  },
+  "ferryraft:snt/ferry/ferryraft01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.71,
+   "interior": "none",
+   "planAreaM2": 12.7,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (12.7 m\u00b2 plan, 1.7 m tall)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 7.0,
+   "front": {
+    "deg": 106.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 106\u00b0 in the piece's own frame carries 1.60x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.014,
+   "headroomM": 2.18,
+   "heightM": 24.35,
+   "interior": "none",
+   "medianWallM": 0.61,
+   "planAreaM2": 509.44,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "a crawl space, not a room \u2014 only 2.2 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.46,
+   "interior": "none",
+   "planAreaM2": 0.51,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.5 m\u00b2 plan, 3.5 m tall)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/histflower02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 4.3,
+   "interior": "none",
+   "planAreaM2": 0.36,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 4.3 m tall)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 285.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 285\u00b0 in the piece's own frame carries 2.46x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.65,
+   "interior": "none",
+   "planAreaM2": 4.2,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.2 m\u00b2 plan, 2.6 m tall)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 229.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 230\u00b0 in the piece's own frame carries 2.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.68,
+   "heightM": 2.44,
+   "interior": "none",
+   "medianWallM": 0.63,
+   "planAreaM2": 7.27,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.7 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 287.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 287\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.56,
+   "interior": "none",
+   "planAreaM2": 3.72,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.7 m\u00b2 plan, 2.6 m tall)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rockcairn04": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.56,
+   "interior": "none",
+   "planAreaM2": 2.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.1 m\u00b2 plan, 2.6 m tall)"
+  },
+  "histtree:skyfall/sleeping tree overhaul/rune circle": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 3.32,
+   "interior": "none",
+   "medianWallM": 3.56,
+   "planAreaM2": 56.68,
+   "provenance": [],
+   "ringFraction": 0.278,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "histtree:skyfall/sleeping tree overhaul/windchimehavok": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.24,
+   "interior": "none",
+   "planAreaM2": 0.08,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 2.2 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/archwaysticks": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.7,
+   "heightM": 2.73,
+   "interior": "none",
+   "medianWallM": 0.36,
+   "planAreaM2": 8.92,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.7 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.41,
+   "interior": "none",
+   "planAreaM2": 0.55,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.6 m\u00b2 plan, 1.4 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbridge": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.69,
+   "heightM": 2.69,
+   "interior": "none",
+   "medianWallM": 1.31,
+   "planAreaM2": 37.59,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.7 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbridgestart": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 138.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 139\u00b0 in the piece's own frame carries 1.38x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.944,
+   "headroomM": 1.69,
+   "heightM": 3.13,
+   "interior": "none",
+   "medianWallM": 1.27,
+   "planAreaM2": 8.66,
+   "provenance": [],
+   "ringFraction": 0.25,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.7 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniancandle01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 187.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 187\u00b0 in the piece's own frame carries 2.08x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.2,
+   "interior": "none",
+   "planAreaM2": 0.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 2.2 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.7,
+   "interior": "none",
+   "planAreaM2": 0.33,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.7 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.64,
+   "interior": "none",
+   "planAreaM2": 0.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 1.6 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfenceend": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.69,
+   "interior": "none",
+   "planAreaM2": 0.28,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.7 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.71,
+   "interior": "none",
+   "planAreaM2": 0.31,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 2.7 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.24,
+   "interior": "none",
+   "planAreaM2": 0.31,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 2.2 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianplatform": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 196.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 196\u00b0 in the piece's own frame carries 1.40x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.34,
+   "interior": "none",
+   "planAreaM2": 7.27,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (7.3 m\u00b2 plan, 0.3 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianplatformsmall": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.31,
+   "interior": "none",
+   "planAreaM2": 2.86,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 0.3 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianskull01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 232.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 233\u00b0 in the piece's own frame carries 15.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.0,
+   "interior": "none",
+   "planAreaM2": 0.88,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 1.0 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent01": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 2.86,
+    "kind": "open-front",
+    "offsetM": [
+     0.11,
+     -1.97
+    ],
+    "sideDeg": 357.5
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.404,
+   "headroomM": 3.76,
+   "heightM": 5.95,
+   "interior": "tileset",
+   "medianWallM": 2.08,
+   "planAreaM2": 43.18,
+   "provenance": [],
+   "ringFraction": 0.792,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-farmhouse-int",
+   "why": "Argonian nest exteriors are one-room mud dwellings; the farmhouse interior tileset is the single-room rustic grammar we own that fits them"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 14.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 14\u00b0 in the piece's own frame carries 2.03x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.569,
+   "headroomM": 2.21,
+   "heightM": 4.26,
+   "interior": "none",
+   "medianWallM": 1.03,
+   "planAreaM2": 25.51,
+   "provenance": [],
+   "ringFraction": 0.806,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 57% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 310.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 311\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.95,
+   "interior": "none",
+   "planAreaM2": 0.33,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 1.9 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/basketfull": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 102.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 102\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.49,
+   "interior": "none",
+   "planAreaM2": 0.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.5 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/basketsmall01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.12,
+   "interior": "none",
+   "planAreaM2": 0.14,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.1 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/carapaceoven": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 198.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 198\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.45,
+   "interior": "none",
+   "planAreaM2": 5.2,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.2 m\u00b2 plan, 1.4 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/fishracksmall": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.53,
+   "interior": "none",
+   "medianWallM": 1.11,
+   "planAreaM2": 6.0,
+   "provenance": [],
+   "ringFraction": 0.056,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "mudmother:gv_meshes/argoniannest/histtree": {
+   "category": "misc",
+   "entrance": {
+    "arcM": 0.93,
+    "kind": "opening",
+    "offsetM": [
+     5.27,
+     2.7
+    ],
+    "sideDeg": 105.0
+   },
+   "floorOffsetM": 8.0,
+   "frontFaceFraction": 0.733,
+   "headroomM": 5.76,
+   "heightM": 22.12,
+   "interior": "tileset",
+   "medianWallM": 2.18,
+   "planAreaM2": 532.21,
+   "provenance": [],
+   "ringFraction": 0.833,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "tileset": "dungeon-root-v1",
+   "why": "a hollow Hist trunk, not a built room: the root dungeon kit is the grown interior grammar for it"
+  },
+  "mudmother:gv_meshes/argoniannest/mudhut01": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "doorAsset": "dlc02/architecture/telvannitower/dlc2telmithryndoor01.nif",
+    "heightM": -0.042,
+    "kind": "esp-door",
+    "offsetM": [
+     5.779,
+     -2.329
+    ],
+    "placements": 2,
+    "radiusM": 6.231,
+    "sideDeg": 111.95,
+    "yawDeg": 360.0
+   },
+   "entranceWhy": "the exterior door dlc02/architecture/telvannitower/dlc2telmithryndoor01.nif that opens this interior, at the offset the plugin places it in this shell's own frame (2 placements)",
+   "espLink": {
+    "doorModel": "dlc02/architecture/telvannitower/dlc2telmithryndoor01.nif",
+    "interiorCell": "00MudHut01",
+    "interiorFamily": "vanilla:dungeons/riften/clutter",
+    "interiorSizeM": {
+     "heightM": 7.49,
+     "planXM": 17.09,
+     "planYM": 14.09
+    },
+    "placements": 2,
+    "plugin": "ArgonianLakeHouse.esl"
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 3.16,
+   "heightM": 5.09,
+   "interior": "tileset",
+   "interiorSource": "esp-door",
+   "matchedInteriorMesh": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+   "medianWallM": 2.86,
+   "planAreaM2": 29.89,
+   "provenance": [
+    {
+     "arcM": 1.3,
+     "kind": "opening",
+     "offsetM": [
+      -0.01,
+      2.08
+     ],
+     "sideDeg": 180.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "tileset": "mudmother-hut-int",
+   "why": "ArgonianLakeHouse.esl teleports from this shell into interior cell 00MudHut01 (2 placements of the load door); that cell is built from vanilla:dungeons/riften/clutter, which is packaged as mudmother-hut-int"
+  },
+  "mudmother:gv_meshes/argoniannest/paintedurn01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 283.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 283\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.07,
+   "interior": "none",
+   "planAreaM2": 0.41,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.1 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/roundfloor01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 3.0,
+   "heightM": 3.0,
+   "interior": "none",
+   "medianWallM": 21.14,
+   "planAreaM2": 1461.64,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mudmother:gv_meshes/argoniannest/sithisshrine": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.59,
+   "interior": "none",
+   "planAreaM2": 1.09,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.1 m\u00b2 plan, 1.6 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/snakefence01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.75,
+   "interior": "none",
+   "planAreaM2": 0.4,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.8 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/thatchroofing": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 32.65,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (32.6 m\u00b2 plan, 0.0 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/wovenchair01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 109.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 110\u00b0 in the piece's own frame carries 2.12x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.0,
+   "interior": "none",
+   "planAreaM2": 0.36,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.0 m tall)"
+  },
+  "mudmother:gv_meshes/argoniannest/woventable01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.91,
+   "interior": "none",
+   "planAreaM2": 4.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.4 m\u00b2 plan, 0.9 m tall)"
+  }
+ },
+ "kit": "settlement-mud-v1",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

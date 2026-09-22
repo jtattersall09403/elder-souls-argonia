@@ -1710,8 +1710,17 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
 
 def write_kit(kit_name: str, kits_dir: Path = KITS_DIR) -> Path:
     data = index_kit(kit_name, kits_dir)
+    payload = json.dumps(data, indent=1, sort_keys=True) + "\n"
     out = kits_dir / f"{kit_name}.interiors.json"
-    out.write_text(json.dumps(data, indent=1, sort_keys=True) + "\n")
+    out.write_text(payload)
+    # Tracked record (world/sources/placement/kit-interiors): CI and local
+    # validation both read this copy so they see the same data. Only mirror it
+    # when this ran against the real kit build (the default KITS_DIR) — a
+    # `--kits-dir` scratch build must never overwrite the committed record.
+    if kits_dir == KITS_DIR:
+        tracked_dir = REPO_ROOT / "world" / "sources" / "placement" / "kit-interiors"
+        tracked_dir.mkdir(parents=True, exist_ok=True)
+        (tracked_dir / f"{kit_name}.interiors.json").write_text(payload)
     return out
 
 

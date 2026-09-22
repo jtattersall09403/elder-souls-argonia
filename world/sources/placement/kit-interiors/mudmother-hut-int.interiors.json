@@ -1,0 +1,688 @@
+{
+ "assets": {
+  "mudmother:gv_meshes/argoniannest/argonianbone01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 225.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 3.14x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianbonechime02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 165.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 1.88x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfence02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianfenceend": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argonianpillow01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 313.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 313\u00b0 in the piece's own frame carries 2.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantent02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 14.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 14\u00b0 in the piece's own frame carries 2.03x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/banner01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/basketfull": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 102.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 102\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/basketsmall01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/bookshelf": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/candle01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/chitinchair01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 320.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 320\u00b0 in the piece's own frame carries 2.24x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/clam01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/drum01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/fishracksmall": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/hangingshelf": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/mudhut01intnew": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 11.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 12\u00b0 in the piece's own frame carries 2.16x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/ovennew": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 165.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 5.96x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/paintedurn01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 283.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 283\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/potterycup": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/potteryplate01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/potteryplate02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/potteryplate03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/roundfloor01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/shelfsingle": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/shellhalf": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 132.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 133\u00b0 in the piece's own frame carries 3.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/sithisshrine": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/thatchroofing": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/wallhanging01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/wallhanging02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 134.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 134\u00b0 in the piece's own frame carries 1.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/wallhanging03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 134.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 134\u00b0 in the piece's own frame carries 1.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/wovenchair01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 246.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 246\u00b0 in the piece's own frame carries 1.93x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/wovenfence01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "mudmother:gv_meshes/argoniannest/woventable01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/riften/clutter/rtbanneranchor01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/riften/interior/smallroomsingle/rifrmsmpartitionbeamtall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/bones/trollskull": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 44.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.67x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/chopping block/choppingblock01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/common/commoncounter01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/common/commoncounterhanger01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/containers/miscsack02largeflat": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/containers/miscsack02small": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/containers/miscsack02smallflat": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/containers/miscsacklarge": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/cookingspitsm01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/cookingstone01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/hay/haybale01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/hay/hayscatter04": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/hay/hayscatter05": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/hay/hayscatter06": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/ingredients/hawkfeather01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/riften/clutter/riftenrwwoodbeam01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/riften/clutter/riftenrwwoodbeam02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:dungeons/riften/clutter/riftenrwwoodbeam03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:furniture/bedroll/bedrollhay01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 315.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 315\u00b0 in the piece's own frame carries 1.48x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:furniture/common/commonchair01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 319.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 319\u00b0 in the piece's own frame carries 3.55x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:furniture/orcfurniture/orcshelf01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:furniture/smallcookingpot": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:plants/wheat01": {
+   "category": "plant",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "mudmother-hut-int is an interior kit \u2014 these modules ARE the inside"
+  }
+ },
+ "kit": "mudmother-hut-int",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

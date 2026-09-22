@@ -31,8 +31,13 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 LINKS_PATH = REPO_ROOT / "world" / "sources" / "placement" / "exterior-interior-links.json"
 BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
-KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 KIT_CONFIG_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "pipeline" / "config" / "kits"
+
+# Tracked record + local kit build, merged per kit (tracked wins) — resolved
+# at CALL time, never bound at import: a run that indexes kits and then
+# measures breadth in the same process must see the just-written tracked
+# copy. See worldgen.blueprint_interiors._merged_interior_files.
+from . import blueprint_interiors as _bi  # noqa: E402
 
 #: TODO(Part 8): the owner sets the floor. Until then this reports, never gates.
 #: Owner 2026-09-07, verbatim: "breadth of the sourced pool is used, mods
@@ -59,16 +64,22 @@ def kit_cultures(config_dir: Path = KIT_CONFIG_DIR) -> dict[str, str]:
 
 
 def available(links: dict[str, list[dict]] | None = None,
-              kits_dir: Path = KITS_DIR) -> dict[str, dict]:
+              kits_dir: Path | None = None) -> dict[str, dict]:
     """Linked shell -> `{kit, culture, interiorKit, cells}` for shells we ship.
 
     A linked shell nobody built into a kit is a sourcing gap, not availability,
     so it is excluded here and listed by `gaps()`.
+
+    `kits_dir=None` (the normal case) merges the tracked record and the local
+    kit build, per kit, tracked winning; pass an explicit directory to read
+    one location only (tests, a scratch build).
     """
     links = load_links() if links is None else links
     cultures = kit_cultures()
     out: dict[str, dict] = {}
-    for path in sorted(kits_dir.glob("*.interiors.json")):
+    paths = (_bi._merged_interior_files() if kits_dir is None else
+             (sorted(kits_dir.glob("*.interiors.json")) if kits_dir.exists() else []))
+    for path in paths:
         data = json.loads(path.read_text())
         kit = data.get("kit", path.stem.removesuffix(".interiors"))
         for asset_id, record in data.get("assets", {}).items():

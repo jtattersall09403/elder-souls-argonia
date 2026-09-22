@@ -1,0 +1,207 @@
+{
+ "assets": {
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 279.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 280\u00b0 in the piece's own frame carries 1.62x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 280.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 280\u00b0 in the piece's own frame carries 1.79x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 179.6,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 16 times with its neighbours to one side; the face away from them, at 180\u00b0 in its own frame, is the outside"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 307.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 307\u00b0 in the piece's own frame carries 2.04x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickersofa01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 350.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 351\u00b0 in the piece's own frame carries 2.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 216.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 217\u00b0 in the piece's own frame carries 2.00x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/bamboohut01_int": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 279.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 280\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/barrel01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/giant/giantcampfire01off": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 105.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 106\u00b0 in the piece's own frame carries 1.78x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/hay/hayscatter05": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/hay/hayscatter06": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/imperial/impbrazier01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "htbm-hut-int is an interior kit \u2014 these modules ARE the inside"
+  }
+ },
+ "kit": "htbm-hut-int",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

@@ -170,6 +170,15 @@ grader still needs their windows; they are kept out of the studio bundle,
 because nothing is built there. The count prints every run — if it grows, the
 families need a shorter piece, not a looser gate.
 
+**The kit interiors library is a tracked record, not a build artefact**
+(2026-09-22). `<kit>.interiors.json` now ships at
+`world/sources/placement/kit-interiors/` as well as `output/kits/`, so CI and
+a local checkout validate doors against the same data; the two readers
+(`blueprint.py`, `blueprint_interiors.py`) merge the tracked copy and the
+local build per kit, tracked winning, and a kit missing from both is a hard
+validation failure ("interiors library missing for `<kit>`") rather than the
+old silent nearest-footprint-edge fallback.
+
 **A derived route is regenerated, never hand-corrected** (water round 2 close-out,
 2026-09-09). When the terrain moves, a blueprint's derived routes, boardwalks
 and canals drift past the 0.3 m tolerance and the validator names them. The fix

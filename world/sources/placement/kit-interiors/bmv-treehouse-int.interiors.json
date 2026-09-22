@@ -1,0 +1,206 @@
+{
+ "assets": {
+  "bmv:architecture/citebosmer/houses/housechampint001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 280.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 280\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v002": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 105.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 106\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/houseglandint001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintet001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintet90v001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 72.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 72\u00b0 in the piece's own frame carries 1.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:architecture/citebosmer/houses/housetroncintrcet90v001": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 76.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 77\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:clutter/oaristys/the witcher/furniture/brazier": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:clutter/oaristys/the witcher/lamps/lamp_elven": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 194.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 194\u00b0 in the piece's own frame carries 1.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_int_connector_01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/tel_int_gourdhouse01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 49.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 49\u00b0 in the piece's own frame carries 1.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "bmv:telvanni/telv_platform01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:clutter/barrel01": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:furniture/common/commonbench01": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  },
+  "vanilla:furniture/commontabletwobenches": {
+   "category": "furniture",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": null,
+   "interior": "none",
+   "provenance": [],
+   "why": "bmv-treehouse-int is an interior kit \u2014 these modules ARE the inside"
+  }
+ },
+ "kit": "bmv-treehouse-int",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

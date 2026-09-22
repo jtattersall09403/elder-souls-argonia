@@ -1,0 +1,1838 @@
+{
+ "assets": {
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 54.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 54\u00b0 in the piece's own frame carries 10.94x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.03,
+   "interior": "none",
+   "planAreaM2": 3.7,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.7 m\u00b2 plan, 1.0 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 5.77,
+   "interior": "none",
+   "planAreaM2": 0.74,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.7 m\u00b2 plan, 5.8 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 249.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 250\u00b0 in the piece's own frame carries 3.05x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.87,
+   "interior": "none",
+   "planAreaM2": 0.87,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 1.9 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 135.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 135\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.91,
+   "interior": "none",
+   "planAreaM2": 1.85,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.9 m\u00b2 plan, 0.9 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.91,
+   "interior": "none",
+   "planAreaM2": 3.1,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.1 m\u00b2 plan, 0.9 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.82,
+   "interior": "none",
+   "planAreaM2": 10.4,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (10.4 m\u00b2 plan, 1.8 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.51,
+   "interior": "none",
+   "planAreaM2": 3.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.2 m\u00b2 plan, 0.5 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.59,
+   "interior": "none",
+   "planAreaM2": 23.28,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (23.3 m\u00b2 plan, 1.6 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.74,
+   "interior": "none",
+   "planAreaM2": 0.24,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 2.7 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.73,
+   "interior": "none",
+   "planAreaM2": 0.26,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 2.7 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.74,
+   "interior": "none",
+   "planAreaM2": 0.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 2.7 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 8.0,
+   "front": {
+    "deg": 21.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 21\u00b0 in the piece's own frame carries 1.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.92,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 2.37,
+   "planAreaM2": 34.8,
+   "provenance": [],
+   "ringFraction": 0.667,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'bridge' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 12.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 13\u00b0 in the piece's own frame carries 5.10x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 10.01,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 2.14,
+   "planAreaM2": 42.17,
+   "provenance": [],
+   "ringFraction": 0.889,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'bridge' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 8.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.92,
+   "heightM": 11.21,
+   "interior": "none",
+   "medianWallM": 2.34,
+   "planAreaM2": 33.92,
+   "provenance": [],
+   "ringFraction": 0.681,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "open sided \u2014 only 68% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 2.25,
+    "kind": "open-front",
+    "offsetM": [
+     1.73,
+     -0.22
+    ],
+    "sideDeg": 95.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 10.62,
+   "heightM": 11.21,
+   "interior": "tileset",
+   "medianWallM": 2.57,
+   "planAreaM2": 37.36,
+   "provenance": [],
+   "ringFraction": 0.861,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 11.21,
+   "heightM": 11.21,
+   "interior": "none",
+   "medianWallM": 0.03,
+   "planAreaM2": 12.39,
+   "provenance": [],
+   "ringFraction": 0.25,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "open sided \u2014 only 25% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 11.21,
+   "interior": "none",
+   "planAreaM2": 5.43,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.4 m\u00b2 plan, 11.2 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 10.92,
+   "heightM": 11.21,
+   "interior": "none",
+   "medianWallM": 0.72,
+   "planAreaM2": 16.96,
+   "provenance": [],
+   "ringFraction": 0.431,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "open sided \u2014 only 43% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 13.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (13.2 m\u00b2 plan, 0.0 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 6.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 7.74,
+   "interior": "none",
+   "medianWallM": 1.33,
+   "planAreaM2": 26.94,
+   "provenance": [],
+   "ringFraction": 0.417,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 6.0,
+   "front": {
+    "deg": 320.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 320\u00b0 in the piece's own frame carries 1.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 8.02,
+   "interior": "none",
+   "medianWallM": 0.46,
+   "planAreaM2": 27.39,
+   "provenance": [],
+   "ringFraction": 0.472,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 6.0,
+   "front": {
+    "deg": 134.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 134\u00b0 in the piece's own frame carries 12.32x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.98,
+   "heightM": 8.02,
+   "interior": "none",
+   "medianWallM": 0.85,
+   "planAreaM2": 46.59,
+   "provenance": [],
+   "ringFraction": 0.944,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a crawl space, not a room \u2014 only 2.0 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 6.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 8.02,
+   "interior": "none",
+   "medianWallM": 0.41,
+   "planAreaM2": 14.21,
+   "provenance": [],
+   "ringFraction": 0.694,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 13.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (13.2 m\u00b2 plan, 0.0 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 53.0,
+   "provenance": [],
+   "sizeClass": "medium",
+   "why": "too small to hold an interior (53.0 m\u00b2 plan, 0.0 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 224.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 224\u00b0 in the piece's own frame carries 1.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 5.16,
+   "heightM": 8.02,
+   "interior": "none",
+   "medianWallM": 2.25,
+   "planAreaM2": 42.55,
+   "provenance": [],
+   "ringFraction": 0.556,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'stair' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": {
+    "deg": 135.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 136\u00b0 in the piece's own frame carries 2.25x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.21,
+   "heightM": 8.02,
+   "interior": "none",
+   "medianWallM": 0.47,
+   "planAreaM2": 21.16,
+   "provenance": [],
+   "ringFraction": 0.611,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'stair' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 4.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.75,
+   "heightM": 7.28,
+   "interior": "none",
+   "medianWallM": 0.0,
+   "planAreaM2": 22.35,
+   "provenance": [],
+   "ringFraction": 0.5,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'stair' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": {
+    "deg": 44.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 44\u00b0 in the piece's own frame carries 2.25x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.21,
+   "heightM": 8.02,
+   "interior": "none",
+   "medianWallM": 0.47,
+   "planAreaM2": 21.16,
+   "provenance": [],
+   "ringFraction": 0.611,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'stair' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.14,
+   "interior": "none",
+   "planAreaM2": 0.19,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 1.1 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 4.24,
+   "interior": "none",
+   "planAreaM2": 1.22,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.2 m\u00b2 plan, 4.2 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.69,
+   "interior": "none",
+   "planAreaM2": 4.52,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.5 m\u00b2 plan, 3.7 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.7,
+   "interior": "none",
+   "planAreaM2": 2.99,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.0 m\u00b2 plan, 3.7 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 7.28,
+   "heightM": 7.28,
+   "interior": "none",
+   "medianWallM": 2.58,
+   "planAreaM2": 29.03,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 99.0,
+   "heightM": 7.28,
+   "interior": "none",
+   "medianWallM": 2.58,
+   "planAreaM2": 26.5,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 10.92,
+   "heightM": 10.92,
+   "interior": "none",
+   "medianWallM": 3.94,
+   "planAreaM2": 53.0,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 10.92,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 2.95,
+   "planAreaM2": 29.44,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 4.57,
+   "heightM": 6.66,
+   "interior": "none",
+   "medianWallM": 2.95,
+   "planAreaM2": 27.29,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 26.69,
+   "heightM": 26.69,
+   "interior": "none",
+   "medianWallM": 3.63,
+   "planAreaM2": 52.44,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.33,
+    "heightM": 3.0,
+    "kind": "leaf",
+    "offsetM": [
+     5.35,
+     -5.35
+    ],
+    "sideDeg": 45.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 14.55,
+   "heightM": 16.68,
+   "interior": "tileset",
+   "medianWallM": 5.91,
+   "planAreaM2": 145.44,
+   "provenance": [
+    {
+     "arcM": 1.33,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      5.35,
+      5.35
+     ],
+     "sideDeg": 135.0
+    },
+    {
+     "arcM": 1.33,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -5.35,
+      5.35
+     ],
+     "sideDeg": 225.0
+    },
+    {
+     "arcM": 1.33,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -5.35,
+      -5.35
+     ],
+     "sideDeg": 315.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.33,
+    "heightM": 3.0,
+    "kind": "leaf",
+    "offsetM": [
+     5.35,
+     -5.35
+    ],
+    "sideDeg": 45.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 24.7,
+   "heightM": 25.08,
+   "interior": "tileset",
+   "medianWallM": 5.91,
+   "planAreaM2": 167.96,
+   "provenance": [
+    {
+     "arcM": 1.33,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      5.35,
+      5.35
+     ],
+     "sideDeg": 135.0
+    },
+    {
+     "arcM": 1.33,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -5.35,
+      5.35
+     ],
+     "sideDeg": 225.0
+    },
+    {
+     "arcM": 1.33,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -5.35,
+      -5.35
+     ],
+     "sideDeg": 315.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 50.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 50\u00b0 in the piece's own frame carries 5.24x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 10.92,
+   "heightM": 11.66,
+   "interior": "none",
+   "medianWallM": 13.52,
+   "planAreaM2": 688.91,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 3.76,
+   "heightM": 4.83,
+   "interior": "none",
+   "medianWallM": 5.1,
+   "planAreaM2": 86.17,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": {
+   "category": "architecture",
+   "entrance": {
+    "arcM": 1.45,
+    "kind": "open-front",
+    "offsetM": [
+     1.62,
+     2.71
+    ],
+    "sideDeg": 87.5
+   },
+   "floorOffsetM": 2.0,
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.25,
+   "heightM": 5.46,
+   "interior": "tileset",
+   "medianWallM": 2.34,
+   "planAreaM2": 27.96,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": {
+   "category": "architecture",
+   "entrance": {
+    "arcM": 1.45,
+    "kind": "open-front",
+    "offsetM": [
+     -1.62,
+     2.71
+    ],
+    "sideDeg": 272.5
+   },
+   "floorOffsetM": 2.0,
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.25,
+   "heightM": 5.46,
+   "interior": "tileset",
+   "medianWallM": 2.34,
+   "planAreaM2": 27.96,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01": {
+   "category": "architecture",
+   "entrance": {
+    "arcM": 1.66,
+    "kind": "open-front",
+    "offsetM": [
+     1.9,
+     2.79
+    ],
+    "sideDeg": 90.0
+   },
+   "floorOffsetM": 2.0,
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.25,
+   "heightM": 5.46,
+   "interior": "tileset",
+   "medianWallM": 2.28,
+   "planAreaM2": 25.44,
+   "provenance": [
+    {
+     "arcM": 1.66,
+     "kind": "open-front",
+     "offsetM": [
+      -1.9,
+      2.79
+     ],
+     "sideDeg": 270.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.19,
+   "interior": "none",
+   "planAreaM2": 3.92,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.9 m\u00b2 plan, 1.2 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 229.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 229\u00b0 in the piece's own frame carries 2.12x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 3.9,
+   "interior": "none",
+   "planAreaM2": 3.94,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.9 m\u00b2 plan, 3.9 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.48,
+   "interior": "none",
+   "planAreaM2": 1.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.0 m\u00b2 plan, 1.5 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 5.12,
+   "interior": "none",
+   "planAreaM2": 1.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.0 m\u00b2 plan, 5.1 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.9,
+   "interior": "none",
+   "planAreaM2": 1.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.0 m\u00b2 plan, 3.9 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 44.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 18.46x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 7.54,
+   "interior": "none",
+   "planAreaM2": 1.04,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.0 m\u00b2 plan, 7.5 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.19,
+   "interior": "none",
+   "planAreaM2": 2.91,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 1.2 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.19,
+   "interior": "none",
+   "planAreaM2": 2.91,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 1.2 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 4.84,
+   "interior": "none",
+   "planAreaM2": 2.91,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 4.8 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.9,
+   "interior": "none",
+   "planAreaM2": 2.93,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 3.9 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 7.54,
+   "interior": "none",
+   "planAreaM2": 2.93,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 7.5 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.19,
+   "interior": "none",
+   "planAreaM2": 1.46,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.5 m\u00b2 plan, 1.2 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.9,
+   "interior": "none",
+   "planAreaM2": 1.47,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.5 m\u00b2 plan, 3.9 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 99.0,
+   "heightM": 3.64,
+   "interior": "none",
+   "medianWallM": 3.94,
+   "planAreaM2": 56.52,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.73,
+    "heightM": 3.0,
+    "kind": "leaf",
+    "offsetM": [
+     3.49,
+     -3.49
+    ],
+    "sideDeg": 45.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 3.64,
+   "heightM": 3.64,
+   "interior": "tileset",
+   "medianWallM": 3.94,
+   "planAreaM2": 58.03,
+   "provenance": [
+    {
+     "arcM": 1.73,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      3.49,
+      3.49
+     ],
+     "sideDeg": 135.0
+    },
+    {
+     "arcM": 1.73,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -3.49,
+      3.49
+     ],
+     "sideDeg": 225.0
+    },
+    {
+     "arcM": 1.73,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -3.49,
+      -3.49
+     ],
+     "sideDeg": 315.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.78,
+    "heightM": 2.7,
+    "kind": "leaf",
+    "offsetM": [
+     3.51,
+     -3.51
+    ],
+    "sideDeg": 45.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 4.2,
+   "heightM": 5.99,
+   "interior": "tileset",
+   "medianWallM": 3.94,
+   "planAreaM2": 67.24,
+   "provenance": [
+    {
+     "arcM": 1.78,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      3.51,
+      3.51
+     ],
+     "sideDeg": 135.0
+    },
+    {
+     "arcM": 1.78,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -3.51,
+      3.51
+     ],
+     "sideDeg": 225.0
+    },
+    {
+     "arcM": 1.78,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -3.51,
+      -3.51
+     ],
+     "sideDeg": 315.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.78,
+    "heightM": 2.7,
+    "kind": "leaf",
+    "offsetM": [
+     3.51,
+     -3.51
+    ],
+    "sideDeg": 45.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 14.53,
+   "heightM": 14.53,
+   "interior": "tileset",
+   "medianWallM": 3.94,
+   "planAreaM2": 67.24,
+   "provenance": [
+    {
+     "arcM": 1.78,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      3.51,
+      3.51
+     ],
+     "sideDeg": 135.0
+    },
+    {
+     "arcM": 1.78,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -3.51,
+      3.51
+     ],
+     "sideDeg": 225.0
+    },
+    {
+     "arcM": 1.78,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -3.51,
+      -3.51
+     ],
+     "sideDeg": 315.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 99.0,
+   "heightM": 3.64,
+   "interior": "none",
+   "medianWallM": 1.97,
+   "planAreaM2": 14.87,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.7,
+    "heightM": 3.0,
+    "kind": "leaf",
+    "offsetM": [
+     1.69,
+     -1.69
+    ],
+    "sideDeg": 45.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 3.64,
+   "heightM": 3.64,
+   "interior": "tileset",
+   "medianWallM": 1.97,
+   "planAreaM2": 15.81,
+   "provenance": [
+    {
+     "arcM": 1.7,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      1.69,
+      1.69
+     ],
+     "sideDeg": 135.0
+    },
+    {
+     "arcM": 1.7,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -1.69,
+      1.69
+     ],
+     "sideDeg": 225.0
+    },
+    {
+     "arcM": 1.7,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -1.69,
+      -1.69
+     ],
+     "sideDeg": 315.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "tileset": "vanilla-imperial-int",
+   "why": "Morrowind Imperial keep exteriors ship no interiors; the Imperial interior tileset dresses them"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 4.2,
+   "heightM": 5.99,
+   "interior": "none",
+   "medianWallM": 1.97,
+   "planAreaM2": 20.79,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": {
+    "deg": 314.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 314\u00b0 in the piece's own frame carries 1.87x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 7.92,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 1.67,
+   "planAreaM2": 25.7,
+   "provenance": [],
+   "ringFraction": 0.778,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 226.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 227\u00b0 in the piece's own frame carries 2.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 0.85,
+   "planAreaM2": 23.13,
+   "provenance": [],
+   "ringFraction": 0.806,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 132.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 133\u00b0 in the piece's own frame carries 3.10x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 0.87,
+   "planAreaM2": 23.33,
+   "provenance": [],
+   "ringFraction": 0.819,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 135.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 135\u00b0 in the piece's own frame carries 10.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 8.92,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 2.35,
+   "planAreaM2": 26.97,
+   "provenance": [],
+   "ringFraction": 0.722,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 8.92,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 1.86,
+   "planAreaM2": 26.97,
+   "provenance": [],
+   "ringFraction": 0.722,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": {
+    "deg": 225.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 6.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 7.92,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 2.25,
+   "planAreaM2": 32.19,
+   "provenance": [],
+   "ringFraction": 0.778,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 7.28,
+   "heightM": 7.28,
+   "interior": "none",
+   "medianWallM": 1.91,
+   "planAreaM2": 14.47,
+   "provenance": [],
+   "ringFraction": 0.806,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 8.0,
+   "front": {
+    "deg": 343.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 344\u00b0 in the piece's own frame carries 2.04x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.61,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 0.21,
+   "planAreaM2": 26.01,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'gate' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 8.0,
+   "front": {
+    "deg": 132.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 132\u00b0 in the piece's own frame carries 5.67x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.26,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 1.28,
+   "planAreaM2": 12.49,
+   "provenance": [],
+   "ringFraction": 0.833,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'gate' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 6.0,
+   "front": {
+    "deg": 306.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 306\u00b0 in the piece's own frame carries 4.85x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 7.05,
+   "heightM": 16.7,
+   "interior": "none",
+   "medianWallM": 1.67,
+   "planAreaM2": 27.33,
+   "provenance": [],
+   "ringFraction": 0.778,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 6.0,
+   "front": {
+    "deg": 53.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 54\u00b0 in the piece's own frame carries 4.85x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 7.05,
+   "heightM": 16.7,
+   "interior": "none",
+   "medianWallM": 1.67,
+   "planAreaM2": 27.33,
+   "provenance": [],
+   "ringFraction": 0.778,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 5.0,
+   "front": {
+    "deg": 194.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 195\u00b0 in the piece's own frame carries 1.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 12.57,
+   "interior": "none",
+   "medianWallM": 0.63,
+   "planAreaM2": 87.33,
+   "provenance": [],
+   "ringFraction": 0.792,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 4.0,
+   "front": {
+    "deg": 165.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 1.57x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.37,
+   "heightM": 12.57,
+   "interior": "none",
+   "medianWallM": 2.26,
+   "planAreaM2": 87.34,
+   "provenance": [],
+   "ringFraction": 0.764,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": {
+    "deg": 131.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 131\u00b0 in the piece's own frame carries 11.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 7.92,
+   "heightM": 13.06,
+   "interior": "none",
+   "medianWallM": 1.94,
+   "planAreaM2": 37.47,
+   "provenance": [],
+   "ringFraction": 0.861,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 288.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 289\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.28,
+   "interior": "none",
+   "planAreaM2": 50.66,
+   "provenance": [],
+   "sizeClass": "medium",
+   "why": "too small to hold an interior (50.7 m\u00b2 plan, 0.3 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 288.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 288\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.23,
+   "interior": "none",
+   "planAreaM2": 50.66,
+   "provenance": [],
+   "sizeClass": "medium",
+   "why": "too small to hold an interior (50.7 m\u00b2 plan, 0.2 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.11,
+   "interior": "none",
+   "planAreaM2": 16.53,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (16.5 m\u00b2 plan, 2.1 m tall)"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.43,
+   "heightM": 2.43,
+   "interior": "none",
+   "medianWallM": 1.87,
+   "planAreaM2": 12.55,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.44,
+   "heightM": 2.46,
+   "interior": "none",
+   "medianWallM": 1.22,
+   "planAreaM2": 7.87,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 163.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 163\u00b0 in the piece's own frame carries 1.52x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.6,
+   "heightM": 3.37,
+   "interior": "none",
+   "medianWallM": 0.33,
+   "planAreaM2": 88.92,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a crawl space, not a room \u2014 only 1.6 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.42,
+   "heightM": 8.31,
+   "interior": "none",
+   "medianWallM": 1.02,
+   "planAreaM2": 119.23,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 135.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 135\u00b0 in the piece's own frame carries 1.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.097,
+   "headroomM": 3.11,
+   "heightM": 8.42,
+   "interior": "none",
+   "medianWallM": 1.07,
+   "planAreaM2": 58.33,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 10% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  }
+ },
+ "kit": "imperial-keep",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

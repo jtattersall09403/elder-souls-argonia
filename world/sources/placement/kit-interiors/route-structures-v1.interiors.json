@@ -1,0 +1,463 @@
+{
+ "assets": {
+  "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.7,
+   "heightM": 4.03,
+   "interior": "none",
+   "medianWallM": 0.15,
+   "planAreaM2": 6.02,
+   "provenance": [],
+   "ringFraction": 0.444,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.7 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128d01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 3.03,
+   "interior": "none",
+   "medianWallM": 1.44,
+   "planAreaM2": 6.02,
+   "provenance": [],
+   "ringFraction": 0.139,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 326.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 327\u00b0 in the piece's own frame carries 1.65x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.71,
+   "heightM": 4.03,
+   "interior": "none",
+   "medianWallM": 0.16,
+   "planAreaM2": 6.06,
+   "provenance": [],
+   "ringFraction": 0.444,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.7 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256d01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 171.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 171\u00b0 in the piece's own frame carries 1.48x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.9,
+   "headroomM": 99.0,
+   "heightM": 3.03,
+   "interior": "none",
+   "medianWallM": 1.66,
+   "planAreaM2": 11.68,
+   "provenance": [],
+   "ringFraction": 0.278,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 138.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 138\u00b0 in the piece's own frame carries 4.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 3.51,
+   "interior": "none",
+   "medianWallM": 0.9,
+   "planAreaM2": 15.69,
+   "provenance": [],
+   "ringFraction": 0.556,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/stairs01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.28,
+   "interior": "none",
+   "medianWallM": 3.21,
+   "planAreaM2": 44.22,
+   "provenance": [],
+   "ringFraction": 0.306,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "name token 'stair' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.82,
+   "heightM": 3.12,
+   "interior": "none",
+   "medianWallM": 1.26,
+   "planAreaM2": 20.25,
+   "provenance": [],
+   "ringFraction": 0.722,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.8 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02": {
+   "category": "misc",
+   "entrance": {
+    "arcM": 1.07,
+    "kind": "opening",
+    "offsetM": [
+     1.1,
+     -0.58
+    ],
+    "sideDeg": 62.5
+   },
+   "floorOffsetM": 3.0,
+   "frontFaceFraction": 0.611,
+   "headroomM": 2.23,
+   "heightM": 5.49,
+   "interior": "tileset",
+   "medianWallM": 1.5,
+   "planAreaM2": 41.35,
+   "provenance": [
+    {
+     "arcM": 1.07,
+     "kind": "opening",
+     "offsetM": [
+      1.1,
+      0.57
+     ],
+     "sideDeg": 117.5
+    },
+    {
+     "arcM": 1.07,
+     "kind": "opening",
+     "offsetM": [
+      -1.1,
+      0.57
+     ],
+     "sideDeg": 242.5
+    },
+    {
+     "arcM": 1.07,
+     "kind": "opening",
+     "offsetM": [
+      -1.1,
+      -0.58
+     ],
+     "sideDeg": 297.5
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 44.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 2.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.86,
+   "heightM": 3.73,
+   "interior": "none",
+   "medianWallM": 1.51,
+   "planAreaM2": 15.45,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.9 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallterrace01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 74.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 75\u00b0 in the piece's own frame carries 2.05x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.08,
+   "heightM": 2.49,
+   "interior": "none",
+   "medianWallM": 2.35,
+   "planAreaM2": 29.63,
+   "provenance": [],
+   "ringFraction": 0.389,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallterracerampdown01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 133.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 134\u00b0 in the piece's own frame carries 2.03x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.014,
+   "headroomM": 1.67,
+   "heightM": 3.4,
+   "interior": "none",
+   "medianWallM": 0.18,
+   "planAreaM2": 61.11,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 132.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 133\u00b0 in the piece's own frame carries 2.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.63,
+   "heightM": 3.36,
+   "interior": "none",
+   "medianWallM": 0.16,
+   "planAreaM2": 60.54,
+   "provenance": [],
+   "ringFraction": 0.903,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.49,
+   "interior": "none",
+   "medianWallM": 1.0,
+   "planAreaM2": 59.22,
+   "provenance": [],
+   "ringFraction": 0.736,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:architecture/whiterun/wrterrain/wrbridgestone01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.3,
+   "interior": "none",
+   "planAreaM2": 17.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (17.1 m\u00b2 plan, 1.3 m tall)"
+  },
+  "vanilla:architecture/whiterun/wrterrain/wrcastlestairs01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 286.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 286\u00b0 in the piece's own frame carries 11.95x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.03,
+   "headroomM": 2.16,
+   "heightM": 12.61,
+   "interior": "none",
+   "medianWallM": 2.78,
+   "planAreaM2": 242.0,
+   "provenance": [],
+   "ringFraction": 0.931,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "a crawl space, not a room \u2014 only 2.2 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "vanilla:architecture/whiterun/wrterrain/wrstairsplatform01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 136.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 137\u00b0 in the piece's own frame carries 5.31x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.556,
+   "headroomM": 1.62,
+   "heightM": 12.14,
+   "interior": "none",
+   "medianWallM": 0.46,
+   "planAreaM2": 748.14,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "a crawl space, not a room \u2014 only 1.6 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbridge01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 166.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 166\u00b0 in the piece's own frame carries 1.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.21,
+   "interior": "none",
+   "planAreaM2": 24.73,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (24.7 m\u00b2 plan, 1.2 m tall)"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbridge02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.43,
+   "interior": "none",
+   "planAreaM2": 35.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (35.1 m\u00b2 plan, 1.4 m tall)"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbridgenarrow": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 131.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 131\u00b0 in the piece's own frame carries 1.41x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.54,
+   "interior": "none",
+   "planAreaM2": 23.74,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (23.7 m\u00b2 plan, 1.5 m tall)"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldstairs01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 271.9,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 10 times with its neighbours to one side; the face away from them, at 272\u00b0 in its own frame, is the outside"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.66,
+   "heightM": 3.45,
+   "interior": "none",
+   "medianWallM": 0.18,
+   "planAreaM2": 12.18,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "category 'clutter' is never a building"
+  }
+ },
+ "kit": "route-structures-v1",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

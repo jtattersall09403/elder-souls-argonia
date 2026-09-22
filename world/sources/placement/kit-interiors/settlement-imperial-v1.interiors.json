@@ -1,0 +1,626 @@
+{
+ "assets": {
+  "composite:farmhouse/farmhouse01-with-door": {
+   "category": "architecture",
+   "closedShellPromotedBy": "door-piece",
+   "entrance": {
+    "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "kind": "esp-door",
+    "placements": 22,
+    "radial": true,
+    "radiusM": 4.003
+   },
+   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (22 placements)",
+   "espLink": {
+    "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "interiorCell": "DawnstarBrinasHouse",
+    "interiorFamily": "vanilla:architecture/farmhouse/interior",
+    "interiorSizeM": {
+     "heightM": 4.9,
+     "planXM": 18.21,
+     "planYM": 9.64
+    },
+    "placements": 2,
+    "plugin": "Skyrim.esm"
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.042,
+   "headroomM": 9.31,
+   "heightM": 10.58,
+   "interior": "tileset",
+   "interiorSource": "esp-door",
+   "medianWallM": 6.77,
+   "planAreaM2": 191.71,
+   "provenance": [
+    {
+     "count": 10,
+     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      -1.82,
+      3.56
+     ],
+     "radiusM": 4.0,
+     "sideDeg": 207.03
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "tileset": "vanilla-farmhouse-int",
+   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBrinasHouse (2 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
+  },
+  "composite:farmhouse/farmhouse02-with-door": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "kind": "esp-door",
+    "placements": 34,
+    "radial": true,
+    "radiusM": 3.67
+   },
+   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (34 placements)",
+   "espLink": {
+    "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "interiorCell": "DawnstarBarracks",
+    "interiorFamily": "vanilla:architecture/farmhouse",
+    "interiorSizeM": {
+     "heightM": 11.46,
+     "planXM": 12.05,
+     "planYM": 18.03
+    },
+    "placements": 4,
+    "plugin": "Skyrim.esm"
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.222,
+   "headroomM": 12.83,
+   "heightM": 14.22,
+   "interior": "tileset",
+   "interiorSource": "esp-door",
+   "medianWallM": 4.08,
+   "planAreaM2": 192.24,
+   "provenance": [
+    {
+     "count": 7,
+     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      0.0,
+      3.11
+     ],
+     "radiusM": 3.11,
+     "sideDeg": 179.98
+    },
+    {
+     "count": 6,
+     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      -0.02,
+      3.67
+     ],
+     "radiusM": 3.67,
+     "sideDeg": 180.33
+    },
+    {
+     "arcM": 0.9,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -1.62,
+      3.38
+     ],
+     "sideDeg": 170.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "tileset": "vanilla-farmhouse-int",
+   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse, which is packaged as vanilla-farmhouse-int"
+  },
+  "composite:farmhouse/stonewall-run-3": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.26,
+   "heightM": 2.49,
+   "interior": "none",
+   "medianWallM": 0.61,
+   "planAreaM2": 18.86,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "composite:farmhouse/stonewall-run-5": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.69,
+   "heightM": 2.49,
+   "interior": "none",
+   "medianWallM": 0.21,
+   "planAreaM2": 32.94,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "rowboats:dungeons/clutter/shipoar01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.14,
+   "interior": "none",
+   "planAreaM2": 0.89,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 0.1 m tall)"
+  },
+  "rowboats:dungeons/ship/shiprowboat01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.68,
+   "interior": "none",
+   "planAreaM2": 38.48,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (38.5 m\u00b2 plan, 1.7 m tall)"
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 39.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 40\u00b0 in the piece's own frame carries 4.52x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 6.85,
+   "interior": "none",
+   "medianWallM": 1.0,
+   "planAreaM2": 39.65,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 68.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 69\u00b0 in the piece's own frame carries 5.41x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.971,
+   "headroomM": 1.87,
+   "heightM": 6.16,
+   "interior": "none",
+   "medianWallM": 3.55,
+   "planAreaM2": 87.84,
+   "provenance": [],
+   "ringFraction": 0.486,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.64,
+   "interior": "none",
+   "planAreaM2": 13.79,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (13.8 m\u00b2 plan, 1.6 m tall)"
+  },
+  "vanilla:architecture/docks/dockcolstr01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 42.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 42\u00b0 in the piece's own frame carries 2.78x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 11.54,
+   "interior": "none",
+   "planAreaM2": 0.35,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 11.5 m tall)"
+  },
+  "vanilla:architecture/docks/dockcorsol01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.77,
+   "heightM": 7.63,
+   "interior": "none",
+   "medianWallM": 2.06,
+   "planAreaM2": 33.38,
+   "provenance": [],
+   "ringFraction": 0.389,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "open sided \u2014 only 39% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "vanilla:architecture/docks/dockropestr01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.24,
+   "interior": "none",
+   "planAreaM2": 0.6,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.6 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:architecture/docks/dockstepsdown01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 5.0,
+   "front": {
+    "deg": 159.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 160\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 9.03,
+   "interior": "none",
+   "medianWallM": 1.66,
+   "planAreaM2": 31.01,
+   "provenance": [],
+   "ringFraction": 0.375,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "vanilla:architecture/docks/dockstr4way01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 3.04,
+   "heightM": 7.3,
+   "interior": "none",
+   "medianWallM": 2.24,
+   "planAreaM2": 32.94,
+   "provenance": [],
+   "ringFraction": 0.319,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "open sided \u2014 only 32% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "vanilla:architecture/docks/dockstrsol01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": {
+    "deg": 67.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 67\u00b0 in the piece's own frame carries 1.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.77,
+   "heightM": 7.22,
+   "interior": "none",
+   "medianWallM": 2.09,
+   "planAreaM2": 33.2,
+   "provenance": [],
+   "ringFraction": 0.417,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.8 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "vanilla:architecture/farmhouse/farmhouse01": {
+   "category": "architecture",
+   "closedShellPromotedBy": "door-piece",
+   "entrance": {
+    "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "kind": "esp-door",
+    "placements": 22,
+    "radial": true,
+    "radiusM": 4.003
+   },
+   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (22 placements)",
+   "espLink": {
+    "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "interiorCell": "DawnstarBrinasHouse",
+    "interiorFamily": "vanilla:architecture/farmhouse/interior",
+    "interiorSizeM": {
+     "heightM": 4.9,
+     "planXM": 18.21,
+     "planYM": 9.64
+    },
+    "placements": 2,
+    "plugin": "Skyrim.esm"
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.042,
+   "headroomM": 9.31,
+   "heightM": 10.58,
+   "interior": "tileset",
+   "interiorSource": "esp-door",
+   "medianWallM": 6.77,
+   "planAreaM2": 191.71,
+   "provenance": [
+    {
+     "count": 10,
+     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      -1.82,
+      3.56
+     ],
+     "radiusM": 4.0,
+     "sideDeg": 207.03
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "tileset": "vanilla-farmhouse-int",
+   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBrinasHouse (2 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
+  },
+  "vanilla:architecture/farmhouse/farmhouse01walkway": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 161.7,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 24 times with its neighbours to one side; the face away from them, at 162\u00b0 in its own frame, is the outside"
+   },
+   "frontFaceFraction": 0.014,
+   "headroomM": 1.64,
+   "heightM": 3.73,
+   "interior": "none",
+   "medianWallM": 1.44,
+   "planAreaM2": 54.33,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:architecture/farmhouse/farmhouse02": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "kind": "esp-door",
+    "placements": 34,
+    "radial": true,
+    "radiusM": 3.67
+   },
+   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (34 placements)",
+   "espLink": {
+    "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "interiorCell": "DawnstarBarracks",
+    "interiorFamily": "vanilla:architecture/farmhouse",
+    "interiorSizeM": {
+     "heightM": 11.46,
+     "planXM": 12.05,
+     "planYM": 18.03
+    },
+    "placements": 4,
+    "plugin": "Skyrim.esm"
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.222,
+   "headroomM": 12.83,
+   "heightM": 14.22,
+   "interior": "tileset",
+   "interiorSource": "esp-door",
+   "medianWallM": 4.08,
+   "planAreaM2": 192.24,
+   "provenance": [
+    {
+     "count": 7,
+     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      0.0,
+      3.11
+     ],
+     "radiusM": 3.11,
+     "sideDeg": 179.98
+    },
+    {
+     "count": 6,
+     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+     "doorwaySource": "assembly",
+     "kind": "assembly",
+     "offsetM": [
+      -0.02,
+      3.67
+     ],
+     "radiusM": 3.67,
+     "sideDeg": 180.33
+    },
+    {
+     "arcM": 0.9,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -1.62,
+      3.38
+     ],
+     "sideDeg": 170.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "tileset": "vanilla-farmhouse-int",
+   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse, which is packaged as vanilla-farmhouse-int"
+  },
+  "vanilla:architecture/farmhouse/fencewoven01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.53,
+   "interior": "none",
+   "planAreaM2": 0.7,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.7 m\u00b2 plan, 1.5 m tall)"
+  },
+  "vanilla:architecture/farmhouse/fencewoven02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.49,
+   "interior": "none",
+   "planAreaM2": 0.37,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.5 m tall)"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewall01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.31,
+   "heightM": 2.49,
+   "interior": "none",
+   "medianWallM": 0.55,
+   "planAreaM2": 6.26,
+   "provenance": [],
+   "ringFraction": 0.833,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewall02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.46,
+   "interior": "none",
+   "medianWallM": 0.04,
+   "planAreaM2": 12.67,
+   "provenance": [],
+   "ringFraction": 0.764,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallendl01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 270.1,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 559 times with its neighbours to one side; the face away from them, at 270\u00b0 in its own frame, is the outside"
+   },
+   "heightM": 2.44,
+   "interior": "none",
+   "planAreaM2": 5.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.0 m\u00b2 plan, 2.4 m tall)"
+  },
+  "vanilla:architecture/farmhouse/stonewall/stonewallendr01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 90.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 559 times with its neighbours to one side; the face away from them, at 90\u00b0 in its own frame, is the outside"
+   },
+   "heightM": 2.49,
+   "interior": "none",
+   "planAreaM2": 5.68,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.7 m\u00b2 plan, 2.5 m tall)"
+  }
+ },
+ "kit": "settlement-imperial-v1",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

@@ -1,0 +1,1532 @@
+{
+ "assets": {
+  "bmv:architecture/phitt/aldredanyia/house03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 196.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 196\u00b0 in the piece's own frame carries 13.68x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 4.57,
+   "heightM": 5.14,
+   "interior": "none",
+   "medianWallM": 4.57,
+   "planAreaM2": 81.26,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "bmv:architecture/phitt/aldredanyia/overhang05": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 347.9,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 301 times with its neighbours to one side; the face away from them, at 348\u00b0 in its own frame, is the outside"
+   },
+   "frontFaceFraction": 0.778,
+   "headroomM": 2.04,
+   "heightM": 3.58,
+   "interior": "none",
+   "medianWallM": 2.4,
+   "planAreaM2": 11.71,
+   "provenance": [],
+   "ringFraction": 0.25,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 2.0 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "bmv:architecture/phitt/aldredanyia/window": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 252.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 252\u00b0 in the piece's own frame carries 4.68x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.63,
+   "interior": "none",
+   "planAreaM2": 0.88,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 1.6 m tall)"
+  },
+  "composite:phitt/marsh-house-03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 4.57,
+   "heightM": 5.14,
+   "interior": "none",
+   "medianWallM": 4.47,
+   "planAreaM2": 97.1,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/baseentrance00": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 6.86,
+   "heightM": 7.03,
+   "interior": "none",
+   "medianWallM": 3.6,
+   "planAreaM2": 53.39,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/baseentrance01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 6.86,
+   "heightM": 7.03,
+   "interior": "none",
+   "medianWallM": 3.62,
+   "planAreaM2": 53.39,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/basetower00": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 224.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 3.25x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 99.0,
+   "heightM": 6.44,
+   "interior": "none",
+   "medianWallM": 3.58,
+   "planAreaM2": 49.63,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "hlaalu:hlaaluarchitecture/custom/basetower01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.028,
+   "headroomM": 99.0,
+   "heightM": 6.44,
+   "interior": "none",
+   "medianWallM": 3.65,
+   "planAreaM2": 49.63,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "hlaalu:hlaaluarchitecture/custom/dome": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 8.31,
+   "heightM": 8.31,
+   "interior": "none",
+   "medianWallM": 7.83,
+   "planAreaM2": 224.66,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/entrance00": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.06,
+    "kind": "open-front",
+    "offsetM": [
+     4.66,
+     -0.48
+    ],
+    "sideDeg": 270.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 7.31,
+   "heightM": 11.14,
+   "interior": "tileset",
+   "medianWallM": 1.51,
+   "planAreaM2": 19.89,
+   "provenance": [],
+   "ringFraction": 0.889,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/house01": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.08,
+    "kind": "opening",
+    "offsetM": [
+     -2.9,
+     2.7
+    ],
+    "sideDeg": 200.0
+   },
+   "floorOffsetM": 7.0,
+   "frontFaceFraction": 0.153,
+   "headroomM": 7.27,
+   "heightM": 14.72,
+   "interior": "tileset",
+   "medianWallM": 4.29,
+   "planAreaM2": 127.95,
+   "provenance": [
+    {
+     "arcM": 0.93,
+     "kind": "opening",
+     "offsetM": [
+      -3.14,
+      -0.52
+     ],
+     "sideDeg": 242.5
+    },
+    {
+     "arcM": 1.37,
+     "kind": "opening",
+     "offsetM": [
+      -2.78,
+      -4.8
+     ],
+     "sideDeg": 337.5
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/house01base": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 36.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 37\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 6.45,
+   "heightM": 6.62,
+   "interior": "none",
+   "medianWallM": 4.77,
+   "planAreaM2": 79.83,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/housebase00": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 44.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 3.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 6.45,
+   "heightM": 6.62,
+   "interior": "none",
+   "medianWallM": 3.69,
+   "planAreaM2": 49.67,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/housebase01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 224.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 224\u00b0 in the piece's own frame carries 1.70x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 6.45,
+   "heightM": 6.62,
+   "interior": "none",
+   "medianWallM": 3.7,
+   "planAreaM2": 49.7,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/housetall01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 5.07,
+   "heightM": 5.52,
+   "interior": "none",
+   "medianWallM": 3.24,
+   "planAreaM2": 61.15,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/largewindow00": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.6,
+   "interior": "none",
+   "planAreaM2": 0.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 3.6 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/custom/middletower00": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 224.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 225\u00b0 in the piece's own frame carries 3.11x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 99.0,
+   "heightM": 6.34,
+   "interior": "none",
+   "medianWallM": 3.63,
+   "planAreaM2": 46.83,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "hlaalu:hlaaluarchitecture/custom/middletower01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 99.0,
+   "heightM": 6.34,
+   "interior": "none",
+   "medianWallM": 3.66,
+   "planAreaM2": 48.85,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "hlaalu:hlaaluarchitecture/custom/roof": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.35,
+   "heightM": 2.39,
+   "interior": "none",
+   "medianWallM": 1.43,
+   "planAreaM2": 47.46,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/toptower00": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 44.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 3.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 6.45,
+   "heightM": 6.62,
+   "interior": "none",
+   "medianWallM": 3.66,
+   "planAreaM2": 49.63,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/toptower01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 44.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.38x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 6.45,
+   "heightM": 6.62,
+   "interior": "none",
+   "medianWallM": 3.67,
+   "planAreaM2": 49.73,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower00": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.81,
+    "heightM": 2.7,
+    "kind": "leaf",
+    "offsetM": [
+     3.84,
+     3.49
+    ],
+    "sideDeg": 140.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 18.73,
+   "heightM": 18.9,
+   "interior": "tileset",
+   "medianWallM": 3.67,
+   "planAreaM2": 49.6,
+   "provenance": [
+    {
+     "arcM": 0.88,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -2.65,
+      3.5
+     ],
+     "sideDeg": 225.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower01": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 3.04,
+    "kind": "opening",
+    "offsetM": [
+     2.71,
+     10.14
+    ],
+    "sideDeg": 22.5
+   },
+   "floorOffsetM": 7.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 19.02,
+   "heightM": 26.19,
+   "interior": "tileset",
+   "medianWallM": 3.43,
+   "planAreaM2": 69.18,
+   "provenance": [
+    {
+     "arcM": 3.03,
+     "kind": "opening",
+     "offsetM": [
+      2.72,
+      12.51
+     ],
+     "sideDeg": 157.5
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower02": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.87,
+    "heightM": 2.4,
+    "kind": "leaf",
+    "offsetM": [
+     -2.63,
+     3.15
+    ],
+    "sideDeg": 230.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 18.73,
+   "heightM": 18.9,
+   "interior": "tileset",
+   "medianWallM": 3.65,
+   "planAreaM2": 49.72,
+   "provenance": [
+    {
+     "arcM": 0.88,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -2.63,
+      -3.24
+     ],
+     "sideDeg": 310.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower03": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.88,
+    "heightM": 2.7,
+    "kind": "leaf",
+    "offsetM": [
+     -2.64,
+     3.27
+    ],
+    "sideDeg": 230.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 18.73,
+   "heightM": 18.9,
+   "interior": "tileset",
+   "medianWallM": 3.64,
+   "planAreaM2": 49.73,
+   "provenance": [
+    {
+     "arcM": 0.88,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -2.63,
+      -3.12
+     ],
+     "sideDeg": 310.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower04": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 3.05,
+    "kind": "opening",
+    "offsetM": [
+     2.71,
+     -1.65
+    ],
+    "sideDeg": 22.5
+   },
+   "floorOffsetM": 7.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 12.92,
+   "heightM": 20.09,
+   "interior": "tileset",
+   "medianWallM": 3.44,
+   "planAreaM2": 69.19,
+   "provenance": [
+    {
+     "arcM": 3.04,
+     "kind": "opening",
+     "offsetM": [
+      2.72,
+      0.72
+     ],
+     "sideDeg": 157.5
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower05": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.88,
+    "heightM": 2.7,
+    "kind": "leaf",
+    "offsetM": [
+     -2.67,
+     3.78
+    ],
+    "sideDeg": 230.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 12.63,
+   "heightM": 12.8,
+   "interior": "tileset",
+   "medianWallM": 3.66,
+   "planAreaM2": 49.56,
+   "provenance": [
+    {
+     "arcM": 0.88,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -2.65,
+      -2.61
+     ],
+     "sideDeg": 310.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower06": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.88,
+    "heightM": 2.7,
+    "kind": "leaf",
+    "offsetM": [
+     -2.64,
+     3.01
+    ],
+    "sideDeg": 230.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 12.63,
+   "heightM": 12.8,
+   "interior": "tileset",
+   "medianWallM": 3.64,
+   "planAreaM2": 49.73,
+   "provenance": [
+    {
+     "arcM": 0.88,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      -2.63,
+      -3.38
+     ],
+     "sideDeg": 310.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower07": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.87,
+    "heightM": 2.4,
+    "kind": "leaf",
+    "offsetM": [
+     -2.62,
+     14.49
+    ],
+    "sideDeg": 230.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 12.63,
+   "heightM": 12.8,
+   "interior": "tileset",
+   "medianWallM": 3.64,
+   "planAreaM2": 49.73,
+   "provenance": [
+    {
+     "arcM": 0.87,
+     "heightM": 2.4,
+     "kind": "leaf",
+     "offsetM": [
+      -2.62,
+      8.11
+     ],
+     "sideDeg": 310.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/custom/tower08": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 3.05,
+    "kind": "opening",
+    "offsetM": [
+     2.71,
+     -1.66
+    ],
+    "sideDeg": 22.5
+   },
+   "floorOffsetM": 7.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 19.02,
+   "heightM": 26.19,
+   "interior": "tileset",
+   "medianWallM": 3.44,
+   "planAreaM2": 69.19,
+   "provenance": [
+    {
+     "arcM": 3.03,
+     "kind": "opening",
+     "offsetM": [
+      2.72,
+      0.71
+     ],
+     "sideDeg": 157.5
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/miniwall": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.12,
+   "interior": "none",
+   "planAreaM2": 0.57,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.6 m\u00b2 plan, 1.1 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 5.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.83,
+   "heightM": 6.83,
+   "interior": "none",
+   "medianWallM": 0.36,
+   "planAreaM2": 7.75,
+   "provenance": [],
+   "ringFraction": 0.944,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 5.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.6,
+   "heightM": 6.83,
+   "interior": "none",
+   "medianWallM": 0.17,
+   "planAreaM2": 11.59,
+   "provenance": [],
+   "ringFraction": 0.944,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 5.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.98,
+   "heightM": 7.07,
+   "interior": "none",
+   "medianWallM": 0.49,
+   "planAreaM2": 15.47,
+   "provenance": [],
+   "ringFraction": 0.944,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 3.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 3.41,
+   "heightM": 6.83,
+   "interior": "none",
+   "medianWallM": 1.16,
+   "planAreaM2": 8.65,
+   "provenance": [],
+   "ringFraction": 0.806,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.58,
+   "heightM": 6.83,
+   "interior": "none",
+   "medianWallM": 1.35,
+   "planAreaM2": 27.29,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'wall' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 8.28,
+   "interior": "none",
+   "planAreaM2": 4.06,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.1 m\u00b2 plan, 8.3 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 6.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.0,
+   "heightM": 8.0,
+   "interior": "none",
+   "medianWallM": 0.5,
+   "planAreaM2": 15.47,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'gate' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/multi_barrels00": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.08,
+   "interior": "none",
+   "planAreaM2": 5.55,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.5 m\u00b2 plan, 2.1 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/multi_crate00": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 126.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 127\u00b0 in the piece's own frame carries 2.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.69,
+   "heightM": 2.39,
+   "interior": "none",
+   "medianWallM": 0.06,
+   "planAreaM2": 6.97,
+   "provenance": [],
+   "ringFraction": 0.653,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.7 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/skavenclaystairs": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.85,
+   "interior": "none",
+   "planAreaM2": 1.21,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.2 m\u00b2 plan, 0.8 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/stairs01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.28,
+   "interior": "none",
+   "medianWallM": 3.21,
+   "planAreaM2": 44.22,
+   "provenance": [],
+   "ringFraction": 0.306,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "name token 'stair' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/tradehome": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": null,
+   "frontFaceFraction": 0.028,
+   "headroomM": 1.6,
+   "heightM": 3.7,
+   "interior": "none",
+   "medianWallM": 0.16,
+   "planAreaM2": 23.84,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.6 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trcrane02base": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.39,
+   "interior": "none",
+   "medianWallM": 2.02,
+   "planAreaM2": 11.07,
+   "provenance": [],
+   "ringFraction": 0.056,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.82,
+   "heightM": 3.12,
+   "interior": "none",
+   "medianWallM": 1.26,
+   "planAreaM2": 20.25,
+   "provenance": [],
+   "ringFraction": 0.722,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.8 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02": {
+   "category": "misc",
+   "entrance": {
+    "arcM": 1.07,
+    "kind": "opening",
+    "offsetM": [
+     1.1,
+     -0.58
+    ],
+    "sideDeg": 62.5
+   },
+   "floorOffsetM": 3.0,
+   "frontFaceFraction": 0.611,
+   "headroomM": 2.23,
+   "heightM": 5.49,
+   "interior": "tileset",
+   "medianWallM": 1.5,
+   "planAreaM2": 41.35,
+   "provenance": [
+    {
+     "arcM": 1.07,
+     "kind": "opening",
+     "offsetM": [
+      1.1,
+      0.57
+     ],
+     "sideDeg": 117.5
+    },
+    {
+     "arcM": 1.07,
+     "kind": "opening",
+     "offsetM": [
+      -1.1,
+      0.57
+     ],
+     "sideDeg": 242.5
+    },
+    {
+     "arcM": 1.07,
+     "kind": "opening",
+     "offsetM": [
+      -1.1,
+      -0.58
+     ],
+     "sideDeg": 297.5
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcover1": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 160.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 160\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.083,
+   "headroomM": 1.87,
+   "heightM": 3.87,
+   "interior": "none",
+   "medianWallM": 1.72,
+   "planAreaM2": 13.6,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.9 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcover2": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 136.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 136\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.153,
+   "headroomM": 1.87,
+   "heightM": 3.87,
+   "interior": "none",
+   "medianWallM": 1.73,
+   "planAreaM2": 15.35,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.9 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.87,
+    "heightM": 2.7,
+    "kind": "leaf",
+    "offsetM": [
+     2.06,
+     -1.56
+    ],
+    "sideDeg": 10.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.028,
+   "headroomM": 3.58,
+   "heightM": 3.87,
+   "interior": "tileset",
+   "medianWallM": 1.6,
+   "planAreaM2": 29.35,
+   "provenance": [
+    {
+     "arcM": 1.3,
+     "heightM": 2.7,
+     "kind": "leaf",
+     "offsetM": [
+      1.94,
+      1.77
+     ],
+     "sideDeg": 175.0
+    },
+    {
+     "arcM": 1.86,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      1.22,
+      -0.01
+     ],
+     "sideDeg": 270.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "tileset": "vanilla-imperial-int",
+   "why": "Hlaalu domestic exteriors ship no interiors; the Imperial interior tileset is the nearest we own"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfence": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.85,
+   "interior": "none",
+   "planAreaM2": 2.4,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.4 m\u00b2 plan, 1.9 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.85,
+   "interior": "none",
+   "planAreaM2": 1.29,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.3 m\u00b2 plan, 1.9 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.02,
+   "interior": "none",
+   "planAreaM2": 0.74,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.7 m\u00b2 plan, 2.0 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.73,
+   "interior": "none",
+   "planAreaM2": 2.91,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 3.7 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall90a": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.73,
+   "interior": "none",
+   "planAreaM2": 3.91,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.9 m\u00b2 plan, 3.7 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokena": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.73,
+   "interior": "none",
+   "planAreaM2": 2.35,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.4 m\u00b2 plan, 3.7 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenb": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.73,
+   "interior": "none",
+   "planAreaM2": 2.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.0 m\u00b2 plan, 3.7 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenc": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.01,
+   "interior": "none",
+   "planAreaM2": 2.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.0 m\u00b2 plan, 1.0 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.73,
+   "interior": "none",
+   "planAreaM2": 1.52,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.5 m\u00b2 plan, 3.7 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.73,
+   "interior": "none",
+   "planAreaM2": 2.91,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 3.7 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.73,
+   "interior": "none",
+   "planAreaM2": 2.91,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.9 m\u00b2 plan, 3.7 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 44.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 2.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.86,
+   "heightM": 3.73,
+   "interior": "none",
+   "medianWallM": 1.51,
+   "planAreaM2": 15.45,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.9 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.98,
+   "interior": "none",
+   "planAreaM2": 42.76,
+   "provenance": [],
+   "sizeClass": "medium",
+   "why": "too small to hold an interior (42.8 m\u00b2 plan, 2.0 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.98,
+   "interior": "none",
+   "planAreaM2": 22.36,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (22.4 m\u00b2 plan, 2.0 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.98,
+   "interior": "none",
+   "planAreaM2": 11.69,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (11.7 m\u00b2 plan, 2.0 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/objects/crane01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 4.0,
+   "front": {
+    "deg": 202.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 203\u00b0 in the piece's own frame carries 1.60x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.84,
+   "heightM": 10.4,
+   "interior": "none",
+   "medianWallM": 0.15,
+   "planAreaM2": 18.19,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.8 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/objects/crane02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 4.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.84,
+   "heightM": 10.4,
+   "interior": "none",
+   "medianWallM": 0.15,
+   "planAreaM2": 18.41,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.8 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/objects/crane03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 4.0,
+   "front": {
+    "deg": 196.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 197\u00b0 in the piece's own frame carries 2.26x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.66,
+   "heightM": 10.4,
+   "interior": "none",
+   "medianWallM": 0.12,
+   "planAreaM2": 22.61,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.7 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "hlaalu:hlaaluarchitecture/objects/sbigplanter02t": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.41,
+   "interior": "none",
+   "planAreaM2": 0.14,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.4 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost1arm": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.28,
+   "interior": "none",
+   "planAreaM2": 0.26,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 3.3 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost2arm": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.29,
+   "interior": "none",
+   "planAreaM2": 0.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 3.3 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/objects/trlanternpost4arm": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.3,
+   "interior": "none",
+   "planAreaM2": 2.55,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.5 m\u00b2 plan, 3.3 m tall)"
+  },
+  "hlaalu:hlaaluarchitecture/objects/trlanternpostbase": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.47,
+   "interior": "none",
+   "planAreaM2": 0.29,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.5 m tall)"
+  }
+ },
+ "kit": "hlaalu-domestic",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}
