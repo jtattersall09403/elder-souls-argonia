@@ -300,6 +300,9 @@ def pool_sources(pool: str, vault: Path, tropical: bool = True) -> PoolSources:
         "sirenroot": "sirenroot-70917",
         "htbm": "here-there-be-monsters-cipactli-35933",
         "mwkeep": "morrowind-imperial-keep-133090",
+        # King of the Murkmire: its BSA unpacked in place beside the kept
+        # `Kotm BSA Test/` BSA and plugin (2026-09-24).
+        "kotm": "king-of-the-murkmire-190459",
         "hlaalu": "morrowind-hlaalu-157997",
         "sailboats": "sailboats-expanded-40057",
         "impships": "cyrodiil-ship-boat-resource-59426",
@@ -855,14 +858,20 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     means anything that opens the file sees the truth.
     """
     masked = {
-        name for asset in summary["assets"] if asset.get("alphaTest")
+        name: 0.5 for asset in summary["assets"] if asset.get("alphaTest")
         for name in asset.get("materials", [])
     }
     # Billboard cards are cutouts whatever the base asset's mode.
-    masked |= {
-        name for asset in summary["assets"]
+    masked.update({
+        name: 0.5 for asset in summary["assets"]
         for name in asset.get("billboardMaterials", [])
-    }
+    })
+    # A non-foliage piece whose NIF tests or blends alpha (an NiAlphaProperty,
+    # blender/build_kit.py ALPHA_MASK_MATERIALS) is a cutout at the NIF's own
+    # threshold, never opaque (16h check-in 2 item 8).
+    for asset in summary["assets"]:
+        for name, cutoff in asset.get("alphaMaskMaterials", {}).items():
+            masked.setdefault(name, cutoff)
     data = bytearray(glb.read_bytes())
     header = struct.unpack_from("<4sII", data, 0)
     chunk_length, chunk_type = struct.unpack_from("<I4s", data, 12)
@@ -875,7 +884,7 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     for material in gltf.get("materials", []):
         if material.get("name") in masked:
             material["alphaMode"] = "MASK"
-            material["alphaCutoff"] = 0.5
+            material["alphaCutoff"] = masked[material["name"]]
             counts["MASK"] += 1
         else:
             material.pop("alphaMode", None)

@@ -44,13 +44,12 @@ export interface SettlementPlacement {
   };
 }
 
+/** A building footprint row. The runtime draws nothing from it (the
+ * wall-foot skirt and the rubble ring are cut, 16h check-in 2 ruling 1);
+ * the groundcover reads `footprintM` as the grass exclusion. */
 export interface GroundTreatment {
   id: string;
   footprintM: [number, number][];
-  contactAoWidthM: number;
-  baseSkirtWidthM: number;
-  foundationScatterBandM: [number, number];
-  farTier: false;
 }
 
 export interface SettlementBundle {
@@ -194,8 +193,25 @@ export type SettlementProofState = Readonly<{
   grounding: readonly ReadonlySettlementGroundAudit[];
   finalTransformEvidence: Readonly<SettlementFinalTransformEvidence>;
   collision: Readonly<SettlementCollisionAudit>;
+  /** Live per-frame counters (not frozen; the layer updates them each frame). */
+  frames: Readonly<SettlementFrameEvidence>;
   error?: string;
 }>;
+
+/**
+ * Per-frame evidence for the flash probe (16h check-in 2 item 2). A
+ * `blankFrame` is a frame whose live group is empty while the last finished
+ * build drew something: a settlement that vanished. Must stay 0.
+ */
+export interface SettlementFrameEvidence {
+  frames: number;
+  blankFrames: number;
+  /** Finished builds swapped in. */
+  swaps: number;
+  /** Finished builds that resolved exactly what was live and were dropped. */
+  skippedSwaps: number;
+  liveChildren: number;
+}
 
 export interface SettlementLayerProps {
   baseUrl: string;
@@ -203,10 +219,16 @@ export interface SettlementLayerProps {
   groundAt: TerrainHeight;
   quality?: { architectureDrawScale?: number };
   /** Injected world state; no app singleton leaks into the reusable layer. */
-  environment?: () => { rainIntensity: number; minuteOfDay: number } | null;
+  /** `epochMinutes` is the Module 55 world clock; the layer reads the sun's
+   * altitude from it (the night windows ramp on twilight, not a clock hour). */
+  environment?: () => { rainIntensity: number; epochMinutes: number } | null;
   onSolids?: (solids: SettlementSolid[]) => void;
   onStats?: (stats: SettlementRenderStats) => void;
   materialPatch?: (material: THREE.Material) => void;
+  /** Injected probe handle (dev tooling only): the layer puts a "rebuild
+   * now" function here, so the flash probe can force a rebuild without a
+   * global. No control reaches the layer any other way. */
+  rebuildRef?: React.MutableRefObject<(() => void) | null>;
 }
 
 /** What the runtime reads off a published kit manifest, per asset (16h item 1). */

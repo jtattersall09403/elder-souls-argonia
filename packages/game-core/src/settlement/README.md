@@ -65,14 +65,27 @@ Load-bearing contracts:
 - materials carry aerial, rain wetness and all-tier window emission state in
   `userData`; `WorldSky` reapplies the hook after CSM. Rain height is measured
   from each instance's streamed ground line, and the same call creates an
-  alpha/displacement-matched `customDepthMaterial` for its shadow;
-- footprint ground treatments are also the single grass exclusion input.
+  alpha/displacement-matched `customDepthMaterial` for its shadow, one per
+  colour material for the layer's life. A glow material is one with an
+  emissive map (the NIF's Glow_Map slot, carried by the kit build); it is lit
+  in the emissive stage as mask × warm colour × `settlementNightFactor`, a
+  ramp on the sun's altitude read from the injected world clock
+  (`environment().epochMinutes`);
+- a rebuild (every ≤ 40 m of focus movement, a 2 s retry while terrain is
+  missing, a kit or manifest arriving) is built detached and swapped in one
+  synchronous step; the build effect's cleanup only cancels, and the live
+  group is disposed only when the world goes (unmount, new bundle, fatal). A
+  retry that resolves exactly what is live is not swapped. Nothing is drawn
+  at a building's foot (16h check-in 2 ruling 1: skirt and rubble ring cut);
+- footprint ground treatments are the grass exclusion input only.
 
 Browser acceptance may read the immutable `globalThis.__STUDIO_SETTLEMENT_DEBUG__`
 snapshot. It reports `loading`/`loaded`/`failed`, bundle and rendered placement
 counts, draw/triangle counts, final-transform evidence, the per-settlement
 grounding audit and the complete collision residency/budget result; it exposes
-no controls or mutable renderer objects.
+no controls or mutable renderer objects. Its `frames` block is the one live
+part: per-frame counters (`blankFrames` must stay 0) read by
+`apps/world-studio/scripts/probe-settlement-flash.mjs`.
 
 The authored/compiled boundary stays explicit: navmesh cuts, paired door
 arrival markers and variants are bundle data for later gameplay systems; this

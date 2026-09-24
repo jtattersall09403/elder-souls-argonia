@@ -27,9 +27,12 @@ import {
   selectCollisionResidency,
 } from "./collisionResidency";
 import {
+  applySettlementSurface,
   applySettlementSurfaceWithShadow,
+  isSettlementGlowMaterial,
   SETTLEMENT_GROUND_ATTRIBUTE,
   settlementShadowPairErrors,
+  syncSettlementDepthTwin,
   updateSettlementEnvironment,
   type SettlementMaterialUniforms,
 } from "./materials";
@@ -37,6 +40,7 @@ import {
   SETTLEMENT_COLLISION_FRAME,
   type SettlementBundle,
   type SettlementCollisionShape,
+  type SettlementFrameEvidence,
   type SettlementKitAssetMeta,
   type SettlementLayerProps,
   type SettlementPlacement,
@@ -60,27 +64,36 @@ const EMPTY_FINAL_TRANSFORM_EVIDENCE = Object.freeze({
   shadowPairFailures: Object.freeze([] as string[]),
 });
 
-/** Dispose and detach everything the layer put in `group`. Used both when a
- * finished build swaps its detached group in and on unmount. */
+/** Dispose and detach everything the layer put in `group`: the per-build
+ * instance buffers and far-merge geometry. Colour materials belong to the
+ * kit and shadow-depth twins to the layer's cache (one per colour material,
+ * disposed on unmount), so a swap never frees a material the next build
+ * still draws with. */
 function disposeChildren(group: THREE.Group): void {
-  const depthMaterials = new Set<THREE.Material>();
   for (const child of [...group.children]) {
     group.remove(child);
-    if (child instanceof THREE.Mesh && child.customDepthMaterial) {
-      depthMaterials.add(child.customDepthMaterial);
-    }
     if (child instanceof THREE.InstancedMesh) {
       child.dispose();
       if (child.userData.esSettlementOwnedGeometry) child.geometry.dispose();
     }
-    else if (child instanceof THREE.Mesh) {
-      child.geometry.dispose();
-      if (!child.userData.esSettlementFarMerge) {
-        (child.material as THREE.Material).dispose();
-      }
-    }
+    else if (child instanceof THREE.Mesh) child.geometry.dispose();
   }
-  depthMaterials.forEach((material) => material.dispose());
+}
+
+/**
+ * What a build draws, as one string: every bucket's key and instance counts
+ * and the sum of its translations to the millimetre. A retry that resolves
+ * exactly what is already live is not swapped in (check-in 2 item 2).
+ */
+function buildSignature(buckets: Map<string, DrawBucket>, colliderParts: number): string {
+  const rows: string[] = [];
+  for (const [key, bucket] of buckets) {
+    let sum = 0;
+    for (const m of bucket.transforms) sum += m.elements[12] + m.elements[13] + m.elements[14];
+    for (const m of bucket.farTransforms) sum += m.elements[12] + m.elements[13] + m.elements[14];
+    rows.push(`${key}:${bucket.transforms.length}:${bucket.farTransforms.length}:${Math.round(sum * 1000)}`);
+  }
+  return `${rows.sort().join(",")}|${colliderParts}`;
 }
 
 const REBUILD_MOVE_M = 40;
@@ -97,6 +110,8 @@ export function readSettlementProof(): SettlementProofState | undefined {
 }
 
 function publishSettlementProof(state: SettlementProofState): void {
+  // `frames` stays the layer's own live counter object (see SettlementLayer):
+  // the proof is frozen, the per-frame evidence is not republished per frame.
   const grounding = state.grounding.map((report) => Object.freeze({
     ...report,
     placements: Object.freeze(report.placements.map((placement) => Object.freeze({ ...placement }))),
@@ -150,85 +165,6 @@ export async function loadKitAssetMeta(
   const response = await fetch(url);
   if (!response.ok) throw new Error(`kit manifest HTTP ${response.status}`);
   return kitAssetMetaFromManifest(await response.json(), url);
-}
-
-/** Longest skirt edge between ground samples (m): the terrain's own sample
- *  spacing class, so the band follows the ground instead of bridging it. */
-const SKIRT_MAX_EDGE_M = 1.83;
-/** A sharp corner's mitre is capped at this multiple of the band width. */
-const SKIRT_MITRE_CAP = 2.5;
-
-/**
- * The wall-foot skirt (16h K6, research/rendering/building-placement-
- * rendering-treatments.md §2.2): a band `widthM` wide offset straight out
- * from every footprint wall, with mitred corners, subdivided so no edge is
- * longer than SKIRT_MAX_EDGE_M and each vertex sits on the sampled ground.
- * Vertex alpha runs 1 at the wall to 0 at the outer edge, so the band fades
- * into the terrain; polygon offset, not a lift, keeps it off the ground's
- * depth. Returns null when the ground is not loaded under any vertex.
- */
-function treatmentMesh(
-  footprint: [number, number][],
-  widthM: number,
-  groundAt: SettlementLayerProps["groundAt"],
-): THREE.Mesh | null {
-  const n = footprint.length;
-  if (n < 3) return null;
-  let area = 0;
-  for (let i = 0; i < n; i++) {
-    const [ax, az] = footprint[i]; const [bx, bz] = footprint[(i + 1) % n];
-    area += ax * bz - bx * az;
-  }
-  // (dz, -dx) is the outward normal of a positive-area (x east, z south) ring
-  const side = area >= 0 ? 1 : -1;
-  const normals = footprint.map(([ax, az], i) => {
-    const [bx, bz] = footprint[(i + 1) % n];
-    const len = Math.hypot(bx - ax, bz - az) || 1;
-    return [side * (bz - az) / len, side * -(bx - ax) / len] as const;
-  });
-  // Mitred outer corner at vertex i, from the offsets of edges i-1 and i.
-  const outer = footprint.map(([x, z], i) => {
-    const a = normals[(i + n - 1) % n]; const b = normals[i];
-    const mx = a[0] + b[0]; const mz = a[1] + b[1];
-    const dot = mx * b[0] + mz * b[1];          // 1 + cos(turn), >= 0
-    const ml = Math.hypot(mx, mz);
-    if (dot < 1e-6 || ml < 1e-6) return [x + b[0] * widthM, z + b[1] * widthM] as const;
-    const k = Math.min(widthM / dot, (widthM * SKIRT_MITRE_CAP) / ml);
-    return [x + mx * k, z + mz * k] as const;
-  });
-  const positions: number[] = [];
-  const colours: number[] = [];
-  const indices: number[] = [];
-  for (let i = 0; i < n; i++) {
-    const a = footprint[i]; const b = footprint[(i + 1) % n];
-    const oa = outer[i]; const ob = outer[(i + 1) % n];
-    const steps = Math.max(1, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / SKIRT_MAX_EDGE_M));
-    const base = positions.length / 3;
-    for (let k = 0; k <= steps; k++) {
-      const f = k / steps;
-      const ix = a[0] + (b[0] - a[0]) * f; const iz = a[1] + (b[1] - a[1]) * f;
-      const ox = oa[0] + (ob[0] - oa[0]) * f; const oz = oa[1] + (ob[1] - oa[1]) * f;
-      const yi = groundAt(ix, iz); const yo = groundAt(ox, oz);
-      if (yi === null || yo === null) return null;
-      positions.push(ix, yi, iz, ox, yo, oz);
-      colours.push(1, 1, 1, 1, 1, 1, 1, 0);
-    }
-    for (let k = 0; k < steps; k++) {
-      const w0 = base + k * 2; const w1 = w0 + 2;
-      indices.push(w0, w0 + 1, w1, w0 + 1, w1 + 1, w1);
-    }
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colours, 4));
-  geometry.setIndex(indices); geometry.computeVertexNormals();
-  const material = new THREE.MeshStandardMaterial({ color: 0x342c20, roughness: 1,
-    vertexColors: true, transparent: true, depthWrite: false,
-    polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
-  material.userData.esAerial = true;
-  const mesh = new THREE.Mesh(geometry, material);
-  mesh.receiveShadow = true; mesh.castShadow = false;
-  return mesh;
 }
 
 /**
@@ -338,6 +274,7 @@ export function solidFrom(
 
 export function SettlementLayer({
   baseUrl, focusRef, groundAt, quality, environment, onSolids, onStats, materialPatch,
+  rebuildRef,
 }: SettlementLayerProps) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
@@ -355,6 +292,19 @@ export function SettlementLayer({
   const incomplete = useRef(false);
   const retryAt = useRef(0);
   const collisionFailure = useRef<SettlementProofState["collision"] | null>(null);
+  // One shadow-depth twin per colour material for the layer's life: a new
+  // twin per build meant new programs to link on every rebuild.
+  const depthTwins = useRef(new Map<THREE.Material, THREE.MeshDepthMaterial | undefined>());
+  // What the live group draws, so a retry that resolves the same set is not
+  // swapped in; and how many draws the last swap put on screen.
+  const liveSignature = useRef("");
+  const liveDraws = useRef(0);
+  // Per-frame evidence for the flash probe (check-in 2 item 2): a frame whose
+  // live group is empty while the last finished build drew something is a
+  // building that vanished. One mutable object, referenced by every proof.
+  const frames = useMemo<SettlementFrameEvidence>(() => ({
+    frames: 0, blankFrames: 0, swaps: 0, skippedSwaps: 0, liveChildren: 0,
+  }), []);
   // The whole build is sliced over frames at priority 40 — last, behind
   // colliders, terrain and vegetation — and assembled into a DETACHED group
   // that replaces the live one in a single final step, so a half-built
@@ -370,8 +320,14 @@ export function SettlementLayer({
     publishSettlementProof({ status: "loading", settlements: 0, placements: 0,
       renderedPlacements: 0, draws: 0, triangles: 0, grounding: [],
       finalTransformEvidence: EMPTY_FINAL_TRANSFORM_EVIDENCE,
-      collision: emptyCollisionProof() });
-  }, [baseUrl]);
+      collision: emptyCollisionProof(), frames });
+  }, [baseUrl, frames]);
+
+  useEffect(() => {
+    if (!rebuildRef) return undefined;
+    rebuildRef.current = () => setRevision((v) => v + 1);
+    return () => { rebuildRef.current = null; };
+  }, [rebuildRef]);
 
   useEffect(() => {
     let cancelled = false;
@@ -432,7 +388,11 @@ export function SettlementLayer({
   useFrame(() => {
     if (fatalError) return;
     const env = environment?.();
-    if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.minuteOfDay);
+    if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.epochMinutes);
+    const liveChildren = root.current?.children.length ?? 0;
+    frames.frames += 1;
+    frames.liveChildren = liveChildren;
+    if (liveChildren === 0 && liveDraws.current > 0) frames.blankFrames += 1;
     const at = builtAt.current; const focus = focusRef.current;
     const rebuildMoveM = at ? Math.min(REBUILD_MOVE_M, Math.max(1, at.coveredRadiusM * 0.5)) : REBUILD_MOVE_M;
     if (at && Math.hypot(focus.x - at.x, focus.z - at.z) > rebuildMoveM) {
@@ -461,8 +421,9 @@ export function SettlementLayer({
         partBudget: bundle?.lod.colliderPartBudget ?? 0,
       },
       error: fatalError.message,
+      frames,
     });
-  }, [bundle, fatalError, onSolids]);
+  }, [bundle, fatalError, onSolids, frames]);
 
   useEffect(() => {
     // Every throw inside this build is the settlement layer's own failure and
@@ -566,6 +527,11 @@ export function SettlementLayer({
         return;
       }
       builtAt.current.coveredRadiusM = collision.coveredRadiusM;
+      // A retry that resolves exactly what is live keeps the live group: the
+      // signature is taken before any geometry is cloned or merged, so such a
+      // retry costs no clone, merge or upload (check-in 2 item 2).
+      const signature = buildSignature(buckets, collision.parts);
+      const reuseLive = signature === liveSignature.current && group.children.length > 0;
       let triangles = 0; let draws = 0; let farInstances = 0; let farMeshes = 0;
       let nearInstances = 0; let groundBoundInstances = 0; let shadowPairedDraws = 0;
       const shadowPairFailures: string[] = [];
@@ -573,16 +539,35 @@ export function SettlementLayer({
         yield;
         const material = bucket.part.material;
         validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
-        const windowMaterial = /window|glow/i.test(material.name);
+        // A glow material is one the kit build gave an emissive map (the NIF's
+        // Glow_Map slot, build_kit rebuild_material), never a name match.
+        const glowMaterial = isSettlementGlowMaterial(material);
         materialPatch?.(material);
-        const depthMaterial = applySettlementSurfaceWithShadow(material, uniforms, windowMaterial);
+        let depthMaterial: THREE.MeshDepthMaterial | undefined;
+        if (depthTwins.current.has(material)) {
+          applySettlementSurface(material, uniforms, glowMaterial);
+          depthMaterial = depthTwins.current.get(material);
+          if (depthMaterial) syncSettlementDepthTwin(depthMaterial, material);
+        } else {
+          depthMaterial = applySettlementSurfaceWithShadow(material, uniforms, glowMaterial);
+          depthTwins.current.set(material, depthMaterial);
+        }
         const pairErrors = settlementShadowPairErrors(material, depthMaterial);
         if (pairErrors.length) {
           shadowPairFailures.push(...pairErrors.map((error) =>
             `${material.name || "<unnamed>"}: ${error}`));
           throw new Error(`settlement colour/depth material pair failed: ${pairErrors.join("; ")}`);
         }
-        if (bucket.transforms.length) {
+        if (reuseLive) {
+          const drawsHere = (bucket.transforms.length ? 1 : 0) + (bucket.farTransforms.length ? 1 : 0);
+          draws += drawsHere;
+          if (bucket.farTransforms.length) farMeshes += 1;
+          nearInstances += bucket.transforms.length;
+          farInstances += bucket.farTransforms.length;
+          groundBoundInstances += bucket.transforms.length + bucket.farTransforms.length;
+          if (depthMaterial) shadowPairedDraws += drawsHere;
+        }
+        if (!reuseLive && bucket.transforms.length) {
           const geometry = bucket.part.geometry.clone();
           geometry.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, new THREE.InstancedBufferAttribute(
             new Float32Array(bucket.groundLinesM), 1,
@@ -600,7 +585,7 @@ export function SettlementLayer({
           groundBoundInstances += bucket.transforms.length;
           if (depthMaterial) shadowPairedDraws += 1;
         }
-        const farGeometry = mergeTransformedGeometry(
+        const farGeometry = reuseLive ? null : mergeTransformedGeometry(
           bucket.part.geometry, bucket.farTransforms, bucket.farGroundLinesM,
         );
         if (farGeometry) {
@@ -618,20 +603,30 @@ export function SettlementLayer({
         triangles += bucket.part.triangles * bucket.transforms.length;
         triangles += bucket.part.triangles * bucket.farTransforms.length;
       }
-      // Fine wall-foot skirt/contact AO: near-only, never part of far LOD.
-      yield;
-      for (const treatment of bundle.groundTreatments) {
-        const cx = treatment.footprintM.reduce((n, p) => n + p[0], 0) / treatment.footprintM.length;
-        const cz = treatment.footprintM.reduce((n, p) => n + p[1], 0) / treatment.footprintM.length;
-        if (Math.hypot(cx - focus.x, cz - focus.z) > 300) continue;
-        const skirt = treatmentMesh(treatment.footprintM, treatment.baseSkirtWidthM, groundAt);
-        if (skirt) next.add(skirt);
-      }
+      // No code-placed dressing at a building's foot (check-in 2 ruling 1):
+      // the wall-foot skirt is cut; the seam is the height-blend shader
+      // (16h part 2 item 25).
       const grounding = settlementGroundAudits(bundle.settlements, placementGrounding);
-      // Final step: the finished build replaces the live one atomically.
-      disposeChildren(group);
-      // Snapshot: `add` detaches each child from `next` as it goes.
-      group.add(...[...next.children]);
+      // Final step: the finished build replaces the live one atomically, in
+      // one synchronous step, so no frame draws an empty layer.
+      if (!reuseLive) {
+        disposeChildren(group);
+        // Snapshot: `add` detaches each child from `next` as it goes.
+        group.add(...[...next.children]);
+        // Twins of materials no longer drawn (a kit re-cloned its materials)
+        // go now, not at unmount.
+        const drawn = new Set(group.children.map((child) => (child as THREE.Mesh).material));
+        for (const [material, twin] of depthTwins.current) {
+          if (drawn.has(material)) continue;
+          twin?.dispose();
+          depthTwins.current.delete(material);
+        }
+        liveSignature.current = signature;
+        liveDraws.current = draws;
+        frames.swaps += 1;
+      } else {
+        frames.skippedSwaps += 1;
+      }
       onSolids?.(collision.chosen);
       const collisionAudit = {
         status: collision.activeSettlementIds.length ? "resident" as const : "ring" as const,
@@ -674,6 +669,7 @@ export function SettlementLayer({
         grounding,
         finalTransformEvidence,
         collision: collisionAudit,
+        frames,
       });
       } finally {
         // A successful swap leaves `next` empty; a cancelled build does not.
@@ -694,13 +690,35 @@ export function SettlementLayer({
         setFatalError(error instanceof Error ? error : new Error(String(error)));
       },
     });
+    // Cancelling is ALL this cleanup does. It used to dispose the live group
+    // too, and `revision` is a dependency: every 40 m of walking and every
+    // 2 s retry while terrain streamed in emptied the layer until the sliced
+    // rebuild swapped in, which is the check-in 2 "buildings flash out" and
+    // the sconce wall's base flicker (/tmp research topic 2; ledger row
+    // "Check-in 2 fixes: runtime"). The live group is disposed only when
+    // the world itself goes (the effect below).
     return () => {
       running.current?.cancel();
       running.current = null;
-      if (root.current) disposeChildren(root.current);
     };
   }, [queue, bundle, kits, manifests, revision, groundAt, quality?.architectureDrawScale,
-      focusRef, materialPatch, onSolids, onStats, uniforms, fatalError]);
+      focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames]);
+
+  // The live group and the depth twins go with the world: on unmount, a new
+  // baseUrl or bundle, or the fatal sentinel replacing the layer.
+  useEffect(() => {
+    // Captured now: when the sentinel replaces the layer, React has already
+    // detached the ref by the time this cleanup runs.
+    const group = root.current;
+    const twins = depthTwins.current;
+    return () => {
+      if (group) disposeChildren(group);
+      liveSignature.current = "";
+      liveDraws.current = 0;
+      twins.forEach((material) => material?.dispose());
+      twins.clear();
+    };
+  }, [baseUrl, bundle, fatalError]);
 
   // A conspicuous runtime sentinel makes missing settlement data visible in
   // both production and development even when the host has no ErrorBoundary.

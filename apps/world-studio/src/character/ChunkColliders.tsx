@@ -4,6 +4,7 @@ import { HeightfieldCollider, RigidBody } from "@react-three/rapier";
 import { HeightFieldFlags } from "@dimforge/rapier3d-compat";
 import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
 import { terrainColliderData } from "@elder-souls/game-core/terrain/colliderData";
+import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 
 /**
  * Rapier heightfield colliders for the 3×3 chunks around the player, built
@@ -25,7 +26,7 @@ function TerrainChunkCollider({ grid, scale }: { grid: ChunkGrid; scale: number 
   // FIX_INTERNAL_EDGES: without it the capsule catches phantom bumps on the
   // heightfield's internal triangle edges — felt as stumbles while running.
   const collider = useMemo(() => (
-    <HeightfieldCollider args={([data.rows, data.columns, data.data, data.scale, HeightFieldFlags.FIX_INTERNAL_EDGES]) as unknown as [number, number, number[], { x: number; y: number; z: number }]} />
+    <HeightfieldCollider collisionGroups={CAMERA_BLOCKING_GROUPS} args={([data.rows, data.columns, data.data, data.scale, HeightFieldFlags.FIX_INTERNAL_EDGES]) as unknown as [number, number, number[], { x: number; y: number; z: number }]} />
   ), [data]);
   return <RigidBody type="fixed" colliders={false} position={data.position}>{collider}</RigidBody>;
 }

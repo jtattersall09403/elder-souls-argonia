@@ -8,6 +8,7 @@ import type {
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
+import { CAMERA_BLOCKING_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 
 /**
  * One collider of a placed piece.
@@ -82,7 +83,10 @@ export function SettlementColliders({ solidsRef, focusRef }: {
           .setTranslation(...solid.position)
           .setRotation({ x: rx, y: ry, z: rz, w: rw }));
         for (const part of solid.parts) {
-          world.createCollider(settlementColliderDesc(rapier, part, solid.scale), body);
+          // Buildings block the follow camera (16h check-in 2 item 3).
+          const desc = settlementColliderDesc(rapier, part, solid.scale);
+          desc.setCollisionGroups(CAMERA_BLOCKING_GROUPS);
+          world.createCollider(desc, body);
         }
         bodies.current.set(solid.id, body);
         yield;

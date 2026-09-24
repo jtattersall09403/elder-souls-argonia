@@ -28,12 +28,17 @@ import {
   type SettlementPlacement,
 } from "./types";
 import * as THREE from "three";
+import { toEpochMinutes } from "@elder-souls/world-time";
 import {
   applySettlementSurface,
   applySettlementSurfaceWithShadow,
+  isSettlementGlowMaterial,
+  settlementNightFactor,
+  updateSettlementEnvironment,
   SETTLEMENT_GROUND_ATTRIBUTE,
   reapplySettlementSurface,
   settlementShadowPairErrors,
+  syncSettlementDepthTwin,
 } from "./materials";
 
 const placement: SettlementPlacement = {
@@ -255,17 +260,63 @@ describe("settlement material patch contract", () => {
     applySettlementSurface(material, uniforms, true);
     const first = material.onBeforeCompile;
     expect(material.userData.esAerial).toBe(true);
-    expect(material.customProgramCacheKey()).toContain("es-settlement-surface-v1|1|colour");
+    expect(material.customProgramCacheKey()).toContain("es-settlement-surface-v2|1|colour");
     material.onBeforeCompile = () => undefined; // exactly what CSM does
     reapplySettlementSurface(material);
     expect(material.onBeforeCompile).not.toBe(first);
     const shader = { uniforms: {}, vertexShader: "#include <common>\n#include <begin_vertex>",
-      fragmentShader: "#include <common>\n#include <color_fragment>\n#include <roughnessmap_fragment>" };
+      fragmentShader: "#include <common>\n#include <color_fragment>\n#include <emissivemap_fragment>\n#include <roughnessmap_fragment>" };
     material.onBeforeCompile(shader as never, {} as never);
     expect(shader.vertexShader).toContain(SETTLEMENT_GROUND_ATTRIBUTE);
     expect(shader.vertexShader).toContain("esSettlementHeightAboveGround");
     expect(shader.fragmentShader).toContain("esWallWet");
     expect(Object.keys(shader.uniforms)).toContain("esSettlementNight");
+  });
+
+  // Check-in 2 item 8: the night glow is the kit's emissive mask, lit in the
+  // EMISSIVE stage, chosen by the emissive map, ramped on the sun's altitude.
+  it("lights a glow material in the emissive stage and leaves albedo alone", () => {
+    const glow = new THREE.MeshStandardMaterial({ emissive: 0xffffff });
+    glow.name = "Farmhouse01:14.Mat"; // no "window" in the name, as shipped
+    glow.emissiveMap = new THREE.Texture();
+    const plain = new THREE.MeshStandardMaterial();
+    plain.name = "window-frame"; // a name match must not make it glow
+    expect(isSettlementGlowMaterial(glow)).toBe(true);
+    expect(isSettlementGlowMaterial(plain)).toBe(false);
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 1 } };
+    const compile = (material: THREE.MeshStandardMaterial) => {
+      applySettlementSurface(material, uniforms, isSettlementGlowMaterial(material));
+      const shader = { uniforms: {}, vertexShader: "#include <common>\n#include <begin_vertex>",
+        fragmentShader: "#include <common>\n#include <color_fragment>\n#include <emissivemap_fragment>\n#include <roughnessmap_fragment>" };
+      material.onBeforeCompile(shader as never, {} as never);
+      return shader.fragmentShader;
+    };
+    const lit = compile(glow);
+    expect(lit).toMatch(/emissivemap_fragment>\ntotalEmissiveRadiance \*= .*esSettlementNight/);
+    expect(lit).not.toMatch(/diffuseColor\.rgb \+=/);
+    expect(compile(plain)).not.toContain("totalEmissiveRadiance *=");
+  });
+
+  it("ramps night on the sun's altitude, not a clock hour", () => {
+    expect(settlementNightFactor(20)).toBe(0);
+    expect(settlementNightFactor(2)).toBe(0);
+    expect(settlementNightFactor(-6)).toBe(1);
+    expect(settlementNightFactor(-30)).toBe(1);
+    const dusk = settlementNightFactor(-2);
+    expect(dusk).toBeGreaterThan(0);
+    expect(dusk).toBeLessThan(1);
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
+    const at = (minuteOfDay: number) => {
+      updateSettlementEnvironment(uniforms, 0,
+        toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay }));
+      return uniforms.esSettlementNight.value;
+    };
+    expect(at(720)).toBe(0);
+    expect(at(0)).toBe(1);
+    // Dusk is a ramp, not the old 19:00 step: some five-minute sample of
+    // the evening lies strictly between day and night.
+    const evening = Array.from({ length: 72 }, (_, i) => at(960 + i * 5));
+    expect(evening.some((v) => v > 0 && v < 1)).toBe(true);
   });
 
   it("creates an alpha/displacement-matched shadow twin with the same state", () => {
@@ -285,13 +336,25 @@ describe("settlement material patch contract", () => {
     expect(depth.displacementScale).toBe(1.7);
     expect(depth.userData.esSettlementSurface.uniforms).toBe(uniforms);
     expect(settlementShadowPairErrors(material, depth)).toEqual([]);
-    expect(depth.customProgramCacheKey()).toContain("es-settlement-surface-v1|0|depth");
+    expect(depth.customProgramCacheKey()).toContain("es-settlement-surface-v2|0|depth");
     const shader = { uniforms: {}, vertexShader: "#include <common>\n#include <begin_vertex>",
       fragmentShader: "#include <common>" };
     depth.onBeforeCompile(shader as never, {} as never);
     expect(shader.vertexShader).toContain(SETTLEMENT_GROUND_ATTRIBUTE);
     expect(shader.vertexShader).toContain("esSettlementHeightAboveGround");
     depth.dispose(); material.dispose();
+  });
+
+  it("re-syncs a reused shadow twin after three's shadow pass flips its side", () => {
+    const material = new THREE.MeshStandardMaterial({ alphaTest: .5 });
+    material.map = new THREE.Texture();
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
+    const depth = applySettlementSurfaceWithShadow(material, uniforms)!;
+    depth.side = THREE.BackSide; // what WebGLShadowMap.getDepthMaterial writes
+    expect(settlementShadowPairErrors(material, depth)).toContain(
+      "face side differs from shadow-depth face side");
+    syncSettlementDepthTwin(depth, material);
+    expect(settlementShadowPairErrors(material, depth)).toEqual([]);
   });
 
   it("rebuilds and verifies the colour/depth pair at every LOD swap", () => {

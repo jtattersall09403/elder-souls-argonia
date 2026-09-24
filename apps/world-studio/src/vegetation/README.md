@@ -175,10 +175,10 @@ reports `cards: false` while that is the case, with `byTier` and
   per-slot view (`slotGeometry`, the same trick `Vegetation.tsx` uses for its
   blocks), so each gets its own `esLodBand` without duplicating a vertex
   buffer. Tiles beyond the mid radius are GENERATED thinned (`far: true`) and
-  regenerated in full when they enter the MID band, and the settlement
-  foundation treatments are filtered by a bbox test *before* their 0.65 m
-  rubble lattice is walked — re-deriving every settlement in the province per
-  rebuild, to throw all but one away, was the worst cost of a tile crossing.
+  regenerated in full when they enter the MID band. The settlement bundle
+  feeds only the building footprints the grass keeps out of; the foundation
+  rubble ring that once stood in a band round them is cut (16h check-in 2
+  ruling 1: no code-placed dressing at a building's foot).
 
 A bed-cover species (`below-at-least` to 4 m or deeper) runs every tier
 radius at 0.6 of the land figure: under water nobody sees to the land

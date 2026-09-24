@@ -29,6 +29,22 @@ SUMMARY = {"kit": PLAN["kit"], "assets": []}
 #: get their transparent RGB dilated before export (see dilate_edge_rgb).
 ALPHA_TESTED_IMAGES = set()
 
+#: Materials whose NIF shader carries a glow map (SLSF2 Glow_Map; PyNifly
+#: builds its `Glow_Map_Texture` node only under that flag). Their glow image
+#: is wired to Emission so the glTF carries an emissiveTexture; the runtime
+#: lights it at night (16h check-in 2 item 8). Vanilla names the glow image
+#: `_m` (FarmWindowInterior01_m.dds), so a filename suffix can never find it.
+GLOW_MATERIALS = set()
+
+#: Non-foliage materials whose NIF carries an NiAlphaProperty with alpha test
+#: or blend, and the cutoff to mask them at (threshold / 255). They ship as
+#: glTF MASK, never as opaque (the HTBM fringe, 16h check-in 2 item 8).
+ALPHA_MASK_MATERIALS = {}
+
+#: NiAlphaProperty flag bits (Gamebryo): bit 0 blend enable, bit 9 test enable.
+NI_ALPHA_BLEND = 0x001
+NI_ALPHA_TEST = 0x200
+
 #: Images sampled by `_lod_flat` billboard cards. These are SHARED atlases
 #: (one tamrieltreelod.dds carries every species' silhouette in a small UV
 #: rect), so the general textureMaxSize downscale would leave each species a
@@ -64,17 +80,48 @@ def is_diffuse(image):
     return not base.endswith(_MAP_SUFFIXES)
 
 
+def glow_image(mat):
+    """The image in the NIF's glow slot, or None. Read from the node PyNifly
+    makes only when the shader's SLSF2 Glow_Map flag is set, never guessed
+    from a filename suffix."""
+    if not mat.use_nodes:
+        return None
+    return next((n.image for n in mat.node_tree.nodes
+                 if n.type == "TEX_IMAGE" and n.image
+                 and n.name.split(".")[0] == "Glow_Map_Texture"), None)
+
+
+def ni_alpha(mat):
+    """(test_or_blend, cutoff) from the NiAlphaProperty PyNifly recorded on
+    the material, or (False, None) when the NIF has none."""
+    flags = mat.get("NiAlphaProperty_flags")
+    if flags is None:
+        return False, None
+    flags = int(flags)
+    if not flags & (NI_ALPHA_BLEND | NI_ALPHA_TEST):
+        return False, None
+    if flags & NI_ALPHA_TEST:
+        return True, round(int(mat.get("NiAlphaProperty_threshold", 128)) / 255.0, 3)
+    return True, 0.5
+
+
 def rebuild_material(mat, double_sided):
-    """Diffuse Principled BSDF with alpha linked.
+    """Diffuse Principled BSDF with alpha linked, and the glow map on Emission.
 
     Foliage is alpha-tested, and the cheapest way to be certain of that at
     runtime is to carry the alpha channel here and let the game set
     `alphaTest` — module 65 §111 forbids alpha-blended foliage outright, so
-    the blend mode is deliberately not decided in Blender.
+    the blend mode is deliberately not decided in Blender. A non-foliage
+    piece whose NIF tests or blends alpha is carried as a cutout too
+    (ALPHA_MASK_MATERIALS); a glow-mapped piece keeps its glow mask as the
+    emissive texture (GLOW_MATERIALS).
     """
+    glow = glow_image(mat)
+    alpha_wanted, alpha_cutoff = ni_alpha(mat)
     images = []
     if mat.use_nodes:
-        images = [n.image for n in mat.node_tree.nodes if n.type == "TEX_IMAGE" and n.image]
+        images = [n.image for n in mat.node_tree.nodes
+                  if n.type == "TEX_IMAGE" and n.image and n.image != glow]
     diffuse = next((im for im in images if is_diffuse(im)), None) or (
         images[0] if images else None)
     mat.use_nodes = True
@@ -93,12 +140,25 @@ def rebuild_material(mat, double_sided):
         if double_sided and diffuse.depth in (32, 64):   # alpha-tested foliage
             tree.links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
             ALPHA_TESTED_IMAGES.add(diffuse.name)
+        elif alpha_wanted and diffuse.depth in (32, 64):  # NIF cutout, not foliage
+            tree.links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
+            ALPHA_TESTED_IMAGES.add(diffuse.name)
+            ALPHA_MASK_MATERIALS[mat.name] = alpha_cutoff
+    if glow is not None:
+        # glTF emissive textures are sRGB; PyNifly loads the slot Non-Color.
+        glow.colorspace_settings.name = "sRGB"
+        gtex = tree.nodes.new("ShaderNodeTexImage")
+        gtex.image = glow
+        tree.links.new(gtex.outputs["Color"], bsdf.inputs["Emission Color"])
+        bsdf.inputs["Emission Strength"].default_value = 1.0
+        GLOW_MATERIALS.add(mat.name)
     mat.use_backface_culling = not double_sided
-    # Alpha only reaches the exporter for foliage; opaque kit pieces stay
-    # opaque so their textures can leave as JPEG rather than PNG.
+    # Alpha reaches the exporter for foliage and NIF cutouts only; opaque kit
+    # pieces stay opaque so their textures can leave as JPEG rather than PNG.
     if hasattr(mat, "blend_method"):
         try:
-            mat.blend_method = "BLEND" if double_sided else "OPAQUE"
+            mat.blend_method = ("BLEND" if double_sided or mat.name in ALPHA_MASK_MATERIALS
+                                else "OPAQUE")
         except TypeError:
             pass
     return diffuse.name if diffuse else None
@@ -988,6 +1048,13 @@ for asset in PLAN["assets"]:
         "textures": sorted(textures),
         "materials": sorted(materials),
     }
+    glow_materials = sorted(materials & GLOW_MATERIALS)
+    if glow_materials:
+        record["glowMaterials"] = glow_materials
+    alpha_masks = {m: ALPHA_MASK_MATERIALS[m] for m in sorted(materials)
+                   if m in ALPHA_MASK_MATERIALS}
+    if alpha_masks:
+        record["alphaMaskMaterials"] = alpha_masks
     if billboard_materials:
         record["billboard"] = True
         record["billboardMaterials"] = sorted(billboard_materials)

@@ -249,10 +249,6 @@ const LAND_SPECIES_MAX_DEPTH_M = 0.5;
  * The two bed covers carry a wet binding and a dry one: dry silt is the
  * seasonal bed, dry seabed sand is the tidal flat. */
 const DRY_SPECIES_MAX_DEPTH_M = 0.02;
-/** Foundation scatter is a small, local treatment, not part of the province
- * flora budget. The cap is only a corrupt-data guard for overlapping exports. */
-const MAX_FOUNDATION_SCATTER = 3_000;
-const FOUNDATION_SCATTER_CELL_M = 0.65;
 
 interface SpeciesRule {
   asset: string;
@@ -456,18 +452,11 @@ interface ControlRaster {
 
 type Footprint = [number, number][];
 
-interface FoundationTreatment {
-  id: string;
+/** A settlement building's footprint, as the bundle's `groundTreatments`
+ * rows carry it: the grass keeps out of it. No dressing is placed at a
+ * building's foot (16h check-in 2 ruling 1: the rubble ring is cut). */
+interface BuildingFootprint {
   footprintM: Footprint;
-  foundationScatterBandM: [number, number];
-}
-
-export interface FoundationScatterPoint {
-  x: number;
-  z: number;
-  yaw: number;
-  scale: number;
-  keep: number;
 }
 
 function pointSegmentDistance(x: number, z: number, a: [number, number], b: [number, number]): number {
@@ -484,144 +473,6 @@ function insideFootprint(x: number, z: number, poly: Footprint): boolean {
         && x < ((b[0] - a[0]) * (z - a[1])) / (b[1] - a[1]) + a[0]) inside = !inside;
   }
   return inside;
-}
-
-function distanceToFootprint(x: number, z: number, poly: Footprint): number {
-  let distance = Number.POSITIVE_INFINITY;
-  for (let i = 0; i < poly.length; i++) {
-    distance = Math.min(distance, pointSegmentDistance(x, z, poly[i], poly[(i + 1) % poly.length]));
-  }
-  return distance;
-}
-
-/** Signed-footprint treatment from checklist item 21. Inside is always zero;
- * outside peaks at the band's inner edge and falls smoothly to zero. */
-export function foundationScatterWeight(
-  x: number, z: number, treatment: FoundationTreatment,
-): number {
-  const [rawInner, rawOuter] = treatment.foundationScatterBandM;
-  const inner = Math.max(0, rawInner);
-  const outer = Math.max(inner, rawOuter);
-  if (treatment.footprintM.length < 3 || outer <= inner
-      || insideFootprint(x, z, treatment.footprintM)) return 0;
-  const distance = distanceToFootprint(x, z, treatment.footprintM);
-  if (distance < inner || distance >= outer) return 0;
-  const t = 1 - (distance - inner) / (outer - inner);
-  return t * t * (3 - 2 * t);
-}
-
-function hashString(value: string): number {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < value.length; i++) {
-    h ^= value.charCodeAt(i);
-    h = Math.imul(h, 0x01000193);
-  }
-  return h >>> 0;
-}
-
-/** Deterministic, world-grid-aligned rubble points. A treatment rebuild after
- * walking away and back produces byte-for-byte the same transforms. */
-export function foundationScatterPoints(treatment: FoundationTreatment): FoundationScatterPoint[] {
-  if (treatment.footprintM.length < 3) return [];
-  const outer = treatment.foundationScatterBandM[1];
-  if (!Number.isFinite(outer) || outer <= Math.max(0, treatment.foundationScatterBandM[0])) return [];
-  const xs = treatment.footprintM.map((p) => p[0]);
-  const zs = treatment.footprintM.map((p) => p[1]);
-  const minX = Math.floor((Math.min(...xs) - outer) / FOUNDATION_SCATTER_CELL_M);
-  const maxX = Math.ceil((Math.max(...xs) + outer) / FOUNDATION_SCATTER_CELL_M);
-  const minZ = Math.floor((Math.min(...zs) - outer) / FOUNDATION_SCATTER_CELL_M);
-  const maxZ = Math.ceil((Math.max(...zs) + outer) / FOUNDATION_SCATTER_CELL_M);
-  const seed = hashString(treatment.id);
-  const points: FoundationScatterPoint[] = [];
-  for (let iz = minZ; iz <= maxZ; iz++) {
-    for (let ix = minX; ix <= maxX; ix++) {
-      const x = (ix + 0.5) * FOUNDATION_SCATTER_CELL_M
-        + (u01(hash32(ix, iz, seed, 0)) - 0.5) * FOUNDATION_SCATTER_CELL_M * 0.55;
-      const z = (iz + 0.5) * FOUNDATION_SCATTER_CELL_M
-        + (u01(hash32(ix, iz, seed, 1)) - 0.5) * FOUNDATION_SCATTER_CELL_M * 0.55;
-      const weight = foundationScatterWeight(x, z, treatment);
-      if (weight <= 0 || u01(hash32(ix, iz, seed, 2)) >= weight * 0.42) continue;
-      points.push({
-        x, z,
-        yaw: u01(hash32(ix, iz, seed, 3)) * Math.PI * 2,
-        scale: 0.55 + u01(hash32(ix, iz, seed, 4)) * 1.15,
-        keep: u01(hash32(ix, iz, seed, 5)),
-      });
-    }
-  }
-  return points;
-}
-
-/** The sourced rubble for the foundation ring (16h K6): vanilla's small rock
- * piles from the flora kit, never generated geometry (the no-art rule). */
-export const FOUNDATION_RUBBLE_PILES = [
-  "vanilla:landscape/rocks/rockpiles01",
-  "vanilla:landscape/rocks/rockpiles02",
-  "vanilla:landscape/rocks/rockpiles03",
-  "vanilla:landscape/rocks/rockpiles04",
-] as const;
-/** Triangle ceiling of one building's rubble ring. */
-export const FOUNDATION_RUBBLE_TRIANGLES = 2_000;
-/** Two piles never stand closer than this, centre to centre (m). */
-const FOUNDATION_RUBBLE_SPACING_M = 3;
-
-export interface FoundationRubblePile {
-  x: number; z: number; yaw: number; scale: number; pile: number;
-}
-
-/**
- * The rubble piles of one building: its scatter points (weighted by
- * `foundationScatterWeight`) taken in their deterministic `keep` order, each
- * accepted as a sourced pile while the ring stays under
- * FOUNDATION_RUBBLE_TRIANGLES and no pile crowds another. `pileTriangles[i]`
- * is the LOD0 triangle count of FOUNDATION_RUBBLE_PILES[i].
- */
-export function foundationRubblePiles(
-  treatment: FoundationTreatment, pileTriangles: readonly number[],
-): FoundationRubblePile[] {
-  if (!pileTriangles.length) return [];
-  const seed = hashString(treatment.id);
-  const piles: FoundationRubblePile[] = [];
-  let triangles = 0;
-  const points = foundationScatterPoints(treatment).sort((a, b) => a.keep - b.keep);
-  for (const p of points) {
-    const pile = hash32(Math.round(p.x * 10), Math.round(p.z * 10), seed, 6) % pileTriangles.length;
-    if (triangles + pileTriangles[pile] > FOUNDATION_RUBBLE_TRIANGLES) continue;
-    if (piles.some((q) => Math.hypot(q.x - p.x, q.z - p.z) < FOUNDATION_RUBBLE_SPACING_M)) continue;
-    // 0.5–0.8 of the source size: 1.6–3.2 m piles at a wall foot
-    piles.push({ x: p.x, z: p.z, yaw: p.yaw, scale: 0.5 + (p.scale - 0.55) / 1.15 * 0.3, pile });
-    triangles += pileTriangles[pile];
-  }
-  return piles;
-}
-
-/**
- * Is any of this treatment's scatter band within `radiusM` of the focus?
- *
- * A bbox test on the footprint, expanded by the band's outer edge. Cheap
- * enough to run over every settlement in the province each rebuild, which is
- * the point: `foundationScatterPoints` walks a 0.65 m lattice over the whole
- * band, and running that for every settlement in Black Marsh to keep the one
- * the player is standing in was the ring's worst rebuild cost.
- */
-function nearTreatment(
-  focus: { x: number; z: number },
-  treatment: FoundationTreatment,
-  radiusM: number,
-): boolean {
-  const poly = treatment.footprintM;
-  if (poly.length < 3) return false;
-  const outer = Math.max(0, treatment.foundationScatterBandM[1]);
-  let minX = Infinity; let maxX = -Infinity; let minZ = Infinity; let maxZ = -Infinity;
-  for (const [x, z] of poly) {
-    if (x < minX) minX = x;
-    if (x > maxX) maxX = x;
-    if (z < minZ) minZ = z;
-    if (z > maxZ) maxZ = z;
-  }
-  const dx = Math.max(minX - outer - focus.x, 0, focus.x - (maxX + outer));
-  const dz = Math.max(minZ - outer - focus.z, 0, focus.z - (maxZ + outer));
-  return Math.hypot(dx, dz) <= radiusM;
 }
 
 /** Reject by origin PLUS species radius: a fern rooted outside a floor may
@@ -1070,8 +921,6 @@ export interface GroundcoverStats {
   densityScale: number;
   /** Candidate rejections in the last generation pass, by filter. */
   rejected?: Record<string, number>;
-  /** Deterministic foundation rubble in the exported signed-distance bands. */
-  foundationScatterInstances: number;
   /** Main-thread cost: tile generation since the last fill (spread over
    * frames within GENERATE_BUDGET_MS each) and this fill. */
   rebuildMs: { generate: number; fill: number };
@@ -1185,7 +1034,6 @@ export function Groundcover({
   // once per site that needs them (the generator's per-tile prefilter and
   // the late-arrival invalidation effect below both consume this).
   const exclusionBounds = useMemo(() => exclusions.map(footprintBounds), [exclusions]);
-  const [foundationTreatments, setFoundationTreatments] = useState<FoundationTreatment[]>([]);
   const [clearanceIndex, setClearanceIndex] = useState<IndexedPatch[]>([]);
   /** Which of the once-fetched tile inputs have SETTLED — resolved OR failed
    * (0084 round 11). A tile generated before one of these lands would be
@@ -1240,7 +1088,6 @@ export function Groundcover({
    * mesh is recreated only when a rebuild needs more room than its buffers
    * hold; otherwise the rebuild writes into the buffers it already has. */
   const meshPool = useRef(new Map<string, THREE.InstancedMesh>());
-  const foundationScatterMeshes = useRef<THREE.InstancedMesh[]>([]);
   const requested = useRef(new Set<number>());
   /** Per-tile cache (mechanism 1). A tile's instances do not depend on the
    * focus, so crossing a boundary regenerates only the tiles that entered the
@@ -1351,21 +1198,19 @@ export function Groundcover({
   }, [baseUrl]);
 
   // The settlement bundle (10 MB) feeds only the building footprints the
-  // grass keeps out of and their foundation scatter bands. While the ladder
+  // grass keeps out of. While the ladder
   // hides the settlement layer (16f) there is nothing to keep out of, so the
   // fetch waits for the layer to be shown (16f round 4: it was 9.7 MB of
   // pure waste on every start-up).
   useEffect(() => {
-    if (!settlementsVisible) { setExclusions([]); setFoundationTreatments([]); return; }
+    if (!settlementsVisible) { setExclusions([]); return; }
     let cancelled = false;
     fetch(`${baseUrl}province/settlements.json`)
       .then((r) => r.ok ? r.json() : Promise.reject(new Error("no settlements")))
-      .then((b: { groundTreatments?: FoundationTreatment[] }) => {
+      .then((b: { groundTreatments?: BuildingFootprint[] }) => {
         if (!cancelled) {
-          const treatments = (b.groundTreatments ?? []).filter((t) =>
-            Array.isArray(t.footprintM) && Array.isArray(t.foundationScatterBandM));
-          setExclusions(treatments.map((t) => t.footprintM));
-          setFoundationTreatments(treatments);
+          setExclusions((b.groundTreatments ?? [])
+            .filter((t) => Array.isArray(t.footprintM)).map((t) => t.footprintM));
         }
       })
       .catch((e) => { if (!cancelled) console.warn("groundcover: settlements fetch failed", e); });
@@ -1375,47 +1220,6 @@ export function Groundcover({
   useEffect(() => {
     if (manifest) setKit(buildFloraKit(gltf, manifest));
   }, [gltf, manifest]);
-
-  // The foundation rubble is the flora kit's own rock piles (16h K6; the
-  // generated dodecahedron broke the no-art rule). The GLB load is shared
-  // with the vegetation renderer through useLoader's cache, so its geometry
-  // and materials are never disposed here, only this layer's instance meshes.
-  const floraGltf = useLoader(GLTFLoader, `${baseUrl}kits/flora-province-v1.glb`,
-    (loader) => configureKitLoader(loader, decoders));
-  const [floraManifest, setFloraManifest] = useState<KitManifest | null>(null);
-  useEffect(() => {
-    let cancelled = false;
-    fetch(`${baseUrl}kits/flora-province-v1.kit.json`)
-      .then((r) => r.json())
-      .then((m: KitManifest) => { if (!cancelled) setFloraManifest(m); })
-      .catch((e) => { if (!cancelled) console.warn("groundcover: flora kit manifest failed", e); });
-    return () => { cancelled = true; };
-  }, [baseUrl]);
-  const foundationParts = useMemo(() => {
-    if (!floraManifest) return null;
-    const wanted = new Set<string>(FOUNDATION_RUBBLE_PILES);
-    const subset = { ...floraManifest,
-      assets: floraManifest.assets.filter((a) => wanted.has(a.id)) };
-    const piles = buildFloraKit(floraGltf, subset);
-    const out = FOUNDATION_RUBBLE_PILES.map((id) => {
-      const species = piles.get(id);
-      const asset = subset.assets.find((a) => a.id === id);
-      return species && asset ? {
-        parts: species.levels[0].parts,
-        triangles: species.levels[0].triangles,
-        baseM: asset.originOffsetM?.[2] ?? 0,
-      } : null;
-    });
-    return out.every((p) => p !== null) ? out as NonNullable<typeof out[number]>[] : null;
-  }, [floraGltf, floraManifest]);
-
-  useEffect(() => () => {
-    for (const mesh of foundationScatterMeshes.current) {
-      mesh.removeFromParent();
-      mesh.dispose();
-    }
-    foundationScatterMeshes.current = [];
-  }, [foundationParts]);
 
   // The easy half of the wind work: groundcover casts no shadows, so there is
   // no depth-material twin to keep in step (see Vegetation.tsx).
@@ -1550,7 +1354,6 @@ export function Groundcover({
     const liveMeshes = new Set<string>();
 
     const focus = focusRef.current;
-    const waterData = water.current;
     // Tiles are kept out to the far radius PLUS the overlap, so the FAR tier
     // of a tile about to enter view is already drawn (faded to nothing).
     const keepRadiusM = farRadiusM + TIER_OVERLAP_M;
@@ -1559,11 +1362,6 @@ export function Groundcover({
     const cache = tileCache.current;
     const stats0 = genStats.current;
     genStats.current = { generated: 0, ms: 0, tileMs: stats0.tileMs, tileMaxMs: stats0.tileMaxMs, rejected: { keep: 0, bare: 0, accept: 0, footprint: 0, patch: 0, height: 0, slope: 0, water: 0 } };
-    const matrix = new THREE.Matrix4();
-    const quaternion = new THREE.Quaternion();
-    const position = new THREE.Vector3();
-    const scale = new THREE.Vector3();
-    const up = new THREE.Vector3(0, 1, 0);
 
     // Pass one is no longer here: tiles are generated in `useFrame` within a
     // per-frame budget (`generateTiles`, nearest first) and this effect fills
@@ -1814,67 +1612,6 @@ export function Groundcover({
       if (!liveMeshes.has(meshKey)) mesh.count = 0;
     }
 
-    // The compiler-authored foundation band is separate from ordinary flora:
-    // grass/fern exclusion still accounts for the full species radius, while
-    // these small rubble pieces occupy only the explicitly exported outside
-    // band and never appear beneath a building floor.
-    // Filter the treatments BEFORE scattering them: `foundationScatterPoints`
-    // walks a lattice over a whole building's band, and re-deriving every
-    // settlement in the province per rebuild — to throw all but one away on
-    // distance — was the single most expensive thing a tile crossing did.
-    const pileTriangles = foundationParts?.map((p) => p.triangles) ?? [];
-    const scatter = foundationTreatments
-      .filter((t) => nearTreatment(focus, t, farRadiusM))
-      .flatMap((t) => foundationRubblePiles(t, pileTriangles))
-      .filter((p) => Math.hypot(focus.x - p.x, focus.z - p.z) <= ringRadiusM)
-      .filter((p) => !waterData || waterData.depthProxy(p.x, p.z) <= LAND_SPECIES_MAX_DEPTH_M);
-    const groundedScatter = scatter.flatMap((point) => {
-      const heightM = groundHeightM(store, chunks, point.x, point.z);
-      return heightM === null ? [] : [{ point, heightM }];
-    }).slice(0, MAX_FOUNDATION_SCATTER);
-    const visibleScatter = groundedScatter;
-    let scatterDraws = 0;
-    (foundationParts ?? []).forEach((pile, pileIndex) => {
-      const mine = visibleScatter.filter(({ point }) => point.pile === pileIndex);
-      pile.parts.forEach((part, partIndex) => {
-        const slot = pileIndex * 8 + partIndex;
-        let mesh = foundationScatterMeshes.current[slot];
-        if (mesh && mesh.instanceMatrix.count < mine.length) {
-          group.remove(mesh);
-          mesh.dispose();
-          mesh = undefined as unknown as THREE.InstancedMesh;
-        }
-        if (!mine.length) {
-          if (mesh) mesh.count = 0;
-          return;
-        }
-        if (!mesh) {
-          mesh = new THREE.InstancedMesh(part.geometry, part.material,
-            Math.max(16, Math.ceil(mine.length * 1.5)));
-          mesh.userData.perfTag = "gc";
-          mesh.castShadow = false;
-          mesh.receiveShadow = true;
-          mesh.name = "foundation-scatter";
-          group.add(mesh);
-          foundationScatterMeshes.current[slot] = mesh;
-        }
-        for (let i = 0; i < mine.length; i++) {
-          const { point: p, heightM } = mine[i];
-          // the pile's base on the ground, sunk a tenth of a metre per unit scale
-          position.set(p.x, heightM * verticalScale + (pile.baseM - 0.1) * p.scale, p.z);
-          quaternion.setFromAxisAngle(up, p.yaw);
-          scale.setScalar(p.scale);
-          mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
-        }
-        mesh.count = mine.length;
-        mesh.instanceMatrix.needsUpdate = true;
-        mesh.computeBoundingSphere();
-        scatterDraws += 1;
-        const index = part.geometry.getIndex();
-        triangles += (index ? index.count : part.geometry.attributes.position.count) / 3 * mine.length;
-      });
-    });
-
     const tFilled = performance.now();
     const perfNow = perf.current;
     perfNow.fillMs = Math.round((tFilled - tGenerated) * 10) / 10;
@@ -1884,7 +1621,7 @@ export function Groundcover({
     perfNow.tilesLive = tiles;
     const stats: GroundcoverStats = {
       instances,
-      draws: liveMeshes.size + scatterDraws,
+      draws: liveMeshes.size,
       triangles: Math.round(triangles),
       tiles,
       byTier,
@@ -1892,7 +1629,6 @@ export function Groundcover({
       cards: cards.size > 0,
       densityScale,
       rejected: rej,
-      foundationScatterInstances: visibleScatter.length,
       rebuildMs: {
         generate: Math.round(stats0.ms * 10) / 10,
         fill: Math.round((tFilled - tGenerated) * 10) / 10,
@@ -1915,8 +1651,8 @@ export function Groundcover({
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
-  }, [kit, cards, control, chunks, exclusions, exclusionBounds, foundationTreatments, clearanceIndex,
-      regionRaster, tint, foundationParts, revision, verticalScale,
+  }, [kit, cards, control, chunks, exclusions, exclusionBounds, clearanceIndex,
+      regionRaster, tint, revision, verticalScale,
       onStats, focusRef, store, ringRadiusM, farRadiusM, maxInstances, wind,
       lodFade]);
 

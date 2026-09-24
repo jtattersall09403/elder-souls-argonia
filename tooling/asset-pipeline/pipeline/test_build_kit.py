@@ -103,6 +103,30 @@ def test_set_alpha_modes_masks_foliage_and_clears_everything_else(tmp_path):
     assert data[20 + chunk_length + 8:] == b"\x00\x00\x00\x00"
 
 
+def test_set_alpha_modes_masks_a_nif_cutout_at_its_own_threshold(tmp_path):
+    # 16h check-in 2 item 8: an NiAlphaProperty on a non-foliage piece (the
+    # HTBM hut fringe, test 0x12ec) shipped OPAQUE; it is a MASK now.
+    glb = tmp_path / "kit.glb"
+    _make_glb(glb, {"asset": {"version": "2.0"}, "materials": [
+        {"name": "OrcAwningFull01:1.Mat", "alphaMode": "BLEND"},
+        {"name": "HutWalls.Mat"},
+        {"name": "Farmhouse01:14.Mat"},
+    ]})
+    summary = {"assets": [{"alphaTest": False,
+        "materials": ["OrcAwningFull01:1.Mat", "HutWalls.Mat"],
+        "alphaMaskMaterials": {"OrcAwningFull01:1.Mat": 0.502}},
+        {"alphaTest": False, "materials": ["Farmhouse01:14.Mat"],
+         "glowMaterials": ["Farmhouse01:14.Mat"]}]}
+    assert set_alpha_modes(glb, summary) == {"MASK": 1, "OPAQUE": 2}
+    data = glb.read_bytes()
+    chunk_length = struct.unpack_from("<I", data, 12)[0]
+    modes = {m["name"]: (m.get("alphaMode"), m.get("alphaCutoff"))
+             for m in json.loads(data[20:20 + chunk_length])["materials"]}
+    assert modes["OrcAwningFull01:1.Mat"] == ("MASK", 0.502)
+    assert modes["HutWalls.Mat"] == (None, None)
+    assert modes["Farmhouse01:14.Mat"] == (None, None)   # glow is not alpha
+
+
 def test_set_alpha_modes_rejects_a_file_that_is_not_a_glb(tmp_path):
     path = tmp_path / "not.glb"
     path.write_bytes(b"nope" + b"\x00" * 32)

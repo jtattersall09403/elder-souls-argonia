@@ -275,7 +275,7 @@ export function Fly3D(props: Fly3DProps) {
   const [canvasError, setCanvasError] = useState<string | null>(null);
   const settlementEnvironment = useMemo(() => () => {
     const sample = lastWeatherSample();
-    return sample ? { rainIntensity: sample.rainIntensity, minuteOfDay: worldClock.now().minuteOfDay } : null;
+    return sample ? { rainIntensity: sample.rainIntensity, epochMinutes: worldClock.epochMinutes() } : null;
   }, []);
   return (
     <>

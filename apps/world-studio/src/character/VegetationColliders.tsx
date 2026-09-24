@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useRapier } from "@react-three/rapier";
 import type { World, RigidBody } from "@dimforge/rapier3d-compat";
+import { CAMERA_TRANSPARENT_GROUPS } from "@elder-souls/game-core/camera/cameraCollision";
 import * as THREE from "three";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
@@ -142,7 +143,7 @@ function buildBody(
         rapier.ColliderDesc.trimesh(
           scaledVertices(vertexCache, instance.species, shape.vertices, s),
           shape.indices,
-        ),
+        ).setCollisionGroups(CAMERA_TRANSPARENT_GROUPS),
         body,
       );
       debug.trimeshMs += performance.now() - t0;
@@ -166,6 +167,9 @@ function buildBody(
         z: shape.rotation[2], w: shape.rotation[3],
       });
     }
+    // Trunks would pump the follow camera's arm: the camera passes through
+    // vegetation (16h check-in 2 item 3; cameraCollision.ts).
+    desc.setCollisionGroups(CAMERA_TRANSPARENT_GROUPS);
     world.createCollider(desc, body);
   }
   return body;

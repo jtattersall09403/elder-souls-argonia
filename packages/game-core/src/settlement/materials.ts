@@ -1,17 +1,40 @@
 import * as THREE from "three";
+import { sunAt, TWILIGHT } from "@elder-souls/world-time";
 
 export interface SettlementMaterialUniforms {
   esSettlementRain: { value: number };
   esSettlementNight: { value: number };
 }
 
-const PATCH = "es-settlement-surface-v1";
+const PATCH = "es-settlement-surface-v2";
 export const SETTLEMENT_GROUND_ATTRIBUTE = "esSettlementGroundY";
 
 interface SettlementSurfaceState {
   uniforms: SettlementMaterialUniforms;
-  windowMaterial: boolean;
+  glowMaterial: boolean;
   depthPair: boolean;
+}
+
+/** Warm lamplight colour of a lit window at full night (linear RGB), and its
+ * gain over the glTF emissive (the NIF's Glow_Map mask at factor 1). */
+const WINDOW_GLOW_RGB = "vec3(1.0, 0.6, 0.28)";
+const WINDOW_GLOW_GAIN = 2.0;
+/** Sun altitude (deg) at which window lamps start to come on, and the civil
+ * twilight altitude where they are fully lit (Module 55 bands). */
+const LAMPS_ON_START_DEG = 2;
+
+/**
+ * A glow material is one whose kit build carried the NIF's Glow_Map slot
+ * into the glTF as an emissive texture (blender/build_kit.py
+ * rebuild_material). Selected by that map, never by a material name.
+ */
+export function isSettlementGlowMaterial(material: THREE.Material): boolean {
+  return Boolean((material as THREE.MeshStandardMaterial).emissiveMap);
+}
+
+/** 0 by day, 1 from civil twilight down, a smooth ramp between. */
+export function settlementNightFactor(sunAltitudeDeg: number): number {
+  return 1 - THREE.MathUtils.smoothstep(sunAltitudeDeg, TWILIGHT.civilDeg, LAMPS_ON_START_DEG);
 }
 
 /**
@@ -22,12 +45,12 @@ interface SettlementSurfaceState {
 export function applySettlementSurface(
   material: THREE.Material,
   uniforms: SettlementMaterialUniforms,
-  windowMaterial = false,
+  glowMaterial = false,
 ): void {
   const m = material as THREE.MeshStandardMaterial;
   if (!m.isMeshStandardMaterial) return;
   m.userData.esAerial = true;
-  m.userData.esSettlementSurface = { uniforms, windowMaterial, depthPair: false };
+  m.userData.esSettlementSurface = { uniforms, glowMaterial, depthPair: false };
   reapplySettlementSurface(m);
 }
 
@@ -35,11 +58,11 @@ export function applySettlementSurface(
 export function applySettlementSurfaceWithShadow(
   material: THREE.Material,
   uniforms: SettlementMaterialUniforms,
-  windowMaterial = false,
+  glowMaterial = false,
 ): THREE.MeshDepthMaterial | undefined {
   const m = material as THREE.MeshStandardMaterial;
   if (!m.isMeshStandardMaterial) return undefined;
-  applySettlementSurface(m, uniforms, windowMaterial);
+  applySettlementSurface(m, uniforms, glowMaterial);
   const depth = new THREE.MeshDepthMaterial({
     depthPacking: THREE.RGBADepthPacking,
     map: m.map,
@@ -51,9 +74,30 @@ export function applySettlementSurfaceWithShadow(
     displacementBias: m.displacementBias,
   });
   depth.name = `${m.name || "settlement"}.shadow-depth`;
-  depth.userData.esSettlementSurface = { uniforms, windowMaterial: false, depthPair: true };
+  depth.userData.esSettlementSurface = { uniforms, glowMaterial: false, depthPair: true };
   reapplySettlementSurface(depth);
   return depth;
+}
+
+/**
+ * Bring a reused shadow twin back in line with its colour material before
+ * the pair check. three's shadow pass rewrites the twin's `side` on every
+ * render (`WebGLShadowMap.getDepthMaterial`: `shadowSide[material.side]`),
+ * so a twin kept across builds no longer matches the colour side it was
+ * made with; the texture, alpha and displacement fields are re-read too.
+ */
+export function syncSettlementDepthTwin(
+  depth: THREE.MeshDepthMaterial,
+  material: THREE.Material,
+): void {
+  const m = material as THREE.MeshStandardMaterial;
+  depth.map = m.map;
+  depth.alphaMap = m.alphaMap;
+  depth.alphaTest = m.alphaTest;
+  depth.side = m.side;
+  depth.displacementMap = m.displacementMap;
+  depth.displacementScale = m.displacementScale;
+  depth.displacementBias = m.displacementBias;
 }
 
 /**
@@ -105,7 +149,12 @@ export function reapplySettlementSurface(material: THREE.Material): void {
       if (state.depthPair) return;
       shader.fragmentShader = shader.fragmentShader
         .replace("#include <common>", `#include <common>\nuniform float esSettlementRain;\nuniform float esSettlementNight;\nvarying float esSettlementHeightAboveGround;`)
-        .replace("#include <color_fragment>", `#include <color_fragment>\nfloat esWallWet = esSettlementRain * mix(0.55, 1.0, 1.0 - smoothstep(0.0, 4.0, max(0.0, esSettlementHeightAboveGround)));\ndiffuseColor.rgb *= mix(1.0, 0.62, esWallWet * 0.55);${state.windowMaterial ? "\ndiffuseColor.rgb += vec3(1.0, 0.48, 0.12) * esSettlementNight * 0.7;" : ""}`)
+        .replace("#include <color_fragment>", `#include <color_fragment>\nfloat esWallWet = esSettlementRain * mix(0.55, 1.0, 1.0 - smoothstep(0.0, 4.0, max(0.0, esSettlementHeightAboveGround)));\ndiffuseColor.rgb *= mix(1.0, 0.62, esWallWet * 0.55);`)
+        // Night windows in the EMISSIVE stage: the kit's glow mask (emissive
+        // map x factor) x warm lamplight x the twilight ramp. By day the
+        // factor is 0, so the glTF's emissive never shows. Added to albedo
+        // (the old path) it was multiplied by the night light and stayed dark.
+        .replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>${state.glowMaterial ? `\ntotalEmissiveRadiance *= ${WINDOW_GLOW_RGB} * esSettlementNight * ${WINDOW_GLOW_GAIN.toFixed(1)};` : ""}`)
         .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.32, esWallWet * 0.55);`);
     };
   m.onBeforeCompile = hook;
@@ -114,7 +163,7 @@ export function reapplySettlementSurface(material: THREE.Material): void {
     m.userData.esSettlementCacheKeyed = true;
     const priorKey = m.customProgramCacheKey;
     m.customProgramCacheKey = function (this: THREE.Material) {
-      return `${priorKey.call(this)}|${PATCH}|${state.windowMaterial ? 1 : 0}|${state.depthPair ? "depth" : "colour"}`;
+      return `${priorKey.call(this)}|${PATCH}|${state.glowMaterial ? 1 : 0}|${state.depthPair ? "depth" : "colour"}`;
     };
   }
   m.needsUpdate = true;
@@ -123,9 +172,9 @@ export function reapplySettlementSurface(material: THREE.Material): void {
 export function updateSettlementEnvironment(
   uniforms: SettlementMaterialUniforms,
   rainIntensity: number,
-  minuteOfDay: number,
+  epochMinutes: number,
 ): void {
   uniforms.esSettlementRain.value = THREE.MathUtils.clamp(rainIntensity, 0, 1);
-  const hour = ((minuteOfDay / 60) % 24 + 24) % 24;
-  uniforms.esSettlementNight.value = hour >= 19 || hour < 6 ? 1 : 0;
+  uniforms.esSettlementNight.value = settlementNightFactor(
+    (sunAt(epochMinutes).altitude * 180) / Math.PI);
 }

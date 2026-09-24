@@ -9,6 +9,9 @@ import type { Vec3 } from "@elder-souls/contracts";
 import { EcctrlAdapter, PlayerBody, SkyrimFighter } from "@elder-souls/character";
 import type { PlayerMovementController } from "@elder-souls/game-core/physics/PlayerMovementController";
 import { FollowCamera, FOLLOW_CAMERA } from "@elder-souls/game-core/camera/followCamera";
+import { playerOpacityForArm } from "@elder-souls/game-core/camera/cameraCollision";
+import { rapierCameraObstruction } from "./cameraObstruction";
+import { fadePlayerModel } from "./playerFade";
 import { ExplorerLocomotion } from "@elder-souls/game-core/locomotion/explorerLocomotion";
 import { input } from "@elder-souls/game-core/io/input";
 import { inputToIntent } from "@elder-souls/game-core/combat/intent";
@@ -172,6 +175,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   );
   const [manifest, setManifest] = useState<ChunksManifest | null>(null);
   const [spawn, setSpawn] = useState<Vec3 | null>(null);
+  const playerModelRef = useRef<THREE.Group | null>(null);
+  // Dev probe handle: the settlement layer's "rebuild now" (flash probe).
+  const settlementRebuildRef = useRef<(() => void) | null>(null);
   const [error, setError] = useState<string | null>(null);
   const hudChannel = useMemo(() => createHudChannel(), []);
   const player = useRef<EcctrlHandle | null>(null);
@@ -244,7 +250,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const settlementSolidsRef = useRef<SettlementSolid[]>([]);
   const settlementEnvironment = useCallback(() => {
     const sample = lastWeatherSample();
-    return sample ? { rainIntensity: sample.rainIntensity, minuteOfDay: worldClock.now().minuteOfDay } : null;
+    return sample ? { rainIntensity: sample.rainIntensity, epochMinutes: worldClock.epochMinutes() } : null;
   }, []);
   const handleSettlementSolids = useCallback((solids: SettlementSolid[]) => {
     settlementSolidsRef.current = solids;
@@ -492,6 +498,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 quality={quality}
                 environment={settlementEnvironment}
                 onSolids={handleSettlementSolids}
+                rebuildRef={settlementRebuildRef}
               />
             )}
           </Suspense>
@@ -569,6 +576,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             <BoundaryWalls extentM={terrainExtentM} verticalScale={verticalScale} />
             <BoundaryMessage positionRef={focusRef} extentM={terrainExtentM} onMessage={setEdgeMessage} />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
+              {/* The camera fades this group out when its arm is short
+                  (16h check-in 2 item 3); per-mesh hiding stays armour's. */}
+              <group ref={playerModelRef}>
               <Suspense fallback={null}>
                 <SkyrimFighter
                   animationCommandRef={animationCommandRef}
@@ -588,6 +598,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                   visualSupportYRef={supportYRef}
                 />
               </Suspense>
+              </group>
             </PlayerBody>
             <CharacterDriver
               handleRef={player}
@@ -603,6 +614,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               onHud={hudChannel.publish}
               onWaterContact={onWaterContact}
               onPositionKm={onPositionKm}
+              playerModelRef={playerModelRef}
+              settlementRebuildRef={settlementRebuildRef}
             />
           </Physics>
           </Suspense>
@@ -1274,7 +1287,15 @@ declare global {
       movement: () => string;
       groundAt: (x: number, z: number) => number | null;
       rayDown: (x: number, z: number) => number | null;
-      colliders: () => { shape: string; x: number; y: number; z: number }[];
+      colliders: () => {
+        shape: string; x: number; y: number; z: number; groups: number; fixed: boolean;
+      }[];
+      /** Follow-camera arm this frame (m) and its obstruction query (16h
+       * check-in 2 item 3): the flash/camera probe reads both. */
+      cameraArm: () => number;
+      cameraCast: (from: [number, number, number], to: [number, number, number]) => number | null;
+      /** Force one settlement rebuild (flash probe). */
+      settlementRebuild: () => boolean;
     };
   }
 }
@@ -1292,7 +1313,7 @@ function BoundaryMessage({ positionRef, extentM, onMessage }: {
   return null;
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact }: {
+function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, extentM, onHud, onPositionKm, onWaterContact, playerModelRef, settlementRebuildRef }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   world: ChunkWorld;
   /** Colliders mounted AND rendering warm — physics steps only when true. */
@@ -1309,6 +1330,10 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   onPositionKm: (xKm: number, zKm: number) => void;
   /** Live water contact for churn foam + splash events (Phase 8b). */
   onWaterContact?: (x: number, y: number, z: number, verticalVel: number, delta: number) => void;
+  /** The drawn player model, faded when the camera arm is short. */
+  playerModelRef?: React.RefObject<THREE.Group | null>;
+  /** The settlement layer's probe rebuild handle, exposed on the debug hook. */
+  settlementRebuildRef?: React.MutableRefObject<(() => void) | null>;
 }) {
   const rapier = useRapier();
   // depend on the map, not the context: a new adapter re-arms the spawn teleport (owner 2026-09-22: reset every 3 s)
@@ -1319,6 +1344,13 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const segments = useFrameSegments();
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
   const camera3P = useMemo(() => new FollowCamera(), []);
+  // The arm collides with settlement and terrain colliders (16h check-in 2
+  // item 3): one ball cast through the shared physics world, injected.
+  const cameraCast = useMemo(() => rapierCameraObstruction(rapier), [rapier]);
+  useEffect(() => {
+    camera3P.setObstruction(cameraCast);
+    return () => camera3P.setObstruction(null);
+  }, [camera3P, cameraCast]);
   const { camera } = useThree();
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
@@ -1356,16 +1388,27 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         return hit ? 2000 - hit.timeOfImpact : null;
       },
       colliders: () => {
-        const out: { shape: string; x: number; y: number; z: number }[] = [];
+        const out: {
+          shape: string; x: number; y: number; z: number; groups: number; fixed: boolean;
+        }[] = [];
         rapier.world.forEachCollider((c) => {
           const t = c.translation();
-          out.push({ shape: String(c.shape.type), x: t.x, y: t.y, z: t.z });
+          out.push({ shape: String(c.shape.type), x: t.x, y: t.y, z: t.z,
+            groups: c.collisionGroups() >>> 0, fixed: c.parent()?.isFixed() ?? false });
         });
         return out;
       },
+      cameraArm: () => camera3P.arm,
+      cameraCast: (from, to) => cameraCast(
+        new THREE.Vector3(...from), new THREE.Vector3(...to), FOLLOW_CAMERA.collisionRadius),
+      settlementRebuild: () => {
+        const rebuild = settlementRebuildRef?.current;
+        rebuild?.();
+        return Boolean(rebuild);
+      },
     };
     return () => { delete window.__STUDIO_CHARACTER_DEBUG__; };
-  }, [adapter, world, rapier, position]);
+  }, [adapter, world, rapier, position, camera3P, cameraCast, settlementRebuildRef]);
 
   useEffect(() => {
     const detach = input.attach();
@@ -1473,11 +1516,13 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     supportYRef.current = visualSupportY(
       adapter.supportHeight(), world.groundHeight(visualPos.x, visualPos.z), visualPos.y);
     camera3P.update(intent.camera, visualPos, delta);
+    // Fallback outside the terrain collider ring: the CPU height clamp.
     const cameraGround = world.groundHeight(camera3P.position.x, camera3P.position.z);
     if (cameraGround !== null && camera3P.position.y < cameraGround + 0.6) {
       camera3P.position.y = cameraGround + 0.6;
     }
     camera3P.applyTo(camera);
+    if (playerModelRef?.current) fadePlayerModel(playerModelRef.current, playerOpacityForArm(camera3P.arm));
     focusRef.current = { x: position.x, z: position.z };
 
     // Streaming safety net: anything that truly slips under the terrain is
