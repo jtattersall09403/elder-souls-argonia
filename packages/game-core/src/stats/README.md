@@ -23,7 +23,7 @@ retune or to run the sim's own tables.
 | `curves.json` | k exponent, P range, health/stamina/magicka/carry, burden and roll tiers, mitigation, breath, movement, XP, vastei, level-up costs, difficulty, sneak table, climbing, poise, block cap, check constants |
 | `skills.json` | the 27 skills: governing and score attribute, specialization, family, bands `[lo, hi]` over k(score) |
 | `attributes.json` | the seven attributes, start range, favoured bonus, purchase cap, the reference character |
-| `races.json` | one record per roster race, both sexes, Morrowind's packages ([0089](../../../../docs/decisions/0089-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md)) |
+| `races.json` | one record per roster race, both sexes, Morrowind's packages ([0096](../../../../docs/decisions/0096-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md)) |
 | `classes.json` | the 18 preset classes (§119) |
 | `ladder.json` | D1–D5 bands, variants, the ±25 % clamp (§128) |
 | `magic.json`, `economy.json` | spell tiers, castability, enchanting bounds; prices, training, services |

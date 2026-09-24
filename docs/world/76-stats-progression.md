@@ -1462,7 +1462,7 @@ both read. The harness's own inputs are in `stats/sim/data/`.
 | `data/attributes.json` | the seven attributes, the start range, the reference character |
 | `data/skills.json` | the 27 skills: governing attribute, **score attribute**, specialization, effect bands |
 | `data/curves.json` | `k`, `P`, mitigation, health/stamina/magicka, movement, poise, check constants, vastei and level-cost constants |
-| `data/races.json` | one record per playable race, both sexes: baselines, skill bonuses, effect packages ([0089](../decisions/0089-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md)) |
+| `data/races.json` | one record per playable race, both sexes: baselines, skill bonuses, effect packages ([0096](../decisions/0096-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md)) |
 | `data/classes.json` | preset classes (majors/minors/specialization/favoured) |
 | `data/ladder.json` | the **D1–D5** combat bands, the hits-to-die targets they were solved *from*, and the variant packages |
 | `data/magic.json` | spell tiers, healing tiers, castability, enchanting bounds, the alchemy formula |

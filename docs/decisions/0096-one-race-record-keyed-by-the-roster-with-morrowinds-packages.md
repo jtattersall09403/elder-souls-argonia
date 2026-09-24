@@ -1,4 +1,4 @@
-# 0089 — One race stat record, keyed by the body roster's ids, carrying Morrowind's packages for both sexes
+# 0096 — One race stat record, keyed by the body roster's ids, carrying Morrowind's packages for both sexes
 
 **Date:** 2026-09-24. **Status:** accepted (stats-lab lane lead, under the
 lane brief's delegation to reconcile the two race tables, decision 0087

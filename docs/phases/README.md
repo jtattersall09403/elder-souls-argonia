@@ -724,7 +724,7 @@ Deliverables:
   (data in `data/` and `sim/data/`, the 19 invariants standing tests in
   `npm test`; [0088](../decisions/0088-the-stats-model-lives-in-game-core-and-reads-injected-data.md));
   `tooling/stats-sim` is retired; the two race tables are one record keyed by
-  the roster ids ([0089](../decisions/0089-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md));
+  the roster ids ([0096](../decisions/0096-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md));
   the owner's bench is `apps/stats-lab`. What 10c still wires: actors,
   combat and equipment reading the stats API (the combat lane consumes the
   modifiers first), the effect stack, saves, UI. `combat/poise.ts` exists
