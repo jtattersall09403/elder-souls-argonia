@@ -8,6 +8,7 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
+    "./three": "./src/threeBackend.ts",
     "./plugin": "./plugin.mjs",
     "./files/audio-manifest.json": "./files/audio-manifest.json"
   },
@@ -15,8 +16,14 @@
     "test": "vitest run && python3 -m pytest -q -p no:cacheprovider ../../tooling/audio-pipeline",
     "typecheck": "tsc --noEmit --pretty false"
   },
+  "dependencies": {
+    "@elder-souls/world-time": "^0.1.0",
+    "@elder-souls/world-weather": "^0.1.0",
+    "three": "^0.184.0"
+  },
   "devDependencies": {
     "@types/node": "^24.10.13",
+    "@types/three": "^0.184.0",
     "typescript": "^6.0.3",
     "vitest": "^4.0.18"
   }

@@ -7,7 +7,9 @@ package the apps inject, and the budget gate. It does not wire any app:
 the combat lane and 16h (or later) consume it through the handoffs below.
 Design: [module 57](../../world/57-audio-soundscape.md) §105–108 and the
 [research](../../research/rendering/ambient-audio-soundscape-threejs.md);
-decision [0094](../../decisions/0094-audio-ships-as-opus-webm-sets-read-from-the-plugin-loops-crossfade-at-runtime.md).
+decisions [0094](../../decisions/0094-audio-ships-as-opus-webm-sets-read-from-the-plugin-loops-crossfade-at-runtime.md)
+(files and pipeline) and [0095](../../decisions/0095-audio-runtime-is-an-injected-manager-over-an-engine-interface-fed-by-typed-sound-events.md)
+(runtime).
 
 ## Folders
 
@@ -26,7 +28,7 @@ decision [0094](../../decisions/0094-audio-ships-as-opus-webm-sets-read-from-the
 | Round | What | Status |
 |---|---|---|
 | 1 | Pipeline: BSA inventory, plugin-read sets, Opus/WebM converter with loop-safe beds, manifest + provenance; sample-first (25 + fresh 27 + fresh 27), then the first consumers (combat, movement, marsh/water/wind, rain/thunder) | delivered 2026-09-24 |
-| 2 | `packages/audio`: AudioManager behind an engine interface, buses, event vocabulary, footstep and ambience contracts, streaming, tests with a fake backend; handoffs to the combat lane and the studio | — |
+| 2 | `packages/audio`: AudioManager behind an engine interface, buses, event vocabulary, footstep and ambience contracts, positional emitters, streaming, tests with a fake backend ([0095](../../decisions/0095-audio-runtime-is-an-injected-manager-over-an-engine-interface-fed-by-typed-sound-events.md)); handoffs to the combat lane and the studio | delivered 2026-09-24 |
 | 3 | Phases README § 12b "what exists", the audio manifest in the site budget (standard 16), backlog row for the studio wiring | — |
 
 ## Commands
