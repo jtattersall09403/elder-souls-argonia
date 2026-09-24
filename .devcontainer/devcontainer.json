@@ -1,0 +1,50 @@
+{
+  "name": "Elder Souls: Argonia",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "hostRequirements": {
+    "cpus": 4,
+    "memory": "16gb",
+    "storage": "32gb"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+  "forwardPorts": [8081],
+  "portsAttributes": {
+    "8081": {
+      "label": "world studio",
+      "onAutoForward": "silent",
+      "visibility": "private"
+    }
+  },
+  "containerEnv": {
+    "ES_STUDIO_PORT": "8081",
+    "ES_ASSET_PIPELINE_ROOT": "/workspaces/elder-scrolls-asset-pipeline",
+    "CLAUDE_CONFIG_DIR": "/workspaces/.claude-home",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+  "onCreateCommand": "bash tooling/bootstrap/on-create.sh",
+  "postCreateCommand": "bash tooling/bootstrap/post-create.sh",
+  "postStartCommand": "bash tooling/bootstrap/on-start.sh",
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "dbaeumer.vscode-eslint"
+      ]
+    },
+    "codespaces": {
+      "openFiles": ["docs/PROGRESS.md"]
+    }
+  }
+}
