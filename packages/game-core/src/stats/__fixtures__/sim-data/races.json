@@ -1,0 +1,64 @@
+{
+  "_": "Morrowind-weight racial packages (module 76 §127). Male baselines shown; female variants follow the Morrowind tables. Luck is dropped with the attribute. Beast races have NO gear restrictions (owner veto, decision 0031).",
+  "races": [
+    { "id": "argonian", "label": "Argonian",
+      "attributes": { "strength": 40, "intelligence": 40, "willpower": 30, "agility": 50, "speed": 50, "endurance": 30, "personality": 30 },
+      "skillBonuses": { "athletics": 15, "alchemy": 5, "illusion": 5, "mediumArmor": 5, "mysticism": 5, "spear": 5, "unarmored": 5 },
+      "effects": [
+        { "field": "resistPoison", "op": "resist", "magnitude": 100, "permanent": true },
+        { "field": "resistCommonDisease", "op": "resist", "magnitude": 75, "permanent": true },
+        { "field": "waterBreathing", "op": "ability", "magnitude": 1, "permanent": true }
+      ] },
+    { "id": "nord", "label": "Nord",
+      "attributes": { "strength": 50, "intelligence": 30, "willpower": 40, "agility": 40, "speed": 40, "endurance": 50, "personality": 30 },
+      "skillBonuses": { "heavyArmor": 10, "blunt": 10, "longBlade": 10, "axe": 5, "block": 5, "spear": 5 },
+      "effects": [
+        { "field": "resistFrost", "op": "resist", "magnitude": 100, "permanent": true },
+        { "field": "resistShock", "op": "resist", "magnitude": 50, "permanent": true }
+      ] },
+    { "id": "breton", "label": "Breton",
+      "attributes": { "strength": 40, "intelligence": 50, "willpower": 50, "agility": 30, "speed": 30, "endurance": 30, "personality": 40 },
+      "skillBonuses": { "conjuration": 10, "mysticism": 10, "restoration": 10, "alteration": 5, "alchemy": 5, "illusion": 5 },
+      "effects": [
+        { "field": "magickaMultiplier", "op": "fortify", "magnitude": 0.5, "permanent": true },
+        { "field": "resistMagicka", "op": "resist", "magnitude": 50, "permanent": true }
+      ] },
+    { "id": "dunmer", "label": "Dunmer",
+      "attributes": { "strength": 40, "intelligence": 40, "willpower": 30, "agility": 40, "speed": 50, "endurance": 40, "personality": 30 },
+      "skillBonuses": { "longBlade": 10, "destruction": 10, "marksman": 10, "shortBlade": 5, "athletics": 5, "lightArmor": 5 },
+      "effects": [{ "field": "resistFire", "op": "resist", "magnitude": 75, "permanent": true }] },
+    { "id": "imperial", "label": "Imperial",
+      "attributes": { "strength": 40, "intelligence": 40, "willpower": 30, "agility": 30, "speed": 40, "endurance": 40, "personality": 50 },
+      "skillBonuses": { "speechcraft": 10, "mercantile": 10, "longBlade": 5, "blunt": 5, "handToHand": 5, "lightArmor": 5 },
+      "effects": [] },
+    { "id": "redguard", "label": "Redguard",
+      "attributes": { "strength": 50, "intelligence": 30, "willpower": 30, "agility": 40, "speed": 40, "endurance": 50, "personality": 30 },
+      "skillBonuses": { "longBlade": 15, "blunt": 10, "axe": 10, "athletics": 5, "heavyArmor": 5, "mediumArmor": 5 },
+      "effects": [
+        { "field": "resistPoison", "op": "resist", "magnitude": 75, "permanent": true },
+        { "field": "resistCommonDisease", "op": "resist", "magnitude": 75, "permanent": true }
+      ] },
+    { "id": "khajiit", "label": "Khajiit",
+      "attributes": { "strength": 40, "intelligence": 40, "willpower": 30, "agility": 50, "speed": 40, "endurance": 30, "personality": 40 },
+      "skillBonuses": { "acrobatics": 15, "sneak": 5, "security": 5, "shortBlade": 5, "handToHand": 5, "lightArmor": 5, "athletics": 5 },
+      "effects": [] },
+    { "id": "bosmer", "label": "Bosmer",
+      "attributes": { "strength": 30, "intelligence": 40, "willpower": 30, "agility": 50, "speed": 50, "endurance": 30, "personality": 40 },
+      "skillBonuses": { "marksman": 15, "sneak": 10, "lightArmor": 10, "acrobatics": 5, "alchemy": 5 },
+      "effects": [{ "field": "resistCommonDisease", "op": "resist", "magnitude": 75, "permanent": true }] },
+    { "id": "altmer", "label": "Altmer",
+      "attributes": { "strength": 30, "intelligence": 50, "willpower": 40, "agility": 40, "speed": 30, "endurance": 30, "personality": 40 },
+      "skillBonuses": { "alteration": 10, "conjuration": 10, "destruction": 10, "enchant": 10, "illusion": 5, "mysticism": 5 },
+      "effects": [
+        { "field": "magickaMultiplier", "op": "fortify", "magnitude": 1.5, "permanent": true },
+        { "field": "resistCommonDisease", "op": "resist", "magnitude": 75, "permanent": true },
+        { "field": "weaknessFire", "op": "resist", "magnitude": -25, "permanent": true },
+        { "field": "weaknessFrost", "op": "resist", "magnitude": -25, "permanent": true },
+        { "field": "weaknessShock", "op": "resist", "magnitude": -25, "permanent": true }
+      ] },
+    { "id": "orc", "label": "Orsimer",
+      "attributes": { "strength": 45, "intelligence": 30, "willpower": 50, "agility": 35, "speed": 30, "endurance": 50, "personality": 30 },
+      "skillBonuses": { "heavyArmor": 10, "mediumArmor": 10, "blunt": 10, "smithing": 10, "axe": 5, "block": 5 },
+      "effects": [{ "field": "resistMagicka", "op": "resist", "magnitude": 25, "permanent": true }] }
+  ]
+}

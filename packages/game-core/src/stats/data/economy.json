@@ -1,0 +1,75 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7124",
+ "potions": {
+  "bought": [
+   {
+    "id": "minor",
+    "heal": 25,
+    "price": 25,
+    "weightKg": 0.5
+   },
+   {
+    "id": "standard",
+    "heal": 60,
+    "price": 90,
+    "weightKg": 0.5
+   },
+   {
+    "id": "strong",
+    "heal": 140,
+    "price": 300,
+    "weightKg": 0.5
+   }
+  ],
+  "drinkSeconds": 0.9,
+  "drinkRecoverySeconds": 0.4,
+  "ingredientCost": 12,
+  "magicka": {
+   "restore": 120,
+   "price": 110,
+   "weightKg": 0.5
+  }
+ },
+ "training": {
+  "costPerRank": 8,
+  "costRankExponent": 1.0
+ },
+ "services": {
+  "repairPerConditionPoint": 1.6,
+  "repairHammer": {
+   "price": 40,
+   "uses": 25
+  },
+  "spellmakingFeePerMagicka": 7,
+  "enchantingServiceMultiplier": 3.5,
+  "cureDisease": 55,
+  "ferry": 12,
+  "guide": 80,
+  "informationTier": [
+   25,
+   120,
+   400
+  ]
+ },
+ "income": {
+  "perBandClear": {
+   "D1": 4,
+   "D2": 12,
+   "D3": 35,
+   "D4": 95,
+   "D5": 240
+  },
+  "questTypical": {
+   "small": 60,
+   "medium": 220,
+   "large": 750
+  }
+ },
+ "vendorPurse": {
+  "village": 200,
+  "town": 900,
+  "city": 3000
+ },
+ "vendorPurseRefreshHours": 48
+}

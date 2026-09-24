@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7120",
+ "id": "argonia",
+ "rankCost": {
+  "$from": "curves.skillXp"
+ },
+ "levelTrigger": {
+  "ranksPerLevel": {
+   "$from": "curves.levelUp.ranksPerLevel"
+  },
+  "miscRankDivisor": {
+   "$from": "curves.levelUp.miscRankRatio"
+  },
+  "miscCreditRequiresAllMaxed": false,
+  "maxedSkillsKeepEarning": true,
+  "maxedSkillCreditDivisor": {
+   "$from": "curves.levelUp.miscRankRatio"
+  }
+ },
+ "vastei": {
+  "$from": "curves.vastei"
+ },
+ "attributePurchase": {
+  "$from": "curves.levelUp"
+ },
+ "health": {
+  "$from": "curves.health",
+  "retroactive": true,
+  "enduranceBasis": "current"
+ },
+ "worthiness": {
+  "$from": "curves.worthiness",
+  "appliesTo": [
+   "weapon",
+   "armour"
+  ]
+ },
+ "armourAccrual": {
+  "killAward": 3.0,
+  "killHealthDivisor": 2.0,
+  "classWeights": {
+   "lightArmor": {
+    "win": 1.0,
+    "hit": 0.25
+   },
+   "mediumArmor": {
+    "win": 0.6,
+    "hit": 0.6
+   },
+   "heavyArmor": {
+    "win": 0.35,
+    "hit": 1.0
+   },
+   "unarmored": {
+    "win": 1.0,
+    "hit": 0.25
+   }
+  }
+ },
+ "use": {
+  "weaponConnect": {
+   "longBlade": 1.0,
+   "blunt": 1.0,
+   "spear": 1.0,
+   "marksman": 1.0,
+   "handToHand": 1.0,
+   "axe": 1.2,
+   "shortBlade": 0.75,
+   "default": 1.0
+  },
+  "armourHitTaken": 1.0,
+  "unarmoredHitTaken": 1.0,
+  "block": 2.5,
+  "spellCast": 1.0,
+  "alchemyPotion": 2.0,
+  "securityLock": 2.0,
+  "securityTrap": 3.0,
+  "speechcraftPersuasion": 1.0,
+  "mercantilePerPercentMoved": 0.3,
+  "enchantItem": 5.0,
+  "smithingRepair": 0.4,
+  "athleticsPerSecondRunning": 0.02,
+  "athleticsPerSecondSwimming": 0.03,
+  "acrobaticsJump": 0.15,
+  "acrobaticsHardLanding": 3.0,
+  "sneakSuccess": 1.0,
+  "acrobaticsPerTenMetresClimbed": 1.5
+ }
+}

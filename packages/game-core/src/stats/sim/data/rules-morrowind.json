@@ -1,0 +1,71 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7120, \u00a7129",
+ "id": "morrowind",
+ "rankCost": {
+  "classFactor": {
+   "major": 0.75,
+   "minor": 1.0,
+   "misc": 1.25
+  },
+  "specFactor": 0.8
+ },
+ "levelTrigger": {
+  "ranksPerLevel": 10,
+  "miscRankDivisor": null,
+  "miscCreditRequiresAllMaxed": false,
+  "maxedSkillsKeepEarning": false,
+  "maxedSkillCreditDivisor": null
+ },
+ "vastei": {
+  "perUse": 4,
+  "skillDivisor": 50
+ },
+ "attributePurchase": {
+  "ranksPerLevel": 10,
+  "costBase": 40,
+  "costLevelDivisor": 10,
+  "costLevelExponent": 1.3,
+  "attrValueDivisor": 50,
+  "attrValueExponent": 2,
+  "sittingIncrement": 0.5,
+  "sittingCap": 5
+ },
+ "health": {
+  "attrCoefficient": 0.5,
+  "levelBase": 0,
+  "levelEnduranceDivisor": 10,
+  "retroactive": false,
+  "enduranceBasis": "atLevelUp"
+ },
+ "worthiness": null,
+ "use": {
+  "weaponConnect": {
+   "longBlade": 1.0,
+   "blunt": 1.0,
+   "spear": 1.0,
+   "marksman": 1.0,
+   "handToHand": 1.0,
+   "axe": 1.2,
+   "shortBlade": 0.75,
+   "default": 1.0
+  },
+  "armourHitTaken": 1.0,
+  "unarmoredHitTaken": 1.0,
+  "block": 2.5,
+  "spellCast": 1.0,
+  "alchemyPotion": 2.0,
+  "securityLock": 2.0,
+  "securityTrap": 3.0,
+  "speechcraftPersuasion": 1.0,
+  "mercantilePerPercentMoved": 0.3,
+  "enchantItem": 5.0,
+  "smithingRepair": 0.4,
+  "athleticsPerSecondRunning": 0.02,
+  "athleticsPerSecondSwimming": 0.03,
+  "acrobaticsJump": 0.15,
+  "acrobaticsHardLanding": 3.0,
+  "sneakSuccess": 1.0,
+  "acrobaticsPerTenMetresClimbed": 0
+ }
+}

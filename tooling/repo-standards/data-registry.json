@@ -92,6 +92,11 @@
    "path": "packages/game-core/src/stats/data",
    "enforced": true,
    "_": "The stats model's canonical tables (module 76 §129; decision 0088): curves, skills, attributes."
+  },
+  {
+   "path": "packages/game-core/src/stats/sim/data",
+   "enforced": true,
+   "_": "The balance harness's own tables (module 76 §129; decisions 0088/0089): gear mirror, build checkpoints, worked enemies, content models, Morrowind's rules."
   }
  ]
 }

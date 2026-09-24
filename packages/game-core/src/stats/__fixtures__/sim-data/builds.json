@@ -1,0 +1,280 @@
+{
+  "_": "Progression checkpoints used by the sweeps. `competent` IS the reference character (the Marsh Hand, module 76 \u00a7116) and must reproduce today's sandbox numbers. Attribute values are the design's expectation for a player who spends vastei broadly; the progression sim cross-checks that they are affordable.",
+  "checkpoints": [
+    {
+      "id": "start",
+      "label": "hour one",
+      "level": 1,
+      "attributes": {
+        "strength": 40,
+        "endurance": 40,
+        "agility": 40,
+        "speed": 40,
+        "willpower": 30,
+        "intelligence": 30,
+        "personality": 30
+      },
+      "primarySkill": 30,
+      "supportSkill": 15,
+      "armourSkill": 25,
+      "gearTier": 1,
+      "potionsCarried": 2
+    },
+    {
+      "id": "novice",
+      "label": "first few hours",
+      "level": 5,
+      "attributes": {
+        "strength": 45,
+        "endurance": 45,
+        "agility": 42,
+        "speed": 41,
+        "willpower": 33,
+        "intelligence": 32,
+        "personality": 32
+      },
+      "primarySkill": 45,
+      "supportSkill": 28,
+      "armourSkill": 35,
+      "gearTier": 1,
+      "potionsCarried": 3
+    },
+    {
+      "id": "competent",
+      "label": "the Marsh Hand (reference)",
+      "level": 10,
+      "attributes": {
+        "strength": 50,
+        "endurance": 50,
+        "agility": 50,
+        "speed": 50,
+        "willpower": 40,
+        "intelligence": 40,
+        "personality": 40
+      },
+      "primarySkill": 60,
+      "supportSkill": 45,
+      "armourSkill": 45,
+      "gearTier": 2,
+      "potionsCarried": 4
+    },
+    {
+      "id": "veteran",
+      "label": "mid game",
+      "level": 20,
+      "attributes": {
+        "strength": 65,
+        "endurance": 65,
+        "agility": 58,
+        "speed": 55,
+        "willpower": 48,
+        "intelligence": 45,
+        "personality": 44
+      },
+      "primarySkill": 78,
+      "supportSkill": 60,
+      "armourSkill": 68,
+      "gearTier": 4,
+      "potionsCarried": 6
+    },
+    {
+      "id": "master",
+      "label": "late game",
+      "level": 35,
+      "attributes": {
+        "strength": 85,
+        "endurance": 85,
+        "agility": 72,
+        "speed": 66,
+        "willpower": 60,
+        "intelligence": 55,
+        "personality": 50
+      },
+      "primarySkill": 95,
+      "supportSkill": 80,
+      "armourSkill": 88,
+      "gearTier": 6,
+      "potionsCarried": 8,
+      "spellCostReduction": 0.1
+    },
+    {
+      "id": "legend",
+      "label": "endgame",
+      "level": 50,
+      "attributes": {
+        "strength": 100,
+        "endurance": 100,
+        "agility": 90,
+        "speed": 80,
+        "willpower": 72,
+        "intelligence": 62,
+        "personality": 55
+      },
+      "primarySkill": 100,
+      "supportSkill": 95,
+      "armourSkill": 100,
+      "gearTier": 8,
+      "potionsCarried": 10,
+      "temperGrades": 2,
+      "enchantDamageBonus": 0.2,
+      "spellCostReduction": 0.15
+    },
+    {
+      "id": "god",
+      "label": "the god-build (mastery stacking)",
+      "level": 50,
+      "attributes": {
+        "strength": 125,
+        "endurance": 125,
+        "agility": 110,
+        "speed": 95,
+        "willpower": 90,
+        "intelligence": 100,
+        "personality": 70
+      },
+      "primarySkill": 100,
+      "supportSkill": 100,
+      "armourSkill": 100,
+      "gearTier": 8,
+      "temperGrades": 3,
+      "enchantDamageBonus": 0.4,
+      "note": "attributes above 100 come from fortify effects (potions, enchantments, allegiance rites) - legal by design (\u00a7102)",
+      "potionsCarried": 20,
+      "spellCostReduction": 0.35
+    }
+  ],
+  "archetypes": {
+    "melee": {
+      "weaponSkill": "longBlade",
+      "weaponClass": "straightSword",
+      "armourClass": "heavy",
+      "shield": true,
+      "attributeOrder": [
+        "strength",
+        "endurance",
+        "agility",
+        "speed",
+        "willpower",
+        "intelligence",
+        "personality"
+      ]
+    },
+    "greatsword": {
+      "weaponSkill": "longBlade",
+      "weaponClass": "greatsword",
+      "armourClass": "heavy",
+      "shield": false,
+      "attributeOrder": [
+        "strength",
+        "endurance",
+        "agility",
+        "speed",
+        "willpower",
+        "intelligence",
+        "personality"
+      ]
+    },
+    "spear": {
+      "weaponSkill": "spear",
+      "weaponClass": "spear",
+      "armourClass": "medium",
+      "shield": false,
+      "attributeOrder": [
+        "endurance",
+        "strength",
+        "speed",
+        "agility",
+        "willpower",
+        "intelligence",
+        "personality"
+      ]
+    },
+    "marksman": {
+      "weaponSkill": "marksman",
+      "weaponClass": "warbow",
+      "armourClass": "light",
+      "shield": false,
+      "attributeOrder": [
+        "agility",
+        "speed",
+        "endurance",
+        "strength",
+        "willpower",
+        "intelligence",
+        "personality"
+      ]
+    },
+    "stealth": {
+      "weaponSkill": "shortBlade",
+      "weaponClass": "shortSword",
+      "armourClass": "light",
+      "shield": false,
+      "attributeOrder": [
+        "agility",
+        "speed",
+        "endurance",
+        "strength",
+        "personality",
+        "intelligence",
+        "willpower"
+      ]
+    },
+    "magic": {
+      "weaponSkill": "destruction",
+      "weaponClass": null,
+      "armourClass": "light",
+      "shield": false,
+      "attributeOrder": [
+        "intelligence",
+        "willpower",
+        "endurance",
+        "speed",
+        "agility",
+        "strength",
+        "personality"
+      ]
+    }
+  },
+  "gearTierMaterials": {
+    "1": {
+      "weapon": "iron",
+      "light": "studded",
+      "medium": "imperial",
+      "heavy": "iron"
+    },
+    "2": {
+      "weapon": "steel",
+      "light": "studded",
+      "medium": "imperial",
+      "heavy": "steel"
+    },
+    "4": {
+      "weapon": "orcish",
+      "light": "elven",
+      "medium": "orcish",
+      "heavy": "dwarven"
+    },
+    "6": {
+      "weapon": "glass",
+      "light": "glass",
+      "medium": "akaviri",
+      "heavy": "nordhero"
+    },
+    "8": {
+      "weapon": "daedric",
+      "light": "glass",
+      "medium": "akaviri",
+      "heavy": "daedric"
+    }
+  },
+  "_attributeOrderNote": "the same total attribute investment, spent where the build needs it: the checkpoint's values are sorted and dealt out along this order. The melee order reproduces the checkpoint table verbatim, so the reference character is unchanged.",
+  "arrowMaterialBonusByTier": {
+    "1": 1.0,
+    "2": 1.05,
+    "4": 1.15,
+    "6": 1.25,
+    "8": 1.35
+  },
+  "_arrowNote": "arrow material is its own axis (Morrowind: iron 1-3 vs daedric 10-15). Good arrows are placed loot, so a marksman's endgame damage is geography like everyone else's.",
+  "_spellCostNote": "cost-reduction enchantments are the classic mage endgame; capped at magic.json costReductionCap so no stack ever reaches free casting (Skyrim's 100 %-reduction exploit)."
+}

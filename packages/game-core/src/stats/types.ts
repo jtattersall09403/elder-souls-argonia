@@ -18,7 +18,8 @@ export const SKILL_IDS = [
 ] as const;
 export type SkillId = (typeof SKILL_IDS)[number];
 
-export type Specialization = "combat" | "stealth" | "magic";
+export const SPECIALIZATIONS = ["combat", "stealth", "magic"] as const;
+export type Specialization = (typeof SPECIALIZATIONS)[number];
 export type SkillFamily =
   | "weapon" | "defence" | "armour" | "movement" | "stealth" | "craft" | "social" | "magic";
 /** `[lo, hi]`: the value at k = 0 and at k = 1 (module 76 §116 `band`). */
@@ -111,7 +112,7 @@ export type Curves = {
   readonly block: { readonly stabilityCap: number };
   readonly checks: {
     readonly castSkillMultiplier: number; readonly enchantPointDivisor: number;
-    readonly constantEffectCostMultiplier: number; readonly chargedUseBase: number;
+    readonly chargedUseBase: number;
     readonly outOfCombatFatigue: { readonly base: number; readonly staminaShare: number };
     readonly craftTierDivisor: number;
   };
@@ -133,6 +134,70 @@ export type StatsData = {
   readonly curves: Curves;
   readonly skills: SkillsTable;
   readonly attributes: AttributesTable;
+  readonly races: RacesTable;
+  readonly classes: ClassesTable;
+  readonly ladder: LadderTable;
+  readonly magic: OpaqueTable;
+  readonly economy: OpaqueTable;
+  /** Our progression rules (§120), `$from` references resolved against `curves`. */
+  readonly progression: Readonly<Record<string, unknown>>;
   /** `skills.skills` keyed by id, built once by `statsData()`. */
   readonly skillById: Readonly<Record<SkillId, SkillDef>>;
 };
+
+// ---------------------------------------------------------------- round 2
+
+export const SEXES = ["male", "female"] as const;
+export type Sex = (typeof SEXES)[number];
+export type ResistOp = "fortify" | "drain" | "damage" | "restore" | "resist" | "absorb" | "ability";
+/** One entry on the effect stack (module 76 §127). Racials are permanent entries. */
+export type StatEffect = {
+  readonly field: string;
+  readonly op: ResistOp;
+  readonly magnitude: number;
+  readonly permanent?: boolean;
+  readonly durationSeconds?: number;
+};
+/** A playable race's stat package. `id` is the body roster's race id (`actors/generated/races.json`). */
+export type RaceStats = {
+  readonly id: string;
+  readonly attributes: Readonly<Record<Sex, Attributes>>;
+  readonly skillBonuses: Readonly<Partial<Record<SkillId, number>>>;
+  readonly effects: readonly StatEffect[];
+  /** Once-a-day racial powers: ids of spells authored later (§127); empty until then. */
+  readonly powers: readonly string[];
+};
+export type RacesTable = { readonly schemaVersion: number; readonly sexes: readonly Sex[]; readonly races: readonly RaceStats[] };
+
+export type ClassDef = {
+  readonly id: string;
+  readonly specialization: Specialization;
+  readonly favouredAttributes: readonly AttributeId[];
+  readonly majors: readonly SkillId[];
+  readonly minors: readonly SkillId[];
+};
+export type ClassesTable = {
+  readonly schemaVersion: number;
+  readonly startingSkill: number; readonly majorBonus: number; readonly minorBonus: number;
+  readonly specializationBonus: number; readonly favouredAttributeBonus: number;
+  readonly classes: readonly ClassDef[];
+};
+
+export type LadderField = "health" | "damage" | "armourRating" | "magicResist" | "attackPeriod" | "lootValue";
+export const LADDER_FIELDS: readonly LadderField[] = ["health", "damage", "armourRating", "magicResist", "attackPeriod", "lootValue"];
+export type LadderBand = { readonly id: string; readonly hitsToDieTarget?: number } & Readonly<Record<LadderField, Band>>;
+export type LadderTable = {
+  readonly schemaVersion: number;
+  /** A heavy attack lands at this multiple of the band's typical light hit. */
+  readonly heavyMultiplier: number;
+  /** A variant may move a field at most to band edge ×/÷ this (§128). */
+  readonly variantClamp: number;
+  readonly bands: readonly LadderBand[];
+  readonly variants: Readonly<Record<string, Readonly<Partial<Record<LadderField, number>>>>>;
+};
+
+/** A progression rule set as authored: numbers may be `{"$from": "curves.<path>"}` references. */
+export type RuleSetSource = Readonly<Record<string, unknown>>;
+
+/** Game tables with no dedicated type yet: read by the harness and by later 10c systems. */
+export type OpaqueTable = { readonly schemaVersion: number } & Readonly<Record<string, unknown>>;

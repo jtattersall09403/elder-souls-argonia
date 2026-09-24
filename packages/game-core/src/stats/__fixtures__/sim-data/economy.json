@@ -1,0 +1,77 @@
+{
+  "_": "Prices, sinks and income (module 76 \u00a7124/\u00a7126). Gold's job is to feed training, services, potions and enchanting \u2014 not to be the reward itself (quests 00 \u00a74).",
+  "potions": {
+    "_": "Bought potions. Brewed ones are stronger for a skilled alchemist and cost only ingredients \u2014 deliberate (owner ruling: fixed difficulty binds the world, not the player's capacity to cope).",
+    "bought": [
+      {
+        "id": "minor",
+        "heal": 25,
+        "price": 25,
+        "weightKg": 0.5
+      },
+      {
+        "id": "standard",
+        "heal": 60,
+        "price": 90,
+        "weightKg": 0.5
+      },
+      {
+        "id": "strong",
+        "heal": 140,
+        "price": 300,
+        "weightKg": 0.5
+      }
+    ],
+    "drinkSeconds": 0.9,
+    "drinkRecoverySeconds": 0.4,
+    "ingredientCost": 12,
+    "magicka": {
+      "restore": 120,
+      "price": 110,
+      "weightKg": 0.5
+    }
+  },
+  "training": {
+    "_": "One rank per session; never above the skill's governing attribute (reads base values). costPerRank * rank^exponent; retuned 2026-08-29 - at 15 x rank^1.15 training one skill to 100 cost more gold than the whole early economy produces.",
+    "costPerRank": 8,
+    "costRankExponent": 1.0
+  },
+  "services": {
+    "repairPerConditionPoint": 1.6,
+    "repairHammer": {
+      "price": 40,
+      "uses": 25
+    },
+    "spellmakingFeePerMagicka": 7,
+    "enchantingServiceMultiplier": 3.5,
+    "cureDisease": 55,
+    "ferry": 12,
+    "guide": 80,
+    "informationTier": [
+      25,
+      120,
+      400
+    ]
+  },
+  "income": {
+    "_": "Gold REALISED from a cleared encounter. These are TEMPLATE drops - what the creature itself carries - because placed treasure never respawns (module 76 \u00a7126) and is counted separately as the content model's lootGoldPerHour. The first pass double-counted: every clear paid a full placed-loot value, and a 157-hour playthrough ended on 860,000 gold, which makes every sink meaningless. What a fight is WORTH as a piece of authored content is the ladder's own lootValue field; this is only what falls off the corpse.",
+    "perBandClear": {
+      "D1": 4,
+      "D2": 12,
+      "D3": 35,
+      "D4": 95,
+      "D5": 240
+    },
+    "questTypical": {
+      "small": 60,
+      "medium": 220,
+      "large": 750
+    }
+  },
+  "vendorPurse": {
+    "village": 200,
+    "town": 900,
+    "city": 3000
+  },
+  "vendorPurseRefreshHours": 48
+}

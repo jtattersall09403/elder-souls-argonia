@@ -1,0 +1,519 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7121, \u00a7129; mirrors the equipment tables",
+ "armourSlots": {
+  "cuirass": {
+   "baseRating": 30,
+   "baseWeightKg": 12
+  },
+  "gauntlets": {
+   "baseRating": 10,
+   "baseWeightKg": 2.5
+  },
+  "boots": {
+   "baseRating": 10,
+   "baseWeightKg": 3.5
+  },
+  "helmet": {
+   "baseRating": 12,
+   "baseWeightKg": 3
+  }
+ },
+ "materials": {
+  "studded": {
+   "tier": 1,
+   "damageScale": 0.8,
+   "weightScale": 0.5,
+   "guardScale": 0.75,
+   "valuePerKg": 14,
+   "armourClass": "light",
+   "armourScale": 0.55
+  },
+  "iron": {
+   "tier": 1,
+   "damageScale": 0.85,
+   "weightScale": 1.05,
+   "guardScale": 0.9,
+   "valuePerKg": 8,
+   "armourClass": "heavy",
+   "armourScale": 0.75
+  },
+  "steel": {
+   "tier": 2,
+   "damageScale": 1,
+   "weightScale": 1,
+   "guardScale": 1,
+   "valuePerKg": 16,
+   "armourClass": "heavy",
+   "armourScale": 1
+  },
+  "imperial": {
+   "tier": 2,
+   "damageScale": 1.02,
+   "weightScale": 0.95,
+   "guardScale": 1,
+   "valuePerKg": 22,
+   "armourClass": "medium",
+   "armourScale": 1.1
+  },
+  "silver": {
+   "tier": 3,
+   "damageScale": 1.05,
+   "weightScale": 1,
+   "guardScale": 0.95,
+   "valuePerKg": 55,
+   "armourClass": "heavy",
+   "armourScale": 1.2
+  },
+  "dwarven": {
+   "tier": 3,
+   "damageScale": 1.16,
+   "weightScale": 1.2,
+   "guardScale": 1.08,
+   "valuePerKg": 40,
+   "armourClass": "heavy",
+   "armourScale": 1.6
+  },
+  "forsworn": {
+   "tier": 3,
+   "damageScale": 1.1,
+   "weightScale": 0.9,
+   "guardScale": 0.9,
+   "valuePerKg": 30,
+   "armourClass": "light",
+   "armourScale": 0.9
+  },
+  "elven": {
+   "tier": 4,
+   "damageScale": 1.28,
+   "weightScale": 0.78,
+   "guardScale": 1.02,
+   "valuePerKg": 70,
+   "armourClass": "light",
+   "armourScale": 1.5
+  },
+  "orcish": {
+   "tier": 4,
+   "damageScale": 1.34,
+   "weightScale": 1.15,
+   "guardScale": 1.06,
+   "valuePerKg": 60,
+   "armourClass": "medium",
+   "armourScale": 1.9
+  },
+  "draugr": {
+   "tier": 4,
+   "damageScale": 1.2,
+   "weightScale": 1.1,
+   "guardScale": 1,
+   "valuePerKg": 45,
+   "armourClass": "medium",
+   "armourScale": 1.5
+  },
+  "falmer": {
+   "tier": 4,
+   "damageScale": 1.22,
+   "weightScale": 1.12,
+   "guardScale": 0.98,
+   "valuePerKg": 38,
+   "armourClass": "medium",
+   "armourScale": 1.4
+  },
+  "akaviri": {
+   "tier": 5,
+   "damageScale": 1.4,
+   "weightScale": 0.85,
+   "guardScale": 1.04,
+   "valuePerKg": 120,
+   "armourClass": "medium",
+   "armourScale": 2.2
+  },
+  "nordhero": {
+   "tier": 5,
+   "damageScale": 1.42,
+   "weightScale": 1,
+   "guardScale": 1.08,
+   "valuePerKg": 110,
+   "armourClass": "heavy",
+   "armourScale": 2.4
+  },
+  "glass": {
+   "tier": 6,
+   "damageScale": 1.56,
+   "weightScale": 0.8,
+   "guardScale": 1.05,
+   "valuePerKg": 200,
+   "armourClass": "light",
+   "armourScale": 2.6
+  },
+  "ebony": {
+   "tier": 7,
+   "damageScale": 1.72,
+   "weightScale": 1.25,
+   "guardScale": 1.14,
+   "valuePerKg": 320,
+   "armourClass": "heavy",
+   "armourScale": 3.4
+  },
+  "daedric": {
+   "tier": 8,
+   "damageScale": 1.95,
+   "weightScale": 1.4,
+   "guardScale": 1.2,
+   "valuePerKg": 700,
+   "armourClass": "heavy",
+   "armourScale": 4.4
+  }
+ },
+ "weaponBaseDamage": 24,
+ "weaponClasses": {
+  "dagger": {
+   "skill": "shortBlade",
+   "powerScale": 0.55,
+   "staminaScale": 0.6,
+   "speedScale": 0.72,
+   "weightKg": 1.2
+  },
+  "shortSword": {
+   "skill": "shortBlade",
+   "powerScale": 0.82,
+   "staminaScale": 0.85,
+   "speedScale": 0.88,
+   "weightKg": 2.2
+  },
+  "straightSword": {
+   "skill": "longBlade",
+   "powerScale": 1,
+   "staminaScale": 1,
+   "speedScale": 1,
+   "weightKg": 3.2
+  },
+  "scimitar": {
+   "skill": "longBlade",
+   "powerScale": 0.95,
+   "staminaScale": 0.94,
+   "speedScale": 0.92,
+   "weightKg": 3
+  },
+  "greatsword": {
+   "skill": "longBlade",
+   "powerScale": 1.62,
+   "staminaScale": 1.4,
+   "speedScale": 1.34,
+   "weightKg": 7.5
+  },
+  "axe": {
+   "skill": "axe",
+   "powerScale": 1.12,
+   "staminaScale": 1.08,
+   "speedScale": 1.06,
+   "weightKg": 4
+  },
+  "greataxe": {
+   "skill": "axe",
+   "powerScale": 1.78,
+   "staminaScale": 1.5,
+   "speedScale": 1.42,
+   "weightKg": 9
+  },
+  "mace": {
+   "skill": "blunt",
+   "powerScale": 1.2,
+   "staminaScale": 1.15,
+   "speedScale": 1.12,
+   "weightKg": 5
+  },
+  "warhammer": {
+   "skill": "blunt",
+   "powerScale": 2.05,
+   "staminaScale": 1.62,
+   "speedScale": 1.55,
+   "weightKg": 11
+  },
+  "staff": {
+   "skill": "blunt",
+   "powerScale": 0.7,
+   "staminaScale": 0.9,
+   "speedScale": 1.25,
+   "weightKg": 4
+  },
+  "spear": {
+   "skill": "spear",
+   "powerScale": 1.15,
+   "staminaScale": 1.05,
+   "speedScale": 1.15,
+   "weightKg": 5
+  },
+  "halberd": {
+   "skill": "spear",
+   "powerScale": 1.6,
+   "staminaScale": 1.45,
+   "speedScale": 1.4,
+   "weightKg": 8
+  }
+ },
+ "moveset": {
+  "light1": {
+   "motionValue": 1,
+   "stamina": 22,
+   "actionSeconds": 1.3
+  },
+  "light2": {
+   "motionValue": 1.21,
+   "stamina": 24,
+   "actionSeconds": 1.3
+  },
+  "light3": {
+   "motionValue": 1.42,
+   "stamina": 26,
+   "actionSeconds": 1.3
+  },
+  "heavy": {
+   "motionValue": 1.88,
+   "stamina": 45,
+   "actionSeconds": 1.35
+  },
+  "heavy2": {
+   "motionValue": 2.42,
+   "stamina": 48,
+   "actionSeconds": 1.51
+  },
+  "riposte": {
+   "motionValue": 2,
+   "stamina": 0,
+   "actionSeconds": 1.3,
+   "critical": 2
+  }
+ },
+ "bows": {
+  "shortbow": {
+   "baseDamage": 34,
+   "cadenceSeconds": 1.9,
+   "drawStamina": 13,
+   "weightKg": 1.4
+  },
+  "longbow": {
+   "baseDamage": 52,
+   "cadenceSeconds": 2.7,
+   "drawStamina": 24,
+   "weightKg": 1.9
+  },
+  "warbow": {
+   "baseDamage": 72,
+   "cadenceSeconds": 3.4,
+   "drawStamina": 38,
+   "weightKg": 2.3
+  }
+ },
+ "bowMaterialDamage": {
+  "base": 0.7,
+  "damageScaleShare": 0.3
+ },
+ "armourSets": {
+  "none": {
+   "material": null,
+   "slots": []
+  },
+  "studded": {
+   "material": "studded",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "iron": {
+   "material": "iron",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "steelRef": {
+   "material": "steel",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots"
+   ]
+  },
+  "steelFull": {
+   "material": "steel",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "elven": {
+   "material": "elven",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "orcish": {
+   "material": "orcish",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "glass": {
+   "material": "glass",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "ebony": {
+   "material": "ebony",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "daedric": {
+   "material": "daedric",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "imperial": {
+   "material": "imperial",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "dwarven": {
+   "material": "dwarven",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "draugr": {
+   "material": "draugr",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "falmer": {
+   "material": "falmer",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "akaviri": {
+   "material": "akaviri",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "nordhero": {
+   "material": "nordhero",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  },
+  "steel": {
+   "material": "steel",
+   "slots": [
+    "cuirass",
+    "gauntlets",
+    "boots",
+    "helmet"
+   ]
+  }
+ },
+ "shieldWeightKg": 6,
+ "temperPerGrade": 0.08,
+ "arrowArmourEffectiveness": 0.6,
+ "poise": {
+  "refillSeconds": 5,
+  "classPoiseRange": {
+   "light": [
+    2,
+    14
+   ],
+   "medium": [
+    8,
+    26
+   ],
+   "heavy": [
+    14,
+    40
+   ]
+  },
+  "slotShare": {
+   "cuirass": 0.5,
+   "helmet": 0.2,
+   "gauntlets": 0.15,
+   "boots": 0.15
+  },
+  "attackFactors": {
+   "light": 1,
+   "heavy": 1.5,
+   "twoHandLight": 1.5,
+   "twoHandHeavyOrRunning": 1.6
+  },
+  "weaponPoiseDamage": {
+   "dagger": 5,
+   "shortSword": 12,
+   "straightSword": 20,
+   "scimitar": 20,
+   "rapier": 8,
+   "katana": 20,
+   "greatsword": 35,
+   "mace": 22,
+   "warhammer": 50,
+   "staff": 20,
+   "quarterstaff": 20,
+   "axe": 25,
+   "greataxe": 50,
+   "poleaxe": 40,
+   "spear": 20,
+   "shortspear": 18,
+   "halberd": 30,
+   "pike": 25,
+   "trident": 22,
+   "shortbow": 12,
+   "longbow": 15,
+   "warbow": 20,
+   "handToHand": 10
+  },
+  "headshotStaggers": true
+ }
+}

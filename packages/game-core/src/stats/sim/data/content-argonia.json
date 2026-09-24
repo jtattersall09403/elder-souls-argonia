@@ -1,0 +1,479 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7120.5, \u00a7129",
+ "id": "argonia",
+ "totalHours": 156,
+ "mainQuestHours": 45,
+ "trackShare": {
+  "quest": 0.545,
+  "free": 0.455
+ },
+ "playerSkill": {
+  "startAvoidance": 0.45,
+  "endAvoidance": 0.82,
+  "hoursToPeak": 60,
+  "armourDodgeShare": {
+   "value": 0.5
+  },
+  "styleAvoidanceBonus": {
+   "marksman": 0.12,
+   "stealth": 0.1,
+   "magic": 0.06,
+   "spear": 0.03,
+   "melee": 0,
+   "greatsword": 0
+  },
+  "sneakOpenerChance": {
+   "marksman": 0.5,
+   "stealth": 0.55,
+   "magic": 0.25,
+   "spear": 0.15,
+   "melee": 0.15,
+   "greatsword": 0.15
+  }
+ },
+ "deathModel": {
+  "retrievalSuccessRate": 0.75,
+  "minutesLostPerDeath": 7
+ },
+ "spending": {
+  "potionFractionOfIncome": 0.25,
+  "repairAndUpkeepFraction": 0.1,
+  "trainingFraction": 0.35,
+  "savedFraction": 0.3
+ },
+ "overreach": {
+  "quest": 0.12,
+  "free": 0.3
+ },
+ "potionCarryCap": 12,
+ "classAffinity": {
+  "major": 1.25,
+  "minor": 1.2,
+  "misc": 0.4
+ },
+ "verbProfiles": {
+  "melee": {
+   "weaponMix": {
+    "longBlade": 0.64,
+    "blunt": 0.15,
+    "axe": 0.08,
+    "spear": 0.05,
+    "marksman": 0.06,
+    "handToHand": 0.02
+   },
+   "armourMix": {
+    "heavyArmor": 0.85,
+    "mediumArmor": 0.15
+   },
+   "blockShare": 0.21,
+   "utilityCastShare": 0.18,
+   "spellMix": {
+    "restoration": 0.7,
+    "alteration": 0.3
+   },
+   "verbShare": {
+    "lock": 0.3,
+    "trap": 0.3,
+    "persuasion": 0.55,
+    "barter": 0.7,
+    "brew": 0.35,
+    "repair": 1,
+    "enchant": 0.2,
+    "sneak": 0.3,
+    "jump": 0.9,
+    "climb": 0.8,
+    "swim": 0.85,
+    "travel": 1
+   }
+  },
+  "greatsword": {
+   "weaponMix": {
+    "longBlade": 0.62,
+    "blunt": 0.14,
+    "axe": 0.12,
+    "spear": 0.05,
+    "marksman": 0.05,
+    "handToHand": 0.02
+   },
+   "armourMix": {
+    "heavyArmor": 0.88,
+    "mediumArmor": 0.12
+   },
+   "blockShare": 0.04,
+   "utilityCastShare": 0.15,
+   "spellMix": {
+    "restoration": 0.75,
+    "alteration": 0.25
+   },
+   "verbShare": {
+    "lock": 0.25,
+    "trap": 0.25,
+    "persuasion": 0.5,
+    "barter": 0.65,
+    "brew": 0.3,
+    "repair": 1,
+    "enchant": 0.2,
+    "sneak": 0.25,
+    "jump": 0.85,
+    "climb": 0.75,
+    "swim": 0.8,
+    "travel": 1
+   }
+  },
+  "spear": {
+   "weaponMix": {
+    "spear": 0.66,
+    "longBlade": 0.14,
+    "blunt": 0.06,
+    "axe": 0.04,
+    "marksman": 0.08,
+    "handToHand": 0.02
+   },
+   "armourMix": {
+    "mediumArmor": 0.82,
+    "lightArmor": 0.18
+   },
+   "blockShare": 0.18,
+   "utilityCastShare": 0.22,
+   "spellMix": {
+    "restoration": 0.65,
+    "alteration": 0.35
+   },
+   "verbShare": {
+    "lock": 0.35,
+    "trap": 0.35,
+    "persuasion": 0.6,
+    "barter": 0.7,
+    "brew": 0.5,
+    "repair": 0.85,
+    "enchant": 0.2,
+    "sneak": 0.4,
+    "jump": 1,
+    "climb": 1,
+    "swim": 1.15,
+    "travel": 1.1
+   }
+  },
+  "marksman": {
+   "weaponMix": {
+    "marksman": 0.68,
+    "shortBlade": 0.18,
+    "longBlade": 0.09,
+    "spear": 0.03,
+    "handToHand": 0.02
+   },
+   "armourMix": {
+    "lightArmor": 0.88,
+    "mediumArmor": 0.12
+   },
+   "blockShare": 0.08,
+   "utilityCastShare": 0.2,
+   "spellMix": {
+    "restoration": 0.6,
+    "alteration": 0.25,
+    "illusion": 0.15
+   },
+   "verbShare": {
+    "lock": 0.5,
+    "trap": 0.5,
+    "persuasion": 0.5,
+    "barter": 0.65,
+    "brew": 0.6,
+    "repair": 0.8,
+    "enchant": 0.25,
+    "sneak": 0.75,
+    "jump": 1.1,
+    "climb": 1.15,
+    "swim": 1.05,
+    "travel": 1.2
+   }
+  },
+  "stealth": {
+   "weaponMix": {
+    "shortBlade": 0.7,
+    "marksman": 0.18,
+    "longBlade": 0.07,
+    "handToHand": 0.05
+   },
+   "armourMix": {
+    "lightArmor": 0.8,
+    "unarmored": 0.2
+   },
+   "blockShare": 0.06,
+   "utilityCastShare": 0.3,
+   "spellMix": {
+    "illusion": 0.45,
+    "alteration": 0.25,
+    "mysticism": 0.2,
+    "restoration": 0.1
+   },
+   "verbShare": {
+    "lock": 1.0,
+    "trap": 1.0,
+    "persuasion": 0.65,
+    "barter": 0.7,
+    "brew": 0.45,
+    "repair": 0.4,
+    "enchant": 0.25,
+    "sneak": 0.8,
+    "jump": 0.95,
+    "climb": 1.0,
+    "swim": 1,
+    "travel": 1.05
+   }
+  },
+  "magic": {
+   "weaponMix": {
+    "destruction": 0.86,
+    "shortBlade": 0.08,
+    "handToHand": 0.02,
+    "marksman": 0.04
+   },
+   "armourMix": {
+    "lightArmor": 0.55,
+    "unarmored": 0.45
+   },
+   "blockShare": 0.03,
+   "utilityCastShare": 1,
+   "spellMix": {
+    "alteration": 0.28,
+    "mysticism": 0.24,
+    "restoration": 0.22,
+    "illusion": 0.14,
+    "conjuration": 0.12
+   },
+   "verbShare": {
+    "lock": 0.4,
+    "trap": 0.4,
+    "persuasion": 0.75,
+    "barter": 0.85,
+    "brew": 1,
+    "repair": 0.45,
+    "enchant": 1,
+    "sneak": 0.4,
+    "jump": 0.85,
+    "climb": 0.8,
+    "swim": 0.85,
+    "travel": 0.95
+   }
+  }
+ },
+ "trackDefaults": {
+  "quest": {
+   "encountersPerHour": 12,
+   "travelKmPerHour": 4.8,
+   "travelSpeedMetresPerSecond": 4,
+   "swimMinutesPerHour": 1.5,
+   "climbMetresPerHour": 26,
+   "jumpsPerHour": 34,
+   "hardLandingsPerHour": 0.9,
+   "locksPerHour": 7.5,
+   "trapsPerHour": 0.9,
+   "persuasionsPerHour": 32,
+   "bartersPerHour": 4,
+   "pricePercentMoved": 7,
+   "potionsBrewedPerHour": 4,
+   "repairsPerHour": 12,
+   "enchantsPerHour": 1.0,
+   "utilityCastsPerHour": 34,
+   "sneakSuccessesPerHour": 14,
+   "restsPerHour": 1.3,
+   "lootGoldPerHour": 120,
+   "actorsPerEncounter": 1.3,
+   "encounterOverheadSeconds": 26,
+   "encounterTempoMultiplier": 2.7
+  },
+  "free": {
+   "encountersPerHour": 9,
+   "travelKmPerHour": 7.8,
+   "travelSpeedMetresPerSecond": 4.4,
+   "swimMinutesPerHour": 3.5,
+   "climbMetresPerHour": 48,
+   "jumpsPerHour": 58,
+   "hardLandingsPerHour": 1.5,
+   "locksPerHour": 16,
+   "trapsPerHour": 2.0,
+   "persuasionsPerHour": 24,
+   "bartersPerHour": 8,
+   "pricePercentMoved": 10,
+   "potionsBrewedPerHour": 16,
+   "repairsPerHour": 18,
+   "enchantsPerHour": 7.0,
+   "utilityCastsPerHour": 28,
+   "sneakSuccessesPerHour": 21,
+   "restsPerHour": 1.1,
+   "lootGoldPerHour": 95,
+   "actorsPerEncounter": 1.05,
+   "encounterOverheadSeconds": 26,
+   "encounterTempoMultiplier": 2.7
+  }
+ },
+ "acts": [
+  {
+   "id": "act0",
+   "hours": 4,
+   "gearTier": 1,
+   "bandMix": {
+    "D1": 0.8,
+    "D2": 0.2
+   },
+   "quest": {
+    "encountersPerHour": 14,
+    "swimMinutesPerHour": 3,
+    "climbMetresPerHour": 55,
+    "travelKmPerHour": 4.2,
+    "lootGoldPerHour": 40,
+    "jumpsPerHour": 150,
+    "hardLandingsPerHour": 3.5,
+    "locksPerHour": 11,
+    "trapsPerHour": 1.4,
+    "persuasionsPerHour": 48,
+    "utilityCastsPerHour": 62,
+    "sneakSuccessesPerHour": 32,
+    "potionsBrewedPerHour": 9,
+    "repairsPerHour": 22,
+    "bartersPerHour": 9,
+    "restsPerHour": 1.8
+   },
+   "free": {
+    "encountersPerHour": 12,
+    "swimMinutesPerHour": 5,
+    "climbMetresPerHour": 80,
+    "travelKmPerHour": 6.8,
+    "lootGoldPerHour": 30,
+    "jumpsPerHour": 240,
+    "hardLandingsPerHour": 5.0,
+    "locksPerHour": 20,
+    "trapsPerHour": 2.4,
+    "persuasionsPerHour": 36,
+    "utilityCastsPerHour": 52,
+    "sneakSuccessesPerHour": 42,
+    "potionsBrewedPerHour": 30,
+    "repairsPerHour": 32,
+    "bartersPerHour": 14,
+    "restsPerHour": 1.6
+   }
+  },
+  {
+   "id": "act1",
+   "hours": 16,
+   "gearTier": 1,
+   "bandMix": {
+    "D1": 0.55,
+    "D2": 0.38,
+    "D3": 0.07
+   },
+   "quest": {
+    "encountersPerHour": 10.5,
+    "swimMinutesPerHour": 1.5,
+    "climbMetresPerHour": 18,
+    "travelKmPerHour": 4.2,
+    "lootGoldPerHour": 55
+   },
+   "free": {
+    "encountersPerHour": 8,
+    "swimMinutesPerHour": 3,
+    "climbMetresPerHour": 32,
+    "travelKmPerHour": 6.8,
+    "lootGoldPerHour": 40,
+    "enchantsPerHour": 1
+   }
+  },
+  {
+   "id": "act2",
+   "hours": 44,
+   "gearTier": 2,
+   "bandMix": {
+    "D1": 0.15,
+    "D2": 0.5,
+    "D3": 0.3,
+    "D4": 0.05
+   },
+   "quest": {
+    "encountersPerHour": 11.5,
+    "swimMinutesPerHour": 3,
+    "climbMetresPerHour": 24,
+    "lootGoldPerHour": 110
+   },
+   "free": {
+    "encountersPerHour": 8.5,
+    "swimMinutesPerHour": 6,
+    "climbMetresPerHour": 44,
+    "lootGoldPerHour": 85,
+    "enchantsPerHour": 5
+   }
+  },
+  {
+   "id": "act3",
+   "hours": 38,
+   "gearTier": 4,
+   "bandMix": {
+    "D2": 0.2,
+    "D3": 0.5,
+    "D4": 0.27,
+    "D5": 0.03
+   },
+   "quest": {
+    "encountersPerHour": 12.5,
+    "swimMinutesPerHour": 9,
+    "climbMetresPerHour": 32,
+    "travelKmPerHour": 5.2,
+    "lootGoldPerHour": 300
+   },
+   "free": {
+    "encountersPerHour": 9.5,
+    "swimMinutesPerHour": 16,
+    "climbMetresPerHour": 56,
+    "travelKmPerHour": 8.4,
+    "lootGoldPerHour": 240
+   }
+  },
+  {
+   "id": "endgame",
+   "hours": 30,
+   "gearTier": 6,
+   "bandMix": {
+    "D3": 0.3,
+    "D4": 0.5,
+    "D5": 0.2
+   },
+   "quest": {
+    "encountersPerHour": 13,
+    "swimMinutesPerHour": 7,
+    "climbMetresPerHour": 34,
+    "travelKmPerHour": 5,
+    "lootGoldPerHour": 620
+   },
+   "free": {
+    "encountersPerHour": 10,
+    "swimMinutesPerHour": 12,
+    "climbMetresPerHour": 58,
+    "travelKmPerHour": 8.2,
+    "lootGoldPerHour": 500
+   }
+  },
+  {
+   "id": "postgame",
+   "hours": 24,
+   "gearTier": 8,
+   "bandMix": {
+    "D3": 0.2,
+    "D4": 0.4,
+    "D5": 0.4
+   },
+   "quest": {
+    "encountersPerHour": 12,
+    "swimMinutesPerHour": 5,
+    "climbMetresPerHour": 30,
+    "lootGoldPerHour": 900
+   },
+   "free": {
+    "encountersPerHour": 10,
+    "swimMinutesPerHour": 9,
+    "climbMetresPerHour": 52,
+    "lootGoldPerHour": 780
+   }
+  }
+ ]
+}

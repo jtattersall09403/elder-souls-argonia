@@ -117,24 +117,34 @@ describe("the data", () => {
     }
   });
   it("rejects a schemaVersion it does not read", () => {
-    const raw = { curves: { ...s.STATS_DATA.curves, schemaVersion: 2 }, skills: s.STATS_DATA.skills, attributes: s.STATS_DATA.attributes };
+    const raw = { ...s.STATS_SOURCE, curves: { ...s.STATS_DATA.curves, schemaVersion: 2 } };
     expect(() => s.statsData(raw)).toThrow(/schemaVersion/);
   });
   it("carries no prose: labels live in the text catalogue", () => {
     const walk = (n: unknown): string[] =>
-      typeof n === "string" ? [n] : n && typeof n === "object" ? Object.values(n).flatMap(walk) : [];
-    for (const f of readdirSync(join(here, "data"))) {
-      const strings = walk(JSON.parse(readFileSync(join(here, "data", f), "utf8")));
+      typeof n === "string" ? [n]
+        : n && typeof n === "object" ? Object.entries(n).filter(([k]) => k !== "designRef").flatMap(([, v]) => walk(v)) : [];
+    for (const f of [...readdirSync(join(here, "data")).map((x) => join("data", x)), ...readdirSync(join(here, "sim/data")).map((x) => join("sim/data", x))]) {
+      const strings = walk(JSON.parse(readFileSync(join(here, f), "utf8")));
       for (const str of strings) expect(str.split(" ").length, `${f}: ${str}`).toBeLessThan(6);
     }
   });
 });
 
 describe("the folder is pure", () => {
-  it("imports nothing outside src/stats (no React, three, or other game-core modules)", () => {
-    for (const f of readdirSync(here).filter((x) => x.endsWith(".ts") && !x.endsWith(".test.ts"))) {
+  it("imports nothing outside src/stats, sim included (no node, React, three, or other game-core modules)", () => {
+    // Runtime code in src/stats and src/stats/sim; tests and __fixtures__ may use node.
+    const files = [
+      ...readdirSync(here).map((x) => x),
+      ...readdirSync(join(here, "sim")).map((x) => `sim/${x}`),
+    ].filter((x) => x.endsWith(".ts") && !x.endsWith(".test.ts"));
+    expect(files.some((f) => f.startsWith("sim/"))).toBe(true);
+    for (const f of files) {
       const src = readFileSync(join(here, f), "utf8");
-      for (const m of src.matchAll(/^(?:import|export)[^;]*?from\s+"([^"]+)"/gm)) expect(m[1], `${f} imports ${m[1]}`).toMatch(/^\.\//);
+      for (const m of src.matchAll(/^(?:import|export)[^;]*?from\s+"([^"]+)"/gm)) {
+        const inside = f.startsWith("sim/") ? /^\.\.?\/(?!\.\.)/ : /^\.\//;
+        expect(m[1], `${f} imports ${m[1]}`).toMatch(inside);
+      }
     }
   });
 });
@@ -150,11 +160,13 @@ describe("the port of tooling/stats-sim/data", () => {
   ]);
   // Prose the sim keeps beside its numbers (labels, notes, formula sentences):
   // not data, so not ported (standard 4; names come from the text catalogue).
-  const PROSE_KEYS = new Set(["label", "drives", "note", "formula", "climbing", "knockout", "sneakAttack"]);
-  const CHANGED: Record<string, readonly number[]> = {
+  const PROSE_KEYS = new Set(["label", "drives", "note", "formula", "climbing", "knockout", "sneakAttack", "origin", "typical", "maxCostFormula", "chargedUseCostFormula", "bossFlag"]);
+  const CHANGED: Record<string, readonly (number | string)[]> = {
     "skills/skills/marksman/bands/drawSpeed": [1.0, 2.0], // owner 2026-09-18, decision 0074 §3 (module 76 §118 row)
+    // ids, not sentences: "fortify intelligence (as a crafting input)" -> "fortify:intelligence" (0088)
+    "magic/enchanting/bannedEffects": ["fortify:alchemy", "fortify:enchant", "fortify:smithing", "fortify:intelligence", "fortify:strength"],
   };
-  const simDir = join(here, "../../../../tooling/stats-sim/data");
+  const simDir = join(here, "__fixtures__/sim-data");
   const leaves = (n: unknown, p: string, out: Map<string, unknown>) => {
     if (Array.isArray(n) && n.every((x) => typeof x !== "object")) out.set(p, n);
     else if (Array.isArray(n)) n.forEach((v) => leaves(v, `${p}/${(v as { id?: string }).id ?? "?"}`, out));
@@ -163,10 +175,11 @@ describe("the port of tooling/stats-sim/data", () => {
     } else out.set(p, n); // number, boolean, string or null
     return out;
   };
-  for (const name of ["curves", "skills", "attributes"]) {
+  for (const name of ["curves", "skills", "attributes", "classes", "ladder", "magic", "economy", "rules-argonia", "gear", "builds", "enemies", "content-argonia", "content-vvardenfell", "rules-morrowind"]) {
     it(`${name}.json: every sim value is here unchanged, bar the recorded differences`, () => {
       const sim = leaves(JSON.parse(readFileSync(join(simDir, `${name}.json`), "utf8")), name, new Map());
-      const port = leaves(JSON.parse(readFileSync(join(here, "data", `${name}.json`), "utf8")), name, new Map());
+      const dir = ["gear", "builds", "enemies", "content-argonia", "content-vvardenfell", "rules-morrowind"].includes(name) ? "sim/data" : "data";
+      const port = leaves(JSON.parse(readFileSync(join(here, dir, `${name}.json`), "utf8")), name, new Map());
       for (const [path, value] of sim) {
         const key = path.split("/").at(-1) ?? "";
         if (PROSE_KEYS.has(key) && (typeof value === "string" || key === "drives")) {

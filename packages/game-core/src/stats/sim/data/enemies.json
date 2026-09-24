@@ -1,0 +1,93 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7128",
+ "archetypes": [
+  {
+   "id": "mudcrab",
+   "band": "D1",
+   "position": 0.02,
+   "variants": []
+  },
+  {
+   "id": "marsh-rat-swarm",
+   "band": "D1",
+   "position": 0.08,
+   "variants": [
+    "swift"
+   ]
+  },
+  {
+   "id": "ripper-eel",
+   "band": "D1",
+   "position": 0.6,
+   "variants": [
+    "swift"
+   ]
+  },
+  {
+   "id": "smuggler-thug",
+   "band": "D1",
+   "position": 0.8,
+   "variants": []
+  },
+  {
+   "id": "hollow-warden",
+   "band": "D2",
+   "position": 0.5,
+   "variants": []
+  },
+  {
+   "id": "bog-blight",
+   "band": "D2",
+   "position": 0.7,
+   "variants": [
+    "brute"
+   ]
+  },
+  {
+   "id": "naga-raider",
+   "band": "D3",
+   "position": 0.35,
+   "variants": []
+  },
+  {
+   "id": "wamasu",
+   "band": "D3",
+   "position": 0.75,
+   "variants": [
+    "strong"
+   ]
+  },
+  {
+   "id": "dreugh-warlord",
+   "band": "D4",
+   "position": 0.5,
+   "variants": [
+    "armoured"
+   ]
+  },
+  {
+   "id": "swamp-leviathan",
+   "band": "D4",
+   "position": 0.9,
+   "variants": [
+    "brute"
+   ]
+  },
+  {
+   "id": "xal-krona",
+   "band": "D5",
+   "position": 0.85,
+   "variants": [
+    "strong",
+    "armoured"
+   ]
+  },
+  {
+   "id": "d5-warden-guard",
+   "band": "D5",
+   "position": 0.3,
+   "variants": []
+  }
+ ]
+}

@@ -1,5 +1,15 @@
 # stats-sim — the balance harness for workstream S
 
+> **Frozen reference (2026-09-24, decisions 0088/0089).** The canonical tables
+> and the harness now live in
+> [`packages/game-core/src/stats`](../../packages/game-core/src/stats/README.md):
+> game data in `data/`, the harness in `sim/` (`runSim`), its 19 invariants as
+> standing tests in `npm test`. This copy is kept unchanged only because the
+> port's equivalence fixtures were generated from it and ~20 docs link here;
+> do not edit its numbers (the races here are superseded by 0089). Retire it
+> with a docs pass that re-points those links.
+
+
 What it is: a standalone, data-in/report-out simulation of the stat design in
 [docs/world/76-stats-progression.md](../../docs/world/76-stats-progression.md)
 §116–129. It exists because the design's numbers had to be proved **in bulk**

@@ -1,0 +1,407 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7119",
+ "startingSkill": 5,
+ "majorBonus": 25,
+ "minorBonus": 10,
+ "specializationBonus": 5,
+ "favouredAttributeBonus": 10,
+ "classes": [
+  {
+   "id": "warrior",
+   "specialization": "combat",
+   "favouredAttributes": [
+    "strength",
+    "endurance"
+   ],
+   "majors": [
+    "longBlade",
+    "heavyArmor",
+    "block",
+    "axe",
+    "athletics"
+   ],
+   "minors": [
+    "blunt",
+    "spear",
+    "smithing",
+    "mediumArmor",
+    "acrobatics"
+   ]
+  },
+  {
+   "id": "knight",
+   "specialization": "combat",
+   "favouredAttributes": [
+    "strength",
+    "personality"
+   ],
+   "majors": [
+    "longBlade",
+    "heavyArmor",
+    "block",
+    "speechcraft",
+    "smithing"
+   ],
+   "minors": [
+    "mercantile",
+    "restoration",
+    "blunt",
+    "athletics",
+    "mediumArmor"
+   ]
+  },
+  {
+   "id": "barbarian",
+   "specialization": "combat",
+   "favouredAttributes": [
+    "strength",
+    "speed"
+   ],
+   "majors": [
+    "axe",
+    "blunt",
+    "mediumArmor",
+    "athletics",
+    "block"
+   ],
+   "minors": [
+    "longBlade",
+    "unarmored",
+    "acrobatics",
+    "spear",
+    "smithing"
+   ]
+  },
+  {
+   "id": "scout",
+   "specialization": "stealth",
+   "favouredAttributes": [
+    "speed",
+    "endurance"
+   ],
+   "majors": [
+    "marksman",
+    "lightArmor",
+    "athletics",
+    "sneak",
+    "shortBlade"
+   ],
+   "minors": [
+    "acrobatics",
+    "security",
+    "alchemy",
+    "block",
+    "spear"
+   ]
+  },
+  {
+   "id": "thief",
+   "specialization": "stealth",
+   "favouredAttributes": [
+    "agility",
+    "speed"
+   ],
+   "majors": [
+    "security",
+    "sneak",
+    "shortBlade",
+    "lightArmor",
+    "acrobatics"
+   ],
+   "minors": [
+    "mercantile",
+    "speechcraft",
+    "marksman",
+    "athletics",
+    "illusion"
+   ]
+  },
+  {
+   "id": "assassin",
+   "specialization": "stealth",
+   "favouredAttributes": [
+    "speed",
+    "agility"
+   ],
+   "majors": [
+    "shortBlade",
+    "sneak",
+    "marksman",
+    "lightArmor",
+    "security"
+   ],
+   "minors": [
+    "acrobatics",
+    "illusion",
+    "alchemy",
+    "athletics",
+    "unarmored"
+   ]
+  },
+  {
+   "id": "mage",
+   "specialization": "magic",
+   "favouredAttributes": [
+    "intelligence",
+    "willpower"
+   ],
+   "majors": [
+    "destruction",
+    "alteration",
+    "mysticism",
+    "restoration",
+    "enchant"
+   ],
+   "minors": [
+    "illusion",
+    "conjuration",
+    "alchemy",
+    "unarmored",
+    "speechcraft"
+   ]
+  },
+  {
+   "id": "spellsword",
+   "specialization": "combat",
+   "favouredAttributes": [
+    "willpower",
+    "endurance"
+   ],
+   "majors": [
+    "longBlade",
+    "destruction",
+    "alteration",
+    "heavyArmor",
+    "block"
+   ],
+   "minors": [
+    "restoration",
+    "mysticism",
+    "mediumArmor",
+    "athletics",
+    "illusion"
+   ]
+  },
+  {
+   "id": "nightblade",
+   "specialization": "magic",
+   "favouredAttributes": [
+    "willpower",
+    "speed"
+   ],
+   "majors": [
+    "illusion",
+    "destruction",
+    "shortBlade",
+    "sneak",
+    "lightArmor"
+   ],
+   "minors": [
+    "mysticism",
+    "alteration",
+    "security",
+    "athletics",
+    "marksman"
+   ]
+  },
+  {
+   "id": "healer",
+   "specialization": "magic",
+   "favouredAttributes": [
+    "personality",
+    "willpower"
+   ],
+   "majors": [
+    "restoration",
+    "alchemy",
+    "illusion",
+    "mysticism",
+    "unarmored"
+   ],
+   "minors": [
+    "speechcraft",
+    "mercantile",
+    "shortBlade",
+    "lightArmor",
+    "conjuration"
+   ]
+  },
+  {
+   "id": "monk",
+   "specialization": "stealth",
+   "favouredAttributes": [
+    "agility",
+    "strength"
+   ],
+   "majors": [
+    "handToHand",
+    "unarmored",
+    "acrobatics",
+    "athletics",
+    "block"
+   ],
+   "minors": [
+    "sneak",
+    "shortBlade",
+    "restoration",
+    "marksman",
+    "alchemy"
+   ]
+  },
+  {
+   "id": "kaal",
+   "specialization": "combat",
+   "favouredAttributes": [
+    "endurance",
+    "personality"
+   ],
+   "majors": [
+    "spear",
+    "mediumArmor",
+    "block",
+    "speechcraft",
+    "athletics"
+   ],
+   "minors": [
+    "longBlade",
+    "marksman",
+    "restoration",
+    "smithing",
+    "acrobatics"
+   ]
+  },
+  {
+   "id": "root-herald",
+   "specialization": "stealth",
+   "favouredAttributes": [
+    "personality",
+    "intelligence"
+   ],
+   "majors": [
+    "speechcraft",
+    "mercantile",
+    "security",
+    "sneak",
+    "illusion"
+   ],
+   "minors": [
+    "shortBlade",
+    "lightArmor",
+    "alchemy",
+    "athletics",
+    "marksman"
+   ]
+  },
+  {
+   "id": "tree-minder",
+   "specialization": "magic",
+   "favouredAttributes": [
+    "willpower",
+    "intelligence"
+   ],
+   "majors": [
+    "restoration",
+    "alchemy",
+    "mysticism",
+    "illusion",
+    "unarmored"
+   ],
+   "minors": [
+    "alteration",
+    "speechcraft",
+    "athletics",
+    "shortBlade",
+    "conjuration"
+   ]
+  },
+  {
+   "id": "grave-singer",
+   "specialization": "magic",
+   "favouredAttributes": [
+    "willpower",
+    "personality"
+   ],
+   "majors": [
+    "mysticism",
+    "conjuration",
+    "restoration",
+    "alchemy",
+    "speechcraft"
+   ],
+   "minors": [
+    "illusion",
+    "unarmored",
+    "shortBlade",
+    "security",
+    "athletics"
+   ]
+  },
+  {
+   "id": "shadowscale",
+   "specialization": "stealth",
+   "favouredAttributes": [
+    "agility",
+    "speed"
+   ],
+   "majors": [
+    "sneak",
+    "shortBlade",
+    "marksman",
+    "security",
+    "illusion"
+   ],
+   "minors": [
+    "lightArmor",
+    "acrobatics",
+    "alchemy",
+    "athletics",
+    "unarmored"
+   ]
+  },
+  {
+   "id": "marsh-guide",
+   "specialization": "combat",
+   "favouredAttributes": [
+    "speed",
+    "endurance"
+   ],
+   "majors": [
+    "athletics",
+    "acrobatics",
+    "spear",
+    "marksman",
+    "mediumArmor"
+   ],
+   "minors": [
+    "alchemy",
+    "security",
+    "block",
+    "restoration",
+    "sneak"
+   ]
+  },
+  {
+   "id": "reed-sail-hand",
+   "specialization": "stealth",
+   "favouredAttributes": [
+    "strength",
+    "endurance"
+   ],
+   "majors": [
+    "athletics",
+    "blunt",
+    "mercantile",
+    "block",
+    "mediumArmor"
+   ],
+   "minors": [
+    "speechcraft",
+    "security",
+    "marksman",
+    "smithing",
+    "acrobatics"
+   ]
+  }
+ ]
+}

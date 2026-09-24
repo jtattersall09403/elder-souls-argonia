@@ -250,7 +250,6 @@
  "checks": {
   "castSkillMultiplier": 2,
   "enchantPointDivisor": 3,
-  "constantEffectCostMultiplier": 2,
   "chargedUseBase": 1.1,
   "outOfCombatFatigue": {
    "base": 0.85,

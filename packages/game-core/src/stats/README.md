@@ -22,7 +22,13 @@ retune or to run the sim's own tables.
 |---|---|
 | `curves.json` | k exponent, P range, health/stamina/magicka/carry, burden and roll tiers, mitigation, breath, movement, XP, vastei, level-up costs, difficulty, sneak table, climbing, poise, block cap, check constants |
 | `skills.json` | the 27 skills: governing and score attribute, specialization, family, bands `[lo, hi]` over k(score) |
-| `attributes.json` | the seven attributes, start range, favoured bonus, purchase cap |
+| `attributes.json` | the seven attributes, start range, favoured bonus, purchase cap, the reference character |
+| `races.json` | one record per roster race, both sexes, Morrowind's packages ([0089](../../../../docs/decisions/0089-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md)) |
+| `classes.json` | the 18 preset classes (§119) |
+| `ladder.json` | D1–D5 bands, variants, the ±25 % clamp (§128) |
+| `magic.json`, `economy.json` | spell tiers, castability, enchanting bounds; prices, training, services |
+| `rules-argonia.json` | our progression rules, `$from` references into `curves` (resolved into `STATS_DATA.progression`) |
+| `sim/data/*.json` | harness-only tables: the gear mirror, build checkpoints, worked enemies, content models, Morrowind's rules |
 
 ## API (stable; the combat lane consumes the first block)
 
@@ -41,6 +47,10 @@ retune or to run the sim's own tables.
 | `lockOpens`, `maxCastableCost`, `enchantPointBudget`, `chargedUseCostMultiplier`, `persuasionScore`, `craftableMaterialTier`, `temperGrade`, `outOfCombatFatigueFactor` | §117.1, §117.3, §118 |
 | `pointsToNextRank`, `vasteiPerRank`, `attributeCost` | §120 |
 | `REFERENCE_ATTRIBUTES` | the Marsh Hand (§116), the default attributes |
+| `startingCharacter({race, sex, classId})`, `raceStats`, `classDef`, `skillClassOf` | §119 creation |
+| `compileActor({id, band, position, variants})`, `bandActor` | the semantic compiler for actors (0019 fourth amendment, §128) |
+| `resolveRuleSet`, `rankCost` | §120 rule sets |
+| `sim/run.ts` `runSim(data?, {matrix?})` | the balance harness: every sweep and the 19 invariants (import `…/stats/sim/run`; not in `index.ts`, so game code never bundles it) |
 
 ## Proof
 
@@ -51,5 +61,10 @@ is hand-written; `b` was drawn fresh (`draw-sample.mjs b 20260924`) after
 `a` passed and passed with no change. `stats.test.ts` holds the design's
 reference numbers (Marsh Hand: 100 health, 100 stamina, 180 kg, 25.0 %
 mitigation), the owner's Marksman mastery numbers, monotonicity, purity,
-and a data diff that fails if any sim number moved other than the recorded
-differences.
+and a data diff that fails if any sim value moved other than the recorded
+differences. `sim/equivalence.test.ts` runs the whole harness on the sim's
+own tables (`__fixtures__/sim-data`, via `fromSimTables`) against
+`__fixtures__/sim-output.json.gz` (the sim's `run.mjs --json --matrix`,
+generated before the port): 12,924 numbers, bit-exact. `sim/invariants.test.ts`
+is the standing gate (module 76 §104): all 19 invariants on the canonical
+data.
