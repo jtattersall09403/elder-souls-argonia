@@ -1,0 +1,23 @@
+{
+  "name": "@elder-souls/audio",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The game's audio layer: sound manifest, sound-event vocabulary, footstep and ambience contracts, and an AudioManager over an injected engine backend (world module 57, decision 0094). Shipped audio lives in files/, served by ./plugin.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./plugin": "./plugin.mjs",
+    "./files/audio-manifest.json": "./files/audio-manifest.json"
+  },
+  "scripts": {
+    "test": "vitest run && python3 -m pytest -q -p no:cacheprovider ../../tooling/audio-pipeline",
+    "typecheck": "tsc --noEmit --pretty false"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.13",
+    "typescript": "^6.0.3",
+    "vitest": "^4.0.18"
+  }
+}

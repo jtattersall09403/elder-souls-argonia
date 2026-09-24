@@ -1,0 +1,734 @@
+{
+ "schemaVersion": 1,
+ "$comment": "Round-1 selection (sound-prep lane, decision 0094): the first consumers only - combat, movement (footsteps by footwear x gait x surface, swimming), marsh/water/wind ambience, rain and thunder. Sets name vanilla SNDR records; footstep and region sets are generated from the plugin's FSTS and REGN records (build.expand).",
+ "source": {
+  "archive": "Skyrim - Sounds.bsa",
+  "plugin": "Skyrim.esm",
+  "depotManifest": "72851/430694959351693705"
+ },
+ "encoding": {
+  "monoKbps": 48,
+  "stereoKbps": 64,
+  "minKbps": 24,
+  "loopPadS": 0.1,
+  "loopFadeS": 0.05
+ },
+ "footsteps": {
+  "footwear": {
+   "FSTArmorLightFootstepSet": "light",
+   "FSTArmorHeavyFootstepSet": "heavy",
+   "FSTBarefootFootstepSet": "barefoot"
+  },
+  "gaits": [
+   "walk",
+   "run",
+   "sprint",
+   "sneak",
+   "jump-up",
+   "jump-down"
+  ],
+  "materials": {
+   "MaterialDirt": "dirt",
+   "MaterialMud": "mud",
+   "MaterialGrass": "grass",
+   "MaterialGravel": "gravel",
+   "MaterialStone": "stone",
+   "MaterialWoodMedium": "wood",
+   "MaterialSand": "sand",
+   "MaterialWater": "water",
+   "MaterialWaterPuddle": "puddle"
+  }
+ },
+ "regions": {
+  "WeatherTundraMarsh": "marsh",
+  "WeatherCoast": "coast"
+ },
+ "sets": [
+  {
+   "id": "combat.swing.blade",
+   "category": "combat",
+   "sndr": [
+    "WPNSwingBladeMediumSD"
+   ]
+  },
+  {
+   "id": "combat.swing.blade-axe",
+   "category": "combat",
+   "sndr": [
+    "WPNSwingBladeAxeSD"
+   ]
+  },
+  {
+   "id": "combat.swing.blunt-1h",
+   "category": "combat",
+   "sndr": [
+    "WPNSwingBlunt1Hand"
+   ]
+  },
+  {
+   "id": "combat.swing.2h",
+   "category": "combat",
+   "sndr": [
+    "WPNSwing2Hand"
+   ]
+  },
+  {
+   "id": "combat.swing.unarmed",
+   "category": "combat",
+   "sndr": [
+    "WPNSwingUnarmed"
+   ]
+  },
+  {
+   "id": "combat.impact.blade.flesh",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBladeVsFleshSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blade.armor",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBladeVsArmorSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blade.wood",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBladeVsWoodSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blade.dirt",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBladeVsDirtSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blade.other",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBladeVsOtherSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blade.metal",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBladeVsMetalSkin"
+   ]
+  },
+  {
+   "id": "combat.impact.axe.flesh",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactAxeVsFleshSD"
+   ]
+  },
+  {
+   "id": "combat.impact.axe.armor",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactAxeVsArmorSD"
+   ]
+  },
+  {
+   "id": "combat.impact.axe.wood",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactAxeVsWoodSD"
+   ]
+  },
+  {
+   "id": "combat.impact.axe.dirt",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactAxeVsDirtSD"
+   ]
+  },
+  {
+   "id": "combat.impact.axe.other",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactAxeVsOtherSD"
+   ]
+  },
+  {
+   "id": "combat.impact.axe-large.flesh",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactAxeLargeVsFleshSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blunt.flesh",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBluntVsFleshSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blunt.armor",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBluntVsArmorSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blunt.wood",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBluntVsWoodSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blunt.dirt",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBluntVsDirtSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blunt.other",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBluntVsOtherSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blade-2h.flesh",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBlade2HandVsFleshSD"
+   ]
+  },
+  {
+   "id": "combat.impact.blade-2h.metal",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBlade2HandVsMetalSkin"
+   ]
+  },
+  {
+   "id": "combat.impact.blunt-2h.flesh",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBlunt2HandVsFlesh"
+   ]
+  },
+  {
+   "id": "combat.impact.blunt-2h.wood",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBlunt2HandVsWood"
+   ]
+  },
+  {
+   "id": "combat.impact.blunt-2h.other",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactBlunt2HandVsOther"
+   ]
+  },
+  {
+   "id": "combat.impact.unarmed.flesh",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactUnarmedVsFlesh"
+   ]
+  },
+  {
+   "id": "combat.impact.unarmed.other",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactUnarmedVsOther"
+   ]
+  },
+  {
+   "id": "combat.impact.arrow.flesh",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactArrowVsFleshSD"
+   ]
+  },
+  {
+   "id": "combat.impact.arrow.armor",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactArrowVsArmorSD"
+   ]
+  },
+  {
+   "id": "combat.impact.arrow.wood",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactArrowVsWoodSD"
+   ]
+  },
+  {
+   "id": "combat.impact.arrow.stick",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactArrowStickSD"
+   ]
+  },
+  {
+   "id": "combat.impact.arrow.bounce",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactArrowBounceSD"
+   ]
+  },
+  {
+   "id": "combat.impact.arrow.shield-light",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactArrowVsShieldLightSD"
+   ]
+  },
+  {
+   "id": "combat.impact.arrow.shield-heavy",
+   "category": "combat",
+   "sndr": [
+    "WPNImpactArrowVsShieldHeavySD"
+   ]
+  },
+  {
+   "id": "combat.block.blade-1h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlockBlade1HandVsOtherSD"
+   ]
+  },
+  {
+   "id": "combat.block.blade-2h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlockBlade2HandVsOtherSD"
+   ]
+  },
+  {
+   "id": "combat.block.axe",
+   "category": "combat",
+   "sndr": [
+    "WPNBlockAxeVsOtherSD"
+   ]
+  },
+  {
+   "id": "combat.block.blunt-1h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlockBlunt1HandVsOtherSD"
+   ]
+  },
+  {
+   "id": "combat.block.blunt-2h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlockBlunt2HandVsOther"
+   ]
+  },
+  {
+   "id": "combat.block.bow",
+   "category": "combat",
+   "sndr": [
+    "WPNBlockBowVsOtherSD"
+   ]
+  },
+  {
+   "id": "combat.block.shield-light",
+   "category": "combat",
+   "sndr": [
+    "WPNBlockShieldLSD"
+   ]
+  },
+  {
+   "id": "combat.block.shield-heavy",
+   "category": "combat",
+   "sndr": [
+    "WPNBlockShieldHSD"
+   ]
+  },
+  {
+   "id": "combat.bash.blade",
+   "category": "combat",
+   "sndr": [
+    "WPNBashBladeSD"
+   ]
+  },
+  {
+   "id": "combat.bash.axe",
+   "category": "combat",
+   "sndr": [
+    "WPNBashAxeSD"
+   ]
+  },
+  {
+   "id": "combat.bash.blunt",
+   "category": "combat",
+   "sndr": [
+    "WPNBashBluntSD"
+   ]
+  },
+  {
+   "id": "combat.bash.bow",
+   "category": "combat",
+   "sndr": [
+    "WPNBashBowSD"
+   ]
+  },
+  {
+   "id": "combat.bash.shield-light",
+   "category": "combat",
+   "sndr": [
+    "WPNBashShieldLSD"
+   ]
+  },
+  {
+   "id": "combat.bash.shield-heavy",
+   "category": "combat",
+   "sndr": [
+    "WPNBashShieldHSD"
+   ]
+  },
+  {
+   "id": "combat.draw.blade-1h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlade1HandDrawSD"
+   ]
+  },
+  {
+   "id": "combat.sheathe.blade-1h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlade1HandSheatheSD"
+   ]
+  },
+  {
+   "id": "combat.draw.blade-small",
+   "category": "combat",
+   "sndr": [
+    "WPNBlade1HandSmallDrawSD"
+   ]
+  },
+  {
+   "id": "combat.sheathe.blade-small",
+   "category": "combat",
+   "sndr": [
+    "WPNBlade1HandSmallSheatheSD"
+   ]
+  },
+  {
+   "id": "combat.draw.blade-2h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlade2HandDrawSD"
+   ]
+  },
+  {
+   "id": "combat.sheathe.blade-2h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlade2HandSheatheSD"
+   ]
+  },
+  {
+   "id": "combat.draw.axe-1h",
+   "category": "combat",
+   "sndr": [
+    "WPNAxe1HandDrawSD"
+   ]
+  },
+  {
+   "id": "combat.sheathe.axe-1h",
+   "category": "combat",
+   "sndr": [
+    "WPNAxe1HandSheatheSD"
+   ]
+  },
+  {
+   "id": "combat.draw.axe-2h",
+   "category": "combat",
+   "sndr": [
+    "WPNAxe2HandDrawSD"
+   ]
+  },
+  {
+   "id": "combat.sheathe.axe-2h",
+   "category": "combat",
+   "sndr": [
+    "WPNAxe2HandSheatheSD"
+   ]
+  },
+  {
+   "id": "combat.draw.mace-1h",
+   "category": "combat",
+   "sndr": [
+    "WPNMace1HandDrawSD"
+   ]
+  },
+  {
+   "id": "combat.draw.blunt-2h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlunt2HandDraw"
+   ]
+  },
+  {
+   "id": "combat.sheathe.blunt-2h",
+   "category": "combat",
+   "sndr": [
+    "WPNBlunt2HandSheathe"
+   ]
+  },
+  {
+   "id": "combat.draw.bow",
+   "category": "combat",
+   "sndr": [
+    "WPNBowDrawSD"
+   ]
+  },
+  {
+   "id": "combat.sheathe.bow",
+   "category": "combat",
+   "sndr": [
+    "WPNBowSheatheSD"
+   ]
+  },
+  {
+   "id": "combat.draw.left-hand",
+   "category": "combat",
+   "sndr": [
+    "WPNLeftHandDraw"
+   ]
+  },
+  {
+   "id": "combat.sheathe.left-hand",
+   "category": "combat",
+   "sndr": [
+    "WPNLeftHandSheathe"
+   ]
+  },
+  {
+   "id": "combat.bow.nock",
+   "category": "combat",
+   "sndr": [
+    "WPNBowNockSD"
+   ]
+  },
+  {
+   "id": "combat.bow.pull",
+   "category": "combat",
+   "sndr": [
+    "WPNBowPullLPMSD"
+   ]
+  },
+  {
+   "id": "combat.bow.fire",
+   "category": "combat",
+   "sndr": [
+    "WPNBowFireSD"
+   ]
+  },
+  {
+   "id": "footstep.swim.stroke",
+   "category": "movement",
+   "sndr": [
+    "FSTSwimSwim"
+   ]
+  },
+  {
+   "id": "footstep.swim.tread",
+   "category": "movement",
+   "sndr": [
+    "FSTSwimTread"
+   ]
+  },
+  {
+   "id": "footstep.water.splash",
+   "category": "movement",
+   "sndr": [
+    "PHYWaterSplash"
+   ]
+  },
+  {
+   "id": "object.torch.burn",
+   "category": "object",
+   "sndr": [
+    "OBJTorchBurnLPSD"
+   ]
+  },
+  {
+   "id": "ambient.marsh.frogs-night",
+   "category": "ambient",
+   "sndr": [
+    "AMBrFrogsForestPineNightLPSD"
+   ]
+  },
+  {
+   "id": "ambient.marsh.frogs-night-reach",
+   "category": "ambient",
+   "sndr": [
+    "AMBrFrogsReachNight01RadLPSD"
+   ]
+  },
+  {
+   "id": "ambient.marsh.frogs-night-forestfall",
+   "category": "ambient",
+   "sndr": [
+    "AMBrFrogsForestfallNightLPSD"
+   ]
+  },
+  {
+   "id": "ambient.water.river",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterRiverLPSD"
+   ]
+  },
+  {
+   "id": "ambient.water.stream",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterStream01LPSD"
+   ]
+  },
+  {
+   "id": "ambient.water.stream-falls",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterStreamFallsLPSD"
+   ]
+  },
+  {
+   "id": "ambient.water.rapids-small",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterRapidsSmallLPSD"
+   ]
+  },
+  {
+   "id": "ambient.water.rapids-medium",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterRapidsMedium2DLPSD"
+   ]
+  },
+  {
+   "id": "ambient.water.coast-waves",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterCoastWavesLPSD"
+   ]
+  },
+  {
+   "id": "ambient.water.coast-waves-distant",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterCoastWavesDistantLPSD"
+   ]
+  },
+  {
+   "id": "ambient.water.boat-lap",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterBoatLapExteriorSmallLPSD"
+   ]
+  },
+  {
+   "id": "ambient.waterfall.small",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterfallSmallLPSD"
+   ]
+  },
+  {
+   "id": "ambient.waterfall.medium",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterfallMediumLPSD"
+   ]
+  },
+  {
+   "id": "ambient.waterfall.large",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterfallLargeLPSD"
+   ]
+  },
+  {
+   "id": "ambient.waterfall.large-distant",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterfallLargeDistantLPSD"
+   ]
+  },
+  {
+   "id": "ambient.waterfall.splatter-small",
+   "category": "ambient",
+   "sndr": [
+    "AMBWaterfallSplatterSmallSD"
+   ]
+  },
+  {
+   "id": "ambient.underwater.bed",
+   "category": "ambient",
+   "sndr": [
+    "AMBUnderwater2DLPM"
+   ]
+  },
+  {
+   "id": "weather.rain.drizzle",
+   "category": "weather",
+   "sndr": [
+    "AMBWeatherRainDrizzleLP"
+   ]
+  },
+  {
+   "id": "weather.rain.light",
+   "category": "weather",
+   "sndr": [
+    "AMBWeatherRainLightLPSD"
+   ]
+  },
+  {
+   "id": "weather.rain.medium",
+   "category": "weather",
+   "sndr": [
+    "AMBWeatherRainMediumLPSD"
+   ]
+  },
+  {
+   "id": "weather.rain.heavy",
+   "category": "weather",
+   "sndr": [
+    "AMBWeatherRainHeavyLPSD"
+   ]
+  },
+  {
+   "id": "weather.rain.interior",
+   "category": "weather",
+   "sndr": [
+    "AMBWeatherRainInteriorLPSD"
+   ]
+  },
+  {
+   "id": "weather.thunder.distant",
+   "category": "weather",
+   "sndr": [
+    "AMBWeatherThunderDistant"
+   ]
+  },
+  {
+   "id": "weather.thunder.extra",
+   "category": "weather",
+   "sndr": [
+    "AMBWeatherThunderExtra"
+   ]
+  }
+ ]
+}

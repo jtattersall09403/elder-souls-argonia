@@ -1,0 +1,4661 @@
+{
+ "schemaVersion": 1,
+ "archive": "Skyrim - Sounds.bsa",
+ "depotManifest": "72851/430694959351693705",
+ "files": 4917,
+ "bytes": 953492282,
+ "formats": {
+  "wav-pcm-16bit": 4681,
+  "xwm-wmav2": 236
+ },
+ "folders": {
+  "music/combat": {
+   "files": 18,
+   "bytes": 8586234,
+   "durationS": 1419.204,
+   "formats": {
+    "xwm-wmav2": 18
+   }
+  },
+  "music/dread": {
+   "files": 8,
+   "bytes": 994562,
+   "durationS": 161.796,
+   "formats": {
+    "xwm-wmav2": 8
+   }
+  },
+  "music/dungeon": {
+   "files": 10,
+   "bytes": 8967816,
+   "durationS": 1488.121,
+   "formats": {
+    "xwm-wmav2": 10
+   }
+  },
+  "music/explore": {
+   "files": 153,
+   "bytes": 57484884,
+   "durationS": 9523.651,
+   "formats": {
+    "xwm-wmav2": 153
+   }
+  },
+  "music/mus_castle_imperial_01.xwm": {
+   "files": 1,
+   "bytes": 833336,
+   "durationS": 138.252,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_castle_stormcloaks.xwm": {
+   "files": 1,
+   "bytes": 848974,
+   "durationS": 140.945,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_discover_genericlocation_01.xwm": {
+   "files": 1,
+   "bytes": 33564,
+   "durationS": 4.83,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_discover_genericlocation_02.xwm": {
+   "files": 1,
+   "bytes": 35798,
+   "durationS": 4.783,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_discover_genericlocation_03.xwm": {
+   "files": 1,
+   "bytes": 46968,
+   "durationS": 7.57,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_discover_highhrothgar.xwm": {
+   "files": 1,
+   "bytes": 382068,
+   "durationS": 63.39,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_levelup_01.xwm": {
+   "files": 1,
+   "bytes": 116222,
+   "durationS": 19.273,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_levelup_02.xwm": {
+   "files": 1,
+   "bytes": 116222,
+   "durationS": 19.133,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_levelup_03.xwm": {
+   "files": 1,
+   "bytes": 113988,
+   "durationS": 18.715,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/mus_sovngarde_chant_lp.xwm": {
+   "files": 1,
+   "bytes": 1266732,
+   "durationS": 209.258,
+   "formats": {
+    "xwm-wmav2": 1
+   }
+  },
+  "music/reveal": {
+   "files": 4,
+   "bytes": 674884,
+   "durationS": 111.27,
+   "formats": {
+    "xwm-wmav2": 4
+   }
+  },
+  "music/reward": {
+   "files": 4,
+   "bytes": 277232,
+   "durationS": 44.909,
+   "formats": {
+    "xwm-wmav2": 4
+   }
+  },
+  "music/special": {
+   "files": 13,
+   "bytes": 3495626,
+   "durationS": 500.681,
+   "formats": {
+    "xwm-wmav2": 13
+   }
+  },
+  "music/stinger": {
+   "files": 4,
+   "bytes": 203510,
+   "durationS": 32.787,
+   "formats": {
+    "xwm-wmav2": 4
+   }
+  },
+  "music/tavern": {
+   "files": 5,
+   "bytes": 5504846,
+   "durationS": 913.752,
+   "formats": {
+    "xwm-wmav2": 5
+   }
+  },
+  "music/town": {
+   "files": 7,
+   "bytes": 6867694,
+   "durationS": 1138.891,
+   "formats": {
+    "xwm-wmav2": 7
+   }
+  },
+  "sound/fx/amb/amb_bannerrockcairn_02_lp.wav": {
+   "files": 1,
+   "bytes": 308980,
+   "durationS": 7.002,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_bannerrockcairn_lp.wav": {
+   "files": 1,
+   "bytes": 347780,
+   "durationS": 7.883,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_chargenexecutionreact_01_2d.wav": {
+   "files": 1,
+   "bytes": 436364,
+   "durationS": 4.947,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_chargenexecutionwalla_01_2dlp.wav": {
+   "files": 1,
+   "bytes": 411014,
+   "durationS": 9.316,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_darkbrotherhooddoor_lp.wav": {
+   "files": 1,
+   "bytes": 497698,
+   "durationS": 3.887,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_executionwalla_01_2dlp.wav": {
+   "files": 1,
+   "bytes": 230894,
+   "durationS": 7.21,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_executionwalla_02_2dlp.wav": {
+   "files": 1,
+   "bytes": 265378,
+   "durationS": 8.287,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_executionwalla_oh.wav": {
+   "files": 1,
+   "bytes": 590844,
+   "durationS": 6.698,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_rumbleshake_01.wav": {
+   "files": 1,
+   "bytes": 792860,
+   "durationS": 8.989,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_rumbleshake_02.wav": {
+   "files": 1,
+   "bytes": 958682,
+   "durationS": 10.868,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_rumbleshakegreybeards_01.wav": {
+   "files": 1,
+   "bytes": 1262918,
+   "durationS": 14.317,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_rumbleshakegreybeards_02.wav": {
+   "files": 1,
+   "bytes": 1230304,
+   "durationS": 13.949,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_sewergrate_01_lp.wav": {
+   "files": 1,
+   "bytes": 338986,
+   "durationS": 5.294,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_sewergrate_02_lp.wav": {
+   "files": 1,
+   "bytes": 357416,
+   "durationS": 5.582,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_underwater_2d_lpm.wav": {
+   "files": 1,
+   "bytes": 359784,
+   "durationS": 4.078,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_waterwheel_lp.wav": {
+   "files": 1,
+   "bytes": 323242,
+   "durationS": 7.325,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_windlight_lp.wav": {
+   "files": 1,
+   "bytes": 247936,
+   "durationS": 5.618,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/amb_windloop_mountainsheavy_lp.wav": {
+   "files": 1,
+   "bytes": 249620,
+   "durationS": 5.656,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/bats": {
+   "files": 1,
+   "bytes": 705476,
+   "durationS": 5.511,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/birdtree": {
+   "files": 2,
+   "bytes": 1000086,
+   "durationS": 11.336,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/amb/civilwar": {
+   "files": 6,
+   "bytes": 5059192,
+   "durationS": 59.95,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/amb/cobweb": {
+   "files": 6,
+   "bytes": 1283168,
+   "durationS": 10.231,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/amb/dungeon": {
+   "files": 26,
+   "bytes": 11952626,
+   "durationS": 149.906,
+   "formats": {
+    "wav-pcm-16bit": 26
+   }
+  },
+  "sound/fx/amb/dustdrop": {
+   "files": 4,
+   "bytes": 841148,
+   "durationS": 13.135,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/amb/kagrenzelwind": {
+   "files": 1,
+   "bytes": 610568,
+   "durationS": 4.767,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/amb/rumble": {
+   "files": 3,
+   "bytes": 367620,
+   "durationS": 8.324,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/amb/ship": {
+   "files": 13,
+   "bytes": 6300112,
+   "durationS": 122.397,
+   "formats": {
+    "wav-pcm-16bit": 13
+   }
+  },
+  "sound/fx/amb/steam": {
+   "files": 6,
+   "bytes": 1355678,
+   "durationS": 25.444,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/amb/tavern": {
+   "files": 4,
+   "bytes": 1025520,
+   "durationS": 51.684,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/amb/water": {
+   "files": 54,
+   "bytes": 23027608,
+   "durationS": 274.79,
+   "formats": {
+    "wav-pcm-16bit": 54
+   }
+  },
+  "sound/fx/amb/weather": {
+   "files": 16,
+   "bytes": 10343468,
+   "durationS": 160.393,
+   "formats": {
+    "wav-pcm-16bit": 16
+   }
+  },
+  "sound/fx/amb/wind": {
+   "files": 15,
+   "bytes": 10666962,
+   "durationS": 96.486,
+   "formats": {
+    "wav-pcm-16bit": 15
+   }
+  },
+  "sound/fx/ambr/birds": {
+   "files": 260,
+   "bytes": 31500486,
+   "durationS": 623.573,
+   "formats": {
+    "wav-pcm-16bit": 260
+   }
+  },
+  "sound/fx/ambr/bugs": {
+   "files": 2,
+   "bytes": 373368,
+   "durationS": 8.461,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/ambr/catapult": {
+   "files": 4,
+   "bytes": 830890,
+   "durationS": 18.833,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/ambr/chargen": {
+   "files": 14,
+   "bytes": 2692942,
+   "durationS": 55.863,
+   "formats": {
+    "wav-pcm-16bit": 14
+   }
+  },
+  "sound/fx/ambr/crickets": {
+   "files": 44,
+   "bytes": 14490718,
+   "durationS": 143.494,
+   "formats": {
+    "wav-pcm-16bit": 44
+   }
+  },
+  "sound/fx/ambr/dungeon": {
+   "files": 39,
+   "bytes": 25209998,
+   "durationS": 292.184,
+   "formats": {
+    "wav-pcm-16bit": 39
+   }
+  },
+  "sound/fx/ambr/glaciers": {
+   "files": 10,
+   "bytes": 9141286,
+   "durationS": 71.408,
+   "formats": {
+    "wav-pcm-16bit": 10
+   }
+  },
+  "sound/fx/ambr/insects": {
+   "files": 51,
+   "bytes": 13919370,
+   "durationS": 120.479,
+   "formats": {
+    "wav-pcm-16bit": 51
+   }
+  },
+  "sound/fx/ambr/interior": {
+   "files": 7,
+   "bytes": 5537786,
+   "durationS": 62.779,
+   "formats": {
+    "wav-pcm-16bit": 7
+   }
+  },
+  "sound/fx/ambr/rumble": {
+   "files": 4,
+   "bytes": 3485894,
+   "durationS": 31.906,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/ambr/wind": {
+   "files": 53,
+   "bytes": 50369016,
+   "durationS": 450.038,
+   "formats": {
+    "wav-pcm-16bit": 53
+   }
+  },
+  "sound/fx/ambt/ambt_interiorgeneric_01_lp.wav": {
+   "files": 1,
+   "bytes": 153166,
+   "durationS": 4.781,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ambt/ambt_shipwaves_interior_01_lp.wav": {
+   "files": 1,
+   "bytes": 928498,
+   "durationS": 10.525,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ambt/ambt_shipwaves_interior_03_exterior_lp.wav": {
+   "files": 1,
+   "bytes": 989638,
+   "durationS": 11.218,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ambt/ambt_shipwaves_interior_03_lp.wav": {
+   "files": 1,
+   "bytes": 1013122,
+   "durationS": 11.485,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ambt/da01azurastar": {
+   "files": 1,
+   "bytes": 522780,
+   "durationS": 4.082,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ambt/dungeon": {
+   "files": 9,
+   "bytes": 4500670,
+   "durationS": 51.497,
+   "formats": {
+    "wav-pcm-16bit": 9
+   }
+  },
+  "sound/fx/drs/drawbridge": {
+   "files": 2,
+   "bytes": 533368,
+   "durationS": 6.626,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drs/drs_autoload_cave_open_01.wav": {
+   "files": 1,
+   "bytes": 940484,
+   "durationS": 7.347,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_autoload_cave_open_02.wav": {
+   "files": 1,
+   "bytes": 945458,
+   "durationS": 7.385,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_bone_falmer_gate_close_01.wav": {
+   "files": 1,
+   "bytes": 104750,
+   "durationS": 1.632,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_bone_falmer_gate_close_02.wav": {
+   "files": 1,
+   "bytes": 107182,
+   "durationS": 1.671,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_bone_falmer_gate_open_01.wav": {
+   "files": 1,
+   "bytes": 97950,
+   "durationS": 1.527,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_bone_falmer_gate_open_02.wav": {
+   "files": 1,
+   "bytes": 112634,
+   "durationS": 1.757,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_cavesecret_close.wav": {
+   "files": 1,
+   "bytes": 269226,
+   "durationS": 4.205,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_cavesecret_open.wav": {
+   "files": 1,
+   "bytes": 571250,
+   "durationS": 8.924,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_coffinnightmother_close.wav": {
+   "files": 1,
+   "bytes": 223600,
+   "durationS": 3.492,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_coffinnightmother_open.wav": {
+   "files": 1,
+   "bytes": 154918,
+   "durationS": 2.419,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_darkbrotherhoodsanctuary_close.wav": {
+   "files": 1,
+   "bytes": 690008,
+   "durationS": 5.39,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_darkbrotherhoodsanctuary_open_01.wav": {
+   "files": 1,
+   "bytes": 417180,
+   "durationS": 3.259,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemergate_close_01.wav": {
+   "files": 1,
+   "bytes": 193700,
+   "durationS": 3.025,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemergate_close_02.wav": {
+   "files": 1,
+   "bytes": 196020,
+   "durationS": 3.061,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemergate_open_01.wav": {
+   "files": 1,
+   "bytes": 255702,
+   "durationS": 3.994,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemergate_open_02.wav": {
+   "files": 1,
+   "bytes": 213550,
+   "durationS": 3.335,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemerlarge01_close_01.wav": {
+   "files": 1,
+   "bytes": 387268,
+   "durationS": 6.049,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemerlarge01_open_01.wav": {
+   "files": 1,
+   "bytes": 391984,
+   "durationS": 6.123,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemerlift_open.wav": {
+   "files": 1,
+   "bytes": 877800,
+   "durationS": 6.857,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemersmall01_close_01.wav": {
+   "files": 1,
+   "bytes": 346138,
+   "durationS": 5.407,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_dwemersmall01_open_01.wav": {
+   "files": 1,
+   "bytes": 316218,
+   "durationS": 4.939,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_highhrothgar_close_01.wav": {
+   "files": 1,
+   "bytes": 306990,
+   "durationS": 4.795,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_highhrothgar_open_01.wav": {
+   "files": 1,
+   "bytes": 309192,
+   "durationS": 4.829,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ironalley_close_01.wav": {
+   "files": 1,
+   "bytes": 165888,
+   "durationS": 2.59,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ironalley_open_01.wav": {
+   "files": 1,
+   "bytes": 151622,
+   "durationS": 2.367,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_irondoublenordiccage01_close_01.wav": {
+   "files": 1,
+   "bytes": 234388,
+   "durationS": 3.66,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_irondoublenordiccage01_open_01.wav": {
+   "files": 1,
+   "bytes": 188210,
+   "durationS": 2.939,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_irondoublenordiclarge_01_close.wav": {
+   "files": 1,
+   "bytes": 238898,
+   "durationS": 3.731,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_irondoublenordiclarge_01_open.wav": {
+   "files": 1,
+   "bytes": 262442,
+   "durationS": 4.099,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_irondoublenordicmedium_01_close.wav": {
+   "files": 1,
+   "bytes": 205368,
+   "durationS": 3.207,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_irondoublenordicmedium_01_open.wav": {
+   "files": 1,
+   "bytes": 183282,
+   "durationS": 2.862,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_irondoublenordicmedium_02_close.wav": {
+   "files": 1,
+   "bytes": 194960,
+   "durationS": 3.044,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_irondoublenordicmedium_02_open.wav": {
+   "files": 1,
+   "bytes": 156492,
+   "durationS": 2.443,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ironnordicportcullisgate_close.wav": {
+   "files": 1,
+   "bytes": 295566,
+   "durationS": 4.616,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ironnordicportcullisgate_open.wav": {
+   "files": 1,
+   "bytes": 193288,
+   "durationS": 3.018,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ironprisoncellgrate_close.wav": {
+   "files": 1,
+   "bytes": 169066,
+   "durationS": 1.916,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ironprisoncellgrate_open.wav": {
+   "files": 1,
+   "bytes": 168814,
+   "durationS": 1.913,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ladder.wav": {
+   "files": 1,
+   "bytes": 133794,
+   "durationS": 2.09,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metal_pitgate_close_01.wav": {
+   "files": 1,
+   "bytes": 114292,
+   "durationS": 1.779,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metal_pitgate_close_02.wav": {
+   "files": 1,
+   "bytes": 130888,
+   "durationS": 2.038,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metal_pitgate_open_01.wav": {
+   "files": 1,
+   "bytes": 124038,
+   "durationS": 1.936,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metal_pitgate_open_02.wav": {
+   "files": 1,
+   "bytes": 133360,
+   "durationS": 2.082,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metaldouble_close_01.wav": {
+   "files": 1,
+   "bytes": 233952,
+   "durationS": 3.654,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metaldouble_open_01.wav": {
+   "files": 1,
+   "bytes": 194262,
+   "durationS": 3.034,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metaldouble_open_02.wav": {
+   "files": 1,
+   "bytes": 188698,
+   "durationS": 2.947,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metalgatehighhrothgar_close.wav": {
+   "files": 1,
+   "bytes": 269294,
+   "durationS": 4.206,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metalgatehighhrothgar_open.wav": {
+   "files": 1,
+   "bytes": 245852,
+   "durationS": 3.84,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metaljailsolitude_close.wav": {
+   "files": 1,
+   "bytes": 171272,
+   "durationS": 2.674,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metaljailsolitude_open.wav": {
+   "files": 1,
+   "bytes": 181382,
+   "durationS": 2.832,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metaljailsolitudesingle_close.wav": {
+   "files": 1,
+   "bytes": 147148,
+   "durationS": 2.297,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metaljailsolitudesingle_open.wav": {
+   "files": 1,
+   "bytes": 158360,
+   "durationS": 2.473,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metalsingle_close_01.wav": {
+   "files": 1,
+   "bytes": 213522,
+   "durationS": 3.334,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metalsingle_open_01.wav": {
+   "files": 1,
+   "bytes": 172278,
+   "durationS": 2.69,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_metalsingle_open_02.wav": {
+   "files": 1,
+   "bytes": 212148,
+   "durationS": 3.313,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_portstone_close.wav": {
+   "files": 1,
+   "bytes": 136076,
+   "durationS": 1.542,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_portstone_open.wav": {
+   "files": 1,
+   "bytes": 72866,
+   "durationS": 0.826,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ruinspuzzle_keyturn.wav": {
+   "files": 1,
+   "bytes": 327450,
+   "durationS": 5.114,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ruinspuzzle_open_lpm.wav": {
+   "files": 1,
+   "bytes": 1034318,
+   "durationS": 16.158,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_ruinspuzzle_ringturn.wav": {
+   "files": 1,
+   "bytes": 324980,
+   "durationS": 5.076,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_saarthalcollapse_01.wav": {
+   "files": 1,
+   "bytes": 423324,
+   "durationS": 6.613,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_sewerholewood_close.wav": {
+   "files": 1,
+   "bytes": 92064,
+   "durationS": 1.438,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_sewerholewood_open_01.wav": {
+   "files": 1,
+   "bytes": 54992,
+   "durationS": 0.859,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_sewerholewood_open_02.wav": {
+   "files": 1,
+   "bytes": 62654,
+   "durationS": 0.978,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_slot_close.wav": {
+   "files": 1,
+   "bytes": 61114,
+   "durationS": 0.953,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_slot_open.wav": {
+   "files": 1,
+   "bytes": 66514,
+   "durationS": 1.037,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stone_jailwallcollapse_01.wav": {
+   "files": 1,
+   "bytes": 407992,
+   "durationS": 6.373,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stone_riften_jail_close_01.wav": {
+   "files": 1,
+   "bytes": 261830,
+   "durationS": 4.088,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stone_riften_jail_open_01.wav": {
+   "files": 1,
+   "bytes": 175022,
+   "durationS": 2.733,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stonedoubleskyhaven_close_01.wav": {
+   "files": 1,
+   "bytes": 169874,
+   "durationS": 2.652,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stonedoubleskyhaven_close_02.wav": {
+   "files": 1,
+   "bytes": 194150,
+   "durationS": 3.032,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stonedoubleskyhaven_open_01.wav": {
+   "files": 1,
+   "bytes": 95112,
+   "durationS": 1.484,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stonedoubleskyhaven_open_02.wav": {
+   "files": 1,
+   "bytes": 112206,
+   "durationS": 1.751,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stonerotatingdisc_close_01.wav": {
+   "files": 1,
+   "bytes": 132102,
+   "durationS": 2.062,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stonerotatingdisc_lpm v1.wav": {
+   "files": 1,
+   "bytes": 1815240,
+   "durationS": 10.29,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stonerotatingdisc_lpm.wav": {
+   "files": 1,
+   "bytes": 335956,
+   "durationS": 5.246,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_stonerotatingdisc_open_01.wav": {
+   "files": 1,
+   "bytes": 142746,
+   "durationS": 2.229,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_tg08a_stone_secret_door_open.wav": {
+   "files": 1,
+   "bytes": 322304,
+   "durationS": 5.034,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_tg09_magic_portal_01.wav": {
+   "files": 1,
+   "bytes": 917452,
+   "durationS": 7.167,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_thievesguildmausoleum_close_2d.wav": {
+   "files": 1,
+   "bytes": 567598,
+   "durationS": 4.423,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_thievesguildmausoleum_close_3d.wav": {
+   "files": 1,
+   "bytes": 227004,
+   "durationS": 3.522,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_thievesguildmausoleum_open_2d.wav": {
+   "files": 1,
+   "bytes": 663440,
+   "durationS": 5.171,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_thievesguildmausoleum_open_3d.wav": {
+   "files": 1,
+   "bytes": 260206,
+   "durationS": 4.041,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_trapshaftnordic_close.wav": {
+   "files": 1,
+   "bytes": 316436,
+   "durationS": 4.942,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_trapshaftnordic_open.wav": {
+   "files": 1,
+   "bytes": 210594,
+   "durationS": 3.289,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_wooddelphinesecret_close.wav": {
+   "files": 1,
+   "bytes": 102592,
+   "durationS": 1.601,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_wooddelphinesecret_open.wav": {
+   "files": 1,
+   "bytes": 114816,
+   "durationS": 1.792,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_wooddelphinesecretpanel_close.wav": {
+   "files": 1,
+   "bytes": 169692,
+   "durationS": 2.65,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_wooddelphinesecretpanel_open.wav": {
+   "files": 1,
+   "bytes": 138916,
+   "durationS": 2.169,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_wooddoublerough_02_mine_close.wav": {
+   "files": 1,
+   "bytes": 105286,
+   "durationS": 1.643,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_wooddoublerough_02_mine_open.wav": {
+   "files": 1,
+   "bytes": 84280,
+   "durationS": 1.315,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_wooddoubleslide_close_01.wav": {
+   "files": 1,
+   "bytes": 116800,
+   "durationS": 1.823,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_wooddoubleslide_open_01.wav": {
+   "files": 1,
+   "bytes": 64400,
+   "durationS": 1.004,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodgatebackyard_close.wav": {
+   "files": 1,
+   "bytes": 105946,
+   "durationS": 1.654,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodgatebackyard_open.wav": {
+   "files": 1,
+   "bytes": 77072,
+   "durationS": 1.202,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodgatebackyardwr_close.wav": {
+   "files": 1,
+   "bytes": 161130,
+   "durationS": 2.516,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodgatebackyardwr_open.wav": {
+   "files": 1,
+   "bytes": 143340,
+   "durationS": 2.238,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodgatehelgen_close.wav": {
+   "files": 1,
+   "bytes": 218886,
+   "durationS": 4.961,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodgatehelgen_open.wav": {
+   "files": 1,
+   "bytes": 200120,
+   "durationS": 4.535,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodimperial_deadbolt_down.wav": {
+   "files": 1,
+   "bytes": 101682,
+   "durationS": 1.587,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodimperial_deadbolt_up.wav": {
+   "files": 1,
+   "bytes": 113990,
+   "durationS": 1.779,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodimperialdouble01_close_01.wav": {
+   "files": 1,
+   "bytes": 252738,
+   "durationS": 3.947,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodimperialdouble01_open_01.wav": {
+   "files": 1,
+   "bytes": 233618,
+   "durationS": 3.648,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodimperialdouble02_close_01.wav": {
+   "files": 1,
+   "bytes": 199014,
+   "durationS": 3.108,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodimperialdouble02_open_01.wav": {
+   "files": 1,
+   "bytes": 169168,
+   "durationS": 2.641,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodimperialsingle01_close_01.wav": {
+   "files": 1,
+   "bytes": 220324,
+   "durationS": 3.441,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodimperialsingle01_open_01.wav": {
+   "files": 1,
+   "bytes": 183886,
+   "durationS": 2.871,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodsingleheavy_esbern_close.wav": {
+   "files": 1,
+   "bytes": 155000,
+   "durationS": 2.42,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodsingleheavy_esbern_open.wav": {
+   "files": 1,
+   "bytes": 147958,
+   "durationS": 2.31,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodsingleship_close_01.wav": {
+   "files": 1,
+   "bytes": 125150,
+   "durationS": 1.954,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodsingleship_load_close.wav": {
+   "files": 1,
+   "bytes": 130526,
+   "durationS": 2.038,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodsingleship_load_open.wav": {
+   "files": 1,
+   "bytes": 77996,
+   "durationS": 1.217,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodsingleship_open_01.wav": {
+   "files": 1,
+   "bytes": 112234,
+   "durationS": 1.752,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodstallslide_close.wav": {
+   "files": 1,
+   "bytes": 73470,
+   "durationS": 1.146,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodstallslide_open.wav": {
+   "files": 1,
+   "bytes": 65660,
+   "durationS": 1.024,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodtrapdoor_close_01.wav": {
+   "files": 1,
+   "bytes": 82090,
+   "durationS": 1.281,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodtrapdoor_close_02.wav": {
+   "files": 1,
+   "bytes": 81628,
+   "durationS": 1.274,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodtrapdoor_open_01.wav": {
+   "files": 1,
+   "bytes": 105672,
+   "durationS": 1.649,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/drs_woodtrapdoor_open_02.wav": {
+   "files": 1,
+   "bytes": 172788,
+   "durationS": 1.958,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drs/hallofvalor": {
+   "files": 4,
+   "bytes": 586546,
+   "durationS": 9.151,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/ironcage01": {
+   "files": 2,
+   "bytes": 375066,
+   "durationS": 5.857,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drs/ironimpjail": {
+   "files": 2,
+   "bytes": 318346,
+   "durationS": 4.97,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drs/labyrinthian": {
+   "files": 5,
+   "bytes": 1344594,
+   "durationS": 20.996,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/drs/locked": {
+   "files": 4,
+   "bytes": 264964,
+   "durationS": 4.132,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/portcullisgate": {
+   "files": 6,
+   "bytes": 1338184,
+   "durationS": 20.898,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/drs/portculliswoodgate": {
+   "files": 2,
+   "bytes": 668478,
+   "durationS": 10.438,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drs/retractablebridgestone": {
+   "files": 3,
+   "bytes": 1458900,
+   "durationS": 22.791,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drs/retractablebridgewood": {
+   "files": 3,
+   "bytes": 523542,
+   "durationS": 8.175,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drs/stonesecretslide": {
+   "files": 4,
+   "bytes": 2068542,
+   "durationS": 32.314,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/tgwoodsecret": {
+   "files": 2,
+   "bytes": 248492,
+   "durationS": 3.879,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drs/wooddoublelight01": {
+   "files": 4,
+   "bytes": 456842,
+   "durationS": 7.131,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/wooddoublelight02": {
+   "files": 4,
+   "bytes": 429578,
+   "durationS": 6.705,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/wooddoublelight03": {
+   "files": 4,
+   "bytes": 437590,
+   "durationS": 6.83,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/wooddoublerough01": {
+   "files": 2,
+   "bytes": 362204,
+   "durationS": 5.656,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drs/woodmaingate01": {
+   "files": 2,
+   "bytes": 430472,
+   "durationS": 6.722,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drs/woodsecretbookshelf": {
+   "files": 2,
+   "bytes": 323180,
+   "durationS": 5.046,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drs/woodsingleheavy01": {
+   "files": 4,
+   "bytes": 618368,
+   "durationS": 9.654,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/woodsinglelight01": {
+   "files": 4,
+   "bytes": 404394,
+   "durationS": 6.311,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/woodsinglelight02": {
+   "files": 4,
+   "bytes": 484812,
+   "durationS": 7.567,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drs/woodstabledoor": {
+   "files": 2,
+   "bytes": 134638,
+   "durationS": 2.1,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drsc/barrel": {
+   "files": 4,
+   "bytes": 201100,
+   "durationS": 3.134,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/body": {
+   "files": 4,
+   "bytes": 228580,
+   "durationS": 3.563,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/bodyburnt": {
+   "files": 2,
+   "bytes": 132208,
+   "durationS": 2.064,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drsc/bodycreature": {
+   "files": 3,
+   "bytes": 192668,
+   "durationS": 2.305,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drsc/bodymetal": {
+   "files": 3,
+   "bytes": 233006,
+   "durationS": 3.635,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drsc/bodyskeleton": {
+   "files": 3,
+   "bytes": 176382,
+   "durationS": 2.754,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drsc/canopicjar": {
+   "files": 4,
+   "bytes": 147540,
+   "durationS": 2.297,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/chaurusbox": {
+   "files": 3,
+   "bytes": 206670,
+   "durationS": 3.227,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drsc/crate": {
+   "files": 4,
+   "bytes": 201058,
+   "durationS": 3.134,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/displaycase": {
+   "files": 4,
+   "bytes": 376820,
+   "durationS": 5.881,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/drawerdresser": {
+   "files": 4,
+   "bytes": 311368,
+   "durationS": 4.857,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/drsc_coffinwoodsmall_close.wav": {
+   "files": 1,
+   "bytes": 54076,
+   "durationS": 0.843,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drsc/drsc_coffinwoodsmall_open.wav": {
+   "files": 1,
+   "bytes": 66106,
+   "durationS": 1.031,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drsc/drsc_coffinwoodsmall_open_02.wav": {
+   "files": 1,
+   "bytes": 56922,
+   "durationS": 0.888,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drsc/dwarvendresser": {
+   "files": 2,
+   "bytes": 92282,
+   "durationS": 1.438,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/drsc/eggsack": {
+   "files": 3,
+   "bytes": 89310,
+   "durationS": 2.017,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drsc/endtable": {
+   "files": 4,
+   "bytes": 222696,
+   "durationS": 3.47,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/knapsack": {
+   "files": 3,
+   "bytes": 176774,
+   "durationS": 2.756,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drsc/meaderykeg": {
+   "files": 1,
+   "bytes": 127350,
+   "durationS": 1.988,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/drsc/noble": {
+   "files": 6,
+   "bytes": 354354,
+   "durationS": 5.532,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/drsc/ore": {
+   "files": 3,
+   "bytes": 445974,
+   "durationS": 6.962,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/drsc/pot": {
+   "files": 4,
+   "bytes": 156740,
+   "durationS": 2.442,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/sack": {
+   "files": 4,
+   "bytes": 171682,
+   "durationS": 2.675,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/treasure": {
+   "files": 18,
+   "bytes": 1081510,
+   "durationS": 16.861,
+   "formats": {
+    "wav-pcm-16bit": 18
+   }
+  },
+  "sound/fx/drsc/urnlarge": {
+   "files": 4,
+   "bytes": 199650,
+   "durationS": 3.112,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/drsc/wardrobe": {
+   "files": 3,
+   "bytes": 155648,
+   "durationS": 2.425,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/fst/dirt": {
+   "files": 49,
+   "bytes": 2575342,
+   "durationS": 39.619,
+   "formats": {
+    "wav-pcm-16bit": 49
+   }
+  },
+  "sound/fx/fst/grass": {
+   "files": 53,
+   "bytes": 2953900,
+   "durationS": 44.443,
+   "formats": {
+    "wav-pcm-16bit": 53
+   }
+  },
+  "sound/fx/fst/gravel": {
+   "files": 49,
+   "bytes": 3011086,
+   "durationS": 45.372,
+   "formats": {
+    "wav-pcm-16bit": 49
+   }
+  },
+  "sound/fx/fst/npc": {
+   "files": 136,
+   "bytes": 5310190,
+   "durationS": 99.758,
+   "formats": {
+    "wav-pcm-16bit": 136
+   }
+  },
+  "sound/fx/fst/player": {
+   "files": 438,
+   "bytes": 25481588,
+   "durationS": 374.769,
+   "formats": {
+    "wav-pcm-16bit": 438
+   }
+  },
+  "sound/fx/fst/snow": {
+   "files": 51,
+   "bytes": 2679368,
+   "durationS": 39.969,
+   "formats": {
+    "wav-pcm-16bit": 51
+   }
+  },
+  "sound/fx/fst/stonesolid": {
+   "files": 63,
+   "bytes": 3495426,
+   "durationS": 52.743,
+   "formats": {
+    "wav-pcm-16bit": 63
+   }
+  },
+  "sound/fx/fst/swim": {
+   "files": 10,
+   "bytes": 2121598,
+   "durationS": 24.041,
+   "formats": {
+    "wav-pcm-16bit": 10
+   }
+  },
+  "sound/fx/fst/water": {
+   "files": 22,
+   "bytes": 1832436,
+   "durationS": 28.593,
+   "formats": {
+    "wav-pcm-16bit": 22
+   }
+  },
+  "sound/fx/fst/wood": {
+   "files": 67,
+   "bytes": 3371502,
+   "durationS": 50.856,
+   "formats": {
+    "wav-pcm-16bit": 67
+   }
+  },
+  "sound/fx/fx/dust": {
+   "files": 3,
+   "bytes": 1269870,
+   "durationS": 19.835,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/fx/explosion": {
+   "files": 10,
+   "bytes": 2245480,
+   "durationS": 40.899,
+   "formats": {
+    "wav-pcm-16bit": 10
+   }
+  },
+  "sound/fx/fx/fire": {
+   "files": 31,
+   "bytes": 7050186,
+   "durationS": 125.894,
+   "formats": {
+    "wav-pcm-16bit": 31
+   }
+  },
+  "sound/fx/fx/melee": {
+   "files": 24,
+   "bytes": 1722200,
+   "durationS": 21.047,
+   "formats": {
+    "wav-pcm-16bit": 24
+   }
+  },
+  "sound/fx/fx/undead": {
+   "files": 3,
+   "bytes": 474442,
+   "durationS": 7.405,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/itm/armor": {
+   "files": 2,
+   "bytes": 57072,
+   "durationS": 0.888,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/itm/arrows": {
+   "files": 6,
+   "bytes": 122368,
+   "durationS": 1.902,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/itm/book": {
+   "files": 7,
+   "bytes": 486078,
+   "durationS": 7.586,
+   "formats": {
+    "wav-pcm-16bit": 7
+   }
+  },
+  "sound/fx/itm/clothing": {
+   "files": 4,
+   "bytes": 167990,
+   "durationS": 2.617,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/itm/coinpouch": {
+   "files": 4,
+   "bytes": 131102,
+   "durationS": 2.045,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/itm/fish": {
+   "files": 2,
+   "bytes": 104546,
+   "durationS": 1.63,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/itm/foodeat": {
+   "files": 2,
+   "bytes": 166492,
+   "durationS": 2.597,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/itm/generic": {
+   "files": 22,
+   "bytes": 865146,
+   "durationS": 12.988,
+   "formats": {
+    "wav-pcm-16bit": 22
+   }
+  },
+  "sound/fx/itm/glassbottlecase": {
+   "files": 6,
+   "bytes": 238610,
+   "durationS": 3.717,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/itm/gold": {
+   "files": 4,
+   "bytes": 197248,
+   "durationS": 2.231,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/itm/ingredient": {
+   "files": 46,
+   "bytes": 2849010,
+   "durationS": 39.812,
+   "formats": {
+    "wav-pcm-16bit": 46
+   }
+  },
+  "sound/fx/itm/itm_poisonuse_01.wav": {
+   "files": 1,
+   "bytes": 125868,
+   "durationS": 1.966,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/itm/itm_poisonuse_02.wav": {
+   "files": 1,
+   "bytes": 118884,
+   "durationS": 1.857,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/itm/key": {
+   "files": 4,
+   "bytes": 109522,
+   "durationS": 1.702,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/itm/note": {
+   "files": 11,
+   "bytes": 760382,
+   "durationS": 11.87,
+   "formats": {
+    "wav-pcm-16bit": 11
+   }
+  },
+  "sound/fx/itm/potion": {
+   "files": 4,
+   "bytes": 163678,
+   "durationS": 2.549,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/itm/potionuse": {
+   "files": 2,
+   "bytes": 96210,
+   "durationS": 1.5,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/mag/altars": {
+   "files": 4,
+   "bytes": 2229144,
+   "durationS": 15.885,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/mag/alteration": {
+   "files": 10,
+   "bytes": 3639098,
+   "durationS": 32.353,
+   "formats": {
+    "wav-pcm-16bit": 10
+   }
+  },
+  "sound/fx/mag/cloak": {
+   "files": 8,
+   "bytes": 2321016,
+   "durationS": 28.949,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/mag/conjure": {
+   "files": 10,
+   "bytes": 3054034,
+   "durationS": 35.626,
+   "formats": {
+    "wav-pcm-16bit": 10
+   }
+  },
+  "sound/fx/mag/destruction": {
+   "files": 14,
+   "bytes": 6828002,
+   "durationS": 67.137,
+   "formats": {
+    "wav-pcm-16bit": 14
+   }
+  },
+  "sound/fx/mag/dwarvensteam": {
+   "files": 1,
+   "bytes": 330412,
+   "durationS": 5.16,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/mag/enchantedunsheathe": {
+   "files": 8,
+   "bytes": 1326548,
+   "durationS": 20.713,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/mag/firebolt": {
+   "files": 1,
+   "bytes": 403748,
+   "durationS": 3.154,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/mag/flames": {
+   "files": 4,
+   "bytes": 649922,
+   "durationS": 10.146,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/mag/flamesdragon": {
+   "files": 7,
+   "bytes": 2366828,
+   "durationS": 36.965,
+   "formats": {
+    "wav-pcm-16bit": 7
+   }
+  },
+  "sound/fx/mag/frostbite": {
+   "files": 8,
+   "bytes": 1992514,
+   "durationS": 26.507,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/mag/generic": {
+   "files": 2,
+   "bytes": 243152,
+   "durationS": 4.766,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/mag/icicle": {
+   "files": 7,
+   "bytes": 1420864,
+   "durationS": 19.419,
+   "formats": {
+    "wav-pcm-16bit": 7
+   }
+  },
+  "sound/fx/mag/illusion": {
+   "files": 17,
+   "bytes": 5302314,
+   "durationS": 55.247,
+   "formats": {
+    "wav-pcm-16bit": 17
+   }
+  },
+  "sound/fx/mag/light": {
+   "files": 4,
+   "bytes": 893046,
+   "durationS": 10.842,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/mag/mag_failshout_01.wav": {
+   "files": 1,
+   "bytes": 398500,
+   "durationS": 3.113,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/mag/mag_failshout_02.wav": {
+   "files": 1,
+   "bytes": 427578,
+   "durationS": 3.34,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/mag/mysticism": {
+   "files": 3,
+   "bytes": 1538052,
+   "durationS": 14.107,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/mag/nightingale": {
+   "files": 2,
+   "bytes": 1197376,
+   "durationS": 9.354,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/mag/perk": {
+   "files": 6,
+   "bytes": 1739308,
+   "durationS": 17.619,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/mag/powerracial": {
+   "files": 13,
+   "bytes": 6549714,
+   "durationS": 54.542,
+   "formats": {
+    "wav-pcm-16bit": 13
+   }
+  },
+  "sound/fx/mag/restoration": {
+   "files": 13,
+   "bytes": 4408608,
+   "durationS": 48.204,
+   "formats": {
+    "wav-pcm-16bit": 13
+   }
+  },
+  "sound/fx/mag/rune": {
+   "files": 2,
+   "bytes": 738470,
+   "durationS": 5.806,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/mag/shock": {
+   "files": 15,
+   "bytes": 3076140,
+   "durationS": 35.162,
+   "formats": {
+    "wav-pcm-16bit": 15
+   }
+  },
+  "sound/fx/mag/shoutsprint": {
+   "files": 1,
+   "bytes": 465068,
+   "durationS": 3.633,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/mag/vampire": {
+   "files": 3,
+   "bytes": 1940888,
+   "durationS": 15.162,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/mag/wardtest": {
+   "files": 8,
+   "bytes": 1274304,
+   "durationS": 19.893,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/mgk/firebolt": {
+   "files": 8,
+   "bytes": 1181982,
+   "durationS": 18.451,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/mus/bard": {
+   "files": 13,
+   "bytes": 21007906,
+   "durationS": 476.346,
+   "formats": {
+    "wav-pcm-16bit": 13
+   }
+  },
+  "sound/fx/npc/atronachflame": {
+   "files": 9,
+   "bytes": 3231802,
+   "durationS": 36.7,
+   "formats": {
+    "wav-pcm-16bit": 9
+   }
+  },
+  "sound/fx/npc/atronachfrost": {
+   "files": 14,
+   "bytes": 2134236,
+   "durationS": 27.717,
+   "formats": {
+    "wav-pcm-16bit": 14
+   }
+  },
+  "sound/fx/npc/atronachstorm": {
+   "files": 13,
+   "bytes": 3475930,
+   "durationS": 41.548,
+   "formats": {
+    "wav-pcm-16bit": 13
+   }
+  },
+  "sound/fx/npc/bear": {
+   "files": 38,
+   "bytes": 5621622,
+   "durationS": 76.907,
+   "formats": {
+    "wav-pcm-16bit": 38
+   }
+  },
+  "sound/fx/npc/bee": {
+   "files": 3,
+   "bytes": 849734,
+   "durationS": 19.259,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/npc/cannibal": {
+   "files": 4,
+   "bytes": 1174230,
+   "durationS": 18.333,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/npc/charus": {
+   "files": 30,
+   "bytes": 3230966,
+   "durationS": 48.682,
+   "formats": {
+    "wav-pcm-16bit": 30
+   }
+  },
+  "sound/fx/npc/chicken": {
+   "files": 14,
+   "bytes": 345786,
+   "durationS": 5.378,
+   "formats": {
+    "wav-pcm-16bit": 14
+   }
+  },
+  "sound/fx/npc/cow": {
+   "files": 26,
+   "bytes": 2763764,
+   "durationS": 59.134,
+   "formats": {
+    "wav-pcm-16bit": 26
+   }
+  },
+  "sound/fx/npc/dog": {
+   "files": 62,
+   "bytes": 4227084,
+   "durationS": 79.464,
+   "formats": {
+    "wav-pcm-16bit": 62
+   }
+  },
+  "sound/fx/npc/dragon": {
+   "files": 89,
+   "bytes": 36736082,
+   "durationS": 450.664,
+   "formats": {
+    "wav-pcm-16bit": 89
+   }
+  },
+  "sound/fx/npc/dragonfly": {
+   "files": 1,
+   "bytes": 212510,
+   "durationS": 3.319,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/npc/dragonpriest": {
+   "files": 12,
+   "bytes": 2473148,
+   "durationS": 40.532,
+   "formats": {
+    "wav-pcm-16bit": 12
+   }
+  },
+  "sound/fx/npc/dragonskeletal": {
+   "files": 3,
+   "bytes": 1313018,
+   "durationS": 14.471,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/npc/draugr": {
+   "files": 29,
+   "bytes": 5060540,
+   "durationS": 72.75,
+   "formats": {
+    "wav-pcm-16bit": 29
+   }
+  },
+  "sound/fx/npc/dwarvencenturion": {
+   "files": 23,
+   "bytes": 5547880,
+   "durationS": 74.172,
+   "formats": {
+    "wav-pcm-16bit": 23
+   }
+  },
+  "sound/fx/npc/dwarvensphere": {
+   "files": 36,
+   "bytes": 5837262,
+   "durationS": 84.152,
+   "formats": {
+    "wav-pcm-16bit": 36
+   }
+  },
+  "sound/fx/npc/dwarvenspider": {
+   "files": 39,
+   "bytes": 3528416,
+   "durationS": 50.563,
+   "formats": {
+    "wav-pcm-16bit": 39
+   }
+  },
+  "sound/fx/npc/elk": {
+   "files": 25,
+   "bytes": 3707090,
+   "durationS": 63.458,
+   "formats": {
+    "wav-pcm-16bit": 25
+   }
+  },
+  "sound/fx/npc/falmer": {
+   "files": 21,
+   "bytes": 2490630,
+   "durationS": 36.992,
+   "formats": {
+    "wav-pcm-16bit": 21
+   }
+  },
+  "sound/fx/npc/giant": {
+   "files": 28,
+   "bytes": 5235560,
+   "durationS": 88.259,
+   "formats": {
+    "wav-pcm-16bit": 28
+   }
+  },
+  "sound/fx/npc/goat": {
+   "files": 26,
+   "bytes": 1047130,
+   "durationS": 17.177,
+   "formats": {
+    "wav-pcm-16bit": 26
+   }
+  },
+  "sound/fx/npc/hagraven": {
+   "files": 16,
+   "bytes": 1771946,
+   "durationS": 27.657,
+   "formats": {
+    "wav-pcm-16bit": 16
+   }
+  },
+  "sound/fx/npc/hare": {
+   "files": 11,
+   "bytes": 378174,
+   "durationS": 6.011,
+   "formats": {
+    "wav-pcm-16bit": 11
+   }
+  },
+  "sound/fx/npc/horker": {
+   "files": 20,
+   "bytes": 2120202,
+   "durationS": 33.094,
+   "formats": {
+    "wav-pcm-16bit": 20
+   }
+  },
+  "sound/fx/npc/horse": {
+   "files": 55,
+   "bytes": 6607650,
+   "durationS": 107.43,
+   "formats": {
+    "wav-pcm-16bit": 55
+   }
+  },
+  "sound/fx/npc/human": {
+   "files": 228,
+   "bytes": 21910684,
+   "durationS": 364.547,
+   "formats": {
+    "wav-pcm-16bit": 228
+   }
+  },
+  "sound/fx/npc/icewraith": {
+   "files": 18,
+   "bytes": 2778716,
+   "durationS": 41.687,
+   "formats": {
+    "wav-pcm-16bit": 18
+   }
+  },
+  "sound/fx/npc/kill": {
+   "files": 52,
+   "bytes": 7560744,
+   "durationS": 89.623,
+   "formats": {
+    "wav-pcm-16bit": 52
+   }
+  },
+  "sound/fx/npc/mammoth": {
+   "files": 24,
+   "bytes": 2878508,
+   "durationS": 45.88,
+   "formats": {
+    "wav-pcm-16bit": 24
+   }
+  },
+  "sound/fx/npc/mudcrab": {
+   "files": 21,
+   "bytes": 1838158,
+   "durationS": 28.689,
+   "formats": {
+    "wav-pcm-16bit": 21
+   }
+  },
+  "sound/fx/npc/sabrecat": {
+   "files": 34,
+   "bytes": 2972038,
+   "durationS": 49.41,
+   "formats": {
+    "wav-pcm-16bit": 34
+   }
+  },
+  "sound/fx/npc/skeever": {
+   "files": 15,
+   "bytes": 1198408,
+   "durationS": 22.486,
+   "formats": {
+    "wav-pcm-16bit": 15
+   }
+  },
+  "sound/fx/npc/skeleton": {
+   "files": 19,
+   "bytes": 2591744,
+   "durationS": 41.892,
+   "formats": {
+    "wav-pcm-16bit": 19
+   }
+  },
+  "sound/fx/npc/slaughterfish": {
+   "files": 15,
+   "bytes": 2154308,
+   "durationS": 33.632,
+   "formats": {
+    "wav-pcm-16bit": 15
+   }
+  },
+  "sound/fx/npc/spiderfrostbite": {
+   "files": 37,
+   "bytes": 4512866,
+   "durationS": 60.891,
+   "formats": {
+    "wav-pcm-16bit": 37
+   }
+  },
+  "sound/fx/npc/spriggan": {
+   "files": 15,
+   "bytes": 2052142,
+   "durationS": 29.285,
+   "formats": {
+    "wav-pcm-16bit": 15
+   }
+  },
+  "sound/fx/npc/torchbug": {
+   "files": 2,
+   "bytes": 295278,
+   "durationS": 4.61,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/npc/troll": {
+   "files": 25,
+   "bytes": 2861670,
+   "durationS": 43.953,
+   "formats": {
+    "wav-pcm-16bit": 25
+   }
+  },
+  "sound/fx/npc/werewolf": {
+   "files": 41,
+   "bytes": 5998356,
+   "durationS": 80.594,
+   "formats": {
+    "wav-pcm-16bit": 41
+   }
+  },
+  "sound/fx/npc/wisp": {
+   "files": 11,
+   "bytes": 2518050,
+   "durationS": 37.005,
+   "formats": {
+    "wav-pcm-16bit": 11
+   }
+  },
+  "sound/fx/npc/witchlight": {
+   "files": 6,
+   "bytes": 1146438,
+   "durationS": 16.204,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/npc/wolf": {
+   "files": 54,
+   "bytes": 4090354,
+   "durationS": 88.273,
+   "formats": {
+    "wav-pcm-16bit": 54
+   }
+  },
+  "sound/fx/obj/carriage": {
+   "files": 1,
+   "bytes": 967912,
+   "durationS": 10.973,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/catapult": {
+   "files": 8,
+   "bytes": 1733978,
+   "durationS": 27.077,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/obj/cwbarricade": {
+   "files": 4,
+   "bytes": 317452,
+   "durationS": 4.957,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/obj/dwarvenmechanism": {
+   "files": 2,
+   "bytes": 916266,
+   "durationS": 9.411,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/obj/dwemergears": {
+   "files": 10,
+   "bytes": 1614314,
+   "durationS": 25.211,
+   "formats": {
+    "wav-pcm-16bit": 10
+   }
+  },
+  "sound/fx/obj/dwemerpipefan": {
+   "files": 3,
+   "bytes": 555846,
+   "durationS": 8.678,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/obj/dwemerpiston": {
+   "files": 6,
+   "bytes": 1562748,
+   "durationS": 24.407,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/obj/dwemerrepository": {
+   "files": 3,
+   "bytes": 1177318,
+   "durationS": 15.754,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/obj/elderscrollblind": {
+   "files": 2,
+   "bytes": 1040140,
+   "durationS": 8.124,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/obj/elderscrollread": {
+   "files": 1,
+   "bytes": 139672,
+   "durationS": 1.089,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/eyeofmagnus": {
+   "files": 6,
+   "bytes": 3511806,
+   "durationS": 48.314,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/obj/levernordic01": {
+   "files": 2,
+   "bytes": 183664,
+   "durationS": 2.866,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/obj/levernordic02": {
+   "files": 2,
+   "bytes": 192776,
+   "durationS": 3.009,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/obj/magicfirepillar": {
+   "files": 3,
+   "bytes": 931908,
+   "durationS": 14.548,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/obj/metalrack": {
+   "files": 4,
+   "bytes": 96782,
+   "durationS": 1.501,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/obj/nordicpuzzlepillar": {
+   "files": 3,
+   "bytes": 541746,
+   "durationS": 8.459,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/obj/obj_blacksmithforge.wav": {
+   "files": 1,
+   "bytes": 178308,
+   "durationS": 4.04,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_guardianstoneglow.wav": {
+   "files": 1,
+   "bytes": 1305490,
+   "durationS": 14.8,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_sovngardespitchain_01_lp.wav": {
+   "files": 1,
+   "bytes": 323060,
+   "durationS": 7.325,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_sovngardespitchain_02_lp.wav": {
+   "files": 1,
+   "bytes": 333620,
+   "durationS": 7.564,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_stone_generic_switch_enter_01.wav": {
+   "files": 1,
+   "bytes": 75998,
+   "durationS": 1.186,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_stone_kilkreath_pedestal_open_01.wav": {
+   "files": 1,
+   "bytes": 76996,
+   "durationS": 1.2,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_stone_kilkreath_pedestal_open_02.wav": {
+   "files": 1,
+   "bytes": 76996,
+   "durationS": 1.2,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_stone_kilkreath_pedestal_open_03.wav": {
+   "files": 1,
+   "bytes": 57796,
+   "durationS": 0.9,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_verticalsarcophagus_open.wav": {
+   "files": 1,
+   "bytes": 276372,
+   "durationS": 4.316,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_windmill_runcolumn_lp.wav": {
+   "files": 1,
+   "bytes": 179602,
+   "durationS": 4.068,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_windmill_wheel_creak_01.wav": {
+   "files": 1,
+   "bytes": 182594,
+   "durationS": 2.851,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_windmill_wheel_creak_02.wav": {
+   "files": 1,
+   "bytes": 172920,
+   "durationS": 2.7,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_windmill_wheel_creak_03.wav": {
+   "files": 1,
+   "bytes": 218418,
+   "durationS": 3.411,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_windmill_wheel_creak_04.wav": {
+   "files": 1,
+   "bytes": 315852,
+   "durationS": 4.933,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_windmill_wheel_lp.wav": {
+   "files": 1,
+   "bytes": 340450,
+   "durationS": 5.318,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_windmillbreak.wav": {
+   "files": 1,
+   "bytes": 322106,
+   "durationS": 5.031,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/obj_windmillsolitude_lp.wav": {
+   "files": 1,
+   "bytes": 361502,
+   "durationS": 8.194,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/pipevalve": {
+   "files": 1,
+   "bytes": 81366,
+   "durationS": 1.268,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/pullbar": {
+   "files": 1,
+   "bytes": 146298,
+   "durationS": 2.284,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/obj/pullchain": {
+   "files": 4,
+   "bytes": 463996,
+   "durationS": 7.241,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/obj/ragnvaldsarcophagus": {
+   "files": 7,
+   "bytes": 913034,
+   "durationS": 14.249,
+   "formats": {
+    "wav-pcm-16bit": 7
+   }
+  },
+  "sound/fx/obj/sawmill": {
+   "files": 21,
+   "bytes": 3852238,
+   "durationS": 66.185,
+   "formats": {
+    "wav-pcm-16bit": 21
+   }
+  },
+  "sound/fx/obj/torch": {
+   "files": 2,
+   "bytes": 386974,
+   "durationS": 8.769,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/obj/windmill": {
+   "files": 5,
+   "bytes": 1771498,
+   "durationS": 27.677,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/phy/armor": {
+   "files": 8,
+   "bytes": 249794,
+   "durationS": 3.887,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/phy/arrow": {
+   "files": 6,
+   "bytes": 76578,
+   "durationS": 1.326,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/basket": {
+   "files": 4,
+   "bytes": 98488,
+   "durationS": 1.715,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/phy/blade1hand": {
+   "files": 10,
+   "bytes": 442644,
+   "durationS": 7.616,
+   "formats": {
+    "wav-pcm-16bit": 10
+   }
+  },
+  "sound/fx/phy/blade1handsmall": {
+   "files": 6,
+   "bytes": 150800,
+   "durationS": 2.352,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/blade2hand": {
+   "files": 6,
+   "bytes": 239718,
+   "durationS": 3.734,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/blunt1hand": {
+   "files": 6,
+   "bytes": 176298,
+   "durationS": 2.743,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/blunt2hand": {
+   "files": 6,
+   "bytes": 249882,
+   "durationS": 3.893,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/body": {
+   "files": 50,
+   "bytes": 3787334,
+   "durationS": 53.42,
+   "formats": {
+    "wav-pcm-16bit": 50
+   }
+  },
+  "sound/fx/phy/bones": {
+   "files": 6,
+   "bytes": 324884,
+   "durationS": 5.072,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/book": {
+   "files": 7,
+   "bytes": 192078,
+   "durationS": 2.997,
+   "formats": {
+    "wav-pcm-16bit": 7
+   }
+  },
+  "sound/fx/phy/bottle": {
+   "files": 8,
+   "bytes": 151314,
+   "durationS": 2.358,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/phy/boulder": {
+   "files": 35,
+   "bytes": 2091794,
+   "durationS": 29.312,
+   "formats": {
+    "wav-pcm-16bit": 35
+   }
+  },
+  "sound/fx/phy/bowsstaves": {
+   "files": 7,
+   "bytes": 201272,
+   "durationS": 3.132,
+   "formats": {
+    "wav-pcm-16bit": 7
+   }
+  },
+  "sound/fx/phy/carriage": {
+   "files": 10,
+   "bytes": 732558,
+   "durationS": 11.429,
+   "formats": {
+    "wav-pcm-16bit": 10
+   }
+  },
+  "sound/fx/phy/ceramic": {
+   "files": 6,
+   "bytes": 103510,
+   "durationS": 2.328,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/coin": {
+   "files": 8,
+   "bytes": 123102,
+   "durationS": 1.912,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/phy/dishwood": {
+   "files": 2,
+   "bytes": 19528,
+   "durationS": 0.437,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/phy/generic": {
+   "files": 92,
+   "bytes": 2747312,
+   "durationS": 43.448,
+   "formats": {
+    "wav-pcm-16bit": 92
+   }
+  },
+  "sound/fx/phy/meat": {
+   "files": 6,
+   "bytes": 199882,
+   "durationS": 3.118,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/organic": {
+   "files": 5,
+   "bytes": 79386,
+   "durationS": 1.385,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/phy/phy_water_m_01.wav": {
+   "files": 1,
+   "bytes": 127872,
+   "durationS": 1.448,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/phy/potspans": {
+   "files": 8,
+   "bytes": 299256,
+   "durationS": 4.659,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/phy/shieldheavy": {
+   "files": 6,
+   "bytes": 372440,
+   "durationS": 5.449,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/shieldlight": {
+   "files": 6,
+   "bytes": 190416,
+   "durationS": 4.3,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/phy/water": {
+   "files": 8,
+   "bytes": 973226,
+   "durationS": 11.025,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/qst/astrolabe": {
+   "files": 16,
+   "bytes": 8750488,
+   "durationS": 89.393,
+   "formats": {
+    "wav-pcm-16bit": 16
+   }
+  },
+  "sound/fx/qst/c03": {
+   "files": 2,
+   "bytes": 102892,
+   "durationS": 1.604,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/qst/da02": {
+   "files": 3,
+   "bytes": 993800,
+   "durationS": 18.387,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/qst/da10": {
+   "files": 13,
+   "bytes": 3697034,
+   "durationS": 41.024,
+   "formats": {
+    "wav-pcm-16bit": 13
+   }
+  },
+  "sound/fx/qst/da16": {
+   "files": 14,
+   "bytes": 6187350,
+   "durationS": 78.769,
+   "formats": {
+    "wav-pcm-16bit": 14
+   }
+  },
+  "sound/fx/qst/db05": {
+   "files": 1,
+   "bytes": 665724,
+   "durationS": 5.2,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/esbernlocks": {
+   "files": 3,
+   "bytes": 500214,
+   "durationS": 11.335,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/qst/greybeardrumble": {
+   "files": 2,
+   "bytes": 1382640,
+   "durationS": 10.8,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/qst/hrothgarpushback": {
+   "files": 2,
+   "bytes": 799586,
+   "durationS": 6.245,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/qst/mg07": {
+   "files": 2,
+   "bytes": 1315378,
+   "durationS": 10.271,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/qst/mq105dragonswitch": {
+   "files": 2,
+   "bytes": 434276,
+   "durationS": 6.782,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/qst/mq201party": {
+   "files": 3,
+   "bytes": 505162,
+   "durationS": 22.881,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/qst/mq206alduintimetravel": {
+   "files": 1,
+   "bytes": 1260360,
+   "durationS": 9.846,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/mq206timetravel": {
+   "files": 1,
+   "bytes": 1792120,
+   "durationS": 14.0,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/ms06potema": {
+   "files": 6,
+   "bytes": 2321968,
+   "durationS": 35.926,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/qst/oculory": {
+   "files": 3,
+   "bytes": 1010500,
+   "durationS": 15.784,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/qst/qst_alduindeath_explosion_a_2d.wav": {
+   "files": 1,
+   "bytes": 627504,
+   "durationS": 4.902,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_alduindeath_explosion_b_2d.wav": {
+   "files": 1,
+   "bytes": 684676,
+   "durationS": 5.349,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_alduindeath_explosion_c_2d.wav": {
+   "files": 1,
+   "bytes": 2014028,
+   "durationS": 15.734,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_alduindeath_souls_a.wav": {
+   "files": 1,
+   "bytes": 1985880,
+   "durationS": 15.514,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_alduindeath_souls_b.wav": {
+   "files": 1,
+   "bytes": 1582368,
+   "durationS": 12.362,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_beam_meridia_statue.wav": {
+   "files": 1,
+   "bytes": 262284,
+   "durationS": 4.093,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_beam_meridia_statue_lp.wav": {
+   "files": 1,
+   "bytes": 320282,
+   "durationS": 5.0,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_beam_meridia_statue_release.wav": {
+   "files": 1,
+   "bytes": 396998,
+   "durationS": 6.2,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_chargen_cavein_bridge_2d.wav": {
+   "files": 1,
+   "bytes": 949452,
+   "durationS": 7.417,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_chargen_cavein_bridge_3d.wav": {
+   "files": 1,
+   "bytes": 442370,
+   "durationS": 6.91,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_chargen_cavein_hall_2d.wav": {
+   "files": 1,
+   "bytes": 1086360,
+   "durationS": 8.487,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_chargen_cavein_hall_3d.wav": {
+   "files": 1,
+   "bytes": 576412,
+   "durationS": 9.005,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da01_azura_magic_end_01_lpm.wav": {
+   "files": 1,
+   "bytes": 1550156,
+   "durationS": 12.108,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da02_boethiah_impact_01.wav": {
+   "files": 1,
+   "bytes": 208390,
+   "durationS": 3.252,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamimpact_01_lp.wav": {
+   "files": 1,
+   "bytes": 311586,
+   "durationS": 4.867,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamimpact_02_lp.wav": {
+   "files": 1,
+   "bytes": 311586,
+   "durationS": 4.867,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamimpact_03_lp.wav": {
+   "files": 1,
+   "bytes": 311586,
+   "durationS": 4.867,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamoff_01.wav": {
+   "files": 1,
+   "bytes": 198598,
+   "durationS": 3.1,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamoff_02.wav": {
+   "files": 1,
+   "bytes": 188004,
+   "durationS": 2.933,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamoff_03.wav": {
+   "files": 1,
+   "bytes": 169646,
+   "durationS": 2.648,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamon_01.wav": {
+   "files": 1,
+   "bytes": 338220,
+   "durationS": 3.833,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamon_02.wav": {
+   "files": 1,
+   "bytes": 213452,
+   "durationS": 3.333,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_da09_lightbeamon_03.wav": {
+   "files": 1,
+   "bytes": 181122,
+   "durationS": 2.828,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_db09clap.wav": {
+   "files": 1,
+   "bytes": 329266,
+   "durationS": 5.143,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_dbcoffin_splash_01.wav": {
+   "files": 1,
+   "bytes": 1664840,
+   "durationS": 13.006,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_dragontrap.wav": {
+   "files": 1,
+   "bytes": 485256,
+   "durationS": 7.58,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_dragontrap_exit.wav": {
+   "files": 1,
+   "bytes": 338054,
+   "durationS": 5.28,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_dwemergong_01.wav": {
+   "files": 1,
+   "bytes": 1241100,
+   "durationS": 14.071,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_e3towerhole_mono.wav": {
+   "files": 1,
+   "bytes": 346454,
+   "durationS": 5.412,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_e3towerhole_stereo.wav": {
+   "files": 1,
+   "bytes": 377728,
+   "durationS": 4.282,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_eldergleamroot_01.wav": {
+   "files": 1,
+   "bytes": 864104,
+   "durationS": 4.898,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_eldergleamroot_02.wav": {
+   "files": 1,
+   "bytes": 625064,
+   "durationS": 4.883,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_exit.wav": {
+   "files": 1,
+   "bytes": 343586,
+   "durationS": 5.367,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_idle_01.wav": {
+   "files": 1,
+   "bytes": 204920,
+   "durationS": 3.2,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_idle_01b.wav": {
+   "files": 1,
+   "bytes": 179320,
+   "durationS": 2.8,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_idle_02.wav": {
+   "files": 1,
+   "bytes": 209186,
+   "durationS": 3.267,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_idle_02b.wav": {
+   "files": 1,
+   "bytes": 140920,
+   "durationS": 2.2,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_idle_03.wav": {
+   "files": 1,
+   "bytes": 192784,
+   "durationS": 3.01,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_idle_03b.wav": {
+   "files": 1,
+   "bytes": 128122,
+   "durationS": 2.0,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_idle_04.wav": {
+   "files": 1,
+   "bytes": 161208,
+   "durationS": 2.517,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_falmereyestatue_idle_04b.wav": {
+   "files": 1,
+   "bytes": 166520,
+   "durationS": 2.6,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_greybeardcall_01.wav": {
+   "files": 1,
+   "bytes": 1956772,
+   "durationS": 15.287,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_hagsendharp_lp.wav": {
+   "files": 1,
+   "bytes": 368872,
+   "durationS": 4.18,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_halldir_cairn_fade.wav": {
+   "files": 1,
+   "bytes": 330314,
+   "durationS": 5.158,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_halldir_cairn_low_lp.wav": {
+   "files": 1,
+   "bytes": 219906,
+   "durationS": 4.98,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_halldir_cairn_main_lp.wav": {
+   "files": 1,
+   "bytes": 320340,
+   "durationS": 5.001,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_hermaeus_portal_lpm.wav": {
+   "files": 1,
+   "bytes": 515690,
+   "durationS": 8.053,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_hermaeus_portal_open.wav": {
+   "files": 1,
+   "bytes": 351074,
+   "durationS": 5.482,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_kagrenzel_light_orb_doppler.wav": {
+   "files": 1,
+   "bytes": 1042288,
+   "durationS": 8.142,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_kagrenzel_light_orb_lp.wav": {
+   "files": 1,
+   "bytes": 307230,
+   "durationS": 4.795,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_kagrenzel_light_orb_spin_lpm.wav": {
+   "files": 1,
+   "bytes": 740404,
+   "durationS": 5.781,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_mehrunesrazorreforge_01.wav": {
+   "files": 1,
+   "bytes": 500038,
+   "durationS": 7.811,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_mercerrampfall.wav": {
+   "files": 1,
+   "bytes": 180712,
+   "durationS": 2.822,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_shadowmereappear.wav": {
+   "files": 1,
+   "bytes": 1745532,
+   "durationS": 13.637,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_skyhavenremanhead_close.wav": {
+   "files": 1,
+   "bytes": 295330,
+   "durationS": 4.613,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_skyhavenremanhead_open_01.wav": {
+   "files": 1,
+   "bytes": 1086408,
+   "durationS": 12.316,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_t02_lovers_ascending.wav": {
+   "files": 1,
+   "bytes": 960120,
+   "durationS": 15.0,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_tg08towercollapse.wav": {
+   "files": 1,
+   "bytes": 1118084,
+   "durationS": 8.735,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_tg09_bird_pool_flying_in_stereo.wav": {
+   "files": 1,
+   "bytes": 1029008,
+   "durationS": 8.038,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_tg09_bird_pool_flying_out_stereo.wav": {
+   "files": 1,
+   "bytes": 1685452,
+   "durationS": 13.167,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_tg09_bird_pool_open_stereo.wav": {
+   "files": 1,
+   "bytes": 746784,
+   "durationS": 5.833,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_wolfchest_01.wav": {
+   "files": 1,
+   "bytes": 712074,
+   "durationS": 11.124,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_wordwall_glow_lp.wav": {
+   "files": 1,
+   "bytes": 174224,
+   "durationS": 2.72,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/qst_wordwall_whisper_2d_lp.wav": {
+   "files": 1,
+   "bytes": 1189464,
+   "durationS": 9.292,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/skyhavenbloodseal": {
+   "files": 4,
+   "bytes": 945134,
+   "durationS": 13.503,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/qst/sovengardeportal": {
+   "files": 5,
+   "bytes": 3252592,
+   "durationS": 27.508,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/qst/tg01": {
+   "files": 1,
+   "bytes": 155854,
+   "durationS": 2.433,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/tg02bees": {
+   "files": 3,
+   "bytes": 461954,
+   "durationS": 10.466,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/qst/tg05": {
+   "files": 4,
+   "bytes": 2012220,
+   "durationS": 15.716,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/qst/tg06": {
+   "files": 1,
+   "bytes": 88082,
+   "durationS": 1.374,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/tg07": {
+   "files": 2,
+   "bytes": 284372,
+   "durationS": 2.22,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/qst/tg08b": {
+   "files": 1,
+   "bytes": 439672,
+   "durationS": 6.867,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/qst/tg09": {
+   "files": 5,
+   "bytes": 2774526,
+   "durationS": 27.994,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/qst/ustengrav": {
+   "files": 3,
+   "bytes": 1849668,
+   "durationS": 24.759,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/qst/yngollightmotes": {
+   "files": 4,
+   "bytes": 234418,
+   "durationS": 3.656,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/trp/batteringram": {
+   "files": 2,
+   "bytes": 515602,
+   "durationS": 8.052,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/trp/beartrap": {
+   "files": 3,
+   "bytes": 217298,
+   "durationS": 2.846,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/trp/bladeswing": {
+   "files": 4,
+   "bytes": 980206,
+   "durationS": 15.308,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/trp/bladethresher": {
+   "files": 4,
+   "bytes": 1185156,
+   "durationS": 18.498,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/trp/bonealarm": {
+   "files": 2,
+   "bytes": 466270,
+   "durationS": 7.282,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/trp/dart": {
+   "files": 6,
+   "bytes": 180428,
+   "durationS": 3.412,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/trp/dwemerpiston": {
+   "files": 4,
+   "bytes": 503498,
+   "durationS": 7.854,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/trp/flamesfire": {
+   "files": 1,
+   "bytes": 270794,
+   "durationS": 4.227,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/mace": {
+   "files": 1,
+   "bytes": 139168,
+   "durationS": 2.172,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/molag bal": {
+   "files": 3,
+   "bytes": 384356,
+   "durationS": 4.467,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/trp/oil": {
+   "files": 9,
+   "bytes": 1406990,
+   "durationS": 18.409,
+   "formats": {
+    "wav-pcm-16bit": 9
+   }
+  },
+  "sound/fx/trp/platformspikes": {
+   "files": 5,
+   "bytes": 2039988,
+   "durationS": 31.86,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/trp/pressureplate": {
+   "files": 7,
+   "bytes": 507376,
+   "durationS": 7.605,
+   "formats": {
+    "wav-pcm-16bit": 7
+   }
+  },
+  "sound/fx/trp/rockfallchute": {
+   "files": 5,
+   "bytes": 619176,
+   "durationS": 9.665,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/trp/rockfallrelease": {
+   "files": 1,
+   "bytes": 345234,
+   "durationS": 3.913,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/spear": {
+   "files": 6,
+   "bytes": 985564,
+   "durationS": 15.388,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/trp/swinggrate": {
+   "files": 3,
+   "bytes": 1481300,
+   "durationS": 16.789,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/trp/tripwire": {
+   "files": 1,
+   "bytes": 43328,
+   "durationS": 0.675,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/trp_dwemershaft_cageup_01.wav": {
+   "files": 1,
+   "bytes": 188784,
+   "durationS": 2.949,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/trp_dwemershaft_rotate_01.wav": {
+   "files": 1,
+   "bytes": 395916,
+   "durationS": 6.184,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/trp_fire_stone_pillar_close.wav": {
+   "files": 1,
+   "bytes": 89126,
+   "durationS": 1.39,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/trp_fire_stone_pillar_open.wav": {
+   "files": 1,
+   "bytes": 77944,
+   "durationS": 1.215,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/trp_fire_stone_pillar_shoot_lpm.wav": {
+   "files": 1,
+   "bytes": 425378,
+   "durationS": 6.642,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/trp_impact_impale_01.wav": {
+   "files": 1,
+   "bytes": 65132,
+   "durationS": 1.016,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/trp/trp_impact_impale_02.wav": {
+   "files": 1,
+   "bytes": 34586,
+   "durationS": 0.539,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/tst/tst_loopmono_lp.wav": {
+   "files": 1,
+   "bytes": 88328,
+   "durationS": 1.0,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/tst/tst_loopmono_lpm.wav": {
+   "files": 1,
+   "bytes": 147084,
+   "durationS": 1.665,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/tst/tst_loopstereo_lp.wav": {
+   "files": 1,
+   "bytes": 352928,
+   "durationS": 2.0,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/tst/tst_loopstereo_lpm.wav": {
+   "files": 1,
+   "bytes": 411088,
+   "durationS": 2.329,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/tst/tst_stereo_clicktrack.wav": {
+   "files": 1,
+   "bytes": 705628,
+   "durationS": 4.0,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/alchemy": {
+   "files": 4,
+   "bytes": 2213896,
+   "durationS": 12.549,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/ui/blade": {
+   "files": 2,
+   "bytes": 129446,
+   "durationS": 2.019,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/ui/enchanting": {
+   "files": 5,
+   "bytes": 2086990,
+   "durationS": 13.062,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/ui/focus": {
+   "files": 6,
+   "bytes": 319928,
+   "durationS": 4.987,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/ui/health": {
+   "files": 2,
+   "bytes": 211748,
+   "durationS": 4.793,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/ui/journal": {
+   "files": 6,
+   "bytes": 1496552,
+   "durationS": 8.48,
+   "formats": {
+    "wav-pcm-16bit": 6
+   }
+  },
+  "sound/fx/ui/loadscreen": {
+   "files": 1,
+   "bytes": 576324,
+   "durationS": 4.502,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/lockpicking": {
+   "files": 43,
+   "bytes": 1700376,
+   "durationS": 24.133,
+   "formats": {
+    "wav-pcm-16bit": 43
+   }
+  },
+  "sound/fx/ui/skills": {
+   "files": 19,
+   "bytes": 11276584,
+   "durationS": 82.107,
+   "formats": {
+    "wav-pcm-16bit": 19
+   }
+  },
+  "sound/fx/ui/smithing": {
+   "files": 8,
+   "bytes": 2634620,
+   "durationS": 19.638,
+   "formats": {
+    "wav-pcm-16bit": 8
+   }
+  },
+  "sound/fx/ui/ui_activatefail.wav": {
+   "files": 1,
+   "bytes": 56330,
+   "durationS": 0.878,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_levelup.wav": {
+   "files": 1,
+   "bytes": 1817544,
+   "durationS": 10.303,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_map_rollover.wav": {
+   "files": 1,
+   "bytes": 270340,
+   "durationS": 2.112,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_maprollover.wav": {
+   "files": 1,
+   "bytes": 54154,
+   "durationS": 0.844,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_maprollover_flyout_01.wav": {
+   "files": 1,
+   "bytes": 471852,
+   "durationS": 3.686,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_maprollover_flyout_02.wav": {
+   "files": 1,
+   "bytes": 578708,
+   "durationS": 4.521,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_maprollover_flyout_03.wav": {
+   "files": 1,
+   "bytes": 597680,
+   "durationS": 4.669,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_menu_cancel.wav": {
+   "files": 1,
+   "bytes": 218044,
+   "durationS": 1.703,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_menu_focus.wav": {
+   "files": 1,
+   "bytes": 3652,
+   "durationS": 0.055,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_menu_ok.wav": {
+   "files": 1,
+   "bytes": 353968,
+   "durationS": 2.006,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_menu_prevnext.wav": {
+   "files": 1,
+   "bytes": 21760,
+   "durationS": 0.245,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_objective_new_01.wav": {
+   "files": 1,
+   "bytes": 503958,
+   "durationS": 2.856,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_objective_new_02.wav": {
+   "files": 1,
+   "bytes": 496870,
+   "durationS": 2.816,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_objective_new_03.wav": {
+   "files": 1,
+   "bytes": 510180,
+   "durationS": 2.892,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_quest_active.wav": {
+   "files": 1,
+   "bytes": 65756,
+   "durationS": 0.744,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_quest_inactive.wav": {
+   "files": 1,
+   "bytes": 38296,
+   "durationS": 0.433,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_quest_new.wav": {
+   "files": 1,
+   "bytes": 974648,
+   "durationS": 7.614,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_quest_update.wav": {
+   "files": 1,
+   "bytes": 614932,
+   "durationS": 4.804,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_select_off.wav": {
+   "files": 1,
+   "bytes": 71938,
+   "durationS": 0.814,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_select_on.wav": {
+   "files": 1,
+   "bytes": 75166,
+   "durationS": 0.851,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_shoutlearn_single_01.wav": {
+   "files": 1,
+   "bytes": 716384,
+   "durationS": 5.596,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_skill_increase.wav": {
+   "files": 1,
+   "bytes": 880528,
+   "durationS": 4.991,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_sneakattack_01.wav": {
+   "files": 1,
+   "bytes": 703344,
+   "durationS": 3.987,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/ui/ui_startnewgame.wav": {
+   "files": 1,
+   "bytes": 1001864,
+   "durationS": 5.679,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/voc/demodeath": {
+   "files": 12,
+   "bytes": 578160,
+   "durationS": 6.552,
+   "formats": {
+    "wav-pcm-16bit": 12
+   }
+  },
+  "sound/fx/voc/dragonshout": {
+   "files": 32,
+   "bytes": 8335684,
+   "durationS": 65.116,
+   "formats": {
+    "wav-pcm-16bit": 32
+   }
+  },
+  "sound/fx/voc/shout": {
+   "files": 75,
+   "bytes": 25738132,
+   "durationS": 220.297,
+   "formats": {
+    "wav-pcm-16bit": 75
+   }
+  },
+  "sound/fx/wpn/axe1hand": {
+   "files": 3,
+   "bytes": 296802,
+   "durationS": 4.632,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/wpn/axe2hand": {
+   "files": 2,
+   "bytes": 220086,
+   "durationS": 3.435,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/wpn/bash": {
+   "files": 15,
+   "bytes": 1147986,
+   "durationS": 13.573,
+   "formats": {
+    "wav-pcm-16bit": 15
+   }
+  },
+  "sound/fx/wpn/blade1hand": {
+   "files": 4,
+   "bytes": 638466,
+   "durationS": 7.744,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/wpn/blade1handsmall": {
+   "files": 2,
+   "bytes": 188390,
+   "durationS": 2.94,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/wpn/blade2hand": {
+   "files": 4,
+   "bytes": 613304,
+   "durationS": 7.938,
+   "formats": {
+    "wav-pcm-16bit": 4
+   }
+  },
+  "sound/fx/wpn/block": {
+   "files": 23,
+   "bytes": 1844902,
+   "durationS": 23.321,
+   "formats": {
+    "wav-pcm-16bit": 23
+   }
+  },
+  "sound/fx/wpn/blunt2hand": {
+   "files": 3,
+   "bytes": 378330,
+   "durationS": 5.906,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/wpn/bow": {
+   "files": 17,
+   "bytes": 1510538,
+   "durationS": 23.565,
+   "formats": {
+    "wav-pcm-16bit": 17
+   }
+  },
+  "sound/fx/wpn/impact": {
+   "files": 92,
+   "bytes": 7097510,
+   "durationS": 97.109,
+   "formats": {
+    "wav-pcm-16bit": 92
+   }
+  },
+  "sound/fx/wpn/lefthand": {
+   "files": 3,
+   "bytes": 167942,
+   "durationS": 2.622,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/wpn/mace1hand": {
+   "files": 3,
+   "bytes": 266940,
+   "durationS": 4.165,
+   "formats": {
+    "wav-pcm-16bit": 3
+   }
+  },
+  "sound/fx/wpn/staff": {
+   "files": 2,
+   "bytes": 179884,
+   "durationS": 2.807,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/wpn/swing": {
+   "files": 12,
+   "bytes": 495048,
+   "durationS": 7.716,
+   "formats": {
+    "wav-pcm-16bit": 12
+   }
+  },
+  "sound/fx/wpn/tg06controlrod": {
+   "files": 5,
+   "bytes": 1011894,
+   "durationS": 15.796,
+   "formats": {
+    "wav-pcm-16bit": 5
+   }
+  },
+  "sound/fx/wpn/unarmed": {
+   "files": 2,
+   "bytes": 101712,
+   "durationS": 1.586,
+   "formats": {
+    "wav-pcm-16bit": 2
+   }
+  },
+  "sound/fx/xxx_placeholder_beep.wav": {
+   "files": 1,
+   "bytes": 27506,
+   "durationS": 0.311,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  },
+  "sound/fx/xxx_placeholder_silence.wav": {
+   "files": 1,
+   "bytes": 88364,
+   "durationS": 1.001,
+   "formats": {
+    "wav-pcm-16bit": 1
+   }
+  }
+ }
+}

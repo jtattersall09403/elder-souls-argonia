@@ -1,0 +1,4345 @@
+{
+ "assets": {
+  "skyrim/fx/amb/amb_underwater_2d_lpm": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 1.616,
+    "method": "crossfade",
+    "runtimeJoin": {
+     "-312": 0.957,
+     "0": 0.921,
+     "312": 0.805
+    },
+    "sourceSeam": 999.0
+   },
+   "path": "sound/fx/amb/amb_underwater_2d_lpm.wav",
+   "peakDb": -7.34,
+   "sha256": "e0b0961de675c32897e9f83f7c0e941418b1beb06f7bf88f2fa65995ef8d978f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/water/amb_water_boatlap_exterior_small_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "loopEvidence": {
+    "hardLoopSeam": 19.043,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.777,
+     "0": 0.764,
+     "312": 0.753
+    },
+    "sourceSeam": 0.904
+   },
+   "path": "sound/fx/amb/water/amb_water_boatlap_exterior_small_01_lp.wav",
+   "peakDb": -16.78,
+   "sha256": "a1813b82e9d39f68ce6cff391b5085441cd8bbad453b9ec9093a41e14b7b2c62",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/water/amb_water_boatlap_exterior_small_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "loopEvidence": {
+    "hardLoopSeam": 13.744,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.748,
+     "0": 0.784,
+     "312": 0.773
+    },
+    "sourceSeam": 0.66
+   },
+   "path": "sound/fx/amb/water/amb_water_boatlap_exterior_small_02_lp.wav",
+   "peakDb": -19.08,
+   "sha256": "d69af8a420e2f75952cfc44e816b29bc63a3d19dd7442ddba2e99f20ef2cb85e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/water/exterior/amb_water_rapids_2d_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 8.272,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.986,
+     "0": 1.019,
+     "312": 1.065
+    },
+    "sourceSeam": 0.738
+   },
+   "path": "sound/fx/amb/water/exterior/amb_water_rapids_2d_01_lp.wav",
+   "peakDb": -7.48,
+   "sha256": "1e36eab06074358a475520dd6b0345963577b29e6a4f38927bed58b4aae13d2b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/amb_water_rapids_small_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 8.923,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.718,
+     "0": 0.703,
+     "312": 0.741
+    },
+    "sourceSeam": 0.741
+   },
+   "path": "sound/fx/amb/water/exterior/amb_water_rapids_small_01_lp.wav",
+   "peakDb": -8.3,
+   "sha256": "af3f00d69d6d46c27d120caa39f30e42d95b4c7316867cb491cb3f0f4f293bce",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/amb_water_rapids_small_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 2.329,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 1.007,
+     "0": 0.976,
+     "312": 0.983
+    },
+    "sourceSeam": 0.744
+   },
+   "path": "sound/fx/amb/water/exterior/amb_water_rapids_small_02_lp.wav",
+   "peakDb": -8.16,
+   "sha256": "6b7a3e9a829c4335d1d00971ea40f67143fa28c3662b41bdb31151e4af988895",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/amb_water_river_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 2.147,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.774,
+     "0": 0.819,
+     "312": 0.826
+    },
+    "sourceSeam": 0.858
+   },
+   "path": "sound/fx/amb/water/exterior/amb_water_river_lp.wav",
+   "peakDb": -3.79,
+   "sha256": "fa3d4f01dc675122cc654996e19f3dec8ddeac0e98a58af958ce32db504512cd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/amb_water_stream_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 9.116,
+    "method": "crossfade",
+    "runtimeJoin": {
+     "-312": 0.822,
+     "0": 0.842,
+     "312": 0.869
+    },
+    "sourceSeam": 1.303
+   },
+   "path": "sound/fx/amb/water/exterior/amb_water_stream_01_lp.wav",
+   "peakDb": -4.61,
+   "sha256": "100be4c4eaf328e2c349922f17f793b3b5136ad93489dcd3b848b632fb0d7aee",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/amb_water_stream_falls_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 2.816,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.823,
+     "0": 0.847,
+     "312": 0.837
+    },
+    "sourceSeam": 0.868
+   },
+   "path": "sound/fx/amb/water/exterior/amb_water_stream_falls_02_lp.wav",
+   "peakDb": -4.47,
+   "sha256": "44aaf7d83e2dea604a773b52bc17107eb238ffab455e937e05148300638d9505",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/amb_water_stream_falls_03_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 5.323,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.874,
+     "0": 0.932,
+     "312": 0.954
+    },
+    "sourceSeam": 0.829
+   },
+   "path": "sound/fx/amb/water/exterior/amb_water_stream_falls_03_lp.wav",
+   "peakDb": -2.86,
+   "sha256": "97f6f7419401ee69308445e6e1d67f53d9574354a008d21f1b7a16d14878c6ad",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/amb_water_stream_falls_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 8.328,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.958,
+     "0": 0.909,
+     "312": 0.89
+    },
+    "sourceSeam": 0.676
+   },
+   "path": "sound/fx/amb/water/exterior/amb_water_stream_falls_lp.wav",
+   "peakDb": -5.0,
+   "sha256": "587eeaaf2302f28fec623dad7ac4276202768800f0caf6184f6b3115079b14d0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/coast/waves/amb_water_coast_waves_distant_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "loopEvidence": {
+    "hardLoopSeam": 35.467,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.674,
+     "0": 0.663,
+     "312": 0.682
+    },
+    "sourceSeam": 0.627
+   },
+   "path": "sound/fx/amb/water/exterior/coast/waves/amb_water_coast_waves_distant_01_lp.wav",
+   "peakDb": -8.75,
+   "sha256": "c30379a579f4bf6d80c2d0fbfdea472d0d8a16a04d665b9b05c8c5d9b1dfbc12",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/water/exterior/coast/waves/amb_water_coast_waves_distant_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "loopEvidence": {
+    "hardLoopSeam": 40.453,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.837,
+     "0": 0.818,
+     "312": 0.808
+    },
+    "sourceSeam": 0.647
+   },
+   "path": "sound/fx/amb/water/exterior/coast/waves/amb_water_coast_waves_distant_02_lp.wav",
+   "peakDb": -9.16,
+   "sha256": "492afe7517b58b173e868de9b4d6a41293676dc814df814381c199bee3d440de",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/water/exterior/coast/waves/amb_water_coast_waves_distant_03_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "loopEvidence": {
+    "hardLoopSeam": 47.669,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.723,
+     "0": 0.731,
+     "312": 0.717
+    },
+    "sourceSeam": 0.873
+   },
+   "path": "sound/fx/amb/water/exterior/coast/waves/amb_water_coast_waves_distant_03_lp.wav",
+   "peakDb": -8.67,
+   "sha256": "102b983ea432699bea83de48dda5b8ccaa545e37da6d200e3a5706a811502da1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/water/exterior/coast/waves/amb_water_exterior_coast_waves_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 30.235,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.366,
+     "0": 0.409,
+     "312": 0.428
+    },
+    "sourceSeam": 0.408
+   },
+   "path": "sound/fx/amb/water/exterior/coast/waves/amb_water_exterior_coast_waves_01_lp.wav",
+   "peakDb": -1.02,
+   "sha256": "8402ce6916c7a8702c9cb6da15bed9c6d3b59f92f8e61028c8f9c1c4a1d1d567",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/water/exterior/coast/waves/amb_water_exterior_coast_waves_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 33.217,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.559,
+     "0": 0.551,
+     "312": 0.548
+    },
+    "sourceSeam": 0.421
+   },
+   "path": "sound/fx/amb/water/exterior/coast/waves/amb_water_exterior_coast_waves_02_lp.wav",
+   "peakDb": -2.32,
+   "sha256": "27856adc12277c5b6570b8e3d07baf87b43865e110c70e86b737bed35cb9a08e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/water/exterior/coast/waves/amb_water_exterior_coast_waves_03_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 6.361,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.49,
+     "0": 0.482,
+     "312": 0.502
+    },
+    "sourceSeam": 0.532
+   },
+   "path": "sound/fx/amb/water/exterior/coast/waves/amb_water_exterior_coast_waves_03_lp.wav",
+   "peakDb": -4.55,
+   "sha256": "49fbf52b49f991e7d07a04830fce68079c2447e4cdfe2cb95443b3d6462d4c5b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfall/amb_water_waterfall_distant_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "loopEvidence": {
+    "hardLoopSeam": 12.523,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.943,
+     "0": 0.934,
+     "312": 0.676
+    },
+    "sourceSeam": 0.678
+   },
+   "path": "sound/fx/amb/water/exterior/waterfall/amb_water_waterfall_distant_lp.wav",
+   "peakDb": -7.5,
+   "sha256": "992586e1b9b5e9dc2b168651a282905bcda0d6890abbac63b58fec8b691a566d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 11025
+  },
+  "skyrim/fx/amb/water/exterior/waterfall/large/amb_water_waterfall_large_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 3.278,
+    "method": "crossfade",
+    "runtimeJoin": {
+     "-312": 0.933,
+     "0": 0.878,
+     "312": 0.811
+    },
+    "sourceSeam": 1.062
+   },
+   "path": "sound/fx/amb/water/exterior/waterfall/large/amb_water_waterfall_large_01_lp.wav",
+   "peakDb": -2.09,
+   "sha256": "c8e399b1b8fe534af61e4cbdab7455ebcb2191850c653ee9f5049e3ede693cb5",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfall/large/amb_water_waterfall_large_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 1.976,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.722,
+     "0": 0.681,
+     "312": 0.756
+    },
+    "sourceSeam": 0.785
+   },
+   "path": "sound/fx/amb/water/exterior/waterfall/large/amb_water_waterfall_large_02_lp.wav",
+   "peakDb": -0.01,
+   "sha256": "369938f5ad0b1ceced3065a7187100e6bca048fd5bea503a1f569facae10e1ee",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfall/large/amb_water_waterfall_large_03_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 8.894,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.862,
+     "0": 0.866,
+     "312": 0.872
+    },
+    "sourceSeam": 0.787
+   },
+   "path": "sound/fx/amb/water/exterior/waterfall/large/amb_water_waterfall_large_03_lp.wav",
+   "peakDb": -0.27,
+   "sha256": "aba5d1d8b11d406b547139c25dfd9c658c55dab41747054cf5c81db601680655",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfall/medium/amb_waterfall_medium_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 8.199,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 1.123,
+     "0": 1.076,
+     "312": 1.035
+    },
+    "sourceSeam": 0.827
+   },
+   "path": "sound/fx/amb/water/exterior/waterfall/medium/amb_waterfall_medium_01_lp.wav",
+   "peakDb": -7.93,
+   "sha256": "a801909fc26a2b6404e4d14a177ca96a5b6660dc8dbfb5fec6c4893cad84fff3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfall/medium/amb_waterfall_medium_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 4.565,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.77,
+     "0": 0.794,
+     "312": 0.753
+    },
+    "sourceSeam": 0.977
+   },
+   "path": "sound/fx/amb/water/exterior/waterfall/medium/amb_waterfall_medium_02_lp.wav",
+   "peakDb": -9.04,
+   "sha256": "39342c47d1791c9f491a2f1ca9c614b4c0a970708135acd347f3a44d960536ad",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfall/small/amb_water_waterfall_small_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 1.645,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.75,
+     "0": 0.754,
+     "312": 0.728
+    },
+    "sourceSeam": 0.647
+   },
+   "path": "sound/fx/amb/water/exterior/waterfall/small/amb_water_waterfall_small_01_lp.wav",
+   "peakDb": -9.66,
+   "sha256": "3578b7b8bf01767aee02fd8f2848b623f1cec66a89e31e0565bde78875e59f2f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfall/small/amb_water_waterfall_small_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 3.823,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.891,
+     "0": 0.881,
+     "312": 0.866
+    },
+    "sourceSeam": 0.754
+   },
+   "path": "sound/fx/amb/water/exterior/waterfall/small/amb_water_waterfall_small_02_lp.wav",
+   "peakDb": -9.68,
+   "sha256": "e917d9c735c504d55f45b597677e06ab3f99b264adc55789b82d75968417facc",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfallsplatter/amb_waterfallsplatter_small_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 6.425,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.715,
+     "0": 0.743,
+     "312": 0.752
+    },
+    "sourceSeam": 0.778
+   },
+   "path": "sound/fx/amb/water/exterior/waterfallsplatter/amb_waterfallsplatter_small_01_lp.wav",
+   "peakDb": -1.46,
+   "sha256": "757caba006b79baf1e86df4cf8c07262f4b39ef75b6cf5d15de08b0208e235ff",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/water/exterior/waterfallsplatter/amb_waterfallsplatter_small_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "loopEvidence": {
+    "hardLoopSeam": 3.741,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.618,
+     "0": 0.633,
+     "312": 0.639
+    },
+    "sourceSeam": 0.696
+   },
+   "path": "sound/fx/amb/water/exterior/waterfallsplatter/amb_waterfallsplatter_small_02_lp.wav",
+   "peakDb": -1.45,
+   "sha256": "ac355caebf1d566b89a97f84f75c033a3e71557c047670b0198d6bb98aed15bb",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/weather/rain/amb_weather_rain_drizzle_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 1.877,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.807,
+     "0": 0.824,
+     "312": 0.831
+    },
+    "sourceSeam": 0.85
+   },
+   "path": "sound/fx/amb/weather/rain/amb_weather_rain_drizzle_lp.wav",
+   "peakDb": -11.68,
+   "sha256": "ed4f2bffe791b58edbbb4c7a9678487cfb8aad02904eb140ca8f6a09e9cdfaa6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/weather/rain/amb_weather_rain_heavy_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 4.381,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.875,
+     "0": 0.867,
+     "312": 0.899
+    },
+    "sourceSeam": 0.806
+   },
+   "path": "sound/fx/amb/weather/rain/amb_weather_rain_heavy_lp.wav",
+   "peakDb": -1.19,
+   "sha256": "79c9078f72783a906d2877a62cb3525acf57705b8f1fa808ed1fa458c5e58be7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/weather/rain/amb_weather_rain_light_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 6.944,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.865,
+     "0": 0.861,
+     "312": 0.842
+    },
+    "sourceSeam": 0.728
+   },
+   "path": "sound/fx/amb/weather/rain/amb_weather_rain_light_lp.wav",
+   "peakDb": -9.13,
+   "sha256": "3b36f1e43f135d6326e0c7788fdbb104ab41f8a802626fb34e6043692b65fa6d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/weather/rain/amb_weather_rain_medium_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 6.937,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.891,
+     "0": 0.887,
+     "312": 0.888
+    },
+    "sourceSeam": 0.909
+   },
+   "path": "sound/fx/amb/weather/rain/amb_weather_rain_medium_lp.wav",
+   "peakDb": -2.19,
+   "sha256": "3ff13bffa6d7e1a7275d40378a73ac2e8883a381553895d026f26cf50ac31dd6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/amb/weather/raininterior/amb_weather_rain_interior_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 57.374,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.818,
+     "0": 0.859,
+     "312": 0.874
+    },
+    "sourceSeam": 0.923
+   },
+   "path": "sound/fx/amb/weather/raininterior/amb_weather_rain_interior_lp.wav",
+   "peakDb": -25.43,
+   "sha256": "b18659fe45a4fdd68810e68d3b2bd07386e4c87d460be28e0be9c48cfa705688",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/amb/weather/thunder/amb_weather_extrathunder_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/amb/weather/thunder/amb_weather_extrathunder_01.wav",
+   "peakDb": -3.56,
+   "sha256": "12c67437ce4d6ccec2ec4756caa5621f7b8648c0c97ec663f383cfe5e6f8f6a9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 11025
+  },
+  "skyrim/fx/amb/weather/thunder/amb_weather_extrathunder_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/amb/weather/thunder/amb_weather_extrathunder_02.wav",
+   "peakDb": -4.78,
+   "sha256": "295c074ffee9ddf27b1ac3f9b1ca20ebfc419060297523f06c2b1268e84f140b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 11025
+  },
+  "skyrim/fx/amb/weather/thunder/amb_weather_extrathunder_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/amb/weather/thunder/amb_weather_extrathunder_03.wav",
+   "peakDb": -6.18,
+   "sha256": "8de6a51b53690f509466483da7f8a776ca1b94a817143435a90f75ef3fd2e50d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 11025
+  },
+  "skyrim/fx/amb/weather/thunder/amb_weather_extrathunder_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/amb/weather/thunder/amb_weather_extrathunder_04.wav",
+   "peakDb": -7.75,
+   "sha256": "4cf73a987f8421896e2ce8caa13fbacdbb1120970ebdce16c17bce939856cc1c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 11025
+  },
+  "skyrim/fx/amb/weather/thunder/amb_weather_thunder_distant_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/amb/weather/thunder/amb_weather_thunder_distant_01.wav",
+   "peakDb": -2.62,
+   "sha256": "7e97b46536a241f67780f92a340ef23e65be592d3d31fd1ffeb55905dda5f46c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/amb/weather/thunder/amb_weather_thunder_distant_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/amb/weather/thunder/amb_weather_thunder_distant_02.wav",
+   "peakDb": -3.23,
+   "sha256": "d7b2c38e8c1328c9343d386519ca493776e5ac9e07a18b3faa50270b875a1607",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/amb/weather/thunder/amb_weather_thunder_distant_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/amb/weather/thunder/amb_weather_thunder_distant_03.wav",
+   "peakDb": -3.81,
+   "sha256": "cce3cf567095493959f3e3e3a874935b2427fe50b35236c7e354007bc27525ad",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/amb/weather/thunder/amb_weather_thunder_distant_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/amb/weather/thunder/amb_weather_thunder_distant_04.wav",
+   "peakDb": -1.64,
+   "sha256": "28dccb5c4e3c5be575dc1431f649edf49c556ae694f612923f3044f0321470db",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/1morning/a/ambr_birds_marsh_031": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/1morning/a/ambr_birds_marsh_031.wav",
+   "peakDb": -17.58,
+   "sha256": "39e721ebd840a8e32d16f69d8ffa98cad7e07e094e8cce057db4d1a59bd86ba6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/1morning/a/ambr_birds_marsh_032": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/1morning/a/ambr_birds_marsh_032.wav",
+   "peakDb": -14.37,
+   "sha256": "74a0ba7a9695a2d588a7b4f970949364dfcede7e620c6f68286b6ecdeee54870",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/1morning/b/ambr_birds_marsh_033": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/1morning/b/ambr_birds_marsh_033.wav",
+   "peakDb": -16.7,
+   "sha256": "220a39bc5af1815f7045cc1891bb61fa9d2a608bfb6510b5f08d85018903e569",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/1morning/b/ambr_birds_marsh_034": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/1morning/b/ambr_birds_marsh_034.wav",
+   "peakDb": -15.7,
+   "sha256": "dbec234c251fa67d818c018f3c2d83b511f95dfb536aef7bd4d8f676ac1262b7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/a/ambr_birds_marsh_004": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/a/ambr_birds_marsh_004.wav",
+   "peakDb": -9.54,
+   "sha256": "a9514dc24b5f2d56f03d20bf640668c9c87d09c25c5f4afec9a90f90df03140f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 16000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/a/ambr_birds_marsh_005": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/a/ambr_birds_marsh_005.wav",
+   "peakDb": -5.7,
+   "sha256": "8b282a9c6b174346216fce541fe2132b648c0fbc82c5bfb1a99e990bec0c831f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 16000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/a/ambr_birds_marsh_006": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/a/ambr_birds_marsh_006.wav",
+   "peakDb": -6.67,
+   "sha256": "3e881d90c16cf68240a71834e9180a9429cca12452d195fe43861a9d8abe894e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 16000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/a/ambr_birds_marsh_007": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/a/ambr_birds_marsh_007.wav",
+   "peakDb": -8.55,
+   "sha256": "2ab2ffc247524ef3661e35ddf3ddd14b19710421b46c4bfe57a2e55267a4cb79",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 16000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/b/ambr_birds_marsh_008": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/b/ambr_birds_marsh_008.wav",
+   "peakDb": -15.54,
+   "sha256": "178933d3712a12e03a02f6d5d907c565328012f76a8705288d40d812a2e2c095",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 16000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/b/ambr_birds_marsh_009": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/b/ambr_birds_marsh_009.wav",
+   "peakDb": -18.84,
+   "sha256": "24fccb64536e0b5556f07fdb6832fcc401810a930cab2d8d77f3db47ab26cdb5",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 16000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/b/ambr_birds_marsh_010": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/ambr/birds/marsh/2day/b/ambr_birds_marsh_010.wav",
+   "peakDb": -10.01,
+   "sha256": "19ec40e44610fe4ad6e8eda17675cae0fe6e729f686008ffb62036c25dae096e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/c/ambr_birds_marsh_011": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/ambr/birds/marsh/2day/c/ambr_birds_marsh_011.wav",
+   "peakDb": -4.75,
+   "sha256": "e2eacce3dfa71574b3b80ecd2b87e08ad3ec7f0686966a44b764141739931cf3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/c/ambr_birds_marsh_012": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/ambr/birds/marsh/2day/c/ambr_birds_marsh_012.wav",
+   "peakDb": -4.13,
+   "sha256": "4d11ff0293334053a6bbdd2d0caabac6a8d68f3e2e91fbd343b6ee1bdf57b79f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/c/ambr_birds_marsh_013": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/c/ambr_birds_marsh_013.wav",
+   "peakDb": -6.58,
+   "sha256": "eb67ed3dd008cdc543a6ad69d9ac36836c6614422f46254bba37157638afd6a7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 16000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/c/ambr_birds_marsh_014": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/c/ambr_birds_marsh_014.wav",
+   "peakDb": -4.41,
+   "sha256": "be4fcf3af468ef9875fb63bab0df241be68aede01c7f26ca387553184d11445c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 16000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/d/ambr_birds_marsh_025": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/d/ambr_birds_marsh_025.wav",
+   "peakDb": -10.18,
+   "sha256": "2830eaa8285fe05b6b1944ab4d417d3a9b2dce0f75fbd20124e126a2fbedf9d1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/d/ambr_birds_marsh_026": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/d/ambr_birds_marsh_026.wav",
+   "peakDb": -10.3,
+   "sha256": "fe1531c8c906f6cf2af65ea61dc45a1700b216218749225c1dc660ffc304c089",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/d/ambr_birds_marsh_027": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/d/ambr_birds_marsh_027.wav",
+   "peakDb": -9.6,
+   "sha256": "c2b3c4f8bf058d4402c5418b8f00cd7ec81849419ca659b8384cac92b846a98d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/2day/d/ambr_birds_marsh_028": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/2day/d/ambr_birds_marsh_028.wav",
+   "peakDb": -18.03,
+   "sha256": "11e7434fdc1a9073784cc758e9e00b925535e2de9136181c81730c8ef71f7208",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/3night/a/ambr_birds_marsh_016": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/3night/a/ambr_birds_marsh_016.wav",
+   "peakDb": -18.33,
+   "sha256": "69a8a8aff420e6f3bb9a4ca7871bcb35bf07e1d3001558efdaeee4abe66d0965",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/3night/a/ambr_birds_marsh_017": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/3night/a/ambr_birds_marsh_017.wav",
+   "peakDb": -14.67,
+   "sha256": "03f1ce95e2987a8542d257c7004581e05c48e95cac7b1164344504e8f3a3238a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/3night/b/ambr_birds_marsh_023": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/3night/b/ambr_birds_marsh_023.wav",
+   "peakDb": -19.86,
+   "sha256": "ba099f72a9e51e6d96dd19711e0f37b5ea2b7df9caf45d3086da3f5d7eadcf9b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/3night/b/ambr_birds_marsh_024": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/3night/b/ambr_birds_marsh_024.wav",
+   "peakDb": -20.02,
+   "sha256": "be3e1b099a1affd6c9c43559755c9f575fe359942e1c09ff24fc20544b895a7d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/3night/c/ambr_birds_marsh_003": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/3night/c/ambr_birds_marsh_003.wav",
+   "peakDb": -14.22,
+   "sha256": "5b557c9514db4a37ba3c19fc2ae712664b52b2d8e919e22060518e680a61019c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/3night/d/ambr_insects_marsh_008": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 24,
+   "path": "sound/fx/ambr/birds/marsh/3night/d/ambr_insects_marsh_008.wav",
+   "peakDb": -14.14,
+   "sha256": "c7625420c3b69c87e25e9c604adb63a34f2e891b58f198e9533b071aeadbe167",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 8000
+  },
+  "skyrim/fx/ambr/birds/marsh/3night/e/ambr_insects_marsh_004": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/birds/marsh/3night/e/ambr_insects_marsh_004.wav",
+   "peakDb": -5.0,
+   "sha256": "cbae957ad92b576cc65d29246a603b6a287d1df63c3e82e5185030e52ebf1dc4",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/crickets/forestfall/ambr_frogs_forestfall_night_01_2d_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 24.636,
+    "method": "crossfade",
+    "runtimeJoin": {
+     "-312": 0.36,
+     "0": 0.365,
+     "312": 0.402
+    },
+    "sourceSeam": 1.892
+   },
+   "path": "sound/fx/ambr/crickets/forestfall/ambr_frogs_forestfall_night_01_2d_lp.wav",
+   "peakDb": -17.28,
+   "sha256": "615adf764a63a2720fbc41e88b76841b29dbdd3887e8888d0cf40067fdbdaf4b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/ambr/crickets/forestpine/ambr_frogs_forestpine_night_01_2d_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 123.171,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.489,
+     "0": 0.556,
+     "312": 0.469
+    },
+    "sourceSeam": 0.662
+   },
+   "path": "sound/fx/ambr/crickets/forestpine/ambr_frogs_forestpine_night_01_2d_lp.wav",
+   "peakDb": -19.34,
+   "sha256": "9b799343f8e22c0d3f0e264019434ced2df3748bac70b248078288e7cbb0955c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/ambr/crickets/marsh/day/ambr_insects_marsh_a_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 47.108,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.685,
+     "0": 0.781,
+     "312": 0.739
+    },
+    "sourceSeam": 0.719
+   },
+   "path": "sound/fx/ambr/crickets/marsh/day/ambr_insects_marsh_a_lp.wav",
+   "peakDb": -26.35,
+   "sha256": "d347d284fb8e5d821036a76bba3c9e99431bbdc89218a52329a8b0427db7170a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/ambr/crickets/marsh/day/ambr_insects_marsh_b_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 19.721,
+    "method": "crossfade",
+    "runtimeJoin": {
+     "-312": 0.812,
+     "0": 0.83,
+     "312": 0.905
+    },
+    "sourceSeam": 1.744
+   },
+   "path": "sound/fx/ambr/crickets/marsh/day/ambr_insects_marsh_b_lp.wav",
+   "peakDb": -27.73,
+   "sha256": "dedf541f4ce031363899c7ddd3467eac0552e5f3cca840195c1053ad964d8242",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/crickets/marsh/day/ambr_insects_marsh_d_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 32.18,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.857,
+     "0": 0.919,
+     "312": 0.835
+    },
+    "sourceSeam": 0.575
+   },
+   "path": "sound/fx/ambr/crickets/marsh/day/ambr_insects_marsh_d_01_lp.wav",
+   "peakDb": -20.81,
+   "sha256": "20837c8b859292bc0ea62d9e9b99981c4bd7dbd44dcc896488b2aa01d1a18e17",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/crickets/marsh/day/ambr_insects_marsh_e_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/crickets/marsh/day/ambr_insects_marsh_e_01.wav",
+   "peakDb": -28.79,
+   "sha256": "40b726a0ebc85ef16f028e8c5be301e6a601c7009f4293c7339f1f1249466ab1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_01.wav",
+   "peakDb": -10.04,
+   "sha256": "84173f1c470d02904a3cde324100681d43b570015226cfdaa54fbed89458f91f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_02.wav",
+   "peakDb": 0.41,
+   "sha256": "e3375665bb06c99d1cafb437631a1d835d43ae18754559ef87a12e990dba1d71",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_03.wav",
+   "peakDb": -9.38,
+   "sha256": "4c081c627ab98e472987f588003193491746c782fc3caa1d41d534762e0046f0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_04.wav",
+   "peakDb": -13.32,
+   "sha256": "6dd5058967c24ad91ef2c1e0e5b89951656ab062b5848e9ce39c0010f1ed91d8",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_05": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_05.wav",
+   "peakDb": -7.66,
+   "sha256": "df0c43c2e21f779a38856364f56620089ca9f69b10db36c4c24716e1fae495ce",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_06": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_06.wav",
+   "peakDb": -12.71,
+   "sha256": "c078456d4a8ee060222b4d7e4fe3efaf29d8609ec573030639211d0986dea5dc",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_07": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_07.wav",
+   "peakDb": -13.52,
+   "sha256": "25da954eaed9a2da7401f8c7ba11c9c788209179a136e773d369591598ee9441",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_08": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_08.wav",
+   "peakDb": -7.4,
+   "sha256": "d252770a155ac03e1e7fcec2c55a0e7c1683289fbac377b7524821e0c2e55e34",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_09": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/ambr/insects/marsh/c/ambr_insect_marsh_c_09.wav",
+   "peakDb": -10.94,
+   "sha256": "9cf1a243c2ea3dafd9aa89c38231f96339b7f694900ca64d156fcfdcd5e35daf",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/ambr/insects/marsh/frogs/ambr_frogs_marsh_a_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 74.448,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.959,
+     "0": 0.949,
+     "312": 0.932
+    },
+    "sourceSeam": 0.891
+   },
+   "path": "sound/fx/ambr/insects/marsh/frogs/ambr_frogs_marsh_a_lp.wav",
+   "peakDb": -20.89,
+   "sha256": "d2403a2edbb1a2ae88b9950edc753db24ba8b99db6ae8f392f2c90c2537fa137",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/ambr/insects/reach/frogs/ambr_frogs_reach_a_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 1.073,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.53,
+     "0": 0.5,
+     "312": 0.515
+    },
+    "sourceSeam": 0.997
+   },
+   "path": "sound/fx/ambr/insects/reach/frogs/ambr_frogs_reach_a_lp.wav",
+   "peakDb": -9.95,
+   "sha256": "504507fdc91fc65aa70c093d5f8fc7ba58032c4cca24e68affa2faffbd850ae6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/coast/ambr_wind_coast_bed_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "loopEvidence": {
+    "hardLoopSeam": 9.243,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.816,
+     "0": 0.809,
+     "312": 0.786
+    },
+    "sourceSeam": 0.795
+   },
+   "path": "sound/fx/ambr/wind/coast/ambr_wind_coast_bed_lp.wav",
+   "peakDb": -22.21,
+   "sha256": "9a6dfa97cb5bbdf337203410c36720acd34177c3da802cc3b3968c7ad66306d1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/coast/gusts/a/ambr_wind_coast_gust_a_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/coast/gusts/a/ambr_wind_coast_gust_a_01.wav",
+   "peakDb": -16.79,
+   "sha256": "607e790eed141a7735e2295a966310c7718c855470e188adce342c638d9a7e2e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/coast/gusts/a/ambr_wind_coast_gust_a_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/coast/gusts/a/ambr_wind_coast_gust_a_02.wav",
+   "peakDb": -20.62,
+   "sha256": "1d6efbe950ebfed7e174edd23b8a5dd51a2b4e96ffbb9c07583ad85c8c92c145",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/coast/gusts/a/ambr_wind_coast_gust_a_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/coast/gusts/a/ambr_wind_coast_gust_a_03.wav",
+   "peakDb": -20.23,
+   "sha256": "c37188cbbc460e63a9069514b71415f6d8f8d3164c07916c1cd52502cabf4819",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/coast/gusts/b/ambr_wind_coast_gust_b_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/coast/gusts/b/ambr_wind_coast_gust_b_01.wav",
+   "peakDb": -14.76,
+   "sha256": "1b2067dc01be9b900b6d572c18eb0a6794619c64db04db4275533758e17bbb72",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/coast/gusts/b/ambr_wind_coast_gust_b_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/coast/gusts/b/ambr_wind_coast_gust_b_02.wav",
+   "peakDb": -15.8,
+   "sha256": "845248665bb5219e958b325ce3b4abd813afdae2804dab439717f5d986a8af74",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/coast/gusts/b/ambr_wind_coast_gust_b_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/coast/gusts/b/ambr_wind_coast_gust_b_03.wav",
+   "peakDb": -15.08,
+   "sha256": "f64f9ebc39e5fc666059664401f307027b14be2eb71b018ecb49268dbfbfba9c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/marsh/gusts/a/ambr_wind_marsh_gust_a_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/marsh/gusts/a/ambr_wind_marsh_gust_a_01.wav",
+   "peakDb": -12.45,
+   "sha256": "0477ade38ce44c0ffd97a97938aecd9d152020b6293ce23413f96e7574b75e41",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/marsh/gusts/a/ambr_wind_marsh_gust_a_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/marsh/gusts/a/ambr_wind_marsh_gust_a_02.wav",
+   "peakDb": -16.17,
+   "sha256": "02a0325aea299c03bcfa6260c5e87f3a3396d27e77d80d17ac29381343ba12ff",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/marsh/gusts/a/ambr_wind_marsh_gust_a_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 64,
+   "path": "sound/fx/ambr/wind/marsh/gusts/a/ambr_wind_marsh_gust_a_03.wav",
+   "peakDb": -11.35,
+   "sha256": "33b739b25e09cf1164ca3adeb7e97c2d9e86c4ed1d910bbee9d2a654223f5903",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/ambr/wind/marsh/gusts/b/ambr_wind_marsh_gust_b_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/wind/marsh/gusts/b/ambr_wind_marsh_gust_b_01.wav",
+   "peakDb": -21.96,
+   "sha256": "eb6d3cb7b557fc3f8686405df7f41e6b23841d036821c363318b271bea0fa3af",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 11025
+  },
+  "skyrim/fx/ambr/wind/marsh/gusts/b/ambr_wind_marsh_gust_b_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/wind/marsh/gusts/b/ambr_wind_marsh_gust_b_02.wav",
+   "peakDb": -21.62,
+   "sha256": "ff1b97947669d6153a95171e9d9c388613f8d7ea35c75eddc496b86e0432f4cf",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 11025
+  },
+  "skyrim/fx/ambr/wind/marsh/gusts/b/ambr_wind_marsh_gust_b_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 24,
+   "path": "sound/fx/ambr/wind/marsh/gusts/b/ambr_wind_marsh_gust_b_03.wav",
+   "peakDb": -20.55,
+   "sha256": "29f233c21bcac3acf21ff8bf45d68f11dbabc9188b6932257981228d87b50640",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 11025
+  },
+  "skyrim/fx/ambr/wind/reach/ambr_wind_reach_bed_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 2,
+   "kbps": 44,
+   "loopEvidence": {
+    "hardLoopSeam": 30.202,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.629,
+     "0": 0.712,
+     "312": 0.732
+    },
+    "sourceSeam": 0.618
+   },
+   "path": "sound/fx/ambr/wind/reach/ambr_wind_reach_bed_lp.wav",
+   "peakDb": -23.78,
+   "sha256": "57427f67f03ca87989c5cdf016d479c2b5dd350f5239b08c0eb631defc2f024f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/dirt/jumpdown/fst_dirt_jumpdown_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/dirt/jumpdown/fst_dirt_jumpdown_01.wav",
+   "peakDb": -8.13,
+   "sha256": "4e70b07d38072f548315d255f04dc2a58f9171b01cc82c7b021da69bc3813886",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/dirt/jumpdown/fst_dirt_jumpdown_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/dirt/jumpdown/fst_dirt_jumpdown_02.wav",
+   "peakDb": -11.19,
+   "sha256": "c4d3f6535f897fd5fdc308512a44b0ebc0755a37f6fa98fc8ad097adde94c914",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/dirt/jumpup/fst_player_dirt_jumpup_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/dirt/jumpup/fst_player_dirt_jumpup_01.wav",
+   "peakDb": -16.61,
+   "sha256": "5a1cdf55a49b3e2172b4c3ca150d84df6224b4cdb5efaf175a83bc6d34f8ae4a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/dirt/jumpup/fst_player_dirt_jumpup_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/dirt/jumpup/fst_player_dirt_jumpup_02.wav",
+   "peakDb": -14.28,
+   "sha256": "dfc3d21841dd3678931bc7a6f47216f69a76d5c41c61e16614dd3945723392ca",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/grass/jumpdown/fst_grass_jumpdown_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/grass/jumpdown/fst_grass_jumpdown_01.wav",
+   "peakDb": -9.61,
+   "sha256": "29cf1ec3d7a05777afffac456734d12b4144c8669fd099ba9081eb5db8b1650e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/grass/jumpdown/fst_grass_jumpdown_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/grass/jumpdown/fst_grass_jumpdown_02.wav",
+   "peakDb": -5.63,
+   "sha256": "70c466ad8d7b950e42318fe162552ae4da1c74da8c7d10b5eac2b4dffa48707a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/grass/jumpdown/fst_grass_jumpdown_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/grass/jumpdown/fst_grass_jumpdown_03.wav",
+   "peakDb": -6.68,
+   "sha256": "a5a4968564eaf222ada80951096163cf1ffa3bc8c57155cb38d6588e7da8cb31",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/grass/jumpup/fst_grass_jumpup_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/grass/jumpup/fst_grass_jumpup_01.wav",
+   "peakDb": -14.67,
+   "sha256": "d2935b94d5502261499c7e98baa96ac2d8b88fe26437cf9a570f7078898e207c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/grass/jumpup/fst_grass_jumpup_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/grass/jumpup/fst_grass_jumpup_02.wav",
+   "peakDb": -14.96,
+   "sha256": "56fa8b28ecc29f90789a752cdc8b7a747c7d122c62f1a5767f4fd46469f2334c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/gravel/jumpdown/fst_gravel_jumpdown_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/gravel/jumpdown/fst_gravel_jumpdown_01.wav",
+   "peakDb": -6.98,
+   "sha256": "a9a326bd35fd1faff58ad8e4d2732201b9d6556a465d28d9048e557275eaf4cd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/gravel/jumpdown/fst_gravel_jumpdown_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/gravel/jumpdown/fst_gravel_jumpdown_02.wav",
+   "peakDb": -9.73,
+   "sha256": "6668c3122907713fbb2aa5ff92ef6599fee1f0a2c063f015ca2de02c547d776c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/gravel/jumpdown/fst_gravel_jumpdown_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/gravel/jumpdown/fst_gravel_jumpdown_03.wav",
+   "peakDb": -8.21,
+   "sha256": "9597349f1ab15737e904f6c079c06718d18f69b063c1a1101dd1d0361c866ef0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/gravel/jumpup/fst_gravel_jumpup_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/gravel/jumpup/fst_gravel_jumpup_01.wav",
+   "peakDb": -23.45,
+   "sha256": "814553631b06e42bfc2ab7a1f289fb1386ae9763d9f54eb709529817d96097ff",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/gravel/jumpup/fst_gravel_jumpup_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/gravel/jumpup/fst_gravel_jumpup_02.wav",
+   "peakDb": -21.03,
+   "sha256": "a6193f27a49d24b5c02ca764661e70beda522bd85b9a611bfc823b5b1c583733",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_run_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_run_01.wav",
+   "peakDb": -19.82,
+   "sha256": "5c63578e134ccbdee37a24b05c8d9b00d06bac24605cbb4da6592bbe5c93cff1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_run_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_run_02.wav",
+   "peakDb": -7.84,
+   "sha256": "db90756f12e6227086450ad9db5bf03ac61d2bf338d092e4e78a82e95efabddc",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_run_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_run_03.wav",
+   "peakDb": -16.78,
+   "sha256": "4065eba861ca0740b70c54a0a79db798bd622a6cf49289d5553a75c23f5e5187",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_run_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_run_04.wav",
+   "peakDb": -8.16,
+   "sha256": "b57da1d279a7d4cbf52c05fa1cc6988a4915ea8f33640fcf6b0b8ba96d82a86e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_walk_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_walk_01.wav",
+   "peakDb": -20.92,
+   "sha256": "c5a8541a7ec2a3c5ae867ddf46982dcad3ede2ccbcc81a2a5092d307807f93c4",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_walk_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_walk_02.wav",
+   "peakDb": -20.5,
+   "sha256": "b4765ae1a17c769e64aea7e5ff2e4591a079cd3fd0e47a2b1eff1188e52d41c6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_walk_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_walk_03.wav",
+   "peakDb": -17.69,
+   "sha256": "84fdf4146b121a5c0c2cb3179aec44e6f8673803c25241baf5c6a77915d81515",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_walk_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_stonesolid_walk_04.wav",
+   "peakDb": -20.21,
+   "sha256": "5ac44a135a810600eaf134b9da4c1e156cf11ace6fead40a2cf3eb5b85ff6be3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_wood_run_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_wood_run_01.wav",
+   "peakDb": -5.72,
+   "sha256": "00854fbcabd667d3393f3570fe33c93d80215efea7511489442e8a9ea884c545",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_wood_run_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_wood_run_02.wav",
+   "peakDb": -0.84,
+   "sha256": "242d436145e774d9073ed2783a9e722b46a47b3d906524be24b1923b322d025b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_wood_run_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_wood_run_03.wav",
+   "peakDb": -0.58,
+   "sha256": "559cf3c7b265d0a00c3904d30804f71da0870beb0046dabffa5dfa3df3c5d474",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_wood_run_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_wood_run_04.wav",
+   "peakDb": -3.13,
+   "sha256": "e82afcb9e76e3a605b5133de0f92e68659c726f1bfca2f96dc4507b4708ec7e9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_wood_walk_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_wood_walk_01.wav",
+   "peakDb": -16.6,
+   "sha256": "f9d6233a2e33989d3810b801f67fc9d98d1a7d5e22237af6d38c6eddf9045cf4",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_wood_walk_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_wood_walk_02.wav",
+   "peakDb": -16.79,
+   "sha256": "c8e3266ea179e180372c659375b5156022f163e4692abc8122533340a3082212",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_wood_walk_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_wood_walk_03.wav",
+   "peakDb": -15.19,
+   "sha256": "129904cdc111ae624d6d531b87881c79b64957812a2f9ae22f0e2767a29e87f2",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/barefoot/fst_npc_barefoot_wood_walk_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/barefoot/fst_npc_barefoot_wood_walk_04.wav",
+   "peakDb": -17.63,
+   "sha256": "bd8a9f94ea789570824a7ab15e88f51469ca5e6b6b351ede84dfbc69011d6b48",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/dirt/armorheavy/fst_npc_dirt_run_armorheavy_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/dirt/armorheavy/fst_npc_dirt_run_armorheavy_01.wav",
+   "peakDb": -5.6,
+   "sha256": "822ddedb479945c657d35623a5d180515feca8abe1145d4dcca743f2cb20ecf7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/dirt/armorheavy/fst_npc_dirt_run_armorheavy_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/dirt/armorheavy/fst_npc_dirt_run_armorheavy_02.wav",
+   "peakDb": -3.63,
+   "sha256": "b679333ce3aca1407b0a5d6a6c291413b0c3edf228bfc68893c706871bd713c7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/dirt/armorheavy/fst_npc_dirt_run_armorheavy_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/dirt/armorheavy/fst_npc_dirt_run_armorheavy_03.wav",
+   "peakDb": -4.05,
+   "sha256": "ad634fbdf2ebedabb9a55b594f2937e9b6b51054dc0a1b72be5c341c496d3b72",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/dirt/armorheavy/fst_npc_dirt_run_armorheavy_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/dirt/armorheavy/fst_npc_dirt_run_armorheavy_04.wav",
+   "peakDb": -5.31,
+   "sha256": "2d1d69bdbc4fdefdca4ac9ea33cd88b1923e94ad908010c155b9692045cf6d8a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/dirt/armorlight/fst_npc_dirt_run_armorlight_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/dirt/armorlight/fst_npc_dirt_run_armorlight_01.wav",
+   "peakDb": -5.6,
+   "sha256": "a75900757f14e067d996f525c8563159ee86e2063c4b65991bba2ad706ee9335",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/dirt/armorlight/fst_npc_dirt_run_armorlight_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/dirt/armorlight/fst_npc_dirt_run_armorlight_02.wav",
+   "peakDb": -3.5,
+   "sha256": "02e268f74b20a97bd088c9d3bb3f706f3515d41fc2a5e22c464a8e185ec161a3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/dirt/armorlight/fst_npc_dirt_run_armorlight_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/dirt/armorlight/fst_npc_dirt_run_armorlight_03.wav",
+   "peakDb": -4.17,
+   "sha256": "a744647e7fbd2a97cf0b20c047506fe98a60e2124c64594b94d8ec1bcd9beeba",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/dirt/armorlight/fst_npc_dirt_run_armorlight_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/dirt/armorlight/fst_npc_dirt_run_armorlight_04.wav",
+   "peakDb": -5.24,
+   "sha256": "d163801f602f8a2d8b74150b40a4250f5a6ce0b7c06465b61a9c6f7ebba660e3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/dirt/run/l/fst_npc_dirt_run_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/dirt/run/l/fst_npc_dirt_run_01.wav",
+   "peakDb": -8.14,
+   "sha256": "b070b910afc02ea8baaa8bd2d462189aa75e0df6a9e1e7012ef40fc1e395d4a9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/dirt/run/l/fst_npc_dirt_run_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/dirt/run/l/fst_npc_dirt_run_02.wav",
+   "peakDb": -6.61,
+   "sha256": "878d254679c1302ea1a5679b289684a876a05ab2ff0a3cd6f38b4fce67118fcd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/dirt/run/r/fst_npc_dirt_run_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/dirt/run/r/fst_npc_dirt_run_03.wav",
+   "peakDb": -5.83,
+   "sha256": "933ff33123793d7aa6f2079a8e11dccb127d577de46d76394be1762d20b14819",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/dirt/run/r/fst_npc_dirt_run_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/dirt/run/r/fst_npc_dirt_run_04.wav",
+   "peakDb": -8.64,
+   "sha256": "f620458632a9fd28c0bd791c554b0298e612459271ec8a993820bdd418aeb93a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/dirt/walk/l/fst_npc_dirt_walk_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/dirt/walk/l/fst_npc_dirt_walk_01.wav",
+   "peakDb": -11.99,
+   "sha256": "f9a04f71422a42a94d65c90b4a89f35bad8828e81c12249fe850085aebf434bf",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/dirt/walk/l/fst_npc_dirt_walk_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/dirt/walk/l/fst_npc_dirt_walk_02.wav",
+   "peakDb": -4.3,
+   "sha256": "0c3920dde1bad9645873e55c01a22d6954dce37b31c15eb8588bab678a2711d6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/dirt/walk/r/fst_npc_dirt_walk_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/dirt/walk/r/fst_npc_dirt_walk_03.wav",
+   "peakDb": -10.65,
+   "sha256": "7ad5fecb852216831d7aeeceb1e6ec68a490f051c162a454b0b46a90f8f01e4a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/dirt/walk/r/fst_npc_dirt_walk_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/dirt/walk/r/fst_npc_dirt_walk_04.wav",
+   "peakDb": -10.67,
+   "sha256": "aabf755bb5b3806d42f66f65ab2810a047c4459a2486bcea9842944c2b448a78",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_glass_run_armorheavy_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_glass_run_armorheavy_01.wav",
+   "peakDb": -8.54,
+   "sha256": "6d654e0d22b46582ba0ad00aaf00dd027479ebf81aecacf13454378407a14f28",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_glass_run_armorheavy_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_glass_run_armorheavy_02.wav",
+   "peakDb": -8.24,
+   "sha256": "5207940072d782a69dd8fac0f36c3e8eef71f8847d7ec22c52045e89e1c79282",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_glass_run_armorheavy_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_glass_run_armorheavy_03.wav",
+   "peakDb": -3.57,
+   "sha256": "07f07c9e0af890b2330d45937848a7fed93d8b3a51ba7abde2f90780c5dcc803",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_glass_run_armorheavy_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_glass_run_armorheavy_04.wav",
+   "peakDb": -9.86,
+   "sha256": "4f2c18e9510cd0c0c3bed1a0fe400cb855e2faef0455f06129e1fa39414f7602",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_glass_run_armorlight_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_glass_run_armorlight_01.wav",
+   "peakDb": -7.2,
+   "sha256": "0ae5ac4504ec1b7a2a85da0b66bc97555d34b8aebe3ba786c88fb0f20799e56a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_glass_run_armorlight_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_glass_run_armorlight_02.wav",
+   "peakDb": -8.71,
+   "sha256": "be0ca29d858edf221a0772c2ed56b83524a68b157d33bb2a2c00bcc921161ae9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_glass_run_armorlight_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_glass_run_armorlight_03.wav",
+   "peakDb": -3.53,
+   "sha256": "c3a6eb938341a82f3f0fc74a02762ee3322496f9e30b217e31ca5d8944281b83",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_glass_run_armorlight_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_glass_run_armorlight_04.wav",
+   "peakDb": -9.96,
+   "sha256": "44b558d258240b66b21a9deb315904fafdb9dbb86a068b59d7550366b2a84331",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_grass_run_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_grass_run_01.wav",
+   "peakDb": -8.39,
+   "sha256": "735e771d26e8a7e154ab3ff01a6f8d842191321de17c15fa47e56da288332ed5",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_grass_run_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_grass_run_02.wav",
+   "peakDb": -8.6,
+   "sha256": "5b66f39467489d130bb32936e8e86d6cdb43279f3e3f41549e09a45b12b372e9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_grass_run_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_grass_run_03.wav",
+   "peakDb": -3.5,
+   "sha256": "8a2668bf87ff1841da30c9ad8d05b8dc0a2caac33c8c207dbae053b967b5f5e7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_grass_run_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_grass_run_04.wav",
+   "peakDb": -9.87,
+   "sha256": "4f5772f9ebb3ef7394c79f16979403acacb51f093c3d48ac7c4744bab40f8560",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_grass_walk_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_grass_walk_01.wav",
+   "peakDb": -13.14,
+   "sha256": "5e0e7b1dac3dbaf230ded02879e11972a94d5dc8a482cfb47530d5894b91a6fa",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_grass_walk_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_grass_walk_02.wav",
+   "peakDb": -10.47,
+   "sha256": "918c61c421a84407a66bd82d431347d3e73962997a5346237029711f4eeefb38",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_grass_walk_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_grass_walk_03.wav",
+   "peakDb": -12.04,
+   "sha256": "ac340dd15f0b7ffe3e4de293f1f9e9a7af0e63d4f37a9db6cc9f5646637101a3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/grass/fst_npc_grass_walk_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/grass/fst_npc_grass_walk_04.wav",
+   "peakDb": -19.29,
+   "sha256": "65450edd88f23464f96be39c5d95a8ef5967ec1861492f9332de6110e4016246",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_01.wav",
+   "peakDb": -2.01,
+   "sha256": "404b474f70c02d0e96b2e06063f85168343d7d08947c76c6f485dd780ac9b425",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_02.wav",
+   "peakDb": -3.08,
+   "sha256": "e369971a052aa1e2c7b694fb37789bd8fcac473c233d0c07d3d79b49590463b1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_03.wav",
+   "peakDb": -4.37,
+   "sha256": "d1b1131398f19115052b2017d2760c01120f61a6609bb9b6838ea49fb5abdea3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_04.wav",
+   "peakDb": -6.27,
+   "sha256": "0ed82c30a4437edffda114f057be5a30e5e39f2594bfae6e28097b7de18741bd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_armorheavy_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_armorheavy_01.wav",
+   "peakDb": -1.75,
+   "sha256": "6f33fe45f9177877464b9b1237601c2d684f01cd958559f361b01dcc0be8c57e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_armorheavy_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_armorheavy_02.wav",
+   "peakDb": -3.3,
+   "sha256": "43e989bdc317b967120b27fba5262615a8e08060292fd5a23f9709a8ff12545f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_armorheavy_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_armorheavy_03.wav",
+   "peakDb": -4.3,
+   "sha256": "2993b3e8ccffac90d9f4b8b4439bcdf7f621f1a0c786ebabfc72c98f00a091e5",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_armorheavy_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_armorheavy_04.wav",
+   "peakDb": -7.17,
+   "sha256": "9ca0d26500e7b5021bee12988608a8b9a1e656a4aa273e7feb0491a35aca56db",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_armorlight_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_armorlight_01.wav",
+   "peakDb": -1.58,
+   "sha256": "ff67fa71ad0d2f9ddf6875c852d34079d488a5f7ecdf01f5a312f04ff3895e1d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_armorlight_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_armorlight_02.wav",
+   "peakDb": -3.35,
+   "sha256": "a9ce431cb6585f27981effad1f454794329de298bedf07af28499f7c1eb5eb82",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_armorlight_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_armorlight_03.wav",
+   "peakDb": -4.65,
+   "sha256": "e3d33ed4bf8036444e0851f980796d613a4cb63339622e74b4bb816884d0769c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_run_armorlight_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_run_armorlight_04.wav",
+   "peakDb": -5.97,
+   "sha256": "6e4d15a1013c0664b93b3d8d51aaf3212b58c9983fceaf64d2408404a25a265f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_walk_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_walk_01.wav",
+   "peakDb": -4.19,
+   "sha256": "23485c2ebe1b0a5b9c4a7e85631ca83f1fd2bdd12120e6fb2cac043b0422cf6b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_walk_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_walk_02.wav",
+   "peakDb": -4.17,
+   "sha256": "5a41a38490f064aac62878fc8d64198f600814c52afe42a16a1fba72a9f53a08",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_walk_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_walk_03.wav",
+   "peakDb": -4.82,
+   "sha256": "9cdb8d1568e7a5b085c38c618c8af7770fd798c1572525ed056063d513aec539",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/gravel/fst_npc_gravel_walk_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/gravel/fst_npc_gravel_walk_04.wav",
+   "peakDb": -2.75,
+   "sha256": "b94da43178d6d6d925d64965d6686382276c0d5480fa9a67a5798f741b78c308",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/stonesolid/fst_npc_stone_run_armorheavy_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/stonesolid/fst_npc_stone_run_armorheavy_01.wav",
+   "peakDb": -4.73,
+   "sha256": "ad4c961edce988d03f7a35e312a0dbc65ca33142d65405eb84524194af19f061",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/stonesolid/fst_npc_stone_run_armorheavy_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/stonesolid/fst_npc_stone_run_armorheavy_02.wav",
+   "peakDb": -11.19,
+   "sha256": "1102344ed15773b212b11ebfe917c8f99636ba55b5f73425730f4e3657883bba",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/stonesolid/fst_npc_stone_run_armorheavy_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/stonesolid/fst_npc_stone_run_armorheavy_03.wav",
+   "peakDb": -8.12,
+   "sha256": "a297a0198531a4d83ade474d17237a2400d38b1176ffe105548c18c5278801d1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/stonesolid/fst_npc_stone_run_armorheavy_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/stonesolid/fst_npc_stone_run_armorheavy_04.wav",
+   "peakDb": -8.49,
+   "sha256": "b2ee384449a47189b4d61ea9f9cdbcbf1fd69ce241268abb64acff954e3d3552",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/stonesolid/fst_npc_stone_run_armorlight_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/stonesolid/fst_npc_stone_run_armorlight_01.wav",
+   "peakDb": -5.09,
+   "sha256": "46f94cbe6540d6ecd534f3c693211547c6b23f7f8ded0437a139a1787ba128cd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/stonesolid/fst_npc_stone_run_armorlight_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/stonesolid/fst_npc_stone_run_armorlight_02.wav",
+   "peakDb": -10.57,
+   "sha256": "cea93260120d13bae2817f4fea17375da07051add63f7bca21bc96d856a5c367",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/stonesolid/fst_npc_stone_run_armorlight_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/stonesolid/fst_npc_stone_run_armorlight_03.wav",
+   "peakDb": -5.79,
+   "sha256": "b86cc2920731a30bc1040d2b15ee97cf0e4a952191da9ca02855da8f7eb5fcfb",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/stonesolid/fst_npc_stone_run_armorlight_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/stonesolid/fst_npc_stone_run_armorlight_04.wav",
+   "peakDb": -8.27,
+   "sha256": "125ab7f0f2a18712704cc7be07b647c6f483c6e544aff76c2eaee532967031b5",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/stonesolid/walk/l/fst_npc_stonesolid_walk_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/stonesolid/walk/l/fst_npc_stonesolid_walk_01.wav",
+   "peakDb": -7.14,
+   "sha256": "4b0da3669d8536001253c454be5315d7de152361fd4022219fec8a06bf8f824c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/stonesolid/walk/l/fst_npc_stonesolid_walk_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/stonesolid/walk/l/fst_npc_stonesolid_walk_02.wav",
+   "peakDb": -7.13,
+   "sha256": "2cfcbf1fa1ff05db5f53b4055763fec7b188d7a553487c2e4af23c79b497e460",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/stonesolid/walk/r/fst_npc_stonesolid_walk_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/stonesolid/walk/r/fst_npc_stonesolid_walk_03.wav",
+   "peakDb": -9.58,
+   "sha256": "9bb317cd95aaa36d0385521274ab347ba48a91d89fe913e27b8948ad628640a6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/stonesolid/walk/r/fst_npc_stonesolid_walk_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/stonesolid/walk/r/fst_npc_stonesolid_walk_04.wav",
+   "peakDb": -14.53,
+   "sha256": "01f21ec53a21c3c61e7801299df6e5d1906988b47d223c8c7ddefbf277436489",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/water/fst_npc_water_run_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/water/fst_npc_water_run_01.wav",
+   "peakDb": -6.34,
+   "sha256": "97841d1a52459a97232046124a382db8adcc18241c10972195927f33c1683146",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/water/fst_npc_water_run_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/water/fst_npc_water_run_02.wav",
+   "peakDb": -4.69,
+   "sha256": "231570fb1212c9933a1134c2ce1bf0cc70c5914cf81ffd46ea6a3022d5c89f51",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/water/fst_npc_water_run_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/water/fst_npc_water_run_03.wav",
+   "peakDb": -3.85,
+   "sha256": "03b9a30eea02d01ac85deedc77c8f531094cb4c11209ba3caee9c3f75bee716a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/water/fst_npc_water_run_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/water/fst_npc_water_run_04.wav",
+   "peakDb": -3.82,
+   "sha256": "266aba3dcd40a823b93c8c80101a1a16a490bcaaf46bec0b3d09f6d88e89907c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/water/fst_npc_water_walk_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/water/fst_npc_water_walk_01.wav",
+   "peakDb": -11.25,
+   "sha256": "a55587f8a3aa582ef70ff86886f2f609028e347a60a12d8c69202005ef7743cd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/water/fst_npc_water_walk_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/water/fst_npc_water_walk_02.wav",
+   "peakDb": -9.85,
+   "sha256": "dcfc92fc31779ef3616b86afdf381d63aaca27819a9337e7743c2659154a3ce4",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/water/fst_npc_water_walk_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/water/fst_npc_water_walk_03.wav",
+   "peakDb": -9.17,
+   "sha256": "d1ff664e752c661d46855b00c4d8967a1bee13c842152c21d9192d071546bfcb",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/water/fst_npc_water_walk_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/water/fst_npc_water_walk_04.wav",
+   "peakDb": -11.3,
+   "sha256": "8eeba4093401e161fb0bcf3956dffd13682563bd4c2fae8c72586db5a65abe5a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/wood/fst_npc_wood_run_armorheavy_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/wood/fst_npc_wood_run_armorheavy_01.wav",
+   "peakDb": -5.05,
+   "sha256": "d4e6dabb58b41abc63f04885217cd6e00256c96a8a8bba091ec699c24334eb4e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/wood/fst_npc_wood_run_armorheavy_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/wood/fst_npc_wood_run_armorheavy_02.wav",
+   "peakDb": -8.33,
+   "sha256": "8fe9792cbcdf52f4f140f4b87a9dad5814dfb7cd95aa47b53fedcfb392b0e8fd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/wood/fst_npc_wood_run_armorheavy_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/wood/fst_npc_wood_run_armorheavy_03.wav",
+   "peakDb": -8.92,
+   "sha256": "867b2bf6e9f7d38407b5dedb806628345162fcd5c2a021f57a7135e441466276",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/wood/fst_npc_wood_run_armorheavy_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/wood/fst_npc_wood_run_armorheavy_04.wav",
+   "peakDb": -7.36,
+   "sha256": "36d332baecc60ad1fc789b96a1dbb06fbbbc5b3c0a0bb9d86a2e244cc3e9687c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/wood/fst_npc_wood_run_armorlight_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/wood/fst_npc_wood_run_armorlight_01.wav",
+   "peakDb": -5.45,
+   "sha256": "c29d0b0707add6c54ba69c45fd489011d0128764268730b0e3dfd67e9a7dacc9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/wood/fst_npc_wood_run_armorlight_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/wood/fst_npc_wood_run_armorlight_02.wav",
+   "peakDb": -4.08,
+   "sha256": "bbd4e180991bbed16568eb5a404556f2ce279ca8a98ea3d18f6cc2fa5670225e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/wood/fst_npc_wood_run_armorlight_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/wood/fst_npc_wood_run_armorlight_03.wav",
+   "peakDb": -5.91,
+   "sha256": "0b742276487cc87fcb10ebdef7a3d34692e9fccc17472968dc1ff5f76e191e91",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/wood/fst_npc_wood_run_armorlight_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/npc/wood/fst_npc_wood_run_armorlight_04.wav",
+   "peakDb": -7.35,
+   "sha256": "d04206a166b029e5634cced3e404212588fe94a11fea2981091404e87cd43ebe",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/npc/wood/walk/l/fst_npc_walk_wood_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/wood/walk/l/fst_npc_walk_wood_01.wav",
+   "peakDb": -11.67,
+   "sha256": "38249e96d318021e19d86168620a9ce9056f133cb2d644c72322059be1f04672",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/wood/walk/l/fst_npc_walk_wood_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/wood/walk/l/fst_npc_walk_wood_02.wav",
+   "peakDb": -10.01,
+   "sha256": "8ef795a360c07695901c657e23beabd23eba95b8d34f470877db9d5a6176691e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/wood/walk/r/fst_npc_walk_wood_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/wood/walk/r/fst_npc_walk_wood_03.wav",
+   "peakDb": -7.81,
+   "sha256": "a747b279f71f14c3f0c197c604354ea19049381c03a88a3c6d146997d4aac9d6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/npc/wood/walk/r/fst_npc_walk_wood_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "path": "sound/fx/fst/npc/wood/walk/r/fst_npc_walk_wood_04.wav",
+   "peakDb": -6.96,
+   "sha256": "c2f1802bca738df1166cf6aebe6a8a484a804e6c3eccbd143a815a9f7ffad2cd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_01.wav",
+   "peakDb": -10.24,
+   "sha256": "300745d12334045e2f6d82f7c300803bcf7bffde8ccb99ddc73321684dec70da",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_02.wav",
+   "peakDb": -12.26,
+   "sha256": "dc9c92c9579f8a50e3f4ca38acbc67f9669a4d18b9e5bcc6ce7abb279a1351f0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_03.wav",
+   "peakDb": -11.48,
+   "sha256": "c230ac3ca792e673daf47f6db95f7b1bd7783822d48b558c4d1655010da28d0a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_04.wav",
+   "peakDb": -15.2,
+   "sha256": "43593921809a631a20f89a1f00646febfe3e00c84c228b7b8eb21605ff52b0b3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_05": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_05.wav",
+   "peakDb": -12.68,
+   "sha256": "e8c1f34d65a246866ea3d8beae415e0d24af636b02fc7e8811d6073f172b856b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_06": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/player/waterpuddle/fst_player_waterpuddle_walk_06.wav",
+   "peakDb": -12.94,
+   "sha256": "01ae47b00b94182631320d10bf39a61153e36efa107108ec3875d73e7a01579b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/stonesolid/jumpdown/fst_stonesolid_jumpdown_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/stonesolid/jumpdown/fst_stonesolid_jumpdown_01.wav",
+   "peakDb": -3.11,
+   "sha256": "fe72ce8b15c2d1b4ffa5ff371984af08c4a3e22440c55e3e0f41f99003b86b3e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/stonesolid/jumpdown/fst_stonesolid_jumpdown_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/stonesolid/jumpdown/fst_stonesolid_jumpdown_02.wav",
+   "peakDb": -5.33,
+   "sha256": "ff8d494ac347a5792175a40d6302cec0f4fc6ca51ecbe4756704a6c63a02d9bd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/stonesolid/jumpdown/fst_stonesolid_jumpdown_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/stonesolid/jumpdown/fst_stonesolid_jumpdown_03.wav",
+   "peakDb": -3.2,
+   "sha256": "0b1e7ad8b7e5e5c842a1fc3b20864884918a4e3963a2fe71ae06693040bc86a3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/stonesolid/jumpup/fst_stonesolid_jumpup_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/stonesolid/jumpup/fst_stonesolid_jumpup_01.wav",
+   "peakDb": -17.59,
+   "sha256": "16014e8b9733fe861e4ee65cbe745bae38c3781e9a5ae5e877dea0d5bbcadd98",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/stonesolid/jumpup/fst_stonesolid_jumpup_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/stonesolid/jumpup/fst_stonesolid_jumpup_02.wav",
+   "peakDb": -18.07,
+   "sha256": "7cbfbe7fd4b1972fad2547322bf55d109512c95fd3eb5953f065f44780ab754a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/swim/fst_swim_swim_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/swim/fst_swim_swim_01.wav",
+   "peakDb": -10.21,
+   "sha256": "b93fd92cb81b135aaeda8cf421ffc62f14b95c101f35a4fd40b11822c89cc317",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/swim/fst_swim_swim_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/swim/fst_swim_swim_02.wav",
+   "peakDb": -8.58,
+   "sha256": "e2fb4e332942c083fb4a50e373a997c54fc8a882e397684537e75dff2149b1bb",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/swim/fst_swim_swim_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/swim/fst_swim_swim_03.wav",
+   "peakDb": -11.8,
+   "sha256": "b3e6ab0d60b4464becbb166320b4b57a751bed4aebc48827dc3d07afa10e7954",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/swim/fst_swim_swim_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/swim/fst_swim_swim_04.wav",
+   "peakDb": -9.87,
+   "sha256": "8e6c2b3ddffba675dd2adb5c4d30d649a51215103639bd36fd2a650e73e26756",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/swim/fst_swim_swim_05": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/swim/fst_swim_swim_05.wav",
+   "peakDb": -11.77,
+   "sha256": "8eda0d0557263a7d6011589225f050f97e2d3bd50d470976847f2fc5aca58ef3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/swim/fst_swim_swim_06": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/swim/fst_swim_swim_06.wav",
+   "peakDb": -7.85,
+   "sha256": "6ac0d9156f6a487a2f089b9604937208d5e19cfce0da3d50d0aad956d8794e70",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/tread/fst_swim_tread_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/tread/fst_swim_tread_01.wav",
+   "peakDb": -14.04,
+   "sha256": "d50556c8207dc5ff21d9833ba335d4cf1885536f5fd35eab6d8eaf84970d773b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/tread/fst_swim_tread_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/tread/fst_swim_tread_02.wav",
+   "peakDb": -10.78,
+   "sha256": "c39c3a98b0192ef2632bca8112d570cfe59b9f802f0177c5be8f6213bee6422e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/tread/fst_swim_tread_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/tread/fst_swim_tread_03.wav",
+   "peakDb": -10.99,
+   "sha256": "5b032608ef7e329e82234c000986907d622befaa2513d0d96d0e41b3004dd902",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/swim/tread/fst_swim_tread_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/swim/tread/fst_swim_tread_04.wav",
+   "peakDb": -11.98,
+   "sha256": "e8058f5eab3f8b3d66e965b7eee1dafd300d6c84a7cefe15ff95d9c1521e62e8",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/water/land/fst_water_jump_down_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/water/land/fst_water_jump_down_01.wav",
+   "peakDb": -0.09,
+   "sha256": "e3e850c4cf07374f0b87c63cdd3c37ea85a34f42734299069fd5ac1f03114a1a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/water/land/fst_water_jump_down_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/water/land/fst_water_jump_down_02.wav",
+   "peakDb": 0.11,
+   "sha256": "cdcea9f84c1b4afb9ef82bb1a700dad0c9c22744925cf1562b6e7c1a94d6790e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/water/land/fst_water_jump_up_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/water/land/fst_water_jump_up_01.wav",
+   "peakDb": -9.0,
+   "sha256": "9f0bbe3cbcf074fa05749f7b0307efdd2f181baff0257ec357a735abe2762e71",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/water/land/fst_water_jump_up_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/water/land/fst_water_jump_up_02.wav",
+   "peakDb": -8.29,
+   "sha256": "49cd0a20b9fc3ec704e128e32c8432bbbe224f2ae8a628e6a52f5cae68bf87d6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/fst/wood/jumpdown/fst_wood_jumpdown_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/wood/jumpdown/fst_wood_jumpdown_01.wav",
+   "peakDb": -5.53,
+   "sha256": "13cbe7cb7ee0e8601a15a86f00c5d52396aee91249195ae5019d0e1b386bc3bb",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/wood/jumpdown/fst_wood_jumpdown_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/wood/jumpdown/fst_wood_jumpdown_02.wav",
+   "peakDb": -7.49,
+   "sha256": "07ceb18b9b5ff78ac60f5a35b10a0f4db095652a9d3deefac93433792bf38bda",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/wood/jumpdown/fst_wood_jumpdown_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/wood/jumpdown/fst_wood_jumpdown_03.wav",
+   "peakDb": -8.82,
+   "sha256": "1ae25c091341dfa4afa07f474a6fccc20d92c766d191ff0aa7df8102cbb208f9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/wood/jumpup/fst_wood_jumpup_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/wood/jumpup/fst_wood_jumpup_01.wav",
+   "peakDb": -17.65,
+   "sha256": "c9cfca129eeb2079dfea8c278f9c12e45184834e6e21090175e006b7c8c660f4",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/fst/wood/jumpup/fst_wood_jumpup_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/fst/wood/jumpup/fst_wood_jumpup_02.wav",
+   "peakDb": -15.48,
+   "sha256": "1e12035a23576e3b3c9e43a962deb37fd055db2488efbcbfadc2cd269edf7db8",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/obj/torch/burn/obj_torch_burn_01_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "loopEvidence": {
+    "hardLoopSeam": 5.731,
+    "method": "source-seamless",
+    "runtimeJoin": {
+     "-312": 0.578,
+     "0": 0.594,
+     "312": 0.579
+    },
+    "sourceSeam": 0.536
+   },
+   "path": "sound/fx/obj/torch/burn/obj_torch_burn_01_lp.wav",
+   "peakDb": -10.76,
+   "sha256": "c0b0f1ce79f09bd650923fc6f641c85a3cefd30a774f950585c99e46ab591890",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/obj/torch/burn/obj_torch_burn_02_lp": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 33,
+   "loopEvidence": {
+    "hardLoopSeam": 2.604,
+    "method": "crossfade",
+    "runtimeJoin": {
+     "-312": 0.607,
+     "0": 0.732,
+     "312": 0.831
+    },
+    "sourceSeam": 1.476
+   },
+   "path": "sound/fx/obj/torch/burn/obj_torch_burn_02_lp.wav",
+   "peakDb": -9.1,
+   "sha256": "f2e697e3e449c6c3422a249827c53cd3800b364cc66b78ea886fdb4a19f86b57",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 22050
+  },
+  "skyrim/fx/phy/phy_water_m_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/phy/phy_water_m_01.wav",
+   "peakDb": -0.07,
+   "sha256": "1d8cfb9bb6ab7b52decbf12985f4ea690260845495e29334d9b6c72d12448a50",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/axe1hand/wpn_axe1hand_draw_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/axe1hand/wpn_axe1hand_draw_01.wav",
+   "peakDb": 0.02,
+   "sha256": "b38215f1b1681f36da1d590966774ffa2703c077d4dd468012a931909ee3af93",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/axe1hand/wpn_axe1hand_draw_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/axe1hand/wpn_axe1hand_draw_02.wav",
+   "peakDb": -1.99,
+   "sha256": "5e2db25ab100865bc94e588d8e2e1fae736f9ccc4b4b7a1ef015f5cd443cfeac",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/axe1hand/wpn_axe1hand_sheathe": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/axe1hand/wpn_axe1hand_sheathe.wav",
+   "peakDb": -8.6,
+   "sha256": "a19d8435465db48a6bcc2acd5716b35be7e715d10853a9c610057542dff105a9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/axe2hand/wpn_axe2hand_draw": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/axe2hand/wpn_axe2hand_draw.wav",
+   "peakDb": 0.26,
+   "sha256": "4da909ba473ab4a090aaeb550a7d83c96e51f117c087fec44c66ef6446d26dbf",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/axe2hand/wpn_axe2hand_sheathe": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/axe2hand/wpn_axe2hand_sheathe.wav",
+   "peakDb": -2.07,
+   "sha256": "38f78f2bf48d5cbd56bd9206e24fc4f8d858f1beea8643359a4a8d16d8463c1a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bash/axe/wpn_bash_axe_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/axe/wpn_bash_axe_01.wav",
+   "peakDb": 1.75,
+   "sha256": "47a7ea1cd36ed56bc864ff13a51e351f52cb877b285aad9dce34e11fc8ebe470",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/axe/wpn_bash_axe_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/axe/wpn_bash_axe_02.wav",
+   "peakDb": 1.0,
+   "sha256": "dad4f33382dbff741f9c6a381efc077f53838d7317f43f886dc8a6c9b5e53680",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/blade/wpn_bash_blade_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/blade/wpn_bash_blade_01.wav",
+   "peakDb": 1.07,
+   "sha256": "1d4df2dcae1f90f76d615fb74bff798ce76d639e68ef12eee6b87d4eb25dd918",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bash/blade/wpn_bash_blade_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/blade/wpn_bash_blade_02.wav",
+   "peakDb": 0.63,
+   "sha256": "78a42c52b3371258b3bbda65c602ffcd277f6ff8902d997166482d6800fcaa57",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bash/blunt/wpn_bash_blunt_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/blunt/wpn_bash_blunt_01.wav",
+   "peakDb": 0.44,
+   "sha256": "b2a642651410447f3d7fe0994bd21ff3e14cd89e9dbb97b8cb4a4d45d791a614",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/blunt/wpn_bash_blunt_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/blunt/wpn_bash_blunt_02.wav",
+   "peakDb": 0.26,
+   "sha256": "bea9e2666681229984f7a224fda1afabd4b0f4625d3bcedfd11335facfd62c8e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/blunt/wpn_bash_blunt_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/blunt/wpn_bash_blunt_03.wav",
+   "peakDb": 0.62,
+   "sha256": "69b63cead6fd0ba4a407b2588de03f3c1164ae4dfc13a199849757a3c131fe8b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/bow/wpn_bash_bow_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/bow/wpn_bash_bow_01.wav",
+   "peakDb": 0.07,
+   "sha256": "5eb7f92dc124754ef0ec554ef96fa8c49ad434a7f93a683d8baf8d7b1f7a4e32",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/bow/wpn_bash_bow_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/bow/wpn_bash_bow_02.wav",
+   "peakDb": 0.02,
+   "sha256": "87dd8549b90871999d23172b5778db5cbfd186cbe2e3313524cdaae05adea1d1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/bow/wpn_bash_bow_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/bow/wpn_bash_bow_03.wav",
+   "peakDb": -0.02,
+   "sha256": "1613a1a46cdd30a2b541e448baf948ed2f544b6bce3490ab99266518d1390cb1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/shield/h/wpn_bash_shield_heavy_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/shield/h/wpn_bash_shield_heavy_01.wav",
+   "peakDb": 0.26,
+   "sha256": "7c8cf9e10c88abae62723f51a3b44d05c0c57e7aeb9b67db8681137fe95c0f1e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/shield/h/wpn_bash_shield_heavy_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/shield/h/wpn_bash_shield_heavy_02.wav",
+   "peakDb": 0.33,
+   "sha256": "5e3ec5b96316f018815bf7bc6a68a4a099af9f12bc4b7a35148d092f24ff94dd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/shield/h/wpn_bash_shield_heavy_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/shield/h/wpn_bash_shield_heavy_03.wav",
+   "peakDb": 0.45,
+   "sha256": "66336848b8ad657f697417cc6c2361454f809169977f60e1ad1f9a2925db41a9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/shield/l/wpn_bash_shield_light_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/shield/l/wpn_bash_shield_light_01.wav",
+   "peakDb": 0.56,
+   "sha256": "e2061afd04f640d1d7a859d81df61e1829b8f55aa3c5b9258589aa4687c718b6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/bash/shield/l/wpn_bash_shield_light_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bash/shield/l/wpn_bash_shield_light_02.wav",
+   "peakDb": 0.03,
+   "sha256": "6254c3b99ab8c755c5636c97aa177262f6bca0fa4284f90cfcc43a7b42ecc27c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/blade1hand/wpn_blade1hand_draw_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade1hand/wpn_blade1hand_draw_01.wav",
+   "peakDb": 0.98,
+   "sha256": "098ce88ccc4252a2af36f3d3c0a8242f1bccc67dc45c9d24f82fbcadf1df2dea",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/blade1hand/wpn_blade1hand_draw_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade1hand/wpn_blade1hand_draw_02.wav",
+   "peakDb": 0.94,
+   "sha256": "eae4f5194b73ef22fd6d9fcd532f60aa8d5810df55bee0028e52aa21b8f9277b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/blade1hand/wpn_blade1hand_draw_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade1hand/wpn_blade1hand_draw_03.wav",
+   "peakDb": 0.76,
+   "sha256": "63a241326850c2c35a6af957f9729ca59c90dfd4f48084e6d0679110001898dd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/blade1hand/wpn_blade1hand_sheathe": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade1hand/wpn_blade1hand_sheathe.wav",
+   "peakDb": 1.1,
+   "sha256": "289fa7ae1fb4132d460deaa53c78ef6e0b3e48a2044a140b427898dee5528825",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/blade1handsmall/wpn_blade1handsmall_draw": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade1handsmall/wpn_blade1handsmall_draw.wav",
+   "peakDb": -1.02,
+   "sha256": "4f284fe699f8ccfeab2606d41b205987cca5762636afac76f66f7360c201c943",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/blade1handsmall/wpn_blade1handsmall_sheathe": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade1handsmall/wpn_blade1handsmall_sheathe.wav",
+   "peakDb": -0.0,
+   "sha256": "50c96174dd2191eedb6d486e9bcf652aedeba826ba8d5a20456c75ef74d7f9ce",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/blade2hand/wpn_blade2hand_draw_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade2hand/wpn_blade2hand_draw_01.wav",
+   "peakDb": -3.57,
+   "sha256": "816730122284cb35d9cde239cac9a6698a3ce3a67472c18df191b6bd79f7c1bb",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/blade2hand/wpn_blade2hand_draw_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade2hand/wpn_blade2hand_draw_02.wav",
+   "peakDb": 0.6,
+   "sha256": "eea023fc948769892c850e5a2336cf20365f39967f643dc5454a11eb45bcca0b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/blade2hand/wpn_blade2hand_sheathe": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blade2hand/wpn_blade2hand_sheathe.wav",
+   "peakDb": 0.0,
+   "sha256": "02438262fd8662f46209a493a6ebf34cc6b24c516dcdf5e1232d71e139676711",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/axe/wpn_block_axe_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/axe/wpn_block_axe_01.wav",
+   "peakDb": 1.21,
+   "sha256": "7a62ead9fa2c3970174bcadbabf5e1e4d589122a3d8b10c550b3e7b00081136c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/axe/wpn_block_axe_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/axe/wpn_block_axe_02.wav",
+   "peakDb": 1.25,
+   "sha256": "bf318375287864ea4f783229fab0ed6e1017fca0662b0de6f9c181c9dcabaa3d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blade/wpn_block_blade1hand_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blade/wpn_block_blade1hand_01.wav",
+   "peakDb": 0.75,
+   "sha256": "de12eddefdefde004fd5f6aec83629bd930cf68b0262c4e5a2221e991a8252d8",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blade/wpn_block_blade1hand_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blade/wpn_block_blade1hand_02.wav",
+   "peakDb": 0.74,
+   "sha256": "771e2fc39345e0c0e8ed69f8f206ddbc0efabd85a3ebdeb0f64cf1dea44092c6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blade/wpn_block_blade1hand_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blade/wpn_block_blade1hand_03.wav",
+   "peakDb": 0.58,
+   "sha256": "75e3f60d443c1b86d08ebdf1cb895e40e6b284e3467e54ae04b435002821b6c9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blade2hand/wpn_block_blade2hand_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blade2hand/wpn_block_blade2hand_01.wav",
+   "peakDb": 1.16,
+   "sha256": "ab8b87c6c02027546fecd526872292f7e077873cd7cc978785628d0595826afe",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blade2hand/wpn_block_blade2hand_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blade2hand/wpn_block_blade2hand_02.wav",
+   "peakDb": 1.73,
+   "sha256": "c336a9c2264d124eea82d9cf7437ef40119c5f0df03b110e3fd0cf2e7f7c494a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blade2hand/wpn_block_blade2hand_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blade2hand/wpn_block_blade2hand_03.wav",
+   "peakDb": 1.5,
+   "sha256": "03a964d370db9e342e303ea224d8bdaf68879d700a2797343fc1b656362ffc88",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blunt/wpn_block_blunt_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blunt/wpn_block_blunt_01.wav",
+   "peakDb": 0.26,
+   "sha256": "03f9d5d20dd123774e6c8d0e92400f8ed0113f310e5807a4d5d4771a5661fed1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blunt/wpn_block_blunt_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blunt/wpn_block_blunt_02.wav",
+   "peakDb": 0.34,
+   "sha256": "94146f93654ef4101b5af3abf6e5aeef68f199deb70b847afe92bb550f89b944",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blunt/wpn_block_blunt_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blunt/wpn_block_blunt_03.wav",
+   "peakDb": 0.68,
+   "sha256": "a8cf780c17cddfc5df9939b08eeadc62ff33e629e10ca2acc79a5ef6da5a726f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/blunt2hand/wpn_block_blunt2hand_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blunt2hand/wpn_block_blunt2hand_01.wav",
+   "peakDb": 1.19,
+   "sha256": "3ec18ba2b9e3c15b12b37f705c1e05c9db4e59e2406e6f73933702ed75248559",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/blunt2hand/wpn_block_blunt2hand_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blunt2hand/wpn_block_blunt2hand_02.wav",
+   "peakDb": 0.08,
+   "sha256": "c9e5c4396d0c71c678c1de8cf6bd6f8fe76e20e45bffc807eaaf8b29f85431e1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/blunt2hand/wpn_block_blunt2hand_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/blunt2hand/wpn_block_blunt2hand_03.wav",
+   "peakDb": 0.4,
+   "sha256": "8cc569e272e7575532fc1797da12b95dc1b7e929438619270c71356075c33416",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/bow/wpn_block_bow_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/bow/wpn_block_bow_01.wav",
+   "peakDb": 0.08,
+   "sha256": "067046755fde01096c49ef61838feafd8497606b78abcd3a1034575461a22d5a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/bow/wpn_block_bow_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/bow/wpn_block_bow_02.wav",
+   "peakDb": 0.2,
+   "sha256": "6b0dc6195532166a47b021752488c09dd36f2f384747be061d3d232d7dd647aa",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/bow/wpn_block_bow_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/bow/wpn_block_bow_03.wav",
+   "peakDb": 0.3,
+   "sha256": "a49c352d98e33a3ee4d0722fa5517b8be7e8fbfa64c2d9c33119e0a25c69fc64",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/block/shield/h/wpn_block_shield_h_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/shield/h/wpn_block_shield_h_01.wav",
+   "peakDb": 0.07,
+   "sha256": "5836511ac15ca4c98b29f80b11cf6719e59e120727b31acb0518d67accd39ed4",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/shield/h/wpn_block_shield_h_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/shield/h/wpn_block_shield_h_02.wav",
+   "peakDb": 0.06,
+   "sha256": "02e7f72611792772f26083224e54e975e4ee13764ae599406686dcd9006ea9cd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/shield/h/wpn_block_shield_h_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/shield/h/wpn_block_shield_h_03.wav",
+   "peakDb": 0.08,
+   "sha256": "fdc7009963323b38d93943c4779e38513ef4164293f15808b8b7655e6efc1651",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/shield/l/wpn_block_shield_l_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/shield/l/wpn_block_shield_l_01.wav",
+   "peakDb": 1.11,
+   "sha256": "a264b0723863278b568de31e9b7e41e5e8399bea74adc72572b11a9665b0f0d8",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/shield/l/wpn_block_shield_l_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/shield/l/wpn_block_shield_l_02.wav",
+   "peakDb": 0.81,
+   "sha256": "1048af5351930f768fd05adde8e7419661ff15da4dac17102d3da29ffc9cddc8",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/block/shield/l/wpn_block_shield_l_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/block/shield/l/wpn_block_shield_l_03.wav",
+   "peakDb": 1.83,
+   "sha256": "66c60e6e13427e0f8fc214970d759465a7f71c5064fbbb10b7ba1066850424d7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/blunt2hand/wpn_blunt2hand_draw_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blunt2hand/wpn_blunt2hand_draw_01.wav",
+   "peakDb": 0.59,
+   "sha256": "2e9ea5c45e9b3139ce94b2a732b25f442ae090e82c2f0dfd845988b38eeb8917",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/blunt2hand/wpn_blunt2hand_draw_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blunt2hand/wpn_blunt2hand_draw_02.wav",
+   "peakDb": 0.23,
+   "sha256": "50a301913257b604f9efcfe13597099744e4cd480b5fe8ab328fe032b50414e9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/blunt2hand/wpn_blunt2hand_sheathe_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/blunt2hand/wpn_blunt2hand_sheathe_01.wav",
+   "peakDb": -2.02,
+   "sha256": "2dd4f68f5ba0636d82b45e647ef62b5c369f1230e1495f4a30cc398ec759a577",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/fire/wpn_bow_fire_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/fire/wpn_bow_fire_01.wav",
+   "peakDb": -0.58,
+   "sha256": "b94778af14286288eb3d23cd9f7718b30971b26e782c0babce4afa2d06471139",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/fire/wpn_bow_fire_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/fire/wpn_bow_fire_02.wav",
+   "peakDb": -0.07,
+   "sha256": "2e5c899b78caff2bd5d873e5497e0f5e9bd67ed3c4a9eb00b81c6e63e26698ed",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/fire/wpn_bow_fire_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/fire/wpn_bow_fire_03.wav",
+   "peakDb": -0.06,
+   "sha256": "fe0f89a6819430fc2df8ccf6aa0ae3d6353ec520b512abf1cb6e4cd3d54355c2",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/nock/wpn_bow_nock_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/nock/wpn_bow_nock_01.wav",
+   "peakDb": -9.98,
+   "sha256": "696262b7670adf5b2e63b54b80580ad3825c4bef399e0540c5eefa70559e25f5",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/nock/wpn_bow_nock_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/nock/wpn_bow_nock_02.wav",
+   "peakDb": -9.42,
+   "sha256": "c0f9a747c7e59f5c3041e8a69c9fdeec41151141bd1616f36cd87113cf7a6636",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/nock/wpn_bow_nock_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/nock/wpn_bow_nock_03.wav",
+   "peakDb": -5.89,
+   "sha256": "1f96310011b4ec1479917a33e5d2f387920ded3043fc67ee34a7456697f03cda",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/pull/wpn_bow_pull_01_lpm": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/pull/wpn_bow_pull_01_lpm.wav",
+   "peakDb": -11.29,
+   "sha256": "b6497b69b2db59c37920282d7303f4c635956506e762fbdb51e1ec4318030920",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/pull/wpn_bow_pull_02_lpm": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/pull/wpn_bow_pull_02_lpm.wav",
+   "peakDb": -3.18,
+   "sha256": "26b54c5ca9c40224f6c972f64c670057b607383292a0f4c32ef2e0e48dc087f0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/pull/wpn_bow_pull_03_lpm": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/pull/wpn_bow_pull_03_lpm.wav",
+   "peakDb": -6.52,
+   "sha256": "f37c4b475bed4b06fa5dabbf524f85b37874e80f72a8d832b1edc551bb8dbb36",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/wpn_bow_draw_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/wpn_bow_draw_01.wav",
+   "peakDb": -13.67,
+   "sha256": "2c6dde422345ec626d3641a74d04d511724fd6feb20d4ef3b5c9e8229cb2dbae",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/wpn_bow_draw_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/wpn_bow_draw_02.wav",
+   "peakDb": -18.95,
+   "sha256": "c0f77bfcfb0ca98b1e5695d3168cd0c5a043afed75f097d86467b8000c41d9a2",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/wpn_bow_sheathe_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/wpn_bow_sheathe_01.wav",
+   "peakDb": -15.04,
+   "sha256": "4913d1fda9c7eb9cf3578e30734ecd346405d4cc6bc136b09faf181b4d822529",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/bow/wpn_bow_sheathe_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/bow/wpn_bow_sheathe_02.wav",
+   "peakDb": -12.55,
+   "sha256": "ec31632670802e6962f5fb29b4e25e4e6f0463adfb1bac31b3885e570cea6b0b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/bounce/wpn_impact_arrow_bounce_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/bounce/wpn_impact_arrow_bounce_01.wav",
+   "peakDb": 0.52,
+   "sha256": "e33f0693f0ae5cf6f585e1d58c98165df888e6877a3d05e27c5c36ef777cfb11",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/arrow/bounce/wpn_impact_arrow_bounce_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/bounce/wpn_impact_arrow_bounce_02.wav",
+   "peakDb": 1.79,
+   "sha256": "397e0f2b0878b183da6f80c9c2f278ea50e786f75644581f8453a0bab144cf46",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/arrow/bounce/wpn_impact_arrow_bounce_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/bounce/wpn_impact_arrow_bounce_03.wav",
+   "peakDb": 0.48,
+   "sha256": "ebf5d2e534a0b25aeaddfabed6a942a5727215bd583c19b7fe1f9727dba6b44d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/arrow/flesh/wpn_impact_arrow_flesh_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/flesh/wpn_impact_arrow_flesh_01.wav",
+   "peakDb": -2.23,
+   "sha256": "86f68d5ed854b89f82ccef653b8f7a2b64dd560866dbb442d49e5665913ee9ad",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/flesh/wpn_impact_arrow_flesh_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/flesh/wpn_impact_arrow_flesh_02.wav",
+   "peakDb": -0.56,
+   "sha256": "3c998fc6f7b1e20c7a9d318027a0e5a0d13b0c8b548fb24369eda796a6c65e53",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/flesh/wpn_impact_arrow_flesh_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/flesh/wpn_impact_arrow_flesh_03.wav",
+   "peakDb": -1.69,
+   "sha256": "594d6a6e4ec017736d8d2579900843e783cbf929b9edf889ef2b8a922f47a7c7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/flesh/wpn_impact_arrow_flesh_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/flesh/wpn_impact_arrow_flesh_04.wav",
+   "peakDb": -3.77,
+   "sha256": "6e958317413c6455d8dae02314450b98ed5d102072f6f3a8251064c978f98452",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/shieldheavy/wpn_impact_arrow_shieldheavy_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/shieldheavy/wpn_impact_arrow_shieldheavy_01.wav",
+   "peakDb": 0.34,
+   "sha256": "648258823c775e40b045ffa3e43473963f9c12b1be0bfe47e4339469d799c1ef",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/shieldheavy/wpn_impact_arrow_shieldheavy_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/shieldheavy/wpn_impact_arrow_shieldheavy_02.wav",
+   "peakDb": 0.35,
+   "sha256": "5e43dcb1a3c0226510674a6649904b3dcf78a4cf0d221c5d08222597d850b58e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/shieldheavy/wpn_impact_arrow_shieldheavy_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/shieldheavy/wpn_impact_arrow_shieldheavy_03.wav",
+   "peakDb": 0.38,
+   "sha256": "65726bbef3b5a8c33479fac11491f4c728c5bd65d873a41fc017ed5316cd270f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/shieldlight/wpn_impact_arrow_shieldlight_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/shieldlight/wpn_impact_arrow_shieldlight_01.wav",
+   "peakDb": 0.38,
+   "sha256": "1f7bf236fa80236fb4c2bd24c626466ee65d6ceaee49f1875ff89de9a11efe62",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/shieldlight/wpn_impact_arrow_shieldlight_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/shieldlight/wpn_impact_arrow_shieldlight_02.wav",
+   "peakDb": 0.45,
+   "sha256": "417544ede2324dcd09ab448b48f9475340963642a08bd1eb644e0eb97518a80c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/shieldlight/wpn_impact_arrow_shieldlight_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/shieldlight/wpn_impact_arrow_shieldlight_03.wav",
+   "peakDb": 0.84,
+   "sha256": "ca1ec60f2d8e2cae7095c7e128961e309b1c7d1abb08517e87803599bccf0774",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/stick/wpn_impact_arrow_stick_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/stick/wpn_impact_arrow_stick_01.wav",
+   "peakDb": 0.16,
+   "sha256": "a96efbb2afcedbd9e637d7ac77a102e2d94113c57c411b04a26e6fe6ca360753",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/stick/wpn_impact_arrow_stick_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/stick/wpn_impact_arrow_stick_02.wav",
+   "peakDb": 0.49,
+   "sha256": "ae02e432e2841a69e0734977eb75c87db0985b04211cfcd873388ff02d8fe125",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/arrow/stick/wpn_impact_arrow_stick_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/arrow/stick/wpn_impact_arrow_stick_03.wav",
+   "peakDb": 0.0,
+   "sha256": "6dc9fcadd0d40940427e8f5e084ebdf817e9b42ad80c5f777e763eeafc59ff79",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/axe/flesh/wpn_impact_axe_flesh_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/axe/flesh/wpn_impact_axe_flesh_01.wav",
+   "peakDb": 3.59,
+   "sha256": "2aa1f33b11c57dfefd483a480fcf55ea8b532a6eae34a8ad0ba29924bc1491f0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/axe/flesh/wpn_impact_axe_flesh_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/axe/flesh/wpn_impact_axe_flesh_02.wav",
+   "peakDb": 3.5,
+   "sha256": "85100b145681892a8c138a573c91a4fe79fd05b4630e3d872840265138630d6c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/axe/flesh/wpn_impact_axe_flesh_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/axe/flesh/wpn_impact_axe_flesh_03.wav",
+   "peakDb": 2.32,
+   "sha256": "1aa1e334d77c5885dd753b87df7f674ae7e9ec8b9a4362542b5bcc702b530b18",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/axelarge/flesh/wpn_impact_axelarge_flesh_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/axelarge/flesh/wpn_impact_axelarge_flesh_01.wav",
+   "peakDb": 2.36,
+   "sha256": "78c65a3945555328e86de4ad4bd512114d8add186cd1d004e0c4c83666594ed1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/axelarge/flesh/wpn_impact_axelarge_flesh_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/axelarge/flesh/wpn_impact_axelarge_flesh_02.wav",
+   "peakDb": 1.97,
+   "sha256": "33ca8468fdaccdddf29a952836cda2a44d97ae6627e53f959323a54bac2ca91f",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/axelarge/flesh/wpn_impact_axelarge_flesh_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/axelarge/flesh/wpn_impact_axelarge_flesh_03.wav",
+   "peakDb": 1.58,
+   "sha256": "db3064f083d2f50c226f3e7b2bb04754e59075c6dfc119ee5b4b525b5a2db3db",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blade/2hand/flesh/wpn_impact_blade2hand_flesh_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/2hand/flesh/wpn_impact_blade2hand_flesh_01.wav",
+   "peakDb": 0.98,
+   "sha256": "44ece6818287590c7cc5858b08fb89ba3162494b94a1c51db2088539592fbfe7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/2hand/flesh/wpn_impact_blade2hand_flesh_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/2hand/flesh/wpn_impact_blade2hand_flesh_02.wav",
+   "peakDb": 0.62,
+   "sha256": "bdc6195292f8d9865edb8ac80a5d38e2392786716be8281e0d71e7a4e3a65b6d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/2hand/flesh/wpn_impact_blade2hand_flesh_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/2hand/flesh/wpn_impact_blade2hand_flesh_03.wav",
+   "peakDb": 0.0,
+   "sha256": "b97b963ddeb2e7371fbb8901295b7d3942f0d7d2259349da41e84416701507b9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/2hand/metal/wpn_impact_blade2hand_metal_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/2hand/metal/wpn_impact_blade2hand_metal_01.wav",
+   "peakDb": 0.67,
+   "sha256": "c852a2d42e8ddfa764d29cb7e5637088f1d8f2b62b2ecbe3e6b7c32aee93a21b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/2hand/metal/wpn_impact_blade2hand_metal_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/2hand/metal/wpn_impact_blade2hand_metal_02.wav",
+   "peakDb": 0.32,
+   "sha256": "3f9fea63d2f4a5e45f2d30bc4fecf219226d6cf862b285bc291f50e3c6c60b96",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/2hand/metal/wpn_impact_blade2hand_metal_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/2hand/metal/wpn_impact_blade2hand_metal_03.wav",
+   "peakDb": 0.59,
+   "sha256": "47f563b326d8303cdab87a4a487711faf48986fe1a01b44297ae0d8ff2afd7c6",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/armor/wpn_hit_blade_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/armor/wpn_hit_blade_01.wav",
+   "peakDb": 1.17,
+   "sha256": "1f12ceb6e84285104a0cefc1201c30a6c8df72ed47fbdfe3e3ba83d97e4118d1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blade/armor/wpn_hit_blade_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/armor/wpn_hit_blade_02.wav",
+   "peakDb": 2.28,
+   "sha256": "91275cc2a4a853cf786fa5d318d2e6242032a1c1778a9d4ea167eb47b5bea56b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blade/armor/wpn_hit_blade_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/armor/wpn_hit_blade_03.wav",
+   "peakDb": 2.29,
+   "sha256": "bf227ad8832ade9260c32f3fd693ac169dbc083ae3b844f6912c1ed70d5023ea",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blade/armor/wpn_hit_blade_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/armor/wpn_hit_blade_04.wav",
+   "peakDb": 1.47,
+   "sha256": "4558d82179e1f9a429893466fdf1aeeaa91aebb2ed897984b6639f024d3ca012",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blade/dirt/fx_melee_sword_dirt_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/dirt/fx_melee_sword_dirt_01.wav",
+   "peakDb": -2.89,
+   "sha256": "2bd3aaea739ec7131ab6d853cf1a8286c1d89646f85c41f364089f2db6c65a9c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/dirt/fx_melee_sword_dirt_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/dirt/fx_melee_sword_dirt_02.wav",
+   "peakDb": -0.59,
+   "sha256": "7bc1856d1a3a0bb960b77cec2c7d05895d006bab0ffc29856bfcb9832a498ad0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/flesh/wpn_impact_blade_flesh_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/flesh/wpn_impact_blade_flesh_01.wav",
+   "peakDb": 0.61,
+   "sha256": "b4f075451ba87c32af32b2600ac21db3773f52c0048256f11534e2c714ac39ef",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/flesh/wpn_impact_blade_flesh_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/flesh/wpn_impact_blade_flesh_02.wav",
+   "peakDb": 0.89,
+   "sha256": "2ab2ace01d34de9e29e08916574f5edd0e4de0ae043a71525c5cc269bfdbaeb8",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/flesh/wpn_impact_blade_flesh_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/flesh/wpn_impact_blade_flesh_03.wav",
+   "peakDb": 0.97,
+   "sha256": "b79561c733b996f68fe2a0ab2de23dfad3f891f6550b0de2a26935db82534ff2",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/metal/wpn_impact_blade_metal_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/metal/wpn_impact_blade_metal_01.wav",
+   "peakDb": 0.37,
+   "sha256": "e7798d0398d7bf88342a2c17ec22b58e094c4b350700381d93536f4694164637",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/metal/wpn_impact_blade_metal_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/metal/wpn_impact_blade_metal_02.wav",
+   "peakDb": 0.37,
+   "sha256": "79763af4b96bb682689af9bc4b3ff1bfbb0d3d5f63badd4749c54c1768e1dae1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/metal/wpn_impact_blade_metal_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/metal/wpn_impact_blade_metal_03.wav",
+   "peakDb": 0.59,
+   "sha256": "597372ada535c06dcdee33677aba903fe4128f2221442b76d60e0bd32fcba3d0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/other/fx_melee_sword_other_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/other/fx_melee_sword_other_01.wav",
+   "peakDb": 0.94,
+   "sha256": "08d6b967e172721d6eacfd7c12e9cd2e6b86b103f121bb5211c11f059a836341",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/other/fx_melee_sword_other_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/other/fx_melee_sword_other_02.wav",
+   "peakDb": 0.52,
+   "sha256": "b14da54f0ff90b0bcedec4b3fea729d04c142568f579f7285f92184d02f5fa08",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/other/fx_melee_sword_other_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/other/fx_melee_sword_other_03.wav",
+   "peakDb": 0.56,
+   "sha256": "c972cc5ae5dae626f33564300ac97287229293958d7fcf6f8baec5b9ca3800c9",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/wood/fx_melee_sword_wood_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/wood/fx_melee_sword_wood_01.wav",
+   "peakDb": 0.16,
+   "sha256": "e0620f119a1f88dcab14555c4ef5a635ccf284968b838fa0f68d4095914ae3dc",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blade/wood/fx_melee_sword_wood_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blade/wood/fx_melee_sword_wood_02.wav",
+   "peakDb": 0.67,
+   "sha256": "2f7f03f2d8472810b219973d6ad7882f9f17b924b2caa419ee277b2a467f5beb",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt/dirt/wpn_impact_blunt_dirt_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt/dirt/wpn_impact_blunt_dirt_01.wav",
+   "peakDb": -0.38,
+   "sha256": "4964ec8a6b02edcc19990e8388599d176da111733ea055bcb9c990dc86f9ec36",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt/dirt/wpn_impact_blunt_dirt_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt/dirt/wpn_impact_blunt_dirt_02.wav",
+   "peakDb": -3.37,
+   "sha256": "8b2bd595a9218c457f2a09a7074a5a73160bb490d3e8253522563010d8e69019",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt/flesh/wpn_impact_blunt_flesh_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt/flesh/wpn_impact_blunt_flesh_01.wav",
+   "peakDb": 0.21,
+   "sha256": "9119dd5be70296ad6049425506a400dbba20eb843003c6157c7bff1947526a5b",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blunt/flesh/wpn_impact_blunt_flesh_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt/flesh/wpn_impact_blunt_flesh_02.wav",
+   "peakDb": 2.31,
+   "sha256": "2e88f476381c1aca3f0746a09194aa514a5fb43e799a07d3641e01330ab14eb1",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blunt/flesh/wpn_impact_blunt_flesh_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt/flesh/wpn_impact_blunt_flesh_03.wav",
+   "peakDb": 1.73,
+   "sha256": "265db5f98524efbb28558f07c5c77612c69631a64a2ccfb0170113391d1db1f2",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blunt/wood/wpn_impact_blunt_wood_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt/wood/wpn_impact_blunt_wood_01.wav",
+   "peakDb": 0.66,
+   "sha256": "98d825f16f80864be06444e9a13b3bfc510d970c7a895cdbf14c4e92355892aa",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt/wood/wpn_impact_blunt_wood_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt/wood/wpn_impact_blunt_wood_02.wav",
+   "peakDb": 0.98,
+   "sha256": "da51f65421b39bf17d7b74f37195c146d10dbc81ecd1a6b009226e023dea850e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt/wood/wpn_impact_blunt_wood_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt/wood/wpn_impact_blunt_wood_03.wav",
+   "peakDb": 1.14,
+   "sha256": "c9af796df4f7c962ebc77c750634a8a57fd5d3b21391025feb9e19bdee9fb7bf",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/flesh/wpn_impact_blunt2hand_flesh_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/flesh/wpn_impact_blunt2hand_flesh_01.wav",
+   "peakDb": 1.04,
+   "sha256": "08625049e13b39192f40e769c52f9a98f2b17ce3c573ed51c8d6106649bcbff8",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/flesh/wpn_impact_blunt2hand_flesh_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/flesh/wpn_impact_blunt2hand_flesh_02.wav",
+   "peakDb": 1.09,
+   "sha256": "84ea2992b4f55f1d4edb928ccb8afe1f711351ca2f22934ea19e6c17e3410e20",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/flesh/wpn_impact_blunt2hand_flesh_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/flesh/wpn_impact_blunt2hand_flesh_03.wav",
+   "peakDb": 1.57,
+   "sha256": "45ddffe70db8434815fad5fc0b11d8842af66d36a8ee4950f7929fd57d5217a3",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/other/fx_impact_blunt2hand_other_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/other/fx_impact_blunt2hand_other_01.wav",
+   "peakDb": 0.3,
+   "sha256": "47fdb6a3fa5f2cee4c27e1d792498706cddc4e35c8556cc5182f14ffd7a544de",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/other/fx_impact_blunt2hand_other_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/other/fx_impact_blunt2hand_other_02.wav",
+   "peakDb": 1.88,
+   "sha256": "1fc5a531cf1dab274aac393d466ce9c0c62df5c7eda5823899e9bbe6ef7e4981",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/other/fx_impact_blunt2hand_other_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/other/fx_impact_blunt2hand_other_03.wav",
+   "peakDb": 1.7,
+   "sha256": "7586c62815f8d63b22477d9b2f3dd4cf241b6212fee8a5215687e61b97506b96",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/wood/wpn_impact_blunt2hand_wood_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/wood/wpn_impact_blunt2hand_wood_01.wav",
+   "peakDb": 1.23,
+   "sha256": "d67c29d786235f7f5adc8f5277ea3a8faddd33532fb6da0129fef061b24224f4",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/wood/wpn_impact_blunt2hand_wood_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/wood/wpn_impact_blunt2hand_wood_02.wav",
+   "peakDb": 0.74,
+   "sha256": "468c37d9949623488d9ed28cf96b25f3b1003205dd85606fc9d278706796bc26",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/blunt2hand/wood/wpn_impact_blunt2hand_wood_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/blunt2hand/wood/wpn_impact_blunt2hand_wood_03.wav",
+   "peakDb": 0.48,
+   "sha256": "b5ac1bcc2a0b887c782631b79da8355ce5e92df59b372f19953964993e7b0297",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 44100
+  },
+  "skyrim/fx/wpn/impact/unarmed/flesh/wpn_impact_unarmed_flesh_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/unarmed/flesh/wpn_impact_unarmed_flesh_01.wav",
+   "peakDb": 0.36,
+   "sha256": "3196d6450655a3fb96e76c5756dffaadfb62562d5f2e67756a8987b95f47e8fd",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/unarmed/flesh/wpn_impact_unarmed_flesh_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/unarmed/flesh/wpn_impact_unarmed_flesh_02.wav",
+   "peakDb": 0.86,
+   "sha256": "a5422c1ab9a42650a9afb5f6b28706306aaeb6031da74393e21ca52c639ccc53",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/unarmed/flesh/wpn_impact_unarmed_flesh_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/unarmed/flesh/wpn_impact_unarmed_flesh_03.wav",
+   "peakDb": 0.62,
+   "sha256": "02712b0ad489d2c6902d5908c4fb46ff3b7d651c007e2972fb1f92c7189f3aae",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/unarmed/other/wpn_impact_unarmed_other_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/unarmed/other/wpn_impact_unarmed_other_01.wav",
+   "peakDb": 0.15,
+   "sha256": "bef940b452222664f6f38bc6ec51c65a5631e4595948a452b709ab849d4174f7",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/impact/unarmed/other/wpn_impact_unarmed_other_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/impact/unarmed/other/wpn_impact_unarmed_other_02.wav",
+   "peakDb": 0.22,
+   "sha256": "c892ddb8f395434df0bceebc50280769560d0ed0c90d34d971ce016619b4560e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/lefthand/wpn_lefthand_draw_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/lefthand/wpn_lefthand_draw_01.wav",
+   "peakDb": -9.17,
+   "sha256": "1dc51b480772c5e7dd1a4da9dfa2a87651f5d3052bc4590f9974ea01e79ecc3c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/lefthand/wpn_lefthand_draw_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/lefthand/wpn_lefthand_draw_02.wav",
+   "peakDb": -17.77,
+   "sha256": "436d7bf80feafcf205f6e50327296d88e4634fe877e7429095cf8ab9f3cc4d23",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/lefthand/wpn_lefthand_sheathe_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/lefthand/wpn_lefthand_sheathe_01.wav",
+   "peakDb": -12.24,
+   "sha256": "840c684cdc8ca64d94db396c855565762f0f4c8cc1230d31b19c2662d60c6b44",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/mace1hand/wpn_mace1hand_draw": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/mace1hand/wpn_mace1hand_draw.wav",
+   "peakDb": -7.26,
+   "sha256": "a4fe62b7da18a2a3746e8bf4b65ce4a01af33047b47cbd3f60379bcf5f9e168a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/mace1hand/wpn_mace1hand_draw_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/mace1hand/wpn_mace1hand_draw_02.wav",
+   "peakDb": -7.41,
+   "sha256": "a7f99f1ab44f2201a44189c979d484e8497a6bb881a1ef42a930e10116cb82d2",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/axe/wpn_swing_axe_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/axe/wpn_swing_axe_01.wav",
+   "peakDb": -1.7,
+   "sha256": "f9703638a653950615d5dc76d6a0253e1753a81108aa2388b2d5cdd7c9cae9ad",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/axe/wpn_swing_axe_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/axe/wpn_swing_axe_02.wav",
+   "peakDb": -0.45,
+   "sha256": "f79d28c53bcf0885f9d8c858dff664d47d07c1258b92f3084329ea7d6772a130",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/blade/medium/fx_swing_blade_medium_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/blade/medium/fx_swing_blade_medium_01.wav",
+   "peakDb": 0.02,
+   "sha256": "835077d90e6acad16c5980121d6772eeb110f421730de2587a410796788fc74e",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/blade/medium/fx_swing_blade_medium_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/blade/medium/fx_swing_blade_medium_02.wav",
+   "peakDb": -1.34,
+   "sha256": "6f19a0e1b7b697cea2d8b306ec28cca287127b60b0b8011ee5ddfec94e09a5a0",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/blade/medium/fx_swing_blade_medium_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/blade/medium/fx_swing_blade_medium_03.wav",
+   "peakDb": -1.49,
+   "sha256": "ffb1b33e0fac8355318df97d863960ff62fd04ba321663bbb01095a2af905c8a",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/blade/medium/fx_swing_blade_medium_04": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/blade/medium/fx_swing_blade_medium_04.wav",
+   "peakDb": 0.0,
+   "sha256": "03eb5b20da81f5c5166b26de03aa0a84828cf901bec35574d571c35493764a92",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/blade2hand/fx_swing_blade2hand_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/blade2hand/fx_swing_blade2hand_01.wav",
+   "peakDb": -3.97,
+   "sha256": "e0c332819f646938bc41922a570a6ca6fd15b720c96ef3a7daff0efe5412c70c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/blade2hand/fx_swing_blade2hand_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/blade2hand/fx_swing_blade2hand_02.wav",
+   "peakDb": -4.01,
+   "sha256": "6f65811ae36bdc070e408f4e7fd79ce067d462a8196478a2dbf4b9ac95d1ac71",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/blade2hand/fx_swing_blade2hand_03": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/blade2hand/fx_swing_blade2hand_03.wav",
+   "peakDb": -3.34,
+   "sha256": "8e7103ccc258e42ecb6e58834d07f278eac7ad6985813b9508aefd4a28b50676",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/unarmed/wpn_swing_unarmed_01": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/unarmed/wpn_swing_unarmed_01.wav",
+   "peakDb": -1.91,
+   "sha256": "edb4e6ec6792cc8814e977fb8d5ab01be9dcbc65dca4cc225ede4323d366a44d",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  },
+  "skyrim/fx/wpn/swing/unarmed/wpn_swing_unarmed_02": {
+   "archive": "Skyrim - Sounds.bsa",
+   "channels": 1,
+   "kbps": 48,
+   "path": "sound/fx/wpn/swing/unarmed/wpn_swing_unarmed_02.wav",
+   "peakDb": -1.46,
+   "sha256": "860790e980cb709ad1d764cab16e697c1117b540701efa01271b6d382a35f19c",
+   "sourceCodec": "pcm_s16le",
+   "sourceSampleRate": 32000
+  }
+ },
+ "schemaVersion": 1
+}
