@@ -3,6 +3,14 @@ name: routing-audit
 description: Walk a chunk's or phase's read list as a fresh agent would, check its Starting state against the tree, and report contradictions, stale claims and blank-slate assumptions BEFORE building. Run at the start of every `deliver NNx`, at every phase start, and over the whole routed set at a phase close.
 ---
 
+> **Written against** (decision 0086 rule 4; step 5 checks the other
+> skills' headers and this one): decision 0066 (downstream stages read the
+> signed record, never re-solve it); decision 0086 rule 4 (step 5);
+> standard 15 (`docs/standards/engineering.md` §15); the 2026-09-13
+> docs-currency audits (Starting state per brief, reconcile before write).
+> If a cited record has moved, this skill is stale: report it, do not
+> follow it blind.
+
 # Routing audit
 
 **Why.** On 2026-09-13 three read-only audits found the same disease across
@@ -15,7 +23,7 @@ the codebase were a blank slate. Standard 15 catches the mechanical part
 **Two modes, and the cheap one is the default.**
 
 - **Pre-build check** (the delivering agent, first step of any `deliver NNx`
-  or phase start; ten minutes, no write-up): run step 3 only — `ls`,
+  or phase start; ten minutes, no write-up): run steps 3 and 5 only — `ls`,
   `git log -3` and the named gates against every claim in the brief's
   Starting state and Read list. Report mismatches in a short list to the
   owner before building; fix the brief's Starting state (replace it, never
@@ -23,7 +31,7 @@ the codebase were a blank slate. Standard 15 catches the mechanical part
   that costs context the build needs.
 - **Phase-close audit** (a fresh agent: Opus `research` for non-water
   topics, Fable for anything water; also whenever a brief's Starting state
-  is older than the last chain run): all five steps over the whole set the
+  is older than the last chain run): all six steps over the whole set the
   phase's briefs route to.
 
 **Steps.**
@@ -47,7 +55,17 @@ the codebase were a blank slate. Standard 15 catches the mechanical part
    passages (file:section, one-line quotes), which wins by the repo's
    precedence (dates, supersession banners, decisions over modules,
    CLAUDE.md over all), what an agent would do wrong.
-5. **Report, then fix or route.** Findings ranked by how badly they would
+5. **Check skill citations** (decision 0086 rule 4; both modes). For every
+   skill under `.claude/skills/`, read its "Written against" header and
+   check each ledger row and decision record it cites: the row or record
+   exists at the named path and section, and still says what the skill
+   relies on (`git log -1` the cited file against the skill's; a newer
+   commit means read the cited section again). A row renamed or moved, a
+   record superseded or amended, or a skill with no citation header is a **stale claim**: report it as
+   skill · citation · what changed (file:section, one-line quote). Do not
+   rewrite the skill in the audit; route it to the agent that owns the
+   job the skill covers.
+6. **Report, then fix or route.** Findings ranked by how badly they would
    mislead, with a per-file "rewrites needed" list naming the winning
    passage. If you are the delivering agent: fix the docs first (same
    commit discipline as any change), rewrite your own Starting state, and
@@ -56,5 +74,5 @@ the codebase were a blank slate. Standard 15 catches the mechanical part
    Fable agent.
 
 **Output shape.** Routing path · belief set · Starting state (verified) ·
-contradictions ranked · stale pointers · rewrites needed. Terse, evidence
-first, under ten minutes to read.
+contradictions ranked · stale pointers · stale skill citations · rewrites
+needed. Terse, evidence first, under ten minutes to read.

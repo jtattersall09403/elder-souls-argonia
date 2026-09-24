@@ -650,3 +650,5 @@ Tobler cost; drop the canonical endpoint ordering; make `effort_or_plan`
 always walk; derive the footprint from `bp["boundary"]`; hand-edit
 `rebuilt-stilt-city` to 100 in `type-recipes.json`; credit Thomas occupancy to
 the nearest parent only; drop the ceiling-repair acceptance guard.
+
+**Addendum (2026-09-23):** the owner's 2026-09-20 cut of thirteen unsited places (16g follow-up, f92565c6) is the rebalance of two count bands: `stilt-village` 6–9 → 5–9 (Longmont and Keel-Sakka Stilts cut, 5 live) and `reef` 3–6 → 2–6 (Whitebone Reef and Mangrove Reef cut, 2 live). The bands moved to hold the cut; `rederive_count_bands` was not run.

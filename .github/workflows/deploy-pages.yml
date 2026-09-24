@@ -32,6 +32,8 @@ jobs:
           cache: pip
           cache-dependency-path: tooling/world-generation/requirements-test.txt
       - run: python -m pip install -r tooling/world-generation/requirements-test.txt
+      # Every declared module imports, or one named red line (16h round 16).
+      - run: cd tooling/world-generation && python -m worldgen.check_requirements
       # THE LADDER (Phase 16, plan §3, owner 2026-09-12). The province is
       # rebuilt one chunk at a time on a frozen base; a gate that judges a
       # layer a later chunk still owns (water 16c, routes/structures/grading
@@ -81,6 +83,8 @@ jobs:
           cache: pip
           cache-dependency-path: tooling/world-generation/requirements-test.txt
       - run: python -m pip install -r tooling/world-generation/requirements-test.txt
+      # Every declared module imports, or one named red line (16h round 16).
+      - run: cd tooling/world-generation && python -m worldgen.check_requirements
       # A clean runner clone is also the proof that nothing depends on
       # sibling-repository paths or the local asset vault.
       - run: npm ci

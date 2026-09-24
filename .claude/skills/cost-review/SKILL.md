@@ -3,6 +3,11 @@ name: cost-review
 description: Periodic cost review of our Claude Code usage (decision 0079). Runs the token report over three time windows, checks every cost control is still firing, names where the spend now comes from and which sessions broke the pattern, and recommends the next safe reductions. Run in a FRESH session with "/cost-review" whenever the owner asks or about weekly; research GitHub only on a trigger, never routinely.
 ---
 
+> **Written against** (decision 0086 rule 4; `routing-audit` checks these):
+> decision 0079 (cost controls, rules 1–16); the previous review's last
+> section in `docs/research/agent-ops/cost-reviews.md`. If a cited record
+> has moved, this skill is stale: report it, do not follow it blind.
+
 You are reviewing cost, not doing project work. Keep this session short
 (aim: under 15 turns). The script does the counting; you do the judgement.
 Never edit settings, hooks or agents in this review: recommend, the owner

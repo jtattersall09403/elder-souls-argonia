@@ -1,70 +1,60 @@
-# 0083 — Tell the owner when a fresh session is cheaper than this one
+# 0083 — Price a fresh session against this one; switch at natural breaks
 
-Owner 2026-09-22. Extends 0079 (the bill is turns x context).
+Owner 2026-09-22, reshaped with the owner 2026-09-23. Extends 0079 (the bill
+is turns x context).
 
-Every turn re-reads the whole session context at the cached rate, so a long
-planner session gets dearer per turn; a fresh session pays a one-off
-orientation cost and then runs cheaper. Nobody measured the crossing point.
+Every planner call re-reads the whole session context at the cached rate, so a
+long session gets dearer per step. A fresh session pays a one-off cost and then
+runs cheaper. On tokens alone, short sessions win: with the context growing
+~2k a step, the cheapest pattern is a session of ~40 steps ending near 130k.
+But a mid-task hand-off loses what never reaches the notes (what was tried,
+why it was rejected, what the owner said in passing), costs the owner a
+restart each time, and gets sloppier the more often it happens. So the rule
+is: **the numbers inform, the natural break decides.**
 
-`tooling/repo-standards/session_switch.py` measures it; a `Stop` hook reports it.
+`tooling/repo-standards/session_switch.py` runs as a `UserPromptSubmit` hook
+in the owner's interactive session only (entrypoint `cli`; never subagents or
+headless runs). It rides the next instruction or wake, so it never forces an
+extra model call. Units are fresh-input-token equivalents
+(`session_tokens.WEIGHT`: cached read 0.1, cache write 2, input 1, output 5);
+subagent usage is identical either way and is left out.
 
-A turn's cost is in units — fresh-input-token equivalents, the rule of thumb
-for how the weekly limit is metered: cached read 0.1, cache write 2 (the
-1-hour TTL rate here), input 1, output 5. A turn is one main-chain model
-call: the transcript writes one assistant record per content block, each
-repeating the call's usage, so records are folded by `message.id`
-(`session_tokens.Calls`, shared by the token report and the hook). A turn's
-context is input + cache_read + cache_creation. That per-turn cost is compared
-with a fresh-session turn, and both are projected over a typical session's
-length (the baseline median, floor 20), reported as a share of the last 7 days
-of interactive planner usage — Fable's own weekly limit, subagent and headless
-usage excluded (`window_totals(..., interactive_only=True)`).
+- **One-off cost of switching** = hand-off + orientation. The hand-off is two
+  calls here (the last of the PROGRESS row and the brief's Starting state,
+  then the line to the owner), each re-reading the whole context; no commit,
+  tests or preflight (owner 2026-09-23). Orientation is what **this** session
+  spent before its first work call (an edit, a workflow, or a
+  `deliver`/`run`/`preflight`-type subagent; `find`/`research` look-ups are
+  still orientation), or its whole first turn if that ends first: the fresh
+  session pays it again. In practice the planner takes in only ~36k tokens at
+  the first-read rate while orienting (22k of it the fixed start-up text); the
+  subagents do the bulk reading.
+- **Saving per step** = (C_now − C_fresh) x 0.1, where `C_fresh` is the
+  context the first work call carried.
+- **Break-even** = one-off / saving, in planner steps (~5–6 per owner turn).
 
-The fresh-session baseline is the median over the last ten other interactive
-transcripts long enough to hold both windows: `O` is the cost of their first
-eight turns, `C_fresh` the context at turn eight. The saving per turn is
-`(C_now - C_fresh) x 0.1`. A switch costs `O` plus four hand-off turns at
-this session's rate (PROGRESS row, Starting state, pathspec commits, the
-preflight hand-off), and the break-even is `B = switch / saving`, rounded up.
-B <= 20 reports the pay-back at the next natural break, B <= 8 at the next
-commit; above that, nothing is said. `C_now` is the median context over the
-last fifteen turns (a compaction or resume re-write drops out), and only the
-excess-context re-read is the saving: cache writes and output are the work
-itself and cost the same in either session.
+After orientation the hook gives the planner one line per prompt: the
+one-off, the saving per step, the break-even and a stay/switch table for 5,
+10, 20, 40 and 80 remaining steps. **At each owner check-in the planner prices
+the next part** (stay vs switch for the steps it needs) and the owner chooses;
+switching happens only at such a break, with the PROGRESS row, the brief's
+Starting state and the exact one-line instruction for the new session. Past
+300k context the owner is told once (`systemMessage`) and the planner brings
+the current work to the nearest sensible break and hands off. State lives in
+`$TMPDIR/session_switch_<id>.json`; the hook exits 0 on any error.
+`--report [--transcript X]` prints the table.
 
-The tool cannot see how much of the chunk is left, so it never asserts that a
-fresh session is cheaper: it reports B, and the planner judges B against the
-planner turns the chunk still needs (subagent work does not count). A job that
-finishes in fewer turns than B stays where it is.
+Measured 2026-09-23 on a 400k session: one-off ~213k, saving ~35k a step,
+break-even ~6 steps; at 200k, ~176k / ~16k / ~11 steps; at 120k, ~154k / ~7k /
+~22 steps.
 
-Correction 2026-09-22: the first cut subtracted whole per-turn costs
-(`now_per_turn - fresh_per_turn`, cache writes at 2x and output at 5x
-included) and compared any session, however young, against a baseline
-measured at turns 8 to 18. A fresh session's own early turns write the system
-prompt, CLAUDE.md and the orientation reads to cache once, so the hook told
-two brand-new sessions (turn 3, turn 19) that a fresh session was cheaper.
-The code now uses the formula above, and a session says nothing until it has
-passed its own orientation and fresh windows (18 turns at the defaults).
+## History
 
-Second correction 2026-09-22: turns were counted per transcript record, so a
-38-call 16h session read as "turn 79", every baseline sum and the weekly
-total were roughly doubled, the 100-turn horizon was two and a half real
-sessions, and leaving was charged nothing. The owner, 53 minutes into that
-session with little planner work done, was told to switch. Records now fold
-by call, the horizon is a typical session, the hand-off is charged, and the
-line reports a pay-back for the planner to judge (B was 25 for that session:
-silent).
-
-The hook fires once per turn and costs nothing in the planner's context:
-`systemMessage` shows the owner the line, `additionalContext` lets the planner
-fold it into its next progress update. It never fires for subagents, emits
-only on a band change (state in `$TMPDIR/session_switch_<id>.json`), and exits
-0 on any error. Tune with `--report`; `--orient-turns` sets the assumed
-orientation length. The line also tells the planner to leave the tree ready
-for a fresh agent (current PROGRESS row, the active brief's Starting state
-rewritten, work committed by pathspec) and to hand the owner the one-line
-instruction that resumes the work — on the turn already carrying the hook's
-line, never a turn of its own.
-
-The preflight review gate (0079 §8) fires for subagents too, and the
-`preflight` agent is the standard caller.
+The first two cuts (2026-09-22) compared against a baseline of other sessions
+and projected over an assumed session length; a third (2026-09-23) priced only
+the next turn and blocked the stop to force a hand-off. The owner rejected the
+first two as over-complicated and the third because a one-turn view never
+fires (the hand-off alone re-read the context four times) while any longer
+fixed horizon would chop a phase into many short sessions. The
+records-per-call fold (`session_tokens.Calls`, one model call per
+`message.id`) stands.

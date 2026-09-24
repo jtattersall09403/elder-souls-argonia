@@ -12,5 +12,6 @@ All are `file:line` against commit `34bec0ed`; none of them changed anything.
 | [audit-settlements-delivered.md](audit-settlements-delivered.md) | The shipped settlements measured against the rules: hollow buildings, wrong kits, orientation, doors, floating pieces, missing paths. | evidence |
 | [audit-routers-and-context.md](audit-routers-and-context.md) | Whether the doc routers have broken and what important context sits unused; broken links across all 360 `.md` files. | evidence |
 | [16a-hydrology-graph-ledger.md](16a-hydrology-graph-ledger.md) | 16a's measurements: which base, August vs today, the drainage-solver defect, the graph report, the wet-season line, the pit list for ruling 2, the delta answer, the gates. | ledger |
+- [16h-catalogue-wide-steps-audit.md](16h-catalogue-wide-steps-audit.md) — which steps from 16h part 2 to Phase 15 run over a whole catalogue, measured counts, the sample-first shape for each, and the tools with no place selector.
 - [16d-ledger.md](16d-ledger.md) — the 1:1 registration that replaced the audit's, the apron build numbers, the gated tests, the beyond-border sea.
 - [16b-terrain-once-ledger.md](16b-terrain-once-ledger.md) — the 16b gate and defect record (0059 §, 0060 §9): what moved, what was waived, the two-run proof.

@@ -48,7 +48,7 @@ blend impossible by construction rather than by a placement rule:
 |---|---|---|---|
 | `settlement-mud-v1` | Shadowfen mud/wattle | 33 | 19.2 MB |
 | `settlement-stilt-v1` | Murkmire reed/stilt (passerelles + shackkit) | 26 | 14.0 MB |
-| `settlement-imperial-v1` | Imperial/foreign stone-timber | 11 | 8.1 MB |
+| `settlement-imperial-v1` | Imperial/foreign stone-timber | 29 | 23.2 MB |
 
 Configs: `tooling/asset-pipeline/pipeline/config/kits/settlement-*-v1.json`.
 Outputs land in `tooling/asset-pipeline/output/kits/` (gitignored — rebuild with
@@ -88,7 +88,7 @@ credit/provenance/pipeline liability. "Nice but redundant" is a skip.
 | **Skyfall's Sleeping Hist Tree Overhaul** (Skyfall515 et al.) | SSE 116792 | 1.4 | `1b7f3e3149f2db87` | `histtree` | A second hero-Hist mesh (18×24×16 m) + Hist flowers, **rock cairns and a rune circle** — the closest thing to grave-stakes anyone has |
 | **Script free ship sailing** (ElstarTomas; canoe by FrankFamily) | classic 67727 | 2.3 | `f13d0875fcc258bf` | `canoe` | `canoe1.nif` — the only genuine canoe mesh located anywhere. Unblocked by the clause ruling |
 | **Solitude (ghost) Ferry** (Syntia) | classic 89948 | 1.1.00 | `5345ab860dbd0d3a` | `ferryraft` | `ferryraft01.nif` — an actual poled raft. The owner's lead paid off, though the mod is not what its name suggests |
-| **Ships and boats of Tamriel** (ThatShipGuy) | SSE 41653 | 1.2 | `1bd5c3fac0d5c032` | `sbot` | The two **flat-bottomed Cyrodiilic ferries** + rowboat for the Imperial fringe; wrecks and ship interiors as a bonus. Also supplies Bretic textures other pools reference |
+| **Ships and boats of Tamriel** (ThatShipGuy) | SSE 41653 | 1.2 | `1bd5c3fac0d5c032` | `sbot` | The two **flat-bottomed Cyrodiilic ferries** + rowboat for the Imperial fringe; wrecks and ship interiors as a bonus. Also supplies Bretic textures other pools reference. 2026-09-23: v1.2 omits the rope and sail diffuse textures (`shipcyrodiilicrope01.dds`, `shipcyrodiilicsails01.dds`); v1.1 was fetched with the Nexus key and those two files copied into the vault (credit line updated) |
 | **Depths of Skyrim** (TheBlackpixel) + **Mesh fixes** (Gobsnek) | SSE 26913 + 174995 | 1.1.7 / 1.0.0 | `45256b8e537d48e1` / `81b0e11d6b49e9d1` | `depths` | Reef/bed flora for the drowned layer. **The 174995 fixed meshes are overlaid over the base at unpack time**, so the pool only ever exposes the corrected versions |
 | **SIRENROOT — Deluge of Deceit** (Everglaid) | SSE 70917 | 1.30 | `c1ba1454928262e3` | `sirenroot` | Free-standing broken/hollow ruin blocks and **walkable rubble floors** — a submerged ruin the player can stand in — plus water-caustic meshes |
 
@@ -201,6 +201,7 @@ Corimont all read as the same Nordic thatch village.
 |---|---|---|---|---|---|
 | Morrowind Imperial Keep Set (Remodeled) (Tesak1243) | SSE 133090 | 1.0 | `d22974919cdd3d6cea25f2b0b0851f2cb636a7569b7c3d1f8ae7b34c8584b9c0` | `mwkeep` | **164 meshes, all architecture.** A complete Morrowind-Imperial fort language: curtain walls with gate/corner/destroyed variants, wall stairs, big+small stackable towers (base/shaft/top), two keep blocks, guard towers, foundations, plaza, low stone yard walls, ledges and steps, river bridges and stone docks, stables, civic clutter, rubble variants, plus interior hall/room/spiral-stair modules and 8 animated doors |
 | Morrowind Hlaalu Architecture (Angelio, uploaded by Kai4304) | SSE 157997 | v2.0 | `c32811d704f25d33fe421e20d1258a965232c6fafc530a2f99d95c1f74c8cad7` | `hlaalu` | **127 meshes.** Premade and modular Hlaalu houses, a base/middle/top tower stack, yard/street walls with broken variants, steps, awnings, fences, stone blocks, small bridges, dockside cranes and lamp posts. Bundles other credited resources (Tamriel-Rebuilt-style walls, Oaristys props) and a `MorrowindImperialFort/` folder that duplicates 133090 |
+| King of the Murkmire (pancake0723) | SSE 190459 | 1.0.2 (Main, file 803646) | `7bf18067157130d47058ce20f0bc15759f5df71b6f81eb05079b8dba720a5ff2` | `mwkeep` (placement evidence only) | Plugin `King of the Murkmire.esp` (44 MB; archive 688 MB, assets in a BSA not extracted). 133090 ships no plugin and no Nexus mod requires it; this one places 318 exterior `mwimparch*` refs (62 pieces, 14 curtain-wall refs) in its own ArgoniaWorld with its own LAND, under 133090's model paths. Registered 2026-09-23 (16h K8) as the `mwkeep` pool plugin. Statistics only: no mesh, texture or voice is taken (its page forbids reuse of the voice assets). Three Reimperialized plugins (133861/134592/134616, TheLootist) place the set under re-pathed keys and are in the vault unregistered |
 
 Permissions checked via `/v1/games/skyrimspecialedition/mods/{id}.json`: both
 `published` + `available`, both category 82 (modder's resources), credit
@@ -489,6 +490,7 @@ the design must change to something we can deliver.
 | G6 | A **BM&V stilt-house shell with a shipped door** — Lilmoth's council hall and the Pus-house tower, plus the whole stilt-village family beyond them: `bmv:architecture/stilthouse/stilthouseext` is the only large stilt hall that we hold and derives no doorway | Stream A2, 2026-09-05 | no download: BM&V ships `stilthousedooranim` | **CLOSED — entrance measured, no design change.** `bmv:architecture/stilthouse/stilthouseext` carries two `open-front` entrances (6.10 m at bearing 225°, 5.35 m at 142.5°): the hall's veranda side is the way in. The first probe missed them because the plan centroid of a house-plus-veranda lands on the deck, outside the room; the one-metre retry lattice stands the eye inside the hall and reads them. `composite:stilt/stilthouse-with-door` was also authored (shell + `stilthousedooranim`, the only other architectural mesh in that folder, at the shared origin). The council hall keeps its size | 2026-09-05 |
 | G7 | A **Bosmer kiosk or market stall with a shipped door**, or a decision that a kiosk has no interior at all — Lilmoth's tariff bell and quay lamp both use `bmv:…/passerelles/kiosque/kiosk01`, which the index reads as enclosed but to which no assembly fits a door | Stream A2, 2026-09-05 | no download: `kioskaccesd01`, `kioskaccesi01` | **CLOSED — the set ships its own way in.** `bmv:…/passerelles/kiosque/` contains `kioskaccesd01` and `kioskaccesi01`, access thresholds authored in `kiosk01`'s own frame. Measured, their plan centres sit in the kiosk's two ring gaps to within 0.11 m and 0.02 m of the wall radius, heads 2.61 m above its floor — a fit, not a name match. `kiosk01` now derives two `door-piece` doorways; `composite:root/kiosk-with-access` / `composite:stilt/kiosk-with-access` package the three pieces as the set intends. No owner call needed: a kiosk is entered | 2026-09-05 |
 | G8 | The **hut interiors the blueprints already promised were never packaged**: 50 parcels across the five blueprints named `htbm:…/villages/argonian/bamboohut01_int`, `bamboohut02_int` and `mudmother:…/mudhut01intnew` as their doors' interiors, but those meshes sat in no kit config and no built kit, so nothing could be loaded behind the door | Interiors audit 2026-09-07 | no download: both meshes' pools (HTBM, Mud Mother Grove) are already credited and hashed; the `_int` rooms are the halves their own authors made to fit the shells | **BUILT** — `htbm-hut-int` (9 pieces: three `_Int` rooms, `bamboohutdoor01`, five wicker furnishings) and `mudmother-hut-int` (24: `mudhut01intnew` plus the indoor shelving, seating, hearth, pottery, lights and wall cloths from the same folder). `interiors_index.TILESET_RULES` now names both, so the shells resolve to a kit rather than to a loose mesh id | 2026-09-07 |
+| G9 | A **Mud Mother lantern hung on the Hist tree** (`mudmother:gv_meshes/argoniannest/argonianlanterns03` on `mudmother:gv_meshes/argoniannest/histtree`), reported in round 2 as a missing mount pair: the lantern measured `containedShare` 0.0 and the tree `n` 0 | 16h part 1 round 2 mount mine | not a gap: both meshes are in our kits and placed together in the Mud Mother plugin | **CLOSED — miner defect, not a sourcing gap.** Every placed Hist tree is scaled 0.77, and `worldgen/mine_mounts.py` dropped every reference whose scale was not 1.0, so the tree never entered the containment test. The miner now admits scaled parents and tests the child at the parent's unscaled size (round 3, lane J): `argonianlanterns03` measures `containedShare` 1.0 (n 3) and is classed `wall`. No mount pair is emitted, by the rule rather than by a defect: the three lanterns hang at three different points on the tree (offset spread 8.4 m against the 0.3 m single-offset gate) | 2026-09-23 |
 
 G3 needed no purchase either: BM&V is already a registered pool and already
 credited, and its README credit line was extended in the same change to name the
@@ -1049,3 +1051,53 @@ in no Skyrim SE asset anywhere.** 29 index queries over the Nexus GraphQL
 router returned zero, against an empty vault registry. There is likewise no
 coral-reef static mod for SSE at all, which is why the reef is Jokerine's two
 meshes rather than a purpose-built set.
+
+## Designed-sink swaps (Phase 16h, 2026-09-22)
+
+An asset the makers never placed can borrow a measured twin's ground contact
+when the two ship **the same mesh path**, which is identity rather than a
+choice of substitute. `pipeline/placement_metadata.py` resolves those
+automatically and records the evidence as `swap:<assetId>`; every swap it made
+is listed here.
+
+| Asset with no placements | Twin measured instead | Why the swap is the same mesh |
+|---|---|---|
+| `vanilla:landscape/grass/waterkelpshort01` | `bmv:landscape/grass/waterkelpshort01` (p50 0.0245 m) | Black Marsh & Valenwood ships a copy of the vanilla kelp under the identical path `landscape/grass/waterkelpshort01.nif`, and places it; the vanilla pool's own copy is never placed in `Skyrim.esm`. |
+
+## Lanterns and signs: what vanilla actually hangs (Phase 16h, 2026-09-23)
+
+Mined from `Skyrim.esm` (every exterior and interior cell, `worldgen.esp_index`)
+after the anchorClass rewrite found no lantern-on-post and no sign-on-wall pair
+in our 21 published kits: only one kit asset is wall-class on plugin evidence
+(`bmv:architecture/citebosmer/houses/houseglandacceslatd01`), and our lantern
+and banner meshes hang on buildings we do not ship.
+
+Lanterns and sconces, by placement count, with the piece they hang on:
+
+| Vanilla mesh | Placements | Hangs on (count) |
+|---|---|---|
+| `clutter/ruins/ruinwallsconce01.nif` | 470 | `dungeons/nordic/bgrooms/norrmbgwallside01` (17) |
+| `clutter/imperial/impwallsconcecandle01.nif` | 337 | `dungeons/ship/katariah/shipkatariahwoodwall01` (13), `dungeons/imperial/clutterkits/impfreewall01` (9), `dungeons/imperial/tower/imptowerinwall01` (7) |
+| `clutter/imperial/impwallsconce02candleon01.nif` | 297 | `dungeons/riften/ratwaybarrel/riftenrwroombwallv01` (16), `architecture/solitude/interiors/smdawallsol01` (16) |
+| `clutter/common/removabletorchsconce01.nif` | 246 | `clutter/stockade/stockadescaffoldtoppost01` (7), `dungeons/nordic/rubble/norvinewall01` (7) |
+| `clutter/common/candlelantern01.nif` | 679 | nothing: it stands on tables and shelves (tankard 151, shelf 125) |
+
+Signs, by placement count, with the piece they hang on:
+
+| Vanilla mesh | Placements | Hangs on (count) |
+|---|---|---|
+| `clutter/signage/roadsigns/roadsignriften01.nif` | 43 | `clutter/signage/roadsigns/roadsignpost.nif` (43) |
+| `clutter/signage/roadsigns/roadsignwhiterun01.nif` | 42 | `roadsignpost.nif` (42) |
+| `clutter/signage/roadsigns/roadsignwindhelm01.nif` | 28 | `roadsignpost.nif` (28) |
+| `clutter/signage/roadsigns/roadsignsolitude01.nif` | 26 | `roadsignpost.nif` (26) |
+| `clutter/signage/roadsigns/roadsignmarkarth01.nif` | 25 | `roadsignpost.nif` (25) |
+| `clutter/signage/whiterun/signwrpost01.nif` (the bracket) | 8 | carries shop signs: `signtg03blackbriarmeadery` (4), `signwrhonningbrewmeadery01` (4) |
+
+What the evidence says, against what was asked for: vanilla hangs its **lights
+on walls** (a bracket sconce, never a lantern on a post — the only post-lit
+mesh is `architecture/riften/rtlamppost01`, placed 4 times and carrying its own
+post) and its **signs on posts** (`roadsignpost`, 100 % of every directional
+plate). There is no vanilla lantern-on-post and no vanilla sign-on-wall to
+source. The two sourceable pairs are therefore a sconce on an imperial wall and
+a sign plate on a road-sign post; each plate is lettered with a Skyrim place
+name, so a sign needs an unlettered plate or a new one. That choice is open.

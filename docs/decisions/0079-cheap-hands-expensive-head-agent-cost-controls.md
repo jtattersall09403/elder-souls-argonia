@@ -28,7 +28,8 @@ the lever is the **number of planner turns**, not output size.
    `find` agent (Haiku, read-only, `omitClaudeMd`). Whole jobs (compile,
    publish, test, preflight, chain stages) go to the `run` agent (Sonnet,
    low). Both return a few lines of evidence; the output never enters the
-   planner's context. `deliver` and `research` (Opus, low) keep their roles
+   planner's context. `deliver` and `research` (Opus 5.5, medium since
+   2026-09-23, see the addendum below) keep their roles
    from the model policy in CLAUDE.md; nothing about who decides changed.
    **Enforced** (owner, same day, after a resumed session typed 25 shell
    commands in 53 turns): a `PreToolUse` hook in the committed
@@ -56,7 +57,8 @@ the lever is the **number of planner turns**, not output size.
    reason; symbol-navigation servers (Serena, Repomix, Atlas) were ruled
    out because our exploration is shell and docs, not symbol lookup.
 4. **Low effort by default for every model, Fable included** (owner
-   2026-09-19), set in `modelSettings`; a session that needs deeper
+   2026-09-19), set in `modelSettings`, except Opus 5.5 at medium (addendum
+   2026-09-23); a session that needs deeper
    reasoning raises it for that session only (`/effort high`).
    `CLAUDE_CODE_SUBAGENT_MODEL=sonnet` so the built-in Explore/Plan/
    general-purpose agents never inherit Fable.
@@ -76,11 +78,14 @@ the lever is the **number of planner turns**, not output size.
    The first run of the report found 1,210 sleep turns in the older
    sessions and Opus subagent spend comparable to the planner's own.
 8. **The code review runs itself before preflight** (owner, same day).
+   *Extended by [0087](0087-opus-decides-when-delegated-no-lane-cap-review-by-pathspec.md) §3: `--paths <pathspec>` reviews one commit's files, with its own stamp.*
    `tooling/repo-standards/review_gate.py` is a `PreToolUse` hook on any
    `preflight` command: no change → allow; stamp matches the diff → allow;
    stamp younger than 20 min → allow (the fix cycle); otherwise it runs
-   `claude -p` on Opus at low effort (owner 2026-09-19: Opus has weekly
-   headroom and review is judgement; tested on Sonnet first) with read-only
+   `claude -p` on Opus (owner 2026-09-19: Opus has weekly headroom and
+   review is judgement; tested on Sonnet first; Opus 5.5 at medium effort
+   since 2026-09-23, passed as `--model` and `--effort` so it does not
+   depend on the machine's settings) with read-only
    tools over the uncommitted diff
    (JSON and lockfiles excluded, small new source files included, 250 KB
    cap), writes `.claude/review-findings.md` and a stamp (both gitignored),
@@ -133,8 +138,8 @@ turn-wasters left. The owner ruled the same day:
     a full turn and saves nothing. Measured: 14 of 96 planner turns in one
     lane session, ~15% of its bill. The "Update on progress" golden rule
     now says updates ride on turns that do work; a non-actionable wake gets
-    no reply; small look-ups are folded into one brief; a fan-out of three
-    or more agents with nothing between them runs as one `Workflow` (the
+    no reply; small look-ups are folded into one brief; a fan-out of two or more agents (owner 2026-09-23; was three)
+    with nothing between them runs as one `Workflow` (the
     owner's opt-in is the CLAUDE.md line itself).
 12. **The prose linter covers what will be player-facing, and nothing
     else.** Player-facing means it will appear in the game or in any of our
@@ -164,8 +169,27 @@ turn-wasters left. The owner ruled the same day:
     become once shell output was gone.
 
 14. **The session itself is a cost.** When continuing costs more than a
-    fresh start, a `Stop` hook says so and gives the break-even in turns
+    fresh start, a hook prices it per step and the planner offers the
+    choice at each owner check-in; switches happen at natural breaks
     (decision 0083).
+
+## Addendum 2026-09-23 (Opus 5.5)
+
+15. **Every Opus route uses Opus 5.5 at medium effort** (owner, on its
+    release). The `deliver` and `research` agents pin
+    `claude-opus-5-5[1m]` with `effort: medium` in their frontmatter; the
+    review gate passes the same model and effort; the owner's global
+    `modelSettings` carries `claude-opus-5-5: medium`. Every other model
+    stays at low effort (rule 4). Roles are unchanged: Opus still never
+    diagnoses, designs or decides.
+    *Amended by [0087](0087-opus-decides-when-delegated-no-lane-cap-review-by-pathspec.md) §1: Opus decides what a brief delegates to it.*
+16. **Opus recommends; Fable decides** (owner 2026-09-23). Opus 5.5 is
+    capable enough that a brief can be slightly less directive, and the
+    `deliver` and `research` agents now end every report with a
+    `Recommendations` section: what the rules as written did not give,
+    what the evidence points at, what they would do. The planner reads
+    it as input and takes or rejects each item in the next brief; the
+    decision and its record stay Fable's.
 
 ## Not done here
 

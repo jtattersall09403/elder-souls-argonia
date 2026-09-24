@@ -204,6 +204,326 @@ follow-up round (about 60 files across apps, packages, tooling, world,
 docs). Another lane's; commit by pathspec only; run `git status` before
 you touch anything and never revert a file you did not change.
 
+## Part 1 state (2026-09-23 night; instruction: `continue 16h part 1 fix round after owner check-in 1`)
+
+**Done today.** Miner rounds 7–11 landed: real mesh contact, refs whose
+base lives in a master, the last override wins, the water column,
+contacts decide first, and the defining file's refs vote. The golden
+loop is still open (ledger "Round 6–11 miner"). The BM&V terrain
+question is resolved: no file is missing, and the misreads were three
+miner defects. Yard rounds K4 and K5 fixed the entrance derivation
+defect across all 23 kits. The threshold is now the measured opening,
+the slope rule 97 B3 lives in the compile, docks are exempt, and fixture
+obligations are skipped through one predicate. The five 2026-09-09
+blueprints are RETIRED to `world/sources/blueprints/retired/` (owner
+2026-09-23: the yard is the only fixture). Test-fix rounds 1–7 fixed
+stale `plot_remedies` tests, the survey cache read-only defect, water
+facts on reseats, stale exports (regenerated), roster `slotId` authored
+ids, and type bands 5–9 and 2–6 after the owner's cut. The owner CUT
+road-wear paint. Blackrose: the reseat is honoured by `city_centres` and
+`city_layout.solve`. The island city keeps its 230 m disc
+(`footprintSource` band plus `footprintWhy`). Lake features and the toll
+tower bind through `sitingPrefs.boundTo`. Five land satellites are
+reseated outside the disc. The toll tower stands at the causeway's shore
+end on the Soulrest road. Runtime: kit asset meta is keyed by id (it was
+`Object.entries` on a list, so every placement resolved null). Dug-in
+fits anchor on the lowest sample (world 97 C11a). The placement resolver
+is extracted, with a resolve test on the published bundle. Bundle tests
+are invariants (budget == round(worst × 1.55)). `ladder.json` was
+written from the fresh stamps, through 16h. The chain's own ladder write
+could not run: `compile_minor_waterways` trips on a dock authored for the
+retired Nine Trunks (backlog row). The studio settlement layer is
+unhidden.
+
+### Owner check-in 1 (2026-09-23), what the owner saw
+
+- Building bases are good.
+- Imperial gate: a thin gap to the wall west of it; the gate's east side
+  is hollow and open.
+- Imperial tower (4.24E 5.70S) stands alone, with hollow east and west
+  faces.
+- Stilt hut (4.33E 5.78S): the legs reach the ground, but it is not sunk
+  enough for its staircase to reach the ground; no path is visible.
+- Imperial house (4.28E 5.80S): the door is a body-height above the
+  ground; there are no paths anywhere.
+- Mud hut (4.27E 5.77S): height good, but its door stands alone beside
+  it; random tables nearby.
+- The stair and the cave mouth were not found. They are at 4.25E 5.68S
+  and 4.32E 5.74S.
+- Landing stage (4.37E 5.72S): the deck is far too high above water and
+  land, and its landward end does not reach the land.
+- Random chairs around 4.36E 5.73S and elsewhere.
+- Ferry raft (4.38E 5.73S) sits right on the water but is not
+  collidable.
+- The sconce on the free wall is good; the wall is hollow at its short
+  ends.
+- The sign post is not solid.
+- A stray boardwalk on land at 4.27E 5.74S, at shoulder height, with
+  chairs.
+- Owner questions: lit sconces from early evening to after sunrise, and
+  when man-made lighting is done.
+- Owner rule: every future check lists every item with its coordinates,
+  the full list each time.
+
+### Five causes
+
+1. **Stilt and quay pieces are seated by their leg tips.** The sink
+   fallback `ground_line_tell` returns the mesh bottom for every tell
+   except foundation-top (`mesh_ground_line.py`). So the stilt hut,
+   landing stage, boardwalk and farmhouse (manifest fit stilt) stand with
+   legs touching and the deck a leg-length up. Rule: a stilt or quay fit
+   is seated by its DECK (threshold or deck top). The deck sits at the
+   height the mod's placements show above water or ground (plugin
+   evidence), and the legs bury as deep as needed. The mesh fallback for
+   stilt fits is the deck-top tell, never the leg bottoms. Owner
+   2026-09-23: these kits have long legs so they can be sunk to suit the
+   ground or water.
+2. **The Imperial wall, gate and tower are modular pieces placed as
+   three lone parcels.** Their hollow ends are the faces meant to butt
+   into the next piece. The assembly templates in
+   `kit-assemblies-mined.json` were mined by bounding boxes. The mount
+   miner had the same defect until round 6 (t0429 pairs a roof corner
+   with a frame end that never met). Rule: the yard's Imperial group is
+   one mined assembly template, never separate parcels. The template
+   says which wall goes with which tower and gate, with the snap offsets.
+   Open ends get the kit's end pieces or face a neighbour (owner: "better
+   rules on what goes with what and how things snap together"). The fix
+   round extends the mesh-contact miner to assemblies. For every pair of
+   kit pieces placed touching in the plugins (wall to wall, wall to
+   tower, gate to wall, arch to wall), it records the contact face,
+   offset and relative yaw as an `abuts` pair with counts. The compile
+   snaps modular pieces only by those pairs. It flags an open modular end
+   that faces nothing (owner 2026-09-23: the same mesh-aware work that
+   placed the sconce right is what the walls, arches and towers need).
+3. **The mud hut's door piece is bound to the wrong point** after the
+   entrance re-derivation. Rule: for every composite in the yard, the
+   door threshold equals the doorway within 0.5 m. Extend the K5
+   agreement test from the stilt hut to all composites.
+4. **Dressing is added by the COMPILE from the mined templates** (the
+   blueprint holds no chairs, tables or barrels), and it is placed with
+   no host. Rule: the compile places template dressing only on a host (a
+   floor, deck, wall or mount pair). With no host it is dropped and
+   counted. The yard carries no dressing beyond the two mount exemplars.
+   The barrels beside the Imperial house float 0.47 m. That is the
+   plugin-sink defect (static-supported refs) the miner fixed in round
+   10.
+5. **The ferry raft and the sign post have no collider.** Check that the
+   trimesh collider sidecars for the ferry/wrecks kit and the imperial
+   kit's sign post are published and attached (`SettlementColliders`).
+   Fix the data or the attach.
+
+Two answers. Paths are 16h part 2's ground paint
+(`settlement_ground_control`, skipped on the ladder). Lit sconces and
+man-made lighting are not scheduled yet. They are queued as a part 2
+runtime item (item 22): a light emitter property on mount children,
+switched on and off by the calendar.
+
+### Yard coordinates (studio km E / S)
+
+The current table, read from the bundle yard round K14 published
+(2026-09-24; source `/tmp/k14_yard_table.txt`), with a studio link and a
+check per item, is the check-in 2 yard packet (§ Owner check-ins). Yard
+centre 4.310 / 5.740 (`?view=character&x=4.310&z=5.740&t=12`).
+
+### Open, in order
+
+Reconciled 2026-09-24 after yard rounds K6–K14 and miner rounds M13–M19.
+Done work lives in the ledger rows named; this list names only what is
+still open. The two lanes are decoupled (next section): nothing in the
+miner list blocks a yard item.
+
+**Yard** (`continue 16h part 1 fix round`)
+
+1. **Owner walk** with the check-in 2 yard packet (§ Owner check-ins;
+   the yard was published in K14).
+2. **Planner call: the truth-table fix path.** Six yard assets disagree
+   with their hand-written expectations (`worldgen/fixtures/yard-truth.json`
+   `knownMismatches`, ledger "Yard round K14"): `quay-run-2` ground
+   (expected water), `dockstrent01` deck (water), `signwrpost01` deck
+   (ground), `stilthouseext` water with no waterline, `stilthousedooranim`
+   ground (hanging), `passesc128h64d01` sink −1.542 m (expected −0.3 to
+   1.6 m). A policy row cannot fix them: `apply_placement_metadata` takes
+   the class from `kit-mounts-mined.json` and the sink from the record's
+   p50 before any policy row, `POLICY_ANCHOR` (`mine_mounts.py:1415`)
+   imposes only water or deck and only in a miner run, and
+   `--refresh-built-manifests` has no per-kit form. Decide the mechanism.
+3. **Red `test_no_published_yard_piece_floats_or_misplaces_its_sill`**:
+   landing stage 0.47 m, stilt hut 0.17 m (limit 0.15 m). The landing
+   stage shares item 2's `quay-run-2` cause (unplaced in the plugins, so
+   classed ground). Planner call for the stilt hut: the test measures the
+   terrain under the footprint against the ground at the pivot, which may
+   be the wrong measure for a stilt fit.
+4. **Planner calls carried from K11–K13**: the mined relative yaw is
+   clockwise and the composite importer turns counter-clockwise (K11 D;
+   mesh-contact check on every composite with a template yaw other than
+   0/180: mud hut frames and leaf, marsh-house-03 overhangs, farmhouse
+   doors); `street_router` does not end a way at its door (mire-landing
+   door 4's path end is moved by hand).
+5. **Mount sheets pass 2** (ledger §4): rounds 5–7 rendered 0 sheets
+   because the publish stopped first. K14 published, so render the 173
+   sheets on the current record and run the Sonnet sweep.
+6. **`text-review`** on the K9 run parcel's prose, the `wr-fence-run-3`
+   note and the yard `whyNeighbours` as K12 C rewrote them (run in
+   neither K12 nor K14).
+7. `npm run docs:check`, then the `preflight` agent, then commits BY
+   PATHSPEC: tooling speed lane; miner and records; renderer and sheets;
+   yard, bundle and runtime; test-fix and catalogue; skills; docs. Then
+   the PROGRESS row. The typecheck and game-core reds at K14
+   (`visualScenarios.ts:274`, `CombatScene.tsx:18`, `sandboxStore.ts:28`,
+   `visualScenarioExpectations.test.ts`) are the combat-sandbox lane's.
+8. **Queued, not part 1** (one backlog row each in
+   `docs/phases/P-polish/backlog.md`): yard `whyNeighbours` distances
+   generated from footprints at compile time; "kit sidecars 0.0 MB" in
+   `site:compose`; the terrain height-blend shader at the wall foot (16h
+   part 2).
+
+**Miner lane** (`continue 16h miner lane`; rules in the next section)
+
+1. Apply the three M19-evidenced fixes: (a) ground and deck pooled as
+   support before the plurality vote (answers the M19 golden miss on
+   `wrfencestr01` and batch 6's `stockadescaffoldtop0sided01`); (b) the
+   plugin-spread fallback only for structure categories with n < 6 or a
+   spread over half the mesh height (answers the 90-row `housetronc001`
+   spread rule that overturned decision 0075's rock seating); (c) the
+   cloud mesh folder in `NON_SUPPORT_STATIC_DIRS`.
+2. Golden set 25/25, then fresh seed batches (never 20260923–41) until
+   one passes with no rule change. The number of batches cannot be known
+   in advance; no round is called final.
+3. The ONE full mounts run (`--jobs 5`, memwatch). It writes
+   `meshesMissingIds` and owns three reds:
+   `test_mine_mounts.py::test_the_record_holds_the_golden_set`
+   (`cedartree3` pair classed `wall`),
+   `test_repository_used_asset_coverage_is_dynamic_and_explicit`
+   (`dungeon-root-v1`), and the catalogue form of the shipped-kit
+   contract (`PLACEMENT_CONTRACT_SCOPE=catalogue`, 21 findings). Then
+   `mine_designed_sink --complete-only`, the regression gate on the
+   full-run diff (more class changes than the stated target set plus 10
+   fails before the refresh), and
+   `placement_metadata --refresh-built-manifests`. The yard truth table
+   then fails on every mismatch the new record clears; update
+   `knownMismatches` in the same change.
+4. The `mwkeep` registry takes the King of the Murkmire plugin data
+   (rebuilt copy `/tmp/wf/round7/registry-mwkeep.rebuilt.jsonl`): 156
+   rows gain editor ids and sizes; five `imperial-keep` pieces turn
+   `door` by record type and keep the plugin's kind unless the yard's
+   wall run needs the gate arch as a static (report which). Rebuild
+   `imperial-keep` after.
+5. The literal run rule makes `wrfencestr01` (−x/−x along y, n 17) a
+   double joint.
+6. The seven meshes absent from the vault (backlog row, sourcing).
+
+### The miner lane and the yard are decoupled (owner 2026-09-24)
+
+Rounds K6–K13 and M13–M19 (ledger) each ended on a fresh 25-asset
+batch finding a new idiom somewhere in the 1,400-asset catalogue, and
+the yard walk was gated on that. Owner rulings: the "fresh batch of 25
+until one passes with no rule change" protocol STAYS (it is the right
+bar for the catalogue), it never again blocks a yard publish or an
+owner walk, and nobody calls a miner round "final": it ends when a
+fresh batch passes, which cannot be known in advance.
+
+- **Yard publishes from the current record**, whatever the miner's
+  state, after a yard truth table: every asset the yard uses gets a
+  hand-written expected class, sink, waterline and pairs (from the
+  geometry, by an agent that has not read the record) as a fixture
+  test; a mismatch is fixed by a policy row, never a rule. The export
+  and the shipped-kit contract check the assets a bundle uses; the
+  catalogue-wide tests are the miner lane's gates, not the yard's. The
+  export copies the published, compressed kits (never a raw GLB, M19
+  ruling 5).
+- **The miner lane** (`continue 16h miner lane`) applies the three
+  M19-evidenced fixes ((a) ground and deck pooled as support before the
+  plurality vote; (b) the plugin-spread fallback only for structure
+  categories with n < 6 or a spread over half the mesh height; (c) the
+  cloud mesh folder in `NON_SUPPORT_STATIC_DIRS`), then runs the batch
+  protocol honestly: golden, fresh seed, stop on a real miss, fix,
+  another fresh seed, until a batch passes; then the one full run, sink
+  completion, refresh, and a regression gate on the full-run diff (more
+  class changes than the stated target set plus 10 fails before the
+  refresh). The `mwkeep` registry takes the King of the Murkmire plugin
+  data; the five imperial-keep pieces it marks as doors keep the
+  plugin's kind unless the yard's wall run needs the gate arch as a
+  static (report which). Each miner round reports its batch score and
+  what it changed; the owner's walks continue on whatever record the
+  yard last published.
+
+### Owner check-in 2 (2026-09-24 afternoon): findings, causes, rulings
+
+Every finding is a rule or skill change first, a yard fix second (owner
+2026-09-24). Good: wall run joints, ends and collisions; gate; tower;
+sconce and its wall; sign post and huntsman sign; Imperial house sink;
+stilt stair grounded; ferry raft; landing-stage height; mud hut size,
+no tables.
+
+1. **Rubble ring and skirt band are CUT** (planner's own K6 choices from
+   the seam research, options 2 and 3). The rocks stood around every
+   base, blocked the gateway and the ramp foot, had no colliders and
+   looked wrong; the band jutted past the ruined wall ends and flashed
+   every ~2 s. Rule: no code-placed dressing at a building's foot; the
+   seam is the height-blend shader (option 1), a part 2 runtime item.
+2. **Buildings flash out for a frame while moving** (all of them; the
+   sconce wall's base flickers for seconds after the camera stops).
+   Suspects: the LOD ladder swap (0075), the skirt's polygonOffset, the
+   settlement layer re-mounting on tile changes. Probe, find the one
+   cause, fix at the root; a visual check scene.
+3. **Camera clips into buildings.** Rule: the follow camera collides
+   with settlement colliders as it already does with terrain (one
+   collision set, injected). Inside a shell (the stilt hut) the camera
+   must not put walls between itself and the player: research how
+   Breath of the Wild / Tears of the Kingdom handle interiors (pull-in,
+   near-plane fade, cutaway) and adopt one; part 2 runtime item 24.
+4. **No paths visible.** Part 2 ground paint moves to the FRONT of part
+   2 (owner asked at both check-ins).
+5. **Stilt hut sunk to the ground; stilts and stairs buried; a door
+   part sits in the roof.** Cause: the K14 `stilthouseext` row gave a
+   water class with a deck datum; on DRY ground the runtime seated the
+   deck on the ground. Rule (restating cause 1): a stilt fit seats its
+   DECK at the designed clearance above the support surface (water
+   surface, or ground under the legs when dry); the clearance comes
+   from the plugin refs (median deck height above ground/water) and the
+   legs bury as needed; never a water class for a piece on land. The
+   door in the roof is the composite's door part at a wrong offset
+   after the anchor-scale re-mine: the composite-author skill gains a
+   MANDATORY visual step (turntable + cutaway renders of the built
+   composite, judged by a Sonnet reader against a what-to-look-at list)
+   before a composite ships. A hollow shell with no interior needs no
+   door record: the door is a transition (0081) only where an interior
+   exists; otherwise the door leaf is a static part.
+6. **Mud hut door still wrong, asset judged poor.** Same skill rule as
+   5, plus: prefer assets whose doors are BUILT IN (most are); a
+   composite is the exception, with a written reason. Source a better
+   Argonian hut (BM&V, King of the Murkmire, HTBM already in the pool)
+   and replace the composite in the yard.
+7. **Boardwalk invisible at 4.273/5.739.** Find why (sunk, culled, not
+   published, LOD); the truth table gains a "visible from the ground
+   at its coordinates" probe.
+8. **Windows.** No building shows a window. Research how vanilla and
+   mods do windows (window meshes, glass alpha, night glow) and whether
+   the kit build drops them; rule and fix in kit-build.
+9. **Cave mouth** has hollow ends and a 6–12 inch threshold. Rule: a
+   dug-in piece is EMBEDDED (a terrain patch raises the ground around
+   its flanks, or rock pieces close them) and its threshold is flush
+   with the approach (sink until the sill meets the ground).
+10. **Landing stage's landward end short of the shore.** Rule: the
+    landward end reaches the bank where the DECK plane meets the
+    ground (not the waterline); extend the run or add the kit's shore
+    piece.
+11. **Ramp piece** (`passesc128h64d01`) is a ramp, part of a built-ways
+    family; connects to nothing. Rule: built ways (ramps, stairs,
+    boardwalks, bridges) are chains under the modular-runs skill and
+    are only placed as a run with both ends resolved. The yard keeps
+    it as a labelled single piece until the ways run exists.
+12. **Tower** is wall-height by the mod's design (a wall tower); the
+    set has taller towers (`mwimparchtowerbg01`); note in the ledger.
+13. **Sconce wall's open ends** are expected (interior piece, no
+    exterior evidence); the yard keeps it as the mount exemplar.
+
+### Commit state
+
+Nothing from part 1 is committed except the PROGRESS.md row (d2f95ea6).
+About 230 files are uncommitted current work, not a crash. No preflight
+has run yet. Commit by pathspec only, after step (g)'s preflight.
+
 ## Read (fresh agent: this is your whole map; read the section named, not the file, unless "in full" is said)
 
 - This brief in full, then the plan [README](README.md) §3 (the ladder
@@ -519,6 +839,9 @@ gate that passes on the current bundle is not a gate.
     (C9) and reachable from it under the step rules of item 12. Test: a
     door 5 m from any way fails; a door with no id fails; ids are stable
     across two compiles; an entrance piece with no door record fails.
+    Sample: the 58 replayed doors (47 sit more than 0.5 m from a doorway)
+    are the sample; the interiors index re-runs `--kit` for changed shells
+    only, never all 23 kits ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 5).
 
 12. **Stairs, decks and honest navigation** (D8). A real stair or ramp
     piece from a kit per deck link (stockade, Ayleid, dock steps; never an
@@ -530,7 +853,10 @@ gate that passes on the current bundle is not a gate.
     handoff widget reports what is consumed and says the province navmesh
     is 10b's. Test: collider top within step height of the deck, base
     within step height of the ground, for every deck link; the widget test
-    no longer asserts a literal.
+    no longer asserts a literal. Sample first ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 3): a
+    15-asset stair-tell golden file (`fixtures/stair-golden.json`, stilts
+    and decks with and without stairs, tell written first), then a fresh
+    15, before the one full manifest write.
 
 13. **Pads as terrain patches** (D9, C4). Replace
     `grade_settlement_pads.py`'s in-place write with 16e's pattern: an
@@ -576,7 +902,9 @@ gate that passes on the current bundle is not a gate.
     the bundle with the same seat and ladder as a compiled neighbour; the
     applier on a chunk with no patch leaves the file byte-identical; a
     patch that adds an instance inside a clearance polygon of a higher tier
-    fails.
+    fails. The lifted emission is proved byte-identical on 3 named chunks,
+    then a fresh 3, then one full `compile_scatter` run; never a full run
+    per edit ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 8).
 
 16. **Prove the three patch kinds on the proving ground and the route
     exemplar set, small and real.** On the proving ground: one
@@ -620,7 +948,9 @@ gate that passes on the current bundle is not a gate.
     `blueprint_integration` checks that back each; how a "wrong" becomes a
     rule, never a per-piece fix; the refusal on `ownerGuided` records for
     unattended runs. Runnable per assembly by a rollout agent without the
-    owner.
+    owner. Its own step carries the CLAUDE.md rule "Prove on a sample,
+    validate on a fresh batch, scale once" for every sweep
+    ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)).
 
 21. **Chain, gates, docs.** The `[16h]` ladder row lists the stages
     actually delivered (expected: `rederive_blueprints`,
@@ -643,6 +973,19 @@ gate that passes on the current bundle is not a gate.
     choices (the additive patch, the door record fields, the sink and
     mount derivations); the 16i brief's Starting state replaced from the
     ledger's ending state; PROGRESS.md.
+
+22. **Man-made lighting** (owner question, check-in 1, 2026-09-23). A
+    light emitter property on mount children (sconces, lanterns),
+    switched on and off by the calendar: lit from early evening to after
+    sunrise. The runtime reads the property; no per-piece code.
+
+23. **Host-aware ring dressing** (planner ruling C, K7, 2026-09-23). The
+    97 decision 4 ring (`compile_settlement.dressing_count` by parcel
+    `use`) stands props on bare ground round the pivot: the owner's
+    "random tables" and "random chairs" at check-in 1. Place them against
+    wall faces, on porches and decks, and chairs at tables by mined pairs
+    (`kit-assemblies-mined.json` templates and `abuts`), never on a ring.
+    Fixtures are exempt already (`blueprint.is_fixture`, K7).
 
 ## Moved out of this chunk (recorded, not parked)
 
@@ -719,6 +1062,63 @@ part 2).
 - Say whether the route-structure exemplar set is the right one for
   proving the kinds.
 
+**Check-in 2 yard packet** (published 2026-09-24, yard round K14). The
+coordinates are read from the published bundle
+(`apps/world-studio/public/province/settlements.json`: 16 placements,
+3 doors, 0 dressing objects). Every item in the yard is listed, including
+those that passed at check-in 1. Open each link in the studio;
+`$ES_TUNNEL_URL` is the local studio address.
+
+**How to reply.** One message. For each row, give the item name and
+"right" or "wrong: what you see". Skip a row you could not reach and say
+so. A "wrong" becomes a fix to a rule or a record, never a nudge to one
+piece.
+
+**Known before you walk.** The yard tests measure three items off:
+- The landing stage deck still stands about 0.5 m above where it should.
+  The records class it as a land piece, because no mod places that dock
+  run in the water.
+- The stilt hut sits 0.17 m off the ground under its footprint (the limit
+  is 0.15 m).
+- The stone stair's record sinks it about 1.5 m into the ground, deeper
+  than its shape suggests.
+
+Check these three anyway: what you see decides the fix.
+
+| Item | E / S (studio km) | Piece | Studio link | Check |
+|---|---|---|---|---|
+| Imperial wall, north end (ruined) | 4.237 / 5.681 | `mwimparchwall01destroyed01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.681&t=12` | The wall is one run of four pieces laid end to end: this ruin, the gate, the tower and a second ruin. It is four, not seven, because the ground here slopes too much for a longer straight wall. Seven or five pieces would tilt past the 2-degree limit; four tilt 1.96 degrees. Check that this end is broken stone, not a hollow cut-off, and that no gap shows where it meets the gate. |
+| Imperial gate | 4.237 / 5.688 | `mwimparchwallgate01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.688&t=12` | No gap to the wall on either side. The east side is closed, not hollow. You can walk through the arch. |
+| Imperial tower | 4.237 / 5.696 | `mwimparchwalltower01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.696&t=12` | It joins the gate and the south ruin with no gap at either joint. Its east and west faces are closed. |
+| Imperial wall, south end (ruined) | 4.237 / 5.703 | `mwimparchwall01destroyed02` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.703&t=12` | The wall ends in broken stone, not a hollow cut-off. No gap where it meets the tower. |
+| Stone stair | 4.252 / 5.675 | `passesc128h64d01` | `$ES_TUNNEL_URL?view=character&x=4.252&z=5.675&t=12` | You can find it. Its foot meets the ground with no gap, the top step is not buried, and you can climb it. |
+| Free wall with the candle sconce | 4.265 / 5.685 | `impfreewall01` | `$ES_TUNNEL_URL?view=character&x=4.265&z=5.685&t=12` | It stands on the ground. Its short ends are closed, not hollow. |
+| Candle sconce | 4.267 / 5.686 | `impwallsconcecandle01` | `$ES_TUNNEL_URL?view=character&x=4.267&z=5.686&t=12` | It is on the free wall and sits flat against its face. It stays unlit for now (see the answers below). |
+| Sign post | 4.262 / 5.695 | `signwrpost01` | `$ES_TUNNEL_URL?view=character&x=4.262&z=5.695&t=12` | It stands on the ground, not sunk or floating. It is solid: walk into it and you stop. |
+| Huntsman sign | 4.262 / 5.695 | `signwrdrunkenhuntsman01` | `$ES_TUNNEL_URL?view=character&x=4.262&z=5.695&t=12` | It hangs from the post and touches it, not floating beside it. |
+| Boardwalk | 4.273 / 5.739 | `tamu_wooddock01` | `$ES_TUNNEL_URL?view=character&x=4.273&z=5.739&t=12` | The deck is at a height you can step onto, not at shoulder height. No chairs on it or around it. |
+| Mud hut | 4.273 / 5.773 | `mud/hut-with-entrance` | `$ES_TUNNEL_URL?view=character&x=4.273&z=5.773&t=12` | Its base meets the ground. No tables or chairs are scattered round it. |
+| Mud hut door | 4.273 / 5.767 | (part of the hut) | `$ES_TUNNEL_URL?view=character&x=4.273&z=5.767&t=12` | The door stands in the hut's doorway, not on its own beside the hut. |
+| Imperial house | 4.276 / 5.795 | `farmhouse01-with-door` | `$ES_TUNNEL_URL?view=character&x=4.276&z=5.795&t=12` | Its base meets the ground. |
+| Imperial house door | 4.274 / 5.799 | (part of the house) | `$ES_TUNNEL_URL?view=character&x=4.274&z=5.799&t=12` | The doorstep is at ground height: you walk up to the door with no body-height step. |
+| Cave mouth | 4.320 / 5.737 | `bmv doorcaveb` | `$ES_TUNNEL_URL?view=character&x=4.320&z=5.737&t=12` | You can find it. It meets the ground all round with no gap and reads as a way in. |
+| Stilt hut | 4.326 / 5.777 | `stilt/stilthouse-with-door` | `$ES_TUNNEL_URL?view=character&x=4.326&z=5.777&t=12` | The legs reach the ground. The hut's own stair reaches the ground, and you can walk up it onto the deck. |
+| Stilt hut door | 4.327 / 5.774 | (part of the hut) | `$ES_TUNNEL_URL?view=character&x=4.327&z=5.774&t=12` | The door is at deck height, and you can walk up to it from the stair. |
+| Stray chairs and tables (seen at check-in 1) | 4.36 / 5.73 | none | `$ES_TUNNEL_URL?view=character&x=4.36&z=5.73&t=12` | No chair or table stands on its own here or anywhere else in the yard. |
+| Landing stage | 4.369 / 5.721 | `docks/quay-run-2` | `$ES_TUNNEL_URL?view=character&x=4.369&z=5.721&t=12` | The deck sits just above the water, not far above it. Its landward end reaches the shore. |
+| Ferry raft | 4.381 / 5.725 | `ferryraft01` | `$ES_TUNNEL_URL?view=character&x=4.381&z=5.725&t=12` | It sits on the water and is solid: you can stand on it and cannot walk through it. |
+| Yard centre (overview) | 4.310 / 5.740 | none | `$ES_TUNNEL_URL?view=character&x=4.310&z=5.740&t=12` | Look at each building's foot. A soft, darker band of ground about a metre wide runs round the walls, and a few sourced rock piles sit along the base. The band has no hard edge and does not flicker. The rocks sit in the ground, not on top of it. |
+
+- Every building's base still meets the ground. You said the bases were
+  good at check-in 1; say only if one has changed.
+
+Your two questions from check-in 1:
+- Paths: there are none yet, on purpose. Paths between the doors are drawn
+  in part 2 of this chunk.
+- Lit sconces from early evening to after sunrise: man-made lighting is
+  part 2 item 22. Until then the sconce is placed but unlit. Tables and
+  chairs placed against walls, on decks and at tables are part 2 item 23.
+
 ## Gotchas
 
 - Fix the rotation sign in one place; every measurement, snap check and
@@ -794,7 +1194,9 @@ elapsed time at every hand-back.
 
 **Part 2 (`deliver 16h part 2`).**
 - Step 0: apply the owner's check-in 1 answers as rules (Fable decides,
-  `deliver` edits; re-render the changed sheets once).
+  `deliver` edits). Each rule is proved on the owner's flagged sheets plus
+  ~10 named neighbours with the answers written first, then a fresh 25,
+  then one re-mine and one re-render of the diff set only ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 1).
 - Step 1, five lanes at once:
   - F `deliver`: renderable kinds incl. the route-structure exemplar set,
     hulls, landings, entrance pieces, the layer reveal (item 10):
@@ -819,7 +1221,9 @@ elapsed time at every hand-back.
 - Step 2 (Fable): author the proving-ground and exemplar-set patches
   (item 16: lore- and asset-aware, `why` and `sources` on each) and hand
   them to `deliver` to apply; render the plan sheets; Sonnet pass; fix
-  shared causes.
+  shared causes. The emission lift is proved per item 15 (3 named chunks,
+  a fresh 3, one full scatter); the Sonnet loop is capped at two, then
+  the residue ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 7).
 - Step 3: the ladder row, order fix and camp-track fix landed; one chain
   run from the freeze gate as a `run` job; two lanes at once: M `deliver`
   the `kit-qa` skill (item 20); N `deliver` audit §7's gates made to

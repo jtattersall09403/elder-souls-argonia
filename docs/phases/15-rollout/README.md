@@ -30,6 +30,12 @@ scope, types, owed structures, owner-guided flags), `packet-template.md`
    quest briefs and placements consistent; the packet marked done in
    PROGRESS.md; nothing above `rederive_blueprints` re-runs.
 
+Every catalogue run in a packet follows the CLAUDE.md golden rule "Prove
+on a sample, validate on a fresh batch, scale once", and every per-packet
+stage (re-derive, export, vegetation patches, ground control) runs with
+the `--places` selector 16j item 7b adds, full runs only at freeze
+([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)).
+
 Major cities and the opening-scene places (`ownerGuided: true`) are their
 own packets with extra rounds; no skill runs unattended on them (0062 §9).
 A type whose automation-readiness box is open (world 96 §3) gets an

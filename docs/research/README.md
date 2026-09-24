@@ -16,6 +16,7 @@ task router).
 | [phase16/](phase16/) | Phase 16 evidence (2026-09-11 audits behind [the plan](../phases/16-foundation-and-places/README.md)): [water runtime](phase16/audit-water-runtime.md), [hydrology data model](phase16/audit-hydrology-data-model.md), [delivered settlements](phase16/audit-settlements-delivered.md), [chain circularity, local patches, borders, cliffs](phase16/audit-chain-and-terrain.md), [routers and unused context](phase16/audit-routers-and-context.md). |
 | [text-and-voice/](text-and-voice/) | How the game's prose sounds: AI-writing tells, Morrowind speech register. |
 | [combat-and-systems/](combat-and-systems/) | Playable systems: poise, diceless resolution, stats/progression references, swim/climb/boat implementation, navmesh ambient AI, bow-aim camera, source-game crosscheck, build-out systems audit. |
+| [infrastructure/](infrastructure/) | The development machine: the Codespaces migration plan, the vault snapshot in R2 and the tiered restore. The operating doc is `tooling/bootstrap/README.md`. |
 | [quests-and-cast/](quests-and-cast/) | Quest and narrative research: cast structure, faction/quest rewards, opening hours and start area, boss options. |
 | [lore/](lore/) | Lore-grounding notes that back world decisions: minority enclaves, creature asset availability, watercraft. |
 | [agent-ops/](agent-ops/) | How our coding agents spend tokens: the dated cost reviews appended by the `cost-review` skill (decision 0079). |

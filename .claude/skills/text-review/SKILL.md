@@ -3,6 +3,13 @@ name: text-review
 description: Review and rewrite player-visible or world-record prose (place catalogue records, quest rows, text-catalogue strings, dialogue, docs) against the binding style guide and the AI-tell bans. Run it in a SEPARATE agent from the one that wrote the text, before commit. Use whenever text was added or edited, or the owner reports text that "sounds like AI".
 ---
 
+> **Written against** (decision 0086 rule 4; `routing-audit` checks these):
+> decision 0043; `docs/standards/text/style-guide.md` (§1.2, §2.4–2.8) and
+> `docs/standards/text/review-process.md`; standard 12
+> (`docs/standards/engineering.md` §12, prose written against the record).
+> If a cited record has moved, this skill is stale: report it, do not
+> follow it blind.
+
 # Text review
 
 You are the reviewer, not the writer. A writer cannot hear its own register

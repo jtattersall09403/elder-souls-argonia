@@ -8,10 +8,10 @@ A **template** is a pair of pieces the authors placed at the same relative offse
 
 | set | plugins | worldspaces | cells | structural refs | distinct pieces | templates found | kept | groups | never-alone pieces |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| vanilla | Skyrim.esm, Update.esm | Tamriel | 11199 | 16454 | 1181 | 2340 | 763 | 163 | 96 |
-| bmv-blackmarsh | Black Marsh.esm, Black Marsh North.esp | BlackMarsh, BlackMarsh2, BlackMarshNorth | 8344 | 2804 | 253 | 358 | 358 | 87 | 25 |
-| bmv-valenwood | Valenwood.esp | Valenwood | 3876 | 4254 | 278 | 1667 | 799 | 174 | 17 |
-| htbm | Here There Be Monsters - Curse of Cipactli.esp | CIPHTBMHesperideWorld, Tamriel | 2037 | 856 | 160 | 102 | 102 | 14 | 12 |
+| vanilla | Skyrim.esm, Update.esm | Tamriel | 11199 | 16454 | 1181 | 2320 | 748 | 162 | 102 |
+| bmv-blackmarsh | Black Marsh.esm, Black Marsh North.esp | BlackMarsh, BlackMarsh2, BlackMarshNorth | 8344 | 2804 | 253 | 383 | 383 | 95 | 24 |
+| bmv-valenwood | Valenwood.esp | Valenwood | 3876 | 4260 | 279 | 1672 | 799 | 174 | 16 |
+| htbm | Here There Be Monsters - Curse of Cipactli.esp | CIPHTBMHesperideWorld, Tamriel | 2037 | 856 | 160 | 104 | 104 | 16 | 14 |
 
 ## Vanilla Skyrim, worldspace Tamriel (`vanilla`)
 
@@ -19,26 +19,26 @@ A **template** is a pair of pieces the authors placed at the same relative offse
 
 | family | pieces | templates | groups | never alone |
 | --- | ---: | ---: | ---: | ---: |
-| `dungeons/imperial` | 195 | 201 | 59 | 21 |
-| `dungeons/dwemer` | 131 | 200 | 22 | 14 |
-| `dungeons/nordic` | 234 | 75 | 26 | 15 |
-| `architecture/farmhouse` | 69 | 73 | 29 | 11 |
-| `architecture/shackkit` | 23 | 73 | 4 | 13 |
-| `works-v1` | 24 | 34 | 6 | 0 |
-| `architecture/whiterun` | 103 | 28 | 5 | 9 |
+| `dungeons/imperial` | 174 | 199 | 61 | 24 |
+| `dungeons/dwemer` | 131 | 182 | 19 | 14 |
+| `architecture/shackkit` | 23 | 69 | 4 | 13 |
+| `settlement-imperial-v1` | 8 | 49 | 21 | 2 |
+| `dungeons/nordic` | 219 | 41 | 12 | 15 |
+| `probe-span` | 17 | 36 | 13 | 1 |
+| `architecture/farmhouse` | 59 | 31 | 11 | 11 |
+| `route-spans-v1` | 4 | 28 | 6 | 0 |
 | `settlement-stilt-v1` | 3 | 28 | 1 | 2 |
-| `clutter/stockade` | 17 | 17 | 3 | 0 |
+| `architecture/whiterun` | 93 | 22 | 4 | 7 |
+| `clutter/stockade` | 15 | 18 | 3 | 0 |
 | `architecture/orclonghouse` | 9 | 11 | 2 | 4 |
 | `architecture/tents` | 4 | 10 | 3 | 0 |
-| `settlement-imperial-v1` | 3 | 7 | 3 | 2 |
+| `works-v1` | 15 | 8 | 0 | 0 |
+| `enclosure-v1` | 11 | 6 | 1 | 2 |
+| `probe-enclosure` | 12 | 3 | 0 | 0 |
 | `architecture/winterhold` | 16 | 2 | 0 | 2 |
+| `route-structures-v1` | 7 | 2 | 1 | 0 |
 | `architecture/highhrothgar` | 23 | 1 | 0 | 0 |
-| `architecture/solitude` | 57 | 1 | 0 | 1 |
 | `architecture/windhelm` | 46 | 1 | 0 | 1 |
-| `docks-v1` | 13 | 1 | 0 | 0 |
-| `architecture/falmer hut` | 1 | 0 | 0 | 0 |
-| `architecture/markarth` | 26 | 0 | 0 | 0 |
-| `architecture/riften` | 99 | 0 | 0 | 1 |
 
 ### The 10 most-repeated templates
 
@@ -51,8 +51,8 @@ A **template** is a pair of pieces the authors placed at the same relative offse
 | `stonewall01` | `stonewallendl01` | 54 | -3.63, -0.0, 0.01 | 0.0 | 269.98 | 0.261 | Tamriel -40,1 |
 | `impexticebldgmid01` | `impexticebldgmid01` | 48 | 7.28, 0.0, 0.0 | 0.0 | 90.0 | 0.02 | Tamriel -1,-28 |
 | `dwefacadepartitionroof01` | `dwefacadepartition01` | 46 | -0.0, -0.0, 0.0 | 0.0 | 259.04 | 0.0 | Tamriel -42,10 |
+| `nortmpextplatcorout01` | `nortmpextplatwall02` | 45 | 0.0, 10.92, 0.0 | 90.0 | 0.0 | 0.014 | Tamriel -45,-5 |
 | `impexticebldgmid01` | `impexticebldgmid01` | 44 | 7.28, 7.28, 0.0 | 0.0 | 45.0 | 0.002 | Tamriel -36,28 |
-| `nortmpextplatcorout01` | `nortmpextplatwall02` | 42 | 0.0, 10.92, 0.0 | 90.0 | 0.0 | 0.014 | Tamriel -45,-5 |
 | `impexticebldgmid01` | `impexticebldgmid01` | 39 | -7.28, 7.28, 0.0 | 0.0 | 315.0 | 0.008 | Tamriel -1,-28 |
 
 ### The 10 most-repeated templates between DIFFERENT pieces
@@ -61,23 +61,23 @@ The composite candidates: a chain of one module repeats by construction, two dif
 
 | anchor | part | count | placement (m) | rel. yaw | family | example |
 | --- | --- | ---: | --- | ---: | --- | --- |
-| `stonewallendr01` | `stonewallendl01` | 64 | -3.63, 0.0, -0.03 | 0.0 | `architecture/farmhouse` | Tamriel -40,1 |
-| `stonewall01` | `stonewallendr01` | 59 | 3.64, 0.0, 0.0 | 0.0 | `architecture/farmhouse` | Tamriel -40,1 |
-| `stonewallendr01` | `stonewallendl01` | 55 | -7.27, 0.0, -0.0 | 0.0 | `architecture/farmhouse` | Tamriel -40,1 |
-| `stonewall01` | `stonewallendl01` | 54 | -3.63, -0.0, 0.01 | 0.0 | `architecture/farmhouse` | Tamriel -40,1 |
+| `stonewallendr01` | `stonewallendl01` | 64 | -3.63, 0.0, -0.03 | 0.0 | `settlement-imperial-v1` | Tamriel -40,1 |
+| `stonewall01` | `stonewallendr01` | 59 | 3.64, 0.0, 0.0 | 0.0 | `settlement-imperial-v1` | Tamriel -40,1 |
+| `stonewallendr01` | `stonewallendl01` | 55 | -7.27, 0.0, -0.0 | 0.0 | `settlement-imperial-v1` | Tamriel -40,1 |
+| `stonewall01` | `stonewallendl01` | 54 | -3.63, -0.0, 0.01 | 0.0 | `settlement-imperial-v1` | Tamriel -40,1 |
 | `dwefacadepartitionroof01` | `dwefacadepartition01` | 46 | -0.0, -0.0, 0.0 | 0.0 | `dungeons/dwemer` | Tamriel -42,10 |
-| `nortmpextplatcorout01` | `nortmpextplatwall02` | 42 | 0.0, 10.92, 0.0 | 90.0 | `dungeons/nordic` | Tamriel -45,-5 |
-| `nortmpextplatcorout01` | `nortmpextplatwall02` | 36 | 10.92, 0.0, 0.0 | 0.0 | `dungeons/nordic` | Tamriel -45,-5 |
-| `impextbldgstraight01` | `impextbldgmid01` | 34 | -0.0, -7.28, 0.0 | 0.0 | `dungeons/imperial` | Tamriel -34,13 |
-| `dwefacadepartitionroof01` | `dwefacadepartition01` | 33 | 0.0, -0.0, 0.0 | 180.0 | `dungeons/dwemer` | Tamriel 1,20 |
-| `impextbldgstraight03` | `impextbldgmid01` | 31 | -0.0, 7.28, 0.0 | 360.0 | `dungeons/imperial` | Tamriel -19,-7 |
+| `nortmpextplatcorout01` | `nortmpextplatwall02` | 45 | 0.0, 10.92, 0.0 | 90.0 | `probe-span` | Tamriel -45,-5 |
+| `nortmpextplatcorout01` | `nortmpextplatwall02` | 39 | 10.92, 0.0, 0.0 | 0.0 | `probe-span` | Tamriel -45,-5 |
+| `impextbldgstraight01` | `impextbldgmid01` | 37 | -0.0, -7.28, 0.0 | 0.0 | `dungeons/imperial` | Tamriel -34,13 |
+| `nortmpextplatstairmid02` | `nortmpextplatstaircapl01` | 35 | -3.64, -0.0, -0.0 | 0.0 | `probe-span` | Tamriel -44,-5 |
+| `impextbldgstraight03` | `impextbldgmid01` | 34 | -0.0, 7.28, 0.0 | 360.0 | `dungeons/imperial` | Tamriel -19,-7 |
 
 ### Multi-piece groups (one anchor, several parts)
 
 | anchor | parts | count | example |
 | --- | --- | ---: | --- |
 | `stonewall01` | `stonewallendr01` at 3.64, 0.0, 0.0, yaw 0.0, `stonewallendl01` at -3.63, -0.0, 0.01, yaw 0.0 | 43 | Tamriel -40,1 |
-| `nortmpextplatstairmid02` | `nortmpextplatstaircapl01` at -3.64, -0.0, -0.01, yaw 0.0, `nortmpextplatstaircapr01` at 3.64, 0.0, 0.01, yaw 0.0 | 20 | Tamriel -44,-5 |
+| `nortmpextplatstairmid02` | `nortmpextplatstaircapl01` at -3.64, -0.0, -0.0, yaw 0.0, `nortmpextplatstaircapr01` at 3.64, 0.0, 0.01, yaw 0.0 | 27 | Tamriel -44,-5 |
 | `norextwallbgstairmid01` | `norextwallbgstairr01` at 0.0, 3.64, 0.0, yaw 0.0, `norextwallbgstairl01` at -0.0, -3.64, 0.0, yaw 0.0 | 17 | Tamriel -11,8 |
 | `nortmpextplatcorout01` | `nortmpextplatwall02` at 0.0, 10.92, 0.0, yaw 90.0, `nortmpextplatwall02` at 10.92, 0.0, 0.0, yaw 0.0 | 16 | Tamriel -45,-5 |
 | `impexticebldgmid01` | `impexticebldgmid01` at 0.0, 7.28, 0.0, yaw 0.0, `impexticebldgmid01` at -7.28, 7.28, 0.0, yaw 0.0 | 14 | Tamriel 3,-20 |
@@ -91,10 +91,12 @@ The composite candidates: a chain of one module repeats by construction, two dif
 
 | piece | family | instances |
 | --- | --- | ---: |
+| `nortmpextplattowerbridge01` | `probe-span` | 82 |
 | `dwefacadetower02` | `dungeons/dwemer` | 81 |
 | `dwefacadetowerarch01` | `dungeons/dwemer` | 68 |
 | `shackroofside01` | `architecture/shackkit` | 63 |
 | `dwefacadepartition01` | `dungeons/dwemer` | 54 |
+| `impextbldgstraight04` | `dungeons/imperial` | 52 |
 | `impextbldgmid02` | `dungeons/imperial` | 49 |
 | `shackframelend01` | `settlement-stilt-v1` | 41 |
 | `impexticebldgstraight01` | `dungeons/imperial` | 38 |
@@ -114,14 +116,13 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `shackroofside03` | `architecture/shackkit` | 23 |
 | `shackwall01` | `architecture/shackkit` | 21 |
 | `nortowerruinsinttopfloor01` | `dungeons/nordic` | 21 |
-| `dwecivwarwallendcap01` | `dungeons/dwemer` | 20 |
-| `impexticebldgcorner01` | `dungeons/imperial` | 17 |
 
 ### Pieces only ever placed alone
 
 | piece | family | instances |
 | --- | --- | ---: |
-| `nortmpextstairsfree01` | `dungeons/nordic` | 136 |
+| `norextrubblepile04` | `dungeons/nordic` | 298 |
+| `nortmpextstairsfree01` | `probe-span` | 136 |
 | `impextrubble03` | `dungeons/imperial` | 131 |
 | `nortempleexteriorribfree07` | `dungeons/nordic` | 114 |
 | `norextrubblepile01` | `dungeons/nordic` | 112 |
@@ -134,8 +135,7 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `norextrubblepile08` | `dungeons/nordic` | 68 |
 | `impextrubble01` | `dungeons/imperial` | 66 |
 | `norextrubblepile02` | `dungeons/nordic` | 66 |
-| `nordwelling03extpylons01` | `dungeons/nordic` | 54 |
-| `norextrubblepile03` | `dungeons/nordic` | 53 |
+| `nortempleexteriorribfree06` | `dungeons/nordic` | 65 |
 
 ## Black Marsh & Valenwood — Black Marsh worldspaces (`bmv-blackmarsh`)
 
@@ -143,36 +143,36 @@ The composite candidates: a chain of one module repeats by construction, two dif
 
 | family | pieces | templates | groups | never alone |
 | --- | ---: | ---: | ---: | ---: |
-| `architecture/phitt` | 33 | 148 | 44 | 6 |
-| `architecture/shackkit` | 9 | 92 | 20 | 8 |
+| `hlaalu-domestic` | 3 | 118 | 36 | 2 |
+| `architecture/shackkit` | 9 | 90 | 19 | 7 |
+| `architecture/phitt` | 26 | 31 | 8 | 4 |
+| `architecture` | 16 | 25 | 11 | 0 |
 | `architecture/docks` | 10 | 24 | 7 | 2 |
-| `architecture` | 16 | 13 | 2 | 0 |
 | `_byoh/architecture` | 3 | 12 | 3 | 0 |
+| `architecture/whiterun` | 6 | 11 | 0 | 0 |
 | `architecture/rochester` | 8 | 10 | 1 | 2 |
-| `architecture/whiterun` | 6 | 10 | 0 | 0 |
 | `architecture/riften` | 14 | 9 | 0 | 1 |
 | `architecture/farmhouse` | 17 | 8 | 4 | 1 |
-| `architecture/huts` | 3 | 7 | 2 | 1 |
-| `architecture/small house` | 2 | 6 | 2 | 1 |
+| `settlement-mud-v1` | 2 | 8 | 3 | 2 |
+| `architecture/small house` | 2 | 7 | 2 | 1 |
+| `probe-enclosure` | 4 | 6 | 0 | 0 |
+| `probe-span` | 3 | 5 | 0 | 0 |
 | `dungeons/imperial` | 6 | 4 | 0 | 0 |
-| `settlement-mud-v1` | 2 | 4 | 1 | 1 |
 | `clutter/common` | 2 | 3 | 1 | 0 |
-| `watercraft-v1` | 2 | 2 | 0 | 0 |
+| `sheogorad` | 2 | 3 | 0 | 0 |
+| `watercraft-v1` | 2 | 3 | 0 | 0 |
+| `dungeons/ship` | 14 | 2 | 0 | 1 |
 | `architecture/architecture and structures` | 2 | 1 | 0 | 0 |
-| `architecture/snow_elves_remastered` | 4 | 1 | 0 | 0 |
-| `dungeons/ship` | 14 | 1 | 0 | 1 |
-| `settlement-stilt-v1` | 1 | 1 | 0 | 0 |
-| `sheogorad` | 2 | 1 | 0 | 0 |
 
 ### The 10 most-repeated templates
 
 | anchor | part | count | offset x,y,z (m) | rel. yaw | side | spread (m) | example |
 | --- | --- | ---: | --- | ---: | ---: | ---: | --- |
 | `doorframe01` | `doorframe01` (door) | 55 | -0.0, 0.4, 0.0 | 0.0 | 359.43 | 0.177 | BlackMarsh2 -22,20 |
-| `dockstrent02` | `dockstrent02` | 52 | 0.28, 7.21, -0.14 | 0.0 | 2.25 | 0.16 | BlackMarsh2 16,2 |
+| `dockstrent02` | `dockstrent02` | 52 | 0.28, 7.21, -0.14 | 0.0 | 2.25 | 0.16 | BlackMarsh -28,-9 |
 | `dockstrent03` | `dockstrent03` | 48 | 3.27, 0.08, 0.0 | 176.65 | 88.57 | 0.0 | BlackMarshNorth -17,4 |
-| `dockstrent01` | `dockstrent02` | 47 | 0.02, -7.1, -0.07 | 0.0 | 179.81 | 0.01 | BlackMarsh2 13,0 |
-| `dockstrent02` | `dockstrent02` | 46 | 0.17, 6.93, -0.08 | 0.0 | 1.43 | 0.014 | BlackMarsh2 14,0 |
+| `dockstrent01` | `dockstrent02` | 47 | 0.02, -7.1, -0.07 | 0.0 | 179.81 | 0.01 | BlackMarsh -28,-9 |
+| `dockstrent02` | `dockstrent02` | 46 | 0.17, 6.93, -0.08 | 0.0 | 1.43 | 0.014 | BlackMarsh -28,-9 |
 | `dockstrent03` | `dockstrent03` | 44 | -0.23, 7.09, 0.0 | 0.0 | 358.17 | 0.27 | BlackMarshNorth -17,4 |
 | `dockstrent03` | `dockstrent03` | 40 | 0.17, 7.11, -0.0 | 0.0 | 1.34 | 0.283 | BlackMarshNorth -17,4 |
 | `dockstrent03` | `dockstrent03` | 40 | 3.08, -7.19, 0.0 | 183.35 | 156.8 | 0.255 | BlackMarshNorth -17,4 |
@@ -185,16 +185,16 @@ The composite candidates: a chain of one module repeats by construction, two dif
 
 | anchor | part | count | placement (m) | rel. yaw | family | example |
 | --- | --- | ---: | --- | ---: | --- | --- |
-| `dockstrent01` | `dockstrent02` | 47 | 0.02, -7.1, -0.07 | 0.0 | `architecture/docks` | BlackMarsh2 13,0 |
-| `house03` | `overhang05` | 27 | -0.21, -5.16, -1.24 | 183.35 | `architecture/phitt` | BlackMarshNorth -6,15 |
-| `house03` | `window` | 27 | -3.13, -2.82, -0.97 | 275.02 | `architecture/phitt` | BlackMarshNorth -6,15 |
-| `house03` | `window` | 27 | -1.76, 4.01, -0.71 | 91.67 | `architecture/phitt` | BlackMarshNorth -6,15 |
-| `house03` | `window` | 27 | 1.94, 4.06, -0.71 | 91.67 | `architecture/phitt` | BlackMarshNorth -6,15 |
-| `house03` | `window` | 27 | 2.8, -3.0, -0.97 | 275.02 | `architecture/phitt` | BlackMarshNorth -6,15 |
-| `overhang05` | `window` | 27 | -2.88, -2.34, 0.27 | 91.67 | `architecture/phitt` | BlackMarshNorth -6,15 |
-| `overhang05` | `window` | 27 | -1.61, -9.33, 0.53 | 268.33 | `architecture/phitt` | BlackMarshNorth -6,15 |
-| `overhang05` | `window` | 27 | 2.09, -9.07, 0.53 | 268.33 | `architecture/phitt` | BlackMarshNorth -6,15 |
-| `overhang05` | `window` | 27 | 3.05, -2.16, 0.27 | 91.67 | `architecture/phitt` | BlackMarshNorth -6,15 |
+| `dockstrent01` | `dockstrent02` | 47 | 0.02, -7.1, -0.07 | 0.0 | `architecture/docks` | BlackMarsh -28,-9 |
+| `house03` | `overhang05` | 27 | -0.21, -5.16, -1.24 | 183.35 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
+| `house03` | `window` | 27 | -3.13, -2.82, -0.97 | 275.02 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
+| `house03` | `window` | 27 | -1.76, 4.01, -0.71 | 91.67 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
+| `house03` | `window` | 27 | 1.94, 4.06, -0.71 | 91.67 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
+| `house03` | `window` | 27 | 2.8, -3.0, -0.97 | 275.02 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
+| `overhang05` | `window` | 27 | -1.69, -1.38, 0.16 | 91.67 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
+| `overhang05` | `window` | 27 | -0.95, -5.49, 0.31 | 268.33 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
+| `overhang05` | `window` | 27 | 1.23, -5.33, 0.31 | 268.33 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
+| `overhang05` | `window` | 27 | 1.8, -1.27, 0.16 | 91.67 | `hlaalu-domestic` | BlackMarshNorth -6,15 |
 
 ### Multi-piece groups (one anchor, several parts)
 
@@ -203,24 +203,24 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `doorframe01` | `doorframe01` at -0.0, 0.4, 0.0, yaw 0.0, `ruinswooddoorload01` at 0.0, -0.08, 0.07, yaw 91.67 | 22 | BlackMarsh2 -22,20 |
 | `window` | `window` at 0.1, 3.49, 0.0, yaw 0.0, `window` at 2.55, 5.21, -0.07, yaw 91.67, `window` at 6.26, 5.26, -0.07, yaw 91.67 | 21 | BlackMarshNorth -6,15 |
 | `dockstrent01` | `dockstrent02` at 0.02, -7.1, -0.07, yaw 0.0, `dockstrent01` at -0.2, 5.86, -0.02, yaw 0.0 | 18 | BlackMarsh2 13,0 |
-| `window` | `window` at 2.29, 4.72, -6.04, yaw 91.68, `window` at 6.52, 4.62, -6.04, yaw 91.68 | 15 | BlackMarshNorth -6,15 |
+| `window` | `window` at 1.14, 2.36, -3.02, yaw 91.68, `window` at 3.26, 2.31, -3.02, yaw 91.68 | 15 | BlackMarshNorth -6,15 |
 | `house03` | `overhang05` at -0.21, -5.16, -1.24, yaw 183.35, `window` at -3.13, -2.82, -0.97, yaw 275.02, `window` at -1.76, 4.01, -0.71, yaw 91.67, `window` at 1.94, 4.06, -0.71, yaw 91.67, `window` at 2.8, -3.0, -0.97, yaw 275.02, `window` at -4.31, -1.2, -0.64, yaw 360.0, `window` at -4.21, 2.29, -0.64, yaw 360.0, `window` at 4.28, -0.8, -0.59, yaw 183.35, `window` at 4.51, 1.82, -0.59, yaw 183.35 | 14 | BlackMarshNorth 4,15 |
-| `overhang05` | `window` at -2.88, -2.34, 0.27, yaw 91.67, `window` at -1.61, -9.33, 0.53, yaw 268.33, `window` at 2.09, -9.07, 0.53, yaw 268.33, `window` at 3.05, -2.16, 0.27, yaw 91.67, `window` at 4.33, -3.72, 0.6, yaw 176.65, `window` at 4.43, -7.21, 0.6, yaw 176.65, `window` at -4.3, -7.25, 0.65, yaw 360.0, `window` at -4.22, -4.61, 0.65, yaw 360.0 | 14 | BlackMarshNorth 4,15 |
 | `dockstrent01` | `dockstrent02` at 0.02, -7.1, -0.07, yaw 0.0, `dockstrent02` at 0.03, 7.02, 0.1, yaw 0.0 | 13 | BlackMarsh -28,-9 |
 | `window` | `window` at 2.45, 1.72, -0.07, yaw 91.67, `window` at 6.15, 1.77, -0.07, yaw 91.67 | 13 | BlackMarshNorth -6,15 |
 | `window` | `window` at 0.08, 2.63, 0.0, yaw 0.0, `window` at 1.42, 4.91, -0.38, yaw 91.67, `window` at 7.35, 5.08, -0.38, yaw 91.67, `window` at 8.73, 0.04, -0.05, yaw 176.65, `window` at 8.63, 3.53, -0.05, yaw 176.65 | 13 | BlackMarshNorth 4,15 |
 | `window` | `window` at -0.33, 5.97, 0.0, yaw 0.0, `window` at 1.17, 7.25, 0.33, yaw 84.98, `window` at 4.65, 7.45, 0.33, yaw 84.98, `window` at 6.58, 5.16, 0.26, yaw 176.65, `window` at 6.96, 1.47, 0.26, yaw 176.65 | 12 | BlackMarshNorth -6,15 |
+| `doorframe01` | `doorframe01` at -0.0, 0.4, 0.0, yaw 0.0, `doorframe01` at 0.01, 0.87, 0.01, yaw 0.0, `ruinswooddoorload01` at 0.02, 0.37, 0.07, yaw 91.67 | 11 | BlackMarsh2 -22,20 |
 
 ### Pieces never used alone
 
 | piece | family | instances |
 | --- | --- | ---: |
-| `window` | `architecture/phitt` | 319 |
+| `window` | `hlaalu-domestic` | 319 |
 | `dockstrent03` | `architecture/docks` | 48 |
 | `stonewall01ivy` | `architecture/farmhouse` | 47 |
-| `doorframe01` | `architecture/huts` | 44 |
+| `doorframe01` | `settlement-mud-v1` | 44 |
 | `shackwall01` | `architecture/shackkit` | 42 |
-| `overhang05` | `architecture/phitt` | 27 |
+| `overhang05` | `hlaalu-domestic` | 27 |
 | `shackroofside01` | `architecture/shackkit` | 26 |
 | `dockstrsol01` | `architecture/docks` | 24 |
 | `smallhouseint` | `architecture/small house` | 18 |
@@ -233,7 +233,6 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `bauernhaus03` | `architecture/rochester` | 9 |
 | `shackframelend01` | `architecture/shackkit` | 9 |
 | `shackwall03` | `architecture/shackkit` | 9 |
-| `shackwall04` | `architecture/shackkit` | 9 |
 | `overhang03` | `architecture/phitt` | 8 |
 | `rifrmsmbasewallcrypt01` | `architecture/riften` | 8 |
 | `bauernhaus01` | `architecture/rochester` | 8 |
@@ -253,13 +252,13 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `cyrfarmhouse01` | `architecture` | 19 |
 | `abx_arch` | `architecture` | 18 |
 | `smallimperialtent` | `architecture/tents` | 18 |
-| `shousedoor02` | `architecture/solitude` | 16 |
 | `mrkdocksidebridge01` | `architecture/markarth` | 15 |
 | `dweroadstraight02` | `dungeons/dwemer` | 14 |
 | `dockstepsdown02` | `architecture/docks` | 13 |
 | `farmhouse06destroyed02` | `architecture/farmhouse` | 13 |
 | `1sovcastlewall` | `architecture/largecastle` | 12 |
 | `bamboohut01` | `architecture` | 11 |
+| `tel_ext_cap_03` | `telvanni` | 11 |
 
 ## Black Marsh & Valenwood — Valenwood worldspace (`bmv-valenwood`)
 
@@ -268,25 +267,25 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | family | pieces | templates | groups | never alone |
 | --- | ---: | ---: | ---: | ---: |
 | `dungeons/ayleidruins` | 24 | 400 | 88 | 2 |
-| `settlement-root-v1` | 18 | 205 | 39 | 4 |
+| `settlement-root-v1` | 18 | 204 | 38 | 4 |
 | `dungeons/ship` | 6 | 88 | 13 | 1 |
-| `dungeon-root-v1` | 1 | 17 | 5 | 0 |
+| `bmv-treehouse-int` | 2 | 17 | 5 | 0 |
 | `dungeons/imperial` | 40 | 16 | 2 | 2 |
-| `telvanni` | 5 | 14 | 2 | 0 |
+| `telvanni` | 4 | 15 | 3 | 0 |
 | `dlc01/dungeons` | 4 | 13 | 6 | 0 |
-| `architecture/rochester` | 20 | 11 | 6 | 0 |
+| `architecture/rochester` | 19 | 11 | 6 | 0 |
 | `architecture/docks` | 8 | 7 | 3 | 0 |
 | `clutter/stockade` | 2 | 7 | 2 | 1 |
-| `architecture/phitt` | 6 | 6 | 2 | 1 |
+| `hlaalu-domestic` | 1 | 5 | 2 | 0 |
 | `dlc02/architecture` | 4 | 4 | 1 | 0 |
 | `manny_gf/stairskit` | 2 | 4 | 2 | 2 |
 | `architecture/farmhouse` | 13 | 3 | 1 | 2 |
 | `architecture/riften` | 6 | 2 | 1 | 0 |
 | `architecture/solitude` | 8 | 2 | 1 | 0 |
+| `architecture/phitt` | 4 | 1 | 0 | 1 |
 | `architecture` | 6 | 0 | 0 | 1 |
 | `architecture/cyrodil` | 9 | 0 | 0 | 0 |
 | `architecture/highhrothgar` | 2 | 0 | 0 | 0 |
-| `architecture/houses` | 1 | 0 | 0 | 0 |
 
 ### The 10 most-repeated templates
 
@@ -315,7 +314,7 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `kioskbarrierei01` | `shipkatariahwoodfloor01` | 58 | radius 2.15 m, rise 0.0 m, bearing free | 45.84 | `settlement-root-v1` | Valenwood 5,-13 |
 | `kioskbarrierei01` | `shipkatariahwoodfloor01` | 58 | radius 8.07 m, rise 0.0 m, bearing free | 45.84 | `settlement-root-v1` | Valenwood 5,-13 |
 | `kioskbarrierei01` | `shipkatariahwoodfloor01` | 55 | radius 4.69 m, rise 0.0 m, bearing free | 45.84 | `settlement-root-v1` | Valenwood 5,-13 |
-| `tel_int_connector_01` | `casexfreelgdoor01` (door) | 42 | -0.01, 3.49, -0.43 | 183.35 | `dungeon-root-v1` | Valenwood 2,-18 |
+| `tel_int_connector_01` | `casexfreelgdoor01` (door) | 42 | -0.01, 3.49, -0.43 | 183.35 | `bmv-treehouse-int` | Valenwood 2,-18 |
 | `kioskbarrierei01` | `shipkatariahwoodfloor01` | 39 | radius 9.09 m, rise 0.0 m, bearing free | 137.51 | `settlement-root-v1` | Valenwood 4,-13 |
 | `kioskbarrierei01` | `shipkatariahwoodfloor01` | 38 | radius 5.15 m, rise 0.0 m, bearing free | 45.84 | `settlement-root-v1` | Valenwood 5,-13 |
 | `kioskbarrierei01` | `shipkatariahwoodfloor01` | 34 | radius 3.54 m, rise 0.0 m, bearing free | 314.16 | `settlement-root-v1` | Valenwood 5,-14 |
@@ -324,14 +323,14 @@ The composite candidates: a chain of one module repeats by construction, two dif
 
 | anchor | parts | count | example |
 | --- | --- | ---: | --- |
-| `passl128i01` | `passl128i01` at 1.75, 1.75, -0.0, yaw 360.0, `passl128i01` at 3.52, 3.51, 0.0, yaw 360.0, `passl128i01` at 5.31, 5.3, 0.0, yaw 360.0, `passl128i01` at 7.07, 7.06, 0.0, yaw 360.0 | 93 | Valenwood -13,-19 |
+| `passl128i01` | `passl128i01` at 1.75, 1.75, -0.0, yaw 360.0, `passl128i01` at 3.52, 3.52, 0.0, yaw 360.0, `passl128i01` at 5.31, 5.3, 0.0, yaw 360.0, `passl128i01` at 7.07, 7.06, 0.0, yaw 360.0 | 93 | Valenwood -13,-19 |
 | `shipkatariahwoodfloor01` | `shipkatariahwoodfloor01` at -0.0, 3.59, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -3.57, 0.04, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -3.56, 3.62, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at 0.01, 7.19, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -7.14, 0.07, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -7.14, 3.65, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at 3.58, 7.16, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -3.56, 7.22, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -10.72, 0.11, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -10.71, 3.68, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at 7.16, 7.13, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -7.13, 7.25, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at 0.01, 10.79, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at 3.59, 10.76, 0.0, yaw 0.0, `shipkatariahwoodfloor01` at -3.56, 10.82, 0.0, yaw 0.0 | 87 | Valenwood 4,-14 |
 | `passcirc90r448h256ldd01` | `passcirc90r448h256ldd01` at 0.0, 0.0, 3.64, yaw 270.0, `passcirc90r448h256ldd01` at 0.01, 0.0, 7.28, yaw 180.0, `passcirc90r448h256ldd01` at 0.0, 0.0, 10.94, yaw 90.0 | 31 | Valenwood -14,-18 |
 | `stonewall01ivy` | `stonewallendr01ivy` at -3.17, -0.06, 0.01, yaw 176.45, `stonewallendl01ivy` at 3.13, 0.04, -0.0, yaw 176.65 | 22 | Valenwood 16,27 |
+| `passl128i01` | `passl128i01` at 1.75, 1.75, -0.0, yaw 360.0, `passl128i01` at 3.52, 3.52, 0.0, yaw 360.0 | 19 | Valenwood -13,-19 |
 | `rtleaves02` | `rtleaves02` at 3.25, 8.36, -0.41, yaw 268.33, `rtleaves02` at -8.04, -4.95, -0.64, yaw 268.33 | 17 | Valenwood -30,-11 |
 | `tel_int_connector_01` | `casexfreelgdoor01` at -0.01, 3.49, -0.43, yaw 183.35, `window` at -3.4, 1.92, 1.81, yaw 48.48, `window` at 3.44, 0.31, 1.73, yaw 145.51 | 16 | Valenwood 3,-16 |
-| `casexfreelgdoor01` | `window` at 3.32, 1.81, 2.18, yaw 225.14, `window` at -3.61, 3.02, 2.1, yaw 322.18 | 16 | Valenwood 3,-16 |
-| `passl128i01` | `passl128i01` at 1.75, 1.75, -0.0, yaw 360.0, `passl128i01` at 3.52, 3.51, 0.0, yaw 360.0 | 14 | Valenwood -13,-19 |
+| `casexfreelgdoor01` | `window` at 4.15, 2.26, 2.72, yaw 225.14, `window` at -4.51, 3.77, 2.62, yaw 322.18 | 16 | Valenwood 3,-16 |
 | `tel_int_connector_01` | `casexfreelgdoor01` at -0.16, -0.4, -0.34, yaw 360.0, `window` at -2.6, 1.05, 1.59, yaw 302.88, `window` at 2.9, 2.43, 1.57, yaw 187.58 | 14 | Valenwood -12,-3 |
 | `housegland001` | `window` at -3.74, 0.27, 0.77, yaw 0.14, `window` at 0.39, -3.61, 0.76, yaw 244.84, `casexfreelgdoor01` at -3.64, -2.53, -1.15, yaw 57.25, `tel_int_connector_01` at -3.22, -2.48, -0.81, yaw 57.25 | 14 | Valenwood -12,-3 |
 
@@ -352,7 +351,6 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `abx_tower` | `architecture` | 8 |
 | `passl256h64i01` | `settlement-root-v1` | 5 |
 | `impexticestairs01` | `dungeons/imperial` | 5 |
-| `castlehouse01` | `architecture/seaview` | 4 |
 | `farmbtrapdoor02` | `architecture/farmhouse` | 3 |
 | `exttower` | `architecture/phitt` | 3 |
 | `impstablesingle01` | `dungeons/imperial` | 3 |
@@ -362,10 +360,10 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | piece | family | instances |
 | --- | --- | ---: |
 | `outerwall` | `griffon fortress` | 88 |
-| `1024wall01` | `architecture/newcastle` | 42 |
+| `1024wall01` | `enclosure-v1` | 42 |
 | `rtlamppost01` | `architecture/riften` | 30 |
 | `minecliffs03` | `dungeons/mines` | 29 |
-| `512pillar01` | `architecture/newcastle` | 27 |
+| `512pillar01` | `enclosure-v1` | 27 |
 | `houseglandfixation001` | `settlement-root-v1` | 23 |
 | `impfloorchunk01` | `dungeons/imperial` | 19 |
 | `shiprowboat01` | `dungeons/ship` | 17 |
@@ -383,12 +381,12 @@ The composite candidates: a chain of one module repeats by construction, two dif
 
 | family | pieces | templates | groups | never alone |
 | --- | ---: | ---: | ---: | ---: |
-| `docks-v1` | 4 | 35 | 4 | 0 |
+| `docks-v1` | 4 | 39 | 4 | 0 |
 | `architecture/farmhouse` | 6 | 29 | 5 | 2 |
-| `here there be monsters - curse of cipactli/architecture` | 62 | 28 | 5 | 6 |
+| `here there be monsters - curse of cipactli/architecture` | 58 | 26 | 7 | 6 |
 | `dungeons/mines` | 5 | 4 | 0 | 1 |
 | `igsresources/dungeons` | 23 | 4 | 0 | 2 |
-| `settlement-stilt-v1` | 6 | 2 | 0 | 1 |
+| `settlement-stilt-v1` | 4 | 2 | 0 | 2 |
 | `architecture/markarth` | 2 | 0 | 0 | 0 |
 | `architecture/riften` | 4 | 0 | 0 | 0 |
 | `architecture/shackkit` | 6 | 0 | 0 | 0 |
@@ -401,8 +399,8 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `dungeons/imperial` | 3 | 0 | 0 | 0 |
 | `dungeons/nordic` | 2 | 0 | 0 | 0 |
 | `dungeons/ship` | 13 | 0 | 0 | 0 |
-| `probe-gapfill` | 5 | 0 | 0 | 0 |
-| `ruin-monumental-v1` | 7 | 0 | 0 | 0 |
+| `enclosure-v1` | 3 | 0 | 0 | 0 |
+| `htbm-hut-int` | 3 | 0 | 0 | 1 |
 
 ### The 10 most-repeated templates
 
@@ -410,9 +408,9 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | --- | --- | ---: | --- | ---: | ---: | ---: | --- |
 | `stonewallterracelong01` | `stonewallterracelong01` | 50 | -7.28, 0.01, 0.0 | 0.0 | 270.05 | 0.021 | CIPHTBMHesperideWorld -6,0 |
 | `stonewallterracelong01` | `stonewallterracelong01` | 30 | 7.28, 0.01, 0.0 | 0.0 | 89.94 | 0.019 | CIPHTBMHesperideWorld -6,0 |
-| `shiveringcamp_01` | `fireplace_si` | 16 | 1.31, 2.73, 0.34 | 90.0 | 25.71 | 0.032 | CIPHTBMHesperideWorld -14,0 |
-| `shiveringcamp_01` | `shiveringcamp_02` | 16 | 0.2, 2.67, 0.0 | 180.0 | 4.38 | 0.041 | CIPHTBMHesperideWorld -14,0 |
-| `shiveringcamp_02` | `fireplace_si` | 16 | -1.11, -0.06, 0.34 | 270.0 | 266.78 | 0.029 | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_01` | `fireplace_si` | 16 | 3.29, 6.83, 0.85 | 90.0 | 25.71 | 0.079 | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_01` | `shiveringcamp_02` | 16 | 0.51, 6.67, 0.0 | 180.0 | 4.38 | 0.103 | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_02` | `fireplace_si` | 16 | -2.78, -0.16, 0.85 | 270.0 | 266.78 | 0.072 | CIPHTBMHesperideWorld -14,0 |
 | `stonewallterracelong01` | `stonewallterracelong01` | 15 | 0.86, 6.62, 1.48 | 0.0 | 7.41 | 0.066 | CIPHTBMHesperideWorld -5,0 |
 | `stonewallterracelong01` | `stonewallterracelong01` | 14 | -6.43, 6.61, 1.48 | 0.0 | 315.79 | 0.07 | CIPHTBMHesperideWorld -5,0 |
 | `stonewallterracelong01` | `stonewallterracelong01` | 12 | 7.89, 7.32, 1.46 | 0.0 | 47.15 | 0.126 | CIPHTBMHesperideWorld -5,0 |
@@ -425,40 +423,42 @@ The composite candidates: a chain of one module repeats by construction, two dif
 
 | anchor | part | count | placement (m) | rel. yaw | family | example |
 | --- | --- | ---: | --- | ---: | --- | --- |
-| `shiveringcamp_01` | `fireplace_si` | 16 | 1.31, 2.73, 0.34 | 90.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
-| `shiveringcamp_01` | `shiveringcamp_02` | 16 | 0.2, 2.67, 0.0 | 180.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
-| `shiveringcamp_02` | `fireplace_si` | 16 | -1.11, -0.06, 0.34 | 270.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_01` | `fireplace_si` | 16 | 3.29, 6.83, 0.85 | 90.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_01` | `shiveringcamp_02` | 16 | 0.51, 6.67, 0.0 | 180.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_02` | `fireplace_si` | 16 | -2.78, -0.16, 0.85 | 270.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
 | `stonewallterracelong01` | `stonewallterracestairs01` | 12 | -7.29, 0.0, 0.0 | 0.0 | `architecture/farmhouse` | CIPHTBMHesperideWorld -6,0 |
 | `stonewallterracelong01` | `stonewallterracestairs01` | 11 | 7.28, 0.0, 0.0 | 0.0 | `architecture/farmhouse` | CIPHTBMHesperideWorld -6,1 |
-| `shiveringcamp_01` | `tamu_wooddockshort01` | 10 | -3.66, 2.73, -2.69 | 0.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
-| `shiveringcamp_02` | `tamu_wooddockshort01` | 10 | 3.87, -0.07, -2.69 | 180.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
-| `tamu_wooddockshort01` | `fireplace_si` | 10 | 4.97, -0.0, 3.03 | 90.0 | `docks-v1` | CIPHTBMHesperideWorld -14,0 |
+| `tamu_wooddockshort01` | `fireplace_si` | 10 | 2.49, -0.0, 1.52 | 90.0 | `docks-v1` | CIPHTBMHesperideWorld -14,0 |
 | `bamboohut02` | `bamboohutdoor01` (door) | 9 | -2.47, 1.4, 0.0 | 120.0 | `settlement-stilt-v1` | CIPHTBMHesperideWorld -4,0 |
-| `stonewallterracelong01` | `stonewallterracestairs01` | 8 | radius 10.46 m, rise 1.49 m, bearing free | 1.25 | `architecture/farmhouse` | CIPHTBMHesperideWorld -6,0 |
+| `bamboohut01` | `bamboohutdoor01` (door) | 8 | -2.47, 1.41, 0.0 | 120.0 | `settlement-stilt-v1` | CIPHTBMHesperideWorld -3,1 |
+| `shiveringcamp_01` | `tamu_wooddockshort01` | 8 | -9.15, 6.85, -6.72 | 0.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_02` | `tamu_wooddockshort01` | 8 | 9.68, -0.19, -6.72 | 180.0 | `here there be monsters - curse of cipactli/architecture` | CIPHTBMHesperideWorld -14,0 |
 
 ### Multi-piece groups (one anchor, several parts)
 
 | anchor | parts | count | example |
 | --- | --- | ---: | --- |
-| `shiveringcamp_01` | `fireplace_si` at 1.31, 2.73, 0.34, yaw 90.0, `shiveringcamp_02` at 0.2, 2.67, 0.0, yaw 180.0, `tamu_wooddockshort01` at -3.66, 2.73, -2.69, yaw 0.0 | 10 | CIPHTBMHesperideWorld -14,0 |
-| `shiveringcamp_02` | `fireplace_si` at -1.11, -0.06, 0.34, yaw 270.0, `tamu_wooddockshort01` at 3.87, -0.07, -2.69, yaw 180.0 | 10 | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_01` | `fireplace_si` at 3.29, 6.83, 0.85, yaw 90.0, `shiveringcamp_02` at 0.51, 6.67, 0.0, yaw 180.0, `tamu_wooddockshort01` at -9.15, 6.85, -6.72, yaw 0.0 | 8 | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_02` | `fireplace_si` at -2.78, -0.16, 0.85, yaw 270.0, `tamu_wooddockshort01` at 9.68, -0.19, -6.72, yaw 180.0 | 8 | CIPHTBMHesperideWorld -14,0 |
 | `stonewallterracelong01` | `stonewallterracelong01` at -7.28, 0.01, 0.0, yaw 0.0, `stonewallterracelong01` at 7.28, 0.01, 0.0, yaw 0.0 | 6 | CIPHTBMHesperideWorld -6,1 |
-| `shiveringcamp_01` | `fireplace_si` at 1.31, 2.73, 0.34, yaw 90.0, `shiveringcamp_02` at 0.2, 2.67, 0.0, yaw 180.0, `tamu_wooddockshort01` at -9.91, 2.9, -2.77, yaw 180.0 | 5 | CIPHTBMHesperideWorld -14,0 |
-| `shiveringcamp_02` | `fireplace_si` at -1.11, -0.06, 0.34, yaw 270.0, `tamu_wooddockshort01` at 10.1, -0.22, -2.77, yaw 0.0 | 5 | CIPHTBMHesperideWorld -14,0 |
-| `tamu_wooddock01` | `fireplace_si` at -9.9, 0.13, 3.02, yaw 270.0, `fireplace_si` at 6.3, -0.05, 3.11, yaw 90.0, `shiveringcamp_01` at -8.6, 2.87, 2.67, yaw 180.0, `shiveringcamp_01` at 4.98, -2.78, 2.77, yaw 0.0, `shiveringcamp_02` at -8.8, 0.2, 2.67, yaw 0.0, `shiveringcamp_02` at 5.17, -0.1, 2.77, yaw 180.0, `tamu_wooddockshort01` at -4.93, 0.12, 0.0, yaw 180.0 | 5 | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_01` | `fireplace_si` at 3.29, 6.83, 0.85, yaw 90.0, `shiveringcamp_02` at 0.51, 6.67, 0.0, yaw 180.0 | 5 | CIPHTBMHesperideWorld -14,0 |
+| `tamu_wooddock01` | `fireplace_si` at -4.95, 0.06, 1.51, yaw 270.0, `fireplace_si` at 3.15, -0.02, 1.56, yaw 90.0, `shiveringcamp_01` at -4.3, 1.43, 1.34, yaw 180.0, `shiveringcamp_01` at 2.49, -1.39, 1.39, yaw 0.0, `shiveringcamp_02` at -4.4, 0.1, 1.34, yaw 0.0, `shiveringcamp_02` at 2.59, -0.05, 1.39, yaw 180.0, `tamu_wooddockshort01` at -2.46, 0.06, 0.0, yaw 180.0 | 5 | CIPHTBMHesperideWorld -14,0 |
+| `swamp house` | `fireplace_si` at -1.25, -0.66, 1.08, yaw 270.0, `tamu_wooddock02` at 3.89, -0.25, -0.03, yaw 178.75 | 4 | CIPHTBMHesperideWorld -14,0 |
 | `stonewallterracelong01` | `stonewallterracelong01` at -7.28, 0.01, 0.0, yaw 0.0, `stonewallterracelong01` at 7.28, 0.01, 0.0, yaw 0.0, `stonewallterracelong01` at 0.86, 6.62, 1.48, yaw 0.0, `stonewallterracelong01` at -6.43, 6.61, 1.48, yaw 0.0, `stonewallterracelong01` at 8.14, 6.62, 1.48, yaw 0.0 | 3 | CIPHTBMHesperideWorld -5,1 |
 | `stonewallterracelong01` | `stonewallterracelong01` at -7.28, 0.01, 0.0, yaw 0.0, `stonewallterracestairs01` at 7.28, 0.0, 0.0, yaw 0.0 | 3 | CIPHTBMHesperideWorld -6,1 |
-| `stonewallterracelong01` | `stonewallterracelong01` at 0.86, 6.62, 1.48, yaw 0.0, `stonewallterracelong01` at -6.43, 6.61, 1.48, yaw 0.0, `stonewallterracelong01` at 8.14, 6.62, 1.48, yaw 0.0 | 3 | CIPHTBMHesperideWorld -5,1 |
-| `tamu_wooddockshort01` | `fireplace_si` at 4.97, -0.0, 3.03, yaw 90.0, `fireplace_si` at -11.23, 0.17, 3.11, yaw 270.0, `tamu_wooddockshort01` at -0.13, 11.82, 0.0, yaw 0.0 | 3 | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_01` | `fireplace_si` at 3.29, 6.83, 0.85, yaw 90.0, `shiveringcamp_02` at 0.51, 6.67, 0.0, yaw 180.0, `tamu_wooddockshort01` at -24.69, 7.3, -6.86, yaw 180.0 | 3 | CIPHTBMHesperideWorld -14,0 |
+| `shiveringcamp_02` | `fireplace_si` at -2.78, -0.16, 0.85, yaw 270.0, `tamu_wooddockshort01` at 25.18, -0.6, -6.86, yaw 0.0 | 3 | CIPHTBMHesperideWorld -14,0 |
 
 ### Pieces never used alone
 
 | piece | family | instances |
 | --- | --- | ---: |
+| `bamboohutdoor01` | `htbm-hut-int` | 17 |
 | `shiveringcamp_01` | `here there be monsters - curse of cipactli/architecture` | 16 |
 | `shiveringcamp_02` | `here there be monsters - curse of cipactli/architecture` | 16 |
 | `stonewallterracestairs01` | `architecture/farmhouse` | 13 |
 | `bamboohut02` | `settlement-stilt-v1` | 9 |
+| `bamboohut01` | `settlement-stilt-v1` | 8 |
 | `minescaffoldtop0sided01` | `dungeons/mines` | 7 |
 | `stonewallterracelong02` | `architecture/farmhouse` | 6 |
 | `dlc2dweclutterplatformgiant01` | `here there be monsters - curse of cipactli/architecture` | 6 |
@@ -484,7 +484,7 @@ The composite candidates: a chain of one module repeats by construction, two dif
 | `shipbreticjollyboatfurled` | `here there be monsters - curse of cipactli/architecture` | 7 |
 | `3mjyunderwaterruins4` | `here there be monsters - curse of cipactli/architecture` | 7 |
 | `redruin1` | `here there be monsters - curse of cipactli/architecture` | 7 |
-| `wickerchair01` | `settlement-stilt-v1` | 7 |
+| `wickerchair01` | `htbm-hut-int` | 7 |
 | `arbridge03` | `igsresources/dungeons` | 7 |
 | `arcolumn01` | `igsresources/dungeons` | 7 |
 
@@ -498,30 +498,30 @@ The `shell` column says whether the kit interiors pass measures the anchor as so
 
 | shell | door piece | placement (m) | rel. yaw | side | count | shell | set |
 | --- | --- | --- | ---: | ---: | ---: | --- | --- |
-| `housegland001` | `casexfreelgdoor01` | -4.11, 3.37, -0.71 | 126.05 | 309.32 | 17 | measured shell | bmv-valenwood |
+| `housegland001` | `casexfreelgdoor01` | -3.43, 2.81, -0.59 | 126.05 | 309.32 | 17 | measured shell | bmv-valenwood |
 | `housegland001` | `casexfreelgdoor01` | -3.64, -2.53, -1.15 | 57.25 | 235.19 | 14 | measured shell | bmv-valenwood |
-| `housegland001` | `casexfreelgdoor01` | -4.11, 3.37, -1.45 | 126.05 | 309.32 | 12 | measured shell | bmv-valenwood |
+| `housegland001` | `casexfreelgdoor01` | -3.43, 2.81, -1.21 | 126.05 | 309.32 | 12 | measured shell | bmv-valenwood |
 | `housegland001` | `casexfreelgdoor01` | -4.14, -0.4, -1.66 | 91.67 | 264.44 | 11 | measured shell | bmv-valenwood |
 | `housegland001` | `casexfreelgdoor01` | -3.94, -2.85, -0.91 | 64.89 | 234.09 | 3 | measured shell | bmv-valenwood |
 | `dockstepsdown01` | `ssingledoorint01load` | 9.41, -6.06, -1.31 | 188.11 | 122.77 | 4 | not in a kit | bmv-blackmarsh |
 | `doorframe01` | `ruinswooddoorload01` | 0.0, -0.08, 0.07 | 91.67 | 177.34 | 22 | not in a kit | bmv-blackmarsh |
 | `doorframe01` | `ruinswooddoorload01` | 0.01, -0.5, 0.06 | 91.67 | 178.52 | 11 | not in a kit | bmv-blackmarsh |
 | `doorframe01` | `ruinswooddoorload01` | 0.02, 0.37, 0.07 | 91.67 | 3.13 | 11 | not in a kit | bmv-blackmarsh |
-| `hutexterior` | `doorframe01` | 3.22, -5.98, -3.91 | 153.74 | 151.67 | 22 | measured shell | bmv-blackmarsh |
-| `hutexterior` | `doorframe01` | 3.04, -5.57, -3.91 | 153.74 | 151.38 | 11 | measured shell | bmv-blackmarsh |
-| `hutexterior` | `doorframe01` | 3.42, -6.35, -3.9 | 153.74 | 151.72 | 11 | measured shell | bmv-blackmarsh |
-| `hutexterior` | `ruinswooddoorload01` | 3.19, -5.91, -3.84 | 245.41 | 151.68 | 11 | measured shell | bmv-blackmarsh |
-| `algrass03a` | `entrance` | -4.28, -10.69, -2.17 | 45.84 | 201.82 | 3 | not in a kit | bmv-blackmarsh |
+| `hutexterior` | `doorframe01` | 2.38, -4.4, -3.01 | 153.74 | 151.59 | 22 | measured shell | bmv-blackmarsh |
+| `hutexterior` | `doorframe01` | 2.58, -4.78, -3.0 | 153.74 | 151.65 | 22 | measured shell | bmv-blackmarsh |
+| `hutexterior` | `ruinswooddoorload01` | 2.45, -4.55, -2.95 | 245.41 | 151.68 | 11 | measured shell | bmv-blackmarsh |
+| `algrass03a` | `entrance` | -2.04, -5.09, -1.03 | 45.84 | 201.82 | 3 | not in a kit | bmv-blackmarsh |
 | `shack01` | `shackdoor` | -2.39, -3.54, -1.3 | 0.0 | 213.98 | 4 | not in a kit | bmv-blackmarsh |
 | `shack02` | `shackdoor` | 2.93, -1.87, -1.0 | 268.33 | 122.63 | 11 | not in a kit | bmv-blackmarsh |
 | `shackanwinglarge` | `shackdoor` | -0.86, -1.81, -2.48 | 268.33 | 205.31 | 12 | not in a kit | bmv-blackmarsh |
-| `dome` | `entrance` | -8.02, 7.97, -2.28 | 45.84 | 314.81 | 9 | not in a kit | bmv-blackmarsh |
-| `dwelling` | `entrance` | 6.34, 0.27, 0.1 | 176.65 | 87.59 | 11 | not in a kit | bmv-blackmarsh |
-| `dwelling` | `ruinsmediumdoorload01` | 6.58, 0.22, -2.26 | 176.65 | 88.09 | 3 | not in a kit | bmv-blackmarsh |
-| `entrance` | `ruinsmediumdoorload01` | -0.35, 0.11, -2.31 | 359.57 | 287.38 | 11 | not in a kit | bmv-blackmarsh |
-| `entrance` | `ruinsmediumdoorload01` | radius 0.48 m, rise -2.59 m, bearing free | 358.7 | - | 4 | not in a kit | bmv-blackmarsh |
-| `entrance` | `ruinsmediumdoorload01` | radius 0.63 m, rise -1.96 m, bearing free | 360.0 | - | 3 | not in a kit | bmv-blackmarsh |
-| `extentrance` | `ruinsmediumdoorload01` | -0.02, -0.17, -3.82 | 266.74 | 186.89 | 3 | not in a kit | bmv-blackmarsh |
+| `dome` | `entrance` | -5.73, 5.69, -1.63 | 45.84 | 314.81 | 9 | not in a kit | bmv-blackmarsh |
+| `dwelling` | `entrance` | 4.23, 0.18, 0.07 | 176.65 | 87.59 | 11 | not in a kit | bmv-blackmarsh |
+| `dwelling` | `ruinsmediumdoorload01` | 4.41, 0.11, -1.54 | 175.46 | 88.62 | 4 | not in a kit | bmv-blackmarsh |
+| `dwelling` | `shousedoor02` | 5.46, 0.23, -0.7 | 262.6 | 87.57 | 3 | not in a kit | bmv-blackmarsh |
+| `entrance` | `ruinsmediumdoorload01` | -0.21, 0.08, -1.69 | 359.4 | 289.92 | 16 | not in a kit | bmv-blackmarsh |
+| `entrance` | `shousedoor02` | -1.32, 0.02, -0.82 | 85.94 | 270.82 | 3 | not in a kit | bmv-blackmarsh |
+| `entrance` | `ruinsmediumdoorload01` | radius 0.42 m, rise -1.3 m, bearing free | 360.0 | - | 3 | not in a kit | bmv-blackmarsh |
+| `extentrance` | `ruinsmediumdoorload01` | -0.02, -0.13, -2.94 | 266.74 | 186.89 | 3 | not in a kit | bmv-blackmarsh |
 | `rtlamppost01` | `riftendoor02` | radius 11.61 m, rise 0.6 m, bearing free | 180.34 | - | 7 | not in a kit | bmv-blackmarsh |
 | `rtlamppost01` | `riftendoor02` | radius 5.83 m, rise -0.0 m, bearing free | 180.48 | - | 5 | not in a kit | bmv-blackmarsh |
 | `rtlamppost01` | `riftendoor02` | radius 3.89 m, rise 0.65 m, bearing free | 181.19 | - | 4 | not in a kit | bmv-blackmarsh |
@@ -544,22 +544,21 @@ The `shell` column says whether the kit interiors pass measures the anchor as so
 | `shackframebend01` | `shackwalldoor01` | -0.27, -3.99, 0.0 | 183.35 | 183.83 | 3 | not in a kit | bmv-blackmarsh |
 | `shackframelend01` | `shackwalldoor01` | -0.27, 3.35, 0.13 | 0.0 | 355.42 | 9 | not in a kit | bmv-blackmarsh |
 | `shackframemend01` | `shackwalldoor01` | -0.09, 1.99, 0.0 | 0.0 | 357.42 | 3 | not in a kit | bmv-blackmarsh |
-| `shackroofside01` | `shackwalldoor01` | 0.01, 0.19, -0.06 | 0.0 | 3.46 | 12 | not in a kit | bmv-blackmarsh |
+| `shackroofside01` | `shackwalldoor01` | -0.01, 0.17, -0.06 | 0.0 | 357.61 | 13 | not in a kit | bmv-blackmarsh |
 | `shackroofside01` | `shackwalldoor01` | 0.13, -3.66, -0.05 | 183.35 | 177.94 | 9 | not in a kit | bmv-blackmarsh |
 | `shackroofside01` | `shackwalldoor01` | -0.55, -4.1, -0.04 | 188.11 | 187.59 | 3 | not in a kit | bmv-blackmarsh |
-| `shackwall04` | `shackwalldoor01` | -0.51, 0.11, 0.21 | 279.79 | 282.49 | 8 | not in a kit | bmv-blackmarsh |
-| `imperialship01base` | `orcdoorload01` | 7.42, -0.69, 0.16 | 91.67 | 95.32 | 3 | measured shell | bmv-blackmarsh |
+| `shackwall04` | `shackwalldoor01` | -0.47, 0.1, 0.19 | 279.79 | 282.49 | 8 | not in a kit | bmv-blackmarsh |
 | `smallhouseext` | `wrshackdoor01` | -0.34, -3.04, 0.45 | 268.33 | 186.4 | 9 | not in a kit | bmv-blackmarsh |
 | `smallhouseext` | `riftendoor01` | -0.23, -2.91, -0.68 | 183.35 | 184.47 | 4 | not in a kit | bmv-blackmarsh |
 | `smallhouseint` | `wrshackdoor01` | -2.51, 0.29, -2.69 | 0.0 | 276.53 | 9 | not in a kit | bmv-blackmarsh |
-| `sthalmorhouse` | `shousedoor01` | -2.71, 1.37, -2.68 | 359.43 | 296.71 | 13 | not in a kit | bmv-valenwood |
+| `sthalmorhouse` | `shousedoor01` | -2.7, 1.36, -2.67 | 359.51 | 296.82 | 15 | not in a kit | bmv-valenwood |
 | `dlc2telvannirootbridge01` | `casexfreelgdoor01` | 0.12, -0.1, 2.34 | 171.89 | 130.35 | 13 | not in a kit | bmv-valenwood |
 | `impexticestairs01` | `orcdoor01` | 0.63, 5.5, 5.02 | 177.46 | 6.54 | 5 | not in a kit | bmv-valenwood |
 | `impexticestairs01` | `orcdoor01` | -1.12, 5.45, 5.01 | 177.25 | 348.37 | 4 | not in a kit | bmv-valenwood |
 | `shiplargekatariah01` | `shipkatariahdoorload01` | -0.03, -4.54, 8.86 | 360.0 | 180.32 | 3 | not in a kit | bmv-blackmarsh |
-| `tel_ext_platform01` | `casexfreelgdoor01` | -3.42, -0.61, 5.57 | 41.07 | 259.85 | 7 | not in a kit | bmv-valenwood |
-| `tel_ext_platform01` | `casexfreelgdoor01` | -3.0, -0.72, 5.76 | 52.53 | 256.49 | 3 | not in a kit | bmv-valenwood |
-| `bamboohut01` | `bamboohutdoor01` | -2.45, 1.4, 0.0 | 120.0 | 299.7 | 7 | measured shell | htbm |
+| `tel_ext_platform01` | `casexfreelgdoor01` | -1.71, -0.31, 2.79 | 41.07 | 259.85 | 7 | not in a kit | bmv-valenwood |
+| `tel_ext_platform01` | `casexfreelgdoor01` | -1.5, -0.36, 2.88 | 52.53 | 256.49 | 3 | not in a kit | bmv-valenwood |
+| `bamboohut01` | `bamboohutdoor01` | -2.47, 1.41, 0.0 | 120.0 | 299.71 | 8 | measured shell | htbm |
 | `bamboohut02` | `bamboohutdoor01` | -2.47, 1.4, 0.0 | 120.0 | 299.59 | 9 | measured shell | htbm |
 | `farmhouse01` | `farmhouseldoor01` | -1.82, -3.56, 0.0 | 359.8 | 207.03 | 10 | measured shell | vanilla |
 | `farmhouse02` | `farmhouseldoor01` | 0.0, -3.11, -0.01 | 0.0 | 179.98 | 7 | measured shell | vanilla |
@@ -585,10 +584,7 @@ The `shell` column says whether the kit interiors pass measures the anchor as so
 | `shackroofcorner02` | `shackwalldoor01` | 0.0, 0.08, 0.05 | 0.0 | 3.37 | 5 | not in a kit | vanilla |
 | `shackroofside01` | `shackwalldoor01` | -0.0, -0.0, 0.0 | 0.0 | 213.9 | 6 | not in a kit | vanilla |
 | `shackroofside01` | `shackwalldoor01` | 0.0, 0.0, 0.0 | 180.0 | 33.9 | 6 | not in a kit | vanilla |
-| `shackroofside01` | `shackwalldoor01` | -3.65, 0.0, 0.02 | 0.0 | 270.08 | 5 | not in a kit | vanilla |
-| `shackroofside01` | `shackwalldoor01` | 3.64, -0.0, 0.0 | 180.0 | 90.05 | 5 | not in a kit | vanilla |
-| `shackroofside03` | `shackwalldoor01` | 0.0, 0.0, 0.0 | 180.0 | 0.0 | 5 | not in a kit | vanilla |
-| `dwemerlargedoorload01` | `portgatepole01` | radius 5.56 m, rise -0.2 m, bearing free | 104.0 | - | 7 | not in a kit | vanilla |
+| `dwemerlargedoorload01` | `portgatepole01` | radius 6.18 m, rise -0.22 m, bearing free | 104.0 | - | 7 | not in a kit | vanilla |
 | `dwefacadeliftdown01` | `dweptndoor01` | -0.01, -4.31, 0.36 | 179.89 | 180.2 | 8 | not in a kit | vanilla |
 | `dwefacadeliftdown01` | `portgatebasedwemer01` | radius 10.3 m, rise 3.66 m, bearing free | 0.0 | - | 8 | not in a kit | vanilla |
 | `dwefacadeliftleverloaddown01` | `dweptndoor01` | -0.01, -4.31, 0.37 | 179.97 | 180.17 | 8 | not in a kit | vanilla |
@@ -596,7 +592,7 @@ The `shell` column says whether the kit interiors pass measures the anchor as so
 | `dwefacadetowerroof01` | `dweptndoor01` | -0.02, -4.31, 0.37 | 180.0 | 180.26 | 6 | not in a kit | vanilla |
 | `dweplatwall01` | `portgatebasedwemer01` | radius 9.68 m, rise -5.45 m, bearing free | 270.0 | - | 11 | not in a kit | vanilla |
 | `dweplatwall01` | `portgatepoledwemer01` | radius 9.64 m, rise -5.69 m, bearing free | 270.0 | - | 9 | not in a kit | vanilla |
-| `impextdoorhole01` | `impwooddoorholedoorload` | -0.08, 0.0, 0.01 | 270.3 | 270.49 | 26 | not in a kit | vanilla |
+| `impextdoorhole01` | `impwooddoorholedoorload` | -0.08, 0.0, 0.01 | 270.3 | 270.47 | 26 | not in a kit | vanilla |
 | `impextdoorhole01` | `impwooddoorsingleload01` | 0.52, -0.01, -0.41 | 270.0 | 91.28 | 7 | not in a kit | vanilla |
 | `impexttowershellstairs01` | `impexttowershelldoor03` | 0.0, 0.0, 0.0 | 0.0 | 0.0 | 9 | not in a kit | vanilla |
 | `impexticedoorhole01` | `impwooddoorholedoorload` | -0.1, 0.01, 0.03 | 269.98 | 276.97 | 10 | not in a kit | vanilla |
@@ -623,10 +619,10 @@ The `shell` column says whether the kit interiors pass measures the anchor as so
 | `nordwelling04extbasea` | `nordoorsmload02` | -0.0, 3.62, 0.04 | 270.17 | 359.94 | 6 | not in a kit | vanilla |
 | `nordwelling04extbaseb` | `nordoorsmload02` | -0.0, -5.46, 0.0 | 270.17 | 180.04 | 6 | not in a kit | vanilla |
 | `nortempleexterior01` | `ruins_largedoor01` | -0.03, 10.76, 0.0 | 180.31 | 359.85 | 4 | not in a kit | vanilla |
-| `nortmpextplatexsmfree01` | `nordoorsmload01` | -0.0, -1.87, -7.28 | 270.03 | 180.02 | 10 | not in a kit | vanilla |
+| `nortmpextplatexsmfree01` | `nordoorsmload01` | -0.0, -1.89, -7.29 | 270.03 | 180.07 | 12 | not in a kit | vanilla |
 | `nortmpextplatexsmfree01` | `nordoorsmload02` | -0.01, -1.85, -7.28 | 269.24 | 180.2 | 10 | not in a kit | vanilla |
 
-A further 23 door templates in the JSON sit on anchors the kit interiors pass measures as NOT enclosures — walkway segments, signposts, dock stairs, door frames. They are the record of a door standing NEAR something, not of a doorway, and the composite work should ignore them.
+A further 27 door templates in the JSON sit on anchors the kit interiors pass measures as NOT enclosures — walkway segments, signposts, dock stairs, door frames. They are the record of a door standing NEAR something, not of a doorway, and the composite work should ignore them.
 
 ### The join into `interiors_index.py`
 
@@ -639,82 +635,76 @@ The join, for the agent who wires it (this module does not edit `interiors_index
 3. Carry `doorwaySource: "assembly"` and the template's `count`, so a doorway measured from placements is never confused with one measured from geometry, and set `doorwaysWhy` to name the door piece.
 4. Where both passes fire, keep the geometric one and record the mined one as corroboration — the mesh's own opening is the stronger evidence.
 
-## Enclosed shells with no door — closed 2026-09-05
+## Enclosed shells with no door, from either pass
 
-This section used to list 53 pieces that the interiors pass called buildings
-with no way in. It is now empty; it emptied in three ways rather
-than one, all of them re-measurements of the same meshes:
+Honest gaps: the piece measures as something you can stand inside, its geometry yields no opening, and no source placement puts a door piece on it. Each one needs a sourced door piece, a different shell, or an authored composite before it can carry an interior claim.
 
-* **35 were never buildings.** The probe stood inside a closed prop — a
-  plinth, a pool basin, a stair block, a foundation, a plaza deck, a solid
-  tower mass — and read the outside of a lump as a ring of walls. The
-  front-face criterion in `interiors_index.py` catches this: an interior wall
-  shows the stander its front face, a closed shell shows only backs. Those
-  pieces are now `interior: none` with a `why` that names the criterion and
-  reports their `frontFaceFraction` (0.00 in nearly every case).
-* **16 had their entrance in the mesh all along.** An `open-front` (a stable
-  mouth, a veranda, a tent flap) is wider than a door leaf and was being
-  discarded as "an open front, not a doorway"; a `leaf` (the shut door
-  modelled into the shell, as the Morrowind Imperial keeps and towers model
-  it) leaves no ray to escape and needed a different measurement — the
-  door-sized patch standing proud of the wall behind it.
-* **2 needed the door piece their own family ships**, fitted to the shell's
-  measured wall line rather than matched by name: BM&V's `kioskaccesd01` and
-  `kioskaccesi01` for `kiosk01`, plus `stilthousedooranim` for
-  `stilthouseext`.
+| asset | kit | interior | size | plan m2 |
+| --- | --- | --- | --- | ---: |
+| `bmv:architecture/citebosmer/passerelles/kiosque/kiosk01` | settlement-root-v1 | tileset | medium | 53.33 |
+| `bmv:architecture/stilthouse/stilthouseext` | settlement-stilt-v1 | tileset | large | 186.94 |
+| `composite:farmhouse/farmhouse01-with-door` | settlement-imperial-v1 | tileset | large | 191.71 |
+| `composite:farmhouse/farmhouse02-with-door` | settlement-imperial-v1 | tileset | large | 192.24 |
+| `composite:mud/hut-with-entrance` | settlement-mud-v1 | tileset | medium | 107.69 |
+| `composite:root/kiosk-with-access` | settlement-root-v1 | tileset | medium | 53.34 |
+| `composite:stilt/bamboohut01-with-door` | settlement-stilt-v1 | tileset | medium | 52.02 |
+| `composite:stilt/bamboohut02-with-door` | settlement-stilt-v1 | tileset | medium | 52.02 |
+| `composite:stilt/kiosk-with-access` | settlement-stilt-v1 | tileset | medium | 53.34 |
+| `composite:stilt/stilthouse-with-door` | settlement-stilt-v1 | tileset | large | 186.94 |
+| `hlaalu:hlaaluarchitecture/custom/entrance00` | hlaalu-domestic | tileset | small | 19.89 |
+| `hlaalu:hlaaluarchitecture/custom/house01` | hlaalu-domestic | tileset | large | 127.95 |
+| `hlaalu:hlaaluarchitecture/custom/tower00` | hlaalu-domestic | tileset | medium | 49.6 |
+| `hlaalu:hlaaluarchitecture/custom/tower01` | hlaalu-domestic | tileset | medium | 69.18 |
+| `hlaalu:hlaaluarchitecture/custom/tower02` | hlaalu-domestic | tileset | medium | 49.72 |
+| `hlaalu:hlaaluarchitecture/custom/tower03` | hlaalu-domestic | tileset | medium | 49.73 |
+| `hlaalu:hlaaluarchitecture/custom/tower04` | hlaalu-domestic | tileset | medium | 69.19 |
+| `hlaalu:hlaaluarchitecture/custom/tower05` | hlaalu-domestic | tileset | medium | 49.56 |
+| `hlaalu:hlaaluarchitecture/custom/tower06` | hlaalu-domestic | tileset | medium | 49.73 |
+| `hlaalu:hlaaluarchitecture/custom/tower07` | hlaalu-domestic | tileset | medium | 49.73 |
+| `hlaalu:hlaaluarchitecture/custom/tower08` | hlaalu-domestic | tileset | medium | 69.19 |
+| `htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding1` | ruin-monumental-v1 | tileset | large | 4179.63 |
+| `htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7` | ruin-monumental-v1 | tileset | large | 708.47 |
+| `mudmother:gv_meshes/argoniannest/argoniantent01` | settlement-mud-v1 | tileset | medium | 43.18 |
+| `mudmother:gv_meshes/argoniannest/mudhut01` | settlement-mud-v1 | tileset | small | 29.89 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02` | imperial-keep | tileset | small | 37.36 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01` | imperial-keep | tileset | large | 145.44 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02` | imperial-keep | tileset | large | 167.96 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01` | imperial-keep | tileset | small | 27.96 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01` | imperial-keep | tileset | small | 27.96 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01` | imperial-keep | tileset | small | 25.44 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01` | imperial-keep | tileset | medium | 58.03 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01` | imperial-keep | tileset | medium | 67.24 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02` | imperial-keep | tileset | medium | 67.24 |
+| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01` | imperial-keep | tileset | small | 15.81 |
 
-Every enclosed piece in every built kit now carries at least one derived
-doorway. Every one links to an interior kit that exists. The check is a
-test (`pipeline/test_interiors_index.py`), not a list to re-audit.
+## How to author the composites
 
-## Composites
+Which mined templates should become `compose.parts` entries in a kit config, and which must stay separate placements. The authored `snapLogic` prose in each kit config is the ruling authority on what may combine (kits-only-combine-designed-pieces, owner ruling 2026-09-04); a template is evidence that the source authors used a combination, and it supplies the offset, but it never licenses a combination the piece authors did not intend.
 
-Authored 2026-09-05 (stream A1) from the templates above. Offsets went
-into `compose.parts[].offsetM` unchanged. Every `note` names its template
-ids and counts; each kit's `snapLogic.assemblies` states the rule that the
-composite encodes. **The single pieces all stay in their kits**, because a
-bare shell is still the right piece for a ruin.
+**Author as composites.**
 
-| Composite | Kit | From |
-|---|---|---|
-| `composite:stilt/bamboohut01-with-door` | `settlement-stilt-v1` | htbm:t0027 (7) |
-| `composite:stilt/bamboohut02-with-door` | `settlement-stilt-v1` | htbm:t0016 (9) |
-| `composite:mud/hut-with-entrance` | `settlement-mud-v1` | bmv-blackmarsh:t0037 (22), t0091 (11) |
-| `composite:works/stockade-scaffold-2stage` | `works-v1` | vanilla:t0019 (28) |
-| `composite:works/stockade-scaffold-3stage` | `works-v1` | vanilla:t0019 (28), t0061 (17) |
-| `composite:docks/quay-run-2` | `docks-v1` | bmv-blackmarsh:t0003 (47) |
-| `composite:docks/quay-run-3` | `docks-v1` | bmv-blackmarsh:t0003 (47), t0001 (52) |
-| `composite:farmhouse/farmhouse01-with-door` | `settlement-imperial-v1` | vanilla:t0173 (10) |
-| `composite:farmhouse/farmhouse02-with-door` | `settlement-imperial-v1` | vanilla:t0335 (7) |
-| `composite:farmhouse/stonewall-run-3` | `settlement-imperial-v1` | group on `stonewall01` (43); t0002 (59), t0004 (54) |
-| `composite:farmhouse/stonewall-run-5` | `settlement-imperial-v1` | as run-3 + t0003 (55) for the 7.27 m pillar spacing |
-| `composite:ayleid/arblock-mass-2x2x2` | `ruin-monumental-v1` | bmv-valenwood:t0000/t0001 (448), t0006 (384) |
-| `composite:ayleid/arblock-mass-3x1x3` | `ruin-monumental-v1` | as above |
-| `composite:phitt/marsh-house-03` | `hlaalu-domestic` | bmv-blackmarsh:t0011–t0015 (27 each) |
-| `composite:root/kiosk-with-access` | `settlement-root-v1` | measured fit, not a template (see below) |
-| `composite:stilt/kiosk-with-access` | `settlement-stilt-v1` | measured fit, not a template |
-| `composite:stilt/stilthouse-with-door` | `settlement-stilt-v1` | measured fit, not a template |
+1. `settlement-stilt-v1` — the HTBM bamboo hut. `bamboohut01` takes `bamboohutdoor01` at -2.45, 1.4, 0.0 and `bamboohut02` at -2.47, 1.4, 0.0, both with the door yawed 120 degrees against the hut, sixteen placements between them. One offset, two shells, and the composite that turns a doorless shell into an enterable building: it comes first.
+2. `settlement-mud-v1` — the mud hut's entrance. `hutexterior` takes `doorframe01` at 3.22, -5.98, -3.91, twenty-two times, with `ruinswooddoorload01` hung in that frame. Three pieces, one building: the hut is not shipped with its entrance. Two further frame offsets (3.04, -5.57 and 3.42, -6.35) are the same doorway shifted along the wall, so pick the commonest and leave the variants.
+3. The phitt marsh house — the strongest evidence in the mod sets, and a family no kit of ours yet carries, so it is a sourcing decision before it is a composite. `house03` carries `overhang05` at -0.21, -5.16, -1.24 and four `window` pieces (-3.13, -2.82, -0.97; -1.76, 4.01, -0.71; 1.94, 4.06, -0.71; 2.8, -3.0, -0.97), all twenty-seven times, and the overhang carries four more windows of its own. Six pieces, one house, one composite — and the clearest case of a piece (`overhang05`, `window`) that is never placed alone.
+4. `works-v1` — the stockade scaffold. `stockadescaffoldbase4sided01` carries the next stage exactly 2.73 m above itself, twenty-eight times, which is the same rule the kit's `stockade-scaffold` prose states in words. Author the two-stage and three-stage towers as composites and leave the bridges, ramps and props as separate placements — they join platforms, and what they join is a site decision.
+5. `docks-v1` — BM&V's shore entry. `dockstrent01` takes `dockstrent02` at 0.02, -7.1, -0.07 forty-seven times, and the three-piece run appears as a group. Author a two-piece and a three-piece quay module; the columns, ropes and cleats stay separate, because `snapLogic` places them against the deck at the waterline, not against a neighbouring deck.
+6. `settlement-imperial-v1` — the vanilla farmhouse. `farmhouse01` takes `farmhouseldoor01` at -1.82, -3.56, 0.0 and `farmhouse02` at 0.0, -3.11, -0.01, with a second, raised door at 3.18 m for the loft. The farmhouse family is the densest source of wall/roof module templates in the vanilla set; author the shell-plus-door pair first and treat the modules as a later pass.
+7. `ruin-monumental-v1` — the Ayleid `arblock01` lattice. The block tiles at 2.65 m in x and y and 0.87 m in z, hundreds of times. Author a small number of pre-stacked block masses as composites so a ruin is placed in three or four parcels rather than three hundred.
 
-The last three came from a different kind of evidence, added 2026-09-05 in the
-doors pass. No source plugin places these parts — BM&V's own exteriors put no
-door near `stilthouseext` at all — but the parts are modelled in the shell's
-OWN local frame, which is how a modular set is authored to combine. The fit is
-the evidence and it is measured: `kioskaccesd01` and `kioskaccesi01` sit in
-`kiosk01`'s two ring gaps to within 0.11 m and 0.02 m of its wall radius, with
-their heads 2.61 m above its floor. All three compose at the shared origin,
-with no offset, because that is where their authors put them.
+**Keep as separate placements.**
 
-Not composited, with the reason in each case: the passerelles walkways, the
-root-house accessories and the tree kits, per the rules above; the
-`kioskbarrierei01` railing chain (93 placements) for the same reason as the
-walkways, since it is a run whose length is a siting decision; the farmhouse
-wall and roof MODULES, which are a tileset, so a shell built from them is a
-building design rather than a kit rule; and the farmhouse02 loft leaf
-at 3.18 m (vanilla:t0420, 6), which many placements of that form omit.
+* Every walkway family in `settlement-root-v1`. Its `passerelles` prose encodes length, rise and handrail side in the file names, and a run is a sum of those; freezing two segments into a composite would fix a length the router needs to choose. The mined `passl*` templates are a record of runs, not of modules.
+* `settlement-root-v1` house accessories. The prose is explicit that each house form takes its OWN balcony, access and window family and that forms must not be crossed; the mined `housegland001` + `casexfreelgdoor01` templates give the radius but the bearing follows the walkway that reaches the house, which is a siting decision.
+* `dungeon-root-v1` and the tree kits. `trees` and `trunkColumns` state there are no snap points and that boughs are matched by hand against the geometry; a mined offset there reproduces one authored layout rather than a rule.
+* Anything whose template count is 3 or 4 on a single worldspace. That is a copied-and-pasted building, not a kit rule.
 
-Measured after building: every composite has a footprint. Every
-shell-with-door composite now carries a doorway. Doorway coverage across all
-built kits went from 9 of 67 enclosed pieces to 22 of 75. The one composite
-still without a doorway is `composite:phitt/marsh-house-03`: `house03` has no
-repeated door placement anywhere in the source, so there is nothing to measure
-(recorded in the sourcing log).
+Offsets go into `compose.parts[].offsetM` unchanged: both this module and `compose` measure metres in the anchor's own z-up local frame, and `yawDeg` is likewise the part's yaw against the anchor. Re-measure the footprint and the interiors index after building a composite — a hut with its door is a different silhouette and, for the first time, a shell with an opening.
+
+## Reading this evidence
+
+* A template is evidence of an authored relation, not proof of one. Two pieces placed identically thirty times were snapped together by a rule; two placed identically three times may have been copied and pasted.
+* The anchor is chosen by bulk, so a template between two similar-sized modules (two wall segments) reads in whichever direction the lexicographic tie-break fell. Chains are marked `selfChain`.
+* `neverAlone` is measured within one source set. A piece with few instances can read as never-alone on a thin sample; the instance count is in the table for that reason.
+* Unresolved references (a base object in a master not loaded) are lost from the pair search entirely, so counts are floors.
+* All lengths carry the 0.45 % `UNITS_PER_METRE` bias recorded in the companion placement docs.
+

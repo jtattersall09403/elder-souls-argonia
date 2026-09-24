@@ -221,6 +221,11 @@ asset registry.
   the imperial fringe reading as Nordic thatch. Archive
   `Morrowind Imperial Keep Set-133090-1-0-1730675084.rar`, sha256
   `d22974919cdd3d6cea25f2b0b0851f2cb636a7569b7c3d1f8ae7b34c8584b9c0`.
+- **King of the Murkmire** (Nexus SSE mod 190459, pancake0723, v1.0.2): its
+  plugin's placement of the Morrowind Imperial Keep Set is read as statistics
+  to learn how the set's walls join (no assets taken). Archive
+  `King of the Murkmire - Main 190459 1.0.2 2026-09-11T09-42Z cE8hkAoxS.7z`,
+  sha256 `7bf18067157130d47058ce20f0bc15759f5df71b6f81eb05079b8dba720a5ff2`.
 - **Morrowind Hlaalu Architecture** (Nexus SSE mod 157997, Angelio, uploaded
   by Kai4304, v2.0; modder's resource, use with credit; itself bundling many
   credited modder resources — see its page) — the domestic tier under that
@@ -244,8 +249,10 @@ asset registry.
 - **Solitude (ghost) Ferry** (Nexus classic Skyrim mod 89948, Syntia, v1.1) —
   the poled ferry raft (`ferryraft01`) and its plank pieces.
 - **Ships and boats of Tamriel** (Nexus SSE mod 41653, ThatShipGuy/DeviantKaled,
-  v1.2) — the Cyrodiilic city ferry, river ferry and rowboat for the Imperial
-  fringe and the Topal ports, plus wreck and ship-interior dressing.
+  v1.2; the rope and sail diffuse textures `shipcyrodiilicrope01.dds` and
+  `shipcyrodiilicsails01.dds` from v1.1, which v1.2 omits) — the Cyrodiilic
+  city ferry, river ferry and rowboat for the Imperial fringe and the Topal
+  ports, plus wreck and ship-interior dressing.
 - **Sailboats - Script Free Sailing EXPANDED SSE** (Nexus SSE mod 40057,
   Araanim, v2.0; extends ElstarTomas' *Script free ship sailing* and uses
   DeviantKaled's lore-friendly ship/boat resources, both credited on its page)

@@ -171,6 +171,15 @@ bundles.
    sheets and the probes and gives a verdict before the owner does; the
    two verdicts are compared in the ledger.
 
+7b. **Place-scoped tooling before Phase 15.** `rederive_blueprints`,
+   `export_settlement_bundle`, `apply_vegetation_patches` and
+   `settlement_ground_control` each gain a `--places` / changed-set
+   selector, so a packet re-derives, exports, patches and paints only its
+   own place ids; the full run happens only at freeze. Today each walks
+   every blueprint or patch, so packet N would redo packets 1 to N
+   ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) note 2). Test: a run with `--places` on one place leaves
+   every other place's output byte-identical.
+
 8. **The hand-off to Phase 15.** `docs/phases/15-rollout/roadmap.md`:
    every remaining packet in order with rough scope, region, place count,
    the types each needs and which have two exemplars, the route
@@ -178,7 +187,8 @@ bundles.
    places flagged owner-guided, drafted for owner sign-off at check-in 2;
    `docs/phases/15-rollout/packet-template.md` written from what this
    packet actually needed (the two parts, the check-ins, the skill calls,
-   the owed-to-later-phases list); the trial packet's **owed list**
+   the owed-to-later-phases list, and that every per-packet stage runs
+   with the item 7b `--places` selector, full runs only at freeze); the trial packet's **owed list**
    (assembled interiors at its reserved doors: 12; fauna, encounters,
    loot: 13; navmesh and combat-space probes: 10b; balance: 10c;
    streaming budgets: 14) as a typed record on the packet; the
@@ -252,6 +262,12 @@ bundles.
 **Roles** as in the 16h brief (0079). In part 1 Fable's job is to run
 the skill through lanes and watch where it stops, not to design.
 
+**Catalogue runs** follow the CLAUDE.md golden rule "Prove on a sample,
+validate on a fresh batch, scale once" ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)). The place lanes
+share one `kit-qa` output directory with stamps, so no template renders
+twice, and the Sonnet protocol is tuned on 3 sheets with verdicts written
+first before each sweep, two loops at most.
+
 **Part 1 (`deliver 16j part 1`).**
 - Step 0: `routing-audit`; confirm `DELIVERED_THROUGH`, the type
   register, the empty allowlist, the skills' presence.
@@ -270,8 +286,9 @@ the skill through lanes and watch where it stops, not to design.
 - Step 0: the steers as record edits (`deliver` per lane); rules.
 - Step 1: one `run` job: build once (item 5); probes.
 - Step 2 (Fable): the gap triage (item 6); lanes at once: `deliver` skill
-  edits; `deliver` schema fields and back-fill; `deliver` the re-run of
-  changed steps on the packet.
+  edits; `deliver` schema fields and back-fill; `deliver` the `--places`
+  selectors (item 7b); `deliver` the re-run of changed steps on the
+  packet, through those selectors.
 - Step 3, lanes at once: `deliver` the readiness checklist and the
   agent-as-reviewer run (item 7); `deliver` the roadmap, template and
   owed list from Fable's outline (item 8).

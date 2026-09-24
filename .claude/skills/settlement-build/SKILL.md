@@ -3,9 +3,34 @@ name: settlement-build
 description: Take a place from a macro-plot record to buildings standing in the running World Studio — blueprint, compile, publish, prove. Use when authoring or re-authoring any settlement blueprint, when a settlement compile is red, when the settlement bundle needs republishing, or when rolling out a region packet of places beyond the five exemplars.
 ---
 
-> **v1 — pre-16h runtime.** The runtime this path compiles for still has the defects 16h fixes (yaw sign, box colliders, anchoring, pads never shipped). Do not use it for exemplar work until 16h lands; 16i rewrites it to v2.
+> **Still waits for 16i.** The 16h building blocks this path relies on (kit truth, composites, modular runs, the yard
+> compile at 0 errors) are covered by the four sub-skills below; the yard is not yet re-exported or walked (16h part 1
+> step c). The place path (steps 1–7) was written on the Phase 11 exemplars; 16i rewrites it to v2 on its six
+> exemplar places. Until then use it for the yard and for fixture compiles, not for a new place.
 
 # Settlement build
+
+> **Written against** (decision 0086 rule 4; `routing-audit` checks these):
+> decisions 0052, 0083, 0086; the 16h brief
+> (`docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md`)
+> § Part 1 state, "Owner rule: every future check lists every item with its
+> coordinates", § Yard coordinates and § Owner check-ins (the check-in 2
+> yard packet). If a cited record has moved, this
+> skill is stale: report it, do not follow it blind.
+
+## Sub-skills (0086: this skill is the umbrella)
+
+Hand the kit work to the skill for the job; do not redo it here.
+
+| When | Skill |
+|---|---|
+| A kit config, composite, collider or registry row changed; a published kit is stale or red; a miner record landed | `kit-build` |
+| A sink, mount or abuts miner rule changes, a mined class looks wrong, a plugin or kit joins the pool | `kit-mining` |
+| Adding or auditing a composite (`compose.parts`); a door stands off its doorway | `composite-author` |
+| A parcel lays a chain of abutting pieces (wall, fence, dock, boardwalk, bridge); a compile reports `openModularEnds` or `singleUsePieces` | `modular-runs` |
+
+This skill keeps the place path (blueprint to proof) and the owner-walk
+packet (step 8).
 
 This is the repeatable path the five exemplars were used to develop
 (Phase 11 B1; owner ruling 2026-09-09, `docs/research/archive/phase11-rounds/phase11-gap-plan.md`
@@ -107,6 +132,10 @@ in the wrong relationship to its water.
 
     python3 -m worldgen.export_settlement_bundle --copy-assets
 
+It exports every place today; once 16j item 7b lands, run it with
+`--places` for the places you changed (full export only at freeze;
+docs/research/phase16/16h-catalogue-wide-steps-audit.md).
+
 This is a projection of compiler output, not a second compiler. It writes
 `apps/world-studio/public/province/settlements.json` atomically and copies only
 the referenced kit GLBs and manifests into `apps/world-studio/public/kits/`.
@@ -126,12 +155,13 @@ with no structured row behind it, a row that has started passing, or a row
 whose place has left the compiled set all fail the export. Never add a row for
 a defect that is yours to fix.
 
-Three of its gates are **non-waivable** and `--ship-with-errors` will refuse
+Three of its gates are **runtime-fatal** and the export refuses
 them by name: the LOD contract, the texture cap and the collider part budget
 ([decision 0052](../../../docs/decisions/0052-a-published-bundle-obeys-the-runtime-contract.md)).
 Each mirrors a check the runtime enforces by throwing or refusing to draw, so
 shipping over one buys a blank world, not a defective one. If you hit one, the
-answer is the asset or the placement — never the flag.
+answer is the asset or the placement. There is no waiver: `--ship-with-errors`
+went in 16h (a pending pad is reported in `pendingPadGrades`, not waived).
 
 It also carries the route structures from
 `world/sources/routes/route-structures.json` down the same placed-piece path.
@@ -141,14 +171,16 @@ It also carries the route structures from
 **Both of these, in this order, or the place grows trees through its floors.**
 
 `compile_settlement` emits `clearance: { hardClear[], thinned[], kept[],
-affectedChunks[] }`. The scatter compiler is its consumer: a settlement clears
-trees and plants from its footprint the way real builders do (97 C13).
+affectedChunks[] }`. A settlement clears trees and plants from its footprint
+the way real builders do (97 C13), as `vegetation-clearance` patches applied
+locally (16h item 14). `compile_scatter` is never re-run for a place: it is
+province-wide (16h item 14, the 16i gotcha, docs/research/phase16/16h-catalogue-wide-steps-audit.md).
 
-    python3 -m worldgen.compile_scatter          # consumes clearance[]
+    python3 -m worldgen.apply_vegetation_patches   # the clearance patches
     python3 -m worldgen.settlement_ground_control
 
-`settlement_ground_control` runs **after** the final water raster and **before**
-the scatter rollout: it rebuild-compares the bundle, paints coherent PATH
+`settlement_ground_control` runs **after** the final water raster and
+the clearance patches: it rebuild-compares the bundle, paints coherent PATH
 controls under footprints and yards, excludes signed-depth water and preserves
 the macro alpha. Both are terrain-chain stages — the session lead holds the
 chain lock, so hand these over rather than running them beside a live chain.
@@ -161,11 +193,29 @@ consumed will look right in the kit and wrong in the world.
     PHASE11_SETTLEMENT_PROBE=1 node apps/world-studio/scripts/probe-blueprints.mjs
 
 The probe must report **non-zero geometry and zero grounding findings** for
-each place. Then hand the owner studio URLs to walk — walk mode, at the place
-anchor — and ask for the low/medium/high frame-rate readings. The owner is the
-visual authority; do not ingest screenshots yourself.
+each place. The owner is the visual authority; do not ingest screenshots
+yourself.
 
-## 8. Prose review
+## 8. The owner-walk packet
+
+Every check handed to the owner carries the **coordinate table of every
+item**, listed in full every time: nothing dropped because it passed last
+time, nothing summarised as "the rest as before" (owner rule, 16h brief
+§ Part 1 state). One row per placed item:
+
+| Item | E / S (studio km) | Piece | Fit | Studio URL |
+|---|---|---|---|---|
+
+- Read E / S from the compiled output of this run, never from the blueprint
+  or memory.
+- The URL is `$ES_TUNNEL_URL?view=character&x=<E>&z=<S>&t=12` (walk mode at
+  the item); add one row for the place anchor.
+- Write it in plain English for a non-technical reader: one check per bullet
+  under the table, what to look at, how to feed back.
+- Ask for the low/medium/high frame-rate readings at the anchor.
+- End with the stay-or-switch line (decision 0083).
+
+## 9. Prose review
 
 Any player-visible or world-record text you wrote or edited goes through the
 `text-review` skill **in a separate agent** before commit.

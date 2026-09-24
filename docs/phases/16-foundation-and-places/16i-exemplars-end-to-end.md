@@ -327,7 +327,9 @@ settlement bundle. Its output is records and pictures.
      dwelling); record the measurements;
      a claim outside the ratio, with the wrong storeys or the wrong door
      count fails a test. Retexturing to the culture is Phase 12's; the
-     claim says so.
+     claim says so. The use-class classifier is proved on a 12-cell
+     labelled sample (inn, shop, shrine, dwelling; labels written first),
+     then a fresh 12, before any claim is written ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 4).
    - **Reserved, `interiorStatus: reserved`**: everything else, including
      the sixth's cave door (its inside is Phase 12's first exemplar, a
      modular root cavern, 0062 §5). Ruling 13 bounds where tier A and
@@ -365,7 +367,9 @@ settlement bundle. Its output is records and pictures.
    transition and the message key resolves; leaving returns the character
    within 0.5 m of the `arrivalMarker`; an interior bundle with an
    unlisted gap fails export. Interior navmesh bakes wait for 10b and the
-   record says so.
+   record says so. The light decode is checked on 6 claimed cells plus 6
+   others against counts and colours read from the plugin first; no full
+   plugin re-index as verification ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 6).
 
 6. **Plan sheets and the check-in 1 packet.** One plan sheet per place
    from 16h's renderer (footprints with fronts and door dots, ways, pads
@@ -531,6 +535,12 @@ city needs and the skill on which the rollout depends. Each is a batch.
 
 **Roles** as in the 16h brief (0079). Design is Fable's; lanes are
 `deliver` on disjoint files with a time budget each and a named gate.
+
+**Catalogue runs** follow the CLAUDE.md golden rule "Prove on a sample,
+validate on a fresh batch, scale once" ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)). The place lanes
+share one `kit-qa` output directory with stamps, so no template renders
+twice, and the Sonnet protocol is tuned on 3 sheets with verdicts written
+first before each sweep, two loops at most.
 
 **Part 1 (`deliver 16i part 1`).**
 - Step 0: `routing-audit` on this brief against the 16h ending state;

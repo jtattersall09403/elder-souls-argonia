@@ -83,6 +83,20 @@ a filter bug at all — the tall layers *did not exist*.
 
 ## 2. The standard treatments, their cost, and how each is done in our stack
 
+**2026-09-23 state (16h K6).** Of the §3 checklist, item 15 (contact AO in the
+terrain ambient term) is not implemented; items 19 and 21 are partial. Item 19,
+the base skirt (`packages/game-core/src/settlement/SettlementLayer.tsx`,
+`treatmentMesh`), now offsets each wall straight out by `baseSkirtWidthM`
+(0.9 m) with mitred corners, subdivides edges at 1.83 m or less, samples the
+ground per vertex, fades vertex alpha from 1 at the wall to 0 at the outer
+edge, and uses polygon offset, not a fixed lift. Its colour is still one flat
+tone. Item 21, the foundation ring (`apps/world-studio/src/vegetation/
+Groundcover.tsx`), now places the flora kit's sourced `rockpiles01`–`04` (216–402
+triangles each) on the `foundationScatterWeight` points, spaced 3 m or more,
+and stops at 2,000 triangles per building. The generated dodecahedron it
+replaced broke the no-art rule. The terrain height-blend shader at the wall
+foot (option 1 of the 2026-09-23 seam research) is queued to 16h part 2.
+
 ### 2.1 Contact shadow at the base — the "extra shadow where a building meets the ground"
 
 The effect the owner is describing is the soft dark band in the first metre or so

@@ -36,6 +36,7 @@ items; each is placed below.
    files are 476 MB and a second copy buys nothing the folder rule does not.
    0062 decision 6 now reads "one queue for the world build; side lanes on
    disjoint files". At most two lanes beside the world build at once.
+   *Amended by [0087](0087-opus-decides-when-delegated-no-lane-cap-review-by-pathspec.md) §2: no lane cap; judged on safety, memory and clash risk.*
 2. **The weapons lane** ([brief](../phases/lanes/weapons-lane.md)) takes the
    polearm sourcing-and-wiring item out of 10b, keeping 0042 §4's property
    that the clips are auditioned once by the agent who wires them; it adds

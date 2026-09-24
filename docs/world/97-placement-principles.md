@@ -487,6 +487,12 @@ geometry; a piece whose hull is not attributable to its pivot is dropped.**
 *O* 2026-09-04/05; module 96 lessons. **Enforced by** `assetRef` +
 `<kit>.footprints.json`, `nodeAmbiguous` flags, the pivot-offset drop.
 
+**C11a. A dug-in piece is anchored on the lowest ground under its footprint;
+every other fit on the mean.** Both then apply the asset's designed sink. The
+uphill side of a dug-in piece buries deeper and nothing hovers. **Enforced by**
+`anchoring.ts` `anchorPlacement` (fit read from the kit manifest's
+`placement.evidence.policyId`), mirrored in the yard float check.
+
 **C12. Outdoor dressing is authored per use, above Bethesda's median and below
 its long tail; it varies.** Within 10 m of a lived-in dwelling 3–6 pieces
 (racks, canoes, mats, jars, totems, chimes at the threshold); a works site
