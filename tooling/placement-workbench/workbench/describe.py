@@ -35,7 +35,7 @@ import numpy as np
 from . import paths
 from .kits import Catalogue, fit_of
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 RAY_STEP_M = 0.2
 BEARING_STEP_DEG = 3.0
 OPEN_BEYOND_M = 0.6         # clear this far inside the bearing's median wall radius = open
@@ -97,7 +97,7 @@ def build(cat: Catalogue, asset_id: str) -> dict:
         "symmetry": _symmetry(mesh),
         "footprintM": cat.footprint(asset_id),
         "entrance": entrance,
-        "doorways": _doorways(mesh, entrance, evidence.get("doorwaysFromAssemblies"), floors),
+        "doorways": _doorways(mesh, cat.doorways(asset_id), floors),
         "connectors": cat.connectors(asset_id),
         "evidence": evidence,
     }
@@ -227,25 +227,19 @@ def _openings(mesh, floors: list[dict]) -> list[dict]:
     return out[:12]
 
 
-def _doorways(mesh, entrance: dict | None, assembly: dict | None,
-              floors: list[dict]) -> list[dict]:
-    """The doorways the RECORDS give (the kit's measured entrance, the mined
-    assembly doorways), each checked against the mesh: a ray cast inward
-    along the doorway's bearing DOOR_PROBE_Z_M over the base and over each
-    floor plane, and the radius where it first meets the mesh. A `-with-door` composite carries
-    its door leaf, so a doorway is usually closed geometry: the probe shows
-    whether the mesh stands in the doorway's wall line (|probe - record|
-    small), not whether it is open."""
+def _doorways(mesh, doorways: list[dict], floors: list[dict]) -> list[dict]:
+    """The doorways the RECORDS give, exactly as the compile binds doors to
+    them (`Catalogue.doorways` = `compile_settlement.piece_doorways`), each
+    checked against the mesh: a ray cast inward along the doorway's bearing
+    DOOR_PROBE_Z_M over the base and over each floor plane, and the radius
+    where it first meets the mesh. A `-with-door` composite carries its door
+    leaf, so a doorway is usually closed geometry: the probe shows whether
+    the mesh stands in the doorway's wall line (|probe - record| small), not
+    whether it is open."""
     low, high = (np.asarray(v, float) for v in mesh.bounds)
-    rows = []
-    if entrance and entrance.get("offsetM"):
-        x, z = entrance["offsetM"][:2]
-        rows.append({"source": f"entrance:{entrance.get('kind')}", "planXZ": [x, z],
-                     "sideDeg": entrance.get("sideDeg")})
-    for d in (assembly or {}).get("doorways", []) if isinstance(assembly, dict) else []:
-        ox, oy = d["offsetLocalM"][:2]
-        rows.append({"source": f"assembly:{d.get('doorPiece')}", "planXZ": [ox, -oy],
-                     "sideDeg": d.get("sideDeg"), "riseM": d.get("riseM")})
+    rows = [{"source": d["source"], "planXZ": d["offsetInPieceM"], "sideDeg": d["sideDeg"],
+             **({"doorAsset": d["doorAsset"]} if d.get("doorAsset") else {})}
+            for d in doorways]
     reach = float(np.hypot(high[0] - low[0], high[1] - low[1])) + 2.0
     for row in rows:
         x, z = row["planXZ"]

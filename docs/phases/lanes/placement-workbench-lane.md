@@ -33,7 +33,8 @@ that place (owner 2026-09-24).
 
 | Round | State | Commit | Record | Proof |
 |---|---|---|---|---|
-| 1 | delivered 2026-09-24 | (this commit) | [tooling README](../../../tooling/placement-workbench/README.md) | 14 tests on answers written first (one expectation amended: `-with-door` composites bake their door leaf, so a doorway is closed mesh); place/settle 0.7 s, snap 1.3-1.8 s, measure 1.3 s, render 10-14 s |
+| 2 | delivered 2026-09-24 | (this commit) | [skill](../../../.claude/skills/placement-workbench/SKILL.md), [0097](../../decisions/0097-placement-is-authored-in-a-workbench-and-the-pose-record-is-the-output.md) | the building-assembly chapter; the round-3 builder's nine tool gaps fixed (penetration by the smallest separating slide, `snap --settle`, terminal faces, every doorway, backlight, `probe`, quay reach); pitch, roll, mirror, `attach`, `swap`, `group`, `openings`, `signature`; the `assembly` field compiled and exported; 22 tests |
+| 1 | delivered 2026-09-24 | 046017f2 | [tooling README](../../../tooling/placement-workbench/README.md) | 14 tests on answers written first (one expectation amended: `-with-door` composites bake their door leaf, so a doorway is closed mesh); place/settle 0.7 s, snap 1.3-1.8 s, measure 1.3 s, render 10-14 s |
 
 ## Findings for other owners (measured in round 1)
 

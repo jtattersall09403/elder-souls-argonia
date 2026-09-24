@@ -15,10 +15,11 @@ the blueprint record the compile realises unchanged. Lane brief:
 | `workbench/ground.py` | The ground window, extracted once per scene: the studio's lod1 chunks (what the runtime seats on) and the compile's survey (height, slope, wet, depth, water level). |
 | `workbench/kits.py` | Published manifest rows and sidecars; meshes from the raw kit builds via `mine_mounts.MeshLibrary`, cached as npz. |
 | `workbench/measure.py` | Exact gap and crossing (FCL), penetration by separation, contact patch (the miner's `patch_class`), the runtime's seat height, foot float, doors to paths. |
-| `workbench/snap.py` | Snap by the mined abuts evidence, snap face to face by geometry, mount on a mined mount pair; the runtime's mounted pose for comparison. |
+| `workbench/snap.py` | Snap by the mined abuts evidence (skipping faces the plugins end runs on), snap face to face by geometry, mount on a mined mount pair, attach by a mined template; the runtime's mounted pose for comparison. |
+| `workbench/assembly.py` | Building assemblies: groups saved and placed as prefabs, variant swap, the front-face and openings check, the repetition signature. |
 | `workbench/describe.py` | The per-asset descriptor (bounds, floors, walls, openings, doorways, symmetry, connectors, the mined evidence), cached with `schemaVersion`. |
 | `workbench/render.py`, `blender/render_scene.py` | Renders (top, front, side, back, iso, turntable, cutaway) with Linux Blender 3.2.2, Cycles CPU; scale bar, labels and outlines drawn from the camera projection. |
-| `workbench/export.py` | Poses into a blueprint's parcels, runs (`pieces` with `atM`), landmarks and routes. |
+| `workbench/export.py` | Poses into a blueprint's parcels, runs (`pieces` with `atM`), a shell's `assembly`, landmarks and routes. |
 | `tests/` | The round-1 answers (`expected_round1.json`, written before the code) as pytest. Local only: they need the raw kit builds. |
 
 Output (scenes, ground windows, mesh and descriptor caches, renders) goes to

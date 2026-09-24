@@ -95,7 +95,8 @@ def test_the_mud_hut_doorway_is_where_the_record_puts_it_on_the_mesh(cat):
     record's doorway, and the mesh stands in that doorway's wall line."""
     d = describe.describe(cat, "composite:mud/hut-with-entrance")
     door = d["doorways"][0]
-    assert door["planXZ"] == [3.09, 5.72] and math.isclose(door["bearingDeg"], 151.59)
+    assert door["planXZ"] == [3.09, 5.72] and math.isclose(door["bearingDeg"], 151.59,
+                                                            abs_tol=0.1)
     ground_probe = door["probes"][0]
     assert abs(ground_probe["meshRadiusM"] - door["radiusM"]) <= 1.0, door
 
@@ -117,7 +118,9 @@ def _audit_y(cat, scene, placement) -> float:
     heights = [g.survey_height(x, z) for x, z in fp]
     fit = ((row.get("placement") or {}).get("evidence") or {}).get("policyId")
     line = min(heights) if fit == "dug-in" else sum(heights) / len(heights)
-    return line - placement["anchor"]["designedSinkM"]["p50"] * placement.get("scale", 1.0)
+    # the runtime reads the sink from the kit MANIFEST (createPlacementResolver
+    # `meta.designedSinkM`), not from the bundle's copy in `anchor`
+    return line - row["designedSinkM"]["p50"] * placement.get("scale", 1.0)
 
 
 @pytest.mark.parametrize("key", ["imperial-house.building", "cave-mouth.building"])
@@ -227,3 +230,67 @@ def test_a_run_mixing_authored_and_solved_members_is_refused():
                          {"asset": KEEP + "mwimparchwallgate01"}]}
     errors = bp_mod.validate_blueprint({"id": "place.t", "parcels": [parcel]})
     assert any("every piece carries an authored atM or none" in e for e in errors), errors
+
+
+def test_an_assembly_is_realised_where_the_workbench_put_it(tmp_path, scene, cat):
+    """Export a shell with a piece hung on it (turned, pitched) and a piece
+    on the ground; compile them with the compile's own `assembly_placements`;
+    compose the hung one the way the runtime does (`mountedTransform`): it
+    lands on the scene pose (1 mm, 0.01 deg)."""
+    from workbench import export
+    paths.bridge()
+    from worldgen import compile_settlement as cs
+    shell = _settled(cat, scene, Piece("house", "composite:farmhouse/farmhouse01-with-door",
+                                       4276.232, 5795.167, 33.0,
+                                       role={"kind": "parcel", "id": "parcel.t.house"}))
+    hung = Piece("sconce", SCONCE, shell.x + 2.0, shell.z - 1.0, 120.0, shell.y + 2.5, pitch=7.0,
+                 role={"kind": "assembly", "id": "parcel.t.house", "layer": "light",
+                       "on": "parent", "evidence": "measured"})
+    barrel = Piece("wall", WALL, shell.x - 9.0, shell.z + 6.0, 80.0,
+                   role={"kind": "assembly", "id": "parcel.t.house", "layer": "clutter",
+                         "on": "ground", "evidence": "measured"})
+    s = Scene(path=tmp_path / "s.json", groundStem=scene.groundStem, pieces=[shell, hung, barrel])
+    fields = export.poses(s, scene.ground().extent_m)["parcels"]["parcel.t.house"]
+    parcel = {"id": "parcel.t.house", **fields}
+    building = {"id": "b.parcel.t.house.building", "positionM": [shell.x, shell.y, shell.z],
+                "yawDeg": fields["yawDeg"], "scale": 1.0}
+    errors = []
+
+    class _Survey:
+        height_at = staticmethod(lambda x, z: scene.ground().survey_height(x, z))
+
+    rows = cs.assembly_placements("b", "seed", parcel, building, cat.shelf, _Survey(), errors)
+    assert errors == [] and len(rows) == 2
+    got = next(r for r in rows if r["assetId"] == SCONCE)
+    world = snap.runtime_mounted_pose(shell, got["mountOffsetM"], got["yawDeg"])
+    assert math.isclose(world["x"], hung.x, abs_tol=1e-3)
+    assert math.isclose(world["z"], hung.z, abs_tol=1e-3)
+    assert math.isclose(world["y"], hung.y, abs_tol=1e-3)
+    assert abs(((world["worldYawDeg"] - hung.yaw) + 180) % 360 - 180) < 0.01
+    assert got["pitchDeg"] == 7.0 and got["footprintM"] == []
+    on_ground = next(r for r in rows if r["assetId"] == WALL)
+    assert math.isclose(on_ground["positionM"][0], barrel.x, abs_tol=1e-3)
+    assert abs(((on_ground["yawDeg"] - barrel.yaw) + 180) % 360 - 180) < 0.01
+    assert len(on_ground["footprintM"]) == 4
+
+
+def test_the_assembly_validator_names_each_bad_member():
+    paths.bridge()
+    from worldgen import blueprint as bp_mod
+    parcel = {"assetRef": "x", "assembly": [
+        {"asset": WALL, "atM": [0, 0], "on": "parent", "layer": "window", "evidence": "measured"},
+        {"asset": WALL, "atM": [0], "on": "roof", "layer": "gargoyle", "evidence": ""}]}
+    got = bp_mod.assembly_failures(parcel)
+    assert any("assembly[0]: a piece on its parent needs upM" in e for e in got)
+    assert {"atM", "on must", "layer must", "evidence must"} <= {
+        k for e in got for k in ("atM", "on must", "layer must", "evidence must")
+        if e.startswith("assembly[1]") and k in e}
+
+
+def test_penetration_is_the_same_whichever_piece_is_named_first(cat, scene):
+    a = _settled(cat, scene, Piece("a", WALL, 4300.0, 5750.0, 0.0))
+    b = Piece("b", WALL, a.x + 5.9, a.z, 0.0, a.y)      # 0.2 m overlap at the ends
+    ab, ba = measure.contact(cat, a, b), measure.contact(cat, b, a)
+    assert ab["intersecting"] and ab["penetrationM"] is not None
+    assert math.isclose(ab["penetrationM"], ba["penetrationM"], abs_tol=0.002)
+    assert 0.15 <= ab["penetrationM"] <= 0.25, ab

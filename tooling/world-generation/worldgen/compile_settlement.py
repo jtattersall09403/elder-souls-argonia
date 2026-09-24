@@ -834,6 +834,58 @@ def _designed_sink_m(asset: dict) -> float:
     return 0.0
 
 
+def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
+                        shelf: "KitShelf", survey, errors: list[str]) -> list[dict]:
+    """A parcel's authored `assembly` (blueprint.assembly_failures), realised
+    exactly as recorded: each member at its pose in the parcel's frame.
+    `on: parent` members are mounted children of the shell's placement:
+    `mountOffsetM` is (x, up, z) in the shell's own frame and `yawDeg` /
+    `pitchDeg` are RELATIVE to the shell, which is what the runtime composes
+    (anchoring.ts `mountedTransform`: parent matrix x offset x own turn).
+    `on: ground` members are seated on the terrain by their own designed
+    sink over their own bounds outline, like any ground piece."""
+    out = []
+    cx, _cy, cz = building["positionM"]
+    yaw = float(building["yawDeg"])
+    scale = float(building.get("scale", 1.0))
+    for n, member in enumerate(parcel.get("assembly") or []):
+        asset = shelf.locate(member["asset"])
+        if asset is None:
+            errors.append(f"{parcel['id']}: assembly[{n}] {member['asset']} is in no built kit")
+            continue
+        lx, lz = (float(v) for v in member["atM"])
+        (dx, dz), = fp_mod.rotate_m([(lx, lz)], yaw)
+        wx, wz = cx + dx, cz + dz
+        # a hung piece is drawn at its shell's scale (no child scale at runtime)
+        m_scale = scale if member["on"] == "parent" else float(member.get("scale", 1.0))
+        row = {"id": f"{bp_id}.{parcel['id']}.assembly.{member['id']}", "parcelId": parcel["id"],
+               "objectKind": "assembly", "assetId": asset["id"], "kit": asset["kit"],
+               "scale": m_scale, "groundFit": asset_fit(asset) or "direct",
+               "layer": member["layer"], "evidence": member["evidence"],
+               "provenance": _provenance(bp_id, seed, f"parcel-assembly/{member['layer']}",
+                                         asset["id"], [])}
+        if member["on"] == "parent":
+            up = float(member["upM"])
+            row.update({"positionM": [round(wx, 3), round(building["positionM"][1] + up, 3),
+                                      round(wz, 3)],
+                        "yawDeg": round(float(member.get("yaw", 0.0)) % 360.0, 3),
+                        "parentPlacementId": building["id"],
+                        "mountOffsetM": [round(lx / scale, 4), round(up / scale, 4),
+                                         round(lz / scale, 4)],
+                        "footprintM": []})
+        else:
+            m_yaw = (yaw + float(member.get("yaw", 0.0))) % 360.0
+            ground = survey.height_at(wx, wz) - _designed_sink_m(asset) * m_scale
+            row.update({"positionM": [round(wx, 3), round(ground, 3), round(wz, 3)],
+                        "yawDeg": round(m_yaw, 3),
+                        "footprintM": [[round(x, 3), round(z, 3)] for x, z in _plan_footprint_m(
+                            asset, [wx, 0.0, wz], m_yaw, m_scale)]})
+        if "pitch" in member:
+            row["pitchDeg"] = float(member["pitch"])
+        out.append(row)
+    return out
+
+
 def _parent_local_offset(parent: dict, parent_asset: dict, child: dict,
                          child_asset: dict) -> list[float]:
     """Seat a deck child on the parent's TOP FACE, in the parent's local frame.
@@ -883,6 +935,8 @@ def mount_children(bp_id: str, placements: list[dict], shelf: "KitShelf",
     placed_assets = sorted({row.get("assetId") for row in placements if row.get("assetId")})
     with_asset = [row for row in placements if row.get("assetId")]
     for placement in sorted(placements, key=lambda row: row["id"]):
+        if placement.get("objectKind") == "assembly":
+            continue      # authored in the workbench: its pose IS the record
         asset = by_asset.get(placement.get("assetId") or "")
         anchor_class = (asset or {}).get("anchorClass")
         if anchor_class not in MOUNTED_CLASSES:
@@ -1998,6 +2052,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "provenance": _provenance(bp_id, seed, f"parcel-building/{fit}", asset["id"], []),
             **({"shoreAnchorShiftM": quay_shift} if quay_shift is not None else {}),
         })
+        placements.extend(assembly_placements(bp_id, seed, parcel, placements[-1], shelf, survey,
+                                              errors))
 
         # 97 decision 4 / G18: an occupied shell or works mass is not a
         # finished place until its use leaves visible objects around it.  The

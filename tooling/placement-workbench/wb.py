@@ -90,6 +90,10 @@ def cmd_move(a, scene, cat):
     if a.yaw is not None:
         p.yaw = a.yaw % 360.0
     p.yaw = (p.yaw + a.turn) % 360.0
+    if a.pitch is not None:
+        p.pitch = a.pitch
+    if a.roll is not None:
+        p.roll = a.roll
     if a.dy and p.y is not None:
         p.y += a.dy
     out = {"uid": p.uid, "x": p.x, "z": p.z, "yaw": p.yaw, "y": p.y}
@@ -106,15 +110,88 @@ def cmd_snap(a, scene, cat):
     child, parent = scene.piece(a.child), scene.piece(a.parent)
     cf, pf = snap.face(a.child_face), snap.face(a.parent_face)
     if a.by == "evidence":
-        got = snap.snap_evidence(child, parent, cf, pf, a.pick)
+        got = snap.snap_evidence(child, parent, cf, pf, a.pick, a.allow_terminal)
     else:
         if cf is None or pf is None:
             raise ValueError("a geometric snap needs both faces")
         got = snap.snap_geometry(cat, child, parent, cf, pf, a.lateral, a.keep_yaw)
+    if a.settle:
+        # the runtime seats every ground piece of a run on its OWN outline
+        got["settle"] = _settle(cat, scene, child)
     got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
     if child.y is not None and parent.y is not None:
         got["contact"] = measure.contact(cat, child, parent)
     return got
+
+
+def cmd_attach(a, scene, cat):
+    child, parent = scene.piece(a.child), scene.piece(a.parent)
+    got = snap.attach(child, parent, a.template, a.pick)
+    got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y,
+                   "scale": child.scale}
+    if child.y is not None:
+        got["contact"] = measure.contact(cat, child, parent)
+    return got
+
+
+def cmd_mirror(a, scene, cat):
+    p = scene.piece(a.uid)
+    p.mirror = not p.mirror
+    return {"uid": p.uid, "mirror": p.mirror,
+            "note": "the runtime cannot draw a mirrored piece: export refuses it"}
+
+
+def cmd_swap(a, scene, cat):
+    from workbench import assembly
+    got = assembly.swap(cat, scene.piece(a.uid), a.asset, a.keep)
+    if a.resettle:
+        got["settle"] = _settle(cat, scene, scene.piece(a.uid))
+    return got
+
+
+def cmd_group(a, scene, cat):
+    from workbench import assembly
+    if a.action == "list":
+        return sorted(p.stem for p in assembly.PREFABS.glob("*.json"))
+    if a.action == "save":
+        return assembly.save_group(scene, a.name, a.uids, a.anchor or a.uids[0])
+    made = assembly.place_group(scene, a.name, tuple(a.at), a.yaw, a.prefix, a.parcel)
+    group = json.loads((assembly.PREFABS / f"{a.name}.json").read_text())
+    anchor = scene.piece(a.prefix + group["anchor"]["uid"])
+    _settle(cat, scene, anchor)
+    assembly.lift_group(scene, a.name, a.prefix)
+    for p in made:
+        if p is not anchor and (p.role or {}).get("on") == "ground":
+            _settle(cat, scene, p)
+    return {"placed": [p.uid for p in made], "anchor": anchor.uid}
+
+
+def cmd_openings(a, scene, cat):
+    from workbench import assembly
+    return assembly.openings(cat, scene, a.uid, a.clear)
+
+
+def cmd_signature(a, scene, cat):
+    from workbench import assembly
+    return assembly.signature(scene)
+
+
+def cmd_probe(a, scene, cat):
+    """A pose tried without adding it: the runtime seat, the ground under
+    its footprint, the compile's slope rule for its fit."""
+    from workbench import paths
+    paths.bridge()
+    from worldgen import compile_settlement as cs
+    g = scene.ground()
+    p = Piece("probe", a.asset, a.at[0], a.at[1], a.yaw % 360.0)
+    seat = measure.seat(cat, g, p)
+    p.y = seat["y"]
+    out = {"seat": seat}
+    if seat["mode"] != "water":
+        report = measure.ground_report(cat, g, p)
+        report["slopeRule"] = cs.fit_slope_failure(cat.row(a.asset), report["maxSlopeDeg"])
+        out["ground"] = report
+    return out
 
 
 def cmd_mount(a, scene, cat):
@@ -156,7 +233,8 @@ def cmd_check(a, scene, cat):
         row = cat.row(p.asset)
         r = {"asset": p.asset.rsplit("/", 1)[-1], "fit": fit_of(row),
              "anchorClass": row.get("anchorClass"), "settledBy": p.settledBy}
-        mounted = (p.settledBy or "").startswith("mount:")
+        mounted = ((p.settledBy or "").startswith(("mount:", "template:"))
+                   or (p.role or {}).get("on") == "parent")
         if not mounted:
             seat = measure.seat(cat, g, p)
             r["runtimeY"] = round(seat["y"], 3)
@@ -170,6 +248,10 @@ def cmd_check(a, scene, cat):
                 r["wetVertices"] = sum(g.wet(x, z) for x, z in poly)
         if p.y is not None and not mounted and (row.get("anchorClass") or "ground") != "water":
             r.update(measure.float_under(cat, g, p))
+        if cs.is_quay_run(row):
+            r["quayReach"] = _quay_reach(cat, scene, g, p, row, cs)
+        if p.roll or p.mirror:
+            r["notExportable"] = "roll / mirror: the runtime has neither"
         rows[p.uid] = r
     pairs = []
     boxes = {}
@@ -191,6 +273,24 @@ def cmd_check(a, scene, cat):
     return {"pieces": rows, "nearPairs": pairs, "doors": doors}
 
 
+def _quay_reach(cat, scene, g, p, row, cs) -> dict:
+    """A quay run's two tips (`compile_settlement.quay_run_ends_local`): the
+    landward tip must stand on the ground/water line (dry 0.5 m inland, wet
+    0.5 m out) and the seaward tip within 0.5 m of a hull's outline."""
+    from shapely.geometry import Point, Polygon
+    from workbench.scene import plan_to_province
+    landward, seaward = cs.quay_run_ends_local(row, p.scale)
+    tip = lambda t: plan_to_province((p.x, p.z), p.yaw, (0.0, t))
+    hulls = [Polygon(measure.footprint_province(cat, q)) for q in scene.pieces
+             if q is not p and (cat.row(q.asset).get("anchorClass") == "water")]
+    sea = Point(tip(seaward))
+    return {"landwardTip": [round(v, 2) for v in tip(landward)],
+            "dryInland": not g.wet(*tip(landward - 0.5)), "wetOut": g.wet(*tip(landward + 0.5)),
+            "seawardTip": [round(v, 2) for v in tip(seaward)],
+            "tipToHullM": None if not hulls else round(min(
+                0.0 if h.contains(sea) else h.exterior.distance(sea) for h in hulls), 2)}
+
+
 def cmd_path(a, scene, cat):
     if a.action == "remove":
         scene.paths = [p for p in scene.paths if p["id"] != a.id]
@@ -206,6 +306,10 @@ def cmd_bind(a, scene, cat):
     role = {"kind": a.kind, "id": a.id}
     if a.kind == "run":
         role["index"] = a.index
+    if a.kind == "assembly":
+        if not (a.layer and a.on and a.evidence):
+            raise ValueError("an assembly binding needs --layer, --on and --evidence")
+        role.update({"layer": a.layer, "on": a.on, "evidence": a.evidence})
     if "mountedOn" in p.role:
         role["mountedOn"] = p.role["mountedOn"]
         role["mountPair"] = p.role.get("mountPair")
@@ -346,6 +450,8 @@ def parser() -> argparse.ArgumentParser:
     for k in ("dx", "dz", "dy", "forward", "right", "turn"):
         s.add_argument(f"--{k}", type=float, default=0.0)
     s.add_argument("--yaw", type=float, default=None)
+    s.add_argument("--pitch", type=float, default=None, help="absolute, degrees")
+    s.add_argument("--roll", type=float, default=None, help="absolute, degrees (not exportable)")
     s.add_argument("--resettle", action="store_true")
     s = sub.add_parser("settle")
     s.add_argument("uid")
@@ -357,6 +463,39 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--lateral", type=float, default=0.0)
     s.add_argument("--keep-yaw", action="store_true")
     s.add_argument("--pick", type=int, default=0)
+    s.add_argument("--settle", action="store_true",
+                   help="re-seat the child on its own ground afterwards (the runtime's seat)")
+    s.add_argument("--allow-terminal", action="store_true",
+                   help="use a step on a face the plugins end the run on")
+    s = sub.add_parser("attach")
+    s.add_argument("child")
+    s.add_argument("parent")
+    s.add_argument("--template", default=None)
+    s.add_argument("--pick", type=int, default=0)
+    s = sub.add_parser("mirror")
+    s.add_argument("uid")
+    s = sub.add_parser("swap")
+    s.add_argument("uid")
+    s.add_argument("asset")
+    s.add_argument("--keep", choices=("base", "pivot"), default="base")
+    s.add_argument("--resettle", action="store_true")
+    s = sub.add_parser("group")
+    s.add_argument("action", choices=("save", "place", "list"))
+    s.add_argument("name", nargs="?")
+    s.add_argument("--uids", nargs="*", default=[])
+    s.add_argument("--anchor", default=None, help="save: the member the group is relative to")
+    s.add_argument("--at", type=float, nargs=2)
+    s.add_argument("--yaw", type=float, default=0.0)
+    s.add_argument("--prefix", default="")
+    s.add_argument("--parcel", default=None, help="place: rebind members' parcel/assembly ids")
+    s = sub.add_parser("openings")
+    s.add_argument("uid")
+    s.add_argument("--clear", type=float, default=1.0)
+    sub.add_parser("signature")
+    s = sub.add_parser("probe")
+    s.add_argument("asset")
+    s.add_argument("--at", type=float, nargs=2, required=True)
+    s.add_argument("--yaw", type=float, default=0.0)
     s = sub.add_parser("mount")
     s.add_argument("child")
     s.add_argument("parent")
@@ -378,9 +517,15 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--kind", default="footpath")
     s = sub.add_parser("bind")
     s.add_argument("uid")
-    s.add_argument("kind", choices=("parcel", "run", "landmark"))
-    s.add_argument("id")
+    s.add_argument("kind", choices=("parcel", "run", "landmark", "assembly"))
+    s.add_argument("id", help="parcel / landmark id; for assembly, the SHELL's parcel id")
     s.add_argument("--index", type=int, default=0)
+    s.add_argument("--layer", default=None, help="assembly: door porch steps window shutter "
+                                                  "roof chimney annex light clutter wear")
+    s.add_argument("--on", choices=("parent", "ground"), default=None,
+                   help="assembly: hung on the shell, or seated on the terrain")
+    s.add_argument("--evidence", default=None,
+                   help="assembly: the template id, mount pair or 'measured'")
     s = sub.add_parser("render")
     s.add_argument("view", choices=("top", "front", "side", "back", "iso", "turntable",
                                     "cutaway"))
@@ -415,7 +560,7 @@ def parser() -> argparse.ArgumentParser:
 
 
 READ_ONLY = {"measure", "ground", "doors", "check", "render", "export", "list", "describe",
-             "evidence", "map", "walktable"}
+             "evidence", "map", "walktable", "openings", "signature", "probe"}
 
 
 def main(argv=None) -> int:

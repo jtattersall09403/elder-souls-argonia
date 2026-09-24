@@ -1097,17 +1097,23 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             object_kind = raw.get("objectKind") or (
                 "dressing" if "dressingFor" in raw else "parcel")
             is_dressing = object_kind == "dressing"
-            # a run piece carries its own laid outline (compile_settlement);
-            # every other parcel piece is seated on its parcel's footprint
-            footprint = ([] if is_dressing else raw.get("footprintM")
+            # a run piece or an assembly piece carries its own outline
+            # (compile_settlement); a mounted piece touches no terrain; every
+            # other parcel piece is seated on its parcel's footprint
+            mounted = bool(raw.get("parentPlacementId"))
+            footprint = ([] if is_dressing or mounted else raw.get("footprintM")
                          or _metres(parcel.get("footprint", []), survey))
-            if asset["_runtimeAnchor"]["mode"] == "streamed-perimeter" and not footprint:
+            if (asset["_runtimeAnchor"]["mode"] == "streamed-perimeter" and not footprint
+                    and not mounted):
                 footprint = _bounds_footprint(
                     asset, raw["positionM"], raw.get("yawDeg", 0), raw.get("scale", 1),
                 )
             placement = {
                 "id": raw["id"], "sourceId": doc["id"],
-                "kind": "settlement" if object_kind == "parcel" else object_kind,
+                # an authored assembly piece is part of its building: drawn and
+                # collided as the building is
+                "kind": ("settlement" if object_kind in ("parcel", "assembly")
+                         else object_kind),
                 "assetId": raw["assetId"], "kit": raw["kit"],
                 "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
                 "scale": raw.get("scale", 1), "footprintM": footprint,
@@ -1246,7 +1252,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
 # compile did not emit is absent, never defaulted here — a wrong default would
 # hang a lantern in the air or float a hull.
 MOUNT_FIELDS = ("anchorClass", "parentPlacementId", "mountOffsetM",
-                "waterLevelM", "waterEntityId")
+                "waterLevelM", "waterEntityId", "pitchDeg")
 
 
 def _mount_contract(raw: dict) -> dict:

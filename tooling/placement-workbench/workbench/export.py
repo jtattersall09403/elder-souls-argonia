@@ -15,6 +15,11 @@ A piece's `role` (set with `wb.py bind`) says where its pose goes:
   `atM` member field; without it a run is laid by the mined abuts pairs).
 * ``landmark <id>``: `position` UV and `yawDeg` (a mounted child keeps its
   parent binding; the compile seats it by the mined pair).
+* ``assembly <shell parcel id>``: a member of that shell's `assembly`
+  (`blueprint.assembly_failures`): `atM` in the shell's frame, `yaw` and
+  `pitch` relative to it, `upM` above its pivot when hung `on: parent`,
+  its `layer` and `evidence`. Roll and mirror are refused: the runtime
+  turns a piece by yaw and pitch only.
 
 Scene paths whose id matches a blueprint route write its `via` and
 `points` (UV).
@@ -23,8 +28,10 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from pathlib import Path
 
+from .assembly import _rel
 from .scene import Scene
 
 UV_ROUND = 9
@@ -32,6 +39,11 @@ UV_ROUND = 9
 
 def _uv(x: float, z: float, extent: float) -> list[float]:
     return [round(x / extent, UV_ROUND), round(z / extent, UV_ROUND)]
+
+
+def _slug(uid: str) -> str:
+    """A scene uid as a stable assembly member id (lower-case slug)."""
+    return re.sub(r"[^a-z0-9-]+", "-", uid.lower()).strip("-") or "piece"
 
 
 def _local(dx: float, dz: float, yaw_deg: float) -> list[float]:
@@ -45,11 +57,21 @@ def poses(scene: Scene, extent: float) -> dict:
     """{'parcels': {id: fields}, 'landmarks': {id: fields}, 'routes': {id: fields}}."""
     out: dict[str, dict] = {"parcels": {}, "landmarks": {}, "routes": {}}
     runs: dict[str, list] = {}
+    assemblies: dict[str, list] = {}
     for p in scene.pieces:
         kind, rid = p.role.get("kind"), p.role.get("id")
         if not kind:
             continue
+        if p.roll or p.mirror:
+            raise ValueError(f"{p.uid}: roll {p.roll} / mirror {p.mirror}: the runtime draws "
+                             f"neither (placementQuaternion is yaw + pitch), so the record "
+                             f"cannot carry this pose")
         yaw = round(p.yaw % 360.0, 3)
+        if kind == "assembly":
+            assemblies.setdefault(rid, []).append(p)
+            continue
+        if p.pitch:
+            raise ValueError(f"{p.uid}: pitch is exported only for assembly pieces")
         if kind == "parcel":
             fields = {"assetRef": p.asset, "centreUV": _uv(p.x, p.z, extent), "yawDeg": yaw}
             if p.scale != 1.0:
@@ -71,6 +93,34 @@ def poses(scene: Scene, extent: float) -> dict:
                            "yaw": round(rel, 3)})
         out["parcels"][rid] = {"pieces": pieces, "centreUV": _uv(first.x, first.z, extent),
                                "yawDeg": round(base, 3)}
+    for rid, pieces in assemblies.items():
+        shell = next((q for q in scene.pieces if q.role.get("kind") == "parcel"
+                      and q.role.get("id") == rid), None)
+        if shell is None or rid not in out["parcels"]:
+            raise ValueError(f"assembly pieces {[q.uid for q in pieces]} name parcel {rid}, "
+                             f"which no scene piece is bound to as its shell")
+        rows = []
+        for q in sorted(pieces, key=lambda q: q.uid):
+            rel = _rel(shell, q)
+            if q.role["on"] == "parent" and not math.isclose(q.scale, shell.scale):
+                raise ValueError(f"{q.uid}: scale {q.scale} on shell {shell.uid} at "
+                                 f"{shell.scale}: the runtime draws a hung piece at its "
+                                 f"shell's scale; seat it on the ground or use scale "
+                                 f"{shell.scale}")
+            row = {"id": _slug(q.uid), "asset": q.asset,
+                   "atM": [round(v, 4) for v in rel["atM"]],
+                   "yaw": round(rel["yaw"], 3), "on": q.role["on"],
+                   "layer": q.role["layer"], "evidence": q.role["evidence"]}
+            if q.role["on"] == "parent":
+                if rel["upM"] is None:
+                    raise ValueError(f"{q.uid}: a piece on its shell needs a height")
+                row["upM"] = round(rel["upM"], 4)
+            if q.pitch:
+                row["pitch"] = round(q.pitch, 3)
+            if q.scale != 1.0 and q.role["on"] == "ground":
+                row["scale"] = q.scale
+            rows.append(row)
+        out["parcels"][rid]["assembly"] = rows
     for path in scene.paths:
         pts = [_uv(x, z, extent) for x, z in path["pointsM"]]
         out["routes"][path["id"]] = {"via": pts, "points": pts}
@@ -96,6 +146,8 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
             parcel.pop("pieces", None)
         if "scale" not in fields:
             parcel.pop("scale", None)       # scale 1.0 is written as no scale
+        if "assembly" not in fields:
+            parcel.pop("assembly", None)    # the scene holds no assembly for it now
         parcel.update(fields)
         changed.append(pid)
     marks = {m["id"]: m for m in bp.get("landmarks", [])}

@@ -152,8 +152,10 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
         depth = float(np.max(np.abs((np.array([[x, y] for x in (low[0], high[0])
                                               for y in (low[1], high[1])]) - centre[:2])
                                     @ d[:2])))
+        sun = d + np.array([0.35 * d[1], -0.35 * d[0], -1.0])   # behind, a little aside, down
         shot = {"name": view, "ortho": True, "rot": rot, "pos": pos, "target": centre,
-                "clipStart": dist - depth - 1.5, "cutLine": True}
+                "clipStart": dist - depth - 1.5, "cutLine": True,
+                "sunDir": list(sun / np.linalg.norm(sun))}
         if view == "cutaway":
             shot["clipStart"] = dist + cut
             shot["lights"] = [list(centre), list(centre - d * (0.5 * depth))]
@@ -164,8 +166,9 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
             b, p_ = math.radians(bb), math.radians(pitch)
             d = np.array([math.sin(b) * math.cos(p_), math.cos(b) * math.cos(p_), -math.sin(p_)])
             pos = centre - d * (span * 1.25)
+            sun = d + np.array([0.35 * d[1], -0.35 * d[0], -0.6])
             shots.append({"name": f"{view}{i}", "ortho": False, "rot": _look(d), "pos": pos,
-                          "bearing": bb % 360.0})
+                          "bearing": bb % 360.0, "sunDir": list(sun / np.linalg.norm(sun))})
     else:
         raise ValueError(f"unknown view {view!r}")
     work = Path(tempfile.mkdtemp(prefix="wb-render-", dir=paths.OUTPUT))
@@ -191,6 +194,7 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
                              "matrix": _camera(s["rot"], s["pos"]),
                              "clipStart": s.get("clipStart", 0.1), "clipEnd": dist * 3,
                              "lights": s.get("lights", []),
+                             "sunDir": s.get("sunDir"),
                              "res": [rx, ry], "out": str(target)})
     (work / "job.json").write_text(json.dumps(job))
     env = dict(os.environ, JOB=str(work / "job.json"))

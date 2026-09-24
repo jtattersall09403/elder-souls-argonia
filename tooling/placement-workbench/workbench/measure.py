@@ -101,14 +101,38 @@ def _separation(manager, a: Piece, direction) -> float | None:
     return hi
 
 
+def _min_separation(manager, a: Piece, b: Piece, ab_: dict, ba_: dict):
+    """The smallest slide that clears the crossing, over the candidate
+    directions (B's contact normal and the reverse of A's, the horizontal
+    line between the pivots, and up), both ways each: the same answer
+    whichever piece is named first. (metres, direction label) or (None,
+    None) past PENETRATION_REACH_M on every direction."""
+    candidates = {}
+    if ab_["normalOfB"] is not None:
+        candidates["normal"] = ab_["normalOfB"]
+    if ba_["normalOfB"] is not None:
+        candidates["normal-of-a"] = -ba_["normalOfB"]
+    d = np.array([a.x - b.x, -(a.z - b.z), 0.0])
+    if np.linalg.norm(d) > 1e-6:
+        candidates["pivots"] = d / np.linalg.norm(d)
+    candidates["up"] = np.array([0.0, 0.0, 1.0])
+    best = (None, None)
+    for name, direction in candidates.items():
+        for sign, label in ((1.0, name), (-1.0, f"-{name}")):
+            got = _separation(manager, a, sign * direction)
+            if got is not None and (best[0] is None or got < best[0]):
+                best = (got, label)
+    return best
+
+
 def contact(cat: Catalogue, a: Piece, b: Piece) -> dict:
     """Gap / intersection / contact between two posed pieces.
 
     `gapM`: the EXACT smallest distance between the two triangle meshes
     (FCL via python-fcl), 0 when they touch or cross. `intersecting`: FCL's
-    exact triangle-crossing test. `penetrationM`: when they cross, how far A
-    must slide out along B's contact normal to clear it (None: more than
-    0.5 m, or no contact patch to give a direction). `contact`: gapM <=
+    exact triangle-crossing test. `penetrationM`: when they cross, the
+    smallest slide that clears them over a set of candidate directions
+    (`separatesAlong` names it; None: more than 0.5 m every way). `contact`: gapM <=
     CONTACT_M (0.03 m, the miner's threshold). `patchOfA`/`patchOfB`: where
     on each piece the contact lies (under: it stands on the other; side: it
     abuts or leans; top: the other rests on or hangs it)."""
@@ -123,13 +147,14 @@ def contact(cat: Catalogue, a: Piece, b: Piece) -> dict:
     gap = 0.0 if intersecting else float(manager.min_distance_internal())
     ab_ = _one_way(cat, a, b)
     ba_ = _one_way(cat, b, a)
-    pen = 0.0
+    pen, along = 0.0, None
     if intersecting:
-        pen = None if ab_["normalOfB"] is None else _separation(manager, a, ab_["normalOfB"])
+        pen, along = _min_separation(manager, a, b, ab_, ba_)
     return {
         "a": a.uid, "b": b.uid,
         "gapM": round(gap, 4), "intersecting": intersecting,
         "penetrationM": None if pen is None else round(pen, 3),
+        "separatesAlong": along,
         "contact": gap <= mm.CONTACT_M,
         "contactPointsAonB": ab_["contactPoints"], "contactPointsBonA": ba_["contactPoints"],
         "patchOfA": ab_["patch"], "patchOfB": ba_["patch"],
@@ -223,22 +248,24 @@ def float_under(cat: Catalogue, ground, piece: Piece) -> dict:
 
 
 def door_report(cat: Catalogue, scene, piece: Piece) -> dict | None:
-    """The piece's measured entrance in the province frame and its distance
-    to the nearest scene path centreline (97 C9: within 4 m)."""
-    ent = (cat.interiors(piece.asset) or {}).get("entrance") or {}
-    off = ent.get("offsetM")
-    if not off:
-        return None
-    x, z = plan_to_province((piece.x, piece.z), piece.yaw,
-                            (off[0] * piece.scale, off[1] * piece.scale))
-    facing = None if ent.get("sideDeg") is None else (piece.yaw + float(ent["sideDeg"])) % 360
-    best = None
+    """Every measured doorway of the piece (the compile's own
+    `piece_doorways`) in the province frame, each with its distance to the
+    nearest scene path centreline (97 C9: within 4 m); `best` is the doorway
+    the compile would most likely bind (the one nearest a path)."""
     from shapely.geometry import LineString, Point
-    for path in scene.paths:
-        line = LineString(path["pointsM"])
-        d = line.distance(Point(x, z))
-        if best is None or d < best[0]:
-            best = (d, path["id"])
-    return {"thresholdM": [round(x, 3), round(z, 3)], "facingDeg": facing,
-            "kind": ent.get("kind"), "nearestPath": best and best[1],
-            "pathDistanceM": None if best is None else round(best[0], 2)}
+    rows = []
+    lines = [(LineString(p["pointsM"]), p["id"]) for p in scene.paths if len(p["pointsM"]) >= 2]
+    for d in cat.doorways(piece.asset):
+        ox, oz = d["offsetInPieceM"]
+        x, z = plan_to_province((piece.x, piece.z), piece.yaw,
+                                (ox * piece.scale, oz * piece.scale))
+        near = min(((line.distance(Point(x, z)), pid) for line, pid in lines), default=None)
+        rows.append({"thresholdM": [round(x, 3), round(z, 3)], "source": d["source"],
+                     "facingDeg": None if d["sideDeg"] is None
+                     else round((piece.yaw + float(d["sideDeg"])) % 360, 1),
+                     "nearestPath": near and near[1],
+                     "pathDistanceM": None if near is None else round(near[0], 2)})
+    if not rows:
+        return None
+    best = min(rows, key=lambda r: r["pathDistanceM"] if r["pathDistanceM"] is not None else 1e9)
+    return {"best": best, "doorways": rows}

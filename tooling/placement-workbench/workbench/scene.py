@@ -32,6 +32,21 @@ def yaw_matrix(yaw_deg: float) -> np.ndarray:
     return np.array([[c, -s, 0.0], [s, c, 0.0], [0.0, 0.0, 1.0]])
 
 
+def pose_matrix(yaw_deg: float, pitch_deg: float = 0.0, roll_deg: float = 0.0,
+                mirror: bool = False) -> np.ndarray:
+    """Kit -> wb rotation: yaw, then pitch about the piece's own x (east at
+    yaw 0; positive lifts its north end), then roll about its own y. The
+    runtime's `placementQuaternion` is Euler(pitch, -yaw, 0, 'YXZ'): the same
+    yaw and pitch; it has no roll and no mirror (export refuses both)."""
+    p, r = math.radians(pitch_deg), math.radians(roll_deg)
+    rx = np.array([[1.0, 0.0, 0.0], [0.0, math.cos(p), -math.sin(p)],
+                   [0.0, math.sin(p), math.cos(p)]])
+    ry = np.array([[math.cos(r), 0.0, math.sin(r)], [0.0, 1.0, 0.0],
+                   [-math.sin(r), 0.0, math.cos(r)]])
+    m = yaw_matrix(yaw_deg) @ rx @ ry
+    return m @ np.diag([-1.0, 1.0, 1.0]) if mirror else m
+
+
 def plan_to_province(centre_xz, yaw_deg: float, local_xz) -> tuple[float, float]:
     """A piece-local plan point (x east, z south) to province metres."""
     t = math.radians(yaw_deg)
@@ -49,13 +64,16 @@ class Piece:
     yaw: float = 0.0         # degrees clockwise from north
     y: float | None = None   # pivot height (metres); None until settled or set
     scale: float = 1.0
-    role: dict = field(default_factory=dict)     # export binding: parcel/run/landmark
+    role: dict = field(default_factory=dict)     # export binding: parcel/run/landmark/assembly
     notes: list = field(default_factory=list)    # the agent's own log for this piece
     settledBy: str | None = None                 # how y was decided
+    pitch: float = 0.0       # degrees about the piece's own x after the yaw
+    roll: float = 0.0        # degrees about its own y (the runtime has none)
+    mirror: bool = False     # mirrored across its own x (the runtime has none)
 
     def matrix(self) -> tuple[np.ndarray, np.ndarray]:
         """(A, b): kit-frame points p -> wb points A @ p + b."""
-        a = yaw_matrix(self.yaw) * self.scale
+        a = pose_matrix(self.yaw, self.pitch, self.roll, self.mirror) * self.scale
         b = np.array([self.x, -self.z, self.y if self.y is not None else 0.0])
         return a, b
 

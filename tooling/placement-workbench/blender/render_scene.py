@@ -234,6 +234,12 @@ def main():
         cam_data.shift_x = shot.get("shiftX", 0.0)
         cam_data.shift_y = shot.get("shiftY", 0.0)
         cam.matrix_world = Matrix(shot["matrix"])
+        sun = bpy.data.objects["sun"]
+        if shot.get("sunDir"):
+            # light from behind the camera: an elevation is never backlit
+            sun.rotation_euler = Vector(shot["sunDir"]).to_track_quat("-Z", "Y").to_euler()
+        else:
+            sun.rotation_euler = (math.radians(40), math.radians(10), math.radians(30))
         scene.render.resolution_x, scene.render.resolution_y = shot["res"]
         scene.render.filepath = shot["out"]
         # a cutaway's interior gets no sun through its walls: light it inside

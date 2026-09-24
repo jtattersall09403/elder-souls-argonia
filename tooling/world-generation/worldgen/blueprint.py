@@ -1639,6 +1639,72 @@ def _derive_dock_fit(dk: dict, survey, end_m: float, need: float | None) -> str:
     return "water-to-dock" if (fixed and passes and end_m <= DOCK_FIT_SEARCH_M) else "to-water"
 
 
+#: The layers of a building assembly (docs/research/placement-settlements/
+#: building-depth-and-variety.md §2): the pieces an agent authors around a
+#: shell in the placement workbench, beyond what the shell's composite holds.
+ASSEMBLY_LAYERS = frozenset({"door", "porch", "steps", "window", "shutter", "roof",
+                             "chimney", "annex", "light", "clutter", "wear"})
+ASSEMBLY_KEYS = frozenset({"id", "asset", "atM", "upM", "yaw", "pitch", "on", "layer",
+                           "evidence", "scale"})
+ASSEMBLY_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+
+
+def _number(value) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+
+def assembly_failures(parcel: dict) -> list[str]:
+    """A parcel's `assembly`: the pieces authored around its shell in the
+    placement workbench (tooling/placement-workbench), each an exact pose in
+    the parcel's frame (x east, z south at the parcel's yaw 0, metres from
+    its pivot). `on: parent` hangs it on the shell (`upM` above the shell's
+    pivot; published as a mounted child); `on: ground` seats it on the
+    terrain by its own designed sink. `evidence` names the mined template,
+    mount pair or "measured" contact the agent used."""
+    members = parcel.get("assembly")
+    if members is None:
+        return []
+    if not isinstance(members, list) or not members:
+        return ["assembly must be a non-empty list of authored pieces"]
+    if "assetRef" not in parcel:
+        return ["assembly needs a one-asset parcel (assetRef): its members hang on that shell"]
+    out = []
+    seen: set[str] = set()
+    for i, m in enumerate(members):
+        where = f"assembly[{i}]"
+        if not isinstance(m, dict) or not isinstance(m.get("asset"), str) or not m["asset"]:
+            out.append(f"{where}: asset must be an exact kit asset id")
+            continue
+        # standard 2: the placement id is built from this, so it never shifts
+        # when another member is added or removed
+        if not (isinstance(m.get("id"), str) and ASSEMBLY_ID.match(m["id"])) or m["id"] in seen:
+            out.append(f"{where}: id must be a unique lower-case slug (a-z, 0-9, '-')")
+        else:
+            seen.add(m["id"])
+        if m.get("on") == "parent" and "scale" in m:
+            out.append(f"{where}: a piece hung on its shell is drawn at the shell's scale "
+                       f"(anchoring.ts mountedTransform has no child scale); drop scale")
+        extra = set(m) - ASSEMBLY_KEYS
+        if extra:
+            out.append(f"{where}: unknown keys {sorted(extra)}")
+        if not fp.is_plan_point(m.get("atM")):
+            out.append(f"{where}: atM must be [x, z] metres in the parcel's frame")
+        if m.get("on") not in ("parent", "ground"):
+            out.append(f"{where}: on must be 'parent' or 'ground'")
+        if m.get("on") == "parent" and not _number(m.get("upM")):
+            out.append(f"{where}: a piece on its parent needs upM (metres above the shell's pivot)")
+        if m.get("layer") not in ASSEMBLY_LAYERS:
+            out.append(f"{where}: layer must be one of {sorted(ASSEMBLY_LAYERS)}")
+        for key in ("yaw", "pitch"):
+            if key in m and not _number(m[key]):
+                out.append(f"{where}: {key} must be degrees")
+        if "scale" in m and not (_number(m["scale"]) and 0.5 <= m["scale"] <= 1.5):
+            out.append(f"{where}: scale must be 0.5-1.5")
+        if not isinstance(m.get("evidence"), str) or not m["evidence"].strip():
+            out.append(f"{where}: evidence must name the template, mount pair or 'measured'")
+    return out
+
+
 def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey=None,
                        warnings: list[str] | None = None) -> list[str]:
     """Hard schema + placement validation; returns the failures.
@@ -1712,6 +1778,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         pid = p.get("id")
         if p.get("districtId") not in district_ids:
             fail(f"parcel {pid}: unknown districtId {p.get('districtId')}")
+        for why in assembly_failures(p):
+            fail(f"parcel {pid}: {why}")
         if "groundFit" in p and p["groundFit"] not in GROUND_FIT:
             fail(f"parcel {pid}: groundFit, when authored, must be one of {sorted(GROUND_FIT)}")
         if not p.get("buildingFamily"):

@@ -67,6 +67,22 @@ class Catalogue:
         return got if isinstance(got, list) else [got]
 
     @cached_property
+    def _doorway_records(self) -> tuple[dict, dict]:
+        paths.bridge()
+        from worldgen import compile_settlement as cs
+        return cs.kit_interiors(self.kits_dir), cs.assembly_doorways()
+
+    def doorways(self, asset_id: str) -> list[dict]:
+        """Every measured doorway of the piece, exactly as the compile binds
+        doors to them (`compile_settlement.piece_doorways`: interiors entrance
+        and provenance, probe centre, mined assembly doorways; plan frame x
+        east / z south on the pivot)."""
+        paths.bridge()
+        from worldgen import compile_settlement as cs
+        interiors, assemblies = self._doorway_records
+        return cs.piece_doorways(asset_id, interiors, assemblies)
+
+    @cached_property
     def _library(self):
         paths.bridge()
         from worldgen.mine_mounts import MeshLibrary

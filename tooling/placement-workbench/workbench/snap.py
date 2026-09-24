@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import math
+from functools import lru_cache
 
 import numpy as np
 
@@ -82,18 +83,59 @@ def evidence_steps(parent_asset: str, child_asset: str) -> list[dict]:
     return out
 
 
+def face_use(asset: str) -> dict[str, dict]:
+    """Per face of the piece: how often the plugins END a run on it bare
+    (`terminates`) and how often they CONTINUE it there (every run pair on
+    that face, whichever piece the record names as parent). Piece level
+    when the piece has its own `terminates` row, else its family's."""
+    fp = _fp()
+    abuts = fp.abuts_record()
+    fam = fp.family_key(asset)
+    own = (abuts.get("terminates") or {}).get(asset)
+    key, ends, rows = ((asset, own, abuts.get("pairs") or []) if own else
+                       (fam, (abuts.get("familyTerminates") or {}).get(fam) or {},
+                        abuts.get("familyPairs") or []))
+    out = {face: {"ended": int(n), "continued": 0} for face, n in ends.items()}
+    for pair in rows:
+        if pair.get("joint") != "run":
+            continue
+        for who, face in ((pair["parent"], pair["parentFace"]), (pair["child"], pair["childFace"])):
+            if who == key:
+                out.setdefault(face, {"ended": 0, "continued": 0})["continued"] += pair["count"]
+    return out
+
+
+def terminal_faces(asset: str) -> set[str]:
+    """Faces on which the plugins end a run of this piece at least as often
+    as they continue it (a broken wall end is an end, not a joint)."""
+    return {face for face, use in face_use(asset).items()
+            if use["ended"] and use["ended"] >= use["continued"]}
+
+
 def snap_evidence(child: Piece, parent: Piece, child_face: str | None = None,
-                  parent_face: str | None = None, pick: int = 0) -> dict:
+                  parent_face: str | None = None, pick: int = 0,
+                  allow_terminal: bool = False) -> dict:
+    """Place the child where the plugins put it against the parent: the
+    mined abuts step with the most evidence (or `pick`). A step from one of
+    the parent's `terminal_faces` is skipped unless `allow_terminal`."""
+    ends = terminal_faces(parent.asset)
     steps = [s for s in evidence_steps(parent.asset, child.asset)
              if (parent_face is None or s["parentFace"] == parent_face)
              and (child_face is None or s["childFace"] == child_face)]
+    skipped = [s for s in steps if s["parentFace"] in ends]
+    if not allow_terminal:
+        steps = [s for s in steps if s not in skipped]
     if not steps:
         raise ValueError(f"no mined abuts pair joins {child.asset} to {parent.asset}"
-                         + (f" on {parent_face}>{child_face}" if parent_face or child_face else ""))
+                         + (f" on {parent_face}>{child_face}" if parent_face or child_face else "")
+                         + (f" (skipped {len(skipped)} on faces the plugins end the run on: "
+                            f"{sorted(ends)}; --allow-terminal to use them)" if skipped else ""))
     step = steps[min(pick, len(steps) - 1)]
     _set_from_parent(child, parent, step["offsetM"], step["riseM"], step["yawDeg"])
     child.settledBy = f"evidence-snap:{parent.uid}"
-    return {"used": step, "alternatives": len(steps) - 1}
+    return {"used": step, "alternatives": len(steps) - 1,
+            "skippedTerminalSteps": len(skipped) if not allow_terminal else 0,
+            "parentTerminalFaces": sorted(ends)}
 
 
 def _face_plane(row: dict, face: str) -> float:
@@ -200,6 +242,42 @@ def _t4_at(piece: Piece, pos_wb) -> np.ndarray:
     t = _t4(piece)
     t[:3, 3] = pos_wb
     return t
+
+
+@lru_cache(maxsize=1)
+def _assemblies_record() -> dict:
+    """kit-assemblies-mined.json, read once per process (read-only data, as
+    `blueprint_footprints.abuts_record` reads its abuts section)."""
+    return json.loads(_fp().ABUTS_RECORD.read_text())
+
+
+def templates(anchor_asset: str, part_asset: str | None = None) -> list[dict]:
+    """The mined co-placement templates on an anchor (kit-assemblies-mined
+    `sets.*.templates`): part, count, offsetM in the anchor's UNIT frame,
+    yawDeg (clockwise), partScaleInAnchor, isDoor."""
+    out = [t for s in _assemblies_record().get("sets", {}).values() for t in s.get("templates", [])
+           if t.get("anchor") == anchor_asset and (part_asset is None or t.get("part") == part_asset)]
+    return sorted(out, key=lambda t: (-(t.get("count") or 0), t.get("id", "")))
+
+
+def attach(child: Piece, parent: Piece, template_id: str | None = None, pick: int = 0) -> dict:
+    """Place the child where the plugins place that part on that anchor: a
+    mined template's offset (anchor unit frame, times the parent's scale),
+    its relative yaw and the part's scale in the anchor."""
+    rows = templates(parent.asset, child.asset)
+    if template_id:
+        rows = [t for t in rows if t["id"] == template_id]
+    if not rows:
+        raise ValueError(f"no mined template places {child.asset} on {parent.asset}"
+                         + (f" with id {template_id}" if template_id else ""))
+    t = rows[min(pick, len(rows) - 1)]
+    ox, oy, oz = t["offsetM"]
+    _set_from_parent(child, parent, (ox, oy), oz, float(t["yawDeg"]))
+    child.scale = parent.scale * float(t.get("partScaleInAnchor") or 1.0)
+    child.settledBy = f"template:{t['id']}:{parent.uid}"
+    return {"template": {k: t.get(k) for k in ("id", "count", "offsetM", "yawDeg",
+                                               "partScaleInAnchor", "isDoor", "anchorScale")},
+            "alternatives": len(rows) - 1}
 
 
 def mount_pairs(child_asset: str, parent_asset: str | None = None) -> list[dict]:
