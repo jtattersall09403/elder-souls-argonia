@@ -323,21 +323,6 @@ def test_every_condition_paints_a_continuous_road_line():
                 f"potholes and washouts, never stretches of erased road")
 
 
-def test_built_surface_recedes_as_the_road_decays():
-    """The mix, not the existence, is what condition moves: cobbles give way to
-    dirt path from maintained through to broken."""
-    for seed in SEEDS:
-        paintable = _paintable(seed)
-        shares = [(_road_bake(c, seed) == BC_ROAD)[paintable].mean()
-                  for c in (1, 2, 3, 4)]
-        assert all(a >= b for a, b in zip(shares, shares[1:])), (
-            f"seed {seed}: BC_ROAD share by condition "
-            f"{[round(s, 3) for s in shares]} is not non-increasing")
-        assert shares[0] > shares[3], (
-            f"seed {seed}: a broken road keeps as much built surface as a new "
-            f"one")
-
-
 def test_a_broken_road_still_holds_a_cleared_trace_open():
     """Width factor 0 meant no corridor existed, so nothing cleared the trees
     off a broken road and nothing was painted under them."""

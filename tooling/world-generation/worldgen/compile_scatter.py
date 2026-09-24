@@ -44,7 +44,7 @@ from .scale import PROVINCE_EXTENT_M, RAW_M
 from .scatter import (ANCHOR_TERRAIN, CLIFF_SLOPE_DEG, ROUTE_CLEAR, ROUTE_CONDITION_SHIFT,
                       ROUTE_THIN, Fields, Instance, Palette, clark_evans, encode,
                       scatter_chunk)
-from .water_report import CHANNEL_REACH_KINDS, ShippedWater, WATER_DIR
+from .water_report import CHANNEL_REACH_KINDS, ArrayCache, ShippedWater, WATER_DIR
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
@@ -70,91 +70,125 @@ class ProvinceFields:
     generalises BM&V's single flat water plane to our varied one.
     """
 
+    #: the arrays the cache holds (everything else is metadata read per process)
+    ARRAYS = ("height_m", "depth_m", "shore_m", "kind_idx", "near_kind", "near_season",
+              "near_label", "coast_m", "channel_m", "bank_margin_m", "corridor_m",
+              "slope_deg", "cliff_m", "region", "land_cover", "corridor", "zone_idx")
+
     def __init__(self, province: Path = PROVINCE,
-                 height_file: str = "height-rg.png"):
+                 height_file: str = "height-rg.png",
+                 water: ShippedWater | None = None, cache: bool = True):
         refined = json.loads((province / "refined" / "meta.json").read_text())
         hydro = json.loads((province / "hydrology-meta.json").read_text())
-
         self.px_m = refined["metresPerPixel"]
-        rgb = np.asarray(Image.open(province / "refined" / height_file)
-                         .convert("RGB")).astype(np.float32)
-        lo, hi = refined["heightMinMetres"], refined["heightMaxMetres"]
-        self.height_m = (rgb[..., 0] * 256 + rgb[..., 1]) / 65535.0 * (hi - lo) + lo
-
+        self.region_px_m = hydro["metresPerPixel"]
         # --- the water, read from the signed record (decision 0066) --------
         # Nothing here decides what water IS: kind, season, identity, width
         # and band all come from the hydrology graph through `ShippedWater`,
         # on the surface grid (same registration as the refined height
-        # raster). Only distances and depths are MEASURED off it.
-        w = ShippedWater()
+        # raster). Only distances and depths are MEASURED off it. A caller
+        # that already holds the published water (`ProvinceSurvey`) passes
+        # it in so the stack is decoded once per process.
+        w = water if water is not None else ShippedWater(cache=cache)
         self.water = w
-        self.depth_m = w.signed_depth_m("wet").copy()
-        wet = self.depth_m > 0.0
+        self.water_px_m = w.mpp2
+        self.kind_names = w.kind_names()
+        # The height raster is a vertex lattice: N samples span N - 1
+        # intervals.  Use the source-derived shared extent rather than adding
+        # a phantom texel beyond the east/south boundary.
+        self.extent_m = PROVINCE_EXTENT_M
+        # Authored dressing zones (16f deliverable 4): a small integer raster
+        # on the control grid, 0 off every zone.
+        self.zones = dz.load_zones()
+        self.zone_names = [""] + [z["id"] for z in self.zones]
+
+        store = self.cache = ArrayCache.for_province(province, cache)
+        arrays = store.group(f"fields.{height_file}",
+                             lambda: self._derive(province, height_file, refined, w))
+        for name in self.ARRAYS:
+            setattr(self, name, arrays[name])
+        # ground-control ships at FULL resolution (double the refined height
+        # raster) — sampling it with px_m read the wrong quadrant entirely.
+        self.control_px_m = self.extent_m / self.land_cover.shape[0]
+
+    def _derive(self, province: Path, height_file: str, refined: dict,
+                w: ShippedWater) -> dict:
+        """Every array decoded and measured from the published rasters (the
+        cache's builder)."""
+        out = {}
+        rgb = np.asarray(Image.open(province / "refined" / height_file)
+                         .convert("RGB")).astype(np.float32)
+        lo, hi = refined["heightMinMetres"], refined["heightMaxMetres"]
+        height_m = (rgb[..., 0] * 256 + rgb[..., 1]) / 65535.0 * (hi - lo) + lo
+        out["height_m"] = height_m
+
+        depth_m = w.signed_depth_m("wet").copy()
+        wet = depth_m > 0.0
         # The encoding clamps dry ground at -6 m, so anything below that is
         # simply "dry"; the old -20 floor no longer means anything.
-        np.clip(self.depth_m, -6.0, 25.5, out=self.depth_m)
+        np.clip(depth_m, -6.0, 25.5, out=depth_m)
+        out["depth_m"] = depth_m
         # Signed distance to the water's EDGE (+ land, − water): the meso
         # 'scene' field — reed belts, bank thickets and riparian galleries all
         # band on it (research/vegetation/openworld-vegetation-placement-architecture.md).
         land_d, (iy, ix) = ndimage.distance_transform_edt(~wet, return_indices=True)
         water_d = ndimage.distance_transform_edt(wet)
-        self.shore_m = (np.where(wet, -water_d, land_d) * w.mpp2).astype(np.float32)
+        out["shore_m"] = (np.where(wet, -water_d, land_d) * w.mpp2).astype(np.float32)
 
         # The record AT the nearest water, everywhere: on dry ground the
         # local water is the water you can see from it.
-        self.kind_idx = w.kind_index_grid()
-        self.kind_names = w.kind_names()
-        season_idx = w.season_index_grid()
-        self.near_kind = self.kind_idx[iy, ix]
-        self.near_season = season_idx[iy, ix]
-        self.near_label = w.ids[iy, ix]
+        kind_idx = w.kind_index_grid()
+        out["kind_idx"] = kind_idx
+        out["near_kind"] = kind_idx[iy, ix]
+        out["near_season"] = w.season_index_grid()[iy, ix]
+        out["near_label"] = w.ids[iy, ix]
 
         # Salt exposure: signed distance to SALT water by KIND (ocean, lagoon,
         # tidal reach) — an interior lake is wet but not salty.
         salt = w.kind_grid({"ocean", "lagoon", "horizontal-tidal"})
         salt_in = ndimage.distance_transform_edt(~salt) * w.mpp2
         salt_out = ndimage.distance_transform_edt(salt) * w.mpp2
-        self.coast_m = np.where(salt, -salt_out, salt_in).astype(np.float32)
+        out["coast_m"] = np.where(salt, -salt_out, salt_in).astype(np.float32)
 
         # Channels and their wetted banks: the belt no trunk may stand in.
         channel = w.kind_grid(CHANNEL_REACH_KINDS)
         ch_out, (cy, cx) = ndimage.distance_transform_edt(
             ~channel, return_indices=True)
         ch_in = ndimage.distance_transform_edt(channel)
-        self.channel_m = (np.where(channel, -ch_in, ch_out) * w.mpp2).astype(np.float32)
+        out["channel_m"] = (np.where(channel, -ch_in, ch_out) * w.mpp2).astype(np.float32)
         widths = w.reach_width_grid()
-        self.bank_margin_m = np.clip(
+        out["bank_margin_m"] = np.clip(
             widths[cy, cx] * 0.3, 2.0, 10.0).astype(np.float32)
 
         # Distance to the nearest MAJOR (band 3) reach — the record's own
         # river ranking, for layers that band on the big water.
         band3 = w.reach_band_grid() == 3
-        self.corridor_m = ((ndimage.distance_transform_edt(~band3) * w.mpp2)
-                           .astype(np.float32) if band3.any()
-                           else np.full(band3.shape, 1e9, dtype=np.float32))
-        self.water_px_m = w.mpp2
+        out["corridor_m"] = ((ndimage.distance_transform_edt(~band3) * w.mpp2)
+                             .astype(np.float32) if band3.any()
+                             else np.full(band3.shape, 1e9, dtype=np.float32))
 
-        gy, gx = np.gradient(self.height_m, self.px_m)
-        self.slope_deg = np.degrees(np.arctan(np.hypot(gx, gy))).astype(np.float32)
+        gy, gx = np.gradient(height_m, self.px_m)
+        slope_deg = np.degrees(np.arctan(np.hypot(gx, gy))).astype(np.float32)
+        out["slope_deg"] = slope_deg
         # Distance to the nearest CLIFF texel (16f): fallen stone gathers at
         # the foot of a face wherever the face is, so "near a cliff" is a
         # distance-to-feature field like the shore, not a region class.
-        cliff = self.slope_deg >= CLIFF_SLOPE_DEG
-        self.cliff_m = ((ndimage.distance_transform_edt(~cliff) * self.px_m)
-                        .astype(np.float32) if cliff.any()
-                        else np.full(cliff.shape, 1e9, dtype=np.float32))
+        cliff = slope_deg >= CLIFF_SLOPE_DEG
+        out["cliff_m"] = ((ndimage.distance_transform_edt(~cliff) * self.px_m)
+                          .astype(np.float32) if cliff.any()
+                          else np.full(cliff.shape, 1e9, dtype=np.float32))
 
         region_rgb = np.asarray(Image.open(province / "hydro-regions.png")
                                 .convert("RGB"))
-        self.region_px_m = hydro["metresPerPixel"]
-        self.region = np.zeros(region_rgb.shape[:2], dtype=np.uint8)
+        region = np.zeros(region_rgb.shape[:2], dtype=np.uint8)
         for class_id, (_name, colour) in REGION_CLASSES.items():
             match = np.all(region_rgb == np.array(colour, dtype=np.uint8), axis=-1)
-            self.region[match] = class_id
+            region[match] = class_id
+        out["region"] = region
 
         control = np.asarray(Image.open(province / "refined" / "ground-control.png")
                              .convert("RGBA"))
-        self.land_cover = control[..., 0].copy()
+        out["land_cover"] = control[..., 0].copy()
 
         # Route corridors on the ground-control grid: MAJOR roads only —
         # trunks cleared, groundcover thinned. The minor network's clearance
@@ -167,25 +201,14 @@ class ProvinceFields:
         # `scatter.route_allows` can keep more groundcover on a worse road.
         trunk, ground, condition = major_corridor_masks(control.shape[:2], step,
                                                         province=province)
-        self.corridor = ((trunk.astype(np.uint8) * ROUTE_CLEAR
-                          | ground.astype(np.uint8) * ROUTE_THIN)
-                         | (condition.astype(np.uint8) << ROUTE_CONDITION_SHIFT))
-
-        # The height raster is a vertex lattice: N samples span N - 1
-        # intervals.  Use the source-derived shared extent rather than adding
-        # a phantom texel beyond the east/south boundary.
-        self.extent_m = PROVINCE_EXTENT_M
-        # ground-control ships at FULL resolution (double the refined height
-        # raster) — sampling it with px_m read the wrong quadrant entirely.
-        self.control_px_m = self.extent_m / control.shape[0]
-
-        # Authored dressing zones (16f deliverable 4): a small integer raster
-        # on the control grid, 0 off every zone. Rasterised over each
-        # polygon's own bounding box, so this costs the zones' area.
-        self.zones = dz.load_zones()
-        self.zone_names = [""] + [z["id"] for z in self.zones]
-        self.zone_idx = dz.rasterise(self.zones, control.shape[:2],
-                                     self.control_px_m)
+        out["corridor"] = ((trunk.astype(np.uint8) * ROUTE_CLEAR
+                            | ground.astype(np.uint8) * ROUTE_THIN)
+                           | (condition.astype(np.uint8) << ROUTE_CONDITION_SHIFT))
+        # Rasterised over each polygon's own bounding box, so this costs the
+        # zones' area.
+        out["zone_idx"] = dz.rasterise(self.zones, control.shape[:2],
+                                       self.extent_m / control.shape[0])
+        return out
 
     # -- sampling --
 

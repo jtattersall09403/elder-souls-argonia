@@ -188,20 +188,35 @@ def test_shape_matches_routes_minor_and_serves_live_plotted_places():
     n, px = doc["grid"]["size"], doc["grid"]["metresPerPixel"]
     ids = [c["id"] for c in doc["channels"]]
     assert ids == sorted(ids) and len(ids) == len(set(ids))
+    # One failure per CHANNEL, so a registered known red (decision 0053) is
+    # keyed to the failing entry and cannot absorb any other channel's defect.
+    failures: list[str] = []
+    docks = mw.blueprint_docks()
     for c in doc["channels"]:
         rec = plotted.get(c["from"])
-        assert rec is not None, f"{c['id']} serves a record that is not live+plotted"
-        assert c["kind"] == c["class"] and c["kind"] in {"channel", "river", "crossing"}, c["id"]
-        assert len(c["px"]) >= 2 and all(0 <= x < n and 0 <= y < n for x, y in c["px"]), c["id"]
+        if rec is None:
+            failures.append(f"{c['id']}: serves a record that is not live+plotted")
+            continue
+        if not (c["kind"] == c["class"] and c["kind"] in {"channel", "river", "crossing"}):
+            failures.append(f"{c['id']}: kind {c['kind']!r} / class {c['class']!r}")
+        if not (len(c["px"]) >= 2 and all(0 <= x < n and 0 <= y < n for x, y in c["px"])):
+            failures.append(f"{c['id']}: px path empty or off the grid")
+            continue
         c0, r0 = c["px"][0]
-        dock = next((d for d in mw.blueprint_docks().get(c["from"], [])
+        dock = next((d for d in docks.get(c["from"], [])
                      if d.get("id") == c.get("dockId")), None)
         x, z = ([float(dock["position"][0]) * n * px,
                  float(dock["position"][1]) * n * px]
                 if dock else rec["positionM"])
         snap = mw.SNAP_M / px + 2          # the path starts at the place's landing
-        assert abs(c0 - x / px) <= snap and abs(r0 - z / px) <= snap, c["id"]
-        assert 0 < c["lengthKm"] * 1000 <= mw.MAX_CHANNEL_M + px, c["id"]
+        if not (abs(c0 - x / px) <= snap and abs(r0 - z / px) <= snap):
+            failures.append(f"{c['id']}: starts {abs(c0 - x / px):.1f}/{abs(r0 - z / px):.1f} px "
+                            f"from its landing (snap {snap:.1f} px)")
+        if not 0 < c["lengthKm"] * 1000 <= mw.MAX_CHANNEL_M + px:
+            failures.append(f"{c['id']}: length {c['lengthKm']} km out of range")
+    known_red.assert_clear(
+        "worldgen/test_minor_waterways.py::test_shape_matches_routes_minor_and_serves_live_plotted_places",
+        failures)
 
 
 def test_boat_stations_are_channelled_or_explained():
@@ -230,7 +245,17 @@ def test_boat_stations_are_channelled_or_explained():
     # travel stations. An aggregate count cannot prove that a particular id
     # did not disappear between demand and publication.
     expected = {r["id"] for batch in mw.demand(catalogue.load_region_files()) for r in batch}
-    assert served == expected
+    # One failure per place, naming the channels that serve it, so a registered
+    # known red (decision 0053) is keyed to the failing entry.
+    by_place: dict[str, list[str]] = {}
+    for c in doc["channels"]:
+        by_place.setdefault(c["from"], []).append(c["id"])
+    failures = [f"{pid}: served but not in demand (channels: {', '.join(by_place.get(pid, []))})"
+                for pid in sorted(served - expected)]
+    failures += [f"{pid}: in demand but not served" for pid in sorted(expected - served)]
+    known_red.assert_clear(
+        "worldgen/test_minor_waterways.py::test_boat_stations_are_channelled_or_explained",
+        failures)
 
 
 def test_recompile_is_deterministic_and_shares_its_step_graphs_per_run(monkeypatch):

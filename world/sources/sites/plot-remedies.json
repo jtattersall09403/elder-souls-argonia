@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "_": "The 16g review's remedies: ONE row per failing record, applied by `python3 -m worldgen.plot_remedies --apply` so the review is reproducible and idempotent. Never hand-write a position (docs/world/96-placement-playbook.md §1): a re-site row removes the record's position fields and the chain's seeded macro_plot re-sites it; a sub-150 m nudge writes a macro-plot-overrides row that `apply_sitings --stage` applies. Kinds: pin-by-siting, meso-move, re-type, re-reference, prose, merge, cut, status, field. Every row carries the measured reason in `why`. Add the row, run --apply, then --check.",
+  "_": "The 16g review's remedies: ONE row per failing record, applied by `python3 -m worldgen.plot_remedies --apply` so the review is reproducible and idempotent. Never hand-write a position (docs/world/96-placement-playbook.md §1): a re-site row removes the record's position fields and the chain's seeded macro_plot re-sites it; a sub-150 m nudge on a record the plot re-sites writes a macro-plot-overrides row that `apply_sitings --stage` applies; a record the plot has already committed is moved by a `reseat` row, which carries the owner call and the sources it was measured on and is realised by `apply_sitings` alone. Kinds: pin-by-siting, meso-move, reseat, re-type, re-reference, prose, merge, cut, status, field. Every row carries the measured reason in `why`. Add the row, run --apply, then --check.",
   "remedies": [
     {
       "id": "place.dunmer-north.the-tear-wreck",
@@ -3227,6 +3227,151 @@
         }
       },
       "why": "The terrace was bound to place.dunmer-north.stands-on-the-hammock, which was never authored, so the binding held nothing and the reference dangled. The terrace stands at 6248.5, 298.9; the binding is replaced by a nearPoint at that dot (100 m) so the next solve keeps it where it stands."
+    },
+    {
+      "id": "place.mercantile-coast.sunkfoot",
+      "kind": "reseat",
+      "toM": [
+        4233.3,
+        6236.6
+      ],
+      "why": "16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "ownerCall": "2026-09-20",
+      "sources": [
+        "world/sources/water/graph body.ocean (entity raster, 2017 px)"
+      ]
+    },
+    {
+      "id": "place.naga-kur-deeps.air-pocket-station-deeps",
+      "kind": "reseat",
+      "toM": [
+        2522.4,
+        4924.2
+      ],
+      "why": "16h imperial-fringe-pack rule: the air-pocket station's entrance keeps a dry dot on the bank. The dot sat at 2547.1, 4899.5, 0.0 m into body.1209-3032 (wet, depth 1.56 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2522.4, 4924.2 (34.9 m move; the 25 m radius search widened once to find land, so the move exceeds the bank distance the remedy targets — a promise-unmet row is owed if the owner wants it tighter). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "ownerCall": "2026-09-20",
+      "sources": [
+        "world/sources/water/graph body.1209-3032 (entity raster, 2017 px)"
+      ]
+    },
+    {
+      "id": "place.naga-kur-deeps.drowned-village-lake-deeps",
+      "kind": "reseat",
+      "toM": [
+        2588.2,
+        5362.9
+      ],
+      "why": "16h imperial-fringe-pack rule: the drowned village's entrance keeps a dry dot on the bank. The dot sat at 2596.4, 5387.6, 0.0 m into body.1209-3032 (wet, depth 1.92 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2588.2, 5362.9 (26.0 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "ownerCall": "2026-09-20",
+      "sources": [
+        "world/sources/water/graph body.1209-3032 (entity raster, 2017 px)"
+      ]
+    },
+    {
+      "id": "place.imperial-penal-south.blackrose",
+      "kind": "reseat",
+      "toM": [
+        2343.0,
+        6424.8
+      ],
+      "ownerCall": "2026-09-20",
+      "sources": [
+        "world/sources/water/graph body.1284-3448 (entity raster, 2017 px)",
+        "world/sources/anchors/settlement-anchors.json blackrose"
+      ],
+      "why": "Blackrose is an island city in the lake. The committed dot at 2123.0, 6215.0 stands on the shore, 304.0 m from the island. No other ground inside body.1284-3448 is fully enclosed: the island is 149 cells, rows 1750-1765 by columns 633-647 of the entity raster. Its centroid is 2343.0, 6424.8, dry ground 17 m from the owner-approved anchor at 2359.5, 6415.0."
+    },
+    {
+      "id": "place.naga-kur-deeps.raft-village-lashed",
+      "kind": "reseat",
+      "toM": [
+        2195.2,
+        4436.2
+      ],
+      "ownerCall": "2026-09-20",
+      "sources": [
+        "world/sources/water/graph body.1208-2442 (entity raster, 2017 px)"
+      ],
+      "why": "16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot on the bank. The dot sat at 2185.2, 4367.6, 68.6 m from body.1208-2442; the land cell within 25 m of that body closest to the old dot is 2195.2, 4436.2 (69.3 m move). The record is already committed, so the move is a reseat."
+    },
+    {
+      "id": "place.imperial-penal-south.cordon-cellars",
+      "kind": "reseat",
+      "toM": [
+        2712.0,
+        6443.4
+      ],
+      "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2566.9, 6388.9, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2712.0, 6443.4 (369.5 m from the centre, 155.0 m move).",
+      "ownerCall": "2026-09-23",
+      "sources": [
+        "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+      ]
+    },
+    {
+      "id": "place.imperial-penal-south.necromantic-dig",
+      "kind": "reseat",
+      "toM": [
+        2131.4,
+        6601.3
+      ],
+      "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2179.7, 6561.0, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2131.4, 6601.3 (275.5 m from the centre, 62.9 m move).",
+      "ownerCall": "2026-09-23",
+      "sources": [
+        "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+      ]
+    },
+    {
+      "id": "place.imperial-penal-south.rose-bone-waystation",
+      "kind": "reseat",
+      "toM": [
+        2579.6,
+        6565.9
+      ],
+      "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2484.1, 6426.8, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2579.6, 6565.9 (275.5 m from the centre, 168.7 m move).",
+      "ownerCall": "2026-09-23",
+      "sources": [
+        "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+      ]
+    },
+    {
+      "id": "place.imperial-penal-south.rose-outworks",
+      "kind": "reseat",
+      "toM": [
+        2433.2,
+        6169.8
+      ],
+      "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2478.5, 6300.5, less than 270 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2433.2, 6169.8 (270.5 m from the centre, 138.3 m move).",
+      "ownerCall": "2026-09-23",
+      "sources": [
+        "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+      ]
+    },
+    {
+      "id": "place.imperial-penal-south.saltrice-village",
+      "kind": "reseat",
+      "toM": [
+        2468.1,
+        6692.5
+      ],
+      "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2437.4, 6626.8, less than 295 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2468.1, 6692.5 (295.5 m from the centre, 72.5 m move).",
+      "ownerCall": "2026-09-23",
+      "sources": [
+        "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+      ]
+    },
+    {
+      "id": "place.imperial-penal-south.manned-toll-tower",
+      "kind": "reseat",
+      "toM": [
+        2267.4,
+        6377.9
+      ],
+      "why": "Gate guard at the causeway's shore end on the Soulrest road (16i's Blackrose pass refines): the first dry ground on route.road.soulrest-blackrose past 45 m from the Blackrose centre that clears the drowned Hist's footprint is 2267.4, 6377.9.",
+      "ownerCall": "2026-09-23",
+      "sources": [
+        "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose",
+        "route.road.soulrest-blackrose"
+      ]
     }
   ]
 }

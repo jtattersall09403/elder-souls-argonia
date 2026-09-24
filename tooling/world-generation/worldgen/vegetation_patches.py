@@ -395,12 +395,32 @@ def keep_raster(shape: tuple[int, int], px_m: float,
 
 # --- vectorised evaluation (same rule as `keep_at`, tested to agree) --------
 
-def _inside_and_distance(x: np.ndarray, z: np.ndarray, polys):
+def _inside_and_distance(x: np.ndarray, z: np.ndarray, polys,
+                         cutoff_m: float | None = None):
+    """Inside flag (even-odd, OR over polygons) and nearest-edge distance.
+
+    ``cutoff_m`` skips every polygon whose bounding box lies farther than
+    that from the bounding box of ALL the points (16h step E: a chunk's
+    plants against a province-long track clearance of a few hundred quads).
+    A skipped polygon cannot contain any point, and its distance to every
+    point exceeds the cutoff, so a caller whose rule saturates beyond the
+    cutoff (`keep_field`) gets the identical answer; distances above the
+    cutoff may read larger (up to inf) than without it."""
     inside = np.zeros(x.shape, dtype=bool)
     best = np.full(x.shape, np.inf, dtype=np.float64)
+    if cutoff_m is not None and x.size:
+        px0, px1 = float(np.min(x)), float(np.max(x))
+        pz0, pz1 = float(np.min(z)), float(np.max(z))
     for poly in polys:
         if len(poly) < 3:
             continue
+        if cutoff_m is not None and x.size:
+            qx = [v[0] for v in poly]
+            qz = [v[1] for v in poly]
+            gap_x = max(min(qx) - px1, px0 - max(qx), 0.0)
+            gap_z = max(min(qz) - pz1, pz0 - max(qz), 0.0)
+            if gap_x > cutoff_m or gap_z > cutoff_m:
+                continue
         crossings = np.zeros(x.shape, dtype=bool)
         n = len(poly)
         for i in range(n):
@@ -433,8 +453,13 @@ def keep_field(x: np.ndarray, z: np.ndarray, clearance: dict,
     hard = clearance.get("hardClear", []) or []
     thinned = clearance.get("thinned", []) or []
     falloff = float(clearance.get("fringeFalloffM") or FRINGE_FALLOFF_M)
-    in_hard, d_hard = _inside_and_distance(x, z, hard)
-    in_thin, d_thin = _inside_and_distance(x, z, thinned)
+    # Past this distance from every polygon the rule below is saturated:
+    # t = 1 (falloff), no wall enrichment (band + the widest jitter), not
+    # inside either list, so the keep no longer depends on the distance.
+    # 1 m of slack covers float rounding at the box edge.
+    cutoff = margin_m + max(falloff, WALL_ENRICH_BAND_M + EDGE_JITTER_M) + 1.0
+    in_hard, d_hard = _inside_and_distance(x, z, hard, cutoff)
+    in_thin, d_thin = _inside_and_distance(x, z, thinned, cutoff)
     d_thin = np.maximum(d_thin - margin_m, 0.0)
     in_thin = in_thin | (d_thin <= 0.0)
     d_wall = np.full(np.shape(x), np.inf, dtype=np.float64)

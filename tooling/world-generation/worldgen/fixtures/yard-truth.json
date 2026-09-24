@@ -1,0 +1,361 @@
+{
+ "schemaVersion": 1,
+ "_": "16h K14 yard truth table: hand-written from the mesh geometry (tooling/asset-pipeline/output/kits raw GLBs: bounds, up-facing bands, walkable deck) before the mined records were read. sinkM/waterlineM are [low, high] in metres, designedSinkM sign (positive = pivot below the ground or water line). anchorClass lists the classes that are right for the piece. kit null = a composite part no shipped kit carries as its own asset.",
+ "assets": [
+  {
+   "assetId": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+   "kit": "settlement-stilt-v1",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    0.8,
+    1.4
+   ],
+   "waterlineM": null,
+   "why": "Dock plank run on 1.4 m legs: pivot 0.07 m above the leg tips, deck top 1.51 m above the pivot (60% of the footprint at 1.4 m). A stilt fit is seated by its deck (owner 2026-09-23): deck 0.1-0.7 m above the support, legs buried, so sink = deck - clearance = 0.8-1.4 m."
+  },
+  {
+   "assetId": "bmv:architecture/philscaves/small/doorcaveb",
+   "kit": "dungeon-root-v1",
+   "anchorClass": [
+    "ground"
+   ],
+   "sinkM": [
+    -1.9,
+    -1.0
+   ],
+   "waterlineM": null,
+   "why": "Cave-mouth frame set into a bank: pivot at mid-height, floor band at -1.36 m (26% of the footprint), mesh bottom -1.83 m. The floor meets the ground, the 0.47 m skirt below it is buried."
+  },
+  {
+   "assetId": "ferryraft:snt/ferry/ferryraft01",
+   "kit": "settlement-stilt-v1",
+   "anchorClass": [
+    "water"
+   ],
+   "sinkM": null,
+   "waterlineM": [
+    -0.45,
+    0.05
+   ],
+   "why": "Plank raft: 82% of the footprint is its deck at the pivot (z 0 to 0.1 m) over logs to -0.47 m. It floats with the deck just clear of the water: water 0.05 m above to 0.45 m below the pivot."
+  },
+  {
+   "assetId": "composite:farmhouse/farmhouse01-with-door",
+   "kit": "settlement-imperial-v1",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    -0.6,
+    0.3
+   ],
+   "waterlineM": null,
+   "why": "Vanilla farmhouse: the floor and the door sill sit at the pivot (door leaf bottom z 0.0), a 1.82 m stone foundation below it is meant to be buried on a slope. The door sill at or up to 0.6 m above the ground."
+  },
+  {
+   "assetId": "vanilla:architecture/farmhouse/farmhouse01",
+   "kit": "settlement-imperial-v1",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    -0.6,
+    0.3
+   ],
+   "waterlineM": null,
+   "why": "The composite's shell: same geometry and seating."
+  },
+  {
+   "assetId": "vanilla:architecture/farmhouse/farmhouseldoor01",
+   "kit": null,
+   "anchorClass": [
+    "hanging"
+   ],
+   "sinkM": null,
+   "waterlineM": null,
+   "why": "Door leaf with its bottom at its pivot, 2.5 m tall and 0.64 m thick: it hangs in the farmhouse doorway, never stands on the ground."
+  },
+  {
+   "assetId": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+   "kit": "imperial-keep",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    -0.1,
+    2.0
+   ],
+   "waterlineM": null,
+   "why": "Keep wall, 13.06 m tall, base at the pivot, walkway at 10.9 m. Stands on its base; the makers set keep walls into the ground up to about 2 m."
+  },
+  {
+   "assetId": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
+   "kit": "imperial-keep",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    -0.1,
+    2.0
+   ],
+   "waterlineM": null,
+   "why": "Gate section of the same keep grid (x -3.641 to +3.641 m): base at the pivot."
+  },
+  {
+   "assetId": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
+   "kit": "imperial-keep",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    -0.1,
+    2.0
+   ],
+   "waterlineM": null,
+   "why": "Tower section of the same grid, 7.28 m wide, bulging to y -3.81 m: base at the pivot."
+  },
+  {
+   "assetId": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
+   "kit": "imperial-keep",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    -0.1,
+    2.0
+   ],
+   "waterlineM": null,
+   "why": "Ruined wall, broken end at +x (x max 3.278 m): base at the pivot."
+  },
+  {
+   "assetId": "composite:docks/quay-run-2",
+   "kit": "docks-v1",
+   "anchorClass": [
+    "water"
+   ],
+   "sinkM": null,
+   "waterlineM": [
+    -2.0,
+    -0.3
+   ],
+   "why": "Two vanilla dock decks on pilings reaching 6.23-6.30 m under the deck top at the pivot: they stand in deep water with the deck 0.3-2.0 m above it."
+  },
+  {
+   "assetId": "vanilla:architecture/docks/dockstrent01",
+   "kit": "docks-v1",
+   "anchorClass": [
+    "water"
+   ],
+   "sinkM": null,
+   "waterlineM": [
+    -2.0,
+    -0.3
+   ],
+   "why": "Dock deck at the pivot (66% of the footprint at z 0) on 6.23 m pilings: water-standing."
+  },
+  {
+   "assetId": "vanilla:architecture/docks/dockstrent02",
+   "kit": "docks-v1",
+   "anchorClass": [
+    "water"
+   ],
+   "sinkM": null,
+   "waterlineM": [
+    -2.0,
+    -0.3
+   ],
+   "why": "As dockstrent01."
+  },
+  {
+   "assetId": "composite:mud/hut-with-entrance",
+   "kit": "settlement-mud-v1",
+   "anchorClass": [
+    "ground"
+   ],
+   "sinkM": [
+    -4.0,
+    -3.3
+   ],
+   "waterlineM": null,
+   "why": "The hut at scale 1.3 (mesh bottom -3.82 m) with its door leaf's sill at -3.84 m: the door threshold and the hut's base meet the ground, the pivot stands about 3.8 m above it."
+  },
+  {
+   "assetId": "bmv:architecture/huts/exterior/hutexterior",
+   "kit": "settlement-mud-v1",
+   "anchorClass": [
+    "ground"
+   ],
+   "sinkM": [
+    -3.05,
+    -2.5
+   ],
+   "waterlineM": null,
+   "why": "The unit-scale hut shell: mesh bottom -2.94 m under the pivot is its base on the ground (placed at 1.3 by the composite)."
+  },
+  {
+   "assetId": "bmv:architecture/huts/exterior/doorframe01",
+   "kit": null,
+   "anchorClass": [
+    "ground",
+    "deck",
+    "wall"
+   ],
+   "sinkM": null,
+   "waterlineM": null,
+   "why": "Entrance ring stepping out of the hut wall; stands on the ground at the doorway or butts the wall."
+  },
+  {
+   "assetId": "vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
+   "kit": null,
+   "anchorClass": [
+    "hanging"
+   ],
+   "sinkM": null,
+   "waterlineM": null,
+   "why": "Load door leaf: hangs in its frame."
+  },
+  {
+   "assetId": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
+   "kit": "settlement-imperial-v1",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    -0.45,
+    0.25
+   ],
+   "waterlineM": null,
+   "why": "Free-standing imperial wall 6.1 x 0.69 x 4.9 m: a plinth from -0.34 m to the pivot, the wall face above. The pivot at the floor or ground, the plinth buried or flush."
+  },
+  {
+   "assetId": "vanilla:clutter/signage/whiterun/signwrpost01",
+   "kit": "settlement-imperial-v1",
+   "anchorClass": [
+    "ground"
+   ],
+   "sinkM": [
+    -0.05,
+    0.6
+   ],
+   "waterlineM": null,
+   "why": "Sign post 2.74 m tall with its base at the pivot, arm at the top: set into the ground up to 0.6 m."
+  },
+  {
+   "assetId": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01",
+   "kit": "settlement-imperial-v1",
+   "anchorClass": [
+    "hanging"
+   ],
+   "sinkM": null,
+   "waterlineM": null,
+   "why": "Sign board: 0.16 m above its pivot and 1.05 m below it, 0.25 m thick: it hangs from the post's arm."
+  },
+  {
+   "assetId": "vanilla:clutter/imperial/impwallsconcecandle01",
+   "kit": "settlement-imperial-v1",
+   "anchorClass": [
+    "wall"
+   ],
+   "sinkM": null,
+   "waterlineM": null,
+   "why": "Wall sconce: its back plate is flat at x = 0 (x max 0.012 m) and it reaches 0.2 m out: fixed to a wall face."
+  },
+  {
+   "assetId": "composite:stilt/stilthouse-with-door",
+   "kit": "settlement-stilt-v1",
+   "anchorClass": [
+    "ground",
+    "deck",
+    "water"
+   ],
+   "sinkM": [
+    -3.8,
+    -1.4
+   ],
+   "waterlineM": [
+    -3.8,
+    -1.4
+   ],
+   "why": "Stilt house: deck at -1.27 m (77% of the footprint) on legs to -8.47 m. Seated by the deck 0.15-2.5 m above the ground or water, legs buried."
+  },
+  {
+   "assetId": "bmv:architecture/stilthouse/stilthouseext",
+   "kit": "settlement-stilt-v1",
+   "anchorClass": [
+    "ground",
+    "deck",
+    "water"
+   ],
+   "sinkM": [
+    -3.8,
+    -1.4
+   ],
+   "waterlineM": [
+    -3.8,
+    -1.4
+   ],
+   "why": "The composite's shell: same geometry."
+  },
+  {
+   "assetId": "bmv:architecture/stilthouse/stilthousedooranim",
+   "kit": "settlement-stilt-v1",
+   "anchorClass": [
+    "hanging"
+   ],
+   "sinkM": null,
+   "waterlineM": null,
+   "why": "Door leaf 2.35 x 0.09 m, bottom at its pivot: hangs in the stilt house doorway."
+  },
+  {
+   "assetId": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
+   "kit": "settlement-stilt-v1",
+   "anchorClass": [
+    "ground",
+    "deck"
+   ],
+   "sinkM": [
+    -0.3,
+    1.6
+   ],
+   "waterlineM": null,
+   "why": "Bosmer walkway stair: bottom tread band at the pivot (z 0-0.1 m), supports reaching 1.54 m below. The bottom tread at the support, the supports buried."
+  }
+ ],
+ "mountPairs": [
+  {
+   "child": "vanilla:clutter/imperial/impwallsconcecandle01",
+   "parent": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
+   "class": "wall",
+   "why": "The sconce's flat back meets the free wall's 0.69 m-thick face; vanilla imperial dungeons hang these sconces on the clutter-kit walls."
+  },
+  {
+   "child": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01",
+   "parent": "vanilla:clutter/signage/whiterun/signwrpost01",
+   "class": "hanging",
+   "why": "The board hangs from the post's arm at 2.74 m (the post's only broad top band)."
+  }
+ ],
+ "wallRun": {
+  "parcelId": "parcel.proving-ground.imperial-wall-run",
+  "pitchM": 7.282,
+  "toleranceM": 0.15,
+  "order": [
+   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
+   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
+   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02"
+  ],
+  "why": "Every keep section spans x -3.641 to +3.641 m on one 7.282 m grid, except the ruined ends (destroyed01 at -x 3.263, destroyed02 at +x 3.278): the run joins end to end at 7.282 m with the broken ends outward."
+ },
+ "knownMismatches": []
+}

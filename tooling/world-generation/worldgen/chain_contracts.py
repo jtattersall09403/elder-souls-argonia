@@ -323,6 +323,29 @@ class stale_ok:
         return self.check(**kwargs)
 
 
+class optional_read:
+    """A declared read the stage does not always exercise (a branch that
+    reads it only sometimes, e.g. compile_settlement's canopy/line-of-sight
+    check, skipped when every approach is FIXTURE-WAIVED). Demotes
+    `declared read ... was not opened` to a `warn:` line for this path only;
+    changes nothing else about the check."""
+
+    def __init__(self, check: Check, *, reason: str) -> None:
+        self.check = check
+        self.reason = reason
+
+    @property
+    def args(self):
+        return getattr(self.check, "args", ())
+
+    @property
+    def keywords(self):
+        return getattr(self.check, "keywords", {})
+
+    def __call__(self, **kwargs) -> list[str]:
+        return self.check(**kwargs)
+
+
 class glob_read:
     """A read of a FAMILY of files by pattern, not one document.
 
@@ -652,14 +675,19 @@ READS: dict[str, list[Check]] = {
     ],
     "rederive_blueprints": [
         P(exists, SOURCES / "blueprints"),
-        stale_ok(P(json_doc, PROVINCE / "places.json", ("places",), 2),
+        stale_ok(P(json_doc, PROVINCE / "places.json", ("places",), 3),
                  reason="16h owns the settlement stages and their reads; export_places "
                         "republishes the plot later in the same run"),
     ],
     "compile_settlement": [
         P(exists, SOURCES / "blueprints"),
         P(exists, KITS),
-        P(json_doc, SOURCES / "flora" / "palettes.json", ("byRegionClass",), 3),
+        # Canopy height for the approach line-of-sight check reads the flora
+        # palette; a blueprint whose approaches are all FIXTURE-WAIVED never
+        # takes that branch (16h part 1).
+        optional_read(P(json_doc, SOURCES / "flora" / "palettes.json", ("byRegionClass",), 3),
+                      reason="the canopy/line-of-sight check is skipped when every "
+                             "approach is fixture-waived"),
         P(npy, CURRENT, 2, "float32", True),
     ],
     "export_settlement_bundle": [
@@ -968,9 +996,12 @@ def check(stages: Iterable[str]) -> list[str]:
                             f"(add a READS entry in worldgen/chain_contracts.py)")
             continue
         declared: set[str] = set()
+        optional: set[str] = set()
         for entry in entries:
             for path in declared_paths(entry):
                 declared.add(str(Path(path).resolve()))
+                if isinstance(entry, optional_read):
+                    optional.add(str(Path(path).resolve()))
             try:
                 findings.extend(entry(stage=stage))
             except Exception as error:             # noqa: BLE001 — a broken
@@ -988,15 +1019,29 @@ def check(stages: Iterable[str]) -> list[str]:
                 continue                            # a directory is never opened;
                                                     # a missing file is already reported
             if path not in touched:
-                findings.append(f"{stage}: declared read {_short(p)} was not opened "
+                prefix = "warn: " if path in optional else ""
+                findings.append(f"{prefix}{stage}: declared read {_short(p)} was not opened "
                                 f"on its last stamped run")
         for entry in entries:
             if not isinstance(entry, glob_read):
                 continue
             if not any(str(p.resolve()) in touched for p in entry.matches()):
-                findings.append(
-                    f"{stage}: declared glob {_short(entry.directory / entry.pattern)} "
-                    f"matched no file that was opened on its last stamped run")
+                # Retired inputs of a frozen stage are history, not a
+                # contract break (owner rule: nothing above 16h re-runs): if
+                # every file this stage's last stamp opened under the glob's
+                # directory has since been moved away (not just edited), say
+                # so as a warn instead of failing the pass.
+                stamped_dir_files = [Path(p) for p in touched
+                                      if entry.directory in Path(p).resolve().parents]
+                vanished = [p for p in stamped_dir_files if not p.exists()]
+                if stamped_dir_files and len(vanished) == len(stamped_dir_files):
+                    findings.append(
+                        f"warn: {stage}: stamped inputs moved since its last run "
+                        f"({len(vanished)} files)")
+                else:
+                    findings.append(
+                        f"{stage}: declared glob {_short(entry.directory / entry.pattern)} "
+                        f"matched no file that was opened on its last stamped run")
         dirs = [Path(d) for d in declared if Path(d).is_dir()]
         for path in sorted(stamp.get("inputs", {})):
             p = Path(path).resolve()

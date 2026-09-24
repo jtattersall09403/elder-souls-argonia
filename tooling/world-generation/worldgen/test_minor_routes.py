@@ -337,11 +337,24 @@ def test_a_track_that_never_meets_the_way_keeps_its_whole_line():
     assert mr.clamp_to_way(path, []) == path
 
 
-def test_the_licensed_camp_declares_the_way_its_track_head_is_clamped_to():
+def test_a_blueprint_terminal_declares_the_way_its_track_head_is_clamped_to(tmp_path, monkeypatch):
     """The rule is general — the blueprint's declared terminal and its own way
-    — not a hand-moved coordinate, so 16i may re-author the camp anywhere."""
-    terminals = mr.blueprint_terminals()
-    camp = terminals.get("place.hist-heartland.sap-tapping-licensed")
+    — not a hand-moved coordinate, so 16i may re-author a place anywhere.
+    (The licensed camp that proved it was retired 2026-09-23 with the other
+    2026-09-09 layouts; this blueprint is written here.) The footpath terminal
+    outranks the channel one and carries its way's points."""
+    head = [0.4676, 0.6104]
+    bp = {"id": "place.test.camp",
+          "routes": [{"id": "route.test.track", "points": [head, [0.4677, 0.6100]]}],
+          "canals": [{"id": "canal.test.channel", "points": [[0.4488, 0.6530], [0.45, 0.65]]}],
+          "networkTerminals": [
+              {"id": "terminal.test.channel", "kind": "channel", "wayId": "canal.test.channel",
+               "entryUV": [0.4488, 0.6530]},
+              {"id": "terminal.test.track-head", "kind": "footpath", "wayId": "route.test.track",
+               "entryUV": head}]}
+    (tmp_path / "place.test.camp.json").write_text(json.dumps({"blueprint": bp}))
+    monkeypatch.setattr(mr.bp_mod, "BLUEPRINT_DIR", tmp_path)
+    camp = mr.blueprint_terminals().get("place.test.camp")
     assert camp is not None and camp["kind"] == "footpath"
     assert len(camp["wayPoints"]) >= 2, "the track head names a way with points"
     assert list(camp["entryUV"]) == camp["wayPoints"][0], \

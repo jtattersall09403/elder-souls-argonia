@@ -11,6 +11,8 @@ export interface SettlementAnchor {
   slopeBuryPerM: number;
 }
 
+export type SettlementAnchorClass = "ground" | "wall" | "hanging" | "deck" | "water" | "fx";
+
 export interface SettlementPlacement {
   id: string;
   sourceId: string;
@@ -19,9 +21,20 @@ export interface SettlementPlacement {
   kit: string;
   positionM: [number, number, number];
   yawDeg: number;
+  /** 16e span placements tilt along their length; absent means level. */
+  pitchDeg?: number;
   scale: number;
   footprintM: [number, number][];
   anchor: SettlementAnchor;
+  /** How this piece meets the world (16h item 2); absent means "ground". */
+  anchorClass?: SettlementAnchorClass;
+  /** Set on a wall/hanging/deck child: the placement it hangs off. */
+  parentPlacementId?: string | null;
+  /** The mined mount point, in the PARENT's local frame, same axes as positionM. */
+  mountOffsetM?: [number, number, number];
+  /** Water children only: the recorded level of the berth's body or reach. */
+  waterLevelM?: number;
+  waterEntityId?: string;
   collision: {
     frame: string;
     kind: string;
@@ -41,7 +54,7 @@ export interface GroundTreatment {
 }
 
 export interface SettlementBundle {
-  schemaVersion: 1;
+  schemaVersion: 2;
   collisionFrame: string;
   lod: {
     tiers: number;
@@ -73,13 +86,25 @@ export interface SettlementCollisionPart {
   offsetM: [number, number, number];
 }
 
+/**
+ * One collider of a placed piece, in the placement's local frame (the body
+ * carries its position and yaw). A `mesh`/`convex` piece collides as its own
+ * LOD0 triangles — an arch you can walk through, not a solid block (0071 §5);
+ * only the shapes with a measured box proxy stay boxes.
+ */
+export type SettlementCollisionShape =
+  | ({ kind: "box" } & SettlementCollisionPart)
+  | { kind: "trimesh"; vertices: Float32Array; indices: Uint32Array };
+
 export interface SettlementSolid {
   id: string;
   frame: typeof SETTLEMENT_COLLISION_FRAME;
   position: [number, number, number];
-  yaw: number;
+  /** World rotation as a quaternion [x, y, z, w]: a mounted or pitched piece
+   * has no single yaw, so the solid carries the drawn rotation itself. */
+  rotation: [number, number, number, number];
   scale: number;
-  parts: SettlementCollisionPart[];
+  parts: SettlementCollisionShape[];
 }
 
 export interface SettlementRenderStats {
@@ -183,3 +208,21 @@ export interface SettlementLayerProps {
   onStats?: (stats: SettlementRenderStats) => void;
   materialPatch?: (material: THREE.Material) => void;
 }
+
+/** What the runtime reads off a published kit manifest, per asset (16h item 1). */
+export interface SettlementKitAssetMeta {
+  designedSinkM?: {
+    p25: number; p50: number; p75: number; n: number;
+    slopeTermMPerDeg?: number;
+    evidence: "plugin" | "mesh-sill" | "policy-fallback" | string;
+  };
+  designedWaterlineM?: number;
+  anchorClass?: SettlementAnchorClass;
+  /** The fit the manifest records (`placement.evidence.policyId`): the same
+   * field the compile's `fit_slope_failure` reads. `dug-in` anchors on the
+   * lowest ground under the footprint (97 §C); every other fit on the mean. */
+  fit?: string;
+}
+
+/** kit id -> asset id -> manifest metadata. */
+export type SettlementKitManifests = ReadonlyMap<string, ReadonlyMap<string, SettlementKitAssetMeta>>;

@@ -30,6 +30,17 @@ def _register(tmp_path, monkeypatch, rows):
 def _write(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data))
+    # A kit is only referenceable with its three measured sidecars beside it
+    # (16h item 6), so every fixture kit gets them where the real publish step
+    # (pipeline.kit_compress) would have put them.
+    if path.name.endswith(".kit.json"):
+        for asset in data.get("assets", []):
+            asset.setdefault("designedSinkM", _sink())
+        path.write_text(json.dumps(data))
+        for part in ex.KIT_SIDECARS:
+            side = path.with_name(path.name.replace(".kit.json", f".{part}.json"))
+            if not side.exists():
+                side.write_text(json.dumps({"schemaVersion": 1, "assets": {}}))
 
 
 def _route_source(root, structures):
@@ -38,15 +49,18 @@ def _route_source(root, structures):
     return path
 
 
-def _manifest_placement(policy, *, mode="streamed-origin", contact=1,
-                        bury=.31, cap=.72, slope=.04):
+def _sink(p50=.31, evidence="plugin"):
+    """A measured designed sink, the only thing that decides a piece's height
+    (16h item 1). `buryM`/`slopeBuryPerM` no longer exist on a manifest."""
+    return {"p25": p50, "p50": p50, "p75": p50, "n": 9, "evidence": evidence}
+
+
+def _manifest_placement(policy, *, mode="streamed-origin", contact=1, cap=.72):
     return {
         "schemaVersion": 1,
         "anchorMode": mode,
         "groundContactOffsetM": contact,
-        "buryM": bury,
         "buryCapM": cap,
-        "slopeBuryPerM": slope,
         "evidence": {
             "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
             "policyId": policy,
@@ -123,14 +137,14 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
                                          "placements": [route, span]})
     manifests = (
         ("kit-a", "asset.house", _manifest_placement(
-            "plinth", mode="streamed-origin", bury=.41, cap=.67, slope=.03)),
+            "plinth", mode="streamed-origin", cap=.67)),
         ("route-structures-v1", "asset.bridge", _manifest_placement(
-            "route-structure", mode="streamed-perimeter", bury=.09, cap=.21, slope=.02)),
+            "route-structure", mode="streamed-perimeter", cap=.21)),
         # Crossings come from the second route kit (decision 0051); the bundle
         # must load both manifests and resolve each placement to the one that
         # holds it.
         ("route-spans-v1", "asset.viaduct", _manifest_placement(
-            "route-structure", mode="streamed-perimeter", bury=.09, cap=.21, slope=.02)),
+            "route-structure", mode="streamed-perimeter", cap=.21)),
     )
     for kit, asset, placement_policy in manifests:
         _write(tmp_path / f"kits/{kit}.kit.json", {"kit": kit, "assets": [{
@@ -148,8 +162,8 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     assert house["anchor"]["mode"] == "streamed-origin"
     assert house["anchor"]["groundContactOffsetM"] == 1
     assert house["anchor"]["originOffsetM"] == [2, 3, 1]
-    assert (house["anchor"]["buryM"], house["anchor"]["buryCapM"],
-            house["anchor"]["slopeBuryPerM"]) == (.41, .67, .03)
+    assert house["anchor"]["buryCapM"] == .67
+    assert house["anchor"]["designedSinkM"]["p50"] == .31
     assert house["anchor"]["evidence"]["fitPolicy"].startswith(
         "authored placement-policies.json policy plinth:")
     assert house["collision"]["frame"] == ex.COLLISION_FRAME
@@ -164,7 +178,7 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
                           if p["assetId"] == "asset.viaduct")
     assert span_placement["kit"] == "route-spans-v1"
     assert route_placement["anchor"]["mode"] == "streamed-perimeter"
-    assert route_placement["anchor"]["buryM"] == .09
+    assert route_placement["anchor"]["designedSinkM"]["p50"] == .31
     assert len(route_placement["footprintM"]) == 4
     assert len(bundle["groundTreatments"]) == len(bundle["navmeshCuts"]) == 1
     assert bundle["settlements"][0]["floodBandReport"] == {"warningCount": 0}
@@ -186,7 +200,20 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     (lambda asset: asset["placement"].pop("buryCapM"), "metadata missing"),
     (lambda asset: asset["placement"].update({"groundContactOffsetM": 2}),
      "disagrees with measured"),
-    (lambda asset: asset["placement"].update({"buryM": 2}), "exceeds buryCapM"),
+    (lambda asset: asset.pop("designedSinkM"), "no designedSinkM"),
+    (lambda asset: asset["designedSinkM"].update({"p50": "deep"}),
+     "designedSinkM p50 is not finite"),
+    (lambda asset: asset["designedSinkM"].pop("evidence"),
+     "is not in placement_metadata.EVIDENCE_VOCABULARY"),
+    (lambda asset: asset["designedSinkM"].update({"evidence": "guessed"}),
+     "is not in placement_metadata.EVIDENCE_VOCABULARY"),
+    (lambda asset: asset["placement"]["evidence"].update({"policyId": "floating"}),
+     "is not in placement-policies.json"),
+    (lambda asset: asset["placement"]["evidence"].update(
+        {"fitPolicy": "authored placement-policies.json policy pad: x"}),
+     "fitPolicy does not name policy"),
+    (lambda asset: asset["placement"]["evidence"].update(
+        {"groundContactOffsetM": "eyeballed"}), "placement evidence is malformed"),
     (lambda asset: asset["placement"].update({"anchorMode": "guessed"}),
      "invalid manifest anchorMode"),
     (lambda asset: asset["placement"].update({"evidence": {}}),
@@ -195,6 +222,7 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
 def test_manifest_placement_contract_fails_closed(mutation, expected):
     asset = {
         "id": "asset.house", "originOffsetM": [2, 3, 1],
+        "designedSinkM": _sink(),
         "placement": _manifest_placement("plinth"),
     }
     mutation(asset)
@@ -202,9 +230,29 @@ def test_manifest_placement_contract_fails_closed(mutation, expected):
         ex._validated_asset_placement("kit-a", asset)
 
 
+def test_every_placement_policy_the_writer_can_emit_exports():
+    """16h K11 B: the exporter's policy set is the inventory, not a copy; a
+    policy with no ground fit here fails this test, not a live export. The
+    Telvanni connector (`deck` by policy) exports as the manifest writes it."""
+    from pipeline.placement_metadata import (apply_placement_metadata,
+                                             load_inventory)
+
+    policies = set(load_inventory()["policies"])
+    assert policies <= set(ex.POLICY_GROUND_FIT), policies - set(ex.POLICY_GROUND_FIT)
+    assert ex.known_policies() == policies
+    manifest = {"assets": [{"id": "bmv:telvanni/tel_int_connector_01",
+                            "originOffsetM": [1.95, 0.721, 0.296]}]}
+    apply_placement_metadata(manifest, "bmv-treehouse-int")
+    asset = manifest["assets"][0]
+    assert asset["placement"]["evidence"]["policyId"] == "deck"
+    anchor, policy_id = ex._validated_asset_placement("bmv-treehouse-int", asset)
+    assert policy_id == "deck" and anchor["groundContactOffsetM"] == 0.296
+
+
 def test_ground_fit_must_match_policy_or_an_explicit_asset_compatibility_rule():
     asset = {
         "id": "asset.house", "originOffsetM": [2, 3, 1],
+        "designedSinkM": _sink(),
         "placement": _manifest_placement("plinth"),
     }
     anchor, policy_id = ex._validated_asset_placement("kit-a", asset)
@@ -225,15 +273,16 @@ def test_ground_fit_must_match_policy_or_an_explicit_asset_compatibility_rule():
 
 def test_same_asset_id_in_two_kits_keeps_each_manifest_policy(tmp_path):
     for kit, bury in (("kit-a", .11), ("kit-b", .22)):
+        _fake_glb(tmp_path / f"{kit}.glb", {"asset.shared": [1, 1, 1]})
         _write(tmp_path / f"{kit}.kit.json", {"kit": kit, "assets": [{
             "id": "asset.shared", "originOffsetM": [1, 1, .5],
-            "placement": _manifest_placement(
-                "direct", contact=.5, bury=bury, cap=.3, slope=0),
+            "designedSinkM": _sink(bury),
+            "placement": _manifest_placement("direct", contact=.5, cap=.3),
         }]})
 
     _kits, assets = ex._kit_assets({"kit-a", "kit-b"}, tmp_path)
-    assert assets[("kit-a", "asset.shared")]["_runtimeAnchor"]["buryM"] == .11
-    assert assets[("kit-b", "asset.shared")]["_runtimeAnchor"]["buryM"] == .22
+    assert assets[("kit-a", "asset.shared")]["_runtimeAnchor"]["designedSinkM"]["p50"] == .11
+    assert assets[("kit-b", "asset.shared")]["_runtimeAnchor"]["designedSinkM"]["p50"] == .22
 
 
 def test_every_current_multi_fit_use_has_an_explicit_compatibility_rule():
@@ -248,7 +297,11 @@ def test_every_current_multi_fit_use_has_an_explicit_compatibility_rule():
     def walk(value, path=()):
         if isinstance(value, dict):
             ref = value.get("assetRef")
-            if isinstance(ref, str) and (not path or path[-1] != "interior"):
+            # a parcel with no authored groundFit takes its record's (0085):
+            # it cannot contradict the policy, so only overrides are checked
+            record_decides = path[-1:] == ("parcels",) and "groundFit" not in value
+            if (isinstance(ref, str) and (not path or path[-1] != "interior")
+                    and not record_decides):
                 uses.append((ref, value.get("groundFit", "direct")))
             for key, child in value.items():
                 walk(child, path + (key,))
@@ -324,6 +377,68 @@ def test_refuses_an_unregistered_flood_warning(tmp_path, monkeypatch):
         _build(tmp_path)
 
 
+def test_a_replay_compile_carries_its_warnings_as_waivers_not_as_blockers(tmp_path,
+                                                                        monkeypatch):
+    """A fixture replay moved every finding, WARN grade too, into
+    `fixtureWaived`; its flood rows are recorded there, so they neither fail
+    the warning ledger nor block as unexplained (16h round 3)."""
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
+    _warned_settlement(tmp_path)
+    doc = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    doc["fixtureReplay"] = True
+    doc["fixtureWaived"] = [{"ruleId": "97 B4/G8", "grade": "warn",
+                             "message": doc["warnings"][0]}]
+    doc["warnings"] = []
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    published = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                                tmp_path / "kits", _route_source(tmp_path, []),
+                                fixtures_ok=True)
+    assert published["settlements"][0]["fixtureWaived"] == doc["fixtureWaived"]
+    # a replay doc that still carries a live warning is not a replay receipt
+    doc["warnings"] = ["wet civic floor"]
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    with pytest.raises(ValueError, match="warning"):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", _route_source(tmp_path, []), fixtures_ok=True)
+
+
+def test_a_fixture_compile_carries_its_warnings_as_waivers_not_as_blockers(tmp_path,
+                                                                         monkeypatch):
+    """The proving ground (fixture: true, never replayed) compiles with every
+    WARN-grade finding in `fixtureWaived`; the export accepts it exactly as it
+    accepts a replay receipt (16h part 1 round 4), and a live warning still
+    refuses."""
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
+    _warned_settlement(tmp_path)
+    doc = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    doc["fixture"] = True
+    doc["fixtureWaived"] = [{"ruleId": "97 B4/G8", "grade": "warn",
+                             "message": doc["warnings"][0]}]
+    doc["warnings"] = []
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    published = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                                tmp_path / "kits", _route_source(tmp_path, []),
+                                fixtures_ok=True)
+    site = published["settlements"][0]
+    assert site["fixtureWaived"] == doc["fixtureWaived"]
+    assert "fixtureReplay" not in site
+    doc["warnings"] = ["wet civic floor"]
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    with pytest.raises(ValueError, match="warning"):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", _route_source(tmp_path, []), fixtures_ok=True)
+
+
+def test_a_replay_only_passes_a_re_derived_error_its_receipt_already_names():
+    """The export re-derives the compiled-object and obligation checks; on a
+    fixture replay an error passes only if the compile's receipt waived that
+    exact finding, anything new still refuses."""
+    doc = {"fixtureReplay": True,
+           "fixtureWaived": [{"ruleId": "compile", "grade": "hard", "message": "a: gone"}]}
+    assert ex._unwaived(doc, ["a: gone", "b: new"]) == ["b: new"]
+    assert ex._unwaived({**doc, "fixtureReplay": False}, ["a: gone"]) == ["a: gone"]
+
+
 def test_a_registered_warning_is_reported_by_name_and_does_not_block(tmp_path, monkeypatch,
                                                                      capsys):
     monkeypatch.setattr(ex, "shared_survey", lambda: object())
@@ -376,8 +491,11 @@ def test_a_register_row_must_name_its_owner_and_where_it_is_queued(tmp_path, mon
 
 
 def test_the_shipped_register_rows_are_well_formed():
+    # Empty since the five 2026-09-09 blueprints were retired (owner
+    # 2026-09-23): the only compiled place is the yard, a fixture whose
+    # findings go to its fixtureWaived receipt (16h K14). The export refuses a
+    # stale row, so an empty register is the current truth.
     rows = ex.load_warning_known_red(REAL_REGISTER)
-    assert rows, "the shipped register should carry the current known-red warnings"
     assert all(row["owner"] and row["queuedIn"] and row["why"] for row in rows.values())
 
 
@@ -464,6 +582,65 @@ def test_copy_assets_validates_every_input_before_touching_publication(tmp_path)
         ex.copy_assets(bundle, tmp_path / "source", public)
     assert (public / "a.glb").read_bytes() == b"old"
     assert sorted(path.name for path in public.iterdir()) == ["a.glb"]
+
+
+def test_copy_assets_ships_the_published_pair_never_a_raw_kit_build(tmp_path):
+    """16h M19 ruling 5, K14: the GLB that ships is the published, compressed
+    one; the raw `output/kits` build (no meshopt, no KTX2) never reaches
+    public/kits. A raw GLB over the published one is refused, a stale
+    published manifest is refused, and a kit with no published GLB is
+    compressed through kit_compress.publish first."""
+    import struct as _struct
+
+    def glb(document: dict, pad: int) -> bytes:
+        body = json.dumps(document).encode()
+        body += b" " * (-len(body) % 4)
+        chunk = _struct.pack("<II", len(body), 0x4E4F534A) + body + b"\0" * pad
+        return b"glTF" + _struct.pack("<II", 2, 12 + len(chunk)) + chunk
+
+    source, public = tmp_path / "source", tmp_path / "public"
+    source.mkdir()
+    public.mkdir()
+    raw = glb({"meshes": [{}], "images": [{"mimeType": "image/png"}]}, 4000)
+    packed = glb({"meshes": [{}], "images": [{"mimeType": "image/ktx2"}],
+                  "extensionsUsed": ["KHR_texture_basisu", "EXT_meshopt_compression"]}, 0)
+    manifest = json.dumps({"compression": {"bytesAfter": len(packed)}})
+    (source / "k.glb").write_bytes(raw)
+    (source / "k.kit.json").write_text(manifest)
+    (source / "k.footprints.json").write_text("{}")
+
+    # A raw build sitting in public/kits is refused and left untouched.
+    (public / "k.glb").write_bytes(raw)
+    (public / "k.kit.json").write_text(manifest)
+    with pytest.raises(ValueError, match="kit_compress --check.*not KTX2.*meshopt"):
+        ex.copy_assets({"kits": {"k": {}}}, source, public)
+    assert (public / "k.glb").read_bytes() == raw
+
+    # The published pair ships; the raw build beside it is ignored.
+    (public / "k.glb").write_bytes(packed)
+    ex.copy_assets({"kits": {"k": {}}}, source, public)
+    assert (public / "k.glb").read_bytes() == packed
+    assert (public / "k.footprints.json").read_text() == "{}"
+
+    # A published manifest that is not the build's is a stale publish.
+    (source / "k.kit.json").write_text(json.dumps(
+        {"compression": {"bytesAfter": len(packed)}, "assets": []}))
+    with pytest.raises(ValueError, match="stale publish"):
+        ex.copy_assets({"kits": {"k": {}}}, source, public)
+    (source / "k.kit.json").write_text(manifest)
+
+    # No published GLB: the raw build is compressed through the publisher.
+    (public / "k.glb").unlink()
+    published: list[str] = []
+
+    def publish_kit(name: str) -> None:
+        published.append(name)
+        (public / f"{name}.glb").write_bytes(packed)
+        (public / f"{name}.kit.json").write_text(manifest)
+
+    ex.copy_assets({"kits": {"k": {}}}, source, public, publish_kit)
+    assert published == ["k"]
+    assert (public / "k.glb").read_bytes() == packed
 
 
 def test_measured_manifest_box_is_exported_as_the_collision_proxy():
@@ -700,6 +877,9 @@ def test_shipped_bundle_settlements_fit_the_shipped_collider_budget():
         bundle["settlements"], bundle["placements"], ex.PUBLIC_KITS)
     assert totals, "published bundle has no settlements"
     assert bundle["lod"]["colliderPartBudget"] == ex.COLLIDER_PART_BUDGET
+    # Decision 0052's rule, re-applied to the measured worst resident case:
+    # the budget is 1.55x it, so the biggest settlement can grow by half again.
+    assert ex.COLLIDER_PART_BUDGET == round(max(totals.values()) * 1.55)
     over = {name: parts for name, parts in totals.items()
             if parts > ex.COLLIDER_PART_BUDGET}
     assert not over, f"published settlements exceed the collider budget: {over}"
@@ -790,39 +970,159 @@ def test_shipped_kit_textures_are_inside_the_runtime_cap():
     assert ex.texture_cap_errors(bundle["kits"], bundle["lod"], ex.PUBLIC_KITS) == []
 
 
-def test_the_owner_override_ships_a_waivable_error_and_records_it_by_name():
-    overridden = []
-    ex._refuse_or_override("pad delivery", ["a hut sits 0.3 m proud"],
-                           "settlement pad delivery is incomplete",
-                           "owner wants to walk the province", overridden)
-    assert overridden == ["pad delivery: a hut sits 0.3 m proud"]
+def test_a_pending_pad_is_reported_not_waived_and_does_not_block(tmp_path, monkeypatch):
+    """16h item 6: the waiver is gone. A parcel that still wants a graded pad is
+    a queued local terrain patch, reported in the receipt; the export proceeds."""
+    monkeypatch.setattr(ex, "validate_applied_pad_grades",
+                        lambda *a, **k: ["place.a/parcel.1: pad not graded"])
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
+    # The parcel exists only to reach the pad branch; its object set is not
+    # what this test is about.
+    monkeypatch.setattr(ex, "compiled_blueprint_objects", lambda *a, **k: ([], []))
+    _warned_settlement(tmp_path, conforms=True)
+    bp = {"id": "place.a", "parcels": [{"id": "parcel.1", "groundFit": "pad"}]}
+    _write(tmp_path / "bp/place.a.json", {"blueprint": bp})
+    doc = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    doc["sourceBlueprintSha256"] = ex.blueprint_sha256(bp)
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                             tmp_path / "kits", _route_source(tmp_path, []),
+                             pad_grade_receipt={}, final_height=None)
+    assert bundle["pendingPadGrades"] == ["place.a/parcel.1: pad not graded"]
+    assert "shippedWithKnownErrors" not in bundle
+    assert not hasattr(ex.build_bundle, "ship_with_errors")
 
 
-def test_the_owner_override_cannot_ship_an_error_that_is_fatal_at_runtime():
-    """The 2026-09-09 defect: a short LOD chain went out under the override and
-    the studio drew nothing at all. The override buys a defective world, never
-    a blank one."""
-    for error_class in sorted(ex.NON_WAIVABLE_ERROR_CLASSES):
-        overridden = []
+def test_the_bundle_schema_version_moved_with_the_mount_fields(tmp_path):
+    """The layer refuses a bundle it does not understand by version, so the
+    version must move when the placement shape does (16h item 6: anchorClass,
+    parentPlacementId, mountOffsetM, waterLevelM, waterEntityId)."""
+    assert ex.SCHEMA_VERSION == 2
+    _warned_settlement(tmp_path, conforms=True)
+    bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                             tmp_path / "kits", _route_source(tmp_path, []))
+    assert bundle["schemaVersion"] == 2
+
+
+def test_the_shipped_build_refuses_a_fixture_record(tmp_path):
+    """The proving ground is a fixture: it proves mechanisms, it is never
+    played, and it must not reach the published bundle (16h items 6 and 9)."""
+    _warned_settlement(tmp_path, conforms=True)
+    doc = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    doc["fixture"] = True
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    with pytest.raises(ValueError, match="fixture"):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", _route_source(tmp_path, []))
+    published = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                                tmp_path / "kits", _route_source(tmp_path, []),
+                                fixtures_ok=True)
+    assert published["stats"]["settlements"] == 1
+
+
+def test_the_shipped_build_refuses_a_fixture_replay_compile_like_a_fixture(tmp_path):
+    """A replay compile waived design rules (16h round 3): it is published to
+    the studio with --fixtures-ok, carries the flag on its site, and the
+    shipped build refuses it exactly as it refuses `fixture: true`."""
+    _warned_settlement(tmp_path, conforms=True)
+    doc = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    doc["fixtureReplay"] = True
+    doc["fixtureWaived"] = [{"ruleId": "97 C10", "grade": "hard",
+                             "message": "fence crosses a way"}]
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    with pytest.raises(ValueError, match="is a fixture record .*fixtureReplay: true"):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", _route_source(tmp_path, []))
+    published = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                                tmp_path / "kits", _route_source(tmp_path, []),
+                                fixtures_ok=True)
+    site = published["settlements"][0]
+    assert site["fixtureReplay"] is True
+    assert site["fixtureWaived"] == doc["fixtureWaived"]
+
+
+def test_a_truncated_kit_glb_fails_the_export(tmp_path):
+    """The runtime's loader trusts the GLB header; a half-written kit fails in
+    the browser with nothing to read. Parse it at export instead."""
+    _fake_glb(tmp_path / "kits/kit-a.glb", {"asset.house": [1, 1, 1]})
+    _write(tmp_path / "kits/kit-a.kit.json", {"kit": "kit-a", "assets": []})
+    assert ex.glb_structure_errors(tmp_path / "kits/kit-a.glb") == []
+    whole = (tmp_path / "kits/kit-a.glb").read_bytes()
+    (tmp_path / "kits/kit-a.glb").write_bytes(whole[:len(whole) // 2])
+    errors = ex.glb_structure_errors(tmp_path / "kits/kit-a.glb")
+    assert errors and "B, file is" in errors[0]
+    with pytest.raises(ValueError, match="readable glTF 2 binary"):
+        ex._kit_assets({"kit-a"}, tmp_path / "kits")
+    (tmp_path / "kits/kit-a.glb").write_bytes(b"NOPE" + whole[4:])
+    assert "magic" in ex.glb_structure_errors(tmp_path / "kits/kit-a.glb")[0]
+
+
+def test_a_kit_without_its_three_sidecars_cannot_be_referenced(tmp_path):
+    """Kit data ships with the kit: the compile and the studio read connectors,
+    footprints and interiors from the published build (16h item 6)."""
+    _fake_glb(tmp_path / "kits/kit-a.glb", {"asset.house": [1, 1, 1]})
+    _write(tmp_path / "kits/kit-a.kit.json", {"kit": "kit-a", "assets": []})
+    assert ex.kit_sidecar_errors("kit-a", tmp_path / "kits") == []
+    (tmp_path / "kits/kit-a.footprints.json").unlink()
+    assert "footprints" in ex.kit_sidecar_errors("kit-a", tmp_path / "kits")[0]
+    with pytest.raises(ValueError, match="not fully measured"):
+        ex._kit_assets({"kit-a"}, tmp_path / "kits")
+    # A kit the architecture measurements do not apply to records the exemption
+    # in its own manifest (kit_compress.SIDECAR_EXEMPT), never by silence.
+    _write(tmp_path / "kits/kit-a.kit.json", {
+        "kit": "kit-a", "assets": [],
+        "compression": {"sidecarsExempt": "vegetation atlas"}})
+    (tmp_path / "kits/kit-a.footprints.json").unlink()
+    assert ex.kit_sidecar_errors("kit-a", tmp_path / "kits") == []
+
+
+def test_every_published_kit_ships_its_sidecars(tmp_path):
+    """The shipped build, not a fixture: every kit the studio downloads."""
+    missing = [problem for glb in sorted(ex.PUBLIC_KITS.glob("*.glb"))
+               for problem in ex.kit_sidecar_errors(glb.stem, ex.PUBLIC_KITS)]
+    assert not missing, "\n".join(missing)
+
+
+def test_the_published_bundle_is_world_readable(tmp_path):
+    """A shipped file was mode 0600 on 2026-09-22 because mkstemp creates 0600
+    and the atomic write kept it. The export sets the mode it publishes with."""
+    ex._atomic_json(tmp_path / "out.json", {"a": 1})
+    assert oct((tmp_path / "out.json").stat().st_mode & 0o777) == "0o644"
+    assert oct(ex.OUT.stat().st_mode & 0o777) == "0o644"
+
+
+def test_the_bundle_carries_the_compiles_mount_and_water_fields():
+    """SHARED CONTRACT (16h): anchorClass, parentPlacementId, mountOffsetM,
+    waterLevelM, waterEntityId pass through untouched, and a field the compile
+    did not emit is absent rather than defaulted."""
+    raw = {"anchorClass": "wall", "parentPlacementId": "p.1",
+           "mountOffsetM": [0.1, 0.2, 2.4], "yawDeg": 90}
+    assert ex._mount_contract(raw) == {
+        "anchorClass": "wall", "parentPlacementId": "p.1",
+        "mountOffsetM": [0.1, 0.2, 2.4]}
+    assert ex._mount_contract({}) == {}
+    assert ex._mount_contract({"waterLevelM": -1.5, "waterEntityId": "body.1284-3448"}) == {
+        "waterLevelM": -1.5, "waterEntityId": "body.1284-3448"}
+
+
+def test_a_runtime_fatal_error_names_why_the_runtime_refuses():
+    """The 2026-09-09 defect: a short LOD chain shipped and the studio drew
+    nothing at all. The refusal says which runtime check does the refusing."""
+    for error_class in sorted(ex.RUNTIME_FATAL_ERROR_CLASSES):
         with pytest.raises(ValueError) as raised:
-            ex._refuse_or_override(error_class, ["some/asset: measured breach"],
-                                   f"{error_class} breach: some/asset: measured breach",
-                                   "owner wants to see it", overridden)
-        assert "NON-WAIVABLE" in str(raised.value)
-        assert ex.NON_WAIVABLE_ERROR_CLASSES[error_class] in str(raised.value)
+            ex._refuse(error_class, ["some/asset: measured breach"],
+                       f"{error_class} breach: some/asset: measured breach")
+        assert ex.RUNTIME_FATAL_ERROR_CLASSES[error_class] in str(raised.value)
         assert "some/asset: measured breach" in str(raised.value)
-        assert overridden == []
 
 
-def test_every_runtime_fatal_gate_is_registered_as_non_waivable():
-    """The three gates that mirror a runtime refusal/throw, by name. A new gate
-    of that kind must be added here as well, or the override could waive it."""
-    assert set(ex.NON_WAIVABLE_ERROR_CLASSES) == {
+def test_every_runtime_fatal_gate_is_registered():
+    """The three gates that mirror a runtime refusal/throw, by name."""
+    assert set(ex.RUNTIME_FATAL_ERROR_CLASSES) == {
         "lod contract", "collider budget", "texture cap"}
 
 
-def test_a_non_waivable_breach_stops_a_whole_export_even_under_the_override(
-        tmp_path, monkeypatch):
+def test_a_runtime_fatal_breach_stops_a_whole_export(tmp_path, monkeypatch):
     """End to end: the gate is wired into build_bundle, not merely available."""
     monkeypatch.setattr(ex, "lod_contract_errors",
                         lambda *a, **k: ["kit-x/asset:short: LOD chain has 2 tier(s)"])
@@ -830,7 +1130,20 @@ def test_a_non_waivable_breach_stops_a_whole_export_even_under_the_override(
     _warned_settlement(tmp_path, conforms=True)
     with pytest.raises(ValueError) as raised:
         ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
-                        tmp_path / "kits", _route_source(tmp_path, []),
-                        ship_with_errors="owner insists on seeing it")
-    assert "NON-WAIVABLE" in str(raised.value)
+                        tmp_path / "kits", _route_source(tmp_path, []))
     assert "asset:short" in str(raised.value)
+
+
+def test_the_kit_contract_is_scoped_to_the_placed_assets(tmp_path):
+    """16h K14: a publish checks the assets its bundle places; an unplaced
+    asset's broken contract is the miner lane's (``--all-kit-assets``)."""
+    _fake_glb(tmp_path / "kit-a.glb", {"asset.placed": [1, 1, 1], "asset.broken": [1, 1, 1]})
+    _write(tmp_path / "kit-a.kit.json", {"kit": "kit-a", "assets": [
+        {"id": "asset.placed", "originOffsetM": [1, 1, .5], "designedSinkM": _sink(.1),
+         "placement": _manifest_placement("direct", contact=.5, cap=.3)},
+        {"id": "asset.broken", "originOffsetM": [1, 1, .5], "designedSinkM": _sink(.1)},
+    ]})
+    _kits, assets = ex._kit_assets({"kit-a"}, tmp_path, {("kit-a", "asset.placed")})
+    assert set(assets) == {("kit-a", "asset.placed")}
+    with pytest.raises(ValueError, match="asset.broken: manifest has no placement metadata"):
+        ex._kit_assets({"kit-a"}, tmp_path)

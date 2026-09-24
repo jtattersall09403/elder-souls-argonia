@@ -374,9 +374,18 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "Marsh Charter factor",
-        "raft-quarter speaker",
-        "the one customs clerk"
+        {
+          "slotId": "marsh-charter-factor",
+          "role": "Marsh Charter factor"
+        },
+        {
+          "slotId": "raft-quarter-speaker",
+          "role": "raft-quarter speaker"
+        },
+        {
+          "slotId": "customs-clerk",
+          "role": "the one customs clerk"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -647,7 +656,10 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "field-holder"
+        {
+          "slotId": "field-holder",
+          "role": "field-holder"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -1117,7 +1129,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "tree-minder of the surviving Hist"
+        {
+          "slotId": "tree-minder-surviving-hist",
+          "role": "tree-minder of the surviving Hist"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -1373,7 +1388,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "reciter"
+        {
+          "slotId": "reciter",
+          "role": "reciter"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -2310,7 +2328,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "screen pilot (sells the ninety minutes)"
+        {
+          "slotId": "screen-pilot-sells-ninety",
+          "role": "screen pilot (sells the ninety minutes)"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -2559,8 +2580,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "chime-tuner",
-        "tribe speaker"
+        {
+          "slotId": "chime-tuner",
+          "role": "chime-tuner"
+        },
+        {
+          "slotId": "tribe-speaker",
+          "role": "tribe speaker"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -3148,7 +3175,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "station-keeper who inherited an Imperial office"
+        {
+          "slotId": "station-keeper",
+          "role": "station-keeper who inherited an Imperial office"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -3570,7 +3600,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.cinder-hermit"
+        {
+          "slotId": "npc-cinder-hermit",
+          "role": "npc.cinder-hermit"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -4703,7 +4736,10 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "toll-keeper"
+        {
+          "slotId": "toll-keeper",
+          "role": "toll-keeper"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -7279,7 +7315,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "grave-wright on rotation from one of the four villages"
+        {
+          "slotId": "grave-wright-rotation-from",
+          "role": "grave-wright on rotation from one of the four villages"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -7576,8 +7615,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "field-speaker",
-        "the Miredancer sap-speaker honoured for her sap-poisoning"
+        {
+          "slotId": "field-speaker",
+          "role": "field-speaker"
+        },
+        {
+          "slotId": "miredancer-sap-speaker-honoured",
+          "role": "the Miredancer sap-speaker honoured for her sap-poisoning"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -7883,7 +7928,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "League porter-master"
+        {
+          "slotId": "league-porter-master",
+          "role": "League porter-master"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -8308,8 +8356,14 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "Breton estate-holder",
-        "terrace speaker for the workers"
+        {
+          "slotId": "breton-estate-holder",
+          "role": "Breton estate-holder"
+        },
+        {
+          "slotId": "terrace-speaker-workers",
+          "role": "terrace speaker for the workers"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -8907,7 +8961,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "tea-seller who is also the toll"
+        {
+          "slotId": "tea-seller",
+          "role": "tea-seller who is also the toll"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -9138,7 +9195,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "organiser of the swept circle"
+        {
+          "slotId": "organiser-swept-circle",
+          "role": "organiser of the swept circle"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -9604,7 +9664,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "speaker of the floor"
+        {
+          "slotId": "speaker-floor",
+          "role": "speaker of the floor"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -10271,8 +10334,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "clan speaker on the third terrace",
-        "keeper of the working defences"
+        {
+          "slotId": "clan-speaker-third-terrace",
+          "role": "clan speaker on the third terrace"
+        },
+        {
+          "slotId": "keeper-working-defences",
+          "role": "keeper of the working defences"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -10624,7 +10693,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "boundary speaker"
+        {
+          "slotId": "boundary-speaker",
+          "role": "boundary speaker"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -11670,7 +11742,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "landing-master"
+        {
+          "slotId": "landing-master",
+          "role": "landing-master"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -11880,7 +11955,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "keeper of one of the four racks"
+        {
+          "slotId": "keeper-four-racks",
+          "role": "keeper of one of the four racks"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -12287,7 +12365,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "flotilla speaker"
+        {
+          "slotId": "flotilla-speaker",
+          "role": "flotilla speaker"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -12555,17 +12636,50 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "council factor (quest-giver, tariff line)",
-        "third-Hist tree-minder (neutral broker)",
-        "under-quarter dive-master",
-        "An-Xileel resident agent (deniable)",
-        "the canal warden who keeps the ripper eels",
-        "the fence who is bad at fencing",
-        "the young climber that the chapter sends up walls",
-        "the Society's archive-room keeper",
-        "the one who claims to remember Umbriel",
-        "the keeper of the descendants' room behind a Pusbottom chandlery",
-        "an Altmer alchemist licensed to the dock quarter, buying marsh reagents that no Summerset garden grows"
+        {
+          "slotId": "council-factor-quest-giver",
+          "role": "council factor (quest-giver, tariff line)"
+        },
+        {
+          "slotId": "third-hist-tree-minder",
+          "role": "third-Hist tree-minder (neutral broker)"
+        },
+        {
+          "slotId": "under-quarter-dive-master",
+          "role": "under-quarter dive-master"
+        },
+        {
+          "slotId": "xileel-resident-agent-deniable",
+          "role": "An-Xileel resident agent (deniable)"
+        },
+        {
+          "slotId": "canal-warden",
+          "role": "the canal warden who keeps the ripper eels"
+        },
+        {
+          "slotId": "fence",
+          "role": "the fence who is bad at fencing"
+        },
+        {
+          "slotId": "young-climber-chapter-sends",
+          "role": "the young climber that the chapter sends up walls"
+        },
+        {
+          "slotId": "society-s-archive-room",
+          "role": "the Society's archive-room keeper"
+        },
+        {
+          "slotId": "the-one",
+          "role": "the one who claims to remember Umbriel"
+        },
+        {
+          "slotId": "keeper-descendants-room-behind",
+          "role": "the keeper of the descendants' room behind a Pusbottom chandlery"
+        },
+        {
+          "slotId": "altmer-alchemist-licensed-dock",
+          "role": "an Altmer alchemist licensed to the dock quarter, buying marsh reagents that no Summerset garden grows"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -13340,8 +13454,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "valuer who never asks a thing's provenance",
-        "Night-Reed fence"
+        {
+          "slotId": "valuer",
+          "role": "valuer who never asks a thing's provenance"
+        },
+        {
+          "slotId": "night-reed-fence",
+          "role": "Night-Reed fence"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -13766,7 +13886,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "light-keeper who is not a light-keeper"
+        {
+          "slotId": "light-keeper",
+          "role": "light-keeper who is not a light-keeper"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -14026,7 +14149,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.talking-hut.occupant"
+        {
+          "slotId": "npc-talking-hut-occupant",
+          "role": "npc.talking-hut.occupant"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -14874,7 +15000,10 @@
       "culture": "khajiit",
       "occupants": [],
       "notableNpcSlots": [
-        "Khajiit factor holding the last lease"
+        {
+          "slotId": "khajiit-factor-holding-last",
+          "role": "Khajiit factor holding the last lease"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -15138,7 +15267,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "rake-caller who sets the tide's working order"
+        {
+          "slotId": "rake-caller",
+          "role": "rake-caller who sets the tide's working order"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -15723,7 +15855,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "court-holder who negotiates openly"
+        {
+          "slotId": "court-holder",
+          "role": "court-holder who negotiates openly"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -16079,7 +16214,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "master grave-wright"
+        {
+          "slotId": "master-grave-wright",
+          "role": "master grave-wright"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -16656,7 +16794,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "deck-warden"
+        {
+          "slotId": "deck-warden",
+          "role": "deck-warden"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -17198,7 +17339,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "ferry-holder"
+        {
+          "slotId": "ferry-holder",
+          "role": "ferry-holder"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -18516,7 +18660,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "sweeper who decides what the path can see"
+        {
+          "slotId": "sweeper",
+          "role": "sweeper who decides what the path can see"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -19036,8 +19183,14 @@
       "culture": "khajiit",
       "occupants": [],
       "notableNpcSlots": [
-        "Salt-Teeth shore captain",
-        "the chartered master everyone pretends not to know"
+        {
+          "slotId": "salt-teeth-shore-captain",
+          "role": "Salt-Teeth shore captain"
+        },
+        {
+          "slotId": "chartered-master-everyone-pretends",
+          "role": "the chartered master everyone pretends not to know"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -20594,7 +20747,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "senior pilot household head"
+        {
+          "slotId": "senior-pilot-household-head",
+          "role": "senior pilot household head"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -21390,7 +21546,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "wall-cutter who refuses to fill the blank section"
+        {
+          "slotId": "wall-cutter",
+          "role": "wall-cutter who refuses to fill the blank section"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -21870,14 +22029,38 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "orphaned Imperial magistrate (no jurisdiction, full procedure)",
-        "Khajiit caravan factor",
-        "river-interest broker for Bramman's water",
-        "tribal delegate lodging in the palace",
-        "the marine underwriter whose desk never moves",
-        "the keeper of the harbour den",
-        "the Reed-Sail Compact's route-keeper at the waterfront hall",
-        "the free pilot who takes divers out to the wrecks"
+        {
+          "slotId": "orphaned-imperial-magistrate-no",
+          "role": "orphaned Imperial magistrate (no jurisdiction, full procedure)"
+        },
+        {
+          "slotId": "khajiit-caravan-factor",
+          "role": "Khajiit caravan factor"
+        },
+        {
+          "slotId": "river-interest-broker-bramman",
+          "role": "river-interest broker for Bramman's water"
+        },
+        {
+          "slotId": "tribal-delegate-lodging-palace",
+          "role": "tribal delegate lodging in the palace"
+        },
+        {
+          "slotId": "marine-underwriter",
+          "role": "the marine underwriter whose desk never moves"
+        },
+        {
+          "slotId": "keeper-harbour-den",
+          "role": "the keeper of the harbour den"
+        },
+        {
+          "slotId": "reed-sail-compact-s",
+          "role": "the Reed-Sail Compact's route-keeper at the waterfront hall"
+        },
+        {
+          "slotId": "free-pilot",
+          "role": "the free pilot who takes divers out to the wrecks"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -22314,7 +22497,10 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "yard master"
+        {
+          "slotId": "yard-master",
+          "role": "yard master"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -23271,7 +23457,10 @@
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.soulrest.sexton"
+        {
+          "slotId": "npc-soulrest-sexton",
+          "role": "npc.soulrest.sexton"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -23508,7 +23697,10 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "rate-caller"
+        {
+          "slotId": "rate-caller",
+          "role": "rate-caller"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -23738,7 +23930,10 @@
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.synod.magister"
+        {
+          "slotId": "npc-synod-magister",
+          "role": "npc.synod.magister"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -23911,7 +24106,10 @@
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.third-office.clerk"
+        {
+          "slotId": "npc-third-office-clerk",
+          "role": "npc.third-office.clerk"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -24250,7 +24448,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "Witness Society recorder camped outside the ditch"
+        {
+          "slotId": "witness-society-recorder-camped",
+          "role": "Witness Society recorder camped outside the ditch"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -25709,12 +25910,12 @@
         ]
       },
       "position": {
-        "u": 0.57524,
-        "v": 0.84593
+        "u": 0.57412,
+        "v": 0.84581
       },
       "positionM": [
-        4241.5,
-        6237.5
+        4233.3,
+        6236.6
       ],
       "footprintRadiusM": 65.0,
       "footprintSource": "band",
@@ -25735,21 +25936,21 @@
           "whyLost": "too close to max-from:settlement"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 12 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, route; placed from the homeless batch at stage 'spacing-1/2-region-relaxed'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
-        "dangerBand": 0,
-        "distanceToRouteM": 12.3,
-        "distanceToWaterM": 0.0,
+        "landform": "reseated (2026-09-20)",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 15.5,
+        "distanceToWaterM": 5.5,
         "water": {
           "entityId": "body.ocean",
           "kind": "ocean",
           "levelM": 0.0,
           "season": "perennial",
-          "distanceM": 0.0
+          "distanceM": 5.5
         },
-        "score": 4.908
+        "score": null
       },
       "approachDanger": "D2",
       "sitingNote": "Pinned 50 m west onto the coastal lagoon cell, where the danger raster reads band 2: a drowned hamlet with an apex ambusher in it cannot sit on band-0 city apron.",
@@ -25760,6 +25961,11 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "plotOverride": {
+        "source": "plot-remedies",
+        "why": "16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+        "kind": "reseat"
       }
     },
     {
@@ -25997,8 +26203,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "court-holder",
-        "match caller"
+        {
+          "slotId": "court-holder",
+          "role": "court-holder"
+        },
+        {
+          "slotId": "match-caller",
+          "role": "match caller"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -26246,8 +26458,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "nisswo of the Teeth",
-        "the one who scrubs to the waterline"
+        {
+          "slotId": "nisswo-teeth",
+          "role": "nisswo of the Teeth"
+        },
+        {
+          "slotId": "the-one",
+          "role": "the one who scrubs to the waterline"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -26614,7 +26832,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.tempering.retired-scale"
+        {
+          "slotId": "npc-tempering-retired-scale",
+          "role": "npc.tempering.retired-scale"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -27519,7 +27740,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "salt-master"
+        {
+          "slotId": "salt-master",
+          "role": "salt-master"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -27761,7 +27985,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.lilmoth.second-tender"
+        {
+          "slotId": "npc-lilmoth-second-tender",
+          "role": "npc.lilmoth.second-tender"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -29279,7 +29506,10 @@
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [
-        "bone-carrier working the repatriation chain"
+        {
+          "slotId": "bone-carrier-working-repatriation",
+          "role": "bone-carrier working the repatriation chain"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -30020,7 +30250,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "copyist who has broken every copy but one"
+        {
+          "slotId": "copyist",
+          "role": "copyist who has broken every copy but one"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -30254,7 +30487,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "rope-master who fixes the ledge order"
+        {
+          "slotId": "rope-master",
+          "role": "rope-master who fixes the ledge order"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -31260,8 +31496,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.xinchei-konu.jekka-wass",
-        "the single keeper who cuts back the sightlines"
+        {
+          "slotId": "npc-xinchei-konu-jekka",
+          "role": "npc.xinchei-konu.jekka-wass"
+        },
+        {
+          "slotId": "single-keeper",
+          "role": "the single keeper who cuts back the sightlines"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [

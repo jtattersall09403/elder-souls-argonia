@@ -4266,7 +4266,7 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        6,
+        5,
         9
       ],
       "lore": "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)",
@@ -23926,7 +23926,7 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        3,
+        2,
         6
       ],
       "lore": "acceptance rule: player-sailable boats and deep underwater play need destinations ON the water",

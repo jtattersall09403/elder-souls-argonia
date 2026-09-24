@@ -267,6 +267,7 @@ class Demand:
     stance: str = "neutral"                                  # hostility.baseline (v2)
     owner: str | None = None                                 # hostility.owner (v2)
     footprint_m: float = DEFAULT_FOOTPRINT_M                 # type-recipe footprintRadiusM
+    footprint_polygon: list | None = None                    # record's derived polygon (footprintSource 'polygon')
     proximity: dict = field(default_factory=dict)            # type-recipe proximity block
 
     def may_abut(self, other_cls: str) -> bool:
@@ -659,6 +660,8 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
                 stance=(rec.get("hostility") or {}).get("baseline", "neutral"),
                 owner=(rec.get("hostility") or {}).get("owner"),
                 footprint_m=float(recipe.get("footprintRadiusM") or DEFAULT_FOOTPRINT_M),
+                footprint_polygon=(rec.get("footprintPolygon")
+                                   if rec.get("footprintSource") == "polygon" else None),
                 proximity=dict(recipe.get("proximity") or {})))
     live = {d.id for d in demands}
     for d in demands:   # refs to deferred/cut records cannot bind
@@ -1394,10 +1397,9 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
         dist = math.hypot(c.x - oc.x, c.z - oc.z)
         related = related_pair(d, od)
         # Every map dot represents a distinct footprint.
-        if related and abuts(d, od):
-            physical_need = max(COLLISION_MIN_M, min(d.footprint_m, od.footprint_m))
-        else:
-            physical_need = max(COLLISION_MIN_M, d.footprint_m + od.footprint_m)
+        fp_dist, physical_need = footprint_clearance(d, c, od, oc, related and abuts(d, od))
+        if fp_dist < physical_need:
+            return False, oid
         semantic_need = 0.0
         if not related:
             if od.type == d.type:
@@ -1408,8 +1410,9 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
                     semantic_need = max(semantic_need, ROUTE_REPEAT_MIN_M)
         # Relaxation applies only to authored repetition. Distinct footprints
         # and related dots retain their physical clearance at every stage.
-        need = max(physical_need, semantic_need * factor)
-        if dist < need:
+        # The footprint was judged above (on the polygon where there is one);
+        # the semantic spacing is dot to dot.
+        if dist < semantic_need * factor:
             return False, oid
         # Typed proximity, judged against everything already on the map — in
         # BOTH directions. A hermitage's 800 m floor is a property of the pair,
@@ -1513,6 +1516,51 @@ def _tie_lattice(x: float, z: float, radius: float, extent: float) -> list[tuple
             out.append((dist, px_, pz_))
     out.sort(key=lambda t: (round(t[0], 3), t[1], t[2]))
     return out
+
+
+def _point_to_polygon_m(x: float, z: float, poly: list) -> float:
+    """Metres from a point to a polygon's edge; 0 inside it (the even-odd rule
+    `catalogue.validate_catalogue` applies)."""
+    from .catalogue import _point_in_polygon
+    if _point_in_polygon([x, z], poly):
+        return 0.0
+    best = math.inf
+    for i in range(len(poly)):
+        ax, az = poly[i - 1]
+        bx, bz = poly[i]
+        dx, dz = bx - ax, bz - az
+        L2 = dx * dx + dz * dz
+        t = 0.0 if L2 == 0 else max(0.0, min(1.0, ((x - ax) * dx + (z - az) * dz) / L2))
+        best = min(best, math.hypot(x - (ax + t * dx), z - (az + t * dz)))
+    return best
+
+
+def footprint_clearance(d: Demand, c, od: Demand, oc, abut: bool) -> tuple[float, float]:
+    """(distance, need) of the footprint gate for one pair: THE measurement,
+    shared by the solve (`separation_ok`) and the closing pass
+    (`typed_siting_violations`).
+
+    A record with a derived footprint polygon (`footprintSource: polygon`)
+    occupies that polygon, not a disc: the other record's DOT is measured to
+    the polygon's edge (0 inside) against the other record's own radius
+    (2026-09-23). Both with polygons: the tighter of the two. Neither: the
+    dot-to-dot distance against the sum of the radii, never under
+    COLLISION_MIN_M. A related pair that may abut shares ground by design and
+    keeps its dot-to-dot rule (the smaller radius) with or without a polygon."""
+    if abut:
+        return (math.hypot(c.x - oc.x, c.z - oc.z),
+                max(COLLISION_MIN_M, min(d.footprint_m, od.footprint_m)))
+    pairs = []
+    if d.footprint_polygon:
+        dist = _point_to_polygon_m(oc.x, oc.z, d.footprint_polygon)
+        pairs.append((dist, od.footprint_m))
+    if od.footprint_polygon:
+        dist = _point_to_polygon_m(c.x, c.z, od.footprint_polygon)
+        pairs.append((dist, d.footprint_m))
+    if pairs:
+        return min(pairs, key=lambda p: p[0] - p[1])
+    return (math.hypot(c.x - oc.x, c.z - oc.z),
+            max(COLLISION_MIN_M, d.footprint_m + od.footprint_m))
 
 
 def _clear_of_footprints(d: Demand, x: float, z: float,
@@ -2005,21 +2053,31 @@ def seed_from_committed(s: ProvinceSurvey, demands: list[Demand],
     return seeded, resite, pinned
 
 
-def city_centres(files=None) -> dict[str, tuple[float, float]]:
+def city_centres(files=None, s: ProvinceSurvey | None = None) -> dict[str, tuple[float, float]]:
     """anchor slug -> the city's `cityLayout.centre`, for the records that
     carry one (owner rule 2026-09-18: the city PIN is the gate on the road,
     and the record's dot is the CENTRE the gate leads to). A city without a
     block — an owner call in `worldgen.city_layout` — is simply absent, and
-    its anchor is placed exactly where the anchor says, as before."""
+    its anchor is placed exactly where the anchor says, as before.
+
+    A `reseat` override row is a committed record (decision 0085 §4): where a
+    city has one, its point IS the centre, whatever the layout block says, so
+    the solve lands on the dot the reseat wrote (rounded as `seat_record`
+    rounds it)."""
     from . import catalogue as _catalogue
+    from .apply_sitings import reseat_points_m
     if files is None:
         files = _catalogue.load_region_files()
+    reseats = reseat_points_m(s or shared_survey())
     out: dict[str, tuple[float, float]] = {}
     for rf in files:
         for rec in rf.places:
             centre = (rec.get("cityLayout") or {}).get("centre")
-            if isinstance(centre, list) and len(centre) == 2:
-                out[rec["id"].rsplit(".", 1)[-1]] = (float(centre[0]), float(centre[1]))
+            if not (isinstance(centre, list) and len(centre) == 2):
+                continue
+            if rec["id"] in reseats:
+                centre = list(reseats[rec["id"]])
+            out[rec["id"].rsplit(".", 1)[-1]] = (float(centre[0]), float(centre[1]))
     return out
 
 
@@ -2046,7 +2104,12 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
     # whose record carries a `cityLayout`: there the anchor pixel is the GATE
     # on the main road, and the record's dot is the city CENTRE the gate leads
     # to (owner rule 2026-09-18). The roads still end at the gate.
-    centres = city_centres()
+    centres = city_centres(s=s)
+    # A reseated city (decision 0085 §4) keeps the reseat's landform, reason
+    # and override: `city_centres` already moves its dot, and the anchor
+    # wording below would otherwise overwrite what `seat_record` wrote.
+    from .apply_sitings import reseat_landform, reseat_rows, reseat_why
+    reseats = {o["id"]: o for o in reseat_rows()}
     for d in demands:
         slug = d.id.rsplit(".", 1)[-1]
         if d.tier == 0 and slug in anchors:
@@ -2075,10 +2138,14 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             result[d.id] = {"candidate": c, "score": None, "parts": {}, "runners": [],
                             "why": (f"Owner-approved settlement anchor '{slug}' "
                                     f"(world/sources/anchors, Phase 2 gate); "
-                                    + ("the anchor pixel is the city gate on the main road, "
-                                       "and the record sits at the solved city centre "
+                                    + ("the anchor pixel is the city gate on the main road. "
+                                       "The record sits at the solved city centre "
                                        "(cityLayout, owner rule 2026-09-18)."
                                        if slug in centres else "position kept exactly."))}
+            if d.id in reseats:
+                c.landform = reseat_landform(reseats[d.id])
+                result[d.id]["why"] = reseat_why(reseats[d.id])
+                result[d.id]["reseat"] = reseats[d.id]
 
     # 1b. the committed plot, seeded: these records are already on the map, so
     # every gate the solver judges (sightlines, binds, separation, clustering)
@@ -2800,6 +2867,9 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
             rec["workflow"] = "plotted"
             if c.kind == "pinned":
                 rec["plotOverride"] = {"source": "blueprint", "why": r["why"]}
+            elif r.get("reseat"):
+                from .apply_sitings import reseat_override
+                rec["plotOverride"] = reseat_override(r["reseat"])
             else:
                 rec.pop("plotOverride", None)
             # sitingPrefs ordering must stay; nothing else on the record changes
@@ -2940,11 +3010,10 @@ def typed_siting_violations(demands: list[Demand], result: dict[str, dict],
             dist = math.hypot(c.x - oc.x, c.z - oc.z)
             related = related_pair(d, od)
             abut = related and abuts(d, od)
-            need = (max(COLLISION_MIN_M, min(d.footprint_m, od.footprint_m)) if abut
-                    else max(COLLISION_MIN_M, d.footprint_m + od.footprint_m))
-            if i < j and dist < need:
+            fp_dist, need = footprint_clearance(d, c, od, oc, abut)
+            if i < j and fp_dist < need:
                 out.append({"id": d.id, "gate": "footprint", "other": od.id,
-                            "distM": round(dist, 1), "needM": round(need, 1)})
+                            "distM": round(fp_dist, 1), "needM": round(need, 1)})
             if not related:
                 floor = min_from.get(od.cls) or 0.0
                 effort = (isolation_distance(metric, c.x, c.z, oc.x, oc.z, dist, floor)

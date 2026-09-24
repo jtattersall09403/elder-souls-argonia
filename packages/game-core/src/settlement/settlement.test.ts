@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
   anchorPlacement,
+  mountedTransform,
+  placementTransform,
+  waterPlacementY,
   finalPartTransform,
   finalPlacementTransform,
   footprintDiagonalM,
   placementGroundAudit,
+  resolvePlacement,
   settlementGroundAudits,
 } from "./anchoring";
 import {
@@ -42,22 +46,128 @@ const placement: SettlementPlacement = {
 };
 
 describe("settlement placement contract", () => {
-  it("re-grounds from every streamed perimeter point with bounded per-fit bury", () => {
-    const anchored = anchorPlacement(placement, (x) => x / 20);
+  it("sinks by the asset's own designed sink from the mean of its footprint", () => {
+    // Ground 0 .. 0.5 m across the footprint; the asset's makers put its pivot
+    // 4 m ABOVE the ground line (a negative sink), which is exactly its own
+    // pivot-to-base, so its base lands on the mean.
+    const anchored = anchorPlacement(placement, (x) => x / 20, -4);
     expect(anchored.complete).toBe(true);
-    expect(anchored.buryM).toBeCloseTo(.79);
-    expect(anchored.requestedBuryM).toBeCloseTo(.79);
+    expect(anchored.buryM).toBeCloseTo(-4);
+    expect(anchored.requestedBuryM).toBeCloseTo(-4);
     expect(anchored.overBuryM).toBe(0);
-    expect(anchored.y).toBeCloseTo(3.71);
+    expect(anchored.y).toBeCloseTo(4.25);
     expect(anchored.terrainMinM).toBe(0);
     expect(anchored.terrainMaxM).toBe(.5);
-    expect(anchored.groundLineM).toBe(.5);
+    expect(anchored.groundLineM).toBeCloseTo(.25);
     expect(anchored.pivotToBaseM).toBe(4);
-    expect(anchored.gapM).toBe(0);
+    expect(anchored.gapM).toBeCloseTo(.25);
+  });
+
+  it("anchors a dug-in fit on the lowest ground under it and every other fit on the mean", () => {
+    // A sloped 4-sample footprint: ground 0, 1, 1, 0 m (mean 0.5, lowest 0).
+    const slope = (x: number) => x / 10;
+    const sink = 0.3;
+    const dugIn = anchorPlacement(placement, slope, sink, "dug-in");
+    const direct = anchorPlacement(placement, slope, sink, "direct");
+    expect(dugIn.y).toBeCloseTo(0 - sink);
+    expect(dugIn.groundLineM).toBe(0);
+    expect(direct.y).toBeCloseTo(0.5 - sink);
+    expect(anchorPlacement(placement, slope, sink).y).toBeCloseTo(direct.y);
+  });
+
+  it("refuses to place an asset whose manifest carries no designed sink", () => {
+    expect(() => anchorPlacement(placement, () => 1, NaN))
+      .toThrow(/has no designedSinkM/);
+  });
+
+  it("gives a stilt no exemption: it is grounded by its sink like everything else", () => {
+    const stilt = { ...placement, anchor: { ...placement.anchor, groundFit: "stilt" as const } };
+    const anchored = anchorPlacement(stilt, (x) => x / 10, -4);
+    expect(anchored.groundLineM).toBeCloseTo(.5);
+    expect(anchored.y).toBeCloseTo(4.5);
+    // The old stilt branch hard-zeroed this, so no stilt could ever float.
+    expect(anchored.gapM).toBeCloseTo(.5);
+  });
+
+  it("hangs a mounted child off its parent's final transform, wherever the parent moved", () => {
+    // A wall lantern one metre out and three metres up from the hut's pivot.
+    const lantern: SettlementPlacement = {
+      ...placement, id: "lantern", assetId: "lantern", anchorClass: "wall",
+      parentPlacementId: "p", mountOffsetM: [1, 3, 0], yawDeg: 0,
+    };
+    const low = anchorPlacement(placement, () => 0, -4);
+    const high = anchorPlacement(placement, () => 10, -4);
+    const at = (parent: ReturnType<typeof anchorPlacement>) =>
+      new THREE.Vector3().setFromMatrixPosition(
+        mountedTransform(finalPlacementTransform(placement, parent), lantern));
+    // The parent's yaw carries the mount point round with it, and the child
+    // rises exactly as far as the parent does: no terrain sample anywhere.
+    const t = -THREE.MathUtils.degToRad(placement.yawDeg);
+    expect(at(low).x).toBeCloseTo(placement.positionM[0] + Math.cos(t));
+    expect(at(low).z).toBeCloseTo(placement.positionM[2] - Math.sin(t));
+    expect(at(high).y - at(low).y).toBeCloseTo(10);
+    expect(at(low).y).toBeCloseTo(low.y + 3);
+    // A child with no mount offset is a named error, never a guess at 0.
+    expect(() => mountedTransform(new THREE.Matrix4(), { ...lantern, mountOffsetM: undefined }))
+      .toThrow(/carries no mountOffsetM/);
+  });
+
+  it("grounds a parentless deck piece and refuses a parentless wall or hanging piece", () => {
+    const lookup = {
+      groundAt: () => 2,
+      designedSinkM: -4,
+      designedWaterlineM: 0.75,
+      parentTransform: () => null,
+    };
+    // A deck piece the compile found no parent for stands on the terrain
+    // exactly as a ground piece does (decision 2).
+    const deck = { ...placement, id: "deck", anchorClass: "deck" as const };
+    const grounded = resolvePlacement(deck, "deck", lookup)!;
+    expect(grounded.anchored?.complete).toBe(true);
+    expect(grounded.anchored?.y).toBeCloseTo(6);
+    expect(new THREE.Vector3().setFromMatrixPosition(grounded.matrix).y).toBeCloseTo(6);
+    // Wall and hanging have nothing to hang from and are a named error.
+    for (const anchorClass of ["wall", "hanging"] as const) {
+      expect(() => resolvePlacement({ ...placement, anchorClass }, anchorClass, lookup))
+        .toThrow(new RegExp(`${anchorClass} placement names no parentPlacementId`));
+    }
+  });
+
+  it("seats a deck child on its parent's final transform when one is placed", () => {
+    const parent = finalPlacementTransform(placement, anchorPlacement(placement, () => 7.25, -4));
+    const child: SettlementPlacement = {
+      ...placement, id: "crate", anchorClass: "deck",
+      parentPlacementId: "p", mountOffsetM: [0, 2.5, 0], yawDeg: 0,
+    };
+    const seated = resolvePlacement(child, "deck", {
+      groundAt: () => 0, designedSinkM: -4, designedWaterlineM: 0.75,
+      parentTransform: () => parent,
+    })!;
+    // No terrain sample: the ground here is 0 and the crate is at the parent's
+    // top face, 2.5 m over its pivot.
+    expect(seated.anchored).toBeNull();
+    expect(new THREE.Vector3().setFromMatrixPosition(seated.matrix).y).toBeCloseTo(11.25 + 2.5);
+    // A parent that has not resolved yet is "not yet", never a guess.
+    expect(resolvePlacement(child, "deck", {
+      groundAt: () => 0, designedSinkM: -4, designedWaterlineM: 0.75,
+      parentTransform: () => null,
+    })).toBeNull();
+  });
+
+  it("floats a hull on its berth's recorded water level, never on the ground", () => {
+    const hull: SettlementPlacement = {
+      ...placement, id: "hull", anchorClass: "water", waterLevelM: 12.5, scale: 2,
+    };
+    expect(waterPlacementY(hull, 0.75)).toBeCloseTo(11);
+    expect(new THREE.Vector3().setFromMatrixPosition(
+      placementTransform(hull, waterPlacementY(hull, 0.75))).y).toBeCloseTo(11);
+    expect(() => waterPlacementY({ ...hull, waterLevelM: undefined }, 0.75))
+      .toThrow(/no waterLevelM/);
+    expect(() => waterPlacementY(hull, NaN)).toThrow(/no designedWaterlineM/);
   });
 
   it("does not guess a height while a streamed sample is absent", () => {
-    const anchored = anchorPlacement(placement, (x) => x === 0 ? null : 1);
+    const anchored = anchorPlacement(placement, (x) => x === 0 ? null : 1, -4);
     expect(anchored.complete).toBe(false);
     expect(placementGroundAudit(placement, anchored).status).toBe("terrain-unavailable");
   });
@@ -66,7 +176,7 @@ describe("settlement placement contract", () => {
     // Treat 7.25 m as the final pad surface after the compiler's grade has
     // been consumed. The source blueprint's old Y=99 must never survive.
     const padPlacement = { ...placement, anchor: { ...placement.anchor, groundFit: "pad" as const } };
-    const graded = anchorPlacement(padPlacement, () => 7.25);
+    const graded = anchorPlacement(padPlacement, () => 7.25, -4);
     const final = finalPlacementTransform(padPlacement, graded);
     const local = new THREE.Matrix4().makeTranslation(2, 1, -3);
     const part = finalPartTransform(padPlacement, graded, local);
@@ -80,24 +190,24 @@ describe("settlement placement contract", () => {
       far.getAttribute("position") as THREE.BufferAttribute, 0,
     );
     expect(farWorld.distanceTo(nearWorld)).toBeLessThan(1e-6);
-    expect(new THREE.Vector3().setFromMatrixPosition(final).y).toBeCloseTo(11);
+    expect(new THREE.Vector3().setFromMatrixPosition(final).y).toBeCloseTo(11.25);
     expect(far.getAttribute(SETTLEMENT_GROUND_ATTRIBUTE).getX(0)).toBeCloseTo(7.25);
     far.dispose(); source.dispose();
   });
 
   it("refuses a final transform until every streamed ground sample exists", () => {
-    const incomplete = anchorPlacement(placement, () => null);
+    const incomplete = anchorPlacement(placement, () => null, -4);
     expect(() => finalPlacementTransform(placement, incomplete)).toThrow(/before terrain anchoring/);
   });
 
-  it("reports capped slope burial and residual floating per settlement", () => {
-    const anchored = anchorPlacement(placement, (x) => x / 5);
+  it("reports applied burial and residual floating per settlement", () => {
+    const anchored = anchorPlacement(placement, (x) => x / 5, -4);
     const row = placementGroundAudit(placement, anchored);
-    expect(anchored.requestedBuryM).toBeCloseTo(2.41);
-    expect(anchored.buryM).toBe(.9);
-    expect(row.status).toBe("floating-and-over-buried");
-    expect(row.gapM).toBeCloseTo(1.1);
-    expect(row.overBuryM).toBeCloseTo(1.51);
+    expect(anchored.requestedBuryM).toBeCloseTo(-4);
+    expect(anchored.buryM).toBeCloseTo(-4);
+    expect(row.status).toBe("floating");
+    expect(row.gapM).toBeCloseTo(1);
+    expect(row.overBuryM).toBe(0);
     const settlements = [{
       id: "s", placementIds: ["p", "missing"], boundaryM: [],
       budgetReport: null, floodBandReport: {}, variants: [],
@@ -114,10 +224,10 @@ describe("settlement placement contract", () => {
       [{ ...row, settlementId: "s" }, dressing])[0];
     expect(report).toMatchObject({
       settlementId: "s", placementsExpected: 2, placementsAudited: 2,
-      floating: 1, overBuried: 1, terrainUnavailable: 0,
+      floating: 1, overBuried: 0, terrainUnavailable: 0,
     });
-    expect(report.maxGapM).toBeCloseTo(1.1);
-    expect(report.maxOverBuryM).toBeCloseTo(1.51);
+    expect(report.maxGapM).toBeCloseTo(1);
+    expect(report.maxOverBuryM).toBe(0);
   });
 
   it("scales LOD reach by footprint and has one deterministic authority", () => {

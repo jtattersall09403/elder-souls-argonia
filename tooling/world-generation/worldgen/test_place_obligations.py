@@ -18,7 +18,36 @@ def _records():
 
 def _blueprints():
     for path in sorted(bp_mod.BLUEPRINT_DIR.glob("*.json")):
-        yield json.loads(path.read_text())["blueprint"]
+        bp = json.loads(path.read_text())["blueprint"]
+        if not bp_mod.is_fixture(bp):
+            yield bp
+
+
+# The 2026-09-09 exemplar blueprints were retired by the owner 2026-09-23 and
+# the only shipped blueprint is the yard fixture, which owes the catalogue
+# nothing. The manifest machinery below is therefore exercised on two real
+# catalogue records, each with a small blueprint written here that links every
+# qualitative root to one parcel. It binds most, not all, obligations, so the
+# tests assert the error they cause, never a clean baseline.
+SYNTHETIC_PLACES = ("place.hist-heartland.nine-trunks", "place.hist-heartland.sap-tapping-licensed")
+
+
+def _synthetic(place_id):
+    rec = _records()[place_id]
+    slug = place_id.rsplit(".", 1)[-1]
+    ref = f"parcel.{slug}.evidence"
+    rows, _ = po.build_obligations(rec, {"id": place_id})
+    roots = sorted({r.sourcePath.split(".", 1)[0].split("[", 1)[0] for r in rows}
+                   & po.QUALITATIVE_ROOTS)
+    return {"id": place_id, "parcels": [{"id": ref}],
+            "macroEvidence": [{"sourcePaths": roots, "evidenceRefs": [ref]}]}
+
+
+def _synthetic_document():
+    blueprints = [_synthetic(pid) for pid in SYNTHETIC_PLACES]
+    document, _errors = po.obligation_document(
+        _records(), blueprints, expected_place_ids=set(SYNTHETIC_PLACES))
+    return blueprints, document
 
 
 def test_every_catalogue_field_has_exactly_one_contract_policy():
@@ -72,7 +101,7 @@ def test_ownerGuided_is_a_process_flag_and_owes_nothing():
 
 
 @pytest.mark.parametrize("bp", list(_blueprints()), ids=lambda b: b["id"])
-def test_all_five_live_blueprints_bind_every_macro_obligation(bp):
+def test_every_live_blueprint_binds_every_macro_obligation(bp):
     errors, rows = po.check_phase11(_records()[bp["id"]], bp)
     assert rows
     assert not errors
@@ -84,11 +113,12 @@ def test_all_five_live_blueprints_bind_every_macro_obligation(bp):
 
 
 def test_qualitative_promise_cannot_disappear_behind_a_green_legacy_ledger():
-    bp = next(b for b in _blueprints() if b["id"].endswith("nine-trunks"))
+    bp = _synthetic(SYNTHETIC_PLACES[0])
     rec = _records()[bp["id"]]
+    before, _ = po.check_phase11(rec, bp)
+    assert not any("from vibe." in e for e in before)
     mutant = copy.deepcopy(bp)
-    mutant["macroEvidence"] = [r for r in mutant["macroEvidence"]
-                                if "vibe" not in r["sourcePaths"]]
+    mutant["macroEvidence"][0]["sourcePaths"].remove("vibe")
     errors, _ = po.check_phase11(rec, mutant)
     assert any("from vibe." in e for e in errors)
 
@@ -180,33 +210,38 @@ def blueprint_promises_for(rec, bp):
 
 
 def test_obligation_ids_are_stable_when_source_arrays_are_reordered():
-    bp = next(_blueprints())
+    bp = _synthetic(SYNTHETIC_PLACES[0])
     rec = copy.deepcopy(_records()[bp["id"]])
     a, _ = po.build_obligations(rec, bp)
+    reversed_keys = 0
     for key in ("assetPlan", "traversalModes", "eraLayers"):
-        if isinstance(rec.get(key), list):
+        if isinstance(rec.get(key), list) and len(rec[key]) > 1:
             rec[key].reverse()
+            reversed_keys += 1
+    assert reversed_keys, "the record reorders nothing; the test would be vacuous"
     b, _ = po.build_obligations(rec, bp)
     assert [x.id for x in a] == [x.id for x in b]
 
 
 def test_interchange_document_is_byte_deterministic():
-    blueprints = list(_blueprints())
-    expected = {bp["id"] for bp in blueprints}
-    assert expected == po.PHASE11_EXEMPLAR_PLACE_IDS
-    a, errors = po.obligation_document(_records(), blueprints,
-                                        expected_place_ids=expected)
-    assert not errors
-    b, errors = po.obligation_document(_records(), reversed(blueprints),
-                                        expected_place_ids=expected)
-    assert not errors
+    blueprints = [_synthetic(pid) for pid in SYNTHETIC_PLACES]
+    expected = set(SYNTHETIC_PLACES)
+    a, _ = po.obligation_document(_records(), blueprints, expected_place_ids=expected)
+    b, _ = po.obligation_document(_records(), reversed(blueprints), expected_place_ids=expected)
+    assert a["rows"]
     assert po.serialise(a) == po.serialise(b)
-    assert not po.verify_phase11_document(a, expected_place_ids=expected)
+
+
+def test_the_live_exemplar_set_is_not_silently_shrunk_to_what_is_shipped():
+    # The executable gate's expected set still names the five retired places:
+    # it must report every one of them missing, never pass on the yard alone.
+    _document, errors = po.live_phase11_document()
+    assert any("missing expected blueprint places" in e for e in errors)
 
 
 def test_export_rejects_a_whole_missing_or_unexpected_place():
-    blueprints = list(_blueprints())
-    expected = po.PHASE11_EXEMPLAR_PLACE_IDS
+    blueprints = [_synthetic(pid) for pid in SYNTHETIC_PLACES]
+    expected = set(SYNTHETIC_PLACES)
     _document, errors = po.obligation_document(
         _records(), blueprints[1:], expected_place_ids=expected)
     assert any("missing expected blueprint places" in error for error in errors)
@@ -222,33 +257,34 @@ def test_export_rejects_a_whole_missing_or_unexpected_place():
 
 
 def test_exported_phase11_manifest_rejects_bogus_or_cross_place_evidence():
-    document, errors = po.live_phase11_document()
-    assert not errors
+    _blueprints_, document = _synthetic_document()
+    expected = set(SYNTHETIC_PLACES)
+    baseline = po.verify_phase11_document(document, expected_place_ids=expected)
+    assert not any("unknown evidence ref" in e or "cross-place evidence" in e for e in baseline)
     mutant = copy.deepcopy(document)
     mutant["rows"][0]["phase11Evidence"] = ["parcel.does-not-exist"]
     assert any("unknown evidence ref" in error for error in
-               po.verify_phase11_document(mutant,
-                                          expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS))
+               po.verify_phase11_document(mutant, expected_place_ids=expected))
     mutant = copy.deepcopy(document)
     row = mutant["rows"][0]
     cross_place = next(entry["id"] for entry in mutant["objectRegistry"]
                        if entry["placeId"] != row["placeId"])
     row["phase11Evidence"] = [cross_place]
     assert any("cross-place evidence" in error for error in
-               po.verify_phase11_document(mutant,
-                                          expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS))
+               po.verify_phase11_document(mutant, expected_place_ids=expected))
 
 
 def test_phase11_manifest_cannot_reassign_a_promise_to_a_convenient_owner():
-    document, errors = po.live_phase11_document()
-    assert not errors
+    _blueprints_, document = _synthetic_document()
+    expected_places = set(SYNTHETIC_PLACES)
+    baseline = po.verify_phase11_document(document, expected_place_ids=expected_places)
+    assert not any("does not match" in e and "owner" in e for e in baseline)
     mutant = copy.deepcopy(document)
     row = mutant["rows"][0]
     expected = row["deliveryOwner"]
     row["deliveryOwner"] = next(owner for owner in po.DELIVERY_OWNERS if owner != expected)
     mutant["obligationsSha256"] = po._document_rows_sha256(mutant["rows"])
-    errors = po.verify_phase11_document(
-        mutant, expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS)
+    errors = po.verify_phase11_document(mutant, expected_place_ids=expected_places)
     assert any("does not match" in error and "owner" in error for error in errors)
 
 

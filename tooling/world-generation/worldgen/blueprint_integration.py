@@ -562,6 +562,11 @@ def check_integration(bp: dict, survey) -> list[str]:
 
     # abuts-snap (97 C14/E3) — a declared snap has to BE a snap.
     errors += [m for m in check_abuts_snap(bp, survey) if not m.startswith(WARN_PREFIX)]
+    # and the same check on the transform the RUNTIME applies (16h item 7): a
+    # compile that agrees with itself proves nothing about what the player
+    # sees, so every declared snap is measured twice, once per convention.
+    errors += [m for m in check_abuts_snap(bp, survey, runtime=True)
+               if not m.startswith(WARN_PREFIX)]
 
     # network-stitch (97 C-stitch) — only when the survey can reach the published
     # province bundles (the synthetic surveys in the tests pass their own).
@@ -625,8 +630,52 @@ def connectors(kits_dir=None) -> ConnectorLibrary:
     return _default_connectors()
 
 
-def _world_connectors(parcel: dict, survey, library: ConnectorLibrary):
-    """A parcel's connectors in world metres: (x, z, outward bearing, face)."""
+# --- the runtime's own transform, mirrored in Python (16h item 7) ----------
+# The compile rotates a local plan point by the CLOCKWISE map convention
+#     wx = cx + x·cos t − z·sin t ;  wz = cz + x·sin t + z·cos t
+# The runtime builds the same rotation in three.js, where
+# `setFromAxisAngle((0,1,0), θ)` turns (x, z) into (x·cosθ + z·sinθ,
+# −x·sinθ + z·cosθ) — which is the compile convention only when θ = −yawDeg.
+# `RUNTIME_YAW_SIGN` is that −1: the single place the mirror is written down,
+# and the knob a test turns to +1 to reproduce the runtime's old assumption
+# (`anchoring.ts` rotated by +yawDeg) and prove this check can fail.
+RUNTIME_YAW_SIGN = -1.0
+
+
+def runtime_world_xz(centre_m, yaw_deg: float, local_xz,
+                     *, yaw_sign: float = RUNTIME_YAW_SIGN):
+    """A piece-local plan point through the transform the RUNTIME will apply.
+
+    The mirror of the TypeScript helper in
+    `packages/game-core/src/settlement/anchoring.ts` (`placementTransform`):
+    position + three.js rotation about +Y by `yaw_sign · yawDeg`. With the
+    contract's `yaw_sign = -1` this is numerically identical to the compile
+    convention, which is the point: the two sides are written independently
+    and compared, so a sign error on either side shows up as a gap in metres
+    rather than as a silently mirrored town.
+    """
+    theta = math.radians(yaw_sign * float(yaw_deg))
+    cos_t, sin_t = math.cos(theta), math.sin(theta)
+    x, z = float(local_xz[0]), float(local_xz[1])
+    return (float(centre_m[0]) + x * cos_t + z * sin_t,
+            float(centre_m[1]) - x * sin_t + z * cos_t)
+
+
+def runtime_bearing(yaw_deg: float, normal_deg: float,
+                    *, yaw_sign: float = RUNTIME_YAW_SIGN) -> float:
+    """The world bearing of a face normal under the same runtime rotation."""
+    return (-yaw_sign * float(yaw_deg) + float(normal_deg)) % 360.0
+
+
+def _world_connectors(parcel: dict, survey, library: ConnectorLibrary,
+                      *, runtime: bool = False,
+                      yaw_sign: float = RUNTIME_YAW_SIGN):
+    """A parcel's connectors in world metres: (x, z, outward bearing, face).
+
+    `runtime=True` puts the same measured local faces through
+    `runtime_world_xz` instead of the compile convention, so a snap can be
+    checked on the transform the player will actually see.
+    """
     conns = library.get(parcel.get("assetRef") or "")
     if not conns or not parcel.get("centreUV"):
         return []
@@ -637,12 +686,16 @@ def _world_connectors(parcel: dict, survey, library: ConnectorLibrary):
     out = []
     for c in conns:
         px, pz = c["positionInPiece"]
-        # yawDeg is a compass bearing, so the map rotation is CLOCKWISE
-        # (blueprint_footprints): (x, z) -> (x cos - z sin, x sin + z cos).
-        wx = cx + px * cos_y - pz * sin_y
-        wz = cz + px * sin_y + pz * cos_y
-        out.append((wx, wz, (yaw + float(c["normalDeg"])) % 360.0, c.get("face", "?"),
-                    c.get("evidence", "?")))
+        if runtime:
+            wx, wz = runtime_world_xz((cx, cz), yaw, (px, pz), yaw_sign=yaw_sign)
+            bearing = runtime_bearing(yaw, float(c["normalDeg"]), yaw_sign=yaw_sign)
+        else:
+            # yawDeg is a compass bearing, so the map rotation is CLOCKWISE
+            # (blueprint_footprints): (x, z) -> (x cos - z sin, x sin + z cos).
+            wx = cx + px * cos_y - pz * sin_y
+            wz = cz + px * sin_y + pz * cos_y
+            bearing = (yaw + float(c["normalDeg"])) % 360.0
+        out.append((wx, wz, bearing, c.get("face", "?"), c.get("evidence", "?")))
     return out
 
 
@@ -653,12 +706,14 @@ def _heading_delta(a: float, b: float) -> float:
     return min(d, 360.0 - d)
 
 
-def _nearest_connector_pair(pa: dict, pb: dict, survey, library):
+def _nearest_connector_pair(pa: dict, pb: dict, survey, library,
+                            *, runtime: bool = False,
+                            yaw_sign: float = RUNTIME_YAW_SIGN):
     """(gap m, opposition deg, face a, face b, evidence a, evidence b) for the
     closest pair of connector faces on two parcels — or None if either piece
     has no measured connectors."""
-    ca = _world_connectors(pa, survey, library)
-    cb = _world_connectors(pb, survey, library)
+    ca = _world_connectors(pa, survey, library, runtime=runtime, yaw_sign=yaw_sign)
+    cb = _world_connectors(pb, survey, library, runtime=runtime, yaw_sign=yaw_sign)
     if not ca or not cb:
         return None
     best = None
@@ -682,7 +737,9 @@ SNAP_POS_M = 0.15
 SNAP_NORMAL_TOL_DEG = 5.0
 
 
-def check_abuts_snap(bp: dict, survey, library: ConnectorLibrary | None = None) -> list[str]:
+def check_abuts_snap(bp: dict, survey, library: ConnectorLibrary | None = None,
+                     *, runtime: bool = False,
+                     yaw_sign: float = RUNTIME_YAW_SIGN) -> list[str]:
     """97 C14/E3 — a declared `abuts` pair must actually SNAP, face to face.
 
     Owner 2026-09-08, on Lilmoth's north gate: "a gate arch, a tower and two
@@ -695,6 +752,12 @@ def check_abuts_snap(bp: dict, survey, library: ConnectorLibrary | None = None) 
 
     HARD. A pair with no connectors measured on either piece is a WARN naming
     the kit to measure — never a silent pass.
+
+    `runtime=True` re-runs the identical check on the transform the RUNTIME
+    applies (`runtime_world_xz`), so a sign error between the compile and the
+    runtime cannot hide behind a compile that agrees with itself (16h item 7).
+    The compile convention is never changed to suit the runtime: the runtime
+    is the side that carries the minus sign.
     """
     library = connectors() if library is None else library
     parcels = {p["id"]: p for p in bp.get("parcels", []) if p.get("id")}
@@ -709,7 +772,8 @@ def check_abuts_snap(bp: dict, survey, library: ConnectorLibrary | None = None) 
     # neighbour is joined too — through it, not merely near it.
     snapped: set[tuple[str, str]] = set()
     for ia, ib in sorted(pairs):
-        best = _nearest_connector_pair(parcels[ia], parcels[ib], survey, library)
+        best = _nearest_connector_pair(parcels[ia], parcels[ib], survey, library,
+                                       runtime=runtime, yaw_sign=yaw_sign)
         if best is not None and best[0] <= SNAP_POS_M and best[1] <= SNAP_NORMAL_TOL_DEG:
             snapped.add((ia, ib))
             snapped.add((ib, ia))
@@ -718,8 +782,8 @@ def check_abuts_snap(bp: dict, survey, library: ConnectorLibrary | None = None) 
         pa, pb = parcels[ia], parcels[ib]
         if pa.get("stacksOn") == ib or pb.get("stacksOn") == ia:
             continue     # a vertical stack, not a face join — `stacksOn` owns it
-        ca = _world_connectors(pa, survey, library)
-        cb = _world_connectors(pb, survey, library)
+        ca = _world_connectors(pa, survey, library, runtime=runtime, yaw_sign=yaw_sign)
+        cb = _world_connectors(pb, survey, library, runtime=runtime, yaw_sign=yaw_sign)
         if not ca or not cb:
             missing = [f"{p['id']} ({p.get('assetRef')}, kit "
                        f"{library.kit_of.get(p.get('assetRef') or '', 'unmeasured')})"
@@ -729,15 +793,17 @@ def check_abuts_snap(bp: dict, survey, library: ConnectorLibrary | None = None) 
                 f"faces are measured for {', '.join(missing)}; run "
                 f"'python3 -m pipeline.measure_connectors --kit <kit>' so the snap can be checked")
             continue
-        best = _nearest_connector_pair(pa, pb, survey, library)
+        best = _nearest_connector_pair(pa, pb, survey, library,
+                                       runtime=runtime, yaw_sign=yaw_sign)
         d, opp, fa, fb, ea, eb = best
         if d <= SNAP_POS_M and opp <= SNAP_NORMAL_TOL_DEG:
             continue
         if any((ia, mid) in snapped and (ib, mid) in snapped
                for mid in parcels if mid not in (ia, ib)):
             continue     # joined through the piece that stands between them
+        where = "runtime transform" if runtime else "compile transform"
         out.append(
-            f"integration: 97 C14/E3 abuts-snap — {ia} and {ib} declare a snap, but their nearest "
+            f"integration: 97 C14/E3 abuts-snap ({where}) — {ia} and {ib} declare a snap, but their nearest "
             f"connector faces ({fa} on {ia}, {fb} on {ib}) miss by {d:.2f} m and {opp:.1f}° "
             f"(limits {SNAP_POS_M:.2f} m, {SNAP_NORMAL_TOL_DEG:.0f}°); pieces designed to connect are "
             f"built into each other, not placed near each other — move one onto the other's face "

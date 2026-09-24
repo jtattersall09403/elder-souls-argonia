@@ -99,10 +99,22 @@
         "one D2 captain of the port who counts rather than fights"
       ],
       "notableNpcSlots": [
-        "npc.alten-corimont.port-captain",
-        "npc.alten-corimont.dunmer-factor",
-        "npc.alten-corimont.list-keeper",
-        "the Veiled Reed's field handler for the freeholds"
+        {
+          "slotId": "npc-alten-corimont-port",
+          "role": "npc.alten-corimont.port-captain"
+        },
+        {
+          "slotId": "npc-alten-corimont-dunmer",
+          "role": "npc.alten-corimont.dunmer-factor"
+        },
+        {
+          "slotId": "npc-alten-corimont-list",
+          "role": "npc.alten-corimont.list-keeper"
+        },
+        {
+          "slotId": "veiled-reed-s-field",
+          "role": "the Veiled Reed's field handler for the freeholds"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -1117,7 +1129,10 @@
         "D1 pressed hands who will not fight hard"
       ],
       "notableNpcSlots": [
-        "npc.salt-teeth.reach-boss"
+        {
+          "slotId": "npc-salt-teeth-reach",
+          "role": "npc.salt-teeth.reach-boss"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -1481,7 +1496,10 @@
         "D2 lay-by keeper"
       ],
       "notableNpcSlots": [
-        "npc.chasecreek.lay-by-keeper"
+        {
+          "slotId": "npc-chasecreek-lay-by",
+          "role": "npc.chasecreek.lay-by-keeper"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -2051,7 +2069,10 @@
         "D1 children who are not supposed to be up here"
       ],
       "notableNpcSlots": [
-        "npc.corimont.lookout"
+        {
+          "slotId": "npc-corimont-lookout",
+          "role": "npc.corimont.lookout"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -2263,7 +2284,10 @@
         "4-15 D2 house crew and players"
       ],
       "notableNpcSlots": [
-        "npc.corimont.slate-keeper"
+        {
+          "slotId": "npc-corimont-slate-keeper",
+          "role": "npc.corimont.slate-keeper"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -2650,9 +2674,18 @@
         "D2 gang overseer"
       ],
       "notableNpcSlots": [
-        "npc.corimont.owing-broker",
-        "the Charter's hiring-floor captain",
-        "the Charter's surgeon"
+        {
+          "slotId": "npc-corimont-owing-broker",
+          "role": "npc.corimont.owing-broker"
+        },
+        {
+          "slotId": "charter-s-hiring-floor",
+          "role": "the Charter's hiring-floor captain"
+        },
+        {
+          "slotId": "charter-s-surgeon",
+          "role": "the Charter's surgeon"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -2925,7 +2958,10 @@
         "D1 Hist-less households"
       ],
       "notableNpcSlots": [
-        "npc.no-tree.speaker"
+        {
+          "slotId": "npc-no-tree-speaker",
+          "role": "npc.no-tree.speaker"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -3439,7 +3475,10 @@
         "D2 house muscle"
       ],
       "notableNpcSlots": [
-        "npc.corimont.tradehouse-keeper"
+        {
+          "slotId": "npc-corimont-tradehouse-keeper",
+          "role": "npc.corimont.tradehouse-keeper"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -4004,7 +4043,10 @@
         "D3 house guard"
       ],
       "notableNpcSlots": [
-        "npc.holding.house-steward"
+        {
+          "slotId": "npc-holding-house-steward",
+          "role": "npc.holding.house-steward"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -4657,7 +4699,10 @@
         "D2 ex-owed households"
       ],
       "notableNpcSlots": [
-        "npc.shelter.speaker"
+        {
+          "slotId": "npc-shelter-speaker",
+          "role": "npc.shelter.speaker"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -5669,7 +5714,10 @@
         "1-2 D2 smiths"
       ],
       "notableNpcSlots": [
-        "npc.corimont.nord-smith"
+        {
+          "slotId": "npc-corimont-nord-smith",
+          "role": "npc.corimont.nord-smith"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -6230,7 +6278,10 @@
         "D3 captains who are not to be crossed"
       ],
       "notableNpcSlots": [
-        "npc.salt-teeth.passage-broker"
+        {
+          "slotId": "npc-salt-teeth-passage",
+          "role": "npc.salt-teeth.passage-broker"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -6964,9 +7015,18 @@
         "D2 An-Xileel courier attached to the detail"
       ],
       "notableNpcSlots": [
-        "npc.opening.roll-reader",
-        "npc.opening.overseer",
-        "npc.opening.courier"
+        {
+          "slotId": "npc-opening-roll-reader",
+          "role": "npc.opening.roll-reader"
+        },
+        {
+          "slotId": "npc-opening-overseer",
+          "role": "npc.opening.overseer"
+        },
+        {
+          "slotId": "npc-opening-courier",
+          "role": "npc.opening.courier"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -7281,8 +7341,14 @@
         "D2 camp overseer"
       ],
       "notableNpcSlots": [
-        "npc.opening.clutch-keeper",
-        "npc.opening.witness"
+        {
+          "slotId": "npc-opening-clutch-keeper",
+          "role": "npc.opening.clutch-keeper"
+        },
+        {
+          "slotId": "npc-opening-witness",
+          "role": "npc.opening.witness"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -7711,7 +7777,10 @@
         "1 D2 hermit"
       ],
       "notableNpcSlots": [
-        "npc.ravine.former-ledger-keeper"
+        {
+          "slotId": "npc-ravine-former-ledger",
+          "role": "npc.ravine.former-ledger-keeper"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -8233,7 +8302,10 @@
         "D3 toll-takers and a hired garrison"
       ],
       "notableNpcSlots": [
-        "npc.fort.claim-holder"
+        {
+          "slotId": "npc-fort-claim-holder",
+          "role": "npc.fort.claim-holder"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -13002,8 +13074,14 @@
         "D2 river predators on the approach"
       ],
       "notableNpcSlots": [
-        "npc.opening.tree-minder",
-        "npc.opening.upriver-elder"
+        {
+          "slotId": "npc-opening-tree-minder",
+          "role": "npc.opening.tree-minder"
+        },
+        {
+          "slotId": "npc-opening-upriver-elder",
+          "role": "npc.opening.upriver-elder"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -13271,7 +13349,10 @@
         "D2 second generation"
       ],
       "notableNpcSlots": [
-        "npc.holding.veteran-captain"
+        {
+          "slotId": "npc-holding-veteran-captain",
+          "role": "npc.holding.veteran-captain"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [

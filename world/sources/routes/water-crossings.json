@@ -90,9 +90,9 @@
       ],
       "spanM": 127.7,
       "maxDepthM": 3.69,
-      "nearestPlaceId": "place.imperial-penal-south.manned-toll-tower",
-      "nearestPlaceName": "The Water Reckoning",
-      "nearestPlaceM": 54.5,
+      "nearestPlaceId": "place.imperial-penal-south.blackrose",
+      "nearestPlaceName": "Blackrose",
+      "nearestPlaceM": 84.6,
       "servesRoutes": [
         "route.road.blackrose-lilmoth"
       ],
@@ -218,9 +218,9 @@
       ],
       "spanM": 55.0,
       "maxDepthM": 2.85,
-      "nearestPlaceId": "place.imperial-penal-south.blackrose-drowned-hist",
-      "nearestPlaceName": "Speaks-Below-The-Water",
-      "nearestPlaceM": 68.9,
+      "nearestPlaceId": "place.imperial-penal-south.manned-toll-tower",
+      "nearestPlaceName": "The Water Reckoning",
+      "nearestPlaceM": 28.8,
       "servesRoutes": [
         "route.road.soulrest-blackrose"
       ],

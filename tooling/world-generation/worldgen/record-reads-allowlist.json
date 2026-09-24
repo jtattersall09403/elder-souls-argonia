@@ -1,14 +1,5 @@
 {
  "schemaVersion": 1,
- "about": "Modules below the freeze gate that still re-derive water instead of reading the record (decision 0066). Each row is owned by the chunk that ports it; test_record_reads.py fails on a module missing here that re-derives, and on a row whose module is clean (delete the row). The list only shrinks.",
- "modules": {
-  "compile_settlement": {
-   "portedBy": "16h",
-   "why": "band = int(survey.flood[row, col])"
-  },
-  "settlement_ground_control": {
-   "portedBy": "16h",
-   "why": "DEFAULT_WATER_SURFACE = REPO_ROOT / \"apps\" / \"world-studio\" / \"public\" / \"provin"
-  }
- }
+ "about": "Modules below the freeze gate that still re-derive water instead of reading the record (decision 0066). Each row is owned by the chunk that ports it; test_record_reads.py fails on a module missing here that re-derives, and on a row whose module is clean (delete the row). The list only shrinks. EMPTY since 16h: every module below the gate reads the record. A new row may only be added with an owner ruling.",
+ "modules": {}
 }

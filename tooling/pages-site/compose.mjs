@@ -176,6 +176,12 @@ console.log(`compose: kits kept (${referenced.size}): ${[...referenced].map(([id
 console.log(`compose: kits excluded (${excluded.length}): ${excluded.map((id) => `${id}${darkNamed.has(id) ? "" : " (named by nothing)"}`).join(", ") || "none"}`);
 if (chainDropped.length) console.log(`compose: chain-only rasters excluded: ${chainDropped.join(", ")}`);
 console.log(`compose: excluded ${fmt(excludedBytes)}`);
+// Kit sidecars (connectors/footprints/interiors) ship beside every kept kit
+// pair since 16h and are inside `after` like everything else under kits/;
+// report them so the budget's composition is visible when it moves.
+const sidecarBytes = (existsSync(kitsDir) ? walk(kitsDir) : []).filter((f) => /\.(connectors|footprints|interiors)\.json$/.test(f))
+  .reduce((s, f) => s + statSync(f).size, 0);
+console.log(`compose: kit sidecars ${fmt(sidecarBytes)} of the kept kits`);
 console.log(`compose: site size before ${fmt(before)} -> after ${fmt(after)} (warn > ${WARN_MB} MB, fail > ${FAIL_MB} MB, Pages limit 1,000 MB)`);
 if (after > FAIL_MB * MB) fail(`composed site ${fmt(after)} exceeds the ${FAIL_MB} MB gate (GitHub Pages limit 1 GB)`);
 else if (after > WARN_MB * MB) console.warn(`::warning::composed site ${fmt(after)} is above the ${WARN_MB} MB warning line (fails at ${FAIL_MB} MB, Pages limit 1 GB)`);

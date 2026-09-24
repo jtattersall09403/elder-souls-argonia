@@ -93,8 +93,14 @@ def _sample(height: np.ndarray, x_m: float, z_m: float, metres_per_sample: float
                  + (height[r1, c0] * (1 - tx) + height[r1, c1] * tx) * tz)
 
 
-def pad_specs(documents: list[dict], *, extent_m: float = AUTHORED_UV_EXTENT_M) -> list[dict]:
-    """Extract the complete, stable set of pad parcels from blueprint docs."""
+def pad_specs(documents: list[dict], *, extent_m: float = AUTHORED_UV_EXTENT_M,
+              shelf=None) -> list[dict]:
+    """Extract the complete, stable set of pad parcels from blueprint docs.
+
+    A parcel that authors no groundFit takes its kit record's (decision 0085,
+    `compile_settlement.with_record_ground_fits`); the kit shelf is loaded only
+    when such a parcel exists. The source hash stays the authored blueprint's.
+    """
     specs: list[dict] = []
     for document in documents:
         blueprint = document.get("blueprint", document)
@@ -102,7 +108,12 @@ def pad_specs(documents: list[dict], *, extent_m: float = AUTHORED_UV_EXTENT_M) 
         if not isinstance(place_id, str):
             raise ValueError("blueprint has no id")
         source_sha = _object_sha(blueprint)
-        for parcel in blueprint.get("parcels", []):
+        resolved = blueprint
+        if any("groundFit" not in parcel for parcel in blueprint.get("parcels", [])):
+            from .compile_settlement import KitShelf, with_record_ground_fits
+            shelf = shelf or KitShelf()
+            resolved, _unresolved = with_record_ground_fits(blueprint, shelf)
+        for parcel in resolved.get("parcels", []):
             if parcel.get("groundFit") != "pad":
                 continue
             raw = parcel.get("footprint")

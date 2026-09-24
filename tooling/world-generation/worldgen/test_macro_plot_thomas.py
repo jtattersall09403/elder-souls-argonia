@@ -1,6 +1,7 @@
 """Focused checks for the culture-specific Thomas-process placement prior."""
 
 import math
+from pathlib import Path
 
 import pytest
 
@@ -168,18 +169,17 @@ def test_general_even_spacing_floor_is_gone_but_collision_and_repetition_remain(
     assert macro_plot.separation_ok(b, candidate("repeat", 200, 0), {a.id: (a, origin)})[0] is False
 
 
-def test_the_four_authored_exemplar_overrides_remain_post_solve_pins():
-    overrides = macro_plot.load_overrides()
-    # The file also carries the `plot-remedies` pins `apply_sitings` merges in
-    # by source; the claim here is about the AUTHORED blueprint rows.
-    authored = [o for o in overrides if o["source"].startswith("world/sources/blueprints/")]
-    assert {o["id"] for o in authored} == {
-        "place.dunmer-north.mazzatun",
-        "place.hist-heartland.nine-trunks",
-        "place.hist-heartland.sap-tapping-licensed",
-        "place.naga-kur-deeps.wamasu-pond-adult",
-    }
-    assert all(o["source"].endswith(o["id"] + ".json") for o in authored)
+def test_every_blueprint_pin_names_a_shipped_blueprint():
+    # The four 2026-09-09 exemplar pins left with their blueprints (retired by
+    # the owner 2026-09-23; 16i re-authors them). What stays binding: a pin
+    # sourced from a blueprint names a shipped (not retired) blueprint of the
+    # same id; every other pin is a `plot-remedies` row.
+    repo = Path(__file__).resolve().parents[3]
+    for o in macro_plot.load_overrides():
+        if o["source"] == "plot-remedies":
+            continue
+        assert o["source"] == f"world/sources/blueprints/{o['id']}.json", o
+        assert (repo / o["source"]).is_file(), o["source"]
 
 
 def test_an_inland_foreign_trading_station_does_not_imply_a_keel_berth():

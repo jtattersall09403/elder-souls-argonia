@@ -66,10 +66,34 @@ def test_resample_keeps_endpoints_and_spacing():
     assert steps.max() <= 2.0 + 1e-9
 
 
-def test_live_authored_file_loads_and_ends_at_its_terminal():
+def test_live_authored_file_loads_and_ends_at_its_terminal(tmp_path):
+    # Both live rows went with their blueprints (2026-09-23/24; 16h ledger
+    # § Gate fixes), so the live file may be empty: it must still load clean,
+    # and a written row proves the loader is not vacuous.
+    import json
     from worldgen.hydrology_intent import load_authored_minor_waterways
     ways, errors = load_authored_minor_waterways()
     assert not errors, errors
-    assert ways, "the authored minor waterway file must not be empty"
     for way in ways:
         assert way["pointsM"][-1] == way["terminalM"]
+    path = tmp_path / "authored-minor-waterways.json"
+    path.write_text(json.dumps({"schemaVersion": 1, "kind": "authored-minor-waterways",
+                                "waterways": [SYNTHETIC_AUTHORED_ROW]}))
+    ways, errors = load_authored_minor_waterways(path)
+    assert not errors, errors
+    assert [w["id"] for w in ways] == [SYNTHETIC_AUTHORED_ROW["id"]]
+    assert ways[0]["pointsM"][-1] == ways[0]["terminalM"]
+    bad = dict(SYNTHETIC_AUTHORED_ROW, terminalM=[3300.0, 4800.0])
+    path.write_text(json.dumps({"waterways": [bad]}))
+    assert load_authored_minor_waterways(path)[1], "a row off its terminal must be refused"
+
+
+#: The retired sap-camp row's own line (in git at f1e87b10), as a fixture.
+SYNTHETIC_AUTHORED_ROW = {
+    "id": "waterway.test.fixture-landing",
+    "pointsM": [[3310.218, 5013.765], [3335.808, 4911.406], [3308.0, 4838.0], [3309.4, 4815.0]],
+    "terminalM": [3309.4, 4815.0],
+    "terminalId": "terminal.test.fixture-landing",
+    "connectsTo": ["network.minor-waterways.hist-heartland"],
+    "source": "Test fixture: the retired sap-camp creek line.",
+}

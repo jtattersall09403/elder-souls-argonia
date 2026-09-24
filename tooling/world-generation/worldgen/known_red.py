@@ -37,61 +37,46 @@ KNOWN_RED_DOC = "docs/phases/P-polish/backlog.md"
 #: Each row: ``match`` (a stable identifying substring of the failure text),
 #: ``why`` (the reason), ``owner``, and optionally ``queuedIn``.
 #: An EMPTY register is the healthy state: nothing is suppressed anywhere.
-#: The 2026-09-19 re-plot moved five live blueprint places; their authored
-#: geometry (streets, boardwalks, docks, terminals, fences) still describes
-#: the ground each place stood on before the move. 16i re-authors it.
-_REPLOT_WHY = (
-    "re-plot 2026-09-19 moved the record; 16i re-authors the blueprint "
-    "where it landed (16g brief, deliverable 2)")
+#: The 2026-09-19 re-plot rows went on 2026-09-23: the 16h rounds cleared 17,
+#: and the other six are findings of the four fixture-replay blueprints, whose
+#: compile receipt (`fixtureWaived`) names them; test_live_dir_validates honours
+#: that receipt message for message, as the export does. 16i re-authors them.
+#: 2026-09-24 (planner ruling): the published minor-waterways file is stale
+#: against the retired dock rows; each failing channel is registered by id.
+_STALE_MINOR_WATERWAYS = (
+    "published waterways-minor.json predates the retirement of the two dock rows; the refresh "
+    "is a water compile awaiting the planner's trace of lilmoth-divers-yard, "
+    "air-pocket-station-deeps and drowned-village-lake-deeps "
+    "(/tmp/wf/commit3/minor-waterways-dryrun.txt). Remove when the republish lands.")
 
 KNOWN_RED: dict[str, list[dict]] = {
-    "worldgen/test_blueprint.py::test_live_dir_validates": [
-        {"match": 'route.mazzatun.haul:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.mazzatun.pen-lane:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'dock.nine-trunks.landing: hullClass',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.nine-trunks.spur:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.nine-trunks.landing-path:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'terminal.nine-trunks.gate-head:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.sap-tapping-licensed.track:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.sap-tapping-licensed.sap-track:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": "serving route 'route.boat.soulrest-lilmoth'",
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": "serving route 'route.boat.blackrose-lilmoth'",
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.lilmoth.spine-track:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.lilmoth.court-path:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.lilmoth.court-approach:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.lilmoth.tender-path:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.lilmoth.fishers-path:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'boardwalk.lilmoth.pusbottom-loop:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'boardwalk.lilmoth.quay-lane:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'boardwalk.lilmoth.shore-lane:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'fence.lilmoth.imperial-curtain-north:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'dock.wamasu-pond-adult.lane-landing: hullClass',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.wamasu-pond-adult.bank-path:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'route.wamasu-pond-adult.stand-path:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
-        {"match": 'canal.wamasu-pond-adult.pole-lane:',
-         "why": _REPLOT_WHY, "owner": "16i", "queuedIn": "16i"},
+    "worldgen/test_mine_mounts.py::test_the_record_holds_the_golden_set": [
+        {"match": "bmv:landscape/trees/cedartree3: expected water, got wall",
+         "why": "the M16 mounts record classes the cedar tree `wall` where the golden set "
+                "expects `water`; the miners are not re-run outside the miner lane. "
+                "Remove this row when the next full mounts run lands.",
+         "owner": "miner lane",
+         "queuedIn": "docs/phases/P-polish/backlog.md (cedartree3 golden-set row)"},
+    ],
+    "worldgen/test_minor_waterways.py::test_shape_matches_routes_minor_and_serves_live_plotted_places": [
+        {"match": "waterway.hist-heartland.sap-tapping-licensed.landing:",
+         "why": _STALE_MINOR_WATERWAYS,
+         "owner": "planner (water)",
+         "queuedIn": "docs/phases/P-polish/backlog.md:474 (waterways-minor.json stale row)"},
+        {"match": "waterway.mercantile-coast.lilmoth.lighter-quay:",
+         "why": _STALE_MINOR_WATERWAYS,
+         "owner": "planner (water)",
+         "queuedIn": "docs/phases/P-polish/backlog.md:474 (waterways-minor.json stale row)"},
+        {"match": "waterway.mercantile-coast.lilmoth.roadstead-tender:",
+         "why": _STALE_MINOR_WATERWAYS,
+         "owner": "planner (water)",
+         "queuedIn": "docs/phases/P-polish/backlog.md:474 (waterways-minor.json stale row)"},
+    ],
+    "worldgen/test_minor_waterways.py::test_boat_stations_are_channelled_or_explained": [
+        {"match": "waterway.hist-heartland.sap-tapping-licensed.landing)",
+         "why": _STALE_MINOR_WATERWAYS,
+         "owner": "planner (water)",
+         "queuedIn": "docs/phases/P-polish/backlog.md:474 (waterways-minor.json stale row)"},
     ],
 }
 

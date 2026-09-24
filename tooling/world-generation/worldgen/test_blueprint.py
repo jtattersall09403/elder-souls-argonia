@@ -1,5 +1,8 @@
 """Blueprint schema validator tests (Phase 11 Part 0 item 3, decision 0041)."""
 
+import json
+from pathlib import Path
+
 import pytest
 from .ladder import requires_delivered, requires_layer, requires_stage
 
@@ -217,15 +220,104 @@ def test_budget_shape():
     assert any("budget" in e for e in errs)
 
 
+#: The published settlement bundle: tracked, so every checkout (CI included)
+#: sees each site's `fixtureReplay` / `fixtureWaived` (export_settlement_bundle).
+SETTLEMENT_BUNDLE = (Path(__file__).resolve().parents[3]
+                     / "apps" / "world-studio" / "public" / "province" / "settlements.json")
+#: Where `compile_settlement --all` writes each place's compile (its receipt).
+SETTLEMENTS_DIR = Path(__file__).resolve().parents[1] / "output" / "settlements"
+
+
+def _replay_receipts(bundle_path=SETTLEMENT_BUNDLE, settlements_dir=SETTLEMENTS_DIR):
+    """[(place id, compile doc)] for every site, read from the tracked bundle.
+
+    Fallback: a bundle published before the exporter carried the receipts
+    (schema 1 with no `fixtureWaived` on any site) says nothing about replays,
+    so the local compiles under output/settlements are read instead. The
+    moment any site in the bundle carries `fixtureWaived`, the bundle alone is
+    the truth and the local compiles are never consulted."""
+    bundle = Path(bundle_path)
+    if bundle.is_file():
+        sites = json.loads(bundle.read_text()).get("settlements") or []
+        if any("fixtureWaived" in site for site in sites):
+            return [(site.get("id"), site) for site in sites]
+    return [(doc.get("id"), doc) for doc in
+            (json.loads(p.read_text())
+             for p in sorted(Path(settlements_dir).glob("*.settlement.json")))]
+
+
+def _fixture_replay_waived(errors, bundle_path=SETTLEMENT_BUNDLE,
+                           settlements_dir=SETTLEMENTS_DIR):
+    """The validation errors a fixture replay's receipt already names.
+
+    A blueprint compiled with `compile_settlement --fixture-replay` (16h part 1
+    round 3: the 2026-09-09 layouts kept as numeric fixtures, re-authored in
+    16i) records every rule it breaks in `fixtureWaived`, and the exporter
+    carries that receipt into the bundle. The export honours it message for
+    message (`export_settlement_bundle._unwaived`); this gate does the same, so
+    a replayed layout is not a red here. An error stands unless the site it
+    names carries `fixtureReplay: true` AND that exact message in its receipt;
+    no receipt, no waiver."""
+    waived: set[tuple[str, str]] = set()
+    for place_id, doc in _replay_receipts(bundle_path, settlements_dir):
+        if doc.get("fixtureReplay") is not True:
+            continue
+        waived |= {(place_id, row.get("message"))
+                   for row in doc.get("fixtureWaived") or []}
+    return [e for e in errors if (str(e).split(":", 1)[0], str(e)) not in waived]
+
+
+_MSG = ("place.x: fence fence.x.east: 97 C10 — the wall line crosses the way "
+        "route.x.lane without declaring it in gapAt")
+_OTHER = "place.y: fence fence.y.east: 97 C10 — the wall line crosses"
+
+
+def _receipt(**over):
+    return {"id": "place.x", "fixtureReplay": True,
+            "fixtureWaived": [{"ruleId": "97 C10", "grade": "hard", "message": _MSG}],
+            **over}
+
+
+def test_fixture_replay_receipt_in_the_bundle_waives_only_its_own_messages(tmp_path):
+    bundle = tmp_path / "settlements.json"
+    local = tmp_path / "local"            # never read: the bundle carries receipts
+    local.mkdir()
+    (local / "place.y.settlement.json").write_text(json.dumps(
+        {"id": "place.y", "fixtureReplay": True,
+         "fixtureWaived": [{"message": _OTHER}]}))
+    bundle.write_text(json.dumps({"settlements": [_receipt()]}))
+    assert _fixture_replay_waived([_MSG, _OTHER], bundle, local) == [_OTHER]
+    site = _receipt()
+    site.pop("fixtureReplay")              # a normal compile waives nothing
+    bundle.write_text(json.dumps({"settlements": [site]}))
+    assert _fixture_replay_waived([_MSG, _OTHER], bundle, local) == [_MSG, _OTHER]
+
+
+def test_a_bundle_without_receipts_falls_back_to_the_local_compiles(tmp_path):
+    bundle = tmp_path / "settlements.json"
+    bundle.write_text(json.dumps({"settlements": [{"id": "place.x"}]}))
+    local = tmp_path / "local"
+    local.mkdir()
+    receipt = local / "place.x.settlement.json"
+    receipt.write_text(json.dumps(_receipt()))
+    assert _fixture_replay_waived([_MSG, _OTHER], bundle, local) == [_OTHER]
+    receipt.write_text(json.dumps(_receipt(fixtureReplay=False)))
+    assert _fixture_replay_waived([_MSG, _OTHER], bundle, local) == [_MSG, _OTHER]
+    assert _fixture_replay_waived([_MSG], tmp_path / "none.json",
+                                  tmp_path / "absent") == [_MSG]
+
+
 @requires_delivered("16g")
 @pytest.mark.real_index
 def test_live_dir_validates():
     """Hard again since 2026-09-05: the five live blueprints are re-authored
-    against the Part 6 schema and the doors-and-interiors rulings."""
+    against the Part 6 schema and the doors-and-interiors rulings. A fixture
+    replay's waived findings are not reds here (see _fixture_replay_waived)."""
     # the live dir holds real places from Part 6 on; validate against the catalogue
     known_red.assert_clear(
         "worldgen/test_blueprint.py::test_live_dir_validates",
-        blueprint.validate_all(known_place_ids=blueprint.catalogue_ids()))
+        _fixture_replay_waived(
+            blueprint.validate_all(known_place_ids=blueprint.catalogue_ids())))
 
 
 def test_parcel_requires_orientation_with_a_reason():

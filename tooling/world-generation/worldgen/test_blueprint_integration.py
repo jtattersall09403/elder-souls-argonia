@@ -6,6 +6,7 @@ open water. The real fixture (`test_compile_settlement`) exercises the same
 checks over the real province raster.
 """
 
+import math
 import json
 from pathlib import Path
 
@@ -160,18 +161,6 @@ def test_argonian_stilt_first_spine_node_must_be_commerce_or_hall(survey):
 def test_g13_does_not_silently_broaden_to_other_culture_grammars(survey):
     errs = check_integration(_gate_bp(culture="imperial", first_use="dwelling"), survey)
     assert not any("G13 first-node" in e for e in errs)
-
-
-def test_lilmoth_only_the_justified_council_bench_boardwalk_is_straight():
-    source = (Path(__file__).resolve().parents[3] / "world" / "sources" /
-              "blueprints" / "place.mercantile-coast.lilmoth.json")
-    bp = json.loads(source.read_text())["blueprint"]
-    straight = {way["id"] for way in bp["boardwalks"]
-                if way.get("routing", "straight") == "straight"}
-    terrain = {way["id"] for way in bp["boardwalks"]
-               if way.get("routing") == "terrain"}
-    assert straight == {"boardwalk.lilmoth.bench-walk"}
-    assert len(terrain) == 9
 
 
 # --- way-overlap ----------------------------------------------------------- #
@@ -668,3 +657,36 @@ def test_abuts_snap_warns_rather_than_passing_when_a_kit_has_no_connectors(surve
 
 def test_abuts_snap_tolerance_is_a_hands_width(survey):
     assert SNAP_POS_M == 0.15
+
+
+# --- the runtime's transform (16h item 7) ----------------------------------- #
+# The compile and the runtime rotate a piece independently. `check_abuts_snap`
+# re-runs on the runtime's transform so a sign error between the two sides is
+# caught here rather than as a mirrored town in the studio.
+
+def test_a_snap_that_passes_in_the_compile_also_passes_on_runtime_transforms(survey):
+    # a yawed pair: at yaw 0 a sign error is invisible, so the pair is turned
+    bp = _bp(parcels=[wall("parcel.stub.wall-a", 100, 100, yaw=40.0),
+                      wall("parcel.stub.wall-b", 100 + 10 * math.cos(math.radians(40.0)),
+                           100 + 10 * math.sin(math.radians(40.0)), yaw=40.0,
+                           abuts=["parcel.stub.wall-a"], abutsWhy="the kit's own run")])
+    assert check_abuts_snap(bp, survey, StubConnectors()) == []
+    assert check_abuts_snap(bp, survey, StubConnectors(), runtime=True) == []
+    # and the same check on the runtime's OLD assumption (`anchoring.ts`
+    # rotated by +yawDeg) fails, naming the runtime transform: the check can
+    # fail on the defect it was written for.
+    wrong = check_abuts_snap(bp, survey, StubConnectors(), runtime=True, yaw_sign=+1.0)
+    assert any("abuts-snap (runtime transform)" in e for e in wrong)
+
+
+def test_runtime_world_xz_is_the_compile_convention_with_the_minus_sign():
+    from .blueprint_integration import runtime_world_xz
+    t = math.radians(37.0)
+    x, z = 3.0, -2.0
+    compile_xz = (10.0 + x * math.cos(t) - z * math.sin(t),
+                  20.0 + x * math.sin(t) + z * math.cos(t))
+    runtime_xz = runtime_world_xz((10.0, 20.0), 37.0, (x, z))
+    assert runtime_xz == pytest.approx(compile_xz, abs=1e-9)
+    # +yaw (the runtime's old sign) is a different point entirely
+    assert runtime_world_xz((10.0, 20.0), 37.0, (x, z), yaw_sign=+1.0) != pytest.approx(
+        compile_xz, abs=0.5)

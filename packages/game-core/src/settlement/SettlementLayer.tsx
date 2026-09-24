@@ -7,16 +7,18 @@ import { useFrameWork } from "../scheduling/frameWorkContext";
 import type { FrameJobHandle } from "../scheduling/frameWork";
 import { useKitDecoders } from "../assets/useKitDecoders";
 import {
-  anchorPlacement,
-  finalPlacementTransform,
   footprintDiagonalM,
+  createPlacementResolver,
   placementGroundAudit,
   settlementGroundAudits,
 } from "./anchoring";
-import { buildArchitectureKit, type ArchitecturePart } from "./kit";
 import {
-  architectureLod,
+  buildArchitectureKit, kitAssetMetaFromManifest, kitAssetMetaOf, type ArchitecturePart,
+} from "./kit";
+import {
+  ladderLevelAt,
   mergeTransformedGeometry,
+  settlementLadder,
   validateLodTriangles,
   validateMaterialTextureCap,
 } from "./lod";
@@ -34,12 +36,15 @@ import {
 import {
   SETTLEMENT_COLLISION_FRAME,
   type SettlementBundle,
+  type SettlementCollisionShape,
+  type SettlementKitAssetMeta,
   type SettlementLayerProps,
   type SettlementPlacement,
   type SettlementPlacementGroundAudit,
   type SettlementProofState,
   type SettlementSolid,
 } from "./types";
+import { trimeshFromGeometry } from "../physics/floraSolids";
 
 interface DrawBucket {
   part: ArchitecturePart;
@@ -122,51 +127,160 @@ export async function loadSettlementBundle(baseUrl: string): Promise<SettlementB
   const response = await fetch(`${baseUrl}province/settlements.json`);
   if (!response.ok) throw new Error(`settlement bundle HTTP ${response.status}`);
   const bundle = await response.json() as SettlementBundle;
-  if (bundle.schemaVersion !== 1) throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
+  // 16h item 5: schema 2 is the bundle that carries anchorClass,
+  // parentPlacementId, mountOffsetM and the water fields. A schema-1 bundle
+  // has no anchor classes at all, so it is refused rather than drawn as if
+  // every piece were a ground piece.
+  if (bundle.schemaVersion !== 2) throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
   if (bundle.collisionFrame !== SETTLEMENT_COLLISION_FRAME) {
     throw new Error(`unsupported settlement collision frame ${bundle.collisionFrame}`);
   }
   return bundle;
 }
 
+/**
+ * The published kit manifest, reduced to what the runtime needs. Every asset
+ * must carry a mined or measured `designedSinkM`; the layer refuses to guess
+ * a height from a class table (16h item 1), so a manifest without it fails
+ * loudly at the placement, not silently at the ground line.
+ */
+export async function loadKitAssetMeta(
+  url: string,
+): Promise<Map<string, SettlementKitAssetMeta>> {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`kit manifest HTTP ${response.status}`);
+  return kitAssetMetaFromManifest(await response.json(), url);
+}
+
+/** Longest skirt edge between ground samples (m): the terrain's own sample
+ *  spacing class, so the band follows the ground instead of bridging it. */
+const SKIRT_MAX_EDGE_M = 1.83;
+/** A sharp corner's mitre is capped at this multiple of the band width. */
+const SKIRT_MITRE_CAP = 2.5;
+
+/**
+ * The wall-foot skirt (16h K6, research/rendering/building-placement-
+ * rendering-treatments.md §2.2): a band `widthM` wide offset straight out
+ * from every footprint wall, with mitred corners, subdivided so no edge is
+ * longer than SKIRT_MAX_EDGE_M and each vertex sits on the sampled ground.
+ * Vertex alpha runs 1 at the wall to 0 at the outer edge, so the band fades
+ * into the terrain; polygon offset, not a lift, keeps it off the ground's
+ * depth. Returns null when the ground is not loaded under any vertex.
+ */
 function treatmentMesh(
   footprint: [number, number][],
   widthM: number,
   groundAt: SettlementLayerProps["groundAt"],
 ): THREE.Mesh | null {
-  if (footprint.length < 3) return null;
-  const cx = footprint.reduce((s, p) => s + p[0], 0) / footprint.length;
-  const cz = footprint.reduce((s, p) => s + p[1], 0) / footprint.length;
-  const outer = footprint.map(([x, z]) => {
-    const d = Math.hypot(x - cx, z - cz) || 1;
-    return [x + ((x - cx) / d) * widthM, z + ((z - cz) / d) * widthM] as const;
+  const n = footprint.length;
+  if (n < 3) return null;
+  let area = 0;
+  for (let i = 0; i < n; i++) {
+    const [ax, az] = footprint[i]; const [bx, bz] = footprint[(i + 1) % n];
+    area += ax * bz - bx * az;
+  }
+  // (dz, -dx) is the outward normal of a positive-area (x east, z south) ring
+  const side = area >= 0 ? 1 : -1;
+  const normals = footprint.map(([ax, az], i) => {
+    const [bx, bz] = footprint[(i + 1) % n];
+    const len = Math.hypot(bx - ax, bz - az) || 1;
+    return [side * (bz - az) / len, side * -(bx - ax) / len] as const;
+  });
+  // Mitred outer corner at vertex i, from the offsets of edges i-1 and i.
+  const outer = footprint.map(([x, z], i) => {
+    const a = normals[(i + n - 1) % n]; const b = normals[i];
+    const mx = a[0] + b[0]; const mz = a[1] + b[1];
+    const dot = mx * b[0] + mz * b[1];          // 1 + cos(turn), >= 0
+    const ml = Math.hypot(mx, mz);
+    if (dot < 1e-6 || ml < 1e-6) return [x + b[0] * widthM, z + b[1] * widthM] as const;
+    const k = Math.min(widthM / dot, (widthM * SKIRT_MITRE_CAP) / ml);
+    return [x + mx * k, z + mz * k] as const;
   });
   const positions: number[] = [];
+  const colours: number[] = [];
   const indices: number[] = [];
-  for (let i = 0; i < footprint.length; i++) {
-    const a = footprint[i]; const b = outer[i];
-    const ya = groundAt(a[0], a[1]); const yb = groundAt(b[0], b[1]);
-    if (ya === null || yb === null) return null;
-    positions.push(a[0], ya + 0.035, a[1], b[0], yb + 0.035, b[1]);
-  }
-  for (let i = 0; i < footprint.length; i++) {
-    const a = i * 2; const b = ((i + 1) % footprint.length) * 2;
-    indices.push(a, a + 1, b, a + 1, b + 1, b);
+  for (let i = 0; i < n; i++) {
+    const a = footprint[i]; const b = footprint[(i + 1) % n];
+    const oa = outer[i]; const ob = outer[(i + 1) % n];
+    const steps = Math.max(1, Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) / SKIRT_MAX_EDGE_M));
+    const base = positions.length / 3;
+    for (let k = 0; k <= steps; k++) {
+      const f = k / steps;
+      const ix = a[0] + (b[0] - a[0]) * f; const iz = a[1] + (b[1] - a[1]) * f;
+      const ox = oa[0] + (ob[0] - oa[0]) * f; const oz = oa[1] + (ob[1] - oa[1]) * f;
+      const yi = groundAt(ix, iz); const yo = groundAt(ox, oz);
+      if (yi === null || yo === null) return null;
+      positions.push(ix, yi, iz, ox, yo, oz);
+      colours.push(1, 1, 1, 1, 1, 1, 1, 0);
+    }
+    for (let k = 0; k < steps; k++) {
+      const w0 = base + k * 2; const w1 = w0 + 2;
+      indices.push(w0, w0 + 1, w1, w0 + 1, w1 + 1, w1);
+    }
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colours, 4));
   geometry.setIndex(indices); geometry.computeVertexNormals();
   const material = new THREE.MeshStandardMaterial({ color: 0x342c20, roughness: 1,
-    transparent: true, opacity: 0.62, depthWrite: false });
+    vertexColors: true, transparent: true, depthWrite: false,
+    polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -4 });
   material.userData.esAerial = true;
   const mesh = new THREE.Mesh(geometry, material);
   mesh.receiveShadow = true; mesh.castShadow = false;
   return mesh;
 }
 
-function solidFrom(
+/**
+ * The colliders of one placed piece (16h item 4).
+ *
+ * A `mesh` or `convex` piece collides as its own LOD0 triangles, one trimesh
+ * per primitive, through the same helper the rocks use
+ * (`floraSolids.trimeshFromGeometry`, 0071 §5): a bounding box across a gate
+ * arch is an invisible wall where the road goes. The mesh geometry is baked
+ * through the part's local matrix and the placement scale; the body still
+ * carries the position and the yaw.
+ *
+ * Only pieces with no drawn triangles of their own (measured manifest proxy
+ * boxes, capsule pieces) stay boxes.
+ */
+const TRIMESH_COLLISION_KINDS = new Set(["mesh", "convex"]);
+
+function trimeshParts(
   placement: SettlementPlacement,
-  y: number,
+  parts: ArchitecturePart[],
+): SettlementCollisionShape[] {
+  if (!parts?.length) {
+    throw new Error(
+      `${placement.id}: ${placement.collision.kind} collision needs LOD0 geometry and none is loaded`,
+    );
+  }
+  return parts.map((part) => {
+    const position = part.geometry.getAttribute("position");
+    const index = part.geometry.index;
+    if (!position || !index) {
+      throw new Error(
+        `${placement.id}: ${placement.kit}/${placement.assetId} LOD0 part has no index buffer; `
+        + "refusing to collide it as a box",
+      );
+    }
+    const matrix = part.localMatrix.clone().premultiply(
+      new THREE.Matrix4().makeScale(placement.scale, placement.scale, placement.scale),
+    );
+    const vertices = new Float32Array(position.count * 3);
+    const point = new THREE.Vector3();
+    for (let i = 0; i < position.count; i++) {
+      point.fromBufferAttribute(position, i).applyMatrix4(matrix);
+      vertices[i * 3] = point.x; vertices[i * 3 + 1] = point.y; vertices[i * 3 + 2] = point.z;
+    }
+    const mesh = trimeshFromGeometry(vertices, index.array);
+    return { kind: "trimesh" as const, vertices: mesh.vertices, indices: mesh.indices };
+  });
+}
+
+export function solidFrom(
+  placement: SettlementPlacement,
+  transform: THREE.Matrix4,
   buryM: number,
   parts: ArchitecturePart[],
 ): SettlementSolid | null {
@@ -174,35 +288,52 @@ function solidFrom(
   if (placement.collision.frame !== SETTLEMENT_COLLISION_FRAME) {
     throw new Error(`${placement.id}: untagged/old collision frame refused`);
   }
+  // The collider stands exactly where the draw does, mount chain, pitch and
+  // rotation sign included: it reads the SAME final matrix (16h item 3).
+  const position = new THREE.Vector3();
+  const rotation = new THREE.Quaternion();
+  transform.decompose(position, rotation, new THREE.Vector3());
+  const solid = (collisionParts: SettlementCollisionShape[]): SettlementSolid | null =>
+    collisionParts.length
+    ? { id: placement.id, frame: SETTLEMENT_COLLISION_FRAME,
+        position: [position.x, position.y, position.z] as [number, number, number],
+        rotation: [rotation.x, rotation.y, rotation.z, rotation.w] as
+          [number, number, number, number],
+        scale: placement.scale,
+        parts: collisionParts }
+    : null;
+  if (TRIMESH_COLLISION_KINDS.has(placement.collision.kind)) {
+    return solid(trimeshParts(placement, parts));
+  }
   const measuredParts = placement.collision.parts?.flatMap((part) => {
     const minY = Math.min(part.offsetM[1] + part.halfExtentsM[1] - 0.05,
       part.offsetM[1] - part.halfExtentsM[1] + buryM);
     const maxY = part.offsetM[1] + part.halfExtentsM[1];
     if (maxY <= minY) return [];
     return [{
+      kind: "box" as const,
       halfExtentsM: [part.halfExtentsM[0], (maxY - minY) / 2, part.halfExtentsM[2]] as
         [number, number, number],
       offsetM: [part.offsetM[0], (maxY + minY) / 2, part.offsetM[2]] as
         [number, number, number],
     }];
   });
-  const collisionParts = measuredParts?.length ? measuredParts : parts.flatMap((part) => {
-    part.geometry.computeBoundingBox();
-    if (!part.geometry.boundingBox) return [];
-    const box = part.geometry.boundingBox.clone().applyMatrix4(part.localMatrix);
-    // Do not create a standable ledge for the buried slice.
-    box.min.y = Math.min(box.max.y - 0.05, box.min.y + buryM);
-    const size = box.getSize(new THREE.Vector3());
-    const centre = box.getCenter(new THREE.Vector3());
-    if (size.x <= 0 || size.y <= 0 || size.z <= 0) return [];
-    return [{ halfExtentsM: [size.x / 2, size.y / 2, size.z / 2] as [number, number, number],
-      offsetM: [centre.x, centre.y, centre.z] as [number, number, number] }];
-  });
-  if (!collisionParts.length) return null;
-  return { id: placement.id, frame: SETTLEMENT_COLLISION_FRAME,
-    position: [placement.positionM[0], y, placement.positionM[2]],
-    yaw: THREE.MathUtils.degToRad(placement.yawDeg), scale: placement.scale,
-    parts: collisionParts };
+  const collisionParts: SettlementCollisionShape[] = measuredParts?.length
+    ? measuredParts
+    : parts.flatMap((part) => {
+      part.geometry.computeBoundingBox();
+      if (!part.geometry.boundingBox) return [];
+      const box = part.geometry.boundingBox.clone().applyMatrix4(part.localMatrix);
+      // Do not create a standable ledge for the buried slice.
+      box.min.y = Math.min(box.max.y - 0.05, box.min.y + buryM);
+      const size = box.getSize(new THREE.Vector3());
+      const centre = box.getCenter(new THREE.Vector3());
+      if (size.x <= 0 || size.y <= 0 || size.z <= 0) return [];
+      return [{ kind: "box" as const,
+        halfExtentsM: [size.x / 2, size.y / 2, size.z / 2] as [number, number, number],
+        offsetM: [centre.x, centre.y, centre.z] as [number, number, number] }];
+    });
+  return solid(collisionParts);
 }
 
 export function SettlementLayer({
@@ -212,7 +343,12 @@ export function SettlementLayer({
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
   const [fatalError, setFatalError] = useState<Error | null>(null);
   const [gltfs, setGltfs] = useState<Map<string, GLTF>>(() => new Map());
+  // Per-asset kit truth (designed sink, waterline, anchor class): the runtime
+  // reads the SAME published manifest the compile measured (16h item 1).
+  const [manifests, setManifests] = useState<Map<string, Map<string, SettlementKitAssetMeta>>>(
+    () => new Map());
   const pendingKits = useRef(new Set<string>());
+  const pendingManifests = useRef(new Set<string>());
   const decoders = useKitDecoders(baseUrl);
   const [revision, setRevision] = useState(0);
   const builtAt = useRef<{ x: number; z: number; coveredRadiusM: number } | null>(null);
@@ -263,12 +399,22 @@ export function SettlementLayer({
     }).map((p) => p.kit));
     const loader = createKitLoader(decoders);
     for (const id of wanted) {
-      if (gltfs.has(id) || pendingKits.current.has(id)) continue;
       const kit = bundle.kits[id];
       if (!kit) {
         setFatalError(new Error(`settlement bundle references missing kit ${id}`));
         continue;
       }
+      if (pendingKits.current.has(id)) continue;
+      if (!manifests.has(id) && !pendingManifests.current.has(id)) {
+        pendingManifests.current.add(id);
+        loadKitAssetMeta(`${baseUrl}${kit.manifest}`).then((assets) => {
+          setManifests((current) => new Map(current).set(id, assets));
+        }).catch((error: unknown) => setFatalError(new Error(
+          `settlement kit manifest ${id} failed: `
+          + `${error instanceof Error ? error.message : String(error)}`)))
+          .finally(() => pendingManifests.current.delete(id));
+      }
+      if (gltfs.has(id)) continue;
       pendingKits.current.add(id);
       loader.loadAsync(`${baseUrl}${kit.glb}`).then((gltf) => {
         setGltfs((current) => new Map(current).set(id, gltf));
@@ -276,7 +422,8 @@ export function SettlementLayer({
         `settlement kit ${id} failed: ${error instanceof Error ? error.message : String(error)}`)))
         .finally(() => pendingKits.current.delete(id));
     }
-  }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs, decoders]);
+  }, [bundle, revision, baseUrl, focusRef, quality?.architectureDrawScale, gltfs, manifests,
+      decoders]);
 
   const kits = useMemo(() => {
     return new Map([...gltfs].map(([id, gltf]) => [id, buildArchitectureKit(gltf)]));
@@ -343,53 +490,55 @@ export function SettlementLayer({
       let placementCount = 0;
       incomplete.current = false;
       let sinceYield = 0;
+
+      const resolvePlaced = createPlacementResolver(bundle.placements,
+        (p) => kitAssetMetaOf(manifests, p), groundAt);
+
       for (const placement of bundle.placements) {
         if (++sinceYield >= 64) { sinceYield = 0; yield; }
-        // Audit every physical place reference, not just what this quality tier
-        // happens to draw. settlement.placementIds includes dressing, so the
-        // expected and measured populations remain exactly comparable.
-        const settlementAnchored = placement.kind === "route-structure"
-          ? null : anchorPlacement(placement, groundAt);
-        if (settlementAnchored) {
-          placementGrounding.push(placementGroundAudit(placement, settlementAnchored));
-        }
         const distance = Math.hypot(placement.positionM[0] - focus.x, placement.positionM[2] - focus.z);
         const cap = placement.kind === "dressing" ? 350
           : placement.kind === "route-structure" ? 2500 : MAX_RENDER_DISTANCE_M;
-        const inDrawRange = distance <= cap * (quality?.architectureDrawScale ?? 1);
+        const drawScaleHere = quality?.architectureDrawScale ?? 1;
+        const inDrawRange = distance <= cap * drawScaleHere;
         const collisionResident = residentPlacementIds.has(placement.id);
+        // Audit every physical place reference the layer can reach, route
+        // structures included (they were 85 % of the bundle and excluded).
         if (!inDrawRange && !collisionResident) continue;
-        const anchored = settlementAnchored ?? anchorPlacement(placement, groundAt);
-        if (!anchored.complete) { incomplete.current = true; continue; }
         const asset = kits.get(placement.kit)?.get(placement.assetId);
         if (!asset) continue;
+        const here = resolvePlaced(placement);
+        if (!here) { incomplete.current = true; continue; }
+        const { matrix: transform, anchored } = here;
+        if (anchored) placementGrounding.push(placementGroundAudit(placement, anchored));
+        const groundLineM = anchored ? anchored.groundLineM : transform.elements[13];
         if (inDrawRange) {
           const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
           validateLodTriangles(triangles, bundle.lod);
-          const choice = architectureLod(distance, footprintDiagonalM(placement), asset.levels.length,
-            bundle.lod, quality?.architectureDrawScale ?? 1);
-          // Compute this only after the streamed terrain (including any compiled
-          // pad grade) is final. Both near instances and far merges consume this
-          // exact matrix; LOD choice cannot re-anchor a building.
-          const transform = finalPlacementTransform(placement, anchored);
-          asset.levels[choice.level].forEach((part, partIndex) => {
-            const key = `${placement.kit}|${placement.assetId}|${choice.level}|${partIndex}`;
+          // One rung per kit level, hard steps, no card (0075): the ladder is
+          // the same helper the vegetation cell build uses.
+          const ladder = settlementLadder(footprintDiagonalM(placement), asset.levels.length,
+            bundle.lod, cap, drawScaleHere);
+          const level = ladderLevelAt(ladder, distance);
+          const farMerged = distance >= bundle.lod.farMergeDistanceM * drawScaleHere;
+          asset.levels[level].forEach((part, partIndex) => {
+            const key = `${placement.kit}|${placement.assetId}|${level}|${partIndex}`;
             const bucket = buckets.get(key) ?? {
               part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [],
             };
             const partTransform = transform.clone().multiply(part.localMatrix);
-            if (choice.farMerged) {
+            if (farMerged) {
               bucket.farTransforms.push(partTransform);
-              bucket.farGroundLinesM.push(anchored.groundLineM);
+              bucket.farGroundLinesM.push(groundLineM);
             } else {
               bucket.transforms.push(partTransform);
-              bucket.groundLinesM.push(anchored.groundLineM);
+              bucket.groundLinesM.push(groundLineM);
             }
             buckets.set(key, bucket);
           });
           placementCount += 1;
         }
-        const solid = solidFrom(placement, anchored.y, anchored.buryM, asset.levels[0]);
+        const solid = solidFrom(placement, transform, anchored?.buryM ?? 0, asset.levels[0]);
         if (solid) solidCandidates.push({ value: solid, placementId: placement.id,
           distanceM: distance, parts: solid.parts.length });
       }
@@ -550,7 +699,7 @@ export function SettlementLayer({
       running.current = null;
       if (root.current) disposeChildren(root.current);
     };
-  }, [queue, bundle, kits, revision, groundAt, quality?.architectureDrawScale,
+  }, [queue, bundle, kits, manifests, revision, groundAt, quality?.architectureDrawScale,
       focusRef, materialPatch, onSolids, onStats, uniforms, fatalError]);
 
   // A conspicuous runtime sentinel makes missing settlement data visible in

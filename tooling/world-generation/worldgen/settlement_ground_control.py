@@ -52,8 +52,10 @@ BUILT_GROUND_MATERIAL_ID = PATH
 REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_BUNDLE = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements.json"
 DEFAULT_CONTROL = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined" / "ground-control.png"
-DEFAULT_WATER_SURFACE = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water" / "water-surface.png"
-DEFAULT_WATER_META = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water" / "water-meta.json"
+# The water RECORD directory (0066). This module names no raster file of its
+# own: `water_report.ShippedWater` is the only reader of those PNGs, and the
+# file it opens is the one `water-meta.json` names.
+DEFAULT_WATER_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water"
 DEFAULT_PROVENANCE = DEFAULT_CONTROL.with_name("ground-control.settlements.json")
 
 
@@ -213,33 +215,34 @@ def paint_ground_control(control: np.ndarray, open_water: np.ndarray,
     return result, stats
 
 
-def open_water_from_surface(surface: np.ndarray, meta: dict,
-                            target_shape: tuple[int, int],
-                            *, extent_m: float = PROVINCE_EXTENT_M) -> np.ndarray:
-    """Decode current wetness from water-surface B and nearest-sample it at
-    target texel centres using the water raster's documented registration."""
-    if surface.dtype != np.uint8 or surface.ndim != 3 or surface.shape[2] < 3:
-        raise ValueError("water surface must be an RGB/RGBA uint8 raster")
-    spec = meta.get("surface")
-    if not isinstance(spec, dict):
-        raise ValueError("water meta has no surface contract")
-    size = spec.get("size")
-    mpp = spec.get("metresPerPixel")
-    depth_min = spec.get("depthMinM", 0.0)
-    depth_span = spec.get("depthSpanM", 25.5)
-    if size != surface.shape[0] or surface.shape[0] != surface.shape[1]:
-        raise ValueError("water surface dimensions do not match water meta")
-    if not isinstance(mpp, (int, float)) or mpp <= 0:
-        raise ValueError("water surface metresPerPixel must be positive")
-    if abs(float(mpp) * int(size) - extent_m) > float(mpp) + 1e-6:
+def open_water_from_record(water_dir: Path, target_shape: tuple[int, int],
+                           *, extent_m: float = PROVINCE_EXTENT_M,
+                           season: str = "dry") -> np.ndarray:
+    """Where the WATER RECORD says there is standing water, at target texels.
+
+    Decision 0066: this module used to open ``water-surface.png`` and decode
+    wetness out of its blue channel, which is a re-derivation of water that
+    `water_report` alone is allowed to make ("nothing else may open these
+    PNGs"). It now reads the shipped record through
+    ``ShippedWater.wet_grid(season)``, which resolves the season scalar of the
+    runtime rule rather than assuming the compiled line.
+
+    The dry season is the default because it is the harsher season for built
+    ground (0049): a yard is painted where the ground is dry at LOW water, so
+    the paint can never disagree with the season a street is judged in.
+    """
+    from .water_report import ShippedWater
+
+    water = ShippedWater(Path(water_dir), heights=None)
+    wet = np.asarray(water.wet_grid(season), dtype=bool)
+    mpp = float(water.mpp2)
+    if abs(mpp * wet.shape[0] - extent_m) > mpp + 1e-6:
         raise ValueError("water surface extent does not match canonical province extent")
-    depth = surface[..., 2].astype(np.float32) / 255.0 * float(depth_span) + float(depth_min)
-    wet = depth > 0.0
     height, width = target_shape
-    xs = np.clip(np.floor((np.arange(width) + 0.5) * (extent_m / width) / float(mpp)).astype(int),
-                 0, surface.shape[1] - 1)
-    zs = np.clip(np.floor((np.arange(height) + 0.5) * (extent_m / height) / float(mpp)).astype(int),
-                 0, surface.shape[0] - 1)
+    xs = np.clip(np.floor((np.arange(width) + 0.5) * (extent_m / width) / mpp).astype(int),
+                 0, wet.shape[1] - 1)
+    zs = np.clip(np.floor((np.arange(height) + 0.5) * (extent_m / height) / mpp).astype(int),
+                 0, wet.shape[0] - 1)
     return wet[np.ix_(zs, xs)]
 
 
@@ -294,8 +297,8 @@ def _publish_with_marker(content_path: Path, content: bytes,
                 os.unlink(temporary)
 
 
-def process_files(bundle_path: Path, control_path: Path, water_surface_path: Path,
-                  water_meta_path: Path, provenance_path: Path, *,
+def process_files(bundle_path: Path, control_path: Path, water_dir: Path,
+                  provenance_path: Path, *,
                   expected_bundle: dict | None = None,
                   extent_m: float = PROVINCE_EXTENT_M) -> dict:
     """Validate all inputs and build both outputs before replacing either.
@@ -303,6 +306,9 @@ def process_files(bundle_path: Path, control_path: Path, water_surface_path: Pat
     ``expected_bundle`` is the freshly rebuilt exporter projection.  The CLI
     always supplies it; tests and other callers may supply an equivalent
     expected document without touching repository sources.
+
+    ``water_dir`` is the shipped water RECORD directory; the surface raster
+    inside it is read only through ``water_report.ShippedWater`` (0066).
     """
     bundle_bytes = _read_bytes(bundle_path, "settlement bundle")
     bundle = _json_bytes(bundle_bytes, "settlement bundle")
@@ -311,15 +317,21 @@ def process_files(bundle_path: Path, control_path: Path, water_surface_path: Pat
         raise ValueError("stale settlement bundle: it differs from the current compiler projection")
 
     control_bytes = _read_bytes(control_path, "ground-control raster")
-    water_bytes = _read_bytes(water_surface_path, "water-surface raster")
-    water_meta_bytes = _read_bytes(water_meta_path, "water metadata")
+    # The record's own files are still hashed as inputs (the chain's contract
+    # names them), but this module decodes neither: the record answers where
+    # water is, and the raster it names is opened by `ShippedWater` alone.
+    water_dir = Path(water_dir)
+    water_meta_bytes = _read_bytes(water_dir / "water-meta.json", "water metadata")
+    water_meta = _json_bytes(water_meta_bytes, "water metadata")
+    surface_name = (water_meta.get("surface") or {}).get("file")
+    if not isinstance(surface_name, str) or not surface_name:
+        raise ValueError("water metadata names no surface raster")
+    water_bytes = _read_bytes(water_dir / surface_name, "water-surface raster")
     try:
         control = np.asarray(Image.open(io.BytesIO(control_bytes)).convert("RGBA"), dtype=np.uint8)
-        surface = np.asarray(Image.open(io.BytesIO(water_bytes)).convert("RGB"), dtype=np.uint8)
     except Exception as exc:
         raise ValueError("invalid input raster") from exc
-    water_meta = _json_bytes(water_meta_bytes, "water metadata")
-    open_water = open_water_from_surface(surface, water_meta, control.shape[:2], extent_m=extent_m)
+    open_water = open_water_from_record(water_dir, control.shape[:2], extent_m=extent_m)
     painted, stats = paint_ground_control(control, open_water, polygons, extent_m=extent_m)
     output_bytes = _png_bytes(painted)
     policy = {
@@ -328,7 +340,7 @@ def process_files(bundle_path: Path, control_path: Path, water_surface_path: Pat
         "edgeBlendM": EDGE_BLEND_M,
         "provinceExtentM": extent_m,
         "registration": "texel centres; world x=east/column, z=south/row",
-        "waterRule": "water-surface decoded signed depth > 0",
+        "waterRule": "ShippedWater.wet_grid(\"dry\") — the water record, dry season (0066/0049)",
     }
     provenance = {
         "schemaVersion": SCHEMA_VERSION,
@@ -356,23 +368,20 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--bundle", type=Path, default=DEFAULT_BUNDLE)
     parser.add_argument("--ground-control", type=Path, default=DEFAULT_CONTROL)
-    parser.add_argument("--water-surface", type=Path, default=DEFAULT_WATER_SURFACE)
-    parser.add_argument("--water-meta", type=Path, default=DEFAULT_WATER_META)
+    parser.add_argument("--water-dir", type=Path, default=DEFAULT_WATER_DIR)
     parser.add_argument("--provenance", type=Path, default=DEFAULT_PROVENANCE)
-    parser.add_argument("--ship-with-errors", metavar="REASON", default=None,
-                        help="OWNER OVERRIDE, passed through to build_bundle: paint the "
-                             "ground for a bundle published with named known errors. Off "
-                             "by default; the errors are already recorded in the bundle.")
+    parser.add_argument("--fixtures-ok", action="store_true",
+                        help="passed through to build_bundle: paint the ground for a "
+                             "studio-only build that includes fixture records.")
     args = parser.parse_args()
     try:
         # Import lazily: the pure raster helpers stay cheap and isolated in
         # tests, while the production command proves the exported bundle is
         # exactly the current compiler projection rather than trusting mtime.
         from .export_settlement_bundle import build_bundle
-        expected = build_bundle(ship_with_errors=args.ship_with_errors)
-        result = process_files(args.bundle, args.ground_control, args.water_surface,
-                               args.water_meta, args.provenance,
-                               expected_bundle=expected)
+        expected = build_bundle(fixtures_ok=args.fixtures_ok)
+        result = process_files(args.bundle, args.ground_control, args.water_dir,
+                               args.provenance, expected_bundle=expected)
     except ValueError as exc:
         print(f"settlement_ground_control: {exc}")
         return 1

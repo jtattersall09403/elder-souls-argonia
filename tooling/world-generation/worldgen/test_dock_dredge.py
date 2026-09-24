@@ -9,6 +9,8 @@ Source-only: a synthetic shelf and deep water, no vault rasters.
 """
 from __future__ import annotations
 
+import json
+
 import numpy as np
 
 from worldgen import dock_dredge as dd
@@ -52,10 +54,22 @@ def test_a_bar_above_the_waterline_is_reported_not_forced():
     assert np.array_equal(h, before)
 
 
-def test_promises_are_read_from_the_blueprints_not_hard_coded():
-    rows = dd.load_dock_promises()
+def test_promises_are_read_from_the_blueprints_not_hard_coded(tmp_path):
+    # The shipped yard fixture has no dock and the 2026-09-09 places are
+    # retired, so the blueprint is written here: one keeled dock on a real
+    # published water route. The row must come from this file, not a table.
+    bp = {"id": "place.test.port", "docks": [
+        {"id": "dock.test.quay", "position": [0.529192, 0.863633], "hullClass": "keeled"}],
+        "networkTerminals": [
+            {"id": "terminal.test.quay", "routeId": "route.boat.soulrest-lilmoth",
+             "dockId": "dock.test.quay", "kind": "lane"},
+            {"id": "terminal.test.road", "routeId": "route.boat.soulrest-lilmoth",
+             "dockId": "dock.test.quay", "kind": "road"}]}
+    (tmp_path / "place.test.port.json").write_text(json.dumps({"blueprint": bp}))
+    rows = dd.load_dock_promises(tmp_path)
     ids = {(r["dockId"], r["routeId"]) for r in rows}
-    assert ("dock.lilmoth.lighter-quay", "route.boat.soulrest-lilmoth") in ids
+    assert ids == {("dock.test.quay", "route.boat.soulrest-lilmoth")}
+    assert dd.load_dock_promises(tmp_path / "empty") == []
     for r in rows:
         assert r["needM"] == dd.HULL_CLASS_DEPTH_M[r["hullClass"]]
         assert len(r["pointsM"]) >= 2

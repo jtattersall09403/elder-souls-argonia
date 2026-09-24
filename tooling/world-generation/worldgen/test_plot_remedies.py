@@ -97,9 +97,24 @@ def rec_of(world, rid="place.testland.alpha") -> dict:
     return next(r for r in data["places"] if r["id"] == rid)
 
 
+def _unplot(world, rid="place.testland.alpha") -> None:
+    """A record the seeded plot has not committed: `derived`, still carrying a
+    stale position. Since 2026-09-20 (561ebb19) only such a record has its
+    position cleared by a pin-by-siting or merge; a `plotted` record keeps its
+    dot and the new prefs wait for `macro_plot --resolve-all`."""
+    data = json.loads(world["cat"].joinpath("places-testland.json").read_text())
+    for r in data["places"]:
+        if r["id"] == rid:
+            r["workflow"] = "derived"
+    world["cat"].joinpath("places-testland.json").write_text(json.dumps(data, indent=2) + "\n")
+
+
 # ------------------------------------------------------------------ kinds
 
-def test_pin_by_siting(world):
+@pytest.mark.parametrize("plotted", [True, False], ids=["plotted-keeps-dot", "unplotted-cleared"])
+def test_pin_by_siting(world, plotted):
+    if not plotted:
+        _unplot(world)
     rem = [{"id": "place.testland.alpha", "kind": "pin-by-siting",
             "why": "The dot stands in 0.2 m of water; the record needs deep water at the quay.",
             "sitingPrefs": {"boundTo": {"place": "place.testland.beta", "maxM": 400},
@@ -109,9 +124,12 @@ def test_pin_by_siting(world):
     assert r["sitingPrefs"]["boundTo"] == {"place": "place.testland.beta", "maxM": 400}
     assert r["sitingPrefs"]["hardConstraints"] == ["a 3 m channel at the quay"]  # replaced
     assert r["sitingPrefs"]["regionClasses"] == ["tropical jungle"]              # untouched
-    for k in pr.POSITION_FIELDS:
-        assert k not in r, k
-    assert r["workflow"] == "derived"   # `plotted` requires the position fields
+    if plotted:
+        assert r["workflow"] == "plotted" and r["positionM"] == [1000.0, 2000.0]
+    else:
+        for k in pr.POSITION_FIELDS:
+            assert k not in r, k
+        assert r["workflow"] == "derived"   # `plotted` requires the position fields
     idempotent(world, rem)
 
 
@@ -199,7 +217,10 @@ def test_prose(world):
     idempotent(world, rem)
 
 
-def test_merge(world):
+@pytest.mark.parametrize("plotted", [True, False], ids=["plotted-keeps-dot", "unplotted-cleared"])
+def test_merge(world, plotted):
+    if not plotted:
+        _unplot(world)
     rem = [{"id": "place.testland.alpha", "kind": "merge", "group": "group.alpha-beta",
             "sitingPrefs": {"boundTo": {"place": "place.testland.beta", "maxM": 120}},
             "why": "Alpha and beta are 90 m apart and share one quay: one blueprint."}]
@@ -207,7 +228,7 @@ def test_merge(world):
     r = rec_of(world)
     assert r["designGroup"] == "group.alpha-beta"
     assert r["sitingPrefs"]["boundTo"]["maxM"] == 120
-    assert "positionM" not in r
+    assert ("positionM" in r) is plotted
     idempotent(world, rem)
 
 
@@ -357,6 +378,7 @@ MERGE_REMEDY = [{"id": "place.testland.alpha", "kind": "merge", "group": "group.
 @pytest.mark.parametrize("rem", [PIN_REMEDY, RETYPE_REMEDY, MERGE_REMEDY],
                          ids=["pin-by-siting", "re-type", "merge"])
 def test_check_holds_on_the_cleared_branch_and_after_the_solver(world, rem):
+    _unplot(world)
     apply_once(world, copy.deepcopy(rem))
     assert pr.position_cleared(rec_of(world))          # branch 1: position cleared
     assert pr.check(ctx(world), rem) == []
@@ -369,6 +391,7 @@ def test_check_holds_on_the_cleared_branch_and_after_the_solver(world, rem):
 def test_check_fails_when_a_re_sited_record_lost_its_prefs(world):
     """Being re-sited excuses the position, never the preferences the remedy
     wrote: a hand-edit that drops them still fails."""
+    _unplot(world)
     apply_once(world, copy.deepcopy(PIN_REMEDY))
     _resite(world)
     data = json.loads(world["cat"].joinpath("places-testland.json").read_text())
@@ -376,10 +399,10 @@ def test_check_fails_when_a_re_sited_record_lost_its_prefs(world):
         r.get("sitingPrefs", {}).pop("boundTo", None)
     world["cat"].joinpath("places-testland.json").write_text(json.dumps(data, indent=2) + "\n")
     errors = pr.check(ctx(world), PIN_REMEDY)
-    # the remedy is not realised at all, so it is fully outstanding again:
-    # the prefs AND the position it must clear before a re-plot
+    # the prefs are outstanding again; the re-sited (plotted) record keeps its
+    # dot (2026-09-20): the prefs wait for `macro_plot --resolve-all`
     assert any("sitingPrefs" in e for e in errors), errors
-    assert any(pr.POSITION_CHANGE_PREFIX in e for e in errors), errors
+    assert not any(pr.POSITION_CHANGE_PREFIX in e for e in errors), errors
 
 
 def test_check_fails_when_a_re_sited_record_kept_the_old_type(world):
@@ -427,7 +450,10 @@ def test_check_fails_when_the_meso_move_was_neither_rowed_nor_realised(world):
 def test_apply_is_idempotent_after_the_solver_sited_the_record(world, rem):
     """`--apply` runs again after the chain's macro_plot stage. A remedy the
     solver has realised is SKIPPED, never re-applied: re-clearing the position
-    the solver just wrote would demand a whole re-plot."""
+    the solver just wrote would demand a whole re-plot. (A pin-by-siting or
+    merge on a plotted record has nothing left to change, so it reports
+    `already applied`; a re-type or meso-move reports `holds`.)"""
+    _unplot(world)
     apply_once(world, copy.deepcopy(rem))
     _resite(world)                                  # macro_plot writes a position back
     before = world["cat"].joinpath("places-testland.json").read_bytes()
@@ -435,7 +461,7 @@ def test_apply_is_idempotent_after_the_solver_sited_the_record(world, rem):
     c = ctx(world)
     report, errors = pr.run(c, copy.deepcopy(rem), apply=True)
     assert not errors, errors
-    assert all(line.startswith("  holds ") for line in report), report
+    assert all(line.startswith("  holds ") or "already applied" in line for line in report), report
     c.write()
     assert world["cat"].joinpath("places-testland.json").read_bytes() == before
     assert world["ov"].read_bytes() == before_ov
@@ -443,11 +469,52 @@ def test_apply_is_idempotent_after_the_solver_sited_the_record(world, rem):
 
 
 def test_apply_still_clears_the_position_before_the_solver_has_run(world):
-    """The skip is not "the record is plotted": a record awaiting its remedy is
-    plotted too. It is "everything else about this remedy already holds"."""
+    """The skip is not "the record has a position": an unplotted record
+    awaiting its remedy still carries a stale one, and it is cleared."""
+    _unplot(world)
     c = ctx(world)
     report, errors = pr.run(c, copy.deepcopy(PIN_REMEDY), apply=True)
     assert not errors, errors
     assert any("position fields removed" in line for line in report), report
     c.write()
     assert pr.position_cleared(rec_of(world))
+
+
+# ------------------------------------------------------------------ reseat
+
+RESEAT = {"id": "place.testland.alpha", "kind": "reseat", "toM": [1600.0, 2400.0],
+          "ownerCall": "2026-09-20",
+          "sources": ["world/sources/water/graph.json body.1284-3448"],
+          "why": "The city belongs on the island in the lake; the committed dot is 600 m off it."}
+
+
+def test_reseat_rows_a_move_beyond_the_meso_cap(world):
+    """The defect this failed on first: no kind could move an already-committed
+    record more than 150 m, so a committed dot could only be moved by
+    `macro_plot --resolve-all` (which moved 106 unrelated records)."""
+    rem = [copy.deepcopy(RESEAT)]
+    apply_once(world, rem)
+    rows = json.loads(world["ov"].read_text())["overrides"]
+    assert len(rows) == 1
+    row = rows[0]
+    assert row["kind"] == "reseat" and row["source"] == "plot-remedies"
+    assert row["ownerCall"] == "2026-09-20" and row["sources"] == RESEAT["sources"]
+    assert (row["u"], row["v"]) == tuple(round(c, 6) for c in pr.metres_to_uv_pair(1600.0, 2400.0))
+    # the record itself is untouched: `apply_sitings` seats it
+    assert rec_of(world)["positionM"] == [1000.0, 2000.0]
+    idempotent(world, rem)
+
+
+def test_reseat_needs_an_owner_call_and_sources(world):
+    for drop in ("ownerCall", "sources"):
+        rem = [copy.deepcopy(RESEAT)]
+        del rem[0][drop]
+        _, errors = pr.run(ctx(world), rem, apply=False)
+        assert len(errors) == 1 and drop in errors[0], errors
+
+
+def test_reseat_refuses_an_uncommitted_record(world):
+    c = ctx(world)
+    pr.clear_position(c.by_id["place.testland.alpha"])
+    _, errors = pr.run(c, [copy.deepcopy(RESEAT)], apply=False)
+    assert len(errors) == 1 and "committed positionM" in errors[0], errors

@@ -48,8 +48,13 @@ SCHEMA_VERSION = 1
 MESO_MOVE_MAX_M = 150.0
 OVERRIDE_SOURCE = "plot-remedies"
 
-KINDS = {"pin-by-siting", "meso-move", "re-type", "re-reference", "prose",
+KINDS = {"pin-by-siting", "meso-move", "reseat", "re-type", "re-reference", "prose",
          "merge", "cut", "status", "field"}
+
+#: The override `kind` a reseat row carries. A blank kind is the historical
+#: pin (`apply_sitings` / `meso-move`): only a row that says `reseat` is
+#: applied to a record the solver has already committed.
+RESEAT_KIND = "reseat"
 
 #: The position block a re-site must NOT carry. `footprintRadiusM`,
 #: `footprintSource` and `footprintPolygon` are in the list because
@@ -293,6 +298,47 @@ def _meso_move(ctx: Context, rec: dict, rem: dict, apply: bool) -> list[str]:
     return [f"override row u={row['u']} v={row['v']} ({dist:.1f} m; apply_sitings --stage moves the dot)"]
 
 
+def _reseat(ctx: Context, rec: dict, rem: dict, apply: bool) -> list[str]:
+    """Move an ALREADY-COMMITTED (seeded) record to a named point.
+
+    `meso-move` cannot do this: its row is applied by `macro_plot.pin_overrides`,
+    which skips every seeded result, and it is capped at MESO_MOVE_MAX_M. A
+    reseat is the owner's decision to put one record somewhere else on the
+    frozen ground — no cap, no re-solve, no other record touched. This tool
+    only RECORDS it (it never loads the survey); `worldgen.apply_sitings`
+    realises it and refuses a point the site fields cannot carry.
+    """
+    to = rem.get("toM")
+    _require(isinstance(to, list) and len(to) == 2 and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in to),
+             "reseat needs toM [x, z] in metres")
+    _require(isinstance(rem.get("ownerCall"), str) and rem["ownerCall"].strip(),
+             "reseat needs ownerCall (the dated owner ruling that authorised the move)")
+    srcs = rem.get("sources")
+    _require(isinstance(srcs, list) and srcs and all(isinstance(v, str) and v.strip() for v in srcs),
+             "reseat needs sources[] (what the point was measured on)")
+    now = rec.get("positionM")
+    _require(isinstance(now, list) and len(now) == 2,
+             f"reseat needs a committed positionM on {rec['id']} (an unplotted record is sited by the plot)")
+    dist = math.hypot(float(to[0]) - float(now[0]), float(to[1]) - float(now[1]))
+    u, v = metres_to_uv_pair(float(to[0]), float(to[1]))
+    row = {"id": rec["id"], "u": round(u, 6), "v": round(v, 6), "kind": RESEAT_KIND,
+           "why": rem.get("why", ""), "source": OVERRIDE_SOURCE,
+           "ownerCall": rem["ownerCall"], "sources": list(srcs)}
+    rows = ctx.overrides.setdefault("overrides", [])
+    existing = next((r for r in rows if r["id"] == rec["id"] and r.get("source") == OVERRIDE_SOURCE), None)
+    if existing == row:
+        return []
+    if apply:
+        if existing is None:
+            rows.append(row)
+        else:
+            existing.clear()
+            existing.update(row)
+        rows.sort(key=lambda r: r["id"])
+        ctx.overrides_dirty = True
+    return [f"reseat row u={row['u']} v={row['v']} ({dist:.1f} m; apply_sitings seats the dot)"]
+
+
 def _re_type(ctx: Context, rec: dict, rem: dict, apply: bool) -> list[str]:
     t = rem.get("type")
     _require(isinstance(t, str) and t in ctx.recipes,
@@ -443,6 +489,7 @@ def _field(ctx: Context, rem_rec: dict, rem: dict, apply: bool) -> list[str]:
 HANDLERS = {
     "pin-by-siting": _pin_by_siting,
     "meso-move": _meso_move,
+    "reseat": _reseat,
     "re-type": _re_type,
     "re-reference": _re_reference,
     "prose": _prose,
@@ -542,6 +589,32 @@ def meso_move_holds(ctx: Context, rec: dict, rem: dict) -> bool:
     return False
 
 
+def reseat_holds(ctx: Context, rec: dict, rem: dict) -> bool:
+    """A reseat holds only on a row that SAYS `reseat` and carries the same
+    point, owner call, sources and `why` — a converted `meso-move` row with
+    the right u,v but no `kind` is never applied by `apply_sitings`, and a row
+    whose `why` has been re-written must be re-written on the record too
+    (the `why` becomes `whySiteWon`, a world record). With no row on file at
+    all, a dot already within MESO_MOVE_HOLD_M of the target holds.
+    """
+    to = rem.get("toM")
+    if not (isinstance(to, list) and len(to) == 2):
+        return False
+    row = next((r for r in ctx.overrides.get("overrides", [])
+                if r.get("id") == rec["id"] and r.get("source") == OVERRIDE_SOURCE), None)
+    if row is not None:
+        u, v = metres_to_uv_pair(float(to[0]), float(to[1]))
+        return (row.get("kind") == RESEAT_KIND
+                and (row.get("u"), row.get("v")) == (round(u, 6), round(v, 6))
+                and row.get("ownerCall") == rem.get("ownerCall")
+                and row.get("sources") == list(rem.get("sources") or [])
+                and row.get("why", "") == rem.get("why", ""))
+    now = rec.get("positionM")
+    return (isinstance(now, list) and len(now) == 2
+            and math.hypot(float(to[0]) - float(now[0]),
+                           float(to[1]) - float(now[1])) <= MESO_MOVE_HOLD_M)
+
+
 #: The kinds whose remedy is REALISED by the solver: they clear the position so
 #: the seeded plot re-sites the record, and the solver then writes a position
 #: back. For these, "the position is not cleared" holds once the record is
@@ -564,6 +637,8 @@ def remedy_holds(ctx: Context, rec: dict, rem: dict, changes: list[str]) -> bool
     kind = rem.get("kind")
     if kind == "meso-move":
         return meso_move_holds(ctx, rec, rem)
+    if kind == "reseat":
+        return reseat_holds(ctx, rec, rem)
     if kind in RESITING_KINDS:
         return resited(rec) and all(c.startswith(POSITION_CHANGE_PREFIX) for c in changes)
     return False

@@ -16,7 +16,7 @@
         "slotIndex": 0,
         "socketId": null
       },
-      "role": "the field-holder who takes the crop but will not enter the house",
+      "role": "the field-holder who takes the crop and will not enter the house",
       "archetype": null,
       "statblock": null,
       "hostility": null,

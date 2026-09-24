@@ -40,7 +40,8 @@ rest become required as `workflow` advances):
   relations       relations {dependsOn, supplies, rivals, patrols, tolls,
                   visibleFrom, reachedVia, travelServiceEdges}
   people & power  culture, ownerFaction?, occupants (S-ladder semantic refs),
-                  notableNpcSlots
+                  notableNpcSlots [{slotId, role}] (slotId authored, never
+                  derived from the role: worldgen.npc_roster.mint_slot_id)
                   factionPresence? [{factionRef, role}] distinguishes a seat,
                   chapter, outpost or office from mere territorial ownership;
                   ownerFaction alone never implies a faction seat (B9a)
@@ -146,6 +147,8 @@ rest become required as `workflow` advances):
                   the place occupies. Optional footprintPolygon [[x,z],…] (≥ 3
                   points, metres, must contain positionM, M4/M5 only) draws
                   the shape instead; with it, footprintSource is 'polygon'.
+                  footprintWhy? one line when a city's footprint is its radius
+                  disc on purpose (an island city, city_layout.city_footprint).
   city layout     cityLayout? {gate [x,z], centre [x,z], way [[x,z],…] (≥ 2
                   points, starting within 5 m of the gate and ending within
                   5 m of the centre), source: street_router} — M5, plus the

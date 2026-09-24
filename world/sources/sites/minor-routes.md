@@ -2,9 +2,9 @@
 
 Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/world-studio/public/province/routes-minor.json`.
 
-- **183 paths**, 202.83 km in total: track 57, footpath 120, boardwalk 5, causeway 1
-- 47 places were already on a road or landing (within 45 m)
-- 2 of the paths are **unmapped** (batch 4): routed, graded and painted ground that the player's map never draws, so a rumoured place is still found by walking
+- **184 paths**, 202.08 km in total: track 58, footpath 120, boardwalk 5, causeway 1
+- 44 places were already on a road or landing (within 45 m)
+- 0 of the paths are **unmapped** (batch 4): routed, graded and painted ground that the player's map never draws, so a rumoured place is still found by walking
 - 2 places have **no land path** (boat-, guide- or root-served — a design fact to check, not a failure; longest allowed path 4.0 km):
 
   - `place.imperial-fringe.the-hollow-pass-station` — cheapest land path 6.0 km
@@ -30,7 +30,8 @@ Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/wo
 | `place.dunmer-north.stormhold` | track | 4.176 |
 | `place.imperial-fringe.marcians-terrace` | footpath | 3.369 |
 | `place.pirate-freeholds.veterans-holding` | track | 3.14 |
-| `place.dunmer-north.mazzatun` | track | 2.957 |
+| `place.dunmer-north.mazzatun` | track | 2.983 |
+
 
 ## Minor waterways — channels, rivers, ferry crossings (Phase 11 Part 3c)
 

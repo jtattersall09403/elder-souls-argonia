@@ -3,35 +3,11 @@
  "generatedBy": "worldgen.apply_sitings — do not hand-edit; each row's `source` names the tool that owns it (a blueprint path here, worldgen.plot_remedies for `plot-remedies`)",
  "overrides": [
   {
-   "id": "place.dunmer-north.mazzatun",
-   "u": 0.269207,
-   "v": 0.181867,
-   "why": "The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
-   "source": "world/sources/blueprints/place.dunmer-north.mazzatun.json",
-   "candidateId": "candidate.mazzatun.shelf"
-  },
-  {
    "id": "place.hist-heartland.lost-city",
    "u": 0.338604,
    "v": 0.403065,
    "why": "The Lost City is reached through water. The dot at 2519.7, 2991.3 records 0.0 m of water; the nearest cell holding at least 1.0 m is 2496.7, 2972.0, 30.0 m away, at 1.08 m. The cell belongs to body.2442-1212, not body.1475-2118: no cell of body.1475-2118 carrying 1.0 m lies within 400 m of the record, so the nearest qualifying water is the one taken.",
    "source": "plot-remedies"
-  },
-  {
-   "id": "place.hist-heartland.nine-trunks",
-   "u": 0.674428,
-   "v": 0.509378,
-   "why": "A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
-   "source": "world/sources/blueprints/place.hist-heartland.nine-trunks.json",
-   "candidateId": "candidate.nine-trunks.knoll"
-  },
-  {
-   "id": "place.hist-heartland.sap-tapping-licensed",
-   "u": 0.465938,
-   "v": 0.607662,
-   "why": "The bank above the head of reach 118. Anchor ground 31.20 m, flood band 0, buildable 59% of the 150 m disc; every parcel stands dry: stage 30.67 m, stair 31.38 m, cart 31.20 m, mule line 31.27 m, hut 32.65 m, licence board 30.81 m. Road 526 m to the south-west. Canopy closure 1.00; concealment 0.74. The camp keeps this bank. Its landing stands elsewhere. The water at the foot of the camp is an 882 m2 pocket bounded x 3327-3433, z 4453-4507, connected to nothing, on a reach that falls 6.3% over 463 m, so a canoe floating there can go nowhere. The berth moved 357 m on bearing 201 to (3309.4, 4815.0), the head of the tide, which the recipe's satellite slot already asks for at 200 to 400 m. See dossier licensed-stage-layby.",
-   "source": "world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json",
-   "candidateId": "candidate.sap-tapping-licensed.e-reach118-bank"
   },
   {
    "id": "place.imperial-fringe.moonrack-calcinator",
@@ -41,6 +17,19 @@
    "source": "plot-remedies"
   },
   {
+   "id": "place.imperial-penal-south.blackrose",
+   "u": 0.317759,
+   "v": 0.871336,
+   "kind": "reseat",
+   "why": "Blackrose is an island city in the lake. The committed dot at 2123.0, 6215.0 stands on the shore, 304.0 m from the island. No other ground inside body.1284-3448 is fully enclosed: the island is 149 cells, rows 1750-1765 by columns 633-647 of the entity raster. Its centroid is 2343.0, 6424.8, dry ground 17 m from the owner-approved anchor at 2359.5, 6415.0.",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-20",
+   "sources": [
+    "world/sources/water/graph body.1284-3448 (entity raster, 2017 px)",
+    "world/sources/anchors/settlement-anchors.json blackrose"
+   ]
+  },
+  {
    "id": "place.imperial-penal-south.chainbreaker-shelter",
    "u": 0.280898,
    "v": 0.926845,
@@ -48,11 +37,84 @@
    "source": "plot-remedies"
   },
   {
+   "id": "place.imperial-penal-south.cordon-cellars",
+   "u": 0.367803,
+   "v": 0.873858,
+   "kind": "reseat",
+   "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2566.9, 6388.9, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2712.0, 6443.4 (369.5 m from the centre, 155.0 m move).",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-23",
+   "sources": [
+    "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+   ]
+  },
+  {
    "id": "place.imperial-penal-south.lilmothiit-quarry",
    "u": 0.257774,
    "v": 0.817264,
    "why": "The quarry is Blackrose's quarry and stands 371.7 m off; moved 80 m toward the city, to 1900.7, 6026.1.",
    "source": "plot-remedies"
+  },
+  {
+   "id": "place.imperial-penal-south.manned-toll-tower",
+   "u": 0.307506,
+   "v": 0.864975,
+   "kind": "reseat",
+   "why": "Gate guard at the causeway's shore end on the Soulrest road (16i's Blackrose pass refines): the first dry ground on route.road.soulrest-blackrose past 45 m from the Blackrose centre that clears the drowned Hist's footprint is 2267.4, 6377.9.",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-23",
+   "sources": [
+    "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose",
+    "route.road.soulrest-blackrose"
+   ]
+  },
+  {
+   "id": "place.imperial-penal-south.necromantic-dig",
+   "u": 0.289062,
+   "v": 0.895273,
+   "kind": "reseat",
+   "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2179.7, 6561.0, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2131.4, 6601.3 (275.5 m from the centre, 62.9 m move).",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-23",
+   "sources": [
+    "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+   ]
+  },
+  {
+   "id": "place.imperial-penal-south.rose-bone-waystation",
+   "u": 0.349847,
+   "v": 0.890472,
+   "kind": "reseat",
+   "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2484.1, 6426.8, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2579.6, 6565.9 (275.5 m from the centre, 168.7 m move).",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-23",
+   "sources": [
+    "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+   ]
+  },
+  {
+   "id": "place.imperial-penal-south.rose-outworks",
+   "u": 0.329992,
+   "v": 0.836752,
+   "kind": "reseat",
+   "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2478.5, 6300.5, less than 270 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2433.2, 6169.8 (270.5 m from the centre, 138.3 m move).",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-23",
+   "sources": [
+    "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+   ]
+  },
+  {
+   "id": "place.imperial-penal-south.saltrice-village",
+   "u": 0.334725,
+   "v": 0.907641,
+   "kind": "reseat",
+   "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2437.4, 6626.8, less than 295 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2468.1, 6692.5 (295.5 m from the centre, 72.5 m move).",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-23",
+   "sources": [
+    "world/sources/sites/reseat-receipts.json place.imperial-penal-south.blackrose"
+   ]
   },
   {
    "id": "place.mercantile-coast.glowfen-murkmire",
@@ -69,11 +131,35 @@
    "source": "plot-remedies"
   },
   {
+   "id": "place.mercantile-coast.sunkfoot",
+   "u": 0.574123,
+   "v": 0.845812,
+   "kind": "reseat",
+   "why": "16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-20",
+   "sources": [
+    "world/sources/water/graph body.ocean (entity raster, 2017 px)"
+   ]
+  },
+  {
    "id": "place.mercantile-coast.villa-cellars",
    "u": 0.066346,
    "v": 0.661286,
    "why": "The flooded cellars need the sea in them. The dot at 496.3, 4883.1 records 0.12 m of water; the nearest cell holding at least 0.3 m is 489.2, 4876.0, 10.0 m away, at 0.48 m.",
    "source": "plot-remedies"
+  },
+  {
+   "id": "place.naga-kur-deeps.air-pocket-station-deeps",
+   "u": 0.34209,
+   "v": 0.667823,
+   "kind": "reseat",
+   "why": "16h imperial-fringe-pack rule: the air-pocket station's entrance keeps a dry dot on the bank. The dot sat at 2547.1, 4899.5, 0.0 m into body.1209-3032 (wet, depth 1.56 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2522.4, 4924.2 (34.9 m move; the 25 m radius search widened once to find land, so the move exceeds the bank distance the remedy targets — a promise-unmet row is owed if the owner wants it tighter). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-20",
+   "sources": [
+    "world/sources/water/graph body.1209-3032 (entity raster, 2017 px)"
+   ]
   },
   {
    "id": "place.naga-kur-deeps.dive-shaft-natural-deeps",
@@ -90,12 +176,28 @@
    "source": "plot-remedies"
   },
   {
-   "id": "place.naga-kur-deeps.wamasu-pond-adult",
-   "u": 0.334441,
-   "v": 0.597138,
-   "why": "The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held.",
-   "source": "world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json",
-   "candidateId": "candidate.wamasu-pond-adult.pan"
+   "id": "place.naga-kur-deeps.drowned-village-lake-deeps",
+   "u": 0.351013,
+   "v": 0.72732,
+   "kind": "reseat",
+   "why": "16h imperial-fringe-pack rule: the drowned village's entrance keeps a dry dot on the bank. The dot sat at 2596.4, 5387.6, 0.0 m into body.1209-3032 (wet, depth 1.92 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2588.2, 5362.9 (26.0 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-20",
+   "sources": [
+    "world/sources/water/graph body.1209-3032 (entity raster, 2017 px)"
+   ]
+  },
+  {
+   "id": "place.naga-kur-deeps.raft-village-lashed",
+   "u": 0.297715,
+   "v": 0.60164,
+   "kind": "reseat",
+   "why": "16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot on the bank. The dot sat at 2185.2, 4367.6, 68.6 m from body.1208-2442; the land cell within 25 m of that body closest to the old dot is 2195.2, 4436.2 (69.3 m move). The record is already committed, so the move is a reseat.",
+   "source": "plot-remedies",
+   "ownerCall": "2026-09-20",
+   "sources": [
+    "world/sources/water/graph body.1208-2442 (entity raster, 2017 px)"
+   ]
   },
   {
    "id": "place.pirate-freeholds.chasecreek",

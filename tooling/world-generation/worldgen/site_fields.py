@@ -42,10 +42,11 @@ CONVENTIONS (module 00-core §8, decisions 0003/0015)
 
 from __future__ import annotations
 
+import os as _os, time as _time; _T0 = _time.perf_counter() if _os.environ.get("ES_TIMINGS") == "1" else None  # import timing, closed at the end of the file (tooling/repo-standards/tool_timings.py)
 import json
 import math
 from dataclasses import dataclass
-from functools import cached_property
+from functools import cached_property, lru_cache
 from pathlib import Path
 
 import numpy as np
@@ -104,6 +105,18 @@ def _bilinear(a: np.ndarray, size: int) -> np.ndarray:
     ).astype(np.float32)
 
 
+class frozen_cached_property(cached_property):
+    """A cached_property whose ndarray result is made read-only on first build:
+    the survey is shared (`shared_survey`) and its cached twins are read-only
+    memory maps, so a lazily built grid must never be writeable either."""
+
+    def __get__(self, instance, owner=None):
+        value = super().__get__(instance, owner)
+        if isinstance(value, np.ndarray) and value.flags.writeable:
+            value.setflags(write=False)
+        return value
+
+
 @dataclass(frozen=True)
 class Route:
     kind: str            # "road" | "boat"
@@ -122,8 +135,27 @@ class ProvinceSurvey:
     """Every published province field, decoded, plus the survey primitives
     (aspect, viewshed, effort-to-reach, mined-form analogue)."""
 
-    def __init__(self, province: Path = PROVINCE):
+    def __init__(self, province: Path = PROVINCE, cache: bool = True):
         self.province = province
+        # The water bake follows the graded ground, so siting reads the
+        # natural-state snapshot of it that `grade_routes` keeps beside it.
+        water_dir = province / "water" / "natural"
+        if not water_dir.exists():
+            water_dir = province / "water"
+        self.hydro_meta = json.loads((province / "hydrology-meta.json").read_text())
+        self.society_meta = json.loads((province / "society-meta.json").read_text())
+        self.water_meta = json.loads((water_dir / "water-meta.json").read_text())
+        self.refined_meta = json.loads((province / "refined" / "meta.json").read_text())
+
+        # -- water (2017 / 1345) -------------------------------------------
+        # ONE reader for the compiled water. `ShippedWater` already knows how
+        # to open these rasters, decode the signed depth and answer a season;
+        # the survey delegates to it rather than keeping a second, subtly
+        # different reader of the same PNGs (decision 0049). `heights=None`
+        # because the survey carries its own ground and a clean checkout (CI)
+        # has no vault.
+        from .water_report import WATER_DIR, ArrayCache, ShippedWater
+        self.water = ShippedWater(water_dir, heights=None, cache=cache)
         # Siting scores NATURAL ground: route grading (worldgen.grade_routes)
         # reshapes the terrain *because of* the plotted places and their
         # routes, so scoring on the graded surface would feed that back and
@@ -135,83 +167,78 @@ class ProvinceSurvey:
         # here until 2026-09-19 and put every height and slope the plot, the
         # scour and the city tool sampled 17 m below the frozen ground
         # (16g ledger §0b); it is deleted and never read again.
-        self.fields = ProvinceFields(province, "height-rg.png")
-        # The water bake follows the graded ground, so siting reads the
-        # natural-state snapshot of it that `grade_routes` keeps beside it.
-        water_dir = province / "water" / "natural"
-        if not water_dir.exists():
-            water_dir = province / "water"
-        self.hydro_meta = json.loads((province / "hydrology-meta.json").read_text())
-        self.society_meta = json.loads((province / "society-meta.json").read_text())
-        self.water_meta = json.loads((water_dir / "water-meta.json").read_text())
-        self.refined_meta = json.loads((province / "refined" / "meta.json").read_text())
+        # The fields read the published water; when that is the water the
+        # survey reads, they share it (decoded once per process).
+        shared = self.water if water_dir.resolve() == WATER_DIR.resolve() else None
+        self.fields = ProvinceFields(province, "height-rg.png", water=shared, cache=cache)
+        self._cache = ArrayCache.for_province(province, cache)
 
         self.extent_m = float(self.fields.extent_m)
         self.height_px_m = float(self.fields.px_m)          # 3.65568
         self.grid_px_m = float(self.hydro_meta["metresPerPixel"])  # 5.48352
         self.grid_n = int(self.hydro_meta["imageWidth"])           # 1345
+        self.culture_names = {i + 1: name for i, name in enumerate(CULTURES)}
+        self.water_class_names = self.water_meta["klass"]["classes"]
+        # signed depth (schema v2: negative = dry ground above the local
+        # water table / buried); depth > 0 is wet
+        self.water_level_m = self.water.w2
+        self.water_signed_depth_m = self.water.depth2
+        for name, a in self._cache.group("survey", self._decode).items():
+            setattr(self, name, a)
 
+        # -- routes, lanes, anchors ----------------------------------------
+        self.anchors = json.loads(ANCHORS_PATH.read_text())
+        self.routes = self._load_routes()
+        if _T0 is not None: _m = [m for c in (self.water.cache, getattr(self.fields, "cache", None), self._cache) if c is not None and c.dir is not None for m in c.misses]; __import__("runpy").run_path(str(REPO_ROOT / "tooling" / "repo-standards" / "tool_timings.py"))["record"](sum(t for _, t in _m), 0, 0, 0, _os.getcwd(), ["survey.cache"] + ([f"miss:{g}:{t:g}s" for g, t in _m] or ["hit"]))  # ES_TIMINGS=1
+
+    def _decode(self) -> dict:
+        """The survey's own rasters, decoded (the cache's builder)."""
+        province, out = self.province, {}
         # -- hydrology stack (1345) ---------------------------------------
         # Water kinds, ids, levels and seasons are NOT decoded here: they are
         # read from the signed-off graph through `water_at` / `reach` / `body`
         # (decision 0066). The pre-graph Phase 3 flood / wetlands / tidal /
         # salinity / lakes / river-band masks were deleted in 16d.
-        self.soil = _classify(_rgba(province / "hydro-soil.png"),
-                              {1: (135, 135, 145), 2: (165, 150, 105), 3: (95, 140, 85),
-                               4: (80, 60, 40), 5: (150, 110, 70)})
+        out["soil"] = _classify(_rgba(province / "hydro-soil.png"),
+                                {1: (135, 135, 145), 2: (165, 150, 105), 3: (95, 140, 85),
+                                 4: (80, 60, 40), 5: (150, 110, 70)})
 
         # -- society stack (1345) -----------------------------------------
-        self.danger = _classify(_rgba(province / "soc-danger.png"),
-                                {b: tuple(rgb) for b, (_n, rgb) in DANGER_BANDS.items()})
-        self.culture = _classify(
+        out["danger"] = _classify(_rgba(province / "soc-danger.png"),
+                                  {b: tuple(rgb) for b, (_n, rgb) in DANGER_BANDS.items()})
+        out["culture"] = _classify(
             _rgba(province / "soc-cultures.png"),
             {i + 1: tuple(spec["colour"]) for i, spec in enumerate(CULTURES.values())})
-        self.culture_names = {i + 1: name for i, name in enumerate(CULTURES)}
 
         # -- climate stack (1345) -----------------------------------------
         air = _rgb(province / "climate-air.png").astype(np.float32) / 255.0
-        self.humidity, self.mist, self.canopy = air[..., 0], air[..., 1], air[..., 2]
+        out["humidity"], out["mist"], out["canopy"] = (
+            air[..., 0].copy(), air[..., 1].copy(), air[..., 2].copy())
         weather = _rgb(province / "climate-weather.png").astype(np.float32) / 255.0
-        self.rain, self.storm_exposure, self.sea_fog = (
-            weather[..., 0], weather[..., 1], weather[..., 2])
+        out["rain"], out["storm_exposure"], out["sea_fog"] = (
+            weather[..., 0].copy(), weather[..., 1].copy(), weather[..., 2].copy())
         vis = _rgb(province / "climate-vis.png").astype(np.float32) / 255.0
-        self.cloud_belt = vis[..., 0]
+        out["cloud_belt"] = vis[..., 0].copy()
         # G channel: beta/0.02 per byte; Koschmieder V = 3.912 / beta
         beta = np.maximum(vis[..., 1] * 0.02, 1e-6)
-        self.air_visibility_m = (3.912 / beta).astype(np.float32)
+        out["air_visibility_m"] = (3.912 / beta).astype(np.float32)
 
-        # -- water (2017 / 1345) -------------------------------------------
-        # ONE reader for the compiled water. `ShippedWater` already knows how
-        # to open these rasters, decode the signed depth and answer a season;
-        # the survey delegates to it rather than keeping a second, subtly
-        # different reader of the same PNGs (decision 0049). `heights=None`
-        # because the survey carries its own ground and a clean checkout (CI)
-        # has no vault.
-        from .water_report import ShippedWater
-        self.water = ShippedWater(water_dir, heights=None)
-        # signed depth (schema v2: negative = dry ground above the local
-        # water table / buried); depth > 0 is wet
-        self.water_level_m = self.water.w2
-        self.water_signed_depth_m = self.water.depth2
-        self.water_depth_m = np.maximum(self.water_signed_depth_m, 0.0)
-        self.water_class = _resample(self.water.klass[..., 0], self.grid_n)
-        self.water_turbidity = _resample(self.water.klass[..., 1], self.grid_n).astype(np.float32) / 255.0
-        self.water_salinity = _resample(self.water.klass[..., 2], self.grid_n).astype(np.float32) / 255.0
-        self.water_class_names = self.water_meta["klass"]["classes"]
+        # -- water on the analysis grid (1345) ----------------------------
+        out["water_depth_m"] = np.maximum(self.water.depth2, 0.0)
+        out["water_class"] = _resample(self.water.klass[..., 0], self.grid_n)
+        out["water_turbidity"] = _resample(self.water.klass[..., 1], self.grid_n).astype(np.float32) / 255.0
+        out["water_salinity"] = _resample(self.water.klass[..., 2], self.grid_n).astype(np.float32) / 255.0
         # water-shore.png: R = shore distance / SHORE_MAX_M, G = seasonal
         # response (how much this water rises/falls with the wet season),
         # B = tannin (blackwater staining).
-        self.water_season_response = _resample(self.water.season2, self.grid_n)
-        self.water_tannin = _resample(self.water.tannin2, self.grid_n)
+        out["water_season_response"] = _resample(self.water.season2, self.grid_n)
+        out["water_tannin"] = _resample(self.water.tannin2, self.grid_n)
         # the wet season's own band (16c): the compiled level is the high-water
         # line, so the ground wet at the line and dry at the calendar mean is
         # what the wet season floods (was `refined/flood-wet.png`, a +1.4 m
         # flood of the ground the runtime no longer performs)
-        self.wet_season = self.water.wet_grid("wet") & ~self.water.wet_grid("base")
-
-        # -- routes, lanes, anchors ----------------------------------------
-        self.anchors = json.loads(ANCHORS_PATH.read_text())
-        self.routes = self._load_routes()
+        out["wet_season"] = self.water.wet_grid("wet") & ~self.water.wet_grid("base")
+        return out
 
     # ------------------------------------------------------------------ #
     # coordinate helpers
@@ -263,30 +290,42 @@ class ProvinceSurvey:
     # derived province-wide fields (built lazily — the sweep wants them all,
     # a single dossier wants two of them)
     # ------------------------------------------------------------------ #
-    @cached_property
+    @frozen_cached_property
     def height_grid(self) -> np.ndarray:
         """Refined height resampled onto the 1345 analysis grid, metres."""
         result = _bilinear(self.fields.height_m, self.grid_n)
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def slope_grid(self) -> np.ndarray:
         gy, gx = np.gradient(self.height_grid, self.grid_px_m)
         return np.degrees(np.arctan(np.hypot(gx, gy))).astype(np.float32)
 
-    @cached_property
+    @frozen_cached_property
     def aspect_grid(self) -> np.ndarray:
         """Downslope compass bearing in degrees (0 = north, clockwise)."""
         gy, gx = np.gradient(self.height_grid, self.grid_px_m)
         # +gx is east, +gy is south (row index grows southwards)
         return (np.degrees(np.arctan2(gx, gy)) % 360.0).astype(np.float32)
 
-    @cached_property
+    @frozen_cached_property
     def region_grid(self) -> np.ndarray:
         return self.fields.region
 
-    @cached_property
+    @frozen_cached_property
+    def centre_depth_grid(self) -> np.ndarray:
+        """Published water depth AT EACH GRID CELL CENTRE: the same number
+        `sample()` reports, so the depth `compile_minor_waterways` sites a
+        berth by is the depth `blueprint.py` checks it against. Lives here,
+        read-only, because the survey is shared: a memo stamped on the
+        instance from outside was writeable and broke the cache's equality
+        and read-only promises (test_survey_cache)."""
+        idx = np.clip(((np.arange(self.grid_n) + 0.5) * self.grid_px_m / self.height_px_m).astype(int),
+                      0, self.water_depth_m.shape[0] - 1)
+        return self.water_depth_m[np.ix_(idx, idx)]
+
+    @frozen_cached_property
     def wet_grid(self) -> np.ndarray:
         """MEASURED standing water: the published signed depth is positive.
 
@@ -301,14 +340,14 @@ class ProvinceSurvey:
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def dry_grid(self) -> np.ndarray:
         """MEASURED dry ground in the BASE season: `~wet_grid`."""
         result = ~self.wet_grid
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def wet_season_depth_m(self) -> np.ndarray:
         """Signed depth at the SEASONAL MAXIMUM, metres.
 
@@ -331,7 +370,7 @@ class ProvinceSurvey:
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def wet_season_grid(self) -> np.ndarray:
         """MEASURED wet-season water: standing water at the seasonal maximum.
 
@@ -342,7 +381,7 @@ class ProvinceSurvey:
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def open_water(self) -> np.ndarray:
         """MEASURED open water: standing water deeper than 0.5 m.
 
@@ -364,7 +403,7 @@ class ProvinceSurvey:
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def water_intent(self) -> np.ndarray:
         """AUTHORED intent, not water: the region raster's ocean/lake bodies
         plus measured deep water. A strict superset of `open_water`.
@@ -377,23 +416,25 @@ class ProvinceSurvey:
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def land(self) -> np.ndarray:
         """Authored land: everything that is not measured open water. Includes
         wadeable shallow marsh, which is walked, not sailed."""
         return ~self.open_water
 
-    @cached_property
+    @frozen_cached_property
     def dist_to_route_m(self) -> np.ndarray:
         """Euclidean distance to the nearest road corridor OR boat lane."""
-        mask = np.zeros((self.grid_n, self.grid_n), bool)
-        for r in self.routes:
-            for x, z in r.points_m:
-                row, col = self.grid_px(float(x), float(z))
-                mask[row, col] = True
-        return (ndimage.distance_transform_edt(~mask) * self.grid_px_m).astype(np.float32)
+        def build() -> np.ndarray:
+            mask = np.zeros((self.grid_n, self.grid_n), bool)
+            for r in self.routes:
+                for x, z in r.points_m:
+                    row, col = self.grid_px(float(x), float(z))
+                    mask[row, col] = True
+            return (ndimage.distance_transform_edt(~mask) * self.grid_px_m).astype(np.float32)
+        return self._cache.array("survey.dist_to_route_m", build)
 
-    @cached_property
+    @frozen_cached_property
     def dist_to_water_m(self) -> np.ndarray:
         """Distance to the nearest cell that MEASURABLY holds water.
 
@@ -403,10 +444,10 @@ class ProvinceSurvey:
         marsh and the river bands are inside `wet_grid` already, because the
         surface raster publishes a positive depth on them.
         """
-        return (ndimage.distance_transform_edt(~self.wet_grid)
-                * self.grid_px_m).astype(np.float32)
+        return self._cache.array("survey.dist_to_water_m", lambda: (
+            ndimage.distance_transform_edt(~self.wet_grid) * self.grid_px_m).astype(np.float32))
 
-    @cached_property
+    @frozen_cached_property
     def marsh_grid(self) -> np.ndarray:
         """Fraction (0..1) of each analysis cell whose water entity is one of
         the graph's marsh body kinds (`water_report.MARSH_KINDS`), read through
@@ -417,7 +458,7 @@ class ProvinceSurvey:
             return np.zeros((self.grid_n, self.grid_n), np.float32)
         return _resample(grid.astype(np.float32), self.grid_n)
 
-    @cached_property
+    @frozen_cached_property
     def channel_grid(self) -> np.ndarray:
         """Fraction (0..1) of each analysis cell whose water entity is a
         flowing reach (every reach kind except `horizontal-backwater`, which
@@ -427,7 +468,7 @@ class ProvinceSurvey:
             return np.zeros((self.grid_n, self.grid_n), np.float32)
         return _resample(grid.astype(np.float32), self.grid_n)
 
-    @cached_property
+    @frozen_cached_property
     def standing_body_grid(self) -> np.ndarray:
         """Fraction (0..1) of each analysis cell whose water entity is a
         standing body a road cannot ford (`STANDING_BODY_KINDS`: the sea,
@@ -438,7 +479,7 @@ class ProvinceSurvey:
             return np.zeros((self.grid_n, self.grid_n), np.float32)
         return _resample(grid.astype(np.float32), self.grid_n)
 
-    @cached_property
+    @frozen_cached_property
     def ocean_grid(self) -> np.ndarray:
         """Fraction (0..1) of each analysis cell whose water entity KIND is
         `ocean` — the record's one sea body, read through the entity raster.
@@ -449,7 +490,7 @@ class ProvinceSurvey:
             return np.zeros((self.grid_n, self.grid_n), np.float32)
         return _resample(grid.astype(np.float32), self.grid_n)
 
-    @cached_property
+    @frozen_cached_property
     def lake_grid(self) -> np.ndarray:
         """Fraction (0..1) of each analysis cell whose water entity KIND is a
         lake or tarn, read through the entity raster."""
@@ -458,7 +499,7 @@ class ProvinceSurvey:
             return np.zeros((self.grid_n, self.grid_n), np.float32)
         return _resample(grid.astype(np.float32), self.grid_n)
 
-    @cached_property
+    @frozen_cached_property
     def reach_band_grid(self) -> np.ndarray:
         """int8 graph `band` of the reach under each analysis cell (0 = none),
         nearest-resampled from `ShippedWater.reach_band_grid`."""
@@ -467,7 +508,7 @@ class ProvinceSurvey:
             return np.zeros((self.grid_n, self.grid_n), np.int8)
         return _resample(grid, self.grid_n)
 
-    @cached_property
+    @frozen_cached_property
     def wet_ground(self) -> np.ndarray:
         """Ground the record says is a marsh body or is inundated in the wet
         season; replaces the purged wetlands/flood>=2 test."""
@@ -475,7 +516,7 @@ class ProvinceSurvey:
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def recorded_depth_m(self) -> np.ndarray:
         """float32 RECORD depth of the entity under each analysis cell: a
         reach's declared `depthM`, a body's `maxDepthM`, 0 off water.
@@ -489,7 +530,7 @@ class ProvinceSurvey:
         result.setflags(write=False)
         return result
 
-    @cached_property
+    @frozen_cached_property
     def _entity_label_grid(self) -> np.ndarray:
         """The compiled entity label (0 none, else 1 + index into
         `water.entities`) on the analysis grid."""
@@ -497,11 +538,12 @@ class ProvinceSurvey:
             return np.zeros((self.grid_n, self.grid_n), np.int32)
         return _resample(self.water.ids, self.grid_n).astype(np.int32)
 
-    @cached_property
+    @frozen_cached_property
     def _nearest_wet_index(self) -> np.ndarray:
         """Indices of the nearest dry-season wet cell for every analysis cell
         (the `return_indices` half of the `dist_to_water_m` transform)."""
-        return ndimage.distance_transform_edt(~self.wet_grid, return_indices=True)[1]
+        return self._cache.array("survey._nearest_wet_index", lambda: ndimage.distance_transform_edt(
+            ~self.wet_grid, return_indices=True)[1])
 
     def nearest_water_entity(self, x: float, z: float) -> dict | None:
         """The graph record of the water nearest a point, with the walk to it.
@@ -536,13 +578,52 @@ class ProvinceSurvey:
         graph record, plus the measured depth; None on dry ground."""
         return self.water.water_at(east_m, south_m)
 
+    def water_entity_at(self, x: float, z: float) -> dict | None:
+        """The graph water entity UNDER a point: id, kind and recorded level.
+
+        The cheap half of `water_at`: it answers "which recorded body or reach
+        is this cell part of" for the thousands of footprint samples the
+        settlement compiler takes, without merging the depth texel per sample.
+        None where the bundle ships no entity raster or the cell carries no
+        entity. Added 16h: the flood-section audit has to name the body or
+        reach behind every wet sample (0066) and had no accessor that did so
+        per cell.
+
+        The lookup is on the id raster's OWN texels (`ShippedWater.entity_at`),
+        not on the coarse analysis grid: `wet_season` is a native-resolution
+        field, so joining it through the resampled label grid loses the entity
+        under a fine wet texel inside a dry analysis cell.
+        """
+        entity = self.water.entity_at(x, z)
+        if entity is None:
+            return None
+        return self._water_entity_record(entity)
+
+    def _water_entity_record(self, entity: dict) -> dict | None:
+        # per-instance memo: `lru_cache` on a method would pin `self` for the
+        # life of the process (standard 5 keeps shared state out of caches)
+        cache = self.__dict__.setdefault("_water_entity_cache", {})
+        key = entity.get("id")
+        if key in cache:
+            return cache[key]
+        merged = {**entity, **(self.water.record(entity.get("id")) or {})}
+        level = merged.get("levelM", merged.get("levelFromM"))
+        out = {
+            "entityId": entity.get("id"),
+            "kind": merged.get("kind"),
+            "levelM": float(level) if level is not None else None,
+            "season": merged.get("season"),
+        }
+        cache[key] = out
+        return out
+
     def reach(self, entity_id: str) -> dict | None:
         return self.water.reach(entity_id)
 
     def body(self, entity_id: str) -> dict | None:
         return self.water.body(entity_id)
 
-    @cached_property
+    @frozen_cached_property
     def anchor_points_m(self) -> dict[str, tuple[float, float]]:
         return {a["id"]: self.uv_to_m(a["u"], a["v"]) for a in self.anchors["anchors"]}
 
@@ -592,7 +673,7 @@ class ProvinceSurvey:
     # ------------------------------------------------------------------ #
     # survey primitives
     # ------------------------------------------------------------------ #
-    @cached_property
+    @frozen_cached_property
     def height_view(self) -> np.ndarray:
         """Height smoothed to ~11 m for line-of-sight work.
 
@@ -769,7 +850,7 @@ class ProvinceSurvey:
     # ------------------------------------------------------------------ #
     # mined-form analogue
     # ------------------------------------------------------------------ #
-    @cached_property
+    @frozen_cached_property
     def mined_forms(self) -> list[dict]:
         """Every mined settlement cluster from the BM&V / vanilla form tables,
         flattened into comparable records."""
@@ -878,7 +959,7 @@ class ProvinceSurvey:
     # ------------------------------------------------------------------ #
     # vegetation (compiled scatter — partial coverage)
     # ------------------------------------------------------------------ #
-    @cached_property
+    @frozen_cached_property
     def vegetation_index(self) -> dict:
         path = self.province / "vegetation" / "vegetation-index.json"
         return json.loads(path.read_text()) if path.exists() else {"chunks": {}}
@@ -908,10 +989,9 @@ _SHARED_SURVEY: dict[tuple, "ProvinceSurvey"] = {}
 
 
 def _survey_signature(province: Path) -> tuple:
-    paths = sorted([*province.glob("*.png"), *province.glob("*.json"),
-                    *province.glob("refined/*"), *province.glob("water/**/*")])
-    return tuple((str(p.relative_to(province)), p.stat().st_mtime_ns, p.stat().st_size)
-                 for p in paths if p.is_file())
+    """Every file the survey's arrays derive from (the survey cache's key)."""
+    from .water_report import province_signature
+    return province_signature(province)
 
 
 def shared_survey(province: Path = PROVINCE) -> "ProvinceSurvey":
@@ -924,3 +1004,6 @@ def shared_survey(province: Path = PROVINCE) -> "ProvinceSurvey":
         _SHARED_SURVEY.clear()          # a moved signature frees the old copy
         hit = _SHARED_SURVEY[key] = ProvinceSurvey(province)
     return hit
+
+
+if _T0 is not None: __import__("runpy").run_path(str(REPO_ROOT / "tooling" / "repo-standards" / "tool_timings.py"))["record"](_time.perf_counter() - _T0, 0, 0, 0, _os.getcwd(), ["import.site_fields"])  # ES_TIMINGS=1

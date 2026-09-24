@@ -5,7 +5,7 @@
     "seed": "place.mercantile-coast.lilmoth",
     "causalModel": {
       "founding": "Rebuilt after the Slaughter of 4E 48 on the best natural harbour of the south coast, smaller and lower than the city it replaced.",
-      "siteAdvantages": "A firm crest above a shallow shelf: the stilt quarters step down from the crest to a tidal flat and a lighter quay. Big hulls anchor out on the 10 m plateau and their cargo comes ashore by lighter. The lightering is the city’s living.",
+      "siteAdvantages": "A firm crest above a shallow shelf: the stilt quarters step down from the crest to a tidal flat and a lighter quay. Big hulls anchor out on the 10 m plateau and their cargo comes ashore by lighter. The lightering is the city\u2019s living.",
       "occupantsMotive": "A reconstituted merchant council governs by tariff; it will not appoint a ruler. The last party that had one killed the city.",
       "pressures": "Hostile to the An-Xileel successor state and indispensable to a bay that must trade somewhere. It is also built over its own mass grave.",
       "wouldChangeIf": "If the third Hist ever spoke to one faction alone, every institution here would break at once. The rules forbid it."
@@ -114,12 +114,12 @@
       ]
     ],
     "scaleGrounding": {
-      "loreSource": "settlement-register.md §2 (M5, rebuilt smaller); lilmoth.md owner decision 2026-08-24 (smaller, lower, over a mass grave); 95-build-sequence.md (M5 quest band 35–60); Morrowind:Balmora as the ratio check at about 40 buildings.",
-      "population": "190–230",
+      "loreSource": "settlement-register.md \u00a72 (M5, rebuilt smaller); lilmoth.md owner decision 2026-08-24 (smaller, lower, over a mass grave); 95-build-sequence.md (M5 quest band 35\u201360); Morrowind:Balmora as the ratio check at about 40 buildings.",
+      "population": "190\u2013230",
       "households": 26,
       "buildingsPlanned": 53,
       "npcsPlanned": 70,
-      "why": "Twenty-six households in bamboo huts and the tall block, at five to a household, give about 130 residents; the council, the patrol, the tenders, the licence and salvage staff and the lighter crews housed on the quay add 60 to 100 more. Fifty-three placed structures is a third more than Balmora’s forty, which is the right size for a major city rebuilt smaller than the one that it replaced. Seventy named residents follows Morrowind’s ratio of named people to buildings."
+      "why": "Twenty-six households in bamboo huts and the tall block, at five to a household, give about 130 residents; the council, the patrol, the tenders, the licence and salvage staff and the lighter crews housed on the quay add 60 to 100 more. Fifty-three placed structures is a third more than Balmora\u2019s forty, which is the right size for a major city rebuilt smaller than the one that it replaced. Seventy named residents follows Morrowind\u2019s ratio of named people to buildings."
     },
     "siting": {
       "dossier": "world/sources/sites/dossiers/lilmoth.json",
@@ -131,7 +131,7 @@
             6372.0
           ],
           "chosen": true,
-          "why": "The east face of the promontory. Section from the crest out: 21.9 m at 3640/6350, a 22.5° bluff, a 7.4 m bench at 3720/6350 (slope 2.5°), a tidal flat at 1.3–1.5 m from 3800 to 3860 (flood band 1–3, wet-season inundated), then 1.0 m of water at 3880, 3.8 m at 3920 and a 6.6 m roadstead plateau from 3960 to 4040. That is four buildable tiers and a drowned quarter in one 400 m run. The shallow shelf is 120 m wide, which is why large hulls anchor out and their cargo comes ashore by lighter (Lore:Lilmoth). 55 m from the approved anchor, well inside its 0.04 UV (296 m) tolerance."
+          "why": "The east face of the promontory. Section from the crest out: 21.9 m at 3640/6350, a 22.5\u00b0 bluff, a 7.4 m bench at 3720/6350 (slope 2.5\u00b0), a tidal flat at 1.3\u20131.5 m from 3800 to 3860 (flood band 1\u20133, wet-season inundated), then 1.0 m of water at 3880, 3.8 m at 3920 and a 6.6 m roadstead plateau from 3960 to 4040. That is four buildable tiers and a drowned quarter in one 400 m run. The shallow shelf is 120 m wide, which is why large hulls anchor out and their cargo comes ashore by lighter (Lore:Lilmoth). 55 m from the approved anchor, well inside its 0.04 UV (296 m) tolerance."
         },
         {
           "id": "candidate.lilmoth.se-embayment",
@@ -148,7 +148,7 @@
             3604.0,
             6520.0
           ],
-          "rejectedBecause": "The southern lagoon behind the spit is 0.4–0.6 m deep at 3600/6590–6630 and land again at 3600/6670. Nothing there can be drowned to dive depth, so the drowned quarter, the record's signature, would be a puddle. No lighter could reach open water.",
+          "rejectedBecause": "The southern lagoon behind the spit is 0.4\u20130.6 m deep at 3600/6590\u20136630 and land again at 3600/6670. Nothing there can be drowned to dive depth, so the drowned quarter, the record's signature, would be a puddle. No lighter could reach open water.",
           "why": "Sheltered water and a natural breakwater, which is why it was measured at all: 2.0 m of land at 3600/6510, 1.05 m at 3600/6550, 0.4 m of water at 3600/6590, land at 1.6 m again at 3600/6670."
         }
       ]
@@ -259,7 +259,7 @@
           "whyHere": "The Imperial circuit met its road here and the rebuilders kept the gate because it stood.",
           "whyNeighbours": "The Argonian track begins where the road ends inside it; the Hist court is on the crest above.",
           "playerPurpose": "The land entrance to the city, the patrol post and the north-gate station.",
-          "microGeography": "A 14–16 m shelf between the pond on the west and the crest on the east, the lowest dry crossing of the wall line."
+          "microGeography": "A 14\u201316 m shelf between the pond on the west and the crest on the east, the lowest dry crossing of the wall line."
         }
       },
       {
@@ -301,36 +301,36 @@
             0.86260147
           ],
           [
-            0.494179811,
-            0.863741408
+            0.494177735,
+            0.863740621
           ],
           [
-            0.497451344,
-            0.863955108
+            0.498305969,
+            0.864043515
           ],
           [
-            0.497995421,
-            0.863874766
+            0.498356183,
+            0.864045796
           ],
           [
-            0.499140447,
-            0.863705684
+            0.49949824,
+            0.863933875
           ],
           [
-            0.499522614,
-            0.863438397
+            0.499654972,
+            0.863790765
           ],
           [
-            0.499398157,
-            0.862595574
+            0.500295316,
+            0.863203573
           ],
           [
-            0.499203625,
-            0.861278208
+            0.500310474,
+            0.862869752
           ],
           [
-            0.498782134,
-            0.858509594
+            0.498745708,
+            0.858468619
           ],
           [
             0.496498501,
@@ -353,10 +353,10 @@
             0.853421133
           ]
         ],
-        "notes": "The crest, 19–23 m: the third Hist inside a ring of poles open to the east, two lodges outside the ring, the vigil awning inside it.",
+        "notes": "The crest, 19\u201323 m: the third Hist inside a ring of poles open to the east, two lodges outside the ring, the vigil awning inside it.",
         "why": {
-          "what": "The Hist court: the tree, its ring of poles, the two tenders’ lodges and the vigil awning.",
-          "whyHere": "The third tree grew from the second’s root on the crest. The city bends round it.",
+          "what": "The Hist court: the tree, its ring of poles, the two tenders\u2019 lodges and the vigil awning.",
+          "whyHere": "The third tree grew from the second\u2019s root on the crest. The city bends round it.",
           "whyNeighbours": "The spine track passes its east opening; the gate is below it to the west and the council bench to the east.",
           "playerPurpose": "The Hist court scene, the minder and the second tender.",
           "microGeography": "The highest ground in the city, level for 20 m round the trunk and falling on every side."
@@ -373,36 +373,36 @@
             0.85129503
           ],
           [
-            0.504147622,
-            0.851551975
+            0.504158366,
+            0.851545183
           ],
           [
-            0.500924696,
-            0.85479914
+            0.502706253,
+            0.852878471
           ],
           [
-            0.499606982,
-            0.856410297
+            0.500918843,
+            0.854806297
           ],
           [
-            0.499845866,
-            0.858814264
+            0.499557658,
+            0.856470605
           ],
           [
-            0.499935234,
-            0.859087615
+            0.500658051,
+            0.859668544
           ],
           [
-            0.501606802,
-            0.85993565
+            0.500834894,
+            0.859794206
           ],
           [
-            0.501752561,
-            0.859936515
+            0.50183137,
+            0.860306389
           ],
           [
-            0.516330276,
-            0.859233124
+            0.516298918,
+            0.859201509
           ],
           [
             0.511445715,
@@ -421,7 +421,7 @@
             0.851256548
           ]
         ],
-        "notes": "The 11–13 m bench east of the crest: hall, record room, strongroom, market deck, elders’ house, council floor, factor’s house and the bell on the lip. The hall and the market deck stand square to the bench walk; every other piece is set a few degrees off it on its own piles, following the fall of the bench, because an Argonian quarter is not surveyed (97 C8, Part F).",
+        "notes": "The 11\u201313 m bench east of the crest: hall, record room, strongroom, market deck, elders\u2019 house, council floor, factor\u2019s house and the bell on the lip. The hall and the market deck stand square to the bench walk; every other piece is set a few degrees off it on its own piles, following the fall of the bench, because an Argonian quarter is not surveyed (97 C8, Part F).",
         "why": {
           "what": "The council crown: the hall, the record room and strongroom, the open council floor, the upper market deck and the tariff bell.",
           "whyHere": "The merchant council needs level ground above the flood with the quay in view; the bench is the widest such ground.",
@@ -437,28 +437,24 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.512602041,
-            0.8584392
+            0.512384368,
+            0.858192606
           ],
           [
-            0.512483474,
-            0.859282849
+            0.512218039,
+            0.858324438
           ],
           [
-            0.512369659,
-            0.860092683
+            0.511538303,
+            0.858865523
           ],
           [
-            0.512290253,
-            0.86065769
+            0.511502658,
+            0.859173558
           ],
           [
-            0.512599216,
-            0.864877974
-          ],
-          [
-            0.512632907,
-            0.865195019
+            0.512637469,
+            0.865216196
           ],
           [
             0.51320736,
@@ -525,29 +521,29 @@
             0.868866989
           ],
           [
-            0.520975767,
-            0.868517111
+            0.520973309,
+            0.86851141
           ],
           [
-            0.51505429,
-            0.858755843
+            0.516400099,
+            0.861345694
           ],
           [
-            0.514900329,
-            0.858551539
+            0.513790552,
+            0.858190605
           ],
           [
-            0.513044111,
-            0.858290665
+            0.513531463,
+            0.858160624
           ]
         ],
-        "notes": "The tidal flat under the bluff, 1–3 m, wet-season flooded. A loop of walkway with a cross lane, fifteen huts and the tall block, every one on piles.",
+        "notes": "The tidal flat under the bluff, 1\u20133 m, wet-season flooded. A loop of walkway with a cross lane, fifteen huts and the tall block, every one on piles.",
         "why": {
           "what": "Pusbottom: the repopulated slum on the flat under the bluff, a loop of planks with huts on both sides.",
           "whyHere": "The cheapest ground in the city is the ground that floods; the poor and the criminal quarter took it back after 4E 48.",
           "whyNeighbours": "The bell and the council stand on the bluff above it; the quay is along its east side.",
-          "playerPurpose": "The vault, the slaughter list, the agent, the broker and most of the city’s dwellings.",
-          "microGeography": "A flat at 1–3 m between the bluff foot and the water, drained by the lanes’ pile lines."
+          "playerPurpose": "The vault, the slaughter list, the agent, the broker and most of the city\u2019s dwellings.",
+          "microGeography": "A flat at 1\u20133 m between the bluff foot and the water, drained by the lanes\u2019 pile lines."
         }
       },
       {
@@ -557,16 +553,16 @@
         "wealth": "middling",
         "boundary": [
           [
-            0.514825893,
-            0.858243104
+            0.514826285,
+            0.85824304
           ],
           [
-            0.514369737,
-            0.858702284
+            0.514233493,
+            0.858838184
           ],
           [
             0.513663809,
-            0.864208521
+            0.863395656
           ],
           [
             0.513663809,
@@ -577,16 +573,20 @@
             0.868356306
           ],
           [
-            0.515003026,
-            0.870101707
+            0.515004211,
+            0.870104402
           ],
           [
-            0.516379531,
-            0.87285472
+            0.516451864,
+            0.872922878
           ],
           [
-            0.519082714,
-            0.87285472
+            0.518770429,
+            0.872922878
+          ],
+          [
+            0.519155236,
+            0.872793653
           ],
           [
             0.530048049,
@@ -597,13 +597,13 @@
             0.8570907
           ]
         ],
-        "notes": "The water’s edge: the deck, the lamp, the licence house, the lighter shed, the divers’ shed and the salvage bench, with the pier and the stair.",
+        "notes": "The water\u2019s edge: the deck, the lamp, the licence house, the lighter shed, the divers\u2019 shed and the salvage bench, with the pier and the stair.",
         "why": {
-          "what": "The lighter quay: the deck at the water’s edge with the sheds along the lane behind it and the pier into the channel.",
+          "what": "The lighter quay: the deck at the water\u2019s edge with the sheds along the lane behind it and the pier into the channel.",
           "whyHere": "Cargo comes ashore by lighter and the lighters need a deck, a light, a licence and a shed.",
           "whyNeighbours": "Pusbottom is at its back; the drowned quarter lies off its face.",
           "playerPurpose": "The lighter-quay station, the licences, the divers and the boat services.",
-          "microGeography": "A strip of flat at 0–2 m along the shore, its east piles in the shallows."
+          "microGeography": "A strip of flat at 0\u20132 m along the shore, its east piles in the shallows."
         }
       },
       {
@@ -613,16 +613,12 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.488582525,
-            0.868138295
+            0.488563551,
+            0.868213555
           ],
           [
-            0.489860492,
-            0.869416121
-          ],
-          [
-            0.494843644,
-            0.872568001
+            0.495276412,
+            0.872632108
           ],
           [
             0.50044,
@@ -630,11 +626,11 @@
           ],
           [
             0.50044,
-            0.876107737
+            0.876030894
           ],
           [
-            0.503464314,
-            0.878020638
+            0.503459804,
+            0.878018595
           ],
           [
             0.503588669,
@@ -669,9 +665,9 @@
             0.864055231
           ]
         ],
-        "notes": "The low flat south of the bluff: seven fishers’ huts in two rows on the shore lane, a boat awning, a drying rack and the pole wall facing the estuary.",
+        "notes": "The low flat south of the bluff: seven fishers\u2019 huts in two rows on the shore lane, a boat awning, a drying rack and the pole wall facing the estuary.",
         "why": {
-          "what": "The shore quarter: the fishers’ row on the low flat south of Pusbottom, behind the Argonian pole wall.",
+          "what": "The shore quarter: the fishers\u2019 row on the low flat south of Pusbottom, behind the Argonian pole wall.",
           "whyHere": "The fishers of the estuary live on the flat nearest their water and away from the cargo quay.",
           "whyNeighbours": "Pusbottom is north-east across the shore lane; the pole wall closes it on the east.",
           "playerPurpose": "The offering season, the recitation speakers and a canoe for the estuary.",
@@ -725,7 +721,7 @@
             0.859583409
           ]
         ],
-        "notes": "Old Imperial Lilmoth under 1–12 m of water: seven ruin pieces on the old street grid, the shrine outermost, the channel cut through the middle.",
+        "notes": "Old Imperial Lilmoth under 1\u201312 m of water: seven ruin pieces on the old street grid, the shrine outermost, the channel cut through the middle.",
         "why": {
           "what": "The drowned quarter: the sunken Imperial villas off the quay, from the ridge in the shallows to the shrine on the plateau edge.",
           "whyHere": "Imperial houses on this soil sank; the rebuilders left the quarter drowned. No one has built on the ground since.",
@@ -758,7 +754,7 @@
           "whySpot": "The arch sits on the 15 m saddle where the road leaves the wet ground west of the crest, the lowest dry crossing of the old wall line.",
           "whyNeighbours": "The guard tower adjoins its northern pier and the broken curtain runs on from both piers, so the gate reads as part of a wall rather than a lone arch.",
           "playerPurpose": "The threshold of the city on foot, where the council patrol stands and asks for a licence.",
-          "microGeography": "The road climbs 2 m through the arch; the ground under the piers is a firm 14–15 m shelf between the pond on the west and the crest on the east."
+          "microGeography": "The road climbs 2 m through the arch; the ground under the piers is a firm 14\u201315 m shelf between the pond on the west and the crest on the east."
         },
         "spans": "route.lilmoth.gate-road",
         "footprint": [
@@ -1250,12 +1246,12 @@
           }
         ],
         "why": {
-          "what": "The tree-minder’s lodge, a bamboo hut on the west side of the court.",
-          "whyHere": "The minder’s post rotates and whoever holds it must sleep within sight of the tree.",
+          "what": "The tree-minder\u2019s lodge, a bamboo hut on the west side of the court.",
+          "whyHere": "The minder\u2019s post rotates and whoever holds it must sleep within sight of the tree.",
           "whySpot": "It stands on the crest west of the court ring, 28 m from the trunk, outside the poles but facing the opening.",
-          "whyNeighbours": "The second tender’s lodge sits on the opposite side of the court, so the two watchers are never in the same house.",
-          "playerPurpose": "The minder’s home; the minder is the neutral broker of the city’s disputes.",
-          "microGeography": "The crest here is 19–20 m and nearly level; the piles are short and the floor sits a step above the court."
+          "whyNeighbours": "The second tender\u2019s lodge sits on the opposite side of the court, so the two watchers are never in the same house.",
+          "playerPurpose": "The minder\u2019s home; the minder is the neutral broker of the city\u2019s disputes.",
+          "microGeography": "The crest here is 19\u201320 m and nearly level; the piles are short and the floor sits a step above the court."
         },
         "footprint": [
           [
@@ -1365,10 +1361,10 @@
           }
         ],
         "why": {
-          "what": "The second tender’s lodge, a bamboo hut on the north side of the court.",
+          "what": "The second tender\u2019s lodge, a bamboo hut on the north side of the court.",
           "whyHere": "City rule requires a second tender present whenever the minder listens to the tree.",
           "whySpot": "It stands on the northern edge of the crest, 36 m from the trunk, where the ground begins to fall toward the bench.",
-          "whyNeighbours": "It is placed across the court from the minder’s lodge; the two doors face each other over the tree.",
+          "whyNeighbours": "It is placed across the court from the minder\u2019s lodge; the two doors face each other over the tree.",
           "playerPurpose": "The second witness in every Hist scene; the tender keeps the vigil roster.",
           "microGeography": "The crest falls 3 m across this hull toward the north, so the northern piles are longer than the southern."
         },
@@ -1557,8 +1553,8 @@
           0.50457811,
           0.85406176
         ],
-        "yawDeg": 342.3,
-        "orientationWhy": "Turned to 342.3° so the hall's doorway looks out at 125° onto its own plank landing; the sitting is entered from the front rather than off the bench grass.",
+        "yawDeg": 145.9,
+        "orientationWhy": "Turned to 145.9\u00b0 so the hall's doorway looks out at 146\u00b0 onto its own plank landing; the sitting is entered from the front rather than off the bench grass.",
         "assetRef": "composite:stilt/stilthouse-with-door",
         "interior": {
           "kind": "hall"
@@ -1592,60 +1588,60 @@
         },
         "footprint": [
           [
-            0.503852995,
-            0.853881754
+            0.505324546,
+            0.854029712
           ],
           [
-            0.503695897,
-            0.8533895
+            0.505614236,
+            0.854457584
           ],
           [
-            0.503698069,
-            0.853387383
+            0.505612751,
+            0.854460227
           ],
           [
-            0.504678701,
-            0.853074423
+            0.504760378,
+            0.855037327
           ],
           [
-            0.505147699,
-            0.852924747
+            0.504352721,
+            0.855313331
           ],
           [
-            0.505151108,
-            0.852926506
+            0.504348954,
+            0.855312606
           ],
           [
-            0.505711879,
-            0.854683634
+            0.503314889,
+            0.853785297
           ],
           [
-            0.505782743,
-            0.855244694
+            0.503088498,
+            0.853267073
           ],
           [
-            0.505780983,
-            0.855248103
+            0.503089223,
+            0.853263306
           ],
           [
-            0.505167693,
-            0.855445252
+            0.503621898,
+            0.85290102
           ],
           [
-            0.505137977,
-            0.855454736
+            0.503647727,
+            0.852883532
           ],
           [
-            0.504260901,
-            0.855150971
+            0.504574883,
+            0.852927303
           ],
           [
-            0.504257493,
-            0.855149212
+            0.50457865,
+            0.852928029
           ],
           [
-            0.504101631,
-            0.854660833
+            0.504866059,
+            0.853352531
           ]
         ],
         "service": "council"
@@ -1686,7 +1682,7 @@
         ],
         "why": {
           "what": "The record room, a bamboo hut holding two centuries of customs books.",
-          "whyHere": "The tariff is the council’s authority and its rolls have to be kept where the clerks sit.",
+          "whyHere": "The tariff is the council\u2019s authority and its rolls have to be kept where the clerks sit.",
           "whySpot": "It is the first building on the bench west of the hall, where the spine arrives from the court.",
           "whyNeighbours": "The hall is its neighbour to the east; the strongroom is behind both.",
           "playerPurpose": "The tariff roll and the customs books that settle property claims.",
@@ -1812,7 +1808,7 @@
         ],
         "why": {
           "what": "The council strongroom, a bamboo hut behind the hall with the bonded goods inside.",
-          "whyHere": "Goods held against unpaid duty need a locked room under the council’s eye.",
+          "whyHere": "Goods held against unpaid duty need a locked room under the council\u2019s eye.",
           "whySpot": "It stands behind the hall on the north edge of the bench, out of sight of the walkway, with the hall's own length between it and the walk.",
           "whyNeighbours": "The hall screens it from the market; the north curtain ruin lies beyond it.",
           "playerPurpose": "The bonded goods sit behind a lock whose two keys are held by the factor and the guard captain. The plan of the city before the rebuild is in the same chest.",
@@ -1917,7 +1913,7 @@
           "what": "The upper walkway market: an open deck on piles with no walls. Its outline is a plain rectangle because it is a platform.",
           "whyHere": "The record says the upper market stands on the walkways above the quay, out of the flood.",
           "whySpot": "It is set south of the walkway where the bench begins to fall, so the deck stands level over the slope.",
-          "whyNeighbours": "The hall faces it across the walkway; the elders’ house is the next building east.",
+          "whyNeighbours": "The hall faces it across the walkway; the elders\u2019 house is the next building east.",
           "playerPurpose": "The upper-market station, the traders and the rumour pool of the city.",
           "microGeography": "The ground under the deck falls 2 m southward; the south piles are the longest on the bench."
         },
@@ -1995,7 +1991,7 @@
           {
             "kind": "quest-stage",
             "tier": "major",
-            "note": "The upper-market station is where the city’s rumours are collected and traders are met.",
+            "note": "The upper-market station is where the city\u2019s rumours are collected and traders are met.",
             "socketRef": "station.lilmoth.upper-walkway-market"
           }
         ]
@@ -2030,7 +2026,7 @@
           }
         ],
         "why": {
-          "what": "The elders’ house, where the retired Shadowscales who settle disputes are found.",
+          "what": "The elders\u2019 house, where the retired Shadowscales who settle disputes are found.",
           "whyHere": "In Lilmoth people look to their elders, including retired Shadowscales, for judgement.",
           "whySpot": "It stands on the walkway between the market deck and the council floor, in the middle of civic ground.",
           "whyNeighbours": "The market deck is west of it and the council floor east.",
@@ -2136,7 +2132,7 @@
           "what": "The council floor, a ring of standing stones open to the sky.",
           "whyHere": "The council sits in the open when it rules on a tariff, so the ruling is seen.",
           "whySpot": "It stands at the east end of the bench beside the bell, where the quay is in view below.",
-          "whyNeighbours": "The bell kiosk is next to it; the elders’ house is on its west.",
+          "whyNeighbours": "The bell kiosk is next to it; the elders\u2019 house is on its west.",
           "playerPurpose": "The council-floor scene and the council-standing mark.",
           "microGeography": "The stones are set into the fall at the south edge of the bench, which drops 2 m across the ring."
         },
@@ -2313,7 +2309,7 @@
           }
         ],
         "why": {
-          "what": "The council factor’s house, a bamboo hut east of the hall.",
+          "what": "The council factor\u2019s house, a bamboo hut east of the hall.",
           "whyHere": "The factor who holds the tariff line lives on the bench, within a few steps of the hall.",
           "whySpot": "It fills the gap between the hall and the bell, on the north side of the walkway and within a step of it.",
           "whyNeighbours": "The hall is on its west and the bell kiosk on its east.",
@@ -2410,7 +2406,7 @@
           0.854682
         ],
         "yawDeg": 15.9,
-        "orientationWhy": "Turned to 15.9° so the kiosk's access gap looks out at 260° onto the bench walk, with the bell still hung over the lip of the bench toward the quay.",
+        "orientationWhy": "Turned to 15.9\u00b0 so the kiosk's access gap looks out at 260\u00b0 onto the bench walk, with the bell still hung over the lip of the bench toward the quay.",
         "assetRef": "composite:stilt/kiosk-with-access",
         "interior": {
           "kind": "hall"
@@ -2431,9 +2427,9 @@
           "what": "The tariff bell: a 21 m timber kiosk tower on the lip of the bench, with the bell and a lamp at its top.",
           "whyHere": "The bell is rung when the tariff changes and when a hull lies at the roadstead; it has to be heard on the quay.",
           "whySpot": "It stands at the east end of the bench, 9 m above the flat, where the tower top is 30 m over the water.",
-          "whyNeighbours": "The council floor and the factor’s house are beside it; the bluff stair leaves from its foot.",
+          "whyNeighbours": "The council floor and the factor\u2019s house are beside it; the bluff stair leaves from its foot.",
           "playerPurpose": "The first thing seen from the bay and the mark that leads from the quay up to the council.",
-          "microGeography": "The piles stand on the break of slope on 9–10 m ground; the lamp platform rides above it."
+          "microGeography": "The piles stand on the break of slope on 9\u201310 m ground; the lamp platform rides above it."
         },
         "footprint": [
           [
@@ -2480,8 +2476,8 @@
           0.513596,
           0.859835
         ],
-        "yawDeg": 8.0,
-        "orientationWhy": "Its long axis lies along the bluff foot, 8 deg off the west lane, so the building fits the strip between the slope and the lane. The veranda front looks east; a short landing carries the lane to it.",
+        "yawDeg": 141.6,
+        "orientationWhy": "Turned to 141.6\u00b0 so the veranda front looks out at 142\u00b0 onto the short landing that carries the west lane to it.",
         "assetRef": "composite:stilt/stilthouse-with-door",
         "interior": {
           "kind": "dwelling"
@@ -2509,65 +2505,65 @@
           "whyHere": "Pusbottom was repopulated by people who could pay for a room and not for a house.",
           "whySpot": "It stands at the north-west corner of the district, where the bluff shelters it and the stair from the bench comes down.",
           "whyNeighbours": "The west lane of the loop passes its east side; the stair foot is at its north end.",
-          "playerPurpose": "The rooming house of the slum: hired rooms, the vault entrance quest and the broker’s office.",
-          "microGeography": "The flat here is 2–3 m and the bluff rises behind it; the piles are level with the walkway."
+          "playerPurpose": "The rooming house of the slum: hired rooms, the vault entrance quest and the broker\u2019s office.",
+          "microGeography": "The flat here is 2\u20133 m and the bluff rises behind it; the piles are level with the walkway."
         },
         "footprint": [
           [
-            0.513020677,
-            0.859358348
+            0.514337932,
+            0.859747076
           ],
           [
-            0.51309259,
-            0.858846662
+            0.514658888,
+            0.860152022
           ],
           [
-            0.513095465,
-            0.858845696
+            0.514657605,
+            0.86015477
           ],
           [
-            0.514114808,
-            0.858988956
+            0.513850901,
+            0.860794155
           ],
           [
-            0.51460232,
-            0.859057471
+            0.513465087,
+            0.861099948
           ],
           [
-            0.514604629,
-            0.859060535
+            0.513461276,
+            0.861099507
           ],
           [
-            0.514347932,
-            0.860887026
+            0.512315606,
+            0.85965403
           ],
           [
-            0.514168477,
-            0.861423314
+            0.512050996,
+            0.859154239
           ],
           [
-            0.514165413,
-            0.861425623
+            0.512051437,
+            0.859150428
           ],
           [
-            0.513527296,
-            0.861337311
+            0.512555449,
+            0.858749223
           ],
           [
-            0.513496406,
-            0.86133297
+            0.512579894,
+            0.858729848
           ],
           [
-            0.512837824,
-            0.860678903
+            0.513507722,
+            0.858703979
           ],
           [
-            0.512835516,
-            0.860675839
+            0.513511533,
+            0.85870442
           ],
           [
-            0.512906862,
-            0.860168182
+            0.513829962,
+            0.859106177
           ]
         ]
       },
@@ -2730,7 +2726,7 @@
           "what": "A bamboo hut in which a list of the names from the Slaughter is kept.",
           "whyHere": "Somebody in Pusbottom wrote down who died in 4E 48. The list stayed in the family.",
           "whySpot": "It stands on the east side of the west lane, opposite the vault house.",
-          "whyNeighbours": "The vault house faces it; the agent’s room is two doors south.",
+          "whyNeighbours": "The vault house faces it; the agent\u2019s room is two doors south.",
           "playerPurpose": "The slaughter-list evidence for the main quest.",
           "microGeography": "Level 2 m ground; the piles are a hand above the wet-season mark."
         },
@@ -2851,7 +2847,7 @@
           "what": "The house of the broker who sells deeds to emptied Rockpark houses.",
           "whyHere": "Deeds to plague houses sell in a slum, where buyers ask few questions.",
           "whySpot": "It is the second hut on the west side of the loop, under the bluff.",
-          "whyNeighbours": "The vault house is north of it and the reed-cutter’s house south.",
+          "whyNeighbours": "The vault house is north of it and the reed-cutter\u2019s house south.",
           "playerPurpose": "The Untouched House quest begins at this door. The broker will price a Rockpark deed for anyone who asks.",
           "microGeography": "The bluff foot keeps the ground here dry at 2 m."
         },
@@ -2945,7 +2941,7 @@
           0.864345
         ],
         "yawDeg": 175.9,
-        "orientationWhy": "The doorway is fixed on the hut, so the plot is turned to 330° to bring it onto the west side of the Pusbottom loop.",
+        "orientationWhy": "The doorway is fixed on the hut, so the plot is turned to 330\u00b0 to bring it onto the west side of the Pusbottom loop.",
         "assetRef": "composite:stilt/bamboohut01-with-door",
         "interior": {
           "kind": "dwelling"
@@ -2967,7 +2963,7 @@
           "what": "A rented room in a bamboo hut, kept by the deniable An-Xileel agent.",
           "whyHere": "An agent of the successor state cannot live openly in a city that hates it; a room in Pusbottom is the cover.",
           "whySpot": "It is on the east side of the west lane, one door south of the slaughter-list house.",
-          "whyNeighbours": "The broker’s house faces it across the lane.",
+          "whyNeighbours": "The broker\u2019s house faces it across the lane.",
           "playerPurpose": "The agent quest-giver and the Pusbottom Remembers confrontation.",
           "microGeography": "Level ground at 2 m, like its neighbours."
         },
@@ -3079,10 +3075,10 @@
           }
         ],
         "why": {
-          "what": "A reed-cutter’s hut, with the cut reeds stacked under the floor.",
+          "what": "A reed-cutter\u2019s hut, with the cut reeds stacked under the floor.",
           "whyHere": "The reed fringe south of the quay is cut by Pusbottom households for thatch and matting.",
           "whySpot": "It is the third hut on the west side, where the bluff begins to draw back from the lane.",
-          "whyNeighbours": "The broker’s house is north of it and the poler’s hut south.",
+          "whyNeighbours": "The broker\u2019s house is north of it and the poler\u2019s hut south.",
           "playerPurpose": "The cutter sells the line through the reed fringe that reaches the pole wall unseen. What will not fit under a floor goes into the stacked reed.",
           "microGeography": "The flat is 2 m here and floods a hand deep at the wet-season peak."
         },
@@ -3196,9 +3192,9 @@
         ],
         "why": {
           "what": "The house of the family who recognised their own goods in a licensed salvage lot.",
-          "whyHere": "Salvage from the drowned quarter comes up under licence; the drowned owners’ heirs live in Pusbottom.",
+          "whyHere": "Salvage from the drowned quarter comes up under licence; the drowned owners\u2019 heirs live in Pusbottom.",
           "whySpot": "It is the third hut on the east side of the west lane.",
-          "whyNeighbours": "The agent’s room is north of it and the dice-runner’s hut south.",
+          "whyNeighbours": "The agent\u2019s room is north of it and the dice-runner\u2019s hut south.",
           "playerPurpose": "The Licensed Lot quest begins here, with the family who recognised their own goods in the salvage sale.",
           "microGeography": "Level ground at 2 m, a hand above the wet-season mark."
         },
@@ -3310,12 +3306,12 @@
           }
         ],
         "why": {
-          "what": "A poler’s hut, home to one of the lighter crews.",
+          "what": "A poler\u2019s hut, home to one of the lighter crews.",
           "whyHere": "The lighter crews live in Pusbottom because it is the cheapest ground within reach of the quay.",
           "whySpot": "It is the fourth hut on the west side of the loop.",
           "whyNeighbours": "The reed-cutter is north of it and the south-corner hut beyond.",
           "playerPurpose": "The lighter crew's answer in Licensing the Lighters is settled here, by a poler who works the night landings.",
-          "microGeography": "The flat is 1.5–2 m here and the piles are a little longer."
+          "microGeography": "The flat is 1.5\u20132 m here and the piles are a little longer."
         },
         "footprint": [
           [
@@ -3548,9 +3544,9 @@
           "what": "The last hut on the west lane, at the south-west corner of the loop.",
           "whyHere": "A household on the corner watches both the lane and the shore boardwalk.",
           "whySpot": "It is where the west lane turns east, on the edge of the district.",
-          "whyNeighbours": "The poler’s hut is north of it; the shore lane to the fishers leaves at the corner.",
+          "whyNeighbours": "The poler\u2019s hut is north of it; the shore lane to the fishers leaves at the corner.",
           "playerPurpose": "The household that watches the shore lane. They saw who walked it the night the weighted lot went into the water.",
-          "microGeography": "The flat is 1–2 m and the hut stands on the highest of the low ground."
+          "microGeography": "The flat is 1\u20132 m and the hut stands on the highest of the low ground."
         },
         "footprint": [
           [
@@ -3663,7 +3659,7 @@
           "what": "A bamboo hut on the cross lane, home to a quay porter.",
           "whyHere": "The porters who carry from the lighters live nearest the quay.",
           "whySpot": "It is the first hut on the cross lane, just south of the spine.",
-          "whyNeighbours": "The spine passes its north side; the next porter’s hut is south.",
+          "whyNeighbours": "The spine passes its north side; the next porter\u2019s hut is south.",
           "playerPurpose": "A porter's stash of cargo that never reached the shed. It is owned, so the porter knows what is in it.",
           "microGeography": "Level ground at 2 m, a few steps from the quay deck."
         },
@@ -3776,7 +3772,7 @@
         ],
         "why": {
           "what": "A porter's hut on the cross lane, one of a shift of four who work the lighters together.",
-          "whyHere": "The cross lane holds the porters’ households, who work the quay in shifts.",
+          "whyHere": "The cross lane holds the porters\u2019 households, who work the quay in shifts.",
           "whySpot": "It is the second hut on the cross lane, between the first porter's hut and the diver's.",
           "whyNeighbours": "Porters live on both sides of it and the east lane runs behind its back wall.",
           "playerPurpose": "A bunk let by the night, because the quay shift sleeps here by day. The shift knows which sheds are watched.",
@@ -4102,7 +4098,7 @@
           0.873112
         ],
         "yawDeg": 347.5,
-        "orientationWhy": "The doorway is fixed on the hut, so the plot is turned to 60° to bring it onto the south lane of the loop.",
+        "orientationWhy": "The doorway is fixed on the hut, so the plot is turned to 60\u00b0 to bring it onto the south lane of the loop.",
         "assetRef": "composite:stilt/bamboohut02-with-door",
         "interior": {
           "kind": "dwelling"
@@ -4236,7 +4232,7 @@
         ],
         "why": {
           "what": "The second hut on the south lane, kept by a salvage sorter.",
-          "whyHere": "The salvage yard’s sorters live nearest the yard, at the south-east of the district.",
+          "whyHere": "The salvage yard\u2019s sorters live nearest the yard, at the south-east of the district.",
           "whySpot": "It stands on the loop where the walk turns north for the quay, on the last dry ground of the south lane.",
           "whyNeighbours": "The first south hut is west of it; the salvage bench is up the loop to the north-west.",
           "playerPurpose": "The sorter who handled the weighted lot in A Body in the Lot, with the morning's sale stacked around her.",
@@ -4338,7 +4334,7 @@
           "kind": "none"
         },
         "why": {
-          "what": "The lighter quay: an open deck on piles at the water’s edge, 18 m along the shore. Its outline is a plain rectangle because it is a platform, not a house.",
+          "what": "The lighter quay: an open deck on piles at the water\u2019s edge, 18 m along the shore. Its outline is a plain rectangle because it is a platform, not a house.",
           "whyHere": "Cargo comes ashore by lighter because the shelf is too shallow for a hull; this deck is where it is landed.",
           "whySpot": "It stands where the tidal flat gives out into the shelf, the nearest point to the channel that a deck reaches on piles.",
           "whyNeighbours": "The spine, the loop and the quay lane all end on it; the pier leaves its east side.",
@@ -4435,7 +4431,7 @@
           0.859564
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "Turned to 24.0° so the access gap looks out at 268° onto the quay lane: the keeper climbs from the lane; the lamp face still shows down the channel to the roadstead.",
+        "orientationWhy": "Turned to 24.0\u00b0 so the access gap looks out at 268\u00b0 onto the quay lane: the keeper climbs from the lane; the lamp face still shows down the channel to the roadstead.",
         "assetRef": "composite:stilt/kiosk-with-access",
         "interior": {
           "kind": "hall"
@@ -4461,10 +4457,10 @@
         "why": {
           "what": "The quay lamp: a 21 m timber kiosk tower at the north end of the quay, lit at night.",
           "whyHere": "The lighters run at night when a hull lies at the roadstead and need a mark on which to steer.",
-          "whySpot": "It stands on the water’s edge north of the deck, where its light is not hidden by the deck traffic.",
+          "whySpot": "It stands on the water\u2019s edge north of the deck, where its light is not hidden by the deck traffic.",
           "whyNeighbours": "The quay lane passes its west side; the lighter shed is across the lane.",
           "playerPurpose": "The lower of the two lamp tiers seen from the bay; the Whoever Relights It quest has its stair here.",
-          "microGeography": "The piles stand on the flat at 0–1 m, a stride from the water."
+          "microGeography": "The piles stand on the flat at 0\u20131 m, a stride from the water."
         },
         "footprint": [
           [
@@ -4772,12 +4768,12 @@
           }
         ],
         "why": {
-          "what": "The divers’ shed, where the salvage divers keep their lines and weights.",
+          "what": "The divers\u2019 shed, where the salvage divers keep their lines and weights.",
           "whyHere": "The drowned quarter is worked by free-divers under licence; their yard is on the quay.",
-          "whySpot": "It stands at the water’s edge south of the deck, where the diving stair drops into the channel.",
+          "whySpot": "It stands at the water\u2019s edge south of the deck, where the diving stair drops into the channel.",
           "whyNeighbours": "The salvage bench is south of it; the east lane of the loop runs past its door.",
           "playerPurpose": "The diving-stair station and the dive-master who opens the drowned quarter.",
-          "microGeography": "The flat is 0–1 m here; the piles on the water side stand in the shallows."
+          "microGeography": "The flat is 0\u20131 m here; the piles on the water side stand in the shallows."
         },
         "footprint": [
           [
@@ -4895,9 +4891,9 @@
           "what": "The salvage bench, where lots brought up from the drowned quarter are sorted and tagged.",
           "whyHere": "Salvage is the second living of the city after the lightering. It is sold sorted.",
           "whySpot": "It is the last building on the east lane, at the south end of the quay, set off the loop walk so the sorting has room.",
-          "whyNeighbours": "The divers’ shed is north of it; the south corner of the loop is beyond.",
+          "whyNeighbours": "The divers\u2019 shed is north of it; the south corner of the loop is beyond.",
           "playerPurpose": "Tagged lots on an open bench. What the sorters held back is underneath it.",
-          "microGeography": "The flat is at 0–1 m; the reed fringe begins south of the hut."
+          "microGeography": "The flat is at 0\u20131 m; the reed fringe begins south of the hut."
         },
         "footprint": [
           [
@@ -4989,7 +4985,7 @@
           0.877122
         ],
         "yawDeg": 263.4,
-        "orientationWhy": "Turned to 60° to put the piece's own doorway on the shore lane, with the blank end wall to the boat awning.",
+        "orientationWhy": "Turned to 60\u00b0 to put the piece's own doorway on the shore lane, with the blank end wall to the boat awning.",
         "assetRef": "composite:stilt/bamboohut01-with-door",
         "interior": {
           "kind": "dwelling"
@@ -5007,10 +5003,10 @@
           }
         ],
         "why": {
-          "what": "A fisher’s hut at the west end of the row.",
+          "what": "A fisher\u2019s hut at the west end of the row.",
           "whyHere": "The fishers of the estuary live on the low flat south of the bluff, near their boats.",
           "whySpot": "It is the westernmost hut of the row, beside the boat awning.",
-          "whyNeighbours": "The boat awning is west of it and the second fisher’s hut east.",
+          "whyNeighbours": "The boat awning is west of it and the second fisher\u2019s hut east.",
           "playerPurpose": "The household that keeps the dates of the offering season, which is when the estuary mouth closes to boats.",
           "microGeography": "The flat is 2 m and drains slowly, so the westernmost plot of the row stands wet longest after a high tide."
         },
@@ -5122,12 +5118,12 @@
           }
         ],
         "why": {
-          "what": "A fisher’s hut in the middle of the south row.",
+          "what": "A fisher\u2019s hut in the middle of the south row.",
           "whyHere": "The row holds the households who fish the shelf and the estuary mouth.",
           "whySpot": "It is the second hut of the south row, on the highest ground the row has.",
           "whyNeighbours": "Fishers live on both sides of it and the drying rack stands behind its south wall.",
           "playerPurpose": "The row's canoes are counted out from this door at dawn. One of them can be hired.",
-          "microGeography": "The flat is 2–3 m here, the highest of the row."
+          "microGeography": "The flat is 2\u20133 m here, the highest of the row."
         },
         "footprint": [
           [
@@ -5237,7 +5233,7 @@
           }
         ],
         "why": {
-          "what": "A fisher’s hut, with the fish rack behind it.",
+          "what": "A fisher\u2019s hut, with the fish rack behind it.",
           "whyHere": "The catch is dried on the flat behind the houses, away from the walkway.",
           "whySpot": "It is the third hut of the south row, with the rack on its south side.",
           "whyNeighbours": "The rack stands behind it; fishers live either side.",
@@ -5352,12 +5348,12 @@
           }
         ],
         "why": {
-          "what": "The easternmost fisher’s hut, nearest the pole wall.",
+          "what": "The easternmost fisher\u2019s hut, nearest the pole wall.",
           "whyHere": "The household nearest the estuary keeps the pole wall in repair.",
           "whySpot": "It is the last hut of the south row, 20 m from the water.",
-          "whyNeighbours": "The pole wall is east of it and the third fisher’s hut west.",
+          "whyNeighbours": "The pole wall is east of it and the third fisher\u2019s hut west.",
           "playerPurpose": "The keeper of the pole wall, who knows the shore-lane and reed-fringe passages at its open ends.",
-          "microGeography": "The flat is 1.5–2 m and floods in the wet season."
+          "microGeography": "The flat is 1.5\u20132 m and floods in the wet season."
         },
         "footprint": [
           [
@@ -5467,7 +5463,7 @@
           }
         ],
         "why": {
-          "what": "A fisher’s hut on the north side of the shore lane.",
+          "what": "A fisher\u2019s hut on the north side of the shore lane.",
           "whyHere": "The row is two deep where the flat is widest.",
           "whySpot": "It stands north of the lane opposite the first two south huts.",
           "whyNeighbours": "The south row faces it across the shore lane. The bluff foot is behind it.",
@@ -5564,7 +5560,7 @@
           0.874983
         ],
         "yawDeg": 126.5,
-        "orientationWhy": "Turned to 240° to put the piece's own doorway on the shore lane, so the north row's doors face the south row's across it.",
+        "orientationWhy": "Turned to 240\u00b0 to put the piece's own doorway on the shore lane, so the north row's doors face the south row's across it.",
         "assetRef": "composite:stilt/bamboohut01-with-door",
         "interior": {
           "kind": "dwelling"
@@ -5583,7 +5579,7 @@
           }
         ],
         "why": {
-          "what": "A fisher’s hut on the north side of the lane, kept by a recitation speaker.",
+          "what": "A fisher\u2019s hut on the north side of the lane, kept by a recitation speaker.",
           "whyHere": "Two of the six speakers for the Sixth Recitation now work the quay and live in the shore quarter.",
           "whySpot": "It is the middle hut of the north side, opposite the second hut of the south row.",
           "whyNeighbours": "Fishers live on either side; the bluff rises 60 m to the north.",
@@ -5795,16 +5791,16 @@
           0.875567
         ],
         "yawDeg": 233.0,
-        "orientationWhy": "Turned to 233° so the awning's open side looks up the fishers' path, the way along which a hull is carried up; the shore lane comes in behind its closed end.",
+        "orientationWhy": "Turned to 233\u00b0 so the awning's open side looks up the fishers' path, the way along which a hull is carried up; the shore lane comes in behind its closed end.",
         "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
         "interior": {
           "kind": "none"
         },
         "why": {
-          "what": "A hide awning on poles under which the fishers’ canoes are repaired.",
+          "what": "A hide awning on poles under which the fishers\u2019 canoes are repaired.",
           "whyHere": "Hulls have to be worked out of the rain. The fishers own no shed.",
           "whySpot": "It stands at the west end of the shore lane, where the lane stops.",
-          "whyNeighbours": "The first fisher’s hut is east of it; the flat runs empty to the west.",
+          "whyNeighbours": "The first fisher\u2019s hut is east of it; the flat runs empty to the west.",
           "playerPurpose": "The end of the shore lane, where a canoe is borrowed for the estuary.",
           "microGeography": "Level flat at 2 m at the west end of the row."
         },
@@ -5890,7 +5886,7 @@
           0.861191
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The ridge block keeps the 24° line of the old Imperial street, on which the villas of the lower town were set out.",
+        "orientationWhy": "The ridge block keeps the 24\u00b0 line of the old Imperial street, on which the villas of the lower town were set out.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
         "interior": {
           "kind": "none"
@@ -5898,10 +5894,10 @@
         "why": {
           "what": "A hollow Imperial block set so its top breaks the surface: the ridge that shows there is a city under the water.",
           "whyHere": "Old Imperial Lilmoth sank where it stood; this block stands nearest the quay in the shallowest water.",
-          "whySpot": "It sits 30 m off the quay lamp in 1–2 m of water, north of the channel.",
-          "whyNeighbours": "The channel passes south of it; the villa’s northern block lies further out.",
+          "whySpot": "It sits 30 m off the quay lamp in 1\u20132 m of water, north of the channel.",
+          "whyNeighbours": "The channel passes south of it; the villa\u2019s northern block lies further out.",
           "playerPurpose": "The long-range cue of the drowned quarter and the first thing a swimmer reaches.",
-          "microGeography": "The bed is 1–2 m under the surface; the block’s upper courses stand clear at low water."
+          "microGeography": "The bed is 1\u20132 m under the surface; the block\u2019s upper courses stand clear at low water."
         },
         "footprint": [
           [
@@ -5933,7 +5929,7 @@
           0.860784
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth at 24°, which ran at a slant to the channel cut later through it.",
+        "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth at 24\u00b0, which ran at a slant to the channel cut later through it.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
         "interior": {
           "kind": "none"
@@ -5941,10 +5937,10 @@
         "why": {
           "what": "A hollow block of a drowned villa, its roof gone, north of the channel.",
           "whyHere": "The villas along the old Imperial street sank into the shelf and have not been cleared.",
-          "whySpot": "It lies on the old street line, 70 m off the quay, in 3–4 m of water.",
+          "whySpot": "It lies on the old street line, 70 m off the quay, in 3\u20134 m of water.",
           "whyNeighbours": "The ridge block is inshore of it and a rubble floor beside it.",
           "playerPurpose": "A swim-through room with a salvage find inside it.",
-          "microGeography": "The bed here is 3–4 m down and the block sits on the old street level."
+          "microGeography": "The bed here is 3\u20134 m down and the block sits on the old street level."
         },
         "footprint": [
           [
@@ -5976,7 +5972,7 @@
           0.861191
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The rubble floor lies on the 24° street line, the last full course of a villa on the north side of the channel.",
+        "orientationWhy": "The rubble floor lies on the 24\u00b0 street line, the last full course of a villa on the north side of the channel.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05",
         "interior": {
           "kind": "none"
@@ -5987,7 +5983,7 @@
           "whySpot": "It lies east of the northern block on the old street grid.",
           "whyNeighbours": "The northern block is west of it and the roadstead beyond.",
           "playerPurpose": "A place to stand and surface between the northern block and the roadstead.",
-          "microGeography": "The bed is 6–7 m down; the slab sits level on it."
+          "microGeography": "The bed is 6\u20137 m down; the slab sits level on it."
         },
         "footprint": [
           [
@@ -6066,7 +6062,7 @@
           "whySpot": "It lies 20 m south of the channel on the old street line.",
           "whyNeighbours": "The drowned hall is east of it and the diving stair inshore.",
           "playerPurpose": "The first landing on the dive from the stair to the hall.",
-          "microGeography": "The bed is 9–10 m down here; the slab is the landing at the bottom of the dive."
+          "microGeography": "The bed is 9\u201310 m down here; the slab is the landing at the bottom of the dive."
         },
         "footprint": [
           [
@@ -6114,7 +6110,7 @@
           0.866887
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The hall is set to 24° with the rest of the drowned grid; its opening faces the diving stair on that bearing.",
+        "orientationWhy": "The hall is set to 24\u00b0 with the rest of the drowned grid; its opening faces the diving stair on that bearing.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
         "interior": {
           "kind": "none"
@@ -6122,10 +6118,10 @@
         "why": {
           "what": "The hall of a drowned villa: a hollow block that a swimmer can enter and stand up inside.",
           "whyHere": "The largest villa on the old street had a hall; it is the room that the divers work first.",
-          "whySpot": "It lies 95 m off the quay in 9–10 m of water, south of the channel.",
+          "whySpot": "It lies 95 m off the quay in 9\u201310 m of water, south of the channel.",
           "whyNeighbours": "The southern floor is inshore of it and the sunken shrine beyond.",
           "playerPurpose": "The drowned-quarter dive scene and the cleared mark.",
-          "microGeography": "The bed is 9–10 m down; the block’s top is 5 m under the surface."
+          "microGeography": "The bed is 9\u201310 m down; the block\u2019s top is 5 m under the surface."
         },
         "footprint": [
           [
@@ -6176,7 +6172,7 @@
           "whySpot": "It lies south-west of the hall, off the grid by 20 degrees.",
           "whyNeighbours": "The southern floor is north of it and the reed fringe inshore.",
           "playerPurpose": "A hiding place in the dive and a second salvage find.",
-          "microGeography": "The bed is 9–10 m down here and the block lies along the old slope of the street."
+          "microGeography": "The bed is 9\u201310 m down here and the block lies along the old slope of the street."
         },
         "footprint": [
           [
@@ -6215,7 +6211,7 @@
         },
         "why": {
           "what": "The sunken shrine to Xhon-Mehl the Fisher: a hollow block with the idol, altar and marker inside.",
-          "whyHere": "The fishers’ god of Lilmoth was worshipped in the lower town; the shrine drowned with it and the offerings continue.",
+          "whyHere": "The fishers\u2019 god of Lilmoth was worshipped in the lower town; the shrine drowned with it and the offerings continue.",
           "whySpot": "It is the outermost ruin, 120 m off the quay in 12 m of water, on the roadstead plateau.",
           "whyNeighbours": "The villa hall is inshore of it; the roadstead mark is north-east.",
           "playerPurpose": "The Offerings in the Mouth quest and the deepest dive from the city.",
@@ -6696,8 +6692,8 @@
           0.498175,
           0.86238
         ],
-        "yawDeg": 171.6,
-        "orientationWhy": "Turned to 171.6° so the doorway looks out at 314° onto the tavern path off the spine track, the way the crews come up from the quay.",
+        "yawDeg": 317.6,
+        "orientationWhy": "Turned to 317.6\u00b0 so the doorway looks out at 318\u00b0 onto the tavern path off the spine track, the way the crews come up from the quay.",
         "assetRef": "composite:stilt/stilthouse-with-door",
         "interior": {
           "kind": "hall"
@@ -6729,60 +6725,60 @@
         },
         "footprint": [
           [
-            0.498861494,
-            0.862674821
+            0.497441009,
+            0.862519464
           ],
           [
-            0.498936977,
-            0.863185993
+            0.497092587,
+            0.862137894
           ],
           [
-            0.498934492,
-            0.863187731
+            0.497093675,
+            0.862135063
           ],
           [
-            0.497916174,
-            0.863338103
+            0.497853812,
+            0.861440963
           ],
           [
-            0.497429152,
-            0.86341002
+            0.498217356,
+            0.861109001
           ],
           [
-            0.497426072,
-            0.863407733
+            0.498221188,
+            0.861109175
           ],
           [
-            0.497156631,
-            0.861583078
+            0.499464899,
+            0.862471213
           ],
           [
-            0.497177368,
-            0.861017942
+            0.499763728,
+            0.862951329
           ],
           [
-            0.497179655,
-            0.861014862
+            0.499763554,
+            0.862955161
           ],
           [
-            0.497816744,
-            0.860919414
+            0.499288757,
+            0.863390547
           ],
           [
-            0.497847603,
-            0.860914857
+            0.499265722,
+            0.86341158
           ],
           [
-            0.49866406,
-            0.861356368
+            0.498341959,
+            0.863502108
           ],
           [
-            0.498667139,
-            0.861358655
+            0.498338127,
+            0.863501934
           ],
           [
-            0.498742028,
-            0.861865802
+            0.497992448,
+            0.863123368
           ]
         ]
       },
@@ -6797,8 +6793,8 @@
           0.501584961,
           0.858295839
         ],
-        "yawDeg": 206.9,
-        "orientationWhy": "Turned to 206.9° so the doorway looks out at 349° onto the bench walk, the approach the council allows to the crown.",
+        "yawDeg": 350.4,
+        "orientationWhy": "Turned to 350.4\u00b0 so the doorway looks out at 350\u00b0 onto the bench walk, the approach that the council allows to the crown.",
         "assetRef": "composite:stilt/stilthouse-with-door",
         "interior": {
           "kind": "hall"
@@ -6830,60 +6826,60 @@
         },
         "footprint": [
           [
-            0.50197487,
-            0.85893315
+            0.500892443,
+            0.858015459
           ],
           [
-            0.50174109,
-            0.859393955
+            0.500806272,
+            0.85750598
           ],
           [
-            0.501738057,
-            0.859393937
+            0.50080872,
+            0.857504191
           ],
           [
-            0.500820076,
-            0.858928218
+            0.501823666,
+            0.857332526
           ],
           [
-            0.500381041,
-            0.858705483
+            0.502309075,
+            0.857250425
           ],
           [
-            0.500379849,
-            0.858701837
+            0.502312201,
+            0.857252647
           ],
           [
-            0.501214339,
-            0.857056969
+            0.502619796,
+            0.859071259
           ],
           [
-            0.501557832,
-            0.856607723
+            0.502610899,
+            0.859636706
           ],
           [
-            0.501561478,
-            0.856606531
+            0.502608677,
+            0.859639833
           ],
           [
-            0.502136586,
-            0.856896779
+            0.501973726,
+            0.859748602
           ],
           [
-            0.502164404,
-            0.856910892
+            0.50194297,
+            0.859753804
           ],
           [
-            0.502575615,
-            0.857743021
+            0.501117446,
+            0.859329489
           ],
           [
-            0.502576806,
-            0.857746667
+            0.501114319,
+            0.859327267
           ],
           [
-            0.502344867,
-            0.858203844
+            0.501028826,
+            0.858821799
           ]
         ]
       },
@@ -7224,12 +7220,8 @@
             0.864391989
           ],
           [
-            0.490337051,
-            0.864107534
-          ],
-          [
-            0.49413443,
-            0.864107534
+            0.493863189,
+            0.864378775
           ],
           [
             0.496304361,
@@ -7244,20 +7236,12 @@
             0.860717016
           ],
           [
-            0.497253706,
-            0.860717016
+            0.497375295,
+            0.860675982
           ],
           [
-            0.497524948,
-            0.860581396
-          ],
-          [
-            0.499016775,
-            0.859089568
-          ],
-          [
-            0.499016775,
-            0.858547086
+            0.498474292,
+            0.859632051
           ],
           [
             0.49846026,
@@ -7296,7 +7280,7 @@
             0.85875
           ]
         ],
-        "why": "The tenders’ path from the spine round the south of the court ring to the minder’s door.",
+        "why": "The tenders\u2019 path from the spine round the south of the court ring to the minder\u2019s door.",
         "endsAt": [
           "parcel.lilmoth.minder-lodge"
         ],
@@ -7306,15 +7290,23 @@
             0.861191
           ],
           [
+            0.496711223,
+            0.861123879
+          ],
+          [
+            0.496711223,
+            0.860852637
+          ],
+          [
             0.496439982,
             0.860581396
           ],
           [
-            0.49603312,
+            0.496168741,
             0.860581396
           ],
           [
-            0.494541293,
+            0.494676913,
             0.862073223
           ],
           [
@@ -7364,12 +7356,12 @@
             0.859835
           ],
           [
-            0.495761879,
-            0.859767672
+            0.496711223,
+            0.85936081
           ],
           [
-            0.495355017,
-            0.85936081
+            0.495015,
+            0.859428
           ],
           [
             0.493117,
@@ -7396,7 +7388,7 @@
             0.855088
           ]
         ],
-        "why": "The path from the spine north-west to the second tender’s lodge on the crest edge.",
+        "why": "The path from the spine north-west to the second tender\u2019s lodge on the crest edge.",
         "endsAt": [
           "parcel.lilmoth.second-tender-lodge"
         ],
@@ -7406,24 +7398,16 @@
             0.85875
           ],
           [
-            0.497524948,
-            0.858682706
-          ],
-          [
             0.49603312,
-            0.857190879
+            0.856512775
           ],
           [
             0.4961,
             0.856309
           ],
           [
-            0.494676913,
-            0.854885327
-          ],
-          [
-            0.49413443,
-            0.854885327
+            0.494541293,
+            0.854749706
           ],
           [
             0.493985539,
@@ -7549,12 +7533,12 @@
         ],
         "points": [
           [
-            0.497167973,
-            0.861273975
+            0.497029201,
+            0.861268883
           ],
           [
-            0.497529027,
-            0.861754008
+            0.497520823,
+            0.861745024
           ]
         ],
         "widthM": 1.2,
@@ -7628,36 +7612,36 @@
             0.86797237
           ],
           [
-            0.490201431,
+            0.490337051,
+            0.867904913
+          ],
+          [
+            0.491422017,
             0.868989878
           ],
           [
-            0.493727568,
-            0.868989878
+            0.49203184,
+            0.86905734
           ],
           [
-            0.495761879,
-            0.871024188
+            0.493456327,
+            0.870481706
           ],
           [
-            0.496439982,
-            0.871024188
+            0.495490637,
+            0.870481706
           ],
           [
-            0.49793181,
-            0.872516016
+            0.497796189,
+            0.872787257
           ],
           [
-            0.49806743,
-            0.873058499
+            0.498474292,
+            0.872922878
           ],
           [
-            0.499288016,
-            0.874279085
-          ],
-          [
-            0.499830499,
-            0.874279085
+            0.500237361,
+            0.874685947
           ],
           [
             0.500508603,
@@ -7940,28 +7924,32 @@
             0.858750168
           ],
           [
-            0.514884395,
-            0.858953948
-          ],
-          [
-            0.514884395,
-            0.85936081
-          ],
-          [
-            0.515155636,
-            0.859632051
+            0.514748774,
+            0.859089568
           ],
           [
             0.514748774,
-            0.860038913
+            0.860988258
           ],
           [
-            0.514748774,
-            0.863565051
+            0.514816115,
+            0.861191341
+          ],
+          [
+            0.514884395,
+            0.860988258
+          ],
+          [
+            0.515020016,
+            0.861123879
+          ],
+          [
+            0.515020016,
+            0.862615706
           ],
           [
             0.514206292,
-            0.864243154
+            0.86342943
           ],
           [
             0.514206292,
@@ -7984,16 +7972,24 @@
             0.869871064
           ],
           [
-            0.515562499,
-            0.869803602
+            0.516511843,
+            0.870888568
           ],
           [
             0.516714804,
             0.87095603
           ],
           [
-            0.516714804,
-            0.872312237
+            0.516647464,
+            0.872109154
+          ],
+          [
+            0.516783085,
+            0.872380395
+          ],
+          [
+            0.518681774,
+            0.872380395
           ],
           [
             0.518884735,
@@ -8008,12 +8004,16 @@
             0.866955568
           ],
           [
-            0.520309222,
-            0.866141844
+            0.520512184,
+            0.866073685
           ],
           [
-            0.520716084,
-            0.866006223
+            0.521258567,
+            0.865192499
+          ],
+          [
+            0.521597149,
+            0.865259961
           ],
           [
             0.522024245,
@@ -8111,7 +8111,7 @@
             0.8624
           ]
         ],
-        "why": "The quay lane along the water’s edge from the lantern at the stair foot past the licence house and the lamp to the deck.",
+        "why": "The quay lane along the water\u2019s edge from the lantern at the stair foot past the licence house and the lamp to the deck.",
         "endsAt": [
           "parcel.lilmoth.quay-deck"
         ],
@@ -8119,6 +8119,18 @@
           [
             0.5217,
             0.857665
+          ],
+          [
+            0.521665429,
+            0.85895
+          ],
+          [
+            0.521394188,
+            0.859225189
+          ],
+          [
+            0.521394188,
+            0.859632051
           ],
           [
             0.521665429,
@@ -8201,7 +8213,7 @@
             0.87604181
           ]
         ],
-        "why": "The boardwalk from the south corner of Pusbottom, clear of the corner hut, over the wet flat to the fishers’ row and the boat awning.",
+        "why": "The boardwalk from the south corner of Pusbottom, clear of the corner hut, over the wet flat to the fishers\u2019 row and the boat awning.",
         "endsAt": [
           "parcel.lilmoth.boat-awning"
         ],
@@ -8243,12 +8255,12 @@
             0.876177774
           ],
           [
-            0.50471237,
-            0.87617743
+            0.504170361,
+            0.876177774
           ],
           [
-            0.504577223,
-            0.876313395
+            0.50403427,
+            0.87631305
           ],
           [
             0.5022712,
@@ -8310,7 +8322,7 @@
             0.868515
           ]
         ],
-        "why": "The short pier from the divers’ shed to the diving stair.",
+        "why": "The short pier from the divers\u2019 shed to the diving stair.",
         "endsAt": [
           "parcel.lilmoth.divers-shed",
           "dock.lilmoth.diving-stair"
@@ -8351,8 +8363,12 @@
             0.855563104
           ],
           [
-            0.505547124,
-            0.85532328
+            0.505119706,
+            0.855156568
+          ],
+          [
+            0.505172964,
+            0.854757986
           ]
         ],
         "why": "The plank landing off the council walkway to the hall's own front, so the sitting is entered from the walkway and not off the bench grass.",
@@ -8841,7 +8857,7 @@
           "what": "The third Hist of Lilmoth, a 24 m tree grown from a root fragment of the second.",
           "whyHere": "Lilmoth has its own Hist despite having no native tribe; the third tree grew where the second was cut.",
           "whySpot": "It stands on the top of the crest at 22 m, the highest ground in the city.",
-          "whyNeighbours": "The court ring surrounds it on three sides and the two tenders’ lodges face it.",
+          "whyNeighbours": "The court ring surrounds it on three sides and the two tenders\u2019 lodges face it.",
           "playerPurpose": "The first thing seen from the road and the site of the Hist court scene.",
           "microGeography": "The crest is level for 20 m round the trunk before falling away on every side."
         },
@@ -8859,7 +8875,7 @@
           "what": "A hist flower growing at the foot of the trunk.",
           "whyHere": "The flowers come up from the root and the tenders leave them.",
           "whySpot": "It grows on the north-west side of the trunk.",
-          "whyNeighbours": "It is inside the court ring, between the trunk and the minder’s lodge.",
+          "whyNeighbours": "It is inside the court ring, between the trunk and the minder\u2019s lodge.",
           "playerPurpose": "An offering component for the Hist scenes.",
           "microGeography": "Level crest at 22 m, in the shade of the trunk for most of the day."
         }
@@ -8909,9 +8925,9 @@
         "why": {
           "what": "A drying rack for the estuary catch, standing 2.5 m at the back of the fishers' row.",
           "whyHere": "The fishers dry their catch on the flat behind the houses.",
-          "whySpot": "It stands behind the third fisher’s hut, on the south side of the row.",
-          "whyNeighbours": "The fishers’ huts are north of it; the flat runs to the pole wall east.",
-          "playerPurpose": "A source of dried fish and the fishers’ working ground.",
+          "whySpot": "It stands behind the third fisher\u2019s hut, on the south side of the row.",
+          "whyNeighbours": "The fishers\u2019 huts are north of it; the flat runs to the pole wall east.",
+          "playerPurpose": "A source of dried fish and the fishers\u2019 working ground.",
           "microGeography": "Level flat at 2 m behind the south row, clear of the huts and open on three sides."
         }
       },
@@ -8960,7 +8976,7 @@
         ],
         "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03",
         "why": {
-          "what": "The altar block of the shrine, where the fishers’ offerings are laid.",
+          "what": "The altar block of the shrine, where the fishers\u2019 offerings are laid.",
           "whyHere": "Offerings to the Fisher are still made each season by the shore households.",
           "whySpot": "It stands in the middle of the shrine block in front of the idol.",
           "whyNeighbours": "The idol is behind it and the marker at the opening.",
@@ -9023,9 +9039,9 @@
         "assetRef": "bmv:sheogorad/dagon fel/dockssteps",
         "yawDeg": 90.0,
         "why": {
-          "what": "The diving stair: a timber stair off the divers’ pier into the channel.",
+          "what": "The diving stair: a timber stair off the divers\u2019 pier into the channel.",
           "whyHere": "The salvage divers enter the water from a stair, so the deck stays clear for cargo. The channel between the flooded rows already reaches the stair, so it was re-ended on it rather than the stair moved (fit `water-to-dock`).",
-          "whyNeighbours": "The divers’ shed is at its head and the drowned villa floors lie below it.",
+          "whyNeighbours": "The divers\u2019 shed is at its head and the drowned villa floors lie below it.",
           "playerPurpose": "The diving-stair station and the start of every dive into the drowned quarter.",
           "microGeography": "The stair drops from the flat at 0 m to the bed at 2 m."
         },
@@ -9242,12 +9258,12 @@
         ],
         "boundary": [
           [
-            0.514404596,
-            0.858666947
+            0.514265821,
+            0.858805574
           ],
           [
-            0.512642007,
-            0.864472522
+            0.512641406,
+            0.864476787
           ],
           [
             0.512593078,
@@ -9258,16 +9274,20 @@
             0.865261215
           ],
           [
-            0.515007858,
-            0.870111371
+            0.515009148,
+            0.870114015
           ],
           [
-            0.516379531,
-            0.87285472
+            0.516451864,
+            0.872922878
           ],
           [
-            0.5191498,
-            0.87285472
+            0.518770429,
+            0.872922878
+          ],
+          [
+            0.519212299,
+            0.87277449
           ],
           [
             0.519837385,
@@ -9278,8 +9298,8 @@
             0.86460451
           ],
           [
-            0.515060251,
-            0.858008646
+            0.51506056,
+            0.858008915
           ]
         ],
         "clearanceClass": "tight",
@@ -9659,10 +9679,10 @@
       {
         "id": "door.mercantile-coast.lilmoth.4",
         "parcelId": "parcel.lilmoth.council-hall",
-        "facingDeg": 124.8,
+        "facingDeg": 146.0,
         "thresholdUV": [
-          0.505734879,
-          0.854865735
+          0.504727391,
+          0.854422552
         ],
         "interiorClaim": {
           "sizeClass": "large",
@@ -9745,10 +9765,10 @@
       {
         "id": "door.mercantile-coast.lilmoth.10",
         "parcelId": "parcel.lilmoth.pus-tower",
-        "facingDeg": 150.5,
+        "facingDeg": 141.7,
         "thresholdUV": [
-          0.514289687,
-          0.861061087
+          0.513771913,
+          0.860183583
         ],
         "interiorClaim": {
           "sizeClass": "large",
@@ -10187,10 +10207,10 @@
       {
         "id": "door.mercantile-coast.lilmoth.41",
         "parcelId": "parcel.lilmoth.spine-tavern",
-        "facingDeg": 314.1,
+        "facingDeg": 317.7,
         "thresholdUV": [
-          0.497163362,
-          0.861399654
+          0.4979752,
+          0.862044537
         ],
         "facesWay": "route.lilmoth.tavern-path",
         "interiorClaim": {
@@ -10203,10 +10223,10 @@
       {
         "id": "door.mercantile-coast.lilmoth.42",
         "parcelId": "parcel.lilmoth.bench-guild-hall",
-        "facingDeg": 349.4,
+        "facingDeg": 350.5,
         "thresholdUV": [
-          0.501325825,
-          0.856911159
+          0.501598739,
+          0.857905626
         ],
         "facesWay": "boardwalk.lilmoth.bench-walk",
         "interiorClaim": {
@@ -10719,8 +10739,8 @@
     ],
     "assetConstraints": [
       "settlement-mud-v1 is forbidden here: Lilmoth is Murkmire reed/stilt culture and material-culture.md forbids blending the two Argonian building cultures in one settlement.",
-      "composite:quay/stone-quay-with-stilt-house is forbidden here: it welds an Imperial keep stone dock to an Argonian stilt house, which is both the owner’s 2026-09-04 worked example of a composition nobody authored and a two-culture blend inside one mesh.",
-      "Dock systems are never butted mid-run: the BM&V Dagon Fel jetty system builds the lighter pier, HTBM’s tamu_ lashed-plank boardwalk builds the shore boardwalks; the change of system happens at the quay deck.",
+      "composite:quay/stone-quay-with-stilt-house is forbidden here: it welds an Imperial keep stone dock to an Argonian stilt house, which is both the owner\u2019s 2026-09-04 worked example of a composition nobody authored and a two-culture blend inside one mesh.",
+      "Dock systems are never butted mid-run: the BM&V Dagon Fel jetty system builds the lighter pier, HTBM\u2019s tamu_ lashed-plank boardwalk builds the shore boardwalks; the change of system happens at the quay deck.",
       "No new work is built into the Imperial masonry in district.lilmoth.north-gate."
     ],
     "ownership": {

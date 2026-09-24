@@ -239,11 +239,26 @@
         "children who swim before they walk"
       ],
       "notableNpcSlots": [
-        "npc.archon.harbour-master",
-        "npc.archon.customs-vicecanon",
-        "npc.archon.dunmer-factor",
-        "the Morag Tong's desk at a rented dockside guesthouse",
-        "the fence-den patron who holds nothing overnight"
+        {
+          "slotId": "npc-archon-harbour-master",
+          "role": "npc.archon.harbour-master"
+        },
+        {
+          "slotId": "npc-archon-customs-vicecanon",
+          "role": "npc.archon.customs-vicecanon"
+        },
+        {
+          "slotId": "npc-archon-dunmer-factor",
+          "role": "npc.archon.dunmer-factor"
+        },
+        {
+          "slotId": "morag-tong-s-desk",
+          "role": "the Morag Tong's desk at a rented dockside guesthouse"
+        },
+        {
+          "slotId": "fence-den-patron",
+          "role": "the fence-den patron who holds nothing overnight"
+        }
       ],
       "dangerTier": "D0",
       "traversalModes": [
@@ -357,7 +372,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road; the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "tropical jungle",
@@ -1224,7 +1239,10 @@
         "D0 tree-minders"
       ],
       "notableNpcSlots": [
-        "npc.archon.tree-minder"
+        {
+          "slotId": "npc-archon-tree-minder",
+          "role": "npc.archon.tree-minder"
+        }
       ],
       "dangerTier": "D0",
       "traversalModes": [
@@ -1555,7 +1573,10 @@
         "1-3 D1 keepers"
       ],
       "notableNpcSlots": [
-        "npc.archon.light-keeper"
+        {
+          "slotId": "npc-archon-light-keeper",
+          "role": "npc.archon.light-keeper"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -2256,8 +2277,14 @@
         "unoccupied inside"
       ],
       "notableNpcSlots": [
-        "npc.archon.sanctuary-watcher",
-        "npc.archon.retired-ku-vastei"
+        {
+          "slotId": "npc-archon-sanctuary-watcher",
+          "role": "npc.archon.sanctuary-watcher"
+        },
+        {
+          "slotId": "npc-archon-retired-ku",
+          "role": "npc.archon.retired-ku-vastei"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -2589,7 +2616,10 @@
         "one D2 yard master"
       ],
       "notableNpcSlots": [
-        "npc.archon.yard-master"
+        {
+          "slotId": "npc-archon-yard-master",
+          "role": "npc.archon.yard-master"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -5507,7 +5537,10 @@
         "D1 Hist-less households"
       ],
       "notableNpcSlots": [
-        "npc.refuge.speaker"
+        {
+          "slotId": "npc-refuge-speaker",
+          "role": "npc.refuge.speaker"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -8308,7 +8341,10 @@
         "D2 rootworm waykeepers"
       ],
       "notableNpcSlots": [
-        "npc.east-estuary.waykeeper"
+        {
+          "slotId": "npc-east-estuary-waykeeper",
+          "role": "npc.east-estuary.waykeeper"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -13027,7 +13063,10 @@
         "a broker who keeps the stack and the tally"
       ],
       "notableNpcSlots": [
-        "npc.saxhleel-coast.lay-by-broker"
+        {
+          "slotId": "npc-saxhleel-coast-lay",
+          "role": "npc.saxhleel-coast.lay-by-broker"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -13870,7 +13909,10 @@
         "a fire-keeper who decides which nights are worked"
       ],
       "notableNpcSlots": [
-        "npc.saxhleel-coast.wrecker-fire-keeper"
+        {
+          "slotId": "npc-saxhleel-coast-wrecker",
+          "role": "npc.saxhleel-coast.wrecker-fire-keeper"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -14374,7 +14416,10 @@
         "one D3 headman"
       ],
       "notableNpcSlots": [
-        "npc.portdun.pilot-elder"
+        {
+          "slotId": "npc-portdun-pilot-elder",
+          "role": "npc.portdun.pilot-elder"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -14657,7 +14702,10 @@
         "one D4 captain"
       ],
       "notableNpcSlots": [
-        "npc.portdun.marque-captain"
+        {
+          "slotId": "npc-portdun-marque-captain",
+          "role": "npc.portdun.marque-captain"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -14923,7 +14971,10 @@
         "D1 households"
       ],
       "notableNpcSlots": [
-        "npc.kept-village.speaker"
+        {
+          "slotId": "npc-kept-village-speaker",
+          "role": "npc.kept-village.speaker"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -15334,7 +15385,10 @@
         "porters and factors; customs clerks off shift"
       ],
       "notableNpcSlots": [
-        "npc.archon.tradehouse-keeper"
+        {
+          "slotId": "npc-archon-tradehouse-keeper",
+          "role": "npc.archon.tradehouse-keeper"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -15981,7 +16035,10 @@
         "D2 transfer clerks"
       ],
       "notableNpcSlots": [
-        "npc.seafalls.transfer-clerk"
+        {
+          "slotId": "npc-seafalls-transfer-clerk",
+          "role": "npc.seafalls.transfer-clerk"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -20049,7 +20106,10 @@
         "1 D3 hermit"
       ],
       "notableNpcSlots": [
-        "npc.wall.hermit"
+        {
+          "slotId": "npc-wall-hermit",
+          "role": "npc.wall.hermit"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -20276,7 +20336,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.wall-village.naheesh"
+        {
+          "slotId": "npc-wall-village-naheesh",
+          "role": "npc.wall-village.naheesh"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [

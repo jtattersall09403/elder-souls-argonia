@@ -159,15 +159,9 @@ HULL_DEPTH_M = bp_mod.HULL_CLASS_DEPTH_M
 def centre_depth_grid(s: ProvinceSurvey) -> np.ndarray:
     """Published water depth AT EACH GRID CELL CENTRE — the same number
     `ProvinceSurvey.sample()` reports, so the depth this compiler sites a berth
-    by is the depth `blueprint.py` then checks it against. Memoised on the
-    survey itself (a module cache keyed on the survey would pin it)."""
-    memo = getattr(s, "_centre_depth_grid", None)
-    if memo is not None:
-        return memo
-    idx = np.clip(((np.arange(s.grid_n) + 0.5) * s.grid_px_m / s.height_px_m).astype(int),
-                  0, s.water_depth_m.shape[0] - 1)
-    s._centre_depth_grid = s.water_depth_m[np.ix_(idx, idx)]
-    return s._centre_depth_grid
+    by is the depth `blueprint.py` then checks it against. Built once, read-only,
+    by the shared survey (`ProvinceSurvey.centre_depth_grid`)."""
+    return s.centre_depth_grid
 
 
 # --------------------------------------------------------------------------- #

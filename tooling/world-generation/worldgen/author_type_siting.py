@@ -41,6 +41,11 @@ from .scale import PROVINCE_EXTENT_M
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RECIPES_PATH = catalogue.CATALOGUE_DIR / "type-recipes.json"
 BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
+#: Blueprints the owner retired (2026-09-23; 16i re-authors those places).
+#: Only their FILENAMES are read, to name the types whose built-ground
+#: footprint was measured on them: those types keep their committed
+#: `footprintRadiusM` until a live blueprint of the type measures it again.
+RETIRED_BLUEPRINT_DIR = BLUEPRINT_DIR / "retired"
 
 # --------------------------------------------------------------------------- #
 # 1. footprint radius
@@ -176,6 +181,16 @@ def built_ground_radii() -> dict[str, float]:
         typ = rec["classification"]["type"]
         by_type[typ] = max(by_type.get(typ, 0.0), r)
     return by_type
+
+
+def retired_types() -> set[str]:
+    """Types of the catalogue records whose blueprint sits in `retired/`
+    (filenames only: nothing reads the retired layouts)."""
+    if not RETIRED_BLUEPRINT_DIR.exists():
+        return set()
+    ids = {path.stem for path in RETIRED_BLUEPRINT_DIR.glob("place.*.json")}
+    return {rec["classification"]["type"] for rf in catalogue.load_region_files()
+            for rec in rf.places if rec["id"] in ids}
 
 
 def derive_footprint_m(recipe: dict, measured: dict[str, float]) -> tuple[int, str]:
@@ -318,14 +333,19 @@ SCHEMA_NOTES = {
 
 def author(data: dict) -> dict:
     measured = built_ground_radii()
+    retired = retired_types() - set(measured)
     unknown = set(PROXIMITY) - {t["type"] for t in data["types"]}
     if unknown:
         raise SystemExit(f"PROXIMITY names types that do not exist: {sorted(unknown)}")
     data["schema"].update(SCHEMA_NOTES)
     for recipe in data["types"]:
-        radius, source = derive_footprint_m(recipe, measured)
-        recipe["footprintRadiusM"] = radius
-        recipe["footprintSource"] = source
+        # A built-ground footprint measured on a now-retired blueprint is
+        # carried unchanged: the ground it measured has not been re-authored
+        # yet (16i), and a band would shrink a 175 m wamasu pond to 45 m.
+        if not (recipe["type"] in retired and recipe.get("footprintSource") == "built-ground"):
+            radius, source = derive_footprint_m(recipe, measured)
+            recipe["footprintRadiusM"] = radius
+            recipe["footprintSource"] = source
         prox = PROXIMITY.get(recipe["type"])
         if prox is None:
             recipe.pop("proximity", None)

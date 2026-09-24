@@ -1099,7 +1099,10 @@
         "one very old fire-watcher"
       ],
       "notableNpcSlots": [
-        "the fire-watcher who maps the smoulder"
+        {
+          "slotId": "fire-watcher",
+          "role": "the fire-watcher who maps the smoulder"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -1418,7 +1421,10 @@
         "wheelwrights and farriers"
       ],
       "notableNpcSlots": [
-        "the four corner-holders, who split the toll and argue over the split"
+        {
+          "slotId": "four-corner-holders",
+          "role": "the four corner-holders, who split the toll and argue over the split"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -1680,7 +1686,10 @@
       "ownerFaction": "faction.sap-poachers",
       "occupants": [],
       "notableNpcSlots": [
-        "the heir who intends to marry out"
+        {
+          "slotId": "heir",
+          "role": "the heir who intends to marry out"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -2002,7 +2011,10 @@
         "occasional treasure-hunters"
       ],
       "notableNpcSlots": [
-        "the ghost whom the city calls Tavia, whether or not she is"
+        {
+          "slotId": "ghost-whom-city-calls",
+          "role": "the ghost whom the city calls Tavia, whether or not she is"
+        }
       ],
       "dangerTier": "D4",
       "approachDanger": "D3",
@@ -2361,8 +2373,14 @@
         "D2 road travellers"
       ],
       "notableNpcSlots": [
-        "the well-keeper",
-        "the landing's poler"
+        {
+          "slotId": "well-keeper",
+          "role": "the well-keeper"
+        },
+        {
+          "slotId": "landing-s-poler",
+          "role": "the landing's poler"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -2634,8 +2652,14 @@
         "one D3 site guard"
       ],
       "notableNpcSlots": [
-        "the chapter-agent who signs the finds out",
-        "the local foreman who signs nothing"
+        {
+          "slotId": "chapter-agent",
+          "role": "the chapter-agent who signs the finds out"
+        },
+        {
+          "slotId": "local-foreman",
+          "role": "the local foreman who signs nothing"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -2989,8 +3013,14 @@
         "no armed presence, unusual for the fringe"
       ],
       "notableNpcSlots": [
-        "the keeper, who has done it herself and will not say when",
-        "the resident on their fourth attempt"
+        {
+          "slotId": "keeper",
+          "role": "the keeper, who has done it herself and will not say when"
+        },
+        {
+          "slotId": "resident-fourth-attempt",
+          "role": "the resident on their fourth attempt"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -3266,8 +3296,14 @@
         "D3 whatever the hollow attracts on a night with someone in the wallow"
       ],
       "notableNpcSlots": [
-        "the keeper who separates the free rite from the paid herbs",
-        "the Gideon visitor who came out different"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who separates the free rite from the paid herbs"
+        },
+        {
+          "slotId": "gideon-visitor",
+          "role": "the Gideon visitor who came out different"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -3546,8 +3582,14 @@
         "one strong D3 who speaks for the tree"
       ],
       "notableNpcSlots": [
-        "the naheesh",
-        "the tree-minder who opposed the cutting"
+        {
+          "slotId": "naheesh",
+          "role": "the naheesh"
+        },
+        {
+          "slotId": "tree-minder",
+          "role": "the tree-minder who opposed the cutting"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -3898,10 +3940,22 @@
         "one D3 broker-guild enforcer"
       ],
       "notableNpcSlots": [
-        "the broker who fixes the spread",
-        "the boat-mistress who knows the reach",
-        "the clerk who sets the board before dawn",
-        "the An-Xileel buyer everyone pretends is a merchant"
+        {
+          "slotId": "broker",
+          "role": "the broker who fixes the spread"
+        },
+        {
+          "slotId": "boat-mistress",
+          "role": "the boat-mistress who knows the reach"
+        },
+        {
+          "slotId": "clerk",
+          "role": "the clerk who sets the board before dawn"
+        },
+        {
+          "slotId": "xileel-buyer-everyone-pretends",
+          "role": "the An-Xileel buyer everyone pretends is a merchant"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -4511,8 +4565,14 @@
         "a clerk who is not a soldier"
       ],
       "notableNpcSlots": [
-        "the captain with the claim",
-        "the clerk who forges the receipts"
+        {
+          "slotId": "captain-claim",
+          "role": "the captain with the claim"
+        },
+        {
+          "slotId": "clerk",
+          "role": "the clerk who forges the receipts"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -4795,15 +4855,42 @@
         "one strong D3 magistrate's champion"
       ],
       "notableNpcSlots": [
-        "the sitting magistrate",
-        "the Collections chapter-agent",
-        "the gardens' Hist-minder",
-        "the wintertide rootworm waykeeper",
-        "the League delegate at the hall, a devout Dibellan",
-        "the clerk of the civic registry",
-        "the advocate at the courthouse",
-        "the Gloommire claimant who attends the hearing on the city Hist",
-        "an Orsimer smith who arms and shoes the Leyawiin road caravans"
+        {
+          "slotId": "sitting-magistrate",
+          "role": "the sitting magistrate"
+        },
+        {
+          "slotId": "collections-chapter-agent",
+          "role": "the Collections chapter-agent"
+        },
+        {
+          "slotId": "gardens-hist-minder",
+          "role": "the gardens' Hist-minder"
+        },
+        {
+          "slotId": "wintertide-rootworm-waykeeper",
+          "role": "the wintertide rootworm waykeeper"
+        },
+        {
+          "slotId": "league-delegate-hall",
+          "role": "the League delegate at the hall, a devout Dibellan"
+        },
+        {
+          "slotId": "clerk-civic-registry",
+          "role": "the clerk of the civic registry"
+        },
+        {
+          "slotId": "advocate-courthouse",
+          "role": "the advocate at the courthouse"
+        },
+        {
+          "slotId": "gloommire-claimant",
+          "role": "the Gloommire claimant who attends the hearing on the city Hist"
+        },
+        {
+          "slotId": "orsimer-smith",
+          "role": "an Orsimer smith who arms and shoes the Leyawiin road caravans"
+        }
       ],
       "dangerTier": "D0",
       "approachDanger": "D2",
@@ -4906,7 +4993,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road; the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "firm lowland",
@@ -5227,7 +5314,10 @@
         "closed out of season"
       ],
       "notableNpcSlots": [
-        "the wintertide waykeeper"
+        {
+          "slotId": "wintertide-waykeeper",
+          "role": "the wintertide waykeeper"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -5548,7 +5638,10 @@
         "hired local guides"
       ],
       "notableNpcSlots": [
-        "the magister who wants the courthouse archive"
+        {
+          "slotId": "magister",
+          "role": "the magister who wants the courthouse archive"
+        }
       ],
       "dangerTier": "D1",
       "approachDanger": "D1",
@@ -5822,8 +5915,14 @@
         "a dry-season herd sheltering in the cuts"
       ],
       "notableNpcSlots": [
-        "the farmer taking road metal out of the bank",
-        "the records-court clerk with an opinion and no writ"
+        {
+          "slotId": "farmer-taking-road-metal",
+          "role": "the farmer taking road metal out of the bank"
+        },
+        {
+          "slotId": "records-court-clerk-opinion",
+          "role": "the records-court clerk with an opinion and no writ"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -6168,8 +6267,14 @@
         "D2 pilgrim-road guards"
       ],
       "notableNpcSlots": [
-        "the reading Nisswo",
-        "the innkeeper who keeps the wager book on which stone falls next"
+        {
+          "slotId": "reading-nisswo",
+          "role": "the reading Nisswo"
+        },
+        {
+          "slotId": "innkeeper",
+          "role": "the innkeeper who keeps the wager book on which stone falls next"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -6474,7 +6579,10 @@
         "D3 voriplasm seepage below the third course"
       ],
       "notableNpcSlots": [
-        "the sealer's heir, who has never opened the door"
+        {
+          "slotId": "sealer-s-heir",
+          "role": "the sealer's heir, who has never opened the door"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -6804,7 +6912,10 @@
       "ownerFaction": "faction.sap-poachers",
       "occupants": [],
       "notableNpcSlots": [
-        "the breaker who names every animal"
+        {
+          "slotId": "breaker",
+          "role": "the breaker who names every animal"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -7103,8 +7214,14 @@
         "D3 whatever uses the gorge floor at night"
       ],
       "notableNpcSlots": [
-        "the eldest, who argues every year against cutting a stair",
-        "the pilot who takes boats through the narrows"
+        {
+          "slotId": "eldest",
+          "role": "the eldest, who argues every year against cutting a stair"
+        },
+        {
+          "slotId": "pilot",
+          "role": "the pilot who takes boats through the narrows"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -8085,7 +8202,10 @@
         "licensed hunters passing"
       ],
       "notableNpcSlots": [
-        "the keeper who knows the poachers' names"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who knows the poachers' names"
+        }
       ],
       "dangerTier": "D4",
       "approachDanger": "D4",
@@ -8352,8 +8472,14 @@
         "D3 whatever nests in an unattended canopy platform"
       ],
       "notableNpcSlots": [
-        "the lookout paid by three villages",
-        "the child who climbs it faster than anyone"
+        {
+          "slotId": "lookout-paid-by-three",
+          "role": "the lookout paid by three villages"
+        },
+        {
+          "slotId": "child",
+          "role": "the child who climbs it faster than anyone"
+        }
       ],
       "dangerTier": "D4",
       "approachDanger": "D5",
@@ -9302,7 +9428,10 @@
         "D2 lake hunters"
       ],
       "notableNpcSlots": [
-        "the mooring-holder who decides where the village sits"
+        {
+          "slotId": "mooring-holder",
+          "role": "the mooring-holder who decides where the village sits"
+        }
       ],
       "dangerTier": "D4",
       "approachDanger": "D4",
@@ -9557,8 +9686,14 @@
         "D2 upland predators on the stair"
       ],
       "notableNpcSlots": [
-        "the cistern-keeper, an office older than any family here",
-        "the grain-factor who argues the assessment every year"
+        {
+          "slotId": "cistern-keeper",
+          "role": "the cistern-keeper, an office older than any family here"
+        },
+        {
+          "slotId": "grain-factor",
+          "role": "the grain-factor who argues the assessment every year"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -9830,7 +9965,10 @@
         "carters overnighting"
       ],
       "notableNpcSlots": [
-        "the keeper with the unrenewed warrant"
+        {
+          "slotId": "keeper-unrenewed-warrant",
+          "role": "the keeper with the unrenewed warrant"
+        }
       ],
       "dangerTier": "D1",
       "approachDanger": "D1",
@@ -10067,8 +10205,14 @@
         "in season: the road villages between Gideon and the Onkobra"
       ],
       "notableNpcSlots": [
-        "the ground-keeper who owns it in order to keep it empty",
-        "the Gideon clerk who returns every year with the same form"
+        {
+          "slotId": "ground-keeper",
+          "role": "the ground-keeper who owns it in order to keep it empty"
+        },
+        {
+          "slotId": "gideon-clerk",
+          "role": "the Gideon clerk who returns every year with the same form"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -10337,7 +10481,10 @@
         "one apprentice who will not be taught"
       ],
       "notableNpcSlots": [
-        "the sign-reader who set the court"
+        {
+          "slotId": "sign-reader",
+          "role": "the sign-reader who set the court"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -11336,7 +11483,10 @@
         "children on the drying floor"
       ],
       "notableNpcSlots": [
-        "the eldest potter, who sets the rotation"
+        {
+          "slotId": "eldest-potter",
+          "role": "the eldest potter, who sets the rotation"
+        }
       ],
       "dangerTier": "D1",
       "approachDanger": "D1",
@@ -11590,7 +11740,10 @@
         "D1 ferry family"
       ],
       "notableNpcSlots": [
-        "the ferrywoman who sets the crossing order"
+        {
+          "slotId": "ferrywoman",
+          "role": "the ferrywoman who sets the crossing order"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -11868,8 +12021,14 @@
         "D2 river hazards on the approach"
       ],
       "notableNpcSlots": [
-        "the scholar four years behind on her returns",
-        "the assistant who is the only competent naturalist here"
+        {
+          "slotId": "scholar-four-years-behind",
+          "role": "the scholar four years behind on her returns"
+        },
+        {
+          "slotId": "assistant",
+          "role": "the assistant who is the only competent naturalist here"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -12149,8 +12308,14 @@
         "D3 scrib swarms below the second gallery"
       ],
       "notableNpcSlots": [
-        "the mine family's heir who wants out",
-        "the tally-clerk from Gideon"
+        {
+          "slotId": "mine-family-s-heir",
+          "role": "the mine family's heir who wants out"
+        },
+        {
+          "slotId": "tally-clerk-from-gideon",
+          "role": "the tally-clerk from Gideon"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -12968,8 +13133,14 @@
         "one D3 enforcer"
       ],
       "notableNpcSlots": [
-        "the yard master with the ledger",
-        "the porter whose name is on the board"
+        {
+          "slotId": "yard-master-ledger",
+          "role": "the yard master with the ledger"
+        },
+        {
+          "slotId": "porter",
+          "role": "the porter whose name is on the board"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -13242,7 +13413,10 @@
         "D1 courier runners"
       ],
       "notableNpcSlots": [
-        "the relay elder who refuses letters"
+        {
+          "slotId": "relay-elder",
+          "role": "the relay elder who refuses letters"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -13955,7 +14129,10 @@
         "soul-snared captives"
       ],
       "notableNpcSlots": [
-        "the mask-bearer"
+        {
+          "slotId": "mask-bearer",
+          "role": "the mask-bearer"
+        }
       ],
       "dangerTier": "D4",
       "approachDanger": "D4",
@@ -14524,8 +14701,14 @@
         "D2 two hired locals losing patience"
       ],
       "notableNpcSlots": [
-        "Sabinus, who is not quite wrong",
-        "the local hand who has worked out the food arithmetic"
+        {
+          "slotId": "sabinus",
+          "role": "Sabinus, who is not quite wrong"
+        },
+        {
+          "slotId": "local-hand",
+          "role": "the local hand who has worked out the food arithmetic"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -14783,7 +14966,10 @@
         "empty grass out of it"
       ],
       "notableNpcSlots": [
-        "the fair-reeve elected for the week"
+        {
+          "slotId": "fair-reeve-elected-week",
+          "role": "the fair-reeve elected for the week"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -15888,8 +16074,14 @@
         "a bored D2 guard file"
       ],
       "notableNpcSlots": [
-        "the tallyman who remembers every cart",
-        "the ferryman who is also a smuggler"
+        {
+          "slotId": "tallyman",
+          "role": "the tallyman who remembers every cart"
+        },
+        {
+          "slotId": "ferryman",
+          "role": "the ferryman who is also a smuggler"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -16593,7 +16785,10 @@
         "D3 rim wildlife above the top wall"
       ],
       "notableNpcSlots": [
-        "the water-holder who allocates the spring"
+        {
+          "slotId": "water-holder",
+          "role": "the water-holder who allocates the spring"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -16852,9 +17047,18 @@
         "one very strong D4 senior captain"
       ],
       "notableNpcSlots": [
-        "the four captains",
-        "the keep's Hist-minder",
-        "the ka-deelith of the Four Winds hall"
+        {
+          "slotId": "four-captains",
+          "role": "the four captains"
+        },
+        {
+          "slotId": "keep-s-hist-minder",
+          "role": "the keep's Hist-minder"
+        },
+        {
+          "slotId": "ka-deelith-four-winds",
+          "role": "the ka-deelith of the Four Winds hall"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -17154,8 +17358,14 @@
         "D2 self-appointed town watch"
       ],
       "notableNpcSlots": [
-        "the victualler who bankrolls the company",
-        "the smith who will not shoe their guar"
+        {
+          "slotId": "victualler",
+          "role": "the victualler who bankrolls the company"
+        },
+        {
+          "slotId": "smith",
+          "role": "the smith who will not shoe their guar"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -18199,8 +18409,14 @@
       "ownerFaction": "faction.the-owing-brokers",
       "occupants": [],
       "notableNpcSlots": [
-        "the keeper who is on three payrolls",
-        "the fence who prices by how far the goods still have to travel"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who is on three payrolls"
+        },
+        {
+          "slotId": "fence",
+          "role": "the fence who prices by how far the goods still have to travel"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -19661,7 +19877,10 @@
         "a striker who does not speak"
       ],
       "notableNpcSlots": [
-        "the smith"
+        {
+          "slotId": "smith",
+          "role": "the smith"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -20451,7 +20670,10 @@
         "no other traffic"
       ],
       "notableNpcSlots": [
-        "the hereditary counter"
+        {
+          "slotId": "hereditary-counter",
+          "role": "the hereditary counter"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -21349,7 +21571,10 @@
         "D1 gatekeeper families in season"
       ],
       "notableNpcSlots": [
-        "the keeper who keeps the drowning tally"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who keeps the drowning tally"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -22404,7 +22629,10 @@
         "one D2 house bruiser"
       ],
       "notableNpcSlots": [
-        "the keeper who remembers verdicts"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who remembers verdicts"
+        }
       ],
       "dangerTier": "D1",
       "approachDanger": "D1",
@@ -24024,7 +24252,10 @@
         "unentered, by rule"
       ],
       "notableNpcSlots": [
-        "the terrace-keeper who explains the offence"
+        {
+          "slotId": "terrace-keeper",
+          "role": "the terrace-keeper who explains the offence"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -24588,8 +24819,14 @@
         "D3 in deep water"
       ],
       "notableNpcSlots": [
-        "the yard elder who forbids the town",
-        "the young diver who goes anyway"
+        {
+          "slotId": "yard-elder",
+          "role": "the yard elder who forbids the town"
+        },
+        {
+          "slotId": "young-diver",
+          "role": "the young diver who goes anyway"
+        }
       ],
       "dangerTier": "D4",
       "approachDanger": "D4",
@@ -25115,7 +25352,10 @@
         "one strong D3 in the wet season"
       ],
       "notableNpcSlots": [
-        "the keeper who checks tongues for the Flu that ended two centuries ago"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who checks tongues for the Flu that ended two centuries ago"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -25672,7 +25912,10 @@
         "D3 rim wildlife"
       ],
       "notableNpcSlots": [
-        "the ledge-master who keeps the tally"
+        {
+          "slotId": "ledge-master",
+          "role": "the ledge-master who keeps the tally"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -26821,8 +27064,14 @@
         "one D2 officeholder household"
       ],
       "notableNpcSlots": [
-        "the officeholder",
-        "the reluctant heir"
+        {
+          "slotId": "officeholder",
+          "role": "the officeholder"
+        },
+        {
+          "slotId": "reluctant-heir",
+          "role": "the reluctant heir"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -27369,7 +27618,10 @@
         "in storm: whoever is caught out, in any combination"
       ],
       "notableNpcSlots": [
-        "the party best avoided in a closed room"
+        {
+          "slotId": "party-you-would-rather",
+          "role": "the party best avoided in a closed room"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -27928,7 +28180,10 @@
         "D3 in the gorge floor after dark"
       ],
       "notableNpcSlots": [
-        "the ladder-keeper"
+        {
+          "slotId": "ladder-keeper",
+          "role": "the ladder-keeper"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -28491,7 +28746,10 @@
         "travellers"
       ],
       "notableNpcSlots": [
-        "the road Nisswo"
+        {
+          "slotId": "road-nisswo",
+          "role": "the road Nisswo"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -29037,8 +29295,14 @@
       "ownerFaction": null,
       "occupants": [],
       "notableNpcSlots": [
-        "the speaker who has never seen a Hist",
-        "the child who has"
+        {
+          "slotId": "speaker",
+          "role": "the speaker who has never seen a Hist"
+        },
+        {
+          "slotId": "child",
+          "role": "the child who has"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -29565,7 +29829,10 @@
         "the sick"
       ],
       "notableNpcSlots": [
-        "the keeper who cannot catch it again"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who cannot catch it again"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",
@@ -30094,7 +30361,10 @@
         "the soul-snared"
       ],
       "notableNpcSlots": [
-        "the warden who counts the gems"
+        {
+          "slotId": "warden",
+          "role": "the warden who counts the gems"
+        }
       ],
       "dangerTier": "D4",
       "approachDanger": "D4",
@@ -30402,8 +30672,14 @@
         "two D3 ascetics"
       ],
       "notableNpcSlots": [
-        "the elder ascetic",
-        "the one who is dying"
+        {
+          "slotId": "elder-ascetic",
+          "role": "the elder ascetic"
+        },
+        {
+          "slotId": "the-one",
+          "role": "the one who is dying"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -31266,8 +31542,14 @@
         "D3 Sul-Xan raiders working the same ground"
       ],
       "notableNpcSlots": [
-        "the eldest stone-talker, who can hear a crack before it opens",
-        "the young one who wants the charge ended"
+        {
+          "slotId": "eldest-stone-talker",
+          "role": "the eldest stone-talker, who can hear a crack before it opens"
+        },
+        {
+          "slotId": "young",
+          "role": "the young one who wants the charge ended"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -31799,7 +32081,10 @@
         "no guards"
       ],
       "notableNpcSlots": [
-        "the eldest, who will not move the camp"
+        {
+          "slotId": "eldest",
+          "role": "the eldest, who will not move the camp"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -32063,7 +32348,10 @@
         "one D3 hermit"
       ],
       "notableNpcSlots": [
-        "the hermit with two lamps"
+        {
+          "slotId": "hermit-two-lamps",
+          "role": "the hermit with two lamps"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -32334,8 +32622,14 @@
         "one D3 steward"
       ],
       "notableNpcSlots": [
-        "the steward who inherited the ledgers",
-        "the worker whose grandmother's entry is still open"
+        {
+          "slotId": "steward",
+          "role": "the steward who inherited the ledgers"
+        },
+        {
+          "slotId": "worker",
+          "role": "the worker whose grandmother's entry is still open"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -33139,8 +33433,14 @@
         "D3 on the ruin field below after dark"
       ],
       "notableNpcSlots": [
-        "the courier who uses the top as a drop",
-        "the Collections surveyor measuring the collapse rate"
+        {
+          "slotId": "courier",
+          "role": "the courier who uses the top as a drop"
+        },
+        {
+          "slotId": "collections-surveyor-measuring-collapse",
+          "role": "the Collections surveyor measuring the collapse rate"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -34507,7 +34807,10 @@
         "D2 field-edge guards at harvest"
       ],
       "notableNpcSlots": [
-        "the field-holder who keeps the common register"
+        {
+          "slotId": "field-holder",
+          "role": "the field-holder who keeps the common register"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D3",
@@ -34755,7 +35058,10 @@
       "ownerFaction": null,
       "occupants": [],
       "notableNpcSlots": [
-        "the scholar with the barrels"
+        {
+          "slotId": "scholar-barrels",
+          "role": "the scholar with the barrels"
+        }
       ],
       "dangerTier": "D2",
       "approachDanger": "D2",

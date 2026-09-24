@@ -297,7 +297,7 @@ Oliis ferry stage is now served by `travel.lilmoth.ferry-oliis`.
 
 Forty-three parcels here carry a door. Each of them now carries a typed
 `playerPurpose[]` (vocabulary and tiers: `worldgen/player_purpose.py`, evidence
-in [player-purpose-spectrum.md](../../../docs/research/placement-settlements/player-purpose-spectrum.md)).
+in [player-purpose-spectrum.md](../../../../docs/research/placement-settlements/player-purpose-spectrum.md)).
 Seventeen are major-tier at their best entry, twenty-six medium, none
 flavour-only. That is 40 % major, which is the ceiling the validator sets for any settlement.
 

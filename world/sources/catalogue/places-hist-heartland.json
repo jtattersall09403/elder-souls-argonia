@@ -540,8 +540,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the chime-maker",
-        "the deelith who teaches the trade"
+        {
+          "slotId": "chime-maker",
+          "role": "the chime-maker"
+        },
+        {
+          "slotId": "deelith",
+          "role": "the deelith who teaches the trade"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -1034,8 +1040,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the keeper who names every animal",
-        "the ka-deelith who breaks them"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who names every animal"
+        },
+        {
+          "slotId": "ka-deelith",
+          "role": "the ka-deelith who breaks them"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -1313,7 +1325,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the offering-keeper"
+        {
+          "slotId": "offering-keeper",
+          "role": "the offering-keeper"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -1529,8 +1544,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the egg-tender who kept the log",
-        "the naheesh who forbids talk of the clutch"
+        {
+          "slotId": "egg-tender",
+          "role": "the egg-tender who kept the log"
+        },
+        {
+          "slotId": "naheesh",
+          "role": "the naheesh who forbids talk of the clutch"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -2016,7 +2037,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the hideout's broker"
+        {
+          "slotId": "hideout-s-broker",
+          "role": "the hideout's broker"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -2256,8 +2280,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the deck-keeper",
-        "the poler who knows the lanes"
+        {
+          "slotId": "deck-keeper",
+          "role": "the deck-keeper"
+        },
+        {
+          "slotId": "poler",
+          "role": "the poler who knows the lanes"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -2775,7 +2805,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the waystation's carrier"
+        {
+          "slotId": "waystation-s-carrier",
+          "role": "the waystation's carrier"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -5033,8 +5066,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the camp's speaker, who does not give a name",
-        "the leader of the Unbound Root"
+        {
+          "slotId": "camp-s-speaker",
+          "role": "the camp's speaker, who does not give a name"
+        },
+        {
+          "slotId": "leader-unbound-root",
+          "role": "the leader of the Unbound Root"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -5273,8 +5312,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the tree-minder",
-        "a naheesh who carries the Root Talk"
+        {
+          "slotId": "tree-minder",
+          "role": "the tree-minder"
+        },
+        {
+          "slotId": "naheesh",
+          "role": "a naheesh who carries the Root Talk"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -5525,7 +5570,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the fermenter, who is never named twice"
+        {
+          "slotId": "fermenter",
+          "role": "the fermenter, who is never named twice"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -6282,7 +6330,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the sap-speaker who watches the sleepers"
+        {
+          "slotId": "sap-speaker",
+          "role": "the sap-speaker who watches the sleepers"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -6487,7 +6538,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the sap-speaker who watches the sleepers"
+        {
+          "slotId": "sap-speaker",
+          "role": "the sap-speaker who watches the sleepers"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -7716,7 +7770,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the rise-keeper"
+        {
+          "slotId": "rise-keeper",
+          "role": "the rise-keeper"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -7915,9 +7972,18 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the tree-minder",
-        "the root-herald who trades with Helstrom",
-        "the spring-keeper"
+        {
+          "slotId": "tree-minder",
+          "role": "the tree-minder"
+        },
+        {
+          "slotId": "root-herald",
+          "role": "the root-herald who trades with Helstrom"
+        },
+        {
+          "slotId": "spring-keeper",
+          "role": "the spring-keeper"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -8174,7 +8240,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the guide who decides when the party moves"
+        {
+          "slotId": "guide",
+          "role": "the guide who decides when the party moves"
+        }
       ],
       "dangerTier": "D5",
       "traversalModes": [
@@ -8400,7 +8469,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the senior guide, who decides when the party moves"
+        {
+          "slotId": "senior-guide",
+          "role": "the senior guide, who decides when the party moves"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -8878,7 +8950,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the grave-singer of the line"
+        {
+          "slotId": "grave-singer-line",
+          "role": "the grave-singer of the line"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -9153,7 +9228,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the hammock-wright"
+        {
+          "slotId": "hammock-wright",
+          "role": "the hammock-wright"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -9389,8 +9467,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the tree-minder who lost the argument",
-        "the licence-holder's agent"
+        {
+          "slotId": "tree-minder",
+          "role": "the tree-minder who lost the argument"
+        },
+        {
+          "slotId": "licence-holder-s-agent",
+          "role": "the licence-holder's agent"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -9645,12 +9729,30 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the assembly's speaking-elder",
-        "the root-herald who meets outsiders at the gate",
-        "the grove's senior tree-minder",
-        "the dock factor who prices every foreign hull",
-        "the archivist who keeps the years",
-        "the nisswo interpreter at the debating house"
+        {
+          "slotId": "assembly-s-speaking-elder",
+          "role": "the assembly's speaking-elder"
+        },
+        {
+          "slotId": "root-herald",
+          "role": "the root-herald who meets outsiders at the gate"
+        },
+        {
+          "slotId": "grove-s-senior-tree",
+          "role": "the grove's senior tree-minder"
+        },
+        {
+          "slotId": "dock-factor",
+          "role": "the dock factor who prices every foreign hull"
+        },
+        {
+          "slotId": "archivist",
+          "role": "the archivist who keeps the years"
+        },
+        {
+          "slotId": "nisswo-interpreter-debating-house",
+          "role": "the nisswo interpreter at the debating house"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -10066,8 +10168,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the mason who restarted it",
-        "the naheesh who has stopped arguing"
+        {
+          "slotId": "mason",
+          "role": "the mason who restarted it"
+        },
+        {
+          "slotId": "naheesh",
+          "role": "the naheesh who has stopped arguing"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -10310,7 +10418,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the occupant, who did not choose company"
+        {
+          "slotId": "occupant",
+          "role": "the occupant, who did not choose company"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -10529,7 +10640,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the occupant, who did not choose company"
+        {
+          "slotId": "occupant",
+          "role": "the occupant, who did not choose company"
+        }
       ],
       "dangerTier": "D5",
       "traversalModes": [
@@ -10751,7 +10865,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the Agaceph tree-minder"
+        {
+          "slotId": "agaceph-tree-minder",
+          "role": "the Agaceph tree-minder"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -10976,7 +11093,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the tree-minder, who is older than the office"
+        {
+          "slotId": "tree-minder",
+          "role": "the tree-minder, who is older than the office"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -11214,7 +11334,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the camp's chosen speaker, replaced every season"
+        {
+          "slotId": "camp-s-chosen-speaker",
+          "role": "the camp's chosen speaker, replaced every season"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -11462,8 +11585,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the Paatru tree-minder",
-        "a sap-speaker, when one is in residence"
+        {
+          "slotId": "paatru-tree-minder",
+          "role": "the Paatru tree-minder"
+        },
+        {
+          "slotId": "sap-speaker",
+          "role": "a sap-speaker, when one is in residence"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -11686,7 +11815,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the Sarpa tree-minder, who will not come down"
+        {
+          "slotId": "sarpa-tree-minder",
+          "role": "the Sarpa tree-minder, who will not come down"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -11918,7 +12050,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the kaal at the gate"
+        {
+          "slotId": "kaal-gate",
+          "role": "the kaal at the gate"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -13212,7 +13347,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the raj-nassa who sets the trial"
+        {
+          "slotId": "raj-nassa",
+          "role": "the raj-nassa who sets the trial"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -14627,8 +14765,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the grave-singer",
-        "the stake-reader"
+        {
+          "slotId": "grave-singer",
+          "role": "the grave-singer"
+        },
+        {
+          "slotId": "stake-reader",
+          "role": "the stake-reader"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -14921,8 +15065,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the tree-minder who keeps the dark rule",
-        "the grave-singer"
+        {
+          "slotId": "tree-minder",
+          "role": "the tree-minder who keeps the dark rule"
+        },
+        {
+          "slotId": "grave-singer",
+          "role": "the grave-singer"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -15161,8 +15311,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the tree-minder",
-        "a naheesh who carries the Root Talk"
+        {
+          "slotId": "tree-minder",
+          "role": "the tree-minder"
+        },
+        {
+          "slotId": "naheesh",
+          "role": "a naheesh who carries the Root Talk"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -15246,7 +15402,14 @@
         "dangerBand": 3,
         "distanceToRouteM": 11.0,
         "distanceToWaterM": 56.5,
-        "score": null
+        "score": null,
+        "water": {
+          "entityId": "body.2760-2066",
+          "kind": "marsh-fringe",
+          "levelM": 1.79,
+          "season": "perennial",
+          "distanceM": 56.5
+        }
       },
       "hostility": {
         "baseline": "wary",
@@ -15373,7 +15536,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the nisswo of this house"
+        {
+          "slotId": "nisswo-house",
+          "role": "the nisswo of this house"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -15599,7 +15765,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the office-holder"
+        {
+          "slotId": "office-holder",
+          "role": "the office-holder"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -15817,7 +15986,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the office-holder"
+        {
+          "slotId": "office-holder",
+          "role": "the office-holder"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -16046,7 +16218,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the pilgrim-warden"
+        {
+          "slotId": "pilgrim-warden",
+          "role": "the pilgrim-warden"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -16258,7 +16433,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the pilgrim-warden"
+        {
+          "slotId": "pilgrim-warden",
+          "role": "the pilgrim-warden"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -16464,7 +16642,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the counter on the platform"
+        {
+          "slotId": "counter-platform",
+          "role": "the counter on the platform"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -16661,7 +16842,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the tapper who sells to the wrong buyer"
+        {
+          "slotId": "tapper",
+          "role": "the tapper who sells to the wrong buyer"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -16911,7 +17095,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the relay's tally-keeper"
+        {
+          "slotId": "relay-s-tally-keeper",
+          "role": "the relay's tally-keeper"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -17171,7 +17358,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the keeper who has never turned anyone away"
+        {
+          "slotId": "keeper",
+          "role": "the keeper who has never turned anyone away"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -18477,7 +18667,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the line-keeper at the Helstrom mouth"
+        {
+          "slotId": "line-keeper-helstrom-mouth",
+          "role": "the line-keeper at the Helstrom mouth"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -19289,8 +19482,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the naheesh who holds this year's Root Talk",
-        "the Conclave's convening voice"
+        {
+          "slotId": "naheesh",
+          "role": "the naheesh who holds this year's Root Talk"
+        },
+        {
+          "slotId": "conclave-s-convening-voice",
+          "role": "the Conclave's convening voice"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -20060,7 +20259,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the Waykeeper who prices the line"
+        {
+          "slotId": "waykeeper",
+          "role": "the Waykeeper who prices the line"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -20638,7 +20840,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the licensed tapper"
+        {
+          "slotId": "licensed-tapper",
+          "role": "the licensed tapper"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -20720,7 +20925,14 @@
         "dangerBand": 4,
         "distanceToRouteM": 766.1,
         "distanceToWaterM": 16.5,
-        "score": null
+        "score": null,
+        "water": {
+          "entityId": "reach.1879-2437",
+          "kind": "sloped-rapid",
+          "levelM": 29.84,
+          "season": "perennial",
+          "distanceM": 16.5
+        }
       },
       "hostility": {
         "baseline": "guarded",
@@ -20852,7 +21064,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "a sap-speaker with the gold tongue"
+        {
+          "slotId": "sap-speaker-gold-tongue",
+          "role": "a sap-speaker with the gold tongue"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -21948,8 +22163,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the tree-minder",
-        "a naheesh who carries the Root Talk"
+        {
+          "slotId": "tree-minder",
+          "role": "the tree-minder"
+        },
+        {
+          "slotId": "naheesh",
+          "role": "a naheesh who carries the Root Talk"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -22242,7 +22463,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the squatter, who denies being one"
+        {
+          "slotId": "squatter",
+          "role": "the squatter, who denies being one"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -22778,8 +23002,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the pile-wright",
-        "the fisher who reads the water"
+        {
+          "slotId": "pile-wright",
+          "role": "the pile-wright"
+        },
+        {
+          "slotId": "fisher",
+          "role": "the fisher who reads the water"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -23034,8 +23264,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the pile-wright",
-        "the fisher who reads the water"
+        {
+          "slotId": "pile-wright",
+          "role": "the pile-wright"
+        },
+        {
+          "slotId": "fisher",
+          "role": "the fisher who reads the water"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -23264,7 +23500,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the jekka-wass who keeps the stones"
+        {
+          "slotId": "jekka-wass",
+          "role": "the jekka-wass who keeps the stones"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -24260,8 +24499,14 @@
         "D3 door-keepers"
       ],
       "notableNpcSlots": [
-        "npc.cult.the-collector",
-        "npc.cult.sermon-doorkeeper"
+        {
+          "slotId": "npc-cult-collector",
+          "role": "npc.cult.the-collector"
+        },
+        {
+          "slotId": "npc-cult-sermon-doorkeeper",
+          "role": "npc.cult.sermon-doorkeeper"
+        }
       ],
       "dangerTier": "D3",
       "approachDanger": "D3",
@@ -24769,7 +25014,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the expedition's paymaster"
+        {
+          "slotId": "expedition-s-paymaster",
+          "role": "the expedition's paymaster"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -26172,7 +26420,10 @@
       },
       "occupants": [],
       "notableNpcSlots": [
-        "the An-Xileel factor who visits and does not stay"
+        {
+          "slotId": "xileel-factor",
+          "role": "the An-Xileel factor who visits and does not stay"
+        }
       ],
       "questHooks": {
         "provisions": [],
@@ -28997,8 +29248,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "the kaal who holds the terraces",
-        "the keeper who knows which mechanisms still work"
+        {
+          "slotId": "kaal",
+          "role": "the kaal who holds the terraces"
+        },
+        {
+          "slotId": "keeper",
+          "role": "the keeper who knows which mechanisms still work"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [

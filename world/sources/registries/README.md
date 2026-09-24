@@ -55,7 +55,8 @@ Not here, because they already validate elsewhere: **routes**
 
 `python3 -m worldgen.npc_roster --apply` writes the whole file from the
 catalogue's `notableNpcSlots` under the prior-to-roster rule
-([world 92 §84](../../../docs/world/92-demographics.md)): id, name and name
+([world 92 §84](../../../docs/world/92-demographics.md)): id (the slot's authored
+`slotId`, never its words), name and name
 form, race from `population-priors.json` restricted by the record's culture,
 sex, faction, home (place id + slot index) and the slot's own words as the
 role, with the Phase 10b `NpcRecord`'s later fields left typed and empty.

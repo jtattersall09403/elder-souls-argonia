@@ -45,9 +45,6 @@ from .water_report import CHANNEL_REACH_KINDS
 CLIFF_ROCK, CLIFF_DIRT = 38, 39
 N_MATERIALS = 40
 
-# Major-road state of repair, as `routes_raster.CONDITION_CODES` writes it.
-ROAD_MAINTAINED, ROAD_WORN, ROAD_DECAYED, ROAD_BROKEN = 1, 2, 3, 4
-
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
 # organic litter patch. Wetland regions are mud/muck/moss-first — grass only
@@ -266,12 +263,10 @@ def compile_ground_control(height, region, slope, m_per_px, water=None,
     means `WaterPaint.from_sea_level(height)`: beyond the province border the
     only water is the sea at level 0 and there is no record to read.
 
-    roads: optional int8 CONDITION raster of the major roads (0 off-road,
-    1 maintained .. 4 broken — `routes_raster.condition_raster`), which
-    decides how much built surface still shows and how much of the underlying
-    ground has broken back through. A plain bool mask is still accepted and
-    read as `worn`. minor_routes: optional int8 raster of minor
-    route surface classes (routes_raster.MINOR_TRACK / MINOR_PATH); v_frac:
+    roads: optional mask of the major roads (bool, or the int8 condition
+    raster of `routes_raster.condition_raster`, read as nonzero = road; the
+    condition itself paints nothing, owner cut 2026-09-23).
+    minor_routes: optional int8 raster of minor route surface classes (routes_raster.MINOR_TRACK / MINOR_PATH); v_frac:
     optional 0(north)..1(south) province-latitude raster enabling the northern
     palette zone — all at the same resolution as height.
 
@@ -527,58 +522,16 @@ def compile_ground_control(height, region, slope, m_per_px, water=None,
     # dirt path / churned mud by wear noise + ground wetness. Painted only on
     # dry ground — crossings over water/channel beds stay unpainted
     # (bridges/ferries/boardwalks are placed features, Phase 11+).
+    # A route's `condition` is a route fact for grades and travel, never a
+    # ground paint: the condition-driven wear bake (2026-09-16) never ran on
+    # the shipped map and was cut by the owner on 2026-09-23 (16f ledger).
+    # Every major road paints alike, as the shipped control map does.
     if roads is not None:
-        roads = np.asarray(roads)
-        if roads.dtype == bool:
-            # Legacy bool callers (the border apron, older fixtures): a road
-            # with no authored state of repair is a worn road.
-            cond = np.where(roads, ROAD_WORN, 0).astype(np.int8)
-        else:
-            cond = roads.astype(np.int8)
+        on_road = (np.asarray(roads) > 0) & ~water & ~channel_bed
         wear = normal_field(shape, 120.0 * TUNE / m_per_px, "wear", origin, seed)   # ~120 m wear stretches
-        gap = normal_field(shape, 2.5 * TUNE / m_per_px, "gap", origin, seed)     # ~2.5 m potholes/washouts
-        on_road_all = (cond > 0) & ~water & ~channel_bed
-        # The surface a road shows is its authored state of repair (owner
-        # 2026-09-18): condition changes the MATERIAL MIX, the width and the
-        # fine gaps - never whether there is a road at all. A maintained road
-        # is built surface with the odd worn patch; a decayed one is a dirt
-        # path with cobbles surviving in stretches; a broken one is a path
-        # with a few remnants of surface and washouts breaking through. The
-        # long-wavelength erasure this block used to do (`wear` deleting the
-        # surface over ~120 m stretches) left 82% of a broken road with no
-        # road class at all, so it was invisible on the ground and from the
-        # air (owner walk 2026-09-18). Gaps are now SHORT (sigma 10 m), so a
-        # road always reads as a continuous line. The gap thresholds are
-        # 1.6 and 1.0 standard deviations, written in the units this field
-        # actually has: at sigma 2.5 m the smoothing is barely over one
-        # texel, so the field lands at std 1.18 rather than 1, and the plain
-        # numbers would have opened 11% and 22% gaps instead of 5% and 16%.
         road_mat = np.full(shape, BC_ROAD, dtype=np.int16)
-        keep_under = np.zeros(shape, dtype=bool)
-
-        m = cond == ROAD_MAINTAINED
-        road_mat = np.where(m & (wear > 0.75), PATH, road_mat)
-
-        m = cond == ROAD_WORN
-        road_mat = np.where(m & (wear > 0.45), PATH, road_mat)
-        road_mat = np.where(m & (wet_score > 1.2) & (wear > 0.3), TRACK, road_mat)
-
-        # decayed: a dirt path with about 65% of the old cobbles still in it,
-        # churned to mud where the ground is wet, and ~5% fine gaps.
-        m = cond == ROAD_DECAYED
-        road_mat = np.where(m, PATH, road_mat)
-        road_mat = np.where(m & (wear < 0.4), BC_ROAD, road_mat)
-        road_mat = np.where(m & (wet_score > 1.2), TRACK, road_mat)
-        keep_under |= m & (gap > 1.89)
-
-        # broken: a path with ~20% remnants of surface and ~16% fine gaps.
-        m = cond == ROAD_BROKEN
-        road_mat = np.where(m, PATH, road_mat)
-        road_mat = np.where(m & (wear < -0.85), BC_ROAD, road_mat)
-        road_mat = np.where(m & (wet_score > 1.2), TRACK, road_mat)
-        keep_under |= m & (gap > 1.18)
-
-        on_road = on_road_all & ~keep_under
+        road_mat[wear > 0.55] = PATH
+        road_mat[(wet_score > 1.2) & (wear > 0.3)] = TRACK
         mat = np.where(on_road, road_mat, mat)
         prov[on_road] = 0
 
@@ -595,7 +548,7 @@ def compile_ground_control(height, region, slope, m_per_px, water=None,
         mat = np.where(m_path, PATH, mat)
         prov[m_track | m_path] = 0
         if roads is not None:
-            on_road = (cond > 0) & dry & ~keep_under
+            on_road = (np.asarray(roads) > 0) & dry
             mat = np.where(on_road, road_mat, mat)
             prov[on_road] = 0
 

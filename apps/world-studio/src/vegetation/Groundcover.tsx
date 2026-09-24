@@ -552,6 +552,49 @@ export function foundationScatterPoints(treatment: FoundationTreatment): Foundat
   return points;
 }
 
+/** The sourced rubble for the foundation ring (16h K6): vanilla's small rock
+ * piles from the flora kit, never generated geometry (the no-art rule). */
+export const FOUNDATION_RUBBLE_PILES = [
+  "vanilla:landscape/rocks/rockpiles01",
+  "vanilla:landscape/rocks/rockpiles02",
+  "vanilla:landscape/rocks/rockpiles03",
+  "vanilla:landscape/rocks/rockpiles04",
+] as const;
+/** Triangle ceiling of one building's rubble ring. */
+export const FOUNDATION_RUBBLE_TRIANGLES = 2_000;
+/** Two piles never stand closer than this, centre to centre (m). */
+const FOUNDATION_RUBBLE_SPACING_M = 3;
+
+export interface FoundationRubblePile {
+  x: number; z: number; yaw: number; scale: number; pile: number;
+}
+
+/**
+ * The rubble piles of one building: its scatter points (weighted by
+ * `foundationScatterWeight`) taken in their deterministic `keep` order, each
+ * accepted as a sourced pile while the ring stays under
+ * FOUNDATION_RUBBLE_TRIANGLES and no pile crowds another. `pileTriangles[i]`
+ * is the LOD0 triangle count of FOUNDATION_RUBBLE_PILES[i].
+ */
+export function foundationRubblePiles(
+  treatment: FoundationTreatment, pileTriangles: readonly number[],
+): FoundationRubblePile[] {
+  if (!pileTriangles.length) return [];
+  const seed = hashString(treatment.id);
+  const piles: FoundationRubblePile[] = [];
+  let triangles = 0;
+  const points = foundationScatterPoints(treatment).sort((a, b) => a.keep - b.keep);
+  for (const p of points) {
+    const pile = hash32(Math.round(p.x * 10), Math.round(p.z * 10), seed, 6) % pileTriangles.length;
+    if (triangles + pileTriangles[pile] > FOUNDATION_RUBBLE_TRIANGLES) continue;
+    if (piles.some((q) => Math.hypot(q.x - p.x, q.z - p.z) < FOUNDATION_RUBBLE_SPACING_M)) continue;
+    // 0.5–0.8 of the source size: 1.6–3.2 m piles at a wall foot
+    piles.push({ x: p.x, z: p.z, yaw: p.yaw, scale: 0.5 + (p.scale - 0.55) / 1.15 * 0.3, pile });
+    triangles += pileTriangles[pile];
+  }
+  return piles;
+}
+
 /**
  * Is any of this treatment's scatter band within `radiusM` of the focus?
  *
@@ -1197,7 +1240,7 @@ export function Groundcover({
    * mesh is recreated only when a rebuild needs more room than its buffers
    * hold; otherwise the rebuild writes into the buffers it already has. */
   const meshPool = useRef(new Map<string, THREE.InstancedMesh>());
-  const foundationScatterMesh = useRef<THREE.InstancedMesh | null>(null);
+  const foundationScatterMeshes = useRef<THREE.InstancedMesh[]>([]);
   const requested = useRef(new Set<number>());
   /** Per-tile cache (mechanism 1). A tile's instances do not depend on the
    * focus, so crossing a boundary regenerates only the tiles that entered the
@@ -1333,26 +1376,45 @@ export function Groundcover({
     if (manifest) setKit(buildFloraKit(gltf, manifest));
   }, [gltf, manifest]);
 
-  // The rubble geometry and material are one pair for the component's life:
-  // a rebuild used to allocate and drop a fresh dodecahedron and a fresh
-  // standard material every time the focus crossed a tile. Not a module-level
-  // singleton — this is app code, but the package rule's reasoning (no shared
-  // mutable state between scenes) holds here too.
-  const foundationParts = useMemo(() => ({
-    geometry: new THREE.DodecahedronGeometry(0.13, 0),
-    material: Object.assign(
-      new THREE.MeshStandardMaterial({ color: 0x5b5142, roughness: 1 }),
-      { userData: { esAerial: true } }),
-  }), []);
+  // The foundation rubble is the flora kit's own rock piles (16h K6; the
+  // generated dodecahedron broke the no-art rule). The GLB load is shared
+  // with the vegetation renderer through useLoader's cache, so its geometry
+  // and materials are never disposed here, only this layer's instance meshes.
+  const floraGltf = useLoader(GLTFLoader, `${baseUrl}kits/flora-province-v1.glb`,
+    (loader) => configureKitLoader(loader, decoders));
+  const [floraManifest, setFloraManifest] = useState<KitManifest | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${baseUrl}kits/flora-province-v1.kit.json`)
+      .then((r) => r.json())
+      .then((m: KitManifest) => { if (!cancelled) setFloraManifest(m); })
+      .catch((e) => { if (!cancelled) console.warn("groundcover: flora kit manifest failed", e); });
+    return () => { cancelled = true; };
+  }, [baseUrl]);
+  const foundationParts = useMemo(() => {
+    if (!floraManifest) return null;
+    const wanted = new Set<string>(FOUNDATION_RUBBLE_PILES);
+    const subset = { ...floraManifest,
+      assets: floraManifest.assets.filter((a) => wanted.has(a.id)) };
+    const piles = buildFloraKit(floraGltf, subset);
+    const out = FOUNDATION_RUBBLE_PILES.map((id) => {
+      const species = piles.get(id);
+      const asset = subset.assets.find((a) => a.id === id);
+      return species && asset ? {
+        parts: species.levels[0].parts,
+        triangles: species.levels[0].triangles,
+        baseM: asset.originOffsetM?.[2] ?? 0,
+      } : null;
+    });
+    return out.every((p) => p !== null) ? out as NonNullable<typeof out[number]>[] : null;
+  }, [floraGltf, floraManifest]);
 
   useEffect(() => () => {
-    foundationParts.geometry.dispose();
-    foundationParts.material.dispose();
-    const mesh = foundationScatterMesh.current;
-    if (!mesh) return;
-    mesh.removeFromParent();
-    mesh.dispose();
-    foundationScatterMesh.current = null;
+    for (const mesh of foundationScatterMeshes.current) {
+      mesh.removeFromParent();
+      mesh.dispose();
+    }
+    foundationScatterMeshes.current = [];
   }, [foundationParts]);
 
   // The easy half of the wind work: groundcover casts no shadows, so there is
@@ -1760,51 +1822,58 @@ export function Groundcover({
     // walks a lattice over a whole building's band, and re-deriving every
     // settlement in the province per rebuild — to throw all but one away on
     // distance — was the single most expensive thing a tile crossing did.
+    const pileTriangles = foundationParts?.map((p) => p.triangles) ?? [];
     const scatter = foundationTreatments
       .filter((t) => nearTreatment(focus, t, farRadiusM))
-      .flatMap(foundationScatterPoints)
+      .flatMap((t) => foundationRubblePiles(t, pileTriangles))
       .filter((p) => Math.hypot(focus.x - p.x, focus.z - p.z) <= ringRadiusM)
       .filter((p) => !waterData || waterData.depthProxy(p.x, p.z) <= LAND_SPECIES_MAX_DEPTH_M);
     const groundedScatter = scatter.flatMap((point) => {
       const heightM = groundHeightM(store, chunks, point.x, point.z);
       return heightM === null ? [] : [{ point, heightM }];
+    }).slice(0, MAX_FOUNDATION_SCATTER);
+    const visibleScatter = groundedScatter;
+    let scatterDraws = 0;
+    (foundationParts ?? []).forEach((pile, pileIndex) => {
+      const mine = visibleScatter.filter(({ point }) => point.pile === pileIndex);
+      pile.parts.forEach((part, partIndex) => {
+        const slot = pileIndex * 8 + partIndex;
+        let mesh = foundationScatterMeshes.current[slot];
+        if (mesh && mesh.instanceMatrix.count < mine.length) {
+          group.remove(mesh);
+          mesh.dispose();
+          mesh = undefined as unknown as THREE.InstancedMesh;
+        }
+        if (!mine.length) {
+          if (mesh) mesh.count = 0;
+          return;
+        }
+        if (!mesh) {
+          mesh = new THREE.InstancedMesh(part.geometry, part.material,
+            Math.max(16, Math.ceil(mine.length * 1.5)));
+          mesh.userData.perfTag = "gc";
+          mesh.castShadow = false;
+          mesh.receiveShadow = true;
+          mesh.name = "foundation-scatter";
+          group.add(mesh);
+          foundationScatterMeshes.current[slot] = mesh;
+        }
+        for (let i = 0; i < mine.length; i++) {
+          const { point: p, heightM } = mine[i];
+          // the pile's base on the ground, sunk a tenth of a metre per unit scale
+          position.set(p.x, heightM * verticalScale + (pile.baseM - 0.1) * p.scale, p.z);
+          quaternion.setFromAxisAngle(up, p.yaw);
+          scale.setScalar(p.scale);
+          mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
+        }
+        mesh.count = mine.length;
+        mesh.instanceMatrix.needsUpdate = true;
+        mesh.computeBoundingSphere();
+        scatterDraws += 1;
+        const index = part.geometry.getIndex();
+        triangles += (index ? index.count : part.geometry.attributes.position.count) / 3 * mine.length;
+      });
     });
-    const scatterScale = groundedScatter.length > MAX_FOUNDATION_SCATTER
-      ? MAX_FOUNDATION_SCATTER / groundedScatter.length : 1;
-    const visibleScatter = groundedScatter.filter(({ point }) => point.keep < scatterScale);
-    const scatterMesh = foundationScatterMesh.current;
-    if (scatterMesh && scatterMesh.instanceMatrix.count < visibleScatter.length) {
-      group.remove(scatterMesh);
-      scatterMesh.dispose();
-      foundationScatterMesh.current = null;
-    }
-    if (visibleScatter.length) {
-      const { geometry, material } = foundationParts;
-      const mesh = foundationScatterMesh.current ?? new THREE.InstancedMesh(
-        geometry, material, Math.max(64, Math.ceil(visibleScatter.length * 1.5)));
-      mesh.userData.perfTag = "gc";
-      for (let i = 0; i < visibleScatter.length; i++) {
-        const { point: p, heightM } = visibleScatter[i];
-        position.set(p.x, heightM * verticalScale + 0.06 * p.scale, p.z);
-        quaternion.setFromAxisAngle(up, p.yaw);
-        scale.set(p.scale * 1.35, p.scale * 0.55, p.scale);
-        mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
-      }
-      mesh.count = visibleScatter.length;
-      mesh.instanceMatrix.needsUpdate = true;
-      mesh.computeBoundingSphere();
-      mesh.castShadow = false;
-      mesh.receiveShadow = false;
-      mesh.name = "foundation-scatter";
-      if (!foundationScatterMesh.current) {
-        group.add(mesh);
-        foundationScatterMesh.current = mesh;
-      }
-      triangles += (geometry.getIndex()?.count ?? geometry.attributes.position.count)
-        / 3 * visibleScatter.length;
-    } else if (foundationScatterMesh.current) {
-      foundationScatterMesh.current.count = 0;
-    }
 
     const tFilled = performance.now();
     const perfNow = perf.current;
@@ -1815,7 +1884,7 @@ export function Groundcover({
     perfNow.tilesLive = tiles;
     const stats: GroundcoverStats = {
       instances,
-      draws: liveMeshes.size + (visibleScatter.length ? 1 : 0),
+      draws: liveMeshes.size + scatterDraws,
       triangles: Math.round(triangles),
       tiles,
       byTier,

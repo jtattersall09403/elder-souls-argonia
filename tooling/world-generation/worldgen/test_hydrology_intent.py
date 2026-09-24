@@ -77,12 +77,20 @@ def test_local_pool_emits_absolute_radial_geometry_without_a_connection():
     assert geometry["ringM"][0] == geometry["ringM"][-1]
 
 
-def test_nine_trunks_authored_waterway_ends_at_the_authored_dock_without_rasters():
-    rows, errors = hydrology_intent.load_authored_minor_waterways()
-    assert not errors
-    nine = next(row for row in rows if row["id"] == "waterway.hist-heartland.nine-trunks")
-    assert nine["pointsM"][-1] == nine["terminalM"] == [4992.745, 3786.371]
-    assert nine["terminalId"] == "terminal.nine-trunks.landing-channel"
-    assert nine["connectsTo"] == ["network.minor-waterways.hist-heartland"]
-    assert len(nine["contentDigest"]) == 64
+def test_authored_waterways_end_at_their_terminal_without_rasters(tmp_path):
+    # Both live rows were retired with their blueprints (2026-09-23/24), so
+    # the claim is proved on a written row as well as on every live one.
+    import json
+    from .test_authored_waterways import SYNTHETIC_AUTHORED_ROW
+    live, errors = hydrology_intent.load_authored_minor_waterways()
+    assert not errors, errors
+    path = tmp_path / "authored-minor-waterways.json"
+    path.write_text(json.dumps({"waterways": [SYNTHETIC_AUTHORED_ROW]}))
+    written, errors = hydrology_intent.load_authored_minor_waterways(path)
+    assert not errors and written
+    for row in live + written:
+        assert row["pointsM"][-1] == row["terminalM"], row["id"]
+        assert row["terminalId"].startswith("terminal."), row["id"]
+        assert row["connectsTo"] == ["network.minor-waterways.hist-heartland"], row["id"]
+        assert len(row["contentDigest"]) == 64, row["id"]
 

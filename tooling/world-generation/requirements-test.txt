@@ -10,3 +10,10 @@ shapely>=2,<3
 # fail the whole placement-slow job - which is what had been failing the deploy,
 # independently of any world defect (run 34394121081, 2026-09-09).
 pytest-xdist
+# mine_mounts classifies kit anchors by real mesh-to-mesh contact (16h round 6):
+# trimesh proximity needs rtree for its triangle tree.
+trimesh>=4,<6
+rtree>=1,<2
+# pipeline/bsa.py reads SSE (LZ4-frame) BSAs: King of the Murkmire.bsa feeds
+# the mounts miner's non-kit NIF lookup (16h M18/M19, planner ruling 4).
+lz4>=4,<5

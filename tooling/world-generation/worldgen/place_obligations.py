@@ -30,6 +30,11 @@ from . import blueprint_promises
 SCHEMA_VERSION = 2
 MANIFEST_SCHEMA_VERSION = 2
 DELIVERY_OWNERS = {"phase-11-compiled", "phase-12", "phase-13", "quests"}
+# The exemplar set 16i builds (docs/phases/16-foundation-and-places/
+# 16i-exemplars-end-to-end.md step 1: "Keep the five", Phase 16 ruling 13).
+# Their 2026-09-09 blueprints are retired (blueprints/retired/, 2026-09-23), so
+# the live gate reports all five missing until 16i re-authors them; 16i adds
+# its sixth (a dungeon-kind record) here when it chooses it.
 PHASE11_EXEMPLAR_PLACE_IDS = frozenset({
     "place.dunmer-north.mazzatun",
     "place.hist-heartland.nine-trunks",
@@ -57,7 +62,7 @@ PLOT_FIELDS = {
     "sitingNote", "whySiteWon", "workflow",
     # 16g siting geometry: what a pair of places promises each other, and the
     # ground each one occupies. Measured, not delivered.
-    "coSitedWith", "footprintPolygon", "footprintRadiusM", "footprintSource",
+    "coSitedWith", "footprintPolygon", "footprintRadiusM", "footprintSource", "footprintWhy",
 }
 DELIVERY_FIELDS = {
     "approachDanger", "assetGaps", "assetPlan", "authoredDangerProperty",
@@ -529,6 +534,11 @@ def obligation_document(records: dict[str, dict], blueprints: Iterable[dict], *,
     ``expected_place_ids`` is mandatory because discovering the expected set
     from the supplied blueprints makes whole-place omission unobservable.
     """
+    from .blueprint import is_fixture
+
+    # A fixture (the proving ground, a replay) is never a place and owes the
+    # catalogue nothing: skipped by the exporter's own predicate (K5).
+    blueprints = [bp for bp in blueprints if not is_fixture(bp)]
     rows: list[Obligation] = []
     errors: list[str] = []
     expected = set(expected_place_ids)

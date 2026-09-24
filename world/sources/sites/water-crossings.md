@@ -19,11 +19,11 @@ are published at the time of the run — re-run after any route rebuild.
 | id | water | entity | span m | depth m | band | position | nearest place | m |
 |---|---|---|---:|---:|---|---|---|---:|
 | `crossing.major.001` | marsh | `body.973-3292` | 231.4 | 2.88 | span | 1725.3, 5992.7 | Robbed City | 115.9 |
-| `crossing.major.002` | marsh | `body.1284-3448` | 127.7 | 3.69 | span | 2426.1, 6409.1 | The Water Reckoning | 54.5 |
+| `crossing.major.002` | marsh | `body.1284-3448` | 127.7 | 3.69 | span | 2426.1, 6409.1 | Blackrose | 84.6 |
 | `crossing.major.003` | marsh | `body.2442-1212` | 78.3 | 1.68 | span | 3820.8, 1269.4 | The Chimney | 86.7 |
 | `crossing.major.004` | marsh | `body.2442-1212` | 66.9 | 4.68 | span | 4397.8, 1513.1 | Chasecreek | 149.6 |
 | `crossing.major.005` | marsh | `body.1293-692` | 62.1 | 2.13 | span | 2304.3, 1183.1 | Hixinoag | 107.5 |
-| `crossing.major.006` | marsh | `body.1284-3448` | 55.0 | 2.85 | span | 2290.9, 6394.5 | Speaks-Below-The-Water | 68.9 |
+| `crossing.major.006` | marsh | `body.1284-3448` | 55.0 | 2.85 | span | 2290.9, 6394.5 | The Water Reckoning | 28.8 |
 | `crossing.major.007` | marsh | `body.2442-1212` | 54.1 | 1.8 | span | 3844.3, 1181.7 | Crosstrees | 42.7 |
 | `crossing.major.008` | lake | `body.1015-2680` | 40.2 | 1.92 | span | 1859.0, 4911.9 | The Book House | 237.4 |
 | `crossing.major.009` | marsh | `body.2442-1212` | 36.3 | 1.32 | span | 4469.4, 1598.4 | The Turning House | 245.1 |

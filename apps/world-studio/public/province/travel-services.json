@@ -776,7 +776,7 @@
         "hail": "text.canoe.riverwalk-the-tide-fair.hail",
         "name": "text.canoe.riverwalk-the-tide-fair.name"
       },
-      "why": "A poler works this chain of minor waterways (waterway.dunmer-north.hissmir, waterway.dunmer-north.murkwater, waterway.dunmer-north.riverwalk, ...), which joins Riverwalk and Hissmir and Murkwater and Tide Fair on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+      "why": "A poler works this chain of minor waterways (waterway.dunmer-north.hissmir, waterway.dunmer-north.murkwater, waterway.dunmer-north.riverwalk and others), which joins Riverwalk and Hissmir and Murkwater and Tide Fair on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
     },
     {
       "available": [],
@@ -826,7 +826,7 @@
         "hail": "text.canoe.treasure-hunters-live-camp-portdun-mont.hail",
         "name": "text.canoe.treasure-hunters-live-camp-portdun-mont.name"
       },
-      "why": "A poler works this chain of minor waterways (waterway.hist-heartland.dive-shaft-xanmeer-well, waterway.hist-heartland.mist-locked-hollow-basin, waterway.hist-heartland.treasure-hunters-live-camp, ...), which joins Fortune's Own and Portdun Mont on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+      "why": "A poler works this chain of minor waterways (waterway.hist-heartland.dive-shaft-xanmeer-well, waterway.hist-heartland.mist-locked-hollow-basin, waterway.hist-heartland.treasure-hunters-live-camp and others), which joins Fortune's Own and Portdun Mont on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
     },
     {
       "available": [],
@@ -910,7 +910,7 @@
         "hail": "text.canoe.slough-point-quinrawl-anchorage.hail",
         "name": "text.canoe.slough-point-quinrawl-anchorage.name"
       },
-      "why": "A poler works this chain of minor waterways (waterway.imperial-fringe.slough-point, waterway.imperial-fringe.the-white-throat, waterway.mercantile-coast.moonmarch, ...), which joins Slough Point and Moonmarch and Mudfoot and Quin'rawl Anchorage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+      "why": "A poler works this chain of minor waterways (waterway.imperial-fringe.slough-point, waterway.imperial-fringe.the-white-throat, waterway.mercantile-coast.moonmarch and others), which joins Slough Point and Moonmarch and Mudfoot and Quin'rawl Anchorage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
     },
     {
       "available": [],
@@ -960,7 +960,7 @@
         "hail": "text.canoe.lake-divers-yard-lake-ferry-stage.hail",
         "name": "text.canoe.lake-divers-yard-lake-ferry-stage.name"
       },
-      "why": "A poler works this chain of minor waterways (waterway.imperial-penal-south.blackrose-drowned-hist, waterway.imperial-penal-south.lake-divers-yard, waterway.imperial-penal-south.lake-ferry-stage, ...), which joins The Barge Yard and The North Stage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+      "why": "A poler works this chain of minor waterways (waterway.imperial-penal-south.blackrose-drowned-hist, waterway.imperial-penal-south.lake-divers-yard, waterway.imperial-penal-south.lake-ferry-stage and others), which joins The Barge Yard and The North Stage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
     },
     {
       "available": [],
@@ -1027,7 +1027,7 @@
         "hail": "text.canoe.bright-throat-village-oliis-ferry-stage.hail",
         "name": "text.canoe.bright-throat-village-oliis-ferry-stage.name"
       },
-      "why": "A poler works this chain of minor waterways (waterway.mercantile-coast.bright-throat-village, waterway.mercantile-coast.glowfen-murkmire, waterway.mercantile-coast.oliis-ferry-stage, ...), which joins Bright-Throat Village and Screen-Watch and Estuary Stage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
+      "why": "A poler works this chain of minor waterways (waterway.mercantile-coast.bright-throat-village, waterway.mercantile-coast.glowfen-murkmire, waterway.mercantile-coast.oliis-ferry-stage and others), which joins Bright-Throat Village and Screen-Watch and Estuary Stage on one run. The chain is the connected component of the published minor channels; the hops are pathed over the published waterways."
     },
     {
       "available": [
@@ -1079,7 +1079,7 @@
           "stationId": "ferry-landing.drowning-gate.east"
         }
       },
-      "questUse": "The province's canon western exit. Seasonal availability gives a quest a hard reason a route is shut without moving any terrain.",
+      "questUse": "The province's attested western exit. Seasonal availability gives a quest a hard reason a route is shut without moving any terrain.",
       "refusedIf": [],
       "serviceKind": "ferry",
       "severs": [
@@ -1095,7 +1095,7 @@
         "class": "river",
         "name": "the western road's flood reach"
       },
-      "why": "The Drowning Gate is a monsoon barrier 108 m up the road: 'the western road closes every monsoon at this point', and 'two families are paid by Gideon to swing the barrier and to argue with whoever wants it opened anyway'. They already stand at a shut road with a crowd of people who want past. The ferry is what they sell when the gate is down, and it is the only way onto the Blackwood Road out of the province in the wet season. In the dry season the gate is open and the reach is a ford, so the service is seasonal and the fare is what a monopoly charges."
+      "why": "The Drowning Gate is a monsoon barrier 108 m up the road: 'the western road closes every monsoon at this point'; 'two families are paid by Gideon to swing the barrier and to argue with whoever wants it opened anyway'. They already stand at a shut road with a crowd of people who want past. The ferry is what they sell when the gate is down. In the wet season it is the only way onto the Blackwood Road out of the province. In the dry season the gate is open and the reach is a ford, so the service is seasonal and the fare is what a monopoly charges."
     },
     {
       "available": [],
@@ -1142,7 +1142,7 @@
           "stationId": "ferry-landing.onkobra-bond.town"
         }
       },
-      "questUse": "A customs choke on every road out of Gideon. `carriedValueAtLeast` refuses the boat, which pushes the player to the ford and into the Owing ledger.",
+      "questUse": "A customs choke on every road out of Gideon. `carriedValueAtLeast` refuses the boat, which pushes a traveller to the ford and into the Owing ledger.",
       "refusedIf": [
         {
           "predicate": "carriedValueAtLeast",
@@ -1179,7 +1179,7 @@
         "class": "river",
         "name": "the lower Onkobra"
       },
-      "why": "Three trunk roads out of Gideon meet the Onkobra on the same reach, and Gideon's bonded warehouse stands 24 m from the wider of the two crossings: 'goods declared but not yet taxed have to sit somewhere lockable. Gideon's court is their lawful holder.' The water is half a metre deep, so the ferry is not there because the river cannot be waded. It is there because the county has put a boat and a clerk on the only crossing its roads use, and everything that steps off the boat has been looked at. Wading is faster. Wading is also smuggling."
+      "why": "Three trunk roads out of Gideon meet the Onkobra on the same reach; Gideon's bonded warehouse stands 24 m from the wider of the two crossings: 'goods declared but not yet taxed have to sit somewhere lockable. Gideon's court is their lawful holder.' The water is half a metre deep, so the ferry is not there because the river cannot be waded. It is there because the county has put a boat and a clerk on the only crossing its roads use. Everything that steps off the boat is inspected. Wading is faster. Wading is also smuggling."
     },
     {
       "available": [],
@@ -1292,7 +1292,7 @@
         "class": "lake",
         "name": "the Blackrose lake"
       },
-      "why": "The five lake stations already declare `ferry` in `travelStation.modes` and already name each other as destinations. This edge only writes down the network they imply, so the travel system reads one graph. A prison lake is the one place a ferry checks who is getting on."
+      "why": "The five lake stations already declare `ferry` in `travelStation.modes` and already name each other as destinations. This edge only writes down the network they imply, so the travel system reads one graph. On a prison lake, a ferry checks who boards."
     },
     {
       "available": [],
@@ -1362,7 +1362,7 @@
         "class": "river",
         "name": "the Bramman"
       },
-      "why": "Bramman River Ferry is a road crossing the catalogue already solved: 'the coast road crosses the river south of Soulrest where it is too deep to bridge'. It pairs with the Oliis stage, and the Oliis ferry 'is older than the rebuilt city'. Recorded as a station run because both ends are catalogued stations, not bare landings."
+      "why": "Bramman River Ferry is a road crossing the catalogue already solved: 'the coast road crosses the river south of Soulrest where it is too deep to bridge'. It pairs with the Oliis stage; the Oliis ferry 'is older than the rebuilt city'. Recorded as a station run because both ends are catalogued stations, not bare landings."
     },
     {
       "available": [],
@@ -1417,7 +1417,7 @@
           "predicate": "weatherIs"
         }
       ],
-      "retiredWhy": "No lane exists: `route.boat.archon-estuary` was never published, and both stages were unsited. Archon rides `route.boat.lilmoth-archon`.",
+      "retiredWhy": "No lane exists: `route.boat.archon-estuary` was never published; both stages were unsited. Archon rides `route.boat.lilmoth-archon`.",
       "serviceKind": "ferry",
       "severs": [],
       "stations": [
@@ -1435,7 +1435,7 @@
         "class": "estuary",
         "name": "the Saxhleel estuary"
       },
-      "why": "Archon and Soulrest are two of the three major seaports (Lore:Sea Transportation) and both already declare `ferry`. The long open-water leg is the one run in the province that a storm can stop, which is what the refusal predicate is for."
+      "why": "Archon and Soulrest are two of the three major seaports (Lore:Sea Transportation) and both already declare `ferry`. The long open-water leg is the one run in the province that a storm can stop, which the refusal predicate exists to cover."
     },
     {
       "available": [],
@@ -1494,7 +1494,7 @@
         "hail": "text.rootworm.underground-express.hail",
         "name": "text.rootworm.underground-express.name"
       },
-      "why": "Pass-1 speculative network for the canonical rootworm 'Underground Express' (The Argonian Account, master plan §19). Canon gives the mechanism and its deep-marsh association, not station positions: these are placed where Hist/root density is generated (rootland classes) and will be re-authored with Hist-node placement in Phase 11. Deliberately unreachable-by-road deep-marsh points — the network bypasses surface danger for those granted access. (MQ05's early Stormhold/AC->Helstrom protected travel is an escorted BOAT convoy on the waterway network, owner decision 2026-08-23 - not rootworm; this network is the deeper restricted system.)"
+      "why": "Pass-1 speculative network for the canonical rootworm 'Underground Express' (The Argonian Account, master plan §19). The source gives the mechanism and its deep-marsh association, not station positions: these are placed where Hist/root density is generated (rootland classes) and will be re-authored with Hist-node placement in Phase 11. Deliberately unreachable-by-road deep-marsh points — the network bypasses surface danger for those granted access. (MQ05's early Stormhold/AC->Helstrom protected travel is an escorted BOAT convoy on the waterway network, owner decision 2026-08-23 - not rootworm; this network is the deeper restricted system.)"
     }
   ],
   "stations": [

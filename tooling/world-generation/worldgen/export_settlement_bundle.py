@@ -30,13 +30,27 @@ import numpy as np
 
 from .site_fields import ProvinceSurvey, shared_survey
 from .compile_settlement import (
-    blueprint_sha256, _canonical_sha256, compiled_blueprint_objects,
-    compiled_terrain_objects,
+    POLICY_GROUND_FIT,
+    assembly_doorways, blueprint_sha256, _canonical_sha256, compiled_blueprint_objects,
+    compiled_terrain_objects, kit_connectors, kit_interiors,
 )
+from . import blueprint as bp_mod
 from . import catalogue, place_obligations
 from . import grade_settlement_pads
 
-SCHEMA_VERSION = 1
+_ASSET_PIPELINE = Path(__file__).resolve().parents[3] / "tooling" / "asset-pipeline"
+if str(_ASSET_PIPELINE) not in sys.path:
+    sys.path.insert(0, str(_ASSET_PIPELINE))
+# The evidence vocabulary lives once, in the manifest writer (16h K11 ruling B).
+from pipeline.placement_metadata import (  # noqa: E402
+    GROUND_CONTACT_EVIDENCE,
+    PLACEMENT_EVIDENCE_FIELDS,
+    SINK_EVIDENCE_PREFIXES,
+    fit_policy_evidence,
+    load_inventory,
+)
+
+SCHEMA_VERSION = 2
 COLLISION_FRAME = "settlement-pivot-yup-v1"
 
 # Hard ceiling on the collision parts the runtime will build for the settlement
@@ -50,25 +64,27 @@ COLLISION_FRAME = "settlement-pivot-yup-v1"
 # the measured manifest proxy where present, otherwise the asset's LOD0 mesh
 # primitive count read from the kit GLB (that is what SettlementLayer.solidFrom
 # falls back to). Worst case Lilmoth 1033 parts (466 placements); next largest
-# Mazzatun 51, Nine-Trunks 48, Wamasu Pond 28, Sap-Tapping 2. 1600 is ~1.55x
-# the worst case, so Lilmoth can grow by half again before this re-trips.
+# Mazzatun 51, Nine-Trunks 48, Wamasu Pond 28, Sap-Tapping 2.
 # The old value, 256, was a bare literal never calibrated against a real
 # settlement, and it silently blanked Lilmoth in the browser. See decision 0052.
-COLLIDER_PART_BUDGET = 1600
-
-# `--ship-with-errors` exists so the owner can walk a world with named defects
-# in it rather than wait for a clean one. That bargain only holds while the
-# defect DEGRADES GRACEFULLY: a hut on the wrong ground line, a quay in the
-# flood band, a place whose prose is ahead of its geometry. The world still
-# draws, and the defect is visible and named.
 #
-# These classes do not degrade. Each one makes the runtime refuse to draw or
-# throw outright, so waiving it does not buy a defective world — it buys a
-# blank one, which is the opposite of what the override is for. On 2026-09-09
-# exactly that happened: a two-tier LOD chain was shipped under the override,
-# `validateLodTriangles` threw, and the studio rendered nothing at all.
-# The override refuses these by name (decision 0052).
-NON_WAIVABLE_ERROR_CLASSES = {
+# Rule (decision 0052): budget = round(worst shipped resident parts * 1.55).
+# Re-measured 2026-09-24 on the K14 publish: the five 2026-09-09 blueprints
+# are retired (owner 2026-09-23), the yard is the only compiled place and its
+# worst resident case is 100 parts, so the budget is round(100 * 1.55) = 155
+# (was 1601 from Lilmoth's 1033). Re-measure when a place joins the bundle.
+# The runtime reads only the published lod.colliderPartBudget, never its own copy.
+COLLIDER_PART_BUDGET = 155
+
+# Error classes that are FATAL AT RUNTIME: each makes the layer refuse to draw
+# or throw outright, so the world the player gets is blank, not merely
+# defective. On 2026-09-09 a two-tier LOD chain shipped under the old
+# `--ship-with-errors` waiver, `validateLodTriangles` threw, and the studio
+# rendered nothing at all (decision 0052). The waiver is gone as of 16h item 6
+# — every export error refuses now — and this table stays as what it always
+# really was: the sentence that tells whoever hit the gate why the runtime, not
+# the exporter, is the one insisting.
+RUNTIME_FATAL_ERROR_CLASSES = {
     "lod contract":
         "SettlementLayer.validateLodTriangles throws on it; the throw unwinds "
         "the whole layer build, so NOTHING draws",
@@ -92,12 +108,6 @@ OUT = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements
 PUBLIC_KITS = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 
 GROUND_FITS = {"direct", "plinth", "pad", "stilt", "dug-in"}
-POLICY_GROUND_FIT = {
-    "direct": "direct", "plinth": "plinth", "pad": "pad",
-    "stilt": "stilt", "dug-in": "dug-in",
-    "interior-zero": "direct", "water-zero": "direct",
-    "route-structure": "direct",
-}
 # A piece can be deliberately used in more than one authored ground treatment.
 # This is the explicit reviewed exception shelf; without a row, the manifest's
 # asset policy and the compiler's authored groundFit must agree exactly.
@@ -109,6 +119,10 @@ COMPATIBLE_ASSET_GROUND_FITS = {
     "mudmother:gv_meshes/argoniannest/argonianplatform": {"direct", "pad"},
     "mudmother:gv_meshes/argoniannest/fishracksmall": {"direct", "pad"},
     "mudmother:gv_meshes/argoniannest/mudhut01": {"pad", "plinth", "dug-in"},
+    # The whole keep wall on a graded pad (Lilmoth, 16h part 1 round 4), as
+    # its destroyed sibling below already stands.
+    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/"
+    "mwimparchwall01": {"direct", "pad"},
     "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/"
     "mwimparchwall01destroyed01": {"direct", "pad"},
     "vanilla:clutter/carts/handcart01": {"pad", "plinth"},
@@ -127,20 +141,19 @@ COMPATIBLE_ASSET_GROUND_FITS = {
 }
 
 
-def _refuse_or_override(error_class: str, errors: list[str], message: str,
-                        ship_with_errors: str | None, overridden: list[str]) -> None:
-    """Raise, or record the owner's override — unless the class is fatal at runtime."""
+def _refuse(error_class: str, errors: list[str], message: str) -> None:
+    """Raise if there is anything to raise on.
+
+    There is no waiver any more (16h item 6, 2026-09-22). `shippedWithKnownErrors`
+    let a defective bundle ship under a stated reason; in practice the one thing
+    it ever waived was an ungraded settlement pad, and pads are local terrain
+    patches from 16h part 2, not an export concern. A pad a parcel still wants is
+    now REPORTED in the bundle receipt (`pendingPadGrades`) and blocks nothing;
+    every other error is what it always was — a reason not to publish."""
     if not errors:
         return
-    if error_class in NON_WAIVABLE_ERROR_CLASSES:
-        raise ValueError(
-            f"{message}\n"
-            f"This error class is NON-WAIVABLE and --ship-with-errors cannot ship it: "
-            f"{NON_WAIVABLE_ERROR_CLASSES[error_class]}. "
-            f"Fix the asset, stop placing it, or move the contract on the evidence.")
-    if ship_with_errors is None:
-        raise ValueError(message)
-    overridden.extend(f"{error_class}: {error}" for error in errors)
+    detail = RUNTIME_FATAL_ERROR_CLASSES.get(error_class)
+    raise ValueError(f"{message}\n{detail}" if detail else message)
 
 
 def _read(path: Path) -> dict:
@@ -157,6 +170,10 @@ def _atomic_json(path: Path, data: dict) -> None:
             f.write("\n")
             f.flush()
             os.fsync(f.fileno())
+        # mkstemp creates 0600; the published bundle is a world-readable
+        # static asset served by Pages, so give it the mode every other
+        # published file has BEFORE it takes the publication name.
+        os.chmod(name, 0o644)
         os.replace(name, path)
     finally:
         if os.path.exists(name):
@@ -174,8 +191,8 @@ def _validated_asset_placement(kit: str, asset: dict) -> tuple[dict, str]:
     record = asset.get("placement")
     if not isinstance(record, dict):
         raise ValueError(f"{kit}/{asset_id}: manifest has no placement metadata")
-    required = {"schemaVersion", "anchorMode", "groundContactOffsetM", "buryM",
-                "buryCapM", "slopeBuryPerM", "evidence"}
+    required = {"schemaVersion", "anchorMode", "groundContactOffsetM",
+                "buryCapM", "evidence"}
     missing = required - set(record)
     if missing:
         raise ValueError(f"{kit}/{asset_id}: placement metadata missing {sorted(missing)}")
@@ -183,13 +200,25 @@ def _validated_asset_placement(kit: str, asset: dict) -> tuple[dict, str]:
         raise ValueError(f"{kit}/{asset_id}: unsupported placement metadata schema")
     if record["anchorMode"] not in {"streamed-origin", "streamed-perimeter"}:
         raise ValueError(f"{kit}/{asset_id}: invalid manifest anchorMode")
-    for key in ("groundContactOffsetM", "buryM", "buryCapM", "slopeBuryPerM"):
+    for key in ("groundContactOffsetM", "buryCapM"):
         if not _is_number(record[key]):
             raise ValueError(f"{kit}/{asset_id}: manifest placement {key} is not finite")
-    if any(record[key] < 0 for key in ("buryM", "buryCapM", "slopeBuryPerM")):
+    if record["buryCapM"] < 0:
         raise ValueError(f"{kit}/{asset_id}: manifest placement burial cannot be negative")
-    if record["buryM"] > record["buryCapM"]:
-        raise ValueError(f"{kit}/{asset_id}: manifest buryM exceeds buryCapM")
+    # 16h item 1 (decision 3): the height a piece sits at is its own MEASURED
+    # designed sink, never a per-class bury table. `buryM`/`slopeBuryPerM` no
+    # longer exist on a manifest; an asset without a designed sink cannot be
+    # exported at all, because the runtime would have nothing to place it by.
+    sink = asset.get("designedSinkM")
+    if not isinstance(sink, dict):
+        raise ValueError(f"{kit}/{asset_id}: manifest has no designedSinkM")
+    for key in ("p25", "p50", "p75"):
+        if not _is_number(sink.get(key)):
+            raise ValueError(f"{kit}/{asset_id}: designedSinkM {key} is not finite metres")
+    sink_evidence = sink.get("evidence")
+    if not isinstance(sink_evidence, str) or not sink_evidence.startswith(SINK_EVIDENCE_PREFIXES):
+        raise ValueError(f"{kit}/{asset_id}: designedSinkM evidence {sink_evidence!r} "
+                         "is not in placement_metadata.EVIDENCE_VOCABULARY")
     origin = asset.get("originOffsetM")
     if (not isinstance(origin, list) or len(origin) != 3
             or not all(_is_number(value) for value in origin)):
@@ -199,26 +228,36 @@ def _validated_asset_placement(kit: str, asset: dict) -> tuple[dict, str]:
             f"{kit}/{asset_id}: groundContactOffsetM disagrees with measured originOffsetM[2]"
         )
     evidence = record["evidence"]
-    if not isinstance(evidence, dict):
+    if not isinstance(evidence, dict) or any(
+            not isinstance(evidence.get(field), str) for field in PLACEMENT_EVIDENCE_FIELDS):
         raise ValueError(f"{kit}/{asset_id}: manifest placement evidence is malformed")
-    measured = evidence.get("groundContactOffsetM")
-    policy_id = evidence.get("policyId")
-    fit_policy = evidence.get("fitPolicy")
-    fit_prefix = f"authored placement-policies.json policy {policy_id}:"
-    if not isinstance(measured, str) or not measured.strip() \
-            or not isinstance(policy_id, str) or policy_id not in POLICY_GROUND_FIT \
-            or not isinstance(fit_policy, str) or not fit_policy.startswith(fit_prefix):
-        raise ValueError(f"{kit}/{asset_id}: manifest placement evidence is malformed")
+    policy_id = evidence["policyId"]
+    if evidence["groundContactOffsetM"] != GROUND_CONTACT_EVIDENCE:
+        raise ValueError(f"{kit}/{asset_id}: manifest placement evidence is malformed "
+                         f"(groundContactOffsetM {evidence['groundContactOffsetM']!r})")
+    if policy_id not in known_policies():
+        raise ValueError(f"{kit}/{asset_id}: manifest placement evidence is malformed "
+                         f"(policy {policy_id!r} is not in placement-policies.json)")
+    if not evidence["fitPolicy"].startswith(fit_policy_evidence(policy_id)):
+        raise ValueError(f"{kit}/{asset_id}: manifest placement evidence is malformed "
+                         f"(fitPolicy does not name policy {policy_id!r})")
     return {
         "schemaVersion": record["schemaVersion"],
         "mode": record["anchorMode"],
         "originOffsetM": [origin[0], origin[1], record["groundContactOffsetM"]],
         "groundContactOffsetM": record["groundContactOffsetM"],
-        "buryM": record["buryM"],
+        # The cap survives only as the ceiling on a POLICY FALLBACK sink; it
+        # can no longer clamp a mined value (16h item 1).
         "buryCapM": record["buryCapM"],
-        "slopeBuryPerM": record["slopeBuryPerM"],
+        "designedSinkM": {"p25": sink["p25"], "p50": sink["p50"], "p75": sink["p75"],
+                          "evidence": sink_evidence},
         "evidence": evidence,
     }, policy_id
+
+
+def known_policies() -> set[str]:
+    """The placement policy ids the manifest writer can emit (the inventory)."""
+    return set(load_inventory().get("policies") or {})
 
 
 def _validate_ground_fit(asset_id: str, ground_fit: str, policy_id: str) -> None:
@@ -234,13 +273,90 @@ def _validate_ground_fit(asset_id: str, ground_fit: str, policy_id: str) -> None
         )
 
 
-def _kit_assets(names: set[str], kits_dir: Path) -> tuple[dict, dict[tuple[str, str], dict]]:
+# one predicate for every fixture skip: the exporter, the place obligations
+_is_fixture = bp_mod.is_fixture
+
+
+def glb_structure_errors(path: Path) -> list[str]:
+    """Why a GLB is not a readable binary glTF 2 container (empty list = fine).
+
+    The runtime's loader trusts the header; a truncated or half-written kit
+    fails there, in the browser, with nothing to read. Parse it here instead:
+    magic, version, declared total length against the file size, and every
+    chunk header inside the declared length."""
+    data = path.read_bytes()
+    if len(data) < 12:
+        return [f"{path.name}: {len(data)} B is shorter than a GLB header"]
+    magic, version, total = struct.unpack_from("<4sII", data, 0)
+    errors = []
+    if magic != b"glTF":
+        return [f"{path.name}: magic is {magic!r}, not b'glTF'"]
+    if version != 2:
+        errors.append(f"{path.name}: glTF version {version}, expected 2")
+    if total != len(data):
+        errors.append(f"{path.name}: header declares {total} B, file is {len(data)} B")
+    offset, seen = 12, []
+    limit = min(total, len(data))
+    while offset + 8 <= limit:
+        length, chunk_type = struct.unpack_from("<II", data, offset)
+        end = offset + 8 + length
+        if end > limit:
+            errors.append(f"{path.name}: chunk at {offset} declares {length} B, "
+                          f"which runs {end - limit} B past the end of the file")
+            break
+        seen.append(chunk_type)
+        offset = end + (-length % 4)
+    if offset != limit and not errors:
+        errors.append(f"{path.name}: chunk table ends at {offset}, file at {limit}")
+    if 0x4E4F534A not in seen:
+        errors.append(f"{path.name}: no JSON chunk")
+    return errors
+
+
+KIT_SIDECARS = ("connectors", "footprints", "interiors")
+
+
+def kit_sidecar_errors(name: str, kits_dir: Path) -> list[str]:
+    """The three measured sidecars must exist beside a referenced kit.
+
+    The exemption is the published manifest's own record (kit_compress
+    SIDECAR_EXEMPT), so there is one list, in the tool that publishes them."""
+    manifest = _read(kits_dir / f"{name}.kit.json") if (kits_dir / f"{name}.kit.json").is_file() else {}
+    if (manifest.get("compression") or {}).get("sidecarsExempt"):
+        return []
+    missing = [part for part in KIT_SIDECARS
+               if not (kits_dir / f"{name}.{part}.json").is_file()]
+    if not missing:
+        return []
+    return [f"{name}: no {', '.join(missing)} sidecar; measure it and republish "
+            f"(pipeline.kit_compress --kit {name} --sidecars-only)"]
+
+
+def _kit_assets(names: set[str], kits_dir: Path,
+                used: set[tuple[str, str]] | None = None,
+                ) -> tuple[dict, dict[tuple[str, str], dict]]:
+    """Referenced kits and their validated assets.
+
+    16h K14 (owner 2026-09-24): the shipped-kit contract
+    (``_validated_asset_placement``) is checked on the ``used`` ``(kit,
+    assetId)`` pairs, the assets the bundle places; ``used=None`` checks every asset of every referenced kit
+    (``--all-kit-assets``, the catalogue-wide form the miner lane gates on).
+    Assets outside the scope are not carried into the bundle's asset table."""
     kits: dict[str, dict] = {}
     assets: dict[tuple[str, str], dict] = {}
     for name in sorted(names):
         path = kits_dir / f"{name}.kit.json"
         if not path.exists():
             raise ValueError(f"referenced kit has no measured manifest: {name}")
+        sidecar_errors = kit_sidecar_errors(name, kits_dir)
+        if sidecar_errors:
+            raise ValueError("referenced kit is not fully measured: "
+                             + "; ".join(sidecar_errors))
+        glb_errors = glb_structure_errors(kits_dir / f"{name}.glb") \
+            if (kits_dir / f"{name}.glb").is_file() else [f"{name}: no GLB"]
+        if glb_errors:
+            raise ValueError("referenced kit GLB is not a readable glTF 2 binary: "
+                             + "; ".join(glb_errors))
         manifest = _read(path)
         kits[name] = {
             "id": name,
@@ -248,8 +364,10 @@ def _kit_assets(names: set[str], kits_dir: Path) -> tuple[dict, dict[tuple[str, 
             "manifest": f"kits/{name}.kit.json",
         }
         for asset in manifest.get("assets", []):
-            anchor, policy_id = _validated_asset_placement(name, asset)
             key = (name, asset["id"])
+            if used is not None and key not in used:
+                continue
+            anchor, policy_id = _validated_asset_placement(name, asset)
             if key in assets:
                 raise ValueError(f"{name}: duplicate manifest asset id {asset['id']!r}")
             assets[key] = {"kit": name, **asset,
@@ -711,6 +829,19 @@ def classify_warnings(compiled_docs: list[dict],
     }
 
 
+def _unwaived(doc: dict, errors: list[str]) -> list[str]:
+    """The errors a fixture replay's receipt does not already name.
+
+    A replay compile (`compile_settlement --fixture-replay`) records every rule
+    its layout breaks in `fixtureWaived`; the export re-derives some of the
+    same checks, and each finding passes only if that exact message is in the
+    receipt. On any other compile every error stands."""
+    if doc.get("fixtureReplay") is not True:
+        return list(errors)
+    waived = {row.get("message") for row in doc.get("fixtureWaived") or []}
+    return [e for e in errors if e not in waived]
+
+
 def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  structures_dir: Path = DEFAULT_STRUCTURES,
                  blueprints_dir: Path = BLUEPRINTS,
@@ -721,23 +852,23 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  pad_grade_receipt: dict | None = None,
                  final_height: np.ndarray | None = None,
                  known_red_path: Path | None = None,
-                 ship_with_errors: str | None = None) -> dict:
-    """`ship_with_errors` is an OWNER OVERRIDE and takes their stated reason.
+                 fixtures_ok: bool = False,
+                 all_kit_assets: bool = False) -> dict:
+    """Build the bundle, or refuse. There is no waiver (16h item 6).
 
-    Fail-closed is the rule and stays the rule: a stale or simply absent place
-    must never quietly vanish from the world the player receives. But the owner
-    may decide they would rather SEE a province with named defects than wait for
-    a clean one, and that is their call to make, not a compiler's.
+    Fail-closed is the rule: a stale or simply absent place must never quietly
+    vanish from the world the player receives, and no reason makes a defective
+    bundle a publishable one. The one thing the old `--ship-with-errors` waiver
+    ever shipped over was an ungraded settlement pad; a pad is a local terrain
+    patch (16h part 2), so a parcel still wanting one is now reported in
+    `pendingPadGrades` and blocks nothing.
 
-    So the override never hides anything. Every error it ships over is printed
-    by name, and recorded in the bundle under `shippedWithKnownErrors` with the
-    owner's reason, so nothing downstream — and nobody reading the bundle later
-    — can mistake this build for a clean one. It is off by default, it is never
-    set in CI, and it must be asked for explicitly with a reason.
+    `fixtures_ok` publishes fixture records (`fixture: true`, e.g. the proving
+    ground) to a studio-only target. The shipped build refuses them.
     """
     survey = shared_survey()
     known_red = load_warning_known_red(known_red_path)
-    overridden: list[str] = []
+    pending_pads: list[str] = []
     if catalogue_records_by_id is None:
         catalogue_records_by_id = {
             record["id"]: record
@@ -751,7 +882,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         if bp:
             blueprint_by_id[bp["id"]] = bp
 
-    if any(parcel.get("groundFit") == "pad" for bp in blueprint_by_id.values()
+    blueprint_docs = [{"blueprint": bp} for bp in blueprint_by_id.values()]
+    # an absent groundFit is the kit record's and may be pad (0085): pad_specs resolves it
+    if any(parcel.get("groundFit", "pad") == "pad" for bp in blueprint_by_id.values()
            for parcel in bp.get("parcels", [])):
         if pad_grade_receipt is None:
             try:
@@ -763,13 +896,11 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 final_height = np.load(grade_settlement_pads.DEFAULT_HEIGHTS).astype(np.float32)
             except FileNotFoundError:
                 final_height = None
-        pad_errors = validate_applied_pad_grades(
-            pad_grade_receipt, [{"blueprint": bp} for bp in blueprint_by_id.values()], final_height)
-        if pad_errors:
-            message = "settlement pad delivery is incomplete: " + "; ".join(pad_errors)
-            if ship_with_errors is None:
-                raise ValueError(message)
-            overridden.extend(f"pad delivery: {e}" for e in pad_errors)
+        pad_errors = validate_applied_pad_grades(pad_grade_receipt, blueprint_docs, final_height)
+        # A pad a parcel wants and has not got is a PENDING local terrain patch
+        # (16h part 2), reported in the receipt, never a reason to refuse and
+        # never a waiver.
+        pending_pads = sorted(pad_errors)
 
     compiled = []
     # Route pieces come from TWO built kits since 2026-09-09 (decision 0051):
@@ -779,22 +910,37 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     kit_names: set[str] = {"route-structures-v1", "route-spans-v1"}
     for path in sorted(settlements_dir.glob("place.*.settlement.json")):
         doc = _read(path)
-        if doc["id"].startswith("place.fixture."):
-            continue
+        if not fixtures_ok and _is_fixture(
+                doc, catalogue_records_by_id.get(doc["id"]),
+                blueprint_by_id.get(doc["id"])):
+            raise ValueError(
+                f"{doc['id']} is a fixture record (fixture: true, fixtureReplay: true, "
+                f"or a place.fixture.* id) and the shipped build carries no fixtures: "
+                f"publish it to the studio with --fixtures-ok, or drop the flag "
+                f"from the record")
         if doc.get("errors"):
-            message = (f"{doc['id']} has {len(doc['errors'])} compile errors; "
-                       "refusing to publish stale/incomplete massing")
-            if ship_with_errors is None:
-                raise ValueError(message)
-            for err in doc["errors"]:
-                overridden.append(f"{doc['id']}: {err}")
+            raise ValueError(f"{doc['id']} has {len(doc['errors'])} compile errors; "
+                             "refusing to publish stale/incomplete massing: "
+                             + "; ".join(str(e) for e in doc["errors"]))
         flood_report = doc.get("floodBandReport")
         if not isinstance(flood_report, dict):
             raise ValueError(f"{doc['id']} has no floodBandReport; refusing unchecked section placement")
         warnings = doc.get("warnings")
-        if not isinstance(warnings, list) or flood_report.get("warningCount") != len(warnings):
+        if doc.get("fixtureReplay") is True or (
+                _is_fixture(doc, blueprint_by_id.get(doc["id"]))
+                and isinstance(doc.get("fixtureWaived"), list)):
+            # compile_settlement --fixture-replay moved every finding, WARN
+            # grade included, into `fixtureWaived`, and a fixture blueprint
+            # (the proving ground) moves its WARN-grade findings there on
+            # every compile (16h part 1 round 4): nobody judges a test yard's
+            # layout, and the receipt names each rule it breaks.
+            if warnings != [] or not isinstance(doc.get("fixtureWaived"), list):
+                raise ValueError(f"{doc['id']} is a fixture compile but still carries live "
+                                 f"warnings or no fixtureWaived receipt; recompile it "
+                                 f"(a replay with --fixture-replay)")
+        elif not isinstance(warnings, list) or flood_report.get("warningCount") != len(warnings):
             raise ValueError(f"{doc['id']} warning ledger disagrees with floodBandReport")
-        if len(warning_keys(doc)) != len(warnings):
+        elif len(warning_keys(doc)) != len(warnings):
             raise ValueError(f"{doc['id']} raised {len(warnings)} warnings but only "
                              f"{len(warning_keys(doc))} carry a structured floodBandReport row; "
                              "an unattributable warning cannot be explained, so it blocks export")
@@ -803,15 +949,11 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             raise ValueError(f"compiled settlement has no authored blueprint: {doc['id']}")
         expected_hash = blueprint_sha256(bp)
         if doc.get("sourceBlueprintSha256") != expected_hash:
-            message = (f"{doc['id']} sourceBlueprintSha256 does not match its authored blueprint; "
-                       "refusing to publish a stale successful compile")
-            if ship_with_errors is None:
-                raise ValueError(message)
-            # A stale compile is a DIFFERENT and more dangerous thing to ship
-            # than a compile with known errors: the geometry published is not
-            # the geometry the blueprint now describes. Name it as such.
-            overridden.append(f"{doc['id']}: STALE COMPILE — the published massing "
-                              f"is older than the blueprint it claims to be built from")
+            # A stale compile is the most dangerous thing to publish: the
+            # geometry shipped is not the geometry the blueprint now describes.
+            raise ValueError(
+                f"{doc['id']} sourceBlueprintSha256 does not match its authored "
+                f"blueprint; refusing to publish a stale successful compile")
         for p in doc.get("placements", []):
             if p.get("kit"):
                 kit_names.add(p["kit"])
@@ -835,7 +977,11 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         print(f"  KNOWN-RED settlement warning ({row['owner']}-owned, queued in "
               f"{row['queuedIn']}): {key[0]} / {key[1]} / {key[2]}")
     blocking = []
+    replayed = {doc["id"] for doc, _bp in compiled if doc.get("fixtureReplay") is True
+                or (_is_fixture(doc, _bp) and isinstance(doc.get("fixtureWaived"), list))}
     for key in split["unexplained"]:
+        if key[0] in replayed:
+            continue    # recorded in that site's fixtureWaived, never judged
         blocking.append(f"UNEXPLAINED WARNING {key[0]} / {key[1]} / {key[2]}")
     for key in split["noLongerRed"]:
         blocking.append(f"NO LONGER RED — remove from {WARNING_KNOWN_RED.name}: "
@@ -853,7 +999,15 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     ]
 
     route_docs = _validated_route_docs(structures_dir, route_structures_source)
-    kits, assets = _kit_assets(kit_names, kits_dir)
+    used: set[tuple[str, str]] | None = None
+    if not all_kit_assets:
+        used = {(p["kit"], p["assetId"]) for doc, _bp in compiled
+                for p in doc.get("placements", []) if p.get("kit")}
+        # A route placement names no kit: it resolves in either route kit.
+        used |= {(kit, raw["assetId"]) for doc in route_docs
+                 for raw in doc.get("placements", [])
+                 for kit in ("route-structures-v1", "route-spans-v1")}
+    kits, assets = _kit_assets(kit_names, kits_dir, used)
 
     settlements = []
     obligation_receipts = []
@@ -863,10 +1017,15 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     navmesh = []
     navmesh_links = []
     doors = []
+    # The same kit geometry the compile bound (interiors, connectors,
+    # assembly doorways), or the re-derivation can never equal it; read once
+    # per run, not once per place.
+    interiors, connectors, doorways = kit_interiors(), kit_connectors(), assembly_doorways()
     for doc, bp in compiled:
         record = catalogue_records_by_id.get(doc["id"])
         expected_objects, object_errors = compiled_blueprint_objects(
-            bp, doc.get("placements", []), doc.get("doors", []), survey)
+            bp, doc.get("placements", []), doc.get("doors", []), survey,
+            interiors=interiors, connectors=connectors, assemblies=doorways)
         if record is not None:
             evidence_kwargs = (dict(zip(("plan", "fulfillment", "postconditions"), terrain_evidence))
                                if terrain_evidence is not None else {})
@@ -878,6 +1037,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             expected_objects.extend(terrain_objects)
             expected_objects.sort(key=lambda row: row["id"])
             object_errors += terrain_errors
+        object_errors = _unwaived(doc, object_errors)
         if object_errors:
             raise ValueError(f"{doc['id']} compiled object set is incomplete: "
                              + "; ".join(object_errors))
@@ -885,14 +1045,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         if not isinstance(actual_objects, list):
             raise ValueError(f"{doc['id']} has no compiledObjects final-delivery record")
         if actual_objects != expected_objects:
-            message = f"{doc['id']} compiledObjects do not match the exact compiler output"
-            if ship_with_errors is None:
-                raise ValueError(message)
-            # The same fact as the stale-sha check states twice, so it rides the
-            # same override rather than needing its own: what is published for
-            # this place is not what its current blueprint compiles to.
-            overridden.append(f"{doc['id']}: published objects do not match a fresh "
-                              f"compile of its current blueprint")
+            raise ValueError(f"{doc['id']} compiledObjects do not match the exact "
+                             f"compiler output: what is published for this place is "
+                             f"not what its current blueprint compiles to")
         compiled_by_id = {obj["id"]: obj for obj in actual_objects}
         if len(compiled_by_id) != len(actual_objects):
             raise ValueError(f"{doc['id']} compiledObjects contain duplicate ids")
@@ -921,6 +1076,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             delivery_errors = place_obligations.verify_delivery_manifest(
                 obligations, payload["manifest"], "phase-11-compiled",
                 object_registry=payload["objectRegistry"])
+            delivery_errors = _unwaived(doc, delivery_errors)
             if delivery_errors:
                 raise ValueError(f"{doc['id']} phase-11-compiled obligations are not delivered: "
                                  + "; ".join(delivery_errors))
@@ -955,6 +1111,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "anchor": _anchor_contract(asset, fit),
                 "collision": _collision_contract(asset, disabled=is_dressing),
                 "provenance": raw["provenance"],
+                **_mount_contract(raw),
             }
             ids.append(placement["id"])
             all_placements.append(placement)
@@ -987,6 +1144,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             "budgetReport": doc.get("budgetReport"),
             "floodBandReport": doc["floodBandReport"],
             "variants": bp.get("variants", []),
+            **({"fixtureReplay": True} if doc.get("fixtureReplay") is True else {}),
+            **({"fixtureWaived": doc["fixtureWaived"]}
+               if isinstance(doc.get("fixtureWaived"), list) else {}),
         })
 
     route_count = 0
@@ -1013,10 +1173,25 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "anchor": _anchor_contract(asset, "direct"),
                 "collision": _collision_contract(asset),
                 "provenance": raw["provenance"],
+                **_mount_contract(raw),
             })
             route_count += 1
 
     all_placements.sort(key=lambda p: p["id"])
+
+    # A placed asset whose designed sink is the POLICY FALLBACK has no mined or
+    # measured ground line of its own: it is a sourcing/mining GAP to be filled,
+    # reported here by asset with the count it affects, never an export error
+    # (16h item 1).
+    fallback_counts: dict[str, int] = {}
+    for placement in all_placements:
+        asset = assets.get((placement["kit"], placement["assetId"]))
+        if asset and str(asset["_runtimeAnchor"]["designedSinkM"]["evidence"]
+                         ).startswith("policy-fallback"):
+            fallback_counts[f"{placement['kit']}/{placement['assetId']}"] = \
+                fallback_counts.get(f"{placement['kit']}/{placement['assetId']}", 0) + 1
+    designed_sink_gaps = [{"asset": key, "placements": count}
+                          for key, count in sorted(fallback_counts.items())]
 
     lod_contract = {"tiers": 3, "absoluteTriangleFloor": [120, 80],
                     "distancePerFootprintDiagonal": [4.0, 12.0],
@@ -1025,23 +1200,20 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                     "colliderPartBudget": COLLIDER_PART_BUDGET}
 
     lod_errors = lod_contract_errors(all_placements, lod_contract, kits_dir)
-    _refuse_or_override(
+    _refuse(
         "lod contract", lod_errors,
-        "placed asset cannot satisfy the runtime LOD contract: " + "; ".join(lod_errors),
-        ship_with_errors, overridden)
+        "placed asset cannot satisfy the runtime LOD contract: " + "; ".join(lod_errors))
 
     cap_errors = texture_cap_errors(kits, lod_contract, kits_dir)
-    _refuse_or_override(
+    _refuse(
         "texture cap", cap_errors,
-        "published kit texture is over the runtime cap: " + "; ".join(cap_errors),
-        ship_with_errors, overridden)
+        "published kit texture is over the runtime cap: " + "; ".join(cap_errors))
 
     budget_errors = collider_budget_errors(
         settlements, all_placements, COLLIDER_PART_BUDGET, kits_dir)
-    _refuse_or_override(
+    _refuse(
         "collider budget", budget_errors,
-        "settlement collider budget exceeded: " + "; ".join(budget_errors),
-        ship_with_errors, overridden)
+        "settlement collider budget exceeded: " + "; ".join(budget_errors))
 
     return {
         "schemaVersion": SCHEMA_VERSION,
@@ -1053,18 +1225,29 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                                               key=lambda receipt: receipt["placeId"]),
         "compiledObjects": sorted(all_compiled_objects, key=lambda row: row["id"]),
         "settlementPadGrades": pad_grade_receipt,
+        # Parcels that still want a graded pad. A pad is a local terrain patch
+        # (16h part 2); this is the queue, not a defect that blocks publication.
+        "pendingPadGrades": pending_pads,
+        # Placed assets standing on a policy-fallback designed sink (16h item 1).
+        "designedSinkGaps": designed_sink_gaps,
         "placements": all_placements, "groundTreatments": treatments,
         "navmeshCuts": navmesh, "navmeshLinks": navmesh_links, "doors": doors,
         "stats": {"settlements": len(settlements),
                   "settlementPlacements": sum(len(s["placementIds"]) for s in settlements),
                   "routeStructurePlacements": route_count},
-        # Present ONLY on an owner-overridden build, so its absence is the
-        # proof a bundle is clean. Never write an empty list here.
-        **({"shippedWithKnownErrors": {"reason": ship_with_errors,
-                                       "count": len(overridden),
-                                       "errors": sorted(overridden)}}
-           if ship_with_errors is not None and overridden else {}),
     }
+
+
+# SHARED CONTRACT (16h): the compile decides how a piece is anchored and what
+# it hangs off; the export carries those fields through unchanged. A field the
+# compile did not emit is absent, never defaulted here — a wrong default would
+# hang a lantern in the air or float a hull.
+MOUNT_FIELDS = ("anchorClass", "parentPlacementId", "mountOffsetM",
+                "waterLevelM", "waterEntityId")
+
+
+def _mount_contract(raw: dict) -> dict:
+    return {field: raw[field] for field in MOUNT_FIELDS if field in raw}
 
 
 def _collision_contract(asset: dict, *, disabled: bool = False) -> dict:
@@ -1083,19 +1266,65 @@ def _collision_contract(asset: dict, *, disabled: bool = False) -> dict:
     return contract
 
 
-def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path) -> tuple[Path, list[str]]:
-    """Validate and copy every asset to a private sibling before publication."""
+def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
+                  publish_kit=None) -> tuple[Path, list[str]]:
+    """Validate and copy every asset to a private sibling before publication.
+
+    16h K14 (M19 ruling 5): the GLB that ships is the PUBLISHED, compressed
+    one in ``public_dir`` when its pair passes the ``kit_compress --check``
+    rule (``glb_problems``); the raw ``kits_dir`` build is the measurement
+    product and never reaches public/kits. A kit with no published GLB yet is
+    compressed from the raw build through ``kit_compress.publish`` first. A
+    published GLB that fails the rule (a raw build copied over it) is refused,
+    as is a published manifest that is not the manifest this bundle was built
+    from (the pair is stale against the build). Sidecars come from the build
+    output, where the measurers write them."""
+    from pipeline.kit_compress import glb_problems, publish
+    publish_kit = publish_kit or publish
+    kits = sorted(bundle["kits"])
+
+    def sidecar_suffixes(name: str) -> list[str]:
+        return [f".{part}.json" for part in KIT_SIDECARS
+                if (kits_dir / f"{name}.{part}.json").is_file()]
+
+    def require(path: Path) -> None:
+        if not path.is_file() or path.stat().st_size <= 0:
+            raise ValueError(f"runtime kit asset is missing or empty: {path}")
+
+    # Every input exists before anything is published or staged.
+    unpublished = [name for name in kits if not (public_dir / f"{name}.glb").is_file()]
+    for name in kits:
+        require(kits_dir / f"{name}.kit.json")
+        if name in unpublished:
+            require(kits_dir / f"{name}.glb")
+        for suffix in sidecar_suffixes(name):
+            require(kits_dir / f"{name}{suffix}")
+    refused: list[str] = []
+    for name in unpublished:
+        publish_kit(name)
+    for name in kits:
+        glb, manifest = public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"
+        problems = glb_problems(name, glb, manifest)
+        if not problems and _read(manifest) != _read(kits_dir / f"{name}.kit.json"):
+            problems = [f"{name}: published manifest differs from the build's "
+                        f"{kits_dir / (name + '.kit.json')} (stale publish)"]
+        refused.extend(problems)
+    if refused:
+        raise ValueError("refusing to publish kits that fail kit_compress --check "
+                         "(publish them with `python3 -m pipeline.kit_compress --kit "
+                         "<kit>`): " + "; ".join(refused))
     public_dir.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix=".kits-stage.", dir=public_dir.parent))
     names: list[str] = []
     try:
-        for name in sorted(bundle["kits"]):
-            for suffix in (".glb", ".kit.json"):
-                source = kits_dir / f"{name}{suffix}"
-                if not source.is_file() or source.stat().st_size <= 0:
-                    raise ValueError(f"runtime kit asset is missing or empty: {source}")
+        for name in kits:
+            sources = [public_dir / f"{name}.glb", public_dir / f"{name}.kit.json"] + [
+                kits_dir / f"{name}{suffix}" for suffix in sidecar_suffixes(name)]
+            for source in sources:
+                require(source)
                 target = stage / source.name
                 shutil.copy2(source, target)
+                os.chmod(target, 0o644)
                 with target.open("rb") as handle:
                     os.fsync(handle.fileno())
                 names.append(source.name)
@@ -1106,8 +1335,8 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path) -> tuple[Path,
 
 
 def copy_assets(bundle: dict, kits_dir: Path = KITS,
-                public_dir: Path = PUBLIC_KITS) -> None:
-    stage, names = _stage_assets(bundle, kits_dir, public_dir)
+                public_dir: Path = PUBLIC_KITS, publish_kit=None) -> None:
+    stage, names = _stage_assets(bundle, kits_dir, public_dir, publish_kit)
     try:
         public_dir.mkdir(parents=True, exist_ok=True)
         for name in names:
@@ -1130,28 +1359,30 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--copy-assets", action="store_true")
-    ap.add_argument("--ship-with-errors", metavar="REASON", default=None,
-                    help="OWNER OVERRIDE: publish even where a place has compile "
-                         "errors, recording every one by name in the bundle and "
-                         "printing them here. Takes the owner's reason. Off by "
-                         "default and never set in CI: fail-closed is the rule, "
-                         "and this is the owner choosing to see a named-defective "
-                         "world rather than wait for a clean one.")
+    ap.add_argument("--fixtures-ok", action="store_true",
+                    help="publish fixture records (`fixture: true`, the proving "
+                         "ground) as well. Studio-only: the shipped build refuses "
+                         "them, so this never runs against the published bundle.")
+    ap.add_argument("--all-kit-assets", action="store_true",
+                    help="check the shipped-kit placement contract on every asset of "
+                         "every referenced kit, not only the placed ones (the miner "
+                         "lane's catalogue-wide form, 16h K14)")
     args = ap.parse_args()
     try:
-        bundle = build_bundle(ship_with_errors=args.ship_with_errors)
+        bundle = build_bundle(fixtures_ok=args.fixtures_ok,
+                              all_kit_assets=args.all_kit_assets)
         if args.copy_assets:
             copy_assets(bundle)
         _atomic_json(args.out, bundle)
     except ValueError as exc:
         print(f"export_settlement_bundle: {exc}")
         return 1
-    shipped = bundle.get("shippedWithKnownErrors")
-    if shipped:
-        print(f"export_settlement_bundle: OWNER OVERRIDE — published with "
-              f"{shipped['count']} known error(s). Reason: {shipped['reason']}")
-        for err in shipped["errors"]:
-            print(f"    SHIPPED BROKEN: {err}")
+    pending = bundle.get("pendingPadGrades") or []
+    if pending:
+        print(f"export_settlement_bundle: {len(pending)} pad grade(s) pending "
+              f"(local terrain patches, 16h part 2):")
+        for row in pending:
+            print(f"    PENDING PAD: {row}")
     print(f"export_settlement_bundle: {args.out} — "
           f"{bundle['stats']['settlementPlacements']} settlement + "
           f"{bundle['stats']['routeStructurePlacements']} route pieces")

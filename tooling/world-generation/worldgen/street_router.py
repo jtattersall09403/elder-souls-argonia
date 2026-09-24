@@ -70,11 +70,18 @@ Cost of a step from cell a to cell b, in "effective metres":
 
 `cell(b)` multiplies in the things a path should keep away from:
 
-  * **parcels** — inside any parcel footprint costs ×PARCEL_PENALTY (a lane
-    does not run through a house). A parcel the way `endsAt` is only
+  * **parcels** — inside any parcel footprint, or within half the way's
+    `widthM` of it (the width `blueprint_integration` buffers the line by),
+    costs ×PARCEL_PENALTY (a lane does not run through a house). A parcel the way `endsAt` is only
     ×ENDS_PARCEL_PENALTY, because the way is meant to arrive there; its
     terminal point is snapped onto that parcel's edge, so the path touches the
     building without entering it (what `blueprint_integration` allows).
+    A parcel with a DOOR (`doors[].parcelId`) is entered through the door
+    and nowhere else: the terminal snaps to the door's `thresholdUV`, and the
+    parcel stays ×PARCEL_PENALTY except within DOOR_CLEAR_M of that
+    threshold. Otherwise a way re-derived after a composite's footprint grew
+    walked through the building to the edge point nearest its waypoint
+    (mire-landing door 4, 2026-09-24).
   * **water** — for a road/track/footpath/stair/ramp, water costs
     ×WATER_PENALTY_DRY_WAY: short fords survive, a long crossing never wins,
     which is the same rule `blueprint_integration.ROAD_WATER_MAX_M` enforces.
@@ -115,6 +122,8 @@ import math
 import sys
 from pathlib import Path
 
+import numpy as np
+
 from .blueprint_footprints import UV_ROUND, _indent_of
 from .scale import PROVINCE_EXTENT_M
 
@@ -146,6 +155,8 @@ TURN_M = 1.2                    # effective metres per 45° of direction change
 #: building named — which is a finding a person can act on.
 PARCEL_PENALTY = 1.0e6
 ENDS_PARCEL_PENALTY = 8.0
+WAY_DEFAULT_WIDTH_M = 2.0       # blueprint_integration's default when a way has no widthM
+DOOR_CLEAR_M = 2.0              # the doorway: the one part of a doored parcel a way may enter
 WATER_PENALTY_DRY_WAY = 40.0    # a road may ford, never swim
 DRY_PENALTY_WET_WAY = 1.6       # a boardwalk on dry ground is a wasted boardwalk
 NEIGHBOUR_M = 1.5
@@ -335,6 +346,142 @@ def _dist_point_polyline(p, pts) -> float:
     return d
 
 
+# --------------------------------------------------------------------------- #
+# whole-grid sampling and geometry (the LocalField build)
+#
+# Each helper is the per-point function above applied to a block of cell
+# centres with the same float operations in the same order, so a cell gets
+# the value the per-point call would give. The one exception is the distance
+# itself: numpy's hypot may differ from math.hypot in the last bit, so a cell
+# whose distance sits within _EDGE_M of a threshold is re-measured with the
+# per-point function and that answer is kept.
+# --------------------------------------------------------------------------- #
+_EDGE_M = 1e-6
+
+
+def _axis_index(coords, px: float, n: int):
+    """`min(max(int(v / px), 0), n - 1)` for a 1-D axis of coordinates."""
+    return np.clip(np.trunc(coords / px), 0, n - 1).astype(np.intp)
+
+
+def _heights_grid(survey, xs, zs):
+    """`sample_height_m` over the cell grid, flat row-major."""
+    grid = survey.height_grid
+    n = len(grid)
+    px = float(survey.grid_px_m)
+    gx = np.minimum(np.maximum(xs / px - 0.5, 0.0), n - 1.0)
+    gz = np.minimum(np.maximum(zs / px - 0.5, 0.0), n - 1.0)
+    c0 = gx.astype(np.intp); r0 = gz.astype(np.intp)
+    c1 = np.minimum(c0 + 1, n - 1); r1 = np.minimum(r0 + 1, n - 1)
+    tx = (gx - c0)[None, :]; tz = (gz - r0)[:, None]
+    arr = grid if isinstance(grid, np.ndarray) else np.asarray(grid, dtype=np.float64)
+    h00 = arr[np.ix_(r0, c0)].astype(np.float64); h01 = arr[np.ix_(r0, c1)].astype(np.float64)
+    h10 = arr[np.ix_(r1, c0)].astype(np.float64); h11 = arr[np.ix_(r1, c1)].astype(np.float64)
+    h = (h00 * (1 - tx) + h01 * tx) * (1 - tz) + (h10 * (1 - tx) + h11 * tx) * tz
+    return h.ravel().tolist()
+
+
+def _mask_grid(survey, grid, xs, zs):
+    """`_sample_mask` over the cell grid (the hydrology pitch)."""
+    n = len(grid)
+    px = float(survey.grid_px_m)
+    arr = grid if isinstance(grid, np.ndarray) else np.asarray(grid)
+    return arr[np.ix_(_axis_index(zs, px, n), _axis_index(xs, px, n))].astype(bool)
+
+
+def _depth_grid(survey, grid, xs, zs):
+    """`grid[row][col]` at the raster's own pitch (extent / its size)."""
+    n = len(grid)
+    px = _extent_m(survey) / n
+    arr = grid if isinstance(grid, np.ndarray) else np.asarray(grid, dtype=np.float64)
+    return arr[np.ix_(_axis_index(zs, px, n), _axis_index(xs, px, n))].astype(np.float64)
+
+
+def _wet_season_mask_grid(survey, xs, zs):
+    """`sample_wet_season_water` over the cell grid."""
+    grid = getattr(survey, "wet_season_grid", None)
+    return _mask_grid(survey, survey.open_water if grid is None else grid, xs, zs)
+
+
+def _wet_season_depth_grid(survey, xs, zs):
+    """`sample_wet_season_depth_m` over the cell grid."""
+    grid = getattr(survey, "wet_season_depth_m", None)
+    if grid is not None:
+        return np.maximum(_depth_grid(survey, grid, xs, zs), 0.0)
+    grid = getattr(survey, "water_depth_m", None)
+    if grid is not None:
+        return _depth_grid(survey, grid, xs, zs)
+    return np.where(_mask_grid(survey, survey.open_water, xs, zs), UNKNOWN_DEPTH_M, 0.0)
+
+
+def _bbox_block(xs, zs, bbox):
+    """The (rows, cols) index block of cells whose centres satisfy the
+    inclusive bbox prefilter, or None when no cell does."""
+    x0, z0, x1, z1 = bbox
+    cols = np.nonzero((xs >= x0) & (xs <= x1))[0]
+    rows = np.nonzero((zs >= z0) & (zs <= z1))[0]
+    if not len(cols) or not len(rows):
+        return None
+    return np.ix_(rows, cols)
+
+
+def _points_in_poly(xs, zs, poly):
+    """`_point_in_poly` (the same ray cast) for every (zs[r], xs[c]) cell;
+    xs and zs are 1-D (or already-broadcast ix_ blocks)."""
+    x = np.asarray(xs).reshape(1, -1)
+    z = np.asarray(zs).reshape(-1, 1)
+    inside = np.zeros((z.shape[0], x.shape[1]), dtype=bool)
+    j = len(poly) - 1
+    with np.errstate(divide="ignore", invalid="ignore", over="ignore"):
+        for i in range(len(poly)):
+            xi, zi = poly[i]
+            xj, zj = poly[j]
+            crosses = (zi > z) != (zj > z)
+            if crosses.any():
+                inside ^= crosses & (x < (xj - xi) * (z - zi) / (zj - zi + 1e-30) + xi)
+            j = i
+    return inside
+
+
+def _dist_polyline_grid(x, z, pts):
+    """`_dist_point_polyline` for every cell (numpy hypot; see _EDGE_M)."""
+    best = np.full((z.shape[0], x.shape[1]), np.inf)
+    for i in range(len(pts) - 1):
+        ax, az = pts[i]
+        bx, bz = pts[i + 1]
+        dx, dz = bx - ax, bz - az
+        d2 = dx * dx + dz * dz
+        if d2 <= 1e-12:
+            d = np.hypot(ax - x, az - z)
+        else:
+            t = ((x - ax) * dx + (z - az) * dz) / d2
+            t = np.minimum(np.maximum(t, 0.0), 1.0)
+            d = np.hypot(ax + t * dx - x, az + t * dz - z)
+        np.minimum(best, d, out=best)
+    return best
+
+
+def _polyline_compare(xs, zs, pts, limit: float, beyond: bool):
+    x = np.asarray(xs, dtype=np.float64).reshape(1, -1)
+    z = np.asarray(zs, dtype=np.float64).reshape(-1, 1)
+    d = _dist_polyline_grid(x, z, pts)
+    out = d > limit if beyond else d <= limit
+    for r, c in zip(*np.nonzero(np.abs(d - limit) <= _EDGE_M)):
+        exact = _dist_point_polyline((float(x[0, c]), float(z[r, 0])), pts)
+        out[r, c] = exact > limit if beyond else exact <= limit
+    return out
+
+
+def _within_polyline(xs, zs, pts, limit: float):
+    """`_dist_point_polyline(cell, pts) <= limit` for every cell."""
+    return _polyline_compare(xs, zs, pts, limit, beyond=False)
+
+
+def _beyond_polyline(xs, zs, pts, limit: float):
+    """`_dist_point_polyline(cell, pts) > limit` for every cell."""
+    return _polyline_compare(xs, zs, pts, limit, beyond=True)
+
+
 def convex_hull(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
     """Monotone chain hull, counter-clockwise, no repeated last point."""
     pts = sorted(set((round(x, 4), round(z, 4)) for x, z in points))
@@ -465,19 +612,24 @@ class LocalField:
         # shares the sampled block (the router is called once per way)
         survey_token = _survey_cache_token(survey)
         key = (survey_token, round(self.x0, 3), round(self.z0, 3), self.w, self.h, cell_m)
+        # cell centres as numpy axes: the same `x0 + (c + 0.5) * cell_m`
+        # arithmetic as `xz`, so every cell samples the identical point
+        self._xs = self.x0 + (np.arange(self.w) + 0.5) * cell_m
+        self._zs = self.z0 + (np.arange(self.h) + 0.5) * cell_m
         if survey_token is None:
-            self.height = [[sample_height_m(survey, *self.xz(r, c))
-                            for c in range(self.w)] for r in range(self.h)]
+            self._hflat = _heights_grid(survey, self._xs, self._zs)
         else:
             if _HEIGHT_CACHE.get("key") != key:
                 _HEIGHT_CACHE["key"] = key
-                _HEIGHT_CACHE["grid"] = [[sample_height_m(survey, *self.xz(r, c))
-                                          for c in range(self.w)] for r in range(self.h)]
-            self.height = _HEIGHT_CACHE["grid"]
+                _HEIGHT_CACHE["grid"] = _heights_grid(survey, self._xs, self._zs)
+            self._hflat = _HEIGHT_CACHE["grid"]
         wet = self._is_wet_way(way)
         ends = set(way.get("endsAt") or [])
 
-        parcels: list[tuple[list[tuple[float, float]], float]] = []
+        doors = door_thresholds_m(bp, self.extent_m)
+        # the same default width `blueprint_integration` buffers a way by
+        self.half_m = float(way.get("widthM") or WAY_DEFAULT_WIDTH_M) / 2.0
+        parcels: list[tuple] = []
         for p in bp.get("parcels") or []:
             fp = p.get("footprint")
             if not fp:
@@ -487,8 +639,17 @@ class LocalField:
             # for cells that cannot possibly be inside it: an exact prefilter,
             # never a change to which cells are penalised.
             bx = [q[0] for q in poly]; bz = [q[1] for q in poly]
-            parcels.append((poly, ENDS_PARCEL_PENALTY if p.get("id") in ends else PARCEL_PENALTY,
-                            (min(bx), min(bz), max(bx), max(bz))))
+            if not self.is_fence:
+                # a way is `widthM` wide, and `blueprint_integration` judges
+                # its buffered line against the footprint: the centreline
+                # keeps half a width off every parcel it may not enter
+                bx += [min(bx) - self.half_m, max(bx) + self.half_m]
+                bz += [min(bz) - self.half_m, max(bz) + self.half_m]
+            # the 4th item: the door thresholds through which this way may
+            # enter the parcel (only a parcel it `endsAt`, only if doored)
+            entry = doors.get(p.get("id"), []) if p.get("id") in ends else []
+            pen = PARCEL_PENALTY if entry or p.get("id") not in ends else ENDS_PARCEL_PENALTY
+            parcels.append((poly, pen, (min(bx), min(bz), max(bx), max(bz)), entry))
 
         if self.is_fence:
             self._build_fence_field(way, bp, survey, parcels)
@@ -508,27 +669,43 @@ class LocalField:
                     neighbours.append((via, (min(nx) - NEIGHBOUR_M, min(nz) - NEIGHBOUR_M,
                                              max(nx) + NEIGHBOUR_M, max(nz) + NEIGHBOUR_M)))
 
-        self.mult = [[1.0] * self.w for _ in range(self.h)]
-        for r in range(self.h):
-            for c in range(self.w):
-                x, z = self.xz(r, c)
-                m = 1.0
-                water = sample_water(survey, x, z)
-                if wet:
-                    if not water:
-                        m *= DRY_PENALTY_WET_WAY
-                elif water:
-                    m *= WATER_PENALTY_DRY_WAY
-                for poly, pen, (bx0, bz0, bx1, bz1) in parcels:
-                    if bx0 <= x <= bx1 and bz0 <= z <= bz1 and _point_in_poly(x, z, poly):
-                        m *= pen
-                        break
-                for nb, (nx0, nz0, nx1, nz1) in neighbours:
-                    if (nx0 <= x <= nx1 and nz0 <= z <= nz1
-                            and _dist_point_polyline((x, z), nb) <= NEIGHBOUR_M):
-                        m *= NEIGHBOUR_PENALTY
-                        break
-                self.mult[r][c] = m
+        # The multipliers are built a whole grid at a time. Each factor is
+        # applied in the order the per-cell rule multiplies them (water, then
+        # the first parcel that holds the cell, then one neighbour penalty),
+        # so every cell's product is the same float the per-cell rule gave.
+        xs, zs = self._xs, self._zs
+        m = np.ones((self.h, self.w))
+        water = _mask_grid(survey, survey.open_water, xs, zs)
+        if wet:
+            m[~water] *= DRY_PENALTY_WET_WAY
+        else:
+            m[water] *= WATER_PENALTY_DRY_WAY
+        taken = np.zeros((self.h, self.w), dtype=bool)
+        for poly, pen, bbox, entry in parcels:
+            idx = _bbox_block(xs, zs, bbox)
+            if idx is None:
+                continue
+            bxs, bzs = xs[idx[1]], zs[idx[0]]
+            inside = _points_in_poly(bxs, bzs, poly) | _within_polyline(
+                bxs, bzs, poly + [poly[0]], self.half_m)
+            hit = inside & ~taken[idx]
+            if entry:
+                bx = np.asarray(xs[idx[1]]).reshape(1, -1)
+                bz = np.asarray(zs[idx[0]]).reshape(-1, 1)
+                doorway = np.zeros(hit.shape, dtype=bool)
+                for dx, dz in entry:
+                    doorway |= np.hypot(bx - dx, bz - dz) <= DOOR_CLEAR_M
+                pen = np.where(doorway, ENDS_PARCEL_PENALTY, PARCEL_PENALTY)
+            m[idx] = np.where(hit, m[idx] * pen, m[idx])
+            taken[idx] |= hit
+        near = np.zeros((self.h, self.w), dtype=bool)
+        for nb, bbox in neighbours:
+            idx = _bbox_block(xs, zs, bbox)
+            if idx is None:
+                continue
+            near[idx] |= _within_polyline(xs[idx[1]], zs[idx[0]], nb, NEIGHBOUR_M)
+        m[near] *= NEIGHBOUR_PENALTY
+        self._set_mult(m)
 
     # ------------------------------------------------------------- fences --
     def _build_fence_field(self, way: dict, bp: dict, survey, parcels) -> None:
@@ -554,38 +731,62 @@ class LocalField:
                 crossings.append((via, half, (min(nx) - half, min(nz) - half,
                                               max(nx) + half, max(nz) + half)))
 
-        self.mult = [[1.0] * self.w for _ in range(self.h)]
-        for r in range(self.h):
-            for c in range(self.w):
-                x, z = self.xz(r, c)
-                m = 1.0
-                # a wall is judged against the WET SEASON: it has to stand
-                # wherever the water reaches, not only where it sits in March
-                wet = sample_wet_season_water(survey, x, z)
-                if water_ok:
-                    if not wet:
-                        m *= FENCE_DRY_PENALTY_WET
-                    elif sample_wet_season_depth_m(survey, x, z) > max_depth:
-                        m *= FENCE_DEEP_PENALTY
-                elif wet:
-                    m *= FENCE_WATER_PENALTY
-                if hug and not wet and len(hull) >= 3:
-                    inside = _point_in_poly(x, z, hull)
-                    d = _dist_point_polyline((x, z), hull + [hull[0]])
-                    if inside and d > FENCE_HULL_BAND_M:
-                        m *= FENCE_INSIDE_PENALTY
-                    elif not inside and d > FENCE_HULL_BAND_M:
-                        m *= FENCE_OUTSIDE_PENALTY
-                for poly, _pen, (bx0, bz0, bx1, bz1) in parcels:
-                    if bx0 <= x <= bx1 and bz0 <= z <= bz1 and _point_in_poly(x, z, poly):
-                        m *= FENCE_PARCEL_PENALTY
-                        break
-                for via, half, (nx0, nz0, nx1, nz1) in crossings:
-                    if (nx0 <= x <= nx1 and nz0 <= z <= nz1
-                            and _dist_point_polyline((x, z), via) <= half):
-                        m *= FENCE_WAY_PENALTY
-                        break
-                self.mult[r][c] = m
+        # Whole-grid build, factors applied in the per-cell rule's order
+        # (water, hull band, one parcel, one crossing) so each product is
+        # the same float.
+        xs, zs = self._xs, self._zs
+        m = np.ones((self.h, self.w))
+        # a wall is judged against the WET SEASON: it has to stand
+        # wherever the water reaches, not only where it sits in March
+        wet = _wet_season_mask_grid(survey, xs, zs)
+        if water_ok:
+            m[~wet] *= FENCE_DRY_PENALTY_WET
+            deep = wet & (_wet_season_depth_grid(survey, xs, zs) > max_depth)
+            m[deep] *= FENCE_DEEP_PENALTY
+        else:
+            m[wet] *= FENCE_WATER_PENALTY
+        if hug and len(hull) >= 3:
+            inside = _points_in_poly(xs, zs, hull)
+            far = _beyond_polyline(xs, zs, hull + [hull[0]], FENCE_HULL_BAND_M)
+            dry = ~wet
+            m[dry & inside & far] *= FENCE_INSIDE_PENALTY
+            m[dry & ~inside & far] *= FENCE_OUTSIDE_PENALTY
+        in_parcel = np.zeros((self.h, self.w), dtype=bool)
+        for poly, _pen, bbox, _entry in parcels:
+            idx = _bbox_block(xs, zs, bbox)
+            if idx is None:
+                continue
+            in_parcel[idx] |= _points_in_poly(xs[idx[1]], zs[idx[0]], poly)
+        m[in_parcel] *= FENCE_PARCEL_PENALTY
+        crossed = np.zeros((self.h, self.w), dtype=bool)
+        for via, half, bbox in crossings:
+            idx = _bbox_block(xs, zs, bbox)
+            if idx is None:
+                continue
+            crossed[idx] |= _within_polyline(xs[idx[1]], zs[idx[0]], via, half)
+        m[crossed] *= FENCE_WAY_PENALTY
+        self._set_mult(m)
+
+    def _set_mult(self, m) -> None:
+        """Keep the multipliers as the flat row-major list the A* inner loop
+        reads. A field holds a handful of distinct values, so each cell points
+        at one shared float per value (8 bytes a cell, not 32): the field
+        cache keeps every way's field alive for the whole compile."""
+        values, inverse = np.unique(m, return_inverse=True)
+        values = values.tolist()
+        self._mflat = [values[i] for i in inverse.ravel().tolist()]
+
+    @property
+    def mult(self) -> list[list[float]]:
+        """The multiplier grid, `mult[r][c]` (built on request)."""
+        w = self.w
+        return [self._mflat[r * w:(r + 1) * w] for r in range(self.h)]
+
+    @property
+    def height(self) -> list[list[float]]:
+        """The sampled heights, `height[r][c]` (built on request)."""
+        w = self.w
+        return [self._hflat[r * w:(r + 1) * w] for r in range(self.h)]
 
     @staticmethod
     def _is_wet_way(way: dict) -> bool:
@@ -608,69 +809,100 @@ class LocalField:
         return r, c
 
     def height_rc(self, r: int, c: int) -> float:
-        return self.height[min(max(r, 0), self.h - 1)][min(max(c, 0), self.w - 1)]
+        return self._hflat[min(max(r, 0), self.h - 1) * self.w + min(max(c, 0), self.w - 1)]
 
     # ----------------------------------------------------------------- A* --
     def astar(self, start: tuple[int, int], goal: tuple[int, int]) -> list[tuple[int, int]]:
+        """Least-cost cell path. The inner loop reads flat row-major lists
+        (`_hflat`, `_mflat`) with `height_rc`'s clamp inlined, and keys states
+        by one int; the arithmetic, the heap tuples and so the tie-breaking
+        are those of the grid-of-lists version, so the path is the same."""
         if start == goal:
             return [start]
         gh, gw = self.h, self.w
         gr, gc = goal
         cell = self.cell_m
+        H = self._hflat
+        M = self._mflat
+        is_fence = self.is_fence
+        hmax, wmax = gh - 1, gw - 1
+        hypot = math.hypot
+        heappush, heappop = heapq.heappush, heapq.heappop
+        inf = float("inf")
+        if is_fence:
+            kc = K_FENCE_CONTOUR * self.profile["contour"]
+            turn_m = FENCE_TURN_M
+        else:
+            turn_m = TURN_M
+        turns = _turn_table(turn_m)
+        # per offset: (k, dr, dc, step, 2*step, perpendicular dr, dc)
+        moves = [(k, dr, dc, cell * (1.4142135623730951 if dr and dc else 1.0), dr, -dc)
+                 for k, (dr, dc) in enumerate(_OFFSETS)]
+        moves = [(k, dr, dc, step, 2.0 * step, pz, px) for k, dr, dc, step, pz, px in moves]
 
         def heur(r: int, c: int) -> float:
-            return math.hypot(r - gr, c - gc) * cell
+            return hypot(r - gr, c - gc) * cell
 
-        start_state = (start[0], start[1], -1)
+        # a state is (r, c, di) packed as ((r * w + c) * 9 + di + 1)
+        start_state = (start[0] * gw + start[1]) * 9
         dist = {start_state: 0.0}
         prev: dict = {}
         heap = [(heur(*start), 0.0, start[0], start[1], -1)]
         while heap:
-            _f, d, r, c, di = heapq.heappop(heap)
-            state = (r, c, di)
-            if d > dist.get(state, float("inf")):
+            _f, d, r, c, di = heappop(heap)
+            state = (r * gw + c) * 9 + di + 1
+            if d > dist.get(state, inf):
                 continue
-            if (r, c) == goal:
+            if r == gr and c == gc:
                 path = [(r, c)]
                 while state in prev:
                     state = prev[state]
-                    path.append((state[0], state[1]))
+                    cell_i = state // 9
+                    path.append((cell_i // gw, cell_i % gw))
                 path.reverse()
                 return path
-            h_here = self.height[r][c]
-            for k, (dr, dc) in enumerate(_OFFSETS):
-                nr, nc = r + dr, c + dc
-                if not (0 <= nr < gh and 0 <= nc < gw):
+            h_here = H[r * gw + c]
+            turn_row = turns[di] if di >= 0 else None
+            for k, dr, dc, step, step2, pz, px in moves:
+                nr = r + dr
+                nc = c + dc
+                if nr < 0 or nr >= gh or nc < 0 or nc >= gw:
                     continue
-                step = cell * (1.4142135623730951 if dr and dc else 1.0)
-                dh = self.height[nr][nc] - h_here
-                if self.is_fence:
+                ni = nr * gw + nc
+                dh = H[ni] - h_here
+                if is_fence:
                     # a wall follows the contour: the cost is the height band
                     # it crosses, not the grade it climbs
                     band = abs(dh) / FENCE_BAND_M
-                    terrain = 1.0 + K_FENCE_CONTOUR * self.profile["contour"] * band * band
-                    turn_m = FENCE_TURN_M
+                    terrain = 1.0 + kc * band * band
                 else:
                     grade = abs(dh) / step
                     # side-slope at the destination, measured across the step
-                    px, pz = -dc, dr
-                    cross = abs(self.height_rc(nr + pz, nc + px)
-                                - self.height_rc(nr - pz, nc - px)) / (2.0 * step)
+                    ar = nr + pz; ac = nc + px
+                    br = nr - pz; bc = nc - px
+                    ar = 0 if ar < 0 else (hmax if ar > hmax else ar)
+                    ac = 0 if ac < 0 else (wmax if ac > wmax else ac)
+                    br = 0 if br < 0 else (hmax if br > hmax else br)
+                    bc = 0 if bc < 0 else (wmax if bc > wmax else bc)
+                    cross = abs(H[ar * gw + ac] - H[br * gw + bc]) / step2
                     terrain = 1.0 + K_SLOPE * grade * grade + K_CROSS * cross * cross
-                    turn_m = TURN_M
-                turn = 0.0
-                if di >= 0:
-                    turn = turn_m * _turn_steps(di, k)
-                nd = d + step * terrain * self.mult[nr][nc] + turn
-                nstate = (nr, nc, k)
-                if nd < dist.get(nstate, float("inf")) - 1e-12:
+                turn = turn_row[k] if turn_row is not None else 0.0
+                nd = d + step * terrain * M[ni] + turn
+                nstate = ni * 9 + k + 1
+                if nd < dist.get(nstate, inf) - 1e-12:
                     dist[nstate] = nd
                     prev[nstate] = state
-                    heapq.heappush(heap, (nd + heur(nr, nc), nd, nr, nc, k))
+                    heappush(heap, (nd + heur(nr, nc), nd, nr, nc, k))
         return [start, goal]
 
 
 _DIR_ANGLE = {i: math.atan2(dr, dc) for i, (dr, dc) in enumerate(_OFFSETS)}
+
+
+def _turn_table(turn_m: float) -> list[list[float]]:
+    """`turn_m * _turn_steps(a, b)` for every pair of offsets."""
+    return [[turn_m * _turn_steps(a, b) for b in range(len(_OFFSETS))]
+            for a in range(len(_OFFSETS))]
 
 
 def _turn_steps(a: int, b: int) -> float:
@@ -683,10 +915,23 @@ def _turn_steps(a: int, b: int) -> float:
 # --------------------------------------------------------------------------- #
 # endsAt snapping
 # --------------------------------------------------------------------------- #
+def door_thresholds_m(bp: dict, extent_m: float) -> dict[str, list[tuple[float, float]]]:
+    """parcel id -> its doors' thresholds in metres, in `doors[]` order."""
+    out: dict[str, list[tuple[float, float]]] = {}
+    for d in bp.get("doors") or []:
+        t = d.get("thresholdUV")
+        if isinstance(d.get("parcelId"), str) and isinstance(t, list) and len(t) == 2:
+            out.setdefault(d["parcelId"], []).append((float(t[0]) * extent_m, float(t[1]) * extent_m))
+    return out
+
+
 def _targets(bp: dict, extent_m: float) -> dict:
     out: dict = {}
+    doors = door_thresholds_m(bp, extent_m)
     for p in bp.get("parcels") or []:
-        if p.get("footprint"):
+        if p.get("id") in doors:
+            out[p.get("id")] = ("points", doors[p["id"]])
+        elif p.get("footprint"):
             out[p.get("id")] = ("poly", [(float(q[0]) * extent_m, float(q[1]) * extent_m)
                                          for q in p["footprint"]])
     for d in bp.get("docks") or []:
@@ -703,7 +948,8 @@ def _targets(bp: dict, extent_m: float) -> dict:
 def snap_endpoints(way: dict, via_m: list[tuple[float, float]], bp: dict,
                    extent_m: float) -> list[tuple[float, float]]:
     """Pull the way's terminal waypoints onto what it `endsAt`: the nearest
-    point on a parcel's footprint edge, or a dock/landmark position. Only a
+    point on a parcel's footprint edge (its nearest door threshold, when the
+    parcel has a door), or a dock/landmark position. Only a
     terminal within SNAP_MAX_M is pulled — an `endsAt` whose target is far from
     both ends is an authoring error for `blueprint_integration` to report, not
     something to paper over by dragging the way across the settlement."""
@@ -722,6 +968,9 @@ def snap_endpoints(way: dict, via_m: list[tuple[float, float]], bp: dict,
         for i in sorted(free):
             if kind == "poly":
                 pt, d = _nearest_on_polyline(via[i], geom, closed=True)
+            elif kind == "points":
+                pt = min(geom, key=lambda q: math.hypot(via[i][0] - q[0], via[i][1] - q[1]))
+                d = math.hypot(via[i][0] - pt[0], via[i][1] - pt[1])
             else:
                 pt, d = geom, math.hypot(via[i][0] - geom[0], via[i][1] - geom[1])
             if d < best_d:
@@ -804,6 +1053,7 @@ def local_field(way: dict, bp: dict, survey, cell_m: float = CELL_M,
             return LocalField(way, bp, survey, cell_m, is_fence)
         key = (survey_token, cell_m, is_fence, json.dumps(
             [way, bp.get("boundary"), [(p.get("id"), p.get("footprint")) for p in bp.get("parcels") or []],
+             [(d.get("parcelId"), d.get("thresholdUV")) for d in bp.get("doors") or []],
              [[(w.get("id"), w.get("kind"), w.get("via")) for w in bp.get(k) or []] for k in WAY_KEYS]],
             sort_keys=True, default=str))
     except (TypeError, ValueError):                     # noqa: BLE001 - uncacheable input

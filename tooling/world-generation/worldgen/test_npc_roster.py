@@ -6,8 +6,20 @@ import json
 
 import pytest
 
+from worldgen import catalogue
 from worldgen import name_forms as nf
 from worldgen import npc_roster as nr
+
+
+def _slots(texts):
+    """Authored slots as a writer mints them: {slotId, role}."""
+    taken: set[str] = set()
+    out = []
+    for text in texts:
+        sid = nr.mint_slot_id(text, taken)
+        taken.add(sid)
+        out.append({"slotId": sid, "role": text})
+    return out
 
 
 def _place(place_id, slots, **kw):
@@ -18,7 +30,7 @@ def _place(place_id, slots, **kw):
         "culture": "argonian",
         "ownerFaction": None,
         "contents": {"npcs": []},
-        "notableNpcSlots": list(slots),
+        "notableNpcSlots": _slots(slots),
     }
     base.update(kw)
     return base
@@ -52,6 +64,30 @@ def test_id_shape_and_dedupe_within_a_place():
     ids = nr._slot_ids(place)
     assert ids == ["npc.hist-heartland.x.tree-minder",
                    "npc.hist-heartland.x.tree-minder-2"]
+
+
+def test_every_catalogue_slot_carries_an_authored_slot_id():
+    for rf in catalogue.load_region_files():
+        for rec in rf.places:
+            for i, slot in enumerate(rec.get("notableNpcSlots") or []):
+                assert isinstance(slot, dict) and slot.get("slotId") and slot.get("role"), \
+                    f"{rec['id']} notableNpcSlots[{i}]"
+
+
+def test_rewording_a_role_keeps_the_person_id():
+    """The id is the slot's, never the role's words (2026-09-23): ce71aee7's
+    prose pass renamed two published people by rewording their posts."""
+    place = _place("place.hist-heartland.x", ["the tree-minder"])
+    before = nr._slot_ids(place)
+    place["notableNpcSlots"][0]["role"] = "the keeper of the old grove, who counts rings"
+    assert nr._slot_ids(place) == before == ["npc.hist-heartland.x.tree-minder"]
+
+
+def test_a_slot_without_an_id_is_refused():
+    place = _place("place.hist-heartland.x", ["the tree-minder"])
+    del place["notableNpcSlots"][0]["slotId"]
+    with pytest.raises(ValueError):
+        nr._slot_ids(place)
 
 
 def test_slug_strips_articles_and_who_clauses():
@@ -257,7 +293,7 @@ def test_role_is_the_slots_own_words(live, generated):
         if e["home"]["slotIndex"] is None:
             continue
         slots = by_id[e["home"]["placeId"]]["notableNpcSlots"]
-        assert e["role"] == slots[e["home"]["slotIndex"]]
+        assert e["role"] == slots[e["home"]["slotIndex"]]["role"]
 
 
 # determinism and the shipped file ------------------------------------------
@@ -295,7 +331,8 @@ def test_inserting_a_slot_never_renames_a_published_entry(tmp_path, monkeypatch)
     nr.write(first)
     before = {e["id"]: (e["name"], e["nameForm"], e["race"], e["sex"]) for e in first}
 
-    places[0]["notableNpcSlots"].insert(0, "the tide-caller who is new here")
+    places[0]["notableNpcSlots"].insert(0, {"slotId": "tide-caller",
+                                            "role": "the tide-caller who is new here"})
     second, _ = nr.generate([dict(p) for p in places])
     after = {e["id"]: (e["name"], e["nameForm"], e["race"], e["sex"]) for e in second}
 
@@ -320,7 +357,7 @@ def test_a_deleted_slots_name_is_free_again(tmp_path, monkeypatch):
     # must not be reserved, so the same place re-drawn from scratch gets the
     # identical draw it would get with no registry at all.
     places[0]["id"] = "place.dunmer-north.beta"
-    places[0]["notableNpcSlots"] = ["the harbour clerk", "the net-mender"]
+    places[0]["notableNpcSlots"] = _slots(["the harbour clerk", "the net-mender"])
     with_stale_registry, _ = nr.generate([dict(p) for p in places])
     monkeypatch.setattr(nr, "REGISTRY", tmp_path / "empty.json")
     virgin, _ = nr.generate([dict(p) for p in places])

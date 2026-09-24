@@ -357,3 +357,184 @@ def test_a_straight_wall_keeps_its_surveyed_line():
     """`straight` is the surveyed line: no routing, no module quantising."""
     fence = _fence(routing="straight", moduleM=4.0, via=[uv(150, 150), uv(150, 293)])
     assert to_m(sr.route_way(fence, _fence_bp(fence), SurveyStub())) == [(150, 150), (150, 293)]
+
+
+# --------------------------------------------------------------------------- #
+# the whole-grid field build equals the per-cell rule it replaced (step C,
+# 2026-09-23). `_scalar_mult` is the per-cell loop exactly as it stood before
+# the field was vectorised: the oracle, frozen here so a later change to the
+# vectorised build is measured against the rule, not against itself.
+# --------------------------------------------------------------------------- #
+import json
+from pathlib import Path
+
+import pytest
+
+BLUEPRINTS = Path(__file__).resolve().parents[3] / "world" / "sources" / "blueprints"
+
+
+def _scalar_mult(field, way, bp, survey):
+    E = field.extent_m
+    ends = set(way.get("endsAt") or [])
+    parcels = []
+    for p in bp.get("parcels") or []:
+        fp = p.get("footprint")
+        if not fp:
+            continue
+        poly = [(float(q[0]) * E, float(q[1]) * E) for q in fp]
+        bx = [q[0] for q in poly]; bz = [q[1] for q in poly]
+        if not field.is_fence:
+            bx += [min(bx) - field.half_m, max(bx) + field.half_m]
+            bz += [min(bz) - field.half_m, max(bz) + field.half_m]
+        entry = sr.door_thresholds_m(bp, E).get(p.get("id"), []) if p.get("id") in ends else []
+        pen = sr.PARCEL_PENALTY if entry or p.get("id") not in ends else sr.ENDS_PARCEL_PENALTY
+        parcels.append((poly, pen, (min(bx), min(bz), max(bx), max(bz)), entry))
+    out = [[1.0] * field.w for _ in range(field.h)]
+    if field.is_fence:
+        water_ok = way.get("waterOk") if isinstance(way.get("waterOk"), dict) else None
+        max_depth = float(water_ok.get("maxDepthM", 0.0)) if water_ok else 0.0
+        hug = bool(field.profile["hug"])
+        hull = sr.built_hull(bp, E) if hug else []
+        gaps = {g for g in (way.get("gapAt") or []) if isinstance(g, str)}
+        crossings = []
+        for key in ("routes", "canals", "boardwalks"):
+            for w in bp.get(key) or []:
+                if w.get("id") in gaps:
+                    continue
+                via = [(float(q[0]) * E, float(q[1]) * E) for q in (w.get("via") or [])]
+                if len(via) < 2:
+                    continue
+                half = max(float(w.get("widthM") or 1.0) / 2.0, 0.5)
+                nx = [q[0] for q in via]; nz = [q[1] for q in via]
+                crossings.append((via, half, (min(nx) - half, min(nz) - half,
+                                              max(nx) + half, max(nz) + half)))
+        for r in range(field.h):
+            for c in range(field.w):
+                x, z = field.xz(r, c)
+                m = 1.0
+                wet = sr.sample_wet_season_water(survey, x, z)
+                if water_ok:
+                    if not wet:
+                        m *= sr.FENCE_DRY_PENALTY_WET
+                    elif sr.sample_wet_season_depth_m(survey, x, z) > max_depth:
+                        m *= sr.FENCE_DEEP_PENALTY
+                elif wet:
+                    m *= sr.FENCE_WATER_PENALTY
+                if hug and not wet and len(hull) >= 3:
+                    inside = sr._point_in_poly(x, z, hull)
+                    d = sr._dist_point_polyline((x, z), hull + [hull[0]])
+                    if inside and d > sr.FENCE_HULL_BAND_M:
+                        m *= sr.FENCE_INSIDE_PENALTY
+                    elif not inside and d > sr.FENCE_HULL_BAND_M:
+                        m *= sr.FENCE_OUTSIDE_PENALTY
+                for poly, _pen, (bx0, bz0, bx1, bz1), _entry in parcels:
+                    if bx0 <= x <= bx1 and bz0 <= z <= bz1 and sr._point_in_poly(x, z, poly):
+                        m *= sr.FENCE_PARCEL_PENALTY
+                        break
+                for via, half, (nx0, nz0, nx1, nz1) in crossings:
+                    if (nx0 <= x <= nx1 and nz0 <= z <= nz1
+                            and sr._dist_point_polyline((x, z), via) <= half):
+                        m *= sr.FENCE_WAY_PENALTY
+                        break
+                out[r][c] = m
+        return out
+    wet_way = field._is_wet_way(way)
+    neighbours = []
+    for key in sr.WAY_KEYS:
+        if key == "fences" or not field._same_class(way, key, bp):
+            continue
+        for w in bp.get(key) or []:
+            if w.get("id") == way.get("id"):
+                continue
+            via = [(float(q[0]) * E, float(q[1]) * E) for q in (w.get("via") or [])]
+            if len(via) >= 2:
+                nx = [q[0] for q in via]; nz = [q[1] for q in via]
+                neighbours.append((via, (min(nx) - sr.NEIGHBOUR_M, min(nz) - sr.NEIGHBOUR_M,
+                                         max(nx) + sr.NEIGHBOUR_M, max(nz) + sr.NEIGHBOUR_M)))
+    for r in range(field.h):
+        for c in range(field.w):
+            x, z = field.xz(r, c)
+            m = 1.0
+            water = sr.sample_water(survey, x, z)
+            if wet_way:
+                if not water:
+                    m *= sr.DRY_PENALTY_WET_WAY
+            elif water:
+                m *= sr.WATER_PENALTY_DRY_WAY
+            for poly, pen, (bx0, bz0, bx1, bz1), entry in parcels:
+                if bx0 <= x <= bx1 and bz0 <= z <= bz1 and (
+                        sr._point_in_poly(x, z, poly)
+                        or sr._dist_point_polyline((x, z), poly + [poly[0]]) <= field.half_m):
+                    if any(math.hypot(x - dx, z - dz) <= sr.DOOR_CLEAR_M for dx, dz in entry):
+                        pen = sr.ENDS_PARCEL_PENALTY
+                    m *= pen
+                    break
+            for nb, (nx0, nz0, nx1, nz1) in neighbours:
+                if (nx0 <= x <= nx1 and nz0 <= z <= nz1
+                        and sr._dist_point_polyline((x, z), nb) <= sr.NEIGHBOUR_M):
+                    m *= sr.NEIGHBOUR_PENALTY
+                    break
+            out[r][c] = m
+    return out
+
+
+def _scalar_heights(field, survey):
+    return [[sr.sample_height_m(survey, *field.xz(r, c)) for c in range(field.w)]
+            for r in range(field.h)]
+
+
+def _assert_field_matches_rule(way, bp, survey):
+    is_fence = sr._way_class(bp, way) == "fences"
+    field = sr.LocalField(way, bp, survey, is_fence=is_fence)
+    assert field.mult == _scalar_mult(field, way, bp, survey), way.get("id")
+    assert field.height == _scalar_heights(field, survey), way.get("id")
+
+
+def test_vectorised_field_equals_the_per_cell_rule_on_stub_ground():
+    """Water, parcels (first hit wins), neighbours, and a wall with its hull
+    band, shallows and gap, on a stub survey: every cell the same float."""
+    wet = lambda x, z: 230 < x < 260 or (x - 300) ** 2 + (z - 200) ** 2 < 900
+    survey = SurveyStub(height_fn=lambda x, z: 0.05 * x + 3.0 * math.sin(z / 20.0),
+                        water_fn=wet)
+    parcels = [
+        {"id": "parcel.a", "footprint": [uv(180, 180), uv(210, 182), uv(205, 215), uv(178, 210)]},
+        {"id": "parcel.b", "footprint": [uv(195, 195), uv(240, 195), uv(240, 240), uv(195, 240)]},
+        {"id": "parcel.c", "footprint": [uv(300, 300), uv(330, 300), uv(315, 330)]},
+    ]
+    route = {"id": "route.t.a", "kind": "track", "widthM": 2.0, "routing": "terrain",
+             "endsAt": ["parcel.a"], "via": [uv(150, 150), uv(350, 350)]}
+    other = {"id": "route.t.b", "kind": "track", "widthM": 3.0, "routing": "terrain",
+             "via": [uv(150, 350), uv(250, 250), uv(350, 150)]}
+    walk = {"id": "boardwalk.t.a", "kind": "boardwalk", "widthM": 2.0, "routing": "terrain",
+            "via": [uv(200, 120), uv(290, 210)]}
+    bp = {"boundary": [uv(100, 100), uv(400, 100), uv(400, 400), uv(100, 400)],
+          "parcels": parcels, "routes": [route, other], "boardwalks": [walk], "fences": []}
+    for fence in (_fence(), _fence(id="fence.t.pole", **{"class": "pole-wall"},
+                                   waterOk={"maxDepthM": 0.4}, gapAt=["route.t.b"])):
+        bp["fences"] = [fence]
+        _assert_field_matches_rule(fence, bp, survey)
+    for way in (route, other, walk):
+        _assert_field_matches_rule(way, bp, survey)
+
+
+@pytest.mark.parametrize("name", ["place.fixture.proving-ground.json",
+                                  "testdata/place.fixture.mire-landing.json"])
+def test_vectorised_field_equals_the_per_cell_rule_on_the_shipped_places(name):
+    """Every terrain-routed way of a real-ground blueprint over the real survey:
+    the field is the per-cell rule's, cell for cell (the published rasters are
+    needed; a schema-only checkout skips). Lilmoth and the sap camp proved this
+    until their retirement (2026-09-23); the shipped yard's ways are all
+    straight, so they are routed over terrain here, and the mire-landing test
+    fixture carries an authored terrain way."""
+    survey = sr.default_survey()
+    if survey is None:
+        pytest.skip("province survey rasters are not in this checkout")
+    path = (Path(__file__).parent / name) if name.startswith("testdata/") else (BLUEPRINTS / name)
+    bp = json.loads(path.read_text())["blueprint"]
+    if name == "place.fixture.proving-ground.json":
+        for _k, way in sr.iter_ways(bp):
+            way["routing"] = "terrain"
+    ways = [w for _k, w in sr.iter_ways(bp) if w.get("routing") == "terrain"]
+    assert ways
+    for way in ways:
+        _assert_field_matches_rule(way, bp, survey)

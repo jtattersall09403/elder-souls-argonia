@@ -59,6 +59,12 @@ def _known() -> tuple[set[str], set[str]]:
             every.add(rec["id"])
             if rec.get("status") == "cut":
                 cut.add(rec["id"])
+    # A fixture is a place outside the catalogue by design (decision 0085 §5):
+    # its site record (`fixture: true`) is what puts it in the world.
+    for site in sorted((SOURCES / "sites").glob("*.json")):
+        doc = json.loads(site.read_text(encoding="utf-8"))
+        if isinstance(doc, dict) and doc.get("fixture") is True and isinstance(doc.get("id"), str):
+            every.add(doc["id"])
     return every, cut
 
 

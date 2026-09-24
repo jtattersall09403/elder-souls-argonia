@@ -260,3 +260,64 @@ def test_a_track_patch_clears_inside_its_polygon_and_nothing_outside():
     for x, z in ((100.0, 5.0), (100.0, 5.0 + width), (100.0, 5.0 + 5 * width)):
         assert sc.keep_at(x, z, patch) == pytest.approx(
             float(sc.keep_field(np.array([x]), np.array([z]), patch)[0]))
+
+
+def _keep_field_uncut(monkeypatch, x, z, clearance, margin_m):
+    """`keep_field` with the 16h step E polygon cull switched off."""
+    real = sc._inside_and_distance
+    with monkeypatch.context() as m:
+        m.setattr(sc, "_inside_and_distance",
+                  lambda xs, zs, polys, cutoff_m=None: real(xs, zs, polys))
+        return sc.keep_field(x, z, clearance, margin_m)
+
+
+def test_the_polygon_cull_leaves_every_keep_value_unchanged(monkeypatch):
+    """Many small quads scattered over a wide area, points in one chunk-sized
+    patch among them: culling the far quads must not move one keep value,
+    with and without a margin, with and without hard ground."""
+    rng = np.random.default_rng(31)
+    quads = []
+    for cx, cz in rng.uniform(-2000.0, 2000.0, (300, 2)):
+        w, h = rng.uniform(3.0, 25.0, 2)
+        quads.append([[cx, cz], [cx + w, cz + 1.0], [cx + w - 2.0, cz + h], [cx - 1.0, cz + h - 3.0]])
+    x = rng.uniform(-250.0, 250.0, 20000)
+    z = rng.uniform(-250.0, 250.0, 20000)
+    cases = [
+        {"hardClear": quads[:150], "thinned": quads[150:],
+         "kept": [{"positionM": [10.0, 10.0], "kind": "shade"}]},
+        {"hardClear": [], "thinned": quads},
+        {"hardClear": quads, "thinned": []},
+    ]
+    for clearance in cases:
+        for margin in (0.0, 2.0):
+            got = sc.keep_field(x, z, clearance, margin)
+            want = _keep_field_uncut(monkeypatch, x, z, clearance, margin)
+            assert np.array_equal(got, want), (margin, int((got != want).sum()))
+    # and the test sees something both sides of the saturation line
+    assert (want < 1.0).any() and (want == 1.0).any()
+
+
+def test_the_polygon_cull_agrees_on_a_shipped_patch_over_a_real_chunk(monkeypatch):
+    import json
+
+    from .apply_vegetation_patches import BUNDLE_DIR
+    from .scatter import decode
+
+    if not (BUNDLE_DIR / "vegetation-index.json").exists():
+        pytest.skip("published vegetation bundles are not on this checkout")
+    for clearance in sc.load_patches(sc.PATCHES_PATH):
+        for cx, cz in sc.affected_chunks(clearance):
+            path = BUNDLE_DIR / f"chunk_{cx}_{cz}_vegetation.bin"
+            if not path.exists():
+                continue
+            items = [i for g in decode(path.read_bytes()) for i in g["instances"]]
+            x = np.array([i["x"] for i in items], dtype=np.float64)
+            z = np.array([i["z"] for i in items], dtype=np.float64)
+            x = np.concatenate([x, x + 3.0, x - 3.0])
+            z = np.concatenate([z, z + 3.0, z - 3.0])
+            got = sc.keep_field(x, z, clearance, 0.0)
+            want = _keep_field_uncut(monkeypatch, x, z, clearance, 0.0)
+            assert np.array_equal(got, want)
+            assert (want < 1.0).any()
+            return
+    pytest.skip("no shipped patch reaches a published bundle")

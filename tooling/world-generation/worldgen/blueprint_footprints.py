@@ -134,6 +134,8 @@ def parcel_footprint(parcel: dict, lib: FootprintLibrary | None = None,
                      extent_m: float = PROVINCE_EXTENT_M) -> list[list[float]] | None:
     """Derived footprint for one parcel, or None if it cannot be derived."""
     lib = lib if lib is not None else library()
+    if parcel.get("pieces") and "assetRef" not in parcel:
+        return pieces_footprint(parcel, lib, extent_m)
     ref = parcel.get("assetRef")
     if not isinstance(ref, str):
         return None
@@ -150,6 +152,158 @@ def parcel_footprint(parcel: dict, lib: FootprintLibrary | None = None,
         return None
     return derive_footprint(record, parcel["centreUV"], parcel["yawDeg"],
                             extent_m, outline, float(scale))
+
+
+ABUTS_RECORD = REPO_ROOT / "world" / "sources" / "placement" / "kit-assemblies-mined.json"
+_ABUTS: dict[str, dict] = {}
+#: 16h K9 B: a run step's displacement must point this far along the run's
+#: current direction (cosine), so a back-to-back pair never continues a run.
+RUN_FORWARD_COS = 0.7
+
+
+def abuts_record(path: Path | None = None) -> dict:
+    """The `abuts` section of kit-assemblies-mined.json (`worldgen.mine_abuts`),
+    loaded once per path (read-only data)."""
+    key = str(path or ABUTS_RECORD)
+    if key not in _ABUTS:
+        p = Path(key)
+        _ABUTS[key] = (json.loads(p.read_text()).get("abuts") or {}) if p.exists() else {}
+    return _ABUTS[key]
+
+
+def family_key(asset_id: str) -> str:
+    from .mine_abuts import family_of
+    return family_of(asset_id)
+
+
+def invert_pair(ox: float, oy: float, rise: float, yaw: float) -> tuple[float, float, float, float]:
+    """The parent in the child's unit frame, given the child in the parent's
+    (mined convention, relative scale 1): ``-R(yaw)·o``, yaw negated."""
+    t = math.radians(yaw)
+    rx = ox * math.cos(t) - oy * math.sin(t)
+    ry = ox * math.sin(t) + oy * math.cos(t)
+    return -rx, -ry, -rise, (-yaw) % 360.0
+
+
+def run_steps(prev_asset: str, next_asset: str, abuts: dict) -> list[dict]:
+    """Every mined way `next_asset` continues from `prev_asset`: piece pairs
+    and family pairs at relative scale 1.0, either piece as the parent. Each
+    step is the next piece in the previous piece's unit frame (x, y north),
+    its rise, relative yaw, and the pair it came from."""
+    fam_p, fam_n = family_key(prev_asset), family_key(next_asset)
+    out = []
+    for kind, rows, a, b in (("piece", abuts.get("pairs") or [], prev_asset, next_asset),
+                             ("family", abuts.get("familyPairs") or [], fam_p, fam_n)):
+        for pair in rows:
+            if float(pair.get("relScale", 1.0)) != 1.0:
+                continue
+            ox, oy, rise = pair["offsetM"]
+            yaw = float(pair["yawDeg"])
+            for parent, child, flip in ((a, b, False), (b, a, True)):
+                if pair["parent"] != parent or pair["child"] != child:
+                    continue
+                step = invert_pair(ox, oy, rise, yaw) if flip else (ox, oy, rise, yaw)
+                span = (pair["riseMinM"], pair["riseMaxM"])
+                out.append({"offset": step[:2], "rise": step[2], "yaw": step[3],
+                            "riseRangeM": [-span[1], -span[0]] if flip else list(span),
+                            "count": pair["count"], "kind": kind,
+                            "pair": f"{pair['parentPiece']}{pair['parentFace']}>"
+                                    f"{pair['childPiece']}{pair['childFace']}"})
+    return out
+
+
+def lay_pieces(parcel: dict, abuts: dict | None = None) -> tuple[list[dict], list[str]]:
+    """16h K9 B: a `pieces` parcel laid as the plugins lay the run. The first
+    piece stands at the parcel's pivot turned to `yawDeg` + its own `yaw`; each
+    next piece is snapped to the one before by the mined abuts pair (the
+    step with the most evidence among those that carry the run on along its
+    direction and match the piece's `yaw` when given). Returns per piece
+    ``{asset, xM, zM (metres from the parcel pivot, x east, z south), yawDeg,
+    riseM, pair}`` and the errors (a missing pair names both pieces)."""
+    abuts = abuts_record() if abuts is None else abuts
+    pieces = parcel.get("pieces") or []
+    base = float(parcel.get("yawDeg") or 0.0)
+    out: list[dict] = []
+    errors: list[str] = []
+    direction = None
+    for i, piece in enumerate(pieces):
+        asset = piece.get("asset")
+        want = piece.get("yaw")
+        if i == 0:
+            yaw = (base + float(want or 0.0)) % 360.0
+            out.append({"asset": asset, "xM": 0.0, "zM": 0.0, "yawDeg": round(yaw, 3),
+                        "riseM": 0.0, "pair": None})
+            direction = rotate_m([(1.0, 0.0)], yaw)[0]
+            continue
+        prev = out[-1]
+        best = None
+        for step in run_steps(prev["asset"], asset, abuts):
+            yaw = (prev["yawDeg"] + step["yaw"]) % 360.0
+            if want is not None and abs(((yaw - base - float(want)) + 180.0) % 360.0 - 180.0) > 1.0:
+                continue
+            dx, dz = rotate_m([(step["offset"][0], -step["offset"][1])], prev["yawDeg"])[0]
+            length = math.hypot(dx, dz)
+            if length < 1e-6 or (dx * direction[0] + dz * direction[1]) < RUN_FORWARD_COS * length:
+                continue
+            rank = (step["count"], step["kind"] == "piece")
+            if best is None or rank > best[0]:
+                best = (rank, step, dx, dz, yaw, length)
+        if best is None:
+            errors.append(f"{parcel.get('id')}: pieces[{i}] {asset} has no mined abuts pair "
+                          f"continuing the run from pieces[{i - 1}] {prev['asset']}"
+                          + (f" at yaw {want}" if want is not None else ""))
+            return out, errors
+        _, step, dx, dz, yaw, length = best
+        out.append({"asset": asset, "xM": round(prev["xM"] + dx, 4),
+                    "zM": round(prev["zM"] + dz, 4), "yawDeg": round(yaw, 3),
+                    "riseM": round(prev["riseM"] + step["rise"], 3),
+                    "riseRangeM": step["riseRangeM"],
+                    "pair": f"{step['kind']}:{step['pair']} n{step['count']}"})
+        direction = (dx / length, dz / length)
+    return out, errors
+
+
+def laid_polygons_m(parcel: dict, layout: list[dict], lib: FootprintLibrary | None = None,
+                    extent_m: float = PROVINCE_EXTENT_M) -> list[list[tuple[float, float]]] | None:
+    """Each laid piece's measured outline in province metres (x east, z
+    south), or None when a piece is unmeasured."""
+    lib = lib if lib is not None else library()
+    cx = float(parcel["centreUV"][0]) * extent_m
+    cz = float(parcel["centreUV"][1]) * extent_m
+    outline = parcel.get("outline", "footprintM")
+    out = []
+    for row in layout:
+        record = lib.get(row["asset"])
+        if record is None:
+            return None
+        pts = record.get(outline) or record.get("planOutlineM") or []
+        out.append([(cx + row["xM"] + x, cz + row["zM"] + z)
+                    for x, z in rotate_m([(q[0], q[1]) for q in pts], row["yawDeg"])])
+    return out
+
+
+def pieces_footprint(parcel: dict, lib: FootprintLibrary | None = None,
+                     extent_m: float = PROVINCE_EXTENT_M,
+                     abuts: dict | None = None) -> list[list[float]] | None:
+    """A `pieces` parcel's footprint: the union of its laid pieces' measured
+    outlines (a convex hull if they do not join)."""
+    lib = lib if lib is not None else library()
+    layout, errors = lay_pieces(parcel, abuts)
+    if errors or not layout or not isinstance(parcel.get("centreUV"), list):
+        return None
+    placed = laid_polygons_m(parcel, layout, lib, extent_m)
+    if placed is None:
+        return None
+    polys = []
+    for pts in placed:
+        poly = Polygon(pts)
+        polys.append(poly if poly.is_valid else poly.buffer(0))
+    shape = unary_union(polys).buffer(0.01).buffer(-0.01)
+    if shape.geom_type != "Polygon":
+        shape = shape.convex_hull
+    shape = shape.simplify(0.01)
+    return [[round(x / extent_m, UV_ROUND), round(z / extent_m, UV_ROUND)]
+            for x, z in list(shape.exterior.coords)[:-1]]
 
 
 def polygons_match(a, b, tolerance: float = DERIVED_TOLERANCE_UV) -> bool:
@@ -169,7 +323,8 @@ def apply_to_blueprint(bp: dict, lib: FootprintLibrary | None = None,
         if derived is None:
             problems.append(
                 f"{parcel.get('id')}: cannot derive footprint — needs assetRef "
-                f"(measured), centreUV [u,v] and numeric yawDeg "
+                f"(measured) or a pieces run the abuts record lays, centreUV [u,v] "
+                f"and numeric yawDeg "
                 f"(assetRef={parcel.get('assetRef')!r})")
             continue
         parcel["footprint"] = derived
@@ -405,15 +560,15 @@ def threshold_uv(parcel: dict, doorway: dict, yaw_deg: float,
                  lib: FootprintLibrary | None = None,
                  extent_m: float = PROVINCE_EXTENT_M,
                  facing_deg: float | None = None):
-    """Where the player stands to use this doorway: the point at which the
-    doorway's line of sight crosses the building's own outline.
+    """Where the player stands to use this doorway.
 
-    A doorway's measured `offsetM` is the opening's position inside the piece,
-    which for a big hall sits well in from the wall, so it is the wrong point to
-    call a threshold. Casting the doorway's bearing out from the pivot to the
-    derived outline puts the threshold ON the wall the door claims, which is
-    what the validator's edge check reads. The offset is the fallback when no
-    outline can be derived.
+    A fixed entrance with a measured `offsetM` IS its threshold (K5,
+    2026-09-23): the one measured opening, the same point
+    `compile_settlement.bind_doors_to_doorways` binds the door to, never
+    projected (an opening behind a veranda sits metres inside the derived
+    outline, and is still where the player enters). The cast of `sideDeg` from
+    the pivot to the outline is kept for an entrance with no measured offset.
+    A radial entrance stands on its ring along the door's own facing.
     """
     centre = parcel_centre_m(parcel, extent_m)
     if centre is None:
@@ -426,6 +581,10 @@ def threshold_uv(parcel: dict, doorway: dict, yaw_deg: float,
     # (a Telvanni door piece sits 6 m from the hut's pivot). Only a measured
     # opening in the mesh is a hole in the outline, and only that one is cast.
     placed = doorway.get("kind") in ("esp-door", "assembly", "door-piece")
+    off = bi.entrance_offset_m(doorway, yaw_deg)
+    if off is not None and not bi.is_radial(doorway):
+        return [round((centre[0] + off[0]) / extent_m, UV_ROUND),
+                round((centre[1] + off[1]) / extent_m, UV_ROUND)]
     if poly and side is not None and not bi.is_radial(doorway) and not placed:
         bearing = math.radians((float(side) + float(yaw_deg)) % 360.0)
         dx, dz = math.sin(bearing), -math.cos(bearing)

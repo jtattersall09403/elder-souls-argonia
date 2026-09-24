@@ -2,10 +2,34 @@ import { useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useRapier } from "@react-three/rapier";
 import type { RigidBody } from "@dimforge/rapier3d-compat";
-import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
+import type {
+  SettlementCollisionShape, SettlementSolid,
+} from "@elder-souls/game-core/settlement/types";
 import { bodySetAlive, captureBodySet } from "@elder-souls/game-core/physics/rapierWorldAlive";
 import { useFrameWork } from "@elder-souls/game-core/scheduling/frameWorkContext";
 import type { FrameJobHandle } from "@elder-souls/game-core/scheduling/frameWork";
+
+/**
+ * One collider of a placed piece.
+ *
+ * A mesh piece collides as its own triangles (0071 §5, 16h item 4): those
+ * vertices already carry the part transform and the placement scale, so only
+ * the measured box proxies are scaled here. The body carries the position and
+ * the drawn rotation.
+ */
+export function settlementColliderDesc<D>(
+  rapier: { ColliderDesc: {
+    trimesh: (v: Float32Array, i: Uint32Array) => D;
+    cuboid: (x: number, y: number, z: number) => { setTranslation: (x: number, y: number, z: number) => D };
+  } },
+  part: SettlementCollisionShape,
+  scale: number,
+): D {
+  if (part.kind === "trimesh") return rapier.ColliderDesc.trimesh(part.vertices, part.indices);
+  return rapier.ColliderDesc.cuboid(
+    part.halfExtentsM[0] * scale, part.halfExtentsM[1] * scale, part.halfExtentsM[2] * scale,
+  ).setTranslation(part.offsetM[0] * scale, part.offsetM[1] * scale, part.offsetM[2] * scale);
+}
 
 /** Imperative fixed-body diff for the package's nearby architecture solids. */
 export function SettlementColliders({ solidsRef, focusRef }: {
@@ -53,20 +77,12 @@ export function SettlementColliders({ solidsRef, focusRef }: {
     }
     function* buildJob(): Generator<void> {
       for (const solid of toBuild) {
-        const half = solid.yaw / 2;
+        const [rx, ry, rz, rw] = solid.rotation;
         const body = world.createRigidBody(rapier.RigidBodyDesc.fixed()
           .setTranslation(...solid.position)
-          .setRotation({ x: 0, y: Math.sin(half), z: 0, w: Math.cos(half) }));
+          .setRotation({ x: rx, y: ry, z: rz, w: rw }));
         for (const part of solid.parts) {
-          world.createCollider(rapier.ColliderDesc.cuboid(
-            part.halfExtentsM[0] * solid.scale,
-            part.halfExtentsM[1] * solid.scale,
-            part.halfExtentsM[2] * solid.scale,
-          ).setTranslation(
-            part.offsetM[0] * solid.scale,
-            part.offsetM[1] * solid.scale,
-            part.offsetM[2] * solid.scale,
-          ), body);
+          world.createCollider(settlementColliderDesc(rapier, part, solid.scale), body);
         }
         bodies.current.set(solid.id, body);
         yield;

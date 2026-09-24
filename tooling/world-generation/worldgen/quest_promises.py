@@ -57,7 +57,7 @@ def _has_captive(rec: dict) -> bool:
     if any(sl.get("role") == "captive"
            for sl in (rec.get("contents") or {}).get("npcs", []) or []):
         return True
-    text = " ".join(str(x) for x in (rec.get("notableNpcSlots") or [])
+    text = " ".join([s["role"] for s in (rec.get("notableNpcSlots") or [])]
                     + (rec.get("occupants") or []))
     return "captive" in text.lower() or "prisoner" in text.lower()
 

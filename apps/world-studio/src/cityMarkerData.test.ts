@@ -68,12 +68,18 @@ describe("the exported province data", () => {
     expect(marks.length).toBeGreaterThan(8);
   });
 
-  it("stands Lilmoth on its blueprint, east of the place anchor", () => {
+  // Lilmoth's 2026-09-09 blueprint was retired (owner 2026-09-23; 16i
+  // re-authors it), so its beacon stands on the catalogue record.
+  it("stands Lilmoth on its catalogue record while it has no blueprint", () => {
     const lilmoth = marks.find((m) => m.id === "place.mercantile-coast.lilmoth")!;
-    const anchor = places.find((p) => p.id === lilmoth.id)!.positionM!;
-    expect(lilmoth.fromBlueprint).toBe(true);
-    expect(lilmoth.xM).toBeGreaterThan(anchor[0] + 20);
-    expect(Math.hypot(lilmoth.xM - anchor[0], lilmoth.zM - anchor[1])).toBeLessThan(200);
+    const record = places.find((p) => p.id === lilmoth.id)!.positionM!;
+    expect(lilmoth.fromBlueprint).toBe(false);
+    expect([lilmoth.xM, lilmoth.zM]).toEqual([record[0], record[1]]);
+  });
+
+  it("stands a beacon on a blueprint exactly when one is exported for it", () => {
+    const ids = new Set(blueprints.map((b) => b.id));
+    for (const m of marks) expect(m.fromBlueprint, m.id).toBe(ids.has(m.id));
   });
 
   it("keeps every beacon inside the province", () => {

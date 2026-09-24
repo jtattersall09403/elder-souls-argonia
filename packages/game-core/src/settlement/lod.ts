@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { lodLadder, type LodRung } from "../fx/lodFade";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 
 export interface ArchitectureLodContract {
@@ -7,19 +8,58 @@ export interface ArchitectureLodContract {
   farMergeDistanceM: number;
 }
 
-/** One and only one full-vs-LOD decision for a placed building. */
+/**
+ * The rung ladder of one placed building, stepped from the camera (0075).
+ *
+ * The SAME helper the vegetation cell build uses (`lodLadder`, fx/lodFade):
+ * one kit level per rung, hard steps at every edge, adjacent rungs that
+ * resolve to the same kit level collapsed into one. Buildings take
+ * `card: none` in 16h — no kit piece has a card bake — so the last mesh level
+ * runs out to `maxDrawM`, which covers the loaded ring: nothing inside the
+ * ring fades to nothing.
+ */
+export function settlementLadder(
+  footprintDiagonalM: number,
+  availableLevels: number,
+  contract: ArchitectureLodContract,
+  maxDrawM: number,
+  drawScale = 1,
+): LodRung[] {
+  if (availableLevels < 3) throw new Error("architecture asset is missing a three-tier LOD chain");
+  const rings = contract.distancePerFootprintDiagonal.map((k, i) =>
+    Math.max(i === 0 ? 55 : 180, footprintDiagonalM * k) * drawScale);
+  return lodLadder(rings, availableLevels, SETTLEMENT_CARD_LEVEL, maxDrawM * drawScale);
+}
+
+/** Buildings have no card bake in 16h; the mesh ladder covers the whole ring. */
+export const SETTLEMENT_CARD_LEVEL: number | null = null;
+
+/** Wind never moves a building. */
+export const SETTLEMENT_WIND_STIFFNESS = 0;
+
+/** The rung a camera distance falls in; the last rung holds beyond the ladder. */
+export function ladderLevelAt(ladder: readonly LodRung[], distanceM: number): number {
+  for (const rung of ladder) if (distanceM < rung.hi) return rung.level;
+  return ladder[ladder.length - 1].level;
+}
+
+/**
+ * One and only one full-vs-LOD decision for a placed building, now read off
+ * the ladder so the drawn level and the gate test can never disagree.
+ */
 export function architectureLod(
   distanceM: number,
   footprintDiagonalM: number,
   availableLevels: number,
   contract: ArchitectureLodContract,
   drawScale = 1,
+  maxDrawM = 5000,
 ): { level: number; farMerged: boolean } {
-  if (availableLevels < 3) throw new Error("architecture asset is missing a three-tier LOD chain");
-  const d0 = Math.max(55, footprintDiagonalM * contract.distancePerFootprintDiagonal[0]) * drawScale;
-  const d1 = Math.max(180, footprintDiagonalM * contract.distancePerFootprintDiagonal[1]) * drawScale;
-  const level = distanceM < d0 ? 0 : distanceM < d1 ? 1 : 2;
-  return { level, farMerged: distanceM >= contract.farMergeDistanceM * drawScale };
+  const ladder = settlementLadder(footprintDiagonalM, availableLevels, contract, maxDrawM, drawScale);
+  return {
+    level: ladderLevelAt(ladder, distanceM),
+    farMerged: distanceM >= contract.farMergeDistanceM * drawScale,
+  };
 }
 
 export function validateLodTriangles(

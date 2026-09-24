@@ -177,6 +177,49 @@ def test_a_re_run_that_removes_nothing_keeps_the_first_receipt(tmp_path):
                                     "removed": 0, "chunksTouched": 0}
 
 
+def test_the_receipt_carries_pre_patch_counts_so_a_no_op_reads_honestly(tmp_path):
+    """16h step-0 diagnosis: a receipt that only ever says "removed" cannot
+    tell "nothing here ever needed clearing" from "this cleared it on a
+    prior run and today's run is a no-op". prePatchInstanceCount (the count
+    standing in the touched chunks before THIS run) must be present and
+    equal to what stood before, on both the clearing run and the no-op
+    re-run that follows it."""
+    bundles = build(tmp_path, {(0, 0): grid_instances()})
+    path = patches_file(tmp_path, [patch()])
+    n_before = len(grid_instances())
+
+    first = avp.run(bundles, path, seed=5)
+    assert first["totals"]["prePatchInstanceCount"] == n_before
+    assert first["patches"][0]["prePatchInstanceCount"] == n_before
+    assert first["totals"]["removed"] > 0
+
+    # A re-run after the first one actually cleared ground: the receipt is
+    # carried over unchanged (see test_a_re_run_that_removes_nothing_keeps_
+    # the_first_receipt), so its prePatchInstanceCount still reads what stood
+    # BEFORE the clearing run — never zero, never re-derived from the empty
+    # re-run.
+    avp.run(bundles, path, seed=5)
+    receipt = json.loads((bundles / avp.RECEIPT_NAME).read_text())
+    assert receipt["totals"]["prePatchInstanceCount"] == n_before
+
+
+def test_a_run_with_nothing_to_clear_reports_a_nonzero_pre_patch_count(tmp_path):
+    """A patch whose hard-clear zone lands on ground with instances, but
+    none happen to fall inside it (roll or geometry never actually hits
+    one): removed is 0, but prePatchInstanceCount must still show ground
+    was there to check — distinct from a patch whose chunk never published
+    at all (prePatchInstanceCount 0)."""
+    x0 = CHUNK_M * 5 + 10.0
+    far = patch(id="patch.test.far-away",
+                hardClear=[[[x0, x0], [x0 + 1.0, x0], [x0 + 1.0, x0 + 1.0],
+                            [x0, x0 + 1.0]]], thinned=[])
+    bundles = build(tmp_path, {(0, 0): grid_instances()})
+    receipt = avp.run(bundles, patches_file(tmp_path, [far]), seed=5)
+    rec = receipt["patches"][0]
+    assert rec["removed"] == 0
+    assert rec["prePatchInstanceCount"] == 0  # its chunk was never published
+
+
 def test_the_patch_list_is_published_beside_the_bundles(tmp_path):
     bundles = build(tmp_path, {(0, 0): grid_instances()})
     path = patches_file(tmp_path, [patch()])
@@ -268,3 +311,79 @@ def test_the_roll_is_deterministic_and_position_addressed(tmp_path):
     c = avp.instance_roll(5, avp.patch_id_hash("patch.b"), 123.25, 40.5)
     assert a == b and a != c
     assert 0.0 <= a < 1.0 and not math.isnan(a)
+
+
+def _per_group_masks(groups, species_order, p, seed, radii):
+    """The pre-16h-step-E reference: one `survives_mask` per species group."""
+    import numpy as np
+
+    id_hash = avp.patch_id_hash(p["id"])
+    out = []
+    for group in groups:
+        items = group["instances"]
+        if not items:
+            out.append(None)
+            continue
+        xs = np.array([i["x"] for i in items], dtype=np.float64)
+        zs = np.array([i["z"] for i in items], dtype=np.float64)
+        out.append(avp.survives_mask(xs, zs, p, seed, id_hash,
+                                     radii.get(species_order[group["index"]], 0.0)))
+    return out
+
+
+def _assert_same_masks(groups, species_order, p, seed, radii):
+    got = avp._survives_masks_batched(groups, species_order, p, seed,
+                                      avp.patch_id_hash(p["id"]), radii)
+    want = _per_group_masks(groups, species_order, p, seed, radii)
+    assert len(got) == len(want)
+    for a, b in zip(got, want):
+        assert (a is None) == (b is None)
+        if a is not None:
+            assert a.dtype == b.dtype and a.tolist() == b.tolist()
+
+
+def test_the_batched_chunk_mask_equals_one_mask_per_species_group():
+    """16h step E batches every group of a chunk into one `keep_field` call;
+    each plant's answer must be the one the per-group call gave, radius or
+    none, including an empty group."""
+    import numpy as np
+
+    rng = np.random.default_rng(77)
+    species_order = ["tree", "fern", "reed", "rock"]
+    groups = []
+    for index, n in enumerate((900, 0, 350, 1)):
+        groups.append({"index": index, "instances": [
+            {"x": float(x), "z": float(z)}
+            for x, z in zip(rng.uniform(-70.0, 370.0, n), rng.uniform(-70.0, 190.0, n))]})
+    radii = {"tree": 3.25, "reed": 0.4}          # fern and rock: origin only
+    p = patch(id="patch.test.batched", hardClear=CONCAVE,
+              thinned=[[[-60.0, -60.0], [360.0, -60.0], [360.0, 180.0], [-60.0, 180.0]]],
+              kept=[{"positionM": [250.0, 160.0], "kind": "hist-tree"}])
+    _assert_same_masks(groups, species_order, p, 19, radii)
+
+
+def test_the_batched_mask_agrees_on_the_shipped_patches_and_bundles():
+    """The same equality on real data: the shipped track clearances over the
+    published bundles they reach (skips where the bundles are not on disk)."""
+    from .compile_scatter import DEFAULT_SEED
+    from .scatter import decode
+
+    bundles = avp.BUNDLE_DIR
+    index_path = bundles / "vegetation-index.json"
+    if not index_path.exists():
+        pytest.skip("published vegetation bundles are not on this checkout")
+    species_order = json.loads(index_path.read_text())["speciesOrder"]
+    radii = avp.species_radii()
+    # One real patch over one real chunk, eight species groups: the reference
+    # costs ~2 s per group-patch pair on a ~1,000-edge track polygon, which is
+    # the cost the batching removed.
+    for p in vp.load_patches(vp.PATCHES_PATH):
+        for cx, cz in vp.affected_chunks(p):
+            path = bundles / f"chunk_{cx}_{cz}_vegetation.bin"
+            if path.exists():
+                groups = [g for g in decode(path.read_bytes()) if g["instances"]][:8]
+                assert any(radii.get(species_order[g["index"]], 0.0) > 0.0
+                           for g in groups)
+                _assert_same_masks(groups, species_order, p, DEFAULT_SEED, radii)
+                return
+    pytest.skip("no shipped patch reaches a published bundle")

@@ -159,7 +159,16 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     derived, not authored: see doors[] and
                     `worldgen.blueprint_interiors`.
   parcels[]         {id, districtId, use, centreUV, yawDeg, orientationWhy,
-                    assetRef, footprint (DERIVED), buildingFamily, groundFit}
+                    assetRef, footprint (DERIVED), buildingFamily, groundFit?}
+
+                    or, for a modular run (16h K9), `pieces: [{asset, yaw?},
+                    ...]` INSTEAD of `assetRef`: the first piece stands at
+                    centreUV turned to yawDeg (+ its `yaw`), each next piece is
+                    snapped to the one before by the mined abuts pair
+                    (`kit-assemblies-mined.json` abuts, piece or family pair;
+                    `yaw` picks among pairs, relative to yawDeg). A step no
+                    pair gives fails, naming both pieces; the footprint is the
+                    union of the laid outlines (DERIVED).
 
                     Authoring rule (owner ruling 2026-09-05): a parcel is
                     authored as WHERE (`centreUV` [u,v]), WHICH PIECE
@@ -177,10 +186,15 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     only piles).
                     groundFit is "direct"|"plinth"|"pad"|"stilt"|"dug-in" —
                     the slope ladder; the compiler may only relax DOWN this
-                    list, never grade Δ≥2 m. buildingFamily stays as the
+                    list, never grade Δ≥2 m. It is OPTIONAL: the kit record
+                    decides (decision 0085), so an absent groundFit is read
+                    from the asset's manifest placement policy
+                    (`compile_settlement.with_record_ground_fits`); author it
+                    only to override the record, with the reason beside it. buildingFamily stays as the
                     asset-inventory family the pick belongs to.
   siting            REQUIRED on any blueprint of a catalogue record (97 B1;
-                    the Part 0 fixture, compiled --skip-catalogue, is exempt):
+                    a fixture yard is exempt, compiled --skip-catalogue or
+                    with its fixture site record, `fixture_site_record`):
                     {dossier, candidates[{id, positionM, why, chosen?,
                     rejectedBecause?}]} — >=2 candidates, one chosen; the
                     deliberation the macro plot could not do
@@ -1327,6 +1341,46 @@ def catalogue_ids() -> set[str]:
     return {p["id"] for rf in load_region_files(CATALOGUE_DIR) for p in rf.places if "id" in p}
 
 
+#: A fixture yard's site record: `<SITES_DIR>/<slug>.json` for `place.fixture.<slug>`.
+SITES_DIR = REPO_ROOT / "world" / "sources" / "sites"
+
+
+def is_fixture(*records: dict | None) -> bool:
+    """A fixture is a record that exists to prove a mechanism, never to be
+    played: the proving ground, the replay blueprints. `fixture: true` on the
+    site record, the blueprint or the compiled document, `fixtureReplay: true`
+    on a compile that waived design rules (compile_settlement
+    --fixture-replay), or the reserved
+    `place.fixture.*` id, all say so. The one predicate every fixture skip
+    calls: the exporter's shipped-build refusal, the place obligations."""
+    for record in records:
+        if not isinstance(record, dict):
+            continue
+        if record.get("fixture") is True or record.get("fixtureReplay") is True:
+            return True
+        if str(record.get("id", "")).startswith("place.fixture."):
+            return True
+    return False
+
+
+def fixture_site_record(bp: dict) -> dict | None:
+    """The site record of a fixture blueprint (`fixture: true`, id
+    `place.fixture.<slug>`), or None. A fixture details no catalogue record,
+    so its site record (`fixture: true`, the same id) stands in for the
+    catalogue row and for the 97 B1 siting: it names where the yard is and
+    why, and that it is never a place."""
+    bid = str(bp.get("id", ""))
+    if bp.get("fixture") is not True or not bid.startswith("place.fixture."):
+        return None
+    path = SITES_DIR / f"{bid.removeprefix('place.fixture.')}.json"
+    if not path.exists():
+        return None
+    record = json.loads(path.read_text())
+    if record.get("fixture") is not True or record.get("id") != bid:
+        return None
+    return record
+
+
 @lru_cache(maxsize=1)
 def catalogue_records() -> dict[str, dict]:
     """{place id: record} — the validator reads `discovery` / `reachedVia` off
@@ -1608,8 +1662,10 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
     for key in REQUIRED:
         if key not in bp or bp[key] is None:
             fail(f"missing required field '{key}'")
-    if known_place_ids is not None and bid not in known_place_ids:
-        fail("id not present in the place catalogue — blueprints detail catalogue records")
+    fixture_site = fixture_site_record(bp)
+    if known_place_ids is not None and bid not in known_place_ids and fixture_site is None:
+        fail("id not present in the place catalogue — blueprints detail catalogue records "
+             "(a fixture yard needs its fixture site record under world/sources/sites/)")
     macro_record = catalogue_records().get(bid)
     if macro_record is not None:
         from .place_obligations import check_phase11
@@ -1656,8 +1712,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         pid = p.get("id")
         if p.get("districtId") not in district_ids:
             fail(f"parcel {pid}: unknown districtId {p.get('districtId')}")
-        if p.get("groundFit") not in GROUND_FIT:
-            fail(f"parcel {pid}: groundFit must be one of {sorted(GROUND_FIT)}")
+        if "groundFit" in p and p["groundFit"] not in GROUND_FIT:
+            fail(f"parcel {pid}: groundFit, when authored, must be one of {sorted(GROUND_FIT)}")
         if not p.get("buildingFamily"):
             fail(f"parcel {pid}: needs buildingFamily (asset-inventory ref)")
         if not _polygon_ok(p.get("footprint")):
@@ -1671,8 +1727,36 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         why = p.get("orientationWhy")
         if not isinstance(why, str) or len(why.strip()) < 12:
             fail(f"parcel {pid}: orientationWhy is required — one plain sentence saying why the building faces this way (owner ruling 2026-09-05)")
-        if not (isinstance(p.get("assetRef"), str) and p.get("assetRef")):
-            fail(f"parcel {pid}: assetRef is required — an exact kit asset id chosen on measured geometry (0041 Part 6)")
+        if "pieces" in p:
+            # 16h K9 B: a modular run — pieces laid in order, each snapped to
+            # the one before by the mined abuts pair (blueprint_footprints.
+            # lay_pieces); either one assetRef or a pieces list, never both.
+            pieces = p["pieces"]
+            if "assetRef" in p:
+                fail(f"parcel {pid}: a parcel is either one assetRef or a pieces list, not both")
+            elif not (isinstance(pieces, list) and len(pieces) >= 2 and all(
+                    isinstance(q, dict) and isinstance(q.get("asset"), str) and q["asset"]
+                    and set(q) <= {"asset", "yaw"}
+                    and (q.get("yaw") is None or (isinstance(q["yaw"], (int, float))
+                                                  and not isinstance(q["yaw"], bool)))
+                    for q in pieces)):
+                fail(f"parcel {pid}: pieces must be a list of at least two {{asset, yaw?}} "
+                     f"(asset: an exact kit asset id; yaw: degrees relative to the parcel's yawDeg)")
+            elif library:
+                missing = [q["asset"] for q in pieces if library.get(q["asset"]) is None]
+                laid, run_errors = fp.lay_pieces(p)
+                derived = fp.parcel_footprint(p, library)
+                if missing:
+                    fail(f"parcel {pid}: pieces {missing} have no measured footprint — run pipeline.measure_footprints")
+                elif run_errors:
+                    for e in run_errors:
+                        fail(f"parcel {e}")
+                elif derived is None:
+                    fail(f"parcel {pid}: footprint cannot be derived from the laid pieces")
+                elif not fp.polygons_match(p.get("footprint"), derived):
+                    fail(f"parcel {pid}: footprint is not the derived polygon — it is DERIVED, never hand-edited; run 'python3 -m worldgen.blueprint_footprints --apply <file>'")
+        elif not (isinstance(p.get("assetRef"), str) and p.get("assetRef")):
+            fail(f"parcel {pid}: assetRef is required — an exact kit asset id chosen on measured geometry (0041 Part 6), or a pieces run (16h K9)")
         elif library and library.get(p["assetRef"]) is None:
             fail(f"parcel {pid}: assetRef {p['assetRef']!r} has no measured footprint — run pipeline.measure_footprints, or pick a piece that exists")
         elif library:
@@ -1706,10 +1790,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                 break
 
     # 97 B1 / G7 — no design before a dossier. A blueprint that details a real
-    # catalogue record must carry the meso deliberation; the Part 0 fixture
-    # (compiled with --skip-catalogue) is exempt because it details nothing.
+    # catalogue record must carry the meso deliberation; a fixture yard is
+    # exempt because it details nothing: compiled --skip-catalogue, or with
+    # its fixture site record (`fixture_site_record`) standing in.
     siting = bp.get("siting")
-    if siting is None and known_place_ids is not None:
+    if siting is None and known_place_ids is not None and fixture_site is None:
         fail("97 B1 — `siting` is required on a blueprint of a catalogue record: name the site "
              "dossier and the 2–3 measured candidates, with the ground each loser lost on")
     if siting is not None:

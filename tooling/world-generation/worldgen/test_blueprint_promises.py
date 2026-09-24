@@ -110,10 +110,13 @@ def test_the_markdown_says_met_over_total():
     assert "promises met" in md and "Remedy if not" in md
 
 
-@pytest.mark.parametrize("place", ["place.mercantile-coast.lilmoth"])
-def test_the_shipped_blueprints_build_a_ledger(place):
+def test_a_catalogue_record_against_the_shipped_yard_builds_a_ledger():
+    """The only shipped blueprint is the yard fixture (the 2026-09-09 places
+    were retired 2026-09-23; 16i re-authors them). A real catalogue record
+    measured against it must still yield a ledger whose every row names its
+    remedy."""
     import json
-    bp = json.loads((bpr.BLUEPRINT_DIR / f"{place}.json").read_text())["blueprint"]
-    rec = bpr.load_record(place)
+    bp = json.loads((bpr.BLUEPRINT_DIR / "place.fixture.proving-ground.json").read_text())["blueprint"]
+    rec = bpr.load_record("place.mercantile-coast.lilmoth")
     ledger = bpr.build_ledger(bp, rec)
     assert ledger and all(p.remedy for p in ledger)

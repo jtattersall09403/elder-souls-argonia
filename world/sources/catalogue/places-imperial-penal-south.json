@@ -1091,7 +1091,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.basin.ascetic"
+        {
+          "slotId": "npc-basin-ascetic",
+          "role": "npc.basin.ascetic"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -1886,12 +1889,30 @@
         "a resident An-Xileel delegation the founding houses will not lodge"
       ],
       "notableNpcSlots": [
-        "island-core castellan",
-        "toll compact's outside voice",
-        "An-Xileel resident (unwelcome, tolerated)",
-        "Rose liaison",
-        "the Chainbreaker patron who audits ledgers above a boat-shed",
-        "the magnate who signs himself Tibus Oleen"
+        {
+          "slotId": "island-core-castellan",
+          "role": "island-core castellan"
+        },
+        {
+          "slotId": "toll-compact-s-outside",
+          "role": "toll compact's outside voice"
+        },
+        {
+          "slotId": "xileel-resident-unwelcome",
+          "role": "An-Xileel resident (unwelcome, tolerated)"
+        },
+        {
+          "slotId": "rose-liaison",
+          "role": "Rose liaison"
+        },
+        {
+          "slotId": "chainbreaker-patron",
+          "role": "the Chainbreaker patron who audits ledgers above a boat-shed"
+        },
+        {
+          "slotId": "magnate",
+          "role": "the magnate who signs himself Tibus Oleen"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -1998,29 +2019,29 @@
         }
       ],
       "position": {
-        "u": 0.28792,
-        "v": 0.84288
+        "u": 0.31776,
+        "v": 0.87134
       },
       "positionM": [
-        2123.0,
-        6215.0
+        2343.0,
+        6424.8
       ],
       "footprintRadiusM": 230.0,
-      "footprintSource": "polygon",
+      "footprintSource": "band",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'blackrose' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road; the record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Reseated (2026-09-20): Blackrose is an island city in the lake. The committed dot at 2123.0, 6215.0 stands on the shore, 304.0 m from the island. No other ground inside body.1284-3448 is fully enclosed: the island is 149 cells, rows 1750-1765 by columns 633-647 of the entity raster. Its centroid is 2343.0, 6424.8, dry ground 17 m from the owner-approved anchor at 2359.5, 6415.0.",
       "plotFacts": {
-        "landform": "anchor",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 31.0,
-        "distanceToWaterM": 7.8,
+        "landform": "reseated (2026-09-20)",
+        "regionClass": "firm lowland",
+        "dangerBand": 1,
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 16.5,
         "water": {
-          "entityId": "body.1151-3381",
-          "kind": "marsh-fringe",
-          "levelM": 1.96,
+          "entityId": "body.1284-3448",
+          "kind": "swamp",
+          "levelM": 1.36,
           "season": "perennial",
-          "distanceM": 7.8
+          "distanceM": 16.5
         },
         "score": null
       },
@@ -2153,8 +2174,8 @@
           6418.46
         ],
         "centre": [
-          2123.0,
-          6215.0
+          2343.0,
+          6424.8
         ],
         "way": [
           [
@@ -2162,95 +2183,23 @@
             6418.46
           ],
           [
-            2322.5,
-            6418.5
+            2354.5,
+            6424.96
           ],
           [
-            2303.5,
-            6399.5
-          ],
-          [
-            2286.5,
-            6399.5
-          ],
-          [
-            2261.5,
-            6374.5
-          ],
-          [
-            2261.5,
-            6353.5
-          ],
-          [
-            2123.0,
-            6215.0
+            2343.0,
+            6424.8
           ]
         ],
         "source": "street_router"
       },
-      "footprintPolygon": [
-        [
-          1900.04,
-          6171.7
-        ],
-        [
-          1932.94,
-          6089.45
-        ],
-        [
-          1998.74,
-          6023.65
-        ],
-        [
-          2048.09,
-          6001.71
-        ],
-        [
-          2152.28,
-          5990.75
-        ],
-        [
-          2250.99,
-          6023.65
-        ],
-        [
-          2300.34,
-          6067.51
-        ],
-        [
-          2344.2,
-          6149.77
-        ],
-        [
-          2349.69,
-          6259.44
-        ],
-        [
-          2338.72,
-          6297.82
-        ],
-        [
-          2272.92,
-          6391.04
-        ],
-        [
-          2042.61,
-          6429.43
-        ],
-        [
-          1976.81,
-          6391.04
-        ],
-        [
-          1932.94,
-          6341.69
-        ],
-        [
-          1900.04,
-          6259.44
-        ]
-      ],
-      "ownerGuided": true
+      "ownerGuided": true,
+      "footprintWhy": "island city; spreads over the lake and onto the shore, owner 2026-09-23",
+      "plotOverride": {
+        "source": "plot-remedies",
+        "why": "Blackrose is an island city in the lake. The committed dot at 2123.0, 6215.0 stands on the shore, 304.0 m from the island. No other ground inside body.1284-3448 is fully enclosed: the island is 149 cells, rows 1750-1765 by columns 633-647 of the entity raster. Its centroid is 2343.0, 6424.8, dry ground 17 m from the owner-approved anchor at 2359.5, 6415.0.",
+        "kind": "reseat"
+      }
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
@@ -2307,7 +2256,12 @@
           "entityId": "body.1284-3448",
           "maxM": 30
         },
-        "minDepthM": 3.0
+        "minDepthM": 3.0,
+        "boundTo": {
+          "place": "place.imperial-penal-south.blackrose",
+          "maxM": 250.0,
+          "why": "Stands in the lake Blackrose spreads over, so it shares the city's ground (owner 2026-09-23)."
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -2324,7 +2278,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "speaker who dives to listen"
+        {
+          "slotId": "speaker",
+          "role": "speaker who dives to listen"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -2587,9 +2544,18 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "third-generation Rose family head",
-        "the last person who remembers what was bricked up",
-        "Chainbreaker envoy camped on the causeway"
+        {
+          "slotId": "third-generation-rose-family",
+          "role": "third-generation Rose family head"
+        },
+        {
+          "slotId": "person",
+          "role": "the last person who remembers what was bricked up"
+        },
+        {
+          "slotId": "chainbreaker-envoy-camped-causeway",
+          "role": "Chainbreaker envoy camped on the causeway"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -3428,8 +3394,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "lagoon pilot who decides which boats enter",
-        "Night-Reed fence working out of a tent"
+        {
+          "slotId": "lagoon-pilot",
+          "role": "lagoon pilot who decides which boats enter"
+        },
+        {
+          "slotId": "night-reed-fence-working",
+          "role": "Night-Reed fence working out of a tent"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -4066,8 +4038,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "house-keeper who asks no names",
-        "third-generation Rose-born organiser"
+        {
+          "slotId": "house-keeper",
+          "role": "house-keeper who asks no names"
+        },
+        {
+          "slotId": "third-generation-rose-born",
+          "role": "third-generation Rose-born organiser"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -4713,7 +4691,10 @@
       },
       "culture": "mixed",
       "notableNpcSlots": [
-        "a collector who reads the inventory aloud before he takes anything"
+        {
+          "slotId": "collector",
+          "role": "a collector who reads the inventory aloud before he takes anything"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -4883,12 +4864,12 @@
         ]
       },
       "position": {
-        "u": 0.34812,
-        "v": 0.86646
+        "u": 0.3678,
+        "v": 0.87386
       },
       "positionM": [
-        2566.9,
-        6388.9
+        2712.0,
+        6443.4
       ],
       "footprintRadiusM": 45.0,
       "footprintSource": "band",
@@ -4909,21 +4890,21 @@
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 88 m from the nearest route; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "Reseated (2026-09-23): Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2566.9, 6388.9, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2712.0, 6443.4 (369.5 m from the centre, 155.0 m move).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "reseated (2026-09-23)",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 87.9,
-        "distanceToWaterM": 61.3,
+        "distanceToRouteM": 124.3,
+        "distanceToWaterM": 49.0,
         "water": {
-          "entityId": "body.1432-3476",
-          "kind": "marsh-fringe",
-          "levelM": 3.54,
+          "entityId": "body.1538-3529",
+          "kind": "mudflat",
+          "levelM": 0.86,
           "season": "perennial",
-          "distanceM": 61.3
+          "distanceM": 49.0
         },
-        "score": 3.148
+        "score": null
       },
       "proseRefs": [
         {
@@ -4943,6 +4924,11 @@
         "reachedVia": [
           "place.imperial-penal-south.three-gate-toll"
         ]
+      },
+      "plotOverride": {
+        "source": "plot-remedies",
+        "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2566.9, 6388.9, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2712.0, 6443.4 (369.5 m from the centre, 155.0 m move).",
+        "kind": "reseat"
       }
     },
     {
@@ -5377,7 +5363,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "stall-holder who only exists six weeks a year"
+        {
+          "slotId": "stall-holder",
+          "role": "stall-holder who only exists six weeks a year"
+        }
       ],
       "dangerTier": "D4",
       "traversalModes": [
@@ -6005,7 +5994,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "windlass master who sets the queue order"
+        {
+          "slotId": "windlass-master",
+          "role": "windlass master who sets the queue order"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -8425,6 +8417,11 @@
         "nearWater": {
           "entityId": "body.1284-3448",
           "maxM": 150
+        },
+        "boundTo": {
+          "place": "place.imperial-penal-south.blackrose",
+          "maxM": 250.0,
+          "why": "Works the lake Blackrose spreads over, so it shares the city's ground (owner 2026-09-23)."
         }
       },
       "relations": {
@@ -10203,7 +10200,10 @@
       "culture": "lost-peoples",
       "occupants": [],
       "notableNpcSlots": [
-        "antiquarian who has matched the blocks to the Rose"
+        {
+          "slotId": "antiquarian",
+          "role": "antiquarian who has matched the blocks to the Rose"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -10693,7 +10693,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "deck-master at the village's south end"
+        {
+          "slotId": "deck-master-village-s",
+          "role": "deck-master at the village's south end"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -10923,6 +10926,11 @@
           "x": 2360.7,
           "z": 6418.5,
           "maxM": 100.0
+        },
+        "boundTo": {
+          "place": "place.imperial-penal-south.blackrose",
+          "maxM": 250.0,
+          "why": "Guards the Blackrose gate, so it stands inside the city's ground (owner 2026-09-23)."
         }
       },
       "relations": {
@@ -11067,12 +11075,12 @@
         ]
       },
       "position": {
-        "u": 0.32164,
-        "v": 0.86899
+        "u": 0.30751,
+        "v": 0.86498
       },
       "positionM": [
-        2371.6,
-        6407.5
+        2267.4,
+        6377.9
       ],
       "footprintRadiusM": 45.0,
       "footprintSource": "band",
@@ -11094,21 +11102,21 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "natural harbour in firm lowland (danger band 1), 8 m from the nearest route; at the water's edge; won on culture-clump, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "Reseated (2026-09-23): Gate guard at the causeway's shore end on the Soulrest road (16i's Blackrose pass refines): the first dry ground on route.road.soulrest-blackrose past 45 m from the Blackrose centre that clears the drowned Hist's footprint is 2267.4, 6377.9.",
       "plotFacts": {
-        "landform": "natural-harbour",
-        "regionClass": "firm lowland",
-        "dangerBand": 1,
-        "distanceToRouteM": 7.8,
-        "distanceToWaterM": 0.0,
+        "landform": "reseated (2026-09-23)",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 2,
+        "distanceToRouteM": 0.0,
+        "distanceToWaterM": 11.0,
         "water": {
           "entityId": "body.1284-3448",
           "kind": "swamp",
           "levelM": 1.36,
           "season": "perennial",
-          "distanceM": 0.0
+          "distanceM": 11.0
         },
-        "score": 3.992
+        "score": null
       },
       "relationsReserved": {
         "reachedVia": [
@@ -11124,6 +11132,11 @@
           "place.imperial-penal-south.lake-divers-yard",
           "place.imperial-penal-south.rose-supply-town"
         ]
+      },
+      "plotOverride": {
+        "source": "plot-remedies",
+        "why": "Gate guard at the causeway's shore end on the Soulrest road (16i's Blackrose pass refines): the first dry ground on route.road.soulrest-blackrose past 45 m from the Blackrose centre that clears the drowned Hist's footprint is 2267.4, 6377.9.",
+        "kind": "reseat"
       }
     },
     {
@@ -11463,8 +11476,14 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "An-Xileel watcher who records where the forest is",
-        "survey-taker whose maps never agree"
+        {
+          "slotId": "xileel-watcher",
+          "role": "An-Xileel watcher who records where the forest is"
+        },
+        {
+          "slotId": "survey-taker",
+          "role": "survey-taker whose maps never agree"
+        }
       ],
       "dangerTier": "D5",
       "traversalModes": [
@@ -11791,7 +11810,12 @@
           "entityId": "body.1284-3448",
           "maxM": 80
         },
-        "minDepthM": 1.0
+        "minDepthM": 1.0,
+        "boundTo": {
+          "place": "place.imperial-penal-south.blackrose",
+          "maxM": 250.0,
+          "why": "Opens in the lake Blackrose spreads over, so it shares the city's ground (owner 2026-09-23)."
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -12276,12 +12300,12 @@
       ],
       "sitingNote": "Pulled off the causeway water (64 m) onto quiet ground 135 m from any route, since the dig depends on ground the carters do not use.",
       "position": {
-        "u": 0.29561,
-        "v": 0.88981
+        "u": 0.28906,
+        "v": 0.89527
       },
       "positionM": [
-        2179.7,
-        6561.0
+        2131.4,
+        6601.3
       ],
       "footprintRadiusM": 45.0,
       "footprintSource": "band",
@@ -12292,26 +12316,31 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 191 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on bound, nearPoint, culture-clump; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "Reseated (2026-09-23): Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2179.7, 6561.0, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2131.4, 6601.3 (275.5 m from the centre, 62.9 m move).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "landform": "reseated (2026-09-23)",
+        "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 191.3,
-        "distanceToWaterM": 66.3,
+        "distanceToRouteM": 249.4,
+        "distanceToWaterM": 11.0,
         "water": {
           "entityId": "body.1183-3666",
           "kind": "marsh-fringe",
           "levelM": 4.0,
           "season": "perennial",
-          "distanceM": 66.3
+          "distanceM": 11.0
         },
-        "score": 2.255
+        "score": null
       },
       "relationsReserved": {
         "reachedVia": [
           "place.imperial-penal-south.three-gate-toll"
         ]
+      },
+      "plotOverride": {
+        "source": "plot-remedies",
+        "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2179.7, 6561.0, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2131.4, 6601.3 (275.5 m from the centre, 62.9 m move).",
+        "kind": "reseat"
       }
     },
     {
@@ -12933,7 +12962,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "founder who built the enclosure before he had a tree"
+        {
+          "slotId": "founder",
+          "role": "founder who built the enclosure before he had a tree"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -13785,7 +13817,10 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.basin.arbiter"
+        {
+          "slotId": "npc-basin-arbiter",
+          "role": "npc.basin.arbiter"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -13974,7 +14009,10 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "spring-keeper"
+        {
+          "slotId": "spring-keeper",
+          "role": "spring-keeper"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -14344,12 +14382,12 @@
         ]
       },
       "position": {
-        "u": 0.3369,
-        "v": 0.8716
+        "u": 0.34985,
+        "v": 0.89047
       },
       "positionM": [
-        2484.1,
-        6426.8
+        2579.6,
+        6565.9
       ],
       "footprintRadiusM": 45.0,
       "footprintSource": "band",
@@ -14370,21 +14408,21 @@
           "whyLost": "too close to place.imperial-penal-south.cordon-cellars"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 25 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "Reseated (2026-09-23): Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2484.1, 6426.8, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2579.6, 6565.9 (275.5 m from the centre, 168.7 m move).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "reseated (2026-09-23)",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 24.5,
-        "distanceToWaterM": 11.0,
+        "distanceToRouteM": 190.1,
+        "distanceToWaterM": 120.8,
         "water": {
-          "entityId": "body.1284-3448",
-          "kind": "swamp",
-          "levelM": 1.36,
+          "entityId": "body.1452-3539",
+          "kind": "marsh-fringe",
+          "levelM": 3.83,
           "season": "perennial",
-          "distanceM": 11.0
+          "distanceM": 120.8
         },
-        "score": 4.439
+        "score": null
       },
       "proseRefs": [
         {
@@ -14400,6 +14438,11 @@
         "reachedVia": [
           "place.imperial-penal-south.three-gate-toll"
         ]
+      },
+      "plotOverride": {
+        "source": "plot-remedies",
+        "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2484.1, 6426.8, less than 275 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2579.6, 6565.9 (275.5 m from the centre, 168.7 m move).",
+        "kind": "reseat"
       }
     },
     {
@@ -14844,8 +14887,14 @@
       },
       "culture": "mixed",
       "notableNpcSlots": [
-        "the crew's book-keeper, who kept the Imperial numbering",
-        "a prisoner nobody has come to buy"
+        {
+          "slotId": "crew-s-book-keeper",
+          "role": "the crew's book-keeper, who kept the Imperial numbering"
+        },
+        {
+          "slotId": "prisoner-nobody-has-come",
+          "role": "a prisoner nobody has come to buy"
+        }
       ],
       "dangerTier": "D3",
       "traversalModes": [
@@ -15032,12 +15081,12 @@
         ]
       },
       "position": {
-        "u": 0.33613,
-        "v": 0.85448
+        "u": 0.32999,
+        "v": 0.83675
       },
       "positionM": [
-        2478.5,
-        6300.5
+        2433.2,
+        6169.8
       ],
       "footprintRadiusM": 40.0,
       "footprintSource": "band",
@@ -15058,21 +15107,26 @@
           "whyLost": "too close to place.imperial-penal-south.scandal-holding-pit"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 16 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, bound, nearPoint; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "Reseated (2026-09-23): Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2478.5, 6300.5, less than 270 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2433.2, 6169.8 (270.5 m from the centre, 138.3 m move).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "reseated (2026-09-23)",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 15.5,
-        "distanceToWaterM": 11.0,
+        "distanceToRouteM": 97.0,
+        "distanceToWaterM": 32.9,
         "water": {
-          "entityId": "reach.1345-3442",
-          "kind": "horizontal-channel",
-          "levelM": 1.77,
+          "entityId": "body.1209-3032",
+          "kind": "swamp",
+          "levelM": 0.84,
           "season": "perennial",
-          "distanceM": 11.0
+          "distanceM": 32.9
         },
-        "score": 5.09
+        "score": null
+      },
+      "plotOverride": {
+        "source": "plot-remedies",
+        "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2478.5, 6300.5, less than 270 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2433.2, 6169.8 (270.5 m from the centre, 138.3 m move).",
+        "kind": "reseat"
       }
     },
     {
@@ -15154,9 +15208,18 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "quartermaster's descendant who still keeps the tally",
-        "released-prisoner side elder",
-        "staff-descended side elder"
+        {
+          "slotId": "quartermaster-s-descendant",
+          "role": "quartermaster's descendant who still keeps the tally"
+        },
+        {
+          "slotId": "released-prisoner-side-elder",
+          "role": "released-prisoner side elder"
+        },
+        {
+          "slotId": "staff-descended-side-elder",
+          "role": "staff-descended side elder"
+        }
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -15612,12 +15675,12 @@
         ]
       },
       "position": {
-        "u": 0.33057,
-        "v": 0.89874
+        "u": 0.33472,
+        "v": 0.90764
       },
       "positionM": [
-        2437.4,
-        6626.8
+        2468.1,
+        6692.5
       ],
       "footprintRadiusM": 65.0,
       "footprintSource": "band",
@@ -15638,21 +15701,21 @@
           "whyLost": "too close to place.mercantile-coast.bereaved-village-murkmire"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 209 m from the nearest route; at the water's edge; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on culture-clump, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.blasphemer-urn-vault (+1.71).",
+      "whySiteWon": "Reseated (2026-09-23): Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2437.4, 6626.8, less than 295 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2468.1, 6692.5 (295.5 m from the centre, 72.5 m move).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "landform": "reseated (2026-09-23)",
+        "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 208.8,
-        "distanceToWaterM": 7.8,
+        "distanceToRouteM": 280.5,
+        "distanceToWaterM": 5.5,
         "water": {
           "entityId": "reach.1306-3547",
           "kind": "horizontal-channel",
           "levelM": 1.6,
           "season": "perennial",
-          "distanceM": 7.8
+          "distanceM": 5.5
         },
-        "score": 4.01
+        "score": null
       },
       "ownerFaction": null,
       "relationsReserved": {
@@ -15673,6 +15736,11 @@
         "airPockets": false,
         "submergedPortal": true,
         "surfaceAccessNodes": 0
+      },
+      "plotOverride": {
+        "source": "plot-remedies",
+        "why": "Moved outside the Blackrose disc after the 2026-09-20 island reseat: the dot sat 2437.4, 6626.8, less than 295 m from the new centre, the city disc plus its own footprint; the nearest standable ground within 60 degrees of its bearing from the new centre is 2468.1, 6692.5 (295.5 m from the centre, 72.5 m move).",
+        "kind": "reseat"
       }
     },
     {
@@ -16004,8 +16072,14 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "compact's counting-mother",
-        "gate-keeper of the disputed third channel"
+        {
+          "slotId": "compact-s-counting-mother",
+          "role": "compact's counting-mother"
+        },
+        {
+          "slotId": "gate-keeper-disputed-third",
+          "role": "gate-keeper of the disputed third channel"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [
@@ -16865,8 +16939,14 @@
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
-        "market speaker (no title, total authority)",
-        "Blackrose 'inspector' on retainer"
+        {
+          "slotId": "market-speaker-no-title",
+          "role": "market speaker (no title, total authority)"
+        },
+        {
+          "slotId": "blackrose-inspector-retainer",
+          "role": "Blackrose 'inspector' on retainer"
+        }
       ],
       "dangerTier": "D1",
       "traversalModes": [

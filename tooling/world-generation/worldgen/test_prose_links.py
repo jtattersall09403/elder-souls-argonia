@@ -83,8 +83,13 @@ def test_live_gate_actually_sees_quest_titles_and_the_npc_vocabulary_is_the_rost
     The npc vocabulary is the live roster (world/sources/registries/npcs.json),
     not a fixture: every person the generator writes is assertable in prose.
     """
-    result = pl.check_all()
-    assert result.mentions["quest"] > 0
+    # The live prose that named quest titles was the 2026-09-09 blueprints,
+    # retired 2026-09-23; so the live quest vocabulary is proved on a record
+    # written here that names one real title.
+    quest = next(e for e in pl.load_entities() if e.kind == "quest" and e.name != e.id)
+    probe = {"id": "place.test.a", "why": {"founding": f"The shrine is where {quest.name} begins."}}
+    assert pl.check_all(records=[probe], blueprints=[]).mentions["quest"] > 0
+    assert pl.check_all(records=[{"id": "place.test.a"}], blueprints=[]).mentions["quest"] == 0
     roster = json.loads(
         (pl.REGISTRIES / "npcs.json").read_text(encoding="utf-8"))["entries"]
     roster_ids = {entry["id"] for entry in roster}

@@ -149,7 +149,9 @@ declare -A STAGE_ARGS=(
   # registry.json, and every later reader binds to the previous run's tracks.
   [compile_minor_routes]="--registry"
   [compile_settlement]="--all"
-  [export_settlement_bundle]="--copy-assets"
+  # --fixtures-ok publishes fixture records (fixture: true) to the studio:
+  # fixtures ship to the studio (decision 0085 §5).
+  [export_settlement_bundle]="--copy-assets|--fixtures-ok"
 )
 
 # The six rungs above the freeze gate (decision 0066). A routine run checks
@@ -269,8 +271,11 @@ declare -A LADDER=(
   # patch stage (empty list on this ladder) and the water dressing sidecars.
   # `rebake_landcover` stays on 16b's row and re-runs because its code moved.
   [16f]="compile_scatter apply_vegetation_patches compile_water_dressing"
-  # 16h: pads as patches, the settlement compile and publish.
-  [16h]=""
+  # 16h part 1: the settlement compile and publish only (owner 2026-09-23:
+  # the five 2026-09-09 blueprints are retired fixtureReplay sites, not
+  # re-derived or compiled). grade_settlement_pads and
+  # settlement_ground_control are 16h part 2 and stay unassigned/skipped.
+  [16h]="compile_settlement export_settlement_bundle"
   # 16g: the plot re-solved on the finished ground and everything that reads
   # it (`travel_services` moved here from 16e: its hops follow the minor
   # waterways); 16i: exemplars; 16j: the trial packet (stage names

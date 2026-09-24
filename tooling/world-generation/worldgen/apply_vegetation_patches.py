@@ -176,6 +176,62 @@ def species_radii(kits_dir: Path = KITS_DIR) -> dict[str, float]:
     return out
 
 
+def _survives_masks_batched(groups: list[dict], species_order: list[str],
+                            patch: dict, seed: int, id_hash: int,
+                            radii: dict[str, float]) -> list[np.ndarray | None]:
+    """`survives_mask` for every group of a chunk in ONE `keep_field` call.
+
+    Called per species group, `keep_field` walked every edge of the patch's
+    polygons (a track clearance carries ~1,000) with numpy ops on arrays of a
+    few dozen plants, five times per group for the reach: 16h step E measured
+    178.6 s for one chunk, 99 % of it per-edge numpy call overhead. Every
+    operation in `keep_field` and `instance_roll_array` is elementwise, so
+    stacking each group's origin and its four reach points into one array
+    gives the identical number per plant (test_vegetation_patches holds the
+    masks equal to the per-group reference). None for an empty group."""
+    xs_all: list[np.ndarray] = []
+    zs_all: list[np.ndarray] = []
+    spans: list[tuple[int, int, float] | None] = []
+    offset = 0
+    for group in groups:
+        items = group["instances"]
+        if not items:
+            spans.append(None)
+            continue
+        n = len(items)
+        x = np.fromiter((i["x"] for i in items), dtype=np.float64, count=n)
+        z = np.fromiter((i["z"] for i in items), dtype=np.float64, count=n)
+        r = radii.get(species_order[group["index"]], 0.0)
+        if r > 0.0:
+            # origin, then the four reach points in keep_over_extent_array's order
+            xs_all += [x, x + r, x + -r, x + 0.0, x + 0.0]
+            zs_all += [z, z + 0.0, z + 0.0, z + r, z + -r]
+        else:
+            xs_all.append(x)
+            zs_all.append(z)
+        spans.append((offset, n, r))
+        offset += n * (5 if r > 0.0 else 1)
+    if not offset:
+        return spans
+    big_x = np.concatenate(xs_all)
+    big_z = np.concatenate(zs_all)
+    keep_all = vp.keep_field(big_x, big_z, patch, margin_m=0.0)
+    out: list[np.ndarray | None] = []
+    for span in spans:
+        if span is None:
+            out.append(None)
+            continue
+        start, n, r = span
+        keep = keep_all[start:start + n]
+        if r > 0.0:
+            for k in range(1, 5):
+                keep = np.minimum(keep, keep_all[start + k * n:start + (k + 1) * n])
+        x = big_x[start:start + n]
+        z = big_z[start:start + n]
+        out.append((keep >= 1.0) | (instance_roll_array(seed, id_hash, x, z) < keep))
+    return out
+
+
 def _prune_decoded(groups: list[dict], species_order: list[str], patch: dict,
                    seed: int, radii: dict[str, float]) -> Counter:
     """Remove the patch's instances from `groups` IN PLACE; what came back.
@@ -188,14 +244,13 @@ def _prune_decoded(groups: list[dict], species_order: list[str], patch: dict,
     """
     id_hash = patch_id_hash(patch["id"])
     removed: Counter = Counter()
-    for group in groups:
+    masks = _survives_masks_batched(groups, species_order, patch, seed,
+                                    id_hash, radii)
+    for group, mask in zip(groups, masks):
         species = species_order[group["index"]]
         items = group["instances"]
-        if not items:
+        if mask is None:
             continue
-        xs = np.fromiter((i["x"] for i in items), dtype=np.float64, count=len(items))
-        zs = np.fromiter((i["z"] for i in items), dtype=np.float64, count=len(items))
-        mask = survives_mask(xs, zs, patch, seed, id_hash, radii.get(species, 0.0))
         gone = int(len(items) - int(mask.sum()))
         if not gone:
             continue
@@ -311,14 +366,28 @@ def run(bundles: Path, patches_path: Path, seed: int) -> dict:
     for key, entries, _kept in results:
         per_chunk[key] = dict(entries)
 
+    # Snapshot every touched chunk's instance count BEFORE this run mutates
+    # the index, so the receipt can say how much stood before the patch ran —
+    # the number a re-run's "0 removed" needs, to read as "nothing left to
+    # clear" rather than "the patch never ran" (16h step-0 diagnosis).
+    pre_counts: dict[str, int] = {
+        key: int(index.get("chunks", {}).get(key, {}).get("instances", 0))
+        for key in keys
+    }
+
     receipt_patches = []
     touched: set[str] = set()
     total_removed = 0
+    total_pre_patch = 0
+    counted_pre_patch: set[str] = set()
     for index_of, (patch, chunks) in enumerate(zip(patches, patch_chunks)):
         by_chunk: dict[str, dict] = {}
         patch_removed = 0
+        patch_pre_patch = 0
         for cx, cz in chunks:
             key = f"{cx}_{cz}"
+            if key in pre_counts:
+                patch_pre_patch += pre_counts[key]
             entry = per_chunk.get(key, {}).get(index_of)
             if entry is None:
                 continue
@@ -330,10 +399,16 @@ def run(bundles: Path, patches_path: Path, seed: int) -> dict:
             if record is not None:
                 record["instances"] = max(0, record.get("instances", 0) - n)
                 record["perHectare"] = round(record["instances"] / chunk_area_ha, 1)
+        for cx, cz in chunks:
+            key = f"{cx}_{cz}"
+            if key in pre_counts and key not in counted_pre_patch:
+                counted_pre_patch.add(key)
+                total_pre_patch += pre_counts[key]
         total_removed += patch_removed
         receipt_patches.append({
             "id": patch["id"], "owner": patch.get("owner", {}),
             "chunks": [list(c) for c in chunks],
+            "prePatchInstanceCount": patch_pre_patch,
             "removed": patch_removed, "byChunk": by_chunk,
         })
         print(f"  {patch['id']}: {patch_removed} removed "
@@ -351,7 +426,8 @@ def run(bundles: Path, patches_path: Path, seed: int) -> dict:
         "about": ABOUT,
         "seed": seed,
         "patches": receipt_patches,
-        "totals": {"removed": total_removed, "chunksTouched": len(touched)},
+        "totals": {"removed": total_removed, "chunksTouched": len(touched),
+                   "prePatchInstanceCount": total_pre_patch},
     }
     # A re-run of an idempotent stage removes nothing, and a receipt rebuilt
     # from THAT run's counters reads "removed 0" over ground the first run

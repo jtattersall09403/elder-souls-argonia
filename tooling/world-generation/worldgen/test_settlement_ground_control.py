@@ -12,7 +12,7 @@ from PIL import Image
 from .settlement_ground_control import (
     BUILT_GROUND_MATERIAL_ID,
     _publish_with_marker,
-    open_water_from_surface,
+    open_water_from_record,
     paint_ground_control,
     process_files,
 )
@@ -89,16 +89,51 @@ def test_existing_path_primary_has_stale_weight_reasserted():
     assert tuple(result[2, 2, :3]) == (BUILT_GROUND_MATERIAL_ID, 6, 0)
 
 
-def test_water_surface_signed_depth_decoding_and_registration():
-    # 2x2 water texels cover a 4 m extent; the north-east source texel is wet.
+def _write_water_record(root: Path, *, wet_texel=(0, 1)) -> Path:
+    """A minimal shipped water RECORD directory, as `ShippedWater` loads it.
+
+    2x2 surface texels over a 4 m extent. `wet_texel` is the only texel with a
+    positive signed depth, and it carries entity label 1 (`body.test`), so the
+    paint can be checked against the record rather than against a decoded
+    colour channel.
+    """
+    root.mkdir(parents=True, exist_ok=True)
     surface = np.zeros((2, 2, 3), dtype=np.uint8)
-    surface[..., 2] = 50  # depth = -1 m under the synthetic encoding
-    surface[0, 1, 2] = 200  # depth = +2 m
-    meta = {"surface": {"size": 2, "metresPerPixel": 2,
-                        "depthMinM": -2, "depthSpanM": 4}}
-    actual = open_water_from_surface(surface, meta, (4, 4), extent_m=4)
+    surface[..., 2] = 50          # depth = -1 m under this synthetic encoding
+    surface[wet_texel[0], wet_texel[1], 2] = 200   # depth = +2 m
+    Image.fromarray(surface, "RGB").save(root / "water-surface.png")
+    ids = np.zeros((2, 2, 3), dtype=np.uint8)
+    ids[wet_texel[0], wet_texel[1], 1] = 1         # label 1 -> entities[0]
+    Image.fromarray(ids, "RGB").save(root / "water-id.png")
+    for name in ("water-shore.png", "water-owner.png", "water-class.png", "water-flow.png"):
+        Image.fromarray(np.zeros((2, 2, 3), dtype=np.uint8), "RGB").save(root / name)
+    (root / "water-meta.json").write_text(json.dumps({
+        "surface": {"file": "water-surface.png", "size": 2, "metresPerPixel": 2,
+                    "minM": 0.0, "maxM": 1.0, "depthMinM": -2, "depthSpanM": 4,
+                    "shoreMaxM": 1.0},
+        "season": {"amplitudeM": 0.0},
+        "klass": {"metresPerPixel": 2},
+        "flow": {"metresPerPixel": 2, "flowMax": 1.0},
+        "entities": [{"id": "body.test", "kind": "lake", "levelM": 1.0}],
+    }))
+    return root
+
+
+def test_open_water_comes_from_the_record_at_target_registration(tmp_path):
+    """0066: wetness is `ShippedWater.wet_grid`, not a decoded blue channel."""
+    water_dir = _write_water_record(tmp_path / "water")
+    actual = open_water_from_record(water_dir, (4, 4), extent_m=4)
     expected = np.zeros((4, 4), dtype=bool)
-    expected[0:2, 2:4] = True
+    expected[0:2, 2:4] = True     # the north-east source texel, upsampled
+    assert np.array_equal(actual, expected)
+
+
+def test_open_water_follows_the_record_when_the_wet_texel_moves(tmp_path):
+    """The gate can fail: move the entity and the painted exclusion moves."""
+    water_dir = _write_water_record(tmp_path / "water", wet_texel=(1, 0))
+    actual = open_water_from_record(water_dir, (4, 4), extent_m=4)
+    expected = np.zeros((4, 4), dtype=bool)
+    expected[2:4, 0:2] = True
     assert np.array_equal(actual, expected)
 
 
@@ -110,22 +145,17 @@ def _write_inputs(root: Path) -> tuple[dict, list[Path]]:
     }
     bundle_path = root / "settlements.json"
     control_path = root / "ground-control.png"
-    water_path = root / "water-surface.png"
-    meta_path = root / "water-meta.json"
     provenance_path = root / "ground-control.settlements.json"
     bundle_path.write_text(json.dumps(bundle))
     Image.fromarray(_control(4, 4), "RGBA").save(control_path)
-    surface = np.zeros((2, 2, 3), dtype=np.uint8)
-    Image.fromarray(surface, "RGB").save(water_path)
-    meta_path.write_text(json.dumps({"surface": {"size": 2, "metresPerPixel": 2,
-                                                  "depthMinM": -2, "depthSpanM": 4}}))
-    return bundle, [bundle_path, control_path, water_path, meta_path, provenance_path]
+    water_dir = _write_water_record(root / "water")
+    return bundle, [bundle_path, control_path, water_dir, provenance_path]
 
 
 def test_content_addressed_manifest_and_atomic_stale_failure(tmp_path):
     bundle, paths = _write_inputs(tmp_path)
-    bundle_path, control_path, water_path, meta_path, provenance_path = paths
-    result = process_files(bundle_path, control_path, water_path, meta_path,
+    bundle_path, control_path, water_dir, provenance_path = paths
+    result = process_files(bundle_path, control_path, water_dir,
                            provenance_path, expected_bundle=copy.deepcopy(bundle), extent_m=4)
     assert len(result["inputs"]["settlementBundleSha256"]) == 64
     assert len(result["policySha256"]) == 64
@@ -137,7 +167,7 @@ def test_content_addressed_manifest_and_atomic_stale_failure(tmp_path):
     stale_expected = copy.deepcopy(bundle)
     stale_expected["groundTreatments"][0]["footprintM"][0] = [0, 0]
     try:
-        process_files(bundle_path, control_path, water_path, meta_path,
+        process_files(bundle_path, control_path, water_dir,
                       provenance_path, expected_bundle=stale_expected, extent_m=4)
     except ValueError as exc:
         assert "stale settlement bundle" in str(exc)
@@ -149,11 +179,11 @@ def test_content_addressed_manifest_and_atomic_stale_failure(tmp_path):
 
 def test_missing_bundle_fails_without_touching_outputs(tmp_path):
     _bundle, paths = _write_inputs(tmp_path)
-    bundle_path, control_path, water_path, meta_path, provenance_path = paths
+    bundle_path, control_path, water_dir, provenance_path = paths
     bundle_path.unlink()
     old_control = control_path.read_bytes()
     try:
-        process_files(bundle_path, control_path, water_path, meta_path, provenance_path)
+        process_files(bundle_path, control_path, water_dir, provenance_path)
     except ValueError as exc:
         assert "missing settlement bundle" in str(exc)
     else:

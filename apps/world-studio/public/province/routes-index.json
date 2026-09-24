@@ -118,7 +118,7 @@
       "to": "helstrom",
       "confidence": "CANON_DERIVED",
       "solved": false,
-      "notes": "Canon west-to-east river from near Topal Bay through Gideon; canoe channel, not a lane.",
+      "notes": "Attested west-to-east river from near Topal Bay through Gideon; canoe channel, not a lane.",
       "sources": [
         "uesp:Lore:Onkobra River"
       ],
@@ -135,7 +135,7 @@
       "to": "lighter-flotilla",
       "confidence": "CANON_DERIVED",
       "solved": true,
-      "notes": "Canon: big hulls cannot dock at Lilmoth, so everything is lightered between the deep anchorage and the quay.",
+      "notes": "Attested: big hulls cannot dock at Lilmoth, so everything is lightered between the deep anchorage and the quay.",
       "sources": [
         "uesp:Lore:Lilmoth",
         "world/sources/lore/lilmoth.md"
@@ -201,7 +201,7 @@
       "to": "blackrose",
       "confidence": "CANON_NAMED",
       "solved": true,
-      "notes": "Canon navigable interior route (the Imperial Navy sailed it in 1E 1033); Phase 4's lane solver did not keep it — a Part 3c boat-lane candidate when the water graph is re-solved.",
+      "notes": "Attested navigable interior route (the Imperial Navy sailed it in 1E 1033); Phase 4's lane solver did not keep it — a Part 3c boat-lane candidate when the water graph is re-solved.",
       "sources": [
         "uesp:Lore:Soulrest",
         "uesp:Lore:Red Bramman"
@@ -259,7 +259,7 @@
       "solved": true,
       "notes": "A local boardwalk spur from the freehold up to the Thorn trunk, never a main road (owner 2026-09-16, decision 0069: Alten Corimont is reached by water and root); solved with the minor network in 16g. The id is kept because six catalogue records patrol or reach it.",
       "condition": "decayed",
-      "conditionWhy": "canon gives the freehold water access only; a local boardwalk spur to the trunk, not a city road",
+      "conditionWhy": "the sources give the freehold water access only; a local boardwalk spur to the trunk, not a city road",
       "sources": [
         "uesp:Lore:Alten Corimont"
       ],
@@ -276,7 +276,7 @@
       "confidence": "AGENT_INVENTED",
       "notes": "The interior crossing; the province's longest single leg.",
       "condition": "broken",
-      "conditionWhy": "firm legs at each end; canon crosses Middle Argonia by raft and root, so the middle is a marked route that dissolves into poled channel",
+      "conditionWhy": "firm legs at each end; the attested crossing of Middle Argonia is by raft and root, so the middle is a marked route that dissolves into poled channel",
       "sources": [
         "uesp:Lore:Archon"
       ],
@@ -359,7 +359,7 @@
       "from": "gideon",
       "to": "blackwood-road",
       "confidence": "CANON_NAMED",
-      "notes": "The canon exit road to Leyawiin; playable edge closed (00-core acceptance rules).",
+      "notes": "The attested exit road to Leyawiin; playable edge closed (00-core acceptance rules).",
       "condition": "worn",
       "conditionWhy": "locally maintained on an Imperial alignment; the Gloommire legs close in the monsoon (a flood board at the gate)",
       "sources": [
@@ -487,7 +487,7 @@
       "from": "thorn",
       "to": "tear-road",
       "confidence": "CANON_DERIVED",
-      "notes": "Canon exit toward Tear in Morrowind; playable edge closed.",
+      "notes": "Attested exit toward Tear in Morrowind; playable edge closed.",
       "condition": "worn",
       "conditionWhy": "decayed but passable; the live saltrice trade north, watched at both ends since the invasion of Morrowind",
       "sources": [
@@ -539,7 +539,7 @@
       "to": "the-sump-hamlet",
       "confidence": "LORE_IMPLIED",
       "solved": true,
-      "notes": "The Dres coffle road out of Morrowind. Legally dead, physically intact, and Sump Rows is on it.",
+      "notes": "The Dres coffle road out of Morrowind. Legally dead, physically intact. Sump Rows is on it.",
       "sources": [
         "world/sources/catalogue/places-dunmer-north.json"
       ],
@@ -675,7 +675,7 @@
       "to": "lilmoth",
       "confidence": "LORE_IMPLIED",
       "solved": true,
-      "notes": "The landward coast track between the two southern ports, counted in Imperial stages from Soulrest; solved with the minor network in 16g (owner 2026-09-16: the main roads are the six city legs and the two attested exit roads; the coast is served by sea, and this is a stage-counted track, not a road). Neither Lore:Soulrest nor Lore:Lilmoth attests a coast road (audit 2026-09-16).",
+      "notes": "The landward coast track between the two southern ports, counted in Imperial stages from Soulrest; solved with the minor network in 16g (owner 2026-09-16: the main roads are the six city legs and the two attested exit roads; the coast is served by sea; this is a stage-counted track, not a road). Neither Lore:Soulrest nor Lore:Lilmoth attests a coast road (audit 2026-09-16).",
       "condition": "worn",
       "conditionWhy": "a milestone-counted coast track between two ports most people reach by boat",
       "sources": [
@@ -712,7 +712,7 @@
       "to": "teeth-of-sithis",
       "confidence": "LORE_IMPLIED",
       "solved": true,
-      "notes": "The walked pilgrim line to the Teeth of Sithis; Xal-Meht and the glow-fen are stages on it, and it is walked at night.",
+      "notes": "The walked pilgrim line to the Teeth of Sithis; Xal-Meht and the glow-fen are stages on it. It is walked at night.",
       "sources": [
         "uesp:Lore:Nisswo",
         "world/sources/lore/topics"

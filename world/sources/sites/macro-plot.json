@@ -11,10 +11,7 @@
     "live": 567,
     "plotted": 567,
     "homelessUnresolved": 0,
-    "placedFromHomelessBatch": {
-      "region-relaxed": 1,
-      "neighbour-zone": 1
-    }
+    "placedFromHomelessBatch": {}
   },
   "byZone": {
     "dunmer-north": {
@@ -137,17 +134,17 @@
       "live": 39,
       "plotted": 39,
       "homeless": 0,
-      "fromRecipe": 43,
+      "fromRecipe": 38,
       "byLandform": {
-        "any-firm-ground": 19,
+        "any-firm-ground": 14,
         "open-water": 6,
+        "reseated (2026-09-23)": 6,
         "any-shallow-marsh": 4,
         "flood-high": 2,
         "water-narrows": 2,
-        "anchor": 1,
         "headland": 1,
         "local-tie": 1,
-        "natural-harbour": 1,
+        "reseated (2026-09-20)": 1,
         "river-mouth": 1,
         "saddle": 1
       },
@@ -169,10 +166,10 @@
       "live": 63,
       "plotted": 63,
       "homeless": 0,
-      "fromRecipe": 65,
+      "fromRecipe": 63,
       "byLandform": {
         "any-firm-ground": 27,
-        "any-shallow-marsh": 13,
+        "any-shallow-marsh": 12,
         "flood-high": 5,
         "open-water": 5,
         "isthmus": 3,
@@ -182,6 +179,7 @@
         "enclosed-clearing": 1,
         "ford": 1,
         "local-tie": 1,
+        "reseated (2026-09-20)": 1,
         "saddle": 1,
         "summit": 1
       },
@@ -203,11 +201,12 @@
       "live": 39,
       "plotted": 39,
       "homeless": 0,
-      "fromRecipe": 27,
+      "fromRecipe": 26,
       "byLandform": {
-        "any-shallow-marsh": 25,
-        "open-water": 7,
+        "any-shallow-marsh": 24,
         "any-firm-ground": 5,
+        "open-water": 5,
+        "reseated (2026-09-20)": 3,
         "islet": 1,
         "pinned (Part 6 meso siting)": 1
       },
@@ -287,23 +286,25 @@
     }
   },
   "landformUsed": {
-    "any-firm-ground": 297,
-    "any-shallow-marsh": 83,
-    "open-water": 29,
+    "any-firm-ground": 292,
+    "any-shallow-marsh": 81,
+    "open-water": 27,
     "flood-high": 15,
     "ravine": 15,
     "ridge-end": 13,
     "cliff-bench": 10,
     "saddle": 10,
-    "anchor": 9,
+    "anchor": 8,
     "cove": 8,
     "local-tie": 8,
     "islet": 7,
     "box-canyon": 6,
     "gorge": 6,
     "island": 6,
+    "reseated (2026-09-23)": 6,
     "spring-head": 6,
     "waterfall": 6,
+    "reseated (2026-09-20)": 5,
     "summit": 5,
     "water-narrows": 5,
     "enclosed-clearing": 4,
@@ -312,14 +313,13 @@
     "pinned (Part 6 meso siting)": 4,
     "headland": 3,
     "land-bridge": 1,
-    "natural-harbour": 1,
     "oxbow": 1,
     "river-mouth": 1
   },
   "spacing": {
-    "nearestNeighbourP5M": 74,
+    "nearestNeighbourP5M": 72,
     "nearestNeighbourMedianM": 124,
-    "nearestNeighbourP95M": 263,
+    "nearestNeighbourP95M": 266,
     "sameTypeWithinSightPairs": [
       {
         "a": "place.naga-kur-deeps.drifting-village-wet-mooring",
@@ -329,7 +329,7 @@
     ]
   },
   "routeDistance": {
-    "medianM": 261,
+    "medianM": 264,
     "fineTempoWithin300mFraction": 0.577
   },
   "typedSitingViolations": [
@@ -355,6 +355,13 @@
       "needM": 300
     },
     {
+      "id": "place.imperial-penal-south.necromantic-dig",
+      "gate": "terrainPromise",
+      "other": "dry-rise:waterRelation clearance 0.98<1.40",
+      "distM": null,
+      "needM": null
+    },
+    {
       "id": "place.imperial-penal-south.voriplasm-vault",
       "gate": "maxFromM",
       "other": "ruin",
@@ -365,14 +372,28 @@
       "id": "place.mercantile-coast.sunkfoot",
       "gate": "maxFromM",
       "other": "settlement",
-      "distM": 533.0,
+      "distM": 525.9,
       "needM": 500
+    },
+    {
+      "id": "place.naga-kur-deeps.air-pocket-station-deeps",
+      "gate": "terrainPromise",
+      "other": "pool:depthM 1.6<6.0",
+      "distM": null,
+      "needM": null
+    },
+    {
+      "id": "place.naga-kur-deeps.dead-water-village",
+      "gate": "terrainPromise",
+      "other": "dry-rise:heightClass clearance -0.30<1.40",
+      "distM": null,
+      "needM": null
     },
     {
       "id": "place.naga-kur-deeps.drowned-village-lake-deeps",
       "gate": "maxFromM",
       "other": "settlement",
-      "distM": 623.5,
+      "distM": 647.9,
       "needM": 500
     },
     {
@@ -383,26 +404,29 @@
       "needM": 300
     },
     {
+      "id": "place.naga-kur-deeps.naga-village-settled",
+      "gate": "terrainPromise",
+      "other": "dry-rise:waterRelation clearance -0.82<1.40",
+      "distM": null,
+      "needM": null
+    },
+    {
       "id": "place.naga-kur-deeps.poacher-camp-egg",
       "gate": "maxFromM",
       "other": "settlement",
       "distM": 801.1,
       "needM": 600
-    }
-  ],
-  "antiSameynessQuotaBreaches": [],
-  "relaxedRecords": [
-    {
-      "id": "place.naga-kur-deeps.naga-village-settled",
-      "stage": "region-relaxed",
-      "site": "site.free.open-water-0865"
     },
     {
       "id": "place.saxhleel-coast.archon-lighthouse",
-      "stage": "neighbour-zone",
-      "site": "site.free.any-shallow-marsh-0930"
+      "gate": "terrainPromise",
+      "other": "islet:waterRelation clearance -0.34<2.00",
+      "distM": null,
+      "needM": null
     }
   ],
+  "antiSameynessQuotaBreaches": [],
+  "relaxedRecords": [],
   "namedConstraintChecks": [
     {
       "id": "place.dunmer-north.bogmother",
@@ -592,6 +616,12 @@
       "kind": "bound",
       "to": "place.dunmer-north.stormhold",
       "distM": 262
+    },
+    {
+      "id": "place.dunmer-north.the-stripped-village",
+      "kind": "bound",
+      "to": "place.dunmer-north.nine-fords",
+      "distM": 1063
     },
     {
       "id": "place.dunmer-north.the-tear-wreck",
@@ -937,8 +967,14 @@
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
+      "kind": "bound",
+      "to": "place.imperial-penal-south.blackrose",
+      "distM": 75
+    },
+    {
+      "id": "place.imperial-penal-south.blackrose-drowned-hist",
       "kind": "nearWater",
-      "to": "body.1290-3508",
+      "to": "body.1284-3448",
       "distM": 0.0,
       "needM": 30.0,
       "actual": "body.1284-3448",
@@ -956,7 +992,7 @@
       "id": "place.imperial-penal-south.blackrose-prison",
       "kind": "bound",
       "to": "place.imperial-penal-south.blackrose",
-      "distM": 185
+      "distM": 258
     },
     {
       "id": "place.imperial-penal-south.bramman-head",
@@ -976,21 +1012,52 @@
       "id": "place.imperial-penal-south.flu-quarantine-village",
       "kind": "bound",
       "to": "place.imperial-penal-south.blackrose",
-      "distM": 81
+      "distM": 383
+    },
+    {
+      "id": "place.imperial-penal-south.lake-divers-yard",
+      "kind": "bound",
+      "to": "place.imperial-penal-south.blackrose",
+      "distM": 86
     },
     {
       "id": "place.imperial-penal-south.lake-divers-yard",
       "kind": "nearWater",
-      "to": "body.1290-3508",
+      "to": "body.1284-3448",
       "distM": 11.0,
       "needM": 150.0,
       "actual": "body.1284-3448",
       "ok": true
     },
     {
+      "id": "place.imperial-penal-south.ledgered-blackguards",
+      "kind": "sightline",
+      "to": "place.imperial-penal-south.manned-toll-tower",
+      "distM": 1492,
+      "lineOfSight": true
+    },
+    {
+      "id": "place.imperial-penal-south.ledgered-blackguards",
+      "kind": "bound",
+      "to": "place.imperial-penal-south.manned-toll-tower",
+      "distM": 1492
+    },
+    {
+      "id": "place.imperial-penal-south.manned-toll-tower",
+      "kind": "bound",
+      "to": "place.imperial-penal-south.blackrose",
+      "distM": 89
+    },
+    {
+      "id": "place.imperial-penal-south.natural-dive-shaft",
+      "kind": "bound",
+      "to": "place.imperial-penal-south.blackrose",
+      "distM": 239
+    },
+    {
       "id": "place.imperial-penal-south.natural-dive-shaft",
       "kind": "nearWater",
-      "to": "body.1290-3508",
+      "to": "body.1284-3448",
       "distM": 12.3,
       "needM": 80.0,
       "actual": "body.1209-3032",
@@ -1008,13 +1075,19 @@
       "id": "place.imperial-penal-south.necromantic-dig",
       "kind": "bound",
       "to": "place.imperial-penal-south.blackrose-prison",
-      "distM": 189
+      "distM": 210
     },
     {
       "id": "place.imperial-penal-south.plague-cordon",
       "kind": "bound",
       "to": "place.imperial-penal-south.rose-supply-town",
       "distM": 99
+    },
+    {
+      "id": "place.imperial-penal-south.prison-born-refuge",
+      "kind": "bound",
+      "to": "place.imperial-penal-south.blackrose",
+      "distM": 801
     },
     {
       "id": "place.imperial-penal-south.rebellion-earthworks",
@@ -1038,7 +1111,7 @@
       "id": "place.imperial-penal-south.rose-outworks",
       "kind": "bound",
       "to": "place.imperial-penal-south.blackrose-prison",
-      "distM": 404
+      "distM": 414
     },
     {
       "id": "place.imperial-penal-south.voriplasm-vault",
@@ -1194,6 +1267,12 @@
       "kind": "bound",
       "to": "place.mercantile-coast.wraxu-frieze",
       "distM": 258
+    },
+    {
+      "id": "place.naga-kur-deeps.air-pocket-station-deeps",
+      "kind": "bound",
+      "to": "place.naga-kur-deeps.drowning-narrows-tidal-gate",
+      "distM": 73
     },
     {
       "id": "place.naga-kur-deeps.drifting-village-wet-mooring",
@@ -1497,7 +1576,7 @@
     "routeSamples": 359,
     "stepM": 150.0,
     "radiusM": 450.0,
-    "visibleMean": 3.86,
+    "visibleMean": 3.83,
     "deadFraction": 0.095,
     "crowdedFraction": 0.482,
     "deadSamples": [
@@ -1915,7 +1994,7 @@
           2361,
           6418
         ],
-        "visible": 7
+        "visible": 5
       },
       {
         "route": "road:blackrose-lilmoth",
@@ -1923,7 +2002,7 @@
           2476,
           6397
         ],
-        "visible": 6
+        "visible": 4
       },
       {
         "route": "road:blackrose-lilmoth",
@@ -1939,7 +2018,7 @@
           2701,
           6292
         ],
-        "visible": 6
+        "visible": 7
       },
       {
         "route": "road:blackrose-lilmoth",
@@ -2379,7 +2458,7 @@
           1747,
           6024
         ],
-        "visible": 10
+        "visible": 9
       },
       {
         "route": "road:soulrest-blackrose",
@@ -2387,7 +2466,7 @@
           1873,
           6084
         ],
-        "visible": 8
+        "visible": 7
       },
       {
         "route": "road:soulrest-blackrose",
@@ -2395,7 +2474,7 @@
           2010,
           6128
         ],
-        "visible": 8
+        "visible": 9
       },
       {
         "route": "road:soulrest-blackrose",
@@ -2403,7 +2482,7 @@
           2141,
           6188
         ],
-        "visible": 9
+        "visible": 7
       },
       {
         "route": "road:soulrest-blackrose",
@@ -2411,7 +2490,7 @@
           2251,
           6292
         ],
-        "visible": 8
+        "visible": 6
       },
       {
         "route": "road:soulrest-blackrose",
@@ -2419,7 +2498,7 @@
           2289,
           6397
         ],
-        "visible": 5
+        "visible": 4
       },
       {
         "route": "road:stormhold-thorn",
@@ -2899,7 +2978,7 @@
           2361,
           6418
         ],
-        "visible": 7
+        "visible": 5
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -2907,7 +2986,7 @@
           2443,
           6309
         ],
-        "visible": 8
+        "visible": 7
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -2915,7 +2994,7 @@
           2558,
           6232
         ],
-        "visible": 6
+        "visible": 7
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -2923,7 +3002,7 @@
           2701,
           6254
         ],
-        "visible": 7
+        "visible": 8
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -2939,7 +3018,7 @@
           2893,
           6451
         ],
-        "visible": 9
+        "visible": 8
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -2947,7 +3026,7 @@
           3002,
           6556
         ],
-        "visible": 8
+        "visible": 10
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -3380,9 +3459,9 @@
             "settlement": 1,
             "works": 2,
             "sacred": 1,
+            "martial": 1,
             "ruin": 1,
-            "transit": 1,
-            "martial": 1
+            "transit": 1
           },
           "hinterland": {
             "settlement": 6,
@@ -3412,7 +3491,7 @@
       "blackrose": {
         "purposesWithin2km": {
           "combat-challenge": 20,
-          "dungeon-delve": 23,
+          "dungeon-delve": 24,
           "faction-gateway": 6,
           "lore-reveal": 15,
           "navigation-aid": 7,
@@ -3434,7 +3513,7 @@
             "settlement": 1,
             "sacred": 3,
             "martial": 2,
-            "works": 2,
+            "works": 1,
             "transit": 3,
             "camp": 1,
             "ruin": 2
@@ -3445,8 +3524,8 @@
             "sacred": 3,
             "transit": 6,
             "settlement": 11,
+            "works": 3,
             "lair": 5,
-            "works": 2,
             "martial": 4,
             "camp": 2,
             "civic": 1
@@ -3523,7 +3602,7 @@
       "soulrest": {
         "purposesWithin2km": {
           "combat-challenge": 12,
-          "dungeon-delve": 14,
+          "dungeon-delve": 13,
           "faction-gateway": 5,
           "hidden-secret": 1,
           "lore-reveal": 11,
@@ -3639,93 +3718,8 @@
   },
   "seeding": {
     "mode": "seeded-from-committed",
-    "seeded": 554,
-    "reSited": [
-      {
-        "id": "place.dunmer-north.the-field-gate-garrison",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.imperial-fringe.the-empty-steading",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.imperial-fringe.the-stone-talkers-watch",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.imperial-penal-south.lake-boardwalk-village",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.imperial-penal-south.lake-drowned-village",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.imperial-penal-south.longmont",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.imperial-penal-south.three-gate-toll",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.imperial-penal-south.west-market-town",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.mercantile-coast.keel-sakka-stilts",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.mercantile-coast.whitebone-reef",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.naga-kur-deeps.air-pocket-station-deeps",
-        "reason": "terrain promise no longer deliverable here: pool:depthM 2.4<6.0",
-        "fromM": [
-          2541.6,
-          5184.7
-        ]
-      },
-      {
-        "id": "place.naga-kur-deeps.dead-water-village",
-        "reason": "terrain promise no longer deliverable here: dry-rise:heightClass clearance -0.26<1.40",
-        "fromM": [
-          3380.6,
-          5716.6
-        ]
-      },
-      {
-        "id": "place.naga-kur-deeps.naga-village-settled",
-        "reason": "terrain promise no longer deliverable here: dry-rise:waterRelation clearance -0.32<1.40",
-        "fromM": [
-          1066.5,
-          5897.5
-        ]
-      },
-      {
-        "id": "place.naga-kur-deeps.wreck-submerged-barge",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.saxhleel-coast.archon-lighthouse",
-        "reason": "terrain promise no longer deliverable here: islet:waterRelation clearance -0.06<2.00",
-        "fromM": [
-          5332.7,
-          4455.4
-        ]
-      },
-      {
-        "id": "place.saxhleel-coast.archon-shipyard",
-        "reason": "no committed position"
-      },
-      {
-        "id": "place.saxhleel-coast.mangrove-reef",
-        "reason": "no committed position"
-      }
-    ],
+    "seeded": 558,
+    "reSited": [],
     "pinnedInvalid": []
   },
   "clusteringPrior": {
@@ -3737,8 +3731,8 @@
       "dunmer-north": {
         "parentFloorM": 600.0,
         "sigmaM": 150.0,
-        "targetParents": 19,
-        "actualParents": 19,
+        "targetParents": 18,
+        "actualParents": 18,
         "parentsM": [
           [
             6396.5,
@@ -3811,10 +3805,6 @@
           [
             1461.4,
             1390.1
-          ],
-          [
-            2580.0,
-            435.9
           ]
         ]
       },
@@ -3897,8 +3887,8 @@
       "imperial-fringe": {
         "parentFloorM": 550.0,
         "sigmaM": 130.0,
-        "targetParents": 18,
-        "actualParents": 18,
+        "targetParents": 17,
+        "actualParents": 17,
         "parentsM": [
           [
             712.4,
@@ -3967,18 +3957,14 @@
           [
             775.9,
             1549.1
-          ],
-          [
-            145.3,
-            2399.0
           ]
         ]
       },
       "imperial-penal-south": {
         "parentFloorM": 400.0,
         "sigmaM": 110.0,
-        "targetParents": 7,
-        "actualParents": 7,
+        "targetParents": 6,
+        "actualParents": 6,
         "parentsM": [
           [
             2081.0,
@@ -4003,18 +3989,14 @@
           [
             2437.4,
             6626.8
-          ],
-          [
-            1872.6,
-            5453.4
           ]
         ]
       },
       "mercantile-coast": {
         "parentFloorM": 500.0,
         "sigmaM": 120.0,
-        "targetParents": 10,
-        "actualParents": 10,
+        "targetParents": 9,
+        "actualParents": 9,
         "parentsM": [
           [
             3682.2,
@@ -4051,10 +4033,6 @@
           [
             463.4,
             4943.4
-          ],
-          [
-            1340.7,
-            6325.2
           ]
         ]
       },
@@ -4121,8 +4099,8 @@
       "saxhleel-coast": {
         "parentFloorM": 500.0,
         "sigmaM": 140.0,
-        "targetParents": 6,
-        "actualParents": 6,
+        "targetParents": 5,
+        "actualParents": 5,
         "parentsM": [
           [
             5168.2,
@@ -4143,10 +4121,6 @@
           [
             4880.3,
             4002.9
-          ],
-          [
-            5239.5,
-            5360.1
           ]
         ]
       }
@@ -4154,28 +4128,27 @@
   },
   "ceilingRepair": [],
   "clusteringOutcome": {
-    "unresolved": [
-      "place.dunmer-north.the-field-gate-garrison",
-      "place.imperial-fringe.the-empty-steading",
-      "place.imperial-fringe.the-stone-talkers-watch",
-      "place.imperial-penal-south.lake-boardwalk-village",
-      "place.imperial-penal-south.lake-drowned-village",
-      "place.imperial-penal-south.longmont",
-      "place.imperial-penal-south.three-gate-toll",
-      "place.imperial-penal-south.west-market-town",
-      "place.mercantile-coast.keel-sakka-stilts",
-      "place.mercantile-coast.whitebone-reef",
-      "place.naga-kur-deeps.wreck-submerged-barge",
-      "place.saxhleel-coast.archon-shipyard",
-      "place.saxhleel-coast.mangrove-reef"
-    ],
+    "unresolved": [],
     "outsideRadius": [
+      "place.dunmer-north.tearmouth",
+      "place.hist-heartland.nine-trunks",
       "place.imperial-fringe.castle-giovesse",
       "place.imperial-fringe.giovesse-lines",
+      "place.imperial-fringe.sabinus-claim",
       "place.imperial-fringe.swampmoth-town",
+      "place.imperial-fringe.the-black-tarn",
+      "place.imperial-fringe.the-hollow-under-the-figs",
+      "place.imperial-fringe.the-pass-shelter",
+      "place.imperial-fringe.the-standing-mist",
+      "place.imperial-fringe.twyllbek-ruins",
+      "place.imperial-penal-south.lake-submerged-xanmeer",
+      "place.imperial-penal-south.marsh-giant-ground-basin",
       "place.imperial-penal-south.prison-born-refuge",
+      "place.mercantile-coast.ixtaxh-xanmeer",
       "place.mercantile-coast.screen-watch",
-      "place.naga-kur-deeps.root-whisper-village"
+      "place.naga-kur-deeps.root-whisper-village",
+      "place.saxhleel-coast.outer-reef",
+      "place.saxhleel-coast.wall-hist-village"
     ],
     "parentOccupancy": {
       "dunmer-north": [
@@ -4185,7 +4158,7 @@
         6,
         8,
         8,
-        8,
+        9,
         5,
         9,
         5,
@@ -4196,8 +4169,7 @@
         10,
         5,
         4,
-        3,
-        2
+        3
       ],
       "hist-heartland": [
         9,
@@ -4235,17 +4207,15 @@
         5,
         5,
         4,
-        1,
-        7
+        1
       ],
       "imperial-penal-south": [
         4,
-        8,
+        5,
         5,
         6,
         4,
-        10,
-        3
+        5
       ],
       "mercantile-coast": [
         6,
@@ -4256,15 +4226,14 @@
         7,
         10,
         4,
-        5,
-        1
+        5
       ],
       "naga-kur-deeps": [
         5,
         3,
         7,
         5,
-        8,
+        6,
         0
       ],
       "pirate-freeholds": [
@@ -4279,8 +4248,7 @@
         4,
         4,
         6,
-        6,
-        2
+        6
       ]
     },
     "emptyParents": {
@@ -4303,7 +4271,7 @@
       "pirate-freeholds",
       "saxhleel-coast"
     ],
-    "median": 1.143,
+    "median": 1.137,
     "byZone": {
       "dunmer-north": {
         "n": 126,
@@ -4338,32 +4306,32 @@
       "imperial-penal-south": {
         "n": 39,
         "areaKm2": 0.93,
-        "meanNearestM": 134.4,
+        "meanNearestM": 132.5,
         "expectedM": 104.1,
         "nullSdM": 10.4,
         "analyticalExpectedM": 77.4,
         "null": "same-mask-monte-carlo",
-        "R": 1.291
+        "R": 1.273
       },
       "mercantile-coast": {
         "n": 63,
         "areaKm2": 3.51,
-        "meanNearestM": 157.6,
+        "meanNearestM": 157.4,
         "expectedM": 144.8,
         "nullSdM": 11.5,
         "analyticalExpectedM": 118.0,
         "null": "same-mask-monte-carlo",
-        "R": 1.088
+        "R": 1.087
       },
       "naga-kur-deeps": {
         "n": 39,
         "areaKm2": 2.6,
-        "meanNearestM": 201.4,
+        "meanNearestM": 200.4,
         "expectedM": 176.2,
         "nullSdM": 19.6,
         "analyticalExpectedM": 129.1,
         "null": "same-mask-monte-carlo",
-        "R": 1.143
+        "R": 1.137
       },
       "pirate-freeholds": {
         "n": 31,
@@ -4386,6 +4354,5 @@
         "R": 1.201
       }
     }
-  },
-  "demandNote": "13 cut by plot-remedies, owner 2026-09-20"
+  }
 }

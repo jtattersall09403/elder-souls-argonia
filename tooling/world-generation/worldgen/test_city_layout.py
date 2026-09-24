@@ -70,6 +70,8 @@ def test_way_joins_gate_to_centre(solved):
 def test_polygon_is_a_shape_containing_its_centre(solved):
     for slug, res in _placed(solved).items():
         poly = res["polygon"]
+        if poly is None and res.get("footprintWhy"):
+            continue            # an island city: its footprint is the radius disc (owner 2026-09-23)
         assert poly is not None and len(poly) >= 3, slug
         assert catalogue._point_in_polygon(res["block"]["centre"], poly), slug
 

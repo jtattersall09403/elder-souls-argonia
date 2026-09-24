@@ -12,10 +12,15 @@ with measurements instead of screenshots.
 
 from __future__ import annotations
 
+import hashlib
 import json
+import os
+import shutil
 import sys
-from functools import cached_property
+import time
+from functools import cached_property, lru_cache
 from pathlib import Path
+from typing import Callable, Iterable
 
 import numpy as np
 from PIL import Image
@@ -43,35 +48,185 @@ STANDING_BODY_KINDS = frozenset({"ocean", "lagoon", "lake-lowland", "tarn-upland
 SEASON_INDEX = {"perennial": 1, "seasonal": 2, "ephemeral": 3}
 
 
+# --------------------------------------------------------------------------- #
+# the survey cache (16h tooling lane step B #1)
+# --------------------------------------------------------------------------- #
+# `ShippedWater`, `compile_scatter.ProvinceFields` and `site_fields.ProvinceSurvey`
+# decode the same published rasters and run the same distance transforms in
+# every process (~1 GiB private, ~10 s). The decoded arrays are written once as
+# `.npy` under SURVEY_CACHE_ROOT/<namespace>/<signature hash>/ and served
+# memory-mapped and read-only, so every process shares one copy in the page
+# cache. The key is the (path, mtime, size) of every source file AND of the
+# code that decodes them: a touched source is a new key, the old key is
+# deleted, and a stale array is never served. Only the published province is
+# cached; a caller reading another directory (a test fixture, a snapshot) gets
+# a plain decode.
+SURVEY_CACHE_ROOT = REPO_ROOT / "tooling" / "world-generation" / "output" / "survey-cache"
+#: the modules whose code turns the sources into the cached arrays
+DECODER_MODULES = ("water_report.py", "compile_water.py", "compile_scatter.py", "site_fields.py",
+                   "routes_raster.py", "dressing_zones.py", "regions.py", "society.py",
+                   "scatter.py", "scale.py")
+
+
+@lru_cache(maxsize=1024)
+def _sha256(path: str, ino: int, mtime_ns: int, ctime_ns: int, size: int) -> str:
+    """Content hash, memoised per (path, inode, mtime, ctime, size) so a process
+    hashes each file once (~0.6 s for the province's 126 MiB) and rehashes only
+    on a write. The inode catches a replace-by-rename; mtime/ctime/size a write
+    in place (a same-size rewrite inside one timestamp tick is the residue)."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for block in iter(lambda: f.read(1 << 24), b""):
+            h.update(block)
+    return h.hexdigest()
+
+
+def file_signature(paths: Iterable[Path]) -> tuple:
+    """(path, size, sha256) of every existing file, sorted by path. Content,
+    never mtime: a save that changes nothing, or a checkout, keeps the key."""
+    out = []
+    for p in sorted({Path(p) for p in paths}):
+        if p.is_file():
+            st = p.stat()
+            out.append((str(p), st.st_size, _sha256(str(p), st.st_ino, st.st_mtime_ns, st.st_ctime_ns, st.st_size)))
+    return tuple(out)
+
+
+def province_signature(province: Path) -> tuple:
+    """The signature of every file the province readers derive arrays from:
+    the published province, the vault height, the hydrology, route and flora
+    records they join through, and the decoders' own code."""
+    from .compile_chunks import DEFAULT_HEIGHTS
+    here = Path(__file__).resolve().parent
+    sources = [*province.glob("*.png"), *province.glob("*.json"),
+               *province.glob("refined/*"), *province.glob("water/**/*"),
+               DEFAULT_HEIGHTS, *GRAPH_PATH.parent.glob("*.json"),
+               *(REPO_ROOT / "world" / "sources" / "routes").glob("*.json"),
+               REPO_ROOT / "world" / "sources" / "flora" / "dressing-zones.json",
+               *(here / name for name in DECODER_MODULES)]
+    return file_signature(sources)
+
+
+def _read_only(a: np.ndarray) -> np.ndarray:
+    a.setflags(write=False)
+    return a
+
+
+#: how long an unused cache key survives a newer key's publish (7 days),
+#: and how many keys a namespace keeps at most (each province key ~600 MB)
+KEEP_KEYS_S = 7 * 24 * 3600
+KEEP_KEYS_MAX = 3
+
+
+class ArrayCache:
+    """One signature's cached arrays. `namespace=None` is a pass-through: every
+    builder runs and nothing touches the disk. `misses` lists each group or
+    array this instance had to build, with its build seconds (read by the
+    ES_TIMINGS=1 `survey.cache` line in site_fields)."""
+
+    def __init__(self, namespace: str | None, signature: tuple = (),
+                 root: Path = SURVEY_CACHE_ROOT):
+        self.dir = None
+        self.misses: list[tuple[str, float]] = []
+        if namespace is not None:
+            key = hashlib.sha1(repr(signature).encode()).hexdigest()[:16]
+            self.dir = Path(root) / namespace / key
+
+    @classmethod
+    def for_province(cls, province: Path, enabled: bool = True) -> "ArrayCache":
+        published = WATER_DIR.parent
+        if not enabled or Path(province).resolve() != published.resolve():
+            return cls(None)
+        return cls("province", province_signature(published))
+
+    def _publish(self, write: Callable[[Path], None]) -> None:
+        """Write into a private temp dir, then move the files in atomically;
+        a new key prunes the namespace's keys last used over KEEP_KEYS_S ago
+        and all but the KEEP_KEYS_MAX most recently used (a hit touches the
+        key's directory): concurrent agents whose signatures differ each keep
+        their key instead of deleting each other's and rebuilding in turn."""
+        parent = self.dir.parent
+        fresh = not self.dir.exists()
+        tmp = parent / f".tmp-{self.dir.name}-{os.getpid()}"
+        tmp.mkdir(parents=True, exist_ok=True)
+        try:
+            write(tmp)
+            self.dir.mkdir(exist_ok=True)
+            for f in sorted(tmp.iterdir(), key=lambda f: f.suffix == ".json"):
+                os.replace(f, self.dir / f.name)      # manifests land last
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        if fresh:
+            # "now" is the mtime of the key just published: the file system's
+            # own clock, the one every other key's mtime was stamped by.
+            cutoff = self.dir.stat().st_mtime - KEEP_KEYS_S
+            others = []
+            for other in parent.iterdir():
+                if other.name == self.dir.name or other.name.startswith(".tmp-"):
+                    continue
+                try:
+                    others.append((other.stat().st_mtime, other))
+                except FileNotFoundError:
+                    pass          # another process pruned it first
+            others.sort(reverse=True)                 # most recently used first
+            for rank, (mtime, other) in enumerate(others):
+                if mtime < cutoff or rank >= KEEP_KEYS_MAX - 1:
+                    shutil.rmtree(other, ignore_errors=True)
+
+    def _touch(self) -> None:
+        """Mark the key used, so pruning goes by last use, not last write."""
+        try:
+            os.utime(self.dir)
+        except OSError:
+            pass
+
+    def _load(self, name: str) -> np.ndarray:
+        return np.asarray(np.load(self.dir / f"{name}.npy", mmap_mode="r"))
+
+    def group(self, group: str, build: Callable[[], dict]) -> dict:
+        """The arrays `build()` returns (None values dropped), from the cache."""
+        if self.dir is None:
+            return {k: _read_only(v) for k, v in build().items() if v is not None}
+        manifest = self.dir / f"{group}.json"
+        if not manifest.exists():
+            t0 = time.perf_counter()
+            arrays = {k: v for k, v in build().items() if v is not None}
+
+            def write(tmp: Path) -> None:
+                for name, a in arrays.items():
+                    np.save(tmp / f"{group}.{name}.npy", np.ascontiguousarray(a),
+                            allow_pickle=False)
+                (tmp / f"{group}.json").write_text(json.dumps(sorted(arrays)))
+            self._publish(write)
+            self.misses.append((group, round(time.perf_counter() - t0, 3)))
+        else:
+            self._touch()
+        return {n: self._load(f"{group}.{n}") for n in json.loads(manifest.read_text())}
+
+    def array(self, name: str, build: Callable[[], np.ndarray]) -> np.ndarray:
+        """One lazily built array (a derived field only some callers ask for)."""
+        if self.dir is None:
+            return _read_only(build())
+        if not (self.dir / f"{name}.npy").exists():
+            t0 = time.perf_counter()
+            a = np.ascontiguousarray(build())
+            self._publish(lambda tmp: np.save(tmp / f"{name}.npy", a, allow_pickle=False))
+            self.misses.append((name, round(time.perf_counter() - t0, 3)))
+        else:
+            self._touch()
+        return self._load(name)
+
+
 class ShippedWater:
     """The compiled water as it ships, on its own grids."""
 
     def __init__(self, water_dir: Path = WATER_DIR, heights: Path = DEFAULT_HEIGHTS,
-                 graph_path: Path = GRAPH_PATH):
+                 graph_path: Path = GRAPH_PATH, cache: bool = True):
         self.graph_path = Path(graph_path)
         self.meta = json.loads((water_dir / "water-meta.json").read_text())
-        rgb = np.asarray(Image.open(water_dir / self.meta["surface"]["file"]).convert("RGB"))
-        self.w2, self.depth2 = decode_surface(rgb, self.meta)
         self.mpp2 = float(self.meta["surface"]["metresPerPixel"])
-        shore = np.asarray(Image.open(water_dir / "water-shore.png").convert("RGB"))
-        self.shore2 = shore[..., 0].astype(np.float32) / 255.0 * float(self.meta["surface"]["shoreMaxM"])
-        self.season2 = shore[..., 1].astype(np.float32) / 255.0
-        self.owner2 = np.asarray(Image.open(water_dir / "water-owner.png").convert("L"))
-        # The graph key. Every downstream stage that needs a water *kind* joins
-        # through this, never through a re-derivation of its own (0066).
-        # The entity raster arrived with schema 3 (16c). A bundle without one
-        # (an older publish, a snapshot another stage copied aside) still
-        # loads: `ids` is None and `entity_at` answers None, so a caller that
-        # needs the graph's answer gets nothing rather than a wrong id.
-        id_path = water_dir / "water-id.png"
-        self.ids = (decode_ids(np.asarray(Image.open(id_path).convert("RGB")))
-                    if id_path.exists() else None)
         self.entities = self.meta["entities"]
-        klass = np.asarray(Image.open(water_dir / "water-class.png").convert("RGB"))
-        self.cls = klass[..., 0]
         self.mppc = float(self.meta["klass"]["metresPerPixel"])
-        flow = np.asarray(Image.open(water_dir / "water-flow.png").convert("RGB"))
-        self.flow = flow[..., 2].astype(np.float32) / 255.0 * float(self.meta["flow"]["flowMax"])
         self.mppf = float(self.meta["flow"]["metresPerPixel"])
         # The full-resolution ground lives in the asset vault, which a clean
         # checkout (CI) does not have. Everything the shipped rasters answer on
@@ -79,15 +234,57 @@ class ShippedWater:
         # there, or a gate that reads the water it ships cannot run in CI.
         # Callers that need `refined`/`ground2` get a clear error instead of a
         # missing attribute.
+        with_heights = heights is not None and Path(heights).exists()
+        published = (Path(water_dir).resolve() == WATER_DIR.resolve()
+                     and self.graph_path.resolve() == GRAPH_PATH.resolve()
+                     and (not with_heights
+                          or Path(heights).resolve() == Path(DEFAULT_HEIGHTS).resolve()))
+        store = self.cache = ArrayCache.for_province(WATER_DIR.parent, cache and published)
+        arrays = store.group("water-heights" if with_heights else "water",
+                             lambda: self._decode(water_dir, heights if with_heights else None))
         self.refined = None
         self.ground2 = None
-        if heights is not None and Path(heights).exists():
-            self.refined = np.load(heights).astype(np.float32)
-            i2 = export_index(self.refined.shape[0], WEB_STEP)
-            self.ground2 = self.refined[np.ix_(i2, i2)]
-        self.klass = klass          # R class, G turbidity, B salinity
-        self.tannin2 = shore[..., 2].astype(np.float32) / 255.0
-        self.wet2 = self.depth2 > 0.0
+        if with_heights:
+            # the vault array is already an .npy: map it, never copy it
+            refined = np.load(heights, mmap_mode="r" if store.dir is not None else None)
+            self.refined = (np.asarray(refined) if refined.dtype == np.float32
+                            else refined.astype(np.float32))
+            self.ground2 = arrays["ground2"]
+        for name in ("w2", "depth2", "shore2", "season2", "owner2", "cls", "flow",
+                     "klass", "tannin2", "wet2"):
+            setattr(self, name, arrays[name])
+        # The graph key. Every downstream stage that needs a water *kind* joins
+        # through this, never through a re-derivation of its own (0066).
+        # The entity raster arrived with schema 3 (16c). A bundle without one
+        # (an older publish, a snapshot another stage copied aside) still
+        # loads: `ids` is None and `entity_at` answers None, so a caller that
+        # needs the graph's answer gets nothing rather than a wrong id.
+        self.ids = arrays.get("ids")
+
+    def _decode(self, water_dir: Path, heights: Path | None) -> dict:
+        """Every raster decoded from its PNG (the cache's builder)."""
+        out = {}
+        rgb = np.asarray(Image.open(water_dir / self.meta["surface"]["file"]).convert("RGB"))
+        out["w2"], out["depth2"] = decode_surface(rgb, self.meta)
+        shore = np.asarray(Image.open(water_dir / "water-shore.png").convert("RGB"))
+        out["shore2"] = shore[..., 0].astype(np.float32) / 255.0 * float(self.meta["surface"]["shoreMaxM"])
+        out["season2"] = shore[..., 1].astype(np.float32) / 255.0
+        out["tannin2"] = shore[..., 2].astype(np.float32) / 255.0
+        out["owner2"] = np.asarray(Image.open(water_dir / "water-owner.png").convert("L"))
+        id_path = water_dir / "water-id.png"
+        out["ids"] = (decode_ids(np.asarray(Image.open(id_path).convert("RGB")))
+                      if id_path.exists() else None)
+        klass = np.asarray(Image.open(water_dir / "water-class.png").convert("RGB"))
+        out["klass"] = klass          # R class, G turbidity, B salinity
+        out["cls"] = klass[..., 0]
+        flow = np.asarray(Image.open(water_dir / "water-flow.png").convert("RGB"))
+        out["flow"] = flow[..., 2].astype(np.float32) / 255.0 * float(self.meta["flow"]["flowMax"])
+        out["wet2"] = out["depth2"] > 0.0
+        if heights is not None:
+            refined = np.load(heights).astype(np.float32)
+            i2 = export_index(refined.shape[0], WEB_STEP)
+            out["ground2"] = refined[np.ix_(i2, i2)]
+        return out
 
     # --- season -----------------------------------------------------------
     #

@@ -281,6 +281,53 @@ def footprint_polygon(s, centre: tuple[float, float], radius_m: float) -> list[l
     return [[round(float(x), ROUND_M), round(float(z), ROUND_M)] for x, z in simple]
 
 
+#: Below this, the dry ground joined to a reseated city's centre is an island.
+ISLAND_MAX_HA = 1.0
+ISLAND_FOOTPRINT_WHY = "island city; spreads over the lake and onto the shore, owner 2026-09-23"
+
+
+def centre_component_ha(s, centre: tuple[float, float], radius_m: float) -> float:
+    """Hectares of dry, walkable ground in the disc joined (4-neighbour) to
+    the centre cell."""
+    from scipy import ndimage
+    dr, dc = _disc_offsets(s, radius_m)
+    row, col = s.grid_px(centre[0], centre[1])
+    rows = np.clip(row + dr, 0, s.grid_n - 1)
+    cols = np.clip(col + dc, 0, s.grid_n - 1)
+    keep = s.dry_grid[rows, cols] & (s.slope_grid[rows, cols] <= SLOPE_MAX_DEG)
+    r = int(dr.max())
+    local = np.zeros((2 * r + 1, 2 * r + 1), dtype=bool)
+    local[dr + r, dc + r] = keep
+    labels, _n = ndimage.label(local)
+    own = labels[r, r]
+    if own == 0:
+        return 0.0
+    return float((labels == own).sum()) * s.grid_px_m ** 2 / 10_000.0
+
+
+def city_footprint(s, centre: tuple[float, float], radius_m: float,
+                   reseated: bool) -> tuple[list[list[float]] | None, str | None]:
+    """(polygon, footprintWhy). A city reseated onto an island (the dry ground
+    joined to its centre under ISLAND_MAX_HA) spreads over the water by
+    bridges and boardwalks and onto the shore: its footprint is the whole
+    type-radius disc, water included (owner 2026-09-23), so no polygon."""
+    if reseated and centre_component_ha(s, centre, radius_m) < ISLAND_MAX_HA:
+        return None, ISLAND_FOOTPRINT_WHY
+    return footprint_polygon(s, centre, radius_m), None
+
+
+def apply_footprint(rec: dict, poly, why) -> None:
+    """Write a city's footprint: the polygon, or the radius disc with its why."""
+    if why:
+        rec.pop("footprintPolygon", None)
+        rec["footprintSource"] = "band"
+        rec["footprintWhy"] = why
+    elif poly:
+        rec["footprintPolygon"] = poly
+        rec["footprintSource"] = "polygon"
+        rec.pop("footprintWhy", None)
+
+
 def polygon_area_m2(poly: list[list[float]]) -> float:
     a = 0.0
     for (x0, z0), (x1, z1) in zip(poly, poly[1:] + poly[:1]):
@@ -301,6 +348,8 @@ def solve(s, files: list[catalogue.RegionFile], province: Path = PROVINCE) -> di
     recipes = load_recipes()
     records = city_records(files)
     anchors = s.anchor_points_m
+    from .apply_sitings import reseat_points_m
+    reseats = reseat_points_m(s)
     out: dict[str, dict] = {}
     for slug in sorted(MAIN_APPROACH):
         rec = records.get(slug)
@@ -315,7 +364,16 @@ def solve(s, files: list[catalogue.RegionFile], province: Path = PROVINCE) -> di
         gate = gate_point(s, px_path, anchors[slug], water=approach.startswith("route.boat."))
         radius = float(rec["footprintRadiusM"])
         target = water_target(recipes, rec)
-        chosen, best = choose_centre(s, gate, radius, target)
+        if rec["id"] in reseats:
+            # A reseat row is the committed centre (decision 0085 §4): the
+            # lattice is not searched, the owner's point is scored as it is.
+            centre = reseats[rec["id"]]
+            chosen = (score_centre(s, gate, centre, radius, target,
+                                   _disc_offsets(s, radius)) or {"centre": centre})
+            chosen["reseat"] = True
+            best = chosen
+        else:
+            chosen, best = choose_centre(s, gate, radius, target)
         if chosen is None:
             out[slug] = {
                 "ownerCall": f"no centre clears dry fraction {DRY_FLOOR}",
@@ -331,14 +389,14 @@ def solve(s, files: list[catalogue.RegionFile], province: Path = PROVINCE) -> di
             out[slug] = {"ownerCall": "no way from gate to centre",
                          "report": {"gate": gate, "best": chosen}}
             continue
-        poly = footprint_polygon(s, centre, radius)
+        poly, fp_why = city_footprint(s, centre, radius, rec["id"] in reseats)
         block = {
             "gate": [round(gate[0], ROUND_M), round(gate[1], ROUND_M)],
             "centre": [round(centre[0], ROUND_M), round(centre[1], ROUND_M)],
             "way": way,
             "source": "street_router",
         }
-        out[slug] = {"block": block, "polygon": poly, "report": {
+        out[slug] = {"block": block, "polygon": poly, "footprintWhy": fp_why, "report": {
             "approach": approach, "target": target, "wayLengthM": way_length_m(way),
             "polygonAreaHa": (polygon_area_m2(poly) / 10_000.0) if poly else None,
             **chosen,
@@ -355,13 +413,11 @@ def apply(files: list[catalogue.RegionFile], solved: dict[str, dict]) -> list[st
         if rec is None or "block" not in res:
             continue
         before = json.dumps([rec.get("cityLayout"), rec.get("footprintPolygon"),
-                             rec.get("footprintSource")], sort_keys=True)
+                             rec.get("footprintSource"), rec.get("footprintWhy")], sort_keys=True)
         rec["cityLayout"] = res["block"]
-        if res.get("polygon"):
-            rec["footprintPolygon"] = res["polygon"]
-            rec["footprintSource"] = "polygon"
+        apply_footprint(rec, res.get("polygon"), res.get("footprintWhy"))
         after = json.dumps([rec.get("cityLayout"), rec.get("footprintPolygon"),
-                            rec.get("footprintSource")], sort_keys=True)
+                            rec.get("footprintSource"), rec.get("footprintWhy")], sort_keys=True)
         if before != after:
             changed.append(rec["id"])
     return changed

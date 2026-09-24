@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "place.fixture.proving-ground",
+  "fixture": true,
+  "centreM": [
+    4305.7,
+    5736.6
+  ],
+  "waterBodyId": "body.2407-3123",
+  "region": "fringe marsh",
+  "ownerGuided": false,
+  "why": "A scratch yard on empty fringe ground; never a place."
+}

@@ -18,17 +18,41 @@ checkout/formatting timestamps but changes with any authored value.
 Load-bearing contracts:
 
 - semantic asset identity comes from glTF `extras.assetId`, never node names;
-- one function selects full/LOD1/LOD2 and buckets `(asset, LOD, part)` across
-  settlements and route chunks; far transforms are baked into actual merged
+- every settlement and route-structure asset steps down an explicit LOD
+  ladder (`settlementLadder`), built by the same `lodLadder` helper the
+  vegetation cell build uses (0075): one kit level per rung, hard steps, no
+  crossfade, and `card: none` for kit pieces in 16h (wind stiffness 0). The
+  last mesh rung runs out to the draw cap, which covers the loaded ring, so
+  nothing vanishes inside it — the 0073 one-copy-per-pixel walk runs over
+  every ladder the shipped bundle builds. Before 16h this was a two-band
+  `architectureLod` (`d0`/`d1` thresholds, level 2 beyond) with no ladder and
+  no vanish check; `architectureLod` survives only as a thin read off the
+  ladder. Buckets stay `(asset, LOD, part)` across far transforms are baked into actual merged
   geometry per material, while nearer repeats remain instanced. Loaded colour
   texture dimensions—not a Boolean manifest claim—must fit the atlas cap;
-- every reference re-grounds from streamed terrain. Buildings sample every
-  footprint vertex; route/dressing pieces sample their origin. The measured
-  ground line, requested/applied burial, class-cap excess and residual gap are
-  retained per placement and rolled up per settlement in `onStats`;
-- settlement collision accepts only `settlement-pivot-yup-v1`, prefers
-  measured manifest boxes where present, and otherwise derives visible-part
-  boxes from loaded geometry. While the focus is inside an authored settlement
+- every ground-class reference re-grounds from streamed terrain and sinks by
+  its own asset's **designed sink** (`designedSinkM.p50` on the published kit
+  manifest, positive = pivot below the ground line, scaled by the placement).
+  There is no per-class bury table and no stilt exemption: a manifest without
+  a designed sink is a named error, not a fallback. Buildings sample every
+  footprint vertex and take the MEAN of the samples for every fit; route and
+  dressing pieces sample their origin, and route structures are audited like
+  everything else. The measured ground line, applied burial and residual gap
+  are retained per placement and rolled up per settlement in `onStats`;
+- a piece that does not stand on the ground is never sampled against it: a
+  `wall`/`hanging`/`deck` child is positioned from its parent placement's
+  FINAL transform times `mountOffsetM` (parent's local frame) and its own
+  rotation — a missing parent, a mount cycle or a missing offset is a named
+  error — and a `water` child sits at `waterLevelM - designedWaterlineM`;
+- one rotation authority (`placementQuaternion`): the compile rotates with
+  `wx = cx + x·cosθ − z·sinθ`, which three.js reaches by rotating about +Y by
+  **−yawDeg**; `pitchDeg` (16e spans) follows as YXZ Euler. The draw, the
+  collider and the tests all read that one matrix;
+- settlement collision accepts only `settlement-pivot-yup-v1`. A `mesh` or
+  `convex` placement collides as its own LOD0 triangles, one Rapier trimesh
+  per primitive through `floraSolids.trimeshFromGeometry` (0071 §5), so a gate
+  arch keeps its road open; geometry that is not loaded or has no index is a
+  named error, never a box. Only measured manifest proxy boxes stay boxes. While the focus is inside an authored settlement
   boundary, every building collider in that settlement stays resident by
   stable id, including across focus-ring and terrain-chunk edges. Only the
   remaining explicit proxy-part budget is spent on the moving outside ring;

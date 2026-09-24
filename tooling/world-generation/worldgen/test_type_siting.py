@@ -65,11 +65,29 @@ def test_footprints_are_derived_from_the_blueprints_built_ground_not_hand_typed(
     """MUTATION: change `rebuilt-stilt-city` to 100 in type-recipes.json — red
     (the derivation says 225, measured off Lilmoth's built ground)."""
     measured = author_type_siting.built_ground_radii()
-    assert measured, "no built ground measured — the deriver is not reading the blueprints"
     for typ, radius_m in measured.items():
         expected = int(round(radius_m / 5.0) * 5)
         assert recipes[typ]["footprintRadiusM"] == expected, typ
         assert recipes[typ]["footprintSource"] == "built-ground", typ
+    # Every built-ground footprint is either measured on a live blueprint now
+    # or carried from a retired one (16i re-authors those places); none is
+    # left over from a blueprint that no longer exists anywhere.
+    built = {typ for typ, r in recipes.items() if r.get("footprintSource") == "built-ground"}
+    assert built, "no built-ground footprint at all — the deriver is not reading the blueprints"
+    assert built <= set(measured) | author_type_siting.retired_types(), (
+        sorted(built - set(measured) - author_type_siting.retired_types()))
+
+
+def test_a_retired_blueprints_type_keeps_its_committed_footprint(recipes):
+    """MUTATION: drop the retired carry in `author` — the wamasu pond derives
+    a 45 m band and this is red."""
+    retired = author_type_siting.retired_types() - set(author_type_siting.built_ground_radii())
+    assert "wamasu-pond" in retired
+    data = author_type_siting.author(json.loads(author_type_siting.RECIPES_PATH.read_text()))
+    out = {t["type"]: t for t in data["types"]}
+    for typ in retired:
+        assert out[typ]["footprintRadiusM"] == recipes[typ]["footprintRadiusM"], typ
+        assert out[typ]["footprintSource"] == "built-ground", typ
 
 
 def test_the_built_ground_is_what_stands_there_not_the_outer_boundary():
@@ -99,39 +117,35 @@ def test_the_built_ground_is_what_stands_there_not_the_outer_boundary():
         cz = sum(p[1] for p in pts) / len(pts)
         return max(math.hypot(x - cx, z - cz) for x, z in pts)
 
-    path = ("world/sources/blueprints/"
-            "place.hist-heartland.sap-tapping-licensed.json")
+    # The sap camp that proved this (built 25.4 m inside a 254.2 m boundary
+    # after its landing moved, measured 2026-09-09) was retired 2026-09-23.
+    # The same two properties are proved on the shipped yard by moving only
+    # its outer boundary, outward and back.
+    path = "world/sources/blueprints/place.fixture.proving-ground.json"
     live = json.loads((author_type_siting.REPO_ROOT / path).read_text())["blueprint"]
-
     built = circumradius(author_type_siting.built_ground_points(live))
-    assert 20.0 <= built <= 35.0, f"built ground reads {built:.1f} m"
+    assert built > 0.0
 
-    # Not vacuous: on THIS blueprint the outer boundary is nowhere near the
-    # built ground, so a derivation reading the boundary could not land in the
-    # band above by luck. Measured 2026-09-09: built 25.4 m, outer 254.2 m.
-    outer = circumradius([(u * extent, v * extent) for u, v in live["boundary"]])
-    assert outer - built > 100.0, (
-        f"outer boundary {outer:.1f} m is only {outer - built:.1f} m clear of "
-        f"the built ground {built:.1f} m, so this test can no longer tell the "
-        f"two apart and is not proving anything. Pick a blueprint where they "
-        f"diverge, or restate the property.")
-
-    # And the built ground does not follow the boundary when the boundary moves.
-    # The pre-move geometry is carried here rather than fetched from git: the
-    # works did not move when the landing did, so the same parcels are still in
-    # the live file and the boundary is the only thing that changed. Shrinking
-    # the boundary back to its pre-move ring must leave the derived radius
-    # exactly where it is.
-    pre_move = dict(live)
     centre_u = sum(u for u, _ in live["boundary"]) / len(live["boundary"])
     centre_v = sum(v for _, v in live["boundary"]) / len(live["boundary"])
-    shrink = 31.83 / outer          # the 2026-09-09 pre-move circumradius
-    pre_move["boundary"] = [[centre_u + (u - centre_u) * shrink,
-                             centre_v + (v - centre_v) * shrink]
-                            for u, v in live["boundary"]]
-    assert circumradius(author_type_siting.built_ground_points(pre_move)) == built, (
-        "the derived footprint moved when only the outer boundary moved — it "
-        "is reading the boundary, not the built ground")
+
+    def with_boundary_scaled(k):
+        bp = dict(live)
+        bp["boundary"] = [[centre_u + (u - centre_u) * k, centre_v + (v - centre_v) * k]
+                          for u, v in live["boundary"]]
+        return bp
+
+    # Not vacuous: the grown boundary is far from the built ground, so a
+    # derivation reading the boundary could not return the same radius.
+    grown = with_boundary_scaled(4.0)
+    outer = circumradius([(u * extent, v * extent) for u, v in grown["boundary"]])
+    assert outer - built > 100.0, (
+        f"outer boundary {outer:.1f} m is only {outer - built:.1f} m clear of "
+        f"the built ground {built:.1f} m, so this test cannot tell the two apart.")
+    for k in (4.0, 0.5):
+        assert circumradius(author_type_siting.built_ground_points(with_boundary_scaled(k))) == built, (
+            "the derived footprint moved when only the outer boundary moved — it "
+            "is reading the boundary, not the built ground")
 
 
 def test_the_authored_recipe_file_matches_its_deriver():
