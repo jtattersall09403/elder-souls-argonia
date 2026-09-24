@@ -224,24 +224,24 @@
       {
         "boundary": [
           [
-            0.573688216,
-            0.771366632
+            0.573764933,
+            0.771297063
           ],
           [
-            0.578939776,
-            0.77883419
+            0.578566427,
+            0.783420131
           ],
           [
-            0.586025206,
-            0.785410922
+            0.578835364,
+            0.783811161
           ],
           [
-            0.586174164,
-            0.785456748
+            0.579035973,
+            0.783919173
           ],
           [
-            0.587005105,
-            0.785710465
+            0.587026426,
+            0.785699175
           ],
           [
             0.58729424,
@@ -279,94 +279,6 @@
           "what": "The argonian-stilt row of the test grid: every piece under test from that kit set.",
           "whyHere": "The argonian-stilt row sits on measured empty ground; nothing about the world puts it here.",
           "whyNeighbours": "The argonian-stilt row keeps one kit set, so a kit-purity warning reads as a real one."
-        }
-      },
-      {
-        "boundary": [
-          [
-            0.582418173,
-            0.770168061
-          ],
-          [
-            0.578114719,
-            0.782548276
-          ],
-          [
-            0.578049002,
-            0.782909046
-          ],
-          [
-            0.578059941,
-            0.783298118
-          ],
-          [
-            0.578086504,
-            0.7834434
-          ],
-          [
-            0.578149641,
-            0.78354957
-          ],
-          [
-            0.578322905,
-            0.783801062
-          ],
-          [
-            0.578597518,
-            0.784088192
-          ],
-          [
-            0.578985053,
-            0.784296858
-          ],
-          [
-            0.579384454,
-            0.784369611
-          ],
-          [
-            0.579737471,
-            0.784365599
-          ],
-          [
-            0.579890343,
-            0.784358477
-          ],
-          [
-            0.580033895,
-            0.784273132
-          ],
-          [
-            0.580284878,
-            0.784092805
-          ],
-          [
-            0.580568113,
-            0.783821917
-          ],
-          [
-            0.580776779,
-            0.783434382
-          ],
-          [
-            0.580840646,
-            0.783083764
-          ],
-          [
-            0.583041371,
-            0.770328984
-          ]
-        ],
-        "cultureKit": "argonian-mud",
-        "id": "district.proving-ground.mud",
-        "kind": "test-yard",
-        "notes": "Test cells for the argonian-mud kit set.",
-        "wealth": "poor",
-        "why": {
-          "microGeography": "Level cells of fringe marsh, each under 2 deg, holding the argonian-mud test pieces.",
-          "playerPurpose": "None. The argonian-mud row proves the argonian-mud kit set alone and is never played.",
-          "what": "The argonian-mud row of the test grid: every piece under test from that kit set.",
-          "whyHere": "The argonian-mud row sits on measured empty ground; nothing about the world puts it here.",
-          "whyNeighbours": "The argonian-mud row keeps one kit set, so a kit-purity warning reads as a real one."
         }
       },
       {
@@ -435,31 +347,17 @@
         ]
       },
       {
-        "facingDeg": 17.2,
-        "id": "door.fixture.proving-ground.stilt-hut",
-        "interiorClaim": {
-          "culture": "argonian",
-          "interiorRef": "vanilla-farmhouse-int",
-          "sizeClass": "large"
-        },
-        "parcelId": "parcel.proving-ground.stilt-hut",
-        "thresholdUV": [
-          0.58682621,
-          0.783123129
-        ]
-      },
-      {
-        "facingDeg": 0.0,
+        "facingDeg": 148.0,
         "id": "door.fixture.proving-ground.mud-hut",
         "interiorClaim": {
           "culture": "argonian",
-          "interiorRef": "vanilla-farmhouse-int",
-          "sizeClass": "large"
+          "interiorRef": "htbm-hut-int",
+          "sizeClass": "medium"
         },
         "parcelId": "parcel.proving-ground.mud-hut",
         "thresholdUV": [
-          0.579448472,
-          0.782088051
+          0.579653965,
+          0.783296938
         ]
       }
     ],
@@ -1114,129 +1012,89 @@
         ]
       },
       {
-        "assetRef": "composite:mud/hut-with-entrance",
-        "buildingFamily": "test.mud-hut",
+        "assetRef": "composite:stilt/bamboohut01-with-door",
+        "buildingFamily": "test.bamboo-hut",
         "centreUV": [
           0.579449678,
           0.782969757
         ],
-        "districtId": "district.proving-ground.mud",
+        "districtId": "district.proving-ground.stilt",
         "footprint": [
           [
-            0.580131149,
-            0.783489182
+            0.579818291,
+            0.783220605
           ],
           [
-            0.579937432,
-            0.783674454
+            0.579661591,
+            0.783405785
           ],
           [
-            0.579736457,
-            0.783818851
+            0.579654794,
+            0.783409826
           ],
           [
-            0.57972966,
-            0.783822892
+            0.579653599,
+            0.783409183
           ],
           [
-            0.579721761,
-            0.78382326
+            0.579509113,
+            0.783411482
           ],
           [
-            0.5794304,
-            0.783826571
+            0.579227122,
+            0.783405974
           ],
           [
-            0.579166687,
-            0.783778534
+            0.579208016,
+            0.783395687
           ],
           [
-            0.578930253,
-            0.783651228
+            0.579048187,
+            0.783163298
           ],
           [
-            0.578744981,
-            0.783457511
+            0.579041481,
+            0.783144285
           ],
           [
-            0.578606647,
-            0.78325672
+            0.579031281,
+            0.782819949
           ],
           [
-            0.578602605,
-            0.783249923
+            0.579037344,
+            0.782800108
           ],
           [
-            0.578601043,
-            0.78324138
+            0.579182378,
+            0.782559357
           ],
           [
-            0.578592864,
-            0.782950479
+            0.579201575,
+            0.782546589
           ],
           [
-            0.578640901,
-            0.782686766
+            0.579482556,
+            0.782525367
           ],
           [
-            0.578768207,
-            0.782450332
+            0.579502488,
+            0.782528398
           ],
           [
-            0.579335397,
-            0.781874676
+            0.579789074,
+            0.782682709
           ],
           [
-            0.579339714,
-            0.78187238
+            0.579802577,
+            0.782697681
           ],
           [
-            0.579360841,
-            0.781856029
+            0.579939535,
+            0.78294394
           ],
           [
-            0.579362678,
-            0.781855478
-          ],
-          [
-            0.579363872,
-            0.781856121
-          ],
-          [
-            0.579382518,
-            0.78186154
-          ],
-          [
-            0.57939749,
-            0.781868062
-          ],
-          [
-            0.579969103,
-            0.782288286
-          ],
-          [
-            0.580154375,
-            0.782482003
-          ],
-          [
-            0.58031007,
-            0.78273065
-          ],
-          [
-            0.580314112,
-            0.782737447
-          ],
-          [
-            0.58031448,
-            0.782745346
-          ],
-          [
-            0.580306492,
-            0.782989035
-          ],
-          [
-            0.580258455,
-            0.783252748
+            0.579939443,
+            0.782966995
           ]
         ],
         "id": "parcel.proving-ground.mud-hut",
@@ -1248,7 +1106,7 @@
         "why": {
           "microGeography": "Level fringe-marsh ground under the mud-hut cell: the steepest cell under the footprint is 1.7 deg.",
           "playerPurpose": "None. The mud-hut cell proves a placement mechanism and is never played.",
-          "what": "Test piece mud-hut: the kit asset hut-with-entrance standing on its designed sink.",
+          "what": "Test piece hut: HTBM's bamboo hut with the door leaf the mod hangs on it at one fixed offset (composite:stilt/bamboohut01-with-door, a stilt-kit piece), standing on its designed sink. It replaced the marsh hut composite, whose shell has no doorway in its mesh.",
           "whyHere": "The mud-hut cell is a fixture on measured empty ground; nothing about the world puts it here.",
           "whyNeighbours": "The mud-hut cell stands 11 m from its nearest neighbour, imperial-house.",
           "whySpot": "The nearest ground to the old lattice cell where every cell under the footprint is under 2 deg, so the designed sink alone seats the piece."
@@ -1532,7 +1390,7 @@
         "why": {
           "microGeography": "Level fringe-marsh ground under the stilt-stair cell: the steepest cell under the footprint is 1.4 deg.",
           "playerPurpose": "None. The stilt-stair cell proves a placement mechanism and is never played.",
-          "what": "Test piece stilt-stair: the kit asset passesc128h64d01 standing on its designed sink.",
+          "what": "Test piece ramp: the Bosmer walkway stair passesc128h64d01, shown alone as a labelled single piece. A ramp belongs to the built ways (ramps, stairs, boardwalks, bridges), which are placed only as a run with both ends resolved; it stands alone here until the yard has a ways run.",
           "whyHere": "The stilt-stair cell is a fixture on measured empty ground; nothing about the world puts it here.",
           "whyNeighbours": "The stilt-stair cell stands 12 m from its nearest neighbour, imperial-wall-run.",
           "whySpot": "The nearest ground to the old lattice cell where every cell under the footprint is under 2 deg, so the designed sink alone seats the piece."
@@ -1625,8 +1483,8 @@
             0.774937975
           ],
           [
-            0.58682621,
-            0.783123129
+            0.586908503,
+            0.78259648
           ]
         ],
         "routing": "straight",
@@ -1655,8 +1513,8 @@
             0.772874792
           ],
           [
-            0.579448472,
-            0.782088051
+            0.579653965,
+            0.783296938
           ]
         ],
         "routing": "straight",

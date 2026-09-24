@@ -116,7 +116,7 @@ def test_a_dock_piece_is_exempt_but_a_direct_building_on_the_same_slope_fails():
     assert _row(landing)["kit"] in cs.SLOPE_EXEMPT_KITS
     assert cs.fit_slope_failure(_row(landing), 4.36) is None
     for parcel_id, fit in (("parcel.proving-ground.sconce-wall", "direct"),
-                           ("parcel.proving-ground.mud-hut", "pad")):
+                           ("parcel.proving-ground.mud-hut", "stilt")):
         row = _row(next(p["assetRef"] for p in _yard()["parcels"] if p["id"] == parcel_id))
         assert cs.asset_fit(row) == fit and row["kit"] not in cs.SLOPE_EXEMPT_KITS
         assert cs.fit_slope_failure(row, 4.36), parcel_id
@@ -140,8 +140,13 @@ def test_the_slope_check_can_fail(survey):
     assert slope_failures(_yard(), survey, impossible)
 
 
-COMPOSITES = ("composite:mud/hut-with-entrance", "composite:stilt/stilthouse-with-door",
+COMPOSITES = ("composite:stilt/bamboohut01-with-door", "composite:stilt/stilthouse-with-door",
               "composite:farmhouse/farmhouse01-with-door")
+#: The composites whose building has an interior, so a door (a transition,
+#: 0081). The stilt house has none in any plugin: its leaf is a static part
+#: and its parcel is authored `interior: {kind: "none"}` (owner check-in 2).
+DOOR_COMPOSITES = ("composite:stilt/bamboohut01-with-door",
+                   "composite:farmhouse/farmhouse01-with-door")
 DOOR_DOORWAY_M = 0.5
 
 
@@ -167,7 +172,7 @@ def door_doorway_gaps(bundle: dict, interiors: dict[str, dict]) -> dict[str, flo
     gaps = {}
     for door in doors:
         placement = by_parcel.get(door["parcelId"])
-        if placement is None or placement["assetId"] not in COMPOSITES:
+        if placement is None or placement["assetId"] not in DOOR_COMPOSITES:
             continue
         way = (interiors.get(placement["assetId"]) or {}).get("entrance") or {}
         offset = way.get("offsetM")
@@ -187,7 +192,7 @@ def test_every_yard_composite_door_stands_on_its_doorway():
     published door threshold equals the doorway within 0.5 m."""
     bundle = json.loads(PUBLISHED.read_text())
     gaps = door_doorway_gaps(bundle, cs.kit_interiors())
-    assert set(gaps) == set(COMPOSITES), gaps
+    assert set(gaps) == set(DOOR_COMPOSITES), gaps
     assert all(gap <= DOOR_DOORWAY_M for gap in gaps.values()), gaps
 
 
@@ -234,26 +239,23 @@ def door_piece_gaps(parts_of: dict[str, list[dict]], interiors: dict[str, dict])
 
 def test_every_yard_composite_door_leaf_stands_in_its_doorway():
     """K7 (planner ruling D): the door rule for every yard composite, on the
-    kit itself. The stilt house's leaf is authored at the shared origin (no
-    offset part), so its door is held by the published-bundle test above."""
+    kit itself, the stilt house's leaf included (seated in its doorway since
+    check-in 2; before, at the shared origin, it stood in the roof)."""
     gaps = door_piece_gaps(_composite_parts(), cs.kit_interiors())
-    assert set(gaps) >= {"composite:mud/hut-with-entrance",
+    assert set(gaps) >= {"composite:stilt/stilthouse-with-door",
                          "composite:farmhouse/farmhouse01-with-door"}, gaps
     assert all(gap <= DOOR_DOORWAY_M for gap in gaps.values()), gaps
 
 
-def test_the_door_leaf_check_fails_on_the_unscaled_offset():
-    """The gate can fail: the leaf at the template's UNIT-frame offset (2.45,
-    -4.55 m: the plugin's placed 3.19, -5.92 m divided by the hut's 1.30)
-    stands inside the 1.30 hut's doorway, over the limit. Since K11 A the
-    doorway is read at the composite's scale, so the placed offset is the
-    passing one and the unit offset the failing one (K7 had them the other
-    way round, against an unscaled doorway)."""
+def test_the_door_leaf_check_fails_on_the_shared_origin():
+    """The gate can fail: the stilt house's leaf back at the shared origin
+    (the K14 composite, whose leaf stood 1.29 m above the deck with its head
+    in the roof) stands about 3 m inside the front doorway, over the limit."""
     parts = _composite_parts()
-    hut = "composite:mud/hut-with-entrance"
-    parts[hut] = [dict(p, offsetM=[2.45, -4.55, -2.95]) if "ruinswooddoor" in p["asset"] else p
-                  for p in parts[hut]]
-    assert door_piece_gaps(parts, cs.kit_interiors())[hut] > DOOR_DOORWAY_M
+    house = "composite:stilt/stilthouse-with-door"
+    parts[house] = [dict(p, offsetM=[0.0, 0.0, 0.0]) if "dooranim" in p["asset"] else p
+                    for p in parts[house]]
+    assert door_piece_gaps(parts, cs.kit_interiors())[house] > DOOR_DOORWAY_M
 
 
 def test_a_fixture_carries_no_ring_dressing(survey):
@@ -409,7 +411,10 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD) -> list[di
             sill = abs(y + sink - support)
         else:
             sill = abs(y + sink - pivot_ground)
+        size_z = float((asset.get("sizeM") or [0.0, 0.0, 0.0])[2]) * scale
+        top = y - float(anchor["originOffsetM"][2]) * scale + size_z
         rows.append({"id": p["id"], "assetId": p["assetId"], "fit": fit,
+                     "topAboveM": top - max(heights),
                      "evidence": anchor["designedSinkM"].get("evidence"), "sink": sink,
                      "slopeExempt": slope_exempt,
                      "dockExempt": p["kit"] in cs.SLOPE_EXEMPT_KITS,
@@ -435,6 +440,38 @@ def test_no_published_yard_piece_floats_or_misplaces_its_sill(survey):
                     f"sink={r['sink']:.2f} float={r['floatM']:.2f}" for r in floats))
     assert not sills, (f"{len(sills)}/{len(rows)} sills > {SILL_LIMIT_M} m; worst: "
                        + "; ".join(f"{r['id']} {r['sillM']:.2f}" for r in sills[:8]))
+
+
+VISIBLE_MIN_M = 0.5
+"""A terrain-seated yard piece shows at least this much of itself above the
+highest ground under its footprint (owner check-in 2, finding 7: the
+boardwalk at 4.273/5.739 was seated with 0.35 m of rail above the ground)."""
+
+
+def buried_pieces(rows: list[dict]) -> list[dict]:
+    return sorted((r for r in rows if r["topAboveM"] < VISIBLE_MIN_M), key=lambda r: r["topAboveM"])
+
+
+def test_every_published_yard_piece_shows_above_the_ground_at_its_coordinates(survey):
+    """Headless: the published mesh's top, seated as the runtime seats it
+    (`ground_audit`), stands >= VISIBLE_MIN_M over the highest ground sample."""
+    bundle = json.loads(PUBLISHED.read_text())
+    rows = ground_audit(bundle, survey, _published_kits(bundle))
+    assert rows
+    hidden = buried_pieces(rows)
+    assert not hidden, "; ".join(f"{r['id']} top {r['topAboveM']:.2f} m above the ground"
+                                 for r in hidden)
+
+
+def test_the_visibility_probe_fails_on_a_piece_sunk_below_its_top(survey):
+    bundle = json.loads(PUBLISHED.read_text())
+    kits = _published_kits(bundle)
+    victim = next(p for p in bundle["placements"] if p["id"] == f"{YARD}.parcel.proving-ground.boardwalk.building")
+    asset = kits[victim["kit"]][victim["assetId"]]
+    sunk = dict(victim, anchor={**victim["anchor"], "designedSinkM": {
+        **victim["anchor"]["designedSinkM"], "p50": float(asset["sizeM"][2]) + 1.0}})
+    bundle = dict(bundle, placements=[sunk if p is victim else p for p in bundle["placements"]])
+    assert victim["id"] in {r["id"] for r in buried_pieces(ground_audit(bundle, survey, kits))}
 
 
 # --- 16h K14: the yard truth table -------------------------------------------

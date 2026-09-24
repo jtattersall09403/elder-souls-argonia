@@ -617,41 +617,31 @@
   "composite:stilt/stilthouse-with-door": {
    "category": "architecture",
    "doorwayProbeCentreM": [
-    0.31,
+    2.82,
     -3.16
    ],
    "entrance": {
-    "arcM": 5.35,
+    "arcM": 10.43,
     "kind": "open-front",
     "offsetM": [
-     0.58,
-     -2.82
+     2.43,
+     -2.7
     ],
-    "sideDeg": 0.13
+    "sideDeg": 20.58
    },
    "floorOffsetM": 6.0,
    "frontFaceFraction": 1.0,
    "headroomM": 4.56,
-   "heightM": 10.84,
+   "heightM": 10.75,
    "interior": "tileset",
-   "medianWallM": 3.59,
+   "medianWallM": 2.51,
    "planAreaM2": 186.94,
    "planCentreM": [
     0.57,
     2.26
    ],
-   "provenance": [
-    {
-     "arcM": 6.1,
-     "kind": "open-front",
-     "offsetM": [
-      -0.07,
-      -2.77
-     ],
-     "sideDeg": 352.76
-    }
-   ],
-   "ringFraction": 0.819,
+   "provenance": [],
+   "ringFraction": 0.917,
    "roofOverhead": true,
    "sizeClass": "large",
    "tileset": "vanilla-farmhouse-int",
@@ -1361,6 +1351,23 @@
    "sizeClass": "small",
    "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
   },
+  "vanilla:architecture/shackkit/shackframerend02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 83.7,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 149 times with other statics to one side; the side they left open, at 84\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "heightM": 4.83,
+   "interior": "none",
+   "planAreaM2": 4.86,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.9 m\u00b2 plan, 4.8 m tall)"
+  },
   "vanilla:architecture/shackkit/shackroofcorner01": {
    "category": "architecture",
    "entrance": null,
@@ -1390,6 +1397,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (12.4 m\u00b2 plan, 0.1 m tall)"
   },
+  "vanilla:architecture/shackkit/shackroofside01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.91,
+   "interior": "none",
+   "planAreaM2": 7.39,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (7.4 m\u00b2 plan, 1.9 m tall)"
+  },
   "vanilla:architecture/shackkit/shackwalll01": {
    "category": "architecture",
    "entrance": null,
@@ -1413,6 +1432,42 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.2 m\u00b2 plan, 4.3 m tall)"
+  },
+  "vanilla:architecture/shackkit/shackwalltopwindow01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.88,
+   "interior": "none",
+   "planAreaM2": 0.95,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 1.9 m tall)"
+  },
+  "vanilla:architecture/shackkit/shackwallwindow01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.73,
+   "interior": "none",
+   "planAreaM2": 0.95,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 2.7 m tall)"
+  },
+  "vanilla:architecture/shackkit/shackwallwindow02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.73,
+   "interior": "none",
+   "planAreaM2": 0.95,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 2.7 m tall)"
   }
  },
  "kit": "settlement-stilt-v1",

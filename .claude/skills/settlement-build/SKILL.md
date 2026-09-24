@@ -78,6 +78,31 @@ Rules that cost the most time when missed:
   and the lore reason it is driven into the shallows (97 C10).
 - Prose names a thing only if a typed field references it (`prose_links`,
   engineering standard 12).
+- **Stilt and quay datum** (owner check-in 2, 2026-09-24): a stilt or quay
+  piece is seated by its DECK at the designed clearance above its support
+  surface (the water surface where water covers the legs, else the ground
+  under them); the clearance is the median deck height the makers' plugin
+  references show, recorded as `deckClearanceM` on the piece's `assetPlacement`
+  row in `pipeline/config/placement-policies.json` (0.35 m default where no
+  plugin places it); the legs bury. A stilt piece on land is never water class.
+  Measured per plugin reference as (deck top x scale + ref z) minus the mean
+  support under a 3 x 3 plan grid, divided by the ref's scale (ledger row
+  "Check-in 2 fixes: yard"); then `placement_metadata --refresh-built-manifests --kit <kit>`.
+- **Dug-in pieces** (cave mouths, bank doors; owner check-in 2): the threshold
+  is FLUSH with the approach, so the designed sink is the measured sill (the
+  walkable floor band at the opening, an `assetPlacement` `designedSinkM` row
+  when the mesh tell took the skirt below it; doorcaveb -1.36 m, not the
+  -1.83 m mesh bottom), and the flanks are EMBEDDED: a typed terrain patch
+  (0059 kinds) raises the ground round them, or the kit's rock pieces close
+  them where a plugin co-places them (`kit-assemblies-mined.json` templates on
+  the piece). Neither available: record the blocker, never leave hollow ends.
+- **Buildings with and without an inside**: a door is a transition (0081) and
+  exists only where the building has an interior. A hollow shell with none
+  (no plugin load door into a cell) is authored `interior: {kind: "none"}`,
+  carries no door, and any door leaf its composite holds is a static part
+  (`blueprint.validate_blueprint` then asks for no door). The yard's other
+  parcels are also authored `none` (a fixture has no playerPurpose) yet carry
+  doors: open planner call, ledger "Check-in 2 fixes: yard".
 
 ## 2. Derive everything derivable — never hand-draw it
 

@@ -126,7 +126,7 @@
      12.59,
      0.0
     ],
-    "widthM": 1.96
+    "widthM": 2.0
    },
    {
     "evidence": "bounds",
@@ -137,7 +137,7 @@
      -4.97,
      0.0
     ],
-    "widthM": 1.96
+    "widthM": 2.0
    }
   ],
   "rowboats:dungeons/clutter/shipoar01": [
@@ -728,6 +728,20 @@
      1.51
     ],
     "widthM": 12.8
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 313",
+    "heightM": 3.73,
+    "normalDeg": 313.3,
+    "pairedWith": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
+    "positionInPiece": [
+     -3.51,
+     -3.31
+    ],
+    "template": "vanilla:t0749",
+    "widthM": 4.96
    }
   ],
   "vanilla:architecture/farmhouse/fencewoven01": [
@@ -776,6 +790,100 @@
      -0.01
     ],
     "widthM": 0.18
+   }
+  ],
+  "vanilla:architecture/farmhouse/ivy01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -0.54
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.57,
+     0.0
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     0.54
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.51,
+     0.0
+    ],
+    "widthM": 1.08
+   }
+  ],
+  "vanilla:architecture/farmhouse/ivy02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.25,
+     0.0
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.25,
+     0.0
+    ],
+    "widthM": 0.62
+   }
+  ],
+  "vanilla:architecture/farmhouse/ivy03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.5,
+     -0.02
+    ],
+    "widthM": 0.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.43,
+     -0.02
+    ],
+    "widthM": 0.57
    }
   ],
   "vanilla:architecture/farmhouse/stonewall/stonewall01": [
@@ -979,12 +1087,800 @@
     "template": "vanilla:t0562",
     "widthM": 1.96
    }
+  ],
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs1": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -1.6
+    ],
+    "widthM": 0.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     1.6
+    ],
+    "widthM": 0.51
+   }
+  ],
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs4": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.67,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.07,
+     -1.82
+    ],
+    "widthM": 2.14
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 66",
+    "heightM": 2.67,
+    "normalDeg": 66.2,
+    "pairedWith": "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
+    "positionInPiece": [
+     3.38,
+     -1.49
+    ],
+    "template": "vanilla:t1398",
+    "widthM": 3.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.67,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.0,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 157",
+    "heightM": 2.67,
+    "normalDeg": 156.9,
+    "pairedWith": "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
+    "positionInPiece": [
+     1.45,
+     3.4
+    ],
+    "template": "vanilla:t1398",
+    "widthM": 3.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.67,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.07,
+     1.82
+    ],
+    "widthM": 2.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.67,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.14,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "vanilla:architecture/farmhouse/walkway/walkwaystairs8": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.1,
+     -1.82
+    ],
+    "widthM": 4.3
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 43",
+    "heightM": 3.73,
+    "normalDeg": 42.8,
+    "pairedWith": "vanilla:architecture/farmhouse/farmhouse02",
+    "positionInPiece": [
+     3.28,
+     -3.54
+    ],
+    "template": "vanilla:t0749",
+    "widthM": 4.96
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 63",
+    "heightM": 3.73,
+    "normalDeg": 62.7,
+    "pairedWith": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
+    "positionInPiece": [
+     3.95,
+     -2.04
+    ],
+    "template": "vanilla:t0565",
+    "widthM": 4.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.25,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 153",
+    "heightM": 3.73,
+    "normalDeg": 152.8,
+    "pairedWith": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
+    "positionInPiece": [
+     2.03,
+     3.95
+    ],
+    "template": "vanilla:t0565",
+    "widthM": 4.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.1,
+     1.82
+    ],
+    "widthM": 4.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.05,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "vanilla:clutter/barrel01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "vanilla:clutter/barrel02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "vanilla:clutter/bucket01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.27
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.25,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ],
+  "vanilla:clutter/common/candlelanternwithcandle01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.12
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.13,
+     0.01
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.13
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.13,
+     0.01
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "vanilla:clutter/firewood/firewoodpilelarge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.18,
+     -0.85
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.61,
+     0.07
+    ],
+    "widthM": 1.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.18,
+     0.98
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.25,
+     0.07
+    ],
+    "widthM": 1.83
+   }
+  ],
+  "vanilla:clutter/firewood/firewoodpilemedium01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.77,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -0.48
+    ],
+    "widthM": 1.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.62,
+     0.22
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.77,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     0.91
+    ],
+    "widthM": 1.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.67,
+     0.22
+    ],
+    "widthM": 1.39
+   }
+  ],
+  "vanilla:clutter/firewood/firewoodpilesmall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.06,
+     -0.48
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.33,
+     0.0
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.06,
+     0.48
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.45,
+     0.0
+    ],
+    "widthM": 0.96
+   }
+  ],
+  "vanilla:clutter/hay/haymound01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.54,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.08,
+     -0.89
+    ],
+    "widthM": 2.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.54,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.13,
+     0.0
+    ],
+    "widthM": 1.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.54,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.08,
+     0.89
+    ],
+    "widthM": 2.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.54,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.96,
+     0.0
+    ],
+    "widthM": 1.78
+   }
+  ],
+  "vanilla:clutter/imperial/impwallsconcecandle01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.1,
+     -0.08
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.01,
+     0.0
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.1,
+     0.08
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.2,
+     0.0
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.58
+    ],
+    "widthM": 0.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.58
+    ],
+    "widthM": 0.24
+   }
+  ],
+  "vanilla:clutter/signage/whiterun/signwrpost01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.74,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.14
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.0
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.74,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.14
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.0
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:clutter/signage/whiterun/signwrstables01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.4
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     -0.0
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "vanilla:dungeons/imperial/clutterkits/impfreewall01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.89,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.05,
+     0.0
+    ],
+    "widthM": 0.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.89,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.05,
+     0.0
+    ],
+    "widthM": 0.7
+   }
+  ],
+  "vanilla:furniture/farm/farmbench01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.86,
+     0.0
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.82,
+     0.0
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "vanilla:plants/chickennest01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.4
+    ],
+    "widthM": 0.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.47,
+     0.04
+    ],
+    "widthM": 0.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.49
+    ],
+    "widthM": 0.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.43,
+     0.04
+    ],
+    "widthM": 0.89
+   }
   ]
  },
  "counts": {
-  "assets": 24,
-  "bounds": 72,
-  "co-placement": 10
+  "assets": 45,
+  "bounds": 142,
+  "co-placement": 16
  },
  "elongationRatio": 2.0,
  "kit": "settlement-imperial-v1",

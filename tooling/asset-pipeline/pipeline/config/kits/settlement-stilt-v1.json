@@ -21,7 +21,7 @@
     "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
   },
   "snapLogic": {
-    "assemblies": "Composites in this kit: `composite:stilt/bamboohut01-with-door` and `composite:stilt/bamboohut02-with-door` are the HTBM bamboo hut shells with `bamboohutdoor01` hung at the offset its authors used every time (templates htbm:t0027 and htbm:t0016). The rule they encode is that a bamboo hut is never placed without its door \u2014 the shell alone has no opening at all. Both bare shells and the loose door remain in the kit for ruined and derelict placements. The passerelles walkways are deliberately NOT composited: a run's length is chosen by the router, so freezing two segments together would fix a length the site has to choose. Added in the doors pass 2026-09-05: `composite:stilt/stilthouse-with-door` is the BM&V stilt hall with `stilthousedooranim`, the only other architectural mesh in `architecture/stilthouse/`, composed at the shared origin the mod authored them in; `composite:stilt/kiosk-with-access` is `kiosk01` with the two access thresholds its own folder ships, whose plan centres measure into the kiosk's two ring gaps to within 0.11 m and 0.02 m of its wall radius. Both keep their bare shells in the kit."
+    "assemblies": "Composites in this kit: `composite:stilt/bamboohut01-with-door` and `composite:stilt/bamboohut02-with-door` are the HTBM bamboo hut shells with `bamboohutdoor01` hung at the offset its authors used every time (templates htbm:t0027 and htbm:t0016). The rule they encode is that a bamboo hut is never placed without its door \u2014 the shell alone has no opening at all. Both bare shells and the loose door remain in the kit for ruined and derelict placements. The passerelles walkways are deliberately NOT composited: a run's length is chosen by the router, so freezing two segments together would fix a length the site has to choose. Added in the doors pass 2026-09-05: `composite:stilt/stilthouse-with-door` is the BM&V stilt hall with `stilthousedooranim`, the only other architectural mesh in `architecture/stilthouse/`, its leaf seated in the shell's front doorway at an offset measured off the shell (no plugin places the leaf; check-in 2); `composite:stilt/kiosk-with-access` is `kiosk01` with the two access thresholds its own folder ships, whose plan centres measure into the kiosk's two ring gaps to within 0.11 m and 0.02 m of its wall radius. Both keep their bare shells in the kit."
   },
   "assets": [
     {
@@ -100,7 +100,8 @@
       "asset": "ferries:yamadori/ferries/plank_ferry_swamp_03"
     },
     {
-      "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01", "collision": "mesh"
+      "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
+      "collision": "mesh"
     },
     {
       "asset": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree"
@@ -130,10 +131,12 @@
       "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok"
     },
     {
-      "asset": "canoe:actors/sfss/canoe/canoe1", "collision": "mesh"
+      "asset": "canoe:actors/sfss/canoe/canoe1",
+      "collision": "mesh"
     },
     {
-      "asset": "ferryraft:snt/ferry/ferryraft01", "collision": "mesh"
+      "asset": "ferryraft:snt/ferry/ferryraft01",
+      "collision": "mesh"
     },
     {
       "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01"
@@ -234,13 +237,18 @@
     {
       "asset": "composite:stilt/stilthouse-with-door",
       "compose": {
-        "note": "BM&V's stilt house with the door leaf its own folder ships. stilthouseext is a closed shell whose deck-level room the ray probe reads as walled all the way round; architecture/stilthouse/ contains exactly one other architectural mesh, stilthousedooranim, the animated door authored for it in the same local frame. Composed at the shared origin, which is how the mod places it.",
+        "note": "BM&V's stilt house with the door leaf its own folder ships. stilthouseext is a closed shell whose deck-level room the ray probe reads as walled all the way round; architecture/stilthouse/ contains exactly one other architectural mesh, stilthousedooranim, the animated door made for it. No plugin places the leaf (0 of 4 stilt house placements has a door within 12 m), so its seat is measured off the shell: the front wall's doorway spans x -0.8 to 0.8 m between jambs at y -3.16 to -2.93 m, its sill is the deck at z -1.292 m, and the 1.6 m leaf fills it at offset (0, -3.065, -1.31). Composed at the shared origin the leaf stood 1.29 m above the deck with its head in the roof (owner check-in 2, finding 5). The house has no interior in any plugin, so the leaf is a static part and the composite carries no door transition.",
         "parts": [
           {
             "asset": "bmv:architecture/stilthouse/stilthouseext"
           },
           {
-            "asset": "bmv:architecture/stilthouse/stilthousedooranim"
+            "asset": "bmv:architecture/stilthouse/stilthousedooranim",
+            "offsetM": [
+              0.0,
+              -3.065,
+              -1.31
+            ]
           }
         ]
       }
@@ -261,6 +269,26 @@
           }
         ]
       }
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackwallwindow01",
+      "collision": "mesh"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackwallwindow02",
+      "collision": "mesh"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackwalltopwindow01",
+      "collision": "mesh"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackroofside01",
+      "collision": "mesh"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackframerend02",
+      "collision": "mesh"
     }
   ]
 }

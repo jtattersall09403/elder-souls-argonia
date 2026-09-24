@@ -18,6 +18,26 @@ Paths: `W=tooling/world-generation` (run `python3 -m worldgen.*` from it),
 record `R=world/sources/placement/kit-assemblies-mined.json`, kit configs
 `$P/pipeline/config/kits/<kit>.json`.
 
+## 0. What a composite may hold (owner check-in 2, 2026-09-24)
+
+- A composite holds only the shell, the door the mod placed with it (a load
+  door, XTEL, at a fixed offset: spread <= 0.2 m on >= 2 placements), and a
+  walkway or porch where one was mined. Everything else is authored per
+  building in the workbench (`placement-workbench`).
+- Prefer a shell whose door comes with it (a mined shell + door pair, or a
+  doorway measured in its mesh) over one that needs a composed entrance. A new
+  composite needs a written reason in `compose.note` (why no single shell does).
+  Yard precedent: the marsh hut composite (`composite:mud/hut-with-entrance`,
+  no doorway in its mesh, a dressing door with no XTEL) was replaced by
+  `composite:stilt/bamboohut01-with-door` (17/17 HTBM placements, load door at
+  one offset); research `/tmp/wf/checkin2/topic6-argonian-hut.md`.
+- A shell with no interior keeps its door leaf as a STATIC part and gets no
+  door transition (0081): its parcel is authored `interior: {kind: "none"}`.
+- A leaf no plugin places is seated by measuring the shell's doorway (jambs,
+  sill, lintel on the raw GLB), never at the shared origin by assumption
+  (`stilthouse-with-door`: at the origin the leaf stood 1.29 m above the deck,
+  head in the roof).
+
 ## 1. Read the plugin's placement, never the piece names
 
 1. List the templates whose `anchor` is the shell (part 0):
@@ -120,6 +140,22 @@ record `R=world/sources/placement/kit-assemblies-mined.json`, kit configs
     (the mire-landing fixture); from `$P`:
     `python3 -m pytest -q pipeline/test_interiors_index.py pipeline/test_build_kit.py pipeline/test_render_assembly.py`.
     The published-bundle door tests need the export: `settlement-build` §5.
+14b. **Visual step, MANDATORY before the kit ships** (owner check-in 2):
+    render the BUILT composite, not its parts: an assembly file
+    `{"name": "<name>-built", "pieces": [{"assetId": "<composite id>",
+    "positionM": [0,0,0], "yawDeg": 0}]}` through
+    `python3 -m pipeline.render_assembly --assembly <file> --out <dir> --preset owner`
+    (four elevations = the turntable, plus plan and collider). A cutaway view
+    does not exist in `render_assembly` yet (queued); until it does, the plan
+    view stands in for it. A Sonnet reader (a separate agent) judges the
+    frames against this list and answers each line yes/no with the view:
+    the door leaf stands IN its doorway (not inside the room, not outside the
+    wall); the leaf's foot is on the sill or deck; nothing of the door or any
+    part passes through the roof or a wall; every part is at the right scale
+    (a door leaf 2.0-2.5 m against the 1.8 m bar); stairs and ramps reach the
+    red ground line; no part floats. A "no" blocks the ship; fix the offset
+    (step 5), rebuild, re-render. Record the frames' directory and the
+    reader's answers in the ledger row.
 15. Assembly sheets: `render_assembly`'s stamp carries `pose_hash` (K10 F);
     a changed composite makes its sheet stale: re-render it before any
     visual judgement.

@@ -10,11 +10,11 @@
     "deck"
    ],
    "sinkM": [
-    0.8,
-    1.4
+    0.2,
+    0.6
    ],
    "waterlineM": null,
-   "why": "Dock plank run on 1.4 m legs: pivot 0.07 m above the leg tips, deck top 1.51 m above the pivot (60% of the footprint at 1.4 m). A stilt fit is seated by its deck (owner 2026-09-23): deck 0.1-0.7 m above the support, legs buried, so sink = deck - clearance = 0.8-1.4 m."
+   "why": "Dock plank run on 1.4 m legs: pivot 0.07 m above the leg tips, deck top 1.51 m above the pivot (60% of the footprint at 1.4 m). Seated by its deck at the plugin's deck height (owner check-in 2): HTBM holds the deck 1.14 m (asset metres) above the ground or water on 35 placements, so sink = 1.51 - 1.14 = 0.37 m, legs buried."
   },
   {
    "assetId": "bmv:architecture/philscaves/small/doorcaveb",
@@ -176,52 +176,17 @@
    "why": "As dockstrent01."
   },
   {
-   "assetId": "composite:mud/hut-with-entrance",
-   "kit": "settlement-mud-v1",
+   "assetId": "composite:stilt/bamboohut01-with-door",
+   "kit": "settlement-stilt-v1",
    "anchorClass": [
     "ground"
    ],
    "sinkM": [
-    -4.0,
-    -3.3
+    -0.4,
+    0.2
    ],
    "waterlineM": null,
-   "why": "The hut at scale 1.3 (mesh bottom -3.82 m) with its door leaf's sill at -3.84 m: the door threshold and the hut's base meet the ground, the pivot stands about 3.8 m above it."
-  },
-  {
-   "assetId": "bmv:architecture/huts/exterior/hutexterior",
-   "kit": "settlement-mud-v1",
-   "anchorClass": [
-    "ground"
-   ],
-   "sinkM": [
-    -3.05,
-    -2.5
-   ],
-   "waterlineM": null,
-   "why": "The unit-scale hut shell: mesh bottom -2.94 m under the pivot is its base on the ground (placed at 1.3 by the composite)."
-  },
-  {
-   "assetId": "bmv:architecture/huts/exterior/doorframe01",
-   "kit": null,
-   "anchorClass": [
-    "ground",
-    "deck",
-    "wall"
-   ],
-   "sinkM": null,
-   "waterlineM": null,
-   "why": "Entrance ring stepping out of the hut wall; stands on the ground at the doorway or butts the wall."
-  },
-  {
-   "assetId": "vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
-   "kit": null,
-   "anchorClass": [
-    "hanging"
-   ],
-   "sinkM": null,
-   "waterlineM": null,
-   "why": "Load door leaf: hangs in its frame."
+   "why": "HTBM bamboo hut with its door leaf hung in the wall: the door sill and hut floor sit at about the pivot, the wattle base below them is buried. Written from the geometry at check-in 2 (the hut replaced the marsh hut composite)."
   },
   {
    "assetId": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -275,35 +240,27 @@
    "kit": "settlement-stilt-v1",
    "anchorClass": [
     "ground",
-    "deck",
-    "water"
+    "deck"
    ],
    "sinkM": [
-    -3.8,
-    -1.4
+    -5.0,
+    -4.4
    ],
-   "waterlineM": [
-    -3.8,
-    -1.4
-   ],
-   "why": "Stilt house: deck at -1.27 m (77% of the footprint) on legs to -8.47 m. Seated by the deck 0.15-2.5 m above the ground or water, legs buried."
+   "waterlineM": null,
+   "why": "Stilt house: deck at -1.27 m (77% of the footprint) on legs to -8.47 m. Seated by its deck at the plugin's deck height (owner check-in 2): BM&V holds the deck a median 3.46 m above the water or ground under its legs (4 placements), so sink = -1.27 - 3.46 = -4.73 m; the legs bury. A stilt piece is never water class."
   },
   {
    "assetId": "bmv:architecture/stilthouse/stilthouseext",
    "kit": "settlement-stilt-v1",
    "anchorClass": [
     "ground",
-    "deck",
-    "water"
+    "deck"
    ],
    "sinkM": [
-    -3.8,
-    -1.4
+    -5.0,
+    -4.4
    ],
-   "waterlineM": [
-    -3.8,
-    -1.4
-   ],
+   "waterlineM": null,
    "why": "The composite's shell: same geometry."
   },
   {

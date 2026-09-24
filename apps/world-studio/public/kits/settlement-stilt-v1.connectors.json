@@ -1078,7 +1078,7 @@
    {
     "evidence": "bounds",
     "face": "north",
-    "heightM": 10.84,
+    "heightM": 10.75,
     "normalDeg": 0.0,
     "positionInPiece": [
      0.94,
@@ -1089,7 +1089,7 @@
    {
     "evidence": "bounds",
     "face": "east",
-    "heightM": 10.84,
+    "heightM": 10.75,
     "normalDeg": 90.0,
     "positionInPiece": [
      6.57,
@@ -1100,7 +1100,7 @@
    {
     "evidence": "bounds",
     "face": "south",
-    "heightM": 10.84,
+    "heightM": 10.75,
     "normalDeg": 180.0,
     "positionInPiece": [
      0.94,
@@ -1111,7 +1111,7 @@
    {
     "evidence": "bounds",
     "face": "west",
-    "heightM": 10.84,
+    "heightM": 10.75,
     "normalDeg": 270.0,
     "positionInPiece": [
      -4.69,
@@ -2783,6 +2783,20 @@
     "widthM": 4.06
    },
    {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 4.71,
+    "normalDeg": 90.0,
+    "pairedWith": "vanilla:architecture/shackkit/shackframerend02",
+    "positionInPiece": [
+     1.81,
+     -0.0
+    ],
+    "template": "vanilla:t0093",
+    "widthM": 2.12
+   },
+   {
     "evidence": "bounds",
     "face": "east",
     "heightM": 4.71,
@@ -2816,18 +2830,18 @@
     "widthM": 2.12
    },
    {
-    "count": 6,
+    "count": 7,
     "evidence": "co-placement",
-    "face": "toward 359",
-    "heightM": 1.88,
-    "normalDeg": 359.1,
-    "pairedWith": "vanilla:architecture/shackkit/shackroofcorner01",
+    "face": "toward 360",
+    "heightM": 1.91,
+    "normalDeg": 359.7,
+    "pairedWith": "vanilla:architecture/shackkit/shackroofside01",
     "positionInPiece": [
-     -0.03,
+     -0.01,
      -1.82
     ],
-    "template": "vanilla:t0429",
-    "widthM": 1.96
+    "template": "vanilla:t0344",
+    "widthM": 3.65
    }
   ],
   "vanilla:architecture/shackkit/shackframelmid01": [
@@ -2876,6 +2890,80 @@
     "widthM": 2.12
    }
   ],
+  "vanilla:architecture/shackkit/shackframerend02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.09,
+     -2.0
+    ],
+    "widthM": 3.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.01,
+     -0.91
+    ],
+    "widthM": 2.18
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 4.71,
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:architecture/shackkit/shackframelend01",
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "template": "vanilla:t0569",
+    "widthM": 3.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.09,
+     0.18
+    ],
+    "widthM": 3.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.91
+    ],
+    "widthM": 2.18
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 4.71,
+    "normalDeg": 270.0,
+    "pairedWith": "vanilla:architecture/shackkit/shackframelend01",
+    "positionInPiece": [
+     -1.81,
+     0.0
+    ],
+    "template": "vanilla:t0093",
+    "widthM": 2.12
+   }
+  ],
   "vanilla:architecture/shackkit/shackroofcorner01": [
    {
     "evidence": "bounds",
@@ -2887,6 +2975,20 @@
      -1.87
     ],
     "widthM": 1.93
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 1",
+    "heightM": 1.88,
+    "normalDeg": 0.6,
+    "pairedWith": "vanilla:architecture/shackkit/shackframerend02",
+    "positionInPiece": [
+     0.02,
+     -1.82
+    ],
+    "template": "vanilla:t0584",
+    "widthM": 2.05
    },
    {
     "evidence": "bounds",
@@ -2982,6 +3084,94 @@
     "widthM": 3.41
    }
   ],
+  "vanilla:architecture/shackkit/shackroofside01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.87
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.86
+    ],
+    "widthM": 2.03
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 1.91,
+    "normalDeg": 90.0,
+    "pairedWith": "vanilla:architecture/shackkit/shackframerend02",
+    "positionInPiece": [
+     1.82,
+     -0.0
+    ],
+    "template": "vanilla:t0096",
+    "widthM": 2.03
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 1.91,
+    "normalDeg": 179.7,
+    "pairedWith": "vanilla:architecture/shackkit/shackframelend01",
+    "positionInPiece": [
+     0.01,
+     1.82
+    ],
+    "template": "vanilla:t0344",
+    "widthM": 3.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.16
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.86
+    ],
+    "widthM": 2.03
+   },
+   {
+    "count": 9,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 1.91,
+    "normalDeg": 270.0,
+    "pairedWith": "vanilla:architecture/shackkit/shackroofside01",
+    "positionInPiece": [
+     -1.82,
+     -0.0
+    ],
+    "template": "vanilla:t0223",
+    "widthM": 2.03
+   }
+  ],
   "vanilla:architecture/shackkit/shackwalll01": [
    {
     "evidence": "bounds",
@@ -3029,12 +3219,84 @@
     ],
     "widthM": 0.1
    }
+  ],
+  "vanilla:architecture/shackkit/shackwalltopwindow01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.82,
+     -1.82
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.82,
+     1.82
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:architecture/shackkit/shackwallwindow01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -1.82
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.83,
+     -1.82
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "vanilla:architecture/shackkit/shackwallwindow02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -1.82
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.83,
+     -1.82
+    ],
+    "widthM": 0.26
+   }
   ]
  },
  "counts": {
-  "assets": 59,
-  "bounds": 210,
-  "co-placement": 43
+  "assets": 64,
+  "bounds": 224,
+  "co-placement": 50
  },
  "elongationRatio": 2.0,
  "kit": "settlement-stilt-v1",

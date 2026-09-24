@@ -2206,21 +2206,14 @@
     }
    },
    "designedSinkM": {
-    "p25": 1.1598,
-    "p50": 1.1598,
-    "p75": 1.1598,
+    "p25": 0.3698,
+    "p50": 0.3698,
+    "p75": 0.3698,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": 1.1598,
-    "deckTopM": 1.5098,
-    "deckClearanceM": 0.35
-   },
    "anchorClassEvidence": "unplaced"
   },
   {
@@ -2857,7 +2850,7 @@
     "deckClearanceM": 0.35
    },
    "anchorClassEvidence": "policy",
-   "designedWaterlineM": -0.3062
+   "designedWaterlineM": -0.6282
   },
   {
    "id": "composite:docks/quay-run-3",

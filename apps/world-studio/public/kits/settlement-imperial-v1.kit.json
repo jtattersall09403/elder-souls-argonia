@@ -44,6 +44,14 @@
     "Farmhouse01:6.Mat",
     "Farmhouse01:7.Mat"
    ],
+   "glowMaterials": [
+    "Farmhouse01:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Farmhouse01:19.Mat": 0.784,
+    "Farmhouse01:25.Mat": 0.784,
+    "Farmhouse01:4.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.5238,
     "p50": -0.0479,
@@ -117,6 +125,15 @@
     "L2_Rope:18.Mat",
     "L2_Rope:22.Mat"
    ],
+   "glowMaterials": [
+    "Farmhouse02:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Farmhouse02:19 - L2_Rope:19 - L1_Posts:19.Mat": 0.784,
+    "Farmhouse02:25.Mat": 0.784,
+    "Farmhouse02:4.Mat": 0.502,
+    "L2_Rope:22.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -176,6 +193,10 @@
     "Farmhouse01Walkway:5 - L2_Posts:5.Mat",
     "L2_Posts.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Farmhouse01Walkway:19 - L2_Posts:19.Mat": 0.784,
+    "L2_Posts.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.5634,
     "p50": -0.4018,
@@ -487,6 +508,7 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -2.3095,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -501,8 +523,7 @@
    "undersideClosed": false,
    "undersideCoverage": 0.152,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 10.615,
-   "designedWaterlineM": -2.3095
+   "pivotAboveBaseM": 10.615
   },
   {
    "id": "vanilla:architecture/docks/dockropestr01",
@@ -722,6 +743,11 @@
     "shipwood.Mat",
     "supersturecture rope.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Canopy.Mat": 0.235,
+    "Flag.Mat": 0.196,
+    "Impferrypontoon001.Mat": 0.078
+   },
    "designedSinkM": {
     "p25": -0.507,
     "p50": -0.507,
@@ -793,6 +819,11 @@
     "ropes.Mat",
     "shipwood.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "Canopy.Mat.001": 0.275,
+    "Flag.Mat.001": 0.392,
+    "Pontoonalpha01.Mat": 0.059
+   },
    "designedSinkM": {
     "p25": -0.5827,
     "p50": -0.5827,
@@ -922,6 +953,9 @@
     "FenceWoven01:10 - L1_Posts02:10.Mat",
     "L1_Posts02.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FenceWoven01:10 - L1_Posts02:10.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 0.0966,
     "p50": 0.2089,
@@ -979,6 +1013,9 @@
     "FenceWoven02:10 - L1_Posts01:10.Mat",
     "L1_Posts01.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FenceWoven02:10 - L1_Posts01:10.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 0.0942,
     "p50": 0.1488,
@@ -1272,6 +1309,14 @@
     "Farmhouse01:6.Mat.001",
     "Farmhouse01:7.Mat.001"
    ],
+   "glowMaterials": [
+    "Farmhouse01:14.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Farmhouse01:19.Mat.001": 0.784,
+    "Farmhouse01:25.Mat.001": 0.784,
+    "Farmhouse01:4.Mat.001": 0.502
+   },
    "designedSinkM": {
     "p25": -0.5238,
     "p50": -0.0479,
@@ -1347,6 +1392,15 @@
     "L2_Rope:18.Mat.001",
     "L2_Rope:22.Mat.001"
    ],
+   "glowMaterials": [
+    "Farmhouse02:14.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Farmhouse02:19 - L2_Rope:19 - L1_Posts:19.Mat.001": 0.784,
+    "Farmhouse02:25.Mat.001": 0.784,
+    "Farmhouse02:4.Mat.001": 0.502,
+    "L2_Rope:22.Mat.001": 0.502
+   },
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -1530,6 +1584,9 @@
     "ImpWallSconceCandle01:11.Mat",
     "ImpWallSconceCandle01:8.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpWallSconceCandle01:8.Mat": 0.89
+   },
    "designedSinkM": {
     "p25": -0.3345,
     "p50": -0.3345,
@@ -1540,6 +1597,11 @@
    },
    "anchorClass": "wall",
    "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3345
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -1554,12 +1616,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.335,
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -0.3345
-   }
+   "pivotAboveBaseM": 0.335
   },
   {
    "id": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -1598,6 +1655,9 @@
     "ImpFreeWall01:5.Mat",
     "ImpFreeWall01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ImpFreeWall01:5.Mat": 0.42
+   },
    "designedSinkM": {
     "p25": -0.3414,
     "p50": -0.3414,
@@ -1731,6 +1791,9 @@
     "SignHuntsman:7.Mat",
     "SignWRDrunkenHuntsman01:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "SignHuntsman:7.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.0256,
     "p50": -0.0256,
@@ -1793,6 +1856,9 @@
     "SignStables:6.Mat",
     "SignWRStables01:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "SignStables:6.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.0677,
     "p50": -0.0677,
@@ -1823,6 +1889,946 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 1.033
+  },
+  {
+   "id": "vanilla:clutter/barrel01",
+   "node": "es|309b2b2672|vanilla__clutter_barrel01",
+   "category": "container",
+   "sizeM": [
+    0.792,
+    0.792,
+    1.138
+   ],
+   "originOffsetM": [
+    0.396,
+    0.396,
+    -0.0
+   ],
+   "triangles": 396,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "barrel01.dds"
+   ],
+   "materials": [
+    "Barrel01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0067,
+    "p50": 0.0045,
+    "p75": 0.1078,
+    "n": 568,
+    "slopeTermMPerDeg": -0.00206,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.77,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/barrel02",
+   "node": "es|6eea6f08c7|vanilla__clutter_barrel02",
+   "category": "clutter",
+   "sizeM": [
+    0.792,
+    0.792,
+    1.138
+   ],
+   "originOffsetM": [
+    0.396,
+    0.396,
+    -0.0
+   ],
+   "triangles": 396,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "barrel02.dds"
+   ],
+   "materials": [
+    "Barrel02:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.77,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/firewood/firewoodpilelarge01",
+   "node": "es|464f9e8cf4|la__clutter_firewood_firewoodpilelarge01",
+   "category": "clutter",
+   "sizeM": [
+    2.854,
+    1.833,
+    0.879
+   ],
+   "originOffsetM": [
+    1.246,
+    0.98,
+    0.019
+   ],
+   "triangles": 852,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "firewood01.dds",
+    "treepineforestbarkcomp.dds"
+   ],
+   "materials": [
+    "Firewood:0.Mat",
+    "Firewood:14.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Firewood:14.Mat": 0.498
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0738,
+    "p75": 0.1291,
+    "n": 135,
+    "slopeTermMPerDeg": 0.01278,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.019,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.633,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.019
+  },
+  {
+   "id": "vanilla:clutter/firewood/firewoodpilemedium01",
+   "node": "es|14577ad74d|a__clutter_firewood_firewoodpilemedium01",
+   "category": "clutter",
+   "sizeM": [
+    1.292,
+    1.393,
+    0.769
+   ],
+   "originOffsetM": [
+    0.672,
+    0.912,
+    0.024
+   ],
+   "triangles": 472,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "firewood01.dds",
+    "treepineforestbarkcomp.dds"
+   ],
+   "materials": [
+    "Firewood:0.Mat.001",
+    "Firewood:14.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Firewood:14.Mat.001": 0.498
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0564,
+    "p75": 0.1491,
+    "n": 91,
+    "slopeTermMPerDeg": 0.00719,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.024,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.753,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.024
+  },
+  {
+   "id": "vanilla:clutter/firewood/firewoodpilesmall01",
+   "node": "es|3cc9301bf3|la__clutter_firewood_firewoodpilesmall01",
+   "category": "clutter",
+   "sizeM": [
+    0.782,
+    0.956,
+    0.405
+   ],
+   "originOffsetM": [
+    0.452,
+    0.478,
+    0.017
+   ],
+   "triangles": 158,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "firewood01.dds",
+    "treepineforestbarkcomp.dds"
+   ],
+   "materials": [
+    "Firewood:0.Mat.002",
+    "Firewood:14.Mat.002"
+   ],
+   "alphaMaskMaterials": {
+    "Firewood:14.Mat.002": 0.498
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0312,
+    "p75": 0.115,
+    "n": 103,
+    "slopeTermMPerDeg": 0.01358,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.017,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.962,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.017
+  },
+  {
+   "id": "vanilla:furniture/farm/farmbench01",
+   "node": "es|d5c4d90f8a|vanilla__furniture_farm_farmbench01",
+   "category": "furniture",
+   "sizeM": [
+    1.679,
+    0.458,
+    0.427
+   ],
+   "originOffsetM": [
+    0.822,
+    0.227,
+    -0.0
+   ],
+   "triangles": 216,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "woodpost02.dds"
+   ],
+   "materials": [
+    "FarmBench01:5.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/bucket01",
+   "node": "es|57c9dfa916|vanilla__clutter_bucket01",
+   "category": "clutter",
+   "sizeM": [
+    0.501,
+    0.538,
+    0.427
+   ],
+   "originOffsetM": [
+    0.25,
+    0.269,
+    -0.0
+   ],
+   "triangles": 764,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "bucket01.dds"
+   ],
+   "materials": [
+    "Bucket01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": -0.0402,
+    "p50": -0.013,
+    "p75": 0.0046,
+    "n": 120,
+    "slopeTermMPerDeg": -0.00764,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.775,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/hay/haymound01",
+   "node": "es|5655b55731|vanilla__clutter_hay_haymound01",
+   "category": "clutter",
+   "sizeM": [
+    2.085,
+    1.781,
+    0.538
+   ],
+   "originOffsetM": [
+    0.957,
+    0.89,
+    -0.0
+   ],
+   "triangles": 232,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "hay01.dds"
+   ],
+   "materials": [
+    "HayMound01:0.Mat",
+    "HayMound01:1.Mat",
+    "L1_Flats.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "HayMound01:0.Mat": 0.039,
+    "L1_Flats.Mat": 0.039
+   },
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs1",
+   "node": "es|b6d89d2311|tecture_farmhouse_walkway_walkwaystairs1",
+   "category": "architecture",
+   "sizeM": [
+    0.515,
+    3.196,
+    1.906
+   ],
+   "originOffsetM": [
+    0.232,
+    1.598,
+    1.821
+   ],
+   "triangles": 148,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ropealpha01.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds"
+   ],
+   "materials": [
+    "L2_Rope.Mat",
+    "WalkwayStairs1:19 - L2_Rope:19.Mat",
+    "WalkwayStairs1:5.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Rope.Mat": 0.502,
+    "WalkwayStairs1:19 - L2_Rope:19.Mat": 0.784
+   },
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.728,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.821
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
+   "node": "es|87b81da836|tecture_farmhouse_walkway_walkwaystairs4",
+   "category": "architecture",
+   "sizeM": [
+    2.139,
+    3.641,
+    2.674
+   ],
+   "originOffsetM": [
+    1.143,
+    1.821,
+    1.821
+   ],
+   "triangles": 504,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ropealpha01.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds"
+   ],
+   "materials": [
+    "L2_Rope.Mat.001",
+    "WalkwayStairs4:19 - L2_Rope:19.Mat",
+    "WalkwayStairs4:5.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Rope.Mat.001": 0.502,
+    "WalkwayStairs4:19 - L2_Rope:19.Mat": 0.784
+   },
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.816,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.821
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
+   "node": "es|aba5e82e5e|tecture_farmhouse_walkway_walkwaystairs8",
+   "category": "architecture",
+   "sizeM": [
+    4.3,
+    3.641,
+    3.727
+   ],
+   "originOffsetM": [
+    2.053,
+    1.821,
+    1.821
+   ],
+   "triangles": 846,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ropealpha01.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds"
+   ],
+   "materials": [
+    "L2_Rope.Mat.002",
+    "WalkwayStairs8:19 - L2_Rope:19.Mat",
+    "WalkwayStairs8:5.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Rope.Mat.002": 0.502,
+    "WalkwayStairs8:19 - L2_Rope:19.Mat": 0.784
+   },
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.821,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.848,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.821
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/ivy01",
+   "node": "es|2ba8d953ca|vanilla__architecture_farmhouse_ivy01",
+   "category": "architecture",
+   "sizeM": [
+    1.076,
+    1.085,
+    1.003
+   ],
+   "originOffsetM": [
+    0.509,
+    0.543,
+    0.501
+   ],
+   "triangles": 76,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ivy01.dds"
+   ],
+   "materials": [
+    "Ivy01:12.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Ivy01:12.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.501,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.501
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/ivy02",
+   "node": "es|816d71bcea|vanilla__architecture_farmhouse_ivy02",
+   "category": "architecture",
+   "sizeM": [
+    2.507,
+    0.626,
+    2.134
+   ],
+   "originOffsetM": [
+    1.253,
+    0.313,
+    1.067
+   ],
+   "triangles": 200,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ivy01.dds"
+   ],
+   "materials": [
+    "Ivy02:12.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Ivy02:12.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.067,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 1.067
+  },
+  {
+   "id": "vanilla:architecture/farmhouse/ivy03",
+   "node": "es|cddf0133a5|vanilla__architecture_farmhouse_ivy03",
+   "category": "architecture",
+   "sizeM": [
+    2.926,
+    0.573,
+    2.134
+   ],
+   "originOffsetM": [
+    1.43,
+    0.26,
+    1.067
+   ],
+   "triangles": 286,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ivy01.dds"
+   ],
+   "materials": [
+    "Ivy03:12.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Ivy03:12.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.067,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 1.067
+  },
+  {
+   "id": "vanilla:plants/chickennest01",
+   "node": "es|93a939d630|vanilla__plants_chickennest01",
+   "category": "plant",
+   "sizeM": [
+    0.901,
+    0.886,
+    0.366
+   ],
+   "originOffsetM": [
+    0.429,
+    0.487,
+    -0.096
+   ],
+   "triangles": 1088,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "chickennest01.dds"
+   ],
+   "materials": [
+    "ChickenNest01:0.Mat",
+    "ChickenNest01_1:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.096,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.233,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.096
+  },
+  {
+   "id": "vanilla:clutter/common/candlelanternwithcandle01",
+   "node": "es|94bec90d2e|clutter_common_candlelanternwithcandle01",
+   "category": "clutter",
+   "sizeM": [
+    0.26,
+    0.247,
+    0.615
+   ],
+   "originOffsetM": [
+    0.129,
+    0.127,
+    0.024
+   ],
+   "triangles": 670,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "candles01.dds",
+    "lampgeneric01.dds"
+   ],
+   "materials": [
+    "CandleLanternWithCandle:11.Mat",
+    "CandleLanternWithCandle:7.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "CandleLanternWithCandle:7.Mat": 0.89
+   },
+   "designedSinkM": {
+    "p25": 0.25,
+    "p50": 0.25,
+    "p75": 0.25,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.024,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.024
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",
@@ -1830,8 +2836,8 @@
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 112
+  "MASK": 45,
+  "OPAQUE": 96
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -1864,16 +2870,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 23029464,
-  "bytesAfter": 10335640,
-  "images": 36,
-  "imageBytesAfter": 8888469,
+  "bytesBefore": 26640536,
+  "bytesAfter": 12164744,
+  "images": 46,
+  "imageBytesAfter": 10520852,
   "warnings": [],
-  "sha256": "9a9271a9c2a311eb0885fe3db42be461ce223302a2dfa92f059c26631d2981ab",
+  "sha256": "779a15ff4b6a9adecaeb81dd385320831fedaf8755d698bb4315a257e8f7e9ff",
   "sidecarBytes": {
-   "connectors": 17163,
-   "footprints": 36922,
-   "interiors": 22911
+   "connectors": 32243,
+   "footprints": 55309,
+   "interiors": 31024
   }
  }
 }

@@ -216,6 +216,60 @@
   },
   {
    "asset": "vanilla:clutter/signage/whiterun/signwrstables01"
+  },
+  {
+   "asset": "vanilla:clutter/barrel01",
+   "collision": "mesh"
+  },
+  {
+   "asset": "vanilla:clutter/barrel02",
+   "collision": "mesh"
+  },
+  {
+   "asset": "vanilla:clutter/firewood/firewoodpilelarge01"
+  },
+  {
+   "asset": "vanilla:clutter/firewood/firewoodpilemedium01"
+  },
+  {
+   "asset": "vanilla:clutter/firewood/firewoodpilesmall01"
+  },
+  {
+   "asset": "vanilla:furniture/farm/farmbench01",
+   "collision": "mesh"
+  },
+  {
+   "asset": "vanilla:clutter/bucket01"
+  },
+  {
+   "asset": "vanilla:clutter/hay/haymound01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/walkway/walkwaystairs1",
+   "collision": "mesh"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
+   "collision": "mesh"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
+   "collision": "mesh"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/ivy01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/ivy02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/ivy03"
+  },
+  {
+   "asset": "vanilla:plants/chickennest01"
+  },
+  {
+   "asset": "vanilla:clutter/common/candlelanternwithcandle01"
   }
  ]
 }

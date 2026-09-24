@@ -39,6 +39,7 @@ MOUNTS_RECORD = DESIGNED_SINK_DIR / "kit-mounts-mined.json"
 ANCHOR_CLASSES = {"ground", "wall", "hanging", "deck", "water", "fx"}
 STATIC_SUPPORTED_SILL = "mesh-sill (plugin refs static-supported)"
 PLUGIN_UNSUPPORTED_SILL = "mesh-sill (plugin-unsupported)"
+PLUGIN_SPREAD_SILL = "mesh-sill (plugin-spread)"
 EVIDENCE_VOCABULARY: tuple[tuple[str, tuple[str, ...], str], ...] = (
     # (term, the record fields it appears in, meaning); a term ending in ":"
     # is a prefix followed by an asset id. The ONE list (16h round 17 ruling 5):
@@ -54,6 +55,9 @@ EVIDENCE_VOCABULARY: tuple[tuple[str, tuple[str, ...], str], ...] = (
      "mesh-sill because the plugin references stand on a static or kit mesh"),
     (PLUGIN_UNSUPPORTED_SILL, ("sink",),
      "mesh-sill because the plugin references stand clear of the LAND with no contact seen"),
+    (PLUGIN_SPREAD_SILL, ("sink",),
+     "mesh-sill because a structure piece's plugin sink spreads over 1.0 m with "
+     "n < 6 or over half its mesh height (plugin percentiles in pluginSpread)"),
     ("swap:", ("sink",), "the plugin sink of a measured twin shipping the same mesh"),
     ("base:", ("sink",), "the plugin sink of the base piece of a same-shape composite"),
     ("policy-fallback", ("sink",), "no record value: the placement-policy row's fallbackSinkM"),
@@ -119,6 +123,14 @@ GROUND_LINE_TELLS = {"door-sill", "floor-plane", "bottom-step", "foundation-top"
 # 2026-09-24) decides its asset's anchorClass, designedSinkM and waterline
 # ahead of both records at manifest-refresh time, evidence "policy"; each field
 # is optional and a row without one leaves the mined value.
+# ``deckClearanceM`` (owner check-in 2, 2026-09-24): a stilt or quay piece's
+# deck stands this far above its support surface (the water surface where
+# water covers the legs, else the ground under them), in the asset's own
+# metres: the median deck height the makers' plugin references show (0.35 m,
+# the stilt policy's default, where no plugin places the piece). The deck top
+# comes from the sink record's ``deck-top`` mesh tell, and the support line is
+# deck top minus clearance: the designed sink of a ground/deck piece, the
+# designed waterline of a water piece. The legs bury as deep as they need.
 MESH_SILL_TOLERANCE_M = 0.1
 
 
@@ -214,7 +226,7 @@ def validate_policy_inventory(
     return findings
 
 
-ASSET_PLACEMENT_FIELDS = ("anchorClass", "designedSinkM", "designedWaterlineM")
+ASSET_PLACEMENT_FIELDS = ("anchorClass", "designedSinkM", "designedWaterlineM", "deckClearanceM")
 
 
 def _asset_placement_row_findings(
@@ -238,14 +250,31 @@ def _asset_placement_row_findings(
         findings.append(f"{where}: decides nothing (needs one of {list(ASSET_PLACEMENT_FIELDS)})")
     if "anchorClass" in row and row["anchorClass"] not in ANCHOR_CLASSES:
         findings.append(f"{where}: anchorClass must be one of {sorted(ANCHOR_CLASSES)}")
-    for key in ("designedSinkM", "designedWaterlineM"):
+    for key in ("designedSinkM", "designedWaterlineM", "deckClearanceM"):
         if key in row and not _is_number(row[key]):
             findings.append(f"{where}: {key} must be finite metres")
+    if "deckClearanceM" in row and ("designedSinkM" in row or "designedWaterlineM" in row):
+        findings.append(f"{where}: deckClearanceM derives the sink/waterline; it cannot sit "
+                        "beside a designedSinkM or designedWaterlineM")
     if "designedWaterlineM" in row and row.get("anchorClass", "water") != "water":
         findings.append(f"{where}: designedWaterlineM only belongs on anchorClass water")
     if not isinstance(row.get("why"), str) or not row["why"].strip():
         findings.append(f"{where}: needs a why")
     return findings
+
+
+def deck_support_line(asset_id: str, row: dict[str, Any], tell: dict[str, Any] | None,
+                      mined_record: dict[str, Any]) -> float:
+    """The support line for an assetPlacement row with ``deckClearanceM``: the
+    deck top of the asset's ``deck-top`` tell (the manifest's, else the sink
+    record's) less the row's clearance. A ground/deck piece takes it as its
+    designed sink (evidence "policy", the row's why carries the measurement);
+    a water piece as its designed waterline, its sink and tell unchanged."""
+    source = tell if (tell or {}).get("tell") == "deck-top" else mined_record.get("groundLineTell")
+    if not isinstance(source, dict) or not _is_number(source.get("deckTopM")):
+        raise ValueError(f"{asset_id}: assetPlacement deckClearanceM needs a deck-top mesh tell "
+                         "in kit-designed-sink.json (the deck the clearance is measured from)")
+    return round(float(source["deckTopM"]) - float(row["deckClearanceM"]), 4)
 
 
 def _resolve_validated_policy(
@@ -356,11 +385,19 @@ def apply_placement_metadata(
             value = round(float(row["designedSinkM"]), 4)
             sink, tell = {"p25": value, "p50": value, "p75": value, "n": 0,
                           "slopeTermMPerDeg": None, "evidence": "policy"}, None
-        asset["designedSinkM"] = sink
+        # The class is resolved first: the deck line is a sink for a ground or
+        # deck piece and a waterline for a water piece, by the RESOLVED class.
         anchor_class, anchor_evidence = resolve_anchor_class(
             asset, anchors.get(asset["id"]))
         if "anchorClass" in row:
             anchor_class, anchor_evidence = row["anchorClass"], "policy"
+        deck_line = None
+        if "deckClearanceM" in row:
+            deck_line = deck_support_line(asset["id"], row, tell, mined_record)
+            if anchor_class != "water":
+                sink, tell = {"p25": deck_line, "p50": deck_line, "p75": deck_line, "n": 0,
+                              "slopeTermMPerDeg": None, "evidence": "policy"}, None
+        asset["designedSinkM"] = sink
         asset["anchorClass"] = anchor_class
         asset["anchorClassEvidence"] = anchor_evidence
         asset.pop("meshTell", None)
@@ -373,6 +410,8 @@ def apply_placement_metadata(
         # row's fallback). None at all: no designedWaterlineM, and
         # validate_asset_placement names it.
         waterline = row.get("designedWaterlineM")
+        if deck_line is not None and anchor_class == "water":
+            waterline = deck_line
         if not _is_number(waterline):
             waterline = (mined_record.get("waterline") or {}).get("p50")
         if not _is_number(waterline):

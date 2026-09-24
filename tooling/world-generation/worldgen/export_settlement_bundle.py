@@ -71,10 +71,12 @@ COLLISION_FRAME = "settlement-pivot-yup-v1"
 # Rule (decision 0052): budget = round(worst shipped resident parts * 1.55).
 # Re-measured 2026-09-24 on the K14 publish: the five 2026-09-09 blueprints
 # are retired (owner 2026-09-23), the yard is the only compiled place and its
-# worst resident case is 100 parts, so the budget is round(100 * 1.55) = 155
-# (was 1601 from Lilmoth's 1033). Re-measure when a place joins the bundle.
+# worst resident case was 100 parts (budget 155; was 1601 from Lilmoth's 1033).
+# Re-measured 2026-09-24 after the check-in 2 yard fixes (the stilt hut's door
+# record dropped, the mud hut replaced by the bamboo hut): 91 parts, so
+# round(91 * 1.55) = 141. Re-measure when a place joins or changes the bundle.
 # The runtime reads only the published lod.colliderPartBudget, never its own copy.
-COLLIDER_PART_BUDGET = 155
+COLLIDER_PART_BUDGET = 141
 
 # Error classes that are FATAL AT RUNTIME: each makes the layer refuse to draw
 # or throw outright, so the world the player gets is blank, not merely
@@ -1125,10 +1127,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             ids.append(placement["id"])
             all_placements.append(placement)
             if footprint and not is_dressing:
+                # id + footprint only: the grass exclusion reads it; the
+                # skirt, rubble and far-tier fields were cut at check-in 2.
                 treatments.append({
                     "id": f"treatment.{placement['id']}", "footprintM": footprint,
-                    "contactAoWidthM": 1.5, "baseSkirtWidthM": 0.9,
-                    "foundationScatterBandM": [0.0, 1.2], "farTier": False,
                 })
                 navmesh.append({"id": f"navcut.{placement['id']}",
                                 "placementId": placement["id"],

@@ -82,6 +82,10 @@ Published = `apps/world-studio/public/kits/<kit>.*` (what ships, standard 16).
   manifest-vs-record tests turn green.
 - Stale if skipped: published sink and class disagree with the record
   (M13: 277 assets); the manifest-vs-record tests stay red (M14: 344 rows).
+- An `assetPlacement` row change (placement-policies.json: `anchorClass`,
+  `designedSinkM`, `designedWaterlineM`, `deckClearanceM`) is not a miner
+  record: refresh only the kits it touches, `--refresh-built-manifests --kit
+  <kit>` (repeatable), whatever the miner lane's state (owner 2026-09-24).
 - A rebuild after the refresh keeps it: `build_kit` calls
   `apply_placement_metadata` from the current record (`build_kit.py:955`).
 

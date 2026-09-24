@@ -1,6 +1,6 @@
 ---
 name: modular-runs
-description: Chains of abutting kit pieces (walls, fences, docks, boardwalks, bridges) from the mined abuts record to a laid, flag-free run in a settlement compile. Use when authoring or changing a `pieces` parcel, when a compile reports `openModularEnds` or `singleUsePieces`, when a run step fails "no pair", when re-mining the abuts section, or when a structural set has no plugin placing it.
+description: Chains of abutting kit pieces (walls, fences, docks, and the built ways: ramps, stairs, boardwalks, bridges) from the mined abuts record to a laid, flag-free run in a settlement compile. Use when authoring or changing a `pieces` parcel, when a compile reports `openModularEnds` or `singleUsePieces`, when a run step fails "no pair", when re-mining the abuts section, or when a structural set has no plugin placing it.
 ---
 
 > Written 2026-09-24 against ledger `docs/research/phase16/16h-ledger.md` rows
@@ -114,3 +114,21 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
     parcel (`compile_settlement --all`), and compare `openModularEnds` counts
     with the last ledger row. Record stats (pairs run/double, family pairs,
     `endFaces`, `singleUse`) in a new ledger row.
+
+## F. Built ways: ramps, stairs, boardwalks, bridges (owner check-in 2, 2026-09-24)
+
+21. A built way (a ramp, stair, boardwalk, bridge or walkway piece) is a
+    chain in this skill, never a standalone building: it is placed only as a
+    `pieces` run with BOTH ends resolved. An end is resolved when it meets a
+    run piece of the same family (a mined run pair), a `terminates` face on the
+    ground or a deck at the height the pair records, or a door threshold.
+    An end that meets nothing is an `openModularEnds` defect, not a design.
+22. Precedent: the yard's `passesc128h64d01` (a Bosmer walkway ramp,
+    `parcel.proving-ground.stilt-stair`) stands as a LABELLED single piece
+    whose blueprint `why.what` says so, until a ways run exists. No other
+    blueprint may place a built way alone.
+23. The landward end of a quay or landing stage reaches the bank where the
+    DECK plane meets the ground, not the waterline
+    (`compile_settlement.anchor_quay_run`, `quay_deck_rise_m`); extend the run
+    or add the docks kit's shore piece by its mined pair when the slide is not
+    enough.

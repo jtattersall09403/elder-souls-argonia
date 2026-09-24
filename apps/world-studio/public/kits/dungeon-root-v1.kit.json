@@ -1823,19 +1823,14 @@
     }
    },
    "designedSinkM": {
-    "p25": -1.8272,
-    "p50": -1.8272,
-    "p75": -1.8272,
+    "p25": -1.36,
+    "p50": -1.36,
+    "p75": -1.36,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "anchorClass": "ground",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "door-sill",
-    "valueM": -1.8272
-   },
    "anchorClassEvidence": "unplaced"
   },
   {

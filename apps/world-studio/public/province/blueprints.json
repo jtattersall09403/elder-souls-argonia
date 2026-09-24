@@ -233,98 +233,6 @@
         },
         {
           "centreM": [
-            4273.906,
-            5767.815
-          ],
-          "cultureKit": "argonian-mud",
-          "id": "district.proving-ground.mud",
-          "kind": "test-yard",
-          "notes": "Test cells for the argonian-mud kit set.",
-          "polygon": [
-            [
-              4294.464,
-              5678.839
-            ],
-            [
-              4262.733,
-              5770.125
-            ],
-            [
-              4262.248,
-              5772.785
-            ],
-            [
-              4262.329,
-              5775.654
-            ],
-            [
-              4262.525,
-              5776.725
-            ],
-            [
-              4262.99,
-              5777.508
-            ],
-            [
-              4264.268,
-              5779.362
-            ],
-            [
-              4266.293,
-              5781.479
-            ],
-            [
-              4269.15,
-              5783.018
-            ],
-            [
-              4272.095,
-              5783.554
-            ],
-            [
-              4274.698,
-              5783.525
-            ],
-            [
-              4275.825,
-              5783.472
-            ],
-            [
-              4276.884,
-              5782.843
-            ],
-            [
-              4278.734,
-              5781.513
-            ],
-            [
-              4280.823,
-              5779.516
-            ],
-            [
-              4282.361,
-              5776.659
-            ],
-            [
-              4282.832,
-              5774.073
-            ],
-            [
-              4299.059,
-              5680.026
-            ]
-          ],
-          "wealth": "poor",
-          "why": {
-            "microGeography": "Level cells of fringe marsh, each under 2 deg, holding the argonian-mud test pieces.",
-            "playerPurpose": "None. The argonian-mud row proves the argonian-mud kit set alone and is never played.",
-            "what": "The argonian-mud row of the test grid: every piece under test from that kit set.",
-            "whyHere": "The argonian-mud row sits on measured empty ground; nothing about the world puts it here.",
-            "whyNeighbours": "The argonian-mud row keeps one kit set, so a kit-purity warning reads as a real one."
-          }
-        },
-        {
-          "centreM": [
             4320.1,
             5738.491
           ],
@@ -377,8 +285,8 @@
         },
         {
           "centreM": [
-            4314.545,
-            5736.908
+            4304.756,
+            5737.825
           ],
           "cultureKit": "argonian-stilt",
           "id": "district.proving-ground.stilt",
@@ -386,24 +294,24 @@
           "notes": "Test cells for the argonian-stilt kit set.",
           "polygon": [
             [
-              4230.094,
-              5687.677
+              4230.659,
+              5687.164
             ],
             [
-              4268.816,
-              5742.739
+              4266.063,
+              5776.553
             ],
             [
-              4321.061,
-              5791.233
+              4268.046,
+              5779.437
             ],
             [
-              4322.159,
-              5791.57
+              4269.526,
+              5780.233
             ],
             [
-              4328.286,
-              5793.441
+              4328.443,
+              5793.358
             ],
             [
               4330.418,
@@ -457,31 +365,17 @@
           ]
         },
         {
-          "facingDeg": 0.0,
+          "facingDeg": 148.0,
           "id": "door.fixture.proving-ground.mud-hut",
           "interiorClaim": {
             "culture": "argonian",
             "owner": null,
-            "sizeClass": "large"
+            "sizeClass": "medium"
           },
           "parcelId": "parcel.proving-ground.mud-hut",
           "thresholdM": [
-            4272.567,
-            5766.731
-          ]
-        },
-        {
-          "facingDeg": 17.2,
-          "id": "door.fixture.proving-ground.stilt-hut",
-          "interiorClaim": {
-            "culture": "argonian",
-            "owner": null,
-            "sizeClass": "large"
-          },
-          "parcelId": "parcel.proving-ground.stilt-hut",
-          "thresholdM": [
-            4326.967,
-            5774.364
+            4274.082,
+            5775.645
           ]
         }
       ],
@@ -1155,22 +1049,21 @@
           "yawDeg": 286.7
         },
         {
-          "assetRef": "composite:mud/hut-with-entrance",
-          "buildingFamily": "test.mud-hut",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
+          "buildingFamily": "test.bamboo-hut",
           "centreM": [
             4272.576,
             5773.233
           ],
-          "districtId": "district.proving-ground.mud",
+          "districtId": "district.proving-ground.stilt",
           "entrance": {
             "arcM": null,
-            "bearingDeg": 359.9,
-            "interiorRef": "vanilla-farmhouse-int",
-            "kind": "assembly",
-            "worldM": [
-              4272.567,
-              5766.732
-            ]
+            "bearingDeg": null,
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
+            "radial": true,
+            "radiusM": 2.826,
+            "worldM": null
           },
           "front": null,
           "groundFit": null,
@@ -1182,120 +1075,80 @@
           "orientationWhy": "Turned to face the straight way through the middle of the yard, so every door is read from one line.",
           "polygon": [
             [
-              4277.601,
-              5777.063
+              4275.294,
+              5775.082
             ],
             [
-              4276.172,
-              5778.429
+              4274.139,
+              5776.448
             ],
             [
-              4274.691,
-              5779.493
+              4274.088,
+              5776.477
             ],
             [
-              4274.64,
-              5779.523
+              4274.08,
+              5776.473
             ],
             [
-              4274.582,
-              5779.526
+              4273.014,
+              5776.49
             ],
             [
-              4272.434,
-              5779.55
+              4270.935,
+              5776.449
             ],
             [
-              4270.489,
-              5779.196
+              4270.794,
+              5776.373
             ],
             [
-              4268.746,
-              5778.257
+              4269.616,
+              5774.66
             ],
             [
-              4267.38,
-              5776.829
+              4269.566,
+              5774.52
             ],
             [
-              4266.36,
-              5775.349
+              4269.491,
+              5772.128
             ],
             [
-              4266.33,
-              5775.298
+              4269.536,
+              5771.982
             ],
             [
-              4266.319,
-              5775.235
+              4270.605,
+              5770.207
             ],
             [
-              4266.258,
-              5773.09
+              4270.747,
+              5770.112
             ],
             [
-              4266.612,
-              5771.146
+              4272.818,
+              5769.956
             ],
             [
-              4267.551,
-              5769.403
+              4272.965,
+              5769.978
             ],
             [
-              4271.733,
-              5765.158
+              4275.079,
+              5771.116
             ],
             [
-              4271.765,
-              5765.141
+              4275.178,
+              5771.226
             ],
             [
-              4271.921,
-              5765.021
+              4276.188,
+              5773.042
             ],
             [
-              4271.935,
-              5765.016
-            ],
-            [
-              4271.943,
-              5765.021
-            ],
-            [
-              4272.081,
-              5765.061
-            ],
-            [
-              4272.191,
-              5765.109
-            ],
-            [
-              4276.406,
-              5768.208
-            ],
-            [
-              4277.772,
-              5769.636
-            ],
-            [
-              4278.92,
-              5771.47
-            ],
-            [
-              4278.95,
-              5771.52
-            ],
-            [
-              4278.953,
-              5771.578
-            ],
-            [
-              4278.894,
-              5773.375
-            ],
-            [
-              4278.54,
-              5775.319
+              4276.187,
+              5773.212
             ]
           ],
           "spans": null,
@@ -1303,7 +1156,7 @@
           "why": {
             "microGeography": "Level fringe-marsh ground under the mud-hut cell: the steepest cell under the footprint is 1.7 deg.",
             "playerPurpose": "None. The mud-hut cell proves a placement mechanism and is never played.",
-            "what": "Test piece mud-hut: the kit asset hut-with-entrance standing on its designed sink.",
+            "what": "Test piece hut: HTBM's bamboo hut with the door leaf the mod hangs on it at one fixed offset (composite:stilt/bamboohut01-with-door, a stilt-kit piece), standing on its designed sink. It replaced the marsh hut composite, whose shell has no doorway in its mesh.",
             "whyHere": "The mud-hut cell is a fixture on measured empty ground; nothing about the world puts it here.",
             "whyNeighbours": "The mud-hut cell stands 11 m from its nearest neighbour, imperial-house.",
             "whySpot": "The nearest ground to the old lattice cell where every cell under the footprint is under 2 deg, so the designed sink alone seats the piece."
@@ -1449,13 +1302,13 @@
           ],
           "districtId": "district.proving-ground.stilt",
           "entrance": {
-            "arcM": 5.35,
-            "bearingDeg": 17.2,
+            "arcM": 10.43,
+            "bearingDeg": 37.7,
             "interiorRef": "vanilla-farmhouse-int",
             "kind": "open-front",
             "worldM": [
-              4326.967,
-              5774.363
+              4328.699,
+              5775.022
             ]
           },
           "front": null,
@@ -1616,7 +1469,7 @@
           "why": {
             "microGeography": "Level fringe-marsh ground under the stilt-stair cell: the steepest cell under the footprint is 1.4 deg.",
             "playerPurpose": "None. The stilt-stair cell proves a placement mechanism and is never played.",
-            "what": "Test piece stilt-stair: the kit asset passesc128h64d01 standing on its designed sink.",
+            "what": "Test piece ramp: the Bosmer walkway stair passesc128h64d01, shown alone as a labelled single piece. A ramp belongs to the built ways (ramps, stairs, boardwalks, bridges), which are placed only as a run with both ends resolved; it stands alone here until the yard has a ways run.",
             "whyHere": "The stilt-stair cell is a fixture on measured empty ground; nothing about the world puts it here.",
             "whyNeighbours": "The stilt-stair cell stands 12 m from its nearest neighbour, imperial-wall-run.",
             "whySpot": "The nearest ground to the old lattice cell where every cell under the footprint is under 2 deg, so the designed sink alone seats the piece."
@@ -1639,9 +1492,9 @@
       "summary": {
         "approaches": 2,
         "combatSpaces": 1,
-        "districts": 4,
+        "districts": 3,
         "docks": 0,
-        "doors": 3,
+        "doors": 2,
         "fences": 0,
         "keptTrees": 0,
         "landmarks": 2,
@@ -1707,8 +1560,8 @@
               5698.797
             ],
             [
-              4272.567,
-              5766.731
+              4274.082,
+              5775.645
             ]
           ],
           "routing": "straight",
@@ -1744,8 +1597,8 @@
               5714.01
             ],
             [
-              4326.967,
-              5774.364
+              4327.574,
+              5770.48
             ]
           ],
           "routing": "straight",

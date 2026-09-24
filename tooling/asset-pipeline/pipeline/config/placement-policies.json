@@ -118,7 +118,6 @@
   "bmv:architecture/philscaves/small/doorcaveb": "dug-in",
   "bmv:architecture/redoran/custom/redoranwallgate": "dug-in",
   "bmv:architecture/ships/imperialship01base": "water-zero",
-  "bmv:architecture/stilthouse/stilthouseext": "water-zero",
   "bmv:landscape/grass/vurt_reeds": "water-zero",
   "bmv:landscape/grass/watercoralgrass01": "water-zero",
   "bmv:landscape/grass/waterkelpshort01": "water-zero",
@@ -245,7 +244,6 @@
  },
  "assetPolicyEvidence": {
   "bmv:architecture/ships/imperialship01base": "hull sections rest on each other over water, so contact reads deck/hanging; the hull floats",
-  "bmv:architecture/stilthouse/stilthouseext": "its two placements meet terrain at the waterline; the stilt house stands in the lake",
   "bmv:landscape/grass/vurt_reeds": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "bmv:landscape/grass/watercoralgrass01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
   "bmv:landscape/grass/waterkelpshort01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
@@ -272,10 +270,36 @@
   "vanilla:landscape/plants/kelptallstatic01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)"
  },
  "assetPlacement": {
+  "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
+   "designedSinkM": 0.0,
+   "why": "Bosmer walkway stair: its bottom tread band lies at the pivot (z 0 to 0.1 m) and its supports reach 1.54 m below. The stair's foot stands on the ground and the supports are buried, so the pivot sits at the ground (sink 0). The mesh-sill tell took the supports' feet (-1.54 m) and stood the bottom tread 1.54 m in the air."
+  },
+  "bmv:architecture/philscaves/small/doorcaveb": {
+   "designedSinkM": -1.36,
+   "why": "Cave mouth: its walkable floor at the opening (the up-facing band from y 0 to 0.5 m, |x| under 1 m) lies at z -1.36 m, 0.467 m above the mesh bottom (-1.827 m) the door-sill tell took. A dug-in piece's threshold is flush with the approach, so the sill is the ground line and the rock skirt below it buries (owner check-in 2, finding 9)."
+  },
+  "bmv:architecture/stilthouse/stilthousedooranim": {
+   "anchorClass": "hanging",
+   "why": "Door leaf 2.35 x 0.09 m with its bottom at the pivot: it hangs on its frame in the stilt house doorway. No plugin places it alone, so the record reads ground/unplaced."
+  },
+  "bmv:architecture/stilthouse/stilthouseext": {
+   "anchorClass": "ground",
+   "deckClearanceM": 3.462,
+   "why": "The stilt house deck stands 3.462 m (asset metres) above its support surface: the median of BM&V's four placements (3.29 to 3.86 m per placement in asset metres, over lake water on 5 to 7 of 9 samples under the legs; check-in 2 fix, /tmp/wf/checkin2fix/yard/clearance_all.json). A stilt piece is seated by its deck above the water where water covers the legs, else above the ground, so its class is ground, never water; the legs bury as deep as they need."
+  },
   "composite:docks/quay-run-2": {
    "anchorClass": "water",
-   "designedWaterlineM": -0.3062,
-   "why": "Two vanilla dock decks on pilings reaching 6.3 m under the deck top, which sits 0.044 m above the pivot. No plugin places the composite, so the record reads ground/unplaced. A stilt or quay piece is seated by its deck (owner 2026-09-23): the deck top 0.35 m (stilt deckClearanceM) above the water surface, so the water stands 0.306 m under the pivot."
+   "deckClearanceM": 0.672,
+   "why": "Two vanilla dock decks (dockstrent01 and dockstrent02) on pilings reaching 6.3 m under the deck top. The vanilla and BM&V placements of those two pieces hold their decks a median 0.672 m above the water or ground under them (258 references; dockstrent01 0.547 m, n 83; dockstrent02 0.711 m, n 175), so the deck stands 0.672 m above the water and the pilings bury. No plugin places the composite itself."
+  },
+  "composite:stilt/stilthouse-with-door": {
+   "anchorClass": "ground",
+   "deckClearanceM": 3.462,
+   "why": "The stilt house with its door leaf: the shell's deck and the shell's plugin deck height (stilthouseext row, 3.462 m median over four BM&V placements)."
+  },
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01": {
+   "deckClearanceM": 1.14,
+   "why": "HTBM places this Kothringi dock 35 times, always at scale 2.0, with its deck 2.28 m above the ground or water under it (median; 1.14 m in asset metres, p25 1.14, p75 1.165). The 0.35 m default buried all but the rail."
   },
   "vanilla:architecture/docks/dockstrent01": {
    "anchorClass": "water",
@@ -284,19 +308,6 @@
   "vanilla:clutter/signage/whiterun/signwrpost01": {
    "anchorClass": "ground",
    "why": "Sign post 2.74 m tall with its base at the pivot and the arm at the top: it stands on the ground. The plugin vote splits deck 4 / ground 3 / wall 1 because Whiterun sets several posts on stone paving; the plugin sink (n 5) stays."
-  },
-  "bmv:architecture/stilthouse/stilthouseext": {
-   "anchorClass": "water",
-   "designedWaterlineM": -1.6213,
-   "why": "The stilt house shell stands in the lake (its two placements meet the terrain at the waterline). Seated by its deck (owner 2026-09-23): the deck top 1.271 m under the pivot, 0.35 m (stilt deckClearanceM) above the water, so the water stands 1.621 m under the pivot, the mesh-sill deck datum."
-  },
-  "bmv:architecture/stilthouse/stilthousedooranim": {
-   "anchorClass": "hanging",
-   "why": "Door leaf 2.35 x 0.09 m with its bottom at the pivot: it hangs on its frame in the stilt house doorway. No plugin places it alone, so the record reads ground/unplaced."
-  },
-  "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
-   "designedSinkM": 0.0,
-   "why": "Bosmer walkway stair: its bottom tread band lies at the pivot (z 0 to 0.1 m) and its supports reach 1.54 m below. The stair's foot stands on the ground and the supports are buried, so the pivot sits at the ground (sink 0). The mesh-sill tell took the supports' feet (-1.54 m) and stood the bottom tread 1.54 m in the air."
   }
  }
 }

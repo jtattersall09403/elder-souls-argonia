@@ -2313,7 +2313,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                     fail(f"parcel {p.get('id')}: {p.get('assetRef')} is linked to interior cell "
                          f"{link.get('interiorCell')} but its interior kit {kit!r} is not built — a linked "
                          f"shell may not stand on a placeholder kit (owner ruling 2026-09-07)")
-            if record.get("interior") in bi.NEEDS_INTERIOR and not doors_by_parcel.get(p.get("id")):
+            # A hollow shell with no interior carries no door (a door is a
+            # transition, 0081; owner check-in 2): a parcel authored
+            # `interior: {kind: "none"}` needs none, whatever the kit derives.
+            if (record.get("interior") in bi.NEEDS_INTERIOR and not doors_by_parcel.get(p.get("id"))
+                    and (p.get("interior") or {}).get("kind") != "none"):
                 want = interiors.interior_ref(record) or "a Phase 12 interior claim"
                 if not bi.entrance(record):
                     # Every piece the index still calls enclosed now carries a

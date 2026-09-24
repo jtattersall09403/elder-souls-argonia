@@ -191,101 +191,6 @@
       }
     },
     {
-      "id": "district.proving-ground.mud",
-      "kind": "district",
-      "placeId": "place.fixture.proving-ground",
-      "placementIds": [],
-      "provenance": {
-        "assetId": "district.proving-ground.mud",
-        "generatorId": "compile_settlement",
-        "generatorVersion": "0.1.0",
-        "ruleId": "compiled-object/district",
-        "seed": "place.fixture.proving-ground",
-        "sourceBlueprintId": "place.fixture.proving-ground",
-        "sourceDataHashes": []
-      },
-      "sourceObjectSha256": "5c900bc8da8308718288961e00a60a1731212e404438878c7098e94ae87c206a",
-      "spec": {
-        "boundaryM": [
-          [
-            4294.464,
-            5678.839
-          ],
-          [
-            4262.733,
-            5770.125
-          ],
-          [
-            4262.248,
-            5772.785
-          ],
-          [
-            4262.329,
-            5775.654
-          ],
-          [
-            4262.525,
-            5776.725
-          ],
-          [
-            4262.99,
-            5777.508
-          ],
-          [
-            4264.268,
-            5779.362
-          ],
-          [
-            4266.293,
-            5781.479
-          ],
-          [
-            4269.15,
-            5783.018
-          ],
-          [
-            4272.095,
-            5783.554
-          ],
-          [
-            4274.698,
-            5783.525
-          ],
-          [
-            4275.825,
-            5783.472
-          ],
-          [
-            4276.884,
-            5782.843
-          ],
-          [
-            4278.734,
-            5781.513
-          ],
-          [
-            4280.823,
-            5779.516
-          ],
-          [
-            4282.361,
-            5776.659
-          ],
-          [
-            4282.832,
-            5774.073
-          ],
-          [
-            4299.059,
-            5680.026
-          ]
-        ],
-        "cultureKit": "argonian-mud",
-        "kind": "test-yard",
-        "wealth": "poor"
-      }
-    },
-    {
       "id": "district.proving-ground.root",
       "kind": "district",
       "placeId": "place.fixture.proving-ground",
@@ -354,28 +259,28 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
-      "sourceObjectSha256": "29fa683f304a7a7d2931b05a4e60747fb9f01f06eb2b4618681856713ac683df",
+      "sourceObjectSha256": "3b9566115a9e685349fdaec7baa165ae035a5fa4a48983674d446b3b5349152f",
       "spec": {
         "boundaryM": [
           [
-            4230.094,
-            5687.677
+            4230.659,
+            5687.164
           ],
           [
-            4268.816,
-            5742.739
+            4266.063,
+            5776.553
           ],
           [
-            4321.061,
-            5791.233
+            4268.046,
+            5779.437
           ],
           [
-            4322.159,
-            5791.57
+            4269.526,
+            5780.233
           ],
           [
-            4328.286,
-            5793.441
+            4328.443,
+            5793.358
           ],
           [
             4330.418,
@@ -452,51 +357,20 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
-      "sourceObjectSha256": "7362cbbd084062604e361dc1f3f798846c47e8a4feaa2fd86b1ac5b7b92dc621",
+      "sourceObjectSha256": "e355262deb933e5270c7dc8299ddb16d3f9689f2180103d0ee310b21ccfd8ff6",
       "spec": {
         "access": "land",
-        "facingDeg": 0.0,
+        "facingDeg": 148.0,
         "interiorClaim": {
           "culture": "argonian",
-          "interiorRef": "vanilla-farmhouse-int",
-          "sizeClass": "large"
+          "interiorRef": "htbm-hut-int",
+          "sizeClass": "medium"
         },
         "parcelId": "parcel.proving-ground.mud-hut",
         "reachable": true,
         "thresholdM": [
-          4272.567,
-          5766.731
-        ]
-      }
-    },
-    {
-      "id": "door.fixture.proving-ground.stilt-hut",
-      "kind": "door",
-      "placeId": "place.fixture.proving-ground",
-      "placementIds": [],
-      "provenance": {
-        "assetId": "door.fixture.proving-ground.stilt-hut",
-        "generatorId": "compile_settlement",
-        "generatorVersion": "0.1.0",
-        "ruleId": "compiled-object/door",
-        "seed": "place.fixture.proving-ground",
-        "sourceBlueprintId": "place.fixture.proving-ground",
-        "sourceDataHashes": []
-      },
-      "sourceObjectSha256": "599de134ec18250e64b41f24324cfc81710ac62e2185211e92ef555d6356913c",
-      "spec": {
-        "access": "land",
-        "facingDeg": 17.2,
-        "interiorClaim": {
-          "culture": "argonian",
-          "interiorRef": "vanilla-farmhouse-int",
-          "sizeClass": "large"
-        },
-        "parcelId": "parcel.proving-ground.stilt-hut",
-        "reachable": true,
-        "thresholdM": [
-          4326.967,
-          5774.364
+          4274.082,
+          5775.645
         ]
       }
     },
@@ -622,6 +496,30 @@
       }
     },
     {
+      "connectors": [
+        {
+          "evidence": "bounds",
+          "face": "north",
+          "heightM": 1.2,
+          "normalDeg": 180.0,
+          "positionM": [
+            4261.609,
+            5695.216
+          ],
+          "widthM": 0.24
+        },
+        {
+          "evidence": "bounds",
+          "face": "south",
+          "heightM": 1.2,
+          "normalDeg": 0.0,
+          "positionM": [
+            4261.609,
+            5694.056
+          ],
+          "widthM": 0.24
+        }
+      ],
       "id": "landmark.proving-ground.huntsman-sign",
       "kind": "landmark",
       "placeId": "place.fixture.proving-ground",
@@ -649,6 +547,52 @@
       }
     },
     {
+      "connectors": [
+        {
+          "evidence": "bounds",
+          "face": "north",
+          "heightM": 0.62,
+          "normalDeg": 270.2,
+          "positionM": [
+            4266.68,
+            5685.76
+          ],
+          "widthM": 0.21
+        },
+        {
+          "evidence": "bounds",
+          "face": "east",
+          "heightM": 0.62,
+          "normalDeg": 0.2,
+          "positionM": [
+            4266.76,
+            5685.65
+          ],
+          "widthM": 0.16
+        },
+        {
+          "evidence": "bounds",
+          "face": "south",
+          "heightM": 0.62,
+          "normalDeg": 90.2,
+          "positionM": [
+            4266.84,
+            5685.76
+          ],
+          "widthM": 0.21
+        },
+        {
+          "evidence": "bounds",
+          "face": "west",
+          "heightM": 0.62,
+          "normalDeg": 180.2,
+          "positionM": [
+            4266.759,
+            5685.86
+          ],
+          "widthM": 0.16
+        }
+      ],
       "frontDeg": 136.5,
       "frontWhy": "the band at 226\u00b0 in the piece's own frame carries 1.55x the triangle density of a median band \u2014 the detailed face, which is the show side",
       "id": "landmark.proving-ground.sconce",
@@ -1733,76 +1677,88 @@
         {
           "evidence": "bounds",
           "face": "north",
-          "heightM": 9.45,
+          "heightM": 5.83,
           "normalDeg": 208.3,
           "positionM": [
-            4268.997,
-            5779.881
+            4270.499,
+            5777.089
           ],
-          "widthM": 15.1
+          "widthM": 8.16
         },
         {
           "evidence": "bounds",
           "face": "east",
-          "heightM": 9.45,
+          "heightM": 5.83,
           "normalDeg": 298.3,
           "positionM": [
-            4265.928,
-            5769.654
+            4268.856,
+            5771.536
           ],
-          "widthM": 15.1
+          "widthM": 8.22
         },
         {
           "evidence": "bounds",
           "face": "south",
-          "heightM": 9.45,
+          "heightM": 5.83,
           "normalDeg": 28.3,
           "positionM": [
-            4276.155,
-            5766.585
+            4274.396,
+            5769.852
           ],
-          "widthM": 15.1
+          "widthM": 8.16
         },
         {
           "evidence": "bounds",
           "face": "west",
-          "heightM": 9.45,
+          "heightM": 5.83,
           "normalDeg": 118.3,
           "positionM": [
-            4279.224,
-            5776.812
+            4276.04,
+            5775.405
           ],
-          "widthM": 15.1
+          "widthM": 8.22
         }
       ],
       "doorways": [
         {
-          "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
-          "facingDeg": 359.9,
+          "doorAsset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+          "facingDeg": 148.0,
           "offsetInPieceM": [
-            3.09,
-            5.72
+            -2.47,
+            -1.41
           ],
           "positionM": [
-            4272.567,
-            5766.732
+            4274.082,
+            5775.645
           ],
-          "sideDeg": 151.6,
+          "sideDeg": 299.7,
           "source": "interiors/assembly"
         },
         {
-          "doorAsset": "bmv:architecture/huts/exterior/doorframe01",
-          "facingDeg": 359.9,
+          "facingDeg": 148.4,
           "offsetInPieceM": [
-            3.35,
-            6.21
+            -3.82,
+            -2.21
           ],
           "positionM": [
-            4272.57,
-            5766.177
+            4274.892,
+            5776.99
           ],
-          "sideDeg": 151.6,
-          "source": "interiors/assembly"
+          "sideDeg": 300.1,
+          "source": "interiors/open-front"
+        },
+        {
+          "facingDeg": null,
+          "offsetInPieceM": [
+            -2.04,
+            -0.27
+          ],
+          "positionM": [
+            4274.244,
+            5774.438
+          ],
+          "sideDeg": null,
+          "source": "interiors/probe-centre"
         }
       ],
       "id": "parcel.proving-ground.mud-hut",
@@ -1820,134 +1776,94 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
-      "sourceObjectSha256": "9ea9da1d97ccf31c6d490da436867ed64814308dad10a4f4396a2d475d7d522d",
+      "sourceObjectSha256": "5d89bf5b8eb57fc941dd61a31f5d5041029b59475c5a3fb48c2d3317e0588381",
       "spec": {
-        "assetRef": "composite:mud/hut-with-entrance",
-        "buildingFamily": "test.mud-hut",
+        "assetRef": "composite:stilt/bamboohut01-with-door",
+        "buildingFamily": "test.bamboo-hut",
         "centreM": [
           4272.576,
           5773.233
         ],
-        "districtId": "district.proving-ground.mud",
+        "districtId": "district.proving-ground.stilt",
         "footprintM": [
           [
-            4277.601,
-            5777.063
+            4275.294,
+            5775.082
           ],
           [
-            4276.172,
-            5778.429
+            4274.139,
+            5776.448
           ],
           [
-            4274.691,
-            5779.493
+            4274.088,
+            5776.477
           ],
           [
-            4274.64,
-            5779.523
+            4274.08,
+            5776.473
           ],
           [
-            4274.582,
-            5779.526
+            4273.014,
+            5776.49
           ],
           [
-            4272.434,
-            5779.55
+            4270.935,
+            5776.449
           ],
           [
-            4270.489,
-            5779.196
+            4270.794,
+            5776.373
           ],
           [
-            4268.746,
-            5778.257
+            4269.616,
+            5774.66
           ],
           [
-            4267.38,
-            5776.829
+            4269.566,
+            5774.52
           ],
           [
-            4266.36,
-            5775.349
+            4269.491,
+            5772.128
           ],
           [
-            4266.33,
-            5775.298
+            4269.536,
+            5771.982
           ],
           [
-            4266.319,
-            5775.235
+            4270.605,
+            5770.207
           ],
           [
-            4266.258,
-            5773.09
+            4270.747,
+            5770.112
           ],
           [
-            4266.612,
-            5771.146
+            4272.818,
+            5769.956
           ],
           [
-            4267.551,
-            5769.403
+            4272.965,
+            5769.978
           ],
           [
-            4271.733,
-            5765.158
+            4275.079,
+            5771.116
           ],
           [
-            4271.765,
-            5765.141
+            4275.178,
+            5771.226
           ],
           [
-            4271.921,
-            5765.021
+            4276.188,
+            5773.042
           ],
           [
-            4271.935,
-            5765.016
-          ],
-          [
-            4271.943,
-            5765.021
-          ],
-          [
-            4272.081,
-            5765.061
-          ],
-          [
-            4272.191,
-            5765.109
-          ],
-          [
-            4276.406,
-            5768.208
-          ],
-          [
-            4277.772,
-            5769.636
-          ],
-          [
-            4278.92,
-            5771.47
-          ],
-          [
-            4278.95,
-            5771.52
-          ],
-          [
-            4278.953,
-            5771.578
-          ],
-          [
-            4278.894,
-            5773.375
-          ],
-          [
-            4278.54,
-            5775.319
+            4276.187,
+            5773.212
           ]
         ],
-        "groundFit": "pad",
+        "groundFit": "stilt",
         "interior": {
           "kind": "none"
         },
@@ -1957,6 +1873,30 @@
       }
     },
     {
+      "connectors": [
+        {
+          "evidence": "bounds",
+          "face": "east",
+          "heightM": 4.89,
+          "normalDeg": 270.0,
+          "positionM": [
+            4262.215,
+            5685.496
+          ],
+          "widthM": 0.7
+        },
+        {
+          "evidence": "bounds",
+          "face": "west",
+          "heightM": 4.89,
+          "normalDeg": 90.0,
+          "positionM": [
+            4268.315,
+            5685.496
+          ],
+          "widthM": 0.7
+        }
+      ],
       "id": "parcel.proving-ground.sconce-wall",
       "kind": "parcel",
       "placeId": "place.fixture.proving-ground",
@@ -2009,6 +1949,52 @@
       }
     },
     {
+      "connectors": [
+        {
+          "evidence": "bounds",
+          "face": "north",
+          "heightM": 2.74,
+          "normalDeg": 180.0,
+          "positionM": [
+            4261.609,
+            5694.776
+          ],
+          "widthM": 0.28
+        },
+        {
+          "evidence": "bounds",
+          "face": "east",
+          "heightM": 2.74,
+          "normalDeg": 270.0,
+          "positionM": [
+            4261.469,
+            5694.636
+          ],
+          "widthM": 0.28
+        },
+        {
+          "evidence": "bounds",
+          "face": "south",
+          "heightM": 2.74,
+          "normalDeg": 0.0,
+          "positionM": [
+            4261.609,
+            5694.496
+          ],
+          "widthM": 0.28
+        },
+        {
+          "evidence": "bounds",
+          "face": "west",
+          "heightM": 2.74,
+          "normalDeg": 90.0,
+          "positionM": [
+            4261.749,
+            5694.636
+          ],
+          "widthM": 0.28
+        }
+      ],
       "id": "parcel.proving-ground.sign-post",
       "kind": "parcel",
       "placeId": "place.fixture.proving-ground",
@@ -2101,7 +2087,7 @@
         {
           "evidence": "bounds",
           "face": "north",
-          "heightM": 10.84,
+          "heightM": 10.75,
           "normalDeg": 17.1,
           "positionM": [
             4328.454,
@@ -2112,7 +2098,7 @@
         {
           "evidence": "bounds",
           "face": "east",
-          "heightM": 10.84,
+          "heightM": 10.75,
           "normalDeg": 107.1,
           "positionM": [
             4331.227,
@@ -2123,7 +2109,7 @@
         {
           "evidence": "bounds",
           "face": "south",
-          "heightM": 10.84,
+          "heightM": 10.75,
           "normalDeg": 197.1,
           "positionM": [
             4323.235,
@@ -2134,7 +2120,7 @@
         {
           "evidence": "bounds",
           "face": "west",
-          "heightM": 10.84,
+          "heightM": 10.75,
           "normalDeg": 287.1,
           "positionM": [
             4320.465,
@@ -2145,40 +2131,27 @@
       ],
       "doorways": [
         {
-          "facingDeg": 17.2,
+          "facingDeg": 37.7,
           "offsetInPieceM": [
-            0.58,
-            -2.82
+            2.43,
+            -2.7
           ],
           "positionM": [
-            4326.967,
-            5774.363
+            4328.699,
+            5775.022
           ],
-          "sideDeg": 0.1,
-          "source": "interiors/open-front"
-        },
-        {
-          "facingDeg": 9.9,
-          "offsetInPieceM": [
-            -0.07,
-            -2.77
-          ],
-          "positionM": [
-            4326.331,
-            5774.22
-          ],
-          "sideDeg": 352.8,
+          "sideDeg": 20.6,
           "source": "interiors/open-front"
         },
         {
           "facingDeg": null,
           "offsetInPieceM": [
-            0.31,
+            2.82,
             -3.16
           ],
           "positionM": [
-            4326.808,
-            5773.959
+            4329.208,
+            5774.697
           ],
           "sideDeg": null,
           "source": "interiors/probe-centre"
@@ -2337,7 +2310,7 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
-      "sourceObjectSha256": "f5f3394062e3599291e73d45db0cbb84e5598bd87f4ae44a51845ee7660e7258",
+      "sourceObjectSha256": "e298c2184a76fd00a1e6b0e8199d28d6d20ce15ae8f5e13a4996a953f4325f31",
       "spec": {
         "assetRef": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01",
         "buildingFamily": "test.stilt-stair",
@@ -2471,7 +2444,7 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
-      "sourceObjectSha256": "a0793cd788cbd24e71121c20d0d04e4cc353321e905057acf63951a8ed5c40d3",
+      "sourceObjectSha256": "0788645a303027549847f4ac420fd9845502c73069ed4f20d9909a0448739d1e",
       "spec": {
         "endsAt": [
           "parcel.proving-ground.mud-hut"
@@ -2483,8 +2456,8 @@
             5698.797
           ],
           [
-            4272.567,
-            5766.731
+            4274.082,
+            5775.645
           ]
         ],
         "routing": "straight",
@@ -2515,7 +2488,7 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
-      "sourceObjectSha256": "9806c832e2df98319389656222afe197bbb253887c98261122629c84056f6ae9",
+      "sourceObjectSha256": "b0e12173625ce854bbb77806e88cec2c5c1aadc7146ca5bb7cc87322163f64a0",
       "spec": {
         "endsAt": [
           "parcel.proving-ground.stilt-hut"
@@ -2527,8 +2500,8 @@
             5714.01
           ],
           [
-            4326.967,
-            5774.364
+            4327.574,
+            5770.48
           ]
         ],
         "routing": "straight",
@@ -2664,7 +2637,7 @@
       "access": "land",
       "doorwayGapM": 0.0,
       "doorwaySource": "interiors/assembly",
-      "facingDeg": 359.9,
+      "facingDeg": 148.0,
       "id": "door.fixture.proving-ground.mud-hut",
       "interiorArrival": {
         "doorId": "door.fixture.proving-ground.mud-hut",
@@ -2676,8 +2649,8 @@
       },
       "interiorClaim": {
         "culture": "argonian",
-        "interiorRef": "vanilla-farmhouse-int",
-        "sizeClass": "large"
+        "interiorRef": "htbm-hut-int",
+        "sizeClass": "medium"
       },
       "navmeshSides": [
         "exterior",
@@ -2687,50 +2660,12 @@
       "reachable": true,
       "settlementId": "place.fixture.proving-ground",
       "thresholdM": [
-        4272.567,
-        5766.732
+        4274.082,
+        5775.645
       ],
       "thresholdUV": [
-        0.579448472,
-        0.7820881
-      ],
-      "waterEntityId": null,
-      "waterEntityKind": null,
-      "waterLevelM": null
-    },
-    {
-      "access": "land",
-      "doorwayGapM": 0.0,
-      "doorwaySource": "interiors/open-front",
-      "facingDeg": 17.2,
-      "id": "door.fixture.proving-ground.stilt-hut",
-      "interiorArrival": {
-        "doorId": "door.fixture.proving-ground.stilt-hut",
-        "positionM": [
-          0,
-          0,
-          1.5
-        ]
-      },
-      "interiorClaim": {
-        "culture": "argonian",
-        "interiorRef": "vanilla-farmhouse-int",
-        "sizeClass": "large"
-      },
-      "navmeshSides": [
-        "exterior",
-        "interior"
-      ],
-      "parcelId": "parcel.proving-ground.stilt-hut",
-      "reachable": true,
-      "settlementId": "place.fixture.proving-ground",
-      "thresholdM": [
-        4326.967,
-        5774.363
-      ],
-      "thresholdUV": [
-        0.586826162,
-        0.783123085
+        0.579653965,
+        0.783296987
       ],
       "waterEntityId": null,
       "waterEntityKind": null,
@@ -2739,9 +2674,6 @@
   ],
   "groundTreatments": [
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4273.276,
@@ -2816,16 +2748,9 @@
           5736.764
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.boardwalk.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4323.74,
@@ -2860,16 +2785,9 @@
           5738.096
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.cave-mouth.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4383.307,
@@ -2960,16 +2878,9 @@
           5723.062
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.hull-berth.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4266.212,
@@ -3076,299 +2987,119 @@
           5796.987
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-house.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
-        [
-          4233.458,
-          5693.386
-        ],
-        [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
-          4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
         [
           4238.438,
           5677.736
         ],
         [
-          4238.008,
+          4238.868,
           5677.786
+        ],
+        [
+          4238.868,
+          5684.636
+        ],
+        [
+          4235.448,
+          5684.636
         ],
         [
           4235.448,
           5678.486
         ],
         [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          4238.008,
+          5677.786
         ]
-      ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
       ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.1"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
-          4233.458,
-          5693.386
-        ],
-        [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
           4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
+          5684.626
         ],
         [
           4238.918,
           5685.666
         ],
         [
-          4238.868,
-          5684.626
+          4238.918,
+          5690.866
         ],
         [
           4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
+          5691.906
         ],
         [
           4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
+          5691.906
         ],
         [
           4235.398,
           5690.866
         ],
         [
+          4235.398,
+          5685.666
+        ],
+        [
           4235.448,
-          5691.893
+          5684.626
         ]
-      ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
       ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.2"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
-          4233.458,
-          5693.386
+          4238.868,
+          5691.896
+        ],
+        [
+          4238.868,
+          5699.176
+        ],
+        [
+          4235.448,
+          5699.176
+        ],
+        [
+          4233.478,
+          5697.696
         ],
         [
           4233.458,
           5697.686
         ],
         [
-          4235.448,
-          5699.179
+          4233.458,
+          5693.386
+        ],
+        [
+          4233.478,
+          5693.376
         ],
         [
           4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
-          4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
-        ],
-        [
-          4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          5691.896
         ]
-      ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
       ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.3"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
-          4233.458,
-          5693.386
+          4238.868,
+          5699.166
         ],
         [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
+          4238.868,
           5706.056
         ],
         [
@@ -3376,68 +3107,21 @@
           5706.086
         ],
         [
-          4238.868,
+          4238.068,
           5706.056
         ],
         [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
+          4235.448,
+          5705.426
         ],
         [
           4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          5699.166
         ]
-      ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
       ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.4"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4367.023,
@@ -3492,144 +3176,90 @@
           5723.759
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.landing-stage.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
-          4277.601,
-          5777.063
+          4275.294,
+          5775.082
         ],
         [
-          4276.172,
-          5778.429
+          4274.139,
+          5776.448
         ],
         [
-          4274.691,
-          5779.493
+          4274.088,
+          5776.477
         ],
         [
-          4274.64,
-          5779.523
+          4274.08,
+          5776.473
         ],
         [
-          4274.582,
-          5779.526
+          4273.014,
+          5776.49
         ],
         [
-          4272.434,
-          5779.55
+          4270.935,
+          5776.449
         ],
         [
-          4270.489,
-          5779.196
+          4270.794,
+          5776.373
         ],
         [
-          4268.746,
-          5778.257
+          4269.616,
+          5774.66
         ],
         [
-          4267.38,
-          5776.829
+          4269.566,
+          5774.52
         ],
         [
-          4266.36,
-          5775.349
+          4269.491,
+          5772.128
         ],
         [
-          4266.33,
-          5775.298
+          4269.536,
+          5771.982
         ],
         [
-          4266.319,
-          5775.235
+          4270.605,
+          5770.207
         ],
         [
-          4266.258,
-          5773.09
+          4270.747,
+          5770.112
         ],
         [
-          4266.612,
-          5771.146
+          4272.818,
+          5769.956
         ],
         [
-          4267.551,
-          5769.403
+          4272.965,
+          5769.978
         ],
         [
-          4271.733,
-          5765.158
+          4275.079,
+          5771.116
         ],
         [
-          4271.765,
-          5765.141
+          4275.178,
+          5771.226
         ],
         [
-          4271.921,
-          5765.021
+          4276.188,
+          5773.042
         ],
         [
-          4271.935,
-          5765.016
-        ],
-        [
-          4271.943,
-          5765.021
-        ],
-        [
-          4272.081,
-          5765.061
-        ],
-        [
-          4272.191,
-          5765.109
-        ],
-        [
-          4276.406,
-          5768.208
-        ],
-        [
-          4277.772,
-          5769.636
-        ],
-        [
-          4278.92,
-          5771.47
-        ],
-        [
-          4278.95,
-          5771.52
-        ],
-        [
-          4278.953,
-          5771.578
-        ],
-        [
-          4278.894,
-          5773.375
-        ],
-        [
-          4278.54,
-          5775.319
+          4276.187,
+          5773.212
         ]
-      ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
       ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.mud-hut.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4268.275,
@@ -3648,16 +3278,9 @@
           5685.146
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.sconce-wall.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4261.739,
@@ -3712,16 +3335,9 @@
           5694.646
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.sign-post.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4321.95,
@@ -3780,16 +3396,9 @@
           5778.51
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.stilt-hut.building"
     },
     {
-      "baseSkirtWidthM": 0.9,
-      "contactAoWidthM": 1.5,
-      "farTier": false,
       "footprintM": [
         [
           4252.55,
@@ -3848,10 +3457,6 @@
           5675.939
         ]
       ],
-      "foundationScatterBandM": [
-        0.0,
-        1.2
-      ],
       "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.stilt-stair.building"
     }
   ],
@@ -3886,11 +3491,6 @@
       "id": "settlement-imperial-v1",
       "manifest": "kits/settlement-imperial-v1.kit.json"
     },
-    "settlement-mud-v1": {
-      "glb": "kits/settlement-mud-v1.glb",
-      "id": "settlement-mud-v1",
-      "manifest": "kits/settlement-mud-v1.kit.json"
-    },
     "settlement-stilt-v1": {
       "glb": "kits/settlement-stilt-v1.glb",
       "id": "settlement-stilt-v1",
@@ -3904,7 +3504,7 @@
       80
     ],
     "atlasMaxSize": 4096,
-    "colliderPartBudget": 155,
+    "colliderPartBudget": 141,
     "colliderRadiusM": 180,
     "distancePerFootprintDiagonal": [
       4.0,
@@ -4244,80 +3844,28 @@
       "placementId": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.1",
       "polygonM": [
         [
-          4233.458,
-          5693.386
-        ],
-        [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
-          4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
-        [
           4238.438,
           5677.736
         ],
         [
-          4238.008,
+          4238.868,
           5677.786
+        ],
+        [
+          4238.868,
+          5684.636
+        ],
+        [
+          4235.448,
+          5684.636
         ],
         [
           4235.448,
           5678.486
         ],
         [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          4238.008,
+          5677.786
         ]
       ]
     },
@@ -4327,80 +3875,36 @@
       "placementId": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.2",
       "polygonM": [
         [
-          4233.458,
-          5693.386
-        ],
-        [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
           4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
+          5684.626
         ],
         [
           4238.918,
           5685.666
         ],
         [
-          4238.868,
-          5684.626
+          4238.918,
+          5690.866
         ],
         [
           4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
+          5691.906
         ],
         [
           4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
+          5691.906
         ],
         [
           4235.398,
           5690.866
         ],
         [
+          4235.398,
+          5685.666
+        ],
+        [
           4235.448,
-          5691.893
+          5684.626
         ]
       ]
     },
@@ -4410,80 +3914,36 @@
       "placementId": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.3",
       "polygonM": [
         [
-          4233.458,
-          5693.386
+          4238.868,
+          5691.896
+        ],
+        [
+          4238.868,
+          5699.176
+        ],
+        [
+          4235.448,
+          5699.176
+        ],
+        [
+          4233.478,
+          5697.696
         ],
         [
           4233.458,
           5697.686
         ],
         [
-          4235.448,
-          5699.179
+          4233.458,
+          5693.386
+        ],
+        [
+          4233.478,
+          5693.376
         ],
         [
           4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
-          4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
-        ],
-        [
-          4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          5691.896
         ]
       ]
     },
@@ -4493,23 +3953,11 @@
       "placementId": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.4",
       "polygonM": [
         [
-          4233.458,
-          5693.386
+          4238.868,
+          5699.166
         ],
         [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
+          4238.868,
           5706.056
         ],
         [
@@ -4517,56 +3965,16 @@
           5706.086
         ],
         [
-          4238.868,
+          4238.068,
           5706.056
         ],
         [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
+          4235.448,
+          5705.426
         ],
         [
           4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          5699.166
         ]
       ]
     },
@@ -4635,120 +4043,80 @@
       "placementId": "place.fixture.proving-ground.parcel.proving-ground.mud-hut.building",
       "polygonM": [
         [
-          4277.601,
-          5777.063
+          4275.294,
+          5775.082
         ],
         [
-          4276.172,
-          5778.429
+          4274.139,
+          5776.448
         ],
         [
-          4274.691,
-          5779.493
+          4274.088,
+          5776.477
         ],
         [
-          4274.64,
-          5779.523
+          4274.08,
+          5776.473
         ],
         [
-          4274.582,
-          5779.526
+          4273.014,
+          5776.49
         ],
         [
-          4272.434,
-          5779.55
+          4270.935,
+          5776.449
         ],
         [
-          4270.489,
-          5779.196
+          4270.794,
+          5776.373
         ],
         [
-          4268.746,
-          5778.257
+          4269.616,
+          5774.66
         ],
         [
-          4267.38,
-          5776.829
+          4269.566,
+          5774.52
         ],
         [
-          4266.36,
-          5775.349
+          4269.491,
+          5772.128
         ],
         [
-          4266.33,
-          5775.298
+          4269.536,
+          5771.982
         ],
         [
-          4266.319,
-          5775.235
+          4270.605,
+          5770.207
         ],
         [
-          4266.258,
-          5773.09
+          4270.747,
+          5770.112
         ],
         [
-          4266.612,
-          5771.146
+          4272.818,
+          5769.956
         ],
         [
-          4267.551,
-          5769.403
+          4272.965,
+          5769.978
         ],
         [
-          4271.733,
-          5765.158
+          4275.079,
+          5771.116
         ],
         [
-          4271.765,
-          5765.141
+          4275.178,
+          5771.226
         ],
         [
-          4271.921,
-          5765.021
+          4276.188,
+          5773.042
         ],
         [
-          4271.935,
-          5765.016
-        ],
-        [
-          4271.943,
-          5765.021
-        ],
-        [
-          4272.081,
-          5765.061
-        ],
-        [
-          4272.191,
-          5765.109
-        ],
-        [
-          4276.406,
-          5768.208
-        ],
-        [
-          4277.772,
-          5769.636
-        ],
-        [
-          4278.92,
-          5771.47
-        ],
-        [
-          4278.95,
-          5771.52
-        ],
-        [
-          4278.953,
-          5771.578
-        ],
-        [
-          4278.894,
-          5773.375
-        ],
-        [
-          4278.54,
-          5775.319
+          4276.187,
+          5773.212
         ]
       ]
     },
@@ -4982,6 +4350,12 @@
     },
     {
       "bidirectional": true,
+      "id": "navlink.place.fixture.proving-ground.parcel.proving-ground.mud-hut.building.deck-to-ground",
+      "kind": "deck-to-ground",
+      "placementId": "place.fixture.proving-ground.parcel.proving-ground.mud-hut.building"
+    },
+    {
+      "bidirectional": true,
       "id": "navlink.place.fixture.proving-ground.parcel.proving-ground.stilt-hut.building.deck-to-ground",
       "kind": "deck-to-ground",
       "placementId": "place.fixture.proving-ground.parcel.proving-ground.stilt-hut.building"
@@ -5113,10 +4487,10 @@
       "anchor": {
         "buryCapM": 0.25,
         "designedSinkM": {
-          "evidence": "mesh-sill",
-          "p25": 1.1598,
-          "p50": 1.1598,
-          "p75": 1.1598
+          "evidence": "policy",
+          "p25": 0.3698,
+          "p50": 0.3698,
+          "p75": 0.3698
         },
         "evidence": {
           "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py).",
@@ -5237,10 +4611,10 @@
       "anchor": {
         "buryCapM": 0.75,
         "designedSinkM": {
-          "evidence": "mesh-sill",
-          "p25": -1.8272,
-          "p50": -1.8272,
-          "p75": -1.8272
+          "evidence": "policy",
+          "p25": -1.36,
+          "p50": -1.36,
+          "p75": -1.36
         },
         "evidence": {
           "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract.",
@@ -5646,80 +5020,28 @@
       },
       "footprintM": [
         [
-          4233.458,
-          5693.386
-        ],
-        [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
-          4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
-        [
           4238.438,
           5677.736
         ],
         [
-          4238.008,
+          4238.868,
           5677.786
+        ],
+        [
+          4238.868,
+          5684.636
+        ],
+        [
+          4235.448,
+          5684.636
         ],
         [
           4235.448,
           5678.486
         ],
         [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          4238.008,
+          5677.786
         ]
       ],
       "id": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.1",
@@ -5774,80 +5096,36 @@
       },
       "footprintM": [
         [
-          4233.458,
-          5693.386
-        ],
-        [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
           4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
+          5684.626
         ],
         [
           4238.918,
           5685.666
         ],
         [
-          4238.868,
-          5684.626
+          4238.918,
+          5690.866
         ],
         [
           4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
+          5691.906
         ],
         [
           4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
+          5691.906
         ],
         [
           4235.398,
           5690.866
         ],
         [
+          4235.398,
+          5685.666
+        ],
+        [
           4235.448,
-          5691.893
+          5684.626
         ]
       ],
       "id": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.2",
@@ -5902,80 +5180,36 @@
       },
       "footprintM": [
         [
-          4233.458,
-          5693.386
+          4238.868,
+          5691.896
+        ],
+        [
+          4238.868,
+          5699.176
+        ],
+        [
+          4235.448,
+          5699.176
+        ],
+        [
+          4233.478,
+          5697.696
         ],
         [
           4233.458,
           5697.686
         ],
         [
-          4235.448,
-          5699.179
+          4233.458,
+          5693.386
+        ],
+        [
+          4233.478,
+          5693.376
         ],
         [
           4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
-          5706.056
-        ],
-        [
-          4238.468,
-          5706.086
-        ],
-        [
-          4238.868,
-          5706.056
-        ],
-        [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
-        ],
-        [
-          4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          5691.896
         ]
       ],
       "id": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.3",
@@ -6031,23 +5265,11 @@
       },
       "footprintM": [
         [
-          4233.458,
-          5693.386
+          4238.868,
+          5699.166
         ],
         [
-          4233.458,
-          5697.686
-        ],
-        [
-          4235.448,
-          5699.179
-        ],
-        [
-          4235.448,
-          5705.426
-        ],
-        [
-          4238.068,
+          4238.868,
           5706.056
         ],
         [
@@ -6055,56 +5277,16 @@
           5706.086
         ],
         [
-          4238.868,
+          4238.068,
           5706.056
         ],
         [
-          4238.868,
-          5691.907
-        ],
-        [
-          4238.918,
-          5690.866
-        ],
-        [
-          4238.918,
-          5685.666
-        ],
-        [
-          4238.868,
-          5684.626
-        ],
-        [
-          4238.868,
-          5677.786
-        ],
-        [
-          4238.438,
-          5677.736
-        ],
-        [
-          4238.008,
-          5677.786
+          4235.448,
+          5705.426
         ],
         [
           4235.448,
-          5678.486
-        ],
-        [
-          4235.448,
-          5684.626
-        ],
-        [
-          4235.398,
-          5685.666
-        ],
-        [
-          4235.398,
-          5690.866
-        ],
-        [
-          4235.448,
-          5691.893
+          5699.166
         ]
       ],
       "id": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.4",
@@ -6237,164 +5419,124 @@
     },
     {
       "anchor": {
-        "buryCapM": 0.5,
+        "buryCapM": 0.25,
         "designedSinkM": {
-          "evidence": "mesh-sill",
-          "p25": -3.9242,
-          "p50": -3.9242,
-          "p75": -3.9242
+          "evidence": "base:htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "p25": -0.2409,
+          "p50": -0.0933,
+          "p75": 0.0969
         },
         "evidence": {
-          "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract.",
+          "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py).",
           "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-          "policyId": "pad"
+          "policyId": "stilt"
         },
-        "groundContactOffsetM": 3.924,
-        "groundFit": "pad",
+        "groundContactOffsetM": 0.911,
+        "groundFit": "stilt",
         "mode": "streamed-perimeter",
         "originOffsetM": [
-          7.554,
-          7.554,
-          3.924
+          4.083,
+          3.842,
+          0.911
         ],
         "schemaVersion": 1
       },
-      "assetId": "composite:mud/hut-with-entrance",
+      "assetId": "composite:stilt/bamboohut01-with-door",
       "collision": {
         "frame": "settlement-pivot-yup-v1",
         "kind": "mesh"
       },
       "footprintM": [
         [
-          4277.601,
-          5777.063
+          4275.294,
+          5775.082
         ],
         [
-          4276.172,
-          5778.429
+          4274.139,
+          5776.448
         ],
         [
-          4274.691,
-          5779.493
+          4274.088,
+          5776.477
         ],
         [
-          4274.64,
-          5779.523
+          4274.08,
+          5776.473
         ],
         [
-          4274.582,
-          5779.526
+          4273.014,
+          5776.49
         ],
         [
-          4272.434,
-          5779.55
+          4270.935,
+          5776.449
         ],
         [
-          4270.489,
-          5779.196
+          4270.794,
+          5776.373
         ],
         [
-          4268.746,
-          5778.257
+          4269.616,
+          5774.66
         ],
         [
-          4267.38,
-          5776.829
+          4269.566,
+          5774.52
         ],
         [
-          4266.36,
-          5775.349
+          4269.491,
+          5772.128
         ],
         [
-          4266.33,
-          5775.298
+          4269.536,
+          5771.982
         ],
         [
-          4266.319,
-          5775.235
+          4270.605,
+          5770.207
         ],
         [
-          4266.258,
-          5773.09
+          4270.747,
+          5770.112
         ],
         [
-          4266.612,
-          5771.146
+          4272.818,
+          5769.956
         ],
         [
-          4267.551,
-          5769.403
+          4272.965,
+          5769.978
         ],
         [
-          4271.733,
-          5765.158
+          4275.079,
+          5771.116
         ],
         [
-          4271.765,
-          5765.141
+          4275.178,
+          5771.226
         ],
         [
-          4271.921,
-          5765.021
+          4276.188,
+          5773.042
         ],
         [
-          4271.935,
-          5765.016
-        ],
-        [
-          4271.943,
-          5765.021
-        ],
-        [
-          4272.081,
-          5765.061
-        ],
-        [
-          4272.191,
-          5765.109
-        ],
-        [
-          4276.406,
-          5768.208
-        ],
-        [
-          4277.772,
-          5769.636
-        ],
-        [
-          4278.92,
-          5771.47
-        ],
-        [
-          4278.95,
-          5771.52
-        ],
-        [
-          4278.953,
-          5771.578
-        ],
-        [
-          4278.894,
-          5773.375
-        ],
-        [
-          4278.54,
-          5775.319
+          4276.187,
+          5773.212
         ]
       ],
       "id": "place.fixture.proving-ground.parcel.proving-ground.mud-hut.building",
       "kind": "settlement",
-      "kit": "settlement-mud-v1",
+      "kit": "settlement-stilt-v1",
       "positionM": [
         4272.576,
-        23.765,
+        21.959,
         5773.233
       ],
       "provenance": {
-        "assetId": "composite:mud/hut-with-entrance",
+        "assetId": "composite:stilt/bamboohut01-with-door",
         "generatorId": "compile_settlement",
         "generatorVersion": "0.1.0",
-        "ruleId": "parcel-building/pad",
+        "ruleId": "parcel-building/stilt",
         "seed": "place.fixture.proving-ground",
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
@@ -6594,10 +5736,10 @@
       "anchor": {
         "buryCapM": 0.25,
         "designedSinkM": {
-          "evidence": "mesh-sill",
-          "p25": -1.6213,
-          "p50": -1.6213,
-          "p75": -1.6213
+          "evidence": "policy",
+          "p25": -4.7333,
+          "p50": -4.7333,
+          "p75": -4.7333
         },
         "evidence": {
           "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py).",
@@ -6682,7 +5824,7 @@
       "kit": "settlement-stilt-v1",
       "positionM": [
         4325.583,
-        22.224,
+        22.176,
         5776.888
       ],
       "provenance": {
@@ -23687,9 +22829,9 @@
           "maxUniqueMaterials": 106
         },
         "instances": 16,
-        "triangles": 54803,
+        "triangles": 46811,
         "uniqueAssets": 16,
-        "uniqueMaterials": 106,
+        "uniqueMaterials": 97,
         "withinBudget": true
       },
       "compiledObjectIds": [
@@ -23697,12 +22839,10 @@
         "approach.proving-ground.west",
         "combat.proving-ground.yard",
         "district.proving-ground.imperial",
-        "district.proving-ground.mud",
         "district.proving-ground.root",
         "district.proving-ground.stilt",
         "door.fixture.proving-ground.imperial-house",
         "door.fixture.proving-ground.mud-hut",
-        "door.fixture.proving-ground.stilt-hut",
         "field:place.fixture.proving-ground:causalModel.founding",
         "field:place.fixture.proving-ground:causalModel.occupantsMotive",
         "field:place.fixture.proving-ground:causalModel.pressures",
@@ -23736,7 +22876,7 @@
         },
         {
           "grade": "warn",
-          "message": "place.fixture.proving-ground: why-quality \u2014 1 of 117 why fields are under 40 characters, which is too short to carry a reason: landmark.proving-ground.sconce.why.whyNeighbours (34 chars)",
+          "message": "place.fixture.proving-ground: why-quality \u2014 1 of 112 why fields are under 40 characters, which is too short to carry a reason: landmark.proving-ground.sconce.why.whyNeighbours (34 chars)",
           "ruleId": "compile"
         },
         {
@@ -23746,7 +22886,7 @@
         },
         {
           "grade": "warn",
-          "message": "place.fixture.proving-ground: front \u2014 parcel parcel.proving-ground.boardwalk (work) has a derived front (asymmetry evidence, 128\u00b0 in the piece's own frame) looking 218\u00b0 after yaw 90.0\u00b0, but the way the player arrives on (route.proving-ground.mud-hut-path) lies 106\u00b0 \u2014 112\u00b0 away, over the 60\u00b0 allowed. The open side of a piece is the side its author left facing the path; turn the parcel to about 338\u00b0",
+          "message": "place.fixture.proving-ground: front \u2014 parcel parcel.proving-ground.boardwalk (work) has a derived front (asymmetry evidence, 128\u00b0 in the piece's own frame) looking 218\u00b0 after yaw 90.0\u00b0, but the way the player arrives on (route.proving-ground.mud-hut-path) lies 103\u00b0 \u2014 115\u00b0 away, over the 60\u00b0 allowed. The open side of a piece is the side its author left facing the path; turn the parcel to about 335\u00b0",
           "ruleId": "compile"
         },
         {
@@ -23786,19 +22926,6 @@
             "overOpenWaterBuildingShare": 0.0
           },
           {
-            "buildingCount": 1,
-            "buildingIds": [
-              "parcel.proving-ground.mud-hut"
-            ],
-            "conforms": null,
-            "cultureKit": "argonian-mud",
-            "cultureRule": null,
-            "districtId": "district.proving-ground.mud",
-            "overOpenWaterBuildingCount": 0,
-            "overOpenWaterBuildingIds": [],
-            "overOpenWaterBuildingShare": 0.0
-          },
-          {
             "buildingCount": 0,
             "buildingIds": [],
             "conforms": true,
@@ -23813,8 +22940,9 @@
             "overOpenWaterBuildingShare": null
           },
           {
-            "buildingCount": 1,
+            "buildingCount": 2,
             "buildingIds": [
+              "parcel.proving-ground.mud-hut",
               "parcel.proving-ground.stilt-hut"
             ],
             "conforms": null,
@@ -23995,7 +23123,7 @@
               "openWater": false,
               "wetSeasonInundated": false
             },
-            "districtId": "district.proving-ground.mud",
+            "districtId": "district.proving-ground.stilt",
             "entireFootprintDryInSurvey": true,
             "floodBandSamples": 0,
             "kind": "building",
@@ -24003,7 +23131,7 @@
             "openWaterSamples": 0,
             "overOpenWater": false,
             "parcelId": "parcel.proving-ground.mud-hut",
-            "sampleCount": 68,
+            "sampleCount": 42,
             "touchesFloodSection": false,
             "use": "dwelling",
             "waterEntities": [],
@@ -24167,10 +23295,10 @@
           },
           {
             "conforms": true,
-            "districtId": "district.proving-ground.mud",
-            "expected": "dry footprint; survey cannot distinguish levee from another dry bench",
+            "districtId": "district.proving-ground.stilt",
+            "expected": "authored stilt dwelling; district 15\u201330% open-water share controls",
             "parcelId": "parcel.proving-ground.mud-hut",
-            "rule": "dwelling-dry-levee-or-bench",
+            "rule": "argonian-stilt-dwelling-water-section",
             "use": "dwelling",
             "waterEntityIds": []
           },

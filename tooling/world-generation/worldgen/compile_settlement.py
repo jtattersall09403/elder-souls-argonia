@@ -1824,36 +1824,79 @@ def quay_run_ends_local(asset: dict, scale: float = 1.0) -> tuple[float, float]:
     return -(size_y - offset_y) * scale, offset_y * scale
 
 
+def support_height_at(survey, x: float, z: float) -> float:
+    """The surface a stilt's or quay's legs stand on: the ground, or the water
+    surface where the survey's signed depth says water covers it."""
+    depth = survey.water_signed_depth_m
+    pm = survey.extent_m / depth.shape[0]
+    row = min(max(int(z // pm), 0), depth.shape[0] - 1)
+    col = min(max(int(x // pm), 0), depth.shape[1] - 1)
+    return survey.height_at(x, z) + max(0.0, float(depth[row, col]))
+
+
+def quay_deck_rise_m(asset: dict, scale: float = 1.0) -> float | None:
+    """How far a water-class quay's deck stands above the water: its manifest
+    deck top less its designed waterline (the waterline an ``assetPlacement``
+    ``deckClearanceM`` row derives, owner check-in 2), or None without both."""
+    deck_top = (asset.get("groundLineTell") or {}).get("deckTopM")
+    waterline = asset.get("designedWaterlineM")
+    if not all(isinstance(v, (int, float)) and math.isfinite(v) for v in (deck_top, waterline)):
+        return None
+    return (float(deck_top) - float(waterline)) * scale
+
+
 def anchor_quay_run(asset: dict, centre_m: tuple[float, float], yaw_deg: float,
                     scale: float, survey) -> tuple[float, float, float] | None:
-    """Slide a quay run along its own axis so its landward tip stands on the
-    ground/water line (16h K6, owner check-in 1: the landing stage's landward
-    end did not reach the land): ``(x, z, shift m)``, or None when the axis
-    crosses no line within QUAY_SHORE_SEARCH_M of the tip. The line is the
-    survey's wet grid edge, dry on the landward side; the nearest crossing to
-    the authored tip wins. The run then extends over the water."""
+    """Slide a quay run along its own axis so its landward tip reaches the
+    bank: ``(x, z, shift m)``, or None when the axis crosses no bank within
+    QUAY_SHORE_SEARCH_M of the tip; the nearest crossing to the authored tip
+    wins and the run then extends over the water.
+
+    The bank is where the DECK plane meets the ground (owner check-in 2,
+    finding 10), not the waterline: the deck stands ``quay_deck_rise_m`` above
+    the water surface (the median water surface under the run's wet samples),
+    and the landward tip goes to the first point, walking landward, where the
+    ground rises to the deck. Without a deck rise on the manifest the line
+    falls back to the survey's wet grid edge (16h K6)."""
     from .blueprint_integration import runtime_world_xz
 
     wet = survey.wet_grid
-    landward, _seaward = quay_run_ends_local(asset, scale)
+    landward, seaward = quay_run_ends_local(asset, scale)
+
+    def at(t: float) -> tuple[float, float]:
+        return runtime_world_xz(centre_m, yaw_deg, (0.0, t))
 
     def is_wet(t: float) -> bool:
-        x, z = runtime_world_xz(centre_m, yaw_deg, (0.0, t))
-        row, col = survey.grid_px(x, z)
+        row, col = survey.grid_px(*at(t))
         return bool(wet[row, col])
 
     steps = int(QUAY_SHORE_SEARCH_M / QUAY_SHORE_STEP_M)
+    rise = quay_deck_rise_m(asset, scale)
+    ts = [landward + k * QUAY_SHORE_STEP_M for k in range(-steps, steps + 1)]
+    water = sorted(support_height_at(survey, *at(t)) for t in ts
+                   if landward <= t <= seaward and is_wet(t))
     best = None
-    for k in range(-steps, steps):
-        t0 = landward + k * QUAY_SHORE_STEP_M
-        if not is_wet(t0) and is_wet(t0 + QUAY_SHORE_STEP_M):
-            line = t0 + QUAY_SHORE_STEP_M / 2
-            if best is None or abs(line - landward) < abs(best - landward):
-                best = line
+    if rise is not None and water:
+        deck = water[len(water) // 2] + rise
+        ground = [survey.height_at(*at(t)) for t in ts]
+        for k in range(len(ts) - 1):
+            if ground[k] >= deck > ground[k + 1]:
+                line = ts[k] + QUAY_SHORE_STEP_M / 2
+                if best is None or abs(line - landward) < abs(best - landward):
+                    best = line
+    if best is None:
+        # No ground within reach rises to the deck (the yard's bank stands
+        # under the lake's recorded surface): the wet-grid edge, and the gap
+        # is the deck's height over the bank there (ledger, check-in 2).
+        for t0 in ts[:-1]:
+            if not is_wet(t0) and is_wet(t0 + QUAY_SHORE_STEP_M):
+                line = t0 + QUAY_SHORE_STEP_M / 2
+                if best is None or abs(line - landward) < abs(best - landward):
+                    best = line
     if best is None:
         return None
     shift = best - landward
-    x, z = runtime_world_xz(centre_m, yaw_deg, (0.0, shift))
+    x, z = at(shift)
     return x, z, round(shift, 3)
 
 
@@ -2033,7 +2076,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         if is_quay_run(asset):
             anchored = anchor_quay_run(asset, (cx, cz), yaw, scale, survey)
             if anchored is None:
-                errors.append(f"{pid}: quay run {asset['id']} finds no ground/water line "
+                errors.append(f"{pid}: quay run {asset['id']} finds no bank (deck plane meets ground) "
                               f"within {QUAY_SHORE_SEARCH_M:.0f} m of its landward end "
                               f"along its axis; a quay starts at the shore")
             else:

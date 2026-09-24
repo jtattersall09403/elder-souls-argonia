@@ -32,38 +32,30 @@
     "2.Mat"
    ],
    "designedSinkM": {
-    "p25": -1.6213,
-    "p50": -1.6213,
-    "p75": -1.6213,
+    "p25": -4.7333,
+    "p50": -4.7333,
+    "p75": -4.7333,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
-   "anchorClass": "water",
+   "anchorClass": "ground",
    "anchorClassEvidence": "policy",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -1.6213,
-    "deckTopM": -1.2713,
-    "deckClearanceM": 0.35
-   },
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-origin",
+    "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 8.472,
-    "buryCapM": 0.0,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "water-zero",
-     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
    },
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 8.472,
-   "designedWaterlineM": -1.6213
+   "pivotAboveBaseM": 8.472
   },
   {
    "id": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
@@ -912,6 +904,9 @@
    "materials": [
     "ShackRoofMid01:32.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ShackRoofMid01:32.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 0.12,
     "p50": 0.12,
@@ -967,6 +962,9 @@
    "materials": [
     "ShackRoofCorner01:32.Mat"
    ],
+   "alphaMaskMaterials": {
+    "ShackRoofCorner01:32.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 0.12,
     "p50": 0.12,
@@ -1440,6 +1438,9 @@
     "Hist.Mat",
     "L1_WRTempleTree02.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_WRTempleTree02.Mat": 0.51
+   },
    "designedSinkM": {
     "p25": -8.8224,
     "p50": -8.8224,
@@ -1515,6 +1516,9 @@
     "ShipOar01:6.Mat",
     "ShipWoodplanks04:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC1HouseIngrdGiantLichen01_1:0.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.0426,
     "p50": -0.0426,
@@ -1656,6 +1660,11 @@
     "cedartree1:2.Mat",
     "cedartree1:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "cedartree1:1.Mat": 0.502,
+    "cedartree1:2.Mat": 0.502,
+    "cedartree1:5.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -1.4177,
     "p50": -1.4177,
@@ -1716,6 +1725,12 @@
    "materials": [
     "Cylinder.Mat"
    ],
+   "glowMaterials": [
+    "Cylinder.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Cylinder.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 6.1957,
     "p50": 6.1957,
@@ -1776,6 +1791,12 @@
    "materials": [
     "Cylinder.Mat.001"
    ],
+   "glowMaterials": [
+    "Cylinder.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Cylinder.Mat.001": 0.502
+   },
    "designedSinkM": {
     "p25": 6.0086,
     "p50": 6.0086,
@@ -2324,6 +2345,9 @@
     "planks04.Mat",
     "planks05.Mat"
    ],
+   "alphaMaskMaterials": {
+    "CandleLanternWithCandle:7.Mat": 0.89
+   },
    "designedSinkM": {
     "p25": -0.4728,
     "p50": -0.4728,
@@ -2395,6 +2419,9 @@
     "OrcAwningFull01:8.Mat",
     "OrcAwningFull01:9.Mat"
    ],
+   "alphaMaskMaterials": {
+    "OrcAwningFull01:1.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.2409,
     "p50": -0.0933,
@@ -2460,6 +2487,9 @@
     "OrcAwningFull01:8.Mat.001",
     "OrcAwningFull01:9.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "OrcAwningFull01:1.Mat.001": 0.502
+   },
    "designedSinkM": {
     "p25": -0.4291,
     "p50": -0.1107,
@@ -2655,6 +2685,9 @@
     "wickertable01:20.Mat",
     "wickertable01:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "wickertable01:15.Mat": 0.502
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -2860,6 +2893,9 @@
     "OrcAwningHalf01:1.Mat",
     "OrcAwningHalf01:3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "OrcAwningHalf01:1.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.9105,
     "p50": -0.9105,
@@ -2987,22 +3023,15 @@
     "TamuWoodDock01.Mat"
    ],
    "designedSinkM": {
-    "p25": 1.1598,
-    "p50": 1.1598,
-    "p75": 1.1598,
+    "p25": 0.3698,
+    "p50": 0.3698,
+    "p75": 0.3698,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": 1.1598,
-    "deckTopM": 1.5098,
-    "deckClearanceM": 0.35
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3371,6 +3400,9 @@
     "OrcAwningFull01:8.Mat.002",
     "OrcAwningFull01:9.Mat.002"
    ],
+   "alphaMaskMaterials": {
+    "OrcAwningFull01:1.Mat.002": 0.502
+   },
    "designedSinkM": {
     "p25": -0.2409,
     "p50": -0.0933,
@@ -3439,6 +3471,9 @@
     "OrcAwningFull01:8.Mat.003",
     "OrcAwningFull01:9.Mat.003"
    ],
+   "alphaMaskMaterials": {
+    "OrcAwningFull01:1.Mat.003": 0.502
+   },
    "designedSinkM": {
     "p25": -0.4291,
     "p50": -0.1107,
@@ -3666,7 +3701,7 @@
    "sizeM": [
     11.264,
     17.752,
-    10.843
+    10.748
    ],
    "originOffsetM": [
     4.695,
@@ -3699,22 +3734,15 @@
     "RiftenDoor02R02:37.Mat.001"
    ],
    "designedSinkM": {
-    "p25": -1.6213,
-    "p50": -1.6213,
-    "p75": -1.6213,
+    "p25": -4.7333,
+    "p50": -4.7333,
+    "p75": -4.7333,
     "n": 0,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "policy"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "deck-top",
-    "valueM": -1.6213,
-    "deckTopM": -1.2713,
-    "deckClearanceM": 0.35
-   },
+   "anchorClassEvidence": "policy",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3814,6 +3842,298 @@
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 9.604
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackwallwindow01",
+   "node": "es|18b408b43a|_architecture_shackkit_shackwallwindow01",
+   "category": "architecture",
+   "sizeM": [
+    3.651,
+    0.253,
+    2.731
+   ],
+   "originOffsetM": [
+    1.83,
+    -1.694,
+    -0.0
+   ],
+   "triangles": 304,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "ShackWallWindow01:26.Mat",
+    "ShackWallWindow01:30.Mat",
+    "ShackWallWindow01:31.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.12,
+    "p50": 0.12,
+    "p75": 0.12,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackwallwindow02",
+   "node": "es|4a7bf1a817|_architecture_shackkit_shackwallwindow02",
+   "category": "architecture",
+   "sizeM": [
+    3.651,
+    0.253,
+    2.731
+   ],
+   "originOffsetM": [
+    1.83,
+    -1.694,
+    -0.0
+   ],
+   "triangles": 304,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "ShackWallWindow02:26.Mat",
+    "ShackWallWindow02:30.Mat",
+    "ShackWallWindow02:31.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.12,
+    "p50": 0.12,
+    "p75": 0.12,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackwalltopwindow01",
+   "node": "es|a9d691e93c|chitecture_shackkit_shackwalltopwindow01",
+   "category": "architecture",
+   "sizeM": [
+    0.256,
+    3.641,
+    1.881
+   ],
+   "originOffsetM": [
+    -1.693,
+    1.821,
+    -2.708
+   ],
+   "triangles": 304,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shipwoodside01.dds",
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "ShackWallTopWindow01:26.Mat",
+    "ShackWallTopWindow01:30.Mat",
+    "ShackWallTopWindow01:31.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.12,
+    "p50": 0.12,
+    "p75": 0.12,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -2.708,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -2.708
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackroofside01",
+   "node": "es|3f82376938|a__architecture_shackkit_shackroofside01",
+   "category": "architecture",
+   "sizeM": [
+    3.641,
+    2.029,
+    1.907
+   ],
+   "originOffsetM": [
+    1.821,
+    0.16,
+    -2.681
+   ],
+   "triangles": 20,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "shiproof01.dds"
+   ],
+   "materials": [
+    "ShackRoofSide01:32.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "ShackRoofSide01:32.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": 0.12,
+    "p50": 0.12,
+    "p75": 0.12,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -2.681,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.969,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -2.681
+  },
+  {
+   "id": "vanilla:architecture/shackkit/shackframerend02",
+   "node": "es|629e668905|__architecture_shackkit_shackframerend02",
+   "category": "architecture",
+   "sizeM": [
+    3.834,
+    2.187,
+    4.826
+   ],
+   "originOffsetM": [
+    1.821,
+    0.183,
+    0.018
+   ],
+   "triangles": 340,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "ShackFrameREnd02:26.Mat",
+    "ShackFrameREnd02:30.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.12,
+    "p50": 0.12,
+    "p75": 0.12,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.018,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.865,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.018
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",
@@ -3830,8 +4150,8 @@
   "textures/stroti/stilthouse/iron01_n.dds": "textures/architecture/stilthouse/iron01_n.dds"
  },
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 251
+  "MASK": 17,
+  "OPAQUE": 246
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -3864,16 +4184,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 37812692,
-  "bytesAfter": 15421000,
-  "images": 50,
-  "imageBytesAfter": 10974082,
+  "bytesBefore": 38045328,
+  "bytesAfter": 15599228,
+  "images": 51,
+  "imageBytesAfter": 11094672,
   "warnings": [],
-  "sha256": "0e4526e3d14ab4fdc8621e9269858cb23c5a6cd44b42c905df4dfd2c9a2017c0",
+  "sha256": "23ebc970ccb0f6e61bef6a6781c21e2e98065c73d5f8c3d2fb6a3166ec006894",
   "sidecarBytes": {
-   "connectors": 55590,
-   "footprints": 85533,
-   "interiors": 46779
+   "connectors": 60443,
+   "footprints": 89090,
+   "interiors": 48834
   }
  }
 }
