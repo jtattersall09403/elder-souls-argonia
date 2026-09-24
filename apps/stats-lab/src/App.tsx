@@ -6,7 +6,7 @@ import {
   ATTRIBUTE_ORDER, LAB_SKILLS, climbRows, combatRows, curvePoints, derivedRows, ladderRows,
   referenceState, stateFromCreation, type LabSkill, type LabState, type MeleeSkill, type Row,
 } from "./model";
-import { attributeName, bandName, className, raceName, skillName, ui } from "./text";
+import { attributeName, bandName, className, invariantName, raceName, skillName, ui } from "./text";
 
 const MELEE: MeleeSkill[] = ["longBlade", "blunt", "axe", "spear", "shortBlade", "handToHand"];
 const fmt = (v: number | string) =>
@@ -51,7 +51,7 @@ function HarnessPanel() {
           <tbody>
             {out.invariants.map((i) => (
               <tr key={i.id}>
-                <td>{i.id}</td><td className={i.pass ? "pass" : "fail"}>{ui(i.pass ? "pass" : "fail")}</td>
+                <td>{invariantName(i.id)}</td><td className={i.pass ? "pass" : "fail"}>{ui(i.pass ? "pass" : "fail")}</td>
               </tr>
             ))}
           </tbody>

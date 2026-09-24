@@ -103,7 +103,8 @@
    "resistPoison": 4,
    "waterBreathing": 12
   },
-  "magnitudeMultiplier": 18
+  "magnitudeMultiplier": 18,
+  "effectCostDivisor": 3
  },
  "costReductionCap": 0.75,
  "castability": {

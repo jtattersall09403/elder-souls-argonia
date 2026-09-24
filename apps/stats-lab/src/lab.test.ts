@@ -3,11 +3,14 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import * as s from "@elder-souls/game-core/stats/index";
-import { CATALOGUE } from "@elder-souls/text-catalogue";
+import { STATS_CATALOGUE as CATALOGUE } from "@elder-souls/text-catalogue/stats";
 import { LAB_SKILLS, climbRows, combatRows, curvePoints, derivedRows, ladderRows, referenceState, stateFromCreation } from "./model";
-import { attributeName, bandName, className, raceName, skillName, ui } from "./text";
+import { runSim } from "@elder-souls/game-core/stats/sim/run";
+import { attributeName, bandName, className, invariantName, raceName, skillName, ui } from "./text";
 
 const here = dirname(fileURLToPath(import.meta.url));
+/** One harness run (~0.5 s) shared by the tests below. */
+const HARNESS = runSim();
 
 describe("the lab shows the game's numbers", () => {
   it("the reference preset reads the Marsh Hand's (§116)", () => {
@@ -42,6 +45,11 @@ describe("every string the lab shows comes from the text catalogue", () => {
     for (const c of s.STATS_DATA.classes.classes) missing(className(c.id), c.id);
     for (const k of LAB_SKILLS) for (const c of curvePoints(k, s.REFERENCE_ATTRIBUTES)) missing(bandName(c.band), c.band);
   });
+  it("every invariant the harness reports has a readable name", () => {
+    const { invariants } = HARNESS;
+    expect(invariants).toHaveLength(19);
+    for (const i of invariants) missing(invariantName(i.id), i.id);
+  });
   it("every ui(...) key used in the source", () => {
     const src = ["App.tsx", "model.ts"].map((f) => readFileSync(join(here, f), "utf8")).join("\n");
     const keys = new Set([...src.matchAll(/ui\("([a-z0-9-]+)"\)/g)].map((m) => m[1]));
@@ -54,6 +62,7 @@ describe("every string the lab shows comes from the text catalogue", () => {
     expect(keys.size).toBeGreaterThan(30);
     for (const k of keys) missing(ui(k), k);
     // and the reverse: no catalogue entry for the lab that nothing shows
+    for (const i of HARNESS.invariants) keys.add(`invariant.${i.id}`);
     for (const k of LAB_SKILLS) for (const c of curvePoints(k, s.REFERENCE_ATTRIBUTES)) keys.add(`band-${c.band.replace(/[A-Z]/g, (x) => `-${x.toLowerCase()}`)}`);
     const unused = [...CATALOGUE.keys()].filter((id) => id.startsWith("text.stats-lab.") && !keys.has(id.slice("text.stats-lab.".length)));
     expect(unused).toEqual([]);

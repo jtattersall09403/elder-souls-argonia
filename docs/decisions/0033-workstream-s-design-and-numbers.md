@@ -22,7 +22,7 @@ numbers and proved them in bulk:
   encumbrance, breath, climbing, economy, exploit hunts and whole-playthrough
   runs, and ends in **16 invariants, all holding**. Its `data/` directory is the canonical numbers; at 10c it is
   re-pointed at the game's tables and the invariants become standing tests.
-- **[`tooling/stats-sim/FINDINGS.md`](../../tooling/stats-sim/FINDINGS.md)** —
+- **[`tooling/stats-sim/FINDINGS.md`](../research/archive/workstream-s/stats-sim-findings.md)** —
   the tuning history: all nineteen anomalies the simulation found, what was done
   about each, and the three left open as forward work. The derivation it came
   from (worked characters, the ladder as played, pacing, economy) is the closed
@@ -63,7 +63,7 @@ numbers and proved them in bulk:
 ## 3. What the simulation forced
 
 Retunes, all recorded in the data files with reasons and listed in
-[`tooling/stats-sim/FINDINGS.md`](../../tooling/stats-sim/FINDINGS.md):
+[`tooling/stats-sim/FINDINGS.md`](../research/archive/workstream-s/stats-sim-findings.md):
 burden thresholds (0.20/0.35, so the reference kit is *mid*), enemy
 armour bands down ~40 % and D5 health/damage trimmed (boss fights were beating
 every build), magicka pool and regen up substantially with capped cost-reduction

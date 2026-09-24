@@ -80,6 +80,15 @@ export function listedDamage(weaponClassId: string, materialId: string, attackId
   return data.gear.weaponBaseDamage * mat.damageScale * cls.powerScale * attack.motionValue;
 }
 
+/**
+ * A shield's weight: the base shield × its material's weight scale, like every
+ * other item (the reference kit's "steel kite shield", module 76 §116). One
+ * definition; the retired sim's campaign carried an unscaled shield (round 4).
+ */
+export function shieldWeight(materialId: string, data: SimData = SIM_DATA): number {
+  return data.gear.shieldWeightKg * data.gear.materials[materialId].weightScale;
+}
+
 export function weaponWeight(weaponClassId: string | null | undefined, materialId: string, data: SimData = SIM_DATA): number {
   if (!weaponClassId) return 0;
   const base = data.gear.weaponClasses[weaponClassId]?.weightKg ?? data.gear.bows[weaponClassId]?.weightKg;
@@ -150,7 +159,7 @@ export function makeBuild(
   const carriedKg =
     armourSetWeight(armourSetId, data) +
     (arch.weaponClass ? weaponWeight(arch.weaponClass, weaponMaterial, data) : 0) +
-    (arch.shield ? data.gear.shieldWeightKg * data.gear.materials[weaponMaterial].weightScale : 0) +
+    (arch.shield ? shieldWeight(weaponMaterial, data) : 0) +
     PACK_KG;
 
   return {

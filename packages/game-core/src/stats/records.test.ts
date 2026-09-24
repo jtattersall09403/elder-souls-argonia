@@ -81,3 +81,17 @@ describe("statsData refuses malformed tables", () => {
   it("a scalar $from with sibling keys", () =>
     expect(() => s.resolveRuleSet({ x: { $from: "curves.levelUp.ranksPerLevel", override: 8 } }, s.STATS_DATA.curves)).toThrow(/scalar/));
 });
+
+describe("services and crafting (§124)", () => {
+  it("training: costPerRank × rank^exponent, summed over a range", () => {
+    expect(s.trainingCost(30)).toBe(240);
+    expect(s.trainingCostRange(30, 50)).toBe(6320); // the harness's "30→50 6320g"
+  });
+  it("brewing reads canon's Alchemy + Int/10 score and the apparatus", () => {
+    // the harness's brewed healing: novice 21, competent 77, master 198
+    expect(Math.round(s.brewMagnitude(25, 35, "mortar", "restoreHealth"))).toBe(21);
+    expect(Math.round(s.brewMagnitude(60, 40, "journeyman", "restoreHealth"))).toBe(77);
+    expect(Math.round(s.brewMagnitude(100, 100, "master", "restoreHealth"))).toBe(198);
+    expect(() => s.brewMagnitude(50, 50, "cauldron", "restoreHealth")).toThrow(/apparatus/);
+  });
+});

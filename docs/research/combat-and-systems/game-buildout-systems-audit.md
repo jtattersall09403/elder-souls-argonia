@@ -337,7 +337,7 @@ talk-pay-arrive + never-seen rulings — recommend deleting the enum).
 **Fixed 2026-08-30:** 76 §121.4 code block carried a stale `126 +
 incomingDamage` (prose + curves.json say `135.6 + 0.6×dmg`; reference case
 validates at exactly 25.0 %) · stale "OPEN DIVERGENCE" note in
-`tooling/stats-sim/data/rules-argonia.json` (closed by FINDINGS #30) ·
+`tooling/stats-sim/data/rules-argonia.json`, now `packages/game-core/src/stats/data/rules-argonia.json` (closed by FINDINGS #30) ·
 quests 80 §58 now states the condition vocabulary is unenumerated (Q1 gate).
 
 **Recorded, not resolved:** training price — 76 §124 says 10× current skill

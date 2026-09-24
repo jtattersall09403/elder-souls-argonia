@@ -8,11 +8,12 @@ import {
   unarmouredRating,
 } from "../derived";
 import { bandActor } from "../ladder";
+import { brewMagnitude, trainingCostRange } from "../crafting";
 import { attributeCost } from "../progression";
 import { playCampaign, type CampaignRun } from "./campaign";
 import {
   armourSetRating, armourSetWeight, compiledEnemies, duel, listedDamage, makeBuild, offenceSummary, playCharacter,
-  weaponWeight,
+  shieldWeight, weaponWeight,
 } from "./model";
 import { SIM_DATA, type SimData, type SimTable } from "./simData";
 
@@ -151,7 +152,7 @@ export function burdenSweep(data: SimData = SIM_DATA) {
     const kg =
       armourSetWeight(l.set, data) +
       weaponWeight(l.weapon, l.material, data) +
-      (l.shield ? data.gear.shieldWeightKg * data.gear.materials[l.material].weightScale : 0) +
+      (l.shield ? shieldWeight(l.material, data) : 0) +
       l.pack;
     return {
       loadout: l.id,
@@ -421,18 +422,9 @@ export function economySweep(data: SimData = SIM_DATA) {
     };
   });
 
-  const trainingToCap = (from: number, to: number) => {
-    let total = 0;
-    for (let r = from; r < to; r += 1) {
-      total += economy.training.costPerRank * Math.pow(r, economy.training.costRankExponent);
-    }
-    return Math.round(total);
-  };
-
-  const A = magic.alchemy;
+  const trainingToCap = (from: number, to: number) => Math.round(trainingCostRange(from, to, data));
   const brewed = (alchemy: number, intelligence: number, apparatus: string) =>
-    (A.magnitudeMultiplier * (alchemy + intelligence / 10) * A.apparatus[apparatus]) /
-    (3 * A.effectBaseCost.restoreHealth);
+    brewMagnitude(alchemy, intelligence, apparatus, "restoreHealth", data);
 
   return {
     fights: rows,
@@ -449,9 +441,8 @@ export function economySweep(data: SimData = SIM_DATA) {
 /** 10. Degenerate-loop hunting: each loop simulated as if its bound did not exist. */
 export function loopHunt(data: SimData = SIM_DATA) {
   const magic = data.magic as SimTable;
-  const A = magic.alchemy;
   const brew = (alchemy: number, int: number, apparatus = "master") =>
-    (A.magnitudeMultiplier * (alchemy + int / 10) * A.apparatus[apparatus]) / (3 * A.effectBaseCost.fortifyAttribute);
+    brewMagnitude(alchemy, int, apparatus, "fortifyAttribute", data);
 
   // (a) the Morrowind fortify-intelligence loop, with and without the base-stat rule
   const bounded: number[] = [];

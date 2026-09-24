@@ -9,8 +9,7 @@ model and the harness, not the actor, UI or save wiring.
 ## Folders
 
 - **Owns:** `packages/game-core/src/stats/**`, `apps/stats-lab/**`,
-  `tooling/stats-sim` (read; retired into the package at the end with a
-  pointer left behind), this brief and its row in [README.md](README.md),
+  `tooling/stats-sim` (retired in round 4; a README pointer remains), this brief and its row in [README.md](README.md),
   new decision records, short pointers in
   [phases README § Phase 10c](../README.md#phase-10c--stats-progression-and-character-systems-module-76),
   the Stats lab row in `docs/PROGRESS.md` (one line, index-blob).
@@ -41,3 +40,23 @@ model and the harness, not the actor, UI or save wiring.
 | 1 | delivered 2026-09-24 | bc26431e | [0088](../../decisions/0088-the-stats-model-lives-in-game-core-and-reads-injected-data.md) | 285 sim answers (85 written, 200 fresh) equal to 1e-12; 20 tests |
 | 2 | delivered 2026-09-24 | af96af0f | [0089](../../decisions/0089-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md) | whole sim output (`run.mjs --json --matrix`, 12,924 numbers) bit-exact on the sim's tables; 19/19 invariants on the canonical data |
 | 3 | delivered 2026-09-24 | see git log `stats lab round 3` | — | `apps/stats-lab` builds; lab tests: every race × sex × class computes, every shown string is in the catalogue |
+| 4 | delivered 2026-09-24 | see git log `stats lab round 4` | — | Marksman ×1.0 at skill 10; `tooling/stats-sim` retired; lab bundle 596 → 251 KB; training and brewing are stats functions; invariant names catalogued |
+
+## Round 4 rulings and choices
+
+- **Marksman nock and draw are ×1.0 at skill 10** (Fable, 2026-09-24).
+  The sandbox at skill 10 is the calibrated baseline the owner has felt
+  (0074 §3, 0076 §3), so each band's `lo` is set so the reference
+  character's score at skill 10 (16.67 with Agility 50) reads 1.0: nock
+  0.796768 → 1.6, draw 0.661279 → 2.0. Higher Agility raises the value at
+  skill 10 a little, because the score folds Agility in; mastery is
+  unchanged. Module 76 §118 carries a one-line note.
+- **Shield weight is the base shield × its material's weight scale**, like
+  every other item (module 76 §116's "steel kite shield"; the module
+  states no separate rule). One definition, `sim/model.ts` `shieldWeight`.
+  The retired sim's campaign carried an unscaled shield. The switch changes
+  none of the sim's own outputs, because the equivalence stays bit-exact.
+- **`tooling/stats-sim` is retired.** The port was proved against commit
+  `7e93d7de`. Its findings moved to
+  `docs/research/archive/workstream-s/stats-sim-findings.md`, and its tables
+  stay verbatim in `stats/__fixtures__/sim-data/`.

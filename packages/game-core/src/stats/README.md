@@ -1,7 +1,8 @@
 # stats — the character model (module 76 §116–§129)
 
 Pure, deterministic functions over versioned data: the workstream S design
-(decisions 0031–0037) ported from `tooling/stats-sim`, proved equal to it.
+(decisions 0031–0037) ported from `tooling/stats-sim` (retired; proved at commit
+`7e93d7de`), proved equal to it.
 No React, no three, no state; the folder imports nothing outside itself
 (a test enforces it). Import from `@elder-souls/game-core/stats/index` in an
 app, or `../stats` inside game-core. Why this home and what differs from the
@@ -10,8 +11,7 @@ Lane brief: [stats-lab-lane.md](../../../../docs/phases/lanes/stats-lab-lane.md)
 
 ## Data
 
-`data/*.json` is the canonical copy of every number (module 76 §129 moved
-here from `tooling/stats-sim/data/`). Each file carries `schemaVersion`
+`data/*.json` is the canonical copy of every number (module 76 §129). Each file carries `schemaVersion`
 (registered in `tooling/repo-standards/data-registry.json`) and a
 `designRef`; no prose and no labels (names come from the text catalogue).
 `STATS_DATA` is the frozen canonical set. Every function takes an optional

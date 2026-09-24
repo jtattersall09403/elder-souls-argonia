@@ -4,7 +4,7 @@
 > live design is [module 76 §116–129](../../../world/76-stats-progression.md)
 > plus decisions 0019/0031/0033 and `tooling/stats-sim/`. Read
 > [the archive README](README.md) before trusting anything below — its findings register
-> now lives in [tooling/stats-sim/FINDINGS.md](../../../../tooling/stats-sim/FINDINGS.md).
+> now lives in [tooling/stats-sim/FINDINGS.md](stats-sim-findings.md).
 
 > Steps 6–7 of the run-book (module [76](../../../world/76-stats-progression.md)
 > §103.1), **revised 2026-08-29 after owner round 2**. The design is module 76

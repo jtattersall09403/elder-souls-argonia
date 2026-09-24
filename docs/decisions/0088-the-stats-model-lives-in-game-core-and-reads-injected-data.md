@@ -28,7 +28,7 @@ lane brief's delegation, decision 0087 §1). Extends 0019 and module 76
    skills, attributes in round 1; the rest in round 2), each with
    `schemaVersion: 1` and a `designRef`, registered in
    `data-registry.json`. They carry no prose and no labels: the sim's `_`
-   notes stay in `tooling/stats-sim` (history) and names go to the text
+   notes are kept verbatim in `stats/__fixtures__/sim-data/` (history; `tooling/stats-sim` itself was retired in round 4) and names go to the text
    catalogue when the lab first shows them (standard 4).
 4. **Proof is sample first** (owner rule 2026-09-23): answers generated
    from the sim before the port existed, on a hand-written sample (85
@@ -48,7 +48,7 @@ lane brief's delegation, decision 0087 §1). Extends 0019 and module 76
 | `skills.acrobatics.bands.jump`, `.safeFallMeters` | 0.9→1.25, 2→6 | removed | §122 gives the formulas `1.378 × (0.80 + Acrobatics/125)` and `2 + Acrobatics/25`, now data under `curves.movement` |
 | `curves.movement.speedAttributeBase/Divisor` | 0.92, 625 | removed | read by no formula; the walk formula's 0.75 and /200 were literals in `model.mjs` and are now data |
 | `curves.movement` literals | in code | `speedFactorBase` 0.75, `speedFactorDivisor` 200, `loadSpeedPenalty` 0.3, `sprintAthleticsDivisor` 250, `swimAthleticsBase` 0.5, `swimAthleticsDivisor` 100, jump and safe-fall constants, `overloadedWalkFraction` 0.4 | "a number goes in data" (the sim's own rule); values unchanged |
-| `curves.poise`, `.block`, `.checks` | in prose | Agi/2, stability cap 0.95, cast ×2, enchant ÷3, constant effect ×2, charged use 1.1, out-of-combat fatigue 0.85 + 0.15, craft tier ÷14 | §117.1, §117.3, §118, §121.3 formulas given data homes |
+| `curves.poise`, `.block`, `.checks` | in prose | Agi/2, stability cap 0.95, cast ×2, enchant ÷3, charged use 1.1, out-of-combat fatigue 0.85 + 0.15, craft tier ÷14 | §117.1, §117.3, §118, §121.3 formulas given data homes |
 | `skills.sneak.bands.openerMultiplier` | `null` | removed | a placeholder; the opener table is `curves.sneakAttack` |
 | `curves.score.scale`, `.missingAttribute`; `attributes.reference` | literals 100 and 50 in code; the Marsh Hand in prose | data | the skill scale, the attribute read when a score attribute is missing, and the §116 reference character |
 | `strengthDamage.excludes` | hard-coded `handToHand` in code, list in data | list read from data | the data list also excludes Marksman, which the sim enforced by a separate code path |

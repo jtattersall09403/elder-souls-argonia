@@ -139,7 +139,7 @@ snapshot, and the numbers packet. They contain superseded drafts — two-layer
 fatigue, an early poise draft (poise came back, redesigned, at round 4 —
 §121.3), the estus flask, a four-band sneak table, "wildlife" D0 — and
 **must never be read as a spec**. The tuning history lives with the tool that
-produced it, in [tooling/stats-sim/FINDINGS.md](../../tooling/stats-sim/FINDINGS.md).
+produced it, in [the harness findings](../research/archive/workstream-s/stats-sim-findings.md).
 
 ### 103.0 The chosen shape
 
@@ -182,8 +182,9 @@ is anchored to a known answer (§120.5); its *relative* comparisons were always
 sound.
 
 **Game code stays out of scope** until Phase 10c. The one exception is the
-harness (`tooling/stats-sim/`, data-in/report-out, touching no game package);
-at 10c its invariants become standing tests against the implemented system.
+harness (then `tooling/stats-sim/`, data-in/report-out, touching no game package);
+its invariants are now standing tests against the implemented system in
+`packages/game-core/src/stats/sim` (stats-lab lane, decision 0088).
 
 **Cross-checks, re-run at close**: the design satisfies §102; it expresses the
 existing enemy archetypes and the D1–D5 bands; it expresses the
@@ -239,7 +240,7 @@ avoids.
 
 Everything below is decided (owner rounds 1–4, decisions 0031/0033/0035/0037).
 Numbers are the *shapes and constants*; the machine-readable tables live in
-`tooling/stats-sim/data/` (§129) and are what 10c ports.
+`packages/game-core/src/stats/data/` (§129).
 
 ## 116. The character in one screen
 
@@ -442,7 +443,7 @@ condition loss per use (§121).
 | Axe | Str | Agi | Combat | as Long Blade |
 | Spear | End | Agi | Combat | as Long Blade |
 | Short Blade | Spd | Agi | Stealth | as Long Blade; its sneak-opener table is the best after the dagger's (§121.5) |
-| Marksman | Agi | Agi | Stealth | delivered-damage position 0.40→1.00 (a multiplier on top of the ballistics) · nock speed ×1.0→1.6 · draw speed ×1.0→2.0 (owner 2026-09-18, 0074 §3; continuous, monotone) · sway ×1.4→0.6 · draw stamina ×1.25→0.80. **No Strength multiplier** — deliberate divergence from canon, §117 point 1 |
+| Marksman | Agi | Agi | Stealth | delivered-damage position 0.40→1.00 (a multiplier on top of the ballistics) · nock speed ×1.0→1.6 · draw speed ×1.0→2.0, the ×1.0 at skill 10 for the reference character (owner 2026-09-18, 0074 §3; continuous, monotone; so the bands' `lo` at score 0 is 0.80 and 0.66) · sway ×1.4→0.6 · draw stamina ×1.25→0.80. **No Strength multiplier** — deliberate divergence from canon, §117 point 1 |
 | Hand-to-Hand | Spd | Agi | Stealth | damage position 0.40→1.00 · stamina damage to the target ×1.0→2.0; empty an opponent's stamina and they can be finished. **No Strength multiplier** — canon's H2H damage uses neither Speed nor Strength |
 | Block | Agi | Agi | Combat | stability ×0.85→1.15 (absolute cap 0.95) · guard stamina ×1.30→0.78 |
 | Heavy Armor | End | — | Combat | worn heavy rating ×0.55→1.20 · its effective weight ×1.10→0.90 · wear ×1.4→0.6. (Canon is `rating × skill/30`, i.e. naked at skill 0 and ×3.3 at 100; ours is compressed because the rating band is calibrated against the hits-to-die targets, §128) |
@@ -742,7 +743,7 @@ in §120.1 (especially Block and Athletics, which tick during play that is not
 training), and the rule that a maxed skill still pays (§120.2). The harness
 validates the first by running the *same* campaign model under Morrowind's own
 rules and checking it reproduces Morrowind's known pace — a known-answer test
-rather than another guess (`tooling/stats-sim`, `morrowind-known-answer`).
+rather than another guess (`packages/game-core/src/stats/sim`, `morrowind-known-answer`).
 
 ### 120.6 Where late power comes from
 
@@ -1013,7 +1014,7 @@ What that produces, which is the point of stating it in numbers:
 
 | Climber | Speed | Drain | Reach (with rests) |
 |---|---|---|---|
-| Hour one (Acrobatics 15, mid load) | 1.0 m/s | 8.6 /s | ~12 m |
+| Hour one (Acrobatics 15, mid load) | 1.0 m/s | 8.52 /s | ~12 m |
 | Competent (45, mid load) | 1.2 m/s | 7.1 /s | ~24 m |
 | Scout (70, light load) | 1.3 m/s | 5.2 /s | ~63 m |
 | Master (100, light load) | 1.4 m/s | 4.8 /s | 160 m+ |
@@ -1397,7 +1398,7 @@ character with 44 health, and that character's reply is 6.7 against 950 health
 (0.7 % a swing).
 
 **What the simulation says the ladder feels like** (full report:
-[the harness findings](../../tooling/stats-sim/FINDINGS.md)): the
+[the harness findings](../research/archive/workstream-s/stats-sim-findings.md)): the
 reference character kills a D2 Hollow Warden in 7 s and dies to it in 6 blows;
 a D3 wamasu takes 31 s and three blows kill her; D4 kills her. An endgame build
 kills the final boss in 31–52 s depending on archetype (melee, greatsword,
@@ -1451,34 +1452,33 @@ re-authoring pass. Literal overrides stay available for uniques.
 
 ## 129. Where the numbers live
 
-The canonical machine-readable tables are the simulation harness's data
-directory — one source of truth that both the balance sim and (at 10c) the game
-read:
+The canonical machine-readable tables live in
+[`packages/game-core/src/stats/data/`](../../packages/game-core/src/stats/README.md)
+(decision 0088): one source of truth that the game and the balance harness
+both read. The harness's own inputs are in `stats/sim/data/`.
 
-| File (`tooling/stats-sim/data/`) | Contents |
+| File | Contents |
 |---|---|
-| `attributes.json` | the seven attributes and their derived-quantity formulas' constants |
-| `skills.json` | the 27 skills: governing attribute, **score attribute**, specialization, effect bands |
-| `curves.json` | `k`, `P`, mitigation, health/stamina/magicka, vastei and level-cost constants |
-| `races.json` | racial baselines, skill bonuses, effect packages |
-| `classes.json` | preset classes (majors/minors/specialization/favoured) |
-| `gear.json` | materials, weapon classes, the moveset, armour slots and sets — mirrored from `packages/game-core` + the armour-class tag; the **provisional poise block** (§121.3: class ranges, slot shares, per-class poise damage, attack factors) |
-| `magic.json` | spell tiers, healing tiers, enchanting bounds, the alchemy formula |
-| `builds.json` | the progression checkpoints and archetype attribute priorities the sweeps run on |
-| `ladder.json` | the **D1–D5** combat bands, the hits-to-die targets they were solved *from*, and the variant packages |
-| `rules-argonia.json` / `rules-morrowind.json` | the progression rules as the campaign engine consumes them — ours, and Morrowind's for the known-answer test. Numbers marked `$from` are read out of `curves.json` rather than copied |
-| `content-argonia.json` / `content-vvardenfell.json` | what an hour of play contains — encounters, travel, locks, casts, brews, on a quest track and a free-play track. **This is the file to change if the pace is wrong**, and the Vvardenfell one is the only thing tuned to make the known-answer test pass |
-| `enemies.json` | worked archetypes on the ladder, including the restated Hollow Warden |
-| `economy.json` | potion/training/service/repair prices, vendor purses |
+| `data/attributes.json` | the seven attributes, the start range, the reference character |
+| `data/skills.json` | the 27 skills: governing attribute, **score attribute**, specialization, effect bands |
+| `data/curves.json` | `k`, `P`, mitigation, health/stamina/magicka, movement, poise, check constants, vastei and level-cost constants |
+| `data/races.json` | one record per playable race, both sexes: baselines, skill bonuses, effect packages ([0089](../decisions/0089-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md)) |
+| `data/classes.json` | preset classes (majors/minors/specialization/favoured) |
+| `data/ladder.json` | the **D1–D5** combat bands, the hits-to-die targets they were solved *from*, and the variant packages |
+| `data/magic.json` | spell tiers, healing tiers, castability, enchanting bounds, the alchemy formula |
+| `data/economy.json` | potion/training/service/repair prices, vendor purses |
+| `data/rules-argonia.json` | our progression rules; numbers marked `$from` are read out of `curves.json` |
+| `sim/data/gear.json` | materials, weapon classes, the moveset, armour slots and sets, mirrored from `packages/game-core` equipment, and the **provisional poise block** (§121.3) |
+| `sim/data/builds.json` | the progression checkpoints and archetype attribute priorities the sweeps run on |
+| `sim/data/enemies.json` | worked archetypes on the ladder, including the restated Hollow Warden |
+| `sim/data/rules-morrowind.json` | Morrowind's progression rules, for the known-answer test |
+| `sim/data/content-argonia.json` / `content-vvardenfell.json` | what an hour of play contains. **This is the file to change if the pace is wrong**; the Vvardenfell one is the only thing tuned to make the known-answer test pass |
 
-The tuning history — every anomaly the harness found and what was done about
-it — is [tooling/stats-sim/FINDINGS.md](../../tooling/stats-sim/FINDINGS.md),
-next to the tool that produced it.
-
-At 10c these are ported to `packages/game-core/src/stats/data/` in the same
-shapes, consumed like `races.json`/`enemyArchetypes` today, and the harness is
-re-pointed at the game's copies so the invariants keep running against the real
-system. Nothing in this design should ever be a hard-coded constant in gameplay
-code.
+The tuning history, meaning every anomaly the harness found and what was done
+about it, is [the harness findings](../research/archive/workstream-s/stats-sim-findings.md). The
+harness itself (`stats/sim`) runs in `npm test`: the 19 invariants are
+standing tests against the canonical data, and an equivalence test proves the
+port equal to the retired `tooling/stats-sim` on its own tables. Nothing in
+this design should ever be a hard-coded constant in gameplay code.
 
 ---

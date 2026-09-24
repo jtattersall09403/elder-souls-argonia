@@ -11,10 +11,11 @@ import { burdenTier, climb, magickaRegen, maxMagicka, maxStamina, staminaRegen, 
 import { bandActor } from "../ladder";
 import { attributeCost, vasteiPerRank } from "../progression";
 import { rankCost } from "../rules";
+import { trainingCost } from "../crafting";
 import { classDef, raceStats, skillClassOf, startingCharacter } from "../character";
 import type { Attributes, ClassDef, RaceStats, SkillId } from "../types";
 import {
-  armourSetRating, armourSetWeight, armourSkillFor, PACK_KG, raceIn, simulateFight, SIM_SEX, weaponWeight,
+  armourSetRating, armourSetWeight, armourSkillFor, PACK_KG, raceIn, shieldWeight, simulateFight, SIM_SEX, weaponWeight,
   type Archetype, type Build,
 } from "./model";
 import { SIM_DATA, type SimData, type SimTable } from "./simData";
@@ -244,8 +245,8 @@ export class LiveCharacter {
     const carriedKg =
       armourSetWeight(this.armourMaterial, data) +
       weaponWeight(this.archetype.weaponClass, this.weaponMaterial, data) +
-      // The sim's campaign carries an unscaled shield (makeBuild scales it by material): kept for equivalence.
-      (this.archetype.shield ? data.gear.shieldWeightKg : 0) +
+      // One shield rule for every path: base × material weight scale (round 4; bit-exact on the sim tables).
+      (this.archetype.shield ? shieldWeight(this.weaponMaterial, data) : 0) +
       PACK_KG;
     return {
       id: `${this.cls.id}/${this.archetype.id}`,
@@ -563,7 +564,7 @@ export function playCampaign(
           for (const skillId of ch.cls.majors) {
             const value = ch.skills[skillId];
             if (value >= ch.attributes[data.skillById[skillId].gov] || value >= 100) continue;
-            const cost = economy.training.costPerRank * Math.pow(value, economy.training.costRankExponent);
+            const cost = trainingCost(value, data);
             if (cost > trainingBudget || cost > ch.gold) continue;
             trainingBudget -= cost;
             ch.gold -= cost;

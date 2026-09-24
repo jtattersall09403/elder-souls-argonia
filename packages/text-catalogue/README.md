@@ -12,6 +12,8 @@ header of `src/catalogue.ts` for why the package exists and what
 |---|---|
 | `src/catalogue.ts` | the machinery: `TextEntry`, `buildCatalogue`, `text()`, `bySurface()` |
 | `src/entries.ts` | hand-written content; the live `CATALOGUE` built from every block |
+| `src/stats-text.ts` | `STATS_TEXT`: skill, attribute, race and class names (`text.stat.*`) and the stats lab's labels (`text.stats-lab.*`) |
+| `src/stats.ts` | the narrow entry `@elder-souls/text-catalogue/stats` (`STATS_CATALOGUE`), so the lab bundles only its own strings |
 | `src/generated/hydrology-names.ts` | `HYDROLOGY_NAME_TEXT` — `text.hydrology.name.<entityId>`, from `world/sources/hydrology/names.json` |
 | `src/generated/place-names.ts` | `PLACE_NAME_TEXT` — `text.place.<slug>.name`, from `world/sources/catalogue/places-*.json` |
 | `src/generated/quest-titles.ts` | `QUEST_TITLE_TEXT` — `text.quest.<slug>.title`, from `world/sources/quests/*.json` |

@@ -46,6 +46,11 @@ describe("combat modifiers", () => {
     expect(s.meleeModifiers("handToHand", 60).strength).toBe(1);
     expect(s.meleeModifiers("handToHand", 100, { ...MARSH_HAND, agility: 100 }).targetStaminaDamage).toBeCloseTo(2, 12);
   });
+  it("marksman is x1.0 nock and draw at skill 10 for the reference character (0074 §3)", () => {
+    const m = s.marksmanModifiers(10);
+    expect(m.nockSpeed).toBeCloseTo(1, 5);
+    expect(m.drawSpeed).toBeCloseTo(1, 5);
+  });
   it("marksman reaches the owner's mastery numbers (0074 §3) and has no Strength term", () => {
     const m = s.marksmanModifiers(100, { ...MARSH_HAND, agility: 100 });
     expect(m).toMatchObject({ drawStrength: 1 });
@@ -96,7 +101,7 @@ describe("checks and movement (§117.1, §118, §122)", () => {
   it("the §122.1 climbing table's hour-one row", () => {
     const c = s.climb(10, { acrobatics: 15, attributes: MARSH_HAND, burdenTier: "mid", stamina: 100, staminaRegen: 24 });
     expect(c.speed).toBeCloseTo(1.0, 1);
-    // §122.1's table prints 8.6; the design's own arithmetic (and the sim) gives 8.52.
+    // §122.1's table: 8.52 /s.
     expect(c.drainPerSecond).toBeCloseTo(8.516, 3);
   });
   it("poise base is Agility/2 and temper grades gate at 25/55/80", () => {
@@ -162,7 +167,8 @@ describe("the port of tooling/stats-sim/data", () => {
   // not data, so not ported (standard 4; names come from the text catalogue).
   const PROSE_KEYS = new Set(["label", "drives", "note", "formula", "climbing", "knockout", "sneakAttack", "origin", "typical", "maxCostFormula", "chargedUseCostFormula", "bossFlag"]);
   const CHANGED: Record<string, readonly (number | string)[]> = {
-    "skills/skills/marksman/bands/drawSpeed": [1.0, 2.0], // owner 2026-09-18, decision 0074 §3 (module 76 §118 row)
+    // owner 2026-09-18, decision 0074 §3: x1.0 at skill 10 (the reference character's score 16.67), x2.0 at 100 (lane doc, round 4)
+    "skills/skills/marksman/bands/drawSpeed": [0.661279, 2.0],
     // ids, not sentences: "fortify intelligence (as a crafting input)" -> "fortify:intelligence" (0088)
     "magic/enchanting/bannedEffects": ["fortify:alchemy", "fortify:enchant", "fortify:smithing", "fortify:intelligence", "fortify:strength"],
   };

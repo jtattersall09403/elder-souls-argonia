@@ -2,10 +2,15 @@
 
 What this file is: **the tuning history and the known findings of the balance
 harness** — every anomaly the simulation found, what was done about it, and
-what is still open. It sits next to the harness because it records *this
-tool's* results, not design. **The design is
-[module 76 §116–129](../../docs/world/76-stats-progression.md); the canonical
-numbers are `data/`; how to run it is [README.md](README.md).**
+what is still open. It records the harness's results, not design. **The design is
+[module 76 §116–129](../../../world/76-stats-progression.md); the canonical
+numbers and the harness now live in
+[`packages/game-core/src/stats`](../../../../packages/game-core/src/stats/README.md)
+(decisions 0088/0089). The standalone `tooling/stats-sim` this history was
+written against was retired on 2026-09-24; its code and tables are in git at
+commit `7e93d7de`, and its tables are kept verbatim in
+`packages/game-core/src/stats/__fixtures__/sim-data/`.** Paths below such as
+`data/…` or `src/…` refer to that retired tool.
 
 Findings 1–11 come from round 1 (2026-08-29, before the owner's lethality
 ruling); 12–19 from round 2, which re-solved the danger ladder from "blows that

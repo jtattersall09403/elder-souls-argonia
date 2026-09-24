@@ -708,13 +708,17 @@ Deliverables:
 
 - the accepted stat model implemented, with **baseline-equivalence tests**:
   at neutral stats, combat numbers match today's calibrated values;
-- **Starting state (2026-09-13):** the design is data already
-  (`tooling/stats-sim/data/`, 15 JSON files, plus `invariants.mjs`); this
-  phase is a port, not a design; `packages/game-core` has no stats module;
-  `combat/poise.ts` exists (check what it implements before "building"
-  poise); one enemy archetype exists in code against a worked set in
-  `stats-sim/data/enemies.json`; two race tables will exist (stats-sim vs
-  `actors/generated/races.json`) and reconciling them is this phase's work;
+- **Starting state (2026-09-24, stats-lab lane):** the model, all fifteen
+  tables and the balance harness are ported to `packages/game-core/src/stats`
+  (data in `data/` and `sim/data/`, the 19 invariants standing tests in
+  `npm test`; [0088](../decisions/0088-the-stats-model-lives-in-game-core-and-reads-injected-data.md));
+  `tooling/stats-sim` is retired; the two race tables are one record keyed by
+  the roster ids ([0089](../decisions/0089-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md));
+  the owner's bench is `apps/stats-lab`. What 10c still wires: actors,
+  combat and equipment reading the stats API (the combat lane consumes the
+  modifiers first), the effect stack, saves, UI. `combat/poise.ts` exists
+  (check what it implements before "building" poise); one enemy archetype
+  exists in code against the worked set in `stats/sim/data/enemies.json`;
   the preset-loadout picker does not exist;
 - **the decided-but-unlisted stats work, ratified here** (2026-09-13; a
   holding position since S round 4): weapon poisons and oils, the
@@ -750,7 +754,7 @@ Deliverables:
 - **the combat proving round** — the last thing this phase does, because it
   measures calibrated numbers rather than placeholders (owner, 2026-09-01,
   [0042 §5](../decisions/0042-buildout-steers-and-engineering-standards.md)).
-  The machine does the sweep: `tooling/stats-sim` runs **every enemy archetype
+  The machine does the sweep: the harness in `packages/game-core/src/stats/sim` runs **every enemy archetype
   against five preset builds** (heavy brawler, light dodger, archer, caster,
   sneak) and reports the outliers — unhittable enemies, trivial enemies, builds
   that hit a wall. The **owner playtests only the flagged cases**, plus one

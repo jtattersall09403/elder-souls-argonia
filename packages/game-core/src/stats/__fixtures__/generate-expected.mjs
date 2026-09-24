@@ -7,7 +7,9 @@
  *
  * Reads sample-<id>.inputs.json, calls the sim's own function for each case,
  * writes sample-<id>.expected.json. Infinity is written as {"$inf": 1}.
- * Frozen once written: the fixtures stay the proof if the sim is retired.
+ * Frozen once written. The sim was retired on 2026-09-24: to regenerate, restore
+ * it first with `git worktree add /tmp/sim 7e93d7de` and point `sim` below at
+ * /tmp/sim/tooling/stats-sim/src.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";

@@ -38,10 +38,14 @@ export const SIM_CODE_CONSTANTS = {
   bowMaterialDamage: { base: 0.7, damageScaleShare: 0.3 },
 } as const;
 
-/** model.mjs literals for casting (1.2 s base cast, cheapest working spell 6), now magic.json `castability`. */
+/**
+ * Sim-code literals now in magic.json: casting (1.2 s base cast, cheapest
+ * working spell 6) and the alchemy divisor 3 (sweeps.mjs brewed potions).
+ */
 function withCastConstants(magic: Json): Json {
   const castability = { ...(magic.castability as Json), baseCastSeconds: 1.2, minWorkingCost: 6 };
-  return { ...magic, castability };
+  const alchemy = { ...(magic.alchemy as Json), effectCostDivisor: 3 };
+  return { ...magic, castability, alchemy };
 }
 
 export function fromSimTables(dir: string): SimData {
