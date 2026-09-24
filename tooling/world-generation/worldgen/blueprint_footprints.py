@@ -212,6 +212,13 @@ def run_steps(prev_asset: str, next_asset: str, abuts: dict) -> list[dict]:
     return out
 
 
+def is_plan_point(value) -> bool:
+    """``[x, z]``: two finite numbers (an authored run member's ``atM``)."""
+    return (isinstance(value, list) and len(value) == 2
+            and all(isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+                    for v in value))
+
+
 def lay_pieces(parcel: dict, abuts: dict | None = None) -> tuple[list[dict], list[str]]:
     """16h K9 B: a `pieces` parcel laid as the plugins lay the run. The first
     piece stands at the parcel's pivot turned to `yawDeg` + its own `yaw`; each
@@ -219,10 +226,24 @@ def lay_pieces(parcel: dict, abuts: dict | None = None) -> tuple[list[dict], lis
     step with the most evidence among those that carry the run on along its
     direction and match the piece's `yaw` when given). Returns per piece
     ``{asset, xM, zM (metres from the parcel pivot, x east, z south), yawDeg,
-    riseM, pair}`` and the errors (a missing pair names both pieces)."""
-    abuts = abuts_record() if abuts is None else abuts
+    riseM, pair}`` and the errors (a missing pair names both pieces).
+
+    A run whose every member carries ``atM`` ([x, z] metres in the parcel's
+    frame, x east / z south at the parcel's yaw 0) is AUTHORED: an agent
+    placed and measured each piece in the placement workbench
+    (tooling/placement-workbench), so it is laid exactly as recorded and no
+    abuts step is solved (the mined pairs were the evidence it used)."""
     pieces = parcel.get("pieces") or []
     base = float(parcel.get("yawDeg") or 0.0)
+    if pieces and all(is_plan_point(q.get("atM")) for q in pieces):
+        laid = []
+        for q in pieces:
+            (dx, dz), = rotate_m([(float(q["atM"][0]), float(q["atM"][1]))], base)
+            laid.append({"asset": q.get("asset"), "xM": round(dx, 4), "zM": round(dz, 4),
+                         "yawDeg": round((base + float(q.get("yaw") or 0.0)) % 360.0, 3),
+                         "riseM": 0.0, "pair": "authored"})
+        return laid, []
+    abuts = abuts_record() if abuts is None else abuts
     out: list[dict] = []
     errors: list[str] = []
     direction = None

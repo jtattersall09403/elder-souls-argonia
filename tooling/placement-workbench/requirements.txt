@@ -1,0 +1,2 @@
+# beyond tooling/world-generation's requirements (numpy, scipy, shapely, trimesh, rtree, Pillow)
+python-fcl>=0.7

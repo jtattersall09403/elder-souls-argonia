@@ -1097,7 +1097,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             object_kind = raw.get("objectKind") or (
                 "dressing" if "dressingFor" in raw else "parcel")
             is_dressing = object_kind == "dressing"
-            footprint = [] if is_dressing else _metres(parcel.get("footprint", []), survey)
+            # a run piece carries its own laid outline (compile_settlement);
+            # every other parcel piece is seated on its parcel's footprint
+            footprint = ([] if is_dressing else raw.get("footprintM")
+                         or _metres(parcel.get("footprint", []), survey))
             if asset["_runtimeAnchor"]["mode"] == "streamed-perimeter" and not footprint:
                 footprint = _bounds_footprint(
                     asset, raw["positionM"], raw.get("yawDeg", 0), raw.get("scale", 1),

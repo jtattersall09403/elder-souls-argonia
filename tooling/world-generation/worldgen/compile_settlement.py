@@ -1915,6 +1915,10 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                     "scale": 1.0,
                     "groundFit": fit,
                     "run": {"index": i, "length": len(laid), "pair": row["pair"]},
+                    # the piece's OWN laid outline: the runtime seats each run
+                    # piece on its own ground (anchoring.ts samples footprintM),
+                    # never on the mean of the whole run's union footprint
+                    "footprintM": [[round(x, 3), round(z, 3)] for x, z in piece_polys[i]],
                     "provenance": _provenance(bp_id, seed, f"parcel-run/{fit}", asset["id"], []),
                 })
             continue

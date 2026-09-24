@@ -1736,12 +1736,17 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                 fail(f"parcel {pid}: a parcel is either one assetRef or a pieces list, not both")
             elif not (isinstance(pieces, list) and len(pieces) >= 2 and all(
                     isinstance(q, dict) and isinstance(q.get("asset"), str) and q["asset"]
-                    and set(q) <= {"asset", "yaw"}
+                    and set(q) <= {"asset", "yaw", "atM"}
                     and (q.get("yaw") is None or (isinstance(q["yaw"], (int, float))
                                                   and not isinstance(q["yaw"], bool)))
+                    and ("atM" not in q or fp.is_plan_point(q["atM"]))
                     for q in pieces)):
-                fail(f"parcel {pid}: pieces must be a list of at least two {{asset, yaw?}} "
-                     f"(asset: an exact kit asset id; yaw: degrees relative to the parcel's yawDeg)")
+                fail(f"parcel {pid}: pieces must be a list of at least two {{asset, yaw?, atM?}} "
+                     f"(asset: an exact kit asset id; yaw: degrees relative to the parcel's yawDeg; "
+                     f"atM: [x, z] metres in the parcel's frame, an authored pose)")
+            elif len({"atM" in q for q in pieces}) > 1:
+                # the placement workbench's authored run: every member posed, or none
+                fail(f"parcel {pid}: either every piece carries an authored atM or none does")
             elif library:
                 missing = [q["asset"] for q in pieces if library.get(q["asset"]) is None]
                 laid, run_errors = fp.lay_pieces(p)
