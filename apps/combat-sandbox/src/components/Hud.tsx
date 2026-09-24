@@ -211,6 +211,13 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
             <small>{Math.round(state.playerPoise)}/{Math.round(state.playerMaxPoise)}</small>
           </div>
         )}
+        {/* Detection (decision 0092): how close the most alert enemy is to
+            engaging, coloured by its awareness. Shown while stealth matters. */}
+        {!won && (state.stealthStart || state.detection.awareness !== "engaged") && (
+          <div className="detection-row" data-awareness={state.detection.awareness}>
+            <Bar value={state.detection.level} max={1} className="detection" label={t("text.sandbox.detection")} />
+          </div>
+        )}
       </section>
 
       {state.aiming && <Crosshair drawFraction={state.drawFraction} arrowsLeft={state.arrowsLeft} zoom={state.aimZoom} />}

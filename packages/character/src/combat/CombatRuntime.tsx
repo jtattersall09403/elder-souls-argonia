@@ -19,7 +19,7 @@ import { useEquippedArrow, useEquippedLoadout, useInventoryStore, useWornArmour,
 import { IDLE_BOW_CYCLE, advanceBowCycle, aimBlend, bowPose, bowTravelFor, isAiming, nockedArrowVisible, type BowCycle } from "@elder-souls/game-core/combat/bowShot";
 import { AIM_CONVERGENCE_FAR_METERS, aimAngles, aimConvergencePoint, angleBetweenDegrees, directionTo } from "@elder-souls/game-core/combat/aimConvergence";
 import { NEUTRAL_RANGED_MODIFIERS, launchSpeed, resolveArrowImpact } from "@elder-souls/game-core/combat/ballistics";
-import { marksmanModifiers, meleeModifiers } from "@elder-souls/game-core/stats/modifiers";
+import { REFERENCE_ATTRIBUTES, marksmanModifiers, meleeModifiers } from "@elder-souls/game-core/stats/modifiers";
 import { meleeSkillFor } from "@elder-souls/game-core/equipment/weaponSkill";
 import type { WeaponClass } from "@elder-souls/game-core/equipment/types";
 import { NEUTRAL_MELEE_MODIFIERS, applyMeleeModifiers } from "@elder-souls/game-core/combat/modifiers";
@@ -67,7 +67,7 @@ import { SkyrimFighter, type SoleBoneRefs } from "../SkyrimFighter";
 import { useStanceCapsule } from "../useStanceCapsule";
 import * as THREE from "three";
 import { AIM_EYE_AHEAD_METERS, AIM_EYE_RIGHT_METERS, AIM_FIELD_OF_VIEW, AIM_LOOK_DISTANCE_METERS, AIM_MOVE_SPEED, AIM_MOVE_SPEED_CEILING, AIM_NEAR_CLIP_METERS, AIM_PITCH_LIMIT, AIM_ZOOM_PER_WHEEL_NOTCH, AIM_ZOOM_SECONDS, ARROW_SPAWN_AHEAD_METERS, BASE_NEAR_CLIP_METERS, PLAYER_EYE_OFFSET_Y, aimDirectionInto, aimFieldOfView } from "./aimRig";
-import { TRACK_LATERAL_SIGN, lockedWeaponClip, rotateBodyAroundSole } from "./locomotionHelpers";
+import { STRIDE_RUN_ABOVE_MAGNITUDE, STRIDE_WALK_ABOVE_MAGNITUDE, TRACK_LATERAL_SIGN, lockedWeaponClip, rotateBodyAroundSole } from "./locomotionHelpers";
 import { DEFAULT_ENEMY_SPAWNS, type EnemyRuntime, createEnemyRuntime, enemyGuardCovers, parryObjectRef } from "./enemyRuntime";
 import { ARCHER_AIM_ABOVE_CENTRE, COMMITTED_BOW_FOOTWORK } from "./enemyBow";
 import { AnalogueSpeedLimiter } from "./AnalogueSpeedLimiter";
@@ -76,6 +76,9 @@ import { BackstabZoneIndicator } from "./BackstabZoneIndicator";
 import { EnemyActor } from "./EnemyActor";
 import { useCarriedAssetWarmup } from "./useCarriedAssetWarmup";
 import { stepEnemy, type EnemyStepContext } from "./enemyStep";
+import { detectionReadout, locomotionNoise, louder, resetAwareness, sneakAttackMultiplier, stepStealth, strikeAwareness } from "./stealthStep";
+import { ViewConeIndicator } from "./ViewConeIndicator";
+import { NOISE_LOUDNESS } from "@elder-souls/game-core/perception/noise";
 import { ENEMY_FELLED_MESSAGE_DURATION, PARRY_HIT_GRACE_SECONDS, PLAYER_HURTBOX_NAME } from "./combatConstants";
 
 /** The off-hand blade's sensor name (dual wield). */
@@ -163,6 +166,11 @@ export function CombatRuntime({
   // and a slider must reach it without restarting anything.
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
+  /** The player's Sneak skill: a stealth scene's own, else the host's (decision 0092). */
+  const sneakSkillFor = useCallback(
+    () => visualScenario?.stealth?.sneakSkill ?? settingsRef.current.sneakSkill,
+    [visualScenario],
+  );
   const inventoryOpen = useInventoryStore((state) => state.open) && !visualScenario;
   // The player's equipped kit. Every moveset, animation and socket the player
   // uses comes from here, so equipping something in the inventory swaps all of
@@ -282,6 +290,13 @@ export function CombatRuntime({
   const carriedLight = useRef<CarriedLightState | null>(null);
   const carriedLightLevel = useRef(0);
   const carriedLightClock = useRef(0);
+  /**
+   * Stealth (decision 0092): the loudest one-off noise the player made since
+   * the last stealth step (a landing, a blocked blow; `perception/noise`).
+   * Continuous noises (footsteps, a roll, a swing) are read at the step.
+   */
+  const pendingNoise = useRef(0);
+  const stealthScratch = useRef({ eye: new THREE.Vector3(), chest: new THREE.Vector3(), toChest: new THREE.Vector3() });
   // Parry checks a wide shield zone in front of the player rather than the
   // weapon's own thin volume (see ParryShield) — landing a parry shouldn't
   // require exact blade-to-blade contact.
@@ -493,6 +508,25 @@ export function CombatRuntime({
     lightWorld: new THREE.Vector3(),
     quaternion: new THREE.Quaternion(),
   });
+  /**
+   * An enemy's line of sight to the player (decision 0092): the crosshair's
+   * reused Rapier ray from the eye to the chest, blocked by anything solid
+   * except actors (their capsules) and sensors (hurtboxes, weapon volumes).
+   */
+  const lineOfSight = useCallback((from: THREE.Vector3, to: THREE.Vector3) => {
+    const direction = stealthScratch.current.toChest.subVectors(to, from);
+    const length = direction.length();
+    if (length < 1e-4) return true;
+    direction.divideScalar(length);
+    aimRay.current.origin = from;
+    aimRay.current.dir = direction;
+    const blocker = world.castRay(
+      aimRay.current, length, true, undefined, undefined, undefined, undefined,
+      (collider) => !collider.isSensor()
+        && !isActorCapsuleName(rigidBodyStates.get(collider.parent()?.handle ?? -1)?.object.name),
+    );
+    return blocker === null;
+  }, [rigidBodyStates, world]);
   const { camera } = useThree();
   const started = settings.started;
   const enemyEnabled = settings.enemyEnabled;
@@ -730,8 +764,17 @@ export function CombatRuntime({
       : current;
     const f = e.fighter;
     const enemyWeapon = f.archetype.loadout.mainHand;
+    // A blow on an enemy that had not engaged takes the sneak table (decision
+    // 0092 §5); an unseen backstab swings the main weapon's light1 under that
+    // table instead of its own critical damage, as the two never stack.
+    const unseen = e.awareness.awareness !== "engaged";
+    const sneak = unseen ? sneakAttackMultiplier(handWeapon.stats.class, sneakSkillFor()) : 1;
+    const struck = execution === "backstab" && unseen
+      ? { ...attack, damage: playerWeapon.attacks.light1.damage }
+      : attack;
     const result = resolveHit(f.health, f.stamina, {
-      attack,
+      attack: struck,
+      sneakMultiplier: sneak,
       // What the class itself does on a hit (bleed, armour pierce), and how well
       // the player swings it. Both read at the moment of contact.
       effects: settingsRef.current.classEffectsEnabled ? WEAPON_CLASSES[handWeapon.stats.class].effects : [],
@@ -747,6 +790,7 @@ export function CombatRuntime({
       armourRating: totalArmourRating(wornArmourFor(f.archetype.armour)),
     });
     if (result.kind === "iframe") return false;
+    if (player.current) strikeAwareness(e, player.current.currPos);
     const telemetry = visualScenario ? window.__COMBAT_VISUAL_SCENARIO__ : undefined;
     telemetry?.playerHits?.push({
       time: Number((visualDriver.current?.elapsed ?? 0).toFixed(3)),
@@ -803,6 +847,9 @@ export function CombatRuntime({
     if (result.kind === "hit" && result.critical && !result.killed) {
       announce(text(CATALOGUE, "text.combat.critical-hit"), 0.7);
     }
+    if (sneak > 1 && (result.kind === "hit" || result.kind === "execution")) {
+      announce(text(CATALOGUE, "text.combat.sneak-attack").replace("{multiplier}", String(sneak)), 1.1);
+    }
     hitStop.current = result.hitStop;
     const handle = player.current;
     triggerShake(result.kind === "execution" ? "execution" : isHeavyAttack(attack) ? "enemyHeavyHit" : "enemyHit", handle ? {
@@ -834,7 +881,7 @@ export function CombatRuntime({
       }
     }
     return true;
-  }, [announce, clearLockIfTarget, playerDualWield, playerOffWeapon, playerWeapon, poiseEnabled, setEnemyAnim, setEnemyMode, startPlayerAction, triggerShake, visualScenario]);
+  }, [announce, clearLockIfTarget, playerDualWield, playerOffWeapon, playerWeapon, poiseEnabled, setEnemyAnim, setEnemyMode, sneakSkillFor, startPlayerAction, triggerShake, visualScenario]);
 
   /**
    * An arrow arriving somewhere.
@@ -947,14 +994,20 @@ export function CombatRuntime({
     // Identical call for the player above and every enemy here.
     const plant = { segment: { bone: hit.bone }, point: hit.point };
     const zone = hitZoneForBone(struck?.bone.name ?? null);
+    // A shaft into an enemy that had not engaged takes the sneak table for
+    // the bow in hand (decision 0092 §5), beside the skill and the hit zone.
+    const unseen = victim.awareness.awareness !== "engaged";
+    const sneak = unseen ? sneakAttackMultiplier(playerWeapon.stats.class, sneakSkillFor()) : 1;
     // The player loosed this one: their Marksman skill and the hit zone, both
     // applied once, inside the resolve.
     const impact = resolveArrowImpact(hit.arrow.physics, hit.speed, {
       armourRating: totalArmourRating(wornArmourFor(f.archetype.armour)),
       obliquityRad: hit.obliquityRad,
-    }, playerRangedModifiers(settingsRef.current.skillsEnabled, settingsRef.current.marksmanSkill).damage * zone.damageMultiplier);
+    }, playerRangedModifiers(settingsRef.current.skillsEnabled, settingsRef.current.marksmanSkill).damage * zone.damageMultiplier * sneak);
     const damage = impact.damage;
     if (damage <= 0) return;
+    if (player.current) strikeAwareness(victim, player.current.currPos);
+    if (sneak > 1) announce(text(CATALOGUE, "text.combat.sneak-attack").replace("{multiplier}", String(sneak)), 1.1);
 
     // A raised guard stops arrows too. Same rules a sword blow meets — the
     // guard's stability decides the stamina it costs and its absorption decides
@@ -1014,7 +1067,7 @@ export function CombatRuntime({
       f.staggerDuration = f.archetype.stateDurations.staggerLight;
       setEnemyMode(victim, "stagger", "HIT");
     }
-  }, [announce, clearLockIfTarget, enemies, playerArmour, playerGuard, playerWeapon, poiseEnabled, setEnemyMode, startPlayerAction, triggerDamageVignette, triggerShake]);
+  }, [announce, clearLockIfTarget, enemies, playerArmour, playerGuard, playerWeapon, poiseEnabled, setEnemyMode, sneakSkillFor, startPlayerAction, triggerDamageVignette, triggerShake]);
 
   const attemptEnemyHit = useCallback((e: EnemyRuntime) => {
     const f = e.fighter;
@@ -1069,6 +1122,7 @@ export function CombatRuntime({
         ), true);
       }
       setEnemyMode(e, "recoil", "RECOIL");
+      pendingNoise.current = Math.max(pendingNoise.current, NOISE_LOUDNESS.blockHit);
       const guardHit = playerGuardAnimations.hitVariants[nextGuardHitVariant.current % playerGuardAnimations.hitVariants.length];
       nextGuardHitVariant.current += 1;
       guardHitUntil.current = playerActionTime.current + (clipConfig(guardHit).sourceDuration ?? 0.83);
@@ -1236,7 +1290,8 @@ export function CombatRuntime({
     playerStamina.current = pools.playerMaxStamina;
     previousPools.current = { health: pools.playerMaxHealth, stamina: pools.playerMaxStamina };
     resetPoise(playerPoise.current);
-    playerStance.current = "standing";
+    playerStance.current = visualScenario?.player.stance ?? "standing";
+    pendingNoise.current = 0;
     estus.current = 3;
     equipped.current = visualScenario?.player.equipped ?? true;
     lockedOn.current = false;
@@ -1279,6 +1334,8 @@ export function CombatRuntime({
       e.criticalByAttack = null;
       e.moveSpeed.current = 0;
       e.actionTimeRef.current = 0;
+      // Stealth off: every enemy starts engaged, today's fight (decision 0092).
+      resetAwareness(e, visualScenario ? visualScenario.stealth?.startUnaware ?? false : pools.stealthStart);
       const enemyHandle = e.handle.current;
       if (enemyHandle) {
         enemyHandle.body.setTranslation(e.start, true);
@@ -1354,6 +1411,10 @@ export function CombatRuntime({
         observedEnemyAnimations: [],
         events: [],
         playerHits: [],
+        // The state each scene starts in, before the first step can change it.
+        awarenessEvents: enemies[0]
+          ? [{ time: 0, awareness: enemies[0].awareness.awareness, suspicion: enemies[0].awareness.suspicion }]
+          : [],
         visualFrames: [],
       };
     }
@@ -1550,6 +1611,7 @@ export function CombatRuntime({
       landingDuration.current = landing.duration;
       landingTimer.current = landing.duration;
       if (landing.impactSpeed > 2.5) triggerShake("landing");
+      pendingNoise.current = Math.max(pendingNoise.current, NOISE_LOUDNESS.jumpLanding);
       maximumDownwardSpeed.current = 0;
       landingArmed.current = false;
     }
@@ -2450,9 +2512,9 @@ export function CombatRuntime({
               // is held across the body at a run and the arms genuinely do not
               // swing. Absent overrides fall back to the shared core clips, so
               // most weapons need no entry at all.
-              : moveMagnitude > 0.72
+              : moveMagnitude > STRIDE_RUN_ABOVE_MAGNITUDE
                 ? playerWeapon.animations.locomotion?.run ?? "RUN"
-                : moveMagnitude > 0.08
+                : moveMagnitude > STRIDE_WALK_ABOVE_MAGNITUDE
                   ? playerWeapon.animations.locomotion?.walk ?? "WALK"
                   : equipped.current
                     ? playerWeapon.animations.combatIdle
@@ -2555,6 +2617,36 @@ export function CombatRuntime({
       triggerShake,
       attemptEnemyHit,
     };
+    // Stealth first: what each enemy sees and hears decides whether its own
+    // step fights at all (`stealthStep`, decision 0092).
+    {
+      const bootWeightKg = playerArmour.find((piece) => piece.slot === "feet")?.weightKg ?? 0;
+      const attack = playerAttack.current;
+      let loudness = louder(pendingNoise.current, locomotionNoise({
+        moveMagnitude,
+        grounded: handle.isOnGround,
+        sprinting,
+        crouching,
+      }));
+      if (playerAction.current === "roll") loudness = louder(loudness, "roll");
+      if (attack && phaseAt(playerActionTime.current, attack) === "active") loudness = louder(loudness, "attackSwing");
+      pendingNoise.current = 0;
+      stepStealth({
+        delta,
+        player: {
+          position: playerPos,
+          sneakSkill: sneakSkillFor(),
+          agility: REFERENCE_ATTRIBUTES.agility,
+          bootWeightKg,
+          sneaking: crouching,
+          // A lit carried light floods the player with light (decision 0091).
+          lightLevel: carriedLight.current?.lit ? 1 : settingsRef.current.ambientLight,
+          loudness,
+        },
+        lineOfSight,
+        scratch: stealthScratch.current,
+      }, activeEnemies);
+    }
     for (const e of activeEnemies) stepEnemy(enemyStep, e);
 
     const lockTargetActive = lockTarget !== null && (lockTarget.fighter.health > 0 || lockTarget.fighter.state === "critical");
@@ -2922,6 +3014,7 @@ export function CombatRuntime({
         aimErrorDegrees: Number(playerAimErrorDegrees.current.toFixed(2)),
         playerPoise: playerPoise.current.current,
         playerMaxPoise: playerPoise.current.max,
+        detection: detectionReadout(activeEnemies),
       };
       publish(hud);
       const shown = renderedRef.current;
@@ -2986,7 +3079,17 @@ export function CombatRuntime({
         actorDistance: actorDistance === null ? null : Number(actorDistance.toFixed(3)),
       });
     }
+    // Stealth: every change of the enemy's awareness, with its time (decision 0092).
+    if (enemy && telemetry.awarenessEvents
+      && telemetry.awarenessEvents.at(-1)?.awareness !== enemy.awareness.awareness) {
+      telemetry.awarenessEvents.push({
+        time: Number(visualDriver.current.elapsed.toFixed(3)),
+        awareness: enemy.awareness.awareness,
+        suspicion: Number(enemy.awareness.suspicion.toFixed(3)),
+      });
+    }
     Object.assign(telemetry, {
+      enemyAwareness: enemy?.awareness.awareness,
       elapsed: Number(visualDriver.current.elapsed.toFixed(3)),
       ready: true,
       done: visualDriver.current.elapsed >= visualScenario.duration,
@@ -3170,6 +3273,9 @@ export function CombatRuntime({
       ))}
       {enemyEnabled && showBackstabZones && activeEnemies.map((runtime) => (
         <BackstabZoneIndicator key={`backstab-zone-${runtime.id}`} runtime={runtime} player={player} />
+      ))}
+      {enemyEnabled && showWeaponHitboxes && activeEnemies.map((runtime) => (
+        <ViewConeIndicator key={`view-cone-${runtime.id}`} runtime={runtime} />
       ))}
     </>
   );

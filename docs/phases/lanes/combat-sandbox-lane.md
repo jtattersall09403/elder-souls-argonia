@@ -29,7 +29,7 @@ boats, factions) rather than for the sandbox.
 | 1 | Every built weapon and shield in the starting pack; HUD weapon label from the loadout | delivered 2026-09-24 | this row |
 | 2 | Owner feedback: Strength in bow damage, "range position" label, two-hander swing phase ×0.85, timing panel, sword crit effect, curves default | delivered 2026-09-24 | notes below |
 | 3 | Off-hand items: dual wield, torches, carried light | delivered 2026-09-24; full visual suite 58/58 (notes) | [0091](../../decisions/0091-the-off-hand-holds-a-shield-a-weapon-or-a-light.md) |
-| 4 | Stealth slice: detection service, awareness states, sneak-attack band | planned | |
+| 4 | Stealth slice: detection service, awareness states, sneak-attack band | delivered 2026-09-24 | [0092](../../decisions/0092-stealth-is-a-detection-service-the-runtime-feeds.md) |
 | 5 | Thin swim: swim mode behind an injected water sampler | planned | |
 
 Round 1 notes: the pack is `STARTING_SUPPLIES` (arrows, draughts, picks) plus
@@ -115,6 +115,21 @@ Round 3 notes (part B, runtime):
   canonical pair): pass. The player's foot-driven attack travel pushing an
   enemy's capsule is queued (polish backlog, "Combat: the player's attack step
   shoves enemies").
+
+Round 4 notes: `perception/detection.ts` (Morrowind's Elusiveness against spot
+× direction × light, compared not rolled; three awareness states) and
+`perception/noise.ts` are pure with their expected answers written first; the
+runtime feeds them per enemy per frame (`stealthStep.ts`: a Rapier ray for line
+of sight, the carried light or the ambient-light slider for light, the player's
+walk/run/sprint/landing/roll/swing/block noises). Unaware enemies idle and take
+no intent, suspicious ones turn to the last place they saw or heard the
+player. The first unseen blow takes the stats model's sneak table (the
+backstab animation on an unaware enemy resolves as light1 × the table, never
+the critical on top): iron dagger at Sneak 50 on the warden, 61.1 after armour.
+Debug: "Enemies start unaware", Sneak skill (with the opener readout), Ambient
+light; a detection meter in the HUD; view cones with the weapon-volume switch.
+Visual: 53/53 across stealth, attacks, criticals, defense, offhand, ranged,
+reactions, locomotion, evasion.
 
 ## Gates
 

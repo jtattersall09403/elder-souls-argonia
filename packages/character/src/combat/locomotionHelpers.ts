@@ -75,3 +75,12 @@ export function lockedWeaponClip(
     RUN: weaponLocomotion.run,
   } as Partial<Record<string, AnimationState>>)[standard] ?? standard;
 }
+
+/**
+ * Stick magnitudes at which the free (unlocked, standing) stride changes clip:
+ * above the first it walks, above the second it runs. The locomotion clip
+ * selection and the footstep noise stealth hears (`stealthStep`) read the same
+ * two numbers.
+ */
+export const STRIDE_WALK_ABOVE_MAGNITUDE = 0.08;
+export const STRIDE_RUN_ABOVE_MAGNITUDE = 0.72;

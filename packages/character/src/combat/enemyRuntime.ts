@@ -9,6 +9,7 @@ import { CHARACTER_BODY_CENTER_HEIGHT } from "@elder-souls/game-core/physics/cha
 import type { AttackDefinition, PairedCriticalProfile } from "@elder-souls/game-core/equipment/types";
 import { createActorVisualProbe, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
+import { initialAwareness, type AwarenessState } from "@elder-souls/game-core/perception/detection";
 import type { HurtboxBone } from "../SkeletalHurtbox";
 import * as THREE from "three";
 
@@ -119,11 +120,25 @@ export type EnemyRuntime = {
    */
   attackFromFeet: boolean;
   position: THREE.Vector3;
+  /**
+   * This enemy's awareness of the player (decision 0092): unaware and
+   * suspicious enemies select no intent (`enemyStep`), and a player blow on
+   * one that is not engaged takes the sneak-attack table. Advanced by
+   * `stealthStep` before the enemy's own step.
+   */
+  awareness: AwarenessState;
+  /** Where the player was last seen or heard; a suspicious enemy turns toward it. */
+  lastKnownPlayer: THREE.Vector3 | null;
   dodgeDirection: THREE.Vector3;
   bodyName: string;
   hurtboxName: string;
   weaponName: string;
 };
+
+/** Awareness for an enemy that is already fighting: every enemy while stealth is off. */
+export function engagedAwareness(): AwarenessState {
+  return { ...initialAwareness(), awareness: "engaged", suspicion: 1 };
+}
 
 export function createEnemyRuntime(
   id: number,
@@ -174,6 +189,8 @@ export function createEnemyRuntime(
     bowFacingDelay: 0,
     attackFromFeet: false,
     position: start.clone(),
+    awareness: engagedAwareness(),
+    lastKnownPlayer: null,
     dodgeDirection: new THREE.Vector3(),
     bodyName: `enemy-${id}`,
     hurtboxName: `enemy-${id}-hurtbox`,

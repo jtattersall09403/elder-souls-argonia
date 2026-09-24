@@ -12,7 +12,12 @@ header; it does not change:
 3. **incoming** = attack damage × hit-zone multiplier × the attacker's
    `damagePosition` × the attacker's `strength` × the class's critical multiplier
    (`classEffects.criticalMultiplier`: `critChance` when the caller's
-   `critRoll` falls under the chance; never on a riposte or backstab).
+   `critRoll` falls under the chance; never on a riposte or backstab) × the
+   **sneak multiplier** (`HitContext.sneakMultiplier`, default 1): the stats
+   model's §121.5 table for a blow on a defender that had not engaged
+   (decision 0092). An unseen backstab reaches here as the main weapon's
+   `light1` with that multiplier, never the backstab's own critical damage:
+   the two tables never stack.
 4. **rating** = the defender's armour rating reduced by the weapon class's
    `armourPierce` shares (`classEffects.effectiveArmourRating`).
 5. **landed** = `damageAfterArmour(incoming, rating)` (`armourMitigation.ts`).

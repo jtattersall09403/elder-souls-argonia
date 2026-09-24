@@ -66,6 +66,25 @@ export type EnemyStateDurations = {
   staggerDefault: number;
 };
 
+/**
+ * What an enemy sees with (decision 0092 §4), fed to `perception/detection`.
+ * Placeholders until Phase 10c's D-ladder supplies per-creature values.
+ */
+export type EnemyPerceptionProfile = {
+  /** The observer's own spot score (Morrowind: its Sneak + Agility/5). */
+  spotScore: number;
+  /** Half the view cone's angle, degrees. */
+  viewHalfAngleDegrees: number;
+  /** Metres beyond which nothing is seen. */
+  viewRangeMetres: number;
+};
+
+export const PLACEHOLDER_PERCEPTION: EnemyPerceptionProfile = {
+  spotScore: 40,
+  viewHalfAngleDegrees: 60,
+  viewRangeMetres: 30,
+};
+
 export type EnemyArchetype = {
   id: string;
   label: string;
@@ -87,6 +106,7 @@ export type EnemyArchetype = {
   comboFollowUpRange: number;
   /** Range beyond which an attack windup slides the body toward its target. */
   lungeBeyondDistance: number;
+  perception: EnemyPerceptionProfile;
 };
 
 export const HOLLOW_WARDEN: EnemyArchetype = {
@@ -129,6 +149,7 @@ export const HOLLOW_WARDEN: EnemyArchetype = {
   dodgeSpeed: { roll: 10, backstep: 7 },
   comboFollowUpRange: 2.75,
   lungeBeyondDistance: 1.05,
+  perception: PLACEHOLDER_PERCEPTION,
 };
 
 /**
@@ -211,6 +232,8 @@ export const ARCHER_WARDEN: EnemyArchetype = {
     intervalSeconds: 0.22,
     closeWithoutRedecidingBeyond: 14,
   },
+  // Its business is seeing things far off.
+  perception: { ...PLACEHOLDER_PERCEPTION, viewRangeMetres: 45 },
 };
 
 export const ENEMY_ARCHETYPES: Readonly<Record<string, EnemyArchetype>> = Object.fromEntries(

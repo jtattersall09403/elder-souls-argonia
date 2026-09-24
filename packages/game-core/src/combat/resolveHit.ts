@@ -13,7 +13,9 @@ import type { StatusEffectApplication } from "./statusEffects";
  *      part, because a guard or a miss bleeds nobody.
  *   3. incoming = attack damage x hit-zone multiplier x attacker damagePosition
  *      x attacker strength x the class's critical multiplier (`critChance`,
- *      not on executions).
+ *      not on executions) x the sneak multiplier (a blow on a defender who
+ *      had not engaged, decision 0092; an unseen backstab arrives as the
+ *      weapon's light1 with this multiplier, never its own critical damage).
  *   4. the defender's armour rating is reduced by the class's armourPierce.
  *   5. landed = damageAfterArmour(incoming, that rating).
  *   6. the class's after-effects are scaled by what landed.
@@ -59,6 +61,14 @@ export type HitContext = {
    * scene passes 1, which never crits). Omitted means no critical.
    */
   critRoll?: number;
+  /**
+   * The sneak-attack table's multiplier (module 76 §121.5) for a blow on a
+   * defender that had not engaged the attacker; 1 (the default) otherwise.
+   * The caller reads it from the stats model. On an execution the caller
+   * passes the weapon's light1 as the attack, so the backstab's own critical
+   * damage and the sneak table never multiply together (decision 0092 §5).
+   */
+  sneakMultiplier?: number;
 };
 
 export type HitResult =
@@ -110,7 +120,7 @@ export function resolveHit(
   const effects = ctx.effects ?? [];
   const attacker = ctx.attacker ?? NEUTRAL_MELEE_MODIFIERS;
   const critical = ctx.execution ? 1 : criticalMultiplier(ctx.critRoll ?? 1, effects);
-  const incoming = ctx.attack.damage * (ctx.hitZoneMultiplier ?? 1) * attacker.damagePosition * attacker.strength * critical;
+  const incoming = ctx.attack.damage * (ctx.hitZoneMultiplier ?? 1) * attacker.damagePosition * attacker.strength * critical * (ctx.sneakMultiplier ?? 1);
   const landed = damageAfterArmour(incoming, effectiveArmourRating(ctx.armourRating ?? 0, effects));
   const status = bleedFromLandedDamage(landed, effects);
   const health = Math.max(0, defenderHealth - landed);

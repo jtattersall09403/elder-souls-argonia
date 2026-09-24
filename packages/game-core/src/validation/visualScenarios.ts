@@ -4,6 +4,7 @@ import type { InputAction, InputController } from "../io/input";
 import { CHARACTER_BODY_CENTER_HEIGHT } from "../physics/characterPhysics";
 import { COMBAT_TUNING } from "../combat/weapon";
 import { CHARACTER_BUILDS } from "../actors/races";
+import type { Stance } from "../locomotion/stance";
 
 export const VISUAL_SCENARIO_IDS = [
   "locomotion-free",
@@ -64,6 +65,8 @@ export const VISUAL_SCENARIO_IDS = [
   "dual-wield-attack",
   "dual-wield-power",
   "torch-carry",
+  "sneak-attack",
+  "sneak-detected",
 ] as const;
 
 export type VisualScenarioId = typeof VISUAL_SCENARIO_IDS[number];
@@ -143,7 +146,14 @@ export type VisualScenario = {
      * which rule a scene isolates is the honest alternative.
      */
     poise?: boolean;
+    /** Start the scene in this stance (default standing): a sneak begins crouched. */
+    stance?: Stance;
   };
+  /**
+   * Stealth (decision 0092). Absent: the enemy starts engaged, as every other
+   * scene. `startUnaware` starts it unaware; `sneakSkill` is the player's Sneak.
+   */
+  stealth?: { startUnaware: boolean; sneakSkill: number };
   enemy: {
     enabled: boolean;
     position: readonly [number, number, number];
@@ -1049,6 +1059,33 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
       { from: 4.2, to: 5.4, move: [0, -0.45] },
     ],
     enemyCues: [{ at: 1.5, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
+  },
+
+  // --- stealth (decision 0092) ------------------------------------------------
+  // The warden starts unaware. Behind it, crouched, a Sneak-50 dagger opener
+  // takes the §121.5 table (×7); in front of it, walking upright, the player is
+  // seen at once and the warden engages within the 0.8 s sighting rule.
+  "sneak-attack": {
+    id: "sneak-attack",
+    label: "Sneak attack \u2192 crouched behind an unaware warden, the dagger's light press opens a backstab at light1 \u00d77",
+    warmup: 0.5,
+    duration: 7.9,
+    player: { position: [0, Y, -1.5], yaw: 0, weaponId: "iron-dagger", stance: "crouching" },
+    stealth: { startUnaware: true, sneakSkill: 50 },
+    enemy: FACING_ENEMY,
+    cues: [{ from: 0.5, to: 0.59, actions: ["light"] }],
+  },
+  "sneak-detected": {
+    id: "sneak-detected",
+    label: "Seen \u2192 walking upright toward an unaware warden, it engages and attacks",
+    warmup: 0.5,
+    duration: 5.0,
+    player: { position: [0, Y, 6], yaw: Math.PI },
+    stealth: { startUnaware: true, sneakSkill: 10 },
+    enemy: FACING_ENEMY,
+    cues: [{ from: 0.2, to: 2.0, move: [0, 0.5] }],
+    // Waits until the warden engages: an unaware or suspicious enemy takes no cue.
+    enemyCues: [{ at: 2.6, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
   },
 
   // --- two-handed -----------------------------------------------------------

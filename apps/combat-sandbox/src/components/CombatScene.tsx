@@ -36,6 +36,9 @@ function pickRuntimeSettings(state: GameSnapshot): CombatRuntimeSettings {
     playerMaxHealth: state.playerMaxHealth,
     playerMaxStamina: state.playerMaxStamina,
     poiseEnabled: state.poiseEnabled,
+    stealthStart: state.stealthStart,
+    sneakSkill: state.sneakSkill,
+    ambientLight: state.ambientLight,
   };
 }
 

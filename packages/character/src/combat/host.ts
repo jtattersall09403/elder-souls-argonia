@@ -1,6 +1,7 @@
 import type { AimView, CombatAction } from "@elder-souls/game-core/core/types";
 import type { BowPhase } from "@elder-souls/game-core/combat/bowShot";
 import type { LightEnvironment } from "@elder-souls/game-core/fx/carriedLight";
+import type { Awareness } from "@elder-souls/game-core/perception/detection";
 import type { FlightSample } from "../Arrows";
 
 /**
@@ -62,6 +63,16 @@ export type CombatRuntimeSettings = {
   playerMaxHealth: number;
   playerMaxStamina: number;
   poiseEnabled: boolean;
+  /**
+   * Stealth (decision 0092). Off, every enemy starts engaged (the behaviour
+   * the calibrated scenes were tuned against); on, every enemy starts unaware
+   * and has to see or hear the player first.
+   */
+  stealthStart: boolean;
+  /** The player's Sneak skill, 0-100: elusiveness and the sneak-attack table. */
+  sneakSkill: number;
+  /** Light on the player, 0 (dark) to 1 (lit), when no carried light is lit. */
+  ambientLight: number;
 };
 
 /** The numbers the runtime publishes for a HUD, every 50 ms and on events. */
@@ -92,6 +103,11 @@ export type CombatHudState = {
   aimErrorDegrees: number;
   playerPoise: number;
   playerMaxPoise: number;
+  /**
+   * The most alert living enemy (engaged over suspicious over unaware) and its
+   * suspicion, 0-1: the HUD's detection meter.
+   */
+  detection: { level: number; awareness: Awareness };
 };
 
 export type CombatRuntimeHost = {

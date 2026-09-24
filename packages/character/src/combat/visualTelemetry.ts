@@ -46,6 +46,10 @@ export type VisualScenarioTelemetry = {
    * Every blow the player landed on an enemy, per hand: what proves each blade
    * of a dual-wield attack resolves its own contact (decision 0091).
    */
+  /** The enemy's awareness of the player now (decision 0092). */
+  enemyAwareness?: "unaware" | "suspicious" | "engaged";
+  /** Every change of the enemy's awareness, in order, with its suspicion then. */
+  awarenessEvents?: Array<{ time: number; awareness: "unaware" | "suspicious" | "engaged"; suspicion: number }>;
   playerHits?: Array<{ time: number; attack: string; hand: "main" | "off"; damage: number; enemyHealthAfter: number }>;
   visualFrames: Array<{
     time: number;

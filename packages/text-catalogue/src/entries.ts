@@ -143,6 +143,12 @@ export const COMBAT_CALLOUT_TEXT: readonly TextEntry[] = [
   { id: "text.combat.fight-restarted", surface: "ui", text: "Fight restarted" },
   { id: "text.combat.critical-hit", surface: "ui", text: "Critical hit" },
   { id: "text.combat.torch-burnt-out", surface: "ui", text: "Torch burnt out" },
+  {
+    id: "text.combat.sneak-attack",
+    surface: "ui",
+    text: "Sneak attack ×{multiplier}",
+    note: "{multiplier} is the sneak-attack table's factor for the blow, a number (decision 0092).",
+  },
 ];
 
 /**
@@ -158,6 +164,11 @@ export const SANDBOX_HUD_TEXT: readonly TextEntry[] = [
   { id: "text.sandbox.poise-toggle", surface: "ui", text: "Poise (off: every hit flinches)" },
   { id: "text.sandbox.show-weapon-volumes", surface: "ui", text: "Show weapon and parry volumes" },
   { id: "text.sandbox.show-backstab-zones", surface: "ui", text: "Show backstab zones" },
+  { id: "text.sandbox.stealth-start", surface: "ui", text: "Enemies start unaware" },
+  { id: "text.sandbox.sneak-skill", surface: "ui", text: "Sneak skill" },
+  { id: "text.sandbox.sneak-opener", surface: "ui", text: "opening blow" },
+  { id: "text.sandbox.ambient-light", surface: "ui", text: "Ambient light" },
+  { id: "text.sandbox.detection", surface: "ui", text: "Detection" },
   { id: "text.sandbox.enemy", surface: "ui", text: "Enemy" },
   { id: "text.sandbox.with-shield", surface: "ui", text: "with shield" },
   { id: "text.sandbox.foot-driven", surface: "ui", text: "Attack movement from the feet" },

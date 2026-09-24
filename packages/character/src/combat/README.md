@@ -44,14 +44,15 @@ What else the host must supply (Phase 10b's adoption list for
 | File | Holds |
 |---|---|
 | `CombatRuntime.tsx` | The component: refs, callbacks, reset, the frame loop for the player, camera and HUD. |
-| `enemyStep.ts` | One enemy's frame: status ticks, facing, the AI intent and the tactical state machine. |
+| `enemyStep.ts` | One enemy's frame: status ticks, facing, the AI intent and the tactical state machine. An enemy that is not engaged chooses nothing (decision 0092). |
+| `stealthStep.ts` | Stealth's frame (decision 0092), run before the enemies' steps: each enemy's sight (a Rapier ray the runtime supplies) and hearing fed to `game-core/perception`, its awareness advanced; the sneak-attack multiplier and the HUD's detection readout. |
 | `enemyRuntime.ts` | `EnemyRuntime` (Fighter plus body/view handles), spawn defaults. |
 | `enemyBow.ts` | An archer's aim solve and loose. |
 | `EnemyActor.tsx` | An enemy's Ecctrl body, actor, reticle, health bar and hit volumes. |
 | `HeldObjectHitbox.tsx` | The weapon and parry sensors, and the capsule fallback hurtbox. |
 | `aimRig.ts`, `locomotionHelpers.ts`, `combatConstants.ts` | Aim camera numbers, planted-pivot and locked-clip helpers, shared names. |
 | `host.ts`, `visualTelemetry.ts` | The host contract and the validation telemetry type. |
-| `LockOnReticle.tsx`, `ActorHealthBar.tsx`, `BackstabZoneIndicator.tsx`, `AnalogueSpeedLimiter.tsx`, `useCarriedAssetWarmup.ts` | Small view pieces. |
+| `LockOnReticle.tsx`, `ActorHealthBar.tsx`, `BackstabZoneIndicator.tsx`, `ViewConeIndicator.tsx`, `AnalogueSpeedLimiter.tsx`, `useCarriedAssetWarmup.ts` | Small view pieces. |
 
 ## Rules
 

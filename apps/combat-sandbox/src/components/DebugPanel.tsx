@@ -3,6 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { MAX_ENEMIES } from "@elder-souls/game-core/combat/tuning";
 import { marksmanModifiers, meleeModifiers } from "@elder-souls/game-core/stats/modifiers";
 import { meleeSkillFor } from "@elder-souls/game-core/equipment/weaponSkill";
+import { sneakWeaponKindFor } from "@elder-souls/game-core/equipment/sneakWeaponKind";
+import { sneakMultiplier } from "@elder-souls/game-core/stats/derived";
 import { useEquippedLoadout } from "@elder-souls/game-core/inventory/store";
 import { ENEMY_ARCHETYPES } from "@elder-souls/game-core/actors/enemyArchetypes";
 import { classTimingTable, type AttackPhaseSeconds } from "@elder-souls/game-core/equipment/attackTimingTable";
@@ -108,6 +110,8 @@ export function DebugPanel() {
   const { mainHand } = useEquippedLoadout();
   const marksman = marksmanModifiers(state.marksmanSkill);
   const melee = meleeModifiers(meleeSkillFor(mainHand.stats.class), state.meleeSkill);
+  // What the Sneak skill is worth on an unseen blow with the drawn weapon (§121.5).
+  const opener = sneakMultiplier(sneakWeaponKindFor(mainHand.stats.class), state.sneakSkill);
   return (
     <details className="debug-panel" data-ui-capture>
       <summary>{t("text.sandbox.debug")}</summary>
@@ -182,6 +186,37 @@ export function DebugPanel() {
           onChange={(event) => state.patch({ showBackstabZones: event.target.checked })}
         />
         {t("text.sandbox.show-backstab-zones")}
+      </label>
+      {/* Stealth (decision 0092): applies from the next restart. */}
+      <label>
+        <input
+          type="checkbox"
+          checked={state.stealthStart}
+          onChange={(event) => state.patch({ stealthStart: event.target.checked })}
+        />
+        {t("text.sandbox.stealth-start")}
+      </label>
+      <label className="enemy-picker">
+        {t("text.sandbox.sneak-skill")}: {state.sneakSkill} ({t("text.sandbox.sneak-opener")} &times;{opener})
+        <input
+          type="range"
+          min={0}
+          max={100}
+          step={5}
+          value={state.sneakSkill}
+          onChange={(event) => state.patch({ sneakSkill: Number(event.target.value) })}
+        />
+      </label>
+      <label className="enemy-picker">
+        {t("text.sandbox.ambient-light")}: {state.ambientLight.toFixed(2)}
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.05}
+          value={state.ambientLight}
+          onChange={(event) => state.patch({ ambientLight: Number(event.target.value) })}
+        />
       </label>
       <label className="enemy-picker">
         {t("text.sandbox.enemy")}:

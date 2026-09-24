@@ -3736,5 +3736,120 @@
       "maxGroundCorrectionSpeedMetersPerSecond": 4.2,
       "note": "The torch block is a lower stance than the idle it blends from, as shield-guard's is; same allowance as shield-guard and guard-defense."
     }
+  },
+  "sneak-attack": {
+    "playerActions": [
+      "idle",
+      "backstab"
+    ],
+    "playerAnimations": [
+      "SWORD_CROUCH_IDLE",
+      "BACKSTAB"
+    ],
+    "enemyActions": [
+      "watching",
+      "critical",
+      "criticalRecovery",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "BACKSTABBED"
+    ],
+    "enemyHealthLessThan": 88.9,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "backstab",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "critical",
+        "criticalRecovery",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_CROUCH_IDLE",
+        "BACKSTAB",
+        "SWORD_CROUCH_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "BACKSTABBED",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BACKSTAB"
+      ],
+      "enemy": [
+        "BACKSTABBED"
+      ]
+    },
+    "awareness": {
+      "startsAs": "unaware",
+      "endsAs": "engaged"
+    },
+    "note": "Expected before the run (decision 0092): 1.5 m behind a watching warden is inside the backstab sector, so the light press opens the paired backstab; unseen, it resolves as the dagger's light1 (11) x 7 (Sneak 50, dagger row, module 76 section 121.5) = 77 incoming, 61.11 after the warden's iron rating 39, never the backstab's own 22 on top. 150 -> at most 88.89."
+  },
+  "sneak-detected": {
+    "playerActions": [
+      "idle"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "WALK"
+    ],
+    "enemyActions": [
+      "watching",
+      "attack",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "WALK",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "WALK"
+      ],
+      "enemy": [
+        "LIGHT_1"
+      ]
+    },
+    "awareness": {
+      "startsAs": "unaware",
+      "endsAs": "engaged",
+      "engagedWithinSeconds": 1.3
+    },
+    "note": "Expected before the run (decision 0092): an upright player is never elusive, so inside the cone at 6 m with a clear line the warden sees them every frame and engages after AWARENESS_TUNING.engageSeconds (0.8 s); the bound is 0.8 + 0.5 s. The scripted attack at 2.6 s waits for the engagement."
   }
 }

@@ -126,11 +126,21 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
   // below: they are frozen choreography, so they zero angular velocity and
   // pin one exact facing instead of asking the locomotion controller to
   // turn them.
-  if (!(f.state === "dead" || criticalVictimFrozen)) {
-    const targetYaw = Math.atan2(dirX, dirZ);
+  // Stealth (decision 0092, `stealthStep`): an unaware enemy does not turn
+  // toward the player at all, a suspicious one turns toward where it last
+  // saw or heard them, at its watching rate. Engaged is the code below as it was.
+  const awareness = e.awareness.awareness;
+  const engaged = awareness === "engaged";
+  const facingTarget = engaged ? playerPos : awareness === "suspicious" ? e.lastKnownPlayer : null;
+  if (!(f.state === "dead" || criticalVictimFrozen) && facingTarget) {
+    const targetYaw = engaged
+      ? Math.atan2(dirX, dirZ)
+      : Math.atan2(facingTarget.x - e.position.x, facingTarget.z - e.position.z);
     const yawDelta = Math.atan2(Math.sin(targetYaw - f.yaw), Math.cos(targetYaw - f.yaw));
     const turnRates = archetype.locomotion.turnRate;
-    const turnRate = f.state === "approach" || f.state === "withdraw"
+    const turnRate = !engaged
+      ? (f.state === "watching" ? turnRates.watching : 0)
+      : f.state === "approach" || f.state === "withdraw"
       // Giving ground is walking backwards while still facing the threat,
       // so it turns at the same rate as closing does.
       ? turnRates.approach
@@ -192,6 +202,11 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
     f.state = "watching";
     f.actionTime = 0;
     setEnemyAnim(e, weapon.animations.combatIdle);
+  } else if (!engaged && (f.state === "watching" || f.state === "approach")) {
+    // Not yet fighting: it stands in its combat idle and chooses nothing, not
+    // even a scripted cue, which waits until the enemy engages.
+    if (f.state !== "watching") setEnemyMode(e, "watching", weapon.animations.combatIdle);
+    else setEnemyAnim(e, weapon.animations.combatIdle);
   } else if (f.state === "watching" || f.state === "approach") {
     // Scenarios replace only the nondeterministic intent choice. Both
     // scripted and AI choices go through this one production dispatcher,

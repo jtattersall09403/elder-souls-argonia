@@ -119,3 +119,24 @@ describe("one resolve step for every blow", () => {
     expect(1000 - r.health).toBeCloseTo(150, 9);
   });
 });
+
+describe("the sneak multiplier (decision 0092 §5, module 76 §121.5)", () => {
+  it("scales incoming damage at step 3, before armour", () => {
+    const sneak = resolveHit(1000, 100, base({ sneakMultiplier: 7, armourRating: 150 }));
+    if (sneak.kind !== "hit") throw new Error("expected a hit");
+    // 100 × 7 = 700 incoming, then armour.
+    expect(1000 - sneak.health).toBeCloseTo(damageAfterArmour(700, 150), 9);
+  });
+  it("defaults to 1", () => {
+    const plain = resolveHit(1000, 100, base());
+    const one = resolveHit(1000, 100, base({ sneakMultiplier: 1 }));
+    expect(one).toEqual(plain);
+  });
+  it("applies to an execution, whose own critical stays out of it", () => {
+    // The caller hands an unseen backstab the main weapon's light1 (§2 of the
+    // brief); the resolve multiplies that by the sneak table and nothing else.
+    const executed = resolveHit(1000, 100, base({ execution: "backstab", sneakMultiplier: 5 }));
+    if (executed.kind !== "execution") throw new Error("expected an execution");
+    expect(1000 - executed.health).toBeCloseTo(500, 9);
+  });
+});

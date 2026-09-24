@@ -72,6 +72,10 @@ export const initialSnapshot: GameSnapshot = {
   playerPoise: 0,
   playerMaxPoise: 0,
   poiseEnabled: true,
+  stealthStart: false,
+  sneakSkill: 10,
+  ambientLight: 1,
+  detection: { level: 1, awareness: "engaged" as const },
 };
 
 export const useGameStore = create<GameStore>((set) => ({
@@ -98,6 +102,9 @@ export const useGameStore = create<GameStore>((set) => ({
     aimView: state.aimView,
     enemyArchetypeId: state.enemyArchetypeId,
     poiseEnabled: state.poiseEnabled,
+    stealthStart: state.stealthStart,
+    sneakSkill: state.sneakSkill,
+    ambientLight: state.ambientLight,
     // Debug overrides survive a restart, or testing a rule that needs a raised
     // pool would mean re-setting them after every death.
     playerMaxHealth: state.playerMaxHealth,

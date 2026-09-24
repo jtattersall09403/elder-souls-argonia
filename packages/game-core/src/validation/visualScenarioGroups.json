@@ -78,5 +78,9 @@
     "dual-wield-attack",
     "dual-wield-power",
     "torch-carry"
+  ],
+  "stealth": [
+    "sneak-attack",
+    "sneak-detected"
   ]
 }

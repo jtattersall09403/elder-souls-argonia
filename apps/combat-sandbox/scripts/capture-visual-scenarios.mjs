@@ -202,6 +202,24 @@ function semanticFailures(scenario, telemetry, expected) {
       }
     }
   }
+  if (expected.awareness) {
+    // Stealth scenes (decision 0092): the enemy's awareness at the start and
+    // end, and when it first engaged, from the runtime's awareness events.
+    const events = telemetry.awarenessEvents ?? [];
+    const { startsAs, endsAs, engagedWithinSeconds } = expected.awareness;
+    if (startsAs !== undefined && events[0]?.awareness !== startsAs) {
+      failures.push(`${scenario}: expected the enemy to start ${startsAs}, observed ${events[0]?.awareness ?? "no awareness events"}`);
+    }
+    if (endsAs !== undefined && telemetry.enemyAwareness !== endsAs) {
+      failures.push(`${scenario}: expected the enemy to end ${endsAs}, observed ${telemetry.enemyAwareness}`);
+    }
+    if (engagedWithinSeconds !== undefined) {
+      const engaged = events.find((event) => event.awareness === "engaged");
+      if (!engaged || engaged.time > engagedWithinSeconds) {
+        failures.push(`${scenario}: expected engagement within ${engagedWithinSeconds} s, observed ${engaged ? `${engaged.time} s` : "never"}`);
+      }
+    }
+  }
   if (expected.playerHealthLessThan !== undefined && telemetry.playerHealth >= expected.playerHealthLessThan) {
     failures.push(`${scenario}: expected player health below ${expected.playerHealthLessThan}, observed ${telemetry.playerHealth}`);
   }

@@ -57,6 +57,11 @@ button { color: inherit; font: inherit; }
 .poise { height: 7px; }
 .poise span { background: linear-gradient(#9d8ec4, #4d4270); }
 .poise-row small { font: 600 9px Cinzel, serif; color: #a99c83; white-space: nowrap; }
+.detection-row { margin: 5px 0 0 42px; width: calc(60% - 42px); }
+.detection { height: 6px; }
+.detection-row[data-awareness="unaware"] .detection span { background: linear-gradient(#b8b8b8, #6d6d6d); }
+.detection-row[data-awareness="suspicious"] .detection span { background: linear-gradient(#ffc56b, #b8741d); }
+.detection-row[data-awareness="engaged"] .detection span { background: linear-gradient(#ff6b5a, #9e2418); }
 
 .combat-message { position: absolute; top: 25%; left: 50%; transform: translateX(-50%); font: 600 14px Cinzel, serif; letter-spacing: .16em; text-transform: uppercase; color: #d3c6aa; text-shadow: 0 2px 4px #000; white-space: nowrap; }
 .combat-message.major { top: 40%; font-size: clamp(34px, 7vw, 76px); color: #a53c32; letter-spacing: .2em; text-shadow: 0 3px 12px #000; }
