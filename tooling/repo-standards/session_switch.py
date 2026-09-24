@@ -1,47 +1,76 @@
 #!/usr/bin/env python3
-"""When is continuing this session dearer than starting a fresh one?
+"""What does a fresh session cost against this one? (decision 0083)
 
-Decision 0079: the bill is turns x context. Every turn re-reads the whole
-context at the cached rate, so a long session gets steadily dearer per turn; a
-fresh session pays a one-off orientation cost and then each turn is cheaper. This
-Stop hook reports the break-even in turns, and the cost of not switching as a
-share of last week's usage (owner 2026-09-22: couched in weekly usage). That
-week is the planner's own interactive usage — the limit the owner watches —
-with subagent and headless (`claude -p`) usage excluded.
+Runs as a UserPromptSubmit hook in the owner's interactive session only, so the
+numbers ride the next instruction or wake and never force an extra model call.
+Prices are in the planner's own usage (units: fresh-input-token equivalents,
+session_tokens.WEIGHT); subagent usage is the same either way and is left out.
 
-Cost units are fresh-input-token equivalents under WEIGHT (a cached read counts
-0.1, a cache write 2, an output token 5) — the rule of thumb for how the weekly
-limit is metered.
+  one-off  = hand-off here (HANDOFF_CALLS calls, each re-reading the whole
+             context, plus their writing) + orientation (what THIS session
+             spent before its first work call: the fresh session pays it again)
+  per step = every planner call re-reads its context at the cached rate:
+             C_now x 0.1 here, C_fresh x 0.1 in a fresh session
 
-    python3 tooling/repo-standards/session_switch.py            # hook mode (stdin JSON)
-    python3 tooling/repo-standards/session_switch.py --report   # numbers + baseline table
+The tool cannot see how much work is left, so it reports the one-off cost, the
+saving per step and the break-even, and the planner prices the next part for
+the owner at each check-in (the natural break, where a hand-off is short and
+lossless). Past BIG_CONTEXT it also tells the owner, once, that every step is
+now several times a fresh one.
+
+    python3 tooling/repo-standards/session_switch.py              # hook mode (stdin JSON)
+    python3 tooling/repo-standards/session_switch.py --report     # newest transcript, the table
+    python3 tooling/repo-standards/session_switch.py --report --transcript X.jsonl
 """
-import argparse, glob, json, math, os, sys, time
+import argparse, glob, json, math, os, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from session_tokens import PROJ, WEIGHT, Calls, cost_units, window_totals  # one cost model, one project path
+from session_tokens import PROJ, WEIGHT, Calls, cost_units  # one cost model, one project path
 
-# Only interactive planner sessions belong in the baseline, and only an
-# interactive planner session is advised by the hook. "sdk-cli" is the
-# headless entrypoint (the code-review gate, `claude -p`); "cli" is a real session.
-INTERACTIVE_ENTRYPOINT = "cli"
-CACHE_TTL = 3600  # seconds a cached baseline stays usable in hook mode
+INTERACTIVE_ENTRYPOINT = "cli"  # "sdk-cli" is headless (`claude -p`, the review gate)
+# leaving at a natural break: the PROGRESS row and the brief's Starting state are
+# already current, so one call writes the last of them and one hands the owner the
+# line. No commit, no tests, no preflight (owner 2026-09-23).
+HANDOFF_CALLS = 2
+BIG_CONTEXT = 300_000  # past this the owner is told once; each step is ~6x a fresh one
+STEPS = (5, 10, 20, 40, 80)
+WORK_TOOLS = {"Edit", "Write", "NotebookEdit", "Workflow"}
+# subagents that do work; find/Explore/research only look, so they are orientation
+WORK_AGENTS = {"deliver", "run", "preflight", "general-purpose", "claude", "fork"}
 
 
-def turns_of(path):
-    """(per-turn usage dicts, entrypoint). One entry per model call on the main chain.
+def is_prompt(d):
+    """A main-chain user record that starts a turn: a typed prompt or a wake, not a tool result."""
+    if d.get("type") != "user" or d.get("isMeta"):
+        return False
+    c = (d.get("message") or {}).get("content")
+    if isinstance(c, str):
+        return True
+    if not isinstance(c, list):
+        return False
+    kinds = {b.get("type") for b in c if isinstance(b, dict)}
+    return "tool_result" not in kinds and "text" in kinds
 
-    Claude Code writes one assistant record per content block (text, then the
-    tool call), each carrying the whole call's usage, so records must be folded
-    by message.id: counting records doubled the turn count, the orientation
-    window and every baseline sum (the 16h session's "turn 79" was 38 calls,
-    owner 2026-09-22). session_tokens.usage_of aggregates a whole transcript, so
-    it cannot serve the per-turn shape this tool needs; the field names and cost
-    weights are shared.
-    """
-    calls, entry = Calls(), None
+
+def starts_work(d):
+    for b in (d.get("message") or {}).get("content") or []:
+        if not isinstance(b, dict) or b.get("type") != "tool_use":
+            continue
+        if b.get("name") in WORK_TOOLS:
+            return True
+        if b.get("name") in ("Agent", "Task") and \
+                (b.get("input") or {}).get("subagent_type", "general-purpose") in WORK_AGENTS:
+            return True
+    return False
+
+
+def read_session(path):
+    """Main-chain calls (folded by message.id), the call index each turn starts at,
+    the index of the first work call (or None), and the entrypoint."""
+    calls, turn_starts, work_at, entry = Calls(), [], None, None
     for line in open(path, errors="replace"):
-        if entry is not None and '"usage"' not in line:
+        # tool results are most of the bytes and never start a turn
+        if '"usage"' not in line and '"type":"tool_result"' in line:
             continue
         try:
             d = json.loads(line)
@@ -50,149 +79,80 @@ def turns_of(path):
         entry = entry or d.get("entrypoint")
         if d.get("isSidechain"):
             continue
-        calls.add(d)
-    return calls.calls, entry
+        if is_prompt(d):
+            turn_starts.append(len(calls.calls))
+        elif d.get("type") == "assistant":
+            calls.add(d)
+            if work_at is None and calls.calls and starts_work(d):
+                mid = (d.get("message") or {}).get("id")
+                work_at = calls._ids.get(mid, len(calls.calls) - 1)
+    return calls.calls, turn_starts, work_at, entry
 
 
 def context(u):
     return u["input"] + u["cache_read"] + u["cache_create"]
 
 
-def median(xs):
-    xs = sorted(xs)
-    n = len(xs)
-    return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2
-
-
-FRESH_WINDOW = 10  # turns after orientation that define a fresh session's per-turn cost
-# the projection runs over a typical session's length (baseline median calls, floor
-# below): a fixed 100 was ~2.5 sessions once turns were counted per call, and made
-# every young session look worth leaving (owner 2026-09-22)
-HORIZON_MIN = 20
-# leaving costs turns too: PROGRESS row, Starting state, pathspec commits, the
-# preflight hand-off. Charged at this session's per-turn cost on the switch side.
-HANDOFF_TURNS = 4
-# a resume or compaction re-writes the whole context once; the median over 15
-# turns lets that one-off drop out (owner session 2026-09-22)
-NOW_WINDOW = 15
-
-
-def baseline(directory, exclude, count, orient):
-    """(medians dict, rows) over other recent interactive transcripts.
-
-    A session qualifies only with at least max(20, orient + FRESH_WINDOW) turns, so
-    both the orientation window and the fresh-per-turn window sit inside the session.
-    """
-    files = sorted(glob.glob(os.path.join(directory, "*.jsonl")), key=os.path.getmtime, reverse=True)
-    rows = []
-    need = max(20, orient + FRESH_WINDOW)
-    for f in files:
-        if os.path.abspath(f) == os.path.abspath(exclude or ""):
-            continue
-        t, entry = turns_of(f)
-        if len(t) < need or entry != INTERACTIVE_ENTRYPOINT:
-            continue
-        rows.append({"id": os.path.basename(f)[:8],
-                     "O": sum(cost_units(u) for u in t[:orient]),
-                     "C_fresh": context(t[orient - 1]),
-                     "fresh_per_turn": median([cost_units(u) for u in t[orient:orient + FRESH_WINDOW]]),
-                     "turns": len(t)})
-        if len(rows) >= count:
-            break
-    if len(rows) < 3:
-        return None, rows
-    return {"O": median([r["O"] for r in rows]),
-            "C_fresh": median([r["C_fresh"] for r in rows]),
-            "fresh_per_turn": median([r["fresh_per_turn"] for r in rows]),
-            "median_turns": median([r["turns"] for r in rows])}, rows
-
-
-def assess(t, transcript, directory, orient, count, cached=None):
-    # A session still inside its own orientation + fresh window IS the fresh
-    # session; its early turns carry the one-off cache writes (system prompt,
-    # CLAUDE.md, orientation reads at 2x) that a steady-state baseline never
-    # shows, so any comparison before this point misreads a new session as dear
-    # (fired at turn 3 and turn 19 of fresh sessions, 2026-09-22).
-    if not t or len(t) < orient + FRESH_WINDOW:
+def assess(calls, turn_starts, work_at):
+    """One-off switch cost, per-step prices and break-even; None while still orienting."""
+    if not calls:
         return None
-    # the context this session carries: a median over the same window as the
-    # per-turn cost, so a compaction or resume re-write is a one-off, not the reading
-    C_now = median([context(u) for u in t[-NOW_WINDOW:]])
-    if cached and cached.get("week") is not None:
-        base, rows, week = cached, [], cached["week"]
-    else:
-        base, rows = baseline(directory, transcript, count, orient)
-        week = window_totals(directory, 7, interactive_only=True)["units"]
-    if base is None:
-        return None
-    O, C_fresh = base["O"], base["C_fresh"]
-    fresh_per_turn = base["fresh_per_turn"]
-    # Decision 0083: the only thing a switch saves is re-reading the excess
-    # context every turn, at the cached rate. Cache writes and output are the
-    # work itself and cost the same in either session, so they are not the
-    # difference; subtracting whole per-turn costs (the earlier code) made a
-    # fresh session's own cache writes look like a reason to leave it.
-    s = (C_now - C_fresh) * WEIGHT["cache_read"]
-    now_per_turn = fresh_per_turn + s
-    # what a switch costs: the fresh session's orientation plus the hand-off
-    # turns this session spends leaving the tree ready. Only the excess-context
-    # saving can repay it, so B is the number of further planner turns the chunk
-    # must still need before leaving pays; whether it needs them is the
-    # planner's call, not this tool's (owner 2026-09-22).
-    switch = O + HANDOFF_TURNS * now_per_turn
-    B = math.ceil(switch / s) if s > 0 else None
-    horizon = max(HORIZON_MIN, int(base["median_turns"]))
-    cont = horizon * now_per_turn
-    fresh = horizon * fresh_per_turn + switch
-    return {"turns": len(t), "C_now": C_now, "C_fresh": C_fresh, "O": O, "s": s, "B": B,
-            "switch": switch, "horizon": horizon,
-            "now_per_turn": now_per_turn, "fresh_per_turn": fresh_per_turn,
-            "median_turns": base["median_turns"], "cont": cont, "fresh": fresh,
-            "week": week, "rows": rows}
+    first_turn_end = next((s for s in turn_starts if s > 0), len(calls))
+    orient_end = min(work_at if work_at is not None else len(calls), first_turn_end)
+    if orient_end < 1 or orient_end >= len(calls):
+        return None  # no work since orientation yet: this session is the fresh one
+    bounds = [s for s in turn_starts if s <= len(calls)] + [len(calls)]
+    sizes = [b - a for a, b in zip(bounds, bounds[1:]) if b > a]
+    later = sizes[1:] or sizes  # the first turn carries orientation
+    n = sum(later) / len(later)
+    read = WEIGHT["cache_read"]
+
+    last = calls[-1]
+    C_now = context(last) + last["output"]  # the last reply joins the context
+    C_fresh = context(calls[orient_end])    # what the first work call carried
+    O = sum(cost_units(u) for u in calls[:orient_end])
+    work_rest = [cost_units(u) - u["cache_read"] * read for u in calls[orient_end:]]
+    per_call_work = sum(work_rest) / len(work_rest)  # writes + output of an average call here
+    handoff = HANDOFF_CALLS * (C_now * read + per_call_work)
+    stay_step, fresh_step = C_now * read, C_fresh * read
+    saving = stay_step - fresh_step
+    return {"calls": len(calls), "turns": len(sizes), "n": n, "C_now": C_now, "C_fresh": C_fresh,
+            "O": O, "orient_calls": orient_end, "handoff": handoff, "one_off": handoff + O,
+            "stay_step": stay_step, "fresh_step": fresh_step, "saving": saving,
+            "break_even": math.ceil((handoff + O) / saving) if saving > 0 else None}
 
 
-def band_of(B):
-    if B is None:
-        return None
-    if B <= 8:
-        return "now"
-    if B <= 20:
-        return "soon"
-    return None
+def k(x):
+    return f"{x/1000:.0f}k"
 
 
-ADVICE = {"now": "a switch pays back within {B} more planner turns: switch at the next commit "
-                 "unless the chunk is nearly done",
-          "soon": "a switch pays back after {B} more planner turns: worth it at the next natural "
-                  "break (commit or hand-off) only if the chunk still needs more than that"}
+def table(r, steps=STEPS):
+    """'N steps: stay X / switch Y' per horizon."""
+    return "; ".join(f"{s} steps: stay {k(s*r['stay_step'])} / switch {k(r['one_off'] + s*r['fresh_step'])}"
+                     for s in steps)
 
 
-# What the planner is told alongside the owner's warning (owner 2026-09-22): the
-# tool cannot see how much of the chunk is left, so the planner judges B against
-# the work remaining; if it leaves, it leaves the tree ready for a fresh agent and
-# hands the owner the one-line invocation, on a turn that does work, never a turn
-# of its own.
-HANDOFF = (" Planner: judge this against the planner turns this chunk still needs (subagent "
-           "work does not count; a job you can finish in fewer turns than the pay-back stays "
-           "here). If you do switch, before you end this turn leave everything set up so a "
-           "fresh agent continues seamlessly from a short instruction (PROGRESS.md row current, "
-           "the active brief's Starting state rewritten, finished parts committed by pathspec, "
-           "open steps and blockers recorded where the brief says). Then tell the owner, in "
-           "plain English, the exact one-line instruction to start the next session with "
-           "(e.g. 'continue phase 12 delivery', 'continue renderer lane in line with my "
-           "feedback below'). Do this on the turn you are on; never spend a turn on it alone.")
+def planner_line(r):
+    be = f"even after ~{r['break_even']} planner steps" if r["break_even"] else "never pays back"
+    line = (f"[session-switch] context {k(r['C_now'])}; a fresh session starts at {k(r['C_fresh'])}. "
+            f"Switching costs ~{k(r['one_off'])} once (hand-off {HANDOFF_CALLS} steps + catch-up), "
+            f"then saves ~{k(r['saving'])} per planner step: {be} (~{r['n']:.0f} steps per turn here). "
+            f"{table(r)}. At the next owner check-in, price the next part with these numbers "
+            f"(stay vs switch for the steps it needs) and let the owner choose; switch only at a "
+            f"natural break, and hand off with the PROGRESS row and the brief's Starting state plus "
+            f"the exact one-line instruction for the new session, no commit, tests or preflight.")
+    if r["C_now"] >= BIG_CONTEXT:
+        line += (f" This session is past {k(BIG_CONTEXT)}: each step costs "
+                 f"{r['stay_step']/r['fresh_step']:.0f}x a fresh one. Bring the current work to the "
+                 f"nearest sensible break, then hand off as above.")
+    return line
 
 
-def message(a, band):
-    week = a["week"]
-    cont_share = (f" ({a['cont']/week*100:.1f}% of last week's Fable usage)" if week else "")
-    fresh_share = (f" ({a['fresh']/week*100:.1f}%)" if week else "")
-    return (f"[session-switch] each turn here costs ~{a['now_per_turn']/1000:.1f}k units, "
-            f"{a['now_per_turn']/a['fresh_per_turn']:.1f}x a fresh-session turn "
-            f"(context {a['C_now']/1000:.0f}k). Over a typical session ({a['horizon']} turns) that is "
-            f"~{a['cont']/1e6:.2f}M units here{cont_share} vs ~{a['fresh']/1e6:.2f}M{fresh_share} "
-            f"in a fresh session including re-orientation and the hand-off. "
-            f"{ADVICE[band].format(B=a['B'])}. (turn {a['turns']})")
+def owner_line(r):
+    return (f"[session-switch] This session is at {k(r['C_now'])} context: each step now costs "
+            f"~{r['stay_step']/r['fresh_step']:.0f}x a fresh session's. Switching costs ~{k(r['one_off'])} "
+            f"once and saves ~{k(r['saving'])} per step after that. The agent will hand over at the "
+            f"nearest sensible break and give you the line for the new session.")
 
 
 def newest(directory):
@@ -205,35 +165,26 @@ def main():
     ap.add_argument("--report", action="store_true")
     ap.add_argument("--transcript")
     ap.add_argument("--dir", default=PROJ)
-    ap.add_argument("--orient-turns", type=int, default=8)
-    ap.add_argument("--baseline-sessions", type=int, default=10)
     a = ap.parse_args()
 
     if a.report:
         path = a.transcript or newest(a.dir)
         if not path:
             sys.exit(f"no transcripts under {a.dir}")
-        t, _ = turns_of(path)
-        r = assess(t, path, a.dir, a.orient_turns, a.baseline_sessions)
+        calls, starts, work_at, entry = read_session(path)
+        r = assess(calls, starts, work_at)
         if not r:
-            sys.exit(f"not enough baseline sessions (need 3 interactive ones with "
-                     f">= {max(20, a.orient_turns + FRESH_WINDOW)} turns)")
-        print(f"current: {os.path.basename(path)[:8]}  turns {r['turns']}  "
-              f"C_now {r['C_now']/1000:.1f}k  C_fresh {r['C_fresh']/1000:.1f}k  "
-              f"O {r['O']/1000:.1f}k units  switch (O + {HANDOFF_TURNS} hand-off turns) {r['switch']/1000:.1f}k  "
-              f"saving/turn {r['s']/1000:.1f}k units  "
-              f"B {r['B'] if r['B'] else 'n/a (no saving)'}  (orient-turns {a.orient_turns})")
-        print(f"per turn: now {r['now_per_turn']/1000:.1f}k units  fresh {r['fresh_per_turn']/1000:.1f}k units  "
-              f"(median session {r['median_turns']:.0f})  "
-              f"last 7 d {r['week']/1e6:.1f}M units (interactive planner)")
-        print(f"next {r['horizon']} turns: continue ~{r['cont']/1e6:.2f}M units"
-              + (f" ({r['cont']/r['week']*100:.1f}% of last 7 d)" if r["week"] else "")
-              + f"  vs fresh ~{r['fresh']/1e6:.2f}M units"
-              + (f" ({r['fresh']/r['week']*100:.1f}%)" if r["week"] else ""))
-        print(f"\n{'session':10s}{'O (k units)':>14s}{'C_fresh (k)':>14s}{'fresh/turn (k)':>16s}{'turns':>8s}")
-        for row in r["rows"]:
-            print(f"{row['id']:10s}{row['O']/1000:14.1f}{row['C_fresh']/1000:14.1f}"
-                  f"{row['fresh_per_turn']/1000:16.1f}{row['turns']:8d}")
+            sys.exit(f"{os.path.basename(path)[:8]}: still orienting (or empty), nothing to compare")
+        print(f"{os.path.basename(path)[:8]} ({entry}): {r['calls']} calls over {r['turns']} turns, "
+              f"~{r['n']:.1f} calls/turn; oriented in {r['orient_calls']} calls")
+        print(f"context now {k(r['C_now'])} (step {k(r['stay_step'])})  fresh {k(r['C_fresh'])} "
+              f"(step {k(r['fresh_step'])})  saving/step {k(r['saving'])}")
+        print(f"one-off {k(r['one_off'])} = hand-off {k(r['handoff'])} + orientation {k(r['O'])}  "
+              f"-> break-even {r['break_even'] or 'never'} steps")
+        for s in STEPS:
+            stay, switch = s * r["stay_step"], r["one_off"] + s * r["fresh_step"]
+            print(f"  {s:3d} steps left: stay {k(stay):>7s}  switch {k(switch):>7s}  "
+                  f"{'switch' if switch < stay else 'stay'}")
         return
 
     # hook mode: a hook must never break a session, so everything below is guarded
@@ -242,44 +193,28 @@ def main():
         if d.get("agent_id"):
             return
         path = d.get("transcript_path")
-        sid = d.get("session_id") or "unknown"
         if not path or not os.path.exists(path):
             return
-        t, entry = turns_of(path)
-        # only the interactive planner session the owner is in; headless review
-        # runs and `claude -p` never advise (owner 2026-09-22)
+        calls, starts, work_at, entry = read_session(path)
         if entry != INTERACTIVE_ENTRYPOINT:
             return
-        state = os.path.join(os.environ.get("TMPDIR", "/tmp"), f"session_switch_{sid}.json")
-        prev = {}
-        if os.path.exists(state):
-            try:
-                prev = json.load(open(state)) or {}
-            except Exception:
-                prev = {}
-        b = prev.get("baseline") or {}
-        reuse = (b.get("orient") == a.orient_turns and b.get("count") == a.baseline_sessions
-                 and time.time() - b.get("computed_at", 0) < CACHE_TTL)
-        r = assess(t, path, os.path.dirname(path) or a.dir, a.orient_turns, a.baseline_sessions,
-                   cached=b if reuse else None)
+        r = assess(calls, starts, work_at)
         if not r:
             return
-        if not reuse:
-            b = {"O": r["O"], "C_fresh": r["C_fresh"], "fresh_per_turn": r["fresh_per_turn"],
-                 "median_turns": r["median_turns"], "week": r["week"], "orient": a.orient_turns,
-                 "count": a.baseline_sessions, "computed_at": time.time()}
-        band = band_of(r["B"])
-        last = prev.get("band")
+        out = {"hookSpecificOutput": {"hookEventName": "UserPromptSubmit",
+                                      "additionalContext": planner_line(r)}}
+        big = r["C_now"] >= BIG_CONTEXT
+        state = os.path.join(os.environ.get("TMPDIR", "/tmp"),
+                             f"session_switch_{d.get('session_id') or 'unknown'}.json")
+        try:
+            was = json.load(open(state)).get("big", False)
+        except Exception:
+            was = False
         with open(state, "w") as fh:
-            json.dump({"band": band, "baseline": b}, fh)
-        if band is None or band == last:
-            return
-        msg = message(r, band)
-        print(json.dumps({
-            "systemMessage": msg,
-            "hookSpecificOutput": {
-                "hookEventName": "Stop",
-                "additionalContext": msg + HANDOFF}}))
+            json.dump({"big": big}, fh)
+        if big and not was:  # once per crossing; a compaction that drops it back re-arms it
+            out["systemMessage"] = owner_line(r)
+        print(json.dumps(out))
     except Exception:
         return
 

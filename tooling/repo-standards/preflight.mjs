@@ -14,6 +14,11 @@
  * that would have failed on CI, in one go. Nothing here changes what a gate
  * asserts; it only runs them together and reads out the failures.
  *
+ * `npm run preflight -- --paths <pathspec...>` (decision 0087 §3): the review
+ * gate hook (review_gate.py) reads the pathspec from this command and reviews
+ * only those files' diff, with its own stamp; the gates below still run on the
+ * whole tree. A lane preflights its own commit this way.
+ *
  * Exit code is non-zero if any gate failed. Each gate's full log is kept at
  * /tmp/preflight/<gate>.log; the summary prints the lines that matter.
  */
@@ -37,6 +42,9 @@ const GATES = {
   "pipeline":      ["npm run test:pipeline",    [/^FAILED/, /passed|failed/, /Error/]],
   "rasters":       ["npm run province:check",   [/province rasters/]],
   "credits":       ["cd tooling/world-generation && python3 -m worldgen.check_credits", [/FAIL/, /Error/, /missing/]],
+  // Every module requirements-test.txt declares must import (16h round 16:
+  // rtree was declared but missing, and trimesh failed deep in a query).
+  "python-deps":   ["cd tooling/world-generation && python3 -m worldgen.check_requirements", [/FAIL/, /Error/]],
 };
 
 // RUNNER MODE: `npm run preflight -- --runner` points both vault overrides at
@@ -45,6 +53,10 @@ const GATES = {
 // SKIP there, never error (2026-09-17: two apron tests errored and took the
 // deploy down).
 const runnerMode = process.argv.includes("--runner");
+// `--paths` belongs to the review gate (the hook reads it from the command
+// line); preflight only reports it so the log says which review it follows.
+const pathsIdx = process.argv.indexOf("--paths");
+const reviewPaths = pathsIdx < 0 ? [] : process.argv.slice(pathsIdx + 1).filter((_, i, a) => !a.slice(0, i + 1).some((t) => t.startsWith("--")));
 const runnerEnv = runnerMode
   ? { ES_ASSET_PIPELINE_ROOT: mkdtempSync(join(tmpdir(), "no-vault-")), ES_VAULT_ROOT: "" }
   : {};
@@ -104,24 +116,26 @@ function memoryUsedBytes() {
 const capBytes = memoryBudgetBytes();
 const usedBytes = memoryUsedBytes();
 const budget = capBytes - usedBytes;
-// Measured 2026-09-17 on the placement suite alone, one worker: the worker
-// settles near 2.2 GiB (one shared province survey per process, see
-// site_fields.shared_survey; the apron test's 5 GiB spike was fixed at the
-// root in build_border_apron.apron_height). Budget: 1.5 GiB reserve for the
-// other gates, 3 GiB per pytest worker, at most 2 workers; and every gate
-// runs under memwatch.sh, which kills THE GATE if the unreclaimable memory
-// passes the ceiling, never the session.
-const pyWorkers = Math.max(1, Math.min(2, availableParallelism(),
-  Math.floor((budget - 1.5 * GIB) / (3 * GIB))));
+// Measured 2026-09-23 on the placement suite, two workers: 3.07 GiB peak
+// private memory for the whole pytest tree, ~1.5 GiB per worker, now that the
+// province survey is served memory-mapped from output/survey-cache (shared
+// page cache, 0.06 GiB private per process; site_fields.shared_survey,
+// water_report.ArrayCache). Budget: 1.5 GiB reserve for the other gates,
+// 1.5 GiB per pytest worker, at most 4 workers; and every gate runs under
+// memwatch.sh, which kills THE GATE if the unreclaimable memory passes the
+// ceiling, never the session.
+const pyWorkers = Math.max(1, Math.min(4, availableParallelism(),
+  Math.floor((budget - 1.5 * GIB) / (1.5 * GIB))));
 const wsJobs = Math.max(2, Math.min(4, availableParallelism()));
 const ceilingGib = Math.max(6, Math.floor(capBytes / GIB) - 2);
 const env = { PYTEST_XDIST_AUTO_NUM_WORKERS: String(pyWorkers), WORKSPACE_JOBS: String(wsJobs), ...runnerEnv };
 if (runnerMode) console.log("preflight: runner mode (no asset vault)");
-console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, three waves, watchdog ceiling ${ceilingGib} GiB`);
+if (reviewPaths.length) console.log(`preflight: reviewed pathspec ${reviewPaths.join(" ")} (gates run on the whole tree)`);
+console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, two waves, watchdog ceiling ${ceilingGib} GiB`);
 const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
-// The placement suite runs ALONE: at 4 workers beside typecheck it still
-// reached 10.2 GiB (measured 2026-09-16); the rest pair up.
-const WAVES = [["placement"], ["water", "typecheck", "rasters"], ["pipeline", "npm-test", "credits"]];
+// Two waves: the placement suite (10.2 GiB beside typecheck on 2026-09-16,
+// before the survey cache) now runs with the water, typecheck and raster gates.
+const WAVES = [["placement", "water", "typecheck", "rasters"], ["pipeline", "npm-test", "credits", "python-deps"]];
 const results = [];
 for (const wave of WAVES) {
   results.push(...await Promise.all(wave.map((name) =>

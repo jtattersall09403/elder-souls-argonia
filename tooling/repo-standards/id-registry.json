@@ -2,41 +2,6 @@
  "_": "Engineering standard 2. Every file that carries stable IDs for placed or referenceable things registers here, and the check asserts ID shape (<domain>.<packet>.<name>, lower kebab), global uniqueness across all sources, and that no retired ID is reused. Phase 11 is where this goes from empty to load-bearing: add each placement file as you create it. `idKey` defaults to \"id\".",
  "sources": [
   {
-   "path": "world/sources/blueprints/place.dunmer-north.mazzatun.json",
-   "what": "settlement blueprint \u2014 Mazzatun, stone village on sloping ground exemplar (worldgen.blueprint)",
-   "references": [
-    "place"
-   ]
-  },
-  {
-   "path": "world/sources/blueprints/place.hist-heartland.nine-trunks.json",
-   "what": "settlement blueprint \u2014 Nine-Trunks, Hist village exemplar (worldgen.blueprint)",
-   "references": [
-    "place"
-   ]
-  },
-  {
-   "path": "world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json",
-   "what": "settlement blueprint \u2014 The Licensed Stage, sap-tapping camp exemplar (worldgen.blueprint)",
-   "references": [
-    "place"
-   ]
-  },
-  {
-   "path": "world/sources/blueprints/place.mercantile-coast.lilmoth.json",
-   "what": "settlement blueprint \u2014 Lilmoth, the exemplar city (worldgen.blueprint)",
-   "references": [
-    "place"
-   ]
-  },
-  {
-   "path": "world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json",
-   "what": "settlement blueprint \u2014 The Standing Charge, wamasu pond lair exemplar (worldgen.blueprint)",
-   "references": [
-    "place"
-   ]
-  },
-  {
    "path": "world/sources/catalogue/design-groups.json",
    "what": "design groups \u2014 places that are one blueprint and one build (worldgen.catalogue, 16g)",
    "idShape": "flat",

@@ -13,7 +13,9 @@ a headless code review instead of running the gates; that is expected.
 - If the review gate refused it (the command output contains `REVIEW REFUSED`
   anywhere — the harness prefixes hook messages), read
   `.claude/review-findings.md` and STOP. Do not re-run preflight, do not fix
-  anything, do not edit any file.
+  anything, do not edit any file. A `--paths` review instead writes
+  `.claude/review-findings-<sha8>.md`; the refusal message names that path,
+  so read the path it gives rather than assuming the plain filename.
 - If the Bash call is killed by its 10 min timeout (a fresh review of ~9 min
   followed by the gates), run `npm run preflight` once more: the review is now
   stamped and only the gates run. Never a third run.
@@ -31,8 +33,8 @@ PREFLIGHT: not run (review first) | PREFLIGHT: <pass>/<total> gates pass
   `tooling/world-generation/worldgen/known_red.py` for a row naming that test
   or file: tag `[known: ...]` with the row number, else `[new]`.
 - Cap: 12 finding lines and 8 fail lines. If there are more, add one line
-  `+<n> more in .claude/review-findings.md` (findings) or `+<n> more in <log
-  path>` (gates).
+  `+<n> more in .claude/review-findings.md` (findings; or its `-<sha8>` path
+  for a `--paths` review) or `+<n> more in <log path>` (gates).
 - Never propose fixes, never rerun, never edit. The caller reasons about the
   cause.
 - Another agent may be working in the same tree. Never `git add`, `commit`,

@@ -46,6 +46,16 @@
       "file": "tooling/asset-pipeline/pipeline/vault_inventory.py",
       "line": 566,
       "reason": "wall-clock start/elapsed for the run-duration line in the vault inventory REPORT; the inventory itself is derived from file contents and is unaffected"
+    },
+    {
+      "file": "tooling/world-generation/worldgen/run_mount_batches.py",
+      "line": 57,
+      "reason": "wall-clock start/elapsed for the 'secs' field of the golden/batch score REPORT (16h round 17 ruling 6); the mined classes come from the seeded sample (Random(f'{seed}:{asset}')), which standard 6 targets, and are unaffected"
+    },
+    {
+      "file": "tooling/world-generation/worldgen/run_mount_batches.py",
+      "line": 62,
+      "reason": "wall-clock start/elapsed for the 'secs' field of the golden/batch score REPORT (16h round 17 ruling 6); the mined classes come from the seeded sample (Random(f'{seed}:{asset}')), which standard 6 targets, and are unaffected"
     }
   ]
 }
