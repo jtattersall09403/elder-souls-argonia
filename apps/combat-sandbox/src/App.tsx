@@ -12,7 +12,7 @@ import { enterFullscreen, FullscreenButton } from "./components/FullscreenButton
 import { Hud } from "./components/Hud";
 import { VisualFrameMarker } from "./components/VisualFrameMarker";
 import { combatAudio } from "@elder-souls/game-core/fx/audio";
-import { useGameStore } from "@elder-souls/game-core/core/store";
+import { useGameStore } from "./sandboxStore";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
 import { visualScenarioFromSearch } from "@elder-souls/game-core/validation/visualScenarios";
 import { useRaceStore } from "@elder-souls/game-core/actors/raceStore";

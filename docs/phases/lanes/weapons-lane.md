@@ -1,7 +1,10 @@
 # Weapons lane — every kept weapon class fights with its own motion
 
 Side lane (decision [0074](../../decisions/0074-side-lanes-beside-the-world-build-and-the-weapons-lane.md)),
-run in the combat sandbox beside Phase 16. Invoke as **"deliver the weapons
+run in the combat sandbox beside Phase 16. **Succeeded 2026-09-24 by the
+[combat sandbox lane](combat-sandbox-lane.md)** on the same folders; its
+round 3 delivers the dual wield below, and the runtime this brief calls
+`CombatScene.tsx` is now `packages/character/src/combat/` (0089). Invoke as **"deliver the weapons
 lane, round N"**. Folder ownership: [lanes README](README.md). Read
 `apps/combat-sandbox/CLAUDE.md` and decision 0040 §42–55 before touching
 bows, arrows, archers or locked locomotion; the animation playbook before any

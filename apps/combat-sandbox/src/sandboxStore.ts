@@ -1,11 +1,24 @@
-import { DEFAULT_ARROW_GRAVITY_SCALE } from "../combat/arrowFlight";
-import { DEFAULT_BOW_VIEW } from "../camera/bowCamera";
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
+import { DEFAULT_ARROW_GRAVITY_SCALE } from "@elder-souls/game-core/combat/arrowFlight";
+import { DEFAULT_BOW_VIEW } from "@elder-souls/game-core/camera/bowCamera";
 import { create } from "zustand";
-import type { AimView, CombatAction, GameSnapshot } from "./types";
-import { DEFAULT_ENEMY_COUNT } from "../combat/tuning";
-import { COMBAT_TUNING } from "../combat/weapon";
-import { DEFAULT_ENEMY_ARCHETYPE } from "../actors/enemyArchetypes";
-import { LOCKED_STRIDE_RATE } from "../locomotion/lockedStride";
+import type { AimView, CombatAction } from "@elder-souls/game-core/core/types";
+import type { CombatHudState, CombatRuntimeSettings } from "@elder-souls/character";
+import { DEFAULT_ENEMY_COUNT } from "@elder-souls/game-core/combat/tuning";
+import { COMBAT_TUNING } from "@elder-souls/game-core/combat/weapon";
+import { DEFAULT_ENEMY_ARCHETYPE } from "@elder-souls/game-core/actors/enemyArchetypes";
+import { LOCKED_STRIDE_RATE } from "@elder-souls/game-core/locomotion/lockedStride";
+
+/**
+ * The sandbox's debug store: the combat runtime's settings (set by the debug
+ * panel), the HUD numbers it publishes, and the sandbox-only switches. App
+ * state, not game state: the runtime reads none of it directly (it takes
+ * `settings` and `publish` from `CombatScene`).
+ */
+export type GameSnapshot = CombatHudState & CombatRuntimeSettings & {
+  /** Rapier's debug renderer: every collider in the world. */
+  showHitboxes: boolean;
+};
 
 type GameStore = GameSnapshot & {
   patch: (patch: Partial<GameSnapshot>) => void;
@@ -67,7 +80,7 @@ export const useGameStore = create<GameStore>((set) => ({
   reset: () => set((state) => ({
     ...initialSnapshot,
     started: true,
-    message: "FIGHT RESTARTED",
+    message: text(CATALOGUE, "text.combat.fight-restarted"),
     enemyEnabled: state.enemyEnabled,
     enemyAiEnabled: state.enemyAiEnabled,
     enemyCount: state.enemyCount,

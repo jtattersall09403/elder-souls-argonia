@@ -38,9 +38,9 @@ shared `PlayerBody` ecctrl config, `ExplorerLocomotion` and `FollowCamera`
 (`packages/game-core`). The interface gained `steer()` (smooth free-roam
 facing, distinct from `faceDirection`'s snap-and-hold).
 
-`CombatScene.tsx` still holds the raw `EcctrlHandle` for its large existing
+`packages/character/src/combat/CombatRuntime.tsx` (the combat runtime, extracted from `CombatScene.tsx` 2026-09-24) still holds the raw `EcctrlHandle` for its large existing
 useFrame; migrating those internal calls to `EcctrlAdapter` — and its inline
 free-orbit camera/locomotion onto the shared modules — is a mechanical
 follow-up pass when the scene orchestration is next reworked (master plan
 §53). Until then, do not retune the shared modules' constants without the
-matching inline CombatScene values.
+matching inline CombatRuntime values.

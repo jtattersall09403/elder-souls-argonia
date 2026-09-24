@@ -76,31 +76,24 @@ See [`docs/validation/animation-recordings.md`](docs/validation/animation-record
 
 ## Project layout
 
-`src/game/` holds framework-free combat logic, split by concern so it can be tested in isolation and ported without React/Three.js:
+The sandbox is composition, tooling and debug UI; everything the game needs
+lives in packages:
 
-| Folder | Contents |
+| Where | Contents |
 | --- | --- |
-| `core/` | Shared types, the HUD-facing zustand store, and the fixed-timestep loop helper |
-| `combat/` | Weapon movesets and tuning, the `Fighter` actor model, shared hit resolution, player intent, and the combat event bus |
-| `ai/` | The enemy utility-AI intent scorer |
-| `anim/` | Semantic animation commands/manifests, weapon sockets, grounding metadata, and lock-on math |
-| `physics/` | Navigation capsule, independent combat-hurtbox geometry, and jump tuning |
-| `io/` | Keyboard/mouse/gamepad/touch input controller |
-| `fx/` | Audio synthesis and camera shake |
-
-Framework-free modules keep colocated tests. `src/components/` contains the
-React Three Fiber view layer (`CombatScene`, `SkyrimFighter`, `Arena`, `Hud`)
-that reads this state.
+| `packages/game-core/src/` | Framework-free rules with colocated tests: `combat/` (resolve step, fighter, bows, poise, intent, events), `equipment/` (classes, movesets, arsenal), `ai/`, `anim/`, `locomotion/`, `physics/`, `io/` (input), `fx/`, `inventory/`, `actors/`, `validation/` (visual scenarios) |
+| `packages/character/src/` | The rendered character (`SkyrimFighter`, hurtboxes, `PlayerBody` behind `EcctrlAdapter`) and the combat runtime in `combat/` (see its README) |
+| `apps/combat-sandbox/src/` | `App.tsx`, `components/CombatScene.tsx` (arena, lights, runtime wiring), `Hud.tsx` (debug panel), `sandboxStore.ts` (the debug store the runtime reads as `settings`), inventory and picker UI |
 
 ## Extending weapons and movesets
 
-Combat data lives in `src/game/combat/weapon.ts`. `WeaponDefinition` separates
-timing, stamina, damage, reach, arc, lunge, hit-stop, semantic animations, and
-weapon socket transforms from the combat controller. Add source clips through
-the asset pipeline and rebuild the semantic manifest/GLB; no enemy-AI or input
-rewrite is required.
-
-The arena, HUD, input adapter, animation model, and combat rules are separate components so the controller and combat package can be moved into another Three.js setting. `src/game/combat/fighter.ts` and `resolveHit.ts` are the actor model and hit-resolution rules shared by the player and the enemy; `intent.ts` and `events.ts` are the seams for swapping the input source or the audio/camera/HUD side effects when this is ported into a larger project.
+A weapon class, moveset and arsenal item are data in
+`packages/game-core/src/equipment/` (`weaponClasses.ts`, `movesets/`,
+`arsenal.ts`); see that folder and the weapons lane brief
+(`docs/phases/lanes/weapons-lane.md`). Add source clips through the asset
+pipeline and rebuild the semantic manifest/GLB; no AI or input rewrite is
+required. Hit resolution is `combat/resolveHit.ts` (order in
+`combat/README.md`).
 
 ## GitHub Pages
 

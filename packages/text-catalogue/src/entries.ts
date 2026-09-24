@@ -96,6 +96,7 @@ export const COMBAT_SANDBOX_TEXT: readonly TextEntry[] = [
   { id: "text.sandbox.claw-opponent", surface: "ui", text: "Claw opponent" },
   { id: "text.sandbox.archer-opponent", surface: "ui", text: "Archer opponent" },
   { id: "text.sandbox.combat-ready", surface: "ui", text: "Combat test ready" },
+  { id: "text.sandbox.empty-hand", surface: "ui", text: "Empty hand" },
   { id: "text.sandbox.arrow-gravity", surface: "ui", text: "Arrow gravity" },
   { id: "text.sandbox.skills-enabled", surface: "ui", text: "Apply skill curves" },
   { id: "text.sandbox.marksman-skill", surface: "ui", text: "Marksman skill" },
@@ -111,6 +112,31 @@ export const COMBAT_SANDBOX_TEXT: readonly TextEntry[] = [
   { id: "text.sandbox.character-race", surface: "ui", text: "Race" },
   { id: "text.sandbox.sex-male", surface: "ui", text: "Male" },
   { id: "text.sandbox.sex-female", surface: "ui", text: "Female" },
+];
+
+/**
+ * Combat callouts: the one-line messages the combat runtime flashes over the
+ * fight (`packages/character/src/combat`). Shown upper-cased by the HUD.
+ */
+export const COMBAT_CALLOUT_TEXT: readonly TextEntry[] = [
+  { id: "text.combat.enemy-felled", surface: "ui", text: "Enemy felled" },
+  { id: "text.combat.weapons-clashed", surface: "ui", text: "Weapons clashed. Light attack to riposte" },
+  { id: "text.combat.enemy-blocked", surface: "ui", text: "Enemy blocked" },
+  { id: "text.combat.enemy-guard-broken", surface: "ui", text: "Enemy guard broken" },
+  { id: "text.combat.arrow-blocked", surface: "ui", text: "Arrow blocked" },
+  { id: "text.combat.guard-broken", surface: "ui", text: "Guard broken" },
+  { id: "text.combat.you-died", surface: "ui", text: "You died" },
+  { id: "text.combat.headshot", surface: "ui", text: "Headshot" },
+  { id: "text.combat.blocked", surface: "ui", text: "Blocked" },
+  { id: "text.combat.target-released", surface: "ui", text: "Target released" },
+  { id: "text.combat.target-locked", surface: "ui", text: "Target locked" },
+  { id: "text.combat.weapon-stowed", surface: "ui", text: "Weapon stowed" },
+  { id: "text.combat.parry", surface: "ui", text: "Parry" },
+  { id: "text.combat.backstab", surface: "ui", text: "Backstab" },
+  { id: "text.combat.riposte", surface: "ui", text: "Riposte" },
+  { id: "text.combat.guarding", surface: "ui", text: "Guarding" },
+  { id: "text.combat.attack-parried", surface: "ui", text: "Your attack was parried" },
+  { id: "text.combat.fight-restarted", surface: "ui", text: "Fight restarted" },
 ];
 
 export const EQUIPMENT_TEXT: readonly TextEntry[] = [
@@ -510,6 +536,7 @@ export const TRAVEL_UI_TEXT: readonly TextEntry[] = [
 export const CATALOGUE = buildCatalogue([
   ...SYSTEM_TEXT,
   ...COMBAT_SANDBOX_TEXT,
+  ...COMBAT_CALLOUT_TEXT,
   ...EQUIPMENT_TEXT,
   ...FERRY_TEXT,
   ...TRAVEL_TEXT,

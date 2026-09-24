@@ -24,3 +24,7 @@ export { EcctrlAdapter } from "./EcctrlAdapter";
 export { assetUrl } from "./assetBase";
 
 export { Arrows, type ArrowHit, type ArrowTrace, type FlightSample } from "./Arrows";
+
+export { CombatRuntime, type CombatRuntimeProps, type EncounterLayout } from "./combat/CombatRuntime";
+export type { CombatHudState, CombatRuntimeHost, CombatRuntimeSettings } from "./combat/host";
+export { ActorHealthBar, type HealthReading } from "./combat/ActorHealthBar";

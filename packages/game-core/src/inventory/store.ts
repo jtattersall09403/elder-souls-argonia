@@ -3,8 +3,8 @@ import { create } from "zustand";
 import type { Loadout } from "../equipment/types";
 import { ARMOUR_IDS, type ArmourDefinition } from "../equipment/armour";
 import type { ArrowDefinition } from "../equipment/arrows";
-import { STRAIGHT_SWORD } from "../equipment/arsenal";
-import { addItem, countOf, equipItem, removeItem, toggleEquip, unequipSlot } from "./inventory";
+import { ARSENAL_SHIELDS, ARSENAL_WEAPONS, STRAIGHT_SWORD } from "../equipment/arsenal";
+import { addItem, countOf, encumbrance, equipItem, removeItem, toggleEquip, unequipSlot } from "./inventory";
 import { tryItemById } from "./registry";
 import { EMPTY_INVENTORY, type EquipSlot, type Inventory, type ItemCategory } from "./types";
 import type { InventorySort } from "./view";
@@ -42,36 +42,13 @@ type InventoryStore = {
 };
 
 /**
- * What the player starts with.
+ * What the player starts with, besides the armoury.
  *
- * A deliberately wide spread rather than a realistic one: the sandbox exists to
- * exercise the systems, so the starting pack covers every weapon class and a
- * range of material tiers.
+ * The sandbox exists to exercise the systems, so the pack carries every built
+ * weapon and shield (below, from the arsenal manifest, as armour does) plus
+ * the arrows, draughts and picks listed here.
  */
-const STARTING_ITEMS: readonly (readonly [string, number])[] = [
-  ["steel-sword", 1],
-  ["iron-sword", 1],
-  ["elven-sword", 1],
-  ["ebony-sword", 1],
-  ["daedric-sword", 1],
-  ["blades-sword", 1],
-  ["steel-scimitar", 1],
-  ["iron-dagger", 1],
-  ["elven-dagger", 1],
-  ["steel-waraxe", 1],
-  ["orcish-waraxe", 1],
-  ["steel-mace", 1],
-  ["dwarven-mace", 1],
-  ["steel-greatsword", 1],
-  ["daedric-greatsword", 1],
-  ["steel-battleaxe", 1],
-  ["orcish-warhammer", 1],
-  ["iron-shield", 1],
-  ["steel-shield", 1],
-  ["elven-shield", 1],
-  ["steel-longbow", 1],
-  ["daedric-warbow", 1],
-  ["wood-shortbow", 1],
+const STARTING_SUPPLIES: readonly (readonly [string, number])[] = [
   ["iron-war-arrow", 48],
   ["iron-flight-arrow", 24],
   ["steel-war-arrow", 24],
@@ -89,16 +66,27 @@ const STARTING_WORN: readonly string[] = [
   STRAIGHT_SWORD.id, "steel-shield", "iron-war-arrow", "steel-cuirass", "steel-gauntlets", "steel-boots",
 ];
 
-function startingInventory(): Inventory {
+/** Every built weapon, shield and armour piece: what the sandbox pack holds one of each. */
+export const STARTING_ARMOURY_IDS: readonly string[] = [
+  ...Object.keys(ARSENAL_WEAPONS),
+  ...Object.keys(ARSENAL_SHIELDS),
+  ...ARMOUR_IDS,
+];
+
+export function startingInventory(): Inventory {
   // A sandbox carries the whole armoury, so it gets a sandbox's back. The
   // encumbrance *rule* is unchanged; only this starting character's limit is.
-  let inventory: Inventory = { ...EMPTY_INVENTORY, gold: 240, capacityKg: 420 };
-  for (const [itemId, count] of STARTING_ITEMS) {
+  let inventory: Inventory = { ...EMPTY_INVENTORY, gold: 240, capacityKg: 0 };
+  for (const [itemId, count] of STARTING_SUPPLIES) {
     if (tryItemById(itemId)) inventory = addItem(inventory, itemId, count);
   }
-  // Every built piece, rather than a hand-kept list: the armoury is generated,
-  // and a sandbox that cannot try on what was built is not testing it.
-  for (const id of ARMOUR_IDS) inventory = addItem(inventory, id, 1);
+  // Every built piece, rather than a hand-kept list: the arsenal and the
+  // armoury are generated, and a sandbox that cannot try on what was built is
+  // not testing it.
+  for (const id of STARTING_ARMOURY_IDS) inventory = addItem(inventory, id, 1);
+  // Room for all of it with a fifth to spare, so the load the sandbox starts
+  // with never slows the fight it is there to test.
+  inventory = { ...inventory, capacityKg: Math.max(420, Math.ceil(encumbrance(inventory) * 1.2)) };
   for (const id of STARTING_WORN) {
     const equipped = equipItem(inventory, id);
     if (equipped.ok) inventory = equipped.inventory;

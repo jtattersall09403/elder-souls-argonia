@@ -3,7 +3,8 @@ import type { AimView } from "@elder-souls/game-core/core/types";
 import { useEffect, useRef, useState } from "react";
 import { input, type InputAction } from "@elder-souls/game-core/io/input";
 import { UI_MENU_BINDINGS, uiMenuInput } from "@elder-souls/game-core/io/uiMenus";
-import { useGameStore } from "@elder-souls/game-core/core/store";
+import { useGameStore } from "../sandboxStore";
+import { useEquippedLoadout } from "@elder-souls/game-core/inventory/store";
 import { MAX_ENEMIES } from "@elder-souls/game-core/combat/tuning";
 import { marksmanScalars, meleeScalars } from "@elder-souls/game-core/combat/skillScalars";
 import { ENEMY_ARCHETYPES } from "@elder-souls/game-core/actors/enemyArchetypes";
@@ -240,6 +241,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
     return () => query.removeEventListener("change", update);
   }, []);
 
+  const { mainHand } = useEquippedLoadout();
   const dead = state.playerHealth <= 0;
   const won = state.enemyHealth <= 0;
   return (
@@ -275,7 +277,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
       <section className="quick-slots" aria-label="Equipment">
         <div className="slot sword-icon"><i /></div>
         <div className="slot flask-icon"><i /> <b>{state.estus}</b></div>
-        <span>{state.equipped ? "Weathered Straight Sword" : "Empty right hand"}</span>
+        <span>{state.equipped ? mainHand.label : text(CATALOGUE, "text.sandbox.empty-hand")}</span>
       </section>
 
       <div className={`connection ${state.gamepad ? "connected" : ""}`}>

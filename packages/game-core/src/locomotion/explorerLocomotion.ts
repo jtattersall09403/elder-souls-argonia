@@ -20,7 +20,7 @@ import { CROUCH_SPEED, crouchLocomotionAnimation, nextStance, type Stance } from
  * locomotion animation out.
  *
  * The behaviour replicates the combat sandbox's free-roam locomotion branch
- * (`CombatScene.tsx`: sprint gating on a held dodge, landing selection from
+ * (`character/src/combat/CombatRuntime.tsx`: sprint gating on a held dodge, landing selection from
  * peak descent speed, cadence-matched playback rates, analogue speed clamp,
  * released-input velocity settle) minus everything combat: no stamina, no
  * actions, no lock-on. The sandbox keeps its inline combat-entangled copy;

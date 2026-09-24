@@ -20,7 +20,7 @@ browser-played, GitHub Pages, no new art ever, no level scaling ever, text-led
 
 ---
 
-> **Re-measured 2026-09-13:** `apps/combat-sandbox/src/components/CombatScene.tsx` is 4,417 lines (was 2,801 here); `apps/world-studio/src` is 14,658 lines (was ~9,100); `apps/game/src/main.ts` is 5 lines. The §1 numbers below are the 2026-08-30 snapshot; size the 10b extraction from these.
+> **Re-measured 2026-09-13:** `apps/combat-sandbox/src/components/CombatScene.tsx` was 4,417 lines (2,801 in the snapshot below; 4,485 on 2026-09-24, when its runtime moved to `packages/character/src/combat/`, see (iv)); `apps/world-studio/src` is 14,658 lines (was ~9,100); `apps/game/src/main.ts` is 5 lines. The §1 numbers below are the 2026-08-30 snapshot; size the 10b extraction from these.
 
 ## 1. Architecture: how the studio becomes the game
 
@@ -53,9 +53,12 @@ code — and currently owned by no phase.**
   under `GAME_TIME_SCALE = 30`, don't just re-import; (iii) the
   `__STUDIO_*_DEBUG__` globals are the contract for all probe suites —
   decide dev-only-export vs ship; (iv) the §53 scene-orchestration merge must
-  reconcile the studio's `CharacterDriver` with the sandbox's 2,801-line
-  `CombatScene.tsx` (7 of 9 §53 items still live there, including two
-  acknowledged duplicate camera implementations).
+  reconcile the studio's `CharacterDriver` with the sandbox's combat
+  runtime. The sandbox side is done (2026-09-24, combat-sandbox lane round 0):
+  `CombatScene.tsx` was 4,485 lines and is now 83 lines of composition; the
+  runtime is `packages/character/src/combat/` (`CombatRuntime.tsx` plus
+  `enemyStep.ts` and small modules, host contract in its README). The
+  studio's adoption, and the two duplicate camera implementations, remain 10b's.
 - **Size split:** ~2,000 LOC mechanical moves (vegetation, chunk
   store/colliders, touch controls, the pure-function sky math);
   ~4,800 LOC risky (WorldSky, the water frame pipeline, chunkWorld's baked

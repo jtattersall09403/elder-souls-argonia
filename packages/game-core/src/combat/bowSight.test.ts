@@ -1,7 +1,6 @@
 import { expect, it } from "vitest";
 import { BOW_SIGHT_ELEVATION_RADIANS, bowSight } from "./bowSight";
 import { DEFAULT_ARROW_GRAVITY_SCALE } from "./arrowFlight";
-import { useGameStore } from "../core/store";
 
 const actor = { x: 0, y: 1, z: 0 };
 it("keeps body facing stable when the nock passes the close ground target", () => {
@@ -29,7 +28,6 @@ it("launches five degrees above the crosshair ray", () => {
   expect(sight.direction.z).toBeCloseTo(Math.cos(BOW_SIGHT_ELEVATION_RADIANS), 8);
   expect(sight.pitch).toBeCloseTo(BOW_SIGHT_ELEVATION_RADIANS, 8);
 });
-it("shares the accepted 2x gravity default between gameplay and the store", () => {
+it("keeps the accepted 2x arrow gravity default", () => {
   expect(DEFAULT_ARROW_GRAVITY_SCALE).toBe(2);
-  expect(useGameStore.getState().arrowGravityScale).toBe(DEFAULT_ARROW_GRAVITY_SCALE);
 });

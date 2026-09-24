@@ -200,3 +200,18 @@ describe("the view a UI is handed", () => {
     expect(view.slots.find((slot) => slot.slot === "head")?.cell).toBeNull();
   });
 });
+
+describe("the sandbox starting pack", () => {
+  it("carries every built weapon and shield, the supplies, and fits the pack", async () => {
+    const { startingInventory } = await import("./store");
+    const inventory = startingInventory();
+    for (const id of [...Object.keys(ARSENAL_WEAPONS), ...Object.keys(ARSENAL_SHIELDS)]) {
+      expect(countOf(inventory, id), id).toBe(1);
+    }
+    expect(countOf(inventory, "iron-war-arrow")).toBe(48);
+    expect(countOf(inventory, "healing-draught")).toBe(5);
+    expect(countOf(inventory, "lockpick")).toBe(12);
+    expect(isOverEncumbered(inventory)).toBe(false);
+    expect(isEquipped(inventory, "steel-sword")).toBe(true);
+  });
+});

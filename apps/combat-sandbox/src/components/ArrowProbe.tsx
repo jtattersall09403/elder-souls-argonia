@@ -1,21 +1,31 @@
 import type { ArrowPhysics } from "@elder-souls/game-core/combat/ballistics";
 import { useEffect } from "react";
-import { Arrows as RuntimeArrows, type ArrowHit, type ArrowTrace, type FlightSample } from "@elder-souls/character";
+import type { FlightSample } from "@elder-souls/character";
 import { useArrowStore } from "@elder-souls/game-core/combat/arrowStore";
-import { useGameStore } from "@elder-souls/game-core/core/store";
 import { DEFAULT_ARROW } from "@elder-souls/game-core/equipment/arrows";
-export type { ArrowHit };
+
 declare global {
   interface Window {
     __arrowProbe?: { samples: FlightSample[]; steps: number; physics: ArrowPhysics; shaftLengthMeters?: number };
     __fireProbeArrow?: (speed: number, angleDeg: number) => number;
   }
 }
-export function Arrows({ onHit, traceActor }: { onHit: (hit: ArrowHit) => void; traceActor: ArrowTrace }) {
-  const arrows = useArrowStore(s => s.arrows);
-  const retire = useArrowStore(s => s.retire);
-  const fire = useArrowStore(s => s.fire);
-  const gravityScale = useGameStore(s => s.arrowGravityScale);
+
+/** Collects every flight step while `scripts/probe-arrow-flight.mjs` is recording. */
+export function recordArrowProbeSample(sample: FlightSample) {
+  if (window.__arrowProbe) {
+    window.__arrowProbe.samples.push(sample);
+    window.__arrowProbe.steps++;
+  }
+}
+
+/**
+ * The arrow-flight probe's entry point: `window.__fireProbeArrow(speed, deg)`
+ * fires a default arrow from 20 m up so the probe can sample its flight.
+ * Sandbox debug only.
+ */
+export function ArrowProbe() {
+  const fire = useArrowStore((s) => s.fire);
   useEffect(() => {
     window.__fireProbeArrow = (speed, degrees) => {
       const angle = degrees * Math.PI / 180;
@@ -25,7 +35,5 @@ export function Arrows({ onHit, traceActor }: { onHit: (hit: ArrowHit) => void; 
     };
     return () => { delete window.__fireProbeArrow; };
   }, [fire]);
-  return <RuntimeArrows {...{ arrows, retire, onHit, traceActor, gravityScale }} onSample={sample => {
-    if (window.__arrowProbe) { window.__arrowProbe.samples.push(sample); window.__arrowProbe.steps++; }
-  }} />;
+  return null;
 }

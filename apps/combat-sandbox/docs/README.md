@@ -13,7 +13,7 @@ now **lives in shared packages** (extracted at Phase 7, decision 0013):
 | Where the core lives now | Still sandbox-only (scaffolding) |
 | --- | --- |
 | `packages/game-core` — combat, anim, equipment, inventory logic, actors, input, `PlayerMovementController` boundary | `Arena.tsx`, intro screen, debug HUD/panel |
-| `packages/character` — `SkyrimFighter`, hurtbox/armour/arrow attachments, `EcctrlAdapter`, `PlayerBody` | enemy spawn layout, arena lighting, `CombatScene`'s scene orchestration (§53 migration debt) |
+| `packages/character` — `SkyrimFighter`, hurtbox/armour/arrow attachments, `EcctrlAdapter`, `PlayerBody` | arena, lighting and the debug store; the combat runtime itself is in `packages/character/src/combat` (extracted 2026-09-24) |
 | `packages/character-assets` — runtime GLBs + icons | the inventory's Morrowind *skin* |
 
 Changing anything in those packages changes the world studio too — run both
