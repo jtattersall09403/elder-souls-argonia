@@ -467,6 +467,8 @@ export function raceIn(raceId: string, data: SimData = SIM_DATA): string {
 
 export type PlayOptions = {
   classId?: string; race?: string; maxLevel?: number; policy?: "spend" | "hoard"; hoardUntilLevel?: number;
+  /** Body sex for the race baselines (decision 0089); the sim's own runs are male. */
+  sex?: Sex;
 };
 export type PlayHistoryRow = {
   level: number; ranks: number; vasteiEarnedByNow: number; vasteiBalance: number; pointsBought: number;
@@ -479,11 +481,11 @@ export type PlayHistoryRow = {
  * ("spend" buys at every sitting; "hoard" refuses until `hoardUntilLevel`).
  */
 export function playCharacter(
-  { classId = "warrior", race = "argonian", maxLevel = 50, policy = "spend", hoardUntilLevel = 20 }: PlayOptions = {},
+  { classId = "warrior", race = "argonian", maxLevel = 50, policy = "spend", hoardUntilLevel = 20, sex = SIM_SEX }: PlayOptions = {},
   data: SimData = SIM_DATA,
 ) {
   const C = data.curves;
-  const start = startingCharacter({ race: raceIn(race, data), sex: SIM_SEX, classId }, data);
+  const start = startingCharacter({ race: raceIn(race, data), sex, classId }, data);
   const cls = data.classes.classes.find((c) => c.id === classId)!;
   const attrs: Record<string, number> = { ...start.attributes };
   const skills: Record<string, number> = { ...start.skills };

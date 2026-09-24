@@ -13,7 +13,7 @@ import { attributeCost, vasteiPerRank } from "../progression";
 import { rankCost } from "../rules";
 import { trainingCost } from "../crafting";
 import { classDef, raceStats, skillClassOf, startingCharacter } from "../character";
-import type { Attributes, ClassDef, RaceStats, SkillId } from "../types";
+import type { Attributes, ClassDef, RaceStats, Sex, SkillId } from "../types";
 import {
   armourSetRating, armourSetWeight, armourSkillFor, PACK_KG, raceIn, shieldWeight, simulateFight, SIM_SEX, weaponWeight,
   type Archetype, type Build,
@@ -95,12 +95,12 @@ export class LiveCharacter {
   creditBySkill: Record<string, number> = {};
 
   constructor(
-    { classId, race, archetypeId, rules }: { classId: string; race: string; archetypeId: string; rules: SimTable },
+    { classId, race, archetypeId, rules, sex = SIM_SEX }: { classId: string; race: string; archetypeId: string; rules: SimTable; sex?: Sex },
     data: SimData = SIM_DATA,
   ) {
     this.#data = data;
     const raceId = raceIn(race, data);
-    const start = startingCharacter({ race: raceId, sex: SIM_SEX, classId }, data);
+    const start = startingCharacter({ race: raceId, sex, classId }, data);
     this.rules = rules;
     this.cls = classDef(classId, data);
     this.race = raceStats(raceId, data);
@@ -326,6 +326,8 @@ export type CampaignOptions = {
   classId: string;
   race: string;
   archetypeId: string;
+  /** Body sex for the race's baselines (decision 0089); the sim's own runs are male. */
+  sex?: Sex;
   label?: string;
   rules?: SimTable;
   content?: SimTable;
@@ -362,14 +364,14 @@ export type CampaignDiscard = {
  */
 export function playCampaign(
   {
-    classId, race, archetypeId, label, rules, content,
+    classId, race, archetypeId, label, rules, content, sex,
     tracks = ["quest", "free"], stopHours = Infinity,
   }: CampaignOptions,
   data: SimData = SIM_DATA,
 ): CampaignRun {
   rules ??= data.rules.argonia;
   content ??= data.content.argonia;
-  const ch = new LiveCharacter({ classId, race, archetypeId, rules }, data);
+  const ch = new LiveCharacter({ classId, race, archetypeId, rules, sex }, data);
   const ps = content.playerSkill;
   const affinity = content.classAffinity;
   const raw = content.verbProfiles[ch.archetype.id];

@@ -13,9 +13,10 @@ import { attributeCost } from "../progression";
 import { playCampaign, type CampaignRun } from "./campaign";
 import {
   armourSetRating, armourSetWeight, compiledEnemies, duel, listedDamage, makeBuild, offenceSummary, playCharacter,
-  shieldWeight, weaponWeight,
+  shieldWeight, SIM_SEX, weaponWeight,
 } from "./model";
 import { SIM_DATA, type SimData, type SimTable } from "./simData";
+import type { Sex } from "../types";
 
 const bands = (data: SimData) => data.ladder.bands.map((b) => b.id);
 const checkpoints = (data: SimData): string[] => (data.builds.checkpoints as SimTable[]).map((c) => c.id);
@@ -224,9 +225,9 @@ export function breathSweep(data: SimData = SIM_DATA) {
 }
 
 /** 7. Progression pacing and affordability, per preset class. */
-export function progressionSweep(data: SimData = SIM_DATA) {
+export function progressionSweep(data: SimData = SIM_DATA, sex: Sex = SIM_SEX) {
   return data.classes.classes.map((cls) => {
-    const run = playCharacter({ classId: cls.id, race: "argonian", maxLevel: 40 }, data);
+    const run = playCharacter({ classId: cls.id, race: "argonian", maxLevel: 40, sex }, data);
     const cps = [5, 10, 20, 30].map((lv) => {
       const h = run.history.find((x) => x.level === lv);
       return h
@@ -255,9 +256,10 @@ export const CAMPAIGN_BUILDS = [
 ] as const;
 
 /** 7b. Whole-playthrough runs under our rules and our content, act by act. */
-export function campaignSweep(data: SimData = SIM_DATA): CampaignRun[] {
+/** The six whole-game builds; `sex` picks the race baselines (the sim's own runs are male). */
+export function campaignSweep(data: SimData = SIM_DATA, sex: Sex = SIM_SEX): CampaignRun[] {
   return CAMPAIGN_BUILDS.map((r) =>
-    playCampaign({ ...r, rules: data.rules.argonia, content: data.content.argonia }, data),
+    playCampaign({ ...r, sex, rules: data.rules.argonia, content: data.content.argonia }, data),
   );
 }
 
@@ -361,19 +363,19 @@ export function morrowindKnownAnswer(data: SimData = SIM_DATA) {
 }
 
 /** 7e. What our own main quest, played alone, is worth. */
-export function argoniaMainQuestOnly(data: SimData = SIM_DATA) {
+export function argoniaMainQuestOnly(data: SimData = SIM_DATA, sex: Sex = SIM_SEX) {
   const content = data.content.argonia;
   const runs = CAMPAIGN_BUILDS.map((r) =>
-    playCampaign({ ...r, rules: data.rules.argonia, content, tracks: ["quest"], stopHours: content.mainQuestHours }, data),
+    playCampaign({ ...r, sex, rules: data.rules.argonia, content, tracks: ["quest"], stopHours: content.mainQuestHours }, data),
   );
   const levels = runs.map((r) => r.levelAt(content.mainQuestHours));
   return { hours: content.mainQuestHours as number, min: Math.min(...levels), max: Math.max(...levels), levels };
 }
 
 /** 8. The deferral exploit: spending every sitting vs hoarding to level 20. */
-export function deferralCheck(data: SimData = SIM_DATA) {
-  const spend = playCharacter({ classId: "warrior", policy: "spend", maxLevel: 30 }, data);
-  const hoard = playCharacter({ classId: "warrior", policy: "hoard", hoardUntilLevel: 20, maxLevel: 30 }, data);
+export function deferralCheck(data: SimData = SIM_DATA, sex: Sex = SIM_SEX) {
+  const spend = playCharacter({ classId: "warrior", policy: "spend", maxLevel: 30, sex }, data);
+  const hoard = playCharacter({ classId: "warrior", policy: "hoard", hoardUntilLevel: 20, maxLevel: 30, sex }, data);
   const at = (run: ReturnType<typeof playCharacter>, level: number) => run.history.find((h) => h.level === level);
   return {
     spend: { attributePoints: spend.attributePoints, meanHealthPerRank: +spend.meanHealthPerRank.toFixed(1), healthAt15: at(spend, 15)?.health },
