@@ -1,4 +1,5 @@
 import { evaluateMeasuredReach } from "./lib/measured-reach.mjs";
+import { evaluateSwim } from "./lib/visual-swim.mjs";
 import { spawn, spawnSync } from "node:child_process";
 import { link, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
@@ -219,6 +220,12 @@ function semanticFailures(scenario, telemetry, expected) {
         failures.push(`${scenario}: expected engagement within ${engagedWithinSeconds} s, observed ${engaged ? `${engaged.time} s` : "never"}`);
       }
     }
+  }
+  if (expected.swim) {
+    // The swim scene (decision 0093): mode, sheathed weapon, chest at the surface.
+    const swim = evaluateSwim(scenario, telemetry, expected.swim);
+    failures.push(...swim.failures);
+    if (swim.measured) console.log(`${scenario}: swim ${JSON.stringify(swim.measured)}`);
   }
   if (expected.playerHealthLessThan !== undefined && telemetry.playerHealth >= expected.playerHealthLessThan) {
     failures.push(`${scenario}: expected player health below ${expected.playerHealthLessThan}, observed ${telemetry.playerHealth}`);

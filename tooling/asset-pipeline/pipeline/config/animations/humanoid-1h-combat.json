@@ -204,6 +204,13 @@
       "requires": [
         "oneHanded"
       ]
+    },
+    "swim": {
+      "label": "Swimming",
+      "description": "Surface swimming: treading water and the four directional strokes, all in place (the movement controller sets the speed). Vanilla has no turn, dive, entry or exit clip for the humanoid; the same set serves underwater. Loaded wherever the world has water.",
+      "requires": [
+        "core"
+      ]
     }
   },
   "animations": {
@@ -1596,6 +1603,39 @@
       "pack": "torch",
       "source": "tor_blockhit",
       "provenance": "vanilla tor_blockhit: a blow taken on the raised torch."
+    },
+    "SWIM_IDLE": {
+      "pack": "swim",
+      "source": "swimidle",
+      "looping": true,
+      "provenance": "vanilla swimidle: treading water in place (SwimIdle, 0_master SwimBehavior). Default penetration support: the model never goes below the floor under it, which a floating swimmer is far above and a swimmer standing on a ramp rests on.",
+      "tailSource": "swimidle"
+    },
+    "SWIM_FORWARD": {
+      "pack": "swim",
+      "source": "swimforward",
+      "looping": true,
+      "playbackRate": 0.5,
+      "provenance": "vanilla swimforward at the SwimForwardSlow rate 0.5 (animationdata defaultmale); vanilla's SwimForwardFast plays the same clip at 1.0, which the runtime's speed multiplier reproduces at full stick.",
+      "tailSource": "swimforward"
+    },
+    "SWIM_BACK": {
+      "pack": "swim",
+      "source": "swimbackward",
+      "looping": true,
+      "provenance": "vanilla swimbackward (SwimBackward, rate 1 in animationdata); no tail partner exists."
+    },
+    "SWIM_LEFT": {
+      "pack": "swim",
+      "source": "swimleft",
+      "looping": true,
+      "provenance": "vanilla swimleft (SwimLeft strafe stroke); no tail partner exists."
+    },
+    "SWIM_RIGHT": {
+      "pack": "swim",
+      "source": "swimright",
+      "looping": true,
+      "provenance": "vanilla swimright (SwimRight strafe stroke); no tail partner exists."
     }
   }
 }

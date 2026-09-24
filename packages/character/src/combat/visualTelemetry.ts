@@ -42,14 +42,30 @@ export type VisualScenarioTelemetry = {
     enemyHealth: number;
     actorDistance: number | null;
   }>;
-  /**
-   * Every blow the player landed on an enemy, per hand: what proves each blade
-   * of a dual-wield attack resolves its own contact (decision 0091).
-   */
   /** The enemy's awareness of the player now (decision 0092). */
   enemyAwareness?: "unaware" | "suspicious" | "engaged";
   /** Every change of the enemy's awareness, in order, with its suspicion then. */
   awarenessEvents?: Array<{ time: number; awareness: "unaware" | "suspicious" | "engaged"; suspicion: number }>;
+  /**
+   * Swimming, every frame of a scene run beside water (decision 0093): the
+   * mode, the chest's height against the surface, whether the weapon is
+   * drawn and whether ecctrl reports ground.
+   */
+  swimSamples?: Array<{
+    time: number;
+    swimming: boolean;
+    /** Swimming with no ground under the feet: the float spring holds the chest at the surface. */
+    floating: boolean;
+    chestY: number;
+    surfaceY: number;
+    inWater: boolean;
+    equipped: boolean;
+    grounded: boolean;
+  }>;
+  /**
+   * Every blow the player landed on an enemy, per hand: what proves each blade
+   * of a dual-wield attack resolves its own contact (decision 0091).
+   */
   playerHits?: Array<{ time: number; attack: string; hand: "main" | "off"; damage: number; enemyHealthAfter: number }>;
   visualFrames: Array<{
     time: number;

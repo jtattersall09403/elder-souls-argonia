@@ -5,6 +5,7 @@ import { CHARACTER_BODY_CENTER_HEIGHT } from "../physics/characterPhysics";
 import { COMBAT_TUNING } from "../combat/weapon";
 import { CHARACTER_BUILDS } from "../actors/races";
 import type { Stance } from "../locomotion/stance";
+import { SANDBOX_POOL } from "./sandboxPool";
 
 export const VISUAL_SCENARIO_IDS = [
   "locomotion-free",
@@ -67,6 +68,7 @@ export const VISUAL_SCENARIO_IDS = [
   "torch-carry",
   "sneak-attack",
   "sneak-detected",
+  "swim-cross",
 ] as const;
 
 export type VisualScenarioId = typeof VISUAL_SCENARIO_IDS[number];
@@ -1086,6 +1088,25 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     cues: [{ from: 0.2, to: 2.0, move: [0, 0.5] }],
     // Waits until the warden engages: an unaware or suspicious enemy takes no cue.
     enemyCues: [{ at: 2.6, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
+  },
+
+  // --- swimming (decision 0093) ------------------------------------------------
+  // From the arena's west edge into the pool (`sandboxPool`): a walk off the
+  // edge, the swim west with a pause to tread water, and the ramp out onto the
+  // deck. Two metres off the pool's axis so the arena pillar at x = -12.5 is not
+  // between the camera and the player. Held at 0.6 stick throughout: a walk on
+  // land, 0.96 m/s in the water.
+  "swim-cross": {
+    id: "swim-cross",
+    label: "Swim \u2192 walk off the arena's edge into the pool, swim across, tread water, swim on and climb the ramp out",
+    warmup: 0.5,
+    duration: 14,
+    player: { position: [SANDBOX_POOL.maxX + 0.7, Y, 2], yaw: -Math.PI / 2 },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.3, to: 3.5, move: [0, 0.6] },
+      { from: 5.0, to: 11.8, move: [0, 0.6] },
+    ],
   },
 
   // --- two-handed -----------------------------------------------------------

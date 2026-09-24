@@ -35,12 +35,15 @@ import { usePlayerBuild } from "@elder-souls/game-core/actors/raceStore";
 import { enemyArchetypeById } from "@elder-souls/game-core/actors/enemyArchetypes";
 import { activeGuardAnimations, activeGuardProfile } from "@elder-souls/game-core/equipment/guard";
 import { loadoutAnimationPacks } from "@elder-souls/game-core/equipment/animationPacks";
+import { resolveAnimationPacks } from "@elder-souls/game-core/anim/animationManifest";
+import { SWIM_FEET_REACH, SWIM_REFERENCE_SPEED, SWIM_SAMPLE_ABOVE_BODY_CENTRE, swimClipFor, swimStateFor, swimStrokeRate, swimVelocity } from "@elder-souls/game-core/locomotion/swim";
+import { submergedAt } from "@elder-souls/game-core/physics/waterSampler";
 import { CROUCH_SPEED, crouchLocomotionAnimation, nextStance, type Stance } from "@elder-souls/game-core/locomotion/stance";
 import { ARROW_POISE_DAMAGE, advancePoise, applyPoiseDamage, attackPoiseDamage, createPoise, refreshPoise, resetPoise, type PoiseState } from "@elder-souls/game-core/combat/poise";
 import { MIN_AUTHORED_GROUND_SPEED, locomotionSpeedMultiplier } from "@elder-souls/game-core/anim/locomotionCadence";
-import { BASE_FIELD_OF_VIEW, CHARACTER_BODY_CENTER_HEIGHT, CHARACTER_MODEL_OFFSET, JUMP_LAUNCH_ANIMATION_DURATION } from "@elder-souls/game-core/physics/characterPhysics";
+import { BASE_FIELD_OF_VIEW, CHARACTER_BODY_CENTER_HEIGHT, CHARACTER_CHEST_ABOVE_BODY_CENTRE, CHARACTER_MODEL_OFFSET, JUMP_LAUNCH_ANIMATION_DURATION } from "@elder-souls/game-core/physics/characterPhysics";
 import { PLAYER_LOCK_ON_WALK_SPEED, PLAYER_WALK_SPEED, analogueMoveSpeed, cameraRelativeDirection, input, resolveAttackDirection } from "@elder-souls/game-core/io/input";
-import { IDLE_OFF_HAND_GESTURE, inputToIntent, offHandPresses } from "@elder-souls/game-core/combat/intent";
+import { IDLE_OFF_HAND_GESTURE, inputToIntent, offHandPresses, swimmingIntent } from "@elder-souls/game-core/combat/intent";
 import { loadoutCombatIdle, resolveDualWield } from "@elder-souls/game-core/equipment/movesets/dualWield";
 import { carriedLightIntensity, igniteCarriedLight, tickCarriedLight, type CarriedLightState } from "@elder-souls/game-core/fx/carriedLight";
 import { CarriedLight } from "../CarriedLight";
@@ -63,6 +66,7 @@ import { canBackstabState } from "@elder-souls/game-core/combat/backstab";
 import { FirstPersonBow, type FirstPersonBowState } from "../FirstPersonBow";
 import { SkeletalHurtbox, hasSkeletalHurtbox, type HurtboxBone } from "../SkeletalHurtbox";
 import { PlayerBody } from "../PlayerBody";
+import { EcctrlAdapter } from "../EcctrlAdapter";
 import { SkyrimFighter, type SoleBoneRefs } from "../SkyrimFighter";
 import { useStanceCapsule } from "../useStanceCapsule";
 import * as THREE from "three";
@@ -114,6 +118,17 @@ const NO_WORN_ARMOUR = Object.freeze([]) as readonly never[];
  * has stopped wanting.
  */
 const RIPOSTE_QUEUE_WINDOW = 0.7;
+/**
+ * How far under a swimmer the floor is looked for, metres: deep enough to find
+ * a pool floor or a riverbed, so the model's support plane is the real bottom.
+ */
+const SWIM_FLOOR_SEARCH_METERS = 12;
+/**
+ * After a swim, how long the floor ray stands in for ecctrl's ground report,
+ * seconds: ecctrl is switched back on through a React render, and until its
+ * first frame its report is the one it froze with on entry.
+ */
+const SWIM_EXIT_GRACE_SECONDS = 0.15;
 
 
 const INITIAL_RENDERED_STATE = {
@@ -159,6 +174,7 @@ export function CombatRuntime({
   publish,
   onArrowSample,
   lightEnvironment,
+  water,
   visualScenario = null,
   layout = DEFAULT_ENCOUNTER_LAYOUT,
 }: CombatRuntimeProps) {
@@ -247,13 +263,32 @@ export function CombatRuntime({
   // Which slices of the rig this actor must have downloaded to fight with what
   // it is holding. Changing it remounts the actor (see SkyrimFighter), which is
   // why it is memoised on the loadout rather than recomputed per frame.
-  const playerAnimationPacks = useMemo(() => loadoutAnimationPacks(playerLoadout), [playerLoadout]);
+  // A world with water also loads the swim strokes (decision 0093).
+  const playerAnimationPacks = useMemo(
+    () => water ? resolveAnimationPacks([...loadoutAnimationPacks(playerLoadout), "swim"]) : loadoutAnimationPacks(playerLoadout),
+    [playerLoadout, water],
+  );
   const playerStart = useMemo(
     () => new THREE.Vector3(...(visualScenario ? visualScenario.player.position : layout.playerStart)),
     [visualScenario, layout],
   );
   const playerStartYaw = visualScenario?.player.yaw ?? layout.playerYaw;
   const player = useRef<EcctrlHandle>(null);
+  /**
+   * The player's body behind the movement boundary, for swimming (decision
+   * 0093). The rest of this runtime still reads the ecctrl handle directly
+   * (PlayerBody's declared migration debt).
+   */
+  const playerController = useMemo(() => new EcctrlAdapter(player), []);
+  /** Seconds the head has been under water without a break (HUD, for breath). */
+  const submergedSeconds = useRef(0);
+  /** Seconds left in which the floor ray, not ecctrl, says whether a swimmer who just left the water stands. */
+  const swimExitGrace = useRef(0);
+  /** Swimming with no ground under the feet (telemetry). */
+  const swimFloating = useRef(false);
+  /** The plane the player's model stands on: the controller's ground, or the floor under a swimmer. */
+  const playerSupportY = useRef(0);
+  const swimScratch = useRef({ centre: new THREE.Vector3(), chest: new THREE.Vector3(), eye: new THREE.Vector3() });
   const playerWeaponObject = useRef<THREE.Object3D>(null);
   const playerOffHandObject = useRef<THREE.Object3D | null>(null);
   const showWeaponHitboxes = settings.showWeaponHitboxes;
@@ -526,6 +561,17 @@ export function CombatRuntime({
         && !isActorCapsuleName(rigidBodyStates.get(collider.parent()?.handle ?? -1)?.object.name),
     );
     return blocker === null;
+  }, [rigidBodyStates, world]);
+  const floorRay = useRef(new rapier.Ray({ x: 0, y: 0, z: 0 }, { x: 0, y: -1, z: 0 }));
+  /** World Y of the first solid surface straight under a point within `reach` metres, or null. */
+  const floorBelow = useCallback((from: THREE.Vector3, reach: number) => {
+    floorRay.current.origin = from;
+    const hit = world.castRay(
+      floorRay.current, reach, true, undefined, undefined, undefined, undefined,
+      (collider) => !collider.isSensor()
+        && !isActorCapsuleName(rigidBodyStates.get(collider.parent()?.handle ?? -1)?.object.name),
+    );
+    return hit ? from.y - hit.timeOfImpact : null;
   }, [rigidBodyStates, world]);
   const { camera } = useThree();
   const started = settings.started;
@@ -1277,6 +1323,10 @@ export function CombatRuntime({
       handle.setLockForward(false);
       handle.setMovement({ joystick: { x: 0, y: 0 }, run: false, jump: false });
     }
+    playerController.setMovementMode("grounded");
+    submergedSeconds.current = 0;
+    swimExitGrace.current = 0;
+    playerSupportY.current = 0;
     bowCycle.current = IDLE_BOW_CYCLE;
     aimBlendAmount.current = 0;
     aimPitch.current = 0;
@@ -1415,11 +1465,12 @@ export function CombatRuntime({
         awarenessEvents: enemies[0]
           ? [{ time: 0, awareness: enemies[0].awareness.awareness, suspicion: enemies[0].awareness.suspicion }]
           : [],
+        swimSamples: water ? [] : undefined,
         visualFrames: [],
       };
     }
     previousActiveCount.current = activeEnemies.length;
-  }, [activeEnemies.length, camera, enemies, playerStart, playerStartYaw, resetToken, setAnim, setEnemyAnim, started, visualScenario]);
+  }, [activeEnemies.length, camera, enemies, playerController, playerStart, playerStartYaw, resetToken, setAnim, setEnemyAnim, started, visualScenario, water]);
 
   // A scene about a weapon has to be holding it. Equipped through the ordinary
   // inventory rather than by assigning a loadout, so validation stays on the
@@ -1500,7 +1551,7 @@ export function CombatRuntime({
     visualDriver.current?.apply(visualActorsReady ? frameDelta : 0, input);
     input.setDesktopMeleeInput(!playerWeapon.stats.ranged);
     input.update();
-    const intent = inputToIntent(input);
+    let intent = inputToIntent(input);
     {
       // Dual wield turns the guard control into the off hand's attacks. The
       // gesture is tracked whatever is held, so a weapon taken into the off
@@ -1549,6 +1600,62 @@ export function CombatRuntime({
       publishVisualFrameMarker(0);
       return;
     }
+    // Swimming (decision 0093). Immersion over the body column (sampled at its
+    // top, `SWIM_SAMPLE_ABOVE_BODY_CENTRE`) decides the mode, with hysteresis
+    // (`swimStateFor`); the controller floats and strokes the body
+    // while it swims. The weapon is put away on entry, as Skyrim's swim state
+    // forces, and combat, jump and lock-on are refused while in the water.
+    let swimSurface = 0;
+    let swimGround: number | null = null;
+    let swimFloor: number | null = null;
+    if (water) {
+      const centre = body.translation();
+      const columnTop = swimScratch.current.chest.set(centre.x, centre.y + SWIM_SAMPLE_ABOVE_BODY_CENTRE, centre.z);
+      const sample = water.sample(columnTop, 0);
+      swimSurface = sample.surfaceHeight;
+      const wasSwimming = playerController.movementMode === "swim";
+      if (playerController.swimDriving || sample.waterBodyId !== null) {
+        swimFloor = floorBelow(swimScratch.current.centre.set(centre.x, centre.y, centre.z), SWIM_FLOOR_SEARCH_METERS);
+        if (swimFloor !== null && centre.y - swimFloor <= CHARACTER_BODY_CENTER_HEIGHT + SWIM_FEET_REACH) swimGround = swimFloor;
+      }
+      const mode = swimStateFor({
+        immersion: sample.immersion,
+        grounded: wasSwimming ? swimGround !== null : handle.isOnGround,
+        current: playerController.movementMode,
+      });
+      if (mode !== playerController.movementMode) {
+        playerController.setMovementMode(mode);
+        if (mode === "swim") {
+          equipped.current = false;
+          if (playerAction.current !== "idle" && playerAction.current !== "dead") finishPlayerAction();
+          lockedOn.current = false;
+          lockTargetIndex.current = -1;
+          playerStance.current = "standing";
+          landingArmed.current = false;
+          maximumDownwardSpeed.current = 0;
+          landingTimer.current = 0;
+          jumpStartTimer.current = 0;
+        } else {
+          swimExitGrace.current = SWIM_EXIT_GRACE_SECONDS;
+        }
+      }
+      const eye = swimScratch.current.eye.set(centre.x, centre.y + PLAYER_EYE_OFFSET_Y, centre.z);
+      submergedSeconds.current = submergedAt(water, eye) ? submergedSeconds.current + delta : 0;
+    }
+    const swimming = playerController.movementMode === "swim";
+    swimFloating.current = swimming && swimGround === null;
+    if (swimming) intent = swimmingIntent(intent);
+    // ecctrl's ground report is stale until it has run again after a swim, so
+    // for a moment after leaving the water the floor ray answers instead.
+    swimExitGrace.current = Math.max(0, swimExitGrace.current - frameDelta);
+    const playerGrounded = swimming
+      ? false
+      : swimExitGrace.current > 0 ? swimGround !== null : handle.isOnGround;
+    // The model stands on the controller's ground; off it, over water, on the
+    // floor under the body (a swimmer's feet hang over the pool floor, not over
+    // the plane it last stood on).
+    if (playerGrounded && swimExitGrace.current <= 0) playerSupportY.current = handle.standPoint.y;
+    else if (swimFloor !== null) playerSupportY.current = swimFloor;
     const aliveEnemies = activeEnemies.filter((e) => e.fighter.health > 0);
     playerActionTime.current += delta;
     staminaCooldown.current -= delta;
@@ -1559,7 +1666,8 @@ export function CombatRuntime({
     if (playerTorch && carriedLight.current) {
       carriedLightClock.current += delta;
       const flame = playerOffHandObject.current?.getWorldPosition(tmp.current.lightWorld) ?? playerPos;
-      const environment = lightEnvironment?.({ x: flame.x, y: flame.y, z: flame.z }) ?? { submerged: false };
+      const environment = lightEnvironment?.({ x: flame.x, y: flame.y, z: flame.z })
+        ?? { submerged: water ? submergedAt(water, flame) : false };
       const next = tickCarriedLight(carriedLight.current, playerTorch.light, delta, environment);
       carriedLight.current = next;
       carriedLightLevel.current = carriedLightIntensity(next, playerTorch.light, carriedLightClock.current);
@@ -1596,9 +1704,10 @@ export function CombatRuntime({
     moveMagnitudeRef.current = moveMagnitude;
     // Landing is reported by the controller's own grounding, not visual soles
     // (the Skyrim actor carries no foot-contact solve).
-    const playerHasVisualContact = handle.isOnGround;
-    if (!handle.isOnGround) landingArmed.current = true;
-    if (landingArmed.current || !handle.isOnGround) {
+    // A swimmer neither falls nor lands; ecctrl's grounding is off meanwhile.
+    const playerHasVisualContact = playerGrounded;
+    if (!swimming && !playerGrounded) landingArmed.current = true;
+    if (!swimming && (landingArmed.current || !playerGrounded)) {
       maximumDownwardSpeed.current = Math.max(maximumDownwardSpeed.current, -handle.verticalSpeed);
     }
     if (landingArmed.current && playerHasVisualContact) {
@@ -1617,7 +1726,7 @@ export function CombatRuntime({
     }
     if (intent.dodgePressed) dodgeHold.current = 0;
     if (intent.dodgeHeld) dodgeHold.current += delta;
-    const jumpStarted = intent.jumpPressed && handle.isOnGround && playerStance.current !== "crouching"
+    const jumpStarted = intent.jumpPressed && playerGrounded && playerStance.current !== "crouching"
       && playerAction.current === "idle" && spendStamina(COMBAT_TUNING.jumpCost);
     if (jumpStarted) {
       jumpStartTimer.current = JUMP_LAUNCH_ANIMATION_DURATION;
@@ -1672,7 +1781,7 @@ export function CombatRuntime({
     // a swing. Leaving the ground clears it on its own.
     playerStance.current = nextStance(playerStance.current, {
       toggled: intent.crouchPressed,
-      grounded: handle.isOnGround,
+      grounded: playerGrounded,
       acting: playerAction.current !== "idle",
       sprinting,
     });
@@ -2369,7 +2478,8 @@ export function CombatRuntime({
     // Draw, release and bow handling are authored as planted one-shots. Let
     // their measured feet move the actor just as melee attacks do; full-draw
     // locomotion remains steerable through its dedicated loop clips.
-    const movementAllowed = (playerAction.current === "idle" || aiming) && !bowFootworkCommitted;
+    // A swimmer's body is the controller's swim drive's, below.
+    const movementAllowed = !swimming && (playerAction.current === "idle" || aiming) && !bowFootworkCommitted;
     movementAllowedRef.current = movementAllowed;
     // Locked-on movement plays WALK_BACK / the strafes, and by default moves
     // at the speed those clips were authored for — the same rule as the
@@ -2394,7 +2504,7 @@ export function CombatRuntime({
     // controller rather than replacing it with the dominant clip's one-axis
     // ground track.
     const diagonalMovement = Math.abs(intent.move.x) > 0.08 && Math.abs(intent.move.y) > 0.08;
-    const clipDriven = lockedSpeedFollowsClip && !diagonalMovement && movementAllowed && handle.isOnGround
+    const clipDriven = lockedSpeedFollowsClip && !diagonalMovement && movementAllowed && playerGrounded
       && (lockedClip !== null || crouchMoving || (aiming && moveMagnitude > 0.12));
     const lockOnMoveScale = clipDriven ? 0 : aiming
       // The drawn stride's own measured ground speed, not a hand-set number:
@@ -2429,7 +2539,7 @@ export function CombatRuntime({
     // Ecctrl decelerates released input asymptotically, which leaves a brief
     // residual slide in the direction of travel. Snap planar velocity to zero
     // once there is no input at all, instead of waiting the friction out.
-    if ((guarding || (movementAllowed && moveMagnitude <= 0.01)) && handle.isOnGround && !clipDriven) {
+    if ((guarding || (movementAllowed && moveMagnitude <= 0.01)) && playerGrounded && !clipDriven) {
       const settled = body.linvel();
       if (settled.x !== 0 || settled.z !== 0) body.setLinvel({ x: 0, y: settled.y, z: 0 }, true);
     }
@@ -2450,7 +2560,29 @@ export function CombatRuntime({
       body.setLinvel({ x: dodgeDirection.current.x * speed, y: body.linvel().y, z: dodgeDirection.current.z * speed }, true);
     }
 
-    if (bowFootworkCommitted && handle.isOnGround && footDrivenMotion && hasGroundTrack(bowFootworkState)) {
+    if (swimming) {
+      // The stroke: camera-relative, at the stats model's reference swim speed
+      // (sprint swims at the same speed until the owner rules on a sprint
+      // stroke), the body turning toward where it goes. The forward stroke's
+      // cadence follows the stick; the others play at their authored rate.
+      const velocity = playerAction.current === "idle"
+        ? swimVelocity(intent.move, cameraYaw.current, SWIM_REFERENCE_SPEED)
+        : { x: 0, z: 0 };
+      const moving = velocity.x !== 0 || velocity.z !== 0;
+      playerController.swim({
+        velocity,
+        surfaceHeight: swimSurface,
+        groundHeight: swimGround,
+        facing: moving ? velocity : null,
+        dt: frameDelta,
+      });
+      if (playerAction.current === "idle") {
+        const stroke = swimClipFor(velocity, handle.bodyZAxis, moveMagnitude);
+        playerAnimationSpeed.current = stroke === "SWIM_FORWARD" ? swimStrokeRate(moveMagnitude) : 1;
+        setAnim(stroke);
+      }
+      clipDrivenState.current = null;
+    } else if (bowFootworkCommitted && playerGrounded && footDrivenMotion && hasGroundTrack(bowFootworkState)) {
       // Equip/unequip use the ordinary action clock; ensure they never inherit
       // a locomotion or bow-draw playback multiplier from the preceding state.
       playerAnimationSpeed.current = 1;
@@ -2493,7 +2625,7 @@ export function CombatRuntime({
         ? "JUMP_START"
         : landingTimer.current > 0
           ? landingAnimation.current
-          : !handle.isOnGround
+          : !playerGrounded
             ? "JUMP_IDLE"
             : crouching
               ? (crouchMoving && !lockedOn.current
@@ -2590,6 +2722,18 @@ export function CombatRuntime({
       bowFootAnchorSourceTime.current = 0;
     }
 
+    // Just out of the water: until ecctrl is running again the controller still
+    // stands the body, overriding any velocity set above (decision 0093).
+    if (!swimming && playerController.swimDriving) {
+      playerController.swim({
+        velocity: { x: 0, z: 0 },
+        surfaceHeight: swimSurface,
+        groundHeight: swimGround,
+        facing: null,
+        dt: frameDelta,
+      });
+    }
+
     // Every enemy runs its own step against the shared player (`enemyStep`).
     const enemyStep: EnemyStepContext = {
       delta,
@@ -2624,7 +2768,7 @@ export function CombatRuntime({
       const attack = playerAttack.current;
       let loudness = louder(pendingNoise.current, locomotionNoise({
         moveMagnitude,
-        grounded: handle.isOnGround,
+        grounded: playerGrounded,
         sprinting,
         crouching,
       }));
@@ -2656,7 +2800,7 @@ export function CombatRuntime({
     // stance. Keep the choice for the current clip so tiny height noise cannot
     // alternate the pivot every frame.
     let bowAimPivot: THREE.Object3D | null = null;
-    if (isAiming(bowCycle.current) && moveMagnitude <= 0.12 && handle.isOnGround) {
+    if (isAiming(bowCycle.current) && moveMagnitude <= 0.12 && playerGrounded) {
       const soles = playerSoleBones.current;
       const animation = playerAnimationCommand.current.state;
       if (soles?.footL && soles.footR) {
@@ -3015,6 +3159,8 @@ export function CombatRuntime({
         playerPoise: playerPoise.current.current,
         playerMaxPoise: playerPoise.current.max,
         detection: detectionReadout(activeEnemies),
+        swimming: playerController.movementMode === "swim",
+        submergedSeconds: submergedSeconds.current,
       };
       publish(hud);
       const shown = renderedRef.current;
@@ -3088,6 +3234,20 @@ export function CombatRuntime({
         suspicion: Number(enemy.awareness.suspicion.toFixed(3)),
       });
     }
+    if (water && telemetry.swimSamples) {
+      const chest = swimScratch.current.chest.set(playerPos.x, playerPos.y + CHARACTER_CHEST_ABOVE_BODY_CENTRE, playerPos.z);
+      const sample = water.sample(chest, 0);
+      telemetry.swimSamples.push({
+        time: Number(visualDriver.current.elapsed.toFixed(3)),
+        swimming: playerController.movementMode === "swim",
+        floating: swimFloating.current,
+        chestY: Number(chest.y.toFixed(4)),
+        surfaceY: Number(sample.surfaceHeight.toFixed(4)),
+        inWater: sample.waterBodyId !== null,
+        equipped: equipped.current,
+        grounded: playerController.movementMode !== "swim" && handle.isOnGround,
+      });
+    }
     Object.assign(telemetry, {
       enemyAwareness: enemy?.awareness.awareness,
       elapsed: Number(visualDriver.current.elapsed.toFixed(3)),
@@ -3149,7 +3309,12 @@ export function CombatRuntime({
 
   return (
     <>
-      <PlayerBody handleRef={player} position={playerStart} rotationY={playerStartYaw}>
+      <PlayerBody
+        handleRef={player}
+        position={playerStart}
+        rotationY={playerStartYaw}
+        movementModes={water ? playerController : undefined}
+      >
         <Suspense fallback={null}>
         <SkyrimFighter
           animationCommandRef={playerAnimationCommand}
@@ -3186,7 +3351,7 @@ export function CombatRuntime({
           // own pitch, so the bow points along the line the arrow leaves on.
           aimPitchRef={playerAimSpinePitch}
           visualProbe={visualScenario ? playerVisualProbe.current : undefined}
-          visualSupportY={0}
+          visualSupportYRef={playerSupportY}
         />
         </Suspense>
       </PlayerBody>

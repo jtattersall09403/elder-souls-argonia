@@ -23,7 +23,8 @@ the world studio and the game run the same code. The rules it calls
 | `publish` | Receives `Partial<CombatHudState>` every 50 ms (and on damage). The runtime owns no store. |
 | `layout` | `EncounterLayout`: player start and yaw, enemy spawn points, in the host's world. Defaults to the sandbox arena. |
 | `onArrowSample` | Optional; every simulated arrow step (probes). |
-| `lightEnvironment` | Optional `(worldPosition) => LightEnvironment`: whether a carried light is under water there (decision 0091). Absent means dry. The studio passes Phase 9's water sampler when it adopts the runtime (lane round 5); a torch put out by water is not used up. |
+| `lightEnvironment` | Optional `(worldPosition) => LightEnvironment`: whether a carried light is under water there (decision 0091); a torch put out by water is not used up. When absent the runtime asks `water`; with neither, dry. |
+| `water` | Optional `WaterSampler` (`game-core/physics/waterSampler`, the `sample` half of the contracts' `WorldWaterQuery`): where the player swims (decision 0093). The sandbox passes its pool (`flatPoolSampler`); the studio passes its `WaterWorld` (10b). With it the player loads the `swim` animation pack and the HUD carries `swimming` and `submergedSeconds`. Absent means no swimming. |
 | `visualScenario` | Optional scripted validation scene (`game-core/validation`); writes `window.__COMBAT_VISUAL_SCENARIO__` telemetry (`visualTelemetry.ts`). |
 
 What else the host must supply (Phase 10b's adoption list for

@@ -76,6 +76,8 @@ export const initialSnapshot: GameSnapshot = {
   sneakSkill: 10,
   ambientLight: 1,
   detection: { level: 1, awareness: "engaged" as const },
+  swimming: false,
+  submergedSeconds: 0,
 };
 
 export const useGameStore = create<GameStore>((set) => ({

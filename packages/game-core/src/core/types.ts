@@ -240,6 +240,11 @@ export type AnimationState =
   | "TORCH_GUARD_ENTER"
   | "TORCH_GUARD"
   | "TORCH_GUARD_HIT"
+  | "SWIM_IDLE"
+  | "SWIM_FORWARD"
+  | "SWIM_BACK"
+  | "SWIM_LEFT"
+  | "SWIM_RIGHT"
   | "BACKSTABBED_FORWARD";
 
 export type CombatPhase = "windup" | "active" | "recovery" | "none";

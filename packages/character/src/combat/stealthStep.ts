@@ -8,6 +8,7 @@ import {
   type Observer,
 } from "@elder-souls/game-core/perception/detection";
 import { NOISE_LOUDNESS, noiseHeard, type NoiseEvent } from "@elder-souls/game-core/perception/noise";
+import { CHARACTER_CHEST_ABOVE_BODY_CENTRE } from "@elder-souls/game-core/physics/characterPhysics";
 import { sneakMultiplier } from "@elder-souls/game-core/stats/derived";
 import { sneakWeaponKindFor } from "@elder-souls/game-core/equipment/sneakWeaponKind";
 import type { WeaponClass } from "@elder-souls/game-core/equipment/types";
@@ -22,9 +23,6 @@ import { STRIDE_RUN_ABOVE_MAGNITUDE, STRIDE_WALK_ABOVE_MAGNITUDE } from "./locom
  * ray, the light on the player, the loudest thing the player did); nothing
  * here decides what an aware enemy does, which stays `enemyStep`'s.
  */
-
-/** Chest height above the body centre, metres: what an observer's ray aims at. */
-export const CHEST_ABOVE_BODY_CENTRE = 0.35;
 
 /** The player as detection sees them this frame. */
 export type StealthPlayer = {
@@ -100,7 +98,7 @@ export function stepStealth(ctx: StealthStepContext, enemies: readonly EnemyRunt
     sneaking: player.sneaking,
     lightLevel: player.lightLevel,
   };
-  scratch.chest.set(player.position.x, player.position.y + CHEST_ABOVE_BODY_CENTRE, player.position.z);
+  scratch.chest.set(player.position.x, player.position.y + CHARACTER_CHEST_ABOVE_BODY_CENTRE, player.position.z);
   for (const e of enemies) {
     const f = e.fighter;
     if (f.health <= 0) continue;

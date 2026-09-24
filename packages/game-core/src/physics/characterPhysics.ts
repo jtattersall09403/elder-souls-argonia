@@ -3,6 +3,14 @@ export const CHARACTER_CAPSULE_RADIUS = 0.3;
 export const CHARACTER_FLOAT_HEIGHT = 0.18;
 export const CHARACTER_BODY_CENTER_HEIGHT = CHARACTER_CAPSULE_HALF_HEIGHT + CHARACTER_CAPSULE_RADIUS + CHARACTER_FLOAT_HEIGHT;
 export const CHARACTER_MODEL_OFFSET = -CHARACTER_BODY_CENTER_HEIGHT;
+
+/**
+ * Chest height above the body centre, metres (1.25 m above the feet): where an
+ * observer's sight ray aims (stealth, decision 0092) and the point a swimmer
+ * floats with at the water surface (decision 0093).
+ */
+export const CHARACTER_CHEST_ABOVE_BODY_CENTRE = 0.35;
+
 export const CHARACTER_RAY_RADIUS = CHARACTER_CAPSULE_RADIUS / 2;
 
 // Locomotion and combat deliberately use different volumes. Ecctrl's compact

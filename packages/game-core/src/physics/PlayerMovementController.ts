@@ -71,7 +71,38 @@ export interface PlayerMovementController {
 
   /** raw controller pose after the last fixed step; the caller interpolates */
   readPose(outPos: THREE.Vector3, outQuat: THREE.Quaternion): void;
+
+  /**
+   * How the body is moved (decision 0093). Optional so a controller without
+   * swimming still satisfies the boundary; absent reads as "grounded".
+   */
+  readonly movementMode?: MovementMode;
+  /**
+   * Switch between the grounded controller and swimming. In "swim" the
+   * controller's own grounded machinery (gravity, float spring, stepping) is
+   * off and {@link swim} drives the body each frame; "grounded" restores it.
+   */
+  setMovementMode?(mode: MovementMode): void;
+  /** Drive the body for one frame while in "swim" mode; ignored otherwise. */
+  swim?(drive: SwimDrive): void;
 }
+
+/** Grounded (walk, run, jump) or swimming (decision 0093). */
+export type MovementMode = "grounded" | "swim";
+
+/** One frame of swimming, as the runtime hands it to the controller. */
+export type SwimDrive = {
+  /** Planar velocity the stroke asks for, world m/s. */
+  velocity: { x: number; z: number };
+  /** World Y of the water surface over the body. */
+  surfaceHeight: number;
+  /** World Y of ground within reach of the feet, or null over deep water. */
+  groundHeight: number | null;
+  /** Planar world direction to turn toward, or null to hold the facing. */
+  facing: { x: number; z: number } | null;
+  /** Frame time, seconds. */
+  dt: number;
+};
 
 /** Authored per-clip net root translation, in character space. */
 export type RootMotionDelta = { x: number; y: number; z: number };

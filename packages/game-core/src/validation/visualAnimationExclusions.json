@@ -88,5 +88,8 @@
   "KATANA_GUARD_HIT_B": "Animated Armoury katana set, converted from interleaved-uncompressed Havok. As the rapier clips: wired and playable by equipping a katana, with no scene staging it yet.",
   "KATANA_EQUIP": "Animated Armoury katana set, converted from interleaved-uncompressed Havok. As the rapier clips: wired and playable by equipping a katana, with no scene staging it yet.",
   "KATANA_SPRINT": "Animated Armoury katana set, converted from interleaved-uncompressed Havok. As the rapier clips: wired and playable by equipping a katana, with no scene staging it yet.",
-  "TORCH_POSE": "Never a commanded state: SkyrimFighter lays its one frame over the left-arm bones only (leftArmOverlay, decision 0091), so no scene can render it as the actor's animation. torch-carry holds the pose on the arm while the body plays SWORD_IDLE and WALK."
+  "TORCH_POSE": "Never a commanded state: SkyrimFighter lays its one frame over the left-arm bones only (leftArmOverlay, decision 0091), so no scene can render it as the actor's animation. torch-carry holds the pose on the arm while the body plays SWORD_IDLE and WALK.",
+  "SWIM_BACK": "Swim stroke (decision 0093): plays when the stick points backward in the body's frame while swimming. The body turns toward the direction of travel, so swim-cross, which swims straight ahead, never selects it.",
+  "SWIM_LEFT": "Swim stroke (decision 0093): plays when the stick points left in the body's frame while swimming. The body turns toward the direction of travel, so swim-cross, which swims straight ahead, never selects it.",
+  "SWIM_RIGHT": "Swim stroke (decision 0093): plays when the stick points right in the body's frame while swimming. The body turns toward the direction of travel, so swim-cross, which swims straight ahead, never selects it."
 }

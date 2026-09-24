@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DESKTOP_HEAVY_HOLD_SECONDS } from "../io/input";
-import { IDLE_OFF_HAND_GESTURE, offHandPresses, type OffHandGesture, type OffHandInput } from "./intent";
+import { IDLE_OFF_HAND_GESTURE, offHandPresses, swimmingIntent, type OffHandGesture, type OffHandInput, type PlayerIntent } from "./intent";
 
 /**
  * The off hand's attack controls (dual wield, decision 0091). Expected answers
@@ -45,5 +45,27 @@ describe("off-hand attack presses", () => {
   it("pad and touch: guard press is the light attack, parry press the power attack, on the press", () => {
     expect(run([...up(1), ...held(30), ...up(1), { parryHeld: true }, { parryHeld: true }], false))
       .toEqual(["light@1", "heavy@32"]);
+  });
+});
+
+describe("swimmingIntent (decision 0093)", () => {
+  it("keeps moving, looking and healing, and refuses every combat, jump and stance control", () => {
+    const all: PlayerIntent = {
+      move: { x: 0.3, y: 1 }, camera: { x: 2, y: -1 },
+      lightPressed: true, lightHeld: true, heavyPressed: true, guardHeld: true, aimExitPressed: true,
+      parryPressed: true, offLightPressed: true, offHeavyPressed: true, dodgePressed: true,
+      dodgeHeld: true, dodgeReleased: true, lockOnPressed: true, healPressed: true, equipPressed: true,
+      jumpPressed: true, jumpHeld: true, crouchPressed: true, zoomInHeld: true, zoomOutHeld: true,
+      zoomWheel: 3, targetLeftPressed: true, targetRightPressed: true,
+    };
+    const swim = swimmingIntent(all);
+    expect(swim.move).toEqual({ x: 0.3, y: 1 });
+    expect(swim.camera).toEqual({ x: 2, y: -1 });
+    expect(swim.healPressed).toBe(true);
+    const stillTrue = Object.entries(swim)
+      .filter(([, value]) => value === true)
+      .map(([key]) => key)
+      .sort();
+    expect(stillTrue).toEqual(["aimExitPressed", "healPressed", "zoomInHeld", "zoomOutHeld"]);
   });
 });

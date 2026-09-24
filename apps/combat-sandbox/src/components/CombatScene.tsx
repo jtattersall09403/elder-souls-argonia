@@ -3,6 +3,8 @@ import { Physics } from "@react-three/rapier";
 import { useShallow } from "zustand/react/shallow";
 import type { VisualScenario } from "@elder-souls/game-core/validation/visualScenarios";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
+import { flatPoolSampler } from "@elder-souls/game-core/physics/waterSampler";
+import { SANDBOX_POOL } from "@elder-souls/game-core/validation/sandboxPool";
 import { useGameStore, type GameSnapshot } from "../sandboxStore";
 import { Arena } from "./Arena";
 import { ArrowProbe, recordArrowProbeSample } from "./ArrowProbe";
@@ -12,6 +14,9 @@ import { ArrowProbe, recordArrowProbeSample } from "./ArrowProbe";
  * `@elder-souls/character`, wired to the debug store. Composition only; the
  * encounter itself lives in the package.
  */
+
+/** The arena pool's water, for swimming (decision 0093). One instance: the runtime resets on a new one. */
+const SANDBOX_WATER = flatPoolSampler(SANDBOX_POOL);
 
 /** The debug store's slice the runtime reads as `settings`. */
 function pickRuntimeSettings(state: GameSnapshot): CombatRuntimeSettings {
@@ -77,6 +82,7 @@ export function CombatScene({ visualScenario = null }: { visualScenario?: Visual
           settings={settings}
           publish={publish}
           onArrowSample={recordArrowProbeSample}
+          water={SANDBOX_WATER}
           visualScenario={visualScenario}
         />
         <ArrowProbe />

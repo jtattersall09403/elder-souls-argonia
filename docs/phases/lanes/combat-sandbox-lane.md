@@ -30,7 +30,7 @@ boats, factions) rather than for the sandbox.
 | 2 | Owner feedback: Strength in bow damage, "range position" label, two-hander swing phase ×0.85, timing panel, sword crit effect, curves default | delivered 2026-09-24 | notes below |
 | 3 | Off-hand items: dual wield, torches, carried light | delivered 2026-09-24; full visual suite 58/58 (notes) | [0091](../../decisions/0091-the-off-hand-holds-a-shield-a-weapon-or-a-light.md) |
 | 4 | Stealth slice: detection service, awareness states, sneak-attack band | delivered 2026-09-24 | [0092](../../decisions/0092-stealth-is-a-detection-service-the-runtime-feeds.md) |
-| 5 | Thin swim: swim mode behind an injected water sampler | planned | |
+| 5 | Thin swim: swim mode behind an injected water sampler | delivered 2026-09-24; full suite 61/61 | [0093](../../decisions/0093-swimming-is-a-movement-mode-behind-the-controller-boundary.md) |
 
 Round 1 notes: the pack is `STARTING_SUPPLIES` (arrows, draughts, picks) plus
 `STARTING_ARMOURY_IDS` (every key of `ARSENAL_WEAPONS`, `ARSENAL_SHIELDS` and
@@ -130,6 +130,16 @@ Debug: "Enemies start unaware", Sneak skill (with the opener readout), Ambient
 light; a detection meter in the HUD; view cones with the weapon-volume switch.
 Visual: 53/53 across stealth, attacks, criticals, defense, offhand, ranged,
 reactions, locomotion, evasion.
+
+Round 5 notes: pack `swim` (five in-place vanilla clips; all older GLBs
+md5-identical); `physics/waterSampler.ts` (`Pick<WorldWaterQuery, "sample">`,
+`flatPoolSampler`), `locomotion/swim.ts` (pure, tests first), an optional
+`setMovementMode`/`swim` on `PlayerMovementController` that `EcctrlAdapter`
+implements by switching ecctrl off and driving the body (the studio compiles
+unchanged); a pool west of the arena. `swim-cross`: worst chest-to-surface
+error 1.8 cm, weapon away the whole swim, out onto the deck grounded. The
+water also puts the torch out through the round-3 hook. Speed 1.60 m/s (stats
+`swimSpeed` at Athletics 50); sprint-swim and heal-in-water are owner calls.
 
 ## Gates
 

@@ -79,6 +79,35 @@ export function inputToIntent(source: InputController): PlayerIntent {
   };
 }
 
+/**
+ * What a swimmer may still do (decision 0093): move, look and heal. Attacks,
+ * guard, parry, dodge, jump, crouch, lock-on and drawing a weapon are refused,
+ * as vanilla's swim state forces the weapon away and blocks combat. Sprinting
+ * rides the dodge control, so it goes too: the swim has no sprint yet.
+ */
+export function swimmingIntent(intent: PlayerIntent): PlayerIntent {
+  return {
+    ...intent,
+    lightPressed: false,
+    lightHeld: false,
+    heavyPressed: false,
+    guardHeld: false,
+    parryPressed: false,
+    offLightPressed: false,
+    offHeavyPressed: false,
+    dodgePressed: false,
+    dodgeHeld: false,
+    dodgeReleased: false,
+    lockOnPressed: false,
+    equipPressed: false,
+    jumpPressed: false,
+    jumpHeld: false,
+    crouchPressed: false,
+    targetLeftPressed: false,
+    targetRightPressed: false,
+  };
+}
+
 /** Where the guard control's tap-or-hold gesture is, between frames. */
 export type OffHandGesture = {
   /** Seconds the guard control has been held, or null while it is up. */

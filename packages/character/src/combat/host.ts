@@ -2,6 +2,7 @@ import type { AimView, CombatAction } from "@elder-souls/game-core/core/types";
 import type { BowPhase } from "@elder-souls/game-core/combat/bowShot";
 import type { LightEnvironment } from "@elder-souls/game-core/fx/carriedLight";
 import type { Awareness } from "@elder-souls/game-core/perception/detection";
+import type { WaterSampler } from "@elder-souls/game-core/physics/waterSampler";
 import type { FlightSample } from "../Arrows";
 
 /**
@@ -108,6 +109,13 @@ export type CombatHudState = {
    * suspicion, 0-1: the HUD's detection meter.
    */
   detection: { level: number; awareness: Awareness };
+  /** The player is swimming (decision 0093). */
+  swimming: boolean;
+  /**
+   * Seconds the player's head has been under the surface without a break,
+   * 0 while it is above: what Phase 9a's breath bar will count down from.
+   */
+  submergedSeconds: number;
 };
 
 export type CombatRuntimeHost = {
@@ -119,8 +127,14 @@ export type CombatRuntimeHost = {
    * What the world does to a carried light at a world position, metres
    * (decision 0091): today only whether it is under water, which puts a torch
    * out without using it up. Absent means dry everywhere (the sandbox arena).
-   * The world studio passes Phase 9's water sampler here when it adopts the
-   * runtime (lane round 5).
+   * When absent and `water` is given, the runtime asks the water sampler.
    */
   lightEnvironment?: (worldPosition: { x: number; y: number; z: number }) => LightEnvironment;
+  /**
+   * The world's water (decision 0093): where the player swims, and where a
+   * carried light is under water. The sandbox passes its pool
+   * (`flatPoolSampler`); the world studio passes its `WaterWorld` (10b).
+   * Absent means dry everywhere: no swimming.
+   */
+  water?: WaterSampler;
 };
