@@ -4,6 +4,17 @@ export type InputAction =
   | "light"
   | "heavy"
   | "guard"
+  /**
+   * The off hand's light and power attacks (dual wield, decision 0091), made
+   * here from the guard control as `light` and `heavy` are from the primary:
+   * on desktop the guard button (Mouse 2) released before
+   * `DESKTOP_HEAVY_HOLD_SECONDS` is `offLight` and held to it is `offHeavy`; on
+   * a pad and on touch the guard press is `offLight` and the parry press
+   * `offHeavy`. `guard` itself stays the held state a shield needs. Each
+   * device's control says which rule applies, so nothing guesses the device.
+   */
+  | "offLight"
+  | "offHeavy"
   | "parry"
   | "dodge"
   | "lockOn"
@@ -74,6 +85,14 @@ export class InputController {
   private desktopPrimaryStartedAtMs: number | null = null;
   private desktopPrimaryGesture: "pending" | "heavy" | "parry" | null = null;
   private desktopLightPulse = false;
+  /**
+   * The guard button's tap-or-hold, as the primary's above. "parry" marks a
+   * guard hold that became the parry chord (primary pressed under it): its
+   * release is the parry's, not an off-hand swing.
+   */
+  private desktopGuardStartedAtMs: number | null = null;
+  private desktopGuardGesture: "pending" | "heavy" | "parry" | null = null;
+  private desktopOffLightPulse = false;
   private virtual = new Set<InputAction>();
   private previous = new Map<InputAction, boolean>();
   private current = new Map<InputAction, boolean>();
@@ -121,6 +140,7 @@ export class InputController {
       this.desktopPrimaryStartedAtMs = null;
       this.desktopPrimaryGesture = null;
       this.desktopLightPulse = false;
+      this.resetDesktopGuardGesture();
     };
     window.addEventListener("keydown", down, { passive: false });
     window.addEventListener("keyup", up);
@@ -160,6 +180,7 @@ export class InputController {
     this.desktopPrimaryStartedAtMs = null;
     this.desktopPrimaryGesture = null;
     this.desktopLightPulse = false;
+    this.resetDesktopGuardGesture();
   }
 
   /**
@@ -202,6 +223,13 @@ export class InputController {
     this.desktopPrimaryStartedAtMs = null;
     this.desktopPrimaryGesture = null;
     this.desktopLightPulse = false;
+    this.resetDesktopGuardGesture();
+  }
+
+  private resetDesktopGuardGesture() {
+    this.desktopGuardStartedAtMs = null;
+    this.desktopGuardGesture = null;
+    this.desktopOffLightPulse = false;
   }
 
   /** Device event seam, public so the timing rules can be tested without DOM. */
@@ -212,6 +240,11 @@ export class InputController {
       if (button === 0 && this.desktopMeleeInput) {
         this.desktopPrimaryStartedAtMs = nowMs;
         this.desktopPrimaryGesture = this.mouse.has(2) ? "parry" : "pending";
+        if (this.mouse.has(2) && this.desktopGuardGesture === "pending") this.desktopGuardGesture = "parry";
+      }
+      if (button === 2 && this.desktopMeleeInput) {
+        this.desktopGuardStartedAtMs = nowMs;
+        this.desktopGuardGesture = "pending";
       }
       return;
     }
@@ -221,6 +254,11 @@ export class InputController {
       if (this.desktopPrimaryGesture === "pending") this.desktopLightPulse = true;
       this.desktopPrimaryStartedAtMs = null;
       this.desktopPrimaryGesture = null;
+    }
+    if (button === 2 && this.desktopMeleeInput) {
+      if (this.desktopGuardGesture === "pending") this.desktopOffLightPulse = true;
+      this.desktopGuardStartedAtMs = null;
+      this.desktopGuardGesture = null;
     }
   }
 
@@ -269,6 +307,12 @@ export class InputController {
       && nowMs - this.desktopPrimaryStartedAtMs >= DESKTOP_HEAVY_HOLD_SECONDS * 1000) {
       this.desktopPrimaryGesture = "heavy";
     }
+    if (this.desktopMeleeInput
+      && this.desktopGuardGesture === "pending"
+      && this.desktopGuardStartedAtMs !== null
+      && nowMs - this.desktopGuardStartedAtMs >= DESKTOP_HEAVY_HOLD_SECONDS * 1000) {
+      this.desktopGuardGesture = "heavy";
+    }
 
     this.current.set("light", active("light") || (!this.desktopMeleeInput && this.mouse.has(0))
       || this.desktopLightPulse || button(SWITCH_GAMEPAD.R_LIGHT));
@@ -277,6 +321,11 @@ export class InputController {
     this.current.set("guard", active("guard") || this.mouse.has(2) || button(SWITCH_GAMEPAD.L_GUARD));
     this.current.set("parry", active("parry")
       || this.desktopPrimaryGesture === "parry" || button(SWITCH_GAMEPAD.ZL_PARRY));
+    // Touch buttons arrive as virtual guard and parry, so they take the pad's rule.
+    this.current.set("offLight", active("offLight") || this.desktopOffLightPulse
+      || active("guard") || button(SWITCH_GAMEPAD.L_GUARD));
+    this.current.set("offHeavy", active("offHeavy") || this.desktopGuardGesture === "heavy"
+      || active("parry") || button(SWITCH_GAMEPAD.ZL_PARRY));
     this.current.set("dodge", active("dodge") || this.keys.has("Space") || button(SWITCH_GAMEPAD.B_BOTTOM_DODGE));
     this.current.set("lockOn", active("lockOn") || this.keys.has("KeyQ") || button(SWITCH_GAMEPAD.R_STICK_LOCK));
     this.current.set("heal", active("heal") || this.keys.has("KeyH") || button(SWITCH_GAMEPAD.X_TOP_ITEM));
@@ -299,6 +348,7 @@ export class InputController {
       else this.suppressed.delete(action);
     }
     this.desktopLightPulse = false;
+    this.desktopOffLightPulse = false;
   }
 
   held(action: InputAction) {

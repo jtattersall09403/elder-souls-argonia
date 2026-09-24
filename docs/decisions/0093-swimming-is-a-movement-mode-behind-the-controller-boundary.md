@@ -34,3 +34,10 @@ the sandbox so the studio adopts it rather than rebuilding it.
 6. **Breath is left for 9a proper**: the HUD state carries `swimming` and
    `submergedSeconds` for the breath bar to read; diving and underwater
    swimming wait for the same.
+
+## Addendum (2026-09-24, lane round 6)
+
+Defaults set now, owner-overridable (lane doc § Defaults the owner can
+override): sprint-swim is 1.4 × swim speed with the ground sprint's stamina
+drain, and stops at empty stamina until the input is released; draughts are
+usable in water. §4's and §5's "owner call pending" are these defaults.

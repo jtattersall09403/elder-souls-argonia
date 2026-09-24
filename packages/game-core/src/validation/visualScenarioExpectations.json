@@ -3542,8 +3542,8 @@
   "dual-wield-attack": {
     "playerActions": [
       "idle",
-      "light1",
-      "heavy"
+      "offLight",
+      "offPower"
     ],
     "playerAnimations": [
       "DW_IDLE",
@@ -3564,9 +3564,9 @@
     "requiredActionRuns": {
       "player": [
         "idle",
-        "light1",
+        "offLight",
         "idle",
-        "heavy",
+        "offPower",
         "idle"
       ],
       "enemy": [
@@ -3609,7 +3609,7 @@
   "dual-wield-power": {
     "playerActions": [
       "idle",
-      "heavy"
+      "dualPower"
     ],
     "playerAnimations": [
       "DW_IDLE",
@@ -3628,7 +3628,7 @@
     "requiredActionRuns": {
       "player": [
         "idle",
-        "heavy",
+        "dualPower",
         "idle"
       ],
       "enemy": [
@@ -3796,6 +3796,72 @@
       "endsAs": "engaged"
     },
     "note": "Expected before the run (decision 0092): 1.5 m behind a watching warden is inside the backstab sector, so the light press opens the paired backstab; unseen, it resolves as the dagger's light1 (11) x 7 (Sneak 50, dagger row, module 76 section 121.5) = 77 incoming, 61.11 after the warden's iron rating 39, never the backstab's own 22 on top. 150 -> at most 88.89."
+  },
+  "sneak-swing": {
+    "playerActions": [
+      "idle",
+      "light1"
+    ],
+    "playerAnimations": [
+      "SWORD_CROUCH_IDLE",
+      "LIGHT_1"
+    ],
+    "enemyActions": [
+      "watching",
+      "stagger",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "HIT"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "stagger",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_CROUCH_IDLE",
+        "LIGHT_1",
+        "SWORD_CROUCH_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "LIGHT_1"
+      ],
+      "enemy": [
+        "HIT"
+      ]
+    },
+    "awareness": {
+      "startsAs": "unaware",
+      "endsAs": "engaged"
+    },
+    "playerHits": [
+      {
+        "attack": "light1",
+        "hand": "main",
+        "damage": 57.14,
+        "tolerance": 0.5,
+        "formula": "damageAfterArmour(steel-sword light1 24 x sneakMultiplier(oneHanded, Sneak 50) 3 = 72, the warden's armour rating 39) = 72 x 150 / (150 + 39) = 57.14 (ARMOUR_HALF_MITIGATION_RATING 150) (combat/armourMitigation.ts, the function resolveHit uses)"
+      }
+    ],
+    "note": "Expected before the run (decision 0092): the warden faces +x, the player stands 1.6 m to its -z side, so enemy-to-player is 90 degrees off its forward: outside the backstab sector (cos 0 > -0.6) and outside its 60-degree cone. The light press is an ordinary light1, never a backstab, landing unseen at the sneak multiplier; the blow engages the warden."
   },
   "sneak-detected": {
     "playerActions": [

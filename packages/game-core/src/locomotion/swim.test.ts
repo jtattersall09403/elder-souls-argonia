@@ -4,10 +4,12 @@ import {
   SWIM_LEAVE_IMMERSION,
   SWIM_REFERENCE_SPEED,
   SWIM_SAMPLE_ABOVE_BODY_CENTRE,
+  SWIM_SPRINT_MULTIPLIER,
   buoyancyStep,
   swimBodyTarget,
   swimClipFor,
   swimStateFor,
+  swimSprint,
   swimStrokeRate,
   swimVelocity,
   swimVerticalStep,
@@ -159,5 +161,37 @@ describe("swimVerticalStep", () => {
   it("keeps floating where the ground is too deep to stand on", () => {
     const step = swimVerticalStep({ bodyY: -0.55, surfaceHeight: -0.2, groundHeight: -1.5, floatVelocity: 0, dt });
     expect(step.velocity).toBeCloseTo(0, 10);
+  });
+});
+
+/**
+ * Sprint-swim (lane round 6 default): the sprint input swims at 1.4 x the
+ * swim speed while stamina lasts; at 0 stamina the sprint stops and stays
+ * stopped until the input is let go, so regen does not flicker it back on.
+ */
+describe("swimSprint", () => {
+  const base = { sprintInput: true, stamina: 50, exhausted: false };
+
+  it("sprints at SWIM_SPRINT_MULTIPLIER (1.4) x the swim speed while the input holds and stamina lasts", () => {
+    expect(SWIM_SPRINT_MULTIPLIER).toBe(1.4);
+    const step = swimSprint(base);
+    expect(step.sprinting).toBe(true);
+    expect(step.speed).toBeCloseTo(SWIM_REFERENCE_SPEED * 1.4, 9);
+  });
+
+  it("swims at the plain speed without the input", () => {
+    const step = swimSprint({ ...base, sprintInput: false });
+    expect(step.sprinting).toBe(false);
+    expect(step.speed).toBe(SWIM_REFERENCE_SPEED);
+  });
+
+  it("stops at 0 stamina and stays stopped, input still held, until the input is let go", () => {
+    const empty = swimSprint({ ...base, stamina: 0 });
+    expect(empty).toMatchObject({ sprinting: false, exhausted: true, speed: SWIM_REFERENCE_SPEED });
+    const regained = swimSprint({ ...base, stamina: 5, exhausted: empty.exhausted });
+    expect(regained.sprinting).toBe(false);
+    const released = swimSprint({ ...base, sprintInput: false, stamina: 5, exhausted: regained.exhausted });
+    expect(released.exhausted).toBe(false);
+    expect(swimSprint({ ...base, stamina: 5, exhausted: released.exhausted }).sprinting).toBe(true);
   });
 });

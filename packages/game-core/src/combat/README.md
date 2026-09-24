@@ -32,10 +32,11 @@ Poise (`poise.ts`) and backstab entry (`backstab.ts`) decide *reactions* and
 runtime arms one sensor per hand and each hand resolves its own contact once
 per attack, through `resolveHit` with that hand's weapon: its damage, class
 effects, skill and poise. Dual wield's attacks (`offLight`, `offPower`,
-`dualPower`, `equipment/movesets/dualWield.ts`) run as the `light1` / `heavy`
-actions (`attackAction`) and never chain. Off-hand attack presses come from
-`intent.offHandPresses`: desktop taps and holds the guard button, a pad or
-touch screen presses guard (light) and parry (power).
+`dualPower`, `equipment/movesets/dualWield.ts`) run as combat actions of the
+same names and never chain; the enemy AI reads them as the light and heavy
+they cost. Off-hand attack presses are the input controller's `offLight` /
+`offHeavy` actions (`io/input.ts`): desktop taps and holds the guard button, a
+pad or touch screen presses guard (light) and parry (power).
 
 ## The effects vocabulary
 

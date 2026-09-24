@@ -19,7 +19,8 @@ import type { LightSourceSpec } from "@elder-souls/game-core/fx/carriedLight";
  * Luminous intensity of a fully lit carried source, candela, at the light's
  * own record radius. Not in the LIGH record (Skyrim's lights are unitless);
  * chosen so a torch reads as the brightest thing within a couple of metres
- * under the sandbox's daylight, and tunable here in one place.
+ * under the sandbox's daylight, and tunable here in one place. 6 cd is the
+ * default, owner-overridable (lane round 6).
  */
 export const CARRIED_LIGHT_CANDELA = 6;
 

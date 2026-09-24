@@ -36,14 +36,14 @@ import { enemyArchetypeById } from "@elder-souls/game-core/actors/enemyArchetype
 import { activeGuardAnimations, activeGuardProfile } from "@elder-souls/game-core/equipment/guard";
 import { loadoutAnimationPacks } from "@elder-souls/game-core/equipment/animationPacks";
 import { resolveAnimationPacks } from "@elder-souls/game-core/anim/animationManifest";
-import { SWIM_FEET_REACH, SWIM_REFERENCE_SPEED, SWIM_SAMPLE_ABOVE_BODY_CENTRE, swimClipFor, swimStateFor, swimStrokeRate, swimVelocity } from "@elder-souls/game-core/locomotion/swim";
+import { SWIM_FEET_REACH, SWIM_REFERENCE_SPEED, SWIM_SAMPLE_ABOVE_BODY_CENTRE, swimClipFor, swimSprint, swimStateFor, swimStrokeRate, swimVelocity } from "@elder-souls/game-core/locomotion/swim";
 import { submergedAt } from "@elder-souls/game-core/physics/waterSampler";
 import { CROUCH_SPEED, crouchLocomotionAnimation, nextStance, type Stance } from "@elder-souls/game-core/locomotion/stance";
 import { ARROW_POISE_DAMAGE, advancePoise, applyPoiseDamage, attackPoiseDamage, createPoise, refreshPoise, resetPoise, type PoiseState } from "@elder-souls/game-core/combat/poise";
 import { MIN_AUTHORED_GROUND_SPEED, locomotionSpeedMultiplier } from "@elder-souls/game-core/anim/locomotionCadence";
 import { BASE_FIELD_OF_VIEW, CHARACTER_BODY_CENTER_HEIGHT, CHARACTER_CHEST_ABOVE_BODY_CENTRE, CHARACTER_MODEL_OFFSET, JUMP_LAUNCH_ANIMATION_DURATION } from "@elder-souls/game-core/physics/characterPhysics";
 import { PLAYER_LOCK_ON_WALK_SPEED, PLAYER_WALK_SPEED, analogueMoveSpeed, cameraRelativeDirection, input, resolveAttackDirection } from "@elder-souls/game-core/io/input";
-import { IDLE_OFF_HAND_GESTURE, inputToIntent, offHandPresses, swimmingIntent } from "@elder-souls/game-core/combat/intent";
+import { inputToIntent, swimmingIntent } from "@elder-souls/game-core/combat/intent";
 import { loadoutCombatIdle, resolveDualWield } from "@elder-souls/game-core/equipment/movesets/dualWield";
 import { carriedLightIntensity, igniteCarriedLight, tickCarriedLight, type CarriedLightState } from "@elder-souls/game-core/fx/carriedLight";
 import { CarriedLight } from "../CarriedLight";
@@ -53,7 +53,7 @@ import { attackClipTiming, UNIT_CLIP_TIMING, type ClipTiming } from "@elder-soul
 import "./visualTelemetry";
 import type { AnimationState, CombatAction } from "@elder-souls/game-core/core/types";
 import type { AttackDefinition, WeaponDefinition } from "@elder-souls/game-core/equipment/types";
-import { COMBAT_TUNING, attackAction, attackDuration, comboCrossFadeDuration, comboEntryTime, comboQueueOpen, comboSuccessorStartTime, comboTransitionTime, criticalVictimPlaybackAt, getComboSuccessor, hitReactionForAttack, isBackstabPosition, isParryActive, isRollInvulnerable, isWeaponHitboxActive, parryActionDuration, phaseAt } from "@elder-souls/game-core/combat/weapon";
+import { COMBAT_TUNING, attackDuration, comboCrossFadeDuration, comboEntryTime, comboQueueOpen, comboSuccessorStartTime, comboTransitionTime, criticalVictimPlaybackAt, getComboSuccessor, hitReactionForAttack, isBackstabPosition, isParryActive, isRollInvulnerable, isWeaponHitboxActive, parryActionDuration, phaseAt } from "@elder-souls/game-core/combat/weapon";
 import { PARRY_VOLUME_MARGIN_METERS } from "@elder-souls/game-core/combat/hitVolume";
 import { footAnchoredLoopVelocity, footAnchoredSourceVelocity, footAnchoredVelocity, hasGroundTrack, localMotionToWorld } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
 import { lockedStrideClip, lockedStrideRateFor, strideRateForMagnitude } from "@elder-souls/game-core/locomotion/lockedStride";
@@ -306,17 +306,6 @@ export function CombatRuntime({
   const playerOffHitboxActive = useRef(false);
   /** Which hands have already landed this attack: each resolves its contact once. */
   const playerHandHit = useRef({ main: false, off: false });
-  /** The guard control's tap-or-hold, turned into off-hand attacks. */
-  const offHandGesture = useRef(IDLE_OFF_HAND_GESTURE);
-  /**
-   * Desktop gets the tap-or-hold guard gesture; a pad or a touch screen press
-   * guard for the light and parry for the power attack. Detected once, as the
-   * inventory does, because a device does not change shape mid-session.
-   */
-  const coarsePointer = useMemo(
-    () => typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches === true,
-    [],
-  );
   /**
    * The carried light's burn (decision 0091) and its 0-1 level this frame.
    * The level is the one number the flame, the point light and (round 4)
@@ -364,6 +353,8 @@ export function CombatRuntime({
   const dodgeDirection = useRef(new THREE.Vector3(0, 0, -1));
   const moveMagnitudeRef = useRef(0);
   const sprintingRef = useRef(false);
+  /** A sprint-swim that ran stamina out stays off until the sprint input is let go. */
+  const swimSprintExhausted = useRef(false);
   const movementAllowedRef = useRef(true);
   const playerLocomotionReversing = useRef(false);
   // Lock-on strafe/walk clips are authored for free-roam pace; nudging the
@@ -731,7 +722,8 @@ export function CombatRuntime({
     restartAnimation = true,
     /**
      * The attack this action performs, when it is not the weapon's own attack
-     * of the same name: dual wield's (decision 0091) run as `light1` / `heavy`.
+     * of the same name: dual wield's (decision 0091), and a queued heavy that
+     * is the both-blades power attack.
      */
     attackOverride: AttackDefinition | null = null,
   ) => {
@@ -1359,7 +1351,6 @@ export function CombatRuntime({
     playerHitboxActive.current = false;
     playerOffHitboxActive.current = false;
     playerParryActive.current = false;
-    offHandGesture.current = IDLE_OFF_HAND_GESTURE;
     comboQueued.current = null;
     rollAttackQueued.current = null;
     backstepAttackQueued.current = false;
@@ -1552,19 +1543,6 @@ export function CombatRuntime({
     input.setDesktopMeleeInput(!playerWeapon.stats.ranged);
     input.update();
     let intent = inputToIntent(input);
-    {
-      // Dual wield turns the guard control into the off hand's attacks. The
-      // gesture is tracked whatever is held, so a weapon taken into the off
-      // hand mid-press does not fire a stale edge.
-      const off = offHandPresses(offHandGesture.current, {
-        guardHeld: intent.guardHeld,
-        parryHeld: input.held("parry"),
-        tapHold: !coarsePointer && !input.gamepadName,
-      }, frameDelta);
-      offHandGesture.current = off.gesture;
-      intent.offLightPressed = off.offLightPressed;
-      intent.offHeavyPressed = off.offHeavyPressed;
-    }
     const dualWield = playerDualWield;
     let delta = frameDelta;
     if (hitStop.current > 0) {
@@ -1770,11 +1748,17 @@ export function CombatRuntime({
       }
     }
     const lockTarget = lockedOn.current && lockTargetIndex.current >= 0 ? enemies[lockTargetIndex.current] : null;
-    const sprinting = lockOnSprintAllowed(lockedOn.current)
+    const sprintInput = lockOnSprintAllowed(lockedOn.current)
       && intent.dodgeHeld
       && dodgeHold.current > 0.22
       && moveMagnitude > 0.15
       && playerAction.current === "idle";
+    // In the water the same input is the sprint-swim, while stamina lasts.
+    const swimSprintState = swimming
+      ? swimSprint({ sprintInput, stamina: playerStamina.current, exhausted: swimSprintExhausted.current })
+      : null;
+    swimSprintExhausted.current = swimSprintState?.exhausted ?? false;
+    const sprinting = swimSprintState ? swimSprintState.sprinting : sprintInput;
     sprintingRef.current = sprinting;
     // Crouch is a toggle resolved after sprint, because breaking into a run
     // stands you up — and it is refused mid-action, so you cannot duck out of
@@ -2020,10 +2004,10 @@ export function CombatRuntime({
       combatAudio.play("heal");
     } else if (canStartAction && dualWield && intent.offHeavyPressed && equipped.current && spendStamina(dualWield.offPower.stamina)) {
       // Dual wield: the guard control is the off hand's attack. No block, no parry.
-      startPlayerAction(attackAction(dualWield.offPower), dualWield.offPower.animation, 0, undefined, null, true, dualWield.offPower);
+      startPlayerAction(dualWield.offPower.id, dualWield.offPower.animation, 0, undefined, null, true, dualWield.offPower);
       combatAudio.play("swing");
     } else if (canStartAction && dualWield && intent.offLightPressed && equipped.current && spendStamina(dualWield.offLight.stamina)) {
-      startPlayerAction(attackAction(dualWield.offLight), dualWield.offLight.animation, 0, undefined, null, true, dualWield.offLight);
+      startPlayerAction(dualWield.offLight.id, dualWield.offLight.animation, 0, undefined, null, true, dualWield.offLight);
       combatAudio.play("swing");
     } else if (canStartAction && !dualWield && intent.parryPressed && equipped.current && spendStamina(COMBAT_TUNING.parryCost)) {
       startPlayerAction("parry", playerGuardAnimations.parry.intro);
@@ -2032,7 +2016,7 @@ export function CombatRuntime({
       // The weapon's own heavy, not the reference sword's. Hard-coding the
       // semantic here was invisible while there was one moveset and became a
       // greatsword opening with a one-handed swing the moment there were three.
-      startPlayerAction(attackAction(mainHeavy), mainHeavy.animation, 0, undefined, null, true, mainHeavy);
+      startPlayerAction(mainHeavy.id, mainHeavy.animation, 0, undefined, null, true, mainHeavy);
       combatAudio.play("swing");
     } else if (canStartAction && (intent.lightPressed || riposteQueued.current > 0) && equipped.current) {
       // Riposte the nearest enemy we just parried; otherwise backstab the
@@ -2085,7 +2069,7 @@ export function CombatRuntime({
           ? playerWeapon.animations.backstab
           : null;
       if (spendStamina(attack.stamina)) {
-        startPlayerAction(attackAction(attack), attack.animation, 0, undefined, criticalPair?.entryBlendDuration ?? null, true, attack);
+        startPlayerAction(attack.id, attack.animation, 0, undefined, criticalPair?.entryBlendDuration ?? null, true, attack);
         if (criticalPair && victim && (attack.id === "backstab" || attack.id === "riposte")) {
           const priorVictimAnimation = victim.animCommand.current.state;
           const priorVictimTime = victim.fighter.actionTime;
@@ -2372,7 +2356,7 @@ export function CombatRuntime({
         if (nextAttack && spendStamina(nextAttack.stamina)) {
           const successorStart = comboEntryTime(nextAttack) + comboSuccessorStartTime(playerActionTime.current, attack);
           startPlayerAction(
-            attackAction(nextAttack),
+            nextAttack.id,
             nextAttack.animation,
             successorStart,
             playerAttackDirection.current,
@@ -2428,7 +2412,7 @@ export function CombatRuntime({
             body.setAngvel({ x: 0, y: 0, z: 0 }, true);
             body.setRotation(tmp.current.quaternion, true);
             body.setLinvel({ x: 0, y: body.linvel().y, z: 0 }, true);
-            startPlayerAction(attackAction(queuedAttack), queuedAttack.animation, 0, tmp.current.movement, null, true, queuedAttack);
+            startPlayerAction(queuedAttack.id, queuedAttack.animation, 0, tmp.current.movement, null, true, queuedAttack);
             combatAudio.play("swing");
           } else {
             rollAttackQueued.current = null;
@@ -2456,7 +2440,7 @@ export function CombatRuntime({
             handle.setLockForward(true);
             body.setAngvel({ x: 0, y: 0, z: 0 }, true);
             body.setRotation(tmp.current.quaternion, true);
-            startPlayerAction(attackAction(queuedAttack), queuedAttack.animation, 0, tmp.current.movement, null, true, queuedAttack);
+            startPlayerAction(queuedAttack.id, queuedAttack.animation, 0, tmp.current.movement, null, true, queuedAttack);
             attackDashDistance.current = travelled * BACKSTEP_ATTACK_DASH_FRACTION;
             combatAudio.play("swing");
           } else {
@@ -2562,11 +2546,11 @@ export function CombatRuntime({
 
     if (swimming) {
       // The stroke: camera-relative, at the stats model's reference swim speed
-      // (sprint swims at the same speed until the owner rules on a sprint
-      // stroke), the body turning toward where it goes. The forward stroke's
-      // cadence follows the stick; the others play at their authored rate.
+      // or the sprint-swim's (`swimSprint`, stamina drained with the ground
+      // sprint's above), the body turning toward where it goes. The forward
+      // stroke's cadence follows the stick; the others play at their authored rate.
       const velocity = playerAction.current === "idle"
-        ? swimVelocity(intent.move, cameraYaw.current, SWIM_REFERENCE_SPEED)
+        ? swimVelocity(intent.move, cameraYaw.current, swimSprintState?.speed ?? SWIM_REFERENCE_SPEED)
         : { x: 0, z: 0 };
       const moving = velocity.x !== 0 || velocity.z !== 0;
       playerController.swim({

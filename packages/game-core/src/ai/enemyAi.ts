@@ -1,5 +1,6 @@
 import type { CombatAction, CombatPhase } from "../core/types";
 import { STRAIGHT_SWORD } from "../equipment/arsenal";
+import type { AttackId } from "../equipment/types";
 import { weaponTactics, type WeaponTactics } from "./weaponTactics";
 
 /**
@@ -58,10 +59,25 @@ function personalityBias(personality: number, index: number) {
   return (Math.sin(personality * 133.7 + index * 12.9898) * 0.5) * 0.16;
 }
 
+/**
+ * The reference sword's attack a player action reads as, or null for an
+ * action that is no swing. Dual wield's (decision 0091) read as the light and
+ * heavy they cost and hit like.
+ */
+function referenceAttackId(action: CombatAction): AttackId | null {
+  switch (action) {
+    case "offLight": return "light1";
+    case "offPower":
+    case "dualPower": return "heavy";
+    default: return action in STRAIGHT_SWORD.attacks ? action as AttackId : null;
+  }
+}
+
 export function scoreEnemyIntents(context: EnemyAiContext): EnemyIntentScore[] {
   const tactics = context.tactics ?? SWORD_TACTICS;
   const incoming = context.playerPhase === "windup" || context.playerPhase === "active";
-  const heavyIncoming = context.playerAction === "heavy" || context.playerAction === "heavy2";
+  const playerAttackId = referenceAttackId(context.playerAction);
+  const heavyIncoming = playerAttackId === "heavy" || playerAttackId === "heavy2";
   const hurt = clamp01((0.48 - context.healthRatio) / 0.36);
   // Every threshold below is the weapon's own geometry, not a constant. A
   // "close" of 1 means standing where this weapon wants to strike from.
@@ -72,8 +88,7 @@ export function scoreEnemyIntents(context: EnemyAiContext): EnemyIntentScore[] {
   const crowded = context.distance < tactics.crowdedRange;
   // Reacting to a swing is about *the player's* reach, not the enemy's — an
   // archer at nine metres has nothing to dodge.
-  const referenceAttack = STRAIGHT_SWORD.attacks[context.playerAction as keyof typeof STRAIGHT_SWORD.attacks]
-    ?? STRAIGHT_SWORD.attacks.light1;
+  const referenceAttack = STRAIGHT_SWORD.attacks[playerAttackId ?? "light1"];
   const threatReach = context.playerAttackReach ?? referenceAttack.range;
   const threatened = incoming && context.distance < threatReach + 0.5;
   const safeToHeal = context.distance > tactics.disengageRange || context.playerRecovering;

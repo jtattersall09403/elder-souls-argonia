@@ -1,55 +1,33 @@
 import { describe, expect, it } from "vitest";
-import { DESKTOP_HEAVY_HOLD_SECONDS } from "../io/input";
-import { IDLE_OFF_HAND_GESTURE, offHandPresses, swimmingIntent, type OffHandGesture, type OffHandInput, type PlayerIntent } from "./intent";
+import { InputController } from "../io/input";
+import { inputToIntent, swimmingIntent, type PlayerIntent } from "./intent";
 
 /**
- * The off hand's attack controls (dual wield, decision 0091). Expected answers
- * written before the mapping: desktop taps and holds the guard button as the
- * primary button is tapped and held; a pad presses guard for the light and
- * parry for the power attack.
+ * The off hand's attack presses (dual wield, decision 0091) are the input
+ * controller's `offLight` / `offHeavy` actions, read as edges like every other
+ * press. The gesture itself is tested in io/input.test.ts.
  */
-function run(frames: readonly Partial<OffHandInput>[], tapHold: boolean, dt = 1 / 60) {
-  let gesture: OffHandGesture = IDLE_OFF_HAND_GESTURE;
-  const out: string[] = [];
-  frames.forEach((frame, index) => {
-    const step = offHandPresses(gesture, { guardHeld: false, parryHeld: false, tapHold, ...frame }, dt);
-    gesture = step.gesture;
-    if (step.offLightPressed) out.push(`light@${index}`);
-    if (step.offHeavyPressed) out.push(`heavy@${index}`);
-  });
-  return out;
-}
-
-const held = (n: number) => Array.from({ length: n }, () => ({ guardHeld: true }));
-const up = (n: number) => Array.from({ length: n }, () => ({ guardHeld: false }));
-
-describe("off-hand attack presses", () => {
-  it("desktop: a guard tap released before the hold threshold is one light attack, on release", () => {
-    expect(run([...up(1), ...held(5), ...up(3)], true)).toEqual(["light@6"]);
-  });
-
-  it("desktop: a guard held to the threshold is one power attack, and its release adds nothing", () => {
-    const frames = Math.ceil(DESKTOP_HEAVY_HOLD_SECONDS * 60) + 1;
-    const presses = run([...up(1), ...held(frames + 10), ...up(2)], true);
-    expect(presses).toHaveLength(1);
-    expect(presses[0]).toMatch(/^heavy@/);
-    const at = Number(presses[0].split("@")[1]);
-    expect((at - 1) / 60).toBeGreaterThanOrEqual(DESKTOP_HEAVY_HOLD_SECONDS - 1e-9);
-    expect((at - 2) / 60).toBeLessThan(DESKTOP_HEAVY_HOLD_SECONDS);
-  });
-
-  it("desktop: parry does not attack", () => {
-    expect(run([{ parryHeld: true }, { parryHeld: false }], true)).toEqual([]);
-  });
-
-  it("pad and touch: guard press is the light attack, parry press the power attack, on the press", () => {
-    expect(run([...up(1), ...held(30), ...up(1), { parryHeld: true }, { parryHeld: true }], false))
-      .toEqual(["light@1", "heavy@32"]);
+describe("inputToIntent: off-hand attacks", () => {
+  it("reads offLight and offHeavy presses and nothing from guard alone", () => {
+    const controller = new InputController();
+    controller.setVirtual("offLight", true);
+    controller.update(1000);
+    let intent = inputToIntent(controller);
+    expect(intent.offLightPressed).toBe(true);
+    expect(intent.offHeavyPressed).toBe(false);
+    controller.update(1016);
+    expect(inputToIntent(controller).offLightPressed).toBe(false);
+    controller.setVirtual("offLight", false);
+    controller.setVirtual("offHeavy", true);
+    controller.update(1032);
+    intent = inputToIntent(controller);
+    expect(intent.offHeavyPressed).toBe(true);
+    expect(intent.offLightPressed).toBe(false);
   });
 });
 
 describe("swimmingIntent (decision 0093)", () => {
-  it("keeps moving, looking and healing, and refuses every combat, jump and stance control", () => {
+  it("keeps moving, looking, the sprint hold and healing, and refuses every combat, dodge release, jump and stance control", () => {
     const all: PlayerIntent = {
       move: { x: 0.3, y: 1 }, camera: { x: 2, y: -1 },
       lightPressed: true, lightHeld: true, heavyPressed: true, guardHeld: true, aimExitPressed: true,
@@ -66,6 +44,6 @@ describe("swimmingIntent (decision 0093)", () => {
       .filter(([, value]) => value === true)
       .map(([key]) => key)
       .sort();
-    expect(stillTrue).toEqual(["aimExitPressed", "healPressed", "zoomInHeld", "zoomOutHeld"]);
+    expect(stillTrue).toEqual(["aimExitPressed", "dodgeHeld", "dodgePressed", "healPressed", "zoomInHeld", "zoomOutHeld"]);
   });
 });

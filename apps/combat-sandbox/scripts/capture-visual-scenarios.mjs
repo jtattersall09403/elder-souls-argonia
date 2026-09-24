@@ -1,4 +1,5 @@
 import { evaluateMeasuredReach } from "./lib/measured-reach.mjs";
+import { evaluatePlayerHits } from "./lib/visual-player-hits.mjs";
 import { evaluateSwim } from "./lib/visual-swim.mjs";
 import { spawn, spawnSync } from "node:child_process";
 import { link, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
@@ -220,6 +221,12 @@ function semanticFailures(scenario, telemetry, expected) {
         failures.push(`${scenario}: expected engagement within ${engagedWithinSeconds} s, observed ${engaged ? `${engaged.time} s` : "never"}`);
       }
     }
+  }
+  if (expected.playerHits) {
+    // Blow-by-blow damage computed before the run (e.g. sneak-swing's sneak multiplier).
+    const hits = evaluatePlayerHits(scenario, telemetry, expected.playerHits);
+    failures.push(...hits.failures);
+    if (hits.measured) console.log(`${scenario}: player hits ${JSON.stringify(hits.measured)}`);
   }
   if (expected.swim) {
     // The swim scene (decision 0093): mode, sheathed weapon, chest at the surface.

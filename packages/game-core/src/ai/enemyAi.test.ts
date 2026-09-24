@@ -17,6 +17,15 @@ describe("enemy utility AI", () => {
     expect(selectEnemyIntent({ ...base, playerAction: "heavy", playerPhase: "windup" }, 0.5)).toBe("dodge");
   });
 
+  it("reads dual wield's power attacks as heavies and its off-hand light as a light (decision 0091)", () => {
+    for (const playerAction of ["offPower", "dualPower"] as const) {
+      expect(scoreEnemyIntents({ ...base, playerAction, playerPhase: "windup" }))
+        .toEqual(scoreEnemyIntents({ ...base, playerAction: "heavy", playerPhase: "windup" }));
+    }
+    expect(scoreEnemyIntents({ ...base, playerAction: "offLight", playerPhase: "windup" }))
+      .toEqual(scoreEnemyIntents({ ...base, playerAction: "light1", playerPhase: "windup" }));
+  });
+
   it("can heal when hurt and safely separated", () => {
     expect(selectEnemyIntent({ ...base, distance: 4, healthRatio: 0.18 }, 0.5)).toBe("heal");
   });

@@ -39,11 +39,14 @@ export const SWIM_LEAVE_IMMERSION = 0.45;
  * model's reference level, where `swimSpeed` gives 1.60 m/s.
  */
 export const SWIM_REFERENCE_ATHLETICS = 50;
-/**
- * Swim speed at the reference Athletics, m/s. Sprinting swims at this speed
- * too: a sprint-swim multiplier is an owner call not yet made (decision 0093 §4).
- */
+/** Swim speed at the reference Athletics, m/s. */
 export const SWIM_REFERENCE_SPEED = swimSpeed(SWIM_REFERENCE_ATHLETICS);
+
+/**
+ * Sprint-swim speed over the swim speed. Default, owner-overridable (lane
+ * round 6); decision 0093 §4 left the multiplier open.
+ */
+export const SWIM_SPRINT_MULTIPLIER = 1.4;
 
 /**
  * How far below a swimmer's feet ground still counts as under them, metres:
@@ -81,6 +84,29 @@ export function swimVelocity(input: Vec2, cameraYaw: number, speed: number): { x
   const scale = magnitude > 1 ? 1 / magnitude : 1;
   const direction = cameraRelativeDirection({ x: input.x * scale, y: input.y * scale }, cameraYaw);
   return { x: direction.x * speed, z: direction.z * speed };
+}
+
+/**
+ * Whether a swimmer sprints this frame, and its top speed. The sprint input is
+ * the ground's (the dodge control held with the stick pushed); it swims at
+ * `SWIM_SPRINT_MULTIPLIER` x the swim speed and the runtime drains stamina at
+ * the ground sprint's rate (`COMBAT_TUNING.sprintDrainPerSecond`) while it
+ * does. At 0 stamina the sprint stops and stays `exhausted` until the input is
+ * let go, so regen does not switch it back on for a frame at a time.
+ */
+export function swimSprint({ sprintInput, stamina, exhausted }: {
+  sprintInput: boolean;
+  stamina: number;
+  /** The previous frame's `exhausted`. */
+  exhausted: boolean;
+}): { sprinting: boolean; exhausted: boolean; speed: number } {
+  const spent = sprintInput && (exhausted || stamina <= 0);
+  const sprinting = sprintInput && !spent;
+  return {
+    sprinting,
+    exhausted: spent,
+    speed: SWIM_REFERENCE_SPEED * (sprinting ? SWIM_SPRINT_MULTIPLIER : 1),
+  };
 }
 
 /**

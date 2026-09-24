@@ -67,6 +67,7 @@ export const VISUAL_SCENARIO_IDS = [
   "dual-wield-power",
   "torch-carry",
   "sneak-attack",
+  "sneak-swing",
   "sneak-detected",
   "swim-cross",
 ] as const;
@@ -1020,11 +1021,10 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
   // DW_POWER_LEFT's forward step shoves the warden a metre back before its
   // contact window opens (lead's telemetry, round 3), and a dagger's 0.42 m
   // blade cannot reach from the sword spacing; the both-blades scene below
-  // keeps the dagger at a metre. The capture runs
-  // headless on a desktop pointer, so the guard cue is the desktop gesture: a
-  // tap under DESKTOP_HEAVY_HOLD_SECONDS is the off hand's light, a hold past
-  // it the off hand's power attack. Poise is off so each landed blow shows as
-  // its own reaction on the warden.
+  // keeps the dagger at a metre. The cues press the input controller's
+  // off-hand actions by name (`offLight`, `offHeavy`); which physical gesture
+  // makes them is io/input.ts's business and tested there. Poise is off so each
+  // landed blow shows as its own reaction on the warden.
   "dual-wield-attack": {
     id: "dual-wield-attack",
     label: "Dual wield \u2192 off-hand light, then off-hand power attack, both landing",
@@ -1033,8 +1033,8 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     player: { ...REVIEW_PLAYER, weaponId: "steel-sword", offHandId: "iron-sword", poise: false },
     enemy: { ...REVIEW_ENEMY, health: 100 },
     cues: [
-      { from: 0.3, to: 0.4, actions: ["guard"] },
-      { from: 1.8, to: 2.3, actions: ["guard"] },
+      { from: 0.3, to: 0.39, actions: ["offLight"] },
+      { from: 1.8, to: 1.89, actions: ["offHeavy"] },
     ],
   },
   "dual-wield-power": {
@@ -1075,6 +1075,21 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     player: { position: [0, Y, -1.5], yaw: 0, weaponId: "iron-dagger", stance: "crouching" },
     stealth: { startUnaware: true, sneakSkill: 50 },
     enemy: FACING_ENEMY,
+    cues: [{ from: 0.5, to: 0.59, actions: ["light"] }],
+  },
+  // Unseen but not behind: the warden faces 90 degrees off the player, so the
+  // player is outside both the backstab's rear sector (cos <= -0.6) and the
+  // 60-degree view cone. A crouched Sneak-50 sword light press 1.6 m away is an
+  // ordinary light1 under the §121.5 sneak table (one-handed row, x3). Poise
+  // is off so the blow shows as the warden's hit reaction.
+  "sneak-swing": {
+    id: "sneak-swing",
+    label: "Sneak swing \u2192 crouched beside an unaware warden facing away sideways, a sword light1 lands at \u00d73, no backstab",
+    warmup: 0.5,
+    duration: 4.0,
+    player: { position: [0, Y, -1.6], yaw: 0, weaponId: "steel-sword", stance: "crouching", poise: false },
+    stealth: { startUnaware: true, sneakSkill: 50 },
+    enemy: { ...FACING_ENEMY, yaw: Math.PI / 2 },
     cues: [{ from: 0.5, to: 0.59, actions: ["light"] }],
   },
   "sneak-detected": {
@@ -1276,7 +1291,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
 };
 
 const SCRIPTABLE_ACTIONS: readonly InputAction[] = [
-  "light", "heavy", "guard", "parry", "dodge", "lockOn", "heal", "equip",
+  "light", "heavy", "guard", "parry", "offLight", "offHeavy", "dodge", "lockOn", "heal", "equip",
   "jump", "crouch", "targetLeft", "targetRight",
 ];
 

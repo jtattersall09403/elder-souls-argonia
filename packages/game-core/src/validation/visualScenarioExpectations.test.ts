@@ -3,6 +3,14 @@ import { MANIFEST_STATES } from "../anim/animationManifest";
 import expectations from "./visualScenarioExpectations.json";
 import { VISUAL_SCENARIOS } from "./visualScenarios";
 import { CHARACTER_CAPSULE_RADIUS } from "../physics/characterPhysics";
+import { HOLLOW_WARDEN } from "../actors/enemyArchetypes";
+import { damageAfterArmour } from "../combat/armourMitigation";
+import { isBackstabPosition } from "../combat/weapon";
+import { totalArmourRating } from "../equipment/armour";
+import { weaponById } from "../equipment/arsenal";
+import { sneakWeaponKindFor } from "../equipment/sneakWeaponKind";
+import { wornArmourFor } from "../inventory/store";
+import { sneakMultiplier } from "../stats/derived";
 
 type RunRequirement = string | { state: string };
 type ScenarioContract = {
@@ -179,5 +187,26 @@ describe("production visual scenario animation-run contracts", () => {
       expect(contract.actorSeparation.minDistanceMeters, scenario)
         .toBeGreaterThanOrEqual(CHARACTER_CAPSULE_RADIUS * 2);
     }
+  });
+
+  it("sneak-swing: the stated blow is the runtime's formula, from outside the backstab sector", () => {
+    const scene = VISUAL_SCENARIOS["sneak-swing"];
+    const weapon = weaponById(scene.player.weaponId ?? "");
+    const multiplier = sneakMultiplier(sneakWeaponKindFor(weapon.stats.class), scene.stealth?.sneakSkill ?? 0);
+    expect(multiplier).toBe(3);
+    const rating = totalArmourRating(wornArmourFor(HOLLOW_WARDEN.armour));
+    const damage = damageAfterArmour(weapon.attacks.light1.damage * multiplier, rating);
+    const [hit] = (expectations["sneak-swing"] as { playerHits: Array<{ damage: number }> }).playerHits;
+    expect(hit.damage).toBeCloseTo(damage, 2);
+
+    const enemyForward = { x: Math.sin(scene.enemy.yaw), z: Math.cos(scene.enemy.yaw) };
+    const toPlayer = {
+      x: scene.player.position[0] - scene.enemy.position[0],
+      z: scene.player.position[2] - scene.enemy.position[2],
+    };
+    expect(isBackstabPosition(enemyForward, toPlayer, Math.hypot(toPlayer.x, toPlayer.z))).toBe(false);
+    const offForwardDegrees = Math.acos((enemyForward.x * toPlayer.x + enemyForward.z * toPlayer.z)
+      / Math.hypot(toPlayer.x, toPlayer.z)) * 180 / Math.PI;
+    expect(offForwardDegrees).toBeCloseTo(90, 6);
   });
 });

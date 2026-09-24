@@ -16,6 +16,14 @@ export type CombatAction =
   | "light3"
   | "heavy"
   | "heavy2"
+  /**
+   * Dual wield (decision 0091): the off hand's light and power attacks and
+   * the both-blades power attack, each its own action so the telemetry, the
+   * enemy's read of the player and the expectations name what was swung.
+   */
+  | "offLight"
+  | "offPower"
+  | "dualPower"
   | "roll"
   | "backstep"
   | "guard"

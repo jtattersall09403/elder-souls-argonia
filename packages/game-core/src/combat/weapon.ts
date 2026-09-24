@@ -1,7 +1,6 @@
 import type { AnimationState, CombatAction } from "../core/types";
 import type {
   AttackDefinition,
-  AttackId,
   PairedCriticalProfile,
   ParryProfile,
   WeaponDefinition,
@@ -313,18 +312,3 @@ export function isBackstabPosition(
 
 export { STRAIGHT_SWORD };
 
-/**
- * The combat action an attack runs as. A weapon's own attacks are actions of
- * the same name; dual wield's (decision 0091) run as the light or heavy they
- * cost and hit like, so every rule keyed on the action (stamina regen, the
- * FSM's "attacking" test) treats them alike. Chaining reads the attack's id,
- * not the action, so an off-hand swing never chains into `light2`.
- */
-export function attackAction(attack: Pick<AttackDefinition, "id">): Extract<CombatAction, AttackId> {
-  switch (attack.id) {
-    case "offLight": return "light1";
-    case "offPower":
-    case "dualPower": return "heavy";
-    default: return attack.id;
-  }
-}
