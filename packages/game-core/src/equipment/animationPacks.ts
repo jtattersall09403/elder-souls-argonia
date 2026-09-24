@@ -1,6 +1,6 @@
 import { resolveAnimationPacks } from "../anim/animationManifest";
 import { WEAPON_CLASSES, resolveMoveset } from "./weaponClasses";
-import type { Loadout, WeaponDefinition } from "./types";
+import type { Loadout, WeaponDefinition, OffHandItem } from "./types";
 
 /**
  * Which animation packs an actor has to have loaded to fight with what it is
@@ -21,10 +21,17 @@ export function weaponAnimationPacks(weapon: WeaponDefinition): readonly string[
   return profile ? [resolveMoveset(profile).pack] : [];
 }
 
+/** The pack each kind of off-hand item plays from. */
+const OFF_HAND_PACK: Readonly<Record<OffHandItem["kind"], string>> = {
+  shield: "shield",
+  weapon: "dualWield",
+  torch: "torch",
+};
+
 export function loadoutAnimationPacks(loadout: Loadout): readonly string[] {
   return resolveAnimationPacks([
     ...weaponAnimationPacks(loadout.mainHand),
-    // The off hand brings its own guard motion, so it brings its own pack.
-    ...(loadout.offHand ? ["shield"] : []),
+    // The off hand brings its own motion, so it brings its own pack.
+    ...(loadout.offHand ? [OFF_HAND_PACK[loadout.offHand.kind]] : []),
   ]);
 }

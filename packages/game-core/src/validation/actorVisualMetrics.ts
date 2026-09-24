@@ -55,6 +55,13 @@ export type ActorVisualSample = {
   weaponTip: [number, number, number] | null;
   /** Actual measured hit volume, in world metres, for independent reach checks. */
   weaponCapsule?: { from: [number, number, number]; to: [number, number, number]; radius: number };
+  /**
+   * The off-hand item's grip and a point 0.4 m along its +Z (blade tip, flame
+   * end), world metres; absent with nothing in the off hand. What proves an
+   * off-hand mount (round 3 §7) against `bones.handL`.
+   */
+  offHandGrip?: [number, number, number];
+  offHandTip?: [number, number, number];
 };
 
 export type ActorVisualProbe = {

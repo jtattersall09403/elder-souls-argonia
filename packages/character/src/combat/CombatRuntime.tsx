@@ -40,14 +40,17 @@ import { ARROW_POISE_DAMAGE, advancePoise, applyPoiseDamage, attackPoiseDamage, 
 import { MIN_AUTHORED_GROUND_SPEED, locomotionSpeedMultiplier } from "@elder-souls/game-core/anim/locomotionCadence";
 import { BASE_FIELD_OF_VIEW, CHARACTER_BODY_CENTER_HEIGHT, CHARACTER_MODEL_OFFSET, JUMP_LAUNCH_ANIMATION_DURATION } from "@elder-souls/game-core/physics/characterPhysics";
 import { PLAYER_LOCK_ON_WALK_SPEED, PLAYER_WALK_SPEED, analogueMoveSpeed, cameraRelativeDirection, input, resolveAttackDirection } from "@elder-souls/game-core/io/input";
-import { inputToIntent } from "@elder-souls/game-core/combat/intent";
+import { IDLE_OFF_HAND_GESTURE, inputToIntent, offHandPresses } from "@elder-souls/game-core/combat/intent";
+import { loadoutCombatIdle, resolveDualWield } from "@elder-souls/game-core/equipment/movesets/dualWield";
+import { carriedLightIntensity, igniteCarriedLight, tickCarriedLight, type CarriedLightState } from "@elder-souls/game-core/fx/carriedLight";
+import { CarriedLight } from "../CarriedLight";
 import { lockOnOrientationWarp, lockOnSprintAllowed, lockOnYaws } from "@elder-souls/game-core/anim/lockOn";
 import type { CombatRuntimeHost } from "./host";
 import { attackClipTiming, UNIT_CLIP_TIMING, type ClipTiming } from "@elder-souls/game-core/anim/clipTiming";
 import "./visualTelemetry";
 import type { AnimationState, CombatAction } from "@elder-souls/game-core/core/types";
-import type { AttackDefinition } from "@elder-souls/game-core/equipment/types";
-import { COMBAT_TUNING, attackDuration, comboCrossFadeDuration, comboEntryTime, comboQueueOpen, comboSuccessorStartTime, comboTransitionTime, criticalVictimPlaybackAt, getComboSuccessor, hitReactionForAttack, isBackstabPosition, isParryActive, isRollInvulnerable, isWeaponHitboxActive, parryActionDuration, phaseAt } from "@elder-souls/game-core/combat/weapon";
+import type { AttackDefinition, WeaponDefinition } from "@elder-souls/game-core/equipment/types";
+import { COMBAT_TUNING, attackAction, attackDuration, comboCrossFadeDuration, comboEntryTime, comboQueueOpen, comboSuccessorStartTime, comboTransitionTime, criticalVictimPlaybackAt, getComboSuccessor, hitReactionForAttack, isBackstabPosition, isParryActive, isRollInvulnerable, isWeaponHitboxActive, parryActionDuration, phaseAt } from "@elder-souls/game-core/combat/weapon";
 import { PARRY_VOLUME_MARGIN_METERS } from "@elder-souls/game-core/combat/hitVolume";
 import { footAnchoredLoopVelocity, footAnchoredSourceVelocity, footAnchoredVelocity, hasGroundTrack, localMotionToWorld } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
 import { lockedStrideClip, lockedStrideRateFor, strideRateForMagnitude } from "@elder-souls/game-core/locomotion/lockedStride";
@@ -74,6 +77,9 @@ import { EnemyActor } from "./EnemyActor";
 import { useCarriedAssetWarmup } from "./useCarriedAssetWarmup";
 import { stepEnemy, type EnemyStepContext } from "./enemyStep";
 import { ENEMY_FELLED_MESSAGE_DURATION, PARRY_HIT_GRACE_SECONDS, PLAYER_HURTBOX_NAME } from "./combatConstants";
+
+/** The off-hand blade's sensor name (dual wield). */
+const PLAYER_OFF_HAND_WEAPON = "player-offhand-weapon";
 
 /** World up, for yaw rotations. Module-private and never written. */
 const UP = new THREE.Vector3(0, 1, 0);
@@ -149,6 +155,7 @@ export function CombatRuntime({
   settings,
   publish,
   onArrowSample,
+  lightEnvironment,
   visualScenario = null,
   layout = DEFAULT_ENCOUNTER_LAYOUT,
 }: CombatRuntimeProps) {
@@ -195,8 +202,30 @@ export function CombatRuntime({
    */
   const playerWeapon = useMemo(() => {
     const base = playerLoadout.mainHand;
-    return { ...base, attacks: applyMeleeModifiers(base.attacks, playerMeleeModifiers(skillsEnabled, meleeSkill, base.stats.class)) };
+    return {
+      ...base,
+      attacks: applyMeleeModifiers(base.attacks, playerMeleeModifiers(skillsEnabled, meleeSkill, base.stats.class)),
+      // Two blades stand in their own idle (DW_IDLE); everything else is the main hand's.
+      animations: { ...base.animations, combatIdle: loadoutCombatIdle(playerLoadout) },
+    };
   }, [playerLoadout, meleeSkill, skillsEnabled]);
+  /**
+   * Dual wield (decision 0091): the weapon in the left hand and the attacks a
+   * weapon in each hand adds, re-costed for skill as the main hand's are. Null
+   * with a shield, a torch or an empty off hand.
+   */
+  const playerOffWeapon: WeaponDefinition | null = playerLoadout.offHand?.kind === "weapon" ? playerLoadout.offHand : null;
+  const playerDualWield = useMemo(() => {
+    const attacks = resolveDualWield(playerLoadout);
+    if (!attacks || !playerOffWeapon) return null;
+    const offMods = playerMeleeModifiers(skillsEnabled, meleeSkill, playerOffWeapon.stats.class);
+    const mainMods = playerMeleeModifiers(skillsEnabled, meleeSkill, playerLoadout.mainHand.stats.class);
+    const off = applyMeleeModifiers({ offLight: attacks.offLight, offPower: attacks.offPower }, offMods);
+    const both = applyMeleeModifiers({ dualPower: attacks.dualPower }, mainMods);
+    return { offLight: off.offLight, offPower: off.offPower, dualPower: both.dualPower, dualPowerOffHandDamage: attacks.dualPowerOffHandDamage };
+  }, [playerLoadout, playerOffWeapon, meleeSkill, skillsEnabled]);
+  /** A torch in the off hand, for its light, its pose and its burn. */
+  const playerTorch = playerLoadout.offHand?.kind === "torch" ? playerLoadout.offHand : null;
   /** Bleeds and the like the player is carrying. The player has no Fighter. */
   const playerStatus = useRef<ActiveStatusEffect[]>([]);
   const consumeArrow = useInventoryStore((state) => state.remove);
@@ -229,6 +258,30 @@ export function CombatRuntime({
   const playerWeaponOverlaps = useRef(new OverlapCounter());
   const playerParryOverlaps = useRef(new OverlapCounter());
   const playerHitboxActive = useRef(false);
+  /** The off-hand blade's sensor (dual wield), armed by the attack's `hand`. */
+  const playerOffWeaponOverlaps = useRef(new OverlapCounter());
+  const playerOffHitboxActive = useRef(false);
+  /** Which hands have already landed this attack: each resolves its contact once. */
+  const playerHandHit = useRef({ main: false, off: false });
+  /** The guard control's tap-or-hold, turned into off-hand attacks. */
+  const offHandGesture = useRef(IDLE_OFF_HAND_GESTURE);
+  /**
+   * Desktop gets the tap-or-hold guard gesture; a pad or a touch screen press
+   * guard for the light and parry for the power attack. Detected once, as the
+   * inventory does, because a device does not change shape mid-session.
+   */
+  const coarsePointer = useMemo(
+    () => typeof window !== "undefined" && window.matchMedia?.("(pointer: coarse)").matches === true,
+    [],
+  );
+  /**
+   * The carried light's burn (decision 0091) and its 0-1 level this frame.
+   * The level is the one number the flame, the point light and (round 4)
+   * stealth read.
+   */
+  const carriedLight = useRef<CarriedLightState | null>(null);
+  const carriedLightLevel = useRef(0);
+  const carriedLightClock = useRef(0);
   // Parry checks a wide shield zone in front of the player rather than the
   // weapon's own thin volume (see ParryShield) — landing a parry shouldn't
   // require exact blade-to-blade contact.
@@ -437,6 +490,7 @@ export function CombatRuntime({
     soleL: new THREE.Vector3(),
     soleR: new THREE.Vector3(),
     soleWorld: new THREE.Vector3(),
+    lightWorld: new THREE.Vector3(),
     quaternion: new THREE.Quaternion(),
   });
   const { camera } = useThree();
@@ -595,12 +649,17 @@ export function CombatRuntime({
      * player never saw stop.
      */
     restartAnimation = true,
+    /**
+     * The attack this action performs, when it is not the weapon's own attack
+     * of the same name: dual wield's (decision 0091) run as `light1` / `heavy`.
+     */
+    attackOverride: AttackDefinition | null = null,
   ) => {
     playerAction.current = action;
     playerActionTime.current = startAt;
-    playerAttack.current = action === "light1" || action === "light2" || action === "light3" || action === "heavy" || action === "heavy2" || action === "riposte" || action === "backstab"
+    playerAttack.current = attackOverride ?? (action === "light1" || action === "light2" || action === "light3" || action === "heavy" || action === "heavy2" || action === "riposte" || action === "backstab"
       ? playerWeapon.attacks[action]
-      : null;
+      : null);
     if (playerAttack.current) {
       const axis = direction ?? player.current?.bodyZAxis;
       if (axis) {
@@ -616,6 +675,8 @@ export function CombatRuntime({
       }
     }
     playerAttackHit.current = false;
+    playerHandHit.current.main = false;
+    playerHandHit.current.off = false;
     comboQueued.current = null;
     if (action !== "roll") rollAttackQueued.current = null;
     if (action !== "backstep") backstepAttackQueued.current = false;
@@ -654,17 +715,27 @@ export function CombatRuntime({
     setAnim(equipped.current ? playerWeapon.animations.combatIdle : "IDLE");
   }, [playerWeapon, setAnim, setEnemyMode]);
 
-  const damageEnemy = useCallback((e: EnemyRuntime, execution: "riposte" | "backstab" | null = null) => {
-    const attack = playerAttack.current;
-    if (!attack) return false;
+  const damageEnemy = useCallback((
+    e: EnemyRuntime,
+    execution: "riposte" | "backstab" | null = null,
+    /** Which blade landed: its class, skill and damage decide the blow. */
+    hand: "main" | "off" = "main",
+  ) => {
+    const current = playerAttack.current;
+    if (!current) return false;
+    const handWeapon = hand === "off" && playerOffWeapon ? playerOffWeapon : playerWeapon;
+    // The off blade in the both-blades power attack hits with its own weapon's damage.
+    const attack = hand === "off" && current.hand === "both" && playerDualWield
+      ? { ...current, damage: playerDualWield.dualPowerOffHandDamage }
+      : current;
     const f = e.fighter;
     const enemyWeapon = f.archetype.loadout.mainHand;
     const result = resolveHit(f.health, f.stamina, {
       attack,
       // What the class itself does on a hit (bleed, armour pierce), and how well
       // the player swings it. Both read at the moment of contact.
-      effects: settingsRef.current.classEffectsEnabled ? WEAPON_CLASSES[playerWeapon.stats.class].effects : [],
-      attacker: playerMeleeModifiers(settingsRef.current.skillsEnabled, settingsRef.current.meleeSkill, playerWeapon.stats.class),
+      effects: settingsRef.current.classEffectsEnabled ? WEAPON_CLASSES[handWeapon.stats.class].effects : [],
+      attacker: playerMeleeModifiers(settingsRef.current.skillsEnabled, settingsRef.current.meleeSkill, handWeapon.stats.class),
       critRoll: visualScenario ? 1 : Math.random(),
       // A guard only covers what the defender is facing. Without this a
       // shield stopped a sword swung into the back of its owner's head.
@@ -676,12 +747,21 @@ export function CombatRuntime({
       armourRating: totalArmourRating(wornArmourFor(f.archetype.armour)),
     });
     if (result.kind === "iframe") return false;
+    const telemetry = visualScenario ? window.__COMBAT_VISUAL_SCENARIO__ : undefined;
+    telemetry?.playerHits?.push({
+      time: Number((visualDriver.current?.elapsed ?? 0).toFixed(3)),
+      attack: attack.id,
+      hand,
+      damage: Number((f.health - result.health).toFixed(2)),
+      enemyHealthAfter: Number(result.health.toFixed(2)),
+    });
     const reaction = hitReactionForAttack(attack);
     if (result.kind === "blocked") {
       f.health = result.health;
       f.stamina = result.stamina;
       f.staminaCooldown = COMBAT_TUNING.staminaRegenDelay;
       playerHitboxActive.current = false;
+      playerOffHitboxActive.current = false;
       comboQueued.current = null;
       hitStop.current = Math.max(hitStop.current, result.hitStop);
       const attacker = player.current;
@@ -746,7 +826,7 @@ export function CombatRuntime({
       // large, a warhammer staggers through almost anything.
       const broke = !poiseEnabled || applyPoiseDamage(
         f.poise,
-        attackPoiseDamage(playerWeapon.stats.class, attack.id),
+        attackPoiseDamage(handWeapon.stats.class, attack.id),
       ).staggered;
       if (broke) {
         f.staggerDuration = f.archetype.stateDurations.staggerLight;
@@ -754,7 +834,7 @@ export function CombatRuntime({
       }
     }
     return true;
-  }, [announce, clearLockIfTarget, playerWeapon, poiseEnabled, setEnemyAnim, setEnemyMode, startPlayerAction, triggerShake]);
+  }, [announce, clearLockIfTarget, playerDualWield, playerOffWeapon, playerWeapon, poiseEnabled, setEnemyAnim, setEnemyMode, startPlayerAction, triggerShake, visualScenario]);
 
   /**
    * An arrow arriving somewhere.
@@ -1166,10 +1246,15 @@ export function CombatRuntime({
     playerActionTime.current = 0;
     playerAttack.current = null;
     playerAttackHit.current = false;
+    playerHandHit.current.main = false;
+    playerHandHit.current.off = false;
     playerWeaponOverlaps.current.clear();
+    playerOffWeaponOverlaps.current.clear();
     playerParryOverlaps.current.clear();
     playerHitboxActive.current = false;
+    playerOffHitboxActive.current = false;
     playerParryActive.current = false;
+    offHandGesture.current = IDLE_OFF_HAND_GESTURE;
     comboQueued.current = null;
     rollAttackQueued.current = null;
     backstepAttackQueued.current = false;
@@ -1268,6 +1353,7 @@ export function CombatRuntime({
         observedEnemyActions: [],
         observedEnemyAnimations: [],
         events: [],
+        playerHits: [],
         visualFrames: [],
       };
     }
@@ -1287,17 +1373,27 @@ export function CombatRuntime({
     // afterwards would fight the equip rule rather than express the scene.
     if (staged.emptyOffHand) unequip("offHand");
     if (staged.weaponId) equip(staged.weaponId);
-    if (staged.offHandId) equip(staged.offHandId);
+    // "offHand": a weapon named here is the second blade (dual wield); a
+    // shield or a torch goes to the off hand either way.
+    if (staged.offHandId) equip(staged.offHandId, "offHand");
     if (staged.ammoId) equip(staged.ammoId);
   }, [visualScenario]);
+
+  // A torch lights as it is taken in hand, and goes dark when it leaves it.
+  useEffect(() => {
+    carriedLight.current = playerTorch ? igniteCarriedLight(playerTorch.light) : null;
+    carriedLightLevel.current = 0;
+  }, [playerTorch]);
 
   useEffect(() => {
     if (enemyEnabled) return;
     lockedOn.current = false;
     lockTargetIndex.current = -1;
     playerWeaponOverlaps.current.clear();
+    playerOffWeaponOverlaps.current.clear();
     playerParryOverlaps.current.clear();
     playerHitboxActive.current = false;
+    playerOffHitboxActive.current = false;
     playerParryActive.current = false;
     for (const e of enemies) {
       e.overlaps.current.clear();
@@ -1344,6 +1440,20 @@ export function CombatRuntime({
     input.setDesktopMeleeInput(!playerWeapon.stats.ranged);
     input.update();
     const intent = inputToIntent(input);
+    {
+      // Dual wield turns the guard control into the off hand's attacks. The
+      // gesture is tracked whatever is held, so a weapon taken into the off
+      // hand mid-press does not fire a stale edge.
+      const off = offHandPresses(offHandGesture.current, {
+        guardHeld: intent.guardHeld,
+        parryHeld: input.held("parry"),
+        tapHold: !coarsePointer && !input.gamepadName,
+      }, frameDelta);
+      offHandGesture.current = off.gesture;
+      intent.offLightPressed = off.offLightPressed;
+      intent.offHeavyPressed = off.offHeavyPressed;
+    }
+    const dualWield = playerDualWield;
     let delta = frameDelta;
     if (hitStop.current > 0) {
       hitStop.current -= delta;
@@ -1381,6 +1491,27 @@ export function CombatRuntime({
     const aliveEnemies = activeEnemies.filter((e) => e.fighter.health > 0);
     playerActionTime.current += delta;
     staminaCooldown.current -= delta;
+    // The carried light burns on the game clock. The host says whether the
+    // flame is under water (`lightEnvironment`, fed by the water sampler in
+    // lane round 5); a spent torch is used up, taken out of the hand and out
+    // of the pack.
+    if (playerTorch && carriedLight.current) {
+      carriedLightClock.current += delta;
+      const flame = playerOffHandObject.current?.getWorldPosition(tmp.current.lightWorld) ?? playerPos;
+      const environment = lightEnvironment?.({ x: flame.x, y: flame.y, z: flame.z }) ?? { submerged: false };
+      const next = tickCarriedLight(carriedLight.current, playerTorch.light, delta, environment);
+      carriedLight.current = next;
+      carriedLightLevel.current = carriedLightIntensity(next, playerTorch.light, carriedLightClock.current);
+      if (next.burntOut) {
+        carriedLight.current = null;
+        const store = useInventoryStore.getState();
+        store.unequip("offHand");
+        store.remove(playerTorch.id, 1);
+        announce(text(CATALOGUE, "text.combat.torch-burnt-out"), 1.2);
+      }
+    } else {
+      carriedLightLevel.current = 0;
+    }
     const playerStatusTick = tickStatusEffects(playerStatus.current, delta);
     playerStatus.current = playerStatusTick.active;
     if (playerStatusTick.damage > 0 && playerHealth.current > 0) {
@@ -1493,6 +1624,9 @@ export function CombatRuntime({
       if (intent.lightPressed) rollAttackQueued.current = "light";
       if (intent.heavyPressed) rollAttackQueued.current = "heavy";
     }
+    // With a blade in each hand the main hand's heavy is the both-blades
+    // power attack (decision 0091).
+    const mainHeavy = dualWield ? dualWield.dualPower : playerWeapon.attacks.heavy;
     // A riposte pressed *during* the parry is kept.
     //
     // The whole point of a parry is that you commit to it before you know it
@@ -1713,14 +1847,21 @@ export function CombatRuntime({
       estus.current -= 1;
       startPlayerAction("heal", "HEAL");
       combatAudio.play("heal");
-    } else if (canStartAction && intent.parryPressed && equipped.current && spendStamina(COMBAT_TUNING.parryCost)) {
+    } else if (canStartAction && dualWield && intent.offHeavyPressed && equipped.current && spendStamina(dualWield.offPower.stamina)) {
+      // Dual wield: the guard control is the off hand's attack. No block, no parry.
+      startPlayerAction(attackAction(dualWield.offPower), dualWield.offPower.animation, 0, undefined, null, true, dualWield.offPower);
+      combatAudio.play("swing");
+    } else if (canStartAction && dualWield && intent.offLightPressed && equipped.current && spendStamina(dualWield.offLight.stamina)) {
+      startPlayerAction(attackAction(dualWield.offLight), dualWield.offLight.animation, 0, undefined, null, true, dualWield.offLight);
+      combatAudio.play("swing");
+    } else if (canStartAction && !dualWield && intent.parryPressed && equipped.current && spendStamina(COMBAT_TUNING.parryCost)) {
       startPlayerAction("parry", playerGuardAnimations.parry.intro);
       announce(text(CATALOGUE, "text.combat.parry"), 0.55);
-    } else if (canStartAction && intent.heavyPressed && equipped.current && spendStamina(playerWeapon.attacks.heavy.stamina)) {
+    } else if (canStartAction && intent.heavyPressed && equipped.current && spendStamina(mainHeavy.stamina)) {
       // The weapon's own heavy, not the reference sword's. Hard-coding the
       // semantic here was invisible while there was one moveset and became a
       // greatsword opening with a one-handed swing the moment there were three.
-      startPlayerAction("heavy", playerWeapon.attacks.heavy.animation);
+      startPlayerAction(attackAction(mainHeavy), mainHeavy.animation, 0, undefined, null, true, mainHeavy);
       combatAudio.play("swing");
     } else if (canStartAction && (intent.lightPressed || riposteQueued.current > 0) && equipped.current) {
       // Riposte the nearest enemy we just parried; otherwise backstab the
@@ -1773,7 +1914,7 @@ export function CombatRuntime({
           ? playerWeapon.animations.backstab
           : null;
       if (spendStamina(attack.stamina)) {
-        startPlayerAction(attack.id, attack.animation, 0, undefined, criticalPair?.entryBlendDuration ?? null);
+        startPlayerAction(attackAction(attack), attack.animation, 0, undefined, criticalPair?.entryBlendDuration ?? null, true, attack);
         if (criticalPair && victim && (attack.id === "backstab" || attack.id === "riposte")) {
           const priorVictimAnimation = victim.animCommand.current.state;
           const priorVictimTime = victim.fighter.actionTime;
@@ -1843,7 +1984,7 @@ export function CombatRuntime({
         riposteQueued.current = 0;
       }
       }
-    } else if (playerAction.current === "idle" && intent.guardHeld && equipped.current && !ranged) {
+    } else if (playerAction.current === "idle" && intent.guardHeld && equipped.current && !ranged && !dualWield) {
       startPlayerAction("guard", playerGuardAnimations.enter);
       announce(text(CATALOGUE, "text.combat.guarding"), 0.55);
     } else if (
@@ -1889,7 +2030,11 @@ export function CombatRuntime({
         : null;
       const executionProgress = playerActionTime.current / attackDuration(attack);
       const victim = executionVictim.current;
-      playerHitboxActive.current = weaponActive && equipped.current && enemyEnabled && aliveEnemies.length > 0;
+      // One sensor per hand, armed by the attack's `hand` (dual wield).
+      const hand = attack.hand ?? "main";
+      const armed = weaponActive && equipped.current && enemyEnabled && aliveEnemies.length > 0;
+      playerHitboxActive.current = armed && hand !== "off";
+      playerOffHitboxActive.current = armed && hand !== "main" && Boolean(playerOffWeapon);
       if (
         execution
         && criticalPair
@@ -1972,9 +2117,14 @@ export function CombatRuntime({
               e.fighter.state === "parry"
               && isParryActive(e.fighter.actionTime, activeGuardAnimations(e.archetype.loadout).parry)
               && (
-                e.parryOverlaps.current.has("player-weapon")
-                || e.overlaps.current.has("player-weapon")
-                || playerWeaponOverlaps.current.has(e.hurtboxName)
+                (playerHitboxActive.current && (
+                  e.parryOverlaps.current.has("player-weapon")
+                  || e.overlaps.current.has("player-weapon")
+                  || playerWeaponOverlaps.current.has(e.hurtboxName)))
+                || (playerOffHitboxActive.current && (
+                  e.parryOverlaps.current.has(PLAYER_OFF_HAND_WEAPON)
+                  || e.overlaps.current.has(PLAYER_OFF_HAND_WEAPON)
+                  || playerOffWeaponOverlaps.current.has(e.hurtboxName)))
               )
             ) {
               parriedBy = e;
@@ -1984,6 +2134,8 @@ export function CombatRuntime({
         }
         if (parriedBy) {
           playerAttackHit.current = true;
+          playerHandHit.current.main = true;
+          playerHandHit.current.off = true;
           startPlayerAction("guardBreak", playerWeapon.animations.guardBreak);
           body.setLinvel(blockRecoilVelocity(
             playerPos,
@@ -2005,20 +2157,28 @@ export function CombatRuntime({
             && Math.abs(Math.hypot(victim.position.x - playerPos.x, victim.position.z - playerPos.z) - criticalPair.startingSeparation) < 0.28;
           if (pairedContact) {
             playerAttackHit.current = damageEnemy(victim, execution);
+            playerHandHit.current.main = playerAttackHit.current;
           }
-        } else if (!playerAttackHit.current) {
-          // Normal swing: strike the nearest overlapped living enemy.
-          let hitEnemy: EnemyRuntime | null = null;
-          let hitDist = Infinity;
-          for (const e of activeEnemies) {
-            if (e.fighter.health <= 0) continue;
-            const overlapsBody = playerWeaponOverlaps.current.has(e.hurtboxName);
-            const guardClash = e.fighter.state === "guard" && playerWeaponOverlaps.current.has(e.weaponName);
-            if (!overlapsBody && !guardClash) continue;
-            const d = (e.position.x - playerPos.x) ** 2 + (e.position.z - playerPos.z) ** 2;
-            if (d < hitDist) { hitDist = d; hitEnemy = e; }
-          }
-          if (hitEnemy) {
+        } else {
+          // Normal swing: each armed hand strikes the nearest living enemy its
+          // blade overlaps, once per attack (dual wield lands one blow per hand).
+          const blades = [
+            { hand: "main" as const, armed: playerHitboxActive.current, overlaps: playerWeaponOverlaps.current },
+            { hand: "off" as const, armed: playerOffHitboxActive.current, overlaps: playerOffWeaponOverlaps.current },
+          ];
+          for (const blade of blades) {
+            if (!blade.armed || playerHandHit.current[blade.hand]) continue;
+            let hitEnemy: EnemyRuntime | null = null;
+            let hitDist = Infinity;
+            for (const e of activeEnemies) {
+              if (e.fighter.health <= 0) continue;
+              const overlapsBody = blade.overlaps.has(e.hurtboxName);
+              const guardClash = e.fighter.state === "guard" && blade.overlaps.has(e.weaponName);
+              if (!overlapsBody && !guardClash) continue;
+              const d = (e.position.x - playerPos.x) ** 2 + (e.position.z - playerPos.z) ** 2;
+              if (d < hitDist) { hitDist = d; hitEnemy = e; }
+            }
+            if (!hitEnemy) continue;
             // Mirror of the player's parry grace: give a defending enemy's
             // active catch a few frames to claim this swing before the damage
             // forecloses it (the parry check above requires !playerAttackHit).
@@ -2028,8 +2188,11 @@ export function CombatRuntime({
               hitEnemy.parryContactGrace += delta;
             } else {
               hitEnemy.parryContactGrace = 0;
-              playerAttackHit.current = damageEnemy(hitEnemy, null);
+              playerHandHit.current[blade.hand] = damageEnemy(hitEnemy, null, blade.hand);
+              playerAttackHit.current = playerHandHit.current.main || playerHandHit.current.off;
             }
+            // A blocked blow recoils the attacker out of the swing: the other hand is done too.
+            if (playerAttack.current !== attack) break;
           }
         }
       }
@@ -2038,11 +2201,13 @@ export function CombatRuntime({
         if (nextAttack && spendStamina(nextAttack.stamina)) {
           const successorStart = comboEntryTime(nextAttack) + comboSuccessorStartTime(playerActionTime.current, attack);
           startPlayerAction(
-            nextAttack.id,
+            attackAction(nextAttack),
             nextAttack.animation,
             successorStart,
             playerAttackDirection.current,
             comboCrossFadeDuration(attack, nextAttack),
+            true,
+            nextAttack,
           );
           combatAudio.play("swing");
         } else {
@@ -2052,6 +2217,7 @@ export function CombatRuntime({
         finishPlayerAction();
       }
     } else {
+      playerOffHitboxActive.current = false;
       playerHitboxActive.current = playerAction.current === "guard"
         || (playerAction.current === "parry" && isParryActive(playerActionTime.current, playerGuardAnimations.parry));
       playerParryActive.current = playerAction.current === "parry"
@@ -2081,7 +2247,7 @@ export function CombatRuntime({
       if (duration && playerActionTime.current >= duration) {
         if (playerAction.current === "roll" && rollAttackQueued.current) {
           const queued = rollAttackQueued.current;
-          const queuedAttack = queued === "heavy" ? playerWeapon.attacks.heavy : playerWeapon.attacks.light1;
+          const queuedAttack = queued === "heavy" ? mainHeavy : playerWeapon.attacks.light1;
           const direction = resolveAttackDirection(intent.move, cameraYaw.current, handle.bodyZAxis);
           tmp.current.movement.set(direction.x, 0, direction.z).normalize();
           if (spendStamina(queuedAttack.stamina)) {
@@ -2091,7 +2257,7 @@ export function CombatRuntime({
             body.setAngvel({ x: 0, y: 0, z: 0 }, true);
             body.setRotation(tmp.current.quaternion, true);
             body.setLinvel({ x: 0, y: body.linvel().y, z: 0 }, true);
-            startPlayerAction(queuedAttack.id, queuedAttack.animation, 0, tmp.current.movement);
+            startPlayerAction(attackAction(queuedAttack), queuedAttack.animation, 0, tmp.current.movement, null, true, queuedAttack);
             combatAudio.play("swing");
           } else {
             rollAttackQueued.current = null;
@@ -2119,7 +2285,7 @@ export function CombatRuntime({
             handle.setLockForward(true);
             body.setAngvel({ x: 0, y: 0, z: 0 }, true);
             body.setRotation(tmp.current.quaternion, true);
-            startPlayerAction(queuedAttack.id, queuedAttack.animation, 0, tmp.current.movement);
+            startPlayerAction(attackAction(queuedAttack), queuedAttack.animation, 0, tmp.current.movement, null, true, queuedAttack);
             attackDashDistance.current = travelled * BACKSTEP_ATTACK_DASH_FRACTION;
             combatAudio.play("swing");
           } else {
@@ -2906,6 +3072,10 @@ export function CombatRuntime({
           equippedRef={equipped}
           weaponRef={playerWeaponObject}
           offHandRef={playerOffHandObject}
+          offHandGlowRef={carriedLightLevel}
+          // A carried torch holds the left arm in Skyrim's torch pose, except
+          // while that arm is needed: a guard, an attack, any full-body action.
+          leftArmOverlay={playerTorch && !portrait && playerActionSnapshot === "idle" ? playerTorch.poseOverlay : null}
           hurtboxRef={playerHurtbox}
           headBoneRef={playerHeadBone}
           soleBoneRefs={playerSoleBones}
@@ -2930,6 +3100,21 @@ export function CombatRuntime({
         outline={showWeaponHitboxes}
         outlineColor="#ffd24d"
       />
+      {playerOffWeapon && (
+        <HeldObjectHitbox
+          object={playerOffHandObject}
+          margin={0}
+          measureKey={playerOffWeapon.id}
+          overlaps={playerOffWeaponOverlaps}
+          name={PLAYER_OFF_HAND_WEAPON}
+          active={playerOffHitboxActive}
+          outline={showWeaponHitboxes}
+          outlineColor="#ffb04d"
+        />
+      )}
+      {playerTorch && !portrait && (
+        <CarriedLight item={playerOffHandObject} spec={playerTorch.light} level={carriedLightLevel} time={carriedLightClock} />
+      )}
       <Suspense fallback={null}>
         <Arrows
           arrows={liveArrows}

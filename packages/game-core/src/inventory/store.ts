@@ -4,9 +4,10 @@ import type { Loadout } from "../equipment/types";
 import { ARMOUR_IDS, type ArmourDefinition } from "../equipment/armour";
 import type { ArrowDefinition } from "../equipment/arrows";
 import { ARSENAL_SHIELDS, ARSENAL_WEAPONS, STRAIGHT_SWORD } from "../equipment/arsenal";
-import { addItem, countOf, encumbrance, equipItem, removeItem, toggleEquip, unequipSlot } from "./inventory";
+import { offHandWeapon } from "../equipment/movesets/dualWield";
+import { addItem, countOf, encumbrance, equipItem, removeItem, toggleEquip, unequipSlot, type EquipHand } from "./inventory";
 import { tryItemById } from "./registry";
-import { EMPTY_INVENTORY, type EquipSlot, type Inventory, type ItemCategory } from "./types";
+import { EMPTY_INVENTORY, type EquipSlot, type Inventory, type ItemCategory, type ItemEquipProfile } from "./types";
 import type { InventorySort } from "./view";
 
 /**
@@ -35,9 +36,12 @@ type InventoryStore = {
 
   add: (itemId: string, count?: number) => void;
   remove: (itemId: string, count?: number) => void;
-  /** Idempotent: equipping what is already worn changes nothing. */
-  equip: (itemId: string) => void;
-  toggle: (itemId: string) => void;
+  /**
+   * Idempotent: equipping what is already worn changes nothing. `hand`
+   * "offHand" puts a one-handed weapon in the left hand (decision 0091).
+   */
+  equip: (itemId: string, hand?: EquipHand) => void;
+  toggle: (itemId: string, hand?: EquipHand) => void;
   unequip: (slot: EquipSlot) => void;
 };
 
@@ -56,6 +60,7 @@ const STARTING_SUPPLIES: readonly (readonly [string, number])[] = [
   ["daedric-war-arrow", 12],
   ["healing-draught", 5],
   ["lockpick", 12],
+  ["torch", 3],
 ];
 
 /**
@@ -110,11 +115,11 @@ export const useInventoryStore = create<InventoryStore>((set) => ({
 
   add: (itemId, count = 1) => set((state) => ({ inventory: addItem(state.inventory, itemId, count) })),
   remove: (itemId, count = 1) => set((state) => ({ inventory: removeItem(state.inventory, itemId, count) })),
-  equip: (itemId) => set((state) => {
-    const result = equipItem(state.inventory, itemId);
+  equip: (itemId, hand) => set((state) => {
+    const result = equipItem(state.inventory, itemId, hand);
     return result.ok ? { inventory: result.inventory } : {};
   }),
-  toggle: (itemId) => set((state) => ({ inventory: toggleEquip(state.inventory, itemId) })),
+  toggle: (itemId, hand) => set((state) => ({ inventory: toggleEquip(state.inventory, itemId, hand) })),
   unequip: (slot) => set((state) => ({ inventory: unequipSlot(state.inventory, slot) })),
 }));
 
@@ -130,8 +135,19 @@ export function loadoutFor(mainId: string | undefined, offId: string | undefined
   const off = offId ? tryItemById(offId) : null;
   return {
     mainHand: main?.equip?.kind === "weapon" ? main.equip.weapon : STRAIGHT_SWORD,
-    offHand: off?.equip?.kind === "shield" ? off.equip.shield : null,
+    offHand: offHandFor(off?.equip ?? null),
   };
+}
+
+/** What the off hand holds, in the shape combat reads (`OffHandItem`). */
+function offHandFor(equip: ItemEquipProfile | null): Loadout["offHand"] {
+  switch (equip?.kind) {
+    case "shield": return equip.shield;
+    case "torch": return equip.torch;
+    // A weapon in the left hand rides the left hand's node (dual wield).
+    case "weapon": return offHandWeapon(equip.weapon);
+    default: return null;
+  }
 }
 
 export function loadoutFrom(inventory: Inventory): Loadout {

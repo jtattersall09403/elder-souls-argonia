@@ -22,6 +22,16 @@ header; it does not change:
 Poise (`poise.ts`) and backstab entry (`backstab.ts`) decide *reactions* and
 *openings*, not damage; they sit outside this order on purpose.
 
+**Which blade.** An attack's `hand` (`AttackSpec.hand`: `main` by default,
+`off` or `both` for dual wield, decision 0091) says which held item cuts. The
+runtime arms one sensor per hand and each hand resolves its own contact once
+per attack, through `resolveHit` with that hand's weapon: its damage, class
+effects, skill and poise. Dual wield's attacks (`offLight`, `offPower`,
+`dualPower`, `equipment/movesets/dualWield.ts`) run as the `light1` / `heavy`
+actions (`attackAction`) and never chain. Off-hand attack presses come from
+`intent.offHandPresses`: desktop taps and holds the guard button, a pad or
+touch screen presses guard (light) and parry (power).
+
 ## The effects vocabulary
 
 `WeaponClassEffect` (`equipment/types.ts`) is a closed union of data carried by

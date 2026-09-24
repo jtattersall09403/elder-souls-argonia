@@ -61,6 +61,9 @@ export const VISUAL_SCENARIO_IDS = [
   "greataxe-backstab",
   "greataxe-chain",
   "poise-break",
+  "dual-wield-attack",
+  "dual-wield-power",
+  "torch-carry",
 ] as const;
 
 export type VisualScenarioId = typeof VISUAL_SCENARIO_IDS[number];
@@ -235,6 +238,14 @@ const FOCUSED_REVIEW_ENEMY = {
   ...FACING_ENEMY,
   position: [0.85, Y, 0] as const,
   yaw: Math.atan2(-0.85, 2.45),
+};
+// Dual wield's dagger reaches less far than a sword: a metre apart, on the
+// review diagonal (see the dual-wield scenes).
+const DUAL_WIELD_PLAYER = { position: [0, Y, 0.85] as const, yaw: Math.atan2(0.53, -0.85) };
+const DUAL_WIELD_ENEMY = {
+  ...FACING_ENEMY,
+  position: [0.53, Y, 0] as const,
+  yaw: Math.atan2(-0.53, 0.85),
 };
 // The focused parry starts farther apart than REVIEW_PLAYER/REVIEW_ENEMY.
 // Its cue centres the 0.10–0.29 s production parry window on the blade
@@ -989,6 +1000,55 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     },
     enemy: SOLO_ENEMY,
     cues: [{ from: 0.2, to: 0.29, actions: ["parry"] }],
+  },
+
+  // --- the off hand (decision 0091) --------------------------------------------
+  // Dual wield: the guard control attacks with the off hand.
+  // Two swords, Skyrim's canonical pair, at the sword scenes' 1.37 m. Closer in,
+  // DW_POWER_LEFT's forward step shoves the warden a metre back before its
+  // contact window opens (lead's telemetry, round 3), and a dagger's 0.42 m
+  // blade cannot reach from the sword spacing; the both-blades scene below
+  // keeps the dagger at a metre. The capture runs
+  // headless on a desktop pointer, so the guard cue is the desktop gesture: a
+  // tap under DESKTOP_HEAVY_HOLD_SECONDS is the off hand's light, a hold past
+  // it the off hand's power attack. Poise is off so each landed blow shows as
+  // its own reaction on the warden.
+  "dual-wield-attack": {
+    id: "dual-wield-attack",
+    label: "Dual wield \u2192 off-hand light, then off-hand power attack, both landing",
+    warmup: 0.5,
+    duration: 4.4,
+    player: { ...REVIEW_PLAYER, weaponId: "steel-sword", offHandId: "iron-sword", poise: false },
+    enemy: { ...REVIEW_ENEMY, health: 100 },
+    cues: [
+      { from: 0.3, to: 0.4, actions: ["guard"] },
+      { from: 1.8, to: 2.3, actions: ["guard"] },
+    ],
+  },
+  "dual-wield-power": {
+    id: "dual-wield-power",
+    label: "Dual wield \u2192 the heavy is the both-blades power attack, landing with each blade",
+    warmup: 0.5,
+    duration: 3.0,
+    player: { ...DUAL_WIELD_PLAYER, weaponId: "steel-sword", offHandId: "iron-dagger", poise: false },
+    enemy: { ...DUAL_WIELD_ENEMY, health: 100 },
+    cues: [{ from: 0.3, to: 0.39, actions: ["heavy"] }],
+  },
+  "torch-carry": {
+    id: "torch-carry",
+    label: "Torch carried \u2192 idle and walk in the torch pose, guard with the torch block, one hit taken",
+    warmup: 0.5,
+    duration: 6.8,
+    player: { ...REVIEW_PLAYER, weaponId: "steel-sword", offHandId: "torch" },
+    enemy: REVIEW_ENEMY,
+    cues: [
+      // Held past the block reaction (it ends about 3.0 s) so the guard settles
+      // back into TORCH_GUARD before it comes down.
+      { from: 0.6, to: 3.6, actions: ["guard"] },
+      // Away from the warden and back into the idle: the walk in the torch pose.
+      { from: 4.2, to: 5.4, move: [0, -0.45] },
+    ],
+    enemyCues: [{ at: 1.5, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
   },
 
   // --- two-handed -----------------------------------------------------------

@@ -1,5 +1,5 @@
 import type { Vec2 } from "../core/types";
-import type { InputController } from "../io/input";
+import { DESKTOP_HEAVY_HOLD_SECONDS, type InputController } from "../io/input";
 
 // A per-frame snapshot of player intent. The combat FSM reads this instead of
 // polling the input device, so an AI, replay, or network source can drive the
@@ -21,6 +21,13 @@ export type PlayerIntent = {
    */
   aimExitPressed: boolean;
   parryPressed: boolean;
+  /**
+   * Dual wield (decision 0091): the off hand's light and power attacks. The
+   * guard control attacks with a weapon in the off hand, since two blades
+   * cannot block. Filled by `offHandPresses`; false from `inputToIntent`.
+   */
+  offLightPressed: boolean;
+  offHeavyPressed: boolean;
   dodgePressed: boolean;
   dodgeHeld: boolean;
   dodgeReleased: boolean;
@@ -53,6 +60,8 @@ export function inputToIntent(source: InputController): PlayerIntent {
     guardHeld: source.held("guard"),
     aimExitPressed: source.pressed("guard"),
     parryPressed: source.pressed("parry"),
+    offLightPressed: false,
+    offHeavyPressed: false,
     dodgePressed: source.pressed("dodge"),
     dodgeHeld: source.held("dodge"),
     dodgeReleased: source.released("dodge"),
@@ -67,5 +76,72 @@ export function inputToIntent(source: InputController): PlayerIntent {
     zoomWheel: source.takeWheel(),
     targetLeftPressed: source.pressed("targetLeft"),
     targetRightPressed: source.pressed("targetRight"),
+  };
+}
+
+/** Where the guard control's tap-or-hold gesture is, between frames. */
+export type OffHandGesture = {
+  /** Seconds the guard control has been held, or null while it is up. */
+  heldFor: number | null;
+  /** The hold already became a power attack; its release does nothing. */
+  fired: boolean;
+  guardWasHeld: boolean;
+  parryWasHeld: boolean;
+};
+
+export const IDLE_OFF_HAND_GESTURE: OffHandGesture = {
+  heldFor: null,
+  fired: false,
+  guardWasHeld: false,
+  parryWasHeld: false,
+};
+
+export type OffHandInput = {
+  guardHeld: boolean;
+  parryHeld: boolean;
+  /**
+   * True on desktop: the guard control is one mouse button, so it becomes a
+   * light attack when released before `DESKTOP_HEAVY_HOLD_SECONDS` and a power
+   * attack when held to it, exactly as the primary button does for the main
+   * hand. False on a pad or touch: the guard press is the light and the parry
+   * press the power attack.
+   */
+  tapHold: boolean;
+};
+
+/**
+ * Turn the guard (and, on a pad, parry) controls into off-hand attack presses.
+ * Pure: the caller keeps the returned gesture for the next frame.
+ */
+export function offHandPresses(
+  gesture: OffHandGesture,
+  input: OffHandInput,
+  dt: number,
+): { gesture: OffHandGesture; offLightPressed: boolean; offHeavyPressed: boolean } {
+  const guardRose = input.guardHeld && !gesture.guardWasHeld;
+  const parryRose = input.parryHeld && !gesture.parryWasHeld;
+  const edges = { guardWasHeld: input.guardHeld, parryWasHeld: input.parryHeld };
+  if (!input.tapHold) {
+    return {
+      gesture: { heldFor: null, fired: false, ...edges },
+      offLightPressed: guardRose,
+      offHeavyPressed: parryRose,
+    };
+  }
+  if (input.guardHeld) {
+    const heldFor = guardRose || gesture.heldFor === null ? 0 : gesture.heldFor + dt;
+    const fired = !guardRose && gesture.fired;
+    const becomesHeavy = !fired && heldFor >= DESKTOP_HEAVY_HOLD_SECONDS;
+    return {
+      gesture: { heldFor, fired: fired || becomesHeavy, ...edges },
+      offLightPressed: false,
+      offHeavyPressed: becomesHeavy,
+    };
+  }
+  // Released: a tap that never became a hold is the light attack.
+  return {
+    gesture: { heldFor: null, fired: false, ...edges },
+    offLightPressed: gesture.heldFor !== null && !gesture.fired,
+    offHeavyPressed: false,
   };
 }

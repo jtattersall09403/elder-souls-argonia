@@ -190,6 +190,20 @@
       "requires": [
         "oneHanded"
       ]
+    },
+    "dualWield": {
+      "label": "Dual wield",
+      "description": "A second one-handed blade held in the left hand: the dual-wield drawn idle, the left-hand light cut, the left-hand forward power attack and the both-blades power attack. The right-hand attacks, guard, parry, criticals and locomotion come from the one-handed pack, as vanilla's 1hmdual animation set takes them.",
+      "requires": [
+        "oneHanded"
+      ]
+    },
+    "torch": {
+      "label": "Torch",
+      "description": "A torch held in the left hand: the torch-carrying arm pose (a single-frame left-arm overlay), and the torch guard's entry, held stance and block-hit. Attacks, parry, criticals and locomotion come from the one-handed pack, as vanilla's 1hmtorch animation set takes them.",
+      "requires": [
+        "oneHanded"
+      ]
     }
   },
   "animations": {
@@ -1528,6 +1542,60 @@
       "looping": true,
       "provenance": "Animated Armoury 2.3, DAR _CustomConditions/20 (katana) mt_sprintforwardsword.hkx: sprint with the blade drawn. Converted from interleaved-uncompressed by pipeline/hkx_interleaved.py.",
       "tailSource": "mt_sprintforward"
+    },
+    "DW_IDLE": {
+      "pack": "dualWield",
+      "source": "dw1hm1hmidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "recentreRootMotion": true,
+      "provenance": "vanilla dw1hm1hmidle: drawn idle with a one-handed weapon in each hand (animation set 1hmdual).",
+      "tailSource": "dw1hm1hmidle"
+    },
+    "DW_ATTACK_LEFT": {
+      "pack": "dualWield",
+      "source": "dw1hm1hm_attackright",
+      "rootMotion": "consume",
+      "provenance": "vanilla dw1hm1hm_attackright: the left-hand light cut while dual wielding (behaviour LeftHandAttack_State -> DW_AttackRight); the right-hand cuts stay the ordinary 1hm_attackleft/right.",
+      "tailSource": "dw1hm1hm_attackright"
+    },
+    "DW_POWER_LEFT": {
+      "pack": "dualWield",
+      "source": "dw_attackpowerforward",
+      "rootMotion": "consume",
+      "provenance": "vanilla dw_attackpowerforward: the left-hand forward power attack while dual wielding (attackPowerStartForwardLeftHand -> DW_AttackPowerForward).",
+      "tailSource": "dw_attackpowerforward"
+    },
+    "DW_POWER_DUAL": {
+      "pack": "dualWield",
+      "source": "dw1hm1hm_powerattack",
+      "rootMotion": "consume",
+      "provenance": "vanilla dw1hm1hm_powerattack: the both-blades standing power attack (attackStartDualWield).",
+      "tailSource": "dw1hm1hm_powerattack"
+    },
+    "TORCH_POSE": {
+      "pack": "torch",
+      "source": "tor_1hmpose",
+      "looping": false,
+      "provenance": "vanilla tor_1hmpose: a single-frame pose raising the torch in the left hand beside a drawn one-handed weapon; vanilla blends it over the left arm through the MT_TorchBoneSwitch bone switch, and the runtime uses it the same way as a left-arm overlay."
+    },
+    "TORCH_GUARD_ENTER": {
+      "pack": "torch",
+      "source": "tor_blockanticipate",
+      "crossFadeDuration": 0.2,
+      "provenance": "vanilla tor_blockanticipate: raising the torch to block, a full-body stance change. Entry blend matched to SHIELD_GUARD_ENTER's."
+    },
+    "TORCH_GUARD": {
+      "pack": "torch",
+      "source": "tor_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla tor_blockidle: held behind the raised torch."
+    },
+    "TORCH_GUARD_HIT": {
+      "pack": "torch",
+      "source": "tor_blockhit",
+      "provenance": "vanilla tor_blockhit: a blow taken on the raised torch."
     }
   }
 }

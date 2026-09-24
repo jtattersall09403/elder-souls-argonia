@@ -123,6 +123,84 @@ describe("equipping", () => {
     expect(equipItem(inventory, "steel-shield")).toEqual({ ok: false, reason: "two-handed" });
   });
 
+  // The off hand takes a shield, a torch or a one-handed weapon (decision
+  // 0091). Expected answers written before the rules.
+  describe("the off hand", () => {
+    const equipOk = (inventory: Inventory, id: string, hand?: "offHand") => {
+      const result = equipItem(inventory, id, hand);
+      if (!result.ok) throw new Error(`${id}: ${result.reason}`);
+      return result.inventory;
+    };
+
+    it("holds a dagger beside a sword: dual wield", () => {
+      let inventory = addItem(addItem(base, "steel-sword"), "iron-dagger");
+      inventory = equipOk(inventory, "steel-sword");
+      inventory = equipOk(inventory, "iron-dagger", "offHand");
+      expect(inventory.equipped).toMatchObject({ mainHand: "steel-sword", offHand: "iron-dagger" });
+    });
+
+    it("loses a dual-wield off hand to a greatsword", () => {
+      let inventory = ["steel-sword", "iron-dagger", "daedric-greatsword"].reduce((inv, id) => addItem(inv, id), base);
+      inventory = equipOk(equipOk(inventory, "steel-sword"), "iron-dagger", "offHand");
+      inventory = equipOk(inventory, "daedric-greatsword");
+      expect(inventory.equipped.mainHand).toBe("daedric-greatsword");
+      expect(inventory.equipped.offHand).toBeUndefined();
+    });
+
+    it("refuses a two-handed weapon or a bow in the off hand", () => {
+      const inventory = ["steel-sword", "daedric-greatsword", "steel-longbow"].reduce((inv, id) => addItem(inv, id), base);
+      const armed = equipOk(inventory, "steel-sword");
+      expect(equipItem(armed, "daedric-greatsword", "offHand")).toEqual({ ok: false, reason: "not-one-handed" });
+      expect(equipItem(armed, "steel-longbow", "offHand")).toEqual({ ok: false, reason: "not-one-handed" });
+    });
+
+    it("needs two iron daggers to fill both hands with them", () => {
+      let inventory = equipOk(addItem(base, "iron-dagger"), "iron-dagger");
+      expect(equipItem(inventory, "iron-dagger", "offHand")).toEqual({ ok: false, reason: "needs-two" });
+      inventory = addItem(inventory, "iron-dagger");
+      inventory = equipOk(inventory, "iron-dagger", "offHand");
+      expect(inventory.equipped).toMatchObject({ mainHand: "iron-dagger", offHand: "iron-dagger" });
+      // Dropping one of the pair empties the off hand, not both.
+      inventory = removeItem(inventory, "iron-dagger");
+      expect(inventory.equipped).toMatchObject({ mainHand: "iron-dagger" });
+      expect(inventory.equipped.offHand).toBeUndefined();
+    });
+
+    it("moves the only copy from the off hand to the main hand", () => {
+      let inventory = ["steel-sword", "iron-dagger"].reduce((inv, id) => addItem(inv, id), base);
+      inventory = equipOk(equipOk(inventory, "steel-sword"), "iron-dagger", "offHand");
+      inventory = equipOk(inventory, "iron-dagger");
+      expect(inventory.equipped.mainHand).toBe("iron-dagger");
+      expect(inventory.equipped.offHand).toBeUndefined();
+    });
+
+    it("equips a torch beside a sword, not beside a bow", () => {
+      const inventory = ["steel-sword", "steel-longbow", "torch"].reduce((inv, id) => addItem(inv, id), base);
+      const sworded = equipOk(equipOk(inventory, "steel-sword"), "torch");
+      expect(sworded.equipped).toMatchObject({ mainHand: "steel-sword", offHand: "torch" });
+      const bowed = equipOk(sworded, "steel-longbow");
+      expect(bowed.equipped.offHand, "the bow takes the off hand with it").toBeUndefined();
+      expect(equipItem(bowed, "torch")).toEqual({ ok: false, reason: "two-handed" });
+    });
+
+    it("swaps a torch for a shield and back", () => {
+      let inventory = ["steel-sword", "steel-shield", "torch"].reduce((inv, id) => addItem(inv, id), base);
+      inventory = equipOk(equipOk(inventory, "steel-sword"), "torch");
+      inventory = equipOk(inventory, "steel-shield");
+      expect(inventory.equipped.offHand).toBe("steel-shield");
+      inventory = equipOk(inventory, "torch");
+      expect(inventory.equipped.offHand).toBe("torch");
+    });
+
+    it("toggles off whichever hand holds the item", () => {
+      let inventory = ["steel-sword", "iron-dagger"].reduce((inv, id) => addItem(inv, id), base);
+      inventory = equipOk(equipOk(inventory, "steel-sword"), "iron-dagger", "offHand");
+      inventory = toggleEquip(inventory, "iron-dagger");
+      expect(inventory.equipped.offHand).toBeUndefined();
+      expect(inventory.equipped.mainHand).toBe("steel-sword");
+    });
+  });
+
   it("takes an item off when the last of it is dropped", () => {
     let inventory = toggleEquip(addItem(base, "steel-sword"), "steel-sword");
     expect(isEquipped(inventory, "steel-sword")).toBe(true);

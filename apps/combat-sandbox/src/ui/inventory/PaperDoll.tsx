@@ -5,6 +5,7 @@ import { createAnimationCommand } from "@elder-souls/game-core/anim/animationCom
 import { CHARACTER_MODEL_OFFSET } from "@elder-souls/game-core/physics/characterPhysics";
 import { SkyrimFighter } from "@elder-souls/character";
 import { loadoutAnimationPacks } from "@elder-souls/game-core/equipment/animationPacks";
+import { loadoutCombatIdle } from "@elder-souls/game-core/equipment/movesets/dualWield";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
 import { usePlayerBuild } from "@elder-souls/game-core/actors/raceStore";
 
@@ -20,7 +21,7 @@ function Doll() {
   const loadout = useEquippedLoadout();
   const armour = useWornArmour();
   const build = usePlayerBuild();
-  const command = useRef(createAnimationCommand(loadout.mainHand.animations.combatIdle));
+  const command = useRef(createAnimationCommand(loadoutCombatIdle(loadout)));
   const time = useRef(0);
   const equipped = useRef(true);
   // The doll needs the same packs the fighter would download for this loadout.
@@ -36,7 +37,7 @@ function Doll() {
   // Keep the pose honest when the weapon changes: a greatsword idle is not a
   // sword idle, and the doll is meant to show what you would actually stand in.
   useLayoutEffect(() => {
-    command.current = createAnimationCommand(loadout.mainHand.animations.combatIdle);
+    command.current = createAnimationCommand(loadoutCombatIdle(loadout));
     time.current = 0;
   }, [loadout]);
 

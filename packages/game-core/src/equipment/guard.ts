@@ -46,7 +46,10 @@ export function absorbedFraction(absorption: Absorption, type: DamageType) {
  * wins: it is the thing physically between the actor and the blow.
  */
 export function activeGuardProfile(loadout: Loadout): GuardProfile {
-  return loadout.offHand?.stats.guard ?? loadout.mainHand.stats.guard;
+  const off = loadout.offHand;
+  // A second blade is not a guard: dual wield attacks with the guard button
+  // and blocks with the main hand's numbers if it blocks at all.
+  return off && off.kind !== "weapon" ? off.stats.guard : loadout.mainHand.stats.guard;
 }
 
 /**
@@ -61,8 +64,8 @@ export function activeGuardProfile(loadout: Loadout): GuardProfile {
  * in the combat FSM changes.
  */
 export function activeGuardAnimations(loadout: Loadout): GuardAnimationProfile {
-  const shield = loadout.offHand;
-  if (shield) return shield.animations;
+  const off = loadout.offHand;
+  if (off && off.kind !== "weapon") return off.animations;
   const weapon = loadout.mainHand.animations;
   return {
     enter: weapon.guard.enter,

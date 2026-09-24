@@ -73,5 +73,10 @@
   "reach": [
     "elven-dagger-reach",
     "elven-sword-reach"
+  ],
+  "offhand": [
+    "dual-wield-attack",
+    "dual-wield-power",
+    "torch-carry"
   ]
 }

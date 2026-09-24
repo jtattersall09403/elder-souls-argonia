@@ -1,5 +1,6 @@
 import type { AimView, CombatAction } from "@elder-souls/game-core/core/types";
 import type { BowPhase } from "@elder-souls/game-core/combat/bowShot";
+import type { LightEnvironment } from "@elder-souls/game-core/fx/carriedLight";
 import type { FlightSample } from "../Arrows";
 
 /**
@@ -98,4 +99,12 @@ export type CombatRuntimeHost = {
   publish: (hud: Partial<CombatHudState>) => void;
   /** Every simulated step of every arrow in flight; probes only. */
   onArrowSample?: (sample: FlightSample) => void;
+  /**
+   * What the world does to a carried light at a world position, metres
+   * (decision 0091): today only whether it is under water, which puts a torch
+   * out without using it up. Absent means dry everywhere (the sandbox arena).
+   * The world studio passes Phase 9's water sampler here when it adopts the
+   * runtime (lane round 5).
+   */
+  lightEnvironment?: (worldPosition: { x: number; y: number; z: number }) => LightEnvironment;
 };

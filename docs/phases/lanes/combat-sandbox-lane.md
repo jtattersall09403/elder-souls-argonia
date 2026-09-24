@@ -28,7 +28,7 @@ boats, factions) rather than for the sandbox.
 | 0 | Runtime out of `CombatScene.tsx` into `packages/character/src/combat/` with an injected host; debug store into the app | delivered 2026-09-24 | [0089](../../decisions/0089-the-combat-runtime-is-a-package-with-an-injected-host.md) |
 | 1 | Every built weapon and shield in the starting pack; HUD weapon label from the loadout | delivered 2026-09-24 | this row |
 | 2 | Owner feedback: Strength in bow damage, "range position" label, two-hander swing phase ×0.85, timing panel, sword crit effect, curves default | delivered 2026-09-24 | notes below |
-| 3 | Off-hand items: dual wield, torches, carried light | planned | |
+| 3 | Off-hand items: dual wield, torches, carried light | delivered 2026-09-24; full visual suite 58/58 (notes) | [0091](../../decisions/0091-the-off-hand-holds-a-shield-a-weapon-or-a-light.md) |
 | 4 | Stealth slice: detection service, awareness states, sneak-attack band | planned | |
 | 5 | Thin swim: swim mode behind an injected water sampler | planned | |
 
@@ -68,6 +68,53 @@ Round 2 notes:
 - **Found, queued:** foot-driven attack motion reads the ground track on the
   unscaled clock while the pose plays on the class clock; the fix fails
   `riposte-stab` (backlog row "Combat: foot-driven attack motion").
+
+Round 3 notes (part A, pipeline): packs `dualWield` (DW_IDLE, DW_ATTACK_LEFT,
+DW_POWER_LEFT, DW_POWER_DUAL) and `torch` (TORCH_POSE, TORCH_GUARD_ENTER,
+TORCH_GUARD, TORCH_GUARD_HIT) from vanilla clips, built with `build_races --only
+dunmer-male`; the rig and all 13 older packs byte-identical (md5). The torch is
+built from `meshes/weapons/torch/torch.nif` (`config/weapons/lights.json`): the
+handle, the additive GlowAddMesh and the `AttachLight` node; the two particle
+systems do not convert. Torch01's LIGH values ride in `lights.items.json`. The
+light's brightness (`CARRIED_LIGHT_CANDELA` 6) is the lane's guess: the record
+has no absolute intensity.
+
+Round 3 notes (part B, runtime):
+
+- **Inventory.** `equipItem(inventory, id, "offHand")` puts a one-handed melee
+  weapon in the left hand; new refusals `not-one-handed` and `needs-two` (the
+  same weapon in both hands needs two). A two-handed weapon or a bow clears
+  the off hand; the only copy moves between hands. Torches (`equipment/lights.ts`,
+  from `generated/lights.items.json`) are stackable misc items, three in the
+  starting pack. Right-click in the inventory sends a weapon or torch to the
+  off hand. Every inventory string is a catalogue entry (`INVENTORY_TEXT`).
+- **Controls.** `intent.offHandPresses`: desktop taps (light) or holds past
+  0.3 s (power) the guard button; pad and touch press guard (light) and parry
+  (power). Desktop is "no gamepad and a fine pointer", read in the runtime,
+  because `io/input.ts` was outside this round's files.
+- **Dual wield.** `movesets/dualWield.ts`: `offLight`, `offPower`,
+  `dualPower` on the DW clips, contact windows measured with
+  `measure-contact-windows.mjs --hand off`; `AttackSpec.hand` arms one sensor
+  per hand (`player-offhand-weapon`) and each hand lands once per attack with
+  its own weapon's numbers. DW_IDLE is the combat idle. No guard, no parry.
+- **Off-hand mount** (`scripts/probe-off-hand-mount.mjs`): the `Shield` node
+  with `OFF_HAND_NODE_HALF_TURN`, as shields and bows. The grip sits 0.116 m
+  from the left hand bone (the main grip sits 0.096-0.122 m from the right),
+  so the brief's "within 5 cm of the hand bone" cannot hold for any mount on
+  that node. The rig has no left hip node; stowed off-hand weapons stay on it.
+- **Torch.** Guard and hit on Skyrim's torch block clips; carried, the left arm
+  takes TORCH_POSE as an overlay (`SkyrimFighter.leftArmOverlay`, 0.2 s
+  blend): in `torch-carry` the arm's local rotations match the pose exactly
+  (0.0 degrees) through WALK. `CarriedLight` is a point light on the torch's
+  `AttachLight` node; the glow mesh renders additively with the NIF's view
+  falloff; burning out removes one torch and announces it.
+- **Visual.** Full suite 57/58 after part B; `dual-wield-attack` then failed
+  because DW_POWER_LEFT's forward step shoves the warden a metre back before its
+  contact window at the 1.0 m staging, and a dagger cannot reach from the sword
+  scenes' 1.37 m. The lead re-staged it with two swords at 1.37 m (Skyrim's
+  canonical pair): pass. The player's foot-driven attack travel pushing an
+  enemy's capsule is queued (polish backlog, "Combat: the player's attack step
+  shoves enemies").
 
 ## Gates
 

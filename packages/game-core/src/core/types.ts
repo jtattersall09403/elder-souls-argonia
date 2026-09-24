@@ -232,6 +232,14 @@ export type AnimationState =
   | "KATANA_GUARD_HIT_B"
   | "KATANA_EQUIP"
   | "KATANA_SPRINT"
+  | "DW_IDLE"
+  | "DW_ATTACK_LEFT"
+  | "DW_POWER_LEFT"
+  | "DW_POWER_DUAL"
+  | "TORCH_POSE"
+  | "TORCH_GUARD_ENTER"
+  | "TORCH_GUARD"
+  | "TORCH_GUARD_HIT"
   | "BACKSTABBED_FORWARD";
 
 export type CombatPhase = "windup" | "active" | "recovery" | "none";

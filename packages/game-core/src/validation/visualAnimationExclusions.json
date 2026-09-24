@@ -87,5 +87,6 @@
   "KATANA_GUARD_HIT_A": "Animated Armoury katana set, converted from interleaved-uncompressed Havok. As the rapier clips: wired and playable by equipping a katana, with no scene staging it yet.",
   "KATANA_GUARD_HIT_B": "Animated Armoury katana set, converted from interleaved-uncompressed Havok. As the rapier clips: wired and playable by equipping a katana, with no scene staging it yet.",
   "KATANA_EQUIP": "Animated Armoury katana set, converted from interleaved-uncompressed Havok. As the rapier clips: wired and playable by equipping a katana, with no scene staging it yet.",
-  "KATANA_SPRINT": "Animated Armoury katana set, converted from interleaved-uncompressed Havok. As the rapier clips: wired and playable by equipping a katana, with no scene staging it yet."
+  "KATANA_SPRINT": "Animated Armoury katana set, converted from interleaved-uncompressed Havok. As the rapier clips: wired and playable by equipping a katana, with no scene staging it yet.",
+  "TORCH_POSE": "Never a commanded state: SkyrimFighter lays its one frame over the left-arm bones only (leftArmOverlay, decision 0091), so no scene can render it as the actor's animation. torch-carry holds the pose on the arm while the body plays SWORD_IDLE and WALK."
 }

@@ -72,8 +72,59 @@ def drop_sheathed(objects, drop_terms):
     return kept
 
 
-def rebuild_materials(objects):
-    """PyNifly's Skyrim shader exports to glTF washed out; rebuild it clean."""
+def is_glow_map(image):
+    base = os.path.splitext(os.path.basename(image.filepath or image.name))[0].lower()
+    return base.endswith("_g")
+
+
+def is_effect_material(material):
+    """PyNifly stamps the NIF shader block on the material it imports."""
+    return material.get("BS_Shader_Block_Name") == "BSEffectShaderProperty"
+
+
+def rebuild_effect_material(material, images):
+    """An additive glow shell (BSEffectShaderProperty) as a plain alpha material.
+
+    The source texture keeps its alpha and exports as PNG; the object carries
+    `extras.additive` so the runtime draws it with additive blending, which
+    glTF itself cannot express. Greyscale palette gradients are not the
+    surface and are skipped when anything else is present.
+    """
+    surface = [i for i in images if is_diffuse(i) and "gradients" not in (
+        i.filepath or i.name).lower().replace("\\", "/")]
+    source = surface[0] if surface else (images[0] if images else None)
+    material.use_nodes = True
+    tree = material.node_tree
+    tree.nodes.clear()
+    output = tree.nodes.new("ShaderNodeOutputMaterial")
+    shader = tree.nodes.new("ShaderNodeBsdfPrincipled")
+    shader.inputs["Metallic"].default_value = 0.0
+    shader.inputs["Roughness"].default_value = 1.0
+    tree.links.new(shader.outputs["BSDF"], output.inputs["Surface"])
+    if source is not None:
+        source.colorspace_settings.name = "sRGB"
+        texture = tree.nodes.new("ShaderNodeTexImage")
+        texture.image = source
+        tree.links.new(texture.outputs["Color"], shader.inputs["Base Color"])
+        tree.links.new(texture.outputs["Alpha"], shader.inputs["Alpha"])
+    if hasattr(material, "blend_method"):
+        try:
+            material.blend_method = "BLEND"
+        except TypeError:
+            pass
+    return source
+
+
+def rebuild_materials(objects, glow_emissive=False, effect_additive=False):
+    """PyNifly's Skyrim shader exports to glTF washed out; rebuild it clean.
+
+    With `glow_emissive` a glow map (`*_g`) drives the emission (glTF
+    emissiveTexture, emissiveFactor 1); with `effect_additive` an effect-shader
+    material is rebuilt as an alpha surface and its objects are flagged
+    additive. Both default off, so the other sets rebuild byte for byte.
+    Returns {object name: [texture file names]} for the build summary.
+    """
+    textures = {}
     seen = set()
     for obj in objects:
         for slot in obj.material_slots:
@@ -82,11 +133,18 @@ def rebuild_materials(objects):
                 continue
             seen.add(material.name)
             diffuse = None
+            images = []
             if material.use_nodes:
                 images = [n.image for n in material.node_tree.nodes
                           if n.type == "TEX_IMAGE" and n.image]
                 diffuse = next((i for i in images if is_diffuse(i)), None) or (
                     images[0] if images else None)
+            if effect_additive and is_effect_material(material):
+                source = rebuild_effect_material(material, images)
+                textures[material.name] = [os.path.basename(
+                    source.filepath or source.name)] if source else []
+                continue
+            glow = next((i for i in images if is_glow_map(i)), None) if glow_emissive else None
             material.use_nodes = True
             tree = material.node_tree
             tree.nodes.clear()
@@ -100,11 +158,74 @@ def rebuild_materials(objects):
                 texture = tree.nodes.new("ShaderNodeTexImage")
                 texture.image = diffuse
                 tree.links.new(texture.outputs["Color"], shader.inputs["Base Color"])
+            if glow is not None:
+                glow.colorspace_settings.name = "sRGB"
+                emission = tree.nodes.new("ShaderNodeTexImage")
+                emission.image = glow
+                tree.links.new(emission.outputs["Color"], shader.inputs["Emission Color"])
+                shader.inputs["Emission Strength"].default_value = 1.0
+            if glow_emissive or effect_additive:
+                textures[material.name] = [os.path.basename(i.filepath or i.name)
+                                           for i in (diffuse, glow) if i is not None]
             if hasattr(material, "blend_method"):
                 try:
                     material.blend_method = "OPAQUE"
                 except TypeError:
                     pass
+    if effect_additive:
+        for obj in objects:
+            if any(slot.material and is_effect_material(slot.material)
+                   for slot in obj.material_slots):
+                obj["additive"] = True
+    return textures
+
+
+def strip_custom_properties(objects):
+    """Drop PyNifly's stamped custom properties so glTF extras carry only ours.
+
+    Exporting extras exports every custom property on the object, its mesh and
+    its materials; PyNifly stamps dozens (shader flags, block names). Only the
+    `additive` flag set above is meant for the runtime.
+    """
+    for obj in objects:
+        keep = {"additive": obj["additive"]} if "additive" in obj else {}
+        holders = [obj, obj.data] + [slot.material for slot in obj.material_slots
+                                     if slot.material]
+        for holder in holders:
+            for key in list(holder.keys()):
+                del holder[key]
+        for key, value in keep.items():
+            obj[key] = value
+
+
+def capture_nodes(names):
+    """World matrices of the named NIF nodes, read before anything is dropped."""
+    found = {}
+    for obj in bpy.data.objects:
+        name = obj.get("pynNodeName") or obj.name
+        if name in names and name not in found:
+            found[name] = obj.matrix_world.copy()
+            # Free the bare name for the exported empty (Blender would
+            # otherwise suffix it `.001`); the source node is not exported.
+            obj.name = name + ":source"
+    return found
+
+
+def export_empties(captured, scale):
+    """Recreate each captured node as a free empty at its scaled bind pose.
+
+    The meshes were baked to metres about the origin, so a node lands at its
+    world position times the same scale, with its world rotation and unit
+    scale. Free (unparented) so the selection-only export keeps it.
+    """
+    empties = []
+    for name in sorted(captured):
+        location, rotation, _ = captured[name].decompose()
+        empty = bpy.data.objects.new(name, None)
+        bpy.context.scene.collection.objects.link(empty)
+        empty.matrix_world = Matrix.Translation(location * scale) @ rotation.to_matrix().to_4x4()
+        empties.append(empty)
+    return empties
 
 
 def obj_material(objects, textures):
@@ -371,9 +492,16 @@ def render_icon(objects, path):
 bpy.ops.preferences.addon_enable(module=PLAN.get("addon", "io_scene_nifly"))
 drop_terms = [term.lower() for term in PLAN.get("drop", [])]
 
+glow_emissive = bool(PLAN.get("glow_emissive", False))
+effect_additive = bool(PLAN.get("effect_additive", False))
+export_node_names = list(PLAN.get("export_nodes", []))
+light_treatment = glow_emissive or effect_additive or bool(export_node_names)
+
 for item in PLAN["items"]:
     clear_scene()
     oriented = None
+    captured = {}
+    textures = {}
     if item.get("obj"):
         # An OBJ item ships no scabbard and no shader: every shape is the weapon,
         # and its material comes from the maps the arsenal entry names.
@@ -410,17 +538,33 @@ for item in PLAN["items"]:
                     image.reload()
                 except RuntimeError:
                     pass
+        captured = capture_nodes(export_node_names)
+        for name in export_node_names:
+            if name not in captured:
+                SUMMARY["warnings"].append("%s: node %s not in the NIF" % (item["id"], name))
         kept = drop_sheathed(meshes, drop_terms)
         if not kept:
             SUMMARY["warnings"].append("%s: every shape was dropped" % item["id"])
             continue
-        rebuild_materials(kept)
+        textures = rebuild_materials(kept, glow_emissive, effect_additive)
     bpy.ops.file.pack_all()
     scale, native = normalise_scale(kept, item["target_length"])
+    empties = export_empties(captured, scale)
+    if effect_additive:
+        strip_custom_properties(kept)
 
     bpy.ops.object.select_all(action="DESELECT")
-    for obj in kept:
+    for obj in kept + empties:
         obj.select_set(True)
+    if light_treatment:
+        # A light keeps an alpha glow texture, so images keep their own format
+        # (PNG for anything decoded from DDS); extras carry `additive`.
+        image_options = {"export_image_format": "AUTO", "export_extras": effect_additive}
+    else:
+        # Weapon diffuses are opaque (materials are rebuilt base-colour only),
+        # and PNG makes an arsenal five times the size it needs to be on a
+        # static host. Measured: 15 MB of PNG against 3 MB of JPEG for 41 items.
+        image_options = {"export_image_format": "JPEG", "export_jpeg_quality": 85}
     bpy.ops.export_scene.gltf(
         filepath=item["output_glb"],
         export_format="GLB",
@@ -430,11 +574,7 @@ for item in PLAN["items"]:
         export_yup=True,
         export_animations=False,
         export_morph=False,
-        # Weapon diffuses are opaque (materials are rebuilt base-colour only),
-        # and PNG makes an arsenal five times the size it needs to be on a
-        # static host. Measured: 15 MB of PNG against 3 MB of JPEG for 41 items.
-        export_image_format="JPEG",
-        export_jpeg_quality=85,
+        **image_options,
     )
     render_icon(kept, item["icon_png"])
     low, high = world_bounds(kept)
@@ -450,6 +590,13 @@ for item in PLAN["items"]:
                        round(high[2] - low[2], 5),
                        round(high[1] - low[1], 5)],
     }
+    if light_treatment:
+        SUMMARY["items"][item["id"]]["textures"] = textures
+        SUMMARY["items"][item["id"]]["additive"] = [o.name for o in kept if "additive" in o]
+        # Y-up metres, the same frame as sizeMeters: Blender (x, y, z) -> (x, z, -y).
+        SUMMARY["items"][item["id"]]["exportedNodes"] = {
+            e.name: [round(e.location.x, 5), round(e.location.z, 5), round(-e.location.y, 5)]
+            for e in empties}
     log("%s scale=%.5f native=%s" % (item["id"], scale, native))
 
 open(PLAN["summary_json"], "w", encoding="utf-8").write(json.dumps(SUMMARY, indent=2))

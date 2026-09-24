@@ -42,6 +42,11 @@ export type VisualScenarioTelemetry = {
     enemyHealth: number;
     actorDistance: number | null;
   }>;
+  /**
+   * Every blow the player landed on an enemy, per hand: what proves each blade
+   * of a dual-wield attack resolves its own contact (decision 0091).
+   */
+  playerHits?: Array<{ time: number; attack: string; hand: "main" | "off"; damage: number; enemyHealthAfter: number }>;
   visualFrames: Array<{
     time: number;
     /** Integer fixed-step index encoded into the pixels of this rendered frame. */

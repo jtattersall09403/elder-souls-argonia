@@ -1,0 +1,42 @@
+{
+  "id": "lights",
+  "description": "Carried light sources: a torch held in the off hand. Built through the arsenal builder like clutter, with three differences a flame needs: a shape whose texture set has a glow map gets it as the glTF emissive texture (the vanilla torch's own shape has none; its glow is torch_g.dds on the shell), the additive glow shell (a BSEffectShaderProperty mesh) is kept with its own texture and vertex colours as a PNG and flagged `extras.additive`, and the NIF's AttachLight node is exported as an empty so the runtime hangs its point light where Skyrim does. The flame and ember particle systems are not meshes and do not export. The class length is the NIF's own: its longest extent, 46.075 units, at the kit builder's 0.014224 metres per unit (build_kit.METRES_PER_UNIT).",
+  "outputDir": "output/lights",
+  "iconDir": "output/lights-icons",
+  "manifestOutput": "output/lights.items.json",
+  "iconSizePixels": 160,
+  "dropShapesContaining": [
+    "heatrefraction"
+  ],
+  "glowMapsAsEmissive": true,
+  "keepEffectShadersAdditive": true,
+  "exportNodes": [
+    "AttachLight"
+  ],
+  "recordSourceAndHash": true,
+  "classes": {
+    "torch": {
+      "lengthMeters": 0.6554,
+      "sheathSocket": "Shield"
+    }
+  },
+  "items": [
+    {
+      "id": "torch",
+      "class": "torch",
+      "material": "wood",
+      "nif": "meshes/weapons/torch/torch.nif",
+      "flame": "particles-not-exported",
+      "light": {
+        "formId": "0001d4ec",
+        "burnSeconds": 240,
+        "radiusUnits": 512,
+        "colourRgb": [250, 190, 131],
+        "flicker": {"frequency": 0.667, "intensityAmplitude": 0.5, "movementAmplitude": 10},
+        "flags": ["dynamic", "canBeCarried", "flicker"],
+        "weightKg": 0.5,
+        "value": 2
+      }
+    }
+  ]
+}

@@ -261,6 +261,7 @@ function buildShield(itemId: string, built: BuiltItem): ArsenalShield {
   const material = MATERIAL_PROFILES[materialId];
   const weightKg = Number((6 * material.weightScale).toFixed(2));
   return {
+    kind: "shield",
     id: itemId,
     label: `${material.label} Shield`,
     stats: {

@@ -110,6 +110,18 @@ export function itemStatLines(definition: ItemDefinition): ItemStatLine[] {
       ];
     }
 
+    case "torch": {
+      const { torch } = equip;
+      return [
+        ...common,
+        { label: "Guard stability", value: percent(torch.stats.guard.stability),
+          note: "share of a blocked blow's stamina cost absorbed" },
+        ...(torch.light.burnSeconds === null ? [] : [
+          { label: text(CATALOGUE, "text.inventory.stat-burn-time"), value: seconds(torch.light.burnSeconds) },
+        ]),
+      ];
+    }
+
     case "apparel": {
       const { armour } = equip;
       return [

@@ -138,6 +138,23 @@ const SOLE_MARKERS = [
   { id: "toeL", boneName: "NPC_Toe0_ToeL" },
   { id: "toeR", boneName: "NPC_Toe0_ToeR" },
 ] as const;
+/**
+ * The bones Skyrim's torch bone switch (`MT_TorchBoneSwitch`, 0_master.hkx)
+ * hands to the torch pose: the left arm from the clavicle out, twists and
+ * fingers included (research §2: tor_1hmpose moves 38 bones, all of them on
+ * this arm).
+ */
+const LEFT_ARM_OVERLAY_BONES = [
+  "NPC Clavicle [Clv].L",
+  "NPC UpperArm [Uar].L", "NPC UpperarmTwist1 [Ut1].L", "NPC UpperarmTwist2 [Ut2].L",
+  "NPC Forearm [Lar].L", "NPC ForearmTwist1 [Lt1].L", "NPC ForearmTwist2 [Lt2].L",
+  "NPC Hand [Hnd].L",
+  ...[0, 1, 2, 3, 4].flatMap((finger) => [0, 1, 2].map((joint) => `NPC Finger${finger}${joint} [F${finger}${joint}].L`)),
+] as const;
+
+/** Seconds the left-arm overlay takes to blend in or out. */
+const LEFT_ARM_OVERLAY_BLEND_SECONDS = 0.2;
+
 export type SoleBoneRefs = Partial<Record<"footL" | "footR", THREE.Object3D>>;
 const TARGET_ANCHOR_BONE_NAME = "NPC_Spine2_Spn2";
 
@@ -261,6 +278,8 @@ function PosedActor({
   offHandProfile = null,
   bowDraw,
   offHandRef,
+  offHandGlowRef,
+  leftArmOverlay = null,
   armour = NO_ARMOUR,
   quiver = null,
   nockedArrow = null,
@@ -313,6 +332,14 @@ function PosedActor({
   offHandProfile?: WeaponVisualProfile | null;
   /** The archer's draw, for a rigged bow in the off hand. */
   bowDraw?: BowDrawRefs;
+  /** 0-1 brightness of the off-hand item's additive glow (a torch's flame). */
+  offHandGlowRef?: MutableRefObject<number>;
+  /**
+   * A one-frame pose laid over the left arm only (a torch carried: Skyrim's
+   * `MT_TorchBoneSwitch`, decision 0091), blended in and out over
+   * `LEFT_ARM_OVERLAY_BLEND_SECONDS`. Null lets the clip own the arm.
+   */
+  leftArmOverlay?: AnimationState | null;
   /** Worn armour. Each piece is skinned to the shared rig and hides what it covers. */
   armour?: readonly ArmourDefinition[];
   /**
@@ -555,6 +582,50 @@ function PosedActor({
   }, [aimBones]);
 
   const appliedAimPitch = useRef(0);
+
+  /**
+   * The left-arm overlay: the one-frame pose's local rotations on the bones
+   * Skyrim's torch bone switch weights, read once from the clip.
+   */
+  const leftArmBones = useMemo(() => LEFT_ARM_OVERLAY_BONES
+    .map((name) => model.getObjectByName(sanitizeBoneName(name)) ?? null)
+    .filter((bone): bone is THREE.Object3D => Boolean(bone)), [model]);
+  const overlayPose = useMemo(() => {
+    if (!leftArmOverlay) return null;
+    const clip = rigClips.find((candidate) => candidate.name === leftArmOverlay);
+    if (!clip) return null;
+    const pose = new Map<THREE.Object3D, THREE.Quaternion>();
+    for (const bone of leftArmBones) {
+      const track = clip.tracks.find((candidate) => candidate.name === `${bone.name}.quaternion`);
+      if (track) pose.set(bone, new THREE.Quaternion().fromArray(track.values as unknown as number[], 0));
+    }
+    return pose;
+  }, [leftArmBones, leftArmOverlay, rigClips]);
+  /** The last pose laid on, kept so it can fade out after the prop clears. */
+  const fadingOverlay = useRef<Map<THREE.Object3D, THREE.Quaternion> | null>(null);
+  const overlayWeight = useRef(0);
+  /** Clip rotations under the overlay, restored before the next mixer pass (as `releaseAimPitch`). */
+  const overlayAuthored = useRef(new Map<THREE.Object3D, THREE.Quaternion>());
+  const releaseLeftArmOverlay = useCallback(() => {
+    for (const [bone, authored] of overlayAuthored.current) bone.quaternion.copy(authored);
+    overlayAuthored.current.clear();
+  }, []);
+  const applyLeftArmOverlay = useCallback((dt: number) => {
+    if (overlayPose) fadingOverlay.current = overlayPose;
+    const target = overlayPose ? 1 : 0;
+    const step = dt / LEFT_ARM_OVERLAY_BLEND_SECONDS;
+    overlayWeight.current = target > overlayWeight.current
+      ? Math.min(target, overlayWeight.current + step)
+      : Math.max(target, overlayWeight.current - step);
+    const pose = fadingOverlay.current;
+    if (!pose || overlayWeight.current <= 0) return;
+    for (const [bone, rotation] of pose) {
+      overlayAuthored.current.set(bone, bone.quaternion.clone());
+      bone.quaternion.slerp(rotation, overlayWeight.current);
+    }
+  }, [overlayPose]);
+  const offHandMount = useRef<THREE.Object3D | null>(null);
+  const offHandObjectRef = offHandRef ?? offHandMount;
 
   const previousAction = useRef<THREE.AnimationAction | null>(null);
   const fadingFromAction = useRef<THREE.AnimationAction | null>(null);
@@ -868,9 +939,11 @@ function PosedActor({
     // clock. Externally timed actions are paused, so this updates their fades
     // without moving them away from the combat action clock above.
     releaseAimPitch();
+    releaseLeftArmOverlay();
     mixer.timeScale = 1;
     mixer.update(mixerDelta);
     mixer.timeScale = 0;
+    applyLeftArmOverlay(renderMixerDelta);
     if (riggedWeapon) {
       const stowed = !(equippedRef?.current ?? equipped);
       riggedWeapon.update(stowed ? 0 : (bowDraw?.fraction.current ?? 0), bowDraw?.release.current ?? 0, delta);
@@ -1242,6 +1315,10 @@ function PosedActor({
         meshTop: boundsTmp.current.isEmpty() ? null : boundsTmp.current.max.y - groundY,
         meshBounds,
         bones,
+        ...(offHandObjectRef.current ? {
+          offHandGrip: offHandObjectRef.current.getWorldPosition(new THREE.Vector3()).toArray(),
+          offHandTip: new THREE.Vector3(0, 0, 0.4).applyMatrix4(offHandObjectRef.current.matrixWorld).toArray(),
+        } : {}),
         weaponGrip: handSocket ? weaponGripTmp.current.toArray() : null,
         weaponTip: handSocket ? weaponTipTmp.current.toArray() : null,
         ...(probeWeaponCapsule ? { weaponCapsule: {
@@ -1258,7 +1335,7 @@ function PosedActor({
       <primitive object={model} />
       {offHandProfile && (
         <Suspense fallback={null}>
-          <OffHandItem model={model} profile={offHandProfile} sheathed={!equipped} objectRef={offHandRef} bowDraw={bowDraw} />
+          <OffHandItem model={model} profile={offHandProfile} sheathed={!equipped} objectRef={offHandObjectRef} bowDraw={bowDraw} glowIntensity={offHandGlowRef} />
         </Suspense>
       )}
       {quiver && (

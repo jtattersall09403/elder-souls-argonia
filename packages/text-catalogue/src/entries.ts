@@ -142,6 +142,7 @@ export const COMBAT_CALLOUT_TEXT: readonly TextEntry[] = [
   { id: "text.combat.attack-parried", surface: "ui", text: "Your attack was parried" },
   { id: "text.combat.fight-restarted", surface: "ui", text: "Fight restarted" },
   { id: "text.combat.critical-hit", surface: "ui", text: "Critical hit" },
+  { id: "text.combat.torch-burnt-out", surface: "ui", text: "Torch burnt out" },
 ];
 
 /**
@@ -662,6 +663,94 @@ export const TRAVEL_UI_TEXT: readonly TextEntry[] = [
   },
 ];
 
+/**
+ * The inventory screen and the items with hand-written names (combat-sandbox
+ * lane round 3, decision 0091). Labels are chrome; the rejection lines tell
+ * the player why a click did nothing, so they state the rule and stop.
+ * `{class}`, `{gold}` and `{rating}` are filled by the caller.
+ */
+export const INVENTORY_TEXT: readonly TextEntry[] = [
+  { id: "text.inventory.title", surface: "ui", text: "Inventory" },
+  { id: "text.inventory.sandbox-title", surface: "ui", text: "Ecctrl Combat Sandbox" },
+  { id: "text.inventory.tab-all", surface: "ui", text: "All" },
+  { id: "text.inventory.tab-weapon", surface: "ui", text: "Weapon" },
+  { id: "text.inventory.tab-apparel", surface: "ui", text: "Apparel" },
+  { id: "text.inventory.tab-magic", surface: "ui", text: "Magic" },
+  { id: "text.inventory.tab-misc", surface: "ui", text: "Misc" },
+  { id: "text.inventory.hint-all", surface: "ui", text: "Everything you are carrying." },
+  { id: "text.inventory.hint-weapon", surface: "ui", text: "Blades, hafts and hammers." },
+  { id: "text.inventory.hint-apparel", surface: "ui", text: "Worn and carried protection." },
+  { id: "text.inventory.hint-magic", surface: "ui", text: "Potions, scrolls and enchanted things." },
+  { id: "text.inventory.hint-misc", surface: "ui", text: "Everything else." },
+  { id: "text.inventory.slot-main-hand", surface: "ui", text: "Weapon" },
+  { id: "text.inventory.slot-off-hand", surface: "ui", text: "Off hand" },
+  { id: "text.inventory.slot-ammo", surface: "ui", text: "Arrows" },
+  { id: "text.inventory.slot-head", surface: "ui", text: "Head" },
+  { id: "text.inventory.slot-chest", surface: "ui", text: "Cuirass" },
+  { id: "text.inventory.slot-hands", surface: "ui", text: "Gauntlets" },
+  { id: "text.inventory.slot-feet", surface: "ui", text: "Boots" },
+  { id: "text.inventory.slot-amulet", surface: "ui", text: "Amulet" },
+  { id: "text.inventory.slot-ring", surface: "ui", text: "Ring" },
+  { id: "text.inventory.reject-unknown-item", surface: "ui", text: "This does not exist." },
+  { id: "text.inventory.reject-not-equippable", surface: "ui", text: "This cannot be worn or held." },
+  { id: "text.inventory.reject-not-carried", surface: "ui", text: "You are not carrying this." },
+  { id: "text.inventory.reject-two-handed", surface: "ui", text: "Your weapon needs both hands." },
+  {
+    id: "text.inventory.reject-not-one-handed",
+    surface: "ui",
+    text: "Only a one-handed weapon fits the off hand.",
+    note: "Shown on a two-handed weapon or a bow sent to the off hand.",
+  },
+  {
+    id: "text.inventory.reject-needs-two",
+    surface: "ui",
+    text: "You need a second one to hold one in each hand.",
+    note: "The same weapon in both hands needs two of it carried.",
+  },
+  { id: "text.inventory.equipped", surface: "ui", text: "Equipped" },
+  { id: "text.inventory.tap-to-equip", surface: "ui", text: "Tap again to equip" },
+  { id: "text.inventory.click-to-equip", surface: "ui", text: "Click to equip" },
+  {
+    id: "text.inventory.right-click-off-hand",
+    surface: "ui",
+    text: "Right-click for the off hand",
+    note: "Detail line on a one-handed weapon or a torch: a right-click puts it in the left hand.",
+  },
+  { id: "text.inventory.gold", surface: "ui", text: "{gold} gold" },
+  { id: "text.inventory.armour-rating", surface: "ui", text: "Armour: {rating}" },
+  { id: "text.inventory.close", surface: "ui", text: "Close" },
+  { id: "text.inventory.search", surface: "ui", text: "Search items" },
+  { id: "text.inventory.empty", surface: "ui", text: "Nothing here." },
+  {
+    id: "text.inventory.borrowed-moveset",
+    surface: "ui",
+    text: "No {class} moveset yet. Swings with the one-handed set.",
+    note: "Warning on a weapon whose class has no clips of its own. {class} is the class name in lower case.",
+  },
+  { id: "text.item.healing-draught.name", surface: "ui", text: "Healing Draught" },
+  {
+    id: "text.item.healing-draught.description",
+    surface: "descriptive",
+    text: "Sharp with mountain flower. Closes what is open.",
+    note: "Moved unchanged from inventory/registry.ts (round 3); not reviewed since.",
+  },
+  { id: "text.item.lockpick.name", surface: "ui", text: "Lockpick" },
+  {
+    id: "text.item.lockpick.description",
+    surface: "descriptive",
+    text: "Bent iron. Optimism.",
+    note: "Moved unchanged from inventory/registry.ts (round 3); not reviewed since.",
+  },
+  { id: "text.item.torch.name", surface: "ui", text: "Torch" },
+  { id: "text.inventory.stat-burn-time", surface: "ui", text: "Burn time" },
+  {
+    id: "text.item.torch.description",
+    surface: "descriptive",
+    text: "Burns for four minutes before it is spent.",
+    note: "Skyrim's Torch01 record: 240 seconds of light, then the torch is used up (decision 0091).",
+  },
+];
+
 /** The live catalogue. Built at module load so a malformed entry fails the tests. */
 export const CATALOGUE = buildCatalogue([
   ...SYSTEM_TEXT,
@@ -669,6 +758,7 @@ export const CATALOGUE = buildCatalogue([
   ...COMBAT_CALLOUT_TEXT,
   ...SANDBOX_HUD_TEXT,
   ...EQUIPMENT_TEXT,
+  ...INVENTORY_TEXT,
   ...FERRY_TEXT,
   ...TRAVEL_TEXT,
   ...TRAVEL_UI_TEXT,

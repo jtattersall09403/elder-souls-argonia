@@ -1,3 +1,4 @@
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import {
   armourRating,
   encumbrance,
@@ -58,6 +59,10 @@ export type InventoryCell = {
    * player can see beats a click that silently does nothing.
    */
   equipBlocked?: string;
+  /** A right-click puts this in the off hand (a one-handed weapon, a torch). */
+  offHand: boolean;
+  /** The detail-line note saying so, on a one-handed weapon. */
+  offHandHint?: string;
 };
 
 export type EquippedSlotView = {
@@ -88,24 +93,36 @@ export type InventoryViewOptions = {
   title?: string;
 };
 
+const t = (id: string) => text(CATALOGUE, id);
+
 const TAB_LABELS: Record<ItemCategory | "all", string> = {
-  all: "All",
-  weapon: "Weapon",
-  apparel: "Apparel",
-  magic: "Magic",
-  misc: "Misc",
+  all: t("text.inventory.tab-all"),
+  weapon: t("text.inventory.tab-weapon"),
+  apparel: t("text.inventory.tab-apparel"),
+  magic: t("text.inventory.tab-magic"),
+  misc: t("text.inventory.tab-misc"),
+};
+
+/** What each tab holds, for the panel when nothing is under the cursor. */
+export const CATEGORY_HINTS: Record<ItemCategory | "all", string> = {
+  all: t("text.inventory.hint-all"),
+  weapon: t("text.inventory.hint-weapon"),
+  apparel: t("text.inventory.hint-apparel"),
+  magic: t("text.inventory.hint-magic"),
+  misc: t("text.inventory.hint-misc"),
 };
 
 export const SLOT_LABELS: Record<EquipSlot, string> = {
-  mainHand: "Weapon",
-  offHand: "Shield",
-  ammo: "Arrows",
-  head: "Head",
-  chest: "Cuirass",
-  hands: "Gauntlets",
-  feet: "Boots",
-  amulet: "Amulet",
-  ring: "Ring",
+  mainHand: t("text.inventory.slot-main-hand"),
+  // A shield, a torch or a second weapon (decision 0091).
+  offHand: t("text.inventory.slot-off-hand"),
+  ammo: t("text.inventory.slot-ammo"),
+  head: t("text.inventory.slot-head"),
+  chest: t("text.inventory.slot-chest"),
+  hands: t("text.inventory.slot-hands"),
+  feet: t("text.inventory.slot-feet"),
+  amulet: t("text.inventory.slot-amulet"),
+  ring: t("text.inventory.slot-ring"),
 };
 
 /** Two letters from a name: "Ebony Greatsword" -> "EG". */
@@ -117,16 +134,25 @@ function initialsOf(name: string) {
 }
 
 const REJECTION_TEXT: Record<EquipRejection, string> = {
-  "unknown-item": "This does not exist.",
-  "not-equippable": "This cannot be worn or held.",
-  "not-carried": "You are not carrying this.",
-  "two-handed": "Your weapon needs both hands.",
+  "unknown-item": t("text.inventory.reject-unknown-item"),
+  "not-equippable": t("text.inventory.reject-not-equippable"),
+  "not-carried": t("text.inventory.reject-not-carried"),
+  "two-handed": t("text.inventory.reject-two-handed"),
+  "not-one-handed": t("text.inventory.reject-not-one-handed"),
+  "needs-two": t("text.inventory.reject-needs-two"),
 };
 
 function equipBlockedReason(definition: ItemDefinition, inventory: Inventory) {
   if (!definition.equip || isEquipped(inventory, definition.id)) return undefined;
   const result = equipItem(inventory, definition.id);
   return result.ok ? undefined : REJECTION_TEXT[result.reason];
+}
+
+/** True for what a right-click can put in the off hand: a one-handed melee weapon or a torch. */
+function offHandCandidate(definition: ItemDefinition) {
+  const equip = definition.equip;
+  if (equip?.kind === "torch") return true;
+  return equip?.kind === "weapon" && !equip.weapon.stats.occupiesOffHand && !equip.weapon.stats.ranged;
 }
 
 function toCell(
@@ -148,6 +174,10 @@ function toCell(
     provisional: definition.provisional,
     stats: itemStatLines(definition),
     equipBlocked: equipBlockedReason(definition, inventory),
+    offHand: offHandCandidate(definition),
+    offHandHint: definition.equip?.kind === "weapon" && offHandCandidate(definition)
+      ? t("text.inventory.right-click-off-hand")
+      : undefined,
   };
 }
 
@@ -203,7 +233,7 @@ export function buildInventoryView(
 
   const currentKg = encumbrance(inventory);
   return {
-    title: options.title ?? "Inventory",
+    title: options.title ?? t("text.inventory.title"),
     encumbrance: {
       currentKg,
       capacityKg: inventory.capacityKg,

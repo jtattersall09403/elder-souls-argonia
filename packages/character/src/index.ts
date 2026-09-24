@@ -15,6 +15,7 @@ export {
 } from "./SkeletalHurtbox";
 export { ArmourAttachments } from "./ArmourAttachments";
 export { OffHandItem } from "./OffHandItem";
+export { CarriedLight, CARRIED_LIGHT_CANDELA } from "./CarriedLight";
 export { FirstPersonBow, type FirstPersonBowState } from "./FirstPersonBow";
 export { NockedArrow } from "./NockedArrow";
 export { QuiverAttachment } from "./QuiverAttachment";

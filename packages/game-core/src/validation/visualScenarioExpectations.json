@@ -3538,5 +3538,203 @@
       "weaponId": "elven-sword",
       "attackId": "light1"
     }
+  },
+  "dual-wield-attack": {
+    "playerActions": [
+      "idle",
+      "light1",
+      "heavy"
+    ],
+    "playerAnimations": [
+      "DW_IDLE",
+      "DW_ATTACK_LEFT",
+      "DW_POWER_LEFT"
+    ],
+    "enemyActions": [
+      "watching",
+      "stagger",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "HIT",
+      "HIT_HEAVY"
+    ],
+    "enemyHealthLessThan": 100,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "idle",
+        "heavy",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "stagger",
+        "recover",
+        "watching",
+        "stagger",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "DW_IDLE",
+        "DW_ATTACK_LEFT",
+        "DW_IDLE",
+        "DW_POWER_LEFT",
+        "DW_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE",
+        "HIT_HEAVY",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "DW_ATTACK_LEFT",
+        "DW_POWER_LEFT"
+      ],
+      "enemy": [
+        "HIT",
+        "HIT_HEAVY"
+      ]
+    }
+  },
+  "dual-wield-power": {
+    "playerActions": [
+      "idle",
+      "heavy"
+    ],
+    "playerAnimations": [
+      "DW_IDLE",
+      "DW_POWER_DUAL"
+    ],
+    "enemyActions": [
+      "watching",
+      "stagger",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "HIT_HEAVY"
+    ],
+    "enemyHealthLessThan": 60,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "heavy",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "stagger",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "DW_IDLE",
+        "DW_POWER_DUAL",
+        "DW_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "HIT_HEAVY",
+        "HIT_HEAVY",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "DW_POWER_DUAL"
+      ],
+      "enemy": [
+        "HIT_HEAVY"
+      ]
+    },
+    "motionLimits": {
+      "maxBoneAngularStepDegrees": 100,
+      "maxBonePositionStepMeters": 1.1,
+      "note": "Authored: DW_POWER_DUAL (vanilla dw1hm1hm_powerattack) turns the right upper arm 99.6 degrees and carries the right hand 1.08 m between source 0.700 and 0.733 s, one 30 Hz key (measured from the pack GLB). Run 1 rendered 91.5 degrees and 0.95 m on that frame. Every other step in the clip is under 20 degrees."
+    },
+    "note": "Both blades land: the sword's blow and then the dagger's each restart HIT_HEAVY (run 2: 100 -> 83.33 -> 47.62). One blade alone leaves the warden above 60."
+  },
+  "torch-carry": {
+    "playerActions": [
+      "idle",
+      "guard"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "TORCH_GUARD_ENTER",
+      "TORCH_GUARD",
+      "TORCH_GUARD_HIT",
+      "WALK"
+    ],
+    "enemyActions": [
+      "watching",
+      "attack",
+      "recoil"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "RECOIL"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "guard",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recoil",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "TORCH_GUARD_ENTER",
+        "TORCH_GUARD",
+        "TORCH_GUARD_HIT",
+        "TORCH_GUARD",
+        "SWORD_IDLE",
+        "WALK",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "RECOIL",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "TORCH_GUARD_ENTER",
+        "TORCH_GUARD",
+        "TORCH_GUARD_HIT",
+        "WALK"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "RECOIL"
+      ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.2,
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.2,
+      "note": "The torch block is a lower stance than the idle it blends from, as shield-guard's is; same allowance as shield-guard and guard-defense."
+    }
   }
 }

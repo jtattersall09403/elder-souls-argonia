@@ -1,6 +1,6 @@
 import type { ArmourDefinition } from "../equipment/armour";
 import type { ArrowDefinition } from "../equipment/arrows";
-import type { EquipSlot, ShieldDefinition, WeaponDefinition } from "../equipment/types";
+import type { EquipSlot, ShieldDefinition, TorchDefinition, WeaponDefinition } from "../equipment/types";
 
 export { EQUIP_SLOTS } from "../equipment/types";
 export type { EquipSlot } from "../equipment/types";
@@ -23,6 +23,7 @@ export const ITEM_CATEGORIES: readonly ItemCategory[] = ["weapon", "apparel", "m
 export type ItemEquipProfile =
   | { slot: "mainHand"; kind: "weapon"; weapon: WeaponDefinition }
   | { slot: "offHand"; kind: "shield"; shield: ShieldDefinition }
+  | { slot: "offHand"; kind: "torch"; torch: TorchDefinition }
   | { slot: "ammo"; kind: "ammunition"; arrow: ArrowDefinition }
   | { slot: Exclude<EquipSlot, "mainHand" | "offHand" | "ammo">; kind: "apparel"; armour: ArmourDefinition };
 

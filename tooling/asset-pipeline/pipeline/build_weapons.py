@@ -23,6 +23,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
@@ -120,6 +121,10 @@ def resolve_set(set_id: str, only: list[str] | None) -> dict:
             "quiver_nif": entry.get("quiverNif", profile.get("quiverNif")),
             "quiver_target_length": float(entry.get(
                 "quiverLengthMeters", profile.get("quiverLengthMeters", 0.0))),
+            # Record blocks a light source carries through to the manifest
+            # untouched: the mined LIGH values (`light`) and what of the flame
+            # could not be converted (`flame`). Absent on every other set.
+            "passthrough": {key: entry[key] for key in ("light", "flame") if key in entry},
         })
     missing = wanted - seen
     if missing:
@@ -297,6 +302,11 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
         "addon": TOOLCHAIN["addon"],
         "drop": config.get("dropShapesContaining", []),
         "icon_size": config.get("iconSizePixels", 160),
+        # Light-source treatment (the lights set): off unless the set asks, so
+        # the weapon, arrow and clutter sets build exactly as before.
+        "glow_emissive": bool(config.get("glowMapsAsEmissive", False)),
+        "effect_additive": bool(config.get("keepEffectShadersAdditive", False)),
+        "export_nodes": list(config.get("exportNodes", [])),
         "items": plan_items,
         "summary_json": to_windows(summary_json),
     }, indent=2))
@@ -348,6 +358,24 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
             "gripOffsetMeters": round(oriented["gripOffset"] * built[item_id]["scale"], 5),
         }}
 
+    record_source = bool(config.get("recordSourceAndHash", False))
+
+    def source_record(item: dict, glb_dir: Path) -> dict:
+        """The source NIF and both hashes, for a set that asks to record them.
+
+        `sha256` is the shipped GLB's (verify.mjs checks the installed copy
+        against it); `source.sha256` is the extracted NIF's, so a changed
+        vanilla or mod mesh is visible without the vault.
+        """
+        return {
+            "sha256": hashlib.sha256(
+                (glb_dir / f"{item['id']}.glb").read_bytes()).hexdigest(),
+            "source": {
+                "nif": item["nif"],
+                "sha256": hashlib.sha256(item["nif_path"].read_bytes()).hexdigest(),
+            },
+        }
+
     manifest = {
         "set": set_id,
         "items": {
@@ -364,6 +392,10 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
                     "quiver": f"{Path(config['quiverDir']).name}/{item['id']}.glb",
                     "quiverSizeMeters": built[f"{item['id']}{QUIVER_SUFFIX}"]["sizeMeters"],
                 } if item.get("quiver_nif_path") and quiver_dir else {}),
+                **({"nodes": built[item["id"]]["exportedNodes"]}
+                   if built[item["id"]].get("exportedNodes") else {}),
+                **item["passthrough"],
+                **(source_record(item, output_dir) if record_source else {}),
             }
             for item in items
         },

@@ -1,5 +1,5 @@
 import type { ArmourDefinition } from "../equipment/armour";
-import type { AttackId, WeaponClass } from "../equipment/types";
+import type { AttackId, DualWieldAttackId, WeaponClass } from "../equipment/types";
 
 /**
  * Poise — whether a blow interrupts you.
@@ -283,7 +283,7 @@ export const WEAPON_CLASS_POISE_DAMAGE: Readonly<Record<WeaponClass, number>> = 
  * ~×1.5). Criticals are paired choreography that always breaks a defender, so
  * their factor is only a floor for anything that reads it generically.
  */
-export const ATTACK_POISE_FACTOR: Readonly<Record<AttackId, number>> = {
+export const ATTACK_POISE_FACTOR: Readonly<Record<AttackId | DualWieldAttackId, number>> = {
   light1: 1,
   light2: 1,
   light3: 1.2,
@@ -291,13 +291,17 @@ export const ATTACK_POISE_FACTOR: Readonly<Record<AttackId, number>> = {
   heavy2: 1.5,
   riposte: 4,
   backstab: 4,
+  // Dual wield (decision 0091) matches the one-handed light and heavy.
+  offLight: 1,
+  offPower: 1.5,
+  dualPower: 1.5,
 };
 
 /** DS1's arrow value. A head hit ignores poise entirely instead of scaling. */
 export const ARROW_POISE_DAMAGE = 20;
 
 /** What one attack takes off a defender's pool. */
-export function attackPoiseDamage(weaponClass: WeaponClass, attack: AttackId) {
+export function attackPoiseDamage(weaponClass: WeaponClass, attack: AttackId | DualWieldAttackId) {
   return WEAPON_CLASS_POISE_DAMAGE[weaponClass] * ATTACK_POISE_FACTOR[attack];
 }
 

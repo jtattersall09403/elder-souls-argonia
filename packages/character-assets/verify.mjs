@@ -317,7 +317,28 @@ for (const [id, shaft] of shafts) {
   if (typeof shaft.quiver === "string") await assertBinaryGltf(shaft.quiver);
 }
 
+// Carried lights (the torch). Each records its GLB hash, and its runtime point
+// light hangs off an exported node, so a stale or partial copy is a torch that
+// lights nothing or lights from the wrong place.
+const lightSet = JSON.parse(await readFile(
+  new URL("../game-core/src/equipment/generated/lights.items.json", import.meta.url),
+  "utf8",
+));
+const lights = Object.entries(lightSet.items ?? {});
+if (lights.length === 0) throw new Error("Lights manifest declares no items");
+for (const [id, light] of lights) {
+  if (typeof light.asset !== "string" || typeof light.icon !== "string") {
+    throw new Error(`Light ${id} is missing its asset or icon path`);
+  }
+  await assertMatchingGltf(light.asset, light.sha256);
+  await assertReadable(light.icon);
+  const { nodes } = await readGltfNames(light.asset);
+  for (const node of Object.keys(light.nodes ?? {})) {
+    if (!nodes.has(node)) throw new Error(`Light ${id} manifest names node ${node}, which ${light.asset} lacks`);
+  }
+}
+
 console.log(
   `verified ${packs.length} animation packs, ${races.length} race bodies, ${items.length} arsenal items, `
-  + `${pieces.length} armour pieces (${armourBuilds} builds) and ${shafts.length} arrows`,
+  + `${pieces.length} armour pieces (${armourBuilds} builds), ${shafts.length} arrows and ${lights.length} light sources`,
 );

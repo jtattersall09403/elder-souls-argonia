@@ -1,7 +1,8 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, type MouseEvent } from "react";
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
 import { EQUIP_SLOTS } from "@elder-souls/game-core/inventory/types";
-import { buildInventoryView, type InventoryCell } from "@elder-souls/game-core/inventory/view";
+import { CATEGORY_HINTS, buildInventoryView, type InventoryCell } from "@elder-souls/game-core/inventory/view";
 import { PaperDoll } from "./PaperDoll";
 import { useInventoryCursor, type CursorDirection } from "./useInventoryCursor";
 import "./inventory.css";
@@ -18,23 +19,20 @@ import "./inventory.css";
 
 export type InventoryTheme = "morrowind";
 
-const CATEGORY_HINT: Record<string, string> = {
-  all: "Everything you are carrying.",
-  weapon: "Blades, hafts and hammers.",
-  apparel: "Worn and carried protection.",
-  magic: "Potions, scrolls and enchanted things.",
-  misc: "Everything else.",
-};
+const t = (id: string) => text(CATALOGUE, id);
 
 function Cell({
   cell,
   cursor,
   onActivate,
+  onOffHand,
   onFocus,
 }: {
   cell: InventoryCell;
   cursor: boolean;
   onActivate: (itemId: string) => void;
+  /** Right-click: into the off hand (a one-handed weapon or a torch). */
+  onOffHand: (itemId: string) => void;
   onFocus: (itemId: string | null) => void;
 }) {
   return (
@@ -47,6 +45,10 @@ function Cell({
       data-cursor={cursor || undefined}
       title={cell.name}
       onClick={() => onActivate(cell.itemId)}
+      onContextMenu={(event: MouseEvent) => {
+        event.preventDefault();
+        if (cell.offHand) onOffHand(cell.itemId);
+      }}
       onMouseEnter={() => onFocus(cell.itemId)}
       onFocus={() => onFocus(cell.itemId)}
     >
@@ -75,15 +77,16 @@ function Cell({
  * repeated across every item made of that material, which is noise beside the
  * numbers that actually decide what to wear.
  */
-function ItemPanel({ cell, hint, gold, touch }: {
+function ItemPanel({ cell, hint, gold: goldCount, touch }: {
   cell: InventoryCell | null;
   hint: string;
   gold: number;
   touch: boolean;
 }) {
   const action = cell?.equipped
-    ? "Equipped"
-    : cell?.equipBlocked ?? (touch ? "Tap again to equip" : "Click to equip");
+    ? t("text.inventory.equipped")
+    : cell?.equipBlocked ?? t(touch ? "text.inventory.tap-to-equip" : "text.inventory.click-to-equip");
+  const gold = t("text.inventory.gold").replace("{gold}", String(goldCount));
   return (
     <div className="inv-panel" role="status">
       {cell ? (
@@ -102,14 +105,15 @@ function ItemPanel({ cell, hint, gold, touch }: {
           </dl>
           <p className="inv-panel-foot">
             {cell.slot && <span className="inv-panel-action">{action}</span>}
+            {!touch && cell.offHandHint && <span className="inv-panel-action">{cell.offHandHint}</span>}
             {cell.provisional && <span className="inv-panel-warning">{cell.provisional}</span>}
-            <span className="inv-gold">{gold} gold</span>
+            <span className="inv-gold">{gold}</span>
           </p>
         </>
       ) : (
         <p className="inv-panel-hint">
           <span>{hint}</span>
-          <span className="inv-gold">{gold} gold</span>
+          <span className="inv-gold">{gold}</span>
         </p>
       )}
     </div>
@@ -139,7 +143,7 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
   );
 
   const view = useMemo(
-    () => buildInventoryView(inventory, { category, search, sort, title: "Ecctrl Combat Sandbox" }),
+    () => buildInventoryView(inventory, { category, search, sort, title: t("text.inventory.sandbox-title") }),
     [inventory, category, search, sort],
   );
 
@@ -161,6 +165,11 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
     }
     toggle(itemId);
   }, [setFocused, toggle, touchLike]);
+
+  const toOffHand = useCallback((itemId: string) => {
+    setFocused(itemId);
+    toggle(itemId, "offHand");
+  }, [setFocused, toggle]);
 
   const moveCursor = useCallback((direction: CursorDirection) => {
     if (cells.length === 0) return;
@@ -187,11 +196,11 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
 
   const { encumbrance } = view;
   return (
-    <div className="inv-root" data-inventory-theme={theme} role="dialog" aria-label="Inventory">
+    <div className="inv-root" data-inventory-theme={theme} role="dialog" aria-label={t("text.inventory.title")}>
       <div className="inv-window">
         <header className="inv-titlebar">
           <span className="inv-title">{view.title}</span>
-          <button type="button" className="inv-close" onClick={() => setOpen(false)} aria-label="Close">×</button>
+          <button type="button" className="inv-close" onClick={() => setOpen(false)} aria-label={t("text.inventory.close")}>×</button>
         </header>
 
         <div className="inv-body">
@@ -213,7 +222,7 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
                 ))}
               </ul>
             </div>
-            <p className="inv-armor">Armor: {view.armourRating}</p>
+            <p className="inv-armor">{t("text.inventory.armour-rating").replace("{rating}", String(view.armourRating))}</p>
           </aside>
 
           <section className="inv-items">
@@ -233,7 +242,7 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
                 className="inv-search"
                 value={search}
                 placeholder=""
-                aria-label="Search items"
+                aria-label={t("text.inventory.search")}
                 onChange={(event) => setSearch(event.target.value)}
               />
             </div>
@@ -245,15 +254,16 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
                   cell={cell}
                   cursor={cell.itemId === focused}
                   onActivate={select}
+                  onOffHand={toOffHand}
                   onFocus={setFocused}
                 />
               ))}
-              {view.cells.length === 0 && <p className="inv-empty">Nothing here.</p>}
+              {view.cells.length === 0 && <p className="inv-empty">{t("text.inventory.empty")}</p>}
             </div>
             {/* A row of the column, not a floating card: see `ItemPanel`. */}
             <ItemPanel
               cell={focusedCell}
-              hint={CATEGORY_HINT[String(view.tabs.find((tab) => tab.active)?.id)] ?? ""}
+              hint={CATEGORY_HINTS[view.tabs.find((tab) => tab.active)?.id ?? "all"]}
               gold={view.gold}
               touch={touchLike}
             />

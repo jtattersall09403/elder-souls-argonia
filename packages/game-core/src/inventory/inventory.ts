@@ -53,6 +53,9 @@ export function removeItem(inventory: Inventory, itemId: string, count = 1): Inv
     for (const [slot, equippedId] of Object.entries(equipped) as [EquipSlot, string][]) {
       if (equippedId === itemId) delete equipped[slot];
     }
+  } else if (remaining < 2 && equipped.mainHand === itemId && equipped.offHand === itemId) {
+    // One of a pair held in both hands: the off hand lets go of it.
+    delete equipped.offHand;
   }
   return { ...inventory, stacks, equipped };
 }
@@ -62,40 +65,66 @@ export function slotFor(itemId: string): EquipSlot | null {
   return tryItemById(itemId)?.equip?.slot ?? null;
 }
 
-export type EquipRejection = "unknown-item" | "not-equippable" | "not-carried" | "two-handed";
+export type EquipRejection =
+  | "unknown-item"
+  | "not-equippable"
+  | "not-carried"
+  | "two-handed"
+  /** Only a one-handed melee weapon goes in the off hand (decision 0091). */
+  | "not-one-handed"
+  /** The same weapon in both hands needs two of it carried. */
+  | "needs-two";
 
 export type EquipResult =
   | { ok: true; inventory: Inventory }
   | { ok: false; reason: EquipRejection };
 
+/** Which hand a weapon is equipped to; omitted means the item's own slot. */
+export type EquipHand = "offHand";
+
+/** A main-hand item that leaves no hand free: two-handed, or a bow. */
+function holdsBothHands(itemId: string | undefined) {
+  const equip = itemId ? tryItemById(itemId)?.equip : null;
+  return equip?.kind === "weapon" && (equip.weapon.stats.occupiesOffHand || Boolean(equip.weapon.stats.ranged));
+}
+
 /**
  * Equip an item, resolving the conflicts equipping creates.
  *
- * A two-handed weapon takes the off hand with it, and a shield cannot be
- * raised while one is held. Returning a reason rather than silently doing
+ * A two-handed weapon or a bow takes the off hand with it, and nothing can be
+ * put in the off hand while one is held. A weapon goes to the off hand only
+ * when asked (`hand`), only if it is one-handed melee, and the same weapon in
+ * both hands needs two of it. Returning a reason rather than silently doing
  * nothing lets the UI say why.
  */
-export function equipItem(inventory: Inventory, itemId: string): EquipResult {
+export function equipItem(inventory: Inventory, itemId: string, hand?: EquipHand): EquipResult {
   const definition = tryItemById(itemId);
   if (!definition) return { ok: false, reason: "unknown-item" };
   if (!definition.equip) return { ok: false, reason: "not-equippable" };
   if (countOf(inventory, itemId) <= 0) return { ok: false, reason: "not-carried" };
 
   const equipped = { ...inventory.equipped };
-  const { slot } = definition.equip;
+  const equip = definition.equip;
+  const toOffHand = equip.slot === "offHand" || (hand === "offHand" && equip.kind === "weapon");
 
-  if (definition.equip.kind === "weapon" && definition.equip.weapon.stats.occupiesOffHand) {
-    delete equipped.offHand;
-  }
-  if (slot === "offHand") {
-    const mainId = equipped.mainHand;
-    const main = mainId ? tryItemById(mainId) : null;
-    if (main?.equip?.kind === "weapon" && main.equip.weapon.stats.occupiesOffHand) {
-      return { ok: false, reason: "two-handed" };
+  if (toOffHand) {
+    if (equip.kind === "weapon" && (equip.weapon.stats.occupiesOffHand || equip.weapon.stats.ranged)) {
+      return { ok: false, reason: "not-one-handed" };
     }
+    if (holdsBothHands(equipped.mainHand)) return { ok: false, reason: "two-handed" };
+    if (equipped.mainHand === itemId && countOf(inventory, itemId) < 2) {
+      return { ok: false, reason: "needs-two" };
+    }
+    equipped.offHand = itemId;
+    return { ok: true, inventory: { ...inventory, equipped } };
   }
 
-  equipped[slot] = itemId;
+  if (equip.kind === "weapon") {
+    if (holdsBothHands(itemId)) delete equipped.offHand;
+    // The only copy, moved from the off hand into the main hand.
+    if (equipped.offHand === itemId && countOf(inventory, itemId) < 2) delete equipped.offHand;
+  }
+  equipped[equip.slot] = itemId;
   return { ok: true, inventory: { ...inventory, equipped } };
 }
 
@@ -106,12 +135,19 @@ export function unequipSlot(inventory: Inventory, slot: EquipSlot): Inventory {
   return { ...inventory, equipped };
 }
 
-/** Equip if the item is not already worn, otherwise take it off. */
-export function toggleEquip(inventory: Inventory, itemId: string): Inventory {
+/**
+ * Equip if the item is not already held or worn, otherwise take it off.
+ *
+ * With `hand`, the question is asked of that hand. Without it, whichever
+ * slot holds the item lets go of it, its own slot first.
+ */
+export function toggleEquip(inventory: Inventory, itemId: string, hand?: EquipHand): Inventory {
   const slot = slotFor(itemId);
   if (!slot) return inventory;
-  if (inventory.equipped[slot] === itemId) return unequipSlot(inventory, slot);
-  const result = equipItem(inventory, itemId);
+  const target: EquipSlot = hand ?? slot;
+  if (inventory.equipped[target] === itemId) return unequipSlot(inventory, target);
+  if (!hand && inventory.equipped.offHand === itemId) return unequipSlot(inventory, "offHand");
+  const result = equipItem(inventory, itemId, hand);
   return result.ok ? result.inventory : inventory;
 }
 

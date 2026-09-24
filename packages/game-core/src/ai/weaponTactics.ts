@@ -163,8 +163,9 @@ function guardingFromStability(stability: number) {
  */
 export function loadoutTactics(loadout: Loadout): WeaponTactics {
   const tactics = weaponTactics(loadout.mainHand);
-  if (!loadout.offHand || tactics.ranged) return tactics;
-  return { ...tactics, guarding: guardingFromStability(loadout.offHand.stats.guard.stability) };
+  const off = loadout.offHand;
+  if (!off || off.kind === "weapon" || tactics.ranged) return tactics;
+  return { ...tactics, guarding: guardingFromStability(off.stats.guard.stability) };
 }
 
 function clamp01(value: number) {

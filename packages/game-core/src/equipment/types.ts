@@ -1,6 +1,7 @@
 import type { AttackTimeScale } from "../anim/clipTiming";
 import type { BowPhysics } from "../combat/ballistics";
 import type { AnimationState } from "../core/types";
+import type { LightSourceSpec } from "../fx/carriedLight";
 
 /**
  * Equipment vocabulary. Deliberately separate from `core/types` (session/HUD
@@ -215,7 +216,13 @@ export type ParryProfile = {
  * adding a new one of the same class never restates the whole chain.
  */
 export type AttackSpec = {
-  id: AttackId;
+  id: AttackId | DualWieldAttackId;
+  /**
+   * Which held item's blade this attack cuts with: the main hand's (the
+   * default), the off hand's, or both at once (dual wield, decision 0091).
+   * The runtime arms one sensor per hand from it.
+   */
+  hand?: "main" | "off" | "both";
   animation: AnimationState;
   motionValue: number;
   stamina: number;
@@ -271,6 +278,14 @@ export type AttackSpec = {
   timeScale?: AttackTimeScale;
 };
 
+/**
+ * Dual wield's own attacks (`movesets/dualWield.ts`): the off hand's light and
+ * power, and the both-blades power attack. Not members of `AttackId`, because
+ * a weapon's moveset never carries them; a loadout with a weapon in each hand
+ * does (`resolveDualWield`).
+ */
+export type DualWieldAttackId = "offLight" | "offPower" | "dualPower";
+
 export type AttackId =
   | "light1"
   | "light2"
@@ -301,6 +316,12 @@ export type WeaponSocketTransform = {
 
 export type WeaponVisualProfile = {
   asset: string;
+  /**
+   * Cut-out threshold for the item's opaque materials, from the NIF's alpha
+   * property (a torch handle's `torch_d` alpha is a mask tested at 128 of
+   * 255, round 3). Absent: the materials render as exported.
+   */
+  alphaTest?: number;
   held: WeaponSocketTransform;
   sheathed: WeaponSocketTransform;
   /**
@@ -479,6 +500,8 @@ export type WeaponDefinition = {
 };
 
 export type ShieldDefinition = {
+  /** Discriminates the off hand (`OffHandItem`). */
+  kind: "shield";
   id: string;
   label: string;
   stats: ShieldStats;
@@ -487,8 +510,37 @@ export type ShieldDefinition = {
   visual: WeaponVisualProfile;
 };
 
-/** What an actor currently has in hand. The off hand is the shield slot. */
+/**
+ * A torch in the off hand: a light source that also guards, badly
+ * (combat-sandbox lane round 3, decision 0091). Its light is the carried-light
+ * system's (`fx/carriedLight`); `poseOverlay` is the one-frame clip the
+ * renderer lays over the left arm while it is carried and not guarding.
+ */
+export type TorchDefinition = {
+  kind: "torch";
+  id: string;
+  label: string;
+  stats: { weightKg: number; guard: GuardProfile };
+  animations: GuardAnimationProfile;
+  poseOverlay: AnimationState;
+  light: LightSourceSpec;
+  visual: WeaponVisualProfile;
+};
+
+/** A one-handed weapon carried in the left hand: dual wield. */
+export type OffHandWeapon = WeaponDefinition & { kind: "weapon" };
+
+/**
+ * What the off hand can hold. Every variant has `id`, `label` and `visual`,
+ * so a renderer mounts any of them the same way; everything else is read
+ * through one resolver per question (`guard.ts`, `animationPacks.ts`,
+ * `weaponTactics.ts`), never by assuming a shield. A spell in the hand joins
+ * here as its own kind.
+ */
+export type OffHandItem = ShieldDefinition | OffHandWeapon | TorchDefinition;
+
+/** What an actor currently has in hand. */
 export type Loadout = {
   mainHand: WeaponDefinition;
-  offHand: ShieldDefinition | null;
+  offHand: OffHandItem | null;
 };

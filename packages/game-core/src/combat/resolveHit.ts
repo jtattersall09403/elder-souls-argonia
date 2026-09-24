@@ -68,8 +68,9 @@ export type HitResult =
   | { kind: "hit"; health: number; killed: boolean; heavy: boolean; hitStop: number; status: StatusEffectApplication[]; critical: boolean }
   | { kind: "execution"; health: number; killed: boolean; hitStop: number; status: StatusEffectApplication[] };
 
-export function isHeavyAttack(attack: AttackDefinition) {
-  return attack.id === "heavy" || attack.id === "heavy2";
+/** Heavies and power attacks: the blows that land with a heavy reaction. */
+export function isHeavyAttack(attack: Pick<AttackDefinition, "id">) {
+  return attack.id === "heavy" || attack.id === "heavy2" || attack.id === "offPower" || attack.id === "dualPower";
 }
 
 /**

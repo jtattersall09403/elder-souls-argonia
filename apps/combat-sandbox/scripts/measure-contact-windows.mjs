@@ -22,6 +22,9 @@ import * as THREE from "three";
  *     part a defender can be standing in.
  *
  * Usage: node scripts/measure-contact-windows.mjs [CLIP ...]
+ *        node scripts/measure-contact-windows.mjs --hand off DW_ATTACK_LEFT
+ *   `--hand off` measures the blade on the left-hand node (`Shield`), where
+ *   Skyrim hangs an off-hand weapon (dual wield, decision 0091).
  */
 
 /**
@@ -242,8 +245,8 @@ function measure(
 ) {
   const animation = gltf.json.animations.find((entry) => entry.name === animationName);
   if (!animation) throw new Error(`no clip named ${animationName}`);
-  const socket = nodes.find((node) => node.name === "Weapon");
-  if (!socket) throw new Error("rig has no Weapon socket");
+  const socket = nodes.find((node) => node.name === HELD_SOCKET);
+  if (!socket) throw new Error(`rig has no ${HELD_SOCKET} socket`);
 
   poseAt(gltf, nodes, order, animation, 0);
   const { forward, pelvis } = actorFrame(nodes);
@@ -1032,11 +1035,13 @@ const GATE_WINDOW = gateWindow ? gateWindow.split(",").map(Number) : null;
 
 /** Parry mode — see `measureParry`. */
 const parryFlag = process.argv.includes("--parry");
-const PARRY_SOCKET = flagValue("--socket", "Weapon");
+/** The node the measured item rides: `--socket`, or `--hand off` for the left hand. */
+const HELD_SOCKET = flagValue("--socket", flagValue("--hand", "main") === "off" ? "Shield" : "Weapon");
+const PARRY_SOCKET = HELD_SOCKET;
 const PARRY_REACH = Number(flagValue("--reach", "0.5"));
 
 /** Flags that consume the argument after them, so it is not a clip name. */
-const VALUE_FLAGS = new Set(["--blade", "--weapon", "--victim-clip", "--victim-time", "--facing", "--socket", "--reach", "--window", "--manifest", "--glb"]);
+const VALUE_FLAGS = new Set(["--hand", "--blade", "--weapon", "--victim-clip", "--victim-time", "--facing", "--socket", "--reach", "--window", "--manifest", "--glb"]);
 const clips = process.argv.slice(2).filter((arg, i, all) =>
   !arg.startsWith("--") && !VALUE_FLAGS.has(all[i - 1]));
 const wanted = clips.length > 0
@@ -1092,7 +1097,7 @@ async function main() {
     return;
   }
 
-  console.log(`blade ${BLADE_LENGTH} m`);
+  console.log(`blade ${BLADE_LENGTH} m on ${HELD_SOCKET}`);
   console.log("clip                     dur    sweep start..end (fraction)   seconds        peak tip m/s");
   for (const name of wanted) {
     const { gltf, nodes, order } = await packFor(name);
