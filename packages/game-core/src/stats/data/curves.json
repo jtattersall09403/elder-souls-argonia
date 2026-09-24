@@ -1,0 +1,261 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7116-\u00a7122, \u00a7129",
+ "skillCurve": {
+  "exponent": 1.6
+ },
+ "damagePosition": {
+  "lo": 0.4,
+  "hi": 1.0
+ },
+ "condition": {
+  "lo": 0.5,
+  "hi": 1.0,
+  "max": 100
+ },
+ "health": {
+  "attrCoefficient": 0.5,
+  "levelBase": 0.0,
+  "levelEnduranceDivisor": 10
+ },
+ "stamina": {
+  "base": 60,
+  "endCoefficient": 0.8,
+  "regenBase": 12,
+  "regenAgiCoefficient": 0.24,
+  "regenDelay": 1.05,
+  "burdenCostMultiplier": {
+   "fast": 1.0,
+   "mid": 1.08,
+   "fat": 1.2,
+   "overloaded": 1.35
+  }
+ },
+ "magicka": {
+  "base": 20,
+  "intCoefficient": 3.0,
+  "regenBase": 0.5,
+  "regenWilCoefficient": 0.05
+ },
+ "carry": {
+  "base": 30,
+  "strCoefficient": 3
+ },
+ "burdenTiers": {
+  "fast": 0.2,
+  "mid": 0.35,
+  "fat": 1.0
+ },
+ "rollTiers": {
+  "fast": {
+   "distance": 1.1,
+   "recovery": 0.9,
+   "iFrameScale": 1.15
+  },
+  "mid": {
+   "distance": 1.0,
+   "recovery": 1.0,
+   "iFrameScale": 1.0
+  },
+  "fat": {
+   "distance": 0.8,
+   "recovery": 1.25,
+   "iFrameScale": 0.8
+  },
+  "overloaded": {
+   "distance": 0.0,
+   "recovery": 1.0,
+   "iFrameScale": 0.0
+  }
+ },
+ "mitigation": {
+  "constant": 135.6,
+  "damageCoefficient": 0.6
+ },
+ "unarmoured": {
+  "coefficient": 0.0065,
+  "slots": 4
+ },
+ "softRequirement": {
+  "staminaPerPoint": 0.07,
+  "maxShortfall": 20
+ },
+ "breath": {
+  "base": 25,
+  "athleticsCoefficient": 0.35,
+  "enduranceCoefficient": 0.25,
+  "drowningDamagePerSecond": 3
+ },
+ "movement": {
+  "walkBase": 4.5,
+  "sprintBase": 6.0,
+  "swimBase": 1.6,
+  "climbBase": 1.1,
+  "jumpApexBase": 1.378,
+  "speedFactorBase": 0.75,
+  "speedFactorDivisor": 200,
+  "loadSpeedPenalty": 0.3,
+  "sprintAthleticsDivisor": 250,
+  "swimAthleticsBase": 0.5,
+  "swimAthleticsDivisor": 100,
+  "jumpAcrobaticsBase": 0.8,
+  "jumpAcrobaticsDivisor": 125,
+  "safeFallBaseMetres": 2,
+  "safeFallAcrobaticsDivisor": 25,
+  "overloadedWalkFraction": 0.4
+ },
+ "skillXp": {
+  "classFactor": {
+   "major": 0.75,
+   "minor": 1.0,
+   "misc": 1.25
+  },
+  "specFactor": 0.8
+ },
+ "vastei": {
+  "perUse": 4,
+  "skillDivisor": 50
+ },
+ "levelUp": {
+  "ranksPerLevel": 10,
+  "miscRankRatio": 3,
+  "costBase": 40,
+  "costLevelDivisor": 10,
+  "costLevelExponent": 1.3,
+  "attrValueDivisor": 50,
+  "attrValueExponent": 2,
+  "sittingIncrement": 0.5,
+  "sittingCap": 5
+ },
+ "difficulty": {
+  "enemyDamageMultiplier": 1.0,
+  "presets": {
+   "forgiving": 0.7,
+   "normal": 1.0,
+   "harsh": 1.35
+  }
+ },
+ "armourClassRating": {
+  "light": 0.75,
+  "medium": 0.9,
+  "heavy": 1.0
+ },
+ "sneakAttack": {
+  "bandsBySkill": [
+   0,
+   20,
+   40,
+   60,
+   80,
+   100
+  ],
+  "multipliers": {
+   "dagger": [
+    3,
+    5,
+    7,
+    10,
+    13,
+    15
+   ],
+   "shortBlade": [
+    2.5,
+    3.5,
+    4.5,
+    6,
+    7,
+    8
+   ],
+   "oneHanded": [
+    2,
+    2.5,
+    3,
+    4,
+    5,
+    6
+   ],
+   "twoHanded": [
+    2,
+    2.5,
+    3,
+    3.5,
+    4,
+    5
+   ],
+   "bow": [
+    2,
+    3,
+    4,
+    5,
+    6.5,
+    8
+   ],
+   "unarmed": [
+    2,
+    2.5,
+    3,
+    3.5,
+    4,
+    4.5
+   ],
+   "spell": [
+    1.5,
+    2,
+    2.5,
+    3,
+    3.5,
+    4
+   ]
+  }
+ },
+ "climbing": {
+  "baseSpeedMetresPerSecond": 1.1,
+  "baseStaminaPerSecond": 7.5,
+  "mantleStaminaCost": 18,
+  "ledgeGrabStaminaCost": 8,
+  "burdenDrainMultiplier": {
+   "fast": 0.85,
+   "mid": 1.0,
+   "fat": 1.35,
+   "overloaded": 99
+  },
+  "restOnHoldRegenFraction": 0.12
+ },
+ "worthiness": {
+  "fullUseDamageFraction": 0.15,
+  "minUseValue": 0.05
+ },
+ "score": {
+  "defaultDivisor": 5,
+  "scale": 100,
+  "missingAttribute": 50
+ },
+ "strengthDamage": {
+  "base": 50,
+  "divisor": 100,
+  "appliesTo": [
+   "melee"
+  ],
+  "excludes": [
+   "handToHand",
+   "marksman"
+  ]
+ },
+ "poise": {
+  "agilityDivisor": 2
+ },
+ "block": {
+  "stabilityCap": 0.95
+ },
+ "checks": {
+  "castSkillMultiplier": 2,
+  "enchantPointDivisor": 3,
+  "constantEffectCostMultiplier": 2,
+  "chargedUseBase": 1.1,
+  "outOfCombatFatigue": {
+   "base": 0.85,
+   "staminaShare": 0.15
+  },
+  "craftTierDivisor": 14
+ }
+}

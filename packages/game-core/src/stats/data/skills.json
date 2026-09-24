@@ -1,0 +1,505 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7118",
+ "skills": [
+  {
+   "id": "longBlade",
+   "gov": "strength",
+   "spec": "combat",
+   "family": "weapon",
+   "bands": {
+    "damagePosition": [
+     0.4,
+     1.0
+    ],
+    "staminaCost": [
+     1.25,
+     0.8
+    ],
+    "wear": [
+     1.4,
+     0.6
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "blunt",
+   "gov": "strength",
+   "spec": "combat",
+   "family": "weapon",
+   "bands": {
+    "damagePosition": [
+     0.4,
+     1.0
+    ],
+    "staminaCost": [
+     1.25,
+     0.8
+    ],
+    "wear": [
+     1.4,
+     0.6
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "axe",
+   "gov": "strength",
+   "spec": "combat",
+   "family": "weapon",
+   "bands": {
+    "damagePosition": [
+     0.4,
+     1.0
+    ],
+    "staminaCost": [
+     1.25,
+     0.8
+    ],
+    "wear": [
+     1.4,
+     0.6
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "spear",
+   "gov": "endurance",
+   "spec": "combat",
+   "family": "weapon",
+   "bands": {
+    "damagePosition": [
+     0.4,
+     1.0
+    ],
+    "staminaCost": [
+     1.25,
+     0.8
+    ],
+    "wear": [
+     1.4,
+     0.6
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "shortBlade",
+   "gov": "speed",
+   "spec": "stealth",
+   "family": "weapon",
+   "bands": {
+    "damagePosition": [
+     0.4,
+     1.0
+    ],
+    "staminaCost": [
+     1.25,
+     0.8
+    ],
+    "wear": [
+     1.4,
+     0.6
+    ],
+    "backstab": [
+     1.0,
+     1.25
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "marksman",
+   "gov": "agility",
+   "spec": "stealth",
+   "family": "weapon",
+   "bands": {
+    "damagePosition": [
+     0.4,
+     1.0
+    ],
+    "nockSpeed": [
+     1.0,
+     1.6
+    ],
+    "drawSpeed": [
+     1.0,
+     2.0
+    ],
+    "sway": [
+     1.4,
+     0.6
+    ],
+    "drawStamina": [
+     1.25,
+     0.8
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "handToHand",
+   "gov": "speed",
+   "spec": "stealth",
+   "family": "weapon",
+   "bands": {
+    "damagePosition": [
+     0.4,
+     1.0
+    ],
+    "staminaDamage": [
+     1.0,
+     2.0
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "block",
+   "gov": "agility",
+   "spec": "combat",
+   "family": "defence",
+   "bands": {
+    "stability": [
+     0.85,
+     1.15
+    ],
+    "guardStamina": [
+     1.3,
+     0.78
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "heavyArmor",
+   "gov": "endurance",
+   "spec": "combat",
+   "family": "armour",
+   "armourClass": "heavy",
+   "bands": {
+    "rating": [
+     0.55,
+     1.2
+    ],
+    "effectiveWeight": [
+     1.1,
+     0.9
+    ],
+    "wear": [
+     1.4,
+     0.6
+    ]
+   }
+  },
+  {
+   "id": "mediumArmor",
+   "gov": "endurance",
+   "spec": "combat",
+   "family": "armour",
+   "armourClass": "medium",
+   "bands": {
+    "rating": [
+     0.55,
+     1.2
+    ],
+    "effectiveWeight": [
+     1.1,
+     0.9
+    ],
+    "wear": [
+     1.4,
+     0.6
+    ]
+   }
+  },
+  {
+   "id": "lightArmor",
+   "gov": "agility",
+   "spec": "stealth",
+   "family": "armour",
+   "armourClass": "light",
+   "bands": {
+    "rating": [
+     0.55,
+     1.2
+    ],
+    "effectiveWeight": [
+     1.1,
+     0.9
+    ],
+    "wear": [
+     1.4,
+     0.6
+    ]
+   }
+  },
+  {
+   "id": "unarmored",
+   "gov": "speed",
+   "spec": "magic",
+   "family": "armour",
+   "bands": {}
+  },
+  {
+   "id": "athletics",
+   "gov": "speed",
+   "spec": "combat",
+   "family": "movement",
+   "bands": {
+    "sprintDrain": [
+     1.2,
+     0.85
+    ]
+   },
+   "score": "speed"
+  },
+  {
+   "id": "acrobatics",
+   "gov": "strength",
+   "spec": "stealth",
+   "family": "movement",
+   "bands": {
+    "climbSpeed": [
+     0.85,
+     1.25
+    ],
+    "climbStamina": [
+     1.25,
+     0.75
+    ]
+   }
+  },
+  {
+   "id": "sneak",
+   "gov": "agility",
+   "spec": "stealth",
+   "family": "stealth",
+   "bands": {
+    "noiseRadius": [
+     1.25,
+     0.55
+    ],
+    "visibility": [
+     1.2,
+     0.6
+    ]
+   },
+   "score": "agility"
+  },
+  {
+   "id": "security",
+   "gov": "intelligence",
+   "spec": "stealth",
+   "family": "stealth",
+   "bands": {},
+   "score": "agility"
+  },
+  {
+   "id": "smithing",
+   "gov": "strength",
+   "spec": "combat",
+   "family": "craft",
+   "bands": {
+    "repairPerStroke": [
+     6,
+     22
+    ]
+   },
+   "temperGrades": [
+    25,
+    55,
+    80
+   ],
+   "temperPerGrade": 0.08,
+   "score": "strength"
+  },
+  {
+   "id": "mercantile",
+   "gov": "personality",
+   "spec": "stealth",
+   "family": "social",
+   "bands": {
+    "buyPrice": [
+     1.35,
+     0.8
+    ],
+    "sellPrice": [
+     0.55,
+     0.95
+    ]
+   },
+   "score": "personality"
+  },
+  {
+   "id": "speechcraft",
+   "gov": "personality",
+   "spec": "stealth",
+   "family": "social",
+   "bands": {},
+   "score": "personality"
+  },
+  {
+   "id": "alchemy",
+   "gov": "intelligence",
+   "spec": "magic",
+   "family": "craft",
+   "bands": {},
+   "effectVisibilityAt": [
+    15,
+    30,
+    45,
+    60
+   ],
+   "score": "intelligence",
+   "scoreDivisor": 10
+  },
+  {
+   "id": "enchant",
+   "gov": "intelligence",
+   "spec": "magic",
+   "family": "craft",
+   "bands": {
+    "pointBudget": [
+     0.6,
+     1.6
+    ]
+   },
+   "constantEffectAt": 60,
+   "score": "intelligence"
+  },
+  {
+   "id": "alteration",
+   "gov": "willpower",
+   "spec": "magic",
+   "family": "magic",
+   "bands": {
+    "cost": [
+     1.4,
+     0.8
+    ],
+    "castTime": [
+     1.2,
+     0.85
+    ],
+    "magnitude": [
+     0.75,
+     1.25
+    ]
+   },
+   "score": "willpower"
+  },
+  {
+   "id": "conjuration",
+   "gov": "intelligence",
+   "spec": "magic",
+   "family": "magic",
+   "bands": {
+    "cost": [
+     1.4,
+     0.8
+    ],
+    "castTime": [
+     1.2,
+     0.85
+    ],
+    "magnitude": [
+     0.75,
+     1.25
+    ],
+    "summonDuration": [
+     0.8,
+     1.4
+    ]
+   },
+   "score": "willpower"
+  },
+  {
+   "id": "destruction",
+   "gov": "willpower",
+   "spec": "magic",
+   "family": "magic",
+   "bands": {
+    "cost": [
+     1.4,
+     0.8
+    ],
+    "castTime": [
+     1.2,
+     0.85
+    ],
+    "magnitude": [
+     0.75,
+     1.25
+    ]
+   },
+   "score": "willpower"
+  },
+  {
+   "id": "illusion",
+   "gov": "personality",
+   "spec": "magic",
+   "family": "magic",
+   "bands": {
+    "cost": [
+     1.4,
+     0.8
+    ],
+    "castTime": [
+     1.2,
+     0.85
+    ],
+    "magnitude": [
+     0.75,
+     1.25
+    ]
+   },
+   "score": "willpower"
+  },
+  {
+   "id": "mysticism",
+   "gov": "willpower",
+   "spec": "magic",
+   "family": "magic",
+   "bands": {
+    "cost": [
+     1.4,
+     0.8
+    ],
+    "castTime": [
+     1.2,
+     0.85
+    ],
+    "magnitude": [
+     0.75,
+     1.25
+    ]
+   },
+   "score": "willpower"
+  },
+  {
+   "id": "restoration",
+   "gov": "willpower",
+   "spec": "magic",
+   "family": "magic",
+   "bands": {
+    "cost": [
+     1.4,
+     0.8
+    ],
+    "castTime": [
+     1.2,
+     0.85
+    ],
+    "magnitude": [
+     0.75,
+     1.25
+    ]
+   },
+   "score": "willpower"
+  }
+ ]
+}

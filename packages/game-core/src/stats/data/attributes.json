@@ -1,0 +1,42 @@
+{
+ "schemaVersion": 1,
+ "designRef": "docs/world/76-stats-progression.md \u00a7117",
+ "attributes": [
+  {
+   "id": "strength"
+  },
+  {
+   "id": "endurance"
+  },
+  {
+   "id": "agility"
+  },
+  {
+   "id": "speed"
+  },
+  {
+   "id": "willpower"
+  },
+  {
+   "id": "intelligence"
+  },
+  {
+   "id": "personality"
+  }
+ ],
+ "startRange": {
+  "min": 30,
+  "max": 50
+ },
+ "favouredBonus": 10,
+ "purchaseCap": 100,
+ "reference": {
+  "strength": 50,
+  "endurance": 50,
+  "agility": 50,
+  "speed": 50,
+  "willpower": 40,
+  "intelligence": 40,
+  "personality": 40
+ }
+}

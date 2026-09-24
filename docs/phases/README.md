@@ -699,6 +699,11 @@ attributes/skills/derived stats, races, equipment scaling, encumbrance,
 progression and the absolute power ladder — in `packages/game-core`, consumed
 by both apps.
 
+**Running ahead as a side lane (2026-09-24):** the model, data and balance
+harness port into `packages/game-core/src/stats` and the owner's lab app —
+[stats-lab lane](lanes/stats-lab-lane.md), [0088](../decisions/0088-the-stats-model-lives-in-game-core-and-reads-injected-data.md).
+The rounds table there says what is already delivered.
+
 Deliverables:
 
 - the accepted stat model implemented, with **baseline-equivalence tests**:

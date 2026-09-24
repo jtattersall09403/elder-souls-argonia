@@ -87,6 +87,11 @@
    "path": "apps/world-studio/public/province/blueprints.json",
    "enforced": true,
    "_": "Settlement blueprints projected to world metres for the studio's Blueprint view (worldgen.export_blueprints); a projection of world/sources/blueprints, so NOT in id-registry (its IDs would duplicate the blueprints')."
+  },
+  {
+   "path": "packages/game-core/src/stats/data",
+   "enforced": true,
+   "_": "The stats model's canonical tables (module 76 §129; decision 0088): curves, skills, attributes."
   }
  ]
 }
