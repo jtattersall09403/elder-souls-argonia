@@ -1,0 +1,1345 @@
+{
+  "schemaVersion": 1,
+  "$comment": "Provenance of every third-party mod archive and mod folder in the asset vault (source, Nexus ids, author, archive sha256/md5), read by tooling/bootstrap/restore-mods.sh; it supersedes the vault mod-sources/SOURCES.json as the provenance record.",
+  "entries": [
+    {
+      "id": "3d-grass-for-vanilla-122363",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 122363,
+      "fileId": 535698,
+      "fileName": "3D grass for vanilla-122363-1-1-1724711571.zip",
+      "modName": "3D Grass for Vanilla",
+      "author": "FiberianHufky96",
+      "version": "1.1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/3d-grass-for-vanilla-122363/3D grass for vanilla-122363-1-1-1724711571.zip",
+          "bytes": 134975357,
+          "sha256": "ae7386b647efd386a7d6907fd0a71fd63a12e65b5b3df544a6d059d4e8efef00",
+          "md5": "f0fccde9a816aad711cd65be5f996818",
+          "fileId": 535698,
+          "fileName": "3D grass for vanilla-122363-1-1-1724711571.zip",
+          "version": "1.1"
+        }
+      ]
+    },
+    {
+      "id": "aendemika-59713",
+      "source": "nexus",
+      "game": "morrowind",
+      "modId": 59713,
+      "fileId": 1000067796,
+      "fileName": "The Sacred Island - AoVv - 1K Regular 59713 1 2026-07-30T14-06Z vcU3cKls.7z",
+      "modName": "Landscape - Aendemika of Vvardenfell - The Sacred Island",
+      "author": "Tyddy",
+      "version": "1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/aendemika-59713/aendemika-1k.7z",
+          "bytes": 93615577,
+          "sha256": "d5c9f71cba65fb433706fa999359c45faedfd5d1873710e1f01a1921098a06ca",
+          "md5": "ee314a2c0472e58fa42a1de6c9b84b99",
+          "fileId": 1000067796,
+          "fileName": "The Sacred Island - AoVv - 1K Regular 59713 1 2026-07-30T14-06Z vcU3cKls.7z",
+          "version": "1"
+        }
+      ]
+    },
+    {
+      "id": "all-tamriel-heightmap-573",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 573,
+      "fileId": 2028,
+      "fileName": "Tamriel10_2016-573-Beta06.7z",
+      "modName": "All Tamriel Heightmap",
+      "author": "Transbot9",
+      "version": "Beta06",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/all-tamriel-heightmap-573/Tamriel10_2016-573-Beta06.7z",
+          "bytes": 326832751,
+          "sha256": "e32b1faf3c1f3545a2858cc5edcb4b69beca5d67a75548f6a4aa25fbe85b8ca9",
+          "md5": "846cf297a6a1db077e06196320c1ea61",
+          "fileId": 2028,
+          "fileName": "Tamriel10_2016-573-Beta06.7z",
+          "version": "Beta06"
+        }
+      ]
+    },
+    {
+      "id": "archives/argonian-dungeons-tileset-52204-v1.1",
+      "source": "nexus",
+      "game": "oblivion",
+      "modId": 52204,
+      "fileId": 1000032391,
+      "fileName": "Argonian Dungeons - Tileset-52204-1-2-1664139352.rar",
+      "modName": "Argonian Dungeons - Tileset",
+      "author": "Reekus",
+      "uploadedBy": "ClaytonM123",
+      "version": "1.2",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/argonian-dungeons-tileset-52204-v1.1.rar",
+          "bytes": 38969972,
+          "sha256": "8f333b5c037fe79171dfa069c484bc44cc678308cb0eba4da4e43a3e6d36207b",
+          "md5": "f8c62045276811b30bd56779238052fd",
+          "fileId": 1000032391,
+          "fileName": "Argonian Dungeons - Tileset-52204-1-2-1664139352.rar",
+          "version": "1.2"
+        }
+      ]
+    },
+    {
+      "id": "ayleid-ruins-building-kit-90667",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 90667,
+      "fileId": 1000271869,
+      "fileName": "Ayleid Building Kit-90667-001.zip",
+      "modName": "Ayleid Ruins Building Kit -Resources-",
+      "author": "Imperial Society",
+      "uploadedBy": "ImperialSociety",
+      "version": "001",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Ayleid Building Kit-90667-001.zip",
+          "bytes": 65112901,
+          "sha256": "5f465b70c2f04ccaa780f693dbe1a9da55cc572aea058d7b8f49ac1ebd75c3d2",
+          "md5": "6ac8ff262742f4be9d6ba55d486a01bb",
+          "fileId": 1000271869,
+          "fileName": "Ayleid Building Kit-90667-001.zip",
+          "version": "001"
+        }
+      ]
+    },
+    {
+      "id": "black-marsh-mod-source",
+      "source": "moddb",
+      "game": null,
+      "modId": null,
+      "fileId": null,
+      "fileName": null,
+      "modName": "Black Marsh & Valenwood",
+      "author": null,
+      "version": null,
+      "url": "https://www.moddb.com/mods/black-marsh-valenwood",
+      "archives": [
+        {
+          "path": "elder-souls-argonia/tooling/asset-pipeline/black-marsh-mod-source/Data1.rar",
+          "bytes": 1335741453,
+          "sha256": "5cbd0d05e4c6d7c400fd6a5533aa31b65a18bf06b582d487f5dc608c192af2e5",
+          "md5": "b805b828e7992709cc7b553fbbb4f3d8"
+        },
+        {
+          "path": "elder-souls-argonia/tooling/asset-pipeline/black-marsh-mod-source/Data2.rar",
+          "bytes": 8192994345,
+          "sha256": "e9fb62abc6eefebe6b47e71b9da079af5f8a2b56942aacd5ffb3e2b0a04a7101",
+          "md5": "a3138fac61f67364cb4e62c6c7d965ea"
+        }
+      ],
+      "fileIdUnknown": "ModDB manual download (no API); restore only from the vault snapshot"
+    },
+    {
+      "id": "boats-operational-animated-110882",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 110882,
+      "fileId": 597296,
+      "fileName": "Boats - Operational Animated Travel-110882-1-6-2-1740141743.7z",
+      "modName": "Boats - Operational Animated Travel",
+      "author": "Enneal",
+      "version": "1.6.2",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Boats - Operational Animated Travel-110882-1-6-2-1740141743.7z",
+          "bytes": 5974992,
+          "sha256": "07f7ebace706d0f8f169f5bc1b76435f297aa9631a3962a2781aa93e6ef64583",
+          "md5": "ebabde18236f59307aa7099a3a2a6e4f",
+          "fileId": 597296,
+          "fileName": "Boats - Operational Animated Travel-110882-1-6-2-1740141743.7z",
+          "version": "1.6.2"
+        }
+      ]
+    },
+    {
+      "id": "cc-ayleid-ruin-resources-83999",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 83999,
+      "fileId": 355319,
+      "fileName": "CC Ayleid Ruins Resources 1 0-83999-1-0-1675274373.zip",
+      "modName": "Creation Club Ayleid Ruin Resources",
+      "author": "Sarthes Arai",
+      "uploadedBy": "SarthesArai",
+      "version": "1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/CC Ayleid Ruins Resources 1 0-83999-1-0-1675274373.zip",
+          "bytes": 11479260,
+          "sha256": "03f9203f14744f481e089901fa307fe190660f4bfad953d51b0f28743fed25be",
+          "md5": "3b99de0cb6e2354b62e8d5db00ddfd18",
+          "fileId": 355319,
+          "fileName": "CC Ayleid Ruins Resources 1 0-83999-1-0-1675274373.zip",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "id": "cc0-ground-textures",
+      "source": "other",
+      "game": null,
+      "modId": null,
+      "fileId": null,
+      "fileName": null,
+      "modName": "ambientCG ground textures (CC0)",
+      "author": "ambientCG",
+      "version": null,
+      "url": "https://ambientcg.com",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Gravel015_1K-JPG.zip",
+          "bytes": 10707914,
+          "sha256": "3374cc04d00171c3586fadb1a72e53fc5dca80a3499c65ea28da5a80fec9715f",
+          "md5": "48154741a1c4ad361e20a87809a53b09"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Gravel022_1K-JPG.zip",
+          "bytes": 10076010,
+          "sha256": "7049ff2bd4d8f87317c26bbffb8c5621208fbfcc615765038eef92fd227c220f",
+          "md5": "09b21e2be1f4b24152a848285c039d33"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Gravel023_1K-JPG.zip",
+          "bytes": 9879090,
+          "sha256": "a00e7fd6246db4ae228473aac14f1bc427bd93f228ebe347a5d6390dd838b0a8",
+          "md5": "4ab69f92b5130c457501e514a75330b0"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Gravel033_1K-JPG.zip",
+          "bytes": 10629237,
+          "sha256": "ab2f578fbe244aea242907f3e27ff71720f9a1c48323226ee4cf26fc3e7fc3e5",
+          "md5": "03553bc74034255875912550e8a901b6"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Ground024_1K-JPG.zip",
+          "bytes": 10350165,
+          "sha256": "3ba55fb6fd9628bf215307c482fb53799435d135e5e08bda28bfa25291e97ca0",
+          "md5": "26b826081abe6850d9c0a518a04809f5"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Ground026_1K-JPG.zip",
+          "bytes": 9456906,
+          "sha256": "f7567e19018205518a758496224239b9b9995d2a12525a288bc83a5fc4aa98ac",
+          "md5": "416b3bdec92d1df89e1778a1722aaaa3"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Ground037_1K-JPG.zip",
+          "bytes": 10574958,
+          "sha256": "4e69db2b7251b1736fa70fe6fe4ab80d64bd220117dd5dd4c7caaead51c2574e",
+          "md5": "dfdd6e16962abafcd2592340df4a28b8"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Ground040_1K-JPG.zip",
+          "bytes": 10860898,
+          "sha256": "8f9e0d64e8ba21dc14bce31fd941e8daf85ffd1e391533958ed37b77e8504c54",
+          "md5": "1cd4413e3ddb7e450637a3db04d60c77"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Ground050_1K-JPG.zip",
+          "bytes": 7782319,
+          "sha256": "a89b27169bd755cb4fec24d6fe48f2ec2ebb14e3057aa10fcd95028c017b9985",
+          "md5": "0213825b14318f74b5cf15abc68155ad"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Ground051_1K-JPG.zip",
+          "bytes": 8268260,
+          "sha256": "884f8d718e12715d2eb2ca332541e5a743a3f1606557775bd980b748008cf7fe",
+          "md5": "1b5ed73fc3bb24eadf82b93ebd9feb2f"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/cc0-ground-textures/Ground054_1K-JPG.zip",
+          "bytes": 8674949,
+          "sha256": "b325ec2f167dce95a0fabc61a2104641288cf20915419578c3efdb46200c563e",
+          "md5": "7986a76278519807ad5cacadcd5f9592"
+        }
+      ],
+      "fileIdUnknown": "not a Nexus mod; each archive is the ambientCG asset of the same name (1K-JPG)"
+    },
+    {
+      "id": "community-maps",
+      "source": "other",
+      "game": null,
+      "modId": null,
+      "fileId": null,
+      "fileName": null,
+      "modName": "Inkarnate Black Marsh map (\"Argonian State 4E 231\")",
+      "author": null,
+      "version": null,
+      "url": null,
+      "archives": [],
+      "fileIdUnknown": "community planning prior (Reddit); hash in the master plan section 82"
+    },
+    {
+      "id": "cyrodiil-ship-boat-resource-59426",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 59426,
+      "fileId": 1000132793,
+      "fileName": "Imperial styled Ship and boats Resource-59426-001.zip",
+      "modName": "Cyrodiil Ship and boat resource",
+      "author": "Markus Liberty",
+      "uploadedBy": "markusliberty",
+      "version": "001",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Imperial styled Ship and boats Resource-59426-001.zip",
+          "bytes": 3373158,
+          "sha256": "aca684ec9ef1a7825e17785f4ff119a7ae16bf1399f829074db78de9d04a3f29",
+          "md5": "104bcb548dbf4aadf660946c65a7b8a9",
+          "fileId": 1000132793,
+          "fileName": "Imperial styled Ship and boats Resource-59426-001.zip",
+          "version": "001"
+        }
+      ]
+    },
+    {
+      "id": "darkwater-den-52630",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 52630,
+      "fileId": 1000104000,
+      "fileName": "Darkwater Den Update 2-52630-1-2.rar",
+      "modName": "Darkwater Den - Argonian themed home",
+      "author": "Elianora",
+      "version": "1.2",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Darkwater Den Update 2-52630-1-2.rar",
+          "bytes": 77965424,
+          "sha256": "60a2ec29e6348b136c4840fdfb9fdf1e7a3b338cced03a41110bcc27d0a9c390",
+          "md5": "4c318c579b65203117eeea02632f16be",
+          "fileId": 1000104000,
+          "fileName": "Darkwater Den Update 2-52630-1-2.rar",
+          "version": "1.2"
+        }
+      ]
+    },
+    {
+      "id": "depths-of-skyrim-26913",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 26913,
+      "fileId": 175564,
+      "fileName": "Depths of Skyrim-26913-1-1-7-1608572556.rar",
+      "modName": "Depths of Skyrim - An Underwater Overhaul SSE",
+      "author": "TheBlackpixel",
+      "uploadedBy": "theblackpixel",
+      "version": "1.1.7",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Depths of Skyrim-26913-1-1-7-1608572556.rar",
+          "bytes": 108192438,
+          "sha256": "45256b8e537d48e12f1b9ae81512b6005478b86fb328e0dcdee3a2684ec2acd8",
+          "md5": "f981ff06599a4eaed928cfe8875d261f",
+          "fileId": 175564,
+          "fileName": "Depths of Skyrim-26913-1-1-7-1608572556.rar",
+          "version": "1.1.7"
+        }
+      ]
+    },
+    {
+      "id": "depths-of-skyrim-mesh-fixes-174995",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 174995,
+      "fileId": 732844,
+      "fileName": "Depths of Skyrim - Mesh Fixes-174995-v1-0-0-1773893039.7z",
+      "modName": "Depths of Skyrim - Mesh fixes",
+      "author": "Gobsnek",
+      "version": "1.0.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Depths of Skyrim - Mesh Fixes-174995-v1-0-0-1773893039.7z",
+          "bytes": 1207242,
+          "sha256": "81b0e11d6b49e9d18a7f77102e5a84013dbcd216eb5cf378b3c4f041a6cb1240",
+          "md5": "a5e4e1e3d6386d5ac2bc3eb2dc2d741c",
+          "fileId": 732844,
+          "fileName": "Depths of Skyrim - Mesh Fixes-174995-v1-0-0-1773893039.7z",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "id": "dk-boats-resources-vol1-75965",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 75965,
+      "fileId": 1000256977,
+      "fileName": "LFSB V1 - Nords - COMPLETE-75965-1-0.zip",
+      "modName": "DK's Lore-Friendly Ships and Boats Resources Vol. 1 - Nords",
+      "author": "ThatShipGuy",
+      "version": "1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/LFSB V1 - Nords - COMPLETE-75965-1-0.zip",
+          "bytes": 23192520,
+          "sha256": "e9b9626b3b067cd1be74b5984755861c225216bc39e0b8a3e7f72ee8a805dfa0",
+          "md5": "34fb82cd1f0592458b55e812fd962933",
+          "fileId": 1000256977,
+          "fileName": "LFSB V1 - Nords - COMPLETE-75965-1-0.zip",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "id": "drjacopo-3d-grass-library-80687",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 80687,
+      "fileId": 591954,
+      "fileName": "Cathedral - 3D Grass Library - Resource Textures-80687-16-51-1738912342.zip",
+      "modName": "DrJacopo's - 3D Landscapes and Grass Library",
+      "author": "Dr Jacopo",
+      "uploadedBy": "DrJacopo",
+      "version": "16.51",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/drjacopo-3d-grass-library-80687/Cathedral - 3D Grass Library - Resource Textures-80687-16-51-1738912342.zip",
+          "bytes": 1760228775,
+          "sha256": "30f786263287501971e46fd39be42b5a03c3fc3fbfe6ade410c612144514832a",
+          "md5": "9d540efb059e9d49b8224e28e83ed8e1",
+          "fileId": 591954,
+          "fileName": "Cathedral - 3D Grass Library - Resource Textures-80687-16-51-1738912342.zip",
+          "version": "16.51"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/drjacopo-3d-grass-library-80687/Cathedral - 3D Landscapes-80687-16-41-1730160308.zip",
+          "bytes": 402844237,
+          "sha256": "97033963747cf55bec36bd5d6ccb47812fecc268a5ed8720029eb379c3e89c8a",
+          "md5": "41330ac4db90d8d3123d81440146997b",
+          "fileId": 556604,
+          "fileName": "Cathedral - 3D Landscapes-80687-16-41-1730160308.zip",
+          "version": "16.41"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/drjacopo-3d-grass-library-80687/DrJacopos - 3D Grass Library - Meshes-80687-16-53-1763626250.zip",
+          "bytes": 11683560,
+          "sha256": "5026606faae2b72cc796242dbc2e3f13d0a22133f9afafe6e2a9a71ecb298c68",
+          "md5": "6d5cf0d61a69204a2570c23613d140c9",
+          "fileId": 689307,
+          "fileName": "DrJacopo's - 3D Grass Library - Meshes-80687-16-53-1763626250.zip",
+          "version": "16.53"
+        }
+      ]
+    },
+    {
+      "id": "extracted/animated-armoury-2.3",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 35978,
+      "fileId": 236456,
+      "fileName": "Animated Armoury-35978-2-3-1634920456.7z",
+      "modName": "Animated Armoury - DAR Version - New Weapons with animations",
+      "author": "NickNak",
+      "uploadedBy": "NickaNak",
+      "version": "2.3",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Animated Armoury-35978-2-3-1634920456.7z",
+          "bytes": 35126679,
+          "sha256": "57ef2ddf08cea13ba648736ef955b03730ace741ecc784f19cc0ad2ff7e7cdba",
+          "md5": "227e91d19bfa47b78b3e9e943db162f2",
+          "fileId": 236456,
+          "fileName": "Animated Armoury-35978-2-3-1634920456.7z",
+          "version": "2.3"
+        }
+      ]
+    },
+    {
+      "id": "extracted/animated-heavy-armory-2.4.2",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 51100,
+      "fileId": 223848,
+      "fileName": "Animated Heavy Armory Fomod Installer-51100-2-4-2-1629965937.zip",
+      "modName": "Animated Heavy Armory - DAR version with enchantments animations and patches",
+      "author": "Dreadflopp",
+      "uploadedBy": "dreadflopp",
+      "version": "2.4.2",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Animated Heavy Armory Fomod Installer-51100-2-4-2-1629965937.zip",
+          "bytes": 30395460,
+          "sha256": "d0e23122d8d38e535fc25be557b340612672bd5e4824ab7ed52957c0719770e4",
+          "md5": "3be64f529c1a29fa3a9d98ea8b1b295e",
+          "fileId": 223848,
+          "fileName": "Animated Heavy Armory Fomod Installer-51100-2-4-2-1629965937.zip",
+          "version": "2.4.2"
+        }
+      ]
+    },
+    {
+      "id": "extracted/backstab-1",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 74453,
+      "fileId": 312246,
+      "fileName": "Backstab animation for sneak killmove SE-74453-1-1662026614.zip",
+      "modName": "Backstab animation for sneak killmove SE",
+      "author": "Ichaflash",
+      "uploadedBy": "rhonjhonson",
+      "version": "1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Backstab animation for sneak killmove SE-74453-1-1662026614.zip",
+          "bytes": 54399,
+          "sha256": "7b38e22307a5ae0e34e08ad54bccf14af4cb5b6397a346b3dcfad67a5de30e3d",
+          "md5": "bc7bba14ee3531b7618434c5760d2e8a",
+          "fileId": 312246,
+          "fileName": "Backstab animation for sneak killmove SE-74453-1-1662026614.zip",
+          "version": "1"
+        }
+      ]
+    },
+    {
+      "id": "extracted/black-marsh-import-0.1",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 48551,
+      "fileId": 1000085609,
+      "fileName": "Argonian Import - V1-48551-0-1.rar",
+      "modName": "Black Marsh Import - Models and Textures",
+      "author": "artiedee",
+      "version": "0.1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Argonian Import - V1-48551-0-1.rar",
+          "bytes": 146078265,
+          "sha256": "ce26f99282dfbf23f4d7d61b9aab3578fe18cdbb9a75dd2cd267de2bae302dda",
+          "md5": "5e262f30d53d05488cfdb96e75353367",
+          "fileId": 1000085609,
+          "fileName": "Argonian Import - V1-48551-0-1.rar",
+          "version": "0.1"
+        }
+      ]
+    },
+    {
+      "id": "extracted/dynamic-dodge-1.5",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 79598,
+      "fileId": 429066,
+      "fileName": "Dynamic Dodge-79598-1-5-1695708046.zip",
+      "modName": "Dynamic Dodge Animation",
+      "author": "lSmoothl",
+      "version": "1.5",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Dynamic Dodge-79598-1-5-1695708046.zip",
+          "bytes": 10182851,
+          "sha256": "831d95c3adde9702981298ba93b526b169751c41acf7704965b1b05aea87f058",
+          "md5": "b2b86e730d9c26db74385cf250ef0e34",
+          "fileId": 429066,
+          "fileName": "Dynamic Dodge-79598-1-5-1695708046.zip",
+          "version": "1.5"
+        }
+      ]
+    },
+    {
+      "id": "extracted/guard-break-1.0",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 94840,
+      "fileId": 406235,
+      "fileName": "Largest Stagger for NPC separate stagger version-94840-v1-0-1689101918.zip",
+      "modName": "NPC Parry Style Stagger animations(OAR)",
+      "author": "SHADOWPQ",
+      "uploadedBy": "shadowPQ",
+      "version": "v1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Largest Stagger for NPC separate stagger version-94840-v1-0-1689101918.zip",
+          "bytes": 1510594,
+          "sha256": "c630dc717a6746aea7c4f8359fbe7cdd3bd3058dc083724e542a7700a65d651d",
+          "md5": "1d5b30213deaf64ee81950b4ee2b4bc8",
+          "fileId": 406235,
+          "fileName": "Largest Stagger for NPC separate stagger version-94840-v1-0-1689101918.zip",
+          "version": "v1.0"
+        }
+      ]
+    },
+    {
+      "id": "extracted/rim-parry-1.1",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 114366,
+      "fileId": 499427,
+      "fileName": "00 Rim Parry Stand Alone - v1.1 Update-114366-v1-1-1715262891.zip",
+      "modName": "Rim Parry and Execution",
+      "author": "SHADOWPQ",
+      "uploadedBy": "shadowPQ",
+      "version": "v1.1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/00 Rim Parry Stand Alone - v1.1 Update-114366-v1-1-1715262891.zip",
+          "bytes": 57643782,
+          "sha256": "b9cadb65f6a88ff272c6863695edfbab92e1e323f0ac5a8d1e26bc7faa8a0a60",
+          "md5": "e36cd048571b7a0e118df49b09799b68",
+          "fileId": 499427,
+          "fileName": "00 Rim Parry Stand Alone - v1.1 Update-114366-v1-1-1715262891.zip",
+          "version": "v1.1"
+        }
+      ]
+    },
+    {
+      "id": "extracted/spear-mechanic-3.0",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 25146,
+      "fileId": 145670,
+      "fileName": "Skyrim Spear Mechanic SE 3.0 DAR-25146-3-0-1592152122.zip",
+      "modName": "Skyrim Spear Mechanic SE",
+      "author": "Ashingda",
+      "uploadedBy": "ashingda",
+      "version": "3.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Skyrim Spear Mechanic SE 3.0 DAR-25146-3-0-1592152122.zip",
+          "bytes": 2788307,
+          "sha256": "d2e714645e59cd1c0ff5f60d2d4f7782d5b1f7aafd502d6352e80b7479e3ef73",
+          "md5": "30c07a5b7347c7ab6fe6eaa179b41ba7",
+          "fileId": 145670,
+          "fileName": "Skyrim Spear Mechanic SE 3.0 DAR-25146-3-0-1592152122.zip",
+          "version": "3.0"
+        }
+      ]
+    },
+    {
+      "id": "here-there-be-monsters-cipactli-35933",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 35933,
+      "fileId": 207025,
+      "fileName": "Here There Be Monsters - Sign of Cipactli SSE-35933-2-92-1622685794.7z",
+      "modName": "Here There Be Monsters - Sign of Cipactli SSE",
+      "author": "Araanim",
+      "version": "2.92",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Here There Be Monsters - Sign of Cipactli SSE-35933-2-92-1622685794.7z",
+          "bytes": 1574090606,
+          "sha256": "c44da49e52ae68d41df23fdf672b406d09ea72a9338e3e496b5be86784d0aed6",
+          "md5": "7ae0c949ed2a065c01fe2149175b2f39",
+          "fileId": 207025,
+          "fileName": "Here There Be Monsters - Sign of Cipactli SSE-35933-2-92-1622685794.7z",
+          "version": "2.92"
+        }
+      ]
+    },
+    {
+      "id": "hoddminir-plants-and-trees-38651",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 38651,
+      "fileId": 1000157344,
+      "fileName": "Hoddminir Plants and trees 1024-38651-3-0.zip",
+      "modName": "Hoddminir Plants and Trees",
+      "author": "Elinen and Ztree",
+      "uploadedBy": "elinen",
+      "version": "3.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/hoddminir-plants-and-trees-38651/Hoddminir Plants and trees 1024-38651-3-0.zip",
+          "bytes": 204306926,
+          "sha256": "42e6127a06c2c277fc98eecae097238aff2b59edb6dcd69db13a8d7169321b47",
+          "md5": "b2cf4dd98c3b8bbb400aba66e4be0e00",
+          "fileId": 1000157344,
+          "fileName": "Hoddminir Plants and trees 1024-38651-3-0.zip",
+          "version": "3.0"
+        }
+      ]
+    },
+    {
+      "id": "hovelmud-63329",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 63329,
+      "fileId": 313724,
+      "fileName": "Hovelmud - esl flagged version-63329-1-0-1662457185.zip",
+      "modName": "Hovelmud",
+      "author": "Lele",
+      "uploadedBy": "emfearlesshart",
+      "version": "1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Hovelmud - esl flagged version-63329-1-0-1662457185.zip",
+          "bytes": 36942409,
+          "sha256": "ea8d9b87bb843cbbda4dcbdee0131b65a5f0d8792c165583dc06c0484502d0e0",
+          "md5": "bc6aed0e28f727ac65f6fe1a5942ffab",
+          "fileId": 313724,
+          "fileName": "Hovelmud - esl flagged version-63329-1-0-1662457185.zip",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "id": "king-of-the-murkmire-190459",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 190459,
+      "fileId": 803646,
+      "fileName": "King of the Murkmire - Main 190459 1.0.2 2026-09-11T09-42Z cE8hkAoxS.7z",
+      "modName": "King of the Murkmire",
+      "author": "pancake0723",
+      "version": "1.0.2",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/king-of-the-murkmire-190459/King of the Murkmire - Main 190459 1.0.2 2026-09-11T09-42Z cE8hkAoxS.7z",
+          "bytes": 721111222,
+          "sha256": "7bf18067157130d47058ce20f0bc15759f5df71b6f81eb05079b8dba720a5ff2",
+          "md5": "c8d6ff17d74d53254b9c60154c1fac1e",
+          "fileId": 803646,
+          "fileName": "King of the Murkmire - Main 190459 1.0.2 2026-09-11T09-42Z cE8hkAoxS.7z",
+          "version": "1.0.2"
+        }
+      ]
+    },
+    {
+      "id": "lore",
+      "source": "other",
+      "game": null,
+      "modId": null,
+      "fileId": null,
+      "fileName": null,
+      "modName": "UESP Morrowind/Black Marsh extract",
+      "author": "UESP (en.uesp.net, CC-BY-SA)",
+      "version": null,
+      "url": "https://en.uesp.net",
+      "archives": [],
+      "fileIdUnknown": "project-made extract of UESP pages; re-fetch through the UESP MediaWiki API"
+    },
+    {
+      "id": "lvx-magick-boats-36149",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 36149,
+      "fileId": 380750,
+      "fileName": "LvxMagicks - Boats-36149-1-3-2-1682146964.7z",
+      "modName": "L.V.X Magick's - Boats",
+      "author": "LvxMagick",
+      "version": "1.3.2",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/LvxMagicks - Boats-36149-1-3-2-1682146964.7z",
+          "bytes": 68830452,
+          "sha256": "4b895b5aa8eda48f469e1b4f8500ee19696250e1d5ade79f66b9009f13d840fe",
+          "md5": "068c7db7c9fe1d7f443d9b2ef51234fe",
+          "fileId": 380750,
+          "fileName": "LvxMagicks - Boats-36149-1-3-2-1682146964.7z",
+          "version": "1.3.2"
+        }
+      ]
+    },
+    {
+      "id": "marsh-rest-50111",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 50111,
+      "fileId": 1000092307,
+      "fileName": "Marsh-Rest Player Home-50111-1-01.zip",
+      "modName": "Marsh-Rest - Argonian Themed Player Home",
+      "author": "Konrann",
+      "version": "1.01",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Marsh-Rest Player Home-50111-1-01.zip",
+          "bytes": 226414,
+          "sha256": "bea64fc2e213a1e8e37c6d9d44d98a42a854960d07cc1a98147ffb29654b71c1",
+          "md5": "03dffc3a0de1dad0069038895bcc43ac",
+          "fileId": 1000092307,
+          "fileName": "Marsh-Rest Player Home-50111-1-01.zip",
+          "version": "1.01"
+        }
+      ]
+    },
+    {
+      "id": "morrowind-hlaalu-157997",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 157997,
+      "fileId": 672522,
+      "fileName": "Morrowind Hlaalu Architecture-157997-v2-0-1759663700.7z",
+      "modName": "Morrowind Hlaalu Architecture",
+      "author": "Angelio",
+      "uploadedBy": "Kai4304",
+      "version": "v2.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/morrowind-hlaalu-157997/Morrowind Hlaalu Architecture-157997-v2-0-1759663700.7z",
+          "bytes": 29831724,
+          "sha256": "c32811d704f25d33fe421e20d1258a965232c6fafc530a2f99d95c1f74c8cad7",
+          "md5": "80349a5d35333b05400dea42b8c0b922",
+          "fileId": 672522,
+          "fileName": "Morrowind Hlaalu Architecture-157997-v2-0-1759663700.7z",
+          "version": "v2.0"
+        }
+      ]
+    },
+    {
+      "id": "morrowind-imperial-keep-133090",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 133090,
+      "fileId": 558713,
+      "fileName": "Morrowind Imperial Keep Set-133090-1-0-1730675084.rar",
+      "modName": "Morrowind Imperial Keep Set (Remodeled)",
+      "author": "Tesak1243",
+      "version": "1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/morrowind-imperial-keep-133090/Morrowind Imperial Keep Set-133090-1-0-1730675084.rar",
+          "bytes": 46904714,
+          "sha256": "d22974919cdd3d6cea25f2b0b0851f2cb636a7569b7c3d1f8ae7b34c8584b9c0",
+          "md5": "b193ad0573e10101ec60716dbc8da5c9",
+          "fileId": 558713,
+          "fileName": "Morrowind Imperial Keep Set-133090-1-0-1730675084.rar",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "id": "mud-mother-grove-146557",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 146557,
+      "fileId": 612821,
+      "fileName": "Mud Mother Grove - ESL File-146557-1-5-1-1743543450.rar",
+      "modName": "Mud Mother Grove - An Argonian Mud Hut",
+      "author": "geminivoid",
+      "uploadedBy": "GeminiVoid",
+      "version": "1.5.1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Mud Mother Grove - ESL File-146557-1-5-1-1743543511.rar",
+          "bytes": 52987252,
+          "sha256": "7ac552437eeac11ff87cf14a4d22e3d4769d16fb7dde6f3c0218c7a133e017f2",
+          "md5": "827cfed7014224abe0df717efda143ba",
+          "fileId": 612821,
+          "fileName": "Mud Mother Grove - ESL File-146557-1-5-1-1743543450.rar",
+          "version": "1.5.1"
+        }
+      ]
+    },
+    {
+      "id": "of-ships-and-boats-57673",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 57673,
+      "fileId": 237997,
+      "fileName": "Of Ships and Boats-57673-1-0-1635623042.zip",
+      "modName": "Of Ships and Boats",
+      "author": "grVulture",
+      "uploadedBy": "grvulture",
+      "version": "1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Of Ships and Boats-57673-1-0-1635623042.zip",
+          "bytes": 578419929,
+          "sha256": "41840229912376e5543d61c0af868ca11b9ec38acb6510c28f2cfd80132991ee",
+          "md5": "f2635a92eef02d39351e58d091a269fe",
+          "fileId": 237997,
+          "fileName": "Of Ships and Boats-57673-1-0-1635623042.zip",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "id": "project-rainforest-20636",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 20636,
+      "fileId": 74798,
+      "fileName": "Project Rainforest SE BASE Loose Files Only-20636-1-5-1544515724.7z",
+      "modName": "Project Rainforest SE - A Tropical Climate and Environment Overhaul",
+      "author": "sa547",
+      "version": "1.5",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/project-rainforest-20636/pr-base-loose.7z",
+          "bytes": 265825890,
+          "sha256": "10c5aa3b2f853e69c8fddfa32d33bd24e1af29796d16c0b7de278591152633ca",
+          "md5": "36f7b84ae35395d434e37f0510aa5cf0",
+          "fileId": 74798,
+          "fileName": "Project Rainforest SE BASE Loose Files Only-20636-1-5-1544515724.7z",
+          "version": "1.5"
+        }
+      ]
+    },
+    {
+      "id": "reimperialized-abandoned-prison-134616",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 134616,
+      "fileId": 565006,
+      "fileName": "Reimperialized Abandoned Prison-134616-1-0-0-1732310629.7z",
+      "modName": "Reimperialized Abandoned Prison - Location Overhaul",
+      "author": "TheLootist",
+      "version": "1.0.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/reimperialized-abandoned-prison-134616/Reimperialized Abandoned Prison-134616-1-0-0-1732310629.7z",
+          "bytes": 39744042,
+          "sha256": "b7b77c03ec53eabb2a823c969ae5a62b8b4156db8d1de7b07db01a2ad10cb200",
+          "md5": "d7b87b68eee357f71b7b3ab12fbb9675",
+          "fileId": 565006,
+          "fileName": "Reimperialized Abandoned Prison-134616-1-0-0-1732310629.7z",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "id": "reimperialized-darklight-tower-133861",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 133861,
+      "fileId": 563584,
+      "fileName": "Reimperialized Darklight Tower ESP-133861-1-1-2-1731921639.7z",
+      "modName": "Reimperialized Darklight Tower - Location Overhaul",
+      "author": "TheLootist",
+      "version": "1.1.2",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/reimperialized-darklight-tower-133861/Reimperialized Darklight Tower ESP-133861-1-1-2-1731921639.7z",
+          "bytes": 39919360,
+          "sha256": "a5001cec77d0166de4d619362594c66baa08adbcec01ca744b710888b93ed93b",
+          "md5": "e0ee26a45a182d27ee4fa7cc02254ed5",
+          "fileId": 563584,
+          "fileName": "Reimperialized Darklight Tower ESP-133861-1-1-2-1731921639.7z",
+          "version": "1.1.2"
+        }
+      ]
+    },
+    {
+      "id": "reimperialized-fort-frostmoth-134592",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 134592,
+      "fileId": 564950,
+      "fileName": "Reimperialized Fort Frostmoth-134592-1-0-0-1732301330.7z",
+      "modName": "Reimperialized Fort Frostmoth - Location Overhaul",
+      "author": "TheLootist",
+      "version": "1.0.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/reimperialized-fort-frostmoth-134592/Reimperialized Fort Frostmoth-134592-1-0-0-1732301330.7z",
+          "bytes": 40337217,
+          "sha256": "67839da058330a9c68e2bf9cda674404f276ec7e69f89df629fdacfd9dd387cc",
+          "md5": "8d6318d214a56f769ac108121fc51045",
+          "fileId": 564950,
+          "fileName": "Reimperialized Fort Frostmoth-134592-1-0-0-1732301330.7z",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "id": "rowboats-of-skyrim-35341",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 35341,
+      "fileId": 137136,
+      "fileName": "RowBoats and Oars of Skyrim-35341-Final-1588245076.7z",
+      "modName": "Rowboats of skyrim",
+      "author": "PraedythXVI",
+      "version": "Final",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/RowBoats and Oars of Skyrim-35341-Final-1588245076.7z",
+          "bytes": 5929374,
+          "sha256": "9edfe3ebe786a00f6e05b188276d71f1bf00e45d32a21cf5835e6b38fe6ec878",
+          "md5": "8cffa1903d8d1fd15a9ad37d1828ee03",
+          "fileId": 137136,
+          "fileName": "RowBoats and Oars of Skyrim-35341-Final-1588245076.7z",
+          "version": "Final"
+        }
+      ]
+    },
+    {
+      "id": "sailboats-expanded-40057",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 40057,
+      "fileId": 204643,
+      "fileName": "Sailboats SSE-40057-2-0-1621552064.7z",
+      "modName": "Sailboats - Script Free Sailing EXPANDED SSE",
+      "author": "ElstarTomas and DeviantKhaled and Araanim",
+      "uploadedBy": "Araanim",
+      "version": "2.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Sailboats SSE-40057-2-0-1621552064.7z",
+          "bytes": 60733985,
+          "sha256": "2e2919e5ff6b2d66cc4055efd305db11e5e920f465e95bf09b513e0892642d82",
+          "md5": "2623fe31d79bf64e6d73405b75d73315",
+          "fileId": 204643,
+          "fileName": "Sailboats SSE-40057-2-0-1621552064.7z",
+          "version": "2.0"
+        }
+      ]
+    },
+    {
+      "id": "script-free-ship-sailing-67727",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 67727,
+      "fileId": 1000173736,
+      "fileName": " Script free ship sailing 2.3-67727-2-3.7z",
+      "modName": "Script free ship sailing",
+      "author": "ElstarTomas",
+      "version": "2.3",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/ Script free ship sailing 2.3-67727-2-3.7z",
+          "bytes": 4856017,
+          "sha256": "f13d0875fcc258bfa4f3b9ab1acf105d744159b8bae7074584a8e91dc18237e6",
+          "md5": "af3217d9d9eb33056a95669e4acd268b",
+          "fileId": 1000173736,
+          "fileName": " Script free ship sailing 2.3-67727-2-3.7z",
+          "version": "2.3"
+        }
+      ]
+    },
+    {
+      "id": "seashells-jokerine-4492",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 4492,
+      "fileId": 8702,
+      "fileName": "Seashells SSE-4492-3-0.7z",
+      "modName": "Seashells",
+      "author": "Jokerine",
+      "version": "3.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/seashells-jokerine-4492/Seashells SSE-4492-3-0.7z",
+          "bytes": 9803037,
+          "sha256": "b561bd0a1ead01c007febb708b6279d80a37c7c8efa8655f800874fbc5c61c68",
+          "md5": "00aa33355335946e031b64381de14e59",
+          "fileId": 8702,
+          "fileName": "Seashells SSE-4492-3-0.7z",
+          "version": "3.0"
+        }
+      ]
+    },
+    {
+      "id": "ships-and-boats-of-tamriel-41653",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 41653,
+      "fileId": 406330,
+      "fileName": "Ships and Boats of Tamriel 1.2-41653-1-2-1689133732.zip",
+      "modName": "Ships and boats of Tamriel",
+      "author": "ThatShipGuy",
+      "version": "1.2",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Ships and Boats of Tamriel 1.2-41653-1-2-1689133732.zip",
+          "bytes": 211496927,
+          "sha256": "1bd5c3fac0d5c032ee0efbc085f0b2b9fec68bd0f44c4ec7b08be81926bddbaa",
+          "md5": "b2263740ed5c90bb9947cdac8793bf83",
+          "fileId": 406330,
+          "fileName": "Ships and Boats of Tamriel 1.2-41653-1-2-1689133732.zip",
+          "version": "1.2"
+        }
+      ]
+    },
+    {
+      "id": "shores-of-skyrim-cc-140081",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 140081,
+      "fileId": 602219,
+      "fileName": "b) Shores of Skyrim Part Two CC Attribution Files-140081-1-4-1741221118.rar",
+      "modName": "Shores of Skyrim - Base Object Swapper",
+      "author": "FrankBlack",
+      "version": "1.4",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/shores-of-skyrim-cc-140081/b) Shores of Skyrim Part Two CC Attribution Files-140081-1-4-1741221118.rar",
+          "bytes": 80295535,
+          "sha256": "44307f926585bc24ffa7a5ef5b09b63e450edca87dd255c48e0ea59856ee6934",
+          "md5": "9cbeb1a336de994d9da958de80de1ef3",
+          "fileId": 602219,
+          "fileName": "b) Shores of Skyrim Part Two CC Attribution Files-140081-1-4-1741221118.rar",
+          "version": "1.4"
+        }
+      ]
+    },
+    {
+      "id": "sirenroot-70917",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 70917,
+      "fileId": 747488,
+      "fileName": "SIRENROOT - Deluge of Deceit 1.30-70917-1-30-1777622316.zip",
+      "modName": "SIRENROOT - Deluge of Deceit",
+      "author": "Everglaid",
+      "version": "1.30",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/SIRENROOT - Deluge of Deceit 1.30-70917-1-30-1777622316.zip",
+          "bytes": 354204438,
+          "sha256": "c1ba1454928262e37fb2c01d75aefbc492c75964df65cc253cfdd75e5948578b",
+          "md5": "9172c4d2825561b0d60ce5e2ae51d9aa",
+          "fileId": 747488,
+          "fileName": "SIRENROOT - Deluge of Deceit 1.30-70917-1-30-1777622316.zip",
+          "version": "1.30"
+        }
+      ]
+    },
+    {
+      "id": "skyrim-ferries-109843",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 109843,
+      "fileId": 763594,
+      "fileName": "Skyrim Ferries 109843 1.4.1 2026-06-14T12-35Z cE8hkAawL.zip",
+      "modName": "Skyrim Ferries - Immersive Real-Time Water Travel",
+      "author": "Mharlek1",
+      "version": "1.4.1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Skyrim Ferries 109843 1.4.1 2026-06-14T12-35Z cE8hkAawL.zip",
+          "bytes": 66801984,
+          "sha256": "2fb9aae7ba870042c0f4c8310471fab18f5b5e3c4068e8eaabd13ee6dd39c3ba",
+          "md5": "0f00c4f48fba01f1a3fb02deea13506f",
+          "fileId": 763594,
+          "fileName": "Skyrim Ferries 109843 1.4.1 2026-06-14T12-35Z cE8hkAawL.zip",
+          "version": "1.4.1"
+        }
+      ]
+    },
+    {
+      "id": "sleeping-hist-tree-overhaul-116792",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 116792,
+      "fileId": 498345,
+      "fileName": "Skyfall Sleeping Hist Tree Overhaul-116792-1-4-1714968243.7z",
+      "modName": "Skyfall's Sleeping Hist Tree Overhaul",
+      "author": "Skyfall515 - ToosTruus - Clofas",
+      "uploadedBy": "skyfall515",
+      "version": "1.4",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Skyfall Sleeping Hist Tree Overhaul-116792-1-4-1714968243.7z",
+          "bytes": 32984141,
+          "sha256": "1b7f3e3149f2db8735403bb44ef849ee865063300e01dd5f188551dfaf2ea5cf",
+          "md5": "e6faebccfc691cd7d112a54b92c7de65",
+          "fileId": 498345,
+          "fileName": "Skyfall Sleeping Hist Tree Overhaul-116792-1-4-1714968243.7z",
+          "version": "1.4"
+        }
+      ]
+    },
+    {
+      "id": "solitude-ghost-ferry-89948",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 89948,
+      "fileId": 1000302289,
+      "fileName": "SNT solitude Ferrymen Family-89948-1-1-00-1564848500.zip",
+      "modName": "Solitude (ghost) Ferry",
+      "author": "Syntia",
+      "uploadedBy": "Syntia13",
+      "version": "1.1.00",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/SNT solitude Ferrymen Family-89948-1-1-00-1564848500.zip",
+          "bytes": 10164999,
+          "sha256": "5345ab860dbd0d3afce745bd2c862ac19a5754b2aa90168f97c53517bbb7eac0",
+          "md5": "32cd6ed1b1d9ba8ebd5b4fa924caad5c",
+          "fileId": 1000302289,
+          "fileName": "SNT solitude Ferrymen Family-89948-1-1-00-1564848500.zip",
+          "version": "1.1.00"
+        }
+      ]
+    },
+    {
+      "id": "starfish-on-shores-160829",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 160829,
+      "fileId": 672879,
+      "fileName": "SOS (SE-AE)-160829-1-1759754178.rar",
+      "modName": "Starfish on Shores- Mihail's Shards of Immersion (SE-AE)",
+      "author": "Mihail",
+      "uploadedBy": "MihailMods",
+      "version": "1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/starfish-on-shores-160829/SOS (SE-AE)-160829-1-1759754178.rar",
+          "bytes": 6165345,
+          "sha256": "02bd6711fb79311419f9b47378c94326dd13a092afdf8d999b11e2bbe4cc6c60",
+          "md5": "fd8cdd6f4c2e64d71e145f5376a87e65",
+          "fileId": 672879,
+          "fileName": "SOS (SE-AE)-160829-1-1759754178.rar",
+          "version": "1"
+        }
+      ]
+    },
+    {
+      "id": "tamriel-worldspaces-118678",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 118678,
+      "fileId": 498168,
+      "fileName": "Argonia-118678-1-0-0-1714930521.zip",
+      "modName": "Tamriel Worldspaces",
+      "author": "DaSplatfestGurl",
+      "version": "1.0.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tamriel-worldspaces-118678/Argonia-118678-1-0-0-1714930521.zip",
+          "bytes": 32389610,
+          "sha256": "d14637601c6ca353467b67415830a893b2294f9caac46394d52cd14173690a70",
+          "md5": "4b2126690eccef8a88e2d8a97344812a",
+          "fileId": 498168,
+          "fileName": "Argonia-118678-1-0-0-1714930521.zip",
+          "version": "1.0.0"
+        }
+      ]
+    },
+    {
+      "id": "tropical-skyrim-33017",
+      "source": "nexus",
+      "game": "skyrim",
+      "modId": 33017,
+      "fileId": 1000016188,
+      "fileName": "Tropical Skyrim v1_0-33017-1-0.zip",
+      "modName": "Tropical Skyrim -- A Climate Overhaul",
+      "author": "Soolie",
+      "version": "1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tropical-skyrim-33017/extra_1000016632.bin",
+          "bytes": 471,
+          "sha256": "c851de851f4b2e663039cb66c4cc2b20e19700e4ca894c6da8f08a72541db7ed",
+          "md5": "1fd61ac7a92e635058489a47591173c6",
+          "fileId": 1000016632,
+          "fileName": "TEXTURE MISSING FROM MAIN ARCHIVE -- MUST DOWNLOAD THIS AS WELL-33017-1-0.zip",
+          "version": "1.0"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tropical-skyrim-33017/extra_1000017932.bin",
+          "bytes": 2622542,
+          "sha256": "6d13f696c90d57e1f4e94bcea8369256360b15a76867b06d2a3c14a86651188d",
+          "md5": "1758d2af8c8cbba8bef8ce9b187e1625",
+          "fileId": 1000017932,
+          "fileName": "UPDATE v1_1  -- DOWNLOAD THIS -33017-1-1.zip",
+          "version": "1.1"
+        },
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tropical-skyrim-33017/main.zip",
+          "bytes": 918846876,
+          "sha256": "563649269c353bb2162461ee8cac69a04ffb3afebf01045ef9ab412bfdd17d7f",
+          "md5": "d571a96d11e1f45735480374acaec09c",
+          "fileId": 1000016188,
+          "fileName": "Tropical Skyrim v1_0-33017-1-0.zip",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "id": "underwater-treasure-17267",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 17267,
+      "fileId": 54590,
+      "fileName": "Underwater Treasures SSE SoG- Rivers and Lakes 1-0-17267-1-0.rar",
+      "modName": "Underwater Treasure SSE",
+      "author": "Jokerine",
+      "uploadedBy": "fiskin1",
+      "version": "1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Underwater Treasures SSE SoG- Rivers and Lakes 1-0-17267-1-0.rar",
+          "bytes": 51124,
+          "sha256": "2fbf9e5a31b0b01f27506f1835f3b9859324d9b88adff63dea24c2a31e89cdb2",
+          "md5": "5278795168b6e46ec4f6fd47627c2e28",
+          "fileId": 54590,
+          "fileName": "Underwater Treasures SSE SoG- Rivers and Lakes 1-0-17267-1-0.rar",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "id": "various-immersive-rowboats-98215",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 98215,
+      "fileId": 435613,
+      "fileName": "Various Immersive Rowboats-98215-1-0-1-1697857546.7z",
+      "modName": "Various Immersive Rowboats",
+      "author": "Tribevel",
+      "version": "1.0.1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Various Immersive Rowboats-98215-1-0-1-1697857546.7z",
+          "bytes": 264975,
+          "sha256": "4a58c999986ded27504edcec1853309973ac6ed4ecde4bcf39206b4fb7df0418",
+          "md5": "d1cfb33d176231e3ac9d437516f1d043",
+          "fileId": 435613,
+          "fileName": "Various Immersive Rowboats-98215-1-0-1-1697857546.7z",
+          "version": "1.0.1"
+        }
+      ]
+    },
+    {
+      "id": "xalfek-55595",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 55595,
+      "fileId": 228564,
+      "fileName": "Xalfek - An Argonian Home ESP-55595-1-0-1631720247.zip",
+      "modName": "Xalfek - An Argonian Home",
+      "author": "DexMods",
+      "uploadedBy": "DexModsOfficial",
+      "version": "1.0",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/archives/Xalfek - An Argonian Home ESP-55595-1-0-1631720247.zip",
+          "bytes": 36592829,
+          "sha256": "e341443b7de89f1a18706bd0d2e6c01b7b8b7cf9ae0d65ba7a1c6ea71a50b82f",
+          "md5": "1a39f1f01f79a9107730d6620258eb61",
+          "fileId": 228564,
+          "fileName": "Xalfek - An Argonian Home ESP-55595-1-0-1631720247.zip",
+          "version": "1.0"
+        }
+      ]
+    },
+    {
+      "id": "xanmeer-tileset-181193",
+      "source": "nexus",
+      "game": "skyrimspecialedition",
+      "modId": 181193,
+      "fileId": 790547,
+      "fileName": "Xanmeer Resources 181193 1.1 2026-08-15T23-35Z tSBIcEWjI.7z",
+      "modName": "Argonian Xanmeer Tileset - Modder's Resource",
+      "author": "DarthVitrial",
+      "version": "1.1",
+      "archives": [
+        {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/xanmeer-tileset-181193/xanmeer-resources-1.1.7z",
+          "bytes": 64877862,
+          "sha256": "29baf86a70d81a1b74bead256c6ce2ed2e607ff1a6b04331a651ba6a0e366e2e",
+          "md5": "fffc805f05feaa08e8d92b5fc6be6966",
+          "fileId": 790547,
+          "fileName": "Xanmeer Resources 181193 1.1 2026-08-15T23-35Z tSBIcEWjI.7z",
+          "version": "1.1"
+        }
+      ]
+    }
+  ]
+}

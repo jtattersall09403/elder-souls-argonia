@@ -1,62 +1,65 @@
 {
  "schemaVersion": 1,
- "_": "Ground contact is measured by the kit build. Anchor and burial values are authored policy: they are not inferred from a mesh name, bounds, or category.",
+ "_": "Ground contact is measured: per-asset designedSinkM comes from the makers' own placements (world/sources/placement/kit-designed-sink.json) or, failing that, from the mesh tell. What survives here is the anchor mode and the buryCapM ceiling per class, plus the policy-fallback sink for assets with neither kind of evidence. assetPolicyEvidence: why an asset row overrides its kit's policy where the mined contact vote is ambiguous (16h round 12). deckClearanceM (stilt policy): the deck top's height above the support surface where the plugins give no evidence (16h round 13). fallbackWaterlineM (16h round 18): the pivot's depth under the water surface a water-class asset takes when no plugin gives it a waterline (evidence policy in the mounts record); only rows that seat water-class assets carry it (water-zero watercraft 0.0, stilt plank ferry 0.12, pad rubble 0.18, dug-in wrecks 0.35), never read from fallbackSinkM. assetPlacement (planner ruling 2026-09-24): a reviewed per-asset row that decides the asset's anchorClass, designedSinkM and/or designedWaterlineM (metres, pivot-relative as in the manifests) ahead of the mined records when the manifests are refreshed (placement_metadata.py --refresh-built-manifests [--kit ID]); evidence policy; every row carries its why and a field it leaves out keeps the mined value.",
  "policies": {
   "direct": {
    "anchorMode": "streamed-origin",
-   "buryM": 0.08,
    "buryCapM": 0.25,
-   "slopeBuryPerM": 0.08,
-   "evidence": "Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+   "evidence": "Reviewed direct-ground policy matching the Phase 11 settlement grounding contract.",
+   "fallbackSinkM": 0.08
   },
   "plinth": {
    "anchorMode": "streamed-perimeter",
-   "buryM": 0.25,
    "buryCapM": 0.9,
-   "slopeBuryPerM": 0.08,
-   "evidence": "Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+   "evidence": "Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract.",
+   "fallbackSinkM": 0.25
   },
   "pad": {
    "anchorMode": "streamed-perimeter",
-   "buryM": 0.18,
    "buryCapM": 0.5,
-   "slopeBuryPerM": 0.08,
-   "evidence": "Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+   "evidence": "Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract.",
+   "fallbackSinkM": 0.18,
+   "fallbackWaterlineM": 0.18
   },
   "stilt": {
    "anchorMode": "streamed-perimeter",
-   "buryM": 0.12,
    "buryCapM": 0.25,
-   "slopeBuryPerM": 0.08,
-   "evidence": "Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+   "evidence": "Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py).",
+   "fallbackSinkM": 0.12,
+   "deckClearanceM": 0.35,
+   "fallbackWaterlineM": 0.12
   },
   "dug-in": {
    "anchorMode": "streamed-perimeter",
-   "buryM": 0.35,
    "buryCapM": 0.75,
-   "slopeBuryPerM": 0.08,
-   "evidence": "Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+   "evidence": "Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract.",
+   "fallbackSinkM": 0.35,
+   "fallbackWaterlineM": 0.35
   },
   "route-structure": {
    "anchorMode": "streamed-origin",
-   "buryM": 0.06,
    "buryCapM": 0.15,
-   "slopeBuryPerM": 0.0,
-   "evidence": "Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+   "evidence": "Reviewed route deck/landing policy matching the compiled route-structure grounding contract.",
+   "fallbackSinkM": 0.06
   },
   "interior-zero": {
    "anchorMode": "streamed-origin",
-   "buryM": 0.0,
    "buryCapM": 0.0,
-   "slopeBuryPerM": 0.0,
-   "evidence": "Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+   "evidence": "Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden.",
+   "fallbackSinkM": 0.0
   },
   "water-zero": {
    "anchorMode": "streamed-origin",
-   "buryM": 0.0,
    "buryCapM": 0.0,
-   "slopeBuryPerM": 0.0,
-   "evidence": "Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
+   "evidence": "Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden.",
+   "fallbackSinkM": 0.0,
+   "fallbackWaterlineM": 0.0
+  },
+  "deck": {
+   "anchorMode": "streamed-origin",
+   "buryCapM": 0.0,
+   "evidence": "Reviewed rests-on-a-host policy (16h round 13): a piece built to rest on another piece (the Telvanni treehouse connector on its tree or platform) takes the deck anchor class where its mined contact vote is ambiguous; the host supplies the datum, so terrain burial is forbidden, as for interior-zero.",
+   "fallbackSinkM": 0.0
   }
  },
  "kitPolicies": {
@@ -108,25 +111,47 @@
   "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01": "dug-in",
   "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01": "dug-in",
   "bmv:advertising_board": "stilt",
-  "bmv:architecture/philscaves/small/doorcaveb": "dug-in",
   "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": "route-structure",
   "bmv:architecture/citebosmer/passerelles/troncons/passl128d01": "route-structure",
   "bmv:architecture/citebosmer/passerelles/troncons/passl256d01": "route-structure",
   "bmv:architecture/huts/exterior/hutdecking": "stilt",
+  "bmv:architecture/philscaves/small/doorcaveb": "dug-in",
   "bmv:architecture/redoran/custom/redoranwallgate": "dug-in",
+  "bmv:architecture/ships/imperialship01base": "water-zero",
+  "bmv:architecture/stilthouse/stilthouseext": "water-zero",
+  "bmv:landscape/grass/vurt_reeds": "water-zero",
+  "bmv:landscape/grass/watercoralgrass01": "water-zero",
+  "bmv:landscape/grass/waterkelpshort01": "water-zero",
+  "bmv:landscape/grass/waterkelptall01": "water-zero",
+  "bmv:landscape/plants/kelptallstatic01aaa": "water-zero",
+  "bmv:landscape/trees/cedartree3": "water-zero",
   "bmv:landscape/trees/cypress1": "direct",
   "bmv:landscape/trees/cypress3": "direct",
+  "bmv:landscape/trees/gkblillipad": "water-zero",
+  "bmv:landscape/trees/gkblillipad2": "water-zero",
+  "bmv:landscape/trees/reedlarge1": "water-zero",
+  "bmv:landscape/trees/reedmed1": "water-zero",
+  "bmv:landscape/trees/reedsmall1": "water-zero",
+  "bmv:landscape/trees/reedsmall2": "water-zero",
   "bmv:landscape/trees/treewillow03a": "direct",
   "bmv:sheogorad/dagon fel/dockspilings": "stilt",
   "bmv:sheogorad/dagon fel/dockssteps": "stilt",
+  "bmv:telvanni/tel_int_connector_01": "deck",
   "composite:docks/quay-run-2": "stilt",
-  "composite:farmhouse/farmhouse01-with-door": "stilt",
+  "composite:farmhouse/farmhouse01-with-door": "plinth",
   "composite:farmhouse/farmhouse02-with-door": "plinth",
   "composite:mud/hut-with-entrance": "pad",
   "composite:stilt/bamboohut01-with-door": "stilt",
   "composite:stilt/bamboohut02-with-door": "stilt",
   "composite:stilt/kiosk-with-access": "stilt",
   "composite:stilt/stilthouse-with-door": "stilt",
+  "depths:landscape/grass/tbp_seaweed01": "water-zero",
+  "depths:landscape/grass/tbp_seaweed02": "water-zero",
+  "depths:landscape/grass/tbp_seaweed06": "water-zero",
+  "depths:landscape/grass/tbp_seaweed06var1": "water-zero",
+  "depths:landscape/grass/waterkelptall02": "water-zero",
+  "depths:landscape/grass/waterkelptall03": "water-zero",
+  "ferryraft:snt/ferry/ferryraft01": "stilt",
   "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": "direct",
   "histtree:skyfall/sleeping tree overhaul/histflower01": "direct",
   "histtree:skyfall/sleeping tree overhaul/rockcairn01": "direct",
@@ -163,14 +188,18 @@
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01": "dug-in",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01": "direct",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01": "pad",
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02": "pad",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01": "pad",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01": "pad",
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01": "pad",
   "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01": "dug-in",
   "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow": "dug-in",
   "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01": "dug-in",
   "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05": "dug-in",
+  "tropical:landscape/grass/cattailgrass": "water-zero",
   "tropical:landscape/trees/anvil_root01": "direct",
   "tropical:landscape/trees/anvilgianttrunk": "direct",
+  "vanilla:architecture/docks/dockcolstrsign01": "direct",
   "vanilla:architecture/farmhouse/stonewall/stonewallterrace01": "route-structure",
   "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01": "route-structure",
   "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01": "route-structure",
@@ -180,6 +209,10 @@
   "vanilla:clutter/barrel01": "direct",
   "vanilla:clutter/carts/handcart01": "pad",
   "vanilla:clutter/horsetrough/horsetrough01": "pad",
+  "vanilla:clutter/imperial/impwallsconcecandle01": "direct",
+  "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01": "direct",
+  "vanilla:clutter/signage/whiterun/signwrpost01": "direct",
+  "vanilla:clutter/signage/whiterun/signwrstables01": "direct",
   "vanilla:clutter/smelter/smelter01": "dug-in",
   "vanilla:clutter/stockade/stockadescaffoldbase2sided01": "dug-in",
   "vanilla:clutter/stockade/stockadescaffoldbase3sided01": "stilt",
@@ -189,20 +222,81 @@
   "vanilla:clutter/stockade/stockadescaffoldramp01": "direct",
   "vanilla:clutter/stockade/stockadescaffoldstairs01": "direct",
   "vanilla:clutter/stockade/stockadescaffoldtop3sided01": "stilt",
+  "vanilla:dungeons/imperial/clutterkits/impfreewall01": "direct",
   "vanilla:dungeons/mines/ore/mineoreiron01": "dug-in",
   "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01": "pad",
-  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01": "route-structure",
-  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01": "route-structure",
   "vanilla:dungeons/nordic/exterior/nortmpextplattower01": "route-structure",
-  "vanilla:landscape/bridges/bridgeshort01": "route-structure",
-  "vanilla:landscape/bridges/bridgenarrow01": "route-structure",
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01": "route-structure",
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01": "route-structure",
   "vanilla:landscape/bridges/bridge01": "route-structure",
-  "vanilla:landscape/bridges/bridgelong01": "route-structure"
+  "vanilla:landscape/bridges/bridgelong01": "route-structure",
+  "vanilla:landscape/bridges/bridgenarrow01": "route-structure",
+  "vanilla:landscape/bridges/bridgeshort01": "route-structure",
+  "vanilla:landscape/grass/watercoralgrass01": "water-zero",
+  "vanilla:landscape/grass/waterkelpshort01": "water-zero",
+  "vanilla:landscape/plants/kelpshortstatic01": "water-zero",
+  "vanilla:landscape/plants/kelptallstatic01": "water-zero"
  },
  "expandedRefs": {
   "dungeon-root-v1": "parcel.interior.assetRef is a kit-family claim expanded by worldgen.interiors_index, not a renderable asset identity"
  },
  "nonPhysicalCompiledRefs": {
   "dock-placeholder": "kit-less compiler debug marker explicitly omitted by export_settlement_bundle"
+ },
+ "assetPolicyEvidence": {
+  "bmv:architecture/ships/imperialship01base": "hull sections rest on each other over water, so contact reads deck/hanging; the hull floats",
+  "bmv:architecture/stilthouse/stilthouseext": "its two placements meet terrain at the waterline; the stilt house stands in the lake",
+  "bmv:landscape/grass/vurt_reeds": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/grass/watercoralgrass01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/grass/waterkelpshort01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/grass/waterkelptall01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/plants/kelptallstatic01aaa": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/trees/cedartree3": "crowns touch neighbouring trees over deep water and the trunk never reaches the bed; the swamp cedar stands in the water",
+  "bmv:landscape/trees/gkblillipad": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/trees/gkblillipad2": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/trees/reedlarge1": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/trees/reedmed1": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/trees/reedsmall1": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:landscape/trees/reedsmall2": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "bmv:telvanni/tel_int_connector_01": "a Telvanni treehouse connector rests on the tree or platform it links by design; its mined vote splits ground 50 / hanging 37 / wall 33 / deck 9 of 129 because it touches trunks, walls and floors at once (16h round 13); the bmv-treehouse-int kit holds no other connector",
+  "depths:landscape/grass/tbp_seaweed01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "depths:landscape/grass/tbp_seaweed02": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "depths:landscape/grass/tbp_seaweed06": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "depths:landscape/grass/tbp_seaweed06var1": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "depths:landscape/grass/waterkelptall02": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "depths:landscape/grass/waterkelptall03": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "tropical:landscape/grass/cattailgrass": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "vanilla:landscape/grass/watercoralgrass01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "vanilla:landscape/grass/waterkelpshort01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "vanilla:landscape/plants/kelpshortstatic01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)",
+  "vanilla:landscape/plants/kelptallstatic01": "aquatic plant (kit category aquatic-plant): it grows in the water, so a vote split by stems leaning on rocks or the bed is decided as water (16h round 13)"
+ },
+ "assetPlacement": {
+  "composite:docks/quay-run-2": {
+   "anchorClass": "water",
+   "designedWaterlineM": -0.3062,
+   "why": "Two vanilla dock decks on pilings reaching 6.3 m under the deck top, which sits 0.044 m above the pivot. No plugin places the composite, so the record reads ground/unplaced. A stilt or quay piece is seated by its deck (owner 2026-09-23): the deck top 0.35 m (stilt deckClearanceM) above the water surface, so the water stands 0.306 m under the pivot."
+  },
+  "vanilla:architecture/docks/dockstrent01": {
+   "anchorClass": "water",
+   "why": "Dock deck at the pivot on 6.23 m pilings: it stands in the water. Vanilla chains these decks on each other (67 of 83 references on another deck), so the contact vote reads deck; the waterline stays the plugin value (67 references)."
+  },
+  "vanilla:clutter/signage/whiterun/signwrpost01": {
+   "anchorClass": "ground",
+   "why": "Sign post 2.74 m tall with its base at the pivot and the arm at the top: it stands on the ground. The plugin vote splits deck 4 / ground 3 / wall 1 because Whiterun sets several posts on stone paving; the plugin sink (n 5) stays."
+  },
+  "bmv:architecture/stilthouse/stilthouseext": {
+   "anchorClass": "water",
+   "designedWaterlineM": -1.6213,
+   "why": "The stilt house shell stands in the lake (its two placements meet the terrain at the waterline). Seated by its deck (owner 2026-09-23): the deck top 1.271 m under the pivot, 0.35 m (stilt deckClearanceM) above the water, so the water stands 1.621 m under the pivot, the mesh-sill deck datum."
+  },
+  "bmv:architecture/stilthouse/stilthousedooranim": {
+   "anchorClass": "hanging",
+   "why": "Door leaf 2.35 x 0.09 m with its bottom at the pivot: it hangs on its frame in the stilt house doorway. No plugin places it alone, so the record reads ground/unplaced."
+  },
+  "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": {
+   "designedSinkM": 0.0,
+   "why": "Bosmer walkway stair: its bottom tread band lies at the pivot (z 0 to 0.1 m) and its supports reach 1.54 m below. The stair's foot stands on the ground and the supports are buried, so the pivot sits at the ground (sink 0). The mesh-sill tell took the supports' feet (-1.54 m) and stood the bottom tread 1.54 m in the air."
+  }
  }
 }

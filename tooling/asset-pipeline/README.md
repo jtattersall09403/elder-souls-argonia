@@ -24,6 +24,7 @@ python3 -m pipeline.build    --character dunmer-combat   # -> output/character-d
 python3 -m pipeline.validate --character dunmer-combat   # structural GLB check
 
 python3 -m pipeline.build_kit --kit settlement-mud-v1    # -> output/kits/<kit>.glb (raw), republishes a published kit
+python3 -m pipeline.build_kit --kits a,b,c --jobs N      # whole kits side by side, one Wine+Blender each (default N below)
 python3 -m pipeline.kit_compress --kit settlement-mud-v1 # publish: KTX2/UASTC + meshopt -> apps/world-studio/public/kits/
 python3 -m pipeline.kit_compress --kit settlement-mud-v1 --check   # verify the published kit
 python3 -m pipeline.texture_quality --source output/kits/x.glb --packed ../../apps/world-studio/public/kits/x.glb
@@ -288,3 +289,70 @@ current file IDs, and paired-HKX track splitting.
 
 The proven interactive path this productionises is preserved under
 `prototypes/pynifly/` — see its README for the toolchain specifics.
+
+## Contact sheets and assembly sheets
+
+Two renderers answer the questions a manifest cannot, both headless through
+Wine Blender (`pipeline/config/toolchain.json`), both writing PNGs plus a
+`sheet.md` that a fresh reader judges the frames from.
+
+`pipeline/render_sheet.py --kit <kit> --out <dir>` is the candidate sheet: one
+framed still per asset with a 1.8 m human bar, for choosing between sourced
+meshes.
+
+`pipeline/render_assembly.py` is the assembly sheet: pieces standing TOGETHER,
+six frames each (four level orthographic elevations named for the side the
+camera stands on, an orthographic plan, and a collider frame), on a 1 m grid, with the
+designed ground line in red, the front arrow in green, doorway and connector
+marks in yellow and the collider wire in cyan. `render_sheet.py` forwards every
+assembly mode, so either entry point works:
+
+    python3 -m pipeline.render_sheet --assembly <file>.json --out <dir>
+    python3 -m pipeline.render_sheet --template <set>/<templateId> --out <dir>
+    python3 -m pipeline.render_sheet --all-templates --out <dir>
+    python3 -m pipeline.render_sheet --kit-sheet <kit> --out <dir>
+    python3 -m pipeline.render_sheet --mount-pair <child> <parent> --out <dir>
+    python3 -m pipeline.render_sheet --all-mount-pairs --out <dir>
+    # --flat, --skip-existing, --limit N, --res, --dry-run (jobs + sheet.md, no Blender)
+    # --preset owner|sonnet, --jobs N (Blender sessions at once, default 2)
+
+An assembly file is `{name, groundZ?, pieces: [{assetId, positionM: [x, up, z],
+yawDeg, pitchDeg?, parentId?, id?}]}`; a piece with `parentId` is an offset in
+its parent's frame. `--template` builds that file from
+`world/sources/placement/kit-assemblies-mined.json`, `--all-templates` from
+every mined template whose two pieces are both in a built kit, `--kit-sheet`
+from a kit's assets plus their mined mounts
+(`world/sources/placement/kit-mounts-mined.json`), `--mount-pair` from one
+mined pair, `--all-mount-pairs` from every mined pair whose child and parent
+are both built. Frames land under gitignored `output/sheets/`; a relative
+`--out` is relative to the current directory.
+
+`--flat` stands every root piece so its designed ground line is up = 0, on one
+plane: the sheet then judges KIT truth (does the piece meet its own line, do
+two pieces meet) rather than the terrain a stale bundle happened to record.
+`--skip-existing` leaves an assembly only when its preset's frames are on disk
+AND its `<safeName>.stamp.json` (each source kit GLB's mtime + size, and the
+preset) matches: a rebuilt kit or another preset re-renders.
+
+`--preset owner` (default) is the full sheet a person judges: 512 px, six
+views, 12 Cycles samples. `--preset sonnet` is what a Sonnet reader needs:
+256 px, `front`, `right` and `plan`, 6 samples. `--res` overrides either.
+
+A batch renders as ONE BLENDER SESSION PER SET OF KITS, not one per assembly
+and not one for everything: a session pays for every GLB it has imported on
+every Cycles frame, and the built kits are ~600 MB together. Grouped, and with
+the imported originals held in a view-layer-excluded collection, a template
+costs about 4 s instead of the 48 s a single all-kits session cost. `--jobs N`
+(default 2) runs N of those sessions at once; each writes only its own
+assemblies' files. One session peaked at 0.6–1.0 GiB (process tree RSS,
+2026-09-23), so N is bounded by the 12 GiB cgroup, not the frames.
+
+`build_kit --kits a,b,c` builds whole kits side by side, one Wine+Blender per
+kit (default `--jobs 3`: settlement-mud-v1 peaks at 1.2 GiB; floor(7 GiB / 1.2)
+capped at 3). Two Blenders share the one WINEPREFIX without trouble. Pair a big
+kit (flora-province-v1, not measured) only with small ones, or pass `--jobs 1`.
+
+The frames, the rotation convention and the ground-line sign are documented
+once, in `render_assembly.py`'s module docstring: read it before changing any
+number in either module. Its arithmetic is tested without Blender in
+`pipeline/test_render_assembly.py`.

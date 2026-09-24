@@ -134,7 +134,10 @@ centroid, and for a compact hut that is the middle of the room — but for a
 piece whose plan takes in a veranda or a wing, BM&V's stilt house among them,
 the centroid lands on the deck, outside the room, with the way in behind it.
 The retry only ever runs when the first pass came back empty, so it can add a
-doorway and never remove one.
+doorway and never remove one. Its ``sideDeg`` is re-read as the bearing of the
+measured ``offsetM`` from the plan centre (``planCentreM``), the centre every
+first-pass reading uses, so one opening carries one side whichever point it
+was measured from.
 
 **Doorways from assemblies.** A shell whose door is a SEPARATE mesh has no
 opening in its own geometry, so the ray pass can never find one. For those the
@@ -370,11 +373,12 @@ INTERIOR_PATH_MARKERS = ("/interior/", "/interiors/")
 # is caught by "gate"/"wall"/"walkway" via its containing segment tokens below
 NON_BUILDING_NAME_TOKENS = ("ship", "boat", "canoe", "ferry", "raft", "tree", "floor", "walkway", "gate", "wall", "fence", "bridge", "stair", "stairs", "ramp", "pillar", "column")
 
-# Categories that can never enclose a dwelling, whatever they measure.
-NON_BUILDING_CATEGORIES = {
-    "clutter", "container", "furniture", "creature", "weapon", "boat", "vehicle",
-    "tree", "root", "grass", "deadfall", "aquatic-plant",
-}
+# The only categories whose pieces may enclose a dwelling (build_kit's asset
+# `category`). An allow-list, never a deny-list: a new category (an FX sheet
+# that curls round like a room, 2026-09-23 fxwaterfallbodyslope) must never
+# become a house because nobody thought to exclude it. `misc` stays: the
+# Hlaalu custom houses/towers and the Mudmother huts sit in it (2026-09-23).
+BUILDING_CATEGORIES = frozenset({"architecture", "ruin", "dungeon-kit", "misc"})
 
 
 # --------------------------------------------------------------------------- #
@@ -977,7 +981,16 @@ def doorways_retry_off_centre(triangles, plan, centre, floor_y, height_m):
                 best = (total, doors, point)
     if best is None:
         return [], None
-    return best[1], best[2]
+    # The reading was taken from `point`, so its `sideDeg` is a bearing from
+    # there; the record's `sideDeg` is the bearing of the measured opening from
+    # the plan centre, the same centre every first-pass reading uses, so the one
+    # opening carries one side (K5, 2026-09-23: the stilt house's open front
+    # read 142.5 deg from the retry point while its offset lies at 11 deg from
+    # the plan centre, and two consumers built two different doors from it).
+    doors = [dict(d, sideDeg=round(_bearing_deg(d["offsetM"][0] - centre[0],
+                                                d["offsetM"][1] - centre[1]), 2))
+             for d in best[1]]
+    return doors, best[2]
 
 
 def leaf_doorways(triangles, centre: tuple[float, float], floor_y: float,
@@ -1098,21 +1111,128 @@ def composite_parts(kit_name: str, config_dir: Path = KIT_CONFIG_DIR) -> dict[st
     return out
 
 
+def composite_anchor_poses(kit_name: str,
+                           config_dir: Path = KIT_CONFIG_DIR) -> dict[str, dict]:
+    """composite asset id -> part 0's pose in the composite: ``scale``,
+    ``offsetM`` ([x, y, z], z-up) and ``yawDeg``, as the Blender importer
+    applies them (offset, then yaw, then the part's own scale;
+    ``blender/build_kit.py`` ``import_composite``).
+
+    Everything mined against the anchor (its assembly doorways, its plugin
+    door link, its sibling door pieces) is measured in the anchor's UNSCALED
+    frame; the composite places the anchor at this pose (the mud hut at the
+    plugin's 1.30, 16h K10 D), so that evidence must be carried through it
+    before it can describe the composite (16h K11 A).
+    """
+    path = config_dir / f"{kit_name}.json"
+    if not path.exists():
+        return {}
+    out: dict[str, dict] = {}
+    for entry in json.loads(path.read_text()).get("assets", []):
+        parts = (entry.get("compose") or {}).get("parts") or []
+        if parts:
+            first = parts[0]
+            out[entry["asset"]] = {
+                "scale": float(first.get("scale", 1.0)),
+                "offsetM": [float(v) for v in first.get("offsetM", [0.0, 0.0, 0.0])],
+                "yawDeg": float(first.get("yawDeg", 0.0)),
+            }
+    return out
+
+
+def pose_point_zup(pose: dict | None, point) -> list[float]:
+    """A z-up point in the anchor's own frame, placed by the anchor's pose."""
+    x, y, z = (float(v) for v in point)
+    if not pose:
+        return [x, y, z]
+    k = pose["scale"]
+    yaw = math.radians(pose["yawDeg"])
+    c, s = math.cos(yaw), math.sin(yaw)
+    ox, oy, oz = pose["offsetM"]
+    return [ox + k * (x * c - y * s), oy + k * (x * s + y * c), oz + k * z]
+
+
+def _is_identity_pose(pose: dict | None) -> bool:
+    return (not pose or (pose["scale"] == 1.0 and pose["yawDeg"] == 0.0
+                         and not any(pose["offsetM"])))
+
+
+def posed_mined_door(door: dict, pose: dict | None) -> dict:
+    """One ``doorwaysFromAssemblies`` row carried into the composite's frame."""
+    if _is_identity_pose(pose):
+        return door
+    out = dict(door)
+    k = pose["scale"]
+    if door.get("offsetLocalM") is not None:
+        x, y, z = pose_point_zup(pose, door["offsetLocalM"])
+        out["offsetLocalM"] = [round(x, 3), round(y, 3), round(z, 3)]
+        out["radiusM"] = round(math.hypot(x, y), 3)
+        out["sideDeg"] = round(math.degrees(math.atan2(x, y)) % 360.0, 2)
+        if door.get("riseM") is not None:
+            out["riseM"] = round(z, 3)
+    elif door.get("radiusM") is not None:
+        # radial: a constant radius about the anchor pivot on no fixed bearing
+        out["radiusM"] = round(float(door["radiusM"]) * k, 3)
+    if door.get("yawDeg") is not None:
+        out["yawDeg"] = round((float(door["yawDeg"]) + pose["yawDeg"]) % 360.0, 2)
+    return out
+
+
+def posed_link(row: dict, pose: dict | None) -> dict:
+    """An ``exterior-interior-links`` row for the anchor, its door offset
+    carried into the composite's frame."""
+    offset = row.get("doorOffsetInShell")
+    if _is_identity_pose(pose) or not offset:
+        return row
+    x, y, z = pose_point_zup(pose, (offset.get("xM", 0.0), offset.get("yM", 0.0),
+                                    offset.get("zM", 0.0)))
+    out = dict(row)
+    out["doorOffsetInShell"] = {
+        **offset, "xM": round(x, 3), "yM": round(y, 3), "zM": round(z, 3),
+        "radiusM": round(math.hypot(x, y), 3),
+        "sideDeg": round(math.degrees(math.atan2(x, y)) % 360.0, 2),
+        "yawDeg": round((float(offset.get("yawDeg", 0.0)) + pose["yawDeg"]) % 360.0, 2),
+    }
+    return out
+
+
+def posed_bounds_glb(pose: dict | None, lo, hi) -> tuple:
+    """A sibling piece's GLB-frame box carried by the anchor's pose (the box of
+    its eight posed corners). GLB is y-up: z-up (x, y, z) exports as
+    (x, z, -y)."""
+    import numpy as np
+
+    if _is_identity_pose(pose):
+        return lo, hi
+    corners = []
+    for gx in (lo[0], hi[0]):
+        for gy in (lo[1], hi[1]):
+            for gz in (lo[2], hi[2]):
+                x, y, z = pose_point_zup(pose, (gx, -gz, gy))
+                corners.append((x, z, -y))
+    arr = np.asarray(corners, dtype=np.float64)
+    return arr.min(axis=0), arr.max(axis=0)
+
+
 def composite_doorways(parts: list[str],
-                       mined: dict[str, list[dict]]) -> list[dict]:
+                       mined: dict[str, list[dict]],
+                       pose: dict | None = None) -> list[dict]:
     """The mined doors of a composite's ANCHOR that this composite actually
-    contains.
+    contains, in the composite's own frame.
 
     The anchor (part 0) is the shell, and the composite exists precisely
     because the authors hang a separate door on it — so the doors worth
     reporting are the ones whose door piece IS one of the composite's parts.
     A composite that stacks blocks or chains deck sections has none, and gets
-    none.
+    none. The mine measures each door in the anchor's unscaled frame, so
+    ``pose`` (``composite_anchor_poses``) carries it to where the composite
+    stands the anchor.
     """
     if not parts:
         return []
     present = set(parts[1:])
-    return [d for d in mined.get(parts[0], ()) if d.get("doorAsset") in present]
+    return [posed_mined_door(d, pose) for d in mined.get(parts[0], ())
+            if d.get("doorAsset") in present]
 
 
 def load_assembly_doorways(path: Path = ASSEMBLIES_PATH) -> dict[str, list[dict]]:
@@ -1213,14 +1333,18 @@ DOOR_PIECE_MAX_SILL_M = 1.5     # its foot stands on (or just above) the floor
 
 
 def door_piece_doorways(record: dict, asset_id: str,
-                        bounds: dict[str, tuple]) -> list[dict]:
+                        bounds: dict[str, tuple],
+                        pose: dict | None = None) -> list[dict]:
     """Doorways taken from the door piece the family authored for this shell.
 
     Last resort, and still a measurement. A modular set often ships its
     entrance as its own mesh — BM&V's ``kioskaccesd01`` for ``kiosk01``, its
     ``stilthousedooranim`` for ``stilthouseext`` — modelled in the SAME local
     frame as the shell it belongs to, which is exactly how the set was designed
-    to be combined. So the candidate is any sibling mesh in the shell's own pool
+    to be combined. For a composite, ``asset_id`` is its anchor and ``pose``
+    the anchor's pose in it: the sibling is measured in the anchor's unscaled
+    frame, so its box is carried through that pose before it is fitted to the
+    composite's wall (16h K11 A). So the candidate is any sibling mesh in the shell's own pool
     directory, and the evidence that it is THIS shell's door is the fit: the
     piece's plan centre has to sit on the shell's measured wall line, within
     ``DOOR_PIECE_FIT_M``, at the shell's own floor storey, and stand door
@@ -1239,6 +1363,7 @@ def door_piece_doorways(record: dict, asset_id: str,
     for other, (lo, hi) in sorted(bounds.items()):
         if other == asset_id or not other.startswith(folder + "/"):
             continue
+        lo, hi = posed_bounds_glb(pose, lo, hi)
         stem = other.rsplit("/", 1)[-1].lower()
         if not any(tok in stem for tok in DOOR_PIECE_TOKENS):
             continue
@@ -1294,7 +1419,8 @@ def door_piece_doorways(record: dict, asset_id: str,
 def classify_asset(asset: dict, kit: str, verts, triangles,
                    pool_ids: dict[str, list[str]],
                    assembly_doors: list[dict] | None = None,
-                   anchor_id: str | None = None) -> dict:
+                   anchor_id: str | None = None,
+                   anchor_pose: dict | None = None) -> dict:
     """One asset's interior record, geometry first and assemblies second.
 
     ``verts``/``triangles`` may be None. ``assembly_doors`` is this asset's
@@ -1302,8 +1428,11 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
     it is only consulted for a piece the geometry calls a building.
     """
     links = load_door_links()
-    link = (esp_link_for(anchor_id, links) if anchor_id else None) or \
-        esp_link_for(asset["id"], links)
+    anchor_link = esp_link_for(anchor_id, links) if anchor_id else None
+    if anchor_link is not None:
+        # the plugin's door stands in the anchor's unscaled frame (16h K11 A)
+        anchor_link = (posed_link(anchor_link[0], anchor_pose), anchor_link[1])
+    link = anchor_link or esp_link_for(asset["id"], links)
     record = _classify_geometry(asset, kit, verts, triangles, pool_ids,
                                 door_evidence=bool(assembly_doors) or link is not None,
                                 anchor_id=anchor_id)
@@ -1313,7 +1442,8 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
     # on it would become a house.
     if link is not None and kit not in INTERIOR_KITS and record.get("interior") != "none":
         row, interior_kit = link
-        shell_links = links.get(anchor_id or asset["id"]) or links.get(asset["id"]) or [row]
+        shell_links = ([posed_link(r, anchor_pose) for r in links.get(anchor_id) or ()]
+                       if anchor_link is not None else None) or links.get(asset["id"]) or [row]
         apply_esp_link(record, row, interior_kit, shell_links)
         if assembly_doors:
             # The plugin's door leads, but a shell the source authors ALSO hung
@@ -1448,9 +1578,14 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
     stem = _tail(asset_id)[1]
     import re as _re
     _segs = [x for x in _re.split(r"[\d_\-]+", stem.lower()) if x]
-    banned = next((t for t in NON_BUILDING_NAME_TOKENS
-                   if any(seg == t or (len(t) >= 4 and t in seg and seg.startswith((t, "walkway", "stone", "wood", "tamu", "mwimparch"))) for seg in _segs)), None)
-    category_ok = asset.get("category") not in NON_BUILDING_CATEGORIES and banned is None
+    # A compound segment names its head noun last (`trgm`+`bridge`,
+    # `cover`+`stairs`), so a token that ENDS a segment bans it as surely as
+    # one that starts it. An authored rule row naming this exact piece
+    # (TILESET_RULES, e.g. the hollow Hist trunk) outranks the name heuristic.
+    exact_rule = any(prefix == asset_id for prefix, _kit, _why in TILESET_RULES)
+    banned = None if exact_rule else next((t for t in NON_BUILDING_NAME_TOKENS
+                   if any(seg == t or (len(t) >= 4 and t in seg and (seg.endswith(t) or seg.startswith((t, "walkway", "stone", "wood", "tamu", "mwimparch")))) for seg in _segs)), None)
+    category_ok = asset.get("category") in BUILDING_CATEGORIES and banned is None
     encloses = False
     probe: dict | None = None
     if big_enough and triangles is not None and len(triangles):
@@ -1465,6 +1600,8 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
         record["floorOffsetM"] = probe["floorOffsetM"]
         floor_y = base_y + probe["floorOffsetM"]
         room_h = height - probe["floorOffsetM"]
+        # the centre every geometric `sideDeg` is a bearing from
+        record["planCentreM"] = [round(cx, 2), round(cz, 2)]
         record["_probe"] = {"centre": [cx, cz], "floorY": floor_y, "roomH": room_h,
                             "ring": probe["ring"]}
         encloses = is_enclosure(probe)
@@ -1633,6 +1770,7 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     pool_ids = load_pool_ids(registry_dir)
     mined_doors = load_assembly_doorways()
     parts_of = composite_parts(kit_name)
+    poses = composite_anchor_poses(kit_name)
 
     coplacements = pf.load_coplacements()
 
@@ -1647,11 +1785,12 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         # A composite has an id of its own that the mine has never seen, so its
         # doors come from its ANCHOR part's mined record, filtered to the door
         # pieces the composite actually carries.
-        doors = (composite_doorways(parts_of[asset["id"]], mined_doors)
+        doors = (composite_doorways(parts_of[asset["id"]], mined_doors, poses.get(asset["id"]))
                  if asset["id"] in parts_of else mined_doors.get(asset["id"]))
         anchor = parts_of[asset["id"]][0] if asset["id"] in parts_of and parts_of[asset["id"]] else None
         assets[asset["id"]] = classify_asset(
-            asset, kit_name, verts, triangles, pool_ids, doors, anchor_id=anchor)
+            asset, kit_name, verts, triangles, pool_ids, doors, anchor_id=anchor,
+            anchor_pose=poses.get(asset["id"]))
         if verts is not None and len(verts):
             bounds[asset["id"]] = (verts.min(axis=0), verts.max(axis=0))
 
@@ -1663,7 +1802,7 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         if record.get("interior") in BUILDING_INTERIORS and not [
                 d for d in record.get("doorways") or [] if d.get("kind") != "esp-door"]:
             source = parts_of.get(asset_id, [asset_id])[0]
-            doors = door_piece_doorways(record, source, bounds)
+            doors = door_piece_doorways(record, source, bounds, poses.get(asset_id))
             if doors:
                 record["doorways"] = (record.get("doorways") or []) + doors
                 record["doorwaySource"] = "door-piece"

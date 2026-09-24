@@ -304,7 +304,11 @@ POOLS: tuple[Pool, ...] = (
         source="https://www.nexusmods.com/skyrimspecialedition/mods/133090",
         credit="Morrowind Imperial Keep Set (Remodeled) (Nexus SSE 133090, Tesak1243)",
         directory="{vault}/skyrim-source/mod-sources/morrowind-imperial-keep-133090/extracted",
-        plugins=[],
+        # 133090 ships no plugin; King of the Murkmire (SSE 190459) places the
+        # set under the same model paths in its ArgoniaWorld: placement
+        # statistics only, no asset taken (16h K8, sourcing log).
+        plugins=["{vault}/skyrim-source/mod-sources/king-of-the-murkmire-190459"
+                 "/extracted/Kotm BSA Test/King of the Murkmire.esp"],
     ),
     # The domestic tier under the same masonry — built ON 133090 and
     # retextured. v2.0 bundles several other credited modder resources

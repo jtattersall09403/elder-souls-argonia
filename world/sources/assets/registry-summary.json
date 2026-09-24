@@ -209,9 +209,11 @@
    "registered": 62,
    "skippedNonContent": {},
    "categories": {
-    "misc": 57,
-    "furniture": 3,
-    "container": 2
+    "misc": 36,
+    "clutter": 15,
+    "furniture": 7,
+    "container": 2,
+    "architecture": 2
    },
    "withLodVariant": 0,
    "withDimensions": 57,
@@ -423,15 +425,17 @@
    "categories": {
     "armour": 768,
     "creature": 256,
-    "architecture": 148,
+    "architecture": 143,
     "ruin": 100,
-    "clutter": 96,
+    "clutter": 97,
     "misc": 85,
     "weapon": 79,
     "tree": 21,
     "plant": 13,
     "grass": 10,
-    "shrub": 3
+    "furniture": 3,
+    "shrub": 3,
+    "container": 1
    },
    "withLodVariant": 33,
    "withDimensions": 0,

@@ -17,8 +17,10 @@ Method, in short:
    cave rocks and clutter are not assembly pieces and would swamp the pair
    search: a boulder stack repeats as faithfully as a wall chain.
 2. For every ordered pair of pieces within ``--radius`` metres, express the
-   second piece in the FIRST piece's own frame: the offset rotated by the
-   anchor's yaw, and the yaw difference. The anchor of a mixed pair is the
+   second piece in the FIRST piece's own UNIT frame: the offset rotated by the
+   anchor's yaw and divided by the anchor's scale (schemaVersion 2, 16h K7;
+   each template records `anchorScale` and `partScaleInAnchor`), and the yaw
+   difference. The anchor of a mixed pair is the
    bulkier piece (bounds volume, lexicographic tie-break), which is what makes
    the mined offsets read as "the door sits here on the shell". For a pair of
    the same mesh (wall chains, walkway runs) the direction whose local offset
@@ -72,7 +74,7 @@ from pathlib import Path
 from .asset_taxonomy import classify
 from .esp_index import UNITS_PER_METRE, Plugin
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KIT_CONFIG_DIR = REPO_ROOT / "tooling/asset-pipeline/pipeline/config/kits"
@@ -114,6 +116,8 @@ PLUGIN_POOLS = {
     "black marsh north.esp": "bmv",
     "valenwood.esp": "bmv",
     "here there be monsters - curse of cipactli.esp": "htbm",
+    # places the mwkeep set under its own paths (asset_registry mwkeep pool)
+    "king of the murkmire.esp": "mwkeep",
 }
 
 
@@ -154,6 +158,9 @@ class Ref:
     volume_m3: float
     cell: tuple[int, int]
     world: str
+    rx: float = 0.0
+    ry: float = 0.0
+    """Tilt (radians, the plugin's x/y rotation): only `mine_abuts` reads it."""
 
 
 @dataclass
@@ -184,7 +191,9 @@ def wanted(model_key: str, volume_m3: float) -> bool:
 
 
 def collect(plugin_paths: list[str], worlds: set[str], name_paths: list[str],
-            set_id: str, label: str) -> SourceSet:
+            set_id: str, label: str, accept=None) -> SourceSet:
+    """`accept(model_key, volume_m3, pool)` replaces the structural filter
+    (`mine_abuts` keeps every kit piece, whatever its size)."""
     plugins = [Plugin(p) for p in plugin_paths]
     names = [Plugin(p) for p in name_paths]
     bases: dict[tuple[str, int], object] = {}
@@ -224,7 +233,8 @@ def collect(plugin_paths: list[str], worlds: set[str], name_paths: list[str],
                     x1, y1, z1, x2, y2, z2 = base.bounds
                     volume = abs((x2 - x1) * (y2 - y1) * (z2 - z1)) \
                         * ref.scale ** 3 / UNITS_PER_METRE ** 3
-                if not wanted(key, volume):
+                if not (wanted(key, volume) if accept is None
+                        else accept(key, volume, pool)):
                     out.skipped += 1
                     continue
                 out.refs.append(Ref(
@@ -233,7 +243,8 @@ def collect(plugin_paths: list[str], worlds: set[str], name_paths: list[str],
                     ref.pos[1] / UNITS_PER_METRE,
                     ref.pos[2] / UNITS_PER_METRE,
                     math.degrees(ref.rot[2]) % 360.0,
-                    ref.scale, volume, cell.grid, world_name))
+                    ref.scale, volume, cell.grid, world_name,
+                    ref.rot[0], ref.rot[1]))
     out.refs.sort(key=lambda r: (r.world, r.cell, r.model_key,
                                  round(r.x, 3), round(r.y, 3), round(r.z, 3)))
     if not out.worldspaces:
@@ -284,6 +295,20 @@ def local_offset(anchor: Ref, part: Ref) -> tuple[float, float, float, float]:
     lx = dx * math.cos(a) - dy * math.sin(a)
     ly = dx * math.sin(a) + dy * math.cos(a)
     return lx, ly, part.z - anchor.z, (part.yaw_deg - anchor.yaw_deg) % 360.0
+
+
+def unit_offset(anchor: Ref, part: Ref) -> tuple[float, float, float, float]:
+    """`local_offset` divided by the anchor's scale: the part in the anchor's
+    UNIT mesh frame, the frame a composite's `compose.parts.offsetM` is in.
+
+    16h K7: BM&V places every `hutexterior` at scale 1.30 and its door frames
+    at 1.0; without the division the composite put a 1.30-scale offset on a
+    unit hut and stood the frame 0.5-1.7 m outside the wall. `local_offset`
+    itself stays scale-free because `mine_mounts` divides by the parent's
+    scale on its own (its positions are in game units)."""
+    lx, ly, lz, yaw = local_offset(anchor, part)
+    s = anchor.scale if anchor.scale > 0 else 1.0
+    return lx / s, ly / s, lz / s, yaw
 
 
 def order_pair(a: Ref, b: Ref) -> tuple[Ref, Ref]:
@@ -370,7 +395,7 @@ def cluster_pairs(refs: list[Ref], radius: float, offset_tol: float,
         ai = i if anchor is refs[i] else j
         pi = j if anchor is refs[i] else i
         pairs.append(((anchor.model_key, part.model_key), ai, pi,
-                      local_offset(anchor, part)))
+                      unit_offset(anchor, part)))
 
     def run(rows, polar: bool):
         buckets: dict[tuple[str, str], list[Cluster]] = defaultdict(list)
@@ -440,9 +465,55 @@ def family_of(model_key: str, ref: str, kits: dict[str, str]) -> str:
 # --- analysis ----------------------------------------------------------------
 
 
+def assign_ids(templates: list[dict], set_id: str, previous: list[dict],
+               offset_tol: float, yaw_tol: float) -> None:
+    """Stable template ids (standard 1): a template that matches one in the
+    previous record (same kind, anchor and part; offset within `offset_tol`
+    and yaw within `yaw_tol` in the anchor's unit frame) keeps that id, the
+    most-repeated first; the rest take fresh numbers after the highest one the
+    previous record used. A schemaVersion 1 record has no `anchorScale`: its
+    offsets are world metres, so they are divided by the new template's scale
+    before the comparison. Kit configs, route structures and tests cite ids."""
+    def unit(t: dict, scale: float) -> list[float] | None:
+        off = t.get("offsetM") if t["kind"] == "fixed" else [t.get("radiusM"), 0.0, t.get("riseM")]
+        if off is None or any(v is None for v in off):
+            return None
+        div = 1.0 if "anchorScale" in t else scale
+        return [v / div for v in off]
+
+    by_key: dict[tuple, list[dict]] = defaultdict(list)
+    used_numbers = [-1]
+    for old in previous:
+        by_key[(old["kind"], old["anchor"], old["part"])].append(old)
+        used_numbers.append(int(old["id"].rsplit(":t", 1)[1]))
+    claimed: set[str] = set()
+    for t in templates:
+        scale = t.get("anchorScale") or 1.0
+        mine = unit(t, 1.0)
+        best = None
+        for old in by_key.get((t["kind"], t["anchor"], t["part"]), ()):
+            if old["id"] in claimed:
+                continue
+            theirs = unit(old, scale)
+            if mine is None or theirs is None:
+                continue
+            d = math.dist(mine, theirs)
+            if d <= offset_tol and yaw_delta(old["yawDeg"], t["yawDeg"]) <= yaw_tol \
+                    and (best is None or d < best[0]):
+                best = (d, old["id"])
+        if best:
+            t["id"] = best[1]
+            claimed.add(best[1])
+    n = max(used_numbers) + 1
+    for t in templates:
+        if not t["id"]:
+            t["id"] = f"{set_id}:t{n:04d}"
+            n += 1
+
+
 def analyse(source: SourceSet, radius: float, offset_tol: float, yaw_tol: float,
             min_count: int, kits: dict[str, str],
-            max_templates: int = 600) -> dict:
+            max_templates: int = 600, previous: list[dict] | None = None) -> dict:
     fixed, radial = cluster_pairs(source.refs, radius, offset_tol, yaw_tol,
                                   min_count)
     refs = source.refs
@@ -461,6 +532,9 @@ def analyse(source: SourceSet, radius: float, offset_tol: float, yaw_tol: float,
                 anchor_ref = asset_ref(refs[c.members[0][0]].pool, anchor_key)
                 part_ref = asset_ref(refs[c.members[0][1]].pool, part_key)
                 example = refs[c.members[0][0]]
+                scales = sorted(refs[a].scale for a, _ in c.members)
+                part_scales = sorted(refs[p].scale / (refs[a].scale or 1.0)
+                                     for a, p in c.members)
                 templates.append({
                     "id": "",
                     "kind": kind,
@@ -470,6 +544,10 @@ def analyse(source: SourceSet, radius: float, offset_tol: float, yaw_tol: float,
                     "partPiece": short(part_key),
                     "family": family_of(anchor_key, anchor_ref, kits),
                     "count": len(c.members),
+                    # offsets are in the anchor's UNIT frame (divided by its
+                    # scale); these say at what scales the authors placed it
+                    "anchorScale": round(scales[len(scales) // 2], 3),
+                    "partScaleInAnchor": round(part_scales[len(part_scales) // 2], 3),
                     "offsetM": ([round(c.ox, 2), round(c.oy, 2), round(c.oz, 2)]
                                 if kind == "fixed" else None),
                     "radiusM": round(c.ox if kind == "radial"
@@ -489,8 +567,7 @@ def analyse(source: SourceSet, radius: float, offset_tol: float, yaw_tol: float,
                 })
     templates.sort(key=lambda t: (-t["count"], t["kind"], t["anchor"], t["part"],
                                   t["offsetM"] or [t["radiusM"]], t["yawDeg"]))
-    for n, t in enumerate(templates):
-        t["id"] = f"{source.set_id}:t{n:04d}"
+    assign_ids(templates, source.set_id, previous or [], offset_tol, yaw_tol)
 
     # groups: templates that fire on the same anchor instance
     by_anchor: dict[int, set[str]] = defaultdict(set)
@@ -1045,13 +1122,16 @@ def main(argv: list[str] | None = None) -> None:
     else:
         bundles = grouped_sets(argv)
         sets: dict[str, dict] = {}
+        prior = (json.loads(Path(args.out).read_text()).get("sets", {})
+                 if args.out and Path(args.out).is_file() else {})
         for bundle in bundles:
             source = collect(bundle["plugins"], set(bundle["worlds"]),
                              bundle["names"], bundle["id"],
                              bundle["label"] or bundle["id"])
             sets[bundle["id"]] = analyse(source, args.radius, args.offset_tol,
                                          args.yaw_tol, args.min_count, kits,
-                                         args.max_templates)
+                                         args.max_templates,
+                                         prior.get(bundle["id"], {}).get("templates"))
             m = sets[bundle["id"]]["macro"]
             print(f"{bundle['id']}: {m['structuralRefs']} structural refs, "
                   f"{m['templates']} templates, {m['groups']} groups")
@@ -1080,6 +1160,11 @@ def main(argv: list[str] | None = None) -> None:
             "doorwaysFromAssemblies": doorways,
             "gaps": {"shellsWithoutDoor": gaps_from(doorways, interiors)},
         }
+        if args.out and Path(args.out).is_file():
+            # `mine_abuts` owns this section; a template re-mine keeps it.
+            kept = json.loads(Path(args.out).read_text()).get("abuts")
+            if kept is not None:
+                payload["abuts"] = kept
         if args.out:
             out = Path(args.out)
             out.parent.mkdir(parents=True, exist_ok=True)

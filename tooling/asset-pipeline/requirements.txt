@@ -1,0 +1,10 @@
+# Third-party imports of tooling/asset-pipeline/pipeline/**/*.py, pinned to the
+# build VM's versions (2026-09-24). Modules that only run inside Blender (bpy,
+# mathutils, io_scene_nifly, io_scene_gltf2) are not listed: they come with
+# the Windows Blender under Wine. Installed next to
+# tooling/world-generation/requirements-test.txt by tooling/bootstrap/on-create.sh.
+pillow==12.2.0      # build_weapons, render_assembly, texture_quality, vibe_sheet
+lz4==4.4.5          # bsa.py (SSE LZ4-frame BSAs)
+numpy==2.4.6        # interiors_index, measure_footprints, piece_front, trunk_solids, vet_kit, ...
+trimesh==5.1.0      # interiors_index, measure_footprints
+pytest==9.1.1       # pipeline/test_*.py

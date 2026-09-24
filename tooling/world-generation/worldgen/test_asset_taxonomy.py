@@ -65,3 +65,21 @@ def test_misfiled_flora_is_still_rescued_by_name():
     trama roots under `architecture/` and places them as vegetation."""
     assert classify("meshes/architecture/tramaroot01.nif").category == "root"
     assert classify("meshes/plants/floramushroom01.nif").category == "fungus"
+
+
+def test_folder_stem_rules_split_shells_from_their_furniture():
+    # 16h K12 A / M18 (planner ruling 2026-09-24): one flat folder holds the
+    # hut shell and its furniture; the miner's shell rules read the category.
+    hut = classify("meshes/gv_meshes/argoniannest/mudhut01.nif")
+    room = classify("meshes/gv_meshes/argoniannest/mudhut01intnew.nif")
+    assert (hut.category, room.category) == ("architecture", "architecture")
+    assert hut.confidence == 0.7 and "folder-stem-rule" in hut.tags
+    assert classify("gv_meshes/argoniannest/woventable01.nif").category == "furniture"
+    assert classify("gv_meshes/argoniannest/potteryplate02.nif").category == "clutter"
+    assert classify("gv_meshes/argoniannest/argonianbridge.nif").category == "misc"
+    village = "here there be monsters - curse of cipactli/architecture/villages/argonian/"
+    assert classify(village + "wickerchair01.nif").category == "furniture"
+    assert classify(village + "wickerbasket01.nif").category == "clutter"
+    assert classify(village + "bamboohut01_int.nif").category == "architecture"
+    # the folder must be the mesh's own, not a file named like it
+    assert classify("clutter/mudhut01.nif").category == "clutter"

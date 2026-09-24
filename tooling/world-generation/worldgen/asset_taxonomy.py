@@ -275,6 +275,34 @@ _STRONG_FLORA_TOKENS: tuple[tuple[str, str], ...] = (
 # built on the category. A mushroom-shaped door is a door, so the directory
 # rule below is long enough to win outright and the strong tokens never see it.
 
+#: Per-folder filename rules for pools that keep a house and its furniture in
+#: ONE flat folder, where the directory rule cannot tell the shell from the
+#: chair (16h K12 A / M18; planner ruling 2026-09-24). The miner's shell
+#: rules read the category (`mine_mounts.SHELL_CATEGORIES`), so a hut shell
+#: filed `misc` was never a shell and a chair filed `architecture` was one.
+#: (folder fragment, stem prefixes, category, tags); a stem starts with one
+#: of the prefixes. Confidence 0.7: a named rule, weaker than a directory
+#: that says what it holds, stronger than no rule.
+_FOLDER_STEM_RULES: tuple[tuple[str, tuple[str, ...], str, tuple[str, ...]], ...] = (
+    # Mud Mother Grove `gv_meshes/argoniannest/`: the hut drum and its
+    # matched interior room are the only shells in the folder.
+    ("gv_meshes/argoniannest", ("mudhut01",), "architecture", ("shell",)),
+    ("gv_meshes/argoniannest",
+     ("woventable", "bookshelf", "hangingshelf", "shelfsingle"), "furniture", ()),
+    ("gv_meshes/argoniannest",
+     ("argonianbone0", "argonianpillow", "argonianskull", "argoniancandle",
+      "basketsmall", "candle0", "clam0", "drum0", "potterycup",
+      "potteryplate", "wallhanging"), "clutter", ()),
+    # HTBM `architecture/villages/argonian/`: the bamboo huts sit beside
+    # their wicker furniture, which the `architecture` directory rule filed
+    # as structure.
+    ("architecture/villages/argonian",
+     ("wickerchair", "wickersofa", "wickertable"), "furniture", ()),
+    ("architecture/villages/argonian", ("wickerbasket",), "clutter", ()),
+    ("architecture/villages/argonian", ("chestwicker",), "container", ()),
+)
+FOLDER_STEM_CONFIDENCE = 0.7
+
 _LOD_RE = re.compile(r"(_lod(_flat)?|_distant|lod_flat)\.nif$", re.I)
 
 
@@ -336,6 +364,12 @@ def classify(path: str) -> Classification:
     else:
         _, category, cultures, biomes, tags = best
         confidence = 0.8
+
+    for fragment, prefixes, rule_category, rule_tags in _FOLDER_STEM_RULES:
+        if _segment_match(segments[:-1], fragment) and stem.startswith(prefixes):
+            category, confidence = rule_category, FOLDER_STEM_CONFIDENCE
+            tags = tags + rule_tags + ("folder-stem-rule",)
+            break
 
     # Flora/rock refinement from the filename. A mesh that lives in a rocks
     # DIRECTORY is a rock whatever its filename says about what grows on it:

@@ -70,9 +70,21 @@ def _cstr(payload: bytes) -> str:
 #: cell's XCLW is FLT_MAX when it simply inherits the worldspace default.
 NO_VALUE_ABOVE = 1e30
 
+#: The other "no value here" spelling: XCLW is often written as the int32
+#: minimum reinterpreted as a float (-2147483648.0, "this cell has no water").
+#: It is finite and far below ``NO_VALUE_ABOVE``, so a magnitude-only FLT_MAX
+#: test let it through as a real water height (measured: a ferry raft's mined
+#: waterline came out at -30,545,608 m). Skyrim's playable worldspaces sit
+#: within a few 10^5 game units of zero, so anything past this bound is a
+#: sentinel, never a height.
+PHYSICAL_HEIGHT_LIMIT_UNITS = 1e6
+
 
 def _sane_height(value: float) -> float | None:
-    return None if abs(value) >= NO_VALUE_ABOVE else value
+    """A LAND/XCLW height, or ``None`` when the field holds a sentinel."""
+    if not math.isfinite(value):
+        return None
+    return None if abs(value) >= min(NO_VALUE_ABOVE, PHYSICAL_HEIGHT_LIMIT_UNITS) else value
 
 
 # --- group-aware walking ----------------------------------------------------
@@ -377,7 +389,7 @@ class Plugin:
         if current is not None:
             yield current
 
-    def exterior_cells(self, *, with_land=True, with_refs=True):
+    def exterior_cells(self, *, with_land=True, with_refs=True, land_layers=True):
         """Yield `ExteriorCell` for every exterior cell in every worldspace.
 
         Cells arrive fully populated: the walker buffers the current cell and
@@ -410,7 +422,7 @@ class Plugin:
             elif current is None:
                 continue
             elif rec.type == b"LAND" and with_land:
-                current.land = decode_land(rec)
+                current.land = decode_land(rec, layers=land_layers)
             elif rec.type == b"REFR" and with_refs:
                 ref = decode_ref(rec)
                 if ref is not None:
@@ -499,7 +511,11 @@ def decode_ref(rec: Record) -> ObjectRef | None:
                      teleport=teleport)
 
 
-def decode_land(rec: Record) -> LandData:
+def decode_land(rec: Record, layers: bool = True) -> LandData:
+    """Heights, normals and (unless `layers=False`) the painted texture
+    layers. A caller that only samples terrain (`height_at`,
+    `slope_degrees_at`) skips the layers: per cell they are a dict per
+    quadrant layer, most of the decode's time and memory."""
     land = LandData()
     pending: tuple[int, int] | None = None
     for st, payload in rec.subrecords():
@@ -507,6 +523,8 @@ def decode_land(rec: Record) -> LandData:
             _, land.heights = decode_vhgt(payload)
         elif st == b"VNML" and len(payload) >= LAND_DIM * LAND_DIM * 3:
             land.normals = decode_normals(payload)
+        elif not layers:
+            continue
         elif st == b"BTXT" and len(payload) >= 8:
             fid, quadrant = struct.unpack_from("<IB", payload)
             land.base_texture[quadrant] = fid

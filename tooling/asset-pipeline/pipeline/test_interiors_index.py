@@ -167,6 +167,35 @@ def test_side_deg_uses_the_same_bearing_convention_as_yawDeg():
     assert ix._bearing_deg(-1.0, 0.0) == pytest.approx(270.0)   # west
 
 
+#: the kinds that MEASURE an opening in the shell's own mesh; `esp-door` and
+#: `assembly` carry the door reference's own authored facing instead
+MEASURED_OPENING_KINDS = ("opening", "open-front", "leaf", "door-piece")
+SIDE_AGREEMENT_DEG = 30.0
+
+
+def test_a_measured_entrance_s_side_is_the_bearing_of_its_offset():
+    """K5 (2026-09-23): an entrance holds ONE measured opening. Its `sideDeg`
+    agrees within 30 deg with the bearing of its `offsetM` from the plan centre
+    (`planCentreM`), whichever point the probe stood on. The stilt house read
+    142.5 deg from an off-centre probe while its offset lay at ~0 deg."""
+    tracked = ix.REPO_ROOT / "world" / "sources" / "placement" / "kit-interiors"
+    checked, bad = 0, []
+    for path in sorted(tracked.glob("*.interiors.json")):
+        for asset_id, record in json.loads(path.read_text())["assets"].items():
+            e = record.get("entrance") or {}
+            if e.get("kind") not in MEASURED_OPENING_KINDS or not e.get("offsetM"):
+                continue
+            cx, cz = record["planCentreM"]
+            bearing = ix._bearing_deg(e["offsetM"][0] - cx, e["offsetM"][1] - cz)
+            off = abs((float(e["sideDeg"]) - bearing + 180.0) % 360.0 - 180.0)
+            checked += 1
+            if off > SIDE_AGREEMENT_DEG:
+                bad.append(f"{path.name} {asset_id}: sideDeg {e['sideDeg']} vs offset "
+                           f"bearing {bearing:.1f} ({off:.0f} deg)")
+    assert checked
+    assert bad == []
+
+
 # --------------------------------------------------------------------------- #
 # classification end to end
 # --------------------------------------------------------------------------- #
@@ -241,6 +270,52 @@ def test_a_boat_hull_is_never_a_building_however_it_measures():
                                "watercraft-v1", _verts(tris), tris, {})
     assert record["interior"] == "none"
     assert "ship" in record["why"]
+
+
+@pytest.mark.parametrize("category", ["effect", "rock", "plant", "shrub", "fungus", None])
+def test_only_a_building_category_can_be_a_building_however_it_measures(category):
+    """A waterfall body sheet curls round like a room (fxwaterfallbodyslope,
+    waterfall-fx-v1, 2026-09-23): the categories that may be a building are an
+    allow-list, so a category nobody listed can never become a house."""
+    tris = room()
+    asset = {"id": "vanilla:effects/fxwaterfallbodyslope"}
+    if category:
+        asset["category"] = category
+    record = ix.classify_asset(asset, "waterfall-fx-v1", _verts(tris), tris, {})
+    assert record["interior"] == "none"
+    assert "never a building" in record["why"]
+
+
+@pytest.mark.parametrize("asset_id", [
+    "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02",
+    "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs",
+])
+def test_a_compound_name_ending_in_a_non_building_noun_is_not_a_building(asset_id):
+    """`trgm` + `bridge`: the head noun ends the segment (2026-09-23)."""
+    tris = room()
+    record = ix.classify_asset({"id": asset_id, "category": "misc"},
+                               "hlaalu-domestic", _verts(tris), tris, {})
+    assert record["interior"] == "none"
+    assert "name token" in record["why"]
+
+
+def test_an_exact_asset_tileset_rule_outranks_the_name_token():
+    """The Hist trunk is authored by its own id as a way into the root dungeon
+    (TILESET_RULES); a name heuristic may not overrule a row naming the piece."""
+    tris = room()
+    record = ix.classify_asset({"id": "mudmother:gv_meshes/argoniannest/histtree",
+                                "category": "misc"},
+                               "settlement-root-v1", _verts(tris), tris, {})
+    assert record["interior"] == "tileset"
+    assert record["tileset"] == "dungeon-root-v1"
+
+
+@pytest.mark.parametrize("category", sorted(ix.BUILDING_CATEGORIES))
+def test_a_building_category_that_encloses_is_a_building(category):
+    tris = room(door_at_x=3.5)
+    record = ix.classify_asset({"id": "pool:arch/hut01", "category": category},
+                               "settlement-stilt-v1", _verts(tris), tris, {})
+    assert record["interior"] in ix.BUILDING_INTERIORS
 
 
 def test_interior_kits_never_claim_an_interior():
@@ -394,6 +469,55 @@ def test_a_composite_takes_the_doors_its_anchor_was_mined_with(tmp_path):
 def test_a_composite_that_carries_no_door_piece_gets_no_doorway(tmp_path):
     mined = {"vanilla:block01": [_mined_fixed()]}
     assert ix.composite_doorways(["vanilla:block01", "vanilla:block01"], mined) == []
+
+
+def test_a_scaled_anchor_carries_its_mined_door_through_the_composite_pose():
+    """16h K11 A: the mine measures the door in the anchor's UNSCALED frame; a
+    composite that stands the anchor at 1.3, turned 90 deg and lifted 1 m must
+    report the door where that pose puts it."""
+    pose = {"scale": 1.3, "offsetM": [0.0, 0.0, 1.0], "yawDeg": 90.0}
+    door = ix.posed_mined_door({**_mined_fixed(), "riseM": 0.5,
+                                "offsetLocalM": [-2.45, 1.4, 0.5]}, pose)
+    x, y, z = door["offsetLocalM"]
+    assert (x, y, z) == pytest.approx((-1.82, -3.185, 1.65), abs=1e-3)
+    assert door["radiusM"] == pytest.approx(2.82 * 1.3, abs=0.01)
+    # a +90 deg turn about z (counter-clockwise) takes 90 off the clockwise bearing
+    assert door["sideDeg"] == pytest.approx(299.75 - 90.0, abs=0.05)
+    assert door["yawDeg"] == pytest.approx(210.0)
+    assert door["riseM"] == pytest.approx(1.65)
+    # identity pose leaves the record untouched
+    assert ix.posed_mined_door(_mined_fixed(), {"scale": 1.0, "offsetM": [0, 0, 0],
+                                                "yawDeg": 0.0}) == _mined_fixed()
+
+
+def test_a_scaled_anchor_carries_its_plugin_door_link_and_sibling_box():
+    pose = {"scale": 2.0, "offsetM": [0.0, 0.0, 0.0], "yawDeg": 0.0}
+    row = ix.posed_link({"doorOffsetInShell": {"xM": 1.0, "yM": 2.0, "zM": 0.5,
+                                               "yawDeg": 10.0, "sideDeg": 26.57,
+                                               "radiusM": 2.236}}, pose)
+    off = row["doorOffsetInShell"]
+    assert (off["xM"], off["yM"], off["zM"]) == (2.0, 4.0, 1.0)
+    assert off["radiusM"] == pytest.approx(4.472, abs=1e-3)
+    lo, hi = ix.posed_bounds_glb(pose, (1.0, 0.0, -3.0), (2.0, 2.0, -2.0))
+    assert list(lo) == [2.0, 0.0, -6.0] and list(hi) == [4.0, 4.0, -4.0]
+
+
+def test_the_mud_hut_entrance_reads_where_its_frames_stand():
+    """16h K11 A on the real record: the composite stands `hutexterior` at the
+    plugin's 1.30, so its entrance must read in the 6.3-7.2 m band the four
+    `doorframe01` rings occupy (K10 D), not the unscaled 5.01 m."""
+    composite = "composite:mud/hut-with-entrance"
+    parts = ix.composite_parts("settlement-mud-v1")[composite]
+    pose = ix.composite_anchor_poses("settlement-mud-v1")[composite]
+    mined = ix.load_assembly_doorways()
+    assert pose["scale"] == pytest.approx(1.3)
+    unposed = ix.composite_doorways(parts, mined)
+    posed = ix.composite_doorways(parts, mined, pose)
+    assert posed and len(posed) == len(unposed)
+    # the defect this guards: without the pose the entrance reads 5.0 m
+    assert min(d["radiusM"] for d in unposed) < 6.3
+    for door in posed:
+        assert 6.3 <= door["radiusM"] <= 7.2, door
 
 
 # --------------------------------------------------------------------------- #

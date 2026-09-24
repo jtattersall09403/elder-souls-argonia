@@ -179,3 +179,14 @@ def test_decode_rdot_reads_bethesdas_scatter_rule():
     assert rule.sink == -8.0 and rule.sink_variance == 4.0
     assert rule.size_variance == 0.25
     assert rule.angle_variance == (0, 0, 3600)
+
+
+def test_terrain_only_land_decode_matches_the_full_decode(plugin):
+    """The sink miner's decode (16h tooling lane #7) keeps heights and normals
+    — `slope_degrees_at` reads the normals — and skips the texture layers."""
+    full = next(iter(plugin.exterior_cells())).land
+    lean = next(iter(plugin.exterior_cells(land_layers=False))).land
+    assert lean.heights == full.heights
+    assert lean.normals == full.normals
+    assert lean.layers == [] and lean.base_texture == {}
+    assert full.base_texture, "the fixture must paint a texture for this to mean anything"
