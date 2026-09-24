@@ -60,7 +60,7 @@ model and the harness, not the actor, UI or save wiring.
   `7e93d7de`. Its findings moved to
   `docs/research/archive/workstream-s/stats-sim-findings.md`, and its tables
   stay verbatim in `stats/__fixtures__/sim-data/`.
-| 5 | delivered 2026-09-24 | see git log `stats lab round 5` | — | every sweep that plays a character from race baselines (campaign, main quest, progression, deferral) run again as women: 19/19 invariants hold (standing test; the Morrowind known-answer run stays male by design); bows take no Strength (design kept, 0074/§117) |
+| 5 | delivered 2026-09-24 | c44149ed | — | every sweep that plays a character from race baselines (campaign, main quest, progression, deferral) run again as women: 19/19 invariants hold (standing test; the Morrowind known-answer run stays male by design); bows take no Strength (design kept, 0074/§117) |
 
 **Lane closed 2026-09-24** after round 5. What is left for Phase 10c:
 actors, combat and equipment reading this API (the combat lane consumes
