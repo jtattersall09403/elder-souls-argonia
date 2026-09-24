@@ -39,8 +39,8 @@ model and the harness, not the actor, UI or save wiring.
 |---|---|---|---|---|
 | 1 | delivered 2026-09-24 | bc26431e | [0088](../../decisions/0088-the-stats-model-lives-in-game-core-and-reads-injected-data.md) | 285 sim answers (85 written, 200 fresh) equal to 1e-12; 20 tests |
 | 2 | delivered 2026-09-24 | af96af0f | [0089](../../decisions/0089-one-race-record-keyed-by-the-roster-with-morrowinds-packages.md) | whole sim output (`run.mjs --json --matrix`, 12,924 numbers) bit-exact on the sim's tables; 19/19 invariants on the canonical data |
-| 3 | delivered 2026-09-24 | see git log `stats lab round 3` | — | `apps/stats-lab` builds; lab tests: every race × sex × class computes, every shown string is in the catalogue |
-| 4 | delivered 2026-09-24 | see git log `stats lab round 4` | — | Marksman ×1.0 at skill 10; `tooling/stats-sim` retired; lab bundle 596 → 251 KB; training and brewing are stats functions; invariant names catalogued |
+| 3 | delivered 2026-09-24 | 061b83d4 | — | `apps/stats-lab` builds; lab tests: every race × sex × class computes, every shown string is in the catalogue |
+| 4 | delivered 2026-09-24 | 2f7759c8 | — | Marksman ×1.0 at skill 10; `tooling/stats-sim` retired; lab bundle 596 → 251 KB; training and brewing are stats functions; invariant names catalogued |
 
 ## Round 4 rulings and choices
 
