@@ -320,10 +320,11 @@ switched on and off by the calendar.
 
 ### Yard coordinates (studio km E / S)
 
-The current table, read from the bundle yard round K14 published
-(2026-09-24; source `/tmp/k14_yard_table.txt`), with a studio link and a
-check per item, is the check-in 2 yard packet (§ Owner check-ins). Yard
-centre 4.310 / 5.740 (`?view=character&x=4.310&z=5.740&t=12`).
+The current table, read from the bundle republished after the check-in 2
+fixes (2026-09-24; `bash tooling/studio-loop/yard-publish.sh` prints it),
+with a studio link and a check per item, is the check-in 3 yard packet
+(§ Owner check-ins). Yard centre 4.306 / 5.737
+(`?view=character&x=4.306&z=5.737&t=12`).
 
 ### Open, in order
 
@@ -334,8 +335,25 @@ miner list blocks a yard item.
 
 **Yard** (`continue 16h part 1 fix round`)
 
-1. **Owner walk** with the check-in 2 yard packet (§ Owner check-ins;
-   the yard was published in K14).
+0. **Check-in 2 yard fixes** (rulings 5–12; ledger "Check-in 2 fixes:
+   yard"): delivered and republished. Still open from them: (a) red
+   `test_every_yard_composite_door_leaf_stands_in_its_doorway`, stilt
+   house 6.256 m: `interiors_index` reads the house's open-front entrance
+   on the +y side while the leaf sits in the jamb-measured doorway on −y
+   (the index should take a composite's own leaf part as its doorway);
+   (b) the landing stage's bank: the yard ground never rises to the deck
+   (deck 18.60, bank peak 17.71 within 30 m, gap 1.90 m), so the run
+   needs the docks kit's `dockstepsdownend01` end (mined abut with
+   `dockstrent01`, n 4); (c) the cave mouth's flanks: no mined
+   co-placement and no terrain patch kind in this lane; (d) the runtime
+   wet-stilt datum (support = water where it covers the legs) is not in
+   `anchoring.ts`; (e) the yard's parcels are authored `interior: none`
+   while two carry doors (a fixture has no `playerPurpose`): planner call;
+   (f) `render_assembly` has no cutaway view; (g) `text-review` on the
+   new yard `why.what` lines and the config notes.
+
+1. **Owner walk** with the check-in 3 yard packet (§ Owner check-ins;
+   republished after the check-in 2 fixes, 2026-09-24).
 2. **Planner call: the truth-table fix path.** Six yard assets disagree
    with their hand-written expectations (`worldgen/fixtures/yard-truth.json`
    `knownMismatches`, ledger "Yard round K14"): `quay-run-2` ground
@@ -376,6 +394,23 @@ miner list blocks a yard item.
    generated from footprints at compile time; "kit sidecars 0.0 MB" in
    `site:compose`; the terrain height-blend shader at the wall foot (16h
    part 2).
+
+**Check-in 2 runtime fixes** (ledger "Check-in 2 fixes: runtime", uncommitted)
+
+1. Owner look at night (`t=22`) at the yard farmhouse: the windows glow
+   warm, and the thatch, rope and sign cutouts (28 materials now MASK) read
+   right by day.
+2. Done at the publish round: the exporter writes treatment rows as id +
+   footprint only, and the yard bundle was republished without the dead
+   fields.
+3. Committed 2026-09-24: runtime `5d854e98`, yard and kits `cbf94703`
+   (ledger "Check-in 2 fixes: publish"). Still uncommitted, owned by the
+   docs lanes: `docs/research/combat-and-systems/follow-camera-collision.md`
+   (item 24's research) and the treatments doc edits.
+4. Miner run owed: `test_mine_mounts::test_the_record_follows_every_asset_placement_row`
+   is red on the yard's new `stilthouseext` / stilt-house composite rows
+   (record water, row ground) until the miner's next run writes the policy
+   rows into `kit-mounts-mined.json`.
 
 **Miner lane** (`continue 16h miner lane`; rules in the next section)
 
@@ -490,8 +525,12 @@ no tables.
    door record: the door is a transition (0081) only where an interior
    exists; otherwise the door leaf is a static part.
 6. **Mud hut door still wrong, asset judged poor.** Same skill rule as
-   5, plus: prefer assets whose doors are BUILT IN (most are); a
-   composite is the exception, with a written reason. Source a better
+   5, plus the composite rule: a composite holds only the shell, the
+   door the mod placed with it, and a walkway or porch where one was
+   mined; everything else is authored per building in the workbench
+   (0 of 17 Argonian hut shells has a door in the mesh;
+   [building-depth-and-variety.md](../../research/placement-settlements/building-depth-and-variety.md)
+   §2, §6 item 2). Source a better
    Argonian hut (BM&V, King of the Murkmire, HTBM already in the pool)
    and replace the composite in the yard.
 7. **Boardwalk invisible at 4.273/5.739.** Find why (sunk, culled, not
@@ -520,9 +559,11 @@ no tables.
 
 ### Commit state
 
-Nothing from part 1 is committed except the PROGRESS.md row (d2f95ea6).
-About 230 files are uncommitted current work, not a crash. No preflight
-has run yet. Commit by pathspec only, after step (g)'s preflight.
+The check-in 2 fixes are committed (2026-09-24): runtime `5d854e98`,
+yard and kits `cbf94703`, and the docs commit with this brief and the
+ledger. The rest of the tree (miner, KotM, building-breadth, combat and
+sound lanes, other docs) is other lanes' uncommitted current work, not a
+crash. Commit by pathspec only.
 
 ## Read (fresh agent: this is your whole map; read the section named, not the file, unless "in full" is said)
 
@@ -627,6 +668,11 @@ the reads and the rows (16j needs the allowlist empty); a parcel's
 blueprint water fact and every over-water placement joins to its id and
 fails on a missing id or a disagreeing kind, shown failing on the five
 shipped blueprints.
+
+Add the `kotm` set (King of the Murkmire, worldspace `ArgoniaWorld`) to
+`mine_assemblies`, `mine_mounts`, `mine_abuts` and `mine_door_links`,
+sample first per `kit-mining` (KotM plan § 3.1, § 3.4:
+[king-of-the-murkmire-adoption-plan.md](../../research/placement-settlements/king-of-the-murkmire-adoption-plan.md)).
 
 **Rule scope, decided in 16g (binding):** the `argonian-stilt` 15–30 %
 over-water share is asked only of a district whose parcels touch a
@@ -977,7 +1023,11 @@ gate that passes on the current bundle is not a gate.
 22. **Man-made lighting** (owner question, check-in 1, 2026-09-23). A
     light emitter property on mount children (sconces, lanterns),
     switched on and off by the calendar: lit from early evening to after
-    sunrise. The runtime reads the property; no per-piece code.
+    sunrise. The runtime reads the property; no per-piece code. Huts
+    without windows (0 of the BM&V, HTBM and stilt shells carry a window
+    shape, /tmp/wf/checkin2/windows.md) are lit by lanterns and braziers
+    placed under this item; the night factor is the settlement layer's
+    sun-altitude ramp (`settlement/materials.ts` `settlementNightFactor`).
 
 23. **Host-aware ring dressing** (planner ruling C, K7, 2026-09-23). The
     97 decision 4 ring (`compile_settlement.dressing_count` by parcel
@@ -986,6 +1036,192 @@ gate that passes on the current bundle is not a gate.
     wall faces, on porches and decks, and chairs at tables by mined pairs
     (`kit-assemblies-mined.json` templates and `abuts`), never on a ring.
     Fixtures are exempt already (`blueprint.is_fixture`, K7).
+
+Items 24–28 come from check-in 2 and
+[building-depth-and-variety.md](../../research/placement-settlements/building-depth-and-variety.md)
+(2026-09-24).
+
+24. **Interior camera** (check-in 2 item 3). Inside a shell, occluders
+    between the camera and the player fade at the near plane. Research:
+    [follow-camera-collision.md](../../research/combat-and-systems/follow-camera-collision.md)
+    (§ Open: a per-instance fade attribute and a `discard` in the
+    settlement material patch). The exterior pull-in, the gradual return
+    and the player fade landed 2026-09-24 (ledger "Check-in 2 fixes:
+    runtime").
+25. **Base height-blend shader** (check-in 2 item 1): option 1 of the
+    seam research, the seam at a building's foot.
+26. **Dressing mine** (research §6 item 5). Evidence only, nothing
+    placed by code; sample first per `kit-mining`. From the ~227k
+    vanilla and ~131k BM&V non-structural refs the assemblies miner
+    skips, those within 12 m of shells, per family: counts and offsets for barrels, firewood, benches, lanterns,
+    smoke and gardens. Sets: vanilla, BM&V, HTBM and `kotm`; the first
+    KotM sample is the Keeba Hollow compounds and the Seekhat-Yol
+    platforms (KotM plan § 2).
+27. **Kit additions** (research §6 item 4), from the mined groups:
+    imperial farmhouse walkways, porches and steps, farmhouse03–06,
+    inn01, smith01; stilt shack window panels; mud BM&V hut windows and
+    steps, plus the KotM sets of KotM plan § 3.1 (permission held,
+    2026-09-24; meshes and textures extracted 2026-09-24;
+    `settlement-mud-v1` KotM pieces blocked on the missing archives, plan
+    § 5.1); root Phitt window composites; Dagon Fel into the
+    existing `hlaalu-domestic` kit (68 Hlaalu pieces; no new Hlaalu kit);
+    the window glow effect meshes in a shared kit. Superseded in order
+    and scope by item 33.
+28. **Window lighting** (check-in 2 item 8). DONE 2026-09-24 (ledger
+    "Check-in 2 fixes: runtime"): the kit build carries the NIF glow slot
+    as the emissive map and NiAlphaProperty cutouts as MASK; the runtime
+    selects glow materials by emissive map and lights them in the emissive
+    stage on the sun-altitude night ramp. Left for item 27: the window
+    meshes and glow-effect meshes the kits do not yet carry.
+29. **Composite-author skill** (research §6 item 2).
+    `.claude/skills/composite-author/SKILL.md` §1–2 states the composite
+    rule of check-in 2 item 6.
+30. **Treatments doc item 17** (research §6 item 3). DONE 2026-09-24:
+    `docs/research/rendering/building-placement-rendering-treatments.md`
+    §2 state records item 17 as inert before and live after item 28, and
+    items 19 and 21 as cut.
+31. **Building checks as gates** (research §2 checks, §6 item 7). Front
+    face to a path, window openings clear of neighbours and terrain by
+    1 m, the minimum dressing set (door, light, personal clutter, one
+    roof detail) and the per-settlement variety table of
+    [decision 0098](../../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md)
+    (it replaces the 25 % template cap; the workbench's
+    repetition-signature command computes the signature 0098 defines).
+    They gate the yard and every 16i plan. The workbench commands behind
+    them and the building-assembly skill chapter belong to the
+    [placement-workbench lane](../lanes/placement-workbench-lane.md).
+
+Items 32–37 come from
+[building-asset-breadth.md](../../research/placement-settlements/building-asset-breadth.md)
+(2026-09-24). Item 33 absorbs item 27's kit additions.
+
+32. **Replace the Nordic route pieces.** `route-spans-v1` carries the 9
+    `nortmpextplat*` Nordic temple platform pieces and `dragonbridge01`;
+    `route-structures-v1` carries `wrcastlestairs01` with its platform.
+    All fail 0098 rule 2.1 (Nordic burial and castle silhouettes; breadth
+    doc §2 table, Recommendations 3). Replace them with pieces that pass
+    (the vanilla imperial-fort bridge and stair pieces are the candidates
+    the breadth doc names), rebuild both kits, re-lay the runs that use
+    them.
+33. **The kit plan** (breadth doc Recommendations 2), in this order:
+    1. **Unpack and register King of the Murkmire (KotM) first.**
+       `pipeline/bsa.py` unpacks `King of the Murkmire.bsa` to
+       `extracted/`; register pool `kotm` in `build_kit.py` `dir_pools`
+       and `asset_registry.POOLS`; record authorship per folder
+       (`argonia/mudhuts`, `blackwood`, `clutter` the author's own;
+       `tesak1243` is mwkeep; `denoffen`, `ayleidruins`, `1mjy`
+       third-party); then `mine_assemblies` on `King of the Murkmire.esp`
+       for mudhut and blackwood templates, sample first per `kit-mining`.
+       **Settled 2026-09-24** (KotM plan, Reconciliation): meshes and
+       textures are extracted to the vault's `extracted/meshes` and
+       `textures` (3,018 files: 2,292 meshes, 726 textures) and the `kotm` pool is registered (2,096
+       rows); 692 meshes name textures held only in the SE resource
+       pack, Creation Club or DLC archives (plan § 5.1).
+    2. **Mud kit** (`settlement-mud-v1`): KotM mudhuts (30 exterior
+       pieces) and its 6 interior shells; BM&V hut window01–03,
+       windowbox01, steps01–03; KotM clutter (scalefence, scaletent,
+       saxhleelfence, saxhleellantern, townlantern, wallbasket,
+       hangingfeathers, tamwindchime, buntingline). Retire the Mud Mother
+       hut (`mudhut01`, `mudhut01intnew`, the `mudmother-hut-int` shell)
+       in the same change; the pool's other 57 pieces stay. The yard
+       rebuild takes the retirement: the yard's mud hut becomes KotM
+       `mudhut02`.
+    3. **Stilt kit** (`settlement-stilt-v1`): the other 50 shack kit
+       pieces; KotM blackwood (thatchhouse ×8, house ×5 with platforms,
+       roundhut ×3, walkways 8, plankwall ×5, partitions and windows,
+       watchtower, stable, watertower ×2, docks 13) once the lore check
+       against material-culture.md:21–24 passes.
+    4. **Imperial kit additions** (`settlement-imperial-v1`):
+       farmhouse03–06, inn01, smith01, farmlonghouse01, the 6 destroyed
+       variants, walkway01–04 and the 28-piece walkway kit, the 14
+       remaining terraces, ivy ×3, farmwell01; the Solitude farm set
+       (sfarmhouse ×3, porch ×3, steps, shed, silo, windmill, lighthouse,
+       lumbermill); cyrfarmhouse01–03, smallhouseext, Jet's farmhouse kit
+       (235), the BM&V `imp/` exterior 6, the BM&V chimney kit 13,
+       wrshutter ×4, imperial tents 2.
+    5. **A new Imperial town kit** (`settlement-imperial-town-v1`): the
+       Riften timber houses 17, decks 10 and Riften docks 18 for the
+       Imperial waterside quarter (Lilmoth, Gideon ports); the Solitude
+       named houses 13 as one-off landmark shells (owner question (b)
+       below).
+    6. **A new fort kit** (`fort-imperial-v1`): vanilla impext 75, tower
+       19, stable kit 9, and the Reimperialized impwindow moss ×6: the
+       second fort language beside mwkeep.
+    7. **Dagon Fel into `hlaalu-domestic`**: shack01–05, housetall ×2,
+       awnings, chimneys, window01–02 and doorframe, for Thorn only.
+    8. **A shared dressing kit** (`dressing-v1`): fxsmokechimney01/02,
+       fxsmokelargeclose01, whfxwindowglow01–04, fxambwindowglow01,
+       lampposts, and the vanilla farmhouse dressing set
+       (building-depth-and-variety.md §6 item 7).
+
+    Every family passes 0098 rule 2 first. Credits go in root README
+    § Credits in the same change.
+34. **Owner sourcing list** (breadth doc §4; ask the owner, download
+    nothing until permission is recorded):
+    - FYX 3D Shack Kit Walls / Roofs (Yuril), SSE 67123 / 67488: real 3D
+      boards on the shack kit the stilt kit uses; terms not stated.
+    - Keep and Middle Class Houses (kiko), SSE 137960: 7 town houses, 6
+      chimneys, a keep; "free to use", credit optional; lore fit to check.
+    - Cyrodiil Farmhouse Tileset (Beyond Skyrim), LE 48582: adds the inn
+      and windmill to the 3 cyrfarmhouses we hold.
+    - Stroti's Stilt House, optional split file, LE 61824: hut and
+      platform apart, so the stilt house stands on our own decks.
+
+    Owner questions carried with it: (b) Solitude's named houses and
+    Riften's timber houses as Imperial-quarter shells; (c) the FYX
+    author's and kiko's permission.
+35. **KotM registry origins** (KotM plan § 4.2–4.3).
+    `world/sources/assets/registry-kotm.jsonl` records no third-party
+    origin and classes 1,111 of its 2,096 rows `misc` (4 `tree` rows for
+    246 `argonia/trees` paths). Add `origin` per path prefix from the
+    plan's § 4.3 folder-to-origin table, rerun the taxonomy on a
+    25-asset sample first, and credit each origin shipped in root README
+    § Credits in the same change as its first kit.
+36. **Tropical Skyrim v1.1 in the kits.** The vault's `extracted/` took
+    the v1.1 update on 2026-09-24 (sourcing log, Tropical row): the
+    plugin and the two trunk meshes under
+    `meshes/landscape/trees/tropical/` (`anvil_palm_trunk.nif`,
+    `anvilgianttrunk.nif`); v1.0 copies sit beside them as `*.v1_0`.
+    No kit config, composite or placement record reads those two
+    meshes: every reference is to the root-folder copies
+    `tropical:landscape/trees/anvil_palm_trunk` and `.../anvilgianttrunk`
+    (`meshes/landscape/trees/`, unchanged by the update), in
+    `flora-province-v1.json`:185/230, `settlement-root-v1.json`:448/451,
+    `probe-gapfill.json`:7–8, `probe-tall-tropical.json`:38/41,
+    `placement-policies.json`:200 and `test_build_kit.py`:165/172; the
+    only rows naming the updated files are `registry-tropical.jsonl`:22–23.
+    No kit rebuild follows from the meshes. The plugin changed
+    (1,987,282 → 1,992,588 B; the update readme: "Fixed objects that
+    still had snow on them", "The large trees now have proper
+    collision"); its readers are `asset_registry.py`:118,
+    `mine_groundcover` and `mine_micro_siting`. Whether their records are
+    re-mined from v1.1 is the planner's call; the bootstrap snapshot
+    (`tooling/bootstrap/snapshot-manifest.json`:971–999) no longer
+    matches the vault folder.
+37. **Project Rainforest as a second texture overlay.** Add
+    `mod-sources/project-rainforest-20636/extracted` to
+    `build_kit.vanilla_texture_roots` (build_kit.py:232–250) behind
+    Tropical Skyrim and ahead of the vanilla BSA, so a texture Tropical
+    leaves unchanged resolves to Project Rainforest's repaint where one
+    exists. What it adds (breadth doc §2): Windhelm street and ground
+    maps (6 diffuse: whstreetstone01, whroughground*, whdirtbrick…),
+    caves 12 diffuse, dungeon root 5, Whiterun 2. Its nordic, imperial,
+    dwemer, mines and Riften-dungeon files (192) are vanilla copies and
+    change nothing. The per-file classification is
+    `docs/research/archive/building-depth-2026-09/diffuse-classes.tsv`
+    (pool `PR`). `test_tropical_default.py` gains the second root's
+    order; the README.md:157 credit scope widens from "tropical ground
+    textures" to "tropical ground textures and the Windhelm street and
+    ground and cave repaints" in the same change. Licence: "Patches,
+    bugfixes, updates, add-ons, third-party retextures, and the like are
+    allowed freely ... as long as due credit is given."
+
+Planner rulings (2026-09-24):
+- The variety rule is decision 0098's per-settlement table; it replaces
+  the 25 % template cap and the earlier ruling that the cap counts
+  assemblies.
+- A piece may sit where its mod never placed it when it is fitted on
+  measured geometry in the workbench and passes a visual check.
 
 ## Moved out of this chunk (recorded, not parked)
 
@@ -1062,62 +1298,115 @@ part 2).
 - Say whether the route-structure exemplar set is the right one for
   proving the kinds.
 
-**Check-in 2 yard packet** (published 2026-09-24, yard round K14). The
-coordinates are read from the published bundle
+**Check-in 3 yard packet** (republished 2026-09-24 after the check-in 2
+fixes; ledger "Check-in 2 fixes: runtime" and "Check-in 2 fixes: yard").
+The coordinates are read from the published bundle
 (`apps/world-studio/public/province/settlements.json`: 16 placements,
-3 doors, 0 dressing objects). Every item in the yard is listed, including
-those that passed at check-in 1. Open each link in the studio;
-`$ES_TUNNEL_URL` is the local studio address.
+2 doors, 0 dressing objects). Every item in the yard is listed. Open each
+link in the studio; `$ES_TUNNEL_URL` is the local studio address.
 
 **How to reply.** One message. For each row, give the item name and
 "right" or "wrong: what you see". Skip a row you could not reach and say
 so. A "wrong" becomes a fix to a rule or a record, never a nudge to one
 piece.
 
-**Known before you walk.** The yard tests measure three items off:
-- The landing stage deck still stands about 0.5 m above where it should.
-  The records class it as a land piece, because no mod places that dock
-  run in the water.
-- The stilt hut sits 0.17 m off the ground under its footprint (the limit
-  is 0.15 m).
-- The stone stair's record sinks it about 1.5 m into the ground, deeper
-  than its shape suggests.
+**What changed since check-in 2.**
+- The rocks and the band round every building's foot are gone. Where a
+  wall meets the ground is left as it is until part 2 blends the ground
+  colour into the wall.
+- Buildings no longer vanish for a frame while you move.
+- The camera stops at walls instead of passing through them. When it has
+  to come in close, your character fades out so it does not fill the
+  screen.
+- Windows glow warm at night, where the building's own model has glowing
+  windows. In this yard that is the Imperial house.
+- The stilt hut stands on its stilts at the height the mod builds it
+  (the deck about 3.5 m up), with its own stair down to the ground. Its
+  door is now part of the building, since there is no inside to enter.
+- The mud hut is replaced by a bamboo hut from the same mod as the
+  boardwalk. Its door is built into it and leads inside.
+- The boardwalk was buried to its rails. It now stands at the height the
+  mod builds it.
+- The cave mouth is sunk until its sill is level with the ground.
+- The landing stage is built to reach the bank where its deck meets the
+  ground. Here the bank is lower than the deck, so the end is still
+  short (see below).
 
-Check these three anyway: what you see decides the fix.
+**Known before you walk.**
+- Landing stage: the bank near it never rises to deck height (it stays
+  1.9 m below the deck within 30 m), so the landward end still stops in
+  the air. The fix is the mod's step-down end piece, which comes next.
+- Cave mouth: the sides of the rock face are still open. No mod places
+  rocks beside this piece, so closing them needs a ground raise, which
+  comes next.
+- The tall stone stair is still a single piece. It leads nowhere until
+  stairs and ramps are laid as a connected way.
 
 | Item | E / S (studio km) | Piece | Studio link | Check |
 |---|---|---|---|---|
-| Imperial wall, north end (ruined) | 4.237 / 5.681 | `mwimparchwall01destroyed01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.681&t=12` | The wall is one run of four pieces laid end to end: this ruin, the gate, the tower and a second ruin. It is four, not seven, because the ground here slopes too much for a longer straight wall. Seven or five pieces would tilt past the 2-degree limit; four tilt 1.96 degrees. Check that this end is broken stone, not a hollow cut-off, and that no gap shows where it meets the gate. |
-| Imperial gate | 4.237 / 5.688 | `mwimparchwallgate01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.688&t=12` | No gap to the wall on either side. The east side is closed, not hollow. You can walk through the arch. |
-| Imperial tower | 4.237 / 5.696 | `mwimparchwalltower01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.696&t=12` | It joins the gate and the south ruin with no gap at either joint. Its east and west faces are closed. |
-| Imperial wall, south end (ruined) | 4.237 / 5.703 | `mwimparchwall01destroyed02` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.703&t=12` | The wall ends in broken stone, not a hollow cut-off. No gap where it meets the tower. |
-| Stone stair | 4.252 / 5.675 | `passesc128h64d01` | `$ES_TUNNEL_URL?view=character&x=4.252&z=5.675&t=12` | You can find it. Its foot meets the ground with no gap, the top step is not buried, and you can climb it. |
-| Free wall with the candle sconce | 4.265 / 5.685 | `impfreewall01` | `$ES_TUNNEL_URL?view=character&x=4.265&z=5.685&t=12` | It stands on the ground. Its short ends are closed, not hollow. |
-| Candle sconce | 4.267 / 5.686 | `impwallsconcecandle01` | `$ES_TUNNEL_URL?view=character&x=4.267&z=5.686&t=12` | It is on the free wall and sits flat against its face. It stays unlit for now (see the answers below). |
-| Sign post | 4.262 / 5.695 | `signwrpost01` | `$ES_TUNNEL_URL?view=character&x=4.262&z=5.695&t=12` | It stands on the ground, not sunk or floating. It is solid: walk into it and you stop. |
-| Huntsman sign | 4.262 / 5.695 | `signwrdrunkenhuntsman01` | `$ES_TUNNEL_URL?view=character&x=4.262&z=5.695&t=12` | It hangs from the post and touches it, not floating beside it. |
-| Boardwalk | 4.273 / 5.739 | `tamu_wooddock01` | `$ES_TUNNEL_URL?view=character&x=4.273&z=5.739&t=12` | The deck is at a height you can step onto, not at shoulder height. No chairs on it or around it. |
-| Mud hut | 4.273 / 5.773 | `mud/hut-with-entrance` | `$ES_TUNNEL_URL?view=character&x=4.273&z=5.773&t=12` | Its base meets the ground. No tables or chairs are scattered round it. |
-| Mud hut door | 4.273 / 5.767 | (part of the hut) | `$ES_TUNNEL_URL?view=character&x=4.273&z=5.767&t=12` | The door stands in the hut's doorway, not on its own beside the hut. |
-| Imperial house | 4.276 / 5.795 | `farmhouse01-with-door` | `$ES_TUNNEL_URL?view=character&x=4.276&z=5.795&t=12` | Its base meets the ground. |
-| Imperial house door | 4.274 / 5.799 | (part of the house) | `$ES_TUNNEL_URL?view=character&x=4.274&z=5.799&t=12` | The doorstep is at ground height: you walk up to the door with no body-height step. |
-| Cave mouth | 4.320 / 5.737 | `bmv doorcaveb` | `$ES_TUNNEL_URL?view=character&x=4.320&z=5.737&t=12` | You can find it. It meets the ground all round with no gap and reads as a way in. |
-| Stilt hut | 4.326 / 5.777 | `stilt/stilthouse-with-door` | `$ES_TUNNEL_URL?view=character&x=4.326&z=5.777&t=12` | The legs reach the ground. The hut's own stair reaches the ground, and you can walk up it onto the deck. |
-| Stilt hut door | 4.327 / 5.774 | (part of the hut) | `$ES_TUNNEL_URL?view=character&x=4.327&z=5.774&t=12` | The door is at deck height, and you can walk up to it from the stair. |
-| Stray chairs and tables (seen at check-in 1) | 4.36 / 5.73 | none | `$ES_TUNNEL_URL?view=character&x=4.36&z=5.73&t=12` | No chair or table stands on its own here or anywhere else in the yard. |
-| Landing stage | 4.369 / 5.721 | `docks/quay-run-2` | `$ES_TUNNEL_URL?view=character&x=4.369&z=5.721&t=12` | The deck sits just above the water, not far above it. Its landward end reaches the shore. |
-| Ferry raft | 4.381 / 5.725 | `ferryraft01` | `$ES_TUNNEL_URL?view=character&x=4.381&z=5.725&t=12` | It sits on the water and is solid: you can stand on it and cannot walk through it. |
-| Yard centre (overview) | 4.310 / 5.740 | none | `$ES_TUNNEL_URL?view=character&x=4.310&z=5.740&t=12` | Look at each building's foot. A soft, darker band of ground about a metre wide runs round the walls, and a few sourced rock piles sit along the base. The band has no hard edge and does not flicker. The rocks sit in the ground, not on top of it. |
+| Imperial wall, north end (ruined) | 4.237 / 5.681 | `mwimparchwall01destroyed01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.681&t=12` | You passed this at check-in 2. No rocks or band stand at its foot now, and the broken end holds steady as you walk past. |
+| Imperial gate | 4.237 / 5.688 | `mwimparchwallgate01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.688&t=12` | No rocks block the arch now. Walk through it: the camera stays on your side of the wall and does not look through the stone. |
+| Imperial tower | 4.237 / 5.696 | `mwimparchwalltower01` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.696&t=12` | Back the camera into the tower: it stops at the stone rather than going inside. (Its height is the mod's wall tower; the taller towers are a different piece.) |
+| Imperial wall, south end (ruined) | 4.237 / 5.703 | `mwimparchwall01destroyed02` | `$ES_TUNNEL_URL?view=character&x=4.237&z=5.703&t=12` | No band sticks out past the broken end any more. |
+| Stone stair | 4.252 / 5.675 | `passesc128h64d01` | `$ES_TUNNEL_URL?view=character&x=4.252&z=5.675&t=12` | No rocks at its foot now. It still stands alone (see above); say only if it looks worse than at check-in 2. |
+| Free wall with the candle sconce | 4.265 / 5.685 | `impfreewall01` | `$ES_TUNNEL_URL?view=character&x=4.265&z=5.685&t=12` | Stop the camera near it: the base holds steady and does not flicker. |
+| Candle sconce | 4.267 / 5.686 | `impwallsconcecandle01` | `$ES_TUNNEL_URL?view=character&x=4.267&z=5.686&t=12` | Still flat against the wall, and still unlit (lighting comes in part 2). |
+| Sign post | 4.262 / 5.695 | `signwrpost01` | `$ES_TUNNEL_URL?view=character&x=4.262&z=5.695&t=12` | Unchanged since check-in 2; say only if it has moved. |
+| Huntsman sign | 4.262 / 5.695 | `signwrdrunkenhuntsman01` | `$ES_TUNNEL_URL?view=character&x=4.262&z=5.695&t=12` | Its cut-out edges look clean by day, with no dark or see-through blocks round the painted board. |
+| Boardwalk | 4.273 / 5.739 | `tamu_wooddock01` | `$ES_TUNNEL_URL?view=character&x=4.273&z=5.739&t=12` | You can see it now: the deck is about 1.1 m above the ground on its posts. Say whether that height looks right for a boardwalk on dry ground. |
+| Bamboo hut (replaces the mud hut) | 4.273 / 5.773 | `bamboohut01-with-door` | `$ES_TUNNEL_URL?view=character&x=4.273&z=5.773&t=12` | It is a new building. Its base meets the ground. Say whether it reads better than the mud hut did. |
+| Bamboo hut door | 4.274 / 5.776 | (built into the hut) | `$ES_TUNNEL_URL?view=character&x=4.274&z=5.776&t=12` | The door sits in the hut's own doorway, flush, with nothing standing apart from the hut. |
+| Imperial house | 4.276 / 5.795 | `farmhouse01-with-door` | `$ES_TUNNEL_URL?view=character&x=4.276&z=5.795&t=12` | By day: the thatch edges and ropes look clean, not blocky. Then open the same spot at night (`t=22` in place of `t=12`): the windows glow warm. |
+| Imperial house door | 4.274 / 5.799 | (part of the house) | `$ES_TUNNEL_URL?view=character&x=4.274&z=5.799&t=12` | Stand at the door and turn round: the camera stays outside the house walls. |
+| Cave mouth | 4.320 / 5.737 | `bmv doorcaveb` | `$ES_TUNNEL_URL?view=character&x=4.320&z=5.737&t=12` | The step at the entrance is gone: the sill is level with the ground in front of it. The sides are still open (see above). |
+| Stilt hut | 4.326 / 5.777 | `stilthouse-with-door` | `$ES_TUNNEL_URL?view=character&x=4.326&z=5.777&t=12` | It stands on visible stilts, not sunk to the ground. Its stair reaches the ground and you can walk up it onto the deck. The door is at deck height in the doorway, not in the roof. Walk inside: the camera does not put a wall between itself and you. |
+| Stray chairs and tables (seen at check-in 1) | 4.36 / 5.73 | none | `$ES_TUNNEL_URL?view=character&x=4.36&z=5.73&t=12` | Still none, here or anywhere in the yard. |
+| Landing stage | 4.369 / 5.721 | `quay-run-2` | `$ES_TUNNEL_URL?view=character&x=4.369&z=5.721&t=12` | The deck sits just above the water. The landward end is still short of the bank (see above): say whether the gap matches what you see. |
+| Ferry raft | 4.381 / 5.725 | `ferryraft01` | `$ES_TUNNEL_URL?view=character&x=4.381&z=5.725&t=12` | It still sits on the water. The edges of the floating pontoon look clean by day, not blocky. |
+| Yard centre (overview) | 4.306 / 5.737 | none | `$ES_TUNNEL_URL?view=character&x=4.306&z=5.737&t=12` | Walk round the whole yard: no building disappears for a frame, and no rocks or band stand round any building. |
 
-- Every building's base still meets the ground. You said the bases were
-  good at check-in 1; say only if one has changed.
+Still part 2 (not in this walk):
+- Paths between the doors: part 2 draws the ground paint first.
+- Lit sconces from early evening until after sunrise: part 2 item 22.
+- The camera inside buildings that have a real interior: part 2 item 24.
+- Blending the ground colour into wall feet: part 2, where the rocks and
+  band used to be.
+- Tables and chairs set against walls, on decks and at tables: part 2
+  item 23.
 
-Your two questions from check-in 1:
-- Paths: there are none yet, on purpose. Paths between the doors are drawn
-  in part 2 of this chunk.
-- Lit sconces from early evening to after sunrise: man-made lighting is
-  part 2 item 22. Until then the sconce is placed but unlit. Tables and
-  chairs placed against walls, on decks and at tables are part 2 item 23.
+**Decisions for the owner (2026-09-24)**, from
+[building-depth-and-variety.md](../../research/placement-settlements/building-depth-and-variety.md):
+- King of the Murkmire meshes: **RULED 2026-09-24**, usable; the owner
+  holds permission from every mod author in the pool.
+- The Dragonborn door for Mud Mother's hut: may we take it from your own
+  Dragonborn DLC archive? Pending the owner's depot check.
+- Jet's building kit: **RULED 2026-09-24**, usable; permission held.
+- Missing archives (KotM plan § 5.1): may we bring the Skyrim SE/AE
+  resource pack (`_ResourcePack.bsa`), the Creation Club archives (Fish,
+  Curios, Saints & Seducers, `_shared`) and the Dawnguard, HearthFires
+  and Dragonborn archives into the vault? The vault holds the 2011 depot
+  you pulled; an SE/AE depot pull, if you own it, unblocks the KotM mud
+  huts, Ayleid ruins and 184 tree meshes.
+- KotM and AI (plan § 5.2): the author's page asks for no AI use. Please
+  confirm your permission covers AI-assisted development. KotM voice
+  lines are never used.
+- Tropical Skyrim (skyrim 33017): **RULED 2026-09-24**, covered. Its
+  page says "you MUST contact me and obtain permission before ...
+  using its contents in your own mod"; the owner's statement of
+  2026-09-24 (permission held from every author in the pool) covers
+  it.
+- Stone cities and forts in a tropical repaint: may we ask two authors
+  for permission? Tropical Skyrim repaints no Markarth, Winterhold or
+  fort texture and only one Windhelm map (breadth doc §2). The only full
+  repaints found are SCO Tropical Edition v2 (Tamikonelf and AceeQ,
+  skyrim 69382: Markarth, Windhelm, Winterhold, High Hrothgar, Imperial
+  forts, caves) and New Windhelm summer and tropical edition v2
+  (tamikoneolf, skyrim 63649: all of Windhelm, built on Osmodius's
+  Windhelm Texture Pack, skyrim 54322). Neither page states terms. Under
+  decision 0098 §2 as amended, these families need no repaint to pass
+  the texture rule; they still fail the silhouette rule, so a repaint
+  would matter only for pieces that pass it (Markarth or Windhelm stone
+  used as an alias target, or a fort wall).
 
 ## Gotchas
 
