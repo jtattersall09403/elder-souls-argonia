@@ -19,7 +19,9 @@ import { useEquippedArrow, useEquippedLoadout, useInventoryStore, useWornArmour,
 import { IDLE_BOW_CYCLE, advanceBowCycle, aimBlend, bowPose, bowTravelFor, isAiming, nockedArrowVisible, type BowCycle } from "@elder-souls/game-core/combat/bowShot";
 import { AIM_CONVERGENCE_FAR_METERS, aimAngles, aimConvergencePoint, angleBetweenDegrees, directionTo } from "@elder-souls/game-core/combat/aimConvergence";
 import { NEUTRAL_RANGED_MODIFIERS, launchSpeed, resolveArrowImpact } from "@elder-souls/game-core/combat/ballistics";
-import { marksmanScalars, meleeScalars } from "@elder-souls/game-core/combat/skillScalars";
+import { marksmanModifiers, meleeModifiers } from "@elder-souls/game-core/stats/modifiers";
+import { meleeSkillFor } from "@elder-souls/game-core/equipment/weaponSkill";
+import type { WeaponClass } from "@elder-souls/game-core/equipment/types";
 import { NEUTRAL_MELEE_MODIFIERS, applyMeleeModifiers } from "@elder-souls/game-core/combat/modifiers";
 import { applyStatusEffects, tickStatusEffects, type ActiveStatusEffect } from "@elder-souls/game-core/combat/statusEffects";
 import { WEAPON_CLASSES } from "@elder-souls/game-core/equipment/weaponClasses";
@@ -41,6 +43,7 @@ import { PLAYER_LOCK_ON_WALK_SPEED, PLAYER_WALK_SPEED, analogueMoveSpeed, camera
 import { inputToIntent } from "@elder-souls/game-core/combat/intent";
 import { lockOnOrientationWarp, lockOnSprintAllowed, lockOnYaws } from "@elder-souls/game-core/anim/lockOn";
 import type { CombatRuntimeHost } from "./host";
+import { attackClipTiming, UNIT_CLIP_TIMING, type ClipTiming } from "@elder-souls/game-core/anim/clipTiming";
 import "./visualTelemetry";
 import type { AnimationState, CombatAction } from "@elder-souls/game-core/core/types";
 import type { AttackDefinition } from "@elder-souls/game-core/equipment/types";
@@ -78,14 +81,17 @@ const UP = new THREE.Vector3(0, 1, 0);
 /**
  * The skill curves are a switch, not a default. Off, every modifier is neutral
  * — the calibrated feel the visual scenarios were tuned against; on, the two
- * sliders drive the module 76 curves. Pure reads of the store, no state.
+ * sliders drive the stats model's curves (`stats/modifiers`, module 76 §118)
+ * at the reference attributes. Pure reads, no state.
  */
 function playerRangedModifiers(skillsEnabled: boolean, marksmanSkill: number) {
-  return skillsEnabled ? marksmanScalars(marksmanSkill) : NEUTRAL_RANGED_MODIFIERS;
+  return skillsEnabled ? marksmanModifiers(marksmanSkill) : NEUTRAL_RANGED_MODIFIERS;
 }
 
-function playerMeleeModifiers(skillsEnabled: boolean, meleeSkill: number) {
-  return skillsEnabled ? meleeScalars(meleeSkill) : NEUTRAL_MELEE_MODIFIERS;
+function playerMeleeModifiers(skillsEnabled: boolean, meleeSkill: number, weaponClass: WeaponClass) {
+  if (!skillsEnabled) return NEUTRAL_MELEE_MODIFIERS;
+  const mods = meleeModifiers(meleeSkillFor(weaponClass), meleeSkill);
+  return { damagePosition: mods.damagePosition, staminaCost: mods.staminaCost, strength: mods.strength };
 }
 
 /** Nothing worn. Frozen and shared so it never changes the actor's identity. */
@@ -189,7 +195,7 @@ export function CombatRuntime({
    */
   const playerWeapon = useMemo(() => {
     const base = playerLoadout.mainHand;
-    return { ...base, attacks: applyMeleeModifiers(base.attacks, playerMeleeModifiers(skillsEnabled, meleeSkill)) };
+    return { ...base, attacks: applyMeleeModifiers(base.attacks, playerMeleeModifiers(skillsEnabled, meleeSkill, base.stats.class)) };
   }, [playerLoadout, meleeSkill, skillsEnabled]);
   /** Bleeds and the like the player is carrying. The player has no Fighter. */
   const playerStatus = useRef<ActiveStatusEffect[]>([]);
@@ -492,12 +498,12 @@ export function CombatRuntime({
   const shakeSeed = useRef(0);
   const damagePulse = useRef(0);
 
-  const setAnim = useCallback((animation: AnimationState, startAt = 0, restart = false, crossFadeDuration: number | null = null, timeScale = 1) => {
-    updateAnimationCommand(playerAnimationCommand.current, animation, startAt, restart, crossFadeDuration, timeScale);
+  const setAnim = useCallback((animation: AnimationState, startAt = 0, restart = false, crossFadeDuration: number | null = null, timing: ClipTiming = UNIT_CLIP_TIMING) => {
+    updateAnimationCommand(playerAnimationCommand.current, animation, startAt, restart, crossFadeDuration, timing);
   }, []);
 
-  const setEnemyAnim = useCallback((e: EnemyRuntime, animation: AnimationState, startAt = 0, restart = false, crossFadeDuration: number | null = null, timeScale = 1) => {
-    updateAnimationCommand(e.animCommand.current, animation, startAt, restart, crossFadeDuration, timeScale);
+  const setEnemyAnim = useCallback((e: EnemyRuntime, animation: AnimationState, startAt = 0, restart = false, crossFadeDuration: number | null = null, timing: ClipTiming = UNIT_CLIP_TIMING) => {
+    updateAnimationCommand(e.animCommand.current, animation, startAt, restart, crossFadeDuration, timing);
   }, []);
 
   const announce = useCallback((text: string, duration = 1.2) => {
@@ -526,7 +532,7 @@ export function CombatRuntime({
     // windup/active/recovery were scaled to, so the hitbox stays on the blade
     // whatever the enemy is carrying. `fighter.attack` is always assigned
     // before the mode is entered.
-    setEnemyAnim(e, animation, startAt, true, crossFadeDuration, mode === "attack" ? e.fighter.attack?.timeScale ?? 1 : 1);
+    setEnemyAnim(e, animation, startAt, true, crossFadeDuration, mode === "attack" && e.fighter.attack ? attackClipTiming(e.fighter.attack) : UNIT_CLIP_TIMING);
   }, [setEnemyAnim]);
 
   // When the locked target dies, retarget the nearest survivor or release lock.
@@ -618,7 +624,7 @@ export function CombatRuntime({
     if (action === "guard") guardHitUntil.current = 0;
     // An attack's clip plays at the rate its own timing was scaled to. Anything
     // that is not an attack has no class scaling applied to it and plays at 1.
-    setAnim(animation, startAt, restartAnimation, crossFadeDuration, playerAttack.current?.timeScale ?? 1);
+    setAnim(animation, startAt, restartAnimation, crossFadeDuration, playerAttack.current ? attackClipTiming(playerAttack.current) : UNIT_CLIP_TIMING);
   }, [playerWeapon, setAnim]);
 
   const finishPlayerAction = useCallback(() => {
@@ -658,7 +664,8 @@ export function CombatRuntime({
       // What the class itself does on a hit (bleed, armour pierce), and how well
       // the player swings it. Both read at the moment of contact.
       effects: settingsRef.current.classEffectsEnabled ? WEAPON_CLASSES[playerWeapon.stats.class].effects : [],
-      attacker: playerMeleeModifiers(settingsRef.current.skillsEnabled, settingsRef.current.meleeSkill),
+      attacker: playerMeleeModifiers(settingsRef.current.skillsEnabled, settingsRef.current.meleeSkill, playerWeapon.stats.class),
+      critRoll: visualScenario ? 1 : Math.random(),
       // A guard only covers what the defender is facing. Without this a
       // shield stopped a sword swung into the back of its owner's head.
       guard: f.state === "guard" && !execution && player.current && enemyGuardCovers(e, player.current.currPos)
@@ -712,6 +719,9 @@ export function CombatRuntime({
     f.health = result.health;
     if (result.kind === "hit" || result.kind === "execution") {
       f.status = applyStatusEffects(f.status, result.status);
+    }
+    if (result.kind === "hit" && result.critical && !result.killed) {
+      announce(text(CATALOGUE, "text.combat.critical-hit"), 0.7);
     }
     hitStop.current = result.hitStop;
     const handle = player.current;
@@ -947,6 +957,7 @@ export function CombatRuntime({
       // The enemy's class effects apply; their skill does not exist yet, so
       // `attacker` stays neutral (only the player has a skill slider).
       effects: settingsRef.current.classEffectsEnabled ? WEAPON_CLASSES[enemyWeapon.stats.class].effects : [],
+      critRoll: visualScenario ? 1 : Math.random(),
       // Facing, not just guarding: you cannot get a shield between yourself
       // and something behind you.
       guard: playerAction.current === "guard" && equipped.current

@@ -1,3 +1,4 @@
+import { actionSecondsAt, clipSecondsAt, type ClipTiming } from "@elder-souls/game-core/anim/clipTiming";
 import { hitCapsuleFor, measureHeldObject } from "@elder-souls/game-core/combat/hitVolume";
 import { applyWeaponSocketTransform } from "@elder-souls/game-core/anim/weaponMount";
 import { footContactChain, liftFootContact } from "@elder-souls/game-core/anim/footContact";
@@ -93,17 +94,22 @@ type AimBone = { share: number; object: THREE.Object3D; authored: THREE.Quaterni
 const AIM_PITCH_SMOOTHING_SECONDS = 0.09;
 
 /**
- * Authored clip seconds per second of the clock driving this action.
+ * Source seconds into the clip at `actionSeconds` of the clock driving it.
  *
  * The manifest's `playbackRate` is a property of the *clip* — how the pipeline
- * retimed the source. The command's `timeScale` is a property of this
- * *performance* — how much slower a heavy weapon does the same motion. They
- * compose, and both have to be here rather than only on the first, because an
- * externally timed action is paused and driven by hand: `action.timeScale`
- * would never be read.
+ * retimed the source. The command's `timing` is a property of this
+ * *performance* — how much slower a heavy weapon winds up, and how much faster
+ * it swings (`anim/clipTiming`). They compose, and both have to be here rather
+ * than only on the first, because an externally timed action is paused and
+ * driven by hand: `action.timeScale` would never be read.
  */
-function clipRate(config: { playbackRate: number }, command: { timeScale?: number }) {
-  return config.playbackRate / (command.timeScale || 1);
+function clipSourceOffset(config: { playbackRate: number }, command: { timing: ClipTiming }, actionSeconds: number) {
+  return clipSecondsAt(actionSeconds, command.timing) * config.playbackRate;
+}
+
+/** The inverse: action seconds at which the clip is `sourceOffset` in. */
+function actionAtSourceOffset(config: { playbackRate: number }, command: { timing: ClipTiming }, sourceOffset: number) {
+  return actionSecondsAt(sourceOffset / (config.playbackRate || 1), command.timing);
 }
 
 const AIM_PITCH_BONES: readonly { bone: string; share: number }[] = [
@@ -797,7 +803,7 @@ function PosedActor({
         action.setLoop(config.looping ? THREE.LoopRepeat : THREE.LoopOnce, config.looping ? Infinity : 1);
         action.time = Math.min(
           action.getClip().duration,
-          playbackStartTime + command.startAt * clipRate(config, command),
+          playbackStartTime + clipSourceOffset(config, command, command.startAt),
         );
         action.paused = externallyTimed;
         if (previousAction.current && previousAction.current !== action) {
@@ -838,12 +844,12 @@ function PosedActor({
       // Combat owns timing: drive clip time from the gameplay action clock so
       // the visual never runs ahead of the combat state machine.
       elapsed.current = animationPoseTimeRef?.current != null
-        ? animationPoseTimeRef.current / clipRate(config, command)
+        ? actionAtSourceOffset(config, command, animationPoseTimeRef.current)
         : Math.max(0, animationTimeRef!.current - externalClockOrigin.current) + command.startAt;
       const clip = action.getClip();
       action.time = Math.min(
         clip.duration,
-        (config.playbackStartTime ?? 0) + elapsed.current * clipRate(config, command),
+        (config.playbackStartTime ?? 0) + clipSourceOffset(config, command, elapsed.current),
       );
     } else {
       elapsed.current += renderMixerDelta;

@@ -11,7 +11,7 @@
     "criticals": "stationary weapon extent; entry limits remain paired choreography"
   },
   "provenance": {
-    "inputsSha256": "07123c37d500941d4000d8cef67422cf1a386e87e8a29c274c05630f8c1c4bdf",
+    "inputsSha256": "ac856a4f371d14d11b1b6c5817796096f487b52e7acf8e4ddb45a1a9d7743610",
     "animationManifestSha256": "17ab9576bbbe72a92aa8c273df9ca5407cbb9442cbcb8f9905a4dad102bae3cf",
     "assets": {
       "races/dunmer-male.glb": "e4748eb1253ea1699b58a47fc51b1944bc35a5414b2db6e8f4dd715ecf5f8ac4",
@@ -1505,10 +1505,10 @@
             0.74,
             1.04
           ],
-          "range": 1.910349,
-          "stationaryRange": 1.698668,
-          "atSeconds": 1.015342,
-          "sourceTime": 1.015342
+          "range": 1.910282,
+          "stationaryRange": 1.69807,
+          "atSeconds": 0.974435,
+          "sourceTime": 1.015806
         },
         "light2": {
           "animation": "GREATSWORD_LIGHT_2",
@@ -1516,10 +1516,10 @@
             0.65,
             0.916
           ],
-          "range": 1.430592,
-          "stationaryRange": 1.283254,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.424956,
+          "stationaryRange": 1.281937,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATSWORD_LIGHT_3",
@@ -1527,10 +1527,10 @@
             0.900654,
             1.276315
           ],
-          "range": 2.390633,
-          "stationaryRange": 1.604838,
-          "atSeconds": 1.090549,
-          "sourceTime": 1.090549
+          "range": 2.436665,
+          "stationaryRange": 1.604774,
+          "atSeconds": 1.058236,
+          "sourceTime": 1.086045
         },
         "heavy": {
           "animation": "GREATSWORD_HEAVY",
@@ -1538,10 +1538,10 @@
             0.823346,
             1.09635
           ],
-          "range": 1.77979,
-          "stationaryRange": 1.865027,
-          "atSeconds": 1.017758,
-          "sourceTime": 1.017758
+          "range": 1.80558,
+          "stationaryRange": 1.865566,
+          "atSeconds": 0.989099,
+          "sourceTime": 1.018349
         },
         "heavy2": {
           "animation": "GREATSWORD_HEAVY_2",
@@ -1549,10 +1549,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.949704,
-          "stationaryRange": 1.653092,
-          "atSeconds": 1.148799,
-          "sourceTime": 1.148799
+          "range": 2.896961,
+          "stationaryRange": 1.653127,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATSWORD_RIPOSTE",
@@ -1587,10 +1587,10 @@
             0.74,
             1.04
           ],
-          "range": 1.90149,
-          "stationaryRange": 1.689789,
-          "atSeconds": 1.015342,
-          "sourceTime": 1.015342
+          "range": 1.901396,
+          "stationaryRange": 1.689186,
+          "atSeconds": 0.974435,
+          "sourceTime": 1.015806
         },
         "light2": {
           "animation": "GREATSWORD_LIGHT_2",
@@ -1598,10 +1598,10 @@
             0.65,
             0.916
           ],
-          "range": 1.421112,
-          "stationaryRange": 1.273551,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.415436,
+          "stationaryRange": 1.272233,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATSWORD_LIGHT_3",
@@ -1609,10 +1609,10 @@
             0.900654,
             1.276315
           ],
-          "range": 2.381554,
-          "stationaryRange": 1.595533,
-          "atSeconds": 1.090549,
-          "sourceTime": 1.090549
+          "range": 2.427319,
+          "stationaryRange": 1.595337,
+          "atSeconds": 1.058236,
+          "sourceTime": 1.086045
         },
         "heavy": {
           "animation": "GREATSWORD_HEAVY",
@@ -1620,10 +1620,10 @@
             0.823346,
             1.09635
           ],
-          "range": 1.769533,
-          "stationaryRange": 1.854788,
-          "atSeconds": 1.017758,
-          "sourceTime": 1.017758
+          "range": 1.795378,
+          "stationaryRange": 1.855407,
+          "atSeconds": 0.989099,
+          "sourceTime": 1.018349
         },
         "heavy2": {
           "animation": "GREATSWORD_HEAVY_2",
@@ -1631,10 +1631,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.939865,
-          "stationaryRange": 1.643618,
-          "atSeconds": 1.148799,
-          "sourceTime": 1.148799
+          "range": 2.887059,
+          "stationaryRange": 1.643654,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATSWORD_RIPOSTE",
@@ -1669,10 +1669,10 @@
             0.74,
             1.04
           ],
-          "range": 1.87194,
-          "stationaryRange": 1.660275,
-          "atSeconds": 1.015342,
-          "sourceTime": 1.015342
+          "range": 1.871895,
+          "stationaryRange": 1.659681,
+          "atSeconds": 0.974435,
+          "sourceTime": 1.015806
         },
         "light2": {
           "animation": "GREATSWORD_LIGHT_2",
@@ -1680,10 +1680,10 @@
             0.65,
             0.916
           ],
-          "range": 1.392633,
-          "stationaryRange": 1.245458,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.387027,
+          "stationaryRange": 1.244141,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATSWORD_LIGHT_3",
@@ -1691,10 +1691,10 @@
             0.900654,
             1.276315
           ],
-          "range": 2.352382,
-          "stationaryRange": 1.566752,
-          "atSeconds": 1.090549,
-          "sourceTime": 1.090549
+          "range": 2.398605,
+          "stationaryRange": 1.566783,
+          "atSeconds": 1.058236,
+          "sourceTime": 1.086045
         },
         "heavy": {
           "animation": "GREATSWORD_HEAVY",
@@ -1702,10 +1702,10 @@
             0.823346,
             1.09635
           ],
-          "range": 1.742383,
-          "stationaryRange": 1.827607,
-          "atSeconds": 1.017758,
-          "sourceTime": 1.017758
+          "range": 1.768133,
+          "stationaryRange": 1.828088,
+          "atSeconds": 0.989099,
+          "sourceTime": 1.018349
         },
         "heavy2": {
           "animation": "GREATSWORD_HEAVY_2",
@@ -1713,10 +1713,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.911998,
-          "stationaryRange": 1.615129,
-          "atSeconds": 1.148799,
-          "sourceTime": 1.148799
+          "range": 2.859301,
+          "stationaryRange": 1.615162,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATSWORD_RIPOSTE",
@@ -1751,10 +1751,10 @@
             0.74,
             1.04
           ],
-          "range": 1.823234,
-          "stationaryRange": 1.611545,
-          "atSeconds": 1.015342,
-          "sourceTime": 1.015342
+          "range": 1.823156,
+          "stationaryRange": 1.610945,
+          "atSeconds": 0.974435,
+          "sourceTime": 1.015806
         },
         "light2": {
           "animation": "GREATSWORD_LIGHT_2",
@@ -1762,10 +1762,10 @@
             0.65,
             0.916
           ],
-          "range": 1.343211,
-          "stationaryRange": 1.195777,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.337558,
+          "stationaryRange": 1.194459,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATSWORD_LIGHT_3",
@@ -1773,10 +1773,10 @@
             0.900654,
             1.276315
           ],
-          "range": 2.303424,
-          "stationaryRange": 1.517532,
-          "atSeconds": 1.090549,
-          "sourceTime": 1.090549
+          "range": 2.349342,
+          "stationaryRange": 1.517411,
+          "atSeconds": 1.058236,
+          "sourceTime": 1.086045
         },
         "heavy": {
           "animation": "GREATSWORD_HEAVY",
@@ -1784,10 +1784,10 @@
             0.823346,
             1.09635
           ],
-          "range": 1.692077,
-          "stationaryRange": 1.777322,
-          "atSeconds": 1.017758,
-          "sourceTime": 1.017758
+          "range": 1.71789,
+          "stationaryRange": 1.777895,
+          "atSeconds": 0.989099,
+          "sourceTime": 1.018349
         },
         "heavy2": {
           "animation": "GREATSWORD_HEAVY_2",
@@ -1795,10 +1795,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.86217,
-          "stationaryRange": 1.565714,
-          "atSeconds": 1.148799,
-          "sourceTime": 1.148799
+          "range": 2.8094,
+          "stationaryRange": 1.565749,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATSWORD_RIPOSTE",
@@ -1833,10 +1833,10 @@
             0.74,
             1.04
           ],
-          "range": 1.880607,
-          "stationaryRange": 1.668888,
-          "atSeconds": 1.015342,
-          "sourceTime": 1.015342
+          "range": 1.880488,
+          "stationaryRange": 1.66828,
+          "atSeconds": 0.974435,
+          "sourceTime": 1.015806
         },
         "light2": {
           "animation": "GREATSWORD_LIGHT_2",
@@ -1844,10 +1844,10 @@
             0.65,
             0.916
           ],
-          "range": 1.399689,
-          "stationaryRange": 1.251936,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.393979,
+          "stationaryRange": 1.250617,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATSWORD_LIGHT_3",
@@ -1855,10 +1855,10 @@
             0.900654,
             1.276315
           ],
-          "range": 2.360478,
-          "stationaryRange": 1.574263,
-          "atSeconds": 1.090549,
-          "sourceTime": 1.090549
+          "range": 2.406009,
+          "stationaryRange": 1.57395,
+          "atSeconds": 1.058236,
+          "sourceTime": 1.086045
         },
         "heavy": {
           "animation": "GREATSWORD_HEAVY",
@@ -1866,10 +1866,10 @@
             0.823346,
             1.09635
           ],
-          "range": 1.747423,
-          "stationaryRange": 1.832694,
-          "atSeconds": 1.017758,
-          "sourceTime": 1.017758
+          "range": 1.773317,
+          "stationaryRange": 1.833383,
+          "atSeconds": 0.989099,
+          "sourceTime": 1.018349
         },
         "heavy2": {
           "animation": "GREATSWORD_HEAVY_2",
@@ -1877,10 +1877,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.918125,
-          "stationaryRange": 1.6222,
-          "atSeconds": 1.148799,
-          "sourceTime": 1.148799
+          "range": 2.865263,
+          "stationaryRange": 1.622238,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATSWORD_RIPOSTE",
@@ -2243,10 +2243,10 @@
             0.748,
             1.04
           ],
-          "range": 1.881729,
-          "stationaryRange": 1.66194,
-          "atSeconds": 1.015324,
-          "sourceTime": 1.015324
+          "range": 1.882273,
+          "stationaryRange": 1.66143,
+          "atSeconds": 0.975517,
+          "sourceTime": 1.015667
         },
         "light2": {
           "animation": "GREATAXE_LIGHT_2",
@@ -2254,10 +2254,10 @@
             0.65,
             0.916
           ],
-          "range": 1.404755,
-          "stationaryRange": 1.260509,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.399687,
+          "stationaryRange": 1.259138,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATAXE_LIGHT_3",
@@ -2265,10 +2265,10 @@
             0.909987,
             1.234316
           ],
-          "range": 2.344348,
-          "stationaryRange": 1.56345,
-          "atSeconds": 1.088784,
-          "sourceTime": 1.088784
+          "range": 2.391127,
+          "stationaryRange": 1.563005,
+          "atSeconds": 1.058113,
+          "sourceTime": 1.084253
         },
         "heavy": {
           "animation": "GREATAXE_HEAVY",
@@ -2276,10 +2276,10 @@
             0.854,
             1.12
           ],
-          "range": 1.649643,
-          "stationaryRange": 1.803967,
-          "atSeconds": 1.024406,
-          "sourceTime": 1.024406
+          "range": 1.654699,
+          "stationaryRange": 1.804454,
+          "atSeconds": 0.997882,
+          "sourceTime": 1.023273
         },
         "heavy2": {
           "animation": "GREATAXE_HEAVY_2",
@@ -2287,10 +2287,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.90182,
-          "stationaryRange": 1.589513,
-          "atSeconds": 1.144666,
-          "sourceTime": 1.144666
+          "range": 2.850011,
+          "stationaryRange": 1.589561,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2325,10 +2325,10 @@
             0.748,
             1.04
           ],
-          "range": 1.851491,
-          "stationaryRange": 1.631644,
-          "atSeconds": 1.015324,
-          "sourceTime": 1.015324
+          "range": 1.851968,
+          "stationaryRange": 1.631121,
+          "atSeconds": 0.975517,
+          "sourceTime": 1.015667
         },
         "light2": {
           "animation": "GREATAXE_LIGHT_2",
@@ -2336,10 +2336,10 @@
             0.65,
             0.916
           ],
-          "range": 1.37297,
-          "stationaryRange": 1.228072,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.367794,
+          "stationaryRange": 1.226695,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATAXE_LIGHT_3",
@@ -2347,10 +2347,10 @@
             0.909987,
             1.234316
           ],
-          "range": 2.3135,
-          "stationaryRange": 1.532005,
-          "atSeconds": 1.088784,
-          "sourceTime": 1.088784
+          "range": 2.359673,
+          "stationaryRange": 1.531236,
+          "atSeconds": 1.058113,
+          "sourceTime": 1.084253
         },
         "heavy": {
           "animation": "GREATAXE_HEAVY",
@@ -2358,10 +2358,10 @@
             0.854,
             1.12
           ],
-          "range": 1.615862,
-          "stationaryRange": 1.770273,
-          "atSeconds": 1.024406,
-          "sourceTime": 1.024406
+          "range": 1.620497,
+          "stationaryRange": 1.770407,
+          "atSeconds": 0.997882,
+          "sourceTime": 1.023273
         },
         "heavy2": {
           "animation": "GREATAXE_HEAVY_2",
@@ -2369,10 +2369,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.86944,
-          "stationaryRange": 1.557599,
-          "atSeconds": 1.144666,
-          "sourceTime": 1.144666
+          "range": 2.817602,
+          "stationaryRange": 1.557694,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2407,10 +2407,10 @@
             0.748,
             1.04
           ],
-          "range": 1.855056,
-          "stationaryRange": 1.635124,
-          "atSeconds": 1.015324,
-          "sourceTime": 1.015324
+          "range": 1.85543,
+          "stationaryRange": 1.63458,
+          "atSeconds": 0.975517,
+          "sourceTime": 1.015667
         },
         "light2": {
           "animation": "GREATAXE_LIGHT_2",
@@ -2418,10 +2418,10 @@
             0.65,
             0.916
           ],
-          "range": 1.374162,
-          "stationaryRange": 1.228287,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.368822,
+          "stationaryRange": 1.226901,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATAXE_LIGHT_3",
@@ -2429,10 +2429,10 @@
             0.909987,
             1.234316
           ],
-          "range": 2.316095,
-          "stationaryRange": 1.533711,
-          "atSeconds": 1.088784,
-          "sourceTime": 1.088784
+          "range": 2.361307,
+          "stationaryRange": 1.532887,
+          "atSeconds": 1.058113,
+          "sourceTime": 1.084253
         },
         "heavy": {
           "animation": "GREATAXE_HEAVY",
@@ -2440,10 +2440,10 @@
             0.854,
             1.12
           ],
-          "range": 1.613806,
-          "stationaryRange": 1.76835,
-          "atSeconds": 1.024406,
-          "sourceTime": 1.024406
+          "range": 1.617776,
+          "stationaryRange": 1.767925,
+          "atSeconds": 0.997882,
+          "sourceTime": 1.023273
         },
         "heavy2": {
           "animation": "GREATAXE_HEAVY_2",
@@ -2451,10 +2451,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.869633,
-          "stationaryRange": 1.558662,
-          "atSeconds": 1.144666,
-          "sourceTime": 1.144666
+          "range": 2.817745,
+          "stationaryRange": 1.55875,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2735,10 +2735,10 @@
             0.748,
             1.04
           ],
-          "range": 1.825195,
-          "stationaryRange": 1.613028,
-          "atSeconds": 1.132697,
-          "sourceTime": 0.99985
+          "range": 1.822878,
+          "stationaryRange": 1.612584,
+          "atSeconds": 1.091348,
+          "sourceTime": 1.001353
         },
         "light2": {
           "animation": "GREATAXE_LIGHT_2",
@@ -2746,10 +2746,10 @@
             0.65,
             0.916
           ],
-          "range": 1.356922,
-          "stationaryRange": 1.203803,
-          "atSeconds": 1.033578,
-          "sourceTime": 0.912356
+          "range": 1.350926,
+          "stationaryRange": 1.202504,
+          "atSeconds": 0.988374,
+          "sourceTime": 0.91171
         },
         "light3": {
           "animation": "GREATAXE_LIGHT_3",
@@ -2757,10 +2757,10 @@
             0.909987,
             1.234316
           ],
-          "range": 2.537086,
-          "stationaryRange": 1.509816,
-          "atSeconds": 1.241439,
-          "sourceTime": 1.095838
+          "range": 2.457613,
+          "stationaryRange": 1.509801,
+          "atSeconds": 1.209951,
+          "sourceTime": 1.095935
         },
         "heavy": {
           "animation": "GREATAXE_HEAVY",
@@ -2768,10 +2768,10 @@
             0.854,
             1.12
           ],
-          "range": 1.569406,
-          "stationaryRange": 1.740654,
-          "atSeconds": 1.161484,
-          "sourceTime": 1.02526
+          "range": 1.573054,
+          "stationaryRange": 1.740539,
+          "atSeconds": 1.132721,
+          "sourceTime": 1.025613
         },
         "heavy2": {
           "animation": "GREATAXE_HEAVY_2",
@@ -2779,10 +2779,10 @@
             0.884321,
             1.227316
           ],
-          "range": 3.052586,
-          "stationaryRange": 1.534094,
-          "atSeconds": 1.295311,
-          "sourceTime": 1.143391
+          "range": 2.986626,
+          "stationaryRange": 1.534005,
+          "atSeconds": 1.24953,
+          "sourceTime": 1.141567
         },
         "riposte": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2817,10 +2817,10 @@
             0.748,
             1.04
           ],
-          "range": 1.710804,
-          "stationaryRange": 1.498175,
-          "atSeconds": 1.132697,
-          "sourceTime": 0.99985
+          "range": 1.708961,
+          "stationaryRange": 1.497858,
+          "atSeconds": 1.087213,
+          "sourceTime": 0.997059
         },
         "light2": {
           "animation": "GREATAXE_LIGHT_2",
@@ -2828,10 +2828,10 @@
             0.65,
             0.916
           ],
-          "range": 1.255047,
-          "stationaryRange": 1.113272,
-          "atSeconds": 1.033578,
-          "sourceTime": 0.912356
+          "range": 1.250075,
+          "stationaryRange": 1.11205,
+          "atSeconds": 0.988374,
+          "sourceTime": 0.91171
         },
         "light3": {
           "animation": "GREATAXE_LIGHT_3",
@@ -2839,10 +2839,10 @@
             0.909987,
             1.234316
           ],
-          "range": 2.423806,
-          "stationaryRange": 1.408988,
-          "atSeconds": 1.237311,
-          "sourceTime": 1.092194
+          "range": 2.34523,
+          "stationaryRange": 1.408833,
+          "atSeconds": 1.205787,
+          "sourceTime": 1.091611
         },
         "heavy": {
           "animation": "GREATAXE_HEAVY",
@@ -2850,10 +2850,10 @@
             0.854,
             1.12
           ],
-          "range": 1.497022,
-          "stationaryRange": 1.667379,
-          "atSeconds": 1.153228,
-          "sourceTime": 1.017973
+          "range": 1.501134,
+          "stationaryRange": 1.667668,
+          "atSeconds": 1.12859,
+          "sourceTime": 1.021323
         },
         "heavy2": {
           "animation": "GREATAXE_HEAVY_2",
@@ -2861,10 +2861,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.957776,
-          "stationaryRange": 1.436896,
-          "atSeconds": 1.295311,
-          "sourceTime": 1.143391
+          "range": 2.892666,
+          "stationaryRange": 1.436836,
+          "atSeconds": 1.24953,
+          "sourceTime": 1.141567
         },
         "riposte": {
           "animation": "GREATAXE_LIGHT_1",
@@ -2899,10 +2899,10 @@
             0.748,
             1.04
           ],
-          "range": 1.737699,
-          "stationaryRange": 1.525326,
-          "atSeconds": 1.132697,
-          "sourceTime": 0.99985
+          "range": 1.735518,
+          "stationaryRange": 1.524932,
+          "atSeconds": 1.087213,
+          "sourceTime": 0.997059
         },
         "light2": {
           "animation": "GREATAXE_LIGHT_2",
@@ -2910,10 +2910,10 @@
             0.65,
             0.916
           ],
-          "range": 1.274329,
-          "stationaryRange": 1.12547,
-          "atSeconds": 1.033578,
-          "sourceTime": 0.912356
+          "range": 1.268723,
+          "stationaryRange": 1.124194,
+          "atSeconds": 0.988374,
+          "sourceTime": 0.91171
         },
         "light3": {
           "animation": "GREATAXE_LIGHT_3",
@@ -2921,10 +2921,10 @@
             0.909987,
             1.234316
           ],
-          "range": 2.449812,
-          "stationaryRange": 1.427473,
-          "atSeconds": 1.237311,
-          "sourceTime": 1.092194
+          "range": 2.370864,
+          "stationaryRange": 1.42766,
+          "atSeconds": 1.205787,
+          "sourceTime": 1.091611
         },
         "heavy": {
           "animation": "GREATAXE_HEAVY",
@@ -2932,10 +2932,10 @@
             0.854,
             1.12
           ],
-          "range": 1.497591,
-          "stationaryRange": 1.668328,
-          "atSeconds": 1.157356,
-          "sourceTime": 1.021616
+          "range": 1.50136,
+          "stationaryRange": 1.668011,
+          "atSeconds": 1.12859,
+          "sourceTime": 1.021323
         },
         "heavy2": {
           "animation": "GREATAXE_HEAVY_2",
@@ -2943,10 +2943,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.973333,
-          "stationaryRange": 1.453413,
-          "atSeconds": 1.295311,
-          "sourceTime": 1.143391
+          "range": 2.907704,
+          "stationaryRange": 1.453285,
+          "atSeconds": 1.24953,
+          "sourceTime": 1.141567
         },
         "riposte": {
           "animation": "GREATAXE_LIGHT_1",
@@ -4621,10 +4621,10 @@
             0.697422,
             1.057316
           ],
-          "range": 2.451462,
-          "stationaryRange": 2.06529,
-          "atSeconds": 1.0099,
-          "sourceTime": 0.99597
+          "range": 2.43843,
+          "stationaryRange": 2.065212,
+          "atSeconds": 0.967734,
+          "sourceTime": 0.999733
         },
         "light2": {
           "animation": "HALBERD_LIGHT_2",
@@ -4632,10 +4632,10 @@
             0.548991,
             0.868219
           ],
-          "range": 2.393568,
-          "stationaryRange": 2.240852,
-          "atSeconds": 0.876212,
-          "sourceTime": 0.864126
+          "range": 2.388078,
+          "stationaryRange": 2.240734,
+          "atSeconds": 0.827702,
+          "sourceTime": 0.863455
         },
         "light3": {
           "animation": "HALBERD_LIGHT_3",
@@ -4643,10 +4643,10 @@
             0.614853,
             0.909247
           ],
-          "range": 3.665464,
-          "stationaryRange": 2.558265,
-          "atSeconds": 0.731248,
-          "sourceTime": 0.721162
+          "range": 3.596953,
+          "stationaryRange": 2.558677,
+          "atSeconds": 0.710804,
+          "sourceTime": 0.716202
         },
         "heavy": {
           "animation": "HALBERD_HEAVY",
@@ -4654,10 +4654,10 @@
             1.16205,
             1.580956
           ],
-          "range": 4.214236,
-          "stationaryRange": 2.072382,
-          "atSeconds": 1.473972,
-          "sourceTime": 1.453641
+          "range": 4.13601,
+          "stationaryRange": 2.07237,
+          "atSeconds": 1.431452,
+          "sourceTime": 1.455765
         },
         "heavy2": {
           "animation": "HALBERD_HEAVY_2",
@@ -4665,10 +4665,10 @@
             0.894652,
             1.230147
           ],
-          "range": 3.20511,
-          "stationaryRange": 2.022388,
-          "atSeconds": 1.180973,
-          "sourceTime": 1.164684
+          "range": 3.148852,
+          "stationaryRange": 2.022569,
+          "atSeconds": 1.146753,
+          "sourceTime": 1.172633
         },
         "riposte": {
           "animation": "HALBERD_LIGHT_1",
@@ -4703,10 +4703,10 @@
             0.697422,
             1.057316
           ],
-          "range": 2.465981,
-          "stationaryRange": 2.079696,
-          "atSeconds": 1.0099,
-          "sourceTime": 0.99597
+          "range": 2.45292,
+          "stationaryRange": 2.079615,
+          "atSeconds": 0.967734,
+          "sourceTime": 0.999733
         },
         "light2": {
           "animation": "HALBERD_LIGHT_2",
@@ -4714,10 +4714,10 @@
             0.548991,
             0.868219
           ],
-          "range": 2.408113,
-          "stationaryRange": 2.255334,
-          "atSeconds": 0.876212,
-          "sourceTime": 0.864126
+          "range": 2.402619,
+          "stationaryRange": 2.255216,
+          "atSeconds": 0.827702,
+          "sourceTime": 0.863455
         },
         "light3": {
           "animation": "HALBERD_LIGHT_3",
@@ -4725,10 +4725,10 @@
             0.614853,
             0.909247
           ],
-          "range": 3.679389,
-          "stationaryRange": 2.572751,
-          "atSeconds": 0.731248,
-          "sourceTime": 0.721162
+          "range": 3.61106,
+          "stationaryRange": 2.573159,
+          "atSeconds": 0.710804,
+          "sourceTime": 0.716202
         },
         "heavy": {
           "animation": "HALBERD_HEAVY",
@@ -4736,10 +4736,10 @@
             1.16205,
             1.580956
           ],
-          "range": 4.228392,
-          "stationaryRange": 2.086558,
-          "atSeconds": 1.473972,
-          "sourceTime": 1.453641
+          "range": 4.150201,
+          "stationaryRange": 2.086531,
+          "atSeconds": 1.431452,
+          "sourceTime": 1.455765
         },
         "heavy2": {
           "animation": "HALBERD_HEAVY_2",
@@ -4747,10 +4747,10 @@
             0.894652,
             1.230147
           ],
-          "range": 3.217988,
-          "stationaryRange": 2.036415,
-          "atSeconds": 1.180973,
-          "sourceTime": 1.164684
+          "range": 3.161678,
+          "stationaryRange": 2.036565,
+          "atSeconds": 1.146753,
+          "sourceTime": 1.172633
         },
         "riposte": {
           "animation": "HALBERD_LIGHT_1",
@@ -4785,10 +4785,10 @@
             0.697422,
             1.057316
           ],
-          "range": 2.461192,
-          "stationaryRange": 2.074771,
-          "atSeconds": 1.0099,
-          "sourceTime": 0.99597
+          "range": 2.448096,
+          "stationaryRange": 2.074688,
+          "atSeconds": 0.967734,
+          "sourceTime": 0.999733
         },
         "light2": {
           "animation": "HALBERD_LIGHT_2",
@@ -4796,10 +4796,10 @@
             0.548991,
             0.868219
           ],
-          "range": 2.403356,
-          "stationaryRange": 2.250503,
-          "atSeconds": 0.876212,
-          "sourceTime": 0.864126
+          "range": 2.397857,
+          "stationaryRange": 2.250385,
+          "atSeconds": 0.827702,
+          "sourceTime": 0.863455
         },
         "light3": {
           "animation": "HALBERD_LIGHT_3",
@@ -4807,10 +4807,10 @@
             0.614853,
             0.909247
           ],
-          "range": 3.67389,
-          "stationaryRange": 2.567919,
-          "atSeconds": 0.731248,
-          "sourceTime": 0.721162
+          "range": 3.605908,
+          "stationaryRange": 2.568323,
+          "atSeconds": 0.706644,
+          "sourceTime": 0.711376
         },
         "heavy": {
           "animation": "HALBERD_HEAVY",
@@ -4818,10 +4818,10 @@
             1.16205,
             1.580956
           ],
-          "range": 4.223171,
-          "stationaryRange": 2.081366,
-          "atSeconds": 1.473972,
-          "sourceTime": 1.453641
+          "range": 4.145019,
+          "stationaryRange": 2.081321,
+          "atSeconds": 1.431452,
+          "sourceTime": 1.455765
         },
         "heavy2": {
           "animation": "HALBERD_HEAVY_2",
@@ -4829,10 +4829,10 @@
             0.894652,
             1.230147
           ],
-          "range": 3.211225,
-          "stationaryRange": 2.031044,
-          "atSeconds": 1.180973,
-          "sourceTime": 1.164684
+          "range": 3.154849,
+          "stationaryRange": 2.031156,
+          "atSeconds": 1.146753,
+          "sourceTime": 1.172633
         },
         "riposte": {
           "animation": "HALBERD_LIGHT_1",
@@ -4867,10 +4867,10 @@
             0.697422,
             1.057316
           ],
-          "range": 2.372131,
-          "stationaryRange": 1.986596,
-          "atSeconds": 1.0099,
-          "sourceTime": 0.99597
+          "range": 2.35926,
+          "stationaryRange": 1.986522,
+          "atSeconds": 0.967734,
+          "sourceTime": 0.999733
         },
         "light2": {
           "animation": "HALBERD_LIGHT_2",
@@ -4878,10 +4878,10 @@
             0.548991,
             0.868219
           ],
-          "range": 2.314094,
-          "stationaryRange": 2.161756,
-          "atSeconds": 0.876212,
-          "sourceTime": 0.864126
+          "range": 2.30863,
+          "stationaryRange": 2.161638,
+          "atSeconds": 0.827702,
+          "sourceTime": 0.863455
         },
         "light3": {
           "animation": "HALBERD_LIGHT_3",
@@ -4889,10 +4889,10 @@
             0.614853,
             0.909247
           ],
-          "range": 3.589492,
-          "stationaryRange": 2.479067,
-          "atSeconds": 0.731248,
-          "sourceTime": 0.721162
+          "range": 3.519951,
+          "stationaryRange": 2.479503,
+          "atSeconds": 0.710804,
+          "sourceTime": 0.716202
         },
         "heavy": {
           "animation": "HALBERD_HEAVY",
@@ -4900,10 +4900,10 @@
             1.16205,
             1.580956
           ],
-          "range": 4.136954,
-          "stationaryRange": 1.995182,
-          "atSeconds": 1.473972,
-          "sourceTime": 1.453641
+          "range": 4.058538,
+          "stationaryRange": 1.995183,
+          "atSeconds": 1.431452,
+          "sourceTime": 1.455765
         },
         "heavy2": {
           "animation": "HALBERD_HEAVY_2",
@@ -4911,10 +4911,10 @@
             0.894652,
             1.230147
           ],
-          "range": 3.134866,
-          "stationaryRange": 1.945934,
-          "atSeconds": 1.180973,
-          "sourceTime": 1.164684
+          "range": 3.078851,
+          "stationaryRange": 1.946273,
+          "atSeconds": 1.146753,
+          "sourceTime": 1.172633
         },
         "riposte": {
           "animation": "HALBERD_LIGHT_1",
@@ -5359,10 +5359,10 @@
             0.74,
             1.04
           ],
-          "range": 1.90917,
-          "stationaryRange": 1.697656,
-          "atSeconds": 1.015342,
-          "sourceTime": 1.015342
+          "range": 1.909322,
+          "stationaryRange": 1.697099,
+          "atSeconds": 0.974435,
+          "sourceTime": 1.015806
         },
         "light2": {
           "animation": "GREATSWORD_LIGHT_2",
@@ -5370,10 +5370,10 @@
             0.65,
             0.916
           ],
-          "range": 1.434246,
-          "stationaryRange": 1.288706,
-          "atSeconds": 0.911844,
-          "sourceTime": 0.911844
+          "range": 1.428928,
+          "stationaryRange": 1.287397,
+          "atSeconds": 0.871989,
+          "sourceTime": 0.911164
         },
         "light3": {
           "animation": "GREATSWORD_LIGHT_3",
@@ -5381,10 +5381,10 @@
             0.900654,
             1.276315
           ],
-          "range": 2.391075,
-          "stationaryRange": 1.607716,
-          "atSeconds": 1.090549,
-          "sourceTime": 1.090549
+          "range": 2.439083,
+          "stationaryRange": 1.608026,
+          "atSeconds": 1.058236,
+          "sourceTime": 1.086045
         },
         "heavy": {
           "animation": "GREATSWORD_HEAVY",
@@ -5392,10 +5392,10 @@
             0.823346,
             1.09635
           ],
-          "range": 1.788952,
-          "stationaryRange": 1.874051,
-          "atSeconds": 1.017758,
-          "sourceTime": 1.017758
+          "range": 1.81434,
+          "stationaryRange": 1.873994,
+          "atSeconds": 0.989099,
+          "sourceTime": 1.018349
         },
         "heavy2": {
           "animation": "GREATSWORD_HEAVY_2",
@@ -5403,10 +5403,10 @@
             0.884321,
             1.227316
           ],
-          "range": 2.955835,
-          "stationaryRange": 1.656686,
-          "atSeconds": 1.148799,
-          "sourceTime": 1.148799
+          "range": 2.903576,
+          "stationaryRange": 1.656707,
+          "atSeconds": 1.109227,
+          "sourceTime": 1.148917
         },
         "riposte": {
           "animation": "GREATSWORD_RIPOSTE",
@@ -5441,10 +5441,10 @@
             0.748,
             1.04
           ],
-          "range": 1.824257,
-          "stationaryRange": 1.612134,
-          "atSeconds": 1.132697,
-          "sourceTime": 0.99985
+          "range": 1.821929,
+          "stationaryRange": 1.611681,
+          "atSeconds": 1.091348,
+          "sourceTime": 1.001353
         },
         "light2": {
           "animation": "GREATAXE_LIGHT_2",
@@ -5452,10 +5452,10 @@
             0.65,
             0.916
           ],
-          "range": 1.355026,
-          "stationaryRange": 1.201106,
-          "atSeconds": 1.033578,
-          "sourceTime": 0.912356
+          "range": 1.348957,
+          "stationaryRange": 1.199803,
+          "atSeconds": 0.988374,
+          "sourceTime": 0.91171
         },
         "light3": {
           "animation": "GREATAXE_LIGHT_3",
@@ -5463,10 +5463,10 @@
             0.909987,
             1.234316
           ],
-          "range": 2.536209,
-          "stationaryRange": 1.50786,
-          "atSeconds": 1.241439,
-          "sourceTime": 1.095838
+          "range": 2.456734,
+          "stationaryRange": 1.507802,
+          "atSeconds": 1.209951,
+          "sourceTime": 1.095935
         },
         "heavy": {
           "animation": "GREATAXE_HEAVY",
@@ -5474,10 +5474,10 @@
             0.854,
             1.12
           ],
-          "range": 1.565484,
-          "stationaryRange": 1.736744,
-          "atSeconds": 1.161484,
-          "sourceTime": 1.02526
+          "range": 1.569227,
+          "stationaryRange": 1.736727,
+          "atSeconds": 1.132721,
+          "sourceTime": 1.025613
         },
         "heavy2": {
           "animation": "GREATAXE_HEAVY_2",
@@ -5485,10 +5485,10 @@
             0.884321,
             1.227316
           ],
-          "range": 3.049945,
-          "stationaryRange": 1.531814,
-          "atSeconds": 1.295311,
-          "sourceTime": 1.143391
+          "range": 2.98392,
+          "stationaryRange": 1.531735,
+          "atSeconds": 1.24953,
+          "sourceTime": 1.141567
         },
         "riposte": {
           "animation": "GREATAXE_LIGHT_1",

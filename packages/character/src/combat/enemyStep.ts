@@ -19,6 +19,7 @@ import { ENEMY_CONTACT_STOP_DISTANCE } from "./locomotionHelpers";
 import { BOW_LOOSE_FACING_MAX_WAIT, BOW_LOOSE_FACING_TOLERANCE, aimEnemyBow, looseEnemyArrow } from "./enemyBow";
 
 import type { MutableRefObject } from "react";
+import type { ClipTiming } from "@elder-souls/game-core/anim/clipTiming";
 import type { AnimationState, CombatAction } from "@elder-souls/game-core/core/types";
 import type { EnemyMode } from "@elder-souls/game-core/combat/fighter";
 import type { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
@@ -58,7 +59,7 @@ export type EnemyStepContext = {
   playerWeaponOverlaps: MutableRefObject<OverlapCounter>;
   executionVictim: MutableRefObject<EnemyRuntime | null>;
   setEnemyMode: (e: EnemyRuntime, mode: EnemyMode, animation: AnimationState, startAt?: number, crossFadeDuration?: number | null) => void;
-  setEnemyAnim: (e: EnemyRuntime, animation: AnimationState, startAt?: number, restart?: boolean, crossFadeDuration?: number | null, timeScale?: number) => void;
+  setEnemyAnim: (e: EnemyRuntime, animation: AnimationState, startAt?: number, restart?: boolean, crossFadeDuration?: number | null, timing?: ClipTiming) => void;
   clearLockIfTarget: (e: EnemyRuntime) => void;
   announce: (text: string, duration?: number) => void;
   triggerShake: (kind: HitShakeKind, worldDirection?: { x: number; z: number }) => void;

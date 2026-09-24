@@ -76,7 +76,11 @@ button { color: inherit; font: inherit; }
 .connection.connected { color: #8baa7e; }
 .help-button { pointer-events: auto; position: absolute; right: max(18px, env(safe-area-inset-right)); top: max(40px, calc(env(safe-area-inset-top) + 40px)); width: 32px; height: 32px; border-radius: 50%; border: 1px solid #8a806d; background: rgba(10,10,10,.72); cursor: pointer; }
 .debug-panel { pointer-events: auto; position: absolute; right: max(18px, env(safe-area-inset-right)); top: max(82px, calc(env(safe-area-inset-top) + 82px)); width: 176px; padding: 0; border: 1px solid rgba(138,128,109,.72); background: rgba(10,10,10,.88); color: #c3b79f; z-index: 12; font-size: 11px; box-shadow: 0 6px 22px rgba(0,0,0,.48); }
-.debug-panel summary { cursor: pointer; padding: 8px 10px; font: 600 9px Cinzel, serif; letter-spacing: .16em; color: #a99c83; }
+.debug-panel summary { cursor: pointer; padding: 8px 10px; font: 600 9px Cinzel, serif; letter-spacing: .16em; color: #a99c83; text-transform: uppercase; }
+.debug-panel .timing-panel { padding: 5px 10px; overflow-x: auto; }
+.debug-panel .timing-panel summary { padding: 0 0 4px; }
+.timing-panel table { border-collapse: collapse; font-size: 8px; }
+.timing-panel th, .timing-panel td { padding: 1px 3px; white-space: nowrap; text-align: left; font-weight: 400; }
 .debug-panel[open] { padding-bottom: 9px; }
 .debug-panel label { display: flex; align-items: center; gap: 8px; padding: 5px 10px; cursor: pointer; }
 .debug-panel label:has(input:disabled) { opacity: .45; cursor: default; }

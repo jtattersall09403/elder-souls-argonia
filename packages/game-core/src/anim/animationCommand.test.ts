@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { animationMixerDelta, createAnimationCommand, updateAnimationCommand } from "./animationCommand";
+import { UNIT_CLIP_TIMING } from "./clipTiming";
 
 describe("mutable animation commands", () => {
   it("creates a command at the requested state and source time", () => {
@@ -7,7 +8,7 @@ describe("mutable animation commands", () => {
       state: "SWORD_IDLE",
       startAt: 0.25,
       crossFadeDuration: null,
-      timeScale: 1,
+      timing: UNIT_CLIP_TIMING,
       serial: 0,
     });
   });
@@ -18,17 +19,17 @@ describe("mutable animation commands", () => {
 
     expect(updateAnimationCommand(command, "LIGHT_1", 0.03)).toBe(true);
     expect(command).toBe(identity);
-    expect(command).toEqual({ state: "LIGHT_1", startAt: 0.03, crossFadeDuration: null, timeScale: 1, serial: 1 });
+    expect(command).toEqual({ state: "LIGHT_1", startAt: 0.03, crossFadeDuration: null, timing: UNIT_CLIP_TIMING, serial: 1 });
   });
 
   it("treats the same state as a no-op unless a restart is requested", () => {
     const command = createAnimationCommand("LIGHT_2", 0.1);
 
     expect(updateAnimationCommand(command, "LIGHT_2", 0.4)).toBe(false);
-    expect(command).toEqual({ state: "LIGHT_2", startAt: 0.1, crossFadeDuration: null, timeScale: 1, serial: 0 });
+    expect(command).toEqual({ state: "LIGHT_2", startAt: 0.1, crossFadeDuration: null, timing: UNIT_CLIP_TIMING, serial: 0 });
 
     expect(updateAnimationCommand(command, "LIGHT_2", 0.4, true, 0.24)).toBe(true);
-    expect(command).toEqual({ state: "LIGHT_2", startAt: 0.4, crossFadeDuration: 0.24, timeScale: 1, serial: 1 });
+    expect(command).toEqual({ state: "LIGHT_2", startAt: 0.4, crossFadeDuration: 0.24, timing: UNIT_CLIP_TIMING, serial: 1 });
   });
 
   it("clears a transition override on the next ordinary command", () => {

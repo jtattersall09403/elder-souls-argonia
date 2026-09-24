@@ -11,6 +11,7 @@ import { measureHeldObject, hitCapsuleFor } from "../../../packages/game-core/sr
 import { capsulePlanarReach } from "../../../packages/game-core/src/combat/weaponReach";
 
 import { applyWeaponSocketTransform } from "../../../packages/game-core/src/anim/weaponMount";
+import { attackClipTiming, clipSecondsAt } from "../../../packages/game-core/src/anim/clipTiming";
 
 const ROOT = process.cwd();
 const ASSETS = resolve(ROOT, "packages/character-assets/files");
@@ -72,12 +73,15 @@ for (const weapon of Object.values(ARSENAL_BLUEPRINT_WEAPONS)) {
     const start = config.playbackStartTime ?? 0;
     const end = config.playbackEndTime ?? clip.duration;
     const motionOrigin = groundTrackAt(attack.animation, start);
+    // The renderer's clip clock (`anim/clipTiming`) for the pose; the ground
+    // track stays on footAnchoredVelocity's clock (action seconds x rate).
+    const timing = attackClipTiming(attack);
     let best = { range: 0, stationaryRange: 0, atSeconds: 0, sourceTime: 0 };
     let maxStationaryRange = 0;
     const count = Math.max(1, Math.ceil(attack.active * HZ));
     for (let i = 0; i < count; i++) {
       const elapsed = attack.windup + i * attack.active / count;
-      const time = Math.min(end, start + elapsed * config.playbackRate / (attack.timeScale || 1));
+      const time = Math.min(end, start + clipSecondsAt(elapsed, timing) * config.playbackRate);
       action.time = time; mixer.update(0); root.updateMatrixWorld(true);
       const a = new Vector3(0, 0, capsule.centerOffset - capsule.halfLength).applyMatrix4(mount.matrixWorld);
       const b = new Vector3(0, 0, capsule.centerOffset + capsule.halfLength).applyMatrix4(mount.matrixWorld);
@@ -97,7 +101,7 @@ for (const weapon of Object.values(ARSENAL_BLUEPRINT_WEAPONS)) {
     }
     best.stationaryRange = maxStationaryRange;
     attacks[id] = { animation: attack.animation,
-      activeSourceWindow: [attack.windup, attack.windup + attack.active].map(t => round(Math.min(end, start + t * config.playbackRate / (attack.timeScale || 1)))),
+      activeSourceWindow: [attack.windup, attack.windup + attack.active].map(t => round(Math.min(end, start + clipSecondsAt(t, timing) * config.playbackRate))),
       ...Object.fromEntries(Object.entries(best).map(([k,v]) => [k, round(v)])) };
     const { range: _range, measuredReach: _measured, ...definition } = attack;
     inputs.push({ weapon: weapon.id, id, definition, config, mount: weapon.visual.held });

@@ -9,7 +9,8 @@
  *
  * Ranged has its own record (`RangedModifiers` in `ballistics.ts`) because a
  * bow has more knobs than a blade; the melee record lives here. The curves
- * that turn a skill into either record are in `skillScalars.ts`.
+ * that turn a skill into either record are the stats model's
+ * (`stats/modifiers.ts`: `meleeModifiers`, `marksmanModifiers`).
  */
 export type MeleeModifiers = {
   /**
@@ -20,11 +21,17 @@ export type MeleeModifiers = {
   damagePosition: number;
   /** Multiplies every attack's stamina cost (×1.25 at nothing, ×0.80 at mastery). */
   staminaCost: number;
+  /**
+   * Strength's damage term, `(Str + 50) / 100` (module 76 §121.1): 1 at
+   * Strength 50 and for Hand-to-Hand. Applied beside `damagePosition`, once.
+   */
+  strength: number;
 };
 
 export const NEUTRAL_MELEE_MODIFIERS: MeleeModifiers = {
   damagePosition: 1,
   staminaCost: 1,
+  strength: 1,
 };
 
 /**

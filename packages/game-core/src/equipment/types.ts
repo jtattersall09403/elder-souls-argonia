@@ -1,3 +1,4 @@
+import type { AttackTimeScale } from "../anim/clipTiming";
 import type { BowPhysics } from "../combat/ballistics";
 import type { AnimationState } from "../core/types";
 
@@ -80,7 +81,13 @@ export type WeaponClassEffect =
   /** Ignores this fraction of the defender's armour rating, 0-1. */
   | { kind: "armourPierce"; share: number }
   /** Extra damage = `fraction` x the health damage that landed, over `seconds`. */
-  | { kind: "bleed"; fraction: number; seconds: number };
+  | { kind: "bleed"; fraction: number; seconds: number }
+  /**
+   * A blow lands as a critical, dealing `multiplier` x its incoming damage,
+   * when the hit's roll falls under `chance` (0-1). Never on a riposte or a
+   * backstab, which are criticals already.
+   */
+  | { kind: "critChance"; chance: number; multiplier: number };
 
 export type ShieldClass = "buckler" | "roundShield" | "kiteShield" | "towerShield";
 
@@ -244,21 +251,24 @@ export type AttackSpec = {
   comboQueueOpenProgress?: number;
   /**
    * How fast this attack's *clip* must play for the animation to still agree
-   * with the timing above. Set by `scaleAttack`; 1 on an unscaled spec.
+   * with the timing above: action seconds per authored clip second, one factor
+   * for the wind-up and one for the swing (active and recovery). Set by
+   * `scaleAttack`; absent means 1/1.
    *
    * `windup`/`active`/`recovery` are the authored clip's own seconds multiplied
-   * by the weapon class's `speedScale`. The contact window inside them is a
-   * *fraction of the clip*, so unless the clip plays at the same multiplier the
-   * hitbox drifts away from the visible blade — by the whole of that
-   * multiplier's error, which is 28% early on a dagger and 12% late on a mace.
-   * That is precisely how a dagger came to cut during its wind-up and a mace's
-   * second heavy during its recovery.
+   * by the weapon class's `speedScale` (and, for the swing, its
+   * `swingSpeedScale`). The contact window inside them is a *fraction of the
+   * clip*, so unless the clip plays at the same multipliers the hitbox drifts
+   * away from the visible blade — by the whole of that multiplier's error,
+   * which is how a dagger once cut during its wind-up and a mace's second
+   * heavy during its recovery.
    *
-   * Playback rate is therefore `1 / timeScale`: a dagger (`speedScale` 0.72)
-   * finishes the same motion in 72% of the time, so its clip runs 1.39x. The
-   * clip is the action, at every weapon speed.
+   * The clip clock is therefore two segments split at the end of the wind-up
+   * (`anim/clipTiming`): a dagger (`speedScale` 0.74) finishes the same motion
+   * in 74% of the time, and a greatsword's swing plays at ×0.85 of its
+   * wind-up's pace. The clip is the action, at every weapon speed.
    */
-  timeScale?: number;
+  timeScale?: AttackTimeScale;
 };
 
 export type AttackId =

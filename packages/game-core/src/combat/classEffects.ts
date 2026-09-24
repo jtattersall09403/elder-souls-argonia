@@ -46,3 +46,20 @@ export function bleedFromLandedDamage(
   }
   return applied;
 }
+
+/**
+ * The critical multiplier this blow earns: the class's `critChance` when the
+ * hit's roll (0-1, supplied by the caller so a rule stays deterministic) falls
+ * under its chance, else 1. Several entries do not stack; the best one that
+ * the roll clears counts.
+ */
+export function criticalMultiplier(
+  roll: number,
+  effects: readonly WeaponClassEffect[],
+): number {
+  let multiplier = 1;
+  for (const effect of effects) {
+    if (effect.kind === "critChance" && roll < effect.chance) multiplier = Math.max(multiplier, effect.multiplier);
+  }
+  return multiplier;
+}

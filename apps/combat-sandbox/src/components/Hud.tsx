@@ -1,19 +1,15 @@
-import { CATALOGUE, text } from "@elder-souls/text-catalogue";
-import type { AimView } from "@elder-souls/game-core/core/types";
-import { useEffect, useRef, useState } from "react";
+import { t } from "./hudText";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { input, type InputAction } from "@elder-souls/game-core/io/input";
 import { UI_MENU_BINDINGS, uiMenuInput } from "@elder-souls/game-core/io/uiMenus";
 import { useGameStore } from "../sandboxStore";
 import { useEquippedLoadout } from "@elder-souls/game-core/inventory/store";
-import { MAX_ENEMIES } from "@elder-souls/game-core/combat/tuning";
-import { marksmanScalars, meleeScalars } from "@elder-souls/game-core/combat/skillScalars";
-import { ENEMY_ARCHETYPES } from "@elder-souls/game-core/actors/enemyArchetypes";
-import { FullscreenButton } from "./FullscreenButton";
+import { DebugPanel } from "./DebugPanel";
 import type { VisualScenario } from "@elder-souls/game-core/validation/visualScenarios";
 
 function Bar({ value, max, className, label }: { value: number; max: number; className: string; label: string }) {
   return (
-    <div className={`meter ${className}`} aria-label={`${label}: ${Math.ceil(value)} of ${max}`}>
+    <div className={`meter ${className}`} aria-label={`${label}: ${Math.ceil(value)} / ${max}`}>
       <span style={{ transform: `scaleX(${Math.max(0, value / max)})` }} />
     </div>
   );
@@ -118,7 +114,7 @@ function CameraZone() {
   return (
     <div
       className="camera-zone"
-      aria-label="Drag to rotate camera"
+      aria-label={t("text.sandbox.camera-drag")}
       onPointerDown={(event) => {
         previous.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
         event.currentTarget.setPointerCapture(event.pointerId);
@@ -172,65 +168,17 @@ function Crosshair({ drawFraction, arrowsLeft, zoom }: {
   );
 }
 
-/**
- * One debug pool, stepped rather than typed.
- *
- * Steps of 50 up to 400: enough headroom for the chains that do not fit a
- * hundred-point bar, and coarse enough that a value is a deliberate choice
- * rather than a number someone tuned by nudging. Raising a pool refills it.
- */
-function PoolStepper({ label, value, onChange }: {
-  label: string;
-  value: number;
-  onChange: (value: number) => void;
-}) {
-  const step = (delta: number) => onChange(
-    Math.min(POOL_MAXIMUM, Math.max(POOL_STEP, value + delta)),
-  );
-  return (
-    <label className="pool-stepper">
-      {label}: {value}
-      <button type="button" disabled={value <= POOL_STEP} onClick={() => step(-POOL_STEP)}>−</button>
-      <button type="button" disabled={value >= POOL_MAXIMUM} onClick={() => step(POOL_STEP)}>+</button>
-      <button type="button" className="pool-reset" disabled={value === POOL_DEFAULT} onClick={() => onChange(POOL_DEFAULT)}>
-        reset
-      </button>
-    </label>
-  );
-}
-
-const POOL_STEP = 50;
-const POOL_MAXIMUM = 400;
-const POOL_DEFAULT = 100;
-
-/** Frames per second over the last half second, from the browser's own clock. */
-function FpsCounter() {
-  const [fps, setFps] = useState(0);
-  useEffect(() => {
-    let frames = 0;
-    let since = performance.now();
-    let handle = 0;
-    const tick = (now: number) => {
-      frames += 1;
-      if (now - since >= 500) {
-        setFps(Math.round((frames * 1000) / (now - since)));
-        frames = 0;
-        since = now;
-      }
-      handle = requestAnimationFrame(tick);
-    };
-    handle = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(handle);
-  }, []);
-  return <div className="fps-counter">{fps} fps</div>;
-}
+/** The keyboard column of the controls sheet: action, then its keys. */
+const HELP_ROWS = [
+  "move", "attack", "guard", "dodge", "jump", "crouch", "lock", "inventory", "switch-target", "bow-draw", "bow-lower", "bow-zoom",
+].map((action) => [action, "keys"] as const);
+/** The pad column, in the order a pad player reads it. */
+const PAD_ROWS = [
+  "move", "attack", "guard", "dodge", "jump", "crouch", "lock", "inventory", "bow-draw", "bow-lower", "bow-zoom", "switch-target",
+] as const;
 
 export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario | null }) {
   const state = useGameStore();
-  // The sliders show what the skill *does*, not the skill number alone: the
-  // same curves the rules read (`combat/skillScalars`), never a second copy.
-  const marksman = marksmanScalars(state.marksmanSkill);
-  const melee = meleeScalars(state.meleeSkill);
   const [help, setHelp] = useState(false);
   const [touch, setTouch] = useState(false);
   useEffect(() => {
@@ -248,18 +196,18 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
     <div className="hud">
       {visualScenario && (
         <div className="visual-scenario-label" data-testid="visual-scenario-label">
-          VISUAL TEST · {visualScenario.label}
+          {t("text.sandbox.visual-test")} · {visualScenario.label}
         </div>
       )}
-      <section className="player-vitals" aria-label="Player status">
-        <div className="vital-row"><span className="level-orb">08</span><Bar value={state.playerHealth} max={state.playerMaxHealth} className="health" label="Health" /></div>
-        <Bar value={state.playerStamina} max={state.playerMaxStamina} className="stamina" label="Stamina" />
+      <section className="player-vitals" aria-label={t("text.sandbox.player-status")}>
+        <div className="vital-row"><span className="level-orb">08</span><Bar value={state.playerHealth} max={state.playerMaxHealth} className="health" label={t("text.sandbox.health")} /></div>
+        <Bar value={state.playerStamina} max={state.playerMaxStamina} className="stamina" label={t("text.sandbox.stamina")} />
         {/* Poise: how much more you can be hit before a blow interrupts you.
             Dimmed when full, because full poise is the normal state and a bar
             that is always solid teaches nothing. */}
         {state.poiseEnabled && state.playerMaxPoise > 0 && (
           <div className="poise-row" data-spent={state.playerPoise < state.playerMaxPoise || undefined}>
-            <Bar value={state.playerPoise} max={state.playerMaxPoise} className="poise" label="Poise" />
+            <Bar value={state.playerPoise} max={state.playerMaxPoise} className="poise" label={t("text.sandbox.poise")} />
             <small>{Math.round(state.playerPoise)}/{Math.round(state.playerMaxPoise)}</small>
           </div>
         )}
@@ -274,249 +222,36 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
         </div>
       )}
 
-      <section className="quick-slots" aria-label="Equipment">
+      <section className="quick-slots" aria-label={t("text.sandbox.equipment")}>
         <div className="slot sword-icon"><i /></div>
         <div className="slot flask-icon"><i /> <b>{state.estus}</b></div>
-        <span>{state.equipped ? mainHand.label : text(CATALOGUE, "text.sandbox.empty-hand")}</span>
+        <span>{state.equipped ? mainHand.label : t("text.sandbox.empty-hand")}</span>
       </section>
 
       <div className={`connection ${state.gamepad ? "connected" : ""}`}>
-        {state.gamepad ? "CONTROLLER CONNECTED" : "KEYBOARD · TOUCH · GAMEPAD"}
+        {state.gamepad ? t("text.sandbox.controller-connected") : t("text.sandbox.input-modes")}
       </div>
 
       {!visualScenario && <button className="help-button" onClick={() => setHelp((value) => !value)} aria-expanded={help}>?</button>}
-      {!visualScenario && <details className="debug-panel" data-ui-capture>
-        <summary>DEBUG</summary>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.enemyEnabled}
-            onChange={(event) => state.patch({ enemyEnabled: event.target.checked, lockedOn: false })}
-          />
-          Enemy present
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.enemyAiEnabled}
-            disabled={!state.enemyEnabled}
-            onChange={(event) => state.patch({ enemyAiEnabled: event.target.checked })}
-          />
-          Enemy attacks
-        </label>
-        <label className="enemy-count">
-          Enemies: {state.enemyCount}
-          <button
-            type="button"
-            disabled={!state.enemyEnabled || state.enemyCount <= 1}
-            onClick={() => state.patch({ enemyCount: Math.max(1, state.enemyCount - 1) })}
-          >
-            −
-          </button>
-          <button
-            type="button"
-            disabled={!state.enemyEnabled || state.enemyCount >= MAX_ENEMIES}
-            onClick={() => state.patch({ enemyCount: Math.min(MAX_ENEMIES, state.enemyCount + 1) })}
-          >
-            +
-          </button>
-        </label>
-        {/* Player pools. Sandbox-only, and here rather than in the tuning
-            constants because the point is to look at a rule you cannot
-            otherwise reach — a two-handed heavy chain costs more stamina than
-            the standard bar holds — without changing what the game ships. */}
-        <PoolStepper
-          label="Health"
-          value={state.playerMaxHealth}
-          onChange={(playerMaxHealth) => state.patch({ playerMaxHealth })}
-        />
-        <PoolStepper
-          label="Stamina"
-          value={state.playerMaxStamina}
-          onChange={(playerMaxStamina) => state.patch({ playerMaxStamina })}
-        />
-        <label>
-          <input
-            type="checkbox"
-            checked={state.poiseEnabled}
-            onChange={(event) => state.patch({ poiseEnabled: event.target.checked })}
-          />
-          Poise (off = flinch on every hit)
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.showWeaponHitboxes}
-            onChange={(event) => state.patch({ showWeaponHitboxes: event.target.checked })}
-          />
-          Show weapon &amp; parry volumes
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.showBackstabZones}
-            onChange={(event) => state.patch({ showBackstabZones: event.target.checked })}
-          />
-          Show backstab zones
-        </label>
-        <label className="enemy-picker">
-          Enemy:
-          <select
-            value={state.enemyArchetypeId}
-            onChange={(event) => state.patch({ enemyArchetypeId: event.target.value })}
-          >
-            {Object.values(ENEMY_ARCHETYPES).map((archetype) => (
-              <option key={archetype.id} value={archetype.id}>
-                {archetype.label} — {archetype.loadout.mainHand.label}
-                {archetype.loadout.offHand ? " + shield" : ""}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.footDrivenMotion}
-            onChange={(event) => state.patch({ footDrivenMotion: event.target.checked })}
-          />
-          Attack movement from the feet
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.lockedSpeedFollowsClip}
-            onChange={(event) => state.patch({ lockedSpeedFollowsClip: event.target.checked })}
-          />
-          Locked-on speed follows the strafe clips
-        </label>
-        <label className="enemy-picker">
-          Locked stride rate: {state.lockedStrideRate.toFixed(2)}&times;
-          <input
-            type="range"
-            min={1}
-            max={2.5}
-            step={0.05}
-            value={state.lockedStrideRate}
-            onChange={(event) => state.patch({ lockedStrideRate: Number(event.target.value) })}
-          />
-        </label>
-        <label className="enemy-picker">
-          {text(CATALOGUE, "text.sandbox.arrow-gravity")}: {state.arrowGravityScale.toFixed(2)}&times;
-          <input
-            type="range"
-            min={1}
-            max={3}
-            step={0.25}
-            value={state.arrowGravityScale}
-            onChange={(event) => state.patch({ arrowGravityScale: Number(event.target.value) })}
-          />
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.skillsEnabled}
-            onChange={(event) => state.patch({ skillsEnabled: event.target.checked })}
-          />
-          {text(CATALOGUE, "text.sandbox.skills-enabled")}
-        </label>
-        <label className="enemy-picker">
-          {text(CATALOGUE, "text.sandbox.marksman-skill")}: {state.marksmanSkill} (nock &times;{marksman.nockSpeed.toFixed(2)}, draw &times;{marksman.drawSpeed.toFixed(2)}, damage &times;{marksman.damage.toFixed(2)})
-          <input
-            type="range"
-            min={0}
-            max={100}
-            step={5}
-            value={state.marksmanSkill}
-            onChange={(event) => state.patch({ marksmanSkill: Number(event.target.value) })}
-          />
-        </label>
-        <label className="enemy-picker">
-          {text(CATALOGUE, "text.sandbox.melee-skill")}: {state.meleeSkill} (damage &times;{melee.damagePosition.toFixed(2)}, stamina &times;{melee.staminaCost.toFixed(2)})
-          <input
-            type="range"
-            min={0}
-            max={100}
-            step={5}
-            value={state.meleeSkill}
-            onChange={(event) => state.patch({ meleeSkill: Number(event.target.value) })}
-          />
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.classEffectsEnabled}
-            onChange={(event) => state.patch({ classEffectsEnabled: event.target.checked })}
-          />
-          {text(CATALOGUE, "text.sandbox.class-effects")}
-        </label>
-        <label className="enemy-picker">
-          Bow view:
-          <select
-            value={state.aimView}
-            onChange={(event) => state.patch({ aimView: event.target.value as AimView })}
-          >
-            <option value="firstPerson">First person — Skyrim arms rig</option>
-            <option value="shoulder">Third person — over the shoulder (Zelda style)</option>
-            <option value="eye">Third person body, eye camera (original)</option>
-          </select>
-        </label>
-        {state.aiming && (
-          <div className="aim-error">
-            {/* How far the shot's line is from the crosshair ray, in degrees.
-                Zero where the crosshair lands; the rest is the parallax of a
-                bow held beside the camera rather than behind it. */}
-            Aim error: {state.aimErrorDegrees.toFixed(2)}&deg;
-          </div>
-        )}
-        <FpsCounter />
-
-        <label>
-          <input
-            type="checkbox"
-            checked={state.showHitboxes}
-            onChange={(event) => state.patch({ showHitboxes: event.target.checked })}
-          />
-          Show all other colliders
-        </label>
-        <FullscreenButton />
-        <button onClick={state.reset}>RESET &amp; RESTART</button>
-      </details>}
+      {!visualScenario && <DebugPanel />}
       {!touch && state.started && <CameraZone />}
       {help && (
         <aside className="help-panel" data-ui-capture>
-          <button onClick={() => setHelp(false)} aria-label="Close controls">×</button>
-          <h2>Controls</h2>
+          <button onClick={() => setHelp(false)} aria-label={t("text.sandbox.close-controls")}>×</button>
+          <h2>{t("text.sandbox.controls")}</h2>
           <div className="control-columns">
             <dl>
-              <dt>Move / camera</dt><dd>WASD / drag</dd>
-              <dt>Light / heavy</dt><dd>Mouse 1 tap / hold 0.3 s</dd>
-              <dt>Guard / parry</dt><dd>Mouse 2 / Mouse 2 + Mouse 1</dd>
-              <dt>Dodge / sprint</dt><dd>Space tap / hold</dd>
-              <dt>Jump</dt><dd>Either Shift</dd>
-              <dt>Crouch</dt><dd>C</dd>
-              <dt>Lock / heal / equip</dt><dd>Q / H / Tab</dd>
-              <dt>Inventory</dt><dd>I (Esc closes)</dd>
-              <dt>Switch target</dt><dd>, / .</dd>
-              <dt>Bow: raise / draw</dt><dd>Mouse 1 tap / hold</dd>
-              <dt>Bow: lower</dt><dd>Mouse 2</dd>
-              <dt>Bow: zoom</dt><dd>Scroll wheel</dd>
+              {HELP_ROWS.map(([action, keys]) => (
+                <Fragment key={action}><dt>{t(`text.sandbox.help-${action}`)}</dt><dd>{t(`text.sandbox.${keys}-${action}`)}</dd></Fragment>
+              ))}
             </dl>
             <dl>
-              <dt>Move / camera</dt><dd>L stick / R stick</dd>
-              <dt>Light / heavy</dt><dd>R / ZR</dd>
-              <dt>Guard / parry</dt><dd>L / ZL</dd>
-              <dt>Dodge / sprint</dt><dd>B tap / hold</dd>
-              <dt>Jump</dt><dd>A</dd>
-              <dt>Crouch</dt><dd>L3</dd>
-              <dt>Lock / heal / equip</dt><dd>R3 / X / D-pad →</dd>
-              <dt>Inventory</dt><dd>Start</dd>
-              <dt>Bow: raise / draw</dt><dd>R tap / hold</dd>
-              <dt>Bow: lower</dt><dd>L</dd>
-              <dt>Bow: zoom</dt><dd>ZR in / ZL out</dd>
-              <dt>Switch target</dt><dd>Right stick ←/→</dd>
+              {PAD_ROWS.map((action) => (
+                <Fragment key={action}><dt>{t(`text.sandbox.help-${action}`)}</dt><dd>{t(`text.sandbox.pad-${action}`)}</dd></Fragment>
+              ))}
             </dl>
           </div>
-          <p>GameSir mapping uses Nintendo-layout button positions. Release dodge quickly to roll; hold while moving to sprint. On desktop, release Mouse 1 before 0.3 seconds for a light attack, or hold it to trigger a heavy attack; hold Mouse 2 and press Mouse 1 to parry. Press the same attack control again during the current swing to chain without recovering between attacks. An attack pressed during a roll comes out as the roll ends. Parry during the enemy windup, then light attack at close range. Circle behind the enemy and use a light attack at close range to backstab. With a bow drawn, tap light to raise it into first person, hold light to draw — the longer the pull, the harder the shot, and holding at full draw bleeds stamina — and release to loose. Guard lowers the bow; with it raised, scroll (or hold ZR/ZL) to zoom, and the view turns more slowly the further in you are. Crouch is a toggle: it halves your pace and drops you into a sneak, and you stand back up automatically to sprint or jump.</p>
+          <p>{t("text.sandbox.help-notes")}</p>
         </aside>
       )}
 
@@ -526,13 +261,13 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
           <TouchJoystick />
           <MenuButtons />
           <div className="touch-actions">
-            <ActionButton action="lockOn" label="R3" sublabel="LOCK" className="lock" />
-            <ActionButton action="targetLeft" label="◀" sublabel="TARGET" className="target-left" />
-            <ActionButton action="targetRight" label="▶" sublabel="TARGET" className="target-right" />
+            <ActionButton action="lockOn" label="R3" sublabel={t("text.sandbox.touch-lock")} className="lock" />
+            <ActionButton action="targetLeft" label="◀" sublabel={t("text.sandbox.touch-target")} className="target-left" />
+            <ActionButton action="targetRight" label="▶" sublabel={t("text.sandbox.touch-target")} className="target-right" />
             <ActionButton
               action="guard"
               label="L"
-              sublabel={state.aiming ? "LOWER" : "GUARD"}
+              sublabel={state.aiming ? t("text.sandbox.touch-lower") : t("text.sandbox.touch-guard")}
               className="guard"
             />
             {/* Parry and heavy do nothing while a bow is raised, so they become
@@ -541,21 +276,21 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
             <ActionButton
               action={state.aiming ? "zoomOut" : "parry"}
               label="ZL"
-              sublabel={state.aiming ? "ZOOM \u2212" : "PARRY"}
+              sublabel={state.aiming ? t("text.sandbox.touch-zoom-out") : t("text.sandbox.touch-parry")}
               className="parry"
             />
-            <ActionButton action="light" label="R" sublabel={state.aiming ? "DRAW" : "LIGHT"} className="light" />
+            <ActionButton action="light" label="R" sublabel={state.aiming ? t("text.sandbox.touch-draw") : t("text.sandbox.touch-light")} className="light" />
             <ActionButton
               action={state.aiming ? "zoomIn" : "heavy"}
               label="ZR"
-              sublabel={state.aiming ? "ZOOM +" : "HEAVY"}
+              sublabel={state.aiming ? t("text.sandbox.touch-zoom-in") : t("text.sandbox.touch-heavy")}
               className="heavy"
             />
-            <ActionButton action="dodge" label="B" sublabel="DODGE" className="dodge" />
-            <ActionButton action="heal" label="X" sublabel="ESTUS" className="heal" />
-            <ActionButton action="equip" label="→" sublabel="EQUIP" className="equip" />
-            <ActionButton action="jump" label="A" sublabel="JUMP" className="jump" />
-            <ActionButton action="crouch" label="L3" sublabel="CROUCH" className="crouch" />
+            <ActionButton action="dodge" label="B" sublabel={t("text.sandbox.touch-dodge")} className="dodge" />
+            <ActionButton action="heal" label="X" sublabel={t("text.sandbox.touch-estus")} className="heal" />
+            <ActionButton action="equip" label="→" sublabel={t("text.sandbox.touch-equip")} className="equip" />
+            <ActionButton action="jump" label="A" sublabel={t("text.sandbox.touch-jump")} className="jump" />
+            <ActionButton action="crouch" label="L3" sublabel={t("text.sandbox.touch-crouch")} className="crouch" />
           </div>
         </div>
       )}

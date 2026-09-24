@@ -41,6 +41,9 @@ describe("weapon class effects", () => {
     }
     expect(WEAPON_CLASSES.warhammer.effects).toEqual([{ kind: "armourPierce", share: 0.35 }]);
     expect(WEAPON_CLASSES.axe.effects).toEqual([{ kind: "bleed", fraction: 0.25, seconds: 4 }]);
-    expect(WEAPON_CLASSES.straightSword.effects).toEqual([]);
+    expect(WEAPON_CLASSES.straightSword.effects).toEqual([{ kind: "critChance", chance: 0.1, multiplier: 1.5 }]);
+    for (const id of ["rapier", "katana"] as const) expect(WEAPON_CLASSES[id].effects).toEqual(WEAPON_CLASSES.straightSword.effects);
+    // Reach is the thrusting hafts' trait; they carry no effect.
+    for (const id of ["spear", "pike", "staff"] as const) expect(WEAPON_CLASSES[id].effects).toEqual([]);
   });
 });

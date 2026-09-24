@@ -7,6 +7,7 @@ import type {
 } from "../equipment/types";
 import { clipConfig, clipPlaybackSourceSpan } from "../anim/animationManifest";
 import { STRAIGHT_SWORD } from "../equipment/arsenal";
+import { actionSecondsAt, attackClipTiming, clipSecondsAt } from "../anim/clipTiming";
 
 /**
  * Weapon-agnostic moveset rules. Everything here reads an `AttackDefinition`
@@ -120,6 +121,19 @@ export function attackDuration(attack: AttackDefinition) {
 }
 
 /**
+ * Action seconds at which the attack's *clip* reaches `progress` (0-1) of its
+ * length. A clip fraction (a chain branch, a queue opening) is a pose, and a
+ * class that swings faster than it winds up (`swingSpeedScale`) reaches that
+ * pose at a different share of the action; with one scale this is simply
+ * `progress × duration`.
+ */
+export function attackProgressTime(attack: AttackDefinition, progress: number) {
+  const timing = attackClipTiming(attack);
+  const clipLength = clipSecondsAt(attackDuration(attack), timing);
+  return actionSecondsAt(clipLength * progress, timing);
+}
+
+/**
  * When the current attack hands over to its queued successor.
  *
  * Deliberately not the end of the contact window. The hitbox closes when the
@@ -127,10 +141,9 @@ export function attackDuration(attack: AttackDefinition) {
  * follow-through the next swing grows out of.
  */
 export function comboTransitionTime(attack: AttackDefinition) {
-  const duration = attackDuration(attack);
   return attack.comboBranchProgress == null
     ? attack.windup + attack.active
-    : duration * attack.comboBranchProgress;
+    : attackProgressTime(attack, attack.comboBranchProgress);
 }
 
 /** A queued successor starts at its authored chain-entry pose. */
@@ -169,7 +182,7 @@ export function comboQueueOpen(
 export function comboQueueOpenTime(attack: AttackDefinition) {
   return attack.comboQueueOpenProgress == null
     ? attack.windup
-    : attackDuration(attack) * attack.comboQueueOpenProgress;
+    : attackProgressTime(attack, attack.comboQueueOpenProgress);
 }
 
 export function comboSuccessorStartTime(elapsed: number, attack: AttackDefinition) {

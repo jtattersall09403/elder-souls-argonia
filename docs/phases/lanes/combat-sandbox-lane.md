@@ -27,7 +27,7 @@ boats, factions) rather than for the sandbox.
 |---|---|---|---|
 | 0 | Runtime out of `CombatScene.tsx` into `packages/character/src/combat/` with an injected host; debug store into the app | delivered 2026-09-24 | [0089](../../decisions/0089-the-combat-runtime-is-a-package-with-an-injected-host.md) |
 | 1 | Every built weapon and shield in the starting pack; HUD weapon label from the loadout | delivered 2026-09-24 | this row |
-| 2 | Owner feedback: Strength in bow damage, "range position" label, two-hander swing phase ×0.85, timing panel, sword crit effect, curves default | planned | |
+| 2 | Owner feedback: Strength in bow damage, "range position" label, two-hander swing phase ×0.85, timing panel, sword crit effect, curves default | delivered 2026-09-24 | notes below |
 | 3 | Off-hand items: dual wield, torches, carried light | planned | |
 | 4 | Stealth slice: detection service, awareness states, sneak-attack band | planned | |
 | 5 | Thin swim: swim mode behind an injected water sampler | planned | |
@@ -36,6 +36,38 @@ Round 1 notes: the pack is `STARTING_SUPPLIES` (arrows, draughts, picks) plus
 `STARTING_ARMOURY_IDS` (every key of `ARSENAL_WEAPONS`, `ARSENAL_SHIELDS` and
 `ARMOUR_IDS`), so a weapon built by the pipeline is in the owner's hands on the
 next load with no list to edit. The carry limit is sized to the pack (+20 %).
+
+Round 2 notes:
+
+- **Arrow calibration, no Strength on bows** ([0090](../../decisions/0090-arrow-damage-is-calibrated-to-a-masters-warbow-headshot.md),
+  planner ruling): `DAMAGE_PER_JOULE` 0.5 → 0.57, so a master's full-draw
+  daedric warbow headshot (daedric war arrow) on the hollow warden lands 165.1
+  point-blank and 161.0 at 20 m, the body shot 82.5. The sandbox reads the
+  stats model's `marksmanModifiers`/`meleeModifiers`; `combat/skillScalars.ts`
+  is gone; the weapon class picks the melee skill (`equipment/weaponSkill.ts`).
+- **Swing ×0.85.** `WeaponClassProfile.swingSpeedScale` 0.85 on greatsword,
+  greataxe, halberd and warhammer scales active and recovery of the five melee
+  attacks, wind-up unchanged; `AttackSpec.timeScale` is `{ windup, swing }`
+  and the clip clock is two segments split at the wind-up (`anim/clipTiming`,
+  used by `SkyrimFighter`, `attackProgressTime`, the reach bake). Criticals
+  keep one scale (their paired timing is a fraction of the action). Baked
+  reach moved on those four classes only (65 attacks, within ±0.08 m).
+- **Sword trait.** `critChance` effect, 10 % for ×1.5, on straight sword,
+  rapier and katana (Skyrim's Bladesman first rank: 10 %, the critical adding
+  about half the base damage). The roll is the caller's (`HitContext.critRoll`;
+  scenes pass 1). Spears, pikes and staves: none.
+- **Timing panel** (debug panel, "Attack timings"): light and heavy wind-up /
+  active / recovery per melee class from `classTimingTable()`; the signed table
+  is [skyrim-weapon-records-fit.md §(c)](../../research/combat-and-systems/skyrim-weapon-records-fit.md).
+- **Curves at start: left off.** With them on at the default skill 10 the
+  `attacks` group fails 3 of 7 (heavy-chain and greataxe-chain run out of
+  stamina for the next swing; offense-outcomes leaves the enemy alive at 0.46×
+  damage), the same failure 0076 §3 recorded.
+- The HUD's strings are catalogue entries (`SANDBOX_HUD_TEXT`); the debug panel
+  is `DebugPanel.tsx`.
+- **Found, queued:** foot-driven attack motion reads the ground track on the
+  unscaled clock while the pose plays on the class clock; the fix fails
+  `riposte-stab` (backlog row "Combat: foot-driven attack motion").
 
 ## Gates
 

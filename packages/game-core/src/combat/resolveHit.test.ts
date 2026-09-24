@@ -84,7 +84,7 @@ describe("one resolve step for every blow", () => {
   it("applies damagePosition before armour", () => {
     const weak = resolveHit(200, 100, base({
       armourRating: 150,
-      attacker: { damagePosition: 0.4, staminaCost: 1.25 },
+      attacker: { damagePosition: 0.4, staminaCost: 1.25, strength: 1 },
     }));
     if (weak.kind !== "hit") throw new Error("expected a hit");
     expect(200 - weak.health).toBeCloseTo(damageAfterArmour(40, 150), 9);
@@ -94,9 +94,28 @@ describe("one resolve step for every blow", () => {
   it("multiplies the hit zone and the attacker's position together", () => {
     const head = resolveHit(200, 100, base({
       hitZoneMultiplier: 2,
-      attacker: { damagePosition: 0.5, staminaCost: 1 },
+      attacker: { damagePosition: 0.5, staminaCost: 1, strength: 1 },
     }));
     if (head.kind !== "hit") throw new Error("expected a hit");
     expect(200 - head.health).toBeCloseTo(100, 9);
+  });
+
+  it("lands a class critical only when the roll clears its chance, and never on an execution", () => {
+    const effects = [{ kind: "critChance", chance: 0.1, multiplier: 1.5 }] as const;
+    const hit = (over: Partial<HitContext>) => {
+      const r = resolveHit(1000, 100, base({ effects, ...over }));
+      if (r.kind !== "hit" && r.kind !== "execution") throw new Error(r.kind);
+      return { damage: 1000 - r.health, critical: r.kind === "hit" ? r.critical : false };
+    };
+    expect(hit({ critRoll: 0.05 })).toEqual({ damage: 150, critical: true });
+    expect(hit({ critRoll: 0.1 })).toEqual({ damage: 100, critical: false });
+    expect(hit({})).toEqual({ damage: 100, critical: false });
+    expect(hit({ critRoll: 0, execution: "riposte" }).damage).toBe(100);
+  });
+
+  it("multiplies the attacker's Strength term beside the range position", () => {
+    const r = resolveHit(1000, 100, base({ attacker: { damagePosition: 1, staminaCost: 1, strength: 1.5 } }));
+    if (r.kind !== "hit") throw new Error(r.kind);
+    expect(1000 - r.health).toBeCloseTo(150, 9);
   });
 });

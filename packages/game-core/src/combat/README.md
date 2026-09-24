@@ -10,7 +10,9 @@ header; it does not change:
    (`blockReaction.ts`) into `blocked` or `guardBroken`. Class effects take no
    part: a guard or a miss bleeds nobody, so those results carry no `status`.
 3. **incoming** = attack damage × hit-zone multiplier × the attacker's
-   `damagePosition`.
+   `damagePosition` × the attacker's `strength` × the class's critical multiplier
+   (`classEffects.criticalMultiplier`: `critChance` when the caller's
+   `critRoll` falls under the chance; never on a riposte or backstab).
 4. **rating** = the defender's armour rating reduced by the weapon class's
    `armourPierce` shares (`classEffects.effectiveArmourRating`).
 5. **landed** = `damageAfterArmour(incoming, rating)` (`armourMitigation.ts`).
@@ -31,6 +33,11 @@ every entry in `WEAPON_CLASSES` as `effects`:
 - `{ kind: "bleed", fraction, seconds }` — extra damage equal to `fraction` ×
   the health damage that landed, paid evenly over `seconds`. Axe 0.25/4 s,
   greataxe 0.3/4 s.
+- `{ kind: "critChance", chance, multiplier }` — a blow lands as a critical for
+  `multiplier` × its incoming damage when the hit's roll falls under `chance`.
+  The roll is the caller's (`HitContext.critRoll`), so the rule stays
+  deterministic; a validation scene passes 1. Straight sword, rapier and katana
+  0.10 / ×1.5 (Skyrim's Bladesman first rank is the prior; lane round 2).
 
 Every other class is `[]` today. These are proving numbers; round 10c tunes
 them.

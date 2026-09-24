@@ -1,3 +1,4 @@
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import { MOVESETS, BUILT_MOVESETS, type MovesetDefinition, type MovesetId } from "./movesets";
 import { applyCriticalStyle, swingCriticalAttack, type CriticalStyle } from "./movesets/criticals";
 import { WEAPON_CLASS_POISE_DAMAGE } from "../combat/poise";
@@ -35,6 +36,14 @@ export type WeaponClassProfile = {
    * slow does not have its heaviness counted twice.
    */
   speedScale: number;
+  /**
+   * Extra multiplier on the *swing* (active and recovery) of the five melee
+   * attacks, on top of `speedScale`; the wind-up the player reads is left
+   * alone. Omitted is 1. The clip follows through `AttackSpec.timeScale`
+   * (`anim/clipTiming`). Criticals keep one scale: their paired timing is a
+   * fraction of the whole action.
+   */
+  swingSpeedScale?: number;
   /** Added only to the entry-distance limit of a paired critical, in metres. */
   criticalEntryRangeBonus: number;
   /** Multiplies every attack's motion value. */
@@ -122,44 +131,52 @@ export const MAIN_HAND_NODE_HALF_TURN: readonly [number, number, number, number]
  * Guard values follow the same logic: you can put a greatsword between you and
  * a blow, but a dagger barely.
  */
+/**
+ * The swords' trait (combat-sandbox lane round 2, owner 2026-09-24): one blow
+ * in ten lands as a critical for half as much again. Skyrim's Bladesman is the
+ * prior (10 % at its first rank, the critical adding about half the weapon's
+ * base damage). Spears, pikes and staves carry no effect: reach is theirs.
+ */
+const SWORD_CRITICAL: WeaponClassEffect = { kind: "critChance", chance: 0.1, multiplier: 1.5 };
+
 export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> = {
   dagger: {
-    id: "dagger", label: "Dagger", moveset: "oneHanded", twoHanded: false,
+    id: "dagger", label: text(CATALOGUE, "text.weapon-class.dagger"), moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.42, weightKg: 1.2, speedScale: 0.74, criticalEntryRangeBonus: -0.5,
     powerScale: 0.55, staminaScale: 0.6, stability: 0.3, physicalAbsorption: 0.55,
     effects: [],
     sheathSocket: "WeaponDagger",
   },
   shortSword: {
-    id: "shortSword", label: "Short Sword", moveset: "oneHanded", twoHanded: false,
+    id: "shortSword", label: text(CATALOGUE, "text.weapon-class.short-sword"), moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.72, weightKg: 2.2, speedScale: 0.88, criticalEntryRangeBonus: -0.2,
     powerScale: 0.82, staminaScale: 0.85, stability: 0.5, physicalAbsorption: 0.82,
     effects: [],
     sheathSocket: "WeaponSword",
   },
   straightSword: {
-    id: "straightSword", label: "Sword", moveset: "oneHanded", twoHanded: false,
+    id: "straightSword", label: text(CATALOGUE, "text.weapon-class.straight-sword"), moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.98, weightKg: 3.2, speedScale: 1, criticalEntryRangeBonus: 0,
     powerScale: 1, staminaScale: 1, stability: 0.58, physicalAbsorption: 0.92,
-    effects: [],
+    effects: [SWORD_CRITICAL],
     sheathSocket: "WeaponSword",
   },
   scimitar: {
-    id: "scimitar", label: "Scimitar", moveset: "oneHanded", twoHanded: false,
+    id: "scimitar", label: text(CATALOGUE, "text.weapon-class.scimitar"), moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.95, weightKg: 3, speedScale: 0.85, criticalEntryRangeBonus: -0.05,
     powerScale: 0.95, staminaScale: 0.94, stability: 0.52, physicalAbsorption: 0.88,
     effects: [],
     sheathSocket: "WeaponSword",
   },
   greatsword: {
-    id: "greatsword", label: "Greatsword", moveset: "greatsword", twoHanded: true,
-    lengthMeters: 1.42, weightKg: 7.5, speedScale: 1.4, criticalEntryRangeBonus: 0.55,
+    id: "greatsword", label: text(CATALOGUE, "text.weapon-class.greatsword"), moveset: "greatsword", twoHanded: true,
+    lengthMeters: 1.42, weightKg: 7.5, speedScale: 1.4, swingSpeedScale: 0.85, criticalEntryRangeBonus: 0.55,
     powerScale: 1.62, staminaScale: 1.4, stability: 0.62, physicalAbsorption: 0.95,
     effects: [],
     sheathSocket: "WeaponBack",
   },
   axe: {
-    id: "axe", label: "War Axe", moveset: "oneHanded", twoHanded: false,
+    id: "axe", label: text(CATALOGUE, "text.weapon-class.axe"), moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.78, weightKg: 4, speedScale: 1.11, criticalEntryRangeBonus: -0.15,
     powerScale: 1.12, staminaScale: 1.08, stability: 0.44, physicalAbsorption: 0.8,
     criticalStyle: "swing",
@@ -167,15 +184,15 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     sheathSocket: "WeaponAxe",
   },
   greataxe: {
-    id: "greataxe", label: "Battleaxe", moveset: "greataxe", twoHanded: true,
-    lengthMeters: 1.35, weightKg: 9, speedScale: 1.43, criticalEntryRangeBonus: 0.45,
+    id: "greataxe", label: text(CATALOGUE, "text.weapon-class.greataxe"), moveset: "greataxe", twoHanded: true,
+    lengthMeters: 1.35, weightKg: 9, speedScale: 1.43, swingSpeedScale: 0.85, criticalEntryRangeBonus: 0.45,
     powerScale: 1.78, staminaScale: 1.5, stability: 0.55, physicalAbsorption: 0.92,
     criticalStyle: "swing",
     effects: [{ kind: "bleed", fraction: 0.3, seconds: 4 }],
     sheathSocket: "WeaponBack",
   },
   mace: {
-    id: "mace", label: "Mace", moveset: "oneHanded", twoHanded: false,
+    id: "mace", label: text(CATALOGUE, "text.weapon-class.mace"), moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.8, weightKg: 5, speedScale: 1.25, criticalEntryRangeBonus: -0.2,
     powerScale: 1.2, staminaScale: 1.15, stability: 0.48, physicalAbsorption: 0.86,
     criticalStyle: "swing",
@@ -183,8 +200,8 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     sheathSocket: "WeaponMace",
   },
   warhammer: {
-    id: "warhammer", label: "Warhammer", moveset: "greataxe", twoHanded: true,
-    lengthMeters: 1.3, weightKg: 11, speedScale: 1.62, criticalEntryRangeBonus: 0.35,
+    id: "warhammer", label: text(CATALOGUE, "text.weapon-class.warhammer"), moveset: "greataxe", twoHanded: true,
+    lengthMeters: 1.3, weightKg: 11, speedScale: 1.62, swingSpeedScale: 0.85, criticalEntryRangeBonus: 0.35,
     powerScale: 2.05, staminaScale: 1.62, stability: 0.5, physicalAbsorption: 0.9,
     criticalStyle: "swing",
     effects: [{ kind: "armourPierce", share: 0.35 }],
@@ -193,7 +210,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   // The polearms fight with their own authored sets (`movesets/polearms.ts`):
   // a spear and a pike thrust, a halberd and a quarterstaff swing.
   spear: {
-    id: "spear", label: "Spear", moveset: "pike", twoHanded: true,
+    id: "spear", label: text(CATALOGUE, "text.weapon-class.spear"), moveset: "pike", twoHanded: true,
     lengthMeters: 2.1, weightKg: 5, speedScale: 1.15, criticalEntryRangeBonus: 1.1,
     powerScale: 1.15, staminaScale: 1.05, stability: 0.4, physicalAbsorption: 0.78,
     criticalStyle: "thrust",
@@ -204,7 +221,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   // the slowest commitment, and nothing at all to do once something is inside
   // its point.
   pike: {
-    id: "pike", label: "Pike", moveset: "pike", twoHanded: true,
+    id: "pike", label: text(CATALOGUE, "text.weapon-class.pike"), moveset: "pike", twoHanded: true,
     lengthMeters: 2.5, weightKg: 6, speedScale: 1.25, criticalEntryRangeBonus: 1.4,
     powerScale: 1.3, staminaScale: 1.15, stability: 0.38, physicalAbsorption: 0.75,
     criticalStyle: "thrust",
@@ -212,8 +229,8 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     sheathSocket: "WeaponBack",
   },
   halberd: {
-    id: "halberd", label: "Halberd", moveset: "halberd", twoHanded: true,
-    lengthMeters: 2.2, weightKg: 8, speedScale: 1.45, criticalEntryRangeBonus: 1.2,
+    id: "halberd", label: text(CATALOGUE, "text.weapon-class.halberd"), moveset: "halberd", twoHanded: true,
+    lengthMeters: 2.2, weightKg: 8, speedScale: 1.45, swingSpeedScale: 0.85, criticalEntryRangeBonus: 1.2,
     powerScale: 1.6, staminaScale: 1.45, stability: 0.45, physicalAbsorption: 0.85,
     criticalStyle: "swing",
     // An axe head on a long haft cuts as an axe does.
@@ -223,24 +240,24 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   // A thrusting blade: the shortest committed reach of the one-handed set and
   // the quickest, with nothing behind the point.
   rapier: {
-    id: "rapier", label: "Rapier", moveset: "rapier", twoHanded: false,
+    id: "rapier", label: text(CATALOGUE, "text.weapon-class.rapier"), moveset: "rapier", twoHanded: false,
     lengthMeters: 1.1, weightKg: 1.6, speedScale: 0.8, criticalEntryRangeBonus: 0.05,
     powerScale: 0.85, staminaScale: 0.8, stability: 0.45, physicalAbsorption: 0.7,
     criticalStyle: "thrust",
-    effects: [],
+    effects: [SWORD_CRITICAL],
     sheathSocket: "WeaponSword",
   },
   katana: {
-    id: "katana", label: "Katana", moveset: "katana", twoHanded: false,
+    id: "katana", label: text(CATALOGUE, "text.weapon-class.katana"), moveset: "katana", twoHanded: false,
     lengthMeters: 1.05, weightKg: 2.8, speedScale: 0.95, criticalEntryRangeBonus: 0,
     powerScale: 1, staminaScale: 0.95, stability: 0.55, physicalAbsorption: 0.9,
     criticalStyle: "thrust",
-    effects: [],
+    effects: [SWORD_CRITICAL],
     sheathSocket: "WeaponSword",
   },
   // Worn on the hand: almost no reach, almost no guard, and it opens wounds.
   claw: {
-    id: "claw", label: "Claw", moveset: "claw", twoHanded: false,
+    id: "claw", label: text(CATALOGUE, "text.weapon-class.claw"), moveset: "claw", twoHanded: false,
     lengthMeters: 0.45, weightKg: 1.4, speedScale: 0.74, criticalEntryRangeBonus: -0.5,
     powerScale: 0.55, staminaScale: 0.6, stability: 0.25, physicalAbsorption: 0.5,
     criticalStyle: "swing",
@@ -250,7 +267,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   // Bows do not fight, they shoot: their melee numbers exist only so that a bow
   // in hand is still a describable object. What a bow *does* is in `ranged`.
   shortbow: {
-    id: "shortbow", label: "Hunting Bow", moveset: "bow", twoHanded: true,
+    id: "shortbow", label: text(CATALOGUE, "text.weapon-class.shortbow"), moveset: "bow", twoHanded: true,
     lengthMeters: 1.25, weightKg: 1.4, speedScale: 1.0, criticalEntryRangeBonus: 0,
     powerScale: 0.35, staminaScale: 0.8, stability: 0.18, physicalAbsorption: 0.25,
     effects: [],
@@ -266,7 +283,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     },
   },
   longbow: {
-    id: "longbow", label: "Longbow", moveset: "bow", twoHanded: true,
+    id: "longbow", label: text(CATALOGUE, "text.weapon-class.longbow"), moveset: "bow", twoHanded: true,
     lengthMeters: 1.75, weightKg: 1.9, speedScale: 1.1, criticalEntryRangeBonus: 0,
     powerScale: 0.4, staminaScale: 0.85, stability: 0.2, physicalAbsorption: 0.3,
     effects: [],
@@ -282,7 +299,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     },
   },
   warbow: {
-    id: "warbow", label: "War Bow", moveset: "bow", twoHanded: true,
+    id: "warbow", label: text(CATALOGUE, "text.weapon-class.warbow"), moveset: "bow", twoHanded: true,
     lengthMeters: 1.9, weightKg: 2.3, speedScale: 1.25, criticalEntryRangeBonus: 0,
     powerScale: 0.45, staminaScale: 0.95, stability: 0.22, physicalAbsorption: 0.32,
     effects: [],
@@ -299,7 +316,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     },
   },
   staff: {
-    id: "staff", label: "Quarterstaff", moveset: "quarterstaff", twoHanded: true,
+    id: "staff", label: text(CATALOGUE, "text.weapon-class.staff"), moveset: "quarterstaff", twoHanded: true,
     lengthMeters: 1.6, weightKg: 4, speedScale: 1.15, criticalEntryRangeBonus: 0.4,
     powerScale: 0.7, staminaScale: 0.9, stability: 0.35, physicalAbsorption: 0.5,
     criticalStyle: "swing",
@@ -334,18 +351,24 @@ export function scaleAttack(
   spec: AttackSpec,
   profile: WeaponClassProfile,
   moveset: MovesetDefinition = resolveMoveset(profile),
+  /** False scales the whole action by one factor (a critical's paired timing). */
+  swingScaled = spec.id !== "riposte" && spec.id !== "backstab",
 ): AttackSpec {
   const reference = WEAPON_CLASSES[moveset.speedReference].speedScale || 1;
   const speed = profile.speedScale / reference;
+  const swing = speed * (swingScaled ? profile.swingSpeedScale ?? 1 : 1);
   return {
     ...spec,
     windup: spec.windup * speed,
-    active: spec.active * speed,
-    recovery: spec.recovery * speed,
-    // Carry the factor, so the clip can be played at the same rate the timing
+    active: spec.active * swing,
+    recovery: spec.recovery * swing,
+    // Carry the factors, so the clip can be played at the rates the timing
     // was scaled by. Without this the animation and the hitbox disagree by the
     // whole of `speed` — see `AttackSpec.timeScale`.
-    timeScale: (spec.timeScale ?? 1) * speed,
+    timeScale: {
+      windup: (spec.timeScale?.windup ?? 1) * speed,
+      swing: (spec.timeScale?.swing ?? 1) * swing,
+    },
     motionValue: spec.motionValue * profile.powerScale,
     stamina: Math.round(spec.stamina * profile.staminaScale),
     range: spec.id === "riposte" || spec.id === "backstab"
@@ -366,9 +389,12 @@ export function scaleMoveset(
   // A swinging class performs *both* criticals with its opening light attack,
   // so their timing has to be that swing's — the profiles' damage moments are
   // fractions of this duration and the two have to describe one performance.
+  // One scale for the whole swing here: the profiles' damage moments are
+  // fractions of the action, which a faster follow-through would move.
   if (profile.criticalStyle === "swing") {
-    scaled.riposte = swingCriticalAttack(scaled.light1, scaled.riposte);
-    scaled.backstab = swingCriticalAttack(scaled.light1, scaled.backstab);
+    const light1 = scaleAttack(moveset.light1, profile, definition, false);
+    scaled.riposte = swingCriticalAttack(light1, scaled.riposte);
+    scaled.backstab = swingCriticalAttack(light1, scaled.backstab);
   }
   return scaled;
 }

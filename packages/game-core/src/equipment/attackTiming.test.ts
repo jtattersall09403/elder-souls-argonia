@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { clipConfig } from "../anim/animationManifest";
 import { attackDuration } from "../combat/weapon";
+import { attackClipTiming, clipSecondsAt } from "../anim/clipTiming";
 import { MOVESETS } from "./movesets";
 import { WEAPON_CLASSES, resolveMoveset, resolveWeaponAnimations, scaleAttack, scaleMoveset } from "./weaponClasses";
 import type { AttackId, AttackSpec } from "./types";
@@ -27,9 +28,12 @@ const MELEE_ATTACKS: AttackId[] = ["light1", "light2", "light3", "heavy", "heavy
 
 /** Where in the *clip* an attack's hitbox opens and closes, as a fraction. */
 function clipFractions(spec: AttackSpec) {
-  const scale = spec.timeScale ?? 1;
-  const total = attackDuration(spec as never) / scale;
-  return { open: spec.windup / scale / total, close: (spec.windup + spec.active) / scale / total };
+  const timing = attackClipTiming(spec);
+  const total = clipSecondsAt(attackDuration(spec as never), timing);
+  return {
+    open: clipSecondsAt(spec.windup, timing) / total,
+    close: clipSecondsAt(spec.windup + spec.active, timing) / total,
+  };
 }
 
 describe("attack timing against the clip that performs it", () => {
@@ -39,9 +43,28 @@ describe("attack timing against the clip that performs it", () => {
       const reference = WEAPON_CLASSES[moveset.speedReference].speedScale;
       for (const id of MELEE_ATTACKS) {
         const scaled = scaleAttack(moveset.attacks[id], profile, moveset);
-        expect(scaled.timeScale, `${profile.id} ${id}`)
+        expect(scaled.timeScale?.windup, `${profile.id} ${id} wind-up`)
           .toBeCloseTo(profile.speedScale / reference, 6);
+        expect(scaled.timeScale?.swing, `${profile.id} ${id} swing`)
+          .toBeCloseTo((profile.speedScale / reference) * (profile.swingSpeedScale ?? 1), 6);
       }
+    }
+  });
+
+  it("swings the heavy two-handers at x0.85 and leaves their wind-up alone (owner 2026-09-24)", () => {
+    for (const id of ["greatsword", "greataxe", "halberd", "warhammer"] as const) {
+      const profile = WEAPON_CLASSES[id];
+      expect(profile.swingSpeedScale, id).toBe(0.85);
+      const moveset = resolveMoveset(profile);
+      const plain = scaleAttack(moveset.attacks.light1, { ...profile, swingSpeedScale: undefined }, moveset);
+      const scaled = scaleAttack(moveset.attacks.light1, profile, moveset);
+      expect(scaled.windup, id).toBeCloseTo(plain.windup, 9);
+      expect(scaled.active, id).toBeCloseTo(plain.active * 0.85, 9);
+      expect(scaled.recovery, id).toBeCloseTo(plain.recovery * 0.85, 9);
+    }
+    for (const profile of Object.values(WEAPON_CLASSES)) {
+      if (["greatsword", "greataxe", "halberd", "warhammer"].includes(profile.id)) continue;
+      expect(profile.swingSpeedScale ?? 1, profile.id).toBe(1);
     }
   });
 

@@ -704,6 +704,17 @@ harness port into `packages/game-core/src/stats` and the owner's lab app —
 [stats-lab lane](lanes/stats-lab-lane.md), [0088](../decisions/0088-the-stats-model-lives-in-game-core-and-reads-injected-data.md).
 The rounds table there says what is already delivered.
 
+**What the sandbox's skill sliders already are (combat-sandbox lane, 2026-09-24):**
+the "Apply skill curves" box feeds the stats model's own curves
+(`stats/modifiers`, at the reference attributes) into combat. Skill 10 is
+today's calibrated baseline for nock and draw (×1.0); skill 100 lands a blow at
+the weapon's listed damage, the top of its range (×0.99 at the reference
+Agility 50, ×1.00 at Agility 100), and the HUD's "range position" is where in the 40–100 % damage range a blow lands
+([0031](../decisions/0031-workstream-s-round1-shape.md)/[0035](../decisions/0035-workstream-s-round3-attributes-and-pace.md),
+[76 §121.1](../world/76-stats-progression.md)). This phase's port still owes
+per-class and per-weapon min/max bands and the real character's attributes in
+place of the reference ones.
+
 Deliverables:
 
 - the accepted stat model implemented, with **baseline-equivalence tests**:

@@ -1,4 +1,5 @@
 import type { AnimationState } from "../core/types";
+import { UNIT_CLIP_TIMING, type ClipTiming } from "./clipTiming";
 
 export type AnimationCommand = {
   state: AnimationState;
@@ -6,15 +7,16 @@ export type AnimationCommand = {
   /** Optional transition-specific override; null uses the manifest default. */
   crossFadeDuration: number | null;
   /**
-   * Seconds of *action clock* one authored second of this clip should take.
+   * How the action clock maps onto this clip (`anim/clipTiming`).
    *
-   * 1 means the clip is the action, which is the normal case and the whole
-   * design of the externally timed path. An attack scaled by its weapon class
-   * passes the class's factor here (`AttackSpec.timeScale`), so a dagger's
-   * swing plays as fast as the dagger's timing says it swings and the contact
-   * window still lands on the visible blade.
+   * Unit timing means the clip is the action, which is the normal case and
+   * the whole design of the externally timed path. An attack scaled by its
+   * weapon class passes `attackClipTiming(attack)` here, so a dagger's swing
+   * plays as fast as the dagger's timing says it swings, a greatsword's swing
+   * plays faster than its wind-up, and the contact window still lands on the
+   * visible blade.
    */
-  timeScale: number;
+  timing: ClipTiming;
   serial: number;
 };
 
@@ -22,9 +24,9 @@ export function createAnimationCommand(
   state: AnimationState,
   startAt = 0,
   crossFadeDuration: number | null = null,
-  timeScale = 1,
+  timing: ClipTiming = UNIT_CLIP_TIMING,
 ): AnimationCommand {
-  return { state, startAt, crossFadeDuration, timeScale, serial: 0 };
+  return { state, startAt, crossFadeDuration, timing, serial: 0 };
 }
 
 /** Mutates a ref-owned command synchronously and reports whether it changed. */
@@ -34,13 +36,13 @@ export function updateAnimationCommand(
   startAt = 0,
   restart = false,
   crossFadeDuration: number | null = null,
-  timeScale = 1,
+  timing: ClipTiming = UNIT_CLIP_TIMING,
 ) {
   if (command.state === state && !restart) return false;
   command.state = state;
   command.startAt = startAt;
   command.crossFadeDuration = crossFadeDuration;
-  command.timeScale = timeScale;
+  command.timing = timing;
   command.serial += 1;
   return true;
 }

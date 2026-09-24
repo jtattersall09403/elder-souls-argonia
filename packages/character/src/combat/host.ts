@@ -50,7 +50,7 @@ export type CombatRuntimeSettings = {
   /**
    * The skill curves are a switch. Off, every modifier is neutral (the feel
    * the visual scenarios were tuned against); on, the skills below drive the
-   * module 76 curves (`combat/skillScalars`).
+   * stats model's curves (`stats/modifiers`).
    */
   skillsEnabled: boolean;
   marksmanSkill: number;

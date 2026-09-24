@@ -51,11 +51,11 @@ check). Implements decision 0074 §2–3 round 0.
    arsenal items into `equipment/generated/weapon-records.json` (source
    hash recorded; the report is
    [skyrim-weapon-records-fit.md](../research/combat-and-systems/skyrim-weapon-records-fit.md)).
-   `speedScale` adopts the report's table: dagger 0.74, scimitar **0.85**
-   (owner: felt as faster than the sword, so pulled clear rather than
-   Skyrim's equal 1.0), axe 1.11, mace 1.25, greatsword 1.40, battleaxe
-   1.43, warhammer 1.62, halberd 1.45, hunting bow 1.00, longbow 1.10;
-   others unchanged. The scimitar keeps `powerScale` 0.95: speed is paid
+   `speedScale` adopts the report's table, which is the one record of every
+   class's attack speed (report §(c), kept current since 2026-09-24; it
+   supersedes the list that stood here). The scimitar is **0.85** (owner:
+   felt as faster than the sword, so pulled clear rather than Skyrim's
+   equal 1.0). The scimitar keeps `powerScale` 0.95: speed is paid
    for with a little damage, the curved-sword trade, though Skyrim's
    unique scimitar hits harder than a sword.
 5. **Four material contradictions fixed, two kept on purpose.** Silver is

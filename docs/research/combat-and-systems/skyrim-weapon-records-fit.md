@@ -65,30 +65,40 @@ comes in *below* iron (2.8) — while ours rises with tier by design. The
 ratios that matter — damage and weight — track Skyrim within ~0.1 except where
 marked.
 
-## (c) Proposed `speedScale` (Fable decides; owner signs in the round-0 playtest)
+## (c) The attack-speed table (the one table; the owner signs it)
 
-Keeps Skyrim's ordering, compressed toward 1 so the extremes stay playable,
-with the scimitar pulled clear of the straight sword per the owner's ruling
-2026-09-18 (Skyrim has them equal at 1.0; **0.85** makes it the fast one-hander
-below the dagger).
+`speedScale` per class, as `packages/game-core/src/equipment/weaponClasses.ts`
+holds it on 2026-09-24. A class's clips play at **speedScale ÷ its moveset's
+reference class** (`scaleAttack`), because each set's clips were authored at
+that family's pace; the last column is that effective factor on the action
+(below 1 is quicker than the clip as authored). Skyrim's ordering is kept,
+compressed toward 1; the scimitar is pulled clear of the straight sword per the
+owner's ruling 2026-09-18. Two-handers greatsword, greataxe, halberd and
+warhammer also play their swing (active and recovery) at ×0.85, wind-up
+unchanged (`swingSpeedScale`, owner 2026-09-24). The sandbox HUD's timing
+panel lists the resulting seconds per class. Decision 0076 §4 points here.
 
-| class | today | proposed | delta | why |
-| --- | --- | --- | --- | --- |
-| dagger | 0.72 | 0.74 | +0.02 | Skyrim 0.77; keeps it the fastest thing in the arsenal |
-| shortSword | 0.88 | 0.88 | 0 | no vanilla record; sits between dagger and sword |
-| scimitar | 0.92 | **0.85** | −0.07 | owner ruling: felt as faster than the sword, not marginally |
-| straightSword | 1.00 | 1.00 | 0 | the reference |
-| axe | 1.06 | 1.11 | +0.05 | exactly Skyrim's 1/0.90 |
-| mace | 1.12 | 1.25 | +0.13 | Skyrim's 1/0.80; today's mace is barely slower than an axe |
-| greatsword | 1.34 | 1.40 | +0.06 | Skyrim 1.43 |
-| greataxe | 1.42 | 1.43 | +0.01 | Skyrim 1.43; equal to the greatsword, as Skyrim has it |
-| warhammer | 1.55 | 1.62 | +0.07 | Skyrim 1.67 |
-| spear | 1.15 | 1.15 | 0 | no record; thrust family, faster than a greatsword |
-| halberd | 1.40 | 1.45 | +0.05 | no record; between greataxe and warhammer by mass |
-| staff | 1.25 | 1.25 | 0 | no record |
-| shortbow | 1.20 | 1.00 | −0.20 | Skyrim's wood bow is the reference speed 1.0 |
-| longbow | 1.20 | 1.10 | −0.10 | Skyrim 1.07 |
-| warbow | 1.25 | 1.25 | 0 | Skyrim 1.23 |
+| class | moveset | reference | speedScale | effective | why |
+| --- | --- | --- | --- | --- | --- |
+| dagger | oneHanded | straightSword | 0.74 | 0.74 | Skyrim 0.77; the fastest thing in the arsenal |
+| claw | claw | straightSword | 0.74 | 0.74 | Animated Armoury record; dagger pace (Short Blade) |
+| rapier | rapier | straightSword | 0.80 | 0.80 | Animated Armoury record; a thrusting blade between dagger and scimitar |
+| scimitar | oneHanded | straightSword | 0.85 | 0.85 | owner ruling 2026-09-18: felt as faster than the sword |
+| shortSword | oneHanded | straightSword | 0.88 | 0.88 | no vanilla record; between dagger and sword |
+| katana | katana | straightSword | 0.95 | 0.95 | Animated Armoury record; a little quicker than the straight sword |
+| straightSword | oneHanded | straightSword | 1.00 | 1.00 | the one-handed reference |
+| axe | oneHanded | straightSword | 1.11 | 1.11 | exactly Skyrim's 1/0.90 |
+| mace | oneHanded | straightSword | 1.25 | 1.25 | Skyrim's 1/0.80 |
+| spear | pike | greatsword | 1.15 | 0.82 | no record; the pike set on a shorter haft |
+| pike | pike | greatsword | 1.25 | 0.89 | no record; by mass, slower than the spear |
+| greatsword | greatsword | greatsword | 1.40 | 1.00 | **reference, no effect**: its set's own pace (Skyrim 1.43); sets the pike set's divisor |
+| greataxe | greataxe | greataxe | 1.43 | 1.00 | **reference, no effect**: its set's own pace (Skyrim 1.43); sets the divisor for warhammer, halberd, staff |
+| halberd | halberd | greataxe | 1.45 | 1.01 | no record; between greataxe and warhammer by mass |
+| staff | quarterstaff | greataxe | 1.15 | 0.80 | no record; a light haft, well quicker than the greataxe |
+| warhammer | greataxe | greataxe | 1.62 | 1.13 | Skyrim 1.67 |
+| shortbow | bow | straightSword | 1.00 | 1.00 | Skyrim's wood bow; melee-swing timing only |
+| longbow | bow | straightSword | 1.10 | 1.10 | Skyrim 1.07; melee-swing timing only |
+| warbow | bow | straightSword | 1.25 | 1.25 | Skyrim 1.23; melee-swing timing only |
 
 Bow rows move melee-swing timing only; draw and release stay on `ranged`.
 

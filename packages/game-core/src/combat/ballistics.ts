@@ -348,13 +348,13 @@ export type ImpactResult = {
 /**
  * Health points per joule that gets through.
  *
- * The one arbitrary constant in the file, and it is a *unit conversion*, not a
- * balance knob: it maps physics onto the 100-point health scale the melee
- * sandbox was tuned in. A full-draw warbow shaft arriving square on an
- * unarmoured target lands around 58 — a little over two sword strokes, which is
- * about right for being shot.
+ * The one arbitrary constant in the file: it maps physics onto the 100-point
+ * health scale the melee sandbox was tuned in. Calibrated 2026-09-24 (decision
+ * 0090) so a master archer's full-draw daedric warbow headshot with a daedric
+ * war arrow kills the 150-health default opponent out to 20 m, while the body
+ * shot does not (`arrowCalibration.test.ts`); it was 0.5.
  */
-export const DAMAGE_PER_JOULE = 0.5;
+export const DAMAGE_PER_JOULE = 0.57;
 
 /**
  * Joules a point of armour rating is worth when deciding *penetration*.
