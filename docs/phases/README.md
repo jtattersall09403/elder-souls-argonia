@@ -860,7 +860,36 @@ clock plus that data, may be pulled earlier if convenient, and must land
 **before Phase 14 locks performance budgets** (audio memory and voice counts
 are part of the budget).
 
-Deliverables:
+**What exists** (the sound-prep lane, 2026-09-24,
+[0094](../decisions/0094-audio-ships-as-opus-webm-sets-read-from-the-plugin-loops-crossfade-at-runtime.md),
+[0095](../decisions/0095-audio-runtime-is-an-injected-manager-over-an-engine-interface-fed-by-typed-sound-events.md);
+[lane doc](lanes/sound-prep-lane.md)):
+
+- **Pipeline** (`tooling/audio-pipeline`): the Sounds BSA, with sets read
+  from Skyrim.esm's own records, becomes Opus/WebM with loop-safe beds.
+  - 391 first-consumer files (5.0 MB) ship in `packages/audio/files`: combat,
+    footsteps by footwear × gait × surface, swimming, the Morthal marsh and
+    coast region tables, water and waterfalls, rain and thunder.
+  - The audio counts in the site budget (`packages/audio/budget.json`,
+    compose.mjs).
+- **Runtime** (`packages/audio`): an injected `AudioManager` over a
+  three.js backend, with buses, unlock, voice budgets, the loop crossfade,
+  positional emitters, Poisson details, acoustic-state filters and
+  streaming. It also holds three contracts:
+  - the typed `SoundEvent` vocabulary on an injected `SoundEventBus`;
+  - `footstepSurface`, which reads decision 0011's ground ids and §54's
+    materials;
+  - `selectAmbience`, a pure selection over clock, weather, region and
+    canopy.
+- **Not yet:**
+  - app wiring: the combat lane's events and the studio's ambience (backlog
+    row);
+  - authored region tables (`world/sources/audio/`), reverb impulses, and
+    creature and settlement ambience from Phase 13;
+  - booted mud footsteps (a sourcing call, lane doc register);
+  - the studio audio layer, hot reload and the voice/memory probe.
+
+Deliverables (the first two are met by the above; the rest remain):
 
 - extract the Skyrim Sounds BSA into the asset vault and convert the needed
   sets through the pipeline (loop-safe encoding solved once, §107);

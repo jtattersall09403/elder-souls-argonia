@@ -9,8 +9,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./three": "./src/threeBackend.ts",
-    "./plugin": "./plugin.mjs",
-    "./files/audio-manifest.json": "./files/audio-manifest.json"
+    "./plugin": "./plugin.mjs"
   },
   "scripts": {
     "test": "vitest run && python3 -m pytest -q -p no:cacheprovider ../../tooling/audio-pipeline",

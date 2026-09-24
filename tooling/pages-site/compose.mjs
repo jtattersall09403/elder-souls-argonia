@@ -37,7 +37,12 @@
  *   - a kit the shipped code or a live record names is absent on disk;
  *   - after pruning, any shipped text file still names an excluded kit;
  *   - a chain-only raster is named by anything but the provenance manifest;
- *   - the composed site exceeds --fail-mb (warns above --warn-mb).
+ *   - the composed site exceeds --fail-mb (warns above --warn-mb);
+ *   - audio (standard 16, decision 0094): the shipped audio tree, counted
+ *     ONCE from `packages/audio/files` and reserved in the site total even
+ *     before an app ships it; more than one shipped copy (an app must pass
+ *     the plugin's `sharedBase`), a copy that differs from the manifest, or
+ *     audio over `packages/audio/budget.json` fails.
  */
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
@@ -169,8 +174,39 @@ for (const f of walk(studio).filter(isText)) {
   }
 }
 
-// 5. Report and the size gate.
-const after = bytesOf(OUT);
+// 5. Audio: counted once, reserved before any app ships it, one copy only.
+const audioRoot = resolve(root, "packages/audio/files");
+const audioManifestPath = join(audioRoot, "audio-manifest.json");
+const audioBudget = JSON.parse(readFileSync(resolve(root, "packages/audio/budget.json"), "utf8"));
+const audioBytes = existsSync(audioRoot) ? bytesOf(audioRoot) : 0;
+const audioCopies = [join(OUT, "audio"), join(studio, "audio")].filter((d) => existsSync(join(d, "audio-manifest.json")));
+const siteRel = (d) => relative(OUT, d).split("\\").join("/");
+if (audioCopies.length > 1) fail(`audio ships ${audioCopies.length} times (${audioCopies.map(siteRel).join(", ")}); the second app must use the plugin's sharedBase`);
+if (existsSync(audioManifestPath)) {
+  // A shipped copy must be exactly the manifest's files at their sizes, plus the manifest: no file missing, none extra.
+  const m = JSON.parse(readFileSync(audioManifestPath, "utf8"));
+  const expected = new Map(Object.values(m.assets).map((a) => [a.file, a.bytes]));
+  expected.set("audio-manifest.json", statSync(audioManifestPath).size);
+  for (const d of audioCopies) {
+    const shipped = new Map(walk(d).map((f) => [relative(d, f).split("\\").join("/"), statSync(f).size]));
+    const missing = [...expected].filter(([f, b]) => shipped.get(f) !== b).map(([f]) => f);
+    const extra = [...shipped.keys()].filter((f) => !expected.has(f));
+    if (missing.length || extra.length) {
+      fail(`${siteRel(d)} differs from the audio manifest: ${missing.length} missing or resized (${missing.slice(0, 3).join(", ")}), ${extra.length} extra (${extra.slice(0, 3).join(", ")})`);
+    }
+  }
+}
+// An app loads audio by fetching `<base>audio/audio-manifest.json` (the package exports no JSON to
+// inline, so that URL is the only way in): an app naming it needs some app to ship the tree.
+const loadsAudio = walk(OUT).filter((f) => /\.(js|html)$/.test(f) && !f.startsWith(join(OUT, "audio")) && !f.startsWith(join(studio, "audio")))
+  .find((f) => readFileSync(f, "utf8").includes("audio-manifest.json"));
+if (loadsAudio && audioCopies.length === 0) fail(`${siteRel(loadsAudio)} loads audio but no app ships packages/audio/files (add audioFiles() to one app; the other passes sharedBase)`);
+if (audioBytes > audioBudget.failMB * MB) fail(`audio ${fmt(audioBytes)} exceeds its ${audioBudget.failMB} MB budget (packages/audio/budget.json)`);
+else if (audioBytes > audioBudget.warnMB * MB) console.warn(`::warning::audio ${fmt(audioBytes)} is above its ${audioBudget.warnMB} MB warning line`);
+console.log(`compose: audio ${fmt(audioBytes)} (budget ${audioBudget.failMB} MB); shipped by ${audioCopies.map(siteRel).join(", ") || "no app yet (reserved in the total)"}`);
+
+// 6. Report and the size gate.
+const after = bytesOf(OUT) + (audioCopies.length ? 0 : audioBytes);
 console.log(`compose: ladder through ${existsSync(ladderPath) ? JSON.parse(readFileSync(ladderPath, "utf8")).through : "(none)"}; hidden layers: ${hidden.join(", ") || "none"}; dark records: ${[...dark].join(", ") || "none"}`);
 console.log(`compose: kits kept (${referenced.size}): ${[...referenced].map(([id, by]) => `${id} <- ${by}`).join("; ")}`);
 console.log(`compose: kits excluded (${excluded.length}): ${excluded.map((id) => `${id}${darkNamed.has(id) ? "" : " (named by nothing)"}`).join(", ") || "none"}`);
@@ -182,7 +218,7 @@ console.log(`compose: excluded ${fmt(excludedBytes)}`);
 const sidecarBytes = (existsSync(kitsDir) ? walk(kitsDir) : []).filter((f) => /\.(connectors|footprints|interiors)\.json$/.test(f))
   .reduce((s, f) => s + statSync(f).size, 0);
 console.log(`compose: kit sidecars ${fmt(sidecarBytes)} of the kept kits`);
-console.log(`compose: site size before ${fmt(before)} -> after ${fmt(after)} (warn > ${WARN_MB} MB, fail > ${FAIL_MB} MB, Pages limit 1,000 MB)`);
+console.log(`compose: site size before ${fmt(before)} -> after ${fmt(after)}${audioCopies.length ? "" : " incl. reserved audio"} (warn > ${WARN_MB} MB, fail > ${FAIL_MB} MB, Pages limit 1,000 MB)`);
 if (after > FAIL_MB * MB) fail(`composed site ${fmt(after)} exceeds the ${FAIL_MB} MB gate (GitHub Pages limit 1 GB)`);
 else if (after > WARN_MB * MB) console.warn(`::warning::composed site ${fmt(after)} is above the ${WARN_MB} MB warning line (fails at ${FAIL_MB} MB, Pages limit 1 GB)`);
 

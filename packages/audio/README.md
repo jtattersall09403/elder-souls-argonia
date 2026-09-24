@@ -21,6 +21,10 @@ the runtime is decision [0095](../../docs/decisions/0095-audio-runtime-is-an-inj
 
 ## How an app uses it
 
+The manifest is always fetched from the served URL, never imported: the
+package exports no JSON, so compose.mjs can tell from the shipped code
+whether an app loads audio.
+
 ```ts
 import { AudioManager, SoundEventBus, parseAmbienceTable, parseManifest, selectAmbience } from "@elder-souls/audio";
 import { createThreeAudio } from "@elder-souls/audio/three";
@@ -52,6 +56,17 @@ audio.removeEmitter("player-torch");
 
 Add the plugin in `vite.config.ts`: `plugins: [audioFiles()]` (from
 `@elder-souls/audio/plugin`).
+
+## Download budget (standard 16)
+
+`budget.json` holds the lines for everything under `files/`: warn at 30 MB,
+fail at 50 MB. `tooling/pages-site/compose.mjs` counts that tree once on the
+Pages site, reserving it in the site total even before an app ships it. It
+fails when two apps ship a copy (the second must use `sharedBase`) and when
+a shipped copy differs from the manifest. The package's test checks the same
+lines. The round-1 measurement was 5.0 MB for the first consumers. The whole
+vanilla archive would be about 77 MB at the same ratio, so the soundscape
+ships a chosen subset. Raising a line is a decision with a measurement.
 
 ## Rules
 
