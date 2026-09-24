@@ -607,6 +607,49 @@ def card_material(image):
     return mat
 
 
+def plan_lod_levels(source_tris, ratios, floor):
+    """The decimated LOD levels for one asset, one row per configured ratio.
+
+    `source_tris` holds each part's triangle count. Ratios are proportional
+    and `floor` is absolute, so a small part keeps its geometry rather than
+    collapsing to a plane. Every configured level is emitted, because the
+    settlement runtime refuses a chain shorter than its tier count (16h part
+    1 round 4). A level whose effective ratios equal an earlier level's is
+    not new geometry: `sharesLevel` names that earlier level (0 is the base
+    mesh) and the builder reuses its mesh, so the GLB carries one primitive
+    for both (the 16f round 5 concern: no duplicated palms). A newly
+    decimated level has `sharesLevel` None.
+    """
+    levels = []
+    previous, previous_level = [1.0] * len(source_tris), 0
+    for level, ratio in enumerate(ratios, start=1):
+        effectives = [
+            min(1.0, max(ratio, floor / tris)) if tris > 0 else ratio
+            for tris in source_tris
+        ]
+        if effectives == previous:
+            levels.append({"level": level, "ratio": ratio,
+                           "effectives": effectives, "sharesLevel": previous_level})
+            continue
+        levels.append({"level": level, "ratio": ratio,
+                       "effectives": effectives, "sharesLevel": None})
+        previous, previous_level = effectives, level
+    return levels
+
+def bake_modifiers(obj):
+    """Apply `obj`'s modifiers into its own mesh so another object can share it.
+
+    The exporter (export_apply) writes a modified object's evaluated mesh as a
+    mesh of its own; only an unmodified shared datablock is written once.
+    """
+    bpy.context.view_layer.update()
+    evaluated = obj.evaluated_get(bpy.context.evaluated_depsgraph_get())
+    mesh = bpy.data.meshes.new_from_object(
+        evaluated, preserve_all_data_layers=True,
+        depsgraph=bpy.context.evaluated_depsgraph_get())
+    obj.modifiers.clear()
+    obj.data = mesh
+
 def card_quad(asset, root, level, view, corners):
     """One vertical quad of the crossed card, in screen order.
 
@@ -817,41 +860,39 @@ for asset in PLAN["assets"]:
         obj.parent = root
 
     lods = []
-    # A level the floor leaves identical to the one before it is not a level
-    # (16f round 5): every palm (60–256 triangles a part) shipped three copies
-    # of its base mesh. Skip a level whose effective ratios all equal the
-    # previous level's; the runtime (`floraKit.ts`) drops any that slip
-    # through, so gaps in the `lod` numbering are fine.
-    previous_effective = None
+    # Every configured level is emitted (plan_lod_levels): a level the floor
+    # leaves identical to an earlier one reuses that level's mesh datablock,
+    # which the glTF exporter writes once, so the chain is full length for the
+    # settlement runtime with no duplicated geometry.
     # An alpha-tested asset gets no decimated levels at all (16f round 5):
     # its parts are hundreds of separate leaf/twig/bark cards that collapse
     # decimation shreds (leaves and branches vanished at mid distance). The
     # runtime substitutes the base geometry for any that still ship.
     lod_ratios = [] if asset.get("doubleSided") else asset["lodRatios"]
-    for level, ratio in enumerate(lod_ratios, start=1):
-        effectives = []
-        for obj in meshes:
-            # Ratios are proportional; the floor is absolute. Small source
-            # meshes keep their geometry rather than collapsing to a plane.
-            source_tris = len(obj.data.loop_triangles) or len(obj.data.polygons)
-            effective = ratio
-            if source_tris > 0:
-                effective = min(1.0, max(ratio, MIN_LOD_TRIANGLES / source_tris))
-            effectives.append(effective)
-        if effectives == (previous_effective or [1.0] * len(meshes)):
-            continue
-        previous_effective = effectives
-        for obj, effective in zip(meshes, effectives):
+    source_tris = [len(obj.data.loop_triangles) or len(obj.data.polygons) for obj in meshes]
+    level_parts = {0: list(meshes)}
+    for row in plan_lod_levels(source_tris, lod_ratios, MIN_LOD_TRIANGLES):
+        level, ratio, shares = row["level"], row["ratio"], row["sharesLevel"]
+        parts = []
+        for index, (obj, effective) in enumerate(zip(meshes, row["effectives"])):
             copy = obj.copy()
-            copy.data = obj.data.copy()
             copy.name = "%s__lod%d" % (obj.name, level)
+            if shares is None:
+                copy.data = obj.data.copy()
+                modifier = copy.modifiers.new(name="decimate", type="DECIMATE")
+                modifier.ratio = effective
+            else:
+                donor = level_parts[shares][index]
+                if donor.modifiers:
+                    bake_modifiers(donor)
+                copy.data = donor.data
             bpy.context.scene.collection.objects.link(copy)
-            modifier = copy.modifiers.new(name="decimate", type="DECIMATE")
-            modifier.ratio = effective
             copy.parent = root
             copy["lod"] = level
             copy["assetId"] = asset["id"]
+            parts.append(copy)
             lods.append((level, ratio, copy))
+        level_parts[level] = parts
     bpy.context.view_layer.update()
 
     # T4 far tier: the source pool's authored `_lod_flat` billboard, exported

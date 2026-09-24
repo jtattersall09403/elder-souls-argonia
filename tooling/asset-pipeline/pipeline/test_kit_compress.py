@@ -15,8 +15,9 @@ from pathlib import Path
 
 import pytest
 
-from .kit_compress import (DEFAULT_POLICY, PUBLIC_KITS, check, gltfpack_args,
-                           policy_for)
+from .kit_compress import (DEFAULT_POLICY, PUBLIC_KITS, SIDECAR_EXEMPT, check,
+                           gltfpack_args, policy_for, publish_sidecars,
+                           sidecar_problems)
 
 STARTUP_KITS = ("flora-province-v1", "underwater-v1", "groundcover-province-v1")
 STARTUP_BUDGET_BYTES = 52_000_000  # measured 45.6 MB compressed; ~14 % headroom
@@ -60,3 +61,41 @@ def test_policy_validation():
     assert policy_for({"id": "x", "compression": False}) == {"enabled": False}
     with pytest.raises(ValueError):
         policy_for({"id": "x", "compression": {"normal": "png"}})
+
+
+def test_the_three_sidecars_are_published_beside_the_kit(tmp_path):
+    """The compile and the export read connectors/footprints/interiors from the
+    SHIPPED build; a kit published without them cannot be snapped, footed or
+    entered (16h item 6). First shown failing on 19 published kits, none of
+    which carried a sidecar on 2026-09-22."""
+    raw, public = tmp_path / "raw", tmp_path / "public"
+    raw.mkdir()
+    for part in ("connectors", "footprints", "interiors"):
+        (raw / f"kit-a.{part}.json").write_text(json.dumps({"kit": "kit-a", part: []}))
+    written = publish_sidecars("kit-a", raw, public)
+    assert sorted(written) == ["connectors", "footprints", "interiors"]
+    for part in written:
+        published = public / f"kit-a.{part}.json"
+        assert published.is_file()
+        assert oct(published.stat().st_mode)[-3:] == "644"
+    assert sidecar_problems("kit-a", public) == []
+
+
+def test_a_kit_missing_a_measurement_is_a_hard_error_not_a_silent_gap(tmp_path):
+    raw, public = tmp_path / "raw", tmp_path / "public"
+    raw.mkdir()
+    (raw / "kit-a.connectors.json").write_text("{}")
+    with pytest.raises(FileNotFoundError, match="footprints, interiors"):
+        publish_sidecars("kit-a", raw, public)
+    assert sidecar_problems("kit-a", public)
+
+
+def test_an_atlas_kit_is_exempt_by_name_with_its_reason(tmp_path):
+    """Snap edges, footprints and interiors say nothing about instanced flora;
+    the exemption is written down, never a silent skip."""
+    exempt = sorted(SIDECAR_EXEMPT)
+    assert exempt == ["flora-province-v1", "groundcover-province-v1"]
+    for kit_id, reason in SIDECAR_EXEMPT.items():
+        assert reason.strip()
+        assert publish_sidecars(kit_id, tmp_path, tmp_path) == {}
+        assert sidecar_problems(kit_id, tmp_path) == []

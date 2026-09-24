@@ -191,7 +191,7 @@
   {
    "asset": "composite:farmfence/wr-fence-run-3",
    "compose": {
-    "note": "The vanilla farm fence footing as Bethesda lays it: two `wrfencebasestr01` spans on the mined 3.64 m module (vanilla:t0045, 19 placements) with `wrfencebaseend01` closing each end (vanilla:t0461 at +3.64 m yawed 180 deg, 6 placements; vanilla:t0460 at -3.64 m, 6 placements). About 7.3 m of field boundary in one placement. The rail course sits 1.17 m above and is placed separately, because the mine measures that offset on the corner pair, not on the straight.",
+    "note": "The vanilla farm fence footing as Bethesda lays it: two `wrfencebasestr01` spans on the mined 3.64 m run joint (abuts: +y to -y, 19 placements; vanilla:t0045) with a `wrfencebaseend01` closing each end where the mined straight-to-end joint puts it (abuts, n 1: the end's -x face against the straight's -y face, 3.64 m out, turned a quarter turn), the far end the same joint turned end for end. On the meshes each end meets its span at 0.00 m with 40 contact points; the co-placement templates vanilla:t0460/t0461 (end at 3.64 m, unturned) leave a 1.41 m gap, so this run does not use them. About 12.5 m of field boundary in one placement. The rail course sits 1.17 m above and is placed separately, because the miner measures that offset on the corner pair and on no straight span.",
     "parts": [
      {
       "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01"
@@ -213,7 +213,7 @@
        -3.64,
        0.0
       ],
-      "yawDeg": 0,
+      "yawDeg": 270,
       "scale": 1.0
      },
      {
@@ -223,7 +223,7 @@
        7.28,
        0.0
       ],
-      "yawDeg": 180,
+      "yawDeg": 90,
       "scale": 1.0
      }
     ]

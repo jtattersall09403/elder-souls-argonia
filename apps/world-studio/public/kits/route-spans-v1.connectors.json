@@ -1,0 +1,1298 @@
+{
+ "assets": {
+  "bmv:architecture/huts/exterior/bridge01": [
+   {
+    "count": 13,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 3.13,
+    "normalDeg": 179.8,
+    "pairedWith": "bmv:architecture/huts/exterior/bridge01",
+    "positionInPiece": [
+     0.01,
+     2.42
+    ],
+    "template": "bmv-blackmarsh:t0076",
+    "widthM": 2.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     2.78
+    ],
+    "widthM": 2.29
+   },
+   {
+    "count": 13,
+    "evidence": "co-placement",
+    "face": "toward 360",
+    "heightM": 3.13,
+    "normalDeg": 359.8,
+    "pairedWith": "bmv:architecture/huts/exterior/bridge01",
+    "positionInPiece": [
+     -0.01,
+     -2.42
+    ],
+    "template": "bmv-blackmarsh:t0076",
+    "widthM": 2.31
+   }
+  ],
+  "bmv:architecture/huts/exterior/steps01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.57
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.79,
+     0.04
+    ],
+    "widthM": 1.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.64
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.78,
+     0.04
+    ],
+    "widthM": 1.21
+   }
+  ],
+  "bmv:architecture/huts/exterior/steps02": [
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 3.13,
+    "normalDeg": 0.1,
+    "pairedWith": "bmv:architecture/huts/exterior/bridge01",
+    "positionInPiece": [
+     0.01,
+     -2.4
+    ],
+    "template": "bmv-blackmarsh:t0277",
+    "widthM": 2.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     2.75
+    ],
+    "widthM": 2.29
+   }
+  ],
+  "bmv:architecture/huts/exterior/steps03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.84
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.83,
+     -0.14
+    ],
+    "widthM": 1.41
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.57
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.87,
+     -0.14
+    ],
+    "widthM": 1.41
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbase0sided02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.5
+    ],
+    "widthM": 3.02
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 4",
+    "heightM": 2.73,
+    "normalDeg": 3.8,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     0.12,
+     -1.82
+    ],
+    "template": "vanilla:t0469",
+    "widthM": 3.19
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 47",
+    "heightM": 2.73,
+    "normalDeg": 47.0,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     1.95,
+     -1.81
+    ],
+    "template": "vanilla:t0470",
+    "widthM": 4.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.51,
+     0.0
+    ],
+    "widthM": 3.0
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 91",
+    "heightM": 2.73,
+    "normalDeg": 91.1,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     1.82,
+     0.04
+    ],
+    "template": "vanilla:t0134",
+    "widthM": 3.01
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 139",
+    "heightM": 2.73,
+    "normalDeg": 139.2,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     1.62,
+     1.87
+    ],
+    "template": "vanilla:t0468",
+    "widthM": 4.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.5
+    ],
+    "widthM": 3.02
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 185",
+    "heightM": 2.73,
+    "normalDeg": 184.9,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -0.16,
+     1.82
+    ],
+    "template": "vanilla:t0469",
+    "widthM": 3.19
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 228",
+    "heightM": 2.73,
+    "normalDeg": 227.7,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -1.97,
+     1.79
+    ],
+    "template": "vanilla:t0470",
+    "widthM": 4.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.51,
+     0.0
+    ],
+    "widthM": 3.0
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 2.73,
+    "normalDeg": 270.2,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -1.82,
+     -0.01
+    ],
+    "template": "vanilla:t0134",
+    "widthM": 3.01
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 317",
+    "heightM": 2.73,
+    "normalDeg": 316.9,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+    "positionInPiece": [
+     -1.69,
+     -1.8
+    ],
+    "template": "vanilla:t0468",
+    "widthM": 4.14
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbase4sided01": [
+   {
+    "count": 11,
+    "evidence": "co-placement",
+    "face": "toward 1",
+    "heightM": 2.73,
+    "normalDeg": 0.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "positionInPiece": [
+     0.02,
+     -1.81
+    ],
+    "template": "vanilla:t0159",
+    "widthM": 3.74
+   },
+   {
+    "count": 13,
+    "evidence": "co-placement",
+    "face": "toward 91",
+    "heightM": 2.73,
+    "normalDeg": 91.3,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "positionInPiece": [
+     1.79,
+     0.04
+    ],
+    "template": "vanilla:t0119",
+    "widthM": 3.88
+   },
+   {
+    "count": 11,
+    "evidence": "co-placement",
+    "face": "toward 181",
+    "heightM": 2.73,
+    "normalDeg": 180.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "positionInPiece": [
+     -0.02,
+     1.81
+    ],
+    "template": "vanilla:t0159",
+    "widthM": 3.74
+   },
+   {
+    "count": 13,
+    "evidence": "co-placement",
+    "face": "toward 271",
+    "heightM": 2.73,
+    "normalDeg": 270.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "positionInPiece": [
+     -1.79,
+     -0.02
+    ],
+    "template": "vanilla:t0119",
+    "widthM": 3.88
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtop0sided01": [
+   {
+    "count": 17,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 0.28,
+    "normalDeg": 0.2,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     0.01,
+     -1.81
+    ],
+    "template": "vanilla:t0100",
+    "widthM": 3.53
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 45",
+    "heightM": 0.28,
+    "normalDeg": 44.8,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.79,
+     -1.8
+    ],
+    "template": "vanilla:t1948",
+    "widthM": 5.07
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 89",
+    "heightM": 0.28,
+    "normalDeg": 88.9,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.79,
+     -0.04
+    ],
+    "template": "vanilla:t0366",
+    "widthM": 3.76
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 175",
+    "heightM": 0.28,
+    "normalDeg": 175.2,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     0.08,
+     0.96
+    ],
+    "template": "vanilla:t0099",
+    "widthM": 3.82
+   },
+   {
+    "count": 17,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 0.28,
+    "normalDeg": 180.1,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -0.0,
+     1.82
+    ],
+    "template": "vanilla:t0100",
+    "widthM": 3.53
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 0.28,
+    "normalDeg": 224.8,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.79,
+     1.8
+    ],
+    "template": "vanilla:t1948",
+    "widthM": 5.07
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 0.28,
+    "normalDeg": 225.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.0,
+     0.99
+    ],
+    "template": "vanilla:t0365",
+    "widthM": 5.07
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 268",
+    "heightM": 0.28,
+    "normalDeg": 268.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.08,
+     0.03
+    ],
+    "template": "vanilla:t0098",
+    "widthM": 3.77
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 269",
+    "heightM": 0.28,
+    "normalDeg": 268.9,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.79,
+     0.04
+    ],
+    "template": "vanilla:t0366",
+    "widthM": 3.76
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 307",
+    "heightM": 0.28,
+    "normalDeg": 307.3,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.22,
+     -0.93
+    ],
+    "template": "vanilla:t0629",
+    "widthM": 5.02
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 355",
+    "heightM": 0.28,
+    "normalDeg": 355.2,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -0.08,
+     -0.96
+    ],
+    "template": "vanilla:t0099",
+    "widthM": 3.82
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtop2sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -1.85
+    ],
+    "widthM": 3.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.74,
+     0.02
+    ],
+    "widthM": 3.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     1.89
+    ],
+    "widthM": 3.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.8,
+     0.02
+    ],
+    "widthM": 3.74
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtop3sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.82
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.77,
+     0.07
+    ],
+    "widthM": 3.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.96
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.76,
+     0.07
+    ],
+    "widthM": 3.78
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/dragonbridge01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 42.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     36.66,
+     0.0
+    ],
+    "widthM": 15.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 42.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -36.66,
+     0.0
+    ],
+    "widthM": 15.04
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplatshaftbot01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.37,
+     -0.78
+    ],
+    "widthM": 4.73
+   },
+   {
+    "count": 35,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 7.31,
+    "normalDeg": 90.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02",
+    "positionInPiece": [
+     1.82,
+     -0.0
+    ],
+    "template": "vanilla:t0021",
+    "widthM": 10.79
+   },
+   {
+    "count": 26,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 7.31,
+    "normalDeg": 90.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapr01",
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "template": "vanilla:t0054",
+    "widthM": 10.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.37,
+     10.01
+    ],
+    "widthM": 4.73
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapr01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.37,
+     -0.78
+    ],
+    "widthM": 4.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.37,
+     10.01
+    ],
+    "widthM": 4.73
+   },
+   {
+    "count": 26,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 7.31,
+    "normalDeg": 270.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapl01",
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "template": "vanilla:t0054",
+    "widthM": 10.79
+   },
+   {
+    "count": 34,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 7.31,
+    "normalDeg": 270.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02",
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "template": "vanilla:t0024",
+    "widthM": 10.79
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.78
+    ],
+    "widthM": 7.28
+   },
+   {
+    "count": 34,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 7.31,
+    "normalDeg": 90.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapr01",
+    "positionInPiece": [
+     1.82,
+     -0.0
+    ],
+    "template": "vanilla:t0024",
+    "widthM": 10.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     4.62
+    ],
+    "widthM": 10.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     10.01
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     4.62
+    ],
+    "widthM": 10.79
+   },
+   {
+    "count": 35,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 7.31,
+    "normalDeg": 270.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapl01",
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "template": "vanilla:t0021",
+    "widthM": 10.79
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplattower01": [
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 1.48,
+    "normalDeg": 0.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01",
+    "positionInPiece": [
+     -0.0,
+     -1.36
+    ],
+    "template": "vanilla:t0038",
+    "widthM": 2.87
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 3.59,
+    "normalDeg": 0.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01",
+    "positionInPiece": [
+     -0.0,
+     -0.91
+    ],
+    "template": "vanilla:t0413",
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 26.82,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.0
+    ],
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 26.82,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.74,
+     2.52
+    ],
+    "widthM": 5.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 26.82,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     5.05
+    ],
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 26.82,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.74,
+     2.52
+    ],
+    "widthM": 5.05
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplattower02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 26.81,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 3.48
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 1.48,
+    "normalDeg": 0.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01",
+    "positionInPiece": [
+     0.0,
+     -3.19
+    ],
+    "template": "vanilla:t0531",
+    "widthM": 2.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 26.81,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 3.48
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01": [
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 1.48,
+    "normalDeg": 0.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01",
+    "positionInPiece": [
+     0.0,
+     -2.73
+    ],
+    "template": "vanilla:t0029",
+    "widthM": 2.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.48,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.45,
+     0.0
+    ],
+    "widthM": 5.46
+   },
+   {
+    "count": 22,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 1.48,
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattower01",
+    "positionInPiece": [
+     -0.0,
+     1.36
+    ],
+    "template": "vanilla:t0038",
+    "widthM": 2.87
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 1.48,
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01",
+    "positionInPiece": [
+     -0.0,
+     2.27
+    ],
+    "template": "vanilla:t0150",
+    "widthM": 2.87
+   },
+   {
+    "count": 25,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 1.48,
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01",
+    "positionInPiece": [
+     0.0,
+     2.73
+    ],
+    "template": "vanilla:t0029",
+    "widthM": 2.87
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 1.48,
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattower02",
+    "positionInPiece": [
+     0.0,
+     3.19
+    ],
+    "template": "vanilla:t0531",
+    "widthM": 2.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.48,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.42,
+     0.0
+    ],
+    "widthM": 5.46
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.39,
+     0.48
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.4,
+     0.48
+    ],
+    "widthM": 0.96
+   }
+  ],
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.59,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.91
+    ],
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.59,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.74,
+     -0.04
+    ],
+    "widthM": 3.73
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 3.59,
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattower01",
+    "positionInPiece": [
+     0.0,
+     0.91
+    ],
+    "template": "vanilla:t0413",
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.59,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.48
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 1.48,
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01",
+    "positionInPiece": [
+     0.0,
+     2.27
+    ],
+    "template": "vanilla:t0150",
+    "widthM": 2.87
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 3.59,
+    "normalDeg": 180.0,
+    "pairedWith": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01",
+    "positionInPiece": [
+     0.0,
+     4.55
+    ],
+    "template": "vanilla:t1171",
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.59,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.74,
+     -0.04
+    ],
+    "widthM": 3.73
+   }
+  ],
+  "vanilla:landscape/bridges/bridge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 17.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -21.07
+    ],
+    "widthM": 9.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 17.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     21.01
+    ],
+    "widthM": 9.14
+   }
+  ],
+  "vanilla:landscape/bridges/bridgelong01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 17.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -26.13
+    ],
+    "widthM": 9.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 17.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     26.06
+    ],
+    "widthM": 9.14
+   }
+  ],
+  "vanilla:landscape/bridges/bridgenarrow01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 16.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -11.75
+    ],
+    "widthM": 4.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 16.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     11.69
+    ],
+    "widthM": 4.84
+   }
+  ],
+  "vanilla:landscape/bridges/bridgeshort01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 16.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -11.75
+    ],
+    "widthM": 7.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 16.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     11.69
+    ],
+    "widthM": 7.46
+   }
+  ]
+ },
+ "counts": {
+  "assets": 23,
+  "bounds": 58,
+  "co-placement": 43
+ },
+ "elongationRatio": 2.0,
+ "kit": "route-spans-v1",
+ "schemaVersion": 1
+}

@@ -51,19 +51,32 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.089,
-    "buryM": 0.08,
-    "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.089
+   "pivotAboveBaseM": -0.089,
+   "designedSinkM": {
+    "p25": 0.0888,
+    "p50": 0.0888,
+    "p75": 0.0888,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0888
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:landscape/grass/esurosebaywillowherb01",
@@ -115,9 +128,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.039,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -127,7 +138,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.039
+   "pivotAboveBaseM": 0.039,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "tropical:landscape/grass/cattailgrass",
@@ -179,19 +200,27 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.087,
-    "buryM": 0.08,
-    "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.087
+   "pivotAboveBaseM": 0.087,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "tropical:landscape/grass/ferngrass01",
@@ -243,9 +272,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.005,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -255,7 +282,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.352,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "designedSinkM": {
+    "p25": -0.0048,
+    "p50": -0.0048,
+    "p75": -0.0048,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0048
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "tropical:landscape/grass/grassplant01",
@@ -307,9 +349,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.044,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -319,7 +359,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044
+   "pivotAboveBaseM": 0.044,
+   "designedSinkM": {
+    "p25": -0.0439,
+    "p50": -0.0439,
+    "p75": -0.0439,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0439
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "tropical:landscape/grass/grassfern01",
@@ -371,9 +426,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.044,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -383,7 +436,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.044
+   "pivotAboveBaseM": 0.044,
+   "designedSinkM": {
+    "p25": -0.0439,
+    "p50": -0.0439,
+    "p75": -0.0439,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0439
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "tropical:landscape/grass/marshgrassobj01",
@@ -435,9 +503,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.096,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -447,7 +513,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.213,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 1.096
+   "pivotAboveBaseM": 1.096,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/solojunco",
@@ -499,9 +575,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.1,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -511,7 +585,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.1
+   "pivotAboveBaseM": 0.1,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_marshplant1",
@@ -563,9 +647,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.051,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -575,7 +657,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.051
+   "pivotAboveBaseM": 0.051,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/ewpsea03",
@@ -627,9 +719,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.053,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -639,7 +729,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053
+   "pivotAboveBaseM": 0.053,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/ewpsea06",
@@ -691,9 +791,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.053,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -703,7 +801,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053
+   "pivotAboveBaseM": 0.053,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/ewpshore11",
@@ -755,9 +863,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.053,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -767,7 +873,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053
+   "pivotAboveBaseM": 0.053,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/ewpshore14",
@@ -819,9 +935,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.037,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -831,7 +945,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.037
+   "pivotAboveBaseM": 0.037,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/ewpshore03a",
@@ -883,9 +1007,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.042,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -895,7 +1017,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "designedSinkM": {
+    "p25": -0.0416,
+    "p50": -0.0416,
+    "p75": -0.0416,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0416
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "htbm:landscape/grass/ewpshore13",
@@ -947,9 +1084,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.053,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -959,7 +1094,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053
+   "pivotAboveBaseM": 0.053,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "htbm:landscape/grass/ewpshore16",
@@ -1011,9 +1156,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.053,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1023,7 +1166,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053
+   "pivotAboveBaseM": 0.053,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/ewplake07",
@@ -1075,9 +1228,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.021,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1087,7 +1238,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.021
+   "pivotAboveBaseM": 0.021,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/rockgrasswater01",
@@ -1139,9 +1300,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.078,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1151,7 +1310,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.078
+   "pivotAboveBaseM": 0.078,
+   "designedSinkM": {
+    "p25": -0.0781,
+    "p50": -0.0781,
+    "p75": -0.0781,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0781
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_greengrass",
@@ -1203,9 +1377,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.053,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1215,7 +1387,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053
+   "pivotAboveBaseM": 0.053,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_yelgrass",
@@ -1267,9 +1449,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.13,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1279,7 +1459,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.304,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.13
+   "pivotAboveBaseM": 0.13,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_bentgrass",
@@ -1331,9 +1521,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.144,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1343,7 +1531,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.304,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.144
+   "pivotAboveBaseM": 0.144,
+   "designedSinkM": {
+    "p25": -0.1439,
+    "p50": -0.1439,
+    "p75": -0.1439,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1439
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/mixgrass01",
@@ -1395,9 +1598,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.1,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1407,7 +1608,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.1
+   "pivotAboveBaseM": 0.1,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/forestgrass01",
@@ -1459,9 +1670,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.057,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1471,7 +1680,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.057
+   "pivotAboveBaseM": 0.057,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/forestgrass02",
@@ -1523,9 +1742,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.035,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1535,7 +1752,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 315.0,
-   "pivotAboveBaseM": 0.035
+   "pivotAboveBaseM": 0.035,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/ug_forestgroundcover02",
@@ -1587,9 +1814,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.057,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1599,7 +1824,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.057
+   "pivotAboveBaseM": 0.057,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/weedygroundcover",
@@ -1651,9 +1886,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.057,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1663,7 +1896,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 157.5,
-   "pivotAboveBaseM": 0.057
+   "pivotAboveBaseM": 0.057,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_bigfern",
@@ -1715,9 +1958,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.005,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1727,7 +1968,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.215,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_bigfern2",
@@ -1779,9 +2030,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.005,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1791,7 +2040,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.215,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_brownplants",
@@ -1843,9 +2102,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.039,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1855,7 +2112,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.039
+   "pivotAboveBaseM": 0.039,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_strangeplant",
@@ -1907,9 +2174,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.039,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1919,7 +2184,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.039
+   "pivotAboveBaseM": 0.039,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_mgrass",
@@ -1971,9 +2246,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.006,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -1983,7 +2256,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.006
+   "pivotAboveBaseM": 0.006,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_greenyelplant",
@@ -2035,9 +2318,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.006,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2047,7 +2328,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.006
+   "pivotAboveBaseM": 0.006,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/fieldgrass01",
@@ -2099,9 +2390,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.006,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2111,7 +2400,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.006
+   "pivotAboveBaseM": 0.006,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_mixedplants",
@@ -2163,9 +2462,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.053,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2175,7 +2472,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.053
+   "pivotAboveBaseM": 0.053,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/beachgrassobj01",
@@ -2227,9 +2534,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.02,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2239,7 +2544,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.256,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.02
+   "pivotAboveBaseM": 0.02,
+   "designedSinkM": {
+    "p25": -0.0199,
+    "p50": -0.0199,
+    "p75": -0.0199,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0199
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/beachgrassobj02",
@@ -2291,9 +2611,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.019,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2303,7 +2621,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.144,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.019
+   "pivotAboveBaseM": 0.019,
+   "designedSinkM": {
+    "p25": -0.0195,
+    "p50": -0.0195,
+    "p75": -0.0195,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0195
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/rockgrass01",
@@ -2355,9 +2688,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.08,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2367,7 +2698,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.08
+   "pivotAboveBaseM": 0.08,
+   "designedSinkM": {
+    "p25": -0.0798,
+    "p50": -0.0798,
+    "p75": -0.0798,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0798
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/reachgrassobj01",
@@ -2419,9 +2765,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.124,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2431,7 +2775,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 180.0,
-   "pivotAboveBaseM": 0.124
+   "pivotAboveBaseM": 0.124,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/reachgrassobj02",
@@ -2483,9 +2837,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.018,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2495,7 +2847,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.132,
    "openBackYawDeg": 270.0,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/fallforestgrassobj01",
@@ -2547,9 +2909,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.108,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2559,7 +2919,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.009,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.108
+   "pivotAboveBaseM": 0.108,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/tundragrassobj04",
@@ -2611,9 +2981,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.012,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2623,7 +2991,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.19,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012
+   "pivotAboveBaseM": 0.012,
+   "designedSinkM": {
+    "p25": -0.0125,
+    "p50": -0.0125,
+    "p75": -0.0125,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0125
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/plants/swordfern01",
@@ -2675,9 +3058,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.059,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2687,7 +3068,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.059
+   "pivotAboveBaseM": 0.059,
+   "designedSinkM": {
+    "p25": 0.0097,
+    "p50": 0.0843,
+    "p75": 0.1388,
+    "n": 129,
+    "slopeTermMPerDeg": 0.0022,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:landscape/plants/swordfern05",
@@ -2739,9 +3130,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.048,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2751,7 +3140,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.048
+   "pivotAboveBaseM": 0.048,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0977,
+    "p75": 0.2894,
+    "n": 155,
+    "slopeTermMPerDeg": -0.00539,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:landscape/plants/swordfern06",
@@ -2803,9 +3202,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.037,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2815,7 +3212,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.106,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.037
+   "pivotAboveBaseM": 0.037,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0712,
+    "p75": 0.1632,
+    "n": 127,
+    "slopeTermMPerDeg": 0.00119,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:landscape/plants/reachfern01",
@@ -2867,9 +3274,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.12,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2879,7 +3284,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.07,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.12
+   "pivotAboveBaseM": 0.12,
+   "designedSinkM": {
+    "p25": -0.3619,
+    "p50": -0.084,
+    "p75": 0.048,
+    "n": 118,
+    "slopeTermMPerDeg": -0.02138,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:landscape/plants/reachbush01",
@@ -2931,9 +3346,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.093,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -2943,7 +3356,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.518,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.093
+   "pivotAboveBaseM": 0.093,
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0669,
+    "p75": 0.2854,
+    "n": 96,
+    "slopeTermMPerDeg": 0.03214,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:landscape/grass/esuburdock",
@@ -2995,9 +3418,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.076,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3007,7 +3428,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.076
+   "pivotAboveBaseM": 0.076,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/esusheepssorrel",
@@ -3059,9 +3490,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.073,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3071,7 +3500,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.073
+   "pivotAboveBaseM": 0.073,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/esuheather02",
@@ -3123,9 +3562,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.064,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3135,7 +3572,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.064
+   "pivotAboveBaseM": 0.064,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/esufoxglove02",
@@ -3187,9 +3634,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.037,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3199,7 +3644,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.037
+   "pivotAboveBaseM": 0.037,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/esuclover02red",
@@ -3251,9 +3706,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.031,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3263,7 +3716,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.299,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.031
+   "pivotAboveBaseM": 0.031,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_eriophorum",
@@ -3315,9 +3778,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.005,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3327,7 +3788,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.402,
    "openBackYawDeg": 191.2,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/vurt_notlupins",
@@ -3379,9 +3850,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.004,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3391,7 +3860,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.229,
    "openBackYawDeg": 348.8,
-   "pivotAboveBaseM": -0.004
+   "pivotAboveBaseM": -0.004,
+   "designedSinkM": {
+    "p25": 0.0036,
+    "p50": 0.0036,
+    "p75": 0.0036,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0036
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/ug_forestgroundcover",
@@ -3443,9 +3927,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.063,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3455,7 +3937,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.063
+   "pivotAboveBaseM": 0.063,
+   "designedSinkM": {
+    "p25": -0.0629,
+    "p50": -0.0629,
+    "p75": -0.0629,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0629
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/13grassobj",
@@ -3507,9 +4004,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.024,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3519,7 +4014,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.371,
    "openBackYawDeg": 247.5,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/32grassobj",
@@ -3571,9 +4076,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.065,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3583,7 +4086,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.065
+   "pivotAboveBaseM": 0.065,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/36grassobj",
@@ -3635,9 +4148,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.096,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3647,7 +4158,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.514,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.096
+   "pivotAboveBaseM": 0.096,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/dandelion-1k",
@@ -3699,9 +4220,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.02,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3711,7 +4230,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.442,
    "openBackYawDeg": 236.2,
-   "pivotAboveBaseM": 0.02
+   "pivotAboveBaseM": 0.02,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:landscape/grass/woodanemone-white-2k",
@@ -3763,9 +4292,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.022,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3775,7 +4302,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 247.5,
-   "pivotAboveBaseM": 0.022
+   "pivotAboveBaseM": 0.022,
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/waterkelpshort01",
@@ -3827,19 +4364,27 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.024,
-    "buryM": 0.08,
-    "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.37,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "designedSinkM": {
+    "p25": -0.1138,
+    "p50": 0.1683,
+    "p75": 0.8238,
+    "n": 173,
+    "slopeTermMPerDeg": 0.04614,
+    "evidence": "swap:bmv:landscape/grass/waterkelpshort01"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/grass/watercoralgrass01",
@@ -3891,19 +4436,32 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.032,
-    "buryM": 0.08,
-    "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "direct",
-     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 225.0,
-   "pivotAboveBaseM": 0.032
+   "pivotAboveBaseM": 0.032,
+   "designedSinkM": {
+    "p25": -0.0319,
+    "p50": -0.0319,
+    "p75": -0.0319,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0319
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/complexgrassdrj10",
@@ -3955,9 +4513,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.071,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3967,7 +4523,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.071
+   "pivotAboveBaseM": 0.071,
+   "designedSinkM": {
+    "p25": -0.0709,
+    "p50": -0.0709,
+    "p75": -0.0709,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0709
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/complexgrassdrj05",
@@ -4019,9 +4590,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.042,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4031,7 +4600,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "designedSinkM": {
+    "p25": -0.0418,
+    "p50": -0.0418,
+    "p75": -0.0418,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0418
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/icelandicgrassdensedrj",
@@ -4083,9 +4667,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.14,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4095,7 +4677,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.111,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.14
+   "pivotAboveBaseM": 0.14,
+   "designedSinkM": {
+    "p25": 0.3809,
+    "p50": 0.3809,
+    "p75": 0.3809,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.3809
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/tyroliangrasstalldrj",
@@ -4147,9 +4744,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.124,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4159,7 +4754,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.486,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.124
+   "pivotAboveBaseM": 0.124,
+   "designedSinkM": {
+    "p25": -0.1236,
+    "p50": -0.1236,
+    "p75": -0.1236,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1236
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/coastalgrassdrj01",
@@ -4211,9 +4821,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.082,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4223,7 +4831,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.082
+   "pivotAboveBaseM": 0.082,
+   "designedSinkM": {
+    "p25": -0.0825,
+    "p50": -0.0825,
+    "p75": -0.0825,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0825
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/coastalgrassdrj01_short",
@@ -4275,9 +4898,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.065,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4287,7 +4908,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.065
+   "pivotAboveBaseM": 0.065,
+   "designedSinkM": {
+    "p25": -0.0648,
+    "p50": -0.0648,
+    "p75": -0.0648,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0648
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/swordferndrj",
@@ -4339,9 +4975,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.13,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4351,7 +4985,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.13
+   "pivotAboveBaseM": 0.13,
+   "designedSinkM": {
+    "p25": 0.2724,
+    "p50": 0.2724,
+    "p75": 0.2724,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.2724
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/swordfern05",
@@ -4403,9 +5052,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.252,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4415,7 +5062,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.008,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.252
+   "pivotAboveBaseM": 0.252,
+   "designedSinkM": {
+    "p25": 0.6084,
+    "p50": 0.6084,
+    "p75": 0.6084,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.6084
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/fernbrackenclusterdrj",
@@ -4467,9 +5129,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.083,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4479,7 +5139,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.083
+   "pivotAboveBaseM": 0.083,
+   "designedSinkM": {
+    "p25": 0.5572,
+    "p50": 0.5572,
+    "p75": 0.5572,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.5572
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/veratrumdrj",
@@ -4531,9 +5206,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.036,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4543,7 +5216,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.036
+   "pivotAboveBaseM": 0.036,
+   "designedSinkM": {
+    "p25": -0.0357,
+    "p50": -0.0357,
+    "p75": -0.0357,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0357
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "drjacopo:landscape/grass/nettledrj",
@@ -4595,9 +5283,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.025,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4607,7 +5293,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.025
+   "pivotAboveBaseM": 0.025,
+   "designedSinkM": {
+    "p25": -0.0251,
+    "p50": -0.0251,
+    "p75": -0.0251,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0251
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "hoddminir:ztree's/plants/braken",
@@ -4659,9 +5360,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.03,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4671,7 +5370,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.001,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.03
+   "pivotAboveBaseM": 0.03,
+   "designedSinkM": {
+    "p25": -0.0296,
+    "p50": -0.0296,
+    "p75": -0.0296,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0296
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "hoddminir:ztree's/plants/ladymantle",
@@ -4723,9 +5437,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.048,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4735,7 +5447,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.048
+   "pivotAboveBaseM": 0.048,
+   "designedSinkM": {
+    "p25": -0.0485,
+    "p50": -0.0485,
+    "p75": -0.0485,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0485
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "hoddminir:ztree's/plants/celandine",
@@ -4787,9 +5514,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.052,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4799,7 +5524,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.052
+   "pivotAboveBaseM": 0.052,
+   "designedSinkM": {
+    "p25": -0.0523,
+    "p50": -0.0523,
+    "p75": -0.0523,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0523
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:landscape/plants/swordferncluster01",
@@ -4851,9 +5591,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.087,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4863,7 +5601,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.032,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.087
+   "pivotAboveBaseM": 0.087,
+   "designedSinkM": {
+    "p25": 0.0475,
+    "p50": 0.2071,
+    "p75": 0.3262,
+    "n": 378,
+    "slopeTermMPerDeg": 0.00134,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:plants/floraspikygrass02",
@@ -4915,9 +5663,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.058,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4927,7 +5673,17 @@
    "undersideClosed": false,
    "undersideCoverage": 0.021,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.058
+   "pivotAboveBaseM": 0.058,
+   "designedSinkM": {
+    "p25": 0.1512,
+    "p50": 0.8694,
+    "p75": 1.9024,
+    "n": 1207,
+    "slopeTermMPerDeg": 0.16666,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "depths:landscape/grass/tbprockgrasswater03",
@@ -4979,9 +5735,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.234,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -4991,7 +5745,22 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.234
+   "pivotAboveBaseM": 0.234,
+   "designedSinkM": {
+    "p25": -0.2344,
+    "p50": -0.2344,
+    "p75": -0.2344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2344
+   },
+   "anchorClassEvidence": "unplaced"
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\groundcover-province-v1.glb",
@@ -5045,6 +5814,8 @@
   "images": 67,
   "imageBytesAfter": 4688787,
   "warnings": [],
-  "sha256": "1c3314e87eec75f0b2147626e35b7dadcda5366f9a2453bf8db6b96c1a04d955"
+  "sha256": "1c3314e87eec75f0b2147626e35b7dadcda5366f9a2453bf8db6b96c1a04d955",
+  "sidecarsExempt": "groundcover atlas: no snap edges, no footprints, no interiors",
+  "sidecarBytes": {}
  }
 }

@@ -1,0 +1,1120 @@
+{
+ "assets": {
+  "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -8.1
+    ],
+    "widthM": 12.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.21,
+     0.0
+    ],
+    "widthM": 16.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     8.1
+    ],
+    "widthM": 12.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.21,
+     0.0
+    ],
+    "widthM": 16.2
+   }
+  ],
+  "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01foam": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -8.1
+    ],
+    "widthM": 12.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.21,
+     0.0
+    ],
+    "widthM": 16.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     8.1
+    ],
+    "widthM": 12.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.21,
+     0.0
+    ],
+    "widthM": 16.2
+   }
+  ],
+  "vanilla:effects/ambient/fxmistlow01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.1,
+     -6.45
+    ],
+    "widthM": 12.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.34,
+     -0.15
+    ],
+    "widthM": 12.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.1,
+     6.16
+    ],
+    "widthM": 12.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.53,
+     -0.15
+    ],
+    "widthM": 12.61
+   }
+  ],
+  "vanilla:effects/fxrapids": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.73,
+     -6.02
+    ],
+    "widthM": 7.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.46,
+     0.08
+    ],
+    "widthM": 12.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.73,
+     6.18
+    ],
+    "widthM": 7.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.01,
+     0.08
+    ],
+    "widthM": 12.2
+   }
+  ],
+  "vanilla:effects/fxrapidsbig01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.39,
+     -20.19
+    ],
+    "widthM": 24.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.75,
+     -0.08
+    ],
+    "widthM": 40.23
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.39,
+     20.04
+    ],
+    "widthM": 24.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -12.53,
+     -0.08
+    ],
+    "widthM": 40.23
+   }
+  ],
+  "vanilla:effects/fxrapidsfallsline01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.24,
+     -9.96
+    ],
+    "widthM": 5.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.24,
+     6.11
+    ],
+    "widthM": 5.11
+   }
+  ],
+  "vanilla:effects/fxrapidsfallstop": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.67,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.81,
+     -18.34
+    ],
+    "widthM": 31.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.67,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     15.17,
+     -1.3
+    ],
+    "widthM": 34.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.67,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.81,
+     15.74
+    ],
+    "widthM": 31.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.67,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -16.79,
+     -1.3
+    ],
+    "widthM": 34.08
+   }
+  ],
+  "vanilla:effects/fxrapidsringheavy": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -7.97
+    ],
+    "widthM": 20.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     10.32,
+     -0.1
+    ],
+    "widthM": 15.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     7.77
+    ],
+    "widthM": 20.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -10.29,
+     -0.1
+    ],
+    "widthM": 15.74
+   }
+  ],
+  "vanilla:effects/fxsplashlargechurnnorapids": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.16,
+     -2.2
+    ],
+    "widthM": 4.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.31,
+     -0.04
+    ],
+    "widthM": 4.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.16,
+     2.12
+    ],
+    "widthM": 4.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.0,
+     -0.04
+    ],
+    "widthM": 4.32
+   }
+  ],
+  "vanilla:effects/fxwaterfallbodyslope": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.38,
+     -4.97
+    ],
+    "widthM": 12.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.86,
+     5.54
+    ],
+    "widthM": 21.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.38,
+     16.04
+    ],
+    "widthM": 12.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.63,
+     5.54
+    ],
+    "widthM": 21.01
+   }
+  ],
+  "vanilla:effects/fxwaterfallbodytall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 16.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.07,
+     -4.05
+    ],
+    "widthM": 13.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 16.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.52,
+     2.44
+    ],
+    "widthM": 12.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 16.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.07,
+     8.94
+    ],
+    "widthM": 13.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 16.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.65,
+     2.44
+    ],
+    "widthM": 12.99
+   }
+  ],
+  "vanilla:effects/fxwaterfallbodytall02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 39.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -4.04
+    ],
+    "widthM": 15.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 39.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.87,
+     5.66
+    ],
+    "widthM": 19.41
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 39.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     15.37
+    ],
+    "widthM": 15.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 39.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.73,
+     5.66
+    ],
+    "widthM": 19.41
+   }
+  ],
+  "vanilla:effects/fxwaterfallmistblast": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.11
+    ],
+    "widthM": 0.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     10.31
+    ],
+    "widthM": 0.13
+   }
+  ],
+  "vanilla:effects/fxwaterfallmistblastlite": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.18
+    ],
+    "widthM": 0.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     10.31
+    ],
+    "widthM": 0.11
+   }
+  ],
+  "vanilla:effects/fxwaterfallskirtslope": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 50.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.52,
+     -2.26
+    ],
+    "widthM": 14.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 50.2,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.97,
+     3.62
+    ],
+    "widthM": 11.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 50.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.52,
+     9.51
+    ],
+    "widthM": 14.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 50.2,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.02,
+     3.62
+    ],
+    "widthM": 11.77
+   }
+  ],
+  "vanilla:effects/fxwaterfallskirtslopenomist": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 51.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.25,
+     -2.26
+    ],
+    "widthM": 15.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 51.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.33,
+     3.62
+    ],
+    "widthM": 11.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 51.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.25,
+     9.51
+    ],
+    "widthM": 15.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 51.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.84,
+     3.62
+    ],
+    "widthM": 11.77
+   }
+  ],
+  "vanilla:effects/fxwaterfallskirttallfront": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 47.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.17,
+     0.48
+    ],
+    "widthM": 17.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 47.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.4,
+     6.83
+    ],
+    "widthM": 12.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 47.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.17,
+     13.19
+    ],
+    "widthM": 17.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 47.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.73,
+     6.83
+    ],
+    "widthM": 12.71
+   }
+  ],
+  "vanilla:effects/fxwaterfallthin2048x128": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 33.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -2.34
+    ],
+    "widthM": 5.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 33.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.84,
+     1.73
+    ],
+    "widthM": 8.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 33.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     5.79
+    ],
+    "widthM": 5.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 33.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.82,
+     1.73
+    ],
+    "widthM": 8.13
+   }
+  ],
+  "vanilla:effects/fxwaterfallthin2048x512": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 32.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.23,
+     -2.86
+    ],
+    "widthM": 12.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 32.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.4,
+     2.21
+    ],
+    "widthM": 10.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 32.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.23,
+     7.28
+    ],
+    "widthM": 12.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 32.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.94,
+     2.21
+    ],
+    "widthM": 10.14
+   }
+  ],
+  "vanilla:effects/fxwaterfallthin4096x256": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 66.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -3.82
+    ],
+    "widthM": 11.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 66.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.69,
+     4.32
+    ],
+    "widthM": 16.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 66.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     12.46
+    ],
+    "widthM": 11.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 66.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.64,
+     4.32
+    ],
+    "widthM": 16.28
+   }
+  ],
+  "vanilla:effects/fxwaterfallthin512x128": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.42
+    ],
+    "widthM": 2.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.51,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.17,
+     0.59
+    ],
+    "widthM": 2.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.6
+    ],
+    "widthM": 2.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.51,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.19,
+     0.59
+    ],
+    "widthM": 2.02
+   }
+  ],
+  "vanilla:effects/fxwaterfallthinsheet": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.75,
+     0.24
+    ],
+    "widthM": 1.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.71,
+     0.24
+    ],
+    "widthM": 1.34
+   }
+  ],
+  "vanilla:effects/fxwaterfallthinspray2048": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 30.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.72,
+     -2.79
+    ],
+    "widthM": 17.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 30.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.67,
+     4.53
+    ],
+    "widthM": 14.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 30.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.72,
+     11.84
+    ],
+    "widthM": 17.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 30.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.22,
+     4.53
+    ],
+    "widthM": 14.63
+   }
+  ],
+  "vanilla:lod/waterfalls/fxwaterfallbodyslope_lod": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.44,
+     -4.84
+    ],
+    "widthM": 12.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.64,
+     4.67
+    ],
+    "widthM": 19.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.44,
+     14.19
+    ],
+    "widthM": 12.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.51,
+     4.67
+    ],
+    "widthM": 19.03
+   }
+  ],
+  "vanilla:lod/waterfalls/fxwaterfallbodytall02_lod": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 33.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.22,
+     -3.84
+    ],
+    "widthM": 14.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 33.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.06,
+     2.17
+    ],
+    "widthM": 12.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 33.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.22,
+     8.18
+    ],
+    "widthM": 14.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 33.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.49,
+     2.17
+    ],
+    "widthM": 12.02
+   }
+  ],
+  "vanilla:lod/waterfalls/fxwaterfallbodytall_lod": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 15.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.19,
+     -3.93
+    ],
+    "widthM": 13.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 15.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.7,
+     0.72
+    ],
+    "widthM": 9.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 15.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.19,
+     5.38
+    ],
+    "widthM": 13.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 15.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.08,
+     0.72
+    ],
+    "widthM": 9.31
+   }
+  ]
+ },
+ "counts": {
+  "assets": 26,
+  "bounds": 96,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "waterfall-fx-v1",
+ "schemaVersion": 1
+}

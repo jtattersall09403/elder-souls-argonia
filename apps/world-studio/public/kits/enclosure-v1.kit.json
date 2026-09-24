@@ -54,19 +54,36 @@
     "9.Mat",
     "Tri 0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.812,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallgate02",
@@ -118,19 +135,36 @@
     "9.Mat.001",
     "Tri 0.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.777,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024arch01",
@@ -173,19 +207,36 @@
     "6.Mat.002",
     "7.Mat.002"
    ],
+   "designedSinkM": {
+    "p25": -10.4689,
+    "p50": -10.4689,
+    "p75": -10.4689,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -10.4689
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 10.469,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 10.469
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall01",
@@ -236,19 +287,36 @@
     "9.Mat.002",
     "Tri 0.Mat.002"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.68,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wall02",
@@ -299,19 +367,36 @@
     "9.Mat.003",
     "Tri 0.Mat.003"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.68,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner2way",
@@ -362,19 +447,36 @@
     "9.Mat.004",
     "Tri 0.Mat.004"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.465,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner3way",
@@ -425,19 +527,36 @@
     "9.Mat.005",
     "Tri 0.Mat.005"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.578,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallcorner4way",
@@ -486,19 +605,36 @@
     "9.Mat.006",
     "Tri 0.Mat.006"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.488,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallround01",
@@ -549,19 +685,36 @@
     "9.Mat.007",
     "Tri 0.Mat.007"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.405,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024walltower01a",
@@ -610,19 +763,36 @@
     "9.Mat.008",
     "Tri 0.Mat.008"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.369,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024walltower01b",
@@ -675,19 +845,36 @@
     "9.Mat.009",
     "Tri 0.Mat.009"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.668,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/1024/1024wallstair01",
@@ -742,19 +929,36 @@
     "9.Mat.010",
     "Tri 0.Mat.010"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.494,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall01a",
@@ -805,19 +1009,36 @@
     "9.Mat.011",
     "Tri 0.Mat.011"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.73,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512wall02",
@@ -866,19 +1087,36 @@
     "Tri Tri Tri 1.00 0.001 0.00 8.Mat",
     "Tri Tri Tri 1.00 0.001 0.00 9.Mat"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.689,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/512/512pillar01",
@@ -923,19 +1161,31 @@
     "7.Mat.013",
     "8.Mat.012"
    ],
+   "designedSinkM": {
+    "p25": -10.0243,
+    "p50": -9.3614,
+    "p75": -9.02,
+    "n": 10,
+    "slopeTermMPerDeg": -0.20474,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.34,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall01",
@@ -984,19 +1234,36 @@
     "9.Mat.012",
     "Tri 0.Mat.012"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.725,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wall02",
@@ -1045,19 +1312,36 @@
     "9.Mat.013",
     "Tri 0.Mat.013"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.729,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/256/256wallendcap",
@@ -1106,19 +1390,36 @@
     "9.Mat.014",
     "Tri 0.Mat.014"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.745,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledge",
@@ -1165,19 +1466,31 @@
     "8.Mat.016",
     "9.Mat.015"
    ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.061,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledgecorner",
@@ -1224,19 +1537,36 @@
     "8.Mat.017",
     "9.Mat.016"
    ],
+   "designedSinkM": {
+    "p25": -11.8344,
+    "p50": -11.8344,
+    "p75": -11.8344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8344
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.107,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/ledge/1024ledgeconnect",
@@ -1289,19 +1619,36 @@
     "9.Mat.017",
     "Tri 0.Mat.015"
    ],
+   "designedSinkM": {
+    "p25": 6.3686,
+    "p50": 6.3686,
+    "p75": 6.3686,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 6.3686
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.578,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/misc/ramp01",
@@ -1352,19 +1699,36 @@
     "9.Mat.018",
     "Tri 0.Mat.016"
    ],
+   "designedSinkM": {
+    "p25": -11.8342,
+    "p50": -11.8342,
+    "p75": -11.8342,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -11.8342
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 11.834,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.411,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 11.834
   },
   {
    "id": "bmv:architecture/newcastle/wall/slope/1024wallslope256",
@@ -1415,19 +1779,36 @@
     "9.Mat.019",
     "Tri 0.Mat.017"
    ],
+   "designedSinkM": {
+    "p25": 1.2794,
+    "p50": 1.2794,
+    "p75": 1.2794,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.2794
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 13.655,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.672,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 13.655
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01",
@@ -1462,19 +1843,31 @@
     "WRFenceStrGate01:10.Mat",
     "WRFenceStrGate01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.4234,
+    "p50": -0.239,
+    "p75": 0.0,
+    "n": 9,
+    "slopeTermMPerDeg": -0.04159,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.756,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.161,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01",
@@ -1509,19 +1902,31 @@
     "Gate:10.Mat",
     "Gate:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.4552,
+    "p50": -0.4205,
+    "p75": -0.4152,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.357,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.979,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.357
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01",
@@ -1556,19 +1961,31 @@
     "WRFenceBaseStr01:48.Mat",
     "WRFenceBaseStr01:49.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0247,
+    "p50": 0.3809,
+    "p75": 0.5435,
+    "n": 62,
+    "slopeTermMPerDeg": 0.02246,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01",
@@ -1603,19 +2020,31 @@
     "WRFenceStr01:10.Mat",
     "WRFenceStr01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0406,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 80,
+    "slopeTermMPerDeg": -0.04203,
+    "evidence": "plugin"
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.756,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.202,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01",
@@ -1650,19 +2079,31 @@
     "WRFenceBaseEnd01:48.Mat",
     "WRFenceBaseEnd01:49.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1984,
+    "p50": 0.1605,
+    "p75": 0.4653,
+    "n": 58,
+    "slopeTermMPerDeg": -0.01534,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.935,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 315.0,
+   "pivotAboveBaseM": 0.935
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01",
@@ -1697,19 +2138,31 @@
     "WRFenceBaseCor01:48.Mat",
     "WRFenceBaseCor01:49.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1021,
+    "p50": 0.1519,
+    "p75": 0.7617,
+    "n": 20,
+    "slopeTermMPerDeg": 0.03429,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencecor01",
@@ -1744,19 +2197,31 @@
     "WRFenceCor01:10.Mat",
     "WRFenceCor01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.7139,
+    "p50": -0.1402,
+    "p75": 0.0023,
+    "n": 13,
+    "slopeTermMPerDeg": -0.11004,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.756,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.047,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01",
@@ -1791,19 +2256,31 @@
     "WRFenceBase4Way01:48.Mat",
     "WRFenceBase4Way01:49.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1233,
+    "p50": 0.0706,
+    "p75": 0.4241,
+    "n": 12,
+    "slopeTermMPerDeg": -0.03724,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01",
@@ -1838,19 +2315,36 @@
     "WRFence4Way01:10.Mat",
     "WRFence4Way01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.7561,
+    "p50": -0.7561,
+    "p75": -0.7561,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.7561
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.756,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.022,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.756
   },
   {
    "id": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasesupport01",
@@ -1885,19 +2379,31 @@
     "WRFenceBaseSupport01:48.Mat",
     "WRFenceBaseSupport01:49.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.5901,
+    "p50": 0.8135,
+    "p75": 0.9492,
+    "n": 10,
+    "slopeTermMPerDeg": -0.01562,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwallgate",
@@ -1931,19 +2437,36 @@
     "RedoranBaseWall01:3.010.Mat",
     "RedoranBaseWall01:3.012.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.9905,
+    "p50": -0.9905,
+    "p75": -0.9905,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.9905
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.991,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.543,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.991
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwall",
@@ -1975,19 +2498,36 @@
     "RedoranBaseWall01:2.005.Mat",
     "RedoranBaseWall01:3.008.Mat"
    ],
+   "designedSinkM": {
+    "p25": 6.3724,
+    "p50": 6.3724,
+    "p75": 6.3724,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 6.3724
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.312,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwallcorner",
@@ -2019,19 +2559,36 @@
     "RedoranBaseWall01:2.005.Mat.001",
     "RedoranBaseWall01:3.008.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -0.9103,
+    "p50": -0.9103,
+    "p75": -0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9103
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.115,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "bmv:architecture/redoran/custom/redoranwalldivider",
@@ -2063,19 +2620,36 @@
     "RedoranBaseWall01:3.004.Mat",
     "RedoranBaseWall01:3.005.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.9686,
+    "p50": -0.9686,
+    "p75": -0.9686,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9686
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.969,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.969
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallarch01",
@@ -2106,19 +2680,36 @@
    "materials": [
     "Archway.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.453,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01",
@@ -2149,19 +2740,36 @@
    "materials": [
     "StonewallCurve01.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.021,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve02",
@@ -2192,19 +2800,36 @@
    "materials": [
     "StonewallCurve02.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.029,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallpillar01",
@@ -2235,19 +2860,31 @@
    "materials": [
     "Pillar01.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0498,
+    "p50": 0.0569,
+    "p75": 0.216,
+    "n": 4,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.302,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/redruingate",
@@ -2286,19 +2923,31 @@
     "objBox20.Mat",
     "objPlane02.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0569,
+    "p50": 0.1707,
+    "p75": 0.949,
+    "n": 3,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.138,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.63,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.138
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/0mjy_aztecportal",
@@ -2331,19 +2980,36 @@
     "SBardsCollege_LOD:0.Mat",
     "SBardsCollege_LOD:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -2.1659,
+    "p50": -2.1659,
+    "p75": -2.1659,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -2.1659
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 2.166,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.166
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallstraight01",
@@ -2376,19 +3042,31 @@
     "StockadeWallStraight01:0 - L1_Wood09:0.Mat",
     "StockadeWallStraight01:2 - L1_Wood09:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -1.6558,
+    "p50": -1.3148,
+    "p75": -0.8432,
+    "n": 158,
+    "slopeTermMPerDeg": 0.01511,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 2.114,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.16,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.114
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallcornerin01",
@@ -2421,19 +3099,31 @@
     "StockadeWallCornerIn01:0 - L1_Wood12:0.Mat",
     "StockadeWallCornerIn01:2 - L1_Wood12:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.5734,
+    "p50": 0.9655,
+    "p75": 1.3405,
+    "n": 57,
+    "slopeTermMPerDeg": 0.00615,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.07,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallcornerout01",
@@ -2466,19 +3156,31 @@
     "StockadeWallCornerOut01:0 - L1_Wood11:0.Mat",
     "StockadeWallCornerOut01:2 - L1_Wood11:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.5988,
+    "p50": 1.2402,
+    "p75": 1.5992,
+    "n": 12,
+    "slopeTermMPerDeg": 0.05681,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.069,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadewallwalkway01",
@@ -2513,19 +3215,31 @@
     "StockadeWallWalkway01:1 - L2_Accessories:1.Mat",
     "StockadeWallWalkway01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -1.8246,
+    "p50": -1.4483,
+    "p75": -1.1689,
+    "n": 70,
+    "slopeTermMPerDeg": -0.00089,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 2.114,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.899,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.114
   },
   {
    "id": "vanilla:clutter/stockade/stockadetower01",
@@ -2560,19 +3274,31 @@
     "StockadeTower01:1 - L1_Wood:1 - L2_Accessories01:1.Mat",
     "StockadeTower01:2 - Object14:2 - L1_Wood:2 - L2_Accessories01:2"
    ],
+   "designedSinkM": {
+    "p25": 0.4135,
+    "p50": 0.6608,
+    "p75": 1.8099,
+    "n": 30,
+    "slopeTermMPerDeg": 0.08109,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.823,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/stockade/stockadegate01",
@@ -2617,19 +3343,31 @@
     "a_LeftDoor:0.Mat",
     "a_RightDoor:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.2138,
+    "p50": -0.0637,
+    "p75": -0.0009,
+    "n": 18,
+    "slopeTermMPerDeg": -0.02176,
+    "evidence": "plugin"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.499,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.172,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.499
   },
   {
    "id": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01",
@@ -2673,19 +3411,31 @@
     "StockadeBarricade01-03:2.Mat",
     "StockadeBarricade01-03:3.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.1444,
+    "p50": 0.2664,
+    "p75": 0.4196,
+    "n": 74,
+    "slopeTermMPerDeg": 0.00786,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.003,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.361,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.003
   },
   {
    "id": "vanilla:clutter/stockade/stockadepike01",
@@ -2718,19 +3468,31 @@
     "StockadePike01:0.Mat",
     "StockadePike01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.6454,
+    "p50": 0.9749,
+    "p75": 1.4476,
+    "n": 69,
+    "slopeTermMPerDeg": 0.00151,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch01",
@@ -2761,19 +3523,36 @@
    "materials": [
     "Arstone02.Mat"
    ],
+   "designedSinkM": {
+    "p25": -7.4515,
+    "p50": -7.4515,
+    "p75": -7.4515,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -7.4515
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 7.451,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.205,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch02",
@@ -2804,19 +3583,36 @@
    "materials": [
     "Arstone02.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -7.4515,
+    "p50": -7.4515,
+    "p75": -7.4515,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -7.4515
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 7.451,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.069,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch03",
@@ -2847,32 +3643,49 @@
    "materials": [
     "Arstone02.Mat.002"
    ],
+   "designedSinkM": {
+    "p25": -7.4515,
+    "p50": -7.4515,
+    "p75": -7.4515,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": -7.4515
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 7.451,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.451
   },
   {
    "id": "composite:farmfence/wr-fence-run-3",
    "node": "es|b7041a5852|composite__farmfence_wr-fence-run-3",
    "category": "architecture",
    "sizeM": [
-    3.641,
-    11.83,
+    1.043,
+    12.503,
     2.002
    ],
    "originOffsetM": [
-    1.821,
-    4.095,
+    0.456,
+    4.432,
     0.935
    ],
    "triangles": 420,
@@ -2903,19 +3716,36 @@
     "WRFenceBaseStr01:49.Mat.001",
     "WRFenceBaseStr01:49.Mat.002"
    ],
+   "designedSinkM": {
+    "p25": -0.9348,
+    "p50": -0.9348,
+    "p75": -0.9348,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9348
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.935,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.935
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\enclosure-v1.glb",
@@ -2935,6 +3765,11 @@
  "alphaModes": {
   "MASK": 0,
   "OPAQUE": 349
+ },
+ "trunkSolids": {
+  "fitter": "pipeline.trunk_solids",
+  "cardTriAreaPerHeight2": 0.002,
+  "maxRadiusFactor": 1.5
  },
  "compression": {
   "schemaVersion": 1,
@@ -2962,11 +3797,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 34579536,
+  "bytesBefore": 31649156,
   "bytesAfter": 13883064,
   "images": 41,
   "imageBytesAfter": 10626903,
   "warnings": [],
-  "sha256": "e9778f10222608a2eeaed3d78eeb474146f887c9e52e56a40b318ae0c6ab3162"
+  "sha256": "75ad75c702bbb5e519e61a390039329505d329d64ef922a1346897f6d3aa3c18",
+  "sidecarBytes": {
+   "connectors": 33841,
+   "footprints": 52088,
+   "interiors": 38062
+  }
  }
 }

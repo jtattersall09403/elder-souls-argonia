@@ -1,0 +1,732 @@
+{
+ "assets": {
+  "depths:dos/boats/rowboatbrokenback": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.03
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.39,
+     1.92
+    ],
+    "widthM": 3.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.87
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.39,
+     1.92
+    ],
+    "widthM": 3.9
+   }
+  ],
+  "depths:dos/boats/rowboatbrokenfront": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.52,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -3.87
+    ],
+    "widthM": 2.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.52,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.36,
+     -1.44
+    ],
+    "widthM": 4.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.52,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.99
+    ],
+    "widthM": 2.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.52,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.35,
+     -1.44
+    ],
+    "widthM": 4.86
+   }
+  ],
+  "depths:dos/ships/shipatmoranlongshipwreck01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.92,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.05
+    ],
+    "widthM": 6.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.92,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.48,
+     5.0
+    ],
+    "widthM": 12.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.92,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     11.05
+    ],
+    "widthM": 6.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.92,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.49,
+     5.0
+    ],
+    "widthM": 12.1
+   }
+  ],
+  "depths:dos/ships/shipatmoranlongshipwreck02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.67,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -11.05
+    ],
+    "widthM": 7.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.67,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.57,
+     -4.43
+    ],
+    "widthM": 13.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.67,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.19
+    ],
+    "widthM": 7.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.67,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.57,
+     -4.43
+    ],
+    "widthM": 13.24
+   }
+  ],
+  "depths:dos/ships/shipatmoranrowboatwreck01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.12
+    ],
+    "widthM": 2.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.44,
+     1.96
+    ],
+    "widthM": 4.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     4.04
+    ],
+    "widthM": 2.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.43,
+     1.96
+    ],
+    "widthM": 4.16
+   }
+  ],
+  "depths:dos/ships/shipatmoranrowboatwreck02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -4.05
+    ],
+    "widthM": 2.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.41,
+     -1.83
+    ],
+    "widthM": 4.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.39
+    ],
+    "widthM": 2.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.44,
+     -1.83
+    ],
+    "widthM": 4.44
+   }
+  ],
+  "depths:dos/ships/shipatmoranwarshipwreck01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -19.75
+    ],
+    "widthM": 9.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     1.75
+    ],
+    "widthM": 9.73
+   }
+  ],
+  "depths:dos/ships/shipatmoranwarshipwreck02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -3.17
+    ],
+    "widthM": 9.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     19.53
+    ],
+    "widthM": 9.69
+   }
+  ],
+  "depths:dos/ships/shipbreticcarrack_halfwreck01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 15.84,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.13,
+     1.75
+    ],
+    "widthM": 11.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 15.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.1,
+     9.06
+    ],
+    "widthM": 14.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 15.84,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.13,
+     16.37
+    ],
+    "widthM": 11.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 15.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.83,
+     9.06
+    ],
+    "widthM": 14.62
+   }
+  ],
+  "depths:dos/ships/shipbreticcarrack_halfwreck02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.5,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -14.82
+    ],
+    "widthM": 11.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.5,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.8,
+     -4.39
+    ],
+    "widthM": 20.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.5,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     6.04
+    ],
+    "widthM": 11.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.5,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.8,
+     -4.39
+    ],
+    "widthM": 20.86
+   }
+  ],
+  "vanilla:clutter/shipwreck/shipwreckboards01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.36
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.36
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:clutter/shipwreck/shipwreckboards02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.97
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.97
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:clutter/shipwreck/shipwreckboards03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.86
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.86
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:dungeons/ship/shiplongboatwreck01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 15.1,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -9.06
+    ],
+    "widthM": 11.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 15.1,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.97,
+     -0.0
+    ],
+    "widthM": 18.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 15.1,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     9.05
+    ],
+    "widthM": 11.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 15.1,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.97,
+     -0.0
+    ],
+    "widthM": 18.11
+   }
+  ],
+  "vanilla:dungeons/ship/shiplongboatwreck02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -6.71
+    ],
+    "widthM": 8.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.27,
+     0.01
+    ],
+    "widthM": 13.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     6.73
+    ],
+    "widthM": 8.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.27,
+     0.01
+    ],
+    "widthM": 13.44
+   }
+  ],
+  "vanilla:dungeons/ship/shipwrecklarge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 25.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -30.04
+    ],
+    "widthM": 19.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 25.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     31.46
+    ],
+    "widthM": 19.16
+   }
+  ],
+  "vanilla:dungeons/ship/shipwrecklarge02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 18.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -30.04
+    ],
+    "widthM": 19.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 18.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     31.46
+    ],
+    "widthM": 19.18
+   }
+  ],
+  "vanilla:dungeons/ship/shipwrecklarge03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 18.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -13.58
+    ],
+    "widthM": 19.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 18.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.59,
+     5.3
+    ],
+    "widthM": 37.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 18.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     24.17
+    ],
+    "widthM": 19.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 18.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.59,
+     5.3
+    ],
+    "widthM": 37.75
+   }
+  ],
+  "vanilla:dungeons/ship/shipwrecklarge04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 18.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -15.48
+    ],
+    "widthM": 18.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 18.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.11,
+     -2.61
+    ],
+    "widthM": 25.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 18.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     10.26
+    ],
+    "widthM": 18.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 18.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.11,
+     -2.61
+    ],
+    "widthM": 25.74
+   }
+  ]
+ },
+ "counts": {
+  "assets": 19,
+  "bounds": 62,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "wrecks-v1",
+ "schemaVersion": 1
+}

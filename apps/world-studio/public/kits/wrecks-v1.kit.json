@@ -52,9 +52,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.474,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -64,7 +62,22 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.474
+   "pivotAboveBaseM": 0.474,
+   "designedSinkM": {
+    "p25": -0.4744,
+    "p50": -0.4744,
+    "p75": -0.4744,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4744
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge02",
@@ -115,9 +128,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.474,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -127,7 +138,22 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.474
+   "pivotAboveBaseM": 0.474,
+   "designedSinkM": {
+    "p25": -0.4744,
+    "p50": -0.4744,
+    "p75": -0.4744,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4744
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge03",
@@ -177,9 +203,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.474,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -189,7 +213,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.972,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.474
+   "pivotAboveBaseM": 0.474,
+   "designedSinkM": {
+    "p25": -0.4744,
+    "p50": -0.4744,
+    "p75": -0.4744,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4744
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:dungeons/ship/shipwrecklarge04",
@@ -240,9 +279,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.119,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -252,7 +289,22 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.119
+   "pivotAboveBaseM": 0.119,
+   "designedSinkM": {
+    "p25": -0.1194,
+    "p50": -0.1194,
+    "p75": -0.1194,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "deck",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1194
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:dungeons/ship/shiplongboatwreck01",
@@ -297,9 +349,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.114,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -309,7 +359,17 @@
    "undersideClosed": true,
    "undersideCoverage": 0.838,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.114
+   "pivotAboveBaseM": 0.114,
+   "designedSinkM": {
+    "p25": 1.7424,
+    "p50": 2.7448,
+    "p75": 3.1059,
+    "n": 4,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:dungeons/ship/shiplongboatwreck02",
@@ -354,9 +414,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.012,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -366,7 +424,22 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012
+   "pivotAboveBaseM": 0.012,
+   "designedSinkM": {
+    "p25": -0.0119,
+    "p50": -0.0119,
+    "p75": -0.0119,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0119
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards01",
@@ -404,9 +477,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.028,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -416,7 +487,18 @@
    "undersideClosed": true,
    "undersideCoverage": 0.971,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "designedSinkM": {
+    "p25": -0.105,
+    "p50": -0.0283,
+    "p75": -0.021,
+    "n": 26,
+    "slopeTermMPerDeg": -0.00256,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -0.1684
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards02",
@@ -454,9 +536,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.028,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -466,7 +546,18 @@
    "undersideClosed": true,
    "undersideCoverage": 0.96,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "designedSinkM": {
+    "p25": -0.0601,
+    "p50": -0.0217,
+    "p75": -0.021,
+    "n": 49,
+    "slopeTermMPerDeg": -0.00175,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": 0.0
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards03",
@@ -504,9 +595,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.028,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -516,7 +605,18 @@
    "undersideClosed": true,
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "designedSinkM": {
+    "p25": -0.0387,
+    "p50": -0.0211,
+    "p75": -0.0209,
+    "n": 22,
+    "slopeTermMPerDeg": -0.00031,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -0.0226
   },
   {
    "id": "depths:dos/ships/shipatmoranlongshipwreck01",
@@ -557,9 +657,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.065,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -569,7 +667,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.951,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "designedSinkM": {
+    "p25": 0.0653,
+    "p50": 0.0653,
+    "p75": 0.0653,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0653
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "depths:dos/ships/shipatmoranlongshipwreck02",
@@ -610,9 +723,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.065,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -622,7 +733,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.986,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.065
+   "pivotAboveBaseM": -0.065,
+   "designedSinkM": {
+    "p25": 0.0653,
+    "p50": 0.0653,
+    "p75": 0.0653,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0653
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "depths:dos/ships/shipatmoranrowboatwreck01",
@@ -661,9 +787,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.028,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -673,7 +797,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.984,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0284
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "depths:dos/ships/shipatmoranrowboatwreck02",
@@ -712,9 +851,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.028,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -724,7 +861,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.991,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "designedSinkM": {
+    "p25": -0.0284,
+    "p50": -0.0284,
+    "p75": -0.0284,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0284
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "depths:dos/ships/shipatmoranwarshipwreck01",
@@ -767,9 +919,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.005,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -779,7 +929,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.957,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.005
+   "pivotAboveBaseM": 0.005,
+   "designedSinkM": {
+    "p25": -0.0052,
+    "p50": -0.0052,
+    "p75": -0.0052,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0052
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "depths:dos/ships/shipatmoranwarshipwreck02",
@@ -822,9 +987,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.033,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -834,7 +997,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.99,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.033
+   "pivotAboveBaseM": 0.033,
+   "designedSinkM": {
+    "p25": -0.0331,
+    "p50": -0.0331,
+    "p75": -0.0331,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0331
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "depths:dos/ships/shipbreticcarrack_halfwreck01",
@@ -873,9 +1051,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 4.61,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -885,7 +1061,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.955,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.61
+   "pivotAboveBaseM": 4.61,
+   "designedSinkM": {
+    "p25": -4.6098,
+    "p50": -4.6098,
+    "p75": -4.6098,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -4.6098
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "depths:dos/ships/shipbreticcarrack_halfwreck02",
@@ -928,9 +1119,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 4.614,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -940,7 +1129,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.96,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 4.614
+   "pivotAboveBaseM": 4.614,
+   "designedSinkM": {
+    "p25": -4.6137,
+    "p50": -4.6137,
+    "p75": -4.6137,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -4.6137
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "depths:dos/boats/rowboatbrokenback",
@@ -979,9 +1183,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.764,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -991,7 +1193,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.882,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "designedSinkM": {
+    "p25": -0.7638,
+    "p50": -0.7638,
+    "p75": -0.7638,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7638
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "depths:dos/boats/rowboatbrokenfront",
@@ -1030,9 +1247,7 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.757,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1042,7 +1257,22 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.757
+   "pivotAboveBaseM": 0.757,
+   "designedSinkM": {
+    "p25": -0.7572,
+    "p50": -0.7572,
+    "p75": -0.7572,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7572
+   },
+   "anchorClassEvidence": "unplaced"
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\wrecks-v1.glb",

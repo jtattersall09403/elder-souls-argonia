@@ -18,3 +18,13 @@ which merge the two locations PER KIT — this tracked copy wins for a kit
 present in both, and a kit rebuilt locally but not yet re-committed is still
 found here via the local fallback. A kit missing from both raises a
 validation item instead of silently skipping its door checks.
+
+`entrance.sideDeg` means one of two things, depending on the kind. For a
+measured opening (`opening`, `open-front`, `leaf`, `door-piece`) it is the
+bearing of `offsetM` from the plan centre (`planCentreM`), and
+`test_interiors_index` holds the two within 30°. For `esp-door` and
+`assembly` it is the facing of the door reference the mod's authors placed,
+copied from their placement. That facing need not point away from the plan
+centre: a kiosk's load door stands 0.29 m from the pivot, so a bearing from
+the centre carries no information. Those two kinds are left out of the
+bearing test.

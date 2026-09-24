@@ -1,0 +1,1820 @@
+{
+ "assets": {
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararchcolumn02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.05,
+     -3.17
+    ],
+    "widthM": 1.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.05,
+     3.17
+    ],
+    "widthM": 1.87
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.37
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.37,
+     0.0
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.37
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     0.0
+    ],
+    "widthM": 2.74
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.37
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.37,
+     0.0
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.37
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     0.0
+    ],
+    "widthM": 2.74
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.37
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.37,
+     0.0
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.37
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     0.0
+    ],
+    "widthM": 2.74
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.37
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.37,
+     -0.59
+    ],
+    "widthM": 1.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.19
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     -0.59
+    ],
+    "widthM": 1.56
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.46,
+     -0.0
+    ],
+    "widthM": 0.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.46,
+     1.82
+    ],
+    "widthM": 0.91
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.46,
+     -0.0
+    ],
+    "widthM": 0.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.46,
+     1.82
+    ],
+    "widthM": 0.91
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.46,
+     -0.0
+    ],
+    "widthM": 0.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.91,
+     0.56
+    ],
+    "widthM": 1.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.46,
+     1.12
+    ],
+    "widthM": 0.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.0,
+     0.56
+    ],
+    "widthM": 1.12
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.52
+    ],
+    "widthM": 12.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.38,
+     0.0
+    ],
+    "widthM": 7.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.52
+    ],
+    "widthM": 12.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.38,
+     0.0
+    ],
+    "widthM": 7.04
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.97,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.55,
+     -3.52
+    ],
+    "widthM": 9.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.28,
+     0.0
+    ],
+    "widthM": 7.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.97,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.55,
+     3.53
+    ],
+    "widthM": 9.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.38,
+     0.0
+    ],
+    "widthM": 7.05
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arcolumn02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.08
+    ],
+    "widthM": 4.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.08,
+     0.0
+    ],
+    "widthM": 4.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.08
+    ],
+    "widthM": 4.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.08,
+     0.0
+    ],
+    "widthM": 4.16
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/aroutercircle01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 20.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -8.51,
+     -4.25
+    ],
+    "widthM": 5.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 20.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -5.74,
+     0.0
+    ],
+    "widthM": 8.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 20.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -8.51,
+     4.25
+    ],
+    "widthM": 5.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 20.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -11.28,
+     0.0
+    ],
+    "widthM": 8.5
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.82,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.19
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.82,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.19,
+     0.0
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.82,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.19
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.82,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.19,
+     0.0
+    ],
+    "widthM": 6.38
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.82,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.19
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.82,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.19,
+     0.0
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.82,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.19
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.82,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.19,
+     0.0
+    ],
+    "widthM": 6.38
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringinnerwall02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.61,
+     -15.45
+    ],
+    "widthM": 1.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.61,
+     -15.45
+    ],
+    "widthM": 1.34
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringouterwall03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     14.78,
+     -28.96
+    ],
+    "widthM": 11.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     20.38,
+     -25.55
+    ],
+    "widthM": 6.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     14.78,
+     -22.15
+    ],
+    "widthM": 11.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     9.18,
+     -25.55
+    ],
+    "widthM": 6.81
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arspiralstairs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.59
+    ],
+    "widthM": 9.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.59,
+     0.0
+    ],
+    "widthM": 9.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.59
+    ],
+    "widthM": 9.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.59,
+     0.0
+    ],
+    "widthM": 9.18
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -5.82,
+     3.11
+    ],
+    "widthM": 5.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -2.95,
+     5.97
+    ],
+    "widthM": 5.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -5.82,
+     8.83
+    ],
+    "widthM": 5.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.69,
+     5.97
+    ],
+    "widthM": 5.72
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     5.21
+    ],
+    "widthM": 10.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.06,
+     12.92
+    ],
+    "widthM": 15.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     20.63
+    ],
+    "widthM": 10.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.06,
+     12.92
+    ],
+    "widthM": 15.42
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     15.33
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     22.64
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairsside01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.29,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     4.79,
+     8.97
+    ],
+    "widthM": 4.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.29,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     4.79,
+     21.83
+    ],
+    "widthM": 4.51
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuebase01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -5.93
+    ],
+    "widthM": 11.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.92,
+     0.02
+    ],
+    "widthM": 11.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     5.97
+    ],
+    "widthM": 11.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.92,
+     0.02
+    ],
+    "widthM": 11.9
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.51,
+     -8.77
+    ],
+    "widthM": 2.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.51,
+     -8.77
+    ],
+    "widthM": 2.61
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -21.34
+    ],
+    "widthM": 19.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.6,
+     -14.4
+    ],
+    "widthM": 13.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     -7.46
+    ],
+    "widthM": 19.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.6,
+     -14.4
+    ],
+    "widthM": 13.88
+   }
+  ],
+  "ayleidkit:igsresources/dungeons/ayleidruins/exterior/artower01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 23.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.27,
+     0.0
+    ],
+    "widthM": 6.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 23.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.55,
+     3.27
+    ],
+    "widthM": 6.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 23.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.27,
+     6.55
+    ],
+    "widthM": 6.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 23.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.0,
+     3.27
+    ],
+    "widthM": 6.55
+   }
+  ],
+  "composite:ayleid/arblock-mass-2x2x2": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.78,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.32,
+     -4.02
+    ],
+    "widthM": 5.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.78,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.02,
+     -1.32
+    ],
+    "widthM": 5.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.78,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.32,
+     1.37
+    ],
+    "widthM": 5.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.78,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     -1.32
+    ],
+    "widthM": 5.39
+   }
+  ],
+  "composite:ayleid/arblock-mass-3x1x3": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.65,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.67,
+     0.0
+    ],
+    "widthM": 2.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.65,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     0.0
+    ],
+    "widthM": 2.74
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding1": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 36.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     19.2,
+     -32.64
+    ],
+    "widthM": 67.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 36.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     53.07,
+     -0.07
+    ],
+    "widthM": 65.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 36.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     19.2,
+     32.5
+    ],
+    "widthM": 67.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 36.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -14.66,
+     -0.07
+    ],
+    "widthM": 65.14
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding3redone": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 32.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -32.56
+    ],
+    "widthM": 69.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 32.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     34.74,
+     0.0
+    ],
+    "widthM": 65.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 32.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     32.56
+    ],
+    "widthM": 69.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 32.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -34.74,
+     0.0
+    ],
+    "widthM": 65.12
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -12.75
+    ],
+    "widthM": 33.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     16.94,
+     -1.82
+    ],
+    "widthM": 21.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     9.11
+    ],
+    "widthM": 33.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -16.94,
+     -1.82
+    ],
+    "widthM": 21.86
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/3mjyunderwaterruins8": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 31.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.69,
+     -7.99
+    ],
+    "widthM": 12.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 31.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.93,
+     -0.12
+    ],
+    "widthM": 15.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 31.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.69,
+     7.74
+    ],
+    "widthM": 12.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 31.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.55,
+     -0.12
+    ],
+    "widthM": 15.73
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/blockslargepile": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     16.57,
+     -5.07
+    ],
+    "widthM": 4.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.37,
+     -5.07
+    ],
+    "widthM": 4.66
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/gargoyle01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.45
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.45
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.86
+    ],
+    "widthM": 1.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.86,
+     0.0
+    ],
+    "widthM": 1.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.86
+    ],
+    "widthM": 1.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.86,
+     0.0
+    ],
+    "widthM": 1.72
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.49
+    ],
+    "widthM": 0.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.49,
+     0.0
+    ],
+    "widthM": 0.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.49
+    ],
+    "widthM": 0.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.49,
+     0.0
+    ],
+    "widthM": 0.98
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 1.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.59,
+     0.23
+    ],
+    "widthM": 0.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.55
+    ],
+    "widthM": 1.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.59,
+     0.23
+    ],
+    "widthM": 0.65
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.7,
+     0.21
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     0.21
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentstatue_feathered": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.8,
+     -0.11
+    ],
+    "widthM": 0.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.4,
+     -0.11
+    ],
+    "widthM": 0.59
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skeletontotem01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -0.62
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     -0.21
+    ],
+    "widthM": 0.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     0.2
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.41,
+     -0.21
+    ],
+    "widthM": 0.82
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skullstack01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.74,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.4
+    ],
+    "widthM": 1.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.58,
+     0.04
+    ],
+    "widthM": 0.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.74,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.49
+    ],
+    "widthM": 1.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.57,
+     0.04
+    ],
+    "widthM": 0.89
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/statuegoddess": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.46
+    ],
+    "widthM": 1.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.5,
+     0.0
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.46
+    ],
+    "widthM": 1.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.5,
+     0.0
+    ],
+    "widthM": 0.92
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.29,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.08,
+     -0.38
+    ],
+    "widthM": 1.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.29,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.73,
+     -0.01
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.29,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.08,
+     0.37
+    ],
+    "widthM": 1.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.29,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.56,
+     -0.01
+    ],
+    "widthM": 0.75
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.25
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.2,
+     0.0
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.25
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.2,
+     0.0
+    ],
+    "widthM": 0.5
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.89,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -20.84,
+     -10.26
+    ],
+    "widthM": 6.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.89,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -17.48,
+     -6.8
+    ],
+    "widthM": 6.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.89,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -20.84,
+     -3.34
+    ],
+    "widthM": 6.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.89,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -24.21,
+     -6.8
+    ],
+    "widthM": 6.92
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallfree01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.97,
+     -20.08
+    ],
+    "widthM": 1.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.97,
+     -8.32
+    ],
+    "widthM": 1.28
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.37,
+     6.42
+    ],
+    "widthM": 1.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.91,
+     6.42
+    ],
+    "widthM": 1.93
+   }
+  ]
+ },
+ "counts": {
+  "assets": 46,
+  "bounds": 156,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "ruin-monumental-v1",
+ "schemaVersion": 1
+}

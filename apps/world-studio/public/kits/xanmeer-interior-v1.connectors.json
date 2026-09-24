@@ -1,0 +1,2698 @@
+{
+ "assets": {
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.15,
+     0.0
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.15,
+     0.0
+    ],
+    "widthM": 0.62
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.11,
+     0.0
+    ],
+    "widthM": 0.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.11,
+     0.0
+    ],
+    "widthM": 0.52
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1way02x256": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.99,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.95
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.99,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.01
+    ],
+    "widthM": 1.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.99,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.97
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.99,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.01
+    ],
+    "widthM": 1.92
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1wayendcap02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.14,
+     -0.93
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.14,
+     0.93
+    ],
+    "widthM": 0.64
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arclutterpedestal01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.55
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.85,
+     0.31
+    ],
+    "widthM": 1.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.18
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.85,
+     0.31
+    ],
+    "widthM": 1.73
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arcluttertrough01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.05
+    ],
+    "widthM": 4.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.05,
+     0.0
+    ],
+    "widthM": 4.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.05
+    ],
+    "widthM": 4.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.05,
+     0.0
+    ],
+    "widthM": 4.1
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arconstellationstele": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.65,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -1.82
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.65,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     1.82
+    ],
+    "widthM": 0.15
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.46
+    ],
+    "widthM": 4.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     11.38
+    ],
+    "widthM": 4.42
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgecurve01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -4.51,
+     -7.74
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     -2.77
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -4.51,
+     2.21
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.49,
+     -2.77
+    ],
+    "widthM": 9.95
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampccw01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -4.51,
+     -0.46
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     4.51
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -4.51,
+     9.49
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.49,
+     4.51
+    ],
+    "widthM": 9.95
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampcw01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     4.51,
+     -0.46
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.49,
+     4.51
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     4.51,
+     9.49
+    ],
+    "widthM": 9.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     4.51
+    ],
+    "widthM": 9.95
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised01a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.61,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.08,
+     -1.1
+    ],
+    "widthM": 2.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.61,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.25,
+     -0.11
+    ],
+    "widthM": 1.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.61,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.08,
+     0.89
+    ],
+    "widthM": 2.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.61,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.09,
+     -0.11
+    ],
+    "widthM": 1.99
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised02a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.12,
+     -1.72
+    ],
+    "widthM": 3.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.95,
+     0.02
+    ],
+    "widthM": 3.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.12,
+     1.75
+    ],
+    "widthM": 3.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.7,
+     0.02
+    ],
+    "widthM": 3.47
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised03a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.95
+    ],
+    "widthM": 2.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.36,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.15,
+     0.0
+    ],
+    "widthM": 1.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.95
+    ],
+    "widthM": 2.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.36,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.15,
+     0.0
+    ],
+    "widthM": 1.9
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.6,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.41
+    ],
+    "widthM": 1.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.6,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.71,
+     0.0
+    ],
+    "widthM": 2.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.6,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.41
+    ],
+    "widthM": 1.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.6,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.71,
+     0.0
+    ],
+    "widthM": 2.82
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.41
+    ],
+    "widthM": 1.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.71,
+     0.0
+    ],
+    "widthM": 2.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.41
+    ],
+    "widthM": 1.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.71,
+     0.0
+    ],
+    "widthM": 2.82
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.31
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.33,
+     0.04
+    ],
+    "widthM": 0.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.39
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.33,
+     0.04
+    ],
+    "widthM": 0.7
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.32
+    ],
+    "widthM": 0.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.17
+    ],
+    "widthM": 0.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.66
+    ],
+    "widthM": 0.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.34,
+     0.17
+    ],
+    "widthM": 0.98
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arhitchpost01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.23
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.23,
+     0.0
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.23
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.27,
+     0.0
+    ],
+    "widthM": 0.46
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.6,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.04,
+     2.1
+    ],
+    "widthM": 0.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.6,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.22,
+     2.1
+    ],
+    "widthM": 0.51
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.11,
+     2.02
+    ],
+    "widthM": 1.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.29,
+     2.02
+    ],
+    "widthM": 1.55
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02left": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.11,
+     2.02
+    ],
+    "widthM": 1.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.31,
+     2.02
+    ],
+    "widthM": 1.55
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02right": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.31,
+     2.02
+    ],
+    "widthM": 1.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.11,
+     2.02
+    ],
+    "widthM": 1.55
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall01mine": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.93,
+     -3.64
+    ],
+    "widthM": 5.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.79,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.93,
+     3.64
+    ],
+    "widthM": 5.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.29,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.29,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.29,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.29,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.29,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.29,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.29,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.29,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhallbladeslots": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 5.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.73,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 5.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.73,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.11,
+     0.42
+    ],
+    "widthM": 0.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.11,
+     0.42
+    ],
+    "widthM": 0.85
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.11,
+     0.42
+    ],
+    "widthM": 0.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.11,
+     0.42
+    ],
+    "widthM": 0.85
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadendwall": [],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairs02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.39,
+     -1.41
+    ],
+    "widthM": 5.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.19,
+     0.0
+    ],
+    "widthM": 2.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.39,
+     1.41
+    ],
+    "widthM": 5.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.42,
+     0.0
+    ],
+    "widthM": 2.82
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairsbase02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitwalltallsecret01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 14.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 14.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 14.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 14.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.93,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.93,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.93,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.93,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorout01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.47,
+     -1.82
+    ],
+    "widthM": 0.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -1.47
+    ],
+    "widthM": 0.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.47,
+     -1.11
+    ],
+    "widthM": 0.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.11,
+     -1.47
+    ],
+    "widthM": 0.71
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatmid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwall01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -1.47
+    ],
+    "widthM": 0.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -1.47
+    ],
+    "widthM": 0.71
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -1.39
+    ],
+    "widthM": 0.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -1.39
+    ],
+    "widthM": 0.87
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arretractablebridge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.32,
+     -2.09
+    ],
+    "widthM": 7.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.75,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.11,
+     0.0
+    ],
+    "widthM": 4.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.32,
+     2.09
+    ],
+    "widthM": 7.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.75,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.48,
+     0.0
+    ],
+    "widthM": 4.18
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrmcornerexitrightnarrow01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.71,
+     -3.64
+    ],
+    "widthM": 6.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.73,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.71,
+     3.64
+    ],
+    "widthM": 6.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.15,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -6.44
+    ],
+    "widthM": 13.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.57,
+     -0.1
+    ],
+    "widthM": 12.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     6.25
+    ],
+    "widthM": 13.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.64,
+     -0.1
+    ],
+    "widthM": 12.69
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.42,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.52,
+     -4.57
+    ],
+    "widthM": 10.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.42,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.6,
+     -0.64
+    ],
+    "widthM": 7.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.42,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.52,
+     3.3
+    ],
+    "widthM": 10.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.42,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.64,
+     -0.64
+    ],
+    "widthM": 7.87
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepileceiling01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.58,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.49,
+     -3.36
+    ],
+    "widthM": 10.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.65,
+     0.7
+    ],
+    "widthM": 8.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.58,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.49,
+     4.75
+    ],
+    "widthM": 10.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.64,
+     0.7
+    ],
+    "widthM": 8.11
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arsteppeddias01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.63
+    ],
+    "widthM": 9.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.63,
+     0.0
+    ],
+    "widthM": 9.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.63
+    ],
+    "widthM": 9.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.63,
+     0.0
+    ],
+    "widthM": 9.26
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artable01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.97
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.86,
+     0.0
+    ],
+    "widthM": 1.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.97
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.86,
+     0.0
+    ],
+    "widthM": 1.94
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench2seater": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.92,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.96
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.92,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.88,
+     0.38
+    ],
+    "widthM": 2.67
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.92,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     1.71
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.92,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.84,
+     0.38
+    ],
+    "widthM": 2.67
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench4seater": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.92,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -1.74
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.92,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.88,
+     -0.02
+    ],
+    "widthM": 3.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.92,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     1.71
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.92,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.84,
+     -0.02
+    ],
+    "widthM": 3.45
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablesquare01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.97
+    ],
+    "widthM": 1.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.95,
+     0.0
+    ],
+    "widthM": 1.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.97
+    ],
+    "widthM": 1.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.95,
+     0.0
+    ],
+    "widthM": 1.94
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablethin01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.86,
+     0.0
+    ],
+    "widthM": 1.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.86,
+     0.0
+    ],
+    "widthM": 1.48
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall01dirt": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -3.24
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.55,
+     0.0
+    ],
+    "widthM": 6.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     3.24
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.73,
+     0.0
+    ],
+    "widthM": 6.48
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.24
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.2
+    ],
+    "widthM": 6.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.2
+    ],
+    "widthM": 6.88
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.24
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.2
+    ],
+    "widthM": 6.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.2
+    ],
+    "widthM": 6.88
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall4way01fancy": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.33,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.33,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.33,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.33,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallcorner01fancy": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.2,
+     -3.24
+    ],
+    "widthM": 6.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.24,
+     0.2
+    ],
+    "widthM": 6.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.2,
+     3.64
+    ],
+    "widthM": 6.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.2
+    ],
+    "widthM": 6.88
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallsecret01fancy": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.55,
+     -0.2
+    ],
+    "widthM": 6.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     3.24
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.73,
+     -0.2
+    ],
+    "widthM": 6.88
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhalltransnarrowflat": [],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwindow01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.19,
+     -0.55
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.19,
+     0.58
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/arpuzzlepillar": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.85,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.86
+    ],
+    "widthM": 1.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.86,
+     0.0
+    ],
+    "widthM": 1.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.85,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.86
+    ],
+    "widthM": 1.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.86,
+     0.0
+    ],
+    "widthM": 1.72
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonealteration01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.49
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.53
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneconjuration01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.49
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.53
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonedestruction01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.49
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.53
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneenchanting01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.49
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.53
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneillusion01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.49
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.53
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonerestoration01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.49
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.53
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.54,
+     0.02
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/artrapswingingblade01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.39,
+     0.0
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/arwelkyndclusterevil01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.37
+    ],
+    "widthM": 4.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.37,
+     0.0
+    ],
+    "widthM": 4.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.37
+    ],
+    "widthM": 4.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.37,
+     0.0
+    ],
+    "widthM": 4.74
+   }
+  ]
+ },
+ "counts": {
+  "assets": 68,
+  "bounds": 232,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "xanmeer-interior-v1",
+ "schemaVersion": 1
+}

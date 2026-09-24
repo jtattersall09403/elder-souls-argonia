@@ -1,0 +1,3620 @@
+{
+ "assets": {
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.77
+    ],
+    "widthM": 2.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.22,
+     0.0
+    ],
+    "widthM": 1.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.77
+    ],
+    "widthM": 2.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.22,
+     0.0
+    ],
+    "widthM": 1.54
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.77,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.02
+    ],
+    "widthM": 0.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.77,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.02
+    ],
+    "widthM": 0.68
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.46
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     0.03
+    ],
+    "widthM": 0.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.52
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     0.03
+    ],
+    "widthM": 0.98
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.68
+    ],
+    "widthM": 1.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.68,
+     0.0
+    ],
+    "widthM": 1.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.68
+    ],
+    "widthM": 1.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     0.0
+    ],
+    "widthM": 1.36
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.68
+    ],
+    "widthM": 2.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.14,
+     0.0
+    ],
+    "widthM": 1.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.68
+    ],
+    "widthM": 2.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.14,
+     0.0
+    ],
+    "widthM": 1.36
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.82,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.28,
+     0.0
+    ],
+    "widthM": 2.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.82,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.28,
+     0.0
+    ],
+    "widthM": 2.28
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.02
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.51,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.02,
+     0.0
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.02
+    ],
+    "widthM": 2.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.51,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.02,
+     0.0
+    ],
+    "widthM": 2.04
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.59,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.73
+    ],
+    "widthM": 5.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.59,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.73,
+     0.0
+    ],
+    "widthM": 5.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.59,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.73
+    ],
+    "widthM": 5.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.59,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.73,
+     0.0
+    ],
+    "widthM": 5.46
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.76,
+     -0.8
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.03,
+     -0.8
+    ],
+    "widthM": 0.15
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.93,
+     -0.04
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.93,
+     -0.04
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.76,
+     -0.8
+    ],
+    "widthM": 0.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.03,
+     -0.8
+    ],
+    "widthM": 0.15
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.39
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 4.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.39
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 4.78
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.71,
+     -2.45
+    ],
+    "widthM": 8.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 4.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.71,
+     2.45
+    ],
+    "widthM": 8.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.06,
+     0.0
+    ],
+    "widthM": 4.9
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.33
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 4.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.33
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 4.66
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.26,
+     -2.45
+    ],
+    "widthM": 7.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 4.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.26,
+     2.45
+    ],
+    "widthM": 7.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.15,
+     0.0
+    ],
+    "widthM": 4.9
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.82,
+     -3.64
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.82,
+     -0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     -1.82
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.17,
+     -2.33
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -0.0,
+     -1.17
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.17,
+     0.0
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.33,
+     -1.17
+    ],
+    "widthM": 2.33
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.17,
+     -3.64
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.17,
+     3.64
+    ],
+    "widthM": 2.33
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.74,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.85,
+     -3.64
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -0.0,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.74,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.85,
+     3.64
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.7,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.91,
+     -3.64
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.0,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.91,
+     3.64
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.81,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.64,
+     -7.28
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.64,
+     -0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.28,
+     -3.64
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.91,
+     -3.81
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -0.0,
+     -1.91
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.91,
+     -0.0
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.81,
+     -1.91
+    ],
+    "widthM": 3.81
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.16,
+     -3.64
+    ],
+    "widthM": 6.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.0,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.16,
+     3.64
+    ],
+    "widthM": 6.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.32,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.16,
+     -0.0
+    ],
+    "widthM": 6.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.16,
+     3.64
+    ],
+    "widthM": 6.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.32,
+     1.82
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.07,
+     -1.82
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.0,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.07,
+     1.82
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.14,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.16,
+     -3.64
+    ],
+    "widthM": 6.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.16,
+     -0.0
+    ],
+    "widthM": 6.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.32,
+     -1.82
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     0.0
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.23,
+     0.23
+    ],
+    "widthM": 0.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.47
+    ],
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.23,
+     0.23
+    ],
+    "widthM": 0.47
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.06
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.85,
+     0.4
+    ],
+    "widthM": 0.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.85
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.85,
+     0.4
+    ],
+    "widthM": 0.91
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.65,
+     0.23
+    ],
+    "widthM": 1.37
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.65,
+     0.23
+    ],
+    "widthM": 1.37
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.37,
+     0.08
+    ],
+    "widthM": 1.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.37,
+     0.08
+    ],
+    "widthM": 1.09
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.76
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.93,
+     0.0
+    ],
+    "widthM": 7.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.76
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.93,
+     0.0
+    ],
+    "widthM": 7.52
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.92,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.92,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.92,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.92,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.07
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.07,
+     0.0
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.07
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.07,
+     0.0
+    ],
+    "widthM": 6.14
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.96
+    ],
+    "widthM": 5.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.96,
+     0.0
+    ],
+    "widthM": 5.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.96
+    ],
+    "widthM": 5.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.96,
+     0.0
+    ],
+    "widthM": 5.92
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 26.69,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.1
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 26.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.1,
+     0.0
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 26.69,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.1
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 26.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.1,
+     0.0
+    ],
+    "widthM": 8.2
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 16.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -6.03
+    ],
+    "widthM": 12.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 16.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.03,
+     0.0
+    ],
+    "widthM": 12.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 16.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     6.03
+    ],
+    "widthM": 12.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 16.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.03,
+     0.0
+    ],
+    "widthM": 12.06
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 25.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -6.48
+    ],
+    "widthM": 12.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 25.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.48,
+     0.0
+    ],
+    "widthM": 12.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 25.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     6.48
+    ],
+    "widthM": 12.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 25.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.48,
+     0.0
+    ],
+    "widthM": 12.96
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -11.09
+    ],
+    "widthM": 31.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     15.53,
+     0.0
+    ],
+    "widthM": 22.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     11.09
+    ],
+    "widthM": 31.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -15.53,
+     0.0
+    ],
+    "widthM": 22.18
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -5.7
+    ],
+    "widthM": 11.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.7,
+     0.0
+    ],
+    "widthM": 11.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     5.7
+    ],
+    "widthM": 11.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.7,
+     0.0
+    ],
+    "widthM": 11.4
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.23,
+     -0.0
+    ],
+    "widthM": 5.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.28,
+     2.79
+    ],
+    "widthM": 5.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.23,
+     5.58
+    ],
+    "widthM": 5.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.73,
+     2.79
+    ],
+    "widthM": 5.58
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.23,
+     -0.0
+    ],
+    "widthM": 5.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.73,
+     2.79
+    ],
+    "widthM": 5.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.23,
+     5.58
+    ],
+    "widthM": 5.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.28,
+     2.79
+    ],
+    "widthM": 5.58
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.0
+    ],
+    "widthM": 4.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.28,
+     2.79
+    ],
+    "widthM": 5.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     5.58
+    ],
+    "widthM": 4.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.28,
+     2.79
+    ],
+    "widthM": 5.58
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.2,
+     -1.82
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.91,
+     -0.71
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.2,
+     0.4
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.31,
+     -0.71
+    ],
+    "widthM": 2.22
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.18,
+     -1.82
+    ],
+    "widthM": 2.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.95,
+     -0.71
+    ],
+    "widthM": 2.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.18,
+     0.4
+    ],
+    "widthM": 2.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.31,
+     -0.71
+    ],
+    "widthM": 2.22
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.48,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.51
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.48,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.51,
+     0.0
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.48,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.51
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.48,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.51,
+     0.0
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.51
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.51,
+     0.0
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.51
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.51,
+     0.0
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.51
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.51,
+     0.0
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.51
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.51,
+     0.0
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.54,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.51
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.54,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.51,
+     0.0
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.54,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.51
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.54,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.51,
+     0.0
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.84,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.84,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.86,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.54,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.86,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.54,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.91,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.91,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.95,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.91,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.76
+    ],
+    "widthM": 7.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.76,
+     0.0
+    ],
+    "widthM": 7.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.76
+    ],
+    "widthM": 7.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.76,
+     0.0
+    ],
+    "widthM": 7.52
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.81
+    ],
+    "widthM": 7.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.81,
+     0.0
+    ],
+    "widthM": 7.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.81
+    ],
+    "widthM": 7.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.81,
+     0.0
+    ],
+    "widthM": 7.62
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.99,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.1
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.99,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.1,
+     0.0
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.99,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.1
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.99,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.1,
+     0.0
+    ],
+    "widthM": 8.2
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 14.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.1
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 14.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.1,
+     0.0
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 14.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.1
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 14.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.1,
+     0.0
+    ],
+    "widthM": 8.2
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.93
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.93,
+     0.0
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.93
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.93,
+     0.0
+    ],
+    "widthM": 3.86
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.99
+    ],
+    "widthM": 3.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.99,
+     0.0
+    ],
+    "widthM": 3.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.99
+    ],
+    "widthM": 3.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.99,
+     0.0
+    ],
+    "widthM": 3.98
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.99,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.28
+    ],
+    "widthM": 4.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.99,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.28,
+     0.0
+    ],
+    "widthM": 4.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.99,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.28
+    ],
+    "widthM": 4.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.99,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.28,
+     0.0
+    ],
+    "widthM": 4.56
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.06
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.06
+    ],
+    "widthM": 3.53
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.19,
+     -1.71
+    ],
+    "widthM": 6.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.06
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.19,
+     1.82
+    ],
+    "widthM": 6.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.26,
+     0.06
+    ],
+    "widthM": 3.53
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.18,
+     -1.71
+    ],
+    "widthM": 6.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.28,
+     0.06
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.18,
+     1.82
+    ],
+    "widthM": 6.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.06
+    ],
+    "widthM": 3.53
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.97,
+     -3.64
+    ],
+    "widthM": 5.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.71,
+     -0.97
+    ],
+    "widthM": 5.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.97,
+     1.71
+    ],
+    "widthM": 5.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     -0.97
+    ],
+    "widthM": 5.35
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.97,
+     -3.64
+    ],
+    "widthM": 5.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.71,
+     -0.97
+    ],
+    "widthM": 5.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.97,
+     1.71
+    ],
+    "widthM": 5.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     -0.97
+    ],
+    "widthM": 5.35
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.68,
+     -4.1
+    ],
+    "widthM": 5.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     -1.14
+    ],
+    "widthM": 5.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.68,
+     1.82
+    ],
+    "widthM": 5.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.28,
+     -1.14
+    ],
+    "widthM": 5.92
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.96,
+     -1.93
+    ],
+    "widthM": 3.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.91,
+     0.0
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.96,
+     1.93
+    ],
+    "widthM": 3.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.84,
+     0.0
+    ],
+    "widthM": 3.86
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.03
+    ],
+    "widthM": 3.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.03
+    ],
+    "widthM": 3.58
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.8,
+     -1.76
+    ],
+    "widthM": 3.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.03
+    ],
+    "widthM": 3.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.8,
+     1.82
+    ],
+    "widthM": 3.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.03
+    ],
+    "widthM": 3.58
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 16.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.88
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 16.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 3.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 16.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.88
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 16.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 3.76
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 16.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.88
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 16.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 3.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 16.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.88
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 16.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 3.76
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.75,
+     -3.47
+    ],
+    "widthM": 13.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.76,
+     0.08
+    ],
+    "widthM": 7.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.75,
+     3.64
+    ],
+    "widthM": 13.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.27,
+     0.08
+    ],
+    "widthM": 7.11
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.71,
+     -3.47
+    ],
+    "widthM": 13.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.81,
+     0.08
+    ],
+    "widthM": 7.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.71,
+     3.64
+    ],
+    "widthM": 13.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.22,
+     0.08
+    ],
+    "widthM": 7.11
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.71
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.06,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     1.05
+    ],
+    "widthM": 5.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.81
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.06,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     1.05
+    ],
+    "widthM": 5.52
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.17,
+     -4.07
+    ],
+    "widthM": 7.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.65,
+     -0.29
+    ],
+    "widthM": 7.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.17,
+     3.5
+    ],
+    "widthM": 7.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.99,
+     -0.29
+    ],
+    "widthM": 7.57
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.17,
+     -4.07
+    ],
+    "widthM": 7.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.65,
+     -0.29
+    ],
+    "widthM": 7.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.17,
+     3.5
+    ],
+    "widthM": 7.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.99,
+     -0.29
+    ],
+    "widthM": 7.57
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.19,
+     0.0
+    ],
+    "widthM": 2.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.19,
+     0.0
+    ],
+    "widthM": 2.56
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.33
+    ],
+    "widthM": 4.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.4,
+     0.0
+    ],
+    "widthM": 2.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.33
+    ],
+    "widthM": 4.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.41,
+     0.0
+    ],
+    "widthM": 2.66
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.04,
+     0.0
+    ],
+    "widthM": 1.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.6,
+     0.0
+    ],
+    "widthM": 1.74
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.06,
+     -5.53
+    ],
+    "widthM": 11.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.46,
+     -0.18
+    ],
+    "widthM": 10.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.06,
+     5.18
+    ],
+    "widthM": 11.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.59,
+     -0.18
+    ],
+    "widthM": 10.71
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -6.44
+    ],
+    "widthM": 13.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.57,
+     -0.1
+    ],
+    "widthM": 12.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     6.25
+    ],
+    "widthM": 13.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.64,
+     -0.1
+    ],
+    "widthM": 12.69
+   }
+  ],
+  "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.42,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.52,
+     -4.57
+    ],
+    "widthM": 10.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.42,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.6,
+     -0.64
+    ],
+    "widthM": 7.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.42,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.52,
+     3.3
+    ],
+    "widthM": 10.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.42,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.64,
+     -0.64
+    ],
+    "widthM": 7.87
+   }
+  ]
+ },
+ "counts": {
+  "assets": 88,
+  "bounds": 312,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "imperial-keep",
+ "schemaVersion": 1
+}

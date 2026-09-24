@@ -37,15 +37,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.992,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.9918,
+    "p50": -0.9918,
+    "p75": -0.9918,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.9918
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v001",
@@ -82,15 +95,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.16,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1597,
+    "p50": -0.1597,
+    "p75": -0.1597,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1597
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housechampintwalla15v002",
@@ -127,15 +153,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.16,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1597,
+    "p50": -0.1597,
+    "p75": -0.1597,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1597
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/houseglandint001",
@@ -179,15 +218,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 4.08,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -4.0803,
+    "p50": -4.0803,
+    "p75": -4.0803,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -4.0803
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet001",
@@ -232,15 +284,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -3.024,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 3.0236,
+    "p50": 3.0236,
+    "p75": 3.0236,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 3.0236
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintet90v001",
@@ -279,15 +344,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -3.395,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 3.3952,
+    "p50": 3.3952,
+    "p75": 3.3952,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 3.3952
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001",
@@ -326,15 +404,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.643,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.6432,
+    "p50": -0.6432,
+    "p75": -0.6432,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.6432
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:telvanni/tel_int_connector_01",
@@ -367,15 +458,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.296,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "interior-zero",
-     "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
+     "policyId": "deck",
+     "fitPolicy": "authored placement-policies.json policy deck: Reviewed rests-on-a-host policy (16h round 13): a piece built to rest on another piece (the Telvanni treehouse connector on its tree or platform) takes the deck anchor class where its mined contact vote is ambiguous; the host supplies the datum, so terrain burial is forbidden, as for interior-zero."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2078,
+    "p50": -0.1376,
+    "p75": -0.0268,
+    "n": 14,
+    "slopeTermMPerDeg": -0.01778,
+    "evidence": "plugin"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:telvanni/tel_int_gourdhouse01",
@@ -412,15 +511,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.254,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2537,
+    "p50": -0.2537,
+    "p75": -0.2537,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2537
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:telvanni/telv_platform01",
@@ -457,15 +569,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.367,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.3672,
+    "p50": -0.3672,
+    "p75": -0.3672,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3672
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "vanilla:furniture/commontabletwobenches",
@@ -513,15 +638,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1138,
+    "p50": 0.0,
+    "p75": 0.3484,
+    "n": 6,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:furniture/common/commonbench01",
@@ -569,15 +702,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0441,
+    "n": 80,
+    "slopeTermMPerDeg": 0.00261,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue",
@@ -612,15 +753,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.008,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0079,
+    "p50": 0.0079,
+    "p75": 0.0079,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0079
+   },
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "bmv:clutter/oaristys/the witcher/lamps/lamp_elven",
@@ -657,14 +811,27 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.001,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
+   },
+   "designedSinkM": {
+    "p25": 0.0007,
+    "p50": 0.0007,
+    "p75": 0.0007,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill (plugin-unsupported)"
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0007
    }
   },
   {
@@ -713,15 +880,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.059,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1116,
+    "p50": -0.0663,
+    "p75": -0.0159,
+    "n": 10,
+    "slopeTermMPerDeg": -0.00023,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -769,15 +944,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0067,
+    "p50": 0.0045,
+    "p75": 0.1078,
+    "n": 568,
+    "slopeTermMPerDeg": -0.00206,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin"
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\bmv-treehouse-int.glb",
@@ -836,6 +1019,11 @@
   "images": 9,
   "imageBytesAfter": 2174864,
   "warnings": [],
-  "sha256": "7f1e2c111ae7f0d3135c31899eecb282ffa4faea5851f922d64a31186c0c8212"
+  "sha256": "7f1e2c111ae7f0d3135c31899eecb282ffa4faea5851f922d64a31186c0c8212",
+  "sidecarBytes": {
+   "connectors": 11178,
+   "footprints": 29519,
+   "interiors": 7331
+  }
  }
 }

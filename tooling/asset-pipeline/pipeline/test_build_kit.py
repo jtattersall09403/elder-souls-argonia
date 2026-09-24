@@ -5,9 +5,11 @@ import pytest
 
 from pathlib import Path
 
+from . import build_kit
 from .build_kit import (
     CARD_ATLAS_MAX_PX, DirSource, RarSource, _default_collision, _flat_lod_of,
-    _part_specs, bakes_own_card, card_resolution_px, pack_card_tiles, resolve_bake_card,
+    _part_specs, bakes_own_card, card_resolution_px, pack_card_tiles, plan_lod_levels,
+    resolve_bake_card,
     resolve_lod_ratios,
     set_alpha_modes,
 )
@@ -216,6 +218,39 @@ def test_card_packing_rule_is_identical_in_the_blender_half():
     assert host.group(0) == blender.group(0)
 
 
+def test_a_mesh_under_the_floor_still_publishes_a_full_ladder_sharing_its_primitive():
+    # 16h part 1 round 4: a 32-triangle ruin block (sirenroot arblockfreehollow)
+    # used to publish ONE tier because levels the floor left identical were
+    # skipped, and the settlement runtime refuses a chain shorter than three.
+    # Every configured level is emitted; one the floor leaves identical to an
+    # earlier level reuses that level's mesh (one glTF primitive, no copy).
+    levels = plan_lod_levels([32], [0.35, 0.12], 300)
+    assert [row["level"] for row in levels] == [1, 2]
+    assert [row["sharesLevel"] for row in levels] == [0, 0]
+    # 500 triangles: level 1 decimates to the floor, level 2 lands on the
+    # same floor and shares level 1 rather than duplicating it.
+    levels = plan_lod_levels([500], [0.35, 0.12], 300)
+    assert [row["sharesLevel"] for row in levels] == [None, 1]
+    assert levels[0]["effectives"] == [0.6]
+    # A big mesh decimates at every level.
+    levels = plan_lod_levels([12000], [0.35, 0.12], 300)
+    assert [row["sharesLevel"] for row in levels] == [None, None]
+    assert [row["effectives"] for row in levels] == [[0.35], [0.12]]
+    # Multi-part assets compare the whole part list.
+    levels = plan_lod_levels([100, 5000], [0.35, 0.12], 300)
+    assert [row["sharesLevel"] for row in levels] == [None, None]
+
+
+def test_lod_level_plan_is_identical_in_the_blender_half():
+    import re
+    here = Path(__file__).resolve().parent
+    pattern = re.compile(r"\ndef plan_lod_levels.*?\n    return levels\n", re.S)
+    host = pattern.search((here / "build_kit.py").read_text())
+    blender = pattern.search((here / "blender" / "build_kit.py").read_text())
+    assert host and blender
+    assert host.group(0) == blender.group(0)
+
+
 def test_lod_ratios_resolve_entry_then_category_then_kit():
     kit = {"lodRatios": [0.35, 0.12], "lodRatiosByCategory": {"rock": []}}
     assert resolve_lod_ratios({}, kit, "tree") == [0.35, 0.12]
@@ -307,3 +342,80 @@ def test_shipped_flora_cards_are_baked_from_their_own_mesh():
             if reasons:
                 wrong.append(f"{asset['id']}: " + "; ".join(reasons))
     assert not wrong, "\n".join(wrong)
+
+
+def test_a_contested_texture_goes_to_the_kits_stated_pool():
+    """`build_kit` fills each texture path once, so pool ORDER decides whose
+    copy a kit ships. Before this, order was dict order and BM&V's texturepack
+    won `textures/landscape/rocks01.dds` in flora-province-v1 over Tropical
+    Skyrim's (backlog row, found 2026-09-16)."""
+    wanted = {"bmv": {"textures/landscape/rocks01.dds", "textures/bmv/only.dds"},
+              "vanilla": {"textures/landscape/rocks01.dds"},
+              "tropical": {"textures/landscape/rocks01.dds"}}
+    kit = {"id": "flora-province-v1", "texturePoolPrecedence": ["tropical", "bmv"]}
+    assert build_kit.texture_pool_order(kit, wanted) == ["tropical", "bmv", "vanilla"]
+    assert build_kit.contested_textures(wanted) == {"textures/landscape/rocks01.dds"}
+
+
+def test_pool_order_without_a_stated_precedence_is_still_deterministic():
+    wanted = {"vanilla": {"a.dds"}, "bmv": {"a.dds"}}
+    assert build_kit.texture_pool_order({"id": "k"}, wanted) == ["bmv", "vanilla"]
+
+
+def test_a_precedence_row_for_a_pool_the_kit_does_not_source_fails_the_build():
+    with pytest.raises(ValueError, match="sources nothing from"):
+        build_kit.texture_pool_order(
+            {"id": "k", "texturePoolPrecedence": ["nowhere"]}, {"bmv": {"a.dds"}})
+
+
+# --------------------------------------------------------------------------- #
+# 16h tooling speed lane B2: whole kits built concurrently
+# --------------------------------------------------------------------------- #
+def _fake_build(kit_id, vault):
+    import os
+    import time
+    time.sleep(0.3)
+    return {"kit": kit_id, "pid": os.getpid()}
+
+
+def test_build_many_runs_kits_concurrently_in_input_order():
+    import time
+    t = time.perf_counter()
+    out = build_kit.build_many(["a", "b", "a"], Path("/vault"), jobs=2,
+                               builder=_fake_build)
+    assert [s["kit"] for s in out] == ["a", "b"]           # deduplicated, in order
+    assert out[0]["pid"] != out[1]["pid"]                  # one process per kit
+    assert time.perf_counter() - t < 0.55                  # the two overlapped
+
+
+def test_build_many_serial_when_jobs_is_one():
+    out = build_kit.build_many(["a", "b"], Path("/vault"), jobs=1, builder=_fake_build)
+    assert [s["kit"] for s in out] == ["a", "b"]
+
+
+def test_default_kit_jobs_is_recorded():
+    assert 1 <= build_kit.DEFAULT_KIT_JOBS <= 3
+
+
+@pytest.mark.skipif(not __import__("os").environ.get("ES_TOOLCHAIN_TESTS"),
+                    reason="set ES_TOOLCHAIN_TESTS=1: builds two kits under Wine+Blender")
+def test_two_tiny_kits_build_identically_serial_and_concurrent(tmp_path, monkeypatch):
+    config = tmp_path / "config"
+    config.mkdir()
+    assets = {"b2-tiny-a": "vanilla:clutter/signage/roadsigns/roadsignpost",
+              "b2-tiny-b": "vanilla:clutter/books/note01/note01"}
+    manifests = {}
+    for n in (1, 2):
+        for kit_id, asset in assets.items():
+            (config / f"{kit_id}.json").write_text(json.dumps({
+                "id": kit_id, "output": str(tmp_path / "out" / f"{kit_id}.glb"),
+                "lodRatios": [0.35], "publish": False, "assets": [{"asset": asset}]}))
+        monkeypatch.setattr(build_kit, "CONFIG", config)
+        # a throwaway kit id has no authored placement policy; that pass is
+        # host-side and serial either way, so it is not what is compared here
+        monkeypatch.setattr(build_kit, "apply_placement_metadata", lambda *a: None)
+        build_kit.build_many(list(assets), build_kit.DEFAULT_VAULT, jobs=n)
+        # the same output path both times: the manifest records it
+        manifests[n] = {k: (tmp_path / "out" / f"{k}.kit.json").read_bytes()
+                        for k in assets}
+    assert manifests[1] == manifests[2]

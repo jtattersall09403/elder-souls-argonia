@@ -313,7 +313,7 @@
   {
    "asset": "composite:works/stockade-scaffold-3stage",
    "compose": {
-    "note": "The same 2.73 m stage rule (vanilla:t0019, 28 placements) run to three stages, ~8.2 m of staging in one parcel, with the railed deck top on the head of the stack (vanilla:t0061, 17 placements, puts a `stockadescaffoldtop0sided01` 2.73 m above its base for exactly this reason). Used where a slipway or hull-on-stocks needs height rather than footprint.",
+    "note": "The same 2.73 m stage rule (vanilla:t0019, 28 placements) run to three stages, ~8.2 m of staging in one parcel, three bases and no deck: the composite carries no top plate (16h K10 audit). A deck goes on as its own placement, `stockadescaffoldtop0sided01` 2.72 m above the head base, as the plugin puts it on a 4-sided base (vanilla:t0474, 7 placements; vanilla:t0061 is the same plate on the 0-sided base). Used where a slipway or hull-on-stocks needs height rather than footprint.",
     "parts": [
      {
       "asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01"

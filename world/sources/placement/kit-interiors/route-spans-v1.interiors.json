@@ -1,0 +1,538 @@
+{
+ "assets": {
+  "bmv:architecture/huts/exterior/bridge01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 60.7,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 10 times with other statics to one side; the side they left open, at 61\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 0.069,
+   "headroomM": 1.73,
+   "heightM": 3.13,
+   "interior": "none",
+   "medianWallM": 0.11,
+   "planAreaM2": 11.32,
+   "planCentreM": [
+    -0.07,
+    0.14
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "name token 'bridge' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "bmv:architecture/huts/exterior/steps01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.45,
+   "interior": "none",
+   "planAreaM2": 1.9,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.9 m\u00b2 plan, 0.5 m tall)"
+  },
+  "bmv:architecture/huts/exterior/steps02": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 55.4,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 7 times with other statics to one side; the side they left open, at 55\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 3.16,
+   "interior": "none",
+   "medianWallM": 0.7,
+   "planAreaM2": 11.33,
+   "planCentreM": [
+    0.05,
+    0.11
+   ],
+   "provenance": [],
+   "ringFraction": 0.681,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "bmv:architecture/huts/exterior/steps03": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.57,
+   "interior": "none",
+   "planAreaM2": 2.38,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.4 m\u00b2 plan, 0.6 m tall)"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbase0sided02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.73,
+   "interior": "none",
+   "medianWallM": 1.82,
+   "planAreaM2": 9.04,
+   "planCentreM": [
+    0.0,
+    0.0
+   ],
+   "provenance": [],
+   "ringFraction": 0.111,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "category 'clutter' is never a building"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldbase4sided01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 184.3,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 104 times with other statics to one side; the side they left open, at 184\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 2.73,
+   "interior": "none",
+   "medianWallM": 1.77,
+   "planAreaM2": 14.18,
+   "planCentreM": [
+    0.0,
+    0.0
+   ],
+   "provenance": [],
+   "ringFraction": 0.556,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "category 'clutter' is never a building"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldtop0sided01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 68.1,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 124 times with other statics to one side; the side they left open, at 68\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "heightM": 0.28,
+   "interior": "none",
+   "planAreaM2": 13.0,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (13.0 m\u00b2 plan, 0.3 m tall)"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldtop2sided01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 3.5,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 16 times with other statics to one side; the side they left open, at 3\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "heightM": 0.96,
+   "interior": "none",
+   "planAreaM2": 13.02,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (13.0 m\u00b2 plan, 1.0 m tall)"
+  },
+  "vanilla:clutter/stockade/stockadescaffoldtop3sided01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 301.2,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 6 times with other statics to one side; the side they left open, at 301\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "heightM": 0.96,
+   "interior": "none",
+   "planAreaM2": 12.97,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (13.0 m\u00b2 plan, 1.0 m tall)"
+  },
+  "vanilla:dungeons/nordic/exterior/dragonbridge01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 348.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 348\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 21.74,
+   "heightM": 42.84,
+   "interior": "none",
+   "medianWallM": 35.46,
+   "planAreaM2": 1009.54,
+   "planCentreM": [
+    0.0,
+    0.0
+   ],
+   "provenance": [],
+   "ringFraction": 0.111,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'bridge' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplatshaftbot01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.46,
+   "interior": "none",
+   "planAreaM2": 53.0,
+   "provenance": [],
+   "sizeClass": "medium",
+   "why": "too small to hold an interior (53.0 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapl01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 270.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 163 times with other statics to one side; the side they left open, at 270\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.3,
+   "heightM": 7.31,
+   "interior": "none",
+   "medianWallM": 0.97,
+   "planAreaM2": 43.61,
+   "planCentreM": [
+    -2.04,
+    4.94
+   ],
+   "provenance": [],
+   "ringFraction": 0.597,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "open sided \u2014 only 60% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapr01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 90.1,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 171 times with other statics to one side; the side they left open, at 90\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.3,
+   "heightM": 7.31,
+   "interior": "none",
+   "medianWallM": 0.97,
+   "planAreaM2": 43.61,
+   "planCentreM": [
+    2.04,
+    4.94
+   ],
+   "provenance": [],
+   "ringFraction": 0.597,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "open sided \u2014 only 60% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 5.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 7.31,
+   "interior": "none",
+   "medianWallM": 0.45,
+   "planAreaM2": 77.53,
+   "planCentreM": [
+    0.0,
+    1.24
+   ],
+   "provenance": [],
+   "ringFraction": 0.472,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattower01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 180.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 83 times with other statics to one side; the side they left open, at 180\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 21.37,
+   "heightM": 26.82,
+   "interior": "none",
+   "medianWallM": 1.63,
+   "planAreaM2": 14.91,
+   "planCentreM": [
+    -0.0,
+    3.35
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattower02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 180.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 6 times with other statics to one side; the side they left open, at 180\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 21.38,
+   "heightM": 26.81,
+   "interior": "none",
+   "medianWallM": 1.97,
+   "planAreaM2": 24.12,
+   "planCentreM": [
+    0.0,
+    0.0
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridge01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 180.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 170 times with other statics to one side; the side they left open, at 180\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "heightM": 1.48,
+   "interior": "none",
+   "planAreaM2": 15.48,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (15.5 m\u00b2 plan, 1.5 m tall)"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.37,
+   "interior": "none",
+   "planAreaM2": 2.1,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.1 m\u00b2 plan, 1.4 m tall)"
+  },
+  "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 0.0,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 106 times with other statics to one side; the side they left open, at 0\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 0.175,
+   "headroomM": 1.81,
+   "heightM": 3.59,
+   "interior": "none",
+   "medianWallM": 1.11,
+   "planAreaM2": 10.82,
+   "planCentreM": [
+    -0.13,
+    -0.52
+   ],
+   "provenance": [],
+   "ringFraction": 0.875,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a crawl space, not a room \u2014 only 1.8 m of headroom (a room needs 2.2 m), so this is the underside of a deck, plaza or platform"
+  },
+  "vanilla:landscape/bridges/bridge01": {
+   "category": "bridge",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 256.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 256\u00b0 in the piece's own frame carries 2.10x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 14.36,
+   "heightM": 17.21,
+   "interior": "none",
+   "medianWallM": 1.85,
+   "planAreaM2": 357.56,
+   "planCentreM": [
+    -0.0,
+    -3.01
+   ],
+   "provenance": [],
+   "ringFraction": 0.583,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'bridge' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:landscape/bridges/bridgelong01": {
+   "category": "bridge",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 74.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 74\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 15.33,
+   "heightM": 17.21,
+   "interior": "none",
+   "medianWallM": 3.82,
+   "planAreaM2": 449.95,
+   "planCentreM": [
+    -0.0,
+    -3.73
+   ],
+   "provenance": [],
+   "ringFraction": 0.472,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'bridge' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:landscape/bridges/bridgenarrow01": {
+   "category": "bridge",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 14.14,
+   "heightM": 16.16,
+   "interior": "none",
+   "medianWallM": 1.37,
+   "planAreaM2": 113.38,
+   "planCentreM": [
+    -0.0,
+    -2.35
+   ],
+   "provenance": [],
+   "ringFraction": 0.472,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'bridge' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:landscape/bridges/bridgeshort01": {
+   "category": "bridge",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 254.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 254\u00b0 in the piece's own frame carries 3.98x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 14.14,
+   "heightM": 16.16,
+   "interior": "none",
+   "medianWallM": 1.66,
+   "planAreaM2": 174.79,
+   "planCentreM": [
+    -0.0,
+    -2.35
+   ],
+   "provenance": [],
+   "ringFraction": 0.583,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'bridge' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  }
+ },
+ "kit": "route-spans-v1",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

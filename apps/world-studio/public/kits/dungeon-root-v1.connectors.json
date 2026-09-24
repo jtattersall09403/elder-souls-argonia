@@ -1,0 +1,4814 @@
+{
+ "assets": {
+  "bmv:architecture/citebosmer/houses/housechampint001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -4.52
+    ],
+    "widthM": 14.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.04,
+     1.25
+    ],
+    "widthM": 11.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     7.01
+    ],
+    "widthM": 14.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.09,
+     1.25
+    ],
+    "widthM": 11.53
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintdoor01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     0.39
+    ],
+    "widthM": 2.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     6.95
+    ],
+    "widthM": 2.77
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.05,
+     4.09
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.05,
+     10.68
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v002": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.05,
+     4.09
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.05,
+     10.68
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwalla15v003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     4.09
+    ],
+    "widthM": 0.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     10.54
+    ],
+    "widthM": 0.65
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwalla45v001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.05,
+     4.09
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.05,
+     9.35
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwalla45v002": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.05,
+     4.09
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.05,
+     9.35
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwalla45v003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     4.09
+    ],
+    "widthM": 0.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     9.33
+    ],
+    "widthM": 0.53
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwindow001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.52,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -6.12,
+     -0.91
+    ],
+    "widthM": 1.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.52,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -5.46,
+     -0.08
+    ],
+    "widthM": 1.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.52,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -6.12,
+     0.75
+    ],
+    "widthM": 1.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.52,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.79,
+     -0.08
+    ],
+    "widthM": 1.66
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwindow002": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -5.23,
+     2.49
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.36,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -4.57,
+     3.42
+    ],
+    "widthM": 1.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -5.23,
+     4.35
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.36,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.89,
+     3.42
+    ],
+    "widthM": 1.86
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampintwindow003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.77,
+     5.25
+    ],
+    "widthM": 1.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.89,
+     5.72
+    ],
+    "widthM": 0.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.77,
+     6.19
+    ],
+    "widthM": 1.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.66,
+     5.72
+    ],
+    "widthM": 0.94
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandint001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.75
+    ],
+    "widthM": 7.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.75,
+     0.0
+    ],
+    "widthM": 7.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.75
+    ],
+    "widthM": 7.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.75,
+     0.0
+    ],
+    "widthM": 7.5
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandintdoor001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.09,
+     2.9
+    ],
+    "widthM": 1.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.86,
+     3.3
+    ],
+    "widthM": 0.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.09,
+     3.71
+    ],
+    "widthM": 1.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.67,
+     3.3
+    ],
+    "widthM": 0.81
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandinttrapetdn001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.27
+    ],
+    "widthM": 1.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.81,
+     -2.37
+    ],
+    "widthM": 1.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     -1.46
+    ],
+    "widthM": 1.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.81,
+     -2.37
+    ],
+    "widthM": 1.81
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandinttraprcdn001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.68
+    ],
+    "widthM": 1.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.81,
+     -2.74
+    ],
+    "widthM": 1.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     -1.8
+    ],
+    "widthM": 1.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.81,
+     -2.74
+    ],
+    "widthM": 1.88
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandinttraprcup001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.76
+    ],
+    "widthM": 2.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.08,
+     -2.59
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     -1.43
+    ],
+    "widthM": 2.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.08,
+     -2.59
+    ],
+    "widthM": 2.33
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandinttrapssup001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.61
+    ],
+    "widthM": 1.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.97,
+     -2.69
+    ],
+    "widthM": 1.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     -1.78
+    ],
+    "widthM": 1.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.97,
+     -2.69
+    ],
+    "widthM": 1.83
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandintwindowet001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.72,
+     0.25
+    ],
+    "widthM": 1.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     1.42
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.72,
+     2.58
+    ],
+    "widthM": 1.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.57,
+     1.42
+    ],
+    "widthM": 2.33
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandintwindowet002": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.59,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.17,
+     1.37
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.59,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.68,
+     2.21
+    ],
+    "widthM": 1.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.59,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.17,
+     3.06
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.59,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.34,
+     2.21
+    ],
+    "widthM": 1.69
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandintwindowet003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.7,
+     1.53
+    ],
+    "widthM": 1.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.34,
+     2.04
+    ],
+    "widthM": 1.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.7,
+     2.56
+    ],
+    "widthM": 1.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.06,
+     2.04
+    ],
+    "widthM": 1.03
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandintwindowrc001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.94,
+     3.39
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.5,
+     3.39
+    ],
+    "widthM": 0.66
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintdooret01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     6.76
+    ],
+    "widthM": 2.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.46,
+     9.01
+    ],
+    "widthM": 4.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     11.26
+    ],
+    "widthM": 2.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.31,
+     9.01
+    ],
+    "widthM": 4.5
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintdoorrc01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.06,
+     9.23
+    ],
+    "widthM": 2.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.46,
+     10.43
+    ],
+    "widthM": 2.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.06,
+     11.63
+    ],
+    "widthM": 2.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.33,
+     10.43
+    ],
+    "widthM": 2.4
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintet001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -11.51
+    ],
+    "widthM": 23.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.51,
+     0.0
+    ],
+    "widthM": 23.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     11.51
+    ],
+    "widthM": 23.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -11.51,
+     0.0
+    ],
+    "widthM": 23.02
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintet90v001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     6.71,
+     -10.33
+    ],
+    "widthM": 9.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.51,
+     -1.81
+    ],
+    "widthM": 17.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     6.71,
+     6.7
+    ],
+    "widthM": 9.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.91,
+     -1.81
+    ],
+    "widthM": 17.03
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintrc001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.36,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -12.07
+    ],
+    "widthM": 24.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.36,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.07,
+     0.0
+    ],
+    "widthM": 24.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.36,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     12.07
+    ],
+    "widthM": 24.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.36,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -12.07,
+     0.0
+    ],
+    "widthM": 24.14
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintrc90v001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     6.99,
+     -10.57
+    ],
+    "widthM": 10.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.07,
+     -2.14
+    ],
+    "widthM": 16.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     6.99,
+     6.29
+    ],
+    "widthM": 10.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.91,
+     -2.14
+    ],
+    "widthM": 16.86
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintrcet90v001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.94,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     6.83,
+     -10.43
+    ],
+    "widthM": 9.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.94,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.74,
+     -1.56
+    ],
+    "widthM": 17.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.94,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     6.83,
+     7.3
+    ],
+    "widthM": 9.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.94,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.91,
+     -1.56
+    ],
+    "widthM": 17.73
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintss001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -10.94
+    ],
+    "widthM": 21.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.75,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     10.94,
+     0.0
+    ],
+    "widthM": 21.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     10.94
+    ],
+    "widthM": 21.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.75,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -10.94,
+     0.0
+    ],
+    "widthM": 21.88
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwallet001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.78,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.56,
+     0.17
+    ],
+    "widthM": 2.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.78,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     4.97,
+     0.17
+    ],
+    "widthM": 2.07
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwallet002": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.56,
+     0.17
+    ],
+    "widthM": 2.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     4.97,
+     0.17
+    ],
+    "widthM": 2.07
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwallet003": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.4,
+     0.2
+    ],
+    "widthM": 2.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     4.97,
+     0.2
+    ],
+    "widthM": 2.03
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwallrc001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.56,
+     0.05
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     4.97,
+     0.05
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwallrc002": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.56,
+     0.05
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     4.97,
+     0.05
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwallrc003": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.4,
+     -0.04
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     4.97,
+     -0.04
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwindowet001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -4.33,
+     9.05
+    ],
+    "widthM": 1.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -3.36,
+     9.62
+    ],
+    "widthM": 1.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -4.33,
+     10.18
+    ],
+    "widthM": 1.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.31,
+     9.62
+    ],
+    "widthM": 1.13
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwindowet002": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.89,
+     9.66
+    ],
+    "widthM": 1.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.12,
+     10.3
+    ],
+    "widthM": 1.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.89,
+     10.94
+    ],
+    "widthM": 1.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.66,
+     10.3
+    ],
+    "widthM": 1.28
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwindowet003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.84,
+     10.09
+    ],
+    "widthM": 1.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -0.08,
+     10.66
+    ],
+    "widthM": 1.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.84,
+     11.24
+    ],
+    "widthM": 1.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.6,
+     10.66
+    ],
+    "widthM": 1.15
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwindowrc001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.56,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -5.35,
+     9.72
+    ],
+    "widthM": 0.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.56,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.48,
+     9.72
+    ],
+    "widthM": 0.55
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwindowrc002": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -2.18,
+     11.06
+    ],
+    "widthM": 0.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.55,
+     11.06
+    ],
+    "widthM": 0.43
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncintwindowrc003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.27,
+     10.49
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.06,
+     10.94
+    ],
+    "widthM": 0.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.27,
+     11.39
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.49,
+     10.94
+    ],
+    "widthM": 0.9
+   }
+  ],
+  "bmv:architecture/philscaves/cave2": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.69,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     10.93,
+     -14.57
+    ],
+    "widthM": 21.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     21.85,
+     -3.65
+    ],
+    "widthM": 21.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.69,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     10.93,
+     7.28
+    ],
+    "widthM": 21.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.0,
+     -3.65
+    ],
+    "widthM": 21.85
+   }
+  ],
+  "bmv:architecture/philscaves/cave3": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.3,
+     -18.21
+    ],
+    "widthM": 11.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.32,
+     -9.11
+    ],
+    "widthM": 18.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.3,
+     -0.0
+    ],
+    "widthM": 11.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.93,
+     -9.11
+    ],
+    "widthM": 18.21
+   }
+  ],
+  "bmv:architecture/philscaves/small/cap": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.55,
+     0.34
+    ],
+    "widthM": 0.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.55,
+     0.34
+    ],
+    "widthM": 0.69
+   }
+  ],
+  "bmv:architecture/philscaves/small/cor01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -5.46
+    ],
+    "widthM": 10.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.39,
+     0.0
+    ],
+    "widthM": 10.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     5.47
+    ],
+    "widthM": 10.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.46,
+     0.0
+    ],
+    "widthM": 10.93
+   }
+  ],
+  "bmv:architecture/philscaves/small/cor02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -5.46
+    ],
+    "widthM": 10.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.43,
+     0.0
+    ],
+    "widthM": 10.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     5.46
+    ],
+    "widthM": 10.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.46,
+     0.0
+    ],
+    "widthM": 10.92
+   }
+  ],
+  "bmv:architecture/philscaves/small/cor03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.04,
+     -5.46
+    ],
+    "widthM": 10.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.46,
+     -0.0
+    ],
+    "widthM": 10.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.04,
+     5.45
+    ],
+    "widthM": 10.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.37,
+     -0.0
+    ],
+    "widthM": 10.91
+   }
+  ],
+  "bmv:architecture/philscaves/small/cor04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.94,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.04,
+     -5.46
+    ],
+    "widthM": 10.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.94,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.53,
+     1.82
+    ],
+    "widthM": 14.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.94,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.04,
+     9.1
+    ],
+    "widthM": 10.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.94,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.46,
+     1.82
+    ],
+    "widthM": 14.56
+   }
+  ],
+  "bmv:architecture/philscaves/small/doorcaveb": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.65,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.26
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.65,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     -1.81
+    ],
+    "widthM": 4.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.65,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.63
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.65,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     -1.81
+    ],
+    "widthM": 4.89
+   }
+  ],
+  "bmv:architecture/philscaves/small/exit01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.69,
+     -0.59
+    ],
+    "widthM": 2.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.55,
+     -0.59
+    ],
+    "widthM": 2.45
+   }
+  ],
+  "bmv:architecture/philscaves/small/exit02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.42,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.11,
+     -2.52
+    ],
+    "widthM": 8.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.42,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.15,
+     -0.32
+    ],
+    "widthM": 4.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.42,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.11,
+     1.87
+    ],
+    "widthM": 8.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.42,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.37,
+     -0.32
+    ],
+    "widthM": 4.39
+   }
+  ],
+  "bmv:architecture/philscaves/small/hall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.82
+    ],
+    "widthM": 7.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.57,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.82
+    ],
+    "widthM": 7.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.58,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/small/hall02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.69,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.69,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/small/hall03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 7.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.61,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 7.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.61,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/small/hall04": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.17,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.78,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.17,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.93,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/small/hall05": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.29,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.6,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.29,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.79,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/small/hall05_a": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.66,
+     -0.82
+    ],
+    "widthM": 3.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.59,
+     0.26
+    ],
+    "widthM": 2.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.66,
+     1.33
+    ],
+    "widthM": 3.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.26,
+     0.26
+    ],
+    "widthM": 2.15
+   }
+  ],
+  "bmv:architecture/philscaves/small/hall05_b": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.73,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.68,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/small/hallh01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.6,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.69,
+     0.0
+    ],
+    "widthM": 1.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.6,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.55,
+     0.0
+    ],
+    "widthM": 1.82
+   }
+  ],
+  "bmv:architecture/philscaves/small/ram01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.9,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.88,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/connect": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.89,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.89,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.89,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.89,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/cor01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -1.82
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.98,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.88,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     1.82
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.98,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/cor02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.82,
+     3.64
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/cor03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.1,
+     -0.0
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.54
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.1,
+     1.08
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     2.56,
+     0.54
+    ],
+    "widthM": 1.08
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/corc": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.67,
+     -3.64
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.67,
+     3.64
+    ],
+    "widthM": 2.86
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/corc01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -0.0
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     1.08
+    ],
+    "widthM": 0.06
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/corc02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     0.01
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     1.09
+    ],
+    "widthM": 0.06
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/corc03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.01
+    ],
+    "widthM": 0.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     1.08
+    ],
+    "widthM": 0.06
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/corc04": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.65,
+     3.62
+    ],
+    "widthM": 0.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     2.56,
+     3.62
+    ],
+    "widthM": 0.07
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/mid01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/mid02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.82,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.82,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.82,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.82,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/mid03a": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/mid03b": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.91,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.39,
+     -0.84
+    ],
+    "widthM": 3.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.93,
+     0.21
+    ],
+    "widthM": 2.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.91,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.39,
+     1.25
+    ],
+    "widthM": 3.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.16,
+     0.21
+    ],
+    "widthM": 2.09
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/mid03c": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/mid04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.16,
+     -2.21
+    ],
+    "widthM": 7.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     1.62
+    ],
+    "widthM": 7.67
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.16,
+     5.46
+    ],
+    "widthM": 7.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.95,
+     1.62
+    ],
+    "widthM": 7.67
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/mid05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 15.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 15.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 15.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 15.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/room01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.17,
+     -10.92
+    ],
+    "widthM": 17.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.67,
+     -1.1
+    ],
+    "widthM": 19.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.17,
+     8.72
+    ],
+    "widthM": 17.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.33,
+     -1.1
+    ],
+    "widthM": 19.64
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/room02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 36.65,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.6,
+     -8.98
+    ],
+    "widthM": 20.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 36.65,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     10.92,
+     0.97
+    ],
+    "widthM": 19.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 36.65,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.6,
+     10.92
+    ],
+    "widthM": 20.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 36.65,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.71,
+     0.97
+    ],
+    "widthM": 19.9
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/room03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 19.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -7.28
+    ],
+    "widthM": 21.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 19.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     10.92,
+     0.0
+    ],
+    "widthM": 14.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 19.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     7.28
+    ],
+    "widthM": 21.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 19.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -10.92,
+     0.0
+    ],
+    "widthM": 14.56
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/room04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 50.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.38,
+     -20.44
+    ],
+    "widthM": 32.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 50.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     16.01,
+     -1.12
+    ],
+    "widthM": 38.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 50.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.38,
+     18.21
+    ],
+    "widthM": 32.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 50.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -16.78,
+     -1.12
+    ],
+    "widthM": 38.65
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/room05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 17.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -14.48
+    ],
+    "widthM": 32.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 17.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     16.39,
+     -1.78
+    ],
+    "widthM": 25.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 17.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     10.92
+    ],
+    "widthM": 32.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 17.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -16.39,
+     -1.78
+    ],
+    "widthM": 25.4
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/wall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.9,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.9,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.03
+    ],
+    "widthM": 3.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.9,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.89
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.9,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.03
+    ],
+    "widthM": 3.71
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/wall02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.77,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.05
+    ],
+    "widthM": 3.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.77,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.93
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.05
+    ],
+    "widthM": 3.75
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/wall03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.04
+    ],
+    "widthM": 3.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.91
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.04
+    ],
+    "widthM": 3.73
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/wall04": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.85,
+     -0.24
+    ],
+    "widthM": 2.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.76,
+     -0.24
+    ],
+    "widthM": 2.31
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/wall05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.04
+    ],
+    "widthM": 3.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.91
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.04
+    ],
+    "widthM": 3.73
+   }
+  ],
+  "bmv:architecture/philscaves/srooms/wall06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.82,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.82,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.06
+    ],
+    "widthM": 3.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.82,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.94
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.82,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.06
+    ],
+    "widthM": 3.76
+   }
+  ],
+  "bmv:telvanni/tel_entrance_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.86,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.22,
+     -2.39
+    ],
+    "widthM": 7.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.86,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.47,
+     -0.12
+    ],
+    "widthM": 4.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.86,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.22,
+     2.15
+    ],
+    "widthM": 7.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.86,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.91,
+     -0.12
+    ],
+    "widthM": 4.54
+   }
+  ],
+  "bmv:telvanni/tel_ext_ramp_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.83,
+     -11.09
+    ],
+    "widthM": 12.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.94,
+     -3.9
+    ],
+    "widthM": 14.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.83,
+     3.3
+    ],
+    "widthM": 12.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.28,
+     -3.9
+    ],
+    "widthM": 14.39
+   }
+  ],
+  "bmv:telvanni/tel_ext_root_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 23.67,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.55,
+     -5.76
+    ],
+    "widthM": 28.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 23.67,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     15.91,
+     3.16
+    ],
+    "widthM": 17.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 23.67,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.55,
+     12.07
+    ],
+    "widthM": 28.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 23.67,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -12.8,
+     3.16
+    ],
+    "widthM": 17.83
+   }
+  ],
+  "bmv:telvanni/tel_ext_root_02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 21.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     11.36,
+     0.0
+    ],
+    "widthM": 8.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 21.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -11.36,
+     0.0
+    ],
+    "widthM": 8.38
+   }
+  ],
+  "bmv:telvanni/tel_int_connector_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.75
+    ],
+    "widthM": 3.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.95,
+     -1.52
+    ],
+    "widthM": 4.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.72
+    ],
+    "widthM": 3.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.95,
+     -1.52
+    ],
+    "widthM": 4.47
+   }
+  ],
+  "bmv:telvanni/tel_int_gourdhouse01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 15.5,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.89,
+     -5.84
+    ],
+    "widthM": 20.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 15.5,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.97,
+     1.57
+    ],
+    "widthM": 14.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 15.5,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.89,
+     8.97
+    ],
+    "widthM": 20.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 15.5,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.19,
+     1.57
+    ],
+    "widthM": 14.81
+   }
+  ],
+  "bmv:telvanni/tel_pod_shelf_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.78,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.14,
+     -13.35
+    ],
+    "widthM": 29.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.78,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     14.48,
+     0.25
+    ],
+    "widthM": 27.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.78,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.14,
+     13.85
+    ],
+    "widthM": 29.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.78,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -14.77,
+     0.25
+    ],
+    "widthM": 27.2
+   }
+  ],
+  "bmv:telvanni/tel_ramp_03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 74.62,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.32,
+     -36.34
+    ],
+    "widthM": 70.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 74.62,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     37.65,
+     -8.44
+    ],
+    "widthM": 55.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 74.62,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.32,
+     19.46
+    ],
+    "widthM": 70.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 74.62,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -33.0,
+     -8.44
+    ],
+    "widthM": 55.8
+   }
+  ],
+  "bmv:telvanni/tel_root_03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 90.58,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     5.62,
+     -31.21
+    ],
+    "widthM": 67.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 90.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     39.22,
+     -2.12
+    ],
+    "widthM": 58.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 90.58,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     5.62,
+     26.96
+    ],
+    "widthM": 67.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 90.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -27.97,
+     -2.12
+    ],
+    "widthM": 58.17
+   }
+  ],
+  "bmv:telvanni/tel_shelffungus_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.14,
+     -13.35
+    ],
+    "widthM": 29.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     14.48,
+     0.25
+    ],
+    "widthM": 27.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.14,
+     13.85
+    ],
+    "widthM": 29.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -14.77,
+     0.25
+    ],
+    "widthM": 27.2
+   }
+  ],
+  "bmv:telvanni/tel_stairs_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 14.5,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.06,
+     -34.25
+    ],
+    "widthM": 17.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 14.5,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.81,
+     -16.7
+    ],
+    "widthM": 35.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 14.5,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.06,
+     0.86
+    ],
+    "widthM": 17.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 14.5,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.93,
+     -16.7
+    ],
+    "widthM": 35.11
+   }
+  ],
+  "bmv:telvanni/tel_stairs_01b": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -14.67
+    ],
+    "widthM": 12.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.98,
+     -6.91
+    ],
+    "widthM": 15.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     0.86
+    ],
+    "widthM": 12.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.16,
+     -6.91
+    ],
+    "widthM": 15.53
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproot": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.09
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.01
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.12
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.01
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.09
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.01
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.12
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.01
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/clutter/histfruit": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.12
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.12,
+     0.01
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.14
+    ],
+    "widthM": 0.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.14,
+     0.01
+    ],
+    "widthM": 0.26
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histramp": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.91,
+     -7.88
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.9,
+     -3.9
+    ],
+    "widthM": 7.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.91,
+     0.08
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -3.9
+    ],
+    "widthM": 7.96
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 43.97,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     20.17,
+     -4.23
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 43.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     40.98,
+     6.4
+    ],
+    "widthM": 21.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 43.97,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     20.17,
+     17.04
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 43.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.64,
+     6.4
+    ],
+    "widthM": 21.27
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.98,
+     -8.45
+    ],
+    "widthM": 14.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.2,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.2,
+     -3.3
+    ],
+    "widthM": 10.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.98,
+     1.84
+    ],
+    "widthM": 14.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.2,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.24,
+     -3.3
+    ],
+    "widthM": 10.29
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.73,
+     0.52
+    ],
+    "widthM": 2.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.83,
+     0.52
+    ],
+    "widthM": 2.54
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.1,
+     -9.67
+    ],
+    "widthM": 6.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.1,
+     9.39
+    ],
+    "widthM": 6.04
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots05": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     3.65
+    ],
+    "widthM": 0.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.92,
+     3.65
+    ],
+    "widthM": 0.93
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.61,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.67,
+     1.6
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.61,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.36,
+     2.38
+    ],
+    "widthM": 1.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.61,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.67,
+     3.15
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.61,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.97,
+     2.38
+    ],
+    "widthM": 1.55
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histtree": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 53.63,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.15,
+     -18.33
+    ],
+    "widthM": 64.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 53.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     33.15,
+     4.34
+    ],
+    "widthM": 45.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 53.63,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.15,
+     27.0
+    ],
+    "widthM": 64.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 53.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -30.85,
+     4.34
+    ],
+    "widthM": 45.33
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/treegiantrootbase01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 43.97,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     20.17,
+     -4.23
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 43.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     40.98,
+     6.4
+    ],
+    "widthM": 21.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 43.97,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     20.17,
+     17.04
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 43.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.64,
+     6.4
+    ],
+    "widthM": 21.27
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/treeroots01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 43.97,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     20.17,
+     -4.23
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 43.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     40.98,
+     6.4
+    ],
+    "widthM": 21.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 43.97,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     20.17,
+     17.04
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 43.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.64,
+     6.4
+    ],
+    "widthM": 21.27
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/treeroots03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.73,
+     0.52
+    ],
+    "widthM": 2.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.83,
+     0.52
+    ],
+    "widthM": 2.54
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/treeroottrap": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.72,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.39
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.72,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     5.46
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/archwaysticks": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -7.07,
+     -8.79
+    ],
+    "widthM": 5.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -4.52,
+     -6.48
+    ],
+    "widthM": 4.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -7.07,
+     -4.18
+    ],
+    "widthM": 5.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.62,
+     -6.48
+    ],
+    "widthM": 4.61
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.2,
+     -3.02
+    ],
+    "widthM": 1.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.2,
+     1.07
+    ],
+    "widthM": 1.17
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.0
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     0.0
+    ],
+    "widthM": 0.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.23
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.36,
+     0.01
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.26
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     0.01
+    ],
+    "widthM": 0.49
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -6.01
+    ],
+    "widthM": 4.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     6.01
+    ],
+    "widthM": 4.4
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/fxhistmist01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.1,
+     -6.24
+    ],
+    "widthM": 12.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.34,
+     -0.15
+    ],
+    "widthM": 12.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.1,
+     5.94
+    ],
+    "widthM": 12.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.53,
+     -0.15
+    ],
+    "widthM": 12.18
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/histtree": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 22.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.08,
+     -14.95
+    ],
+    "widthM": 26.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 22.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.4,
+     -0.86
+    ],
+    "widthM": 28.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 22.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.08,
+     13.23
+    ],
+    "widthM": 26.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 22.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -14.57,
+     -0.86
+    ],
+    "widthM": 28.18
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/roundfloor01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -21.64
+    ],
+    "widthM": 43.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     21.64,
+     0.0
+    ],
+    "widthM": 43.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     21.64
+    ],
+    "widthM": 43.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -21.64,
+     0.0
+    ],
+    "widthM": 43.28
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/shellhalf": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.08,
+     -1.03
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.98,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.25,
+     -0.07
+    ],
+    "widthM": 1.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.08,
+     0.89
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.98,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.08,
+     -0.07
+    ],
+    "widthM": 1.92
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/sithisshrine": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.59,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     1.36
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.59,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.67,
+     1.92
+    ],
+    "widthM": 1.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.59,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     2.48
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.59,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.65,
+     1.92
+    ],
+    "widthM": 1.12
+   }
+  ]
+ },
+ "counts": {
+  "assets": 124,
+  "bounds": 414,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "dungeon-root-v1",
+ "schemaVersion": 1
+}

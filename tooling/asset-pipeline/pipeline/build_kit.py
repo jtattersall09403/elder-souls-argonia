@@ -394,6 +394,29 @@ def tropicalised(kit: dict) -> bool:
     return False
 
 
+def texture_pool_order(kit: dict, wanted: dict) -> list[str]:
+    """The order pools fill contested texture paths in, most-wanted first.
+
+    A path is extracted once and every later pool skips it because the file is
+    already on disk, so pool order IS the answer to "whose copy of
+    `textures/landscape/rocks01.dds` does this kit use?". The kit states it
+    (`texturePoolPrecedence`); pools it does not name follow, sorted, so the
+    result is deterministic either way."""
+    precedence = list(kit.get("texturePoolPrecedence") or [])
+    unknown = [pool for pool in precedence if pool not in wanted]
+    if unknown:
+        raise ValueError(
+            f"{kit['id']}: texturePoolPrecedence names {unknown}, which this "
+            f"kit sources nothing from (pools: {sorted(wanted)})")
+    return precedence + [pool for pool in sorted(wanted) if pool not in precedence]
+
+
+def contested_textures(wanted: dict) -> set[str]:
+    """Texture paths more than one pool wants — the ones precedence decides."""
+    return {path for pool in wanted for path in wanted[pool]
+            if sum(path in wanted[other] for other in wanted) > 1}
+
+
 def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     """Extract every asset and texture the kit needs into one data root."""
     work = BUILD_DIR / "kits" / kit["id"]
@@ -552,8 +575,23 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
                     substituted[target] = source_path
                     filled.add(target)
                     break
-    for pool, textures in wanted.items():
+    # POOL PRECEDENCE for a texture path several pools want (backlog row,
+    # found 2026-09-16 in the rock kit): a path is filled once, and from then
+    # on every other pool skips it because the file exists on disk, so
+    # whichever pool happened to run first owned that picture for the whole
+    # kit — `textures/landscape/rocks01.dds` in flora-province-v1 came from
+    # BM&V's texturepack instead of Tropical Skyrim's. Which copy wins is now
+    # the kit's stated decision (`texturePoolPrecedence`, most-wanted first),
+    # not dict order, and every contested path is printed with the pool that
+    # won it.
+    ordered_pools = texture_pool_order(kit, wanted)
+    contested = contested_textures(wanted)
+    for pool in ordered_pools:
+        textures = wanted[pool]
         outstanding = {t for t in textures if not (data_root / t).exists()}
+        for path in sorted(contested & outstanding):
+            print(f"[kit]   contested texture {path} -> {pool} "
+                  f"(precedence {' > '.join(ordered_pools)})")
         # Each source is tried FULLY (exact path, then trailing-component
         # match) before the next source is consulted. The old two-phase order
         # (all sources exact, then all sources fuzzy) let VANILLA's exact-path
@@ -617,6 +655,9 @@ FOLIAGE_CATEGORIES = {"tree", "shrub", "plant", "grass", "aquatic-plant", "fungu
 
 
 DEFAULT_LOD_RATIOS = [0.35, 0.12]
+
+# `plan_lod_levels` (below) is DUPLICATED verbatim in blender/build_kit.py,
+# like the card arithmetic; a unit test asserts the two copies match.
 
 
 def resolve_lod_ratios(entry, kit, category):
@@ -718,6 +759,36 @@ def _flat_lod_of(row: dict) -> str | None:
     """
     variant = row.get("lodVariant")
     return variant if variant and variant.endswith("_lod_flat.nif") else None
+
+def plan_lod_levels(source_tris, ratios, floor):
+    """The decimated LOD levels for one asset, one row per configured ratio.
+
+    `source_tris` holds each part's triangle count. Ratios are proportional
+    and `floor` is absolute, so a small part keeps its geometry rather than
+    collapsing to a plane. Every configured level is emitted, because the
+    settlement runtime refuses a chain shorter than its tier count (16h part
+    1 round 4). A level whose effective ratios equal an earlier level's is
+    not new geometry: `sharesLevel` names that earlier level (0 is the base
+    mesh) and the builder reuses its mesh, so the GLB carries one primitive
+    for both (the 16f round 5 concern: no duplicated palms). A newly
+    decimated level has `sharesLevel` None.
+    """
+    levels = []
+    previous, previous_level = [1.0] * len(source_tris), 0
+    for level, ratio in enumerate(ratios, start=1):
+        effectives = [
+            min(1.0, max(ratio, floor / tris)) if tris > 0 else ratio
+            for tris in source_tris
+        ]
+        if effectives == previous:
+            levels.append({"level": level, "ratio": ratio,
+                           "effectives": effectives, "sharesLevel": previous_level})
+            continue
+        levels.append({"level": level, "ratio": ratio,
+                       "effectives": effectives, "sharesLevel": None})
+        previous, previous_level = effectives, level
+    return levels
+
 
 #: Collision proxy per category (module 65 §111: tiered collision — hero
 #: assets get compiled colliders, trees a trunk capsule, groundcover none).
@@ -895,6 +966,10 @@ def build(kit_id: str, vault: Path) -> dict:
     from . import vet_kit
     vet_kit.record_geometry(manifest_path)
     summary = json.loads(manifest_path.read_text())
+    # Post-pass (16h K10 ruling D): the three sidecars the placer and the
+    # publish read are measured from THIS build, never left from an older one
+    # (kit_compress copies whatever sits beside the GLB).
+    summary["sidecars"] = measure_sidecars(kit_id, output_glb.parent)
     total_mb = output_glb.stat().st_size / 1e6
     print(f"[kit] {kit_id}: {len(summary['assets'])} assets -> {output_glb.name} "
           f"({total_mb:.1f} MB), manifest {manifest_path.name}")
@@ -908,12 +983,62 @@ def build(kit_id: str, vault: Path) -> dict:
     return summary
 
 
+def measure_sidecars(kit_id: str, kits_dir: Path) -> list[str]:
+    """Run `measure_footprints`, `interiors_index` and `measure_connectors`
+    (in that order: connectors read the footprints) on one freshly built kit;
+    the sidecar file names written. Kits those tools skip (probe, flora and
+    groundcover atlases: `measure_footprints.SKIP_PREFIXES`) write none."""
+    from . import interiors_index, measure_connectors, measure_footprints
+    if kit_id.startswith(measure_footprints.SKIP_PREFIXES):
+        return []
+    written = [measure_footprints.write_kit(kit_id, kits_dir),
+               interiors_index.write_kit(kit_id, kits_dir),
+               measure_connectors.write_kit(kit_id, kits_dir,
+                                            measure_connectors.load_templates())]
+    for path in written:
+        print(f"   [kit] sidecar {path.name}")
+    return [path.name for path in written]
+
+
+# Whole kits built side by side: one Wine+Blender per kit, in its own process
+# (each kit's work dir is BUILD_DIR/kits/<id>, so two different kits never
+# share one; the same kit twice would, so the list is deduplicated). The
+# default is floor(7 GiB / one build's peak) capped at 3: settlement-mud-v1
+# peaked at 1.2 GiB (process tree RSS) on 2026-09-23, floor(7 / 1.2) = 5, so
+# 3; two Blenders in the one WINEPREFIX built byte-identical manifests to a
+# serial run (16h ledger §6, lane B2). A big kit (flora-province-v1) was not
+# measured: give it --jobs 1 or pair it only with small kits.
+DEFAULT_KIT_JOBS = 3
+
+
+def build_many(kit_ids: list[str], vault: Path, jobs: int = DEFAULT_KIT_JOBS,
+               builder=None) -> list[dict]:
+    """Build every kit in `kit_ids`, up to `jobs` at once; summaries in order."""
+    builder = builder or build
+    kit_ids = list(dict.fromkeys(kit_ids))
+    if jobs <= 1 or len(kit_ids) <= 1:
+        return [builder(kit_id, vault) for kit_id in kit_ids]
+    import multiprocessing
+    from concurrent.futures import ProcessPoolExecutor
+    with ProcessPoolExecutor(max_workers=min(jobs, len(kit_ids)),
+                             mp_context=multiprocessing.get_context("fork")) as pool:
+        futures = [pool.submit(builder, kit_id, vault) for kit_id in kit_ids]
+        return [f.result() for f in futures]
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description="Build a world static kit GLB.")
-    ap.add_argument("--kit", required=True)
+    kits = ap.add_mutually_exclusive_group(required=True)
+    kits.add_argument("--kit", help="one kit id")
+    kits.add_argument("--kits", help="comma-separated kit ids, built concurrently")
+    ap.add_argument("--jobs", type=int, default=DEFAULT_KIT_JOBS,
+                    help=f"kits built at once with --kits (default {DEFAULT_KIT_JOBS})")
     ap.add_argument("--vault", default=str(DEFAULT_VAULT))
     args = ap.parse_args()
-    build(args.kit, Path(args.vault))
+    if args.kit:
+        build(args.kit, Path(args.vault))
+        return
+    build_many([k for k in args.kits.split(",") if k], Path(args.vault), args.jobs)
 
 
 if __name__ == "__main__":

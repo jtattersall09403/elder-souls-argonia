@@ -30,17 +30,25 @@
    "materials": [
     "ShadowFoliage.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.022,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
@@ -77,17 +85,25 @@
    "materials": [
     "seaweed_Foliage.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.496,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
@@ -124,23 +140,36 @@
    "materials": [
     "ShadowFoliage.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -0.9729,
+    "p50": -0.9729,
+    "p75": -0.9729,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.973,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.116,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.973
+   "pivotAboveBaseM": 0.973,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.9729
+   }
   },
   {
    "id": "depths:landscape/grass/tbpalgae01",
@@ -171,13 +200,21 @@
    "materials": [
     "L2_ForestGrassStatic01:0 - L1_ForestGrassStatic01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1058,
+    "p50": -0.1058,
+    "p75": -0.1058,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.106,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -187,7 +224,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.106
+   "pivotAboveBaseM": 0.106,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1058
+   }
   },
   {
    "id": "depths:landscape/grass/waterkelptall02",
@@ -218,17 +260,25 @@
    "materials": [
     "CoastKelpTall01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.09,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
@@ -265,17 +315,25 @@
    "materials": [
     "CoastKelpTall01:0.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.801,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
@@ -325,13 +383,21 @@
      0.063
     ]
    },
+   "designedSinkM": {
+    "p25": -0.4853,
+    "p50": -0.4853,
+    "p75": -0.4853,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.485,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -341,7 +407,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.699,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.485
+   "pivotAboveBaseM": 0.485,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4853
+   }
   },
   {
    "id": "depths:landscape/grass/tbpcoastdriftwood02",
@@ -385,13 +456,21 @@
      0.522
     ]
    },
+   "designedSinkM": {
+    "p25": -0.2535,
+    "p50": -0.2535,
+    "p75": -0.2535,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.254,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -401,7 +480,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.139,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.254
+   "pivotAboveBaseM": 0.254,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2535
+   }
   },
   {
    "id": "depths:landscape/grass/tbprockgrasswater03",
@@ -432,13 +516,21 @@
    "materials": [
     "RocksGrassObj02:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.2344,
+    "p50": -0.2344,
+    "p75": -0.2344,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.234,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -448,7 +540,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.234
+   "pivotAboveBaseM": 0.234,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2344
+   }
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01",
@@ -481,13 +578,21 @@
     "ARUniqueRubbleFl01:1.Mat",
     "ARUniqueRubbleFl01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -497,7 +602,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.911,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl03",
@@ -530,13 +640,21 @@
     "ARUniqueRubbleFl03:1.Mat",
     "ARUniqueRubbleFl03:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -546,7 +664,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.653,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05",
@@ -579,13 +702,21 @@
     "ARUniqueRubbleFl05:1.Mat",
     "ARUniqueRubbleFl05:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -595,7 +726,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.709,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena",
@@ -628,13 +764,21 @@
     "ARBlockFree:0.Mat",
     "ARBlockFree:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -644,7 +788,12 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokenb",
@@ -677,13 +826,21 @@
     "ARBlockFree:0.Mat.001",
     "ARBlockFree:1.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -693,7 +850,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.997,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
@@ -726,13 +888,21 @@
     "ARBlockFreeHollow:0.Mat",
     "ARBlockFreeHollow:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -742,7 +912,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.34,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02",
@@ -773,13 +948,21 @@
    "materials": [
     "totem.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0032,
+    "p50": -0.0032,
+    "p75": -0.0032,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.003,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -789,7 +972,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.956,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003
+   "pivotAboveBaseM": 0.003,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0032
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03",
@@ -820,13 +1008,21 @@
    "materials": [
     "totem.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -0.0071,
+    "p50": -0.0018,
+    "p75": 0.0,
+    "n": 3,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.006,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -867,13 +1063,21 @@
    "materials": [
     "stone.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0614,
+    "p50": -0.0614,
+    "p75": -0.0614,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.061,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -883,7 +1087,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.872,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.061
+   "pivotAboveBaseM": 0.061,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0614
+   }
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue",
@@ -914,13 +1123,21 @@
    "materials": [
     "SigilStone.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.3178,
+    "p50": -0.3178,
+    "p75": -0.3178,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.318,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -930,7 +1147,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.599,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.318
+   "pivotAboveBaseM": 0.318,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.3178
+   }
   },
   {
    "id": "depths:landscape/grass/tbp_seaweed06var1",
@@ -961,23 +1183,36 @@
    "materials": [
     "ShadowFoliage.Mat.002"
    ],
+   "designedSinkM": {
+    "p25": -0.9729,
+    "p50": -0.9729,
+    "p75": -0.9729,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.973,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.232,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.973
+   "pivotAboveBaseM": 0.973,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.9729
+   }
   },
   {
    "id": "vanilla:plants/clam01",
@@ -1009,13 +1244,21 @@
     "Clam01:0.Mat",
     "Clam01_1:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0457,
+    "p50": -0.0175,
+    "p75": 0.0062,
+    "n": 27,
+    "slopeTermMPerDeg": -0.00034,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.018,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1025,7 +1268,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.965,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "designedWaterlineM": 2.5012
   },
   {
    "id": "vanilla:plants/clamlarge01",
@@ -1057,13 +1301,21 @@
     "ClamLarge01:0.Mat",
     "ClamLarge01_1:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0996,
+    "p50": 0.0,
+    "p75": 0.0065,
+    "n": 31,
+    "slopeTermMPerDeg": -0.00773,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.003,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1073,7 +1325,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.739,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.003
+   "pivotAboveBaseM": 0.003,
+   "designedWaterlineM": 3.4918
   },
   {
    "id": "vanilla:plants/clamthin01",
@@ -1105,13 +1358,21 @@
     "ClamThin01:0.Mat",
     "ClamThin01_1:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0515,
+    "p50": -0.0052,
+    "p75": 0.0032,
+    "n": 26,
+    "slopeTermMPerDeg": -0.00424,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.012,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1121,7 +1382,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.887,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012
+   "pivotAboveBaseM": 0.012,
+   "designedWaterlineM": 5.4117
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards01",
@@ -1155,13 +1417,21 @@
     "ShipwreckBoards01:1.Mat",
     "ShipwreckBoards01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.105,
+    "p50": -0.0283,
+    "p75": -0.021,
+    "n": 26,
+    "slopeTermMPerDeg": -0.00256,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.028,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1171,7 +1441,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.971,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "designedWaterlineM": -0.1684
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards02",
@@ -1205,13 +1476,21 @@
     "ShipwreckBoards02:1.Mat",
     "ShipwreckBoards02:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0601,
+    "p50": -0.0217,
+    "p75": -0.021,
+    "n": 49,
+    "slopeTermMPerDeg": -0.00175,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.028,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1221,7 +1500,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.96,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "designedWaterlineM": 0.0
   },
   {
    "id": "vanilla:clutter/shipwreck/shipwreckboards03",
@@ -1255,13 +1535,21 @@
     "ShipwreckBoards03:1.Mat",
     "ShipwreckBoards03:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0387,
+    "p50": -0.0211,
+    "p75": -0.0209,
+    "n": 22,
+    "slopeTermMPerDeg": -0.00031,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.028,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1271,7 +1559,8 @@
    "undersideClosed": true,
    "undersideCoverage": 0.943,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.028
+   "pivotAboveBaseM": 0.028,
+   "designedWaterlineM": -0.0226
   },
   {
    "id": "depths:dos/boats/rowboatbrokenback",
@@ -1306,13 +1595,21 @@
     "Object001.Mat",
     "Rowboatdetails.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.7638,
+    "p50": -0.7638,
+    "p75": -0.7638,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.764,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1322,7 +1619,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.882,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.764
+   "pivotAboveBaseM": 0.764,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7638
+   }
   },
   {
    "id": "depths:dos/boats/rowboatbrokenfront",
@@ -1357,13 +1659,21 @@
     "Object001.Mat.001",
     "Rowboatdetails.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -0.7572,
+    "p50": -0.7572,
+    "p75": -0.7572,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.757,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1373,7 +1683,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.789,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.757
+   "pivotAboveBaseM": 0.757,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7572
+   }
   },
   {
    "id": "vanilla:landscape/plants/kelpshortstatic01",
@@ -1404,23 +1719,32 @@
    "materials": [
     "L1_StaticKelpShort01.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.024,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.358,
    "openBackYawDeg": 292.5,
-   "pivotAboveBaseM": 0.024
+   "pivotAboveBaseM": 0.024,
+   "designedWaterlineM": 2.6662
   },
   {
    "id": "vanilla:landscape/plants/kelptallstatic01",
@@ -1451,23 +1775,32 @@
    "materials": [
     "StaticKelpTall01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
+    "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.09,
-    "buryM": 0.35,
-    "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "dug-in",
-     "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "water-zero",
+     "fitPolicy": "authored placement-policies.json policy water-zero: Reviewed watercraft fallback: water placement supplies the surface datum, so terrain burial is forbidden."
     }
    },
    "undersideClosed": false,
    "undersideCoverage": 0.277,
    "openBackYawDeg": 213.8,
-   "pivotAboveBaseM": 0.09
+   "pivotAboveBaseM": 0.09,
+   "designedWaterlineM": 2.0359
   },
   {
    "id": "jokerine:_seaside/coral",
@@ -1498,13 +1831,21 @@
    "materials": [
     "coral.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0254,
+    "p50": -0.0254,
+    "p75": -0.0254,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.025,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1514,7 +1855,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.139,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.025
+   "pivotAboveBaseM": 0.025,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0254
+   }
   },
   {
    "id": "jokerine:_seaside/coral_spiky",
@@ -1545,13 +1891,21 @@
    "materials": [
     "CanisRoot02:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0172,
+    "p50": -0.0172,
+    "p75": -0.0172,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.017,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1561,7 +1915,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.673,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.017
+   "pivotAboveBaseM": 0.017,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0172
+   }
   },
   {
    "id": "jokerine:_seaside/starfish",
@@ -1592,13 +1951,21 @@
    "materials": [
     "starfish.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0185,
+    "p50": -0.0185,
+    "p75": -0.0185,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.018,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1608,7 +1975,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.605,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.018
+   "pivotAboveBaseM": 0.018,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0185
+   }
   },
   {
    "id": "jokerine:_seaside/sponge",
@@ -1639,13 +2011,21 @@
    "materials": [
     "Coal01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1655,7 +2035,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.564,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "jokerine:_seaside/conch",
@@ -1686,13 +2071,21 @@
    "materials": [
     "conch.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0635,
+    "p50": -0.0635,
+    "p75": -0.0635,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.064,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1702,7 +2095,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.845,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.064
+   "pivotAboveBaseM": 0.064,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0635
+   }
   },
   {
    "id": "jokerine:_seaside/sanddollar",
@@ -1733,13 +2131,21 @@
    "materials": [
     "dolla.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0292,
+    "p50": -0.0292,
+    "p75": -0.0292,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.029,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1749,7 +2155,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.897,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.029
+   "pivotAboveBaseM": 0.029,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0292
+   }
   },
   {
    "id": "jokerine:_seaside/scallop_red",
@@ -1780,13 +2191,21 @@
    "materials": [
     "scallop.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0273,
+    "p50": -0.0273,
+    "p75": -0.0273,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.027,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1796,7 +2215,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0273
+   }
   },
   {
    "id": "jokerine:_seaside/scallop_blue",
@@ -1827,13 +2251,21 @@
    "materials": [
     "scallop.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -0.0273,
+    "p50": -0.0273,
+    "p75": -0.0273,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.027,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1843,7 +2275,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0273
+   }
   },
   {
    "id": "jokerine:_seaside/scallop_yellow",
@@ -1874,13 +2311,21 @@
    "materials": [
     "scallop.Mat.002"
    ],
+   "designedSinkM": {
+    "p25": -0.0273,
+    "p50": -0.0273,
+    "p75": -0.0273,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.027,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1890,7 +2335,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0273
+   }
   },
   {
    "id": "jokerine:_seaside/scallop_greenwhite",
@@ -1921,13 +2371,21 @@
    "materials": [
     "scallop.Mat.003"
    ],
+   "designedSinkM": {
+    "p25": -0.0273,
+    "p50": -0.0273,
+    "p75": -0.0273,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.027,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1937,7 +2395,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0273
+   }
   },
   {
    "id": "jokerine:_seaside/scallop_purplewhite",
@@ -1968,13 +2431,21 @@
    "materials": [
     "scallop.Mat.004"
    ],
+   "designedSinkM": {
+    "p25": -0.0273,
+    "p50": -0.0273,
+    "p75": -0.0273,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.027,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -1984,7 +2455,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0273
+   }
   },
   {
    "id": "jokerine:_seaside/scallop_slate",
@@ -2015,13 +2491,21 @@
    "materials": [
     "scallop.Mat.005"
    ],
+   "designedSinkM": {
+    "p25": -0.0273,
+    "p50": -0.0273,
+    "p75": -0.0273,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.027,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2031,7 +2515,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.773,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.027
+   "pivotAboveBaseM": 0.027,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0273
+   }
   },
   {
    "id": "jokerine:_seaside/clam_large",
@@ -2062,13 +2551,21 @@
    "materials": [
     "clam.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0414,
+    "p50": -0.0414,
+    "p75": -0.0414,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.041,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2078,7 +2575,12 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.041
+   "pivotAboveBaseM": 0.041,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0414
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock01",
@@ -2109,13 +2611,21 @@
    "materials": [
     "ShoreRock01.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0121,
+    "p50": -0.0121,
+    "p75": -0.0121,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.012,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2125,7 +2635,12 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.012
+   "pivotAboveBaseM": 0.012,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0121
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock02",
@@ -2156,13 +2671,21 @@
    "materials": [
     "rock40_lr.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0239,
+    "p50": 0.0239,
+    "p75": 0.0239,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.024,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2172,7 +2695,12 @@
    "undersideClosed": true,
    "undersideCoverage": 1.0,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.024
+   "pivotAboveBaseM": -0.024,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0239
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock03",
@@ -2203,13 +2731,21 @@
    "materials": [
     "rock27_lr.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.002,
+    "p50": 0.002,
+    "p75": 0.002,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.002,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2219,7 +2755,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.991,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.002
+   "pivotAboveBaseM": -0.002,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.002
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock04",
@@ -2250,13 +2791,21 @@
    "materials": [
     "rock16_lr.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.001,
+    "p50": -0.001,
+    "p75": -0.001,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.001,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2266,7 +2815,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.994,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.001
+   "pivotAboveBaseM": 0.001,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.001
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock05",
@@ -2297,13 +2851,21 @@
    "materials": [
     "ShoreRock05.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2313,7 +2875,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.973,
    "openBackYawDeg": 112.5,
-   "pivotAboveBaseM": -0.0
+   "pivotAboveBaseM": -0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock06",
@@ -2344,13 +2911,21 @@
    "materials": [
     "rock30_lr.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0128,
+    "p50": 0.0128,
+    "p75": 0.0128,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.013,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2360,7 +2935,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.896,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.013
+   "pivotAboveBaseM": -0.013,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0128
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock07",
@@ -2391,13 +2971,21 @@
    "materials": [
     "ShoreRock07.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0145,
+    "p50": -0.0145,
+    "p75": -0.0145,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.014,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2407,7 +2995,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.957,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.014
+   "pivotAboveBaseM": 0.014,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0145
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock08",
@@ -2438,13 +3031,21 @@
    "materials": [
     "ShoreRock08.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.011,
+    "p50": -0.011,
+    "p75": -0.011,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.011,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2454,7 +3055,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.947,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.011
+   "pivotAboveBaseM": 0.011,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.011
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock09",
@@ -2485,13 +3091,21 @@
    "materials": [
     "rock01_lr.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0133,
+    "p50": 0.0133,
+    "p75": 0.0133,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.013,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2501,7 +3115,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.99,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.013
+   "pivotAboveBaseM": -0.013,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0133
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock10",
@@ -2532,13 +3151,21 @@
    "materials": [
     "rock02_lr.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0114,
+    "p50": 0.0114,
+    "p75": 0.0114,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.011,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2548,7 +3175,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.775,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0114
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock11",
@@ -2579,13 +3211,21 @@
    "materials": [
     "rock03_lr.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0113,
+    "p50": 0.0113,
+    "p75": 0.0113,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.011,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2595,7 +3235,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.952,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": -0.011
+   "pivotAboveBaseM": -0.011,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0113
+   }
   },
   {
    "id": "shores:shoresofskyrim/shorerock12",
@@ -2626,13 +3271,21 @@
    "materials": [
     "rock05_lr.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0003,
+    "p50": -0.0003,
+    "p75": -0.0003,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2642,7 +3295,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.94,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.0
+   "pivotAboveBaseM": 0.0,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0003
+   }
   },
   {
    "id": "shores:shoresofskyrim/seashell02",
@@ -2673,13 +3331,21 @@
    "materials": [
     "SeaShell02.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0417,
+    "p50": -0.0417,
+    "p75": -0.0417,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.042,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2689,7 +3355,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.793,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.042
+   "pivotAboveBaseM": 0.042,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0417
+   }
   },
   {
    "id": "shores:shoresofskyrim/seashell03",
@@ -2720,13 +3391,21 @@
    "materials": [
     "SeaShell03.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0063,
+    "p50": -0.0063,
+    "p75": -0.0063,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.006,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2736,7 +3415,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.776,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.006
+   "pivotAboveBaseM": 0.006,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0063
+   }
   },
   {
    "id": "shores:shoresofskyrim/snailshell01",
@@ -2767,13 +3451,21 @@
    "materials": [
     "SeaSehll01.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0022,
+    "p50": -0.0022,
+    "p75": -0.0022,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.002,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2783,7 +3475,12 @@
    "undersideClosed": true,
    "undersideCoverage": 0.844,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.002
+   "pivotAboveBaseM": 0.002,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0022
+   }
   },
   {
    "id": "vanilla:plants/nordicbarnaclecluster01",
@@ -2815,13 +3512,21 @@
     "BarnacleCluster01:0 - L1_BarnacleCluster:0.Mat",
     "BarnacleCluster01_1:0 - L1_BarnacleCluster01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1313,
+    "p50": -0.0031,
+    "p75": 0.0379,
+    "n": 31,
+    "slopeTermMPerDeg": -0.01485,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.025,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2831,7 +3536,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.464,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.025
+   "pivotAboveBaseM": 0.025,
+   "designedWaterlineM": 3.0278
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rocks01wet",
@@ -2848,10 +3554,7 @@
     0.205
    ],
    "triangles": 76,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -2875,13 +3578,21 @@
      0.017
     ]
    },
+   "designedSinkM": {
+    "p25": 0.35,
+    "p50": 0.35,
+    "p75": 0.35,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.205,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2908,10 +3619,7 @@
     0.09
    ],
    "triangles": 80,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -2935,13 +3643,21 @@
      0.042
     ]
    },
+   "designedSinkM": {
+    "p25": 0.35,
+    "p50": 0.35,
+    "p75": 0.35,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.09,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -2968,10 +3684,7 @@
     0.383
    ],
    "triangles": 68,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -2995,13 +3708,21 @@
      -0.146
     ]
    },
+   "designedSinkM": {
+    "p25": 0.35,
+    "p50": 0.35,
+    "p75": 0.35,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.383,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3011,7 +3732,8 @@
    "undersideClosed": false,
    "undersideCoverage": 0.372,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.383
+   "pivotAboveBaseM": 0.383,
+   "designedWaterlineM": 3.1463
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockm01wet",
@@ -3028,10 +3750,7 @@
     0.188
    ],
    "triangles": 126,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -3055,13 +3774,21 @@
      -0.116
     ]
    },
+   "designedSinkM": {
+    "p25": 0.3754,
+    "p50": 0.5499,
+    "p75": 0.6514,
+    "n": 11,
+    "slopeTermMPerDeg": -0.04158,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.188,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3088,10 +3815,7 @@
     0.47
    ],
    "triangles": 348,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -3115,13 +3839,21 @@
      -0.138
     ]
    },
+   "designedSinkM": {
+    "p25": 0.7353,
+    "p50": 1.0469,
+    "p75": 1.3216,
+    "n": 7,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.47,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3148,10 +3880,7 @@
     0.26
    ],
    "triangles": 195,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -3175,13 +3904,21 @@
      -0.041
     ]
    },
+   "designedSinkM": {
+    "p25": -0.2599,
+    "p50": -0.2599,
+    "p75": -0.2599,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.26,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3191,7 +3928,13 @@
    "undersideClosed": false,
    "undersideCoverage": 0.009,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.26
+   "pivotAboveBaseM": 0.26,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2599
+   },
+   "designedWaterlineM": 2.5515
   },
   {
    "id": "vanilla:landscape/rocks/wetrocks/rockpilem01wet",
@@ -3208,10 +3951,7 @@
     0.584
    ],
    "triangles": 958,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -3239,13 +3979,21 @@
      -0.047
     ]
    },
+   "designedSinkM": {
+    "p25": 0.2751,
+    "p50": 0.3009,
+    "p75": 0.319,
+    "n": 6,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.584,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3272,10 +4020,7 @@
     0.757
    ],
    "triangles": 788,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -3304,13 +4049,21 @@
      -0.0
     ]
    },
+   "designedSinkM": {
+    "p25": 0.2368,
+    "p50": 0.268,
+    "p75": 0.3274,
+    "n": 19,
+    "slopeTermMPerDeg": -0.00352,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.757,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3337,10 +4090,7 @@
     0.513
    ],
    "triangles": 3304,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
+   "lodRatios": [],
    "doubleSided": false,
    "alphaTest": false,
    "collision": "convex",
@@ -3368,13 +4118,21 @@
      -0.455
     ]
    },
+   "designedSinkM": {
+    "p25": -0.5128,
+    "p50": -0.5128,
+    "p75": -0.5128,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.513,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3384,7 +4142,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.001,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.513
+   "pivotAboveBaseM": 0.513,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5128
+   }
   },
   {
    "id": "vanilla:landscape/trees/coastdriftwood01",
@@ -3428,13 +4191,21 @@
      0.063
     ]
    },
+   "designedSinkM": {
+    "p25": -0.0639,
+    "p50": -0.0028,
+    "p75": 0.0081,
+    "n": 322,
+    "slopeTermMPerDeg": -0.00223,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.485,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3488,13 +4259,21 @@
      0.522
     ]
    },
+   "designedSinkM": {
+    "p25": -0.0503,
+    "p50": 0.0,
+    "p75": 0.0415,
+    "n": 316,
+    "slopeTermMPerDeg": -0.00134,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.254,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3548,13 +4327,21 @@
      0.176
     ]
    },
+   "designedSinkM": {
+    "p25": -0.0683,
+    "p50": -0.0131,
+    "p75": 0.0,
+    "n": 281,
+    "slopeTermMPerDeg": -0.0042,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.159,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3595,13 +4382,21 @@
    "materials": [
     "UpperSkull:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0962,
+    "p50": -0.0708,
+    "p75": -0.0283,
+    "n": 48,
+    "slopeTermMPerDeg": 0.00306,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.006,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3642,13 +4437,21 @@
    "materials": [
     "RibcagePelvis:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.2301,
+    "p50": -0.1692,
+    "p75": -0.1287,
+    "n": 30,
+    "slopeTermMPerDeg": 0.00159,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.142,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3689,13 +4492,21 @@
    "materials": [
     "MammothSkull:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.6647,
+    "p50": -0.5556,
+    "p75": -0.1837,
+    "n": 41,
+    "slopeTermMPerDeg": 0.00291,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 1.379,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3749,13 +4560,21 @@
      0.0
     ]
    },
+   "designedSinkM": {
+    "p25": -0.0067,
+    "p50": 0.0045,
+    "p75": 0.1078,
+    "n": 568,
+    "slopeTermMPerDeg": -0.00206,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
@@ -3796,13 +4615,21 @@
    "materials": [
     "Basket01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0068,
+    "p50": 0.0,
+    "p75": 0.0244,
+    "n": 14,
+    "slopeTermMPerDeg": 0.00213,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3843,13 +4670,21 @@
    "materials": [
     "Bucket01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0402,
+    "p50": -0.013,
+    "p75": 0.0046,
+    "n": 120,
+    "slopeTermMPerDeg": -0.00764,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3890,13 +4725,21 @@
    "materials": [
     "RocksGrassObj01:0.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -0.0798,
+    "p50": -0.0798,
+    "p75": -0.0798,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.08,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3906,7 +4749,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.438,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.08
+   "pivotAboveBaseM": 0.08,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0798
+   }
   },
   {
    "id": "bmv:landscape/grass/smallpebbles",
@@ -3937,13 +4785,21 @@
    "materials": [
     "RocksGrassObj01:0.Mat.002"
    ],
+   "designedSinkM": {
+    "p25": -0.051,
+    "p50": -0.051,
+    "p75": -0.051,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.051,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
@@ -3953,7 +4809,12 @@
    "undersideClosed": false,
    "undersideCoverage": 0.438,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.051
+   "pivotAboveBaseM": 0.051,
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.051
+   }
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\underwater-v1.glb",
@@ -4011,11 +4872,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 27008192,
-  "bytesAfter": 13631344,
+  "bytesBefore": 25596480,
+  "bytesAfter": 13504312,
   "images": 55,
   "imageBytesAfter": 12376089,
   "warnings": [],
-  "sha256": "49eb3973aebb8d8d2506a0cc82f0dfa4bb99348ee664d9754f603750a2bcee72"
+  "sha256": "9bdd68cdd4791e6b71e6a9827378379b0759b4de1b0020bc34dc2e18d2fa0637",
+  "sidecarBytes": {
+   "connectors": 17412,
+   "footprints": 25439,
+   "interiors": 36916
+  }
  }
 }

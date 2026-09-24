@@ -1,0 +1,1048 @@
+{
+ "assets": {
+  "depths:dos/misc/dugupground": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.25,
+     -4.77
+    ],
+    "widthM": 10.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.3,
+     -0.12
+    ],
+    "widthM": 9.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.25,
+     4.52
+    ],
+    "widthM": 10.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.81,
+     -0.12
+    ],
+    "widthM": 9.29
+   }
+  ],
+  "depths:dos/misc/tbp_coralbig": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.78,
+     -9.24
+    ],
+    "widthM": 16.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.19,
+     -0.28
+    ],
+    "widthM": 17.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.78,
+     8.68
+    ],
+    "widthM": 16.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.63,
+     -0.28
+    ],
+    "widthM": 17.92
+   }
+  ],
+  "depths:dos/misc/tbp_coralmedium": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.17,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -5.44
+    ],
+    "widthM": 11.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.17,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.58,
+     0.0
+    ],
+    "widthM": 10.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.17,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     5.44
+    ],
+    "widthM": 11.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.17,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.58,
+     0.0
+    ],
+    "widthM": 10.88
+   }
+  ],
+  "depths:landscape/grass/tbp_coralsmall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.07,
+     -2.51
+    ],
+    "widthM": 5.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.63,
+     0.15
+    ],
+    "widthM": 5.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.07,
+     2.81
+    ],
+    "widthM": 5.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.77,
+     0.15
+    ],
+    "widthM": 5.32
+   }
+  ],
+  "depths:landscape/grass/tbp_seaweed01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 29.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.08,
+     -2.6
+    ],
+    "widthM": 5.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 29.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.67,
+     0.02
+    ],
+    "widthM": 5.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 29.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.08,
+     2.64
+    ],
+    "widthM": 5.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 29.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.5,
+     0.02
+    ],
+    "widthM": 5.24
+   }
+  ],
+  "depths:landscape/grass/tbp_seaweed02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 42.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.48,
+     -5.5
+    ],
+    "widthM": 12.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 42.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.01,
+     0.73
+    ],
+    "widthM": 12.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 42.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.48,
+     6.97
+    ],
+    "widthM": 12.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 42.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.96,
+     0.73
+    ],
+    "widthM": 12.47
+   }
+  ],
+  "depths:landscape/grass/tbp_seaweed06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.37
+    ],
+    "widthM": 7.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.2,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.7,
+     0.0
+    ],
+    "widthM": 6.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.37
+    ],
+    "widthM": 7.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.2,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.7,
+     0.0
+    ],
+    "widthM": 6.74
+   }
+  ],
+  "depths:landscape/grass/tbpalgae01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -1.76
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.43,
+     0.06
+    ],
+    "widthM": 3.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     1.89
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.51,
+     0.06
+    ],
+    "widthM": 3.65
+   }
+  ],
+  "depths:landscape/grass/tbpcoastdriftwood01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.55,
+     -1.48
+    ],
+    "widthM": 3.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.51,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.0,
+     0.06
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.55,
+     1.6
+    ],
+    "widthM": 3.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.51,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.11,
+     0.06
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "depths:landscape/grass/tbpcoastdriftwood02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.24,
+     -0.57
+    ],
+    "widthM": 3.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.83,
+     0.53
+    ],
+    "widthM": 2.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.24,
+     1.62
+    ],
+    "widthM": 3.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.36,
+     0.53
+    ],
+    "widthM": 2.19
+   }
+  ],
+  "depths:landscape/grass/tbprockgrasswater03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.61,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.11,
+     -1.2
+    ],
+    "widthM": 2.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.61,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.46,
+     0.01
+    ],
+    "widthM": 2.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.61,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.11,
+     1.22
+    ],
+    "widthM": 2.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.61,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.24,
+     0.01
+    ],
+    "widthM": 2.42
+   }
+  ],
+  "depths:landscape/grass/waterkelptall02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.72
+    ],
+    "widthM": 1.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.98,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.77,
+     -0.01
+    ],
+    "widthM": 1.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.71
+    ],
+    "widthM": 1.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.98,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.75,
+     -0.01
+    ],
+    "widthM": 1.43
+   }
+  ],
+  "depths:landscape/grass/waterkelptall03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.72
+    ],
+    "widthM": 1.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.98,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.77,
+     -0.01
+    ],
+    "widthM": 1.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.71
+    ],
+    "widthM": 1.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.98,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.75,
+     -0.01
+    ],
+    "widthM": 1.43
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 1.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.59,
+     0.23
+    ],
+    "widthM": 0.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.55
+    ],
+    "widthM": 1.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.59,
+     0.23
+    ],
+    "widthM": 0.65
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.7,
+     0.21
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     0.21
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.25
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.2,
+     0.0
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.25
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.2,
+     0.0
+    ],
+    "widthM": 0.5
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.56,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.65
+    ],
+    "widthM": 1.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.56,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.55,
+     0.0
+    ],
+    "widthM": 1.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.56,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.65
+    ],
+    "widthM": 1.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.56,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.55,
+     0.0
+    ],
+    "widthM": 1.3
+   }
+  ],
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokenb": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.64
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.64,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.3,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.68
+    ],
+    "widthM": 5.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.3,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.98,
+     0.04
+    ],
+    "widthM": 7.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.3,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.77
+    ],
+    "widthM": 5.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.3,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.98,
+     0.04
+    ],
+    "widthM": 7.45
+   }
+  ],
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.21,
+     -0.99
+    ],
+    "widthM": 4.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.93,
+     0.27
+    ],
+    "widthM": 2.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.21,
+     1.53
+    ],
+    "widthM": 4.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.36,
+     0.27
+    ],
+    "widthM": 2.52
+   }
+  ],
+  "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.3,
+     -1.37
+    ],
+    "widthM": 3.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.65,
+     0.16
+    ],
+    "widthM": 3.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.3,
+     1.7
+    ],
+    "widthM": 3.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.25,
+     0.16
+    ],
+    "widthM": 3.07
+   }
+  ]
+ },
+ "counts": {
+  "assets": 23,
+  "bounds": 90,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "underwater-v1",
+ "schemaVersion": 1
+}

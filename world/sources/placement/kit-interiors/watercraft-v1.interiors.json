@@ -4,12 +4,7 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 82.5,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 83\u00b0 in the piece's own frame carries 1.37x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 1.53,
    "interior": "none",
    "planAreaM2": 18.16,
@@ -22,10 +17,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 15.5,
+    "deg": 68.4,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 15\u00b0 in the piece's own frame carries 1.75x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 68\u00b0 in the piece's own frame carries 1.55x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.27,
    "interior": "none",
@@ -39,10 +34,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 255.9,
+    "deg": 112.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 256\u00b0 in the piece's own frame carries 2.90x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 112\u00b0 in the piece's own frame carries 3.33x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.53,
    "interior": "none",
@@ -54,32 +49,30 @@
   "bmv:architecture/ships/imperialship01base": {
    "category": "architecture",
    "closedShellPromotedBy": "door-piece",
-   "entrance": {
-    "count": 3,
-    "doorAsset": "bmv:architecture/orclonghouse/orcdoorload01",
-    "doorwaySource": "assembly",
-    "kind": "assembly",
-    "offsetM": [
-     7.42,
-     0.69
-    ],
-    "radiusM": 7.45,
-    "sideDeg": 95.32
-   },
-   "entranceWhy": "the shell's own mesh has no opening \u2014 its door is a separate piece (orcdoorload01), which the source authors placed against it 3 times at 95 deg in the piece's own frame; measured from placements, not geometry",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
+   "front": {
+    "deg": 30.1,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 14 times with other statics to one side; the side they left open, at 30\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
    "frontFaceFraction": 0.0,
    "headroomM": 6.06,
    "heightM": 11.49,
-   "interior": "tileset",
+   "interior": "none",
    "medianWallM": 1.87,
    "planAreaM2": 214.11,
+   "planCentreM": [
+    1.1,
+    0.86
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
-   "tileset": "vanilla-imperial-int",
-   "why": "an Imperial ship's below-decks cabin: the Imperial interior tileset is the matching grammar"
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "bmv:architecture/ships/imperialship01masts": {
    "category": "architecture",
@@ -90,7 +83,7 @@
     "deg": 210.1,
     "evidence": "co-placement",
     "outside": true,
-    "why": "the source authors placed this piece 11 times with its neighbours to one side; the face away from them, at 210\u00b0 in its own frame, is the outside"
+    "why": "the source authors placed this piece 11 times with other statics to one side; the side they left open, at 210\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
@@ -98,11 +91,15 @@
    "interior": "none",
    "medianWallM": 3.92,
    "planAreaM2": 373.8,
+   "planCentreM": [
+    -2.28,
+    0.7
+   ],
    "provenance": [],
    "ringFraction": 0.472,
    "roofOverhead": false,
    "sizeClass": "large",
-   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "bmv:breticships/shipbreticjollyboat": {
    "category": "boat",
@@ -110,10 +107,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 69.2,
+    "deg": 282.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 69\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 282\u00b0 in the piece's own frame carries 6.52x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.964,
    "headroomM": 99.0,
@@ -121,6 +118,10 @@
    "interior": "none",
    "medianWallM": 2.94,
    "planAreaM2": 32.06,
+   "planCentreM": [
+    -0.12,
+    -1.39
+   ],
    "provenance": [],
    "ringFraction": 0.389,
    "roofOverhead": false,
@@ -133,10 +134,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 110.0,
+    "deg": 109.9,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 110\u00b0 in the piece's own frame carries 1.44x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 110\u00b0 in the piece's own frame carries 1.61x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.0,
    "headroomM": 99.0,
@@ -144,6 +145,10 @@
    "interior": "none",
    "medianWallM": 0.0,
    "planAreaM2": 17.56,
+   "planCentreM": [
+    0.0,
+    0.23
+   ],
    "provenance": [],
    "ringFraction": 0.0,
    "roofOverhead": false,
@@ -162,6 +167,10 @@
    "interior": "none",
    "medianWallM": 3.13,
    "planAreaM2": 185.29,
+   "planCentreM": [
+    -0.05,
+    0.94
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
@@ -173,18 +182,17 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
-   "front": {
-    "deg": 43.8,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 44\u00b0 in the piece's own frame carries 2.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "frontFaceFraction": 0.986,
    "headroomM": 1.74,
    "heightM": 15.52,
    "interior": "none",
    "medianWallM": 3.38,
    "planAreaM2": 105.28,
+   "planCentreM": [
+    -0.08,
+    1.25
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
@@ -204,24 +212,37 @@
    "interior": "none",
    "medianWallM": 7.22,
    "planAreaM2": 1315.32,
+   "planCentreM": [
+    -1.43,
+    -9.6
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
-   "why": "category 'vehicle' is never a building"
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "bmv:transport/ships/merchant_ship": {
    "category": "vehicle",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
-   "front": null,
+   "front": {
+    "deg": 78.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 78\u00b0 in the piece's own frame carries 2.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "frontFaceFraction": 0.0,
    "headroomM": 7.38,
    "heightM": 32.9,
    "interior": "none",
    "medianWallM": 2.88,
    "planAreaM2": 350.02,
+   "planCentreM": [
+    -0.52,
+    -1.46
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
@@ -233,10 +254,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 108.3,
+    "deg": 222.9,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 108\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 223\u00b0 in the piece's own frame carries 1.50x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 2.12,
    "interior": "none",
@@ -285,7 +306,12 @@
    "category": "weapon",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
+   "front": {
+    "deg": 220.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 220\u00b0 in the piece's own frame carries 5.26x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "heightM": 0.08,
    "interior": "none",
    "planAreaM2": 0.71,
@@ -299,10 +325,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 277.9,
+    "deg": 224.7,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 278\u00b0 in the piece's own frame carries 2.80x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 225\u00b0 in the piece's own frame carries 1.61x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.0,
    "headroomM": 99.0,
@@ -310,21 +336,25 @@
    "interior": "none",
    "medianWallM": 0.0,
    "planAreaM2": 21.57,
+   "planCentreM": [
+    0.04,
+    -0.67
+   ],
    "provenance": [],
    "ringFraction": 0.0,
    "roofOverhead": false,
    "sizeClass": "small",
-   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+   "why": "name token 'boat' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "ferries:yamadori/ferries/plank_ferry_swamp_01": {
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 272.3,
+    "deg": 264.7,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 272\u00b0 in the piece's own frame carries 43.18x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 265\u00b0 in the piece's own frame carries 18.20x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.55,
    "interior": "none",
@@ -338,10 +368,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 272.7,
+    "deg": 264.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 273\u00b0 in the piece's own frame carries 23.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 265\u00b0 in the piece's own frame carries 10.22x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.55,
    "interior": "none",
@@ -356,10 +386,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 2.0,
    "front": {
-    "deg": 39.7,
+    "deg": 40.4,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 40\u00b0 in the piece's own frame carries 4.52x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 40\u00b0 in the piece's own frame carries 3.00x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
@@ -367,6 +397,10 @@
    "interior": "none",
    "medianWallM": 1.0,
    "planAreaM2": 39.65,
+   "planCentreM": [
+    0.11,
+    0.12
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": false,
@@ -377,12 +411,7 @@
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": {
-    "deg": 259.5,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 259\u00b0 in the piece's own frame carries 2.31x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "heightM": 2.19,
    "interior": "none",
    "planAreaM2": 17.96,
@@ -395,18 +424,17 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
-   "front": {
-    "deg": 275.9,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 276\u00b0 in the piece's own frame carries 3.64x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "frontFaceFraction": 0.0,
    "headroomM": 99.0,
    "heightM": 3.21,
    "interior": "none",
    "medianWallM": 0.0,
    "planAreaM2": 21.66,
+   "planCentreM": [
+    0.06,
+    -0.62
+   ],
    "provenance": [],
    "ringFraction": 0.0,
    "roofOverhead": false,
@@ -430,10 +458,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 263.7,
+    "deg": 261.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 264\u00b0 in the piece's own frame carries 7.83x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 262\u00b0 in the piece's own frame carries 6.75x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.71,
    "interior": "none",
@@ -483,10 +511,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 105.3,
+    "deg": 255.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 105\u00b0 in the piece's own frame carries 1.86x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 255\u00b0 in the piece's own frame carries 2.26x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.68,
    "interior": "none",
@@ -512,36 +540,44 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 3.0,
-   "front": null,
+   "front": {
+    "deg": 258.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 258\u00b0 in the piece's own frame carries 2.25x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
    "heightM": 6.32,
    "interior": "none",
    "medianWallM": 1.59,
    "planAreaM2": 29.54,
+   "planCentreM": [
+    0.04,
+    -0.86
+   ],
    "provenance": [],
    "ringFraction": 0.458,
    "roofOverhead": false,
    "sizeClass": "small",
-   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+   "why": "name token 'boat' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "sailboats:sailboats/longboatfurled": {
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
-   "front": {
-    "deg": 71.6,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 72\u00b0 in the piece's own frame carries 1.64x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
    "heightM": 6.32,
    "interior": "none",
    "medianWallM": 1.42,
    "planAreaM2": 26.13,
+   "planCentreM": [
+    -0.02,
+    -0.01
+   ],
    "provenance": [],
    "ringFraction": 0.208,
    "roofOverhead": false,
@@ -553,10 +589,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 255.1,
+    "deg": 110.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 255\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 110\u00b0 in the piece's own frame carries 1.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "heightM": 1.78,
    "interior": "none",
@@ -569,7 +605,12 @@
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
+   "front": {
+    "deg": 138.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 139\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "heightM": 1.55,
    "interior": "none",
    "planAreaM2": 8.46,
@@ -583,10 +624,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 1.0,
    "front": {
-    "deg": 102.9,
+    "deg": 105.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 103\u00b0 in the piece's own frame carries 1.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 106\u00b0 in the piece's own frame carries 3.06x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
@@ -594,29 +635,32 @@
    "interior": "none",
    "medianWallM": 2.61,
    "planAreaM2": 17.9,
+   "planCentreM": [
+    0.27,
+    0.73
+   ],
    "provenance": [],
    "ringFraction": 0.25,
    "roofOverhead": false,
    "sizeClass": "small",
-   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+   "why": "name token 'boat' \u2014 a hull, a hollow tree or a floor slab, not a building"
   },
   "sailboats:sailboats/sailboatelf": {
    "category": "misc",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 1.0,
-   "front": {
-    "deg": 286.3,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 286\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
    "heightM": 8.79,
    "interior": "none",
    "medianWallM": 0.12,
    "planAreaM2": 16.17,
+   "planCentreM": [
+    0.0,
+    -2.18
+   ],
    "provenance": [],
    "ringFraction": 0.5,
    "roofOverhead": false,
@@ -628,18 +672,17 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
-   "front": {
-    "deg": 284.0,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 284\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
    "heightM": 8.79,
    "interior": "none",
    "medianWallM": 0.11,
    "planAreaM2": 16.18,
+   "planCentreM": [
+    -0.0,
+    -1.53
+   ],
    "provenance": [],
    "ringFraction": 0.542,
    "roofOverhead": false,
@@ -652,10 +695,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 3.0,
    "front": {
-    "deg": 258.0,
+    "deg": 103.1,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 258\u00b0 in the piece's own frame carries 1.59x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 103\u00b0 in the piece's own frame carries 2.30x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
@@ -663,6 +706,10 @@
    "interior": "none",
    "medianWallM": 1.44,
    "planAreaM2": 17.38,
+   "planCentreM": [
+    0.21,
+    0.28
+   ],
    "provenance": [],
    "ringFraction": 0.069,
    "roofOverhead": false,
@@ -679,10 +726,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 1.0,
    "front": {
-    "deg": 316.8,
+    "deg": 317.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 317\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 318\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 3.34,
@@ -690,6 +737,10 @@
    "interior": "none",
    "medianWallM": 4.78,
    "planAreaM2": 271.96,
+   "planCentreM": [
+    0.0,
+    -1.57
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
@@ -702,10 +753,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 280.2,
+    "deg": 281.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 280\u00b0 in the piece's own frame carries 3.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 282\u00b0 in the piece's own frame carries 2.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.964,
    "headroomM": 99.0,
@@ -713,6 +764,10 @@
    "interior": "none",
    "medianWallM": 3.37,
    "planAreaM2": 28.93,
+   "planCentreM": [
+    -0.26,
+    -0.85
+   ],
    "provenance": [],
    "ringFraction": 0.389,
    "roofOverhead": false,
@@ -725,10 +780,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 2.0,
    "front": {
-    "deg": 142.7,
+    "deg": 138.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 143\u00b0 in the piece's own frame carries 1.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 139\u00b0 in the piece's own frame carries 2.24x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
@@ -736,6 +791,10 @@
    "interior": "none",
    "medianWallM": 0.9,
    "planAreaM2": 39.7,
+   "planCentreM": [
+    -0.29,
+    -0.26
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": false,
@@ -754,6 +813,10 @@
    "interior": "none",
    "medianWallM": 3.82,
    "planAreaM2": 340.65,
+   "planCentreM": [
+    0.22,
+    -2.97
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
@@ -766,10 +829,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 73.6,
+    "deg": 45.3,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 74\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 45\u00b0 in the piece's own frame carries 1.81x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 2.95,
@@ -777,6 +840,10 @@
    "interior": "none",
    "medianWallM": 2.3,
    "planAreaM2": 85.53,
+   "planCentreM": [
+    -0.3,
+    2.95
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
@@ -789,10 +856,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 68.6,
+    "deg": 78.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 69\u00b0 in the piece's own frame carries 5.41x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 78\u00b0 in the piece's own frame carries 3.14x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.971,
    "headroomM": 1.87,
@@ -800,6 +867,10 @@
    "interior": "none",
    "medianWallM": 3.55,
    "planAreaM2": 87.84,
+   "planCentreM": [
+    -0.12,
+    -0.79
+   ],
    "provenance": [],
    "ringFraction": 0.486,
    "roofOverhead": true,
@@ -810,7 +881,12 @@
    "category": "dungeon-kit",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
+   "front": {
+    "deg": 258.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 259\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "heightM": 1.64,
    "interior": "none",
    "planAreaM2": 13.79,
@@ -824,10 +900,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 0.0,
    "front": {
-    "deg": 135.0,
+    "deg": 142.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 135\u00b0 in the piece's own frame carries 9.94x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 143\u00b0 in the piece's own frame carries 5.65x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "frontFaceFraction": 0.0,
    "headroomM": 4.77,
@@ -835,6 +911,10 @@
    "interior": "none",
    "medianWallM": 4.7,
    "planAreaM2": 287.66,
+   "planCentreM": [
+    0.15,
+    -2.14
+   ],
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,

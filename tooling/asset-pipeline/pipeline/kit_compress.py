@@ -60,6 +60,23 @@ DEFAULT_POLICY = {"color": "uastc", "normal": "uastc", "attrib": "uastc", "quali
 TEXTURE_EXTENSION = "KHR_texture_basisu"
 MESH_EXTENSION = "EXT_meshopt_compression"
 
+# The three measured sidecars ship beside every published kit pair: the
+# settlement compile and the export read them from the SHIPPED build, so a
+# kit published without them is a kit the studio cannot snap, foot or enter
+# (16h item 6). They are small JSON and count against the site budget like
+# everything else under kits/ (tooling/pages-site/compose.mjs walks the tree).
+SIDECARS = ("connectors", "footprints", "interiors")
+# Architecture measurements have nothing to say about a vegetation atlas:
+# measure_connectors/footprints and interiors_index describe snap edges,
+# ground contact hulls and interior claims of BUILDINGS. These two kits are
+# instanced flora and groundcover, placed by the vegetation renderer, never
+# snapped or entered; measuring them would add ~2 MB of meaningless rows to
+# the startup payload. Exempt by name, with the reason, never by silence.
+SIDECAR_EXEMPT = {
+    "flora-province-v1": "vegetation atlas: no snap edges, no footprints, no interiors",
+    "groundcover-province-v1": "groundcover atlas: no snap edges, no footprints, no interiors",
+}
+
 
 def gltfpack_path() -> Path:
     return Path(os.path.expanduser(TOOLCHAIN.get("gltfpack", "~/tools/gltfpack-1.2/gltfpack")))
@@ -161,6 +178,48 @@ def compress(src: Path, dst: Path, policy: dict, threads: int = 4) -> dict:
     }
 
 
+def sidecar_problems(kit_id: str, public_dir: Path = PUBLIC_KITS) -> list[str]:
+    """Why a published kit's sidecars are not acceptable (empty list = fine)."""
+    if kit_id in SIDECAR_EXEMPT:
+        return []
+    missing = [name for name in SIDECARS
+               if not (public_dir / f"{kit_id}.{name}.json").is_file()]
+    if missing:
+        return [f"{kit_id}: published without its {', '.join(missing)} sidecar(s); "
+                f"run pipeline.measure_footprints / measure_connectors / interiors_index "
+                f"on the raw build and republish"]
+    return []
+
+
+def publish_sidecars(kit_id: str, raw_dir: Path = OUTPUT_KITS,
+                     public_dir: Path = PUBLIC_KITS) -> dict:
+    """Copy <kit>.connectors/footprints/interiors.json from the raw build to
+    the published kits, and return {name: bytes}. A kit the measurements do
+    not apply to (SIDECAR_EXEMPT) ships none; any other kit missing one is a
+    hard error here rather than a silent gap the export discovers later."""
+    written: dict[str, int] = {}
+    if kit_id in SIDECAR_EXEMPT:
+        return written
+    missing = []
+    for name in SIDECARS:
+        source = raw_dir / f"{kit_id}.{name}.json"
+        if not source.is_file():
+            missing.append(name)
+            continue
+        target = public_dir / f"{kit_id}.{name}.json"
+        public_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+        os.chmod(target, 0o644)
+        written[name] = target.stat().st_size
+    if missing:
+        raise FileNotFoundError(
+            f"{kit_id}: raw build has no {', '.join(missing)} sidecar. Measure it "
+            f"(pipeline.measure_footprints / measure_connectors / interiors_index "
+            f"--kit {kit_id}) or record the kit in kit_compress.SIDECAR_EXEMPT with "
+            f"the reason it has none.")
+    return written
+
+
 def publish(kit_id: str, threads: int = 4) -> dict:
     """Compress output/kits/<id>.glb into public/kits/<id>.glb and copy the
     manifest across with the compression record added. Kits whose config
@@ -194,11 +253,23 @@ def publish(kit_id: str, threads: int = 4) -> dict:
         shutil.copyfile(raw, dst)
     else:
         record = compress(raw, dst, policy, threads)
+    published = PUBLIC_KITS / f"{kit_id}.kit.json"
+    sidecars = publish_sidecars(kit_id)
+    record["sidecarBytes"] = sidecars
+    # The single list of kits the three architecture measurements do not apply
+    # to travels with the manifest, so the export reads the exemption rather
+    # than keeping a second copy of it (export_settlement_bundle.kit_sidecar_errors).
+    if kit_id in SIDECAR_EXEMPT:
+        record["sidecarsExempt"] = SIDECAR_EXEMPT[kit_id]
     manifest["compression"] = record
     manifest_path.write_text(json.dumps(manifest, indent=1) + "\n")
-    published = PUBLIC_KITS / f"{kit_id}.kit.json"
     if published.resolve() != manifest_path.resolve():
         published.write_text(json.dumps(manifest, indent=1) + "\n")
+    if sidecars:
+        print(f"[kit] {kit_id}: sidecars " + ", ".join(
+            f"{n} {b / 1e3:.1f} kB" for n, b in sorted(sidecars.items())))
+    elif kit_id in SIDECAR_EXEMPT:
+        print(f"[kit] {kit_id}: no sidecars ({SIDECAR_EXEMPT[kit_id]})")
     if record.get("enabled", True):
         print(f"[kit] {kit_id}: compressed {record['bytesBefore'] / 1e6:.1f} MB -> "
               f"{record['bytesAfter'] / 1e6:.1f} MB ({record['images']} images UASTC/KTX2, meshopt) "
@@ -209,11 +280,22 @@ def publish(kit_id: str, threads: int = 4) -> dict:
 def check(kit_id: str) -> list[str]:
     """Why a published kit is not acceptable (empty list = fine)."""
     glb = PUBLIC_KITS / f"{kit_id}.glb"
-    manifest_path = PUBLIC_KITS / f"{kit_id}.kit.json"
-    problems = []
     if not glb.exists():
         return [f"{kit_id}: no published GLB"]
-    facts = describe(glb)
+    return glb_problems(kit_id, glb, PUBLIC_KITS / f"{kit_id}.kit.json") + sidecar_problems(kit_id)
+
+
+def glb_problems(kit_id: str, glb: Path, manifest_path: Path) -> list[str]:
+    """Why a GLB and its manifest may not ship (empty list = fine): the
+    `--check` rule minus the sidecars, for any pair about to be published.
+    16h M19 ruling 5: `export_settlement_bundle --copy-assets` copied the raw
+    `output/kits` builds over the compressed ones (K12 B found 15 kits at raw
+    size); every writer into public/kits runs this first."""
+    problems = []
+    try:
+        facts = describe(glb)
+    except ValueError as exc:
+        return [f"{kit_id}: {exc}"]
     record = json.loads(manifest_path.read_text()).get("compression") if manifest_path.exists() else None
     if record is None:
         problems.append(f"{kit_id}: manifest has no `compression` record (published without pipeline.kit_compress)")
@@ -231,6 +313,9 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--kit", required=True)
     ap.add_argument("--check", action="store_true", help="verify the published kit, do not rebuild")
+    ap.add_argument("--sidecars-only", action="store_true",
+                    help="republish the measured sidecars beside an already-compressed "
+                         "kit, without re-running gltfpack")
     ap.add_argument("--threads", type=int, default=4)
     args = ap.parse_args()
     if args.check:
@@ -238,6 +323,12 @@ def main() -> None:
         for p in problems:
             print(p)
         sys.exit(1 if problems else 0)
+    if args.sidecars_only:
+        written = publish_sidecars(args.kit)
+        print(f"[kit] {args.kit}: sidecars " + (", ".join(
+            f"{n} {b / 1e3:.1f} kB" for n, b in sorted(written.items()))
+            or f"none ({SIDECAR_EXEMPT.get(args.kit, 'none measured')})"))
+        return
     publish(args.kit, args.threads)
 
 

@@ -8,6 +8,18 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "lodRatiosByCategory": {
+  "rock": []
+ },
+ "texturePoolPrecedence": [
+  "depths",
+  "shores",
+  "sirenroot",
+  "jokerine",
+  "htbm",
+  "bmv",
+  "vanilla"
+ ],
  "assets": [
   {
    "asset": "depths:landscape/grass/tbp_seaweed01"

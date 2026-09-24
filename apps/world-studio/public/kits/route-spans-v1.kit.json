@@ -32,19 +32,31 @@
     "NorTmpExtPlatTowerBridge01:26.Mat",
     "NorTmpExtPlatTowerBridge01:27.Mat"
    ],
+   "designedSinkM": {
+    "p25": -1.1896,
+    "p50": -0.0489,
+    "p75": 0.1512,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.433,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.433
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgefree01",
@@ -77,19 +89,31 @@
     "NorTmpExtPlatTowerBridgeFree01:26.Mat",
     "NorTmpExtPlatTowerBridgeFree01:27.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.6033,
+    "p50": -0.2002,
+    "p75": 0.3993,
+    "n": 9,
+    "slopeTermMPerDeg": 0.01275,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.868,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.868
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplattowerbridgeendcap01",
@@ -122,19 +146,36 @@
     "NorTmpExtPlatTowerBridgeEndCap01:26.Mat",
     "NorTmpExtPlatTowerBridgeEndCap01:27.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.7616,
+    "p50": 0.7616,
+    "p75": 0.7616,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.7616
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.433,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.999,
+   "openBackYawDeg": 168.8,
+   "pivotAboveBaseM": 0.433
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplattower01",
@@ -167,19 +208,31 @@
     "NorTmpExtPlatTower01:26.Mat",
     "NorTmpExtPlatTower01:27.Mat"
    ],
+   "designedSinkM": {
+    "p25": -14.8934,
+    "p50": -10.4889,
+    "p75": -7.5722,
+    "n": 44,
+    "slopeTermMPerDeg": -0.09394,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 21.848,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.681,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 21.848
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplattower02",
@@ -212,19 +265,31 @@
     "NorTmpExtPlatTower02:26.Mat",
     "NorTmpExtPlatTower02:27.Mat"
    ],
+   "designedSinkM": {
+    "p25": -11.47,
+    "p50": -8.8123,
+    "p75": -4.8145,
+    "n": 11,
+    "slopeTermMPerDeg": 0.03382,
+    "evidence": "plugin"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 21.848,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.777,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 21.848
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplatshaftbot01",
@@ -257,19 +322,36 @@
     "NorTmpExtPlatShaftBot01:27.Mat",
     "NorTmpExtPlatShaftBot01:4.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.4552,
+    "p50": -0.4552,
+    "p75": -0.4552,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill (plugin-unsupported)"
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4552
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.455,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.455
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstairmid02",
@@ -300,19 +382,31 @@
    "materials": [
     "NorTmpExtPlatStairMid02:44.Mat"
    ],
+   "designedSinkM": {
+    "p25": -3.4,
+    "p50": -1.5072,
+    "p75": -0.2999,
+    "n": 40,
+    "slopeTermMPerDeg": 0.0419,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 7.283,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 7.283
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapl01",
@@ -345,19 +439,32 @@
     "NorTmpExtPlatStairCapL01:26.Mat",
     "NorTmpExtPlatStairCapL01:44.Mat"
    ],
+   "designedSinkM": {
+    "p25": -5.6076,
+    "p50": -2.4344,
+    "p75": -0.9388,
+    "n": 71,
+    "slopeTermMPerDeg": -0.03507,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -0.8961,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 7.283,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 112.5,
+   "pivotAboveBaseM": 7.283
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/nortmpextplatstaircapr01",
@@ -390,19 +497,32 @@
     "NorTmpExtPlatStairCapR01:26.Mat",
     "NorTmpExtPlatStairCapR01:44.Mat"
    ],
+   "designedSinkM": {
+    "p25": -4.9137,
+    "p50": -2.1167,
+    "p75": -0.746,
+    "n": 70,
+    "slopeTermMPerDeg": -0.00794,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "designedWaterlineM": -0.8961,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 7.283,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": 247.5,
+   "pivotAboveBaseM": 7.283
   },
   {
    "id": "bmv:architecture/huts/exterior/bridge01",
@@ -437,19 +557,36 @@
     "Bridge01:1.Mat",
     "Bridge01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.003,
+    "p50": 0.003,
+    "p75": 0.003,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.003
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.003,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.8,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.003
   },
   {
    "id": "bmv:architecture/huts/exterior/steps01",
@@ -480,19 +617,36 @@
    "materials": [
     "Steps.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0004,
+    "p50": 0.0004,
+    "p75": 0.0004,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": 0.0004
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "bmv:architecture/huts/exterior/steps02",
@@ -527,19 +681,36 @@
     "Steps2:0.Mat",
     "Steps2:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0191,
+    "p50": -0.0191,
+    "p75": -0.0191,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0191
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.019,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.794,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.019
   },
   {
    "id": "bmv:architecture/huts/exterior/steps03",
@@ -574,19 +745,36 @@
     "Steps3:1.Mat",
     "Steps3:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0239,
+    "p50": -0.0239,
+    "p75": -0.0239,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.0239
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.024,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.992,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "vanilla:landscape/bridges/bridgeshort01",
@@ -624,19 +812,36 @@
     "BridgeShort01:7.Mat",
     "BridgeShort01:8.Mat"
    ],
+   "designedSinkM": {
+    "p25": -14.3728,
+    "p50": -14.3728,
+    "p75": -14.3728,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -14.3728
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 14.373,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.363,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 14.373
   },
   {
    "id": "vanilla:landscape/bridges/bridgenarrow01",
@@ -674,19 +879,36 @@
     "BridgeNarrow01:7.Mat",
     "BridgeNarrow01:8.Mat"
    ],
+   "designedSinkM": {
+    "p25": -14.3728,
+    "p50": -14.3728,
+    "p75": -14.3728,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -14.3728
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 14.373,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.355,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 14.373
   },
   {
    "id": "vanilla:landscape/bridges/bridge01",
@@ -724,19 +946,31 @@
     "Road:7.Mat",
     "Road:8.Mat"
    ],
+   "designedSinkM": {
+    "p25": -5.718,
+    "p50": -4.2541,
+    "p75": -4.034,
+    "n": 9,
+    "slopeTermMPerDeg": 0.03219,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 14.373,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.41,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 14.373
   },
   {
    "id": "vanilla:landscape/bridges/bridgelong01",
@@ -774,19 +1008,36 @@
     "BridgeLong01:7.Mat",
     "BridgeLong01:8.Mat"
    ],
+   "designedSinkM": {
+    "p25": -14.3728,
+    "p50": -14.3728,
+    "p75": -14.3728,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -14.3728
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 14.373,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.461,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 14.373
   },
   {
    "id": "vanilla:dungeons/nordic/exterior/dragonbridge01",
@@ -825,19 +1076,36 @@
     "Bridge01:31.Mat",
     "Bridge01:48.Mat"
    ],
+   "designedSinkM": {
+    "p25": -22.4302,
+    "p50": -22.4302,
+    "p75": -22.4302,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -22.4302
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 22.43,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 22.43
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
@@ -870,19 +1138,89 @@
     "StockadeScaffoldBase4Sided01:0.Mat",
     "StockadeScaffoldBase4Sided01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.1732,
+    "p50": 1.0441,
+    "p75": 1.9765,
+    "n": 59,
+    "slopeTermMPerDeg": 0.00242,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.422,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/stockade/stockadescaffoldbase0sided02",
+   "node": "es|b89672e8f5|er_stockade_stockadescaffoldbase0sided02",
+   "category": "clutter",
+   "sizeM": [
+    3.015,
+    3.002,
+    2.731
+   ],
+   "originOffsetM": [
+    1.508,
+    1.501,
+    -0.0
+   ],
+   "triangles": 112,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "stockadeextra01.dds",
+    "stockadewood01.dds"
+   ],
+   "materials": [
+    "StockadeScaffoldBase0Sided02:0.Mat",
+    "StockadeScaffoldBase0Sided02:2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.2401,
+    "p50": 1.6365,
+    "p75": 2.246,
+    "n": 27,
+    "slopeTermMPerDeg": 0.06009,
+    "evidence": "plugin"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.15,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "route-structure",
+     "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0,
+   "designedWaterlineM": 1.7005
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
@@ -915,19 +1253,31 @@
     "StockadeScaffoldTop0Sided01:1 - L2_Accessories:1.Mat",
     "StockadeScaffoldTop0Sided01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.2574,
+    "p50": -0.1059,
+    "p75": -0.0049,
+    "n": 101,
+    "slopeTermMPerDeg": -0.01856,
+    "evidence": "plugin"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.219,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
@@ -962,19 +1312,31 @@
     "StockadeScaffoldTop2Sided01:1 - L2_Accessories:1 - L1_Rails:1.M",
     "StockadeScaffoldTop2Sided01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -1.1705,
+    "p50": -0.1231,
+    "p75": 0.0817,
+    "n": 6,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.219,
-    "buryM": 0.06,
     "buryCapM": 0.15,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "route-structure",
      "fitPolicy": "authored placement-policies.json policy route-structure: Reviewed route deck/landing policy matching the compiled route-structure grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.219
   },
   {
    "id": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
@@ -1009,19 +1371,31 @@
     "StockadeScaffoldTop3Sided01:1 - L1_Rail:1 - L2_Accessories:1.Ma",
     "StockadeScaffoldTop3Sided01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.4389,
+    "p50": -0.4248,
+    "p75": -0.3651,
+    "n": 4,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.219,
-    "buryM": 0.12,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.219
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\route-spans-v1.glb",
@@ -1030,7 +1404,7 @@
  "texturesSubstituted": {},
  "alphaModes": {
   "MASK": 0,
-  "OPAQUE": 62
+  "OPAQUE": 64
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -1063,11 +1437,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 13432696,
-  "bytesAfter": 5826188,
+  "bytesBefore": 13176452,
+  "bytesAfter": 5832444,
   "images": 17,
   "imageBytesAfter": 4450908,
   "warnings": [],
-  "sha256": "f6e0c52267a62394eb262930e75dbe913afba4ba3fd4a73cd8b2f5164c9a5f40"
+  "sha256": "7de962b1e3375d6d50bb422a648199dfa5a1b7bc5de7d5a77cf8b23b27fd6d4d",
+  "sidecarBytes": {
+   "connectors": 25066,
+   "footprints": 22892,
+   "interiors": 17986
+  }
  }
 }

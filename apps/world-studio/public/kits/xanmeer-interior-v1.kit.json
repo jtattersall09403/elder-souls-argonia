@@ -37,15 +37,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.824,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -1.8235,
+    "p50": -1.8235,
+    "p75": -1.8235,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -1.8235
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised01a",
@@ -81,15 +94,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.475,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.4748,
+    "p50": -0.4748,
+    "p75": -0.4748,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4748
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised02a",
@@ -125,15 +151,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.488,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.4883,
+    "p50": -0.4883,
+    "p75": -0.4883,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4883
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised03a",
@@ -169,15 +208,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.193,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1927,
+    "p50": -0.1927,
+    "p75": -0.1927,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1927
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen01",
@@ -215,15 +267,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -5.409,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 5.4092,
+    "p50": 5.4092,
+    "p75": 5.4092,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 5.4092
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02",
@@ -262,15 +327,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -5.376,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 8.8177,
+    "p50": 8.8177,
+    "p75": 8.8177,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 8.8177
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02left",
@@ -309,15 +387,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -5.376,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 5.7298,
+    "p50": 5.7298,
+    "p75": 5.7298,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 5.7298
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02right",
@@ -356,15 +447,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -5.376,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 5.7298,
+    "p50": 5.7298,
+    "p75": 5.7298,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 5.7298
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhallbladeslots",
@@ -408,15 +512,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.109,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1086,
+    "p50": -0.1086,
+    "p75": -0.1086,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1086
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend01",
@@ -454,15 +571,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend02",
@@ -499,15 +629,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 1.5086,
+    "p50": 1.5086,
+    "p75": 1.5086,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 1.5086
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadendwall",
@@ -542,15 +685,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairs02",
@@ -636,15 +787,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 4.552,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1689,
+    "p50": -0.1689,
+    "p75": -0.1689,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.1689
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairsbase02",
@@ -687,15 +851,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.17,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1696,
+    "p50": -0.1696,
+    "p75": -0.1696,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": -0.1696
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitwalltallsecret01",
@@ -742,15 +919,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.168,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1678,
+    "p50": -0.1678,
+    "p75": -0.1678,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1678
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arretractablebridge01",
@@ -793,15 +983,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.556,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0933,
+    "p50": -0.0933,
+    "p75": -0.0933,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0933
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile02",
@@ -841,15 +1044,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.043,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0431,
+    "p50": -0.0431,
+    "p75": -0.0431,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0431
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile03",
@@ -889,15 +1105,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.171,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1711,
+    "p50": -0.1711,
+    "p75": -0.1711,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1711
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepileceiling01",
@@ -944,15 +1173,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.327,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -1.3271,
+    "p50": -1.3271,
+    "p75": -1.3271,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.3271
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artable01",
@@ -992,15 +1234,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.002,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0015,
+    "p50": -0.0015,
+    "p75": -0.0015,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0015
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablesquare01",
@@ -1040,15 +1295,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.002,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0015,
+    "p50": -0.0015,
+    "p75": -0.0015,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0015
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablethin01",
@@ -1088,15 +1356,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.002,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0015,
+    "p50": -0.0015,
+    "p75": -0.0015,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0015
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall01dirt",
@@ -1144,15 +1425,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way01",
@@ -1201,15 +1495,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way02",
@@ -1257,15 +1564,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall4way01fancy",
@@ -1310,15 +1630,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.183,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.1834,
+    "p50": 0.1834,
+    "p75": 0.1834,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.1834
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallcorner01fancy",
@@ -1361,15 +1694,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallsecret01fancy",
@@ -1418,15 +1764,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhalltransnarrowflat",
@@ -1466,15 +1825,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench02",
@@ -1513,15 +1885,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench03",
@@ -1560,15 +1945,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1way02x256",
@@ -1604,15 +2002,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.9103,
+    "p50": -0.9103,
+    "p75": -0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9103
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1wayendcap02",
@@ -1648,15 +2059,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1138,
+    "p50": -0.1138,
+    "p75": -0.1138,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.1138
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arclutterpedestal01",
@@ -1694,15 +2118,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arcluttertrough01",
@@ -1740,15 +2177,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridge01",
@@ -1787,15 +2237,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.797,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.7965,
+    "p50": -0.7965,
+    "p75": -0.7965,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.7965
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgecurve01",
@@ -1834,15 +2297,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.797,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.7965,
+    "p50": -0.7965,
+    "p75": -0.7965,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.7965
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampccw01",
@@ -1881,15 +2357,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 6.182,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampcw01",
@@ -1928,15 +2412,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 6.182,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle01",
@@ -1975,15 +2467,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle02",
@@ -2026,15 +2531,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair01",
@@ -2074,15 +2592,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair02",
@@ -2120,15 +2651,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arhitchpost01",
@@ -2165,15 +2709,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.228,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2276,
+    "p50": -0.2276,
+    "p75": -0.2276,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2276
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin01",
@@ -2209,15 +2766,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.8646,
+    "p50": 0.8646,
+    "p75": 0.8646,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.8646
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin02",
@@ -2253,15 +2823,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.9056,
+    "p50": 0.9056,
+    "p75": 0.9056,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.9056
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorout01",
@@ -2297,15 +2880,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatmid01",
@@ -2338,15 +2934,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.91,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.9103,
+    "p50": 0.9103,
+    "p75": 0.9103,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.9103
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwall01",
@@ -2382,15 +2991,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.9089,
+    "p50": 0.9089,
+    "p75": 0.9089,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.9089
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair01",
@@ -2426,15 +3048,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.5654,
+    "p50": 0.5654,
+    "p75": 0.5654,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.5654
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair02",
@@ -2470,15 +3105,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": 0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arsteppeddias01",
@@ -2514,15 +3162,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "bottom-step",
+    "valueM": 0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench2seater",
@@ -2562,15 +3223,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.007,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.007,
+    "p50": -0.007,
+    "p75": -0.007,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.007
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench4seater",
@@ -2610,15 +3284,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.01,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0098,
+    "p50": -0.0098,
+    "p75": -0.0098,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0098
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwindow01",
@@ -2655,15 +3342,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.199,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall01mine",
@@ -2712,15 +3407,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.109,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1086,
+    "p50": -0.1086,
+    "p75": -0.1086,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1086
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way01",
@@ -2763,15 +3471,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.109,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1086,
+    "p50": -0.1086,
+    "p75": -0.1086,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1086
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way02",
@@ -2814,15 +3535,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.109,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.1086,
+    "p50": -0.1086,
+    "p75": -0.1086,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1086
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrmcornerexitrightnarrow01",
@@ -2865,15 +3599,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/arpuzzlepillar",
@@ -2915,15 +3662,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonealteration01",
@@ -2961,15 +3721,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.24,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2396,
+    "p50": -0.2396,
+    "p75": -0.2396,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2396
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneconjuration01",
@@ -3007,15 +3780,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.24,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2396,
+    "p50": -0.2396,
+    "p75": -0.2396,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2396
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonedestruction01",
@@ -3053,15 +3839,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.24,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2396,
+    "p50": -0.2396,
+    "p75": -0.2396,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2396
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneenchanting01",
@@ -3099,15 +3898,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.24,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2396,
+    "p50": -0.2396,
+    "p75": -0.2396,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2396
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneillusion01",
@@ -3145,15 +3957,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.24,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2396,
+    "p50": -0.2396,
+    "p75": -0.2396,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2396
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonerestoration01",
@@ -3191,15 +4016,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.24,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.2396,
+    "p50": -0.2396,
+    "p75": -0.2396,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.2396
+   },
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/artrapswingingblade01",
@@ -3234,15 +4072,23 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -1.007,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced"
   },
   {
    "id": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/arwelkyndclusterevil01",
@@ -3278,15 +4124,28 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.026,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "designedSinkM": {
+    "p25": 0.3558,
+    "p50": 0.3558,
+    "p75": 0.3558,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 0.3558
+   },
+   "anchorClassEvidence": "unplaced"
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\xanmeer-interior-v1.glb",
@@ -3369,6 +4228,11 @@
   "images": 25,
   "imageBytesAfter": 6158522,
   "warnings": [],
-  "sha256": "364ad4d32ff5a718a424c3c1c0574602db3418a9f604b4ed3039d2bb0bb281fc"
+  "sha256": "364ad4d32ff5a718a424c3c1c0574602db3418a9f604b4ed3039d2bb0bb281fc",
+  "sidecarBytes": {
+   "connectors": 46014,
+   "footprints": 68874,
+   "interiors": 30981
+  }
  }
 }

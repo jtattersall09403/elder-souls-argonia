@@ -1,0 +1,658 @@
+{
+ "assets": {
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.97
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.97,
+     0.0
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.97
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.97,
+     0.0
+    ],
+    "widthM": 9.94
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.97
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.97,
+     0.0
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.97
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.97,
+     0.0
+    ],
+    "widthM": 9.94
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.58,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.85,
+     0.03
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.58,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.82,
+     0.03
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.72,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.75,
+     0.0
+    ],
+    "widthM": 0.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.72,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.74,
+     0.0
+    ],
+    "widthM": 0.68
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.39
+    ],
+    "widthM": 0.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.01,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.45,
+     0.0
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.39
+    ],
+    "widthM": 0.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.01,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.43,
+     0.0
+    ],
+    "widthM": 0.78
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.89,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.35
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.89,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.47,
+     0.11
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.89,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.57
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.89,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.45,
+     0.11
+    ],
+    "widthM": 0.92
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickersofa01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.27
+    ],
+    "widthM": 1.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.89,
+     0.19
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.65
+    ],
+    "widthM": 1.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.86,
+     0.19
+    ],
+    "widthM": 0.92
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.68
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.46,
+     0.0
+    ],
+    "widthM": 1.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.68
+    ],
+    "widthM": 0.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.46,
+     0.0
+    ],
+    "widthM": 1.36
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/bamboohut01_int": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.83,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.97
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.83,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.97,
+     0.0
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.83,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.97
+    ],
+    "widthM": 9.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.83,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.97,
+     0.0
+    ],
+    "widthM": 9.94
+   }
+  ],
+  "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.54
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.54,
+     0.0
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.54
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.54,
+     0.0
+    ],
+    "widthM": 1.08
+   }
+  ],
+  "vanilla:clutter/barrel01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "vanilla:clutter/giant/giantcampfire01off": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.45,
+     -7.81
+    ],
+    "widthM": 15.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.14,
+     -0.02
+    ],
+    "widthM": 15.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.45,
+     7.77
+    ],
+    "widthM": 15.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.04,
+     -0.02
+    ],
+    "widthM": 15.58
+   }
+  ],
+  "vanilla:clutter/hay/hayscatter05": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.05,
+     -1.22
+    ],
+    "widthM": 3.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.55,
+     0.18
+    ],
+    "widthM": 2.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.05,
+     1.57
+    ],
+    "widthM": 3.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.45,
+     0.18
+    ],
+    "widthM": 2.79
+   }
+  ],
+  "vanilla:clutter/hay/hayscatter06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.56
+    ],
+    "widthM": 3.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.91,
+     0.0
+    ],
+    "widthM": 3.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.56
+    ],
+    "widthM": 3.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.91,
+     0.0
+    ],
+    "widthM": 3.12
+   }
+  ],
+  "vanilla:clutter/imperial/impbrazier01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.47,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.53
+    ],
+    "widthM": 1.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.53,
+     0.0
+    ],
+    "widthM": 1.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.47,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.53
+    ],
+    "widthM": 1.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.53,
+     0.0
+    ],
+    "widthM": 1.06
+   }
+  ]
+ },
+ "counts": {
+  "assets": 15,
+  "bounds": 56,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "htbm-hut-int",
+ "schemaVersion": 1
+}

@@ -1,0 +1,1862 @@
+{
+ "assets": {
+  "bmv:architecture/huts/exterior/hutdecking": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.63,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -7.37
+    ],
+    "widthM": 14.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.35,
+     -0.0
+    ],
+    "widthM": 14.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.63,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     7.36
+    ],
+    "widthM": 14.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.36,
+     -0.0
+    ],
+    "widthM": 14.73
+   }
+  ],
+  "bmv:architecture/huts/exterior/hutexterior": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.18,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -5.81
+    ],
+    "widthM": 11.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.18,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.81,
+     0.0
+    ],
+    "widthM": 11.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.18,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     5.81
+    ],
+    "widthM": 11.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.18,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.81,
+     0.0
+    ],
+    "widthM": 11.62
+   }
+  ],
+  "canoe:actors/sfss/canoe/canoe1": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.78
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.99
+    ],
+    "widthM": 1.98
+   }
+  ],
+  "composite:mud/hut-with-entrance": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -7.55
+    ],
+    "widthM": 15.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.55,
+     0.0
+    ],
+    "widthM": 15.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     7.55
+    ],
+    "widthM": 15.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.55,
+     0.0
+    ],
+    "widthM": 15.1
+   }
+  ],
+  "ferries:yamadori/ferries/plank_ferry_swamp_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.82,
+     -1.78
+    ],
+    "widthM": 2.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.51,
+     0.0
+    ],
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.82,
+     1.78
+    ],
+    "widthM": 2.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.14,
+     0.0
+    ],
+    "widthM": 3.56
+   }
+  ],
+  "ferries:yamadori/ferries/rowboat_ferry_swamp_01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.68
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.95
+    ],
+    "widthM": 2.78
+   }
+  ],
+  "ferryraft:snt/ferry/ferryraft01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -2.09
+    ],
+    "widthM": 3.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.65,
+     -0.03
+    ],
+    "widthM": 4.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     2.02
+    ],
+    "widthM": 3.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.59,
+     -0.03
+    ],
+    "widthM": 4.11
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 24.35,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.42,
+     -14.28
+    ],
+    "widthM": 24.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 24.35,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.01,
+     -0.72
+    ],
+    "widthM": 27.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 24.35,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.42,
+     12.84
+    ],
+    "widthM": 24.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 24.35,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -12.86,
+     -0.72
+    ],
+    "widthM": 27.12
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/histflower01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.07,
+     -0.43
+    ],
+    "widthM": 1.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.52,
+     -0.09
+    ],
+    "widthM": 0.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.07,
+     0.25
+    ],
+    "widthM": 1.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.65,
+     -0.09
+    ],
+    "widthM": 0.68
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/histflower02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.3,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.48
+    ],
+    "widthM": 0.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.3,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.31,
+     -0.05
+    ],
+    "widthM": 0.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.3,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.38
+    ],
+    "widthM": 0.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.3,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.34,
+     -0.05
+    ],
+    "widthM": 0.86
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/rockcairn01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.65,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.32
+    ],
+    "widthM": 2.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.65,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.24,
+     -0.07
+    ],
+    "widthM": 2.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.65,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.19
+    ],
+    "widthM": 2.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.65,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.25,
+     -0.07
+    ],
+    "widthM": 2.51
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/rockcairn02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -1.41
+    ],
+    "widthM": 3.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.63,
+     0.01
+    ],
+    "widthM": 2.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     1.43
+    ],
+    "widthM": 3.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.66,
+     0.01
+    ],
+    "widthM": 2.84
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/rockcairn03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.56,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -1.23
+    ],
+    "widthM": 1.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.56,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.95,
+     0.07
+    ],
+    "widthM": 2.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.56,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     1.38
+    ],
+    "widthM": 1.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.56,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.8,
+     0.07
+    ],
+    "widthM": 2.61
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/rockcairn04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.56,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.94
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.56,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.69,
+     0.0
+    ],
+    "widthM": 1.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.56,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.94
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.56,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.7,
+     0.0
+    ],
+    "widthM": 1.88
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/rune circle": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -4.55
+    ],
+    "widthM": 8.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.32,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.03,
+     -0.04
+    ],
+    "widthM": 9.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     4.46
+    ],
+    "widthM": 8.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.32,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.08,
+     -0.04
+    ],
+    "widthM": 9.01
+   }
+  ],
+  "histtree:skyfall/sleeping tree overhaul/windchimehavok": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.15
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.14,
+     0.01
+    ],
+    "widthM": 0.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.18
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.16,
+     0.01
+    ],
+    "widthM": 0.33
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/archwaysticks": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -7.07,
+     -8.79
+    ],
+    "widthM": 5.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -4.52,
+     -6.48
+    ],
+    "widthM": 4.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -7.07,
+     -4.18
+    ],
+    "widthM": 5.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.62,
+     -6.48
+    ],
+    "widthM": 4.61
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.07,
+     -0.08
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.11,
+     -0.08
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianbridge": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.12,
+     0.0
+    ],
+    "widthM": 3.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.12,
+     0.0
+    ],
+    "widthM": 3.36
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianbridgestart": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.6
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.47,
+     0.0
+    ],
+    "widthM": 3.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.6
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.47,
+     0.0
+    ],
+    "widthM": 3.2
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argoniancandle01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.2
+    ],
+    "widthM": 0.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.2,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.4,
+     0.1
+    ],
+    "widthM": 0.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.41
+    ],
+    "widthM": 0.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.2,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.44,
+     0.1
+    ],
+    "widthM": 0.61
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianfence01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.01
+    ],
+    "widthM": 0.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.49,
+     0.01
+    ],
+    "widthM": 0.29
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianfence02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.79,
+     0.0
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianfenceend": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.54,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.0
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     0.0
+    ],
+    "widthM": 0.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.0
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     0.0
+    ],
+    "widthM": 0.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianplatform": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.27,
+     -1.34
+    ],
+    "widthM": 2.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.67,
+     0.0
+    ],
+    "widthM": 2.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.27,
+     1.34
+    ],
+    "widthM": 2.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 2.68
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianplatformsmall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.56,
+     -1.42
+    ],
+    "widthM": 1.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.56,
+     1.12
+    ],
+    "widthM": 1.16
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianskull01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -0.76
+    ],
+    "widthM": 1.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.71,
+     -0.18
+    ],
+    "widthM": 1.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     0.39
+    ],
+    "widthM": 1.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.57,
+     -0.18
+    ],
+    "widthM": 1.15
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argoniantent01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -3.42
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.07,
+     0.08
+    ],
+    "widthM": 7.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     3.58
+    ],
+    "widthM": 8.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.13,
+     0.08
+    ],
+    "widthM": 7.0
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argoniantent02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.37,
+     -2.75
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.44,
+     -0.09
+    ],
+    "widthM": 5.31
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.37,
+     2.56
+    ],
+    "widthM": 6.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.7,
+     -0.09
+    ],
+    "widthM": 5.31
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.23
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.36,
+     0.01
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.26
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     0.01
+    ],
+    "widthM": 0.49
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/basketfull": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.49,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.27
+    ],
+    "widthM": 0.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.49,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.35,
+     -0.01
+    ],
+    "widthM": 0.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.49,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.26
+    ],
+    "widthM": 0.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.49,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.36,
+     -0.01
+    ],
+    "widthM": 0.53
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/basketsmall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.21
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.21,
+     0.0
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.21
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.21,
+     0.0
+    ],
+    "widthM": 0.42
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/carapaceoven": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.05,
+     -1.16
+    ],
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.79,
+     -0.03
+    ],
+    "widthM": 2.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.05,
+     1.1
+    ],
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.69,
+     -0.03
+    ],
+    "widthM": 2.26
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/fishracksmall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.27
+    ],
+    "widthM": 2.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.24,
+     0.05
+    ],
+    "widthM": 2.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.37
+    ],
+    "widthM": 2.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.24,
+     0.05
+    ],
+    "widthM": 2.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/histtree": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 22.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.08,
+     -14.95
+    ],
+    "widthM": 26.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 22.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.4,
+     -0.86
+    ],
+    "widthM": 28.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 22.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.08,
+     13.23
+    ],
+    "widthM": 26.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 22.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -14.57,
+     -0.86
+    ],
+    "widthM": 28.18
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/mudhut01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -3.45
+    ],
+    "widthM": 5.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.95,
+     -0.22
+    ],
+    "widthM": 6.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     3.02
+    ],
+    "widthM": 5.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.97,
+     -0.22
+    ],
+    "widthM": 6.47
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/paintedurn01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.37
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.37,
+     0.0
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.37
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.37,
+     0.0
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/roundfloor01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -21.64
+    ],
+    "widthM": 43.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     21.64,
+     0.0
+    ],
+    "widthM": 43.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     21.64
+    ],
+    "widthM": 43.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -21.64,
+     0.0
+    ],
+    "widthM": 43.28
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/sithisshrine": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.59,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     1.36
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.59,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.67,
+     1.92
+    ],
+    "widthM": 1.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.59,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     2.48
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.59,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.65,
+     1.92
+    ],
+    "widthM": 1.12
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/snakefence01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.06
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.06
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/thatchroofing": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.19
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.19,
+     0.0
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.19
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.19,
+     0.0
+    ],
+    "widthM": 6.38
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/wovenchair01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.29
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.31,
+     0.0
+    ],
+    "widthM": 0.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.29
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.31,
+     0.0
+    ],
+    "widthM": 0.58
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/woventable01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.91,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.51,
+     -0.01
+    ],
+    "widthM": 1.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.91,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.51,
+     -0.01
+    ],
+    "widthM": 1.47
+   }
+  ]
+ },
+ "counts": {
+  "assets": 45,
+  "bounds": 160,
+  "co-placement": 0
+ },
+ "elongationRatio": 2.0,
+ "kit": "settlement-mud-v1",
+ "schemaVersion": 1
+}

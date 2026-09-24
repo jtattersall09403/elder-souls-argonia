@@ -1,0 +1,3616 @@
+{
+ "assets": {
+  "bmv:advertising_board": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.47,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.7
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.79,
+     -0.01
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.47,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.69
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.78,
+     -0.01
+    ],
+    "widthM": 1.39
+   }
+  ],
+  "composite:works/stockade-scaffold-2stage": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   }
+  ],
+  "composite:works/stockade-scaffold-3stage": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.19,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.19,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.19,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.19,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/basketfull": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.49,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.27
+    ],
+    "widthM": 0.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.49,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.35,
+     -0.01
+    ],
+    "widthM": 0.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.49,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.26
+    ],
+    "widthM": 0.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.49,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.36,
+     -0.01
+    ],
+    "widthM": 0.53
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/basketsmall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.21
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.21,
+     0.0
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.21
+    ],
+    "widthM": 0.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.21,
+     0.0
+    ],
+    "widthM": 0.42
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/carapaceoven": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.05,
+     -1.16
+    ],
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.79,
+     -0.03
+    ],
+    "widthM": 2.26
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.05,
+     1.1
+    ],
+    "widthM": 3.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.69,
+     -0.03
+    ],
+    "widthM": 2.26
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/cattail": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.11,
+     -0.33
+    ],
+    "widthM": 1.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.66,
+     0.11
+    ],
+    "widthM": 0.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.11,
+     0.54
+    ],
+    "widthM": 1.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.45,
+     0.11
+    ],
+    "widthM": 0.87
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/fishracksmall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.27
+    ],
+    "widthM": 2.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.24,
+     0.05
+    ],
+    "widthM": 2.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.37
+    ],
+    "widthM": 2.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.24,
+     0.05
+    ],
+    "widthM": 2.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/ovennew": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.32,
+     -3.01
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.48,
+     -2.01
+    ],
+    "widthM": 1.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.32,
+     -1.02
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.85,
+     -2.01
+    ],
+    "widthM": 1.99
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/paintedurn01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.37
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.07,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.37,
+     0.0
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.37
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.07,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.37,
+     0.0
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/snakefence01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.06
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.06
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/snakefence02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.3
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.3
+    ],
+    "widthM": 0.36
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/wovenfence01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.75,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.06
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.75,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.06
+    ],
+    "widthM": 0.22
+   }
+  ],
+  "vanilla:architecture/docks/dockstepsdown01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -2.24
+    ],
+    "widthM": 7.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.66,
+     -0.05
+    ],
+    "widthM": 4.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     2.14
+    ],
+    "widthM": 7.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.67,
+     -0.05
+    ],
+    "widthM": 4.38
+   }
+  ],
+  "vanilla:architecture/docks/dockstrent01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -4.12
+    ],
+    "widthM": 4.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.34,
+     -0.24
+    ],
+    "widthM": 7.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     3.65
+    ],
+    "widthM": 4.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.38,
+     -0.24
+    ],
+    "widthM": 7.77
+   }
+  ],
+  "vanilla:architecture/farmhouse/lumbermill01waterwheel01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     5.47,
+     -3.64
+    ],
+    "widthM": 6.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.82,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     5.47,
+     3.64
+    ],
+    "widthM": 6.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     2.13,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "vanilla:architecture/farmhouse/lumbermill01waterwheel02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     5.47,
+     -3.64
+    ],
+    "widthM": 6.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.82,
+     0.0
+    ],
+    "widthM": 7.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     5.47,
+     3.64
+    ],
+    "widthM": 6.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     2.13,
+     0.0
+    ],
+    "widthM": 7.28
+   }
+  ],
+  "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.43,
+     0.0
+    ],
+    "widthM": 5.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.61,
+     0.0
+    ],
+    "widthM": 5.18
+   }
+  ],
+  "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.28,
+     0.0
+    ],
+    "widthM": 5.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.61,
+     0.0
+    ],
+    "widthM": 5.18
+   }
+  ],
+  "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.9
+    ],
+    "widthM": 1.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.76,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.52,
+     0.01
+    ],
+    "widthM": 1.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.92
+    ],
+    "widthM": 1.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.76,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.52,
+     0.01
+    ],
+    "widthM": 1.82
+   }
+  ],
+  "vanilla:clutter/barrel01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.4
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.4,
+     0.0
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "vanilla:clutter/basket01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.24
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.25,
+     0.0
+    ],
+    "widthM": 0.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.24
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.48
+   }
+  ],
+  "vanilla:clutter/basket03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.24
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.25,
+     0.0
+    ],
+    "widthM": 0.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.24
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.48
+   }
+  ],
+  "vanilla:clutter/basketclosed01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.5,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.24
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.5,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.25,
+     0.0
+    ],
+    "widthM": 0.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.5,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.24
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.5,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.48
+   }
+  ],
+  "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.64,
+     -1.76
+    ],
+    "widthM": 4.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.03,
+     0.01
+    ],
+    "widthM": 3.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.64,
+     1.78
+    ],
+    "widthM": 4.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.74,
+     0.01
+    ],
+    "widthM": 3.54
+   }
+  ],
+  "vanilla:clutter/blacksmith/blacksmithnovicebellows01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.78,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.15
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.78,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.78,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.15
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.78,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     0.0
+    ],
+    "widthM": 0.3
+   }
+  ],
+  "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.98,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.07,
+     -0.83
+    ],
+    "widthM": 0.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.98,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.07,
+     0.83
+    ],
+    "widthM": 0.57
+   }
+  ],
+  "vanilla:clutter/blacksmith/blacksmithworkbench01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.99,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.11,
+     -1.04
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.99,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.11,
+     1.04
+    ],
+    "widthM": 0.96
+   }
+  ],
+  "vanilla:clutter/bucket01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.43,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.27
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.25,
+     0.0
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.43,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.27
+    ],
+    "widthM": 0.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.25,
+     0.0
+    ],
+    "widthM": 0.54
+   }
+  ],
+  "vanilla:clutter/carts/handcart01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.62
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.66,
+     -0.52
+    ],
+    "widthM": 2.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.59
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.66,
+     -0.52
+    ],
+    "widthM": 2.21
+   }
+  ],
+  "vanilla:clutter/carts/handcart01wheel": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.66
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.31,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.66,
+     -0.48
+    ],
+    "widthM": 2.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.7
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.31,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.66,
+     -0.48
+    ],
+    "widthM": 2.36
+   }
+  ],
+  "vanilla:clutter/carts/handcart02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.28,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.66
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.28,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.66,
+     -0.48
+    ],
+    "widthM": 2.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.28,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.69
+    ],
+    "widthM": 1.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.28,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.66,
+     -0.48
+    ],
+    "widthM": 2.35
+   }
+  ],
+  "vanilla:clutter/carts/handcartcanopy": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.88
+    ],
+    "widthM": 1.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.52,
+     0.0
+    ],
+    "widthM": 1.76
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.88
+    ],
+    "widthM": 1.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.51,
+     0.0
+    ],
+    "widthM": 1.76
+   }
+  ],
+  "vanilla:clutter/carts/handcartcrate": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.74
+    ],
+    "widthM": 0.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.49,
+     -0.02
+    ],
+    "widthM": 1.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.7
+    ],
+    "widthM": 0.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.49,
+     -0.02
+    ],
+    "widthM": 1.44
+   }
+  ],
+  "vanilla:clutter/carts/vendorcartstatic01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.08
+    ],
+    "widthM": 1.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.17
+    ],
+    "widthM": 1.44
+   }
+  ],
+  "vanilla:clutter/common/cratesmall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.69,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.56
+    ],
+    "widthM": 0.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.36,
+     -0.01
+    ],
+    "widthM": 1.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.69,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.54
+    ],
+    "widthM": 0.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.36,
+     -0.01
+    ],
+    "widthM": 1.1
+   }
+  ],
+  "vanilla:clutter/common/cratesmalllong01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.69,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.02
+    ],
+    "widthM": 0.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.69,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.02
+    ],
+    "widthM": 0.72
+   }
+  ],
+  "vanilla:clutter/common/pitchfork01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.22
+    ],
+    "widthM": 0.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.22
+    ],
+    "widthM": 0.1
+   }
+  ],
+  "vanilla:clutter/common/shovel01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.24
+    ],
+    "widthM": 0.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.24
+    ],
+    "widthM": 0.16
+   }
+  ],
+  "vanilla:clutter/common/tanningrack01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.54
+    ],
+    "widthM": 1.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.8,
+     -0.09
+    ],
+    "widthM": 0.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.36
+    ],
+    "widthM": 1.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.8,
+     -0.09
+    ],
+    "widthM": 0.9
+   }
+  ],
+  "vanilla:clutter/common/wagonwheel01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.69
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.69
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:clutter/containers/miscsacklarge": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.42
+    ],
+    "widthM": 0.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.26,
+     -0.02
+    ],
+    "widthM": 0.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.37
+    ],
+    "widthM": 0.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.27,
+     -0.02
+    ],
+    "widthM": 0.79
+   }
+  ],
+  "vanilla:clutter/containers/miscsacklargeflat01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.89,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.45
+    ],
+    "widthM": 0.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.89,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.29,
+     -0.05
+    ],
+    "widthM": 0.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.89,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.35
+    ],
+    "widthM": 0.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.89,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.3,
+     -0.05
+    ],
+    "widthM": 0.8
+   }
+  ],
+  "vanilla:clutter/deadanimals/fishrack01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.53,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.05
+    ],
+    "widthM": 2.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.53,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.24,
+     0.0
+    ],
+    "widthM": 4.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.53,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.05
+    ],
+    "widthM": 2.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.53,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.24,
+     0.0
+    ],
+    "widthM": 4.1
+   }
+  ],
+  "vanilla:clutter/deadanimals/fishrack02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.54,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.06
+    ],
+    "widthM": 4.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.54,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.15,
+     0.0
+    ],
+    "widthM": 4.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.54,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.06
+    ],
+    "widthM": 4.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.54,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.15,
+     0.0
+    ],
+    "widthM": 4.12
+   }
+  ],
+  "vanilla:clutter/firewood/firewoodpilehuge01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.83,
+     0.0
+    ],
+    "widthM": 1.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.83,
+     0.0
+    ],
+    "widthM": 1.08
+   }
+  ],
+  "vanilla:clutter/firewood/firewoodpilelarge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.18,
+     -0.85
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.61,
+     0.07
+    ],
+    "widthM": 1.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.18,
+     0.98
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.25,
+     0.07
+    ],
+    "widthM": 1.83
+   }
+  ],
+  "vanilla:clutter/firewood/firewoodpilemedium01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.77,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -0.48
+    ],
+    "widthM": 1.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.62,
+     0.22
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.77,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     0.91
+    ],
+    "widthM": 1.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.67,
+     0.22
+    ],
+    "widthM": 1.39
+   }
+  ],
+  "vanilla:clutter/firewood/firewoodpilesmall01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.06,
+     -0.48
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.33,
+     0.0
+    ],
+    "widthM": 0.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.06,
+     0.48
+    ],
+    "widthM": 0.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.45,
+     0.0
+    ],
+    "widthM": 0.96
+   }
+  ],
+  "vanilla:clutter/horsetrough/horsetrough01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.47,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.94,
+     0.0
+    ],
+    "widthM": 0.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.47,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.91,
+     0.0
+    ],
+    "widthM": 0.69
+   }
+  ],
+  "vanilla:clutter/ingredients/saltpile": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.08,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.1
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.08,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "vanilla:clutter/largerainbarrel01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.46,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.39
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.46,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.02,
+     -0.19
+    ],
+    "widthM": 4.41
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.46,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.02
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.46,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.02,
+     -0.19
+    ],
+    "widthM": 4.41
+   }
+  ],
+  "vanilla:clutter/smelter/coal01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -0.09
+    ],
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     -0.0
+    ],
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     0.08
+    ],
+    "widthM": 0.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -0.0
+    ],
+    "widthM": 0.17
+   }
+  ],
+  "vanilla:clutter/smelter/smelter01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.57,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.74
+    ],
+    "widthM": 2.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.57,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.4,
+     -0.18
+    ],
+    "widthM": 3.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.57,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.39
+    ],
+    "widthM": 2.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.57,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.4,
+     -0.18
+    ],
+    "widthM": 3.13
+   }
+  ],
+  "vanilla:clutter/smelter/smelter01coal01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.58,
+     -3.78
+    ],
+    "widthM": 3.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.82,
+     -1.73
+    ],
+    "widthM": 4.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.58,
+     0.32
+    ],
+    "widthM": 3.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.34,
+     -1.73
+    ],
+    "widthM": 4.1
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbase0sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbase1sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbase2sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbase3sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbase4sided01": [
+   {
+    "count": 11,
+    "evidence": "co-placement",
+    "face": "toward 1",
+    "heightM": 2.73,
+    "normalDeg": 0.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "positionInPiece": [
+     0.02,
+     -1.81
+    ],
+    "template": "vanilla:t0159",
+    "widthM": 3.74
+   },
+   {
+    "count": 13,
+    "evidence": "co-placement",
+    "face": "toward 91",
+    "heightM": 2.73,
+    "normalDeg": 91.3,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "positionInPiece": [
+     1.79,
+     0.04
+    ],
+    "template": "vanilla:t0119",
+    "widthM": 3.88
+   },
+   {
+    "count": 11,
+    "evidence": "co-placement",
+    "face": "toward 181",
+    "heightM": 2.73,
+    "normalDeg": 180.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "positionInPiece": [
+     -0.02,
+     1.81
+    ],
+    "template": "vanilla:t0159",
+    "widthM": 3.74
+   },
+   {
+    "count": 13,
+    "evidence": "co-placement",
+    "face": "toward 271",
+    "heightM": 2.73,
+    "normalDeg": 270.6,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "positionInPiece": [
+     -1.79,
+     -0.02
+    ],
+    "template": "vanilla:t0119",
+    "widthM": 3.88
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbasesupport01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.72,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.29,
+     -1.47
+    ],
+    "widthM": 1.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.72,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.33,
+     0.0
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.72,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.29,
+     1.47
+    ],
+    "widthM": 1.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.72,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.25,
+     0.0
+    ],
+    "widthM": 2.94
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbridge01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.21,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -1.85
+    ],
+    "widthM": 6.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.21,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.31,
+     0.04
+    ],
+    "widthM": 3.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.21,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     1.94
+    ],
+    "widthM": 6.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.21,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.27,
+     0.04
+    ],
+    "widthM": 3.79
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbridge02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.43,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.68,
+     0.04
+    ],
+    "widthM": 3.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.43,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.63,
+     0.04
+    ],
+    "widthM": 3.79
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldbridgenarrow": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.04,
+     0.0
+    ],
+    "widthM": 2.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.0,
+     0.0
+    ],
+    "widthM": 2.0
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldramp01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -1.92
+    ],
+    "widthM": 3.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.77,
+     0.01
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     1.94
+    ],
+    "widthM": 3.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.74,
+     0.01
+    ],
+    "widthM": 3.86
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldstairs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.17,
+     -1.73
+    ],
+    "widthM": 3.58
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 92",
+    "heightM": 0.96,
+    "normalDeg": 91.9,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop2sided01",
+    "positionInPiece": [
+     1.85,
+     0.06
+    ],
+    "template": "vanilla:t0891",
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.17,
+     1.73
+    ],
+    "widthM": 3.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.62,
+     0.0
+    ],
+    "widthM": 3.46
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtop0sided01": [
+   {
+    "count": 17,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 0.28,
+    "normalDeg": 0.2,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     0.01,
+     -1.81
+    ],
+    "template": "vanilla:t0100",
+    "widthM": 3.53
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 45",
+    "heightM": 0.28,
+    "normalDeg": 44.8,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.79,
+     -1.8
+    ],
+    "template": "vanilla:t1948",
+    "widthM": 5.07
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 89",
+    "heightM": 0.28,
+    "normalDeg": 88.9,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     1.79,
+     -0.04
+    ],
+    "template": "vanilla:t0366",
+    "widthM": 3.76
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 175",
+    "heightM": 0.28,
+    "normalDeg": 175.2,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     0.08,
+     0.96
+    ],
+    "template": "vanilla:t0099",
+    "widthM": 3.82
+   },
+   {
+    "count": 17,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 0.28,
+    "normalDeg": 180.1,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -0.0,
+     1.82
+    ],
+    "template": "vanilla:t0100",
+    "widthM": 3.53
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 0.28,
+    "normalDeg": 224.8,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.79,
+     1.8
+    ],
+    "template": "vanilla:t1948",
+    "widthM": 5.07
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 0.28,
+    "normalDeg": 225.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.0,
+     0.99
+    ],
+    "template": "vanilla:t0365",
+    "widthM": 5.07
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 268",
+    "heightM": 0.28,
+    "normalDeg": 268.4,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.08,
+     0.03
+    ],
+    "template": "vanilla:t0098",
+    "widthM": 3.77
+   },
+   {
+    "count": 7,
+    "evidence": "co-placement",
+    "face": "toward 269",
+    "heightM": 0.28,
+    "normalDeg": 268.9,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.79,
+     0.04
+    ],
+    "template": "vanilla:t0366",
+    "widthM": 3.76
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 307",
+    "heightM": 0.28,
+    "normalDeg": 307.3,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -1.22,
+     -0.93
+    ],
+    "template": "vanilla:t0629",
+    "widthM": 5.02
+   },
+   {
+    "count": 14,
+    "evidence": "co-placement",
+    "face": "toward 355",
+    "heightM": 0.28,
+    "normalDeg": 355.2,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
+    "positionInPiece": [
+     -0.08,
+     -0.96
+    ],
+    "template": "vanilla:t0099",
+    "widthM": 3.82
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtop1sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.89
+    ],
+    "widthM": 3.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.77,
+     0.0
+    ],
+    "widthM": 3.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.89
+    ],
+    "widthM": 3.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.77,
+     0.0
+    ],
+    "widthM": 3.78
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtop2sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -1.85
+    ],
+    "widthM": 3.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.74,
+     0.02
+    ],
+    "widthM": 3.74
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 0.96,
+    "normalDeg": 180.3,
+    "pairedWith": "vanilla:clutter/stockade/stockadescaffoldstairs01",
+    "positionInPiece": [
+     -0.01,
+     1.85
+    ],
+    "template": "vanilla:t0891",
+    "widthM": 3.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.8,
+     0.02
+    ],
+    "widthM": 3.74
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtop3sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.82
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.77,
+     0.07
+    ],
+    "widthM": 3.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.96
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.76,
+     0.07
+    ],
+    "widthM": 3.78
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtop4sided01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.86,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.85
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.86,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.77,
+     0.02
+    ],
+    "widthM": 3.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.86,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.89
+    ],
+    "widthM": 3.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.86,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.76,
+     0.02
+    ],
+    "widthM": 3.74
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtoppost01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.69,
+     -1.56
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.69,
+     -1.56
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:clutter/stockade/stockadescaffoldtoppost02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.7
+    ],
+    "widthM": 3.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.7,
+     -0.01
+    ],
+    "widthM": 3.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.69
+    ],
+    "widthM": 3.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.69,
+     -0.01
+    ],
+    "widthM": 3.39
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/genericwell01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.67,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.3
+    ],
+    "widthM": 4.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.67,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.3,
+     0.0
+    ],
+    "widthM": 4.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.67,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.3
+    ],
+    "widthM": 4.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.67,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.3,
+     0.0
+    ],
+    "widthM": 4.6
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodbeam01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.32,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.17
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.32,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.17
+    ],
+    "widthM": 0.4
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodbeam02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -2.17
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     2.17
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodbeam03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -2.17
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     2.17
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodbeamshort01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.02
+    ],
+    "widthM": 0.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.02
+    ],
+    "widthM": 0.32
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodbeamshort02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.01
+    ],
+    "widthM": 0.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.01
+    ],
+    "widthM": 0.28
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodplanks01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.78
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.78
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodplanks02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.9
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.97
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodplanks03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.94
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.88
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:dungeons/mines/clutter/minewoodplanks04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.78
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.78
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:dungeons/mines/ore/mineoredepleted01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.28,
+     -3.49
+    ],
+    "widthM": 7.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.29,
+     0.17
+    ],
+    "widthM": 7.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.28,
+     3.83
+    ],
+    "widthM": 7.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.86,
+     0.17
+    ],
+    "widthM": 7.32
+   }
+  ],
+  "vanilla:dungeons/mines/ore/mineoreiron01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.68,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.28,
+     -3.49
+    ],
+    "widthM": 7.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.68,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.29,
+     0.17
+    ],
+    "widthM": 7.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.68,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.28,
+     3.83
+    ],
+    "widthM": 7.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.68,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.86,
+     0.17
+    ],
+    "widthM": 7.32
+   }
+  ],
+  "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupport01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.72,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.29,
+     -1.47
+    ],
+    "widthM": 1.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.72,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.33,
+     0.0
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.72,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.29,
+     1.47
+    ],
+    "widthM": 1.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.72,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.25,
+     0.0
+    ],
+    "widthM": 2.94
+   }
+  ],
+  "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.92
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.85,
+     0.0
+    ],
+    "widthM": 3.84
+   }
+  ],
+  "vanilla:dungeons/mines/scaffolding/minescaffoldsupport01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.72,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.29,
+     -1.47
+    ],
+    "widthM": 1.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.72,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.33,
+     0.0
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.72,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.29,
+     1.47
+    ],
+    "widthM": 1.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.72,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.25,
+     0.0
+    ],
+    "widthM": 2.94
+   }
+  ]
+ },
+ "counts": {
+  "assets": 88,
+  "bounds": 290,
+  "co-placement": 17
+ },
+ "elongationRatio": 2.0,
+ "kit": "works-v1",
+ "schemaVersion": 1
+}

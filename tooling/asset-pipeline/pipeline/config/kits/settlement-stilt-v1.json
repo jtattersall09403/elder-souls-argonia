@@ -100,7 +100,7 @@
       "asset": "ferries:yamadori/ferries/plank_ferry_swamp_03"
     },
     {
-      "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01"
+      "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01", "collision": "mesh"
     },
     {
       "asset": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree"
@@ -130,10 +130,10 @@
       "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok"
     },
     {
-      "asset": "canoe:actors/sfss/canoe/canoe1"
+      "asset": "canoe:actors/sfss/canoe/canoe1", "collision": "mesh"
     },
     {
-      "asset": "ferryraft:snt/ferry/ferryraft01"
+      "asset": "ferryraft:snt/ferry/ferryraft01", "collision": "mesh"
     },
     {
       "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01"

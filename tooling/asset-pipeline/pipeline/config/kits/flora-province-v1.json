@@ -12,6 +12,15 @@
  },
  "textureMaxSize": 256,
  "billboardTextureMaxSize": 1024,
+ "textureAliases": {
+  "textures/terrain/tamriel/trees/tamrieltreelod.dds": "textures/landscape/trees/tamrieltreelodtropical.dds"
+ },
+ "texturePoolPrecedence": [
+  "tropical",
+  "bmv",
+  "depths",
+  "vanilla"
+ ],
  "assets": [
   {
    "asset": "bmv:landscape/trees/dwarfjunip05"
@@ -599,8 +608,5 @@
   {
    "asset": "vanilla:landscape/trees/treeaspenstump01"
   }
- ],
- "textureAliases": {
-  "textures/terrain/tamriel/trees/tamrieltreelod.dds": "textures/landscape/trees/tamrieltreelodtropical.dds"
- }
+ ]
 }

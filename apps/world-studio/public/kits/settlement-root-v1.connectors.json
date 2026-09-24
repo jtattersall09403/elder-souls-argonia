@@ -1,0 +1,6778 @@
+{
+ "assets": {
+  "bmv:architecture/citebosmer/houses/housechamp001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 34.37,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.11,
+     -7.0
+    ],
+    "widthM": 14.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 34.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.5,
+     0.18
+    ],
+    "widthM": 14.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 34.37,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.11,
+     7.36
+    ],
+    "widthM": 14.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 34.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.28,
+     0.18
+    ],
+    "widthM": 14.36
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalcon45v001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.77,
+     7.98
+    ],
+    "widthM": 3.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.77,
+     7.98
+    ],
+    "widthM": 3.49
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalconacces45d001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.66
+    ],
+    "widthM": 7.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.77,
+     5.76
+    ],
+    "widthM": 12.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     12.19
+    ],
+    "widthM": 7.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.77,
+     5.76
+    ],
+    "widthM": 12.85
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalconacces45i001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.11,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -5.2,
+     -0.78
+    ],
+    "widthM": 11.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.11,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     4.78
+    ],
+    "widthM": 11.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.11,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -5.2,
+     10.33
+    ],
+    "widthM": 11.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.11,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -10.74,
+     4.78
+    ],
+    "widthM": 11.11
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalconacceslatld001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.94,
+     6.23
+    ],
+    "widthM": 5.67
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.77,
+     7.98
+    ],
+    "widthM": 3.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.94,
+     9.73
+    ],
+    "widthM": 5.67
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.9,
+     7.98
+    ],
+    "widthM": 3.5
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalconacceslatli001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -5.03,
+     4.38
+    ],
+    "widthM": 4.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -2.57,
+     6.68
+    ],
+    "widthM": 4.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -5.03,
+     8.97
+    ],
+    "widthM": 4.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.48,
+     6.68
+    ],
+    "widthM": 4.59
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalconacceslatrd001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.93,
+     6.23
+    ],
+    "widthM": 5.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.91,
+     7.98
+    ],
+    "widthM": 3.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.93,
+     9.73
+    ],
+    "widthM": 5.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.77,
+     7.98
+    ],
+    "widthM": 3.5
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalconacceslatri001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     5.04,
+     4.38
+    ],
+    "widthM": 4.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.48,
+     6.67
+    ],
+    "widthM": 4.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     5.04,
+     8.96
+    ],
+    "widthM": 4.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     2.59,
+     6.67
+    ],
+    "widthM": 4.58
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalconfinl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -4.61,
+     2.52
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -2.59,
+     5.75
+    ],
+    "widthM": 6.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -4.61,
+     8.98
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.63,
+     5.75
+    ],
+    "widthM": 6.46
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampbalconfinr01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     4.61,
+     2.52
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.63,
+     5.74
+    ],
+    "widthM": 6.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     4.61,
+     8.96
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     2.59,
+     5.74
+    ],
+    "widthM": 6.44
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampdoor01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.2,
+     2.08
+    ],
+    "widthM": 3.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.46,
+     4.82
+    ],
+    "widthM": 5.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.2,
+     7.56
+    ],
+    "widthM": 3.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.86,
+     4.82
+    ],
+    "widthM": 5.48
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechamplianess001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.13,
+     -1.8
+    ],
+    "widthM": 14.41
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.34,
+     2.71
+    ],
+    "widthM": 9.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.13,
+     7.21
+    ],
+    "widthM": 14.41
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.07,
+     2.71
+    ],
+    "widthM": 9.01
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechamplianestronc": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 39.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.23,
+     -10.06
+    ],
+    "widthM": 13.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 39.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.45,
+     -3.78
+    ],
+    "widthM": 12.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 39.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.23,
+     2.5
+    ],
+    "widthM": 13.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 39.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.9,
+     -3.78
+    ],
+    "widthM": 12.56
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampwindow001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.01,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -6.78,
+     -0.84
+    ],
+    "widthM": 0.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.01,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -6.78,
+     0.79
+    ],
+    "widthM": 0.62
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampwindow002": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.74,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -5.5,
+     2.82
+    ],
+    "widthM": 1.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -4.98,
+     3.62
+    ],
+    "widthM": 1.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.74,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -5.5,
+     4.43
+    ],
+    "widthM": 1.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.02,
+     3.62
+    ],
+    "widthM": 1.61
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampwindow003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.04,
+     5.29
+    ],
+    "widthM": 1.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -2.22,
+     5.79
+    ],
+    "widthM": 1.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.04,
+     6.3
+    ],
+    "widthM": 1.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.86,
+     5.79
+    ],
+    "widthM": 1.01
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housechampwindow004": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.5,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.38,
+     5.89
+    ],
+    "widthM": 1.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.5,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.48,
+     6.4
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.5,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.38,
+     6.91
+    ],
+    "widthM": 1.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.5,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.29,
+     6.4
+    ],
+    "widthM": 1.02
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housegland001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 20.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.95
+    ],
+    "widthM": 7.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 20.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.95,
+     0.0
+    ],
+    "widthM": 7.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 20.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.95
+    ],
+    "widthM": 7.9
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 202",
+    "heightM": 3.03,
+    "normalDeg": 202.2,
+    "pairedWith": "bmv:architecture/citebosmer/houses/houseglandacceslatd01",
+    "positionInPiece": [
+     -0.82,
+     2.0
+    ],
+    "template": "bmv-valenwood:t1204",
+    "widthM": 4.63
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 3.03,
+    "normalDeg": 225.4,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
+    "positionInPiece": [
+     -2.92,
+     2.88
+    ],
+    "template": "bmv-valenwood:t1211",
+    "widthM": 2.6
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 226",
+    "heightM": 3.03,
+    "normalDeg": 226.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -1.3,
+     1.24
+    ],
+    "template": "bmv-valenwood:t1217",
+    "widthM": 3.11
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 237",
+    "heightM": 3.79,
+    "normalDeg": 236.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
+    "positionInPiece": [
+     -3.26,
+     2.15
+    ],
+    "template": "bmv-valenwood:t1212",
+    "widthM": 4.66
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 237",
+    "heightM": 3.03,
+    "normalDeg": 236.9,
+    "pairedWith": "bmv:architecture/citebosmer/houses/houseglandacceslatd01",
+    "positionInPiece": [
+     -0.43,
+     0.28
+    ],
+    "template": "bmv-valenwood:t1205",
+    "widthM": 4.6
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 253",
+    "heightM": 3.03,
+    "normalDeg": 253.0,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01",
+    "positionInPiece": [
+     -0.77,
+     0.23
+    ],
+    "template": "bmv-valenwood:t1206",
+    "widthM": 8.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 20.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.95,
+     0.0
+    ],
+    "widthM": 7.9
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 280",
+    "heightM": 3.03,
+    "normalDeg": 280.2,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -5.42,
+     -0.98
+    ],
+    "template": "bmv-valenwood:t1213",
+    "widthM": 3.95
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 322",
+    "heightM": 3.03,
+    "normalDeg": 322.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -2.36,
+     -3.03
+    ],
+    "template": "bmv-valenwood:t1215",
+    "widthM": 3.06
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 329",
+    "heightM": 3.03,
+    "normalDeg": 329.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -2.53,
+     -4.22
+    ],
+    "template": "bmv-valenwood:t1214",
+    "widthM": 3.35
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandacceslatd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     2.96
+    ],
+    "widthM": 3.8
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 89",
+    "heightM": 3.03,
+    "normalDeg": 89.2,
+    "pairedWith": "bmv:architecture/citebosmer/houses/houseglandacceslatd01",
+    "positionInPiece": [
+     1.78,
+     -0.03
+    ],
+    "template": "bmv-valenwood:t0578",
+    "widthM": 3.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.9,
+     4.53
+    ],
+    "widthM": 3.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     6.09
+    ],
+    "widthM": 3.8
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 269",
+    "heightM": 3.03,
+    "normalDeg": 269.2,
+    "pairedWith": "bmv:architecture/citebosmer/houses/houseglandacceslatd01",
+    "positionInPiece": [
+     -1.78,
+     0.03
+    ],
+    "template": "bmv-valenwood:t0578",
+    "widthM": 3.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.9,
+     4.53
+    ],
+    "widthM": 3.13
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 279",
+    "heightM": 3.03,
+    "normalDeg": 279.1,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     -2.14,
+     -0.34
+    ],
+    "template": "bmv-valenwood:t1204",
+    "widthM": 4.63
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 314",
+    "heightM": 3.03,
+    "normalDeg": 313.8,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     -0.37,
+     -0.36
+    ],
+    "template": "bmv-valenwood:t1205",
+    "widthM": 4.6
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandacceslati01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -3.19,
+     0.72
+    ],
+    "widthM": 4.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -0.73,
+     3.19
+    ],
+    "widthM": 4.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -3.19,
+     5.65
+    ],
+    "widthM": 4.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.65,
+     3.19
+    ],
+    "widthM": 4.93
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglanddoor001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.52,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.94,
+     3.44
+    ],
+    "widthM": 0.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.52,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.67,
+     3.44
+    ],
+    "widthM": 0.56
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandfixation001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.1,
+     -9.67
+    ],
+    "widthM": 6.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.1,
+     9.39
+    ],
+    "widthM": 6.04
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandwindowet001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.65,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.76,
+     0.42
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.65,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     1.58
+    ],
+    "widthM": 2.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.65,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.76,
+     2.75
+    ],
+    "widthM": 1.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.65,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.61,
+     1.58
+    ],
+    "widthM": 2.33
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandwindowet002": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.59,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.17,
+     1.79
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.59,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.68,
+     2.53
+    ],
+    "widthM": 1.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.59,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.17,
+     3.27
+    ],
+    "widthM": 1.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.59,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.34,
+     2.53
+    ],
+    "widthM": 1.48
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandwindowet003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.97,
+     1.31
+    ],
+    "widthM": 1.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.64,
+     2.12
+    ],
+    "widthM": 1.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.97,
+     2.92
+    ],
+    "widthM": 1.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.29,
+     2.12
+    ],
+    "widthM": 1.61
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/houseglandwindowrc001": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.16,
+     3.55
+    ],
+    "widthM": 0.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.5,
+     3.55
+    ],
+    "widthM": 0.34
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetronc001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 55.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -12.32
+    ],
+    "widthM": 24.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 55.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.32,
+     0.0
+    ],
+    "widthM": 24.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 55.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     12.32
+    ],
+    "widthM": 24.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 55.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -12.32,
+     0.0
+    ],
+    "widthM": 24.64
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetronc001lianess": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 18.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.08,
+     2.98
+    ],
+    "widthM": 15.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 18.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     10.83,
+     7.79
+    ],
+    "widthM": 9.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 18.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.08,
+     12.6
+    ],
+    "widthM": 15.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 18.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.66,
+     7.79
+    ],
+    "widthM": 9.62
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncbalcon15v001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     10.98
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.94,
+     12.65
+    ],
+    "widthM": 3.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     14.32
+    ],
+    "widthM": 3.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.92,
+     12.65
+    ],
+    "widthM": 3.34
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncbalconacces15d001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.28,
+     5.94
+    ],
+    "widthM": 6.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.56,
+     11.42
+    ],
+    "widthM": 10.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.28,
+     16.89
+    ],
+    "widthM": 6.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.0,
+     11.42
+    ],
+    "widthM": 10.95
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncbalconacces15i001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -9.2,
+     3.88
+    ],
+    "widthM": 9.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -4.33,
+     8.77
+    ],
+    "widthM": 9.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -9.2,
+     13.65
+    ],
+    "widthM": 9.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -14.06,
+     8.77
+    ],
+    "widthM": 9.77
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncbalconendl01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.36,
+     10.23
+    ],
+    "widthM": 6.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.53,
+     11.85
+    ],
+    "widthM": 3.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.36,
+     13.47
+    ],
+    "widthM": 6.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.81,
+     11.85
+    ],
+    "widthM": 3.24
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncbalconendr01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.34,
+     10.23
+    ],
+    "widthM": 6.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.83,
+     11.85
+    ],
+    "widthM": 3.24
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.34,
+     13.47
+    ],
+    "widthM": 6.34
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.51,
+     11.85
+    ],
+    "widthM": 3.24
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncdooret01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.2,
+     6.95
+    ],
+    "widthM": 3.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.46,
+     9.47
+    ],
+    "widthM": 5.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.2,
+     12.0
+    ],
+    "widthM": 3.32
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.86,
+     9.47
+    ],
+    "widthM": 5.05
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncdoorrc01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.09,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.56,
+     7.87
+    ],
+    "widthM": 4.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.09,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.86,
+     9.97
+    ],
+    "widthM": 4.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.09,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.56,
+     12.07
+    ],
+    "widthM": 4.83
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.09,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.97,
+     9.97
+    ],
+    "widthM": 4.2
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncwindowet001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.66,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -4.38,
+     9.58
+    ],
+    "widthM": 1.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.66,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -3.55,
+     10.07
+    ],
+    "widthM": 0.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.66,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -4.38,
+     10.56
+    ],
+    "widthM": 1.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.66,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.2,
+     10.07
+    ],
+    "widthM": 0.98
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncwindowet002": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.97,
+     9.95
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.19,
+     10.69
+    ],
+    "widthM": 1.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.97,
+     11.43
+    ],
+    "widthM": 1.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.76,
+     10.69
+    ],
+    "widthM": 1.48
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncwindowet003": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.44,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.84,
+     10.62
+    ],
+    "widthM": 1.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.44,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -0.08,
+     11.04
+    ],
+    "widthM": 0.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.44,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.84,
+     11.47
+    ],
+    "widthM": 1.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.44,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.6,
+     11.04
+    ],
+    "widthM": 0.85
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncwindowet004": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.82,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.15,
+     9.99
+    ],
+    "widthM": 1.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.82,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.75,
+     10.73
+    ],
+    "widthM": 1.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.82,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.15,
+     11.48
+    ],
+    "widthM": 1.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.82,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.05,
+     10.73
+    ],
+    "widthM": 1.49
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncwindowrc001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.56,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -6.22,
+     9.36
+    ],
+    "widthM": 1.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.56,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -5.55,
+     9.88
+    ],
+    "widthM": 1.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.56,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -6.22,
+     10.4
+    ],
+    "widthM": 1.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.56,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.9,
+     9.88
+    ],
+    "widthM": 1.04
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncwindowrc002": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -2.17,
+     11.3
+    ],
+    "widthM": 0.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.56,
+     11.3
+    ],
+    "widthM": 0.54
+   }
+  ],
+  "bmv:architecture/citebosmer/houses/housetroncwindowrc003": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.33,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.06,
+     11.45
+    ],
+    "widthM": 0.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.33,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.57,
+     11.45
+    ],
+    "widthM": 0.57
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 20.74,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.28
+    ],
+    "widthM": 8.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 20.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.28,
+     0.0
+    ],
+    "widthM": 8.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 20.74,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.28
+    ],
+    "widthM": 8.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 20.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.28,
+     0.0
+    ],
+    "widthM": 8.56
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.33,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.61,
+     3.44
+    ],
+    "widthM": 0.51
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.33,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.54,
+     3.44
+    ],
+    "widthM": 0.51
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.48,
+     1.25
+    ],
+    "widthM": 2.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.21,
+     2.5
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.48,
+     3.75
+    ],
+    "widthM": 2.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.75,
+     2.5
+    ],
+    "widthM": 2.5
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarriered01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.28,
+     3.54
+    ],
+    "widthM": 0.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.94,
+     3.54
+    ],
+    "widthM": 0.35
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.23,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.65,
+     1.45
+    ],
+    "widthM": 1.5
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 35",
+    "heightM": 1.23,
+    "normalDeg": 34.7,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01",
+    "positionInPiece": [
+     0.79,
+     -1.14
+    ],
+    "template": "bmv-valenwood:t0579",
+    "widthM": 0.46
+   },
+   {
+    "count": 93,
+    "evidence": "co-placement",
+    "face": "toward 43",
+    "heightM": 1.23,
+    "normalDeg": 43.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01",
+    "positionInPiece": [
+     0.59,
+     -0.64
+    ],
+    "template": "bmv-valenwood:t0242",
+    "widthM": 0.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.23,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.4,
+     2.27
+    ],
+    "widthM": 1.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.23,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.65,
+     3.1
+    ],
+    "widthM": 1.5
+   },
+   {
+    "count": 93,
+    "evidence": "co-placement",
+    "face": "toward 223",
+    "heightM": 1.23,
+    "normalDeg": 223.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01",
+    "positionInPiece": [
+     -0.59,
+     0.64
+    ],
+    "template": "bmv-valenwood:t0242",
+    "widthM": 0.35
+   },
+   {
+    "count": 12,
+    "evidence": "co-placement",
+    "face": "toward 226",
+    "heightM": 1.23,
+    "normalDeg": 226.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01",
+    "positionInPiece": [
+     -0.99,
+     0.96
+    ],
+    "template": "bmv-valenwood:t0579",
+    "widthM": 0.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.23,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.9,
+     2.27
+    ],
+    "widthM": 1.65
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskfixation001": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.1,
+     -9.67
+    ],
+    "widthM": 6.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.1,
+     9.39
+    ],
+    "widthM": 6.05
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskmurd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     3.17
+    ],
+    "widthM": 1.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     3.64
+    ],
+    "widthM": 0.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     4.11
+    ],
+    "widthM": 1.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.92,
+     3.64
+    ],
+    "widthM": 0.94
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/kiosque/kioskmuri01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.61,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.67,
+     1.6
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.61,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.36,
+     2.38
+    ],
+    "widthM": 1.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.61,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.67,
+     3.15
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.61,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.97,
+     2.38
+    ],
+    "widthM": 1.55
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     6.88,
+     -6.54
+    ],
+    "widthM": 13.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     13.84,
+     -2.5
+    ],
+    "widthM": 8.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     6.88,
+     1.53
+    ],
+    "widthM": 13.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -2.5
+    ],
+    "widthM": 8.07
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0rdi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -6.88,
+     -6.55
+    ],
+    "widthM": 13.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     -2.52
+    ],
+    "widthM": 8.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -6.88,
+     1.5
+    ],
+    "widthM": 13.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -13.84,
+     -2.52
+    ],
+    "widthM": 8.05
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256ldi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     6.85,
+     -6.56
+    ],
+    "widthM": 13.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     13.79,
+     -2.51
+    ],
+    "widthM": 8.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     6.85,
+     1.53
+    ],
+    "widthM": 13.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     -2.51
+    ],
+    "widthM": 8.09
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256lid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     5.88,
+     -1.1
+    ],
+    "widthM": 13.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.82,
+     2.93
+    ],
+    "widthM": 8.06
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     5.88,
+     6.96
+    ],
+    "widthM": 13.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.07,
+     2.93
+    ],
+    "widthM": 8.06
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rdi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -6.87,
+     -6.56
+    ],
+    "widthM": 13.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.08,
+     -2.52
+    ],
+    "widthM": 8.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -6.87,
+     1.51
+    ],
+    "widthM": 13.89
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -13.81,
+     -2.52
+    ],
+    "widthM": 8.07
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -5.88,
+     -1.09
+    ],
+    "widthM": 13.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.08,
+     2.96
+    ],
+    "widthM": 8.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -5.88,
+     7.0
+    ],
+    "widthM": 13.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -12.84,
+     2.96
+    ],
+    "widthM": 8.09
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.91,
+     -7.88
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.9,
+     -3.9
+    ],
+    "widthM": 7.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.91,
+     0.08
+    ],
+    "widthM": 7.99
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 188",
+    "heightM": 3.03,
+    "normalDeg": 188.1,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     -0.11,
+     0.8
+    ],
+    "template": "bmv-valenwood:t1206",
+    "widthM": 8.08
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 233",
+    "heightM": 3.03,
+    "normalDeg": 233.2,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -0.91,
+     0.68
+    ],
+    "template": "bmv-valenwood:t1278",
+    "widthM": 3.37
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 244",
+    "heightM": 3.03,
+    "normalDeg": 244.3,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
+    "positionInPiece": [
+     -3.08,
+     1.48
+    ],
+    "template": "bmv-valenwood:t1273",
+    "widthM": 2.9
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 252",
+    "heightM": 3.03,
+    "normalDeg": 251.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -2.05,
+     0.69
+    ],
+    "template": "bmv-valenwood:t1277",
+    "widthM": 3.87
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 258",
+    "heightM": 3.03,
+    "normalDeg": 257.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
+    "positionInPiece": [
+     -3.07,
+     0.68
+    ],
+    "template": "bmv-valenwood:t1275",
+    "widthM": 4.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -3.9
+    ],
+    "widthM": 7.96
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 323",
+    "heightM": 3.03,
+    "normalDeg": 323.2,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -0.68,
+     -0.91
+    ],
+    "template": "bmv-valenwood:t1280",
+    "widthM": 3.11
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 334",
+    "heightM": 3.03,
+    "normalDeg": 334.3,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
+    "positionInPiece": [
+     -1.48,
+     -3.08
+    ],
+    "template": "bmv-valenwood:t1274",
+    "widthM": 2.2
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 342",
+    "heightM": 3.03,
+    "normalDeg": 341.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -0.69,
+     -2.05
+    ],
+    "template": "bmv-valenwood:t1279",
+    "widthM": 3.74
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 348",
+    "heightM": 3.03,
+    "normalDeg": 347.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
+    "positionInPiece": [
+     -0.68,
+     -3.07
+    ],
+    "template": "bmv-valenwood:t1276",
+    "widthM": 4.33
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128ldd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.91,
+     -7.88
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.9,
+     -3.9
+    ],
+    "widthM": 7.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.91,
+     0.08
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -3.9
+    ],
+    "widthM": 7.96
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128rdd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.91,
+     -7.88
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.9,
+     -3.9
+    ],
+    "widthM": 7.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.91,
+     0.08
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -3.9
+    ],
+    "widthM": 7.96
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.91,
+     -7.88
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.9,
+     -3.9
+    ],
+    "widthM": 7.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.91,
+     0.08
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -3.9
+    ],
+    "widthM": 7.96
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256rdd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.91,
+     -7.88
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.9,
+     -3.9
+    ],
+    "widthM": 7.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.91,
+     0.08
+    ],
+    "widthM": 7.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -3.9
+    ],
+    "widthM": 7.96
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256ldd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     4.8,
+     -9.69
+    ],
+    "widthM": 9.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.7,
+     -4.8
+    ],
+    "widthM": 9.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     4.8,
+     0.09
+    ],
+    "widthM": 9.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.09,
+     -4.8
+    ],
+    "widthM": 9.78
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256rdd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     4.81,
+     -9.69
+    ],
+    "widthM": 9.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.7,
+     -4.79
+    ],
+    "widthM": 9.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     4.81,
+     0.1
+    ],
+    "widthM": 9.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     -4.79
+    ],
+    "widthM": 9.79
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passend01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.72,
+     -1.5
+    ],
+    "widthM": 1.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.52,
+     0.01
+    ],
+    "widthM": 3.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.72,
+     1.52
+    ],
+    "widthM": 1.6
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01",
+    "positionInPiece": [
+     -0.8,
+     -0.0
+    ],
+    "template": "bmv-valenwood:t1319",
+    "widthM": 3.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.01
+    ],
+    "widthM": 3.02
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 322",
+    "heightM": 3.03,
+    "normalDeg": 322.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -0.8,
+     -1.02
+    ],
+    "template": "bmv-valenwood:t1333",
+    "widthM": 1.79
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 334",
+    "heightM": 3.03,
+    "normalDeg": 334.3,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01",
+    "positionInPiece": [
+     -1.48,
+     -3.08
+    ],
+    "template": "bmv-valenwood:t1273",
+    "widthM": 2.9
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 340",
+    "heightM": 3.03,
+    "normalDeg": 339.7,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -0.8,
+     -2.16
+    ],
+    "template": "bmv-valenwood:t1332",
+    "widthM": 2.2
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 341",
+    "heightM": 3.03,
+    "normalDeg": 340.6,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     -1.37,
+     -3.87
+    ],
+    "template": "bmv-valenwood:t1211",
+    "widthM": 2.6
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -1.54
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.9,
+     0.0
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     1.54
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.0
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.54
+    ],
+    "widthM": 3.8
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 90",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     1.28,
+     -0.0
+    ],
+    "template": "bmv-valenwood:t1323",
+    "widthM": 3.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.9,
+     0.18
+    ],
+    "widthM": 3.44
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 168",
+    "heightM": 3.03,
+    "normalDeg": 167.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01",
+    "positionInPiece": [
+     0.68,
+     3.07
+    ],
+    "template": "bmv-valenwood:t1275",
+    "widthM": 4.03
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 172",
+    "heightM": 3.79,
+    "normalDeg": 171.6,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     0.57,
+     3.87
+    ],
+    "template": "bmv-valenwood:t1212",
+    "widthM": 4.66
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -0.0,
+     1.02
+    ],
+    "template": "bmv-valenwood:t1322",
+    "widthM": 3.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.9
+    ],
+    "widthM": 3.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.9,
+     0.18
+    ],
+    "widthM": 3.44
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -1.32,
+     0.0
+    ],
+    "template": "bmv-valenwood:t0836",
+    "widthM": 3.44
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
+    "positionInPiece": [
+     -0.8,
+     -0.0
+    ],
+    "template": "bmv-valenwood:t1319",
+    "widthM": 3.02
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncti01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -2.93
+    ],
+    "widthM": 5.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.93,
+     0.0
+    ],
+    "widthM": 5.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     2.93
+    ],
+    "widthM": 5.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.91,
+     0.0
+    ],
+    "widthM": 5.86
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.79,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.9
+    ],
+    "widthM": 3.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.79,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.9,
+     0.0
+    ],
+    "widthM": 3.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.79,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.9
+    ],
+    "widthM": 3.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.79,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.9,
+     0.0
+    ],
+    "widthM": 3.8
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncxi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.64,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.93
+    ],
+    "widthM": 5.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.93,
+     0.0
+    ],
+    "widthM": 5.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.64,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.93
+    ],
+    "widthM": 5.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.93,
+     0.0
+    ],
+    "widthM": 5.86
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncydii01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.18,
+     -3.39
+    ],
+    "widthM": 6.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.28,
+     0.0
+    ],
+    "widthM": 6.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.18,
+     3.39
+    ],
+    "widthM": 6.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.92,
+     0.0
+    ],
+    "widthM": 6.78
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passjuncyidd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.09,
+     -4.2
+    ],
+    "widthM": 6.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.19,
+     -1.09
+    ],
+    "widthM": 6.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.09,
+     2.02
+    ],
+    "widthM": 6.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.02,
+     -1.09
+    ],
+    "widthM": 6.22
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128d01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.54
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.99,
+     0.0
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.54
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.99,
+     0.0
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h32d01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -1.54
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.51,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.9,
+     0.0
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     1.54
+    ],
+    "widthM": 1.98
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.51,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.0
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h32i01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.5,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -2.93
+    ],
+    "widthM": 4.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.5,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.91,
+     -0.91
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.5,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     1.11
+    ],
+    "widthM": 4.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.5,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.09,
+     -0.91
+    ],
+    "widthM": 4.04
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -1.56
+    ],
+    "widthM": 1.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.91,
+     -0.01
+    ],
+    "widthM": 3.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     1.54
+    ],
+    "widthM": 1.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     -0.01
+    ],
+    "widthM": 3.1
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128h64i01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.97,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -2.93
+    ],
+    "widthM": 4.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.91,
+     -0.91
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.97,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     1.11
+    ],
+    "widthM": 4.0
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.09,
+     -0.91
+    ],
+    "widthM": 4.04
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl128i01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.02
+    ],
+    "widthM": 4.0
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 8",
+    "heightM": 3.03,
+    "normalDeg": 8.2,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01",
+    "positionInPiece": [
+     0.16,
+     -1.12
+    ],
+    "template": "bmv-valenwood:t1278",
+    "widthM": 3.37
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 10",
+    "heightM": 3.03,
+    "normalDeg": 10.3,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     0.68,
+     -3.78
+    ],
+    "template": "bmv-valenwood:t1215",
+    "widthM": 3.06
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 17",
+    "heightM": 3.03,
+    "normalDeg": 17.3,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     1.46,
+     -4.7
+    ],
+    "template": "bmv-valenwood:t1214",
+    "widthM": 3.35
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 27",
+    "heightM": 3.03,
+    "normalDeg": 26.5,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01",
+    "positionInPiece": [
+     0.97,
+     -1.93
+    ],
+    "template": "bmv-valenwood:t1277",
+    "widthM": 3.87
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 27",
+    "heightM": 3.03,
+    "normalDeg": 26.6,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     0.81,
+     -1.61
+    ],
+    "template": "bmv-valenwood:t1217",
+    "widthM": 3.11
+   },
+   {
+    "count": 188,
+    "evidence": "co-placement",
+    "face": "toward 45",
+    "heightM": 3.03,
+    "normalDeg": 45.0,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     0.88,
+     -0.88
+    ],
+    "template": "bmv-valenwood:t0085",
+    "widthM": 3.08
+   },
+   {
+    "count": 154,
+    "evidence": "co-placement",
+    "face": "toward 45",
+    "heightM": 3.03,
+    "normalDeg": 45.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     1.76,
+     -1.75
+    ],
+    "template": "bmv-valenwood:t0113",
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.0,
+     0.0
+    ],
+    "widthM": 4.04
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.02
+    ],
+    "widthM": 4.0
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 187",
+    "heightM": 3.03,
+    "normalDeg": 187.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
+    "positionInPiece": [
+     -0.16,
+     1.28
+    ],
+    "template": "bmv-valenwood:t1333",
+    "widthM": 1.79
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 205",
+    "heightM": 3.03,
+    "normalDeg": 204.7,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passend01",
+    "positionInPiece": [
+     -0.96,
+     2.1
+    ],
+    "template": "bmv-valenwood:t1332",
+    "widthM": 2.2
+   },
+   {
+    "count": 188,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 3.03,
+    "normalDeg": 225.0,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -0.88,
+     0.87
+    ],
+    "template": "bmv-valenwood:t0085",
+    "widthM": 3.08
+   },
+   {
+    "count": 154,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 3.03,
+    "normalDeg": 225.1,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+    "positionInPiece": [
+     -1.76,
+     1.75
+    ],
+    "template": "bmv-valenwood:t0113",
+    "widthM": 3.08
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 225",
+    "heightM": 3.03,
+    "normalDeg": 225.3,
+    "pairedWith": "bmv:architecture/citebosmer/houses/housegland001",
+    "positionInPiece": [
+     -3.92,
+     3.88
+    ],
+    "template": "bmv-valenwood:t1213",
+    "widthM": 3.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.0,
+     0.0
+    ],
+    "widthM": 4.04
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl160h128d01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.85,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.14,
+     -1.56
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.39,
+     -0.01
+    ],
+    "widthM": 3.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.85,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.14,
+     1.54
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.11,
+     -0.01
+    ],
+    "widthM": 3.1
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl160h128i01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.85,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.14,
+     -3.36
+    ],
+    "widthM": 4.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.85,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.37,
+     -1.13
+    ],
+    "widthM": 4.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.85,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.14,
+     1.09
+    ],
+    "widthM": 4.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.85,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.09,
+     -1.13
+    ],
+    "widthM": 4.45
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256d01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.54
+    ],
+    "widthM": 3.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.91,
+     0.0
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.54
+    ],
+    "widthM": 3.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.91,
+     0.0
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64d01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.54
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.91,
+     0.0
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.54
+    ],
+    "widthM": 3.81
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.9,
+     0.0
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.93
+    ],
+    "widthM": 5.82
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 46",
+    "heightM": 3.96,
+    "normalDeg": 45.6,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01",
+    "positionInPiece": [
+     1.77,
+     -1.74
+    ],
+    "template": "bmv-valenwood:t0997",
+    "widthM": 3.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.91,
+     0.0
+    ],
+    "widthM": 5.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.93
+    ],
+    "widthM": 5.82
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 226",
+    "heightM": 3.96,
+    "normalDeg": 225.6,
+    "pairedWith": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01",
+    "positionInPiece": [
+     -1.77,
+     1.74
+    ],
+    "template": "bmv-valenwood:t0997",
+    "widthM": 3.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.91,
+     0.0
+    ],
+    "widthM": 5.86
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.05,
+     -2.65
+    ],
+    "widthM": 3.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.51,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.97,
+     0.0
+    ],
+    "widthM": 5.3
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.05,
+     2.65
+    ],
+    "widthM": 3.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.51,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.88,
+     0.0
+    ],
+    "widthM": 5.3
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256h64starti01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.61,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.34,
+     -2.93
+    ],
+    "widthM": 6.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.61,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.91,
+     0.33
+    ],
+    "widthM": 6.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.61,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.34,
+     3.59
+    ],
+    "widthM": 6.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.61,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.59,
+     0.33
+    ],
+    "widthM": 6.52
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl256i01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.93
+    ],
+    "widthM": 5.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.91,
+     0.0
+    ],
+    "widthM": 5.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.93
+    ],
+    "widthM": 5.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.91,
+     0.0
+    ],
+    "widthM": 5.86
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl512h64d01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.73,
+     0.0
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.72,
+     0.0
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.75
+    ],
+    "widthM": 9.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.73,
+     0.0
+    ],
+    "widthM": 9.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.75
+    ],
+    "widthM": 9.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.73,
+     0.0
+    ],
+    "widthM": 9.5
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl64d01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.46,
+     -1.53
+    ],
+    "widthM": 1.07
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.46,
+     1.53
+    ],
+    "widthM": 1.07
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passl64i01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.45,
+     -2.02
+    ],
+    "widthM": 3.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.0,
+     -0.45
+    ],
+    "widthM": 3.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.45,
+     1.11
+    ],
+    "widthM": 3.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.09,
+     -0.45
+    ],
+    "widthM": 3.13
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128ldi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.0,
+     -3.36
+    ],
+    "widthM": 6.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.08,
+     -0.92
+    ],
+    "widthM": 4.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.0,
+     1.51
+    ],
+    "widthM": 6.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     -0.92
+    ],
+    "widthM": 4.87
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128lid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.0,
+     -3.79
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.07,
+     -1.35
+    ],
+    "widthM": 4.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.0,
+     1.09
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.08,
+     -1.35
+    ],
+    "widthM": 4.88
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rdi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.0,
+     -1.5
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.08,
+     0.93
+    ],
+    "widthM": 4.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.0,
+     3.36
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.93
+    ],
+    "widthM": 4.86
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.0,
+     -1.08
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.07,
+     1.35
+    ],
+    "widthM": 4.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.0,
+     3.79
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.08,
+     1.35
+    ],
+    "widthM": 4.87
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64ldi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.0,
+     -3.36
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.08,
+     -0.92
+    ],
+    "widthM": 4.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.0,
+     1.51
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     -0.92
+    ],
+    "widthM": 4.87
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64lid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.0,
+     -3.78
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.07,
+     -1.28
+    ],
+    "widthM": 4.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.0,
+     1.21
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.08,
+     -1.28
+    ],
+    "widthM": 4.99
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rdi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.99,
+     -1.48
+    ],
+    "widthM": 6.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.06,
+     0.94
+    ],
+    "widthM": 4.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.99,
+     3.36
+    ],
+    "widthM": 6.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.94
+    ],
+    "widthM": 4.84
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rid01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.0,
+     -1.08
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.07,
+     1.35
+    ],
+    "widthM": 4.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.0,
+     3.79
+    ],
+    "widthM": 6.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.08,
+     1.35
+    ],
+    "widthM": 4.87
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.01,
+     -3.35
+    ],
+    "widthM": 6.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.1,
+     -0.9
+    ],
+    "widthM": 4.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.01,
+     1.56
+    ],
+    "widthM": 6.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     -0.9
+    ],
+    "widthM": 4.91
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldis01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.18,
+     -1.52
+    ],
+    "widthM": 2.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.11,
+     0.01
+    ],
+    "widthM": 3.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.18,
+     1.53
+    ],
+    "widthM": 2.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.46,
+     0.01
+    ],
+    "widthM": 3.05
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdi01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.01,
+     -1.51
+    ],
+    "widthM": 6.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.1,
+     0.92
+    ],
+    "widthM": 4.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.01,
+     3.35
+    ],
+    "widthM": 6.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.07,
+     0.92
+    ],
+    "widthM": 4.86
+   }
+  ],
+  "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdis01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.2,
+     -1.5
+    ],
+    "widthM": 2.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.48,
+     0.03
+    ],
+    "widthM": 3.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.2,
+     1.55
+    ],
+    "widthM": 2.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.08,
+     0.03
+    ],
+    "widthM": 3.05
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiant01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 205.89,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     5.61,
+     -57.1
+    ],
+    "widthM": 130.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 205.89,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     70.92,
+     -2.18
+    ],
+    "widthM": 109.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 205.89,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     5.61,
+     52.75
+    ],
+    "widthM": 130.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 205.89,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -59.71,
+     -2.18
+    ],
+    "widthM": 109.85
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche1": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 28.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -18.21,
+     -20.59
+    ],
+    "widthM": 40.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 28.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.1,
+     -8.63
+    ],
+    "widthM": 23.92
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 28.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -18.21,
+     3.33
+    ],
+    "widthM": 40.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 28.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -38.53,
+     -8.63
+    ],
+    "widthM": 23.92
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche12": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 30.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     85.43,
+     -1.02
+    ],
+    "widthM": 39.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 30.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.05,
+     -1.02
+    ],
+    "widthM": 39.53
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche13": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     15.06,
+     0.86
+    ],
+    "widthM": 3.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     0.86
+    ],
+    "widthM": 3.74
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche2": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 73.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.01,
+     -65.17
+    ],
+    "widthM": 39.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 73.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     22.57,
+     -31.23
+    ],
+    "widthM": 67.88
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 73.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.01,
+     2.71
+    ],
+    "widthM": 39.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 73.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -16.56,
+     -31.23
+    ],
+    "widthM": 67.88
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche3": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 73.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     32.61,
+     -37.91
+    ],
+    "widthM": 70.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 73.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     67.96,
+     -17.15
+    ],
+    "widthM": 41.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 73.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     32.61,
+     3.61
+    ],
+    "widthM": 70.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 73.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.74,
+     -17.15
+    ],
+    "widthM": 41.52
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche4": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -20.27,
+     -22.78
+    ],
+    "widthM": 45.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.7,
+     -10.71
+    ],
+    "widthM": 24.13
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -20.27,
+     1.35
+    ],
+    "widthM": 45.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -43.25,
+     -10.71
+    ],
+    "widthM": 24.13
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche5": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 23.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -9.27,
+     -42.1
+    ],
+    "widthM": 23.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 23.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.51,
+     -20.04
+    ],
+    "widthM": 44.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 23.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -9.27,
+     2.02
+    ],
+    "widthM": 23.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 23.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -21.04,
+     -20.04
+    ],
+    "widthM": 44.12
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche6": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 21.97,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     13.84,
+     -19.54
+    ],
+    "widthM": 29.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 21.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     28.56,
+     -9.16
+    ],
+    "widthM": 20.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 21.97,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     13.84,
+     1.21
+    ],
+    "widthM": 29.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 21.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.88,
+     -9.16
+    ],
+    "widthM": 20.75
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbranche7": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.04,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.15,
+     -0.05
+    ],
+    "widthM": 3.08
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.04,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.14,
+     -0.05
+    ],
+    "widthM": 3.08
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbrancheleaves01b": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.63,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.25,
+     -1.84
+    ],
+    "widthM": 4.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.01,
+     0.03
+    ],
+    "widthM": 3.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.63,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.25,
+     1.9
+    ],
+    "widthM": 4.52
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.51,
+     0.03
+    ],
+    "widthM": 3.74
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbrancheleaves03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.03,
+     -4.22
+    ],
+    "widthM": 7.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.71,
+     -1.0
+    ],
+    "widthM": 6.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.03,
+     2.21
+    ],
+    "widthM": 7.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.65,
+     -1.0
+    ],
+    "widthM": 6.43
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantbrancheleaves04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.45,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.14,
+     -4.22
+    ],
+    "widthM": 7.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.45,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.71,
+     -0.7
+    ],
+    "widthM": 7.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.45,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.14,
+     2.81
+    ],
+    "widthM": 7.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.45,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.44,
+     -0.7
+    ],
+    "widthM": 7.03
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treegiantrootbase01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 43.97,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     20.17,
+     -4.23
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 43.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     40.98,
+     6.4
+    ],
+    "widthM": 21.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 43.97,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     20.17,
+     17.04
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 43.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.64,
+     6.4
+    ],
+    "widthM": 21.27
+   }
+  ],
+  "bmv:architecture/citebosmer/trees/treemere03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 342.54,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     8.3,
+     -88.37
+    ],
+    "widthM": 320.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 342.54,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     168.32,
+     34.6
+    ],
+    "widthM": 245.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 342.54,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     8.3,
+     157.57
+    ],
+    "widthM": 320.03
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 342.54,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -151.71,
+     34.6
+    ],
+    "widthM": 245.94
+   }
+  ],
+  "composite:root/kiosk-with-access": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 20.74,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -4.28
+    ],
+    "widthM": 8.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 20.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.28,
+     0.0
+    ],
+    "widthM": 8.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 20.74,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     4.28
+    ],
+    "widthM": 8.56
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 20.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.28,
+     0.0
+    ],
+    "widthM": 8.56
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histramp": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.7,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     3.91,
+     -7.88
+    ],
+    "widthM": 8.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     7.92,
+     -3.9
+    ],
+    "widthM": 7.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.7,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     3.91,
+     0.08
+    ],
+    "widthM": 8.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.1,
+     -3.9
+    ],
+    "widthM": 7.96
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 43.97,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     20.17,
+     -4.23
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 43.97,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     40.98,
+     6.4
+    ],
+    "widthM": 21.27
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 43.97,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     20.17,
+     17.04
+    ],
+    "widthM": 41.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 43.97,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.64,
+     6.4
+    ],
+    "widthM": 21.27
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.98,
+     -8.45
+    ],
+    "widthM": 14.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.2,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.2,
+     -3.3
+    ],
+    "widthM": 10.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.98,
+     1.84
+    ],
+    "widthM": 14.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.2,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.24,
+     -3.3
+    ],
+    "widthM": 10.29
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots03": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.73,
+     0.52
+    ],
+    "widthM": 2.54
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.83,
+     0.52
+    ],
+    "widthM": 2.54
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.1,
+     -9.67
+    ],
+    "widthM": 6.05
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.1,
+     9.39
+    ],
+    "widthM": 6.05
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots05": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.96,
+     3.65
+    ],
+    "widthM": 0.93
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.92,
+     3.65
+    ],
+    "widthM": 0.93
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/trees/histroots06": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.61,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     2.67,
+     1.6
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.61,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.36,
+     2.38
+    ],
+    "widthM": 1.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.61,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     2.67,
+     3.15
+    ],
+    "widthM": 1.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.61,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     1.97,
+     2.38
+    ],
+    "widthM": 1.55
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/archwaysticks": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.73,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -7.07,
+     -8.79
+    ],
+    "widthM": 5.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -4.52,
+     -6.48
+    ],
+    "widthM": 4.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.73,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -7.07,
+     -4.18
+    ],
+    "widthM": 5.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.62,
+     -6.48
+    ],
+    "widthM": 4.61
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianbonechime01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.07,
+     -0.08
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.11,
+     -0.08
+    ],
+    "widthM": 0.38
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianbridge": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.12,
+     0.0
+    ],
+    "widthM": 3.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.12,
+     0.0
+    ],
+    "widthM": 3.36
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianbridgestart": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.13,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.6
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.13,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.47,
+     0.0
+    ],
+    "widthM": 3.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.13,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.6
+    ],
+    "widthM": 2.94
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.13,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.47,
+     0.0
+    ],
+    "widthM": 3.2
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianfence01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.7,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.09,
+     0.01
+    ],
+    "widthM": 0.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.7,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.49,
+     0.01
+    ],
+    "widthM": 0.29
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianfence02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.64,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     0.0
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.64,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.79,
+     0.0
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianfenceend": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.69,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.05,
+     0.0
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.69,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.54,
+     0.0
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.2,
+     -3.02
+    ],
+    "widthM": 1.17
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.2,
+     1.07
+    ],
+    "widthM": 1.17
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.71,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.71,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.0
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.71,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.71,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     0.0
+    ],
+    "widthM": 0.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.0
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     0.0
+    ],
+    "widthM": 0.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianlanterns04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.34,
+     0.0
+    ],
+    "widthM": 0.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.32
+    ],
+    "widthM": 0.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.32,
+     0.0
+    ],
+    "widthM": 0.64
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianplatform": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.27,
+     -1.34
+    ],
+    "widthM": 2.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.34,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.67,
+     0.0
+    ],
+    "widthM": 2.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.27,
+     1.34
+    ],
+    "widthM": 2.79
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.34,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     0.0
+    ],
+    "widthM": 2.68
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argonianplatformsmall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.31,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.56,
+     -1.42
+    ],
+    "widthM": 1.16
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.31,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.56,
+     1.12
+    ],
+    "widthM": 1.16
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/argoniantotem01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.95,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -0.23
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.95,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.36,
+     0.01
+    ],
+    "widthM": 0.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.95,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     0.26
+    ],
+    "widthM": 0.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.95,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.39,
+     0.01
+    ],
+    "widthM": 0.49
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/banner01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.92,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.2,
+     -0.63
+    ],
+    "widthM": 0.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.92,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.2,
+     0.65
+    ],
+    "widthM": 0.29
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/histtree": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 22.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.08,
+     -14.95
+    ],
+    "widthM": 26.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 22.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     12.4,
+     -0.86
+    ],
+    "widthM": 28.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 22.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.08,
+     13.23
+    ],
+    "widthM": 26.97
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 22.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -14.57,
+     -0.86
+    ],
+    "widthM": 28.18
+   }
+  ],
+  "mudmother:gv_meshes/argoniannest/thatchroofing": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.19
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.19,
+     0.0
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.19
+    ],
+    "widthM": 6.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.19,
+     0.0
+    ],
+    "widthM": 6.38
+   }
+  ],
+  "tropical:landscape/trees/anvil_palm_trunk": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 33.74,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     4.88,
+     -12.7
+    ],
+    "widthM": 17.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 33.74,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     13.86,
+     -4.39
+    ],
+    "widthM": 16.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 33.74,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     4.88,
+     3.91
+    ],
+    "widthM": 17.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 33.74,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.09,
+     -4.39
+    ],
+    "widthM": 16.61
+   }
+  ],
+  "tropical:landscape/trees/anvil_root01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.38,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.97,
+     -8.45
+    ],
+    "widthM": 14.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.38,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.2,
+     -3.3
+    ],
+    "widthM": 10.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.38,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.97,
+     1.84
+    ],
+    "widthM": 14.45
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.38,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.25,
+     -3.3
+    ],
+    "widthM": 10.29
+   }
+  ],
+  "tropical:landscape/trees/anvilgianttrunk": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 56.39,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.08,
+     -5.35
+    ],
+    "widthM": 10.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 56.39,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.35,
+     -0.08
+    ],
+    "widthM": 10.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 56.39,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.08,
+     5.18
+    ],
+    "widthM": 10.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 56.39,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -5.18,
+     -0.08
+    ],
+    "widthM": 10.53
+   }
+  ]
+ },
+ "counts": {
+  "assets": 144,
+  "bounds": 524,
+  "co-placement": 51
+ },
+ "elongationRatio": 2.0,
+ "kit": "settlement-root-v1",
+ "schemaVersion": 1
+}

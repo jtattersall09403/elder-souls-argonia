@@ -1,0 +1,541 @@
+{
+ "assets": {
+  "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.18,
+   "interior": "none",
+   "planAreaM2": 199.01,
+   "provenance": [],
+   "sizeClass": "large",
+   "why": "too small to hold an interior (199.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01foam": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.18,
+   "interior": "none",
+   "planAreaM2": 199.01,
+   "provenance": [],
+   "sizeClass": "large",
+   "why": "too small to hold an interior (199.0 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:effects/ambient/fxmistlow01": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 99.0,
+   "heightM": 2.53,
+   "interior": "none",
+   "medianWallM": 1.43,
+   "planAreaM2": 125.27,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "large",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "vanilla:effects/fxrapids": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.24,
+   "interior": "none",
+   "planAreaM2": 80.87,
+   "provenance": [],
+   "sizeClass": "medium",
+   "why": "too small to hold an interior (80.9 m\u00b2 plan, 0.2 m tall)"
+  },
+  "vanilla:effects/fxrapidsbig01": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 252.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 252\u00b0 in the piece's own frame carries 1.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.0,
+   "interior": "none",
+   "planAreaM2": 834.73,
+   "provenance": [],
+   "sizeClass": "large",
+   "why": "too small to hold an interior (834.7 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:effects/fxrapidsfallsline01": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.53,
+   "interior": "none",
+   "planAreaM2": 70.82,
+   "provenance": [],
+   "sizeClass": "medium",
+   "why": "too small to hold an interior (70.8 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:effects/fxrapidsfallstop": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.67,
+   "interior": "none",
+   "planAreaM2": 649.81,
+   "provenance": [],
+   "sizeClass": "large",
+   "why": "too small to hold an interior (649.8 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:effects/fxrapidsringheavy": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.03,
+   "interior": "none",
+   "planAreaM2": 263.74,
+   "provenance": [],
+   "sizeClass": "large",
+   "why": "too small to hold an interior (263.7 m\u00b2 plan, 0.0 m tall)"
+  },
+  "vanilla:effects/fxsplashlargechurnnorapids": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 99.0,
+   "heightM": 13.76,
+   "interior": "none",
+   "medianWallM": 0.0,
+   "planAreaM2": 13.16,
+   "provenance": [],
+   "ringFraction": 0.0,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "vanilla:effects/fxwaterfallbodyslope": {
+   "category": "effect",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.92,
+    "kind": "opening",
+    "offsetM": [
+     2.34,
+     -3.99
+    ],
+    "sideDeg": 12.5
+   },
+   "floorOffsetM": 5.0,
+   "frontFaceFraction": 0.07,
+   "headroomM": 2.92,
+   "heightM": 10.19,
+   "interior": "shell",
+   "medianWallM": 4.48,
+   "planAreaM2": 219.09,
+   "provenance": [
+    {
+     "arcM": 1.31,
+     "kind": "opening",
+     "offsetM": [
+      2.98,
+      1.25
+     ],
+     "sideDeg": 30.0
+    },
+    {
+     "arcM": 1.18,
+     "kind": "opening",
+     "offsetM": [
+      -4.29,
+      1.13
+     ],
+     "sideDeg": 320.0
+    },
+    {
+     "arcM": 0.85,
+     "kind": "opening",
+     "offsetM": [
+      -3.49,
+      -0.51
+     ],
+     "sideDeg": 332.5
+    }
+   ],
+   "ringFraction": 0.986,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "measured to enclose a volume \u2014 99% of the ring at 1.6 m hits a wall, there is a roof overhead and 4.5 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+  },
+  "vanilla:effects/fxwaterfallbodytall": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 44.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 44\u00b0 in the piece's own frame carries 2.85x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 15.38,
+   "heightM": 16.01,
+   "interior": "none",
+   "medianWallM": 5.77,
+   "planAreaM2": 134.68,
+   "provenance": [],
+   "ringFraction": 0.472,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "open sided \u2014 only 47% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "vanilla:effects/fxwaterfallbodytall02": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 8.0,
+   "front": {
+    "deg": 342.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 342\u00b0 in the piece's own frame carries 7.61x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.043,
+   "headroomM": 28.29,
+   "heightM": 39.37,
+   "interior": "none",
+   "medianWallM": 6.15,
+   "planAreaM2": 263.92,
+   "provenance": [],
+   "ringFraction": 0.639,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "open sided \u2014 only 64% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "vanilla:effects/fxwaterfallmistblast": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 6.9,
+   "interior": "none",
+   "planAreaM2": 0.94,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.9 m\u00b2 plan, 6.9 m tall)"
+  },
+  "vanilla:effects/fxwaterfallmistblastlite": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 5.87,
+   "interior": "none",
+   "planAreaM2": 0.77,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.8 m\u00b2 plan, 5.9 m tall)"
+  },
+  "vanilla:effects/fxwaterfallskirtslope": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.861,
+   "headroomM": 2.96,
+   "heightM": 50.2,
+   "interior": "none",
+   "medianWallM": 1.05,
+   "planAreaM2": 157.33,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "solid, not hollow \u2014 walls are only 1.1 m away at 1.6 m (a room needs 1.5 m), so this is massing, not a building you enter"
+  },
+  "vanilla:effects/fxwaterfallskirtslopenomist": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.833,
+   "headroomM": 2.88,
+   "heightM": 51.22,
+   "interior": "none",
+   "medianWallM": 1.26,
+   "planAreaM2": 156.23,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "solid, not hollow \u2014 walls are only 1.3 m away at 1.6 m (a room needs 1.5 m), so this is massing, not a building you enter"
+  },
+  "vanilla:effects/fxwaterfallskirttallfront": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 168.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 169\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.542,
+   "headroomM": 99.0,
+   "heightM": 47.08,
+   "interior": "none",
+   "medianWallM": 0.64,
+   "planAreaM2": 199.28,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": false,
+   "sizeClass": "large",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "vanilla:effects/fxwaterfallthin2048x128": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 4.0,
+   "front": null,
+   "frontFaceFraction": 0.197,
+   "headroomM": 14.83,
+   "heightM": 33.03,
+   "interior": "none",
+   "medianWallM": 0.16,
+   "planAreaM2": 26.54,
+   "provenance": [],
+   "ringFraction": 0.917,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 20% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "vanilla:effects/fxwaterfallthin2048x512": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 15.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 16\u00b0 in the piece's own frame carries 5.27x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.639,
+   "headroomM": 12.94,
+   "heightM": 32.91,
+   "interior": "none",
+   "medianWallM": 0.32,
+   "planAreaM2": 84.15,
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "solid, not hollow \u2014 walls are only 0.3 m away at 1.6 m (a room needs 1.5 m), so this is massing, not a building you enter"
+  },
+  "vanilla:effects/fxwaterfallthin4096x256": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 7.0,
+   "front": {
+    "deg": 316.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 317\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.242,
+   "headroomM": 54.44,
+   "heightM": 66.08,
+   "interior": "none",
+   "medianWallM": 0.44,
+   "planAreaM2": 105.97,
+   "provenance": [],
+   "ringFraction": 0.917,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "a closed prop seen from inside, not a room \u2014 only 24% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "vanilla:effects/fxwaterfallthin512x128": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 44.5,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 45\u00b0 in the piece's own frame carries 2.26x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 7.51,
+   "interior": "none",
+   "planAreaM2": 3.83,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (3.8 m\u00b2 plan, 7.5 m tall)"
+  },
+  "vanilla:effects/fxwaterfallthinsheet": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.788,
+   "headroomM": 99.0,
+   "heightM": 12.97,
+   "interior": "none",
+   "medianWallM": 0.01,
+   "planAreaM2": 10.0,
+   "provenance": [],
+   "ringFraction": 0.722,
+   "roofOverhead": false,
+   "sizeClass": "small",
+   "why": "open to the sky \u2014 nothing overhead from inside it, so it is a platform, deck, walkway, quay, hull or wall segment, not an enclosure"
+  },
+  "vanilla:effects/fxwaterfallthinspray2048": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 347.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 347\u00b0 in the piece's own frame carries 4.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.191,
+   "headroomM": 22.72,
+   "heightM": 30.39,
+   "interior": "none",
+   "medianWallM": 6.59,
+   "planAreaM2": 212.89,
+   "provenance": [],
+   "ringFraction": 0.653,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "open sided \u2014 only 65% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "vanilla:lod/waterfalls/fxwaterfallbodyslope_lod": {
+   "category": "effect",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.47,
+    "kind": "opening",
+    "offsetM": [
+     2.91,
+     0.09
+    ],
+    "sideDeg": 30.0
+   },
+   "floorOffsetM": 5.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 2.8,
+   "heightM": 9.19,
+   "interior": "shell",
+   "medianWallM": 4.69,
+   "planAreaM2": 197.43,
+   "provenance": [
+    {
+     "arcM": 1.44,
+     "kind": "opening",
+     "offsetM": [
+      -3.52,
+      0.13
+     ],
+     "sideDeg": 330.0
+    },
+    {
+     "arcM": 5.54,
+     "kind": "open-front",
+     "offsetM": [
+      0.08,
+      -3.38
+     ],
+     "sideDeg": 2.5
+    }
+   ],
+   "ringFraction": 0.972,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "measured to enclose a volume \u2014 97% of the ring at 1.6 m hits a wall, there is a roof overhead and 4.7 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+  },
+  "vanilla:lod/waterfalls/fxwaterfallbodytall02_lod": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.04,
+   "headroomM": 33.62,
+   "heightM": 33.87,
+   "interior": "none",
+   "medianWallM": 6.95,
+   "planAreaM2": 144.84,
+   "provenance": [],
+   "ringFraction": 0.347,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "open sided \u2014 only 35% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  },
+  "vanilla:lod/waterfalls/fxwaterfallbodytall_lod": {
+   "category": "effect",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.133,
+   "headroomM": 15.51,
+   "heightM": 15.53,
+   "interior": "none",
+   "medianWallM": 5.35,
+   "planAreaM2": 106.57,
+   "provenance": [],
+   "ringFraction": 0.417,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "open sided \u2014 only 42% of the ring at 1.6 m hits a wall, so it does not enclose anything"
+  }
+ },
+ "kit": "waterfall-fx-v1",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

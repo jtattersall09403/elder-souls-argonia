@@ -4,7 +4,7 @@
   {
    "id": "mudmother:gv_meshes/argoniannest/mudhut01",
    "node": "es|4cf6c20217|dmother__gv_meshes_argoniannest_mudhut01",
-   "category": "misc",
+   "category": "architecture",
    "sizeM": [
     5.929,
     6.472,
@@ -22,7 +22,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "mesh",
    "droppedShapes": [],
    "textures": [
     "mudhut01.dds"
@@ -30,19 +30,36 @@
    "materials": [
     "House.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.5388,
+    "p50": -0.5388,
+    "p75": -0.5388,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.5388
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.539,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.696,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.539
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/thatchroofing",
@@ -73,19 +90,36 @@
    "materials": [
     "WinterholdTowerIntFloor01:3.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.6828,
+    "p50": -0.6828,
+    "p75": -0.6828,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.6828
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.683,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.683
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/roundfloor01",
@@ -122,19 +156,36 @@
     "DLC2DweClutterPlatformGiant01:44.Mat",
     "DLC2DweClutterPlatformGiant01:8.Mat"
    ],
+   "designedSinkM": {
+    "p25": -3.002,
+    "p50": -3.002,
+    "p75": -3.002,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -3.002
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 3.002,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.805,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.002
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/archwaysticks",
@@ -167,19 +218,36 @@
     "WRTrellisArch01:10.Mat",
     "WRTrellisArch01:23.Mat"
    ],
+   "designedSinkM": {
+    "p25": 3.9947,
+    "p50": 3.9947,
+    "p75": 3.9947,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 3.9947
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -3.995,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.198,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -3.995
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatform",
@@ -210,19 +278,36 @@
    "materials": [
     "DLC2RieklingBridgePlatform01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1723,
+    "p50": -0.1723,
+    "p75": -0.1723,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1723
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.172,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.172
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianplatformsmall",
@@ -253,19 +338,36 @@
    "materials": [
     "DLC2RieklingBridgePlatformSmall:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1571,
+    "p50": -0.1571,
+    "p75": -0.1571,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1571
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.157,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.997,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.157
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridge",
@@ -299,19 +401,38 @@
     "DLC2RieklingBridge01:1.Mat",
     "DLC2RieklingBridge01:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0435,
+    "p50": 0.0435,
+    "p75": 0.0435,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 0.0435,
+    "deckTopM": 0.3935,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 1.345,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.993,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.345
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbridgestart",
@@ -347,19 +468,38 @@
     "DLC2RieklingBridgeStart01:2.Mat",
     "DLC2RieklingBridgeStart01:3.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0119,
+    "p50": -0.0119,
+    "p75": -0.0119,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": -0.0119,
+    "deckTopM": 0.3381,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 1.564,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.564
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence01",
@@ -392,19 +532,31 @@
     "DLC2RieklingFence01:0.Mat",
     "DLC2RieklingFence01:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0419,
+    "p50": -0.0272,
+    "p75": -0.0176,
+    "n": 3,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.05,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.379,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.05
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfence02",
@@ -437,19 +589,36 @@
     "DLC2RieklingFence02:0.Mat",
     "DLC2RieklingFence02:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0161,
+    "p50": 0.0161,
+    "p75": 0.0161,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 0.0161
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.016,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.608,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.016
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianfenceend",
@@ -482,19 +651,36 @@
     "DLC2RieklingFenceEnd01:0.Mat",
     "DLC2RieklingFenceEnd01:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0459,
+    "p50": -0.0459,
+    "p75": -0.0459,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill (plugin refs static-supported)"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0459
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.046,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.509,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.046
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/snakefence01",
@@ -527,19 +713,36 @@
     "HagravenFence01:13.Mat",
     "HagravenFence01:20.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1546,
+    "p50": -0.1546,
+    "p75": -0.1546,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.1546
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.155,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.091,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.155
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent01",
@@ -575,19 +778,36 @@
     "L1_Branches01:14.Mat",
     "L1_Branches01:15.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.4605,
+    "p50": -0.4605,
+    "p75": -0.4605,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4605
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.46,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.79,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.46
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantent02",
@@ -620,19 +840,36 @@
     "Furs.Mat",
     "HagravenHouse03:13 - L1_Branches02:13.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.4494,
+    "p50": -0.4494,
+    "p75": -0.4494,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.4494
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.449,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.656,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.449
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/carapaceoven",
@@ -668,19 +905,36 @@
     "carapace.Mat",
     "crab.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0158,
+    "p50": -0.0158,
+    "p75": -0.0158,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0158
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.016,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.987,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.016
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
@@ -713,24 +967,41 @@
     "FishRack01:0.Mat",
     "L2_Ropes.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.2276,
+    "p50": 0.2276,
+    "p75": 0.2276,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.2276
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.228,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.026,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.228
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/woventable01",
    "node": "es|3ec04ecbcf|her__gv_meshes_argoniannest_woventable01",
-   "category": "misc",
+   "category": "furniture",
    "sizeM": [
     3.023,
     1.466,
@@ -748,7 +1019,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "furniturewood01.dds",
@@ -758,19 +1029,49 @@
     "CommonTable01:0.Mat",
     "Surface.Mat"
    ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     1.33,
+     0.401,
+     0.645
+    ],
+    "centreOffsetM": [
+     -0.0,
+     0.456,
+     -0.004
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/wovenchair01",
@@ -818,19 +1119,36 @@
      -0.0
     ]
    },
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.92,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketfull",
@@ -877,24 +1195,41 @@
      -0.001
     ]
    },
+   "designedSinkM": {
+    "p25": -0.0354,
+    "p50": -0.0354,
+    "p75": -0.0354,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0354
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.035,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.987,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.035
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/basketsmall01",
    "node": "es|9013459db7|er__gv_meshes_argoniannest_basketsmall01",
-   "category": "misc",
+   "category": "clutter",
    "sizeM": [
     0.423,
     0.426,
@@ -920,19 +1255,36 @@
    "materials": [
     "Basket.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0003,
+    "p50": 0.0003,
+    "p75": 0.0003,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0003
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/paintedurn01",
@@ -977,19 +1329,36 @@
      0.0
     ]
    },
+   "designedSinkM": {
+    "p25": -0.0013,
+    "p50": -0.0013,
+    "p75": -0.0013,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0013
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.001,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniantotem01",
@@ -1021,19 +1390,31 @@
     "DLC2RieklingTotem02:0.Mat",
     "DLC2RieklingTotem02:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0091,
+    "p50": 0.1147,
+    "p75": 0.1229,
+    "n": 3,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.011,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.315,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.011
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
@@ -1076,24 +1457,41 @@
     "Rope04.Mat",
     "Skull.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.2694,
+    "p50": -0.2694,
+    "p75": -0.2694,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.2694
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.269,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.674,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.269
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianskull01",
    "node": "es|e498501e05|__gv_meshes_argoniannest_argonianskull01",
-   "category": "misc",
+   "category": "clutter",
    "sizeM": [
     1.283,
     1.15,
@@ -1119,19 +1517,31 @@
    "materials": [
     "DLC2RieklingSkull02:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.17,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.777,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.17
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
@@ -1164,19 +1574,36 @@
     "DLC2DarkElfLantern03:0.Mat",
     "DLC2DarkElfLantern03:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": -2.6273,
+    "p50": -2.6273,
+    "p75": -2.6273,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -2.6273
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 2.627,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.52,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.627
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argonianlanterns03",
@@ -1209,24 +1636,41 @@
     "DLC2DarkElfLantern04:0.Mat",
     "DLC2DarkElfLantern04:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": -2.1494,
+    "p50": -2.1494,
+    "p75": -2.1494,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill (plugin-unsupported)"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -2.1494
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 2.149,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.638,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.149
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/argoniancandle01",
    "node": "es|49c8113979|_gv_meshes_argoniannest_argoniancandle01",
-   "category": "misc",
+   "category": "clutter",
    "sizeM": [
     0.843,
     0.609,
@@ -1257,19 +1701,36 @@
     "RieklingCandle:2.Mat",
     "RieklingCandle:3.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0288,
+    "p50": -0.0288,
+    "p75": -0.0288,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0288
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.029,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.396,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/sithisshrine",
@@ -1302,19 +1763,36 @@
     "AmethystEgg.Mat",
     "Serpent.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0654,
+    "p50": 0.0654,
+    "p75": 0.0654,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0654
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.065,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.937,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.065
   },
   {
    "id": "mudmother:gv_meshes/argoniannest/histtree",
@@ -1347,19 +1825,36 @@
     "Hist.Mat",
     "L1_WRTempleTree02.Mat"
    ],
+   "designedSinkM": {
+    "p25": -8.8224,
+    "p50": -8.8224,
+    "p75": -8.8224,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -8.8224
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 8.822,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.521,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 8.822
   },
   {
    "id": "bmv:architecture/huts/exterior/hutexterior",
@@ -1396,19 +1891,36 @@
     "WoodBeam:0.Mat",
     "WoodBeam:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": -2.9378,
+    "p50": -2.9378,
+    "p75": -2.9378,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -2.9378
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 2.938,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.938,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.938
   },
   {
    "id": "bmv:architecture/huts/exterior/hutdecking",
@@ -1445,19 +1957,38 @@
     "Tri Decking 2.Mat",
     "Tri Decking 3.Mat"
    ],
+   "designedSinkM": {
+    "p25": 6.7258,
+    "p50": 6.7258,
+    "p75": 6.7258,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "deck-top",
+    "valueM": 6.7258,
+    "deckTopM": 7.0758,
+    "deckClearanceM": 0.35
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.005,
-    "buryM": 0.12,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "stilt",
-     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.005
   },
   {
    "id": "ferries:yamadori/ferries/plank_ferry_swamp_01",
@@ -1501,19 +2032,36 @@
     "ShipOar01:6.Mat",
     "ShipWoodplanks04:5.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0426,
+    "p50": -0.0426,
+    "p75": -0.0426,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -0.0426
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.764,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.783,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.764
   },
   {
    "id": "ferries:yamadori/ferries/rowboat_ferry_swamp_01",
@@ -1536,7 +2084,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "mesh",
    "droppedShapes": [
     {
      "shape": "EditorMarker",
@@ -1558,19 +2106,36 @@
     "ShipRowBoat01:3.Mat",
     "ShipRowBoat01:5 - L1_BoatDetails:5.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0363,
+    "p50": -0.0363,
+    "p75": -0.0363,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.0363
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.036,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.968,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.036
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
@@ -1608,19 +2173,36 @@
     "cedartree1:2.Mat",
     "cedartree1:5.Mat"
    ],
+   "designedSinkM": {
+    "p25": -1.4177,
+    "p50": -1.4177,
+    "p75": -1.4177,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -1.4177
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 1.418,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.901,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.418
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower01",
@@ -1651,19 +2233,36 @@
    "materials": [
     "Cylinder.Mat"
    ],
+   "designedSinkM": {
+    "p25": 6.1957,
+    "p50": 6.1957,
+    "p75": 6.1957,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": 6.1957
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -5.854,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -5.854
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/histflower02",
@@ -1694,19 +2293,36 @@
    "materials": [
     "Cylinder.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": 6.0086,
+    "p50": 6.0086,
+    "p75": 6.0086,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": 6.0086
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -6.009,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.473,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -6.009
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
@@ -1737,19 +2353,36 @@
    "materials": [
     "RockCairn01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.001,
+    "p50": -0.001,
+    "p75": -0.001,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.001
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.001,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.363,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn02",
@@ -1780,19 +2413,36 @@
    "materials": [
     "RockCairn02:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.029,
+    "p50": -0.029,
+    "p75": -0.029,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.029
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.029,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.738,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
@@ -1823,19 +2473,36 @@
    "materials": [
     "RockCairn03:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0775,
+    "p50": -0.0775,
+    "p75": -0.0775,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0775
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.077,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.841,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.077
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
@@ -1866,19 +2533,36 @@
    "materials": [
     "RockCairn04:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0288,
+    "p50": -0.0288,
+    "p75": -0.0288,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0288
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.029,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.787,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.029
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/rune circle",
@@ -1909,19 +2593,36 @@
    "materials": [
     "MountainCliff01:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.606,
+    "p50": -0.606,
+    "p75": -0.606,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.606
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.606,
-    "buryM": 0.35,
     "buryCapM": 0.75,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "dug-in",
      "fitPolicy": "authored placement-policies.json policy dug-in: Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.059,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.606
   },
   {
    "id": "histtree:skyfall/sleeping tree overhaul/windchimehavok",
@@ -1973,19 +2674,36 @@
     "Vert10:0.Mat",
     "Vert10:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": -1.2576,
+    "p50": -1.2576,
+    "p75": -1.2576,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "foundation-top",
+    "valueM": -1.2576
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 1.879,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.394,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.879
   },
   {
    "id": "canoe:actors/sfss/canoe/canoe1",
@@ -2008,7 +2726,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "mesh",
    "droppedShapes": [],
    "textures": [
     "albedo.dds",
@@ -2044,19 +2762,36 @@
     "Object009:1.Mat",
     "Object009:2.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.1663,
+    "p50": -0.1663,
+    "p75": -0.1663,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "post-foot",
+    "valueM": -0.1663
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.166,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.166
   },
   {
    "id": "ferryraft:snt/ferry/ferryraft01",
@@ -2079,7 +2814,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "mesh",
    "droppedShapes": [],
    "textures": [
     "candles01.dds",
@@ -2106,35 +2841,53 @@
     "planks04.Mat",
     "planks05.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.4728,
+    "p50": -0.4728,
+    "p75": -0.4728,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "water",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.4728
+   },
+   "designedWaterlineM": 0.0,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 0.473,
-    "buryM": 0.18,
-    "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
+    "buryCapM": 0.25,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "pad",
-     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "stilt",
+     "fitPolicy": "authored placement-policies.json policy stilt: Reviewed stilt/deck policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract. A stilt or quay piece is seated by its DECK, never its leg tips (owner 2026-09-23): with no plugin evidence its mesh tell is the deck top, set deckClearanceM above the support surface, and the legs bury as deep as they need (pipeline/mesh_ground_line.py)."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.892,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.473
   },
   {
    "id": "composite:mud/hut-with-entrance",
    "node": "es|08f211f8be|composite__mud_hut-with-entrance",
    "category": "architecture",
    "sizeM": [
-    11.621,
-    12.405,
-    8.171
+    15.107,
+    15.107,
+    9.445
    ],
    "originOffsetM": [
-    5.811,
-    6.595,
+    7.554,
+    7.554,
     3.924
    ],
-   "triangles": 7255,
+   "triangles": 16141,
    "lodRatios": [
     0.35,
     0.12
@@ -2160,24 +2913,50 @@
     "Object10:3.Mat",
     "Ruins_WoodenDoor04:4.Mat",
     "Tri DoorFrame 0.Mat",
+    "Tri DoorFrame 0.Mat.001",
+    "Tri DoorFrame 0.Mat.002",
+    "Tri DoorFrame 0.Mat.003",
     "Tri DoorFrame 1.Mat",
+    "Tri DoorFrame 1.Mat.001",
+    "Tri DoorFrame 1.Mat.002",
+    "Tri DoorFrame 1.Mat.003",
     "Tri DoorFrame 2.Mat",
+    "Tri DoorFrame 2.Mat.001",
+    "Tri DoorFrame 2.Mat.002",
+    "Tri DoorFrame 2.Mat.003",
     "WoodBeam:0.Mat.001",
     "WoodBeam:1.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -3.9242,
+    "p50": -3.9242,
+    "p75": -3.9242,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -3.9242
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": 3.924,
-    "buryM": 0.18,
     "buryCapM": 0.5,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "pad",
      "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.916,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.924
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-mud-v1.glb",
@@ -2188,7 +2967,7 @@
  "texturesSubstituted": {},
  "alphaModes": {
   "MASK": 0,
-  "OPAQUE": 172
+  "OPAQUE": 181
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -2221,11 +3000,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 32882664,
-  "bytesAfter": 14811476,
+  "bytesBefore": 32531656,
+  "bytesAfter": 15010696,
   "images": 56,
   "imageBytesAfter": 11819084,
   "warnings": [],
-  "sha256": "7ef0ffdac61f8843bad336b57c860cae2567365ca90bc68362ff27f1dbfbe6e8"
+  "sha256": "5045fffb36692bab7a3a0ecbb6f95da3ca41ee3f808e903b69134125e22de417",
+  "sidecarBytes": {
+   "connectors": 30687,
+   "footprints": 68310,
+   "interiors": 28571
+  }
  }
 }

@@ -1,0 +1,2134 @@
+{
+ "assets": {
+  "bmv:architecture/jets/miscstuff/dockextension": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.81,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.81,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.81,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.81,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.64
+   }
+  ],
+  "bmv:architecture/jets/miscstuff/dockpostextension": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.61
+    ],
+    "widthM": 0.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.61
+    ],
+    "widthM": 0.36
+   }
+  ],
+  "bmv:architecture/jets/miscstuff/dockracked02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.06,
+     -4.68
+    ],
+    "widthM": 3.36
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.06,
+     4.95
+    ],
+    "widthM": 3.36
+   }
+  ],
+  "bmv:architecture/jets/miscstuff/dockramp": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.81,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.83
+    ],
+    "widthM": 3.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.81,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.8,
+     0.0
+    ],
+    "widthM": 3.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.81,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.83
+    ],
+    "widthM": 3.61
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.81,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.81,
+     0.0
+    ],
+    "widthM": 3.66
+   }
+  ],
+  "bmv:architecture/jets/miscstuff/dockstepsfree": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.84,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -1.82
+    ],
+    "widthM": 1.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.84,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     1.82
+    ],
+    "widthM": 1.01
+   }
+  ],
+  "bmv:architecture/jets/miscstuff/dockwsteps": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 3.81,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.49,
+     -1.83
+    ],
+    "widthM": 4.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.81,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.81,
+     0.0
+    ],
+    "widthM": 3.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 3.81,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.49,
+     1.83
+    ],
+    "widthM": 4.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.81,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     0.0
+    ],
+    "widthM": 3.66
+   }
+  ],
+  "bmv:sheogorad/dagon fel/cleat": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.37,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.53,
+     -0.01
+    ],
+    "widthM": 0.39
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.37,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.53,
+     -0.01
+    ],
+    "widthM": 0.39
+   }
+  ],
+  "bmv:sheogorad/dagon fel/docks3way": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.9
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.04
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.04
+    ],
+    "widthM": 3.72
+   }
+  ],
+  "bmv:sheogorad/dagon fel/docks4way": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -1.88
+    ],
+    "widthM": 3.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.03
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     1.82
+    ],
+    "widthM": 3.66
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.84,
+     -0.03
+    ],
+    "widthM": 3.7
+   }
+  ],
+  "bmv:sheogorad/dagon fel/dockscentre": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.9
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.04
+    ],
+    "widthM": 3.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.04
+    ],
+    "widthM": 3.72
+   }
+  ],
+  "bmv:sheogorad/dagon fel/dockscentrealt": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.15,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.88
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.15,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.03
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.15,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.82
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.15,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.03
+    ],
+    "widthM": 3.7
+   }
+  ],
+  "bmv:sheogorad/dagon fel/dockscentrenopost": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.9
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.04
+    ],
+    "widthM": 3.71
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.81
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.04
+    ],
+    "widthM": 3.71
+   }
+  ],
+  "bmv:sheogorad/dagon fel/dockscentresmall": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.91,
+     -1.86
+    ],
+    "widthM": 1.82
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.91,
+     1.8
+    ],
+    "widthM": 1.82
+   }
+  ],
+  "bmv:sheogorad/dagon fel/dockscorner": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.03,
+     -1.88
+    ],
+    "widthM": 3.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.78,
+     -0.03
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.03,
+     1.82
+    ],
+    "widthM": 3.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.84,
+     -0.03
+    ],
+    "widthM": 3.7
+   }
+  ],
+  "bmv:sheogorad/dagon fel/docksend": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -1.88
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.03
+    ],
+    "widthM": 3.7
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     1.82
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     -0.03
+    ],
+    "widthM": 3.7
+   }
+  ],
+  "bmv:sheogorad/dagon fel/docksendnopost": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.55,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.57,
+     -1.86
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.55,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     -0.02
+    ],
+    "widthM": 3.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.55,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.57,
+     1.82
+    ],
+    "widthM": 2.5
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.55,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     -0.02
+    ],
+    "widthM": 3.68
+   }
+  ],
+  "bmv:sheogorad/dagon fel/dockspilings": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.37
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.24,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.37,
+     0.0
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.37
+    ],
+    "widthM": 0.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.24,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.37,
+     0.0
+    ],
+    "widthM": 0.74
+   }
+  ],
+  "bmv:sheogorad/dagon fel/dockspilingsdamage": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 8.4,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.2
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 8.4,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.19,
+     0.0
+    ],
+    "widthM": 0.4
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 8.4,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.2
+    ],
+    "widthM": 0.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 8.4,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.19,
+     0.0
+    ],
+    "widthM": 0.4
+   }
+  ],
+  "bmv:sheogorad/dagon fel/dockssteps": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.1
+    ],
+    "widthM": 2.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.23,
+     -0.01
+    ],
+    "widthM": 2.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.09
+    ],
+    "widthM": 2.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.23,
+     -0.01
+    ],
+    "widthM": 2.19
+   }
+  ],
+  "composite:docks/quay-run-2": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.09,
+     -4.12
+    ],
+    "widthM": 4.87
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.09,
+     10.75
+    ],
+    "widthM": 4.87
+   }
+  ],
+  "composite:docks/quay-run-3": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.34,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.24,
+     -4.12
+    ],
+    "widthM": 5.15
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.34,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.24,
+     17.96
+    ],
+    "widthM": 5.15
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.96,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.08,
+     -0.9
+    ],
+    "widthM": 3.64
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 54",
+    "heightM": 1.96,
+    "normalDeg": 54.3,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     3.48,
+     -2.5
+    ],
+    "template": "htbm:t0076",
+    "widthM": 3.13
+   },
+   {
+    "count": 6,
+    "evidence": "co-placement",
+    "face": "toward 89",
+    "heightM": 1.96,
+    "normalDeg": 89.2,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     3.42,
+     -0.05
+    ],
+    "template": "htbm:t0031",
+    "widthM": 1.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.96,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.9,
+     0.02
+    ],
+    "widthM": 1.83
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 116",
+    "heightM": 1.96,
+    "normalDeg": 115.6,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
+    "positionInPiece": [
+     3.48,
+     1.67
+    ],
+    "template": "htbm:t0078",
+    "widthM": 2.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.96,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.08,
+     0.93
+    ],
+    "widthM": 3.64
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 188",
+    "heightM": 1.96,
+    "normalDeg": 187.6,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
+    "positionInPiece": [
+     -0.78,
+     5.77
+    ],
+    "template": "htbm:t0066",
+    "widthM": 2.21
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 197",
+    "heightM": 1.96,
+    "normalDeg": 197.3,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     -0.74,
+     2.37
+    ],
+    "template": "htbm:t0053",
+    "widthM": 2.67
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 215",
+    "heightM": 1.96,
+    "normalDeg": 215.4,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
+    "positionInPiece": [
+     -2.52,
+     3.55
+    ],
+    "template": "htbm:t0079",
+    "widthM": 3.28
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 234",
+    "heightM": 1.96,
+    "normalDeg": 234.5,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
+    "positionInPiece": [
+     -2.42,
+     1.73
+    ],
+    "template": "htbm:t0055",
+    "widthM": 2.42
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.96,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.74,
+     0.02
+    ],
+    "widthM": 1.83
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 271",
+    "heightM": 1.96,
+    "normalDeg": 271.4,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
+    "positionInPiece": [
+     -2.46,
+     -0.06
+    ],
+    "template": "htbm:t0054",
+    "widthM": 1.88
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 287",
+    "heightM": 1.96,
+    "normalDeg": 287.3,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     -2.37,
+     -0.73
+    ],
+    "template": "htbm:t0053",
+    "widthM": 2.67
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 324",
+    "heightM": 1.96,
+    "normalDeg": 324.3,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     -2.5,
+     -3.48
+    ],
+    "template": "htbm:t0076",
+    "widthM": 3.13
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.93
+    ],
+    "widthM": 3.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.83,
+     -0.01
+    ],
+    "widthM": 1.84
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 91",
+    "heightM": 1.96,
+    "normalDeg": 90.7,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     3.4,
+     0.04
+    ],
+    "template": "htbm:t0065",
+    "widthM": 1.86
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 98",
+    "heightM": 1.96,
+    "normalDeg": 97.6,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     5.77,
+     0.78
+    ],
+    "template": "htbm:t0066",
+    "widthM": 2.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.91
+    ],
+    "widthM": 3.65
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 182",
+    "heightM": 1.96,
+    "normalDeg": 181.7,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     -0.07,
+     2.54
+    ],
+    "template": "htbm:t0080",
+    "widthM": 3.64
+   },
+   {
+    "count": 4,
+    "evidence": "co-placement",
+    "face": "toward 270",
+    "heightM": 2.12,
+    "normalDeg": 269.7,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
+    "positionInPiece": [
+     -3.62,
+     0.02
+    ],
+    "template": "htbm:t0067",
+    "widthM": 1.85
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.82,
+     -0.01
+    ],
+    "widthM": 1.84
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 305",
+    "heightM": 1.96,
+    "normalDeg": 305.4,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     -3.55,
+     -2.52
+    ],
+    "template": "htbm:t0079",
+    "widthM": 3.28
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.12,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.93
+    ],
+    "widthM": 1.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.12,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.99,
+     -0.01
+    ],
+    "widthM": 1.84
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 179",
+    "heightM": 2.12,
+    "normalDeg": 179.4,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
+    "positionInPiece": [
+     0.07,
+     5.91
+    ],
+    "template": "htbm:t0082",
+    "widthM": 1.95
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.12,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.91
+    ],
+    "widthM": 1.95
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 206",
+    "heightM": 1.96,
+    "normalDeg": 205.6,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     -1.67,
+     3.48
+    ],
+    "template": "htbm:t0078",
+    "widthM": 2.35
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.12,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.96,
+     -0.01
+    ],
+    "widthM": 1.84
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 271",
+    "heightM": 1.96,
+    "normalDeg": 271.4,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     -2.46,
+     -0.06
+    ],
+    "template": "htbm:t0054",
+    "widthM": 1.88
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 324",
+    "heightM": 1.96,
+    "normalDeg": 324.5,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+    "positionInPiece": [
+     -1.73,
+     -2.42
+    ],
+    "template": "htbm:t0055",
+    "widthM": 2.42
+   },
+   {
+    "count": 3,
+    "evidence": "co-placement",
+    "face": "toward 359",
+    "heightM": 2.12,
+    "normalDeg": 359.4,
+    "pairedWith": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
+    "positionInPiece": [
+     -0.07,
+     -5.91
+    ],
+    "template": "htbm:t0082",
+    "widthM": 1.95
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.07,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.02,
+     -0.86
+    ],
+    "widthM": 0.25
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.07,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.02,
+     0.79
+    ],
+    "widthM": 0.25
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.08,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.01,
+     -0.84
+    ],
+    "widthM": 0.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.08,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.01,
+     0.77
+    ],
+    "widthM": 0.19
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.76
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.76
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -0.78
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     0.76
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.04,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -0.78
+    ],
+    "widthM": 0.21
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.04,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     0.21
+    ],
+    "widthM": 0.21
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.35
+    ],
+    "widthM": 0.2
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.35
+    ],
+    "widthM": 0.2
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.06,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.47
+    ],
+    "widthM": 0.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.06,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.49
+    ],
+    "widthM": 0.18
+   }
+  ],
+  "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.92,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.01,
+     -0.13
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.92,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.1,
+     -0.01
+    ],
+    "widthM": 0.23
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.92,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.01,
+     0.1
+    ],
+    "widthM": 0.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.92,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.12,
+     -0.01
+    ],
+    "widthM": 0.23
+   }
+  ],
+  "vanilla:architecture/docks/dockcolstr01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 11.54,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.62,
+     3.55
+    ],
+    "widthM": 0.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 11.54,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.39,
+     3.97
+    ],
+    "widthM": 0.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 11.54,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.62,
+     4.39
+    ],
+    "widthM": 0.47
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 11.54,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.86,
+     3.97
+    ],
+    "widthM": 0.84
+   }
+  ],
+  "vanilla:architecture/docks/dockcolstr02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 10.14,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.9,
+     -0.47
+    ],
+    "widthM": 0.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.14,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.55,
+     -0.18
+    ],
+    "widthM": 0.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 10.14,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.9,
+     0.1
+    ],
+    "widthM": 0.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.14,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.24,
+     -0.18
+    ],
+    "widthM": 0.57
+   }
+  ],
+  "vanilla:architecture/docks/dockcolstrsign01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 10.59,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.69,
+     -0.18
+    ],
+    "widthM": 0.57
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 10.59,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.46,
+     -0.18
+    ],
+    "widthM": 0.57
+   }
+  ],
+  "vanilla:architecture/docks/dockcolstrsignrope01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.51,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.04,
+     -0.48
+    ],
+    "widthM": 0.23
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.51,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.04,
+     0.02
+    ],
+    "widthM": 0.23
+   }
+  ],
+  "vanilla:architecture/docks/dockcorsol01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.63,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.63,
+     -2.38
+    ],
+    "widthM": 6.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.63,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.64,
+     0.63
+    ],
+    "widthM": 6.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.63,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.63,
+     3.64
+    ],
+    "widthM": 6.02
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.63,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.38,
+     0.63
+    ],
+    "widthM": 6.02
+   }
+  ],
+  "vanilla:architecture/docks/dockropestr01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.8,
+     -3.66
+    ],
+    "widthM": 0.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.8,
+     3.21
+    ],
+    "widthM": 0.12
+   }
+  ],
+  "vanilla:architecture/docks/dockropestr02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.24,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     1.79,
+     -3.66
+    ],
+    "widthM": 0.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.24,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     1.79,
+     3.21
+    ],
+    "widthM": 0.14
+   }
+  ],
+  "vanilla:architecture/docks/dockstepsdown01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -2.24
+    ],
+    "widthM": 7.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.66,
+     -0.05
+    ],
+    "widthM": 4.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     2.14
+    ],
+    "widthM": 7.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.67,
+     -0.05
+    ],
+    "widthM": 4.38
+   }
+  ],
+  "vanilla:architecture/docks/dockstepsdown02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.94,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.0,
+     -2.24
+    ],
+    "widthM": 7.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.94,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     3.66,
+     -0.05
+    ],
+    "widthM": 4.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.94,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.0,
+     2.14
+    ],
+    "widthM": 7.33
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.94,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.67,
+     -0.05
+    ],
+    "widthM": 4.38
+   }
+  ],
+  "vanilla:architecture/docks/dockstepsdownend01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.02,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -2.48,
+     -2.24
+    ],
+    "widthM": 2.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.02,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     -1.29,
+     -0.13
+    ],
+    "widthM": 4.22
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.02,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -2.48,
+     1.98
+    ],
+    "widthM": 2.38
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.02,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -3.67,
+     -0.13
+    ],
+    "widthM": 4.22
+   }
+  ],
+  "vanilla:architecture/docks/dockstr4way01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.3,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -3.64
+    ],
+    "widthM": 4.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.3,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.3,
+     0.0
+    ],
+    "widthM": 7.29
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.3,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     3.65
+    ],
+    "widthM": 4.6
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.3,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.3,
+     0.0
+    ],
+    "widthM": 7.29
+   }
+  ],
+  "vanilla:architecture/docks/dockstrent01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.27,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.02,
+     -4.12
+    ],
+    "widthM": 4.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.27,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.34,
+     -0.24
+    ],
+    "widthM": 7.77
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.27,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.02,
+     3.65
+    ],
+    "widthM": 4.72
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.27,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.38,
+     -0.24
+    ],
+    "widthM": 7.77
+   }
+  ],
+  "vanilla:architecture/docks/dockstrent02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.15,
+     -4.09
+    ],
+    "widthM": 4.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.25,
+     -0.22
+    ],
+    "widthM": 7.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.15,
+     3.65
+    ],
+    "widthM": 4.8
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.55,
+     -0.22
+    ],
+    "widthM": 7.74
+   }
+  ],
+  "vanilla:architecture/docks/dockstrent03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.26,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.17,
+     -4.12
+    ],
+    "widthM": 4.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.26,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.05,
+     -0.17
+    ],
+    "widthM": 7.9
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.26,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.17,
+     3.78
+    ],
+    "widthM": 4.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.26,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.38,
+     -0.17
+    ],
+    "widthM": 7.9
+   }
+  ],
+  "vanilla:architecture/docks/dockstrent04": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.16,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.04,
+     -3.66
+    ],
+    "widthM": 4.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.16,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.18,
+     0.08
+    ],
+    "widthM": 7.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.16,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.04,
+     3.83
+    ],
+    "widthM": 4.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.16,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.26,
+     0.08
+    ],
+    "widthM": 7.49
+   }
+  ],
+  "vanilla:architecture/docks/dockstrsol01": [
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 7.22,
+    "normalDeg": 0.2,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     0.01,
+     -3.64
+    ],
+    "template": "vanilla:t0554",
+    "widthM": 4.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 7.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.3,
+     0.0
+    ],
+    "widthM": 7.29
+   },
+   {
+    "count": 5,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 7.22,
+    "normalDeg": 180.2,
+    "pairedWith": "vanilla:architecture/docks/dockstrsol01",
+    "positionInPiece": [
+     -0.01,
+     3.64
+    ],
+    "template": "vanilla:t0554",
+    "widthM": 4.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 7.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.38,
+     0.0
+    ],
+    "widthM": 7.29
+   }
+  ],
+  "vanilla:architecture/docks/dockstrsol02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 7.76,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.23,
+     -3.68
+    ],
+    "widthM": 4.75
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 7.76,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.23,
+     7.62
+    ],
+    "widthM": 4.75
+   }
+  ]
+ },
+ "counts": {
+  "assets": 49,
+  "bounds": 156,
+  "co-placement": 22
+ },
+ "elongationRatio": 2.0,
+ "kit": "docks-v1",
+ "schemaVersion": 1
+}

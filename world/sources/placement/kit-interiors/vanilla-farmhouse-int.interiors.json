@@ -8,7 +8,7 @@
     "deg": 297.8,
     "evidence": "co-placement",
     "outside": true,
-    "why": "the source authors placed this piece 12 times with its neighbours to one side; the face away from them, at 298\u00b0 in its own frame, is the outside"
+    "why": "the source authors placed this piece 12 times with other statics to one side; the side they left open, at 298\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "interior": "none",
    "provenance": [],
@@ -45,7 +45,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 289.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 289\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -54,7 +59,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 47.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 47\u00b0 in the piece's own frame carries 1.82x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -72,7 +82,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 227.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 227\u00b0 in the piece's own frame carries 1.82x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -126,12 +141,7 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": {
-    "deg": 258.1,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 258\u00b0 in the piece's own frame carries 1.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -149,12 +159,7 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": {
-    "deg": 78.1,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 78\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -182,10 +187,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 346.5,
+    "deg": 345.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 347\u00b0 in the piece's own frame carries 2.29x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 346\u00b0 in the piece's own frame carries 2.00x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -196,10 +201,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 74.3,
+    "deg": 350.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 74\u00b0 in the piece's own frame carries 24.02x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 351\u00b0 in the piece's own frame carries 41.87x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -209,7 +214,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 344.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 345\u00b0 in the piece's own frame carries 1.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -218,7 +228,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 41.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 41\u00b0 in the piece's own frame carries 1.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -227,7 +242,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 164.9,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 165\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -236,7 +256,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 221.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 221\u00b0 in the piece's own frame carries 1.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -281,12 +306,7 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": {
-    "deg": 41.6,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 42\u00b0 in the piece's own frame carries 3.21x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -295,7 +315,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 131.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 131\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -332,10 +357,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 323.8,
+    "deg": 97.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 324\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 97\u00b0 in the piece's own frame carries 5.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -354,7 +379,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 73.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 73\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -364,10 +394,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 74.0,
+    "deg": 73.2,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 74\u00b0 in the piece's own frame carries 4.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 73\u00b0 in the piece's own frame carries 2.51x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -378,10 +408,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 37.2,
+    "deg": 41.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 37\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 42\u00b0 in the piece's own frame carries 1.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -392,10 +422,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 100.5,
+    "deg": 105.4,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 101\u00b0 in the piece's own frame carries 1.75x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 105\u00b0 in the piece's own frame carries 3.15x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -405,7 +435,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 40.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 41\u00b0 in the piece's own frame carries 1.79x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -414,12 +449,7 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": {
-    "deg": 324.1,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 324\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -438,10 +468,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 14.7,
+    "deg": 17.3,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 15\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 17\u00b0 in the piece's own frame carries 1.35x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -451,7 +481,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 215.4,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 215\u00b0 in the piece's own frame carries 2.03x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -461,10 +496,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 39.8,
+    "deg": 43.9,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 40\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 44\u00b0 in the piece's own frame carries 1.71x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -475,10 +510,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 218.9,
+    "deg": 224.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 219\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 224\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -489,10 +524,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 308.9,
+    "deg": 314.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 309\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 314\u00b0 in the piece's own frame carries 1.42x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -503,10 +538,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 323.2,
+    "deg": 320.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 323\u00b0 in the piece's own frame carries 1.99x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 320\u00b0 in the piece's own frame carries 1.78x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -517,10 +552,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 141.8,
+    "deg": 139.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 142\u00b0 in the piece's own frame carries 2.11x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 140\u00b0 in the piece's own frame carries 2.16x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -531,10 +566,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 42.9,
+    "deg": 40.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 43\u00b0 in the piece's own frame carries 2.21x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 41\u00b0 in the piece's own frame carries 1.79x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -545,10 +580,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 135.5,
+    "deg": 142.4,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 136\u00b0 in the piece's own frame carries 2.73x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 142\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -559,10 +594,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 140.5,
+    "deg": 135.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 140\u00b0 in the piece's own frame carries 3.01x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 135\u00b0 in the piece's own frame carries 2.18x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -573,10 +608,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 136.2,
+    "deg": 142.4,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 136\u00b0 in the piece's own frame carries 2.65x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 142\u00b0 in the piece's own frame carries 1.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -587,10 +622,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 252.8,
+    "deg": 254.4,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 253\u00b0 in the piece's own frame carries 1.96x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 254\u00b0 in the piece's own frame carries 2.05x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -604,7 +639,7 @@
     "deg": 285.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 286\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 286\u00b0 in the piece's own frame carries 1.47x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -642,10 +677,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 37.3,
+    "deg": 38.3,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 37\u00b0 in the piece's own frame carries 1.81x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 38\u00b0 in the piece's own frame carries 1.79x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -656,10 +691,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 216.1,
+    "deg": 217.6,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 216\u00b0 in the piece's own frame carries 1.52x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 218\u00b0 in the piece's own frame carries 1.39x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -697,10 +732,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 72.1,
+    "deg": 309.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 72\u00b0 in the piece's own frame carries 2.97x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 310\u00b0 in the piece's own frame carries 1.84x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -711,10 +746,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 71.7,
+    "deg": 106.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 72\u00b0 in the piece's own frame carries 2.17x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 106\u00b0 in the piece's own frame carries 19.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -725,10 +760,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 288.3,
+    "deg": 254.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 288\u00b0 in the piece's own frame carries 2.17x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 254\u00b0 in the piece's own frame carries 19.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -751,7 +786,7 @@
     "deg": 256.0,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 256\u00b0 in the piece's own frame carries 1.54x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 256\u00b0 in the piece's own frame carries 1.69x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -762,10 +797,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 147.7,
+    "deg": 147.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 148\u00b0 in the piece's own frame carries 1.88x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 148\u00b0 in the piece's own frame carries 2.70x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -776,10 +811,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 73.7,
+    "deg": 323.9,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 74\u00b0 in the piece's own frame carries 1.74x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 324\u00b0 in the piece's own frame carries 2.23x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -790,10 +825,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 323.9,
+    "deg": 147.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 324\u00b0 in the piece's own frame carries 1.55x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 147\u00b0 in the piece's own frame carries 2.24x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -803,7 +838,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 142.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 142\u00b0 in the piece's own frame carries 2.25x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -812,12 +852,7 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": {
-    "deg": 318.9,
-    "evidence": "asymmetry",
-    "outside": true,
-    "why": "the band at 319\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
-   },
+   "front": null,
    "interior": "none",
    "provenance": [],
    "why": "vanilla-farmhouse-int is an interior kit \u2014 these modules ARE the inside"
@@ -830,7 +865,7 @@
     "deg": 286.8,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 287\u00b0 in the piece's own frame carries 2.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 287\u00b0 in the piece's own frame carries 8.01x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],
@@ -841,10 +876,10 @@
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
    "front": {
-    "deg": 104.1,
+    "deg": 75.5,
     "evidence": "asymmetry",
     "outside": true,
-    "why": "the band at 104\u00b0 in the piece's own frame carries 3.88x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the band at 76\u00b0 in the piece's own frame carries 6.12x the triangle density of a median band \u2014 the detailed face, which is the show side"
    },
    "interior": "none",
    "provenance": [],

@@ -41,19 +41,36 @@
     "OrcAwningFull01:8.Mat",
     "OrcAwningFull01:9.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.9105,
+    "p50": -0.9105,
+    "p75": -0.9105,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9105
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.911,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.435,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.911
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
@@ -95,19 +112,36 @@
     "OrcAwningFull01:8.Mat.001",
     "OrcAwningFull01:9.Mat.001"
    ],
+   "designedSinkM": {
+    "p25": -0.9105,
+    "p50": -0.9105,
+    "p75": -0.9105,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9105
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.911,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.435,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.911
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/bamboohut01_int",
@@ -150,19 +184,36 @@
     "OrcAwningFull01:7.Mat.002",
     "OrcAwningFull01:8.Mat.002"
    ],
+   "designedSinkM": {
+    "p25": -0.9105,
+    "p50": -0.9105,
+    "p75": -0.9105,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.9105
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.911,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.435,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.911
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
@@ -195,24 +246,41 @@
     "Door01:0.Mat",
     "Door01:4.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01",
    "node": "es|edba8a66b3|itecture_villages_argonian_wickerchair01",
-   "category": "architecture",
+   "category": "furniture",
    "sizeM": [
     0.916,
     0.923,
@@ -230,7 +298,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "mesh",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "fabricbrown01.dds",
@@ -243,24 +311,49 @@
     "cloth.Mat",
     "wickerchair01.Mat"
    ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.403,
+     0.393,
+     0.406
+    ],
+    "centreOffsetM": [
+     0.007,
+     0.455,
+     0.108
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.0071,
+    "p50": 0.0462,
+    "p75": 0.0542,
+    "n": 6,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.008,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.99,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.008
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickersofa01",
    "node": "es|d42669ce01|hitecture_villages_argonian_wickersofa01",
-   "category": "architecture",
+   "category": "furniture",
    "sizeM": [
     1.752,
     0.923,
@@ -278,7 +371,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "mesh",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "fabricbrown01.dds",
@@ -291,24 +384,54 @@
     "wickersofa001:20.Mat",
     "wickersofa001:8.Mat"
    ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.771,
+     0.387,
+     0.406
+    ],
+    "centreOffsetM": [
+     0.011,
+     0.405,
+     0.19
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.0346,
+    "p50": -0.0346,
+    "p75": -0.0346,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill (plugin-unsupported)"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0346
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.035,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.995,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.035
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01",
    "node": "es|34f8a73c50|itecture_villages_argonian_wickertable01",
-   "category": "architecture",
+   "category": "furniture",
    "sizeM": [
     0.917,
     1.355,
@@ -326,7 +449,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "mesh",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "wicker01.dds",
@@ -339,24 +462,54 @@
     "wickertable01:20.Mat",
     "wickertable01:7.Mat"
    ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.403,
+     0.204,
+     0.596
+    ],
+    "centreOffsetM": [
+     0.003,
+     0.235,
+     0.0
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.0032,
+    "p50": 0.0032,
+    "p75": 0.0032,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": 0.0032
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.003,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.003
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01",
    "node": "es|e7a54f9fd3|tecture_villages_argonian_wickerbasket01",
-   "category": "architecture",
+   "category": "clutter",
    "sizeM": [
     0.88,
     0.789,
@@ -374,7 +527,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "mesh",
+   "collision": "none",
    "droppedShapes": [],
    "textures": [
     "wicker01.dds"
@@ -382,24 +535,36 @@
    "materials": [
     "wickerbasket:7.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0048,
+    "p50": 0.0086,
+    "p75": 0.0427,
+    "n": 9,
+    "slopeTermMPerDeg": 0.00027,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01",
    "node": "es|b8e9b951e5|itecture_villages_argonian_chestwicker01",
-   "category": "architecture",
+   "category": "container",
    "sizeM": [
     1.483,
     0.686,
@@ -417,7 +582,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "mesh",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "wickerchest01.dds"
@@ -426,19 +591,49 @@
     "Chest:29.Mat",
     "Lid:21.Mat"
    ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.652,
+     0.315,
+     0.302
+    ],
+    "centreOffsetM": [
+     0.004,
+     0.323,
+     0.002
+    ]
+   },
+   "designedSinkM": {
+    "p25": -0.0342,
+    "p50": -0.0342,
+    "p75": -0.0342,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "floor-plane",
+    "valueM": -0.0342
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.034,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.034
   },
   {
    "id": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02",
@@ -471,19 +666,36 @@
     "FarmBTrapdoor02:5.Mat",
     "Trapdoor:7.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "mesh-sill"
+   },
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
+   "groundLineTell": {
+    "type": "mesh",
+    "tell": "door-sill",
+    "valueM": 0.0
+   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.473,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/barrel01",
@@ -527,19 +739,31 @@
      0.0
     ]
    },
+   "designedSinkM": {
+    "p25": -0.0067,
+    "p50": 0.0045,
+    "p75": 0.1078,
+    "n": 568,
+    "slopeTermMPerDeg": -0.00206,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.08,
     "buryCapM": 0.25,
-    "slopeBuryPerM": 0.08,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "direct",
      "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.77,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "vanilla:clutter/giant/giantcampfire01off",
@@ -579,19 +803,31 @@
     "Wood:0 - L1_Rocks01:0 - L1_Rocks02:0.Mat",
     "Wood:1 - L2_Wood:1.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.5157,
+    "p50": -0.4518,
+    "p75": 0.0714,
+    "n": 3,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.91,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.056,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.91
   },
   {
    "id": "vanilla:clutter/hay/hayscatter05",
@@ -622,19 +858,31 @@
    "materials": [
     "HayScatter05:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0631,
+    "p50": -0.031,
+    "p75": -0.0132,
+    "n": 44,
+    "slopeTermMPerDeg": -0.003,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/hay/hayscatter06",
@@ -665,19 +913,31 @@
    "materials": [
     "HayScatter06:0.Mat"
    ],
+   "designedSinkM": {
+    "p25": -0.0843,
+    "p50": -0.0221,
+    "p75": 0.0,
+    "n": 27,
+    "slopeTermMPerDeg": -0.01178,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": 0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
   },
   {
    "id": "vanilla:clutter/imperial/impbrazier01",
@@ -708,19 +968,31 @@
    "materials": [
     "ImpBrazier01:11.Mat"
    ],
+   "designedSinkM": {
+    "p25": 0.021,
+    "p50": 0.0427,
+    "p75": 0.0692,
+    "n": 13,
+    "slopeTermMPerDeg": -0.00381,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
     "groundContactOffsetM": -0.0,
-    "buryM": 0.0,
     "buryCapM": 0.0,
-    "slopeBuryPerM": 0.0,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
      "policyId": "interior-zero",
      "fitPolicy": "authored placement-policies.json policy interior-zero: Reviewed interior-piece fallback: authored interior transforms supply the floor datum, so terrain burial is forbidden."
     }
-   }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.945,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\htbm-hut-int.glb",
@@ -762,11 +1034,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 13389288,
-  "bytesAfter": 6182520,
+  "bytesBefore": 13177320,
+  "bytesAfter": 6182504,
   "images": 23,
   "imageBytesAfter": 5600597,
   "warnings": [],
-  "sha256": "50e7dd120aa7a30d6968459f7314d639d58b2abbec486e453c0a6ff13e8af4de"
+  "sha256": "14130048c70b7c1b2dea714dc19a53a839b7858e83a3aa7938f19bd3247e6e38",
+  "sidecarBytes": {
+   "connectors": 11115,
+   "footprints": 18860,
+   "interiors": 8038
+  }
  }
 }

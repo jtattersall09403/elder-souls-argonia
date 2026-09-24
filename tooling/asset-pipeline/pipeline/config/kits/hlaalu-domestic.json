@@ -228,7 +228,7 @@
   {
    "asset": "composite:phitt/marsh-house-03",
    "compose": {
-    "note": "Phitt's Aldredanyia marsh house, whole. `house03` is a bare box: its overhang and every one of its windows are separate meshes, and the mine shows all five placed against it identically 27 times — `overhang05` at -0.21, -5.16, -1.24 m yawed 183.35 deg (bmv-blackmarsh:t0011) and four `window` pieces at -3.13, -2.82, -0.97 (t0012), -1.76, 4.01, -0.71 (t0013), 1.94, 4.06, -0.71 (t0014) and 2.8, -3.0, -0.97 (t0015), yawed 275.02, 91.67, 91.67 and 275.02 deg. `overhang05` and `window` are never placed alone anywhere in the set. Six pieces, one house.",
+    "note": "Phitt's Aldredanyia marsh house, whole. `house03` is a bare box: its overhang and every one of its windows are separate meshes, and the mine shows all five placed against it identically 27 times — `overhang05` at -0.21, -5.16, -1.24 m yawed 183.35 deg and scaled 1.7 against the house, as the plugin places it every time (bmv-blackmarsh:t0011, partScaleInAnchor 1.7; 16h K10 ruling D) and four `window` pieces at -3.13, -2.82, -0.97 (t0012), -1.76, 4.01, -0.71 (t0013), 1.94, 4.06, -0.71 (t0014) and 2.8, -3.0, -0.97 (t0015), yawed 275.02, 91.67, 91.67 and 275.02 deg. `overhang05` and `window` are never placed alone anywhere in the set. Six pieces, one house.",
     "parts": [
      {
       "asset": "bmv:architecture/phitt/aldredanyia/house03"
@@ -241,7 +241,7 @@
        -1.24
       ],
       "yawDeg": 183.35,
-      "scale": 1.0
+      "scale": 1.7
      },
      {
       "asset": "bmv:architecture/phitt/aldredanyia/window",

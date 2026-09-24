@@ -1,0 +1,419 @@
+{
+ "assets": {
+  "depths:dos/boats/rowboatbrokenback": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 69.1,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 69\u00b0 in the piece's own frame carries 1.72x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.27,
+   "interior": "none",
+   "planAreaM2": 8.97,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (9.0 m\u00b2 plan, 1.3 m tall)"
+  },
+  "depths:dos/boats/rowboatbrokenfront": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 111.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 112\u00b0 in the piece's own frame carries 2.45x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.52,
+   "interior": "none",
+   "planAreaM2": 9.42,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (9.4 m\u00b2 plan, 1.5 m tall)"
+  },
+  "depths:dos/ships/shipatmoranlongshipwreck01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.69,
+   "heightM": 6.92,
+   "interior": "none",
+   "medianWallM": 2.8,
+   "planAreaM2": 55.73,
+   "planCentreM": [
+    -0.01,
+    3.47
+   ],
+   "provenance": [],
+   "ringFraction": 0.778,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "depths:dos/ships/shipatmoranlongshipwreck02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 76.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 76\u00b0 in the piece's own frame carries 1.66x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 6.67,
+   "interior": "none",
+   "medianWallM": 2.56,
+   "planAreaM2": 60.8,
+   "planCentreM": [
+    -0.03,
+    -4.36
+   ],
+   "provenance": [],
+   "ringFraction": 0.736,
+   "roofOverhead": false,
+   "sizeClass": "medium",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "depths:dos/ships/shipatmoranrowboatwreck01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 285.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 286\u00b0 in the piece's own frame carries 2.11x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.15,
+   "interior": "none",
+   "planAreaM2": 8.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (8.2 m\u00b2 plan, 2.1 m tall)"
+  },
+  "depths:dos/ships/shipatmoranrowboatwreck02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 74.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 74\u00b0 in the piece's own frame carries 1.36x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.19,
+   "interior": "none",
+   "planAreaM2": 8.66,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (8.7 m\u00b2 plan, 2.2 m tall)"
+  },
+  "depths:dos/ships/shipatmoranwarshipwreck01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 251.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 251\u00b0 in the piece's own frame carries 1.53x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 99.0,
+   "heightM": 12.14,
+   "interior": "none",
+   "medianWallM": 2.83,
+   "planAreaM2": 139.2,
+   "planCentreM": [
+    0.05,
+    -5.45
+   ],
+   "provenance": [],
+   "ringFraction": 0.847,
+   "roofOverhead": false,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "depths:dos/ships/shipatmoranwarshipwreck02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.969,
+   "headroomM": 2.97,
+   "heightM": 9.05,
+   "interior": "none",
+   "medianWallM": 2.88,
+   "planAreaM2": 157.29,
+   "planCentreM": [
+    -0.31,
+    7.18
+   ],
+   "provenance": [],
+   "ringFraction": 0.889,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "depths:dos/ships/shipbreticcarrack_halfwreck01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 1.94,
+   "heightM": 15.84,
+   "interior": "none",
+   "medianWallM": 3.03,
+   "planAreaM2": 120.08,
+   "planCentreM": [
+    -0.87,
+    6.32
+   ],
+   "provenance": [],
+   "ringFraction": 0.722,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "depths:dos/ships/shipbreticcarrack_halfwreck02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 3.29,
+   "heightM": 13.5,
+   "interior": "none",
+   "medianWallM": 3.38,
+   "planAreaM2": 188.33,
+   "planCentreM": [
+    -0.21,
+    -5.03
+   ],
+   "provenance": [],
+   "ringFraction": 0.875,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.58,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.6 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.41,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:clutter/shipwreck/shipwreckboards03": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.06,
+   "interior": "none",
+   "planAreaM2": 0.35,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.3 m\u00b2 plan, 0.1 m tall)"
+  },
+  "vanilla:dungeons/ship/shiplongboatwreck01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": {
+    "deg": 103.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 103\u00b0 in the piece's own frame carries 1.83x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.3,
+   "heightM": 15.1,
+   "interior": "none",
+   "medianWallM": 3.99,
+   "planAreaM2": 126.82,
+   "planCentreM": [
+    0.17,
+    -3.05
+   ],
+   "provenance": [],
+   "ringFraction": 0.847,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:dungeons/ship/shiplongboatwreck02": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.34,
+   "heightM": 6.76,
+   "interior": "none",
+   "medianWallM": 3.4,
+   "planAreaM2": 73.36,
+   "planCentreM": [
+    0.0,
+    2.83
+   ],
+   "provenance": [],
+   "ringFraction": 0.778,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:dungeons/ship/shipwrecklarge01": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 5.62,
+   "heightM": 25.57,
+   "interior": "none",
+   "medianWallM": 2.02,
+   "planAreaM2": 793.23,
+   "planCentreM": [
+    -0.18,
+    -4.21
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:dungeons/ship/shipwrecklarge02": {
+   "category": "dungeon-kit",
+   "doorwayProbeCentreM": [
+    0.0,
+    5.1
+   ],
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 5.62,
+   "heightM": 18.9,
+   "interior": "none",
+   "medianWallM": 2.08,
+   "planAreaM2": 791.14,
+   "planCentreM": [
+    0.11,
+    -3.16
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:dungeons/ship/shipwrecklarge03": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 5.49,
+   "heightM": 18.9,
+   "interior": "none",
+   "medianWallM": 1.97,
+   "planAreaM2": 511.3,
+   "planCentreM": [
+    0.04,
+    -2.97
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
+  "vanilla:dungeons/ship/shipwrecklarge04": {
+   "category": "dungeon-kit",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": null,
+   "frontFaceFraction": 1.0,
+   "headroomM": 3.8,
+   "heightM": 18.19,
+   "interior": "none",
+   "medianWallM": 3.74,
+   "planAreaM2": 309.39,
+   "planCentreM": [
+    -0.83,
+    -0.03
+   ],
+   "provenance": [],
+   "ringFraction": 0.931,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'ship' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  }
+ },
+ "kit": "wrecks-v1",
+ "rules": {
+  "doorwayArcM": [
+   0.8,
+   5.0
+  ],
+  "enclosureMinRing": 0.75,
+  "enclosureMinRoomM": 1.5,
+  "entranceRank": [
+   "esp-door",
+   "assembly",
+   "door-piece",
+   "leaf",
+   "opening",
+   "open-front"
+  ],
+  "entranceRankWhy": "one canonical entrance per piece (owner ruling 2026-09-07), ranked from the mod's own load door down to an open front; the losing evidence stays in `provenance` for audit and is never drawn or matched against",
+  "eyeHeightM": 1.6,
+  "frontEvidence": [
+   "co-placement (the bearing away from the neighbours the source authors planted around this piece)",
+   "asymmetry (the bearing band with the highest triangle density: the detailed, outward face)"
+  ],
+  "sizeClassMaxM2": {
+   "medium": 120.0,
+   "small": 40.0
+  }
+ },
+ "schemaVersion": 1
+}

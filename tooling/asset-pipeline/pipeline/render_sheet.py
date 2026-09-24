@@ -18,6 +18,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from . import render_assembly
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 TOOLCHAIN = json.loads((Path(__file__).parent / "config" / "toolchain.json").read_text())
 SCRIPT = Path(__file__).parent / "blender" / "render_kit_sheet.py"
@@ -77,14 +79,34 @@ def render(kit_id: str, assets: list[str], out_dir: Path, res: int) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--kit", required=True)
-    ap.add_argument("--assets", default="", help="comma-separated ids; default all")
+    ap.add_argument("--kit", help="kit id; renders one framed still per asset")
+    render_assembly.add_arguments(ap)
+    ap.add_argument("--assets", default="",
+                    help="comma-separated ids; default all (also narrows --kit-sheet)")
     ap.add_argument("--out", required=True)
-    ap.add_argument("--res", type=int, default=512)
+    ap.add_argument("--res", type=int, default=None,
+                    help="overrides the preset's (owner 512, sonnet 256)")
     args = ap.parse_args()
-    render(args.kit, [a for a in args.assets.split(",") if a],
-           Path(args.out) if Path(args.out).is_absolute() else REPO_ROOT / args.out,
-           args.res)
+    out = Path(args.out).resolve()   # relative paths are relative to the cwd
+    if any((args.assembly, args.template, args.all_templates, args.kit_sheet,
+            args.mount_pair)):
+        specs = render_assembly.specs_from_args(args)
+        wanted = {a for a in args.assets.split(",") if a}
+        if wanted:
+            # --assets narrows an assembly mode to the specs whose first piece
+            # is one of them (a kit sheet's piece, a template's anchor).
+            specs = [s for s in specs if s["pieces"][0]["assetId"] in wanted]
+        if args.limit:
+            specs = specs[:args.limit]
+        render_assembly.render(specs, out, args.res, dry_run=args.dry_run,
+                               flat=args.flat, skip_existing=args.skip_existing,
+                               preset=args.preset, jobs=args.jobs)
+        return
+    if not args.kit:
+        raise SystemExit("pass --kit, or an assembly mode (--assembly/--template/"
+                         "--all-templates/--kit-sheet/--mount-pair)")
+    render(args.kit, [a for a in args.assets.split(",") if a], out,
+           args.res or render_assembly.PRESETS[args.preset]["res"])
 
 
 if __name__ == "__main__":

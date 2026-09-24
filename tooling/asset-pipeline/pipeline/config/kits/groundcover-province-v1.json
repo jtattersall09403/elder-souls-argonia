@@ -4,6 +4,16 @@
  "output": "tooling/asset-pipeline/output/kits/groundcover-province-v1.glb",
  "lodRatios": [],
  "textureMaxSize": 256,
+ "bakeCards": true,
+ "texturePoolPrecedence": [
+  "tropical",
+  "bmv",
+  "drjacopo",
+  "hoddminir",
+  "htbm",
+  "depths",
+  "vanilla"
+ ],
  "assets": [
   {
    "asset": "bmv:landscape/grass/vurt_reeds"
@@ -239,6 +249,5 @@
   {
    "asset": "depths:landscape/grass/tbprockgrasswater03"
   }
- ],
- "bakeCards": true
+ ]
 }
