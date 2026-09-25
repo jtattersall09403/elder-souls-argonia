@@ -50,14 +50,6 @@ _STALE_MINOR_WATERWAYS = (
     "(/tmp/wf/commit3/minor-waterways-dryrun.txt). Remove when the republish lands.")
 
 KNOWN_RED: dict[str, list[dict]] = {
-    "worldgen/test_mine_mounts.py::test_the_record_holds_the_golden_set": [
-        {"match": "bmv:landscape/trees/cedartree3: expected water, got wall",
-         "why": "the M16 mounts record classes the cedar tree `wall` where the golden set "
-                "expects `water`; the miners are not re-run outside the miner lane. "
-                "Remove this row when the next full mounts run lands.",
-         "owner": "miner lane",
-         "queuedIn": "docs/phases/P-polish/backlog.md (cedartree3 golden-set row)"},
-    ],
     "worldgen/test_minor_waterways.py::test_shape_matches_routes_minor_and_serves_live_plotted_places": [
         {"match": "waterway.hist-heartland.sap-tapping-licensed.landing:",
          "why": _STALE_MINOR_WATERWAYS,

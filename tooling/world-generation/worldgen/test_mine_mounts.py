@@ -23,6 +23,7 @@ from .esp_index import (
 from . import known_red
 from .mine_designed_sink import DEFAULT_OUT as SINK_RECORD, complete_record
 from .mine_mounts import (
+    ANCHOR_EVIDENCE,
     DEFAULT_OUT as MOUNTS_RECORD,
     MIN_SAMPLES,
     ChildRef,
@@ -81,9 +82,10 @@ def test_the_record_holds_the_golden_set():
 def test_the_record_carries_an_anchor_class_for_every_kit_asset():
     document = _record(MOUNTS_RECORD)
     assert document["anchors"] and document["anchorClassCounts"]
-    # ``category``: an effect mesh is ``fx`` by its kit category (validate_anchors).
-    assert all(row["anchorClassEvidence"] in ("plugin", "unplaced", "category")
-               for row in document["anchors"].values())
+    # The evidence vocabulary is placement_metadata's (``category``: an effect
+    # mesh is ``fx`` by its kit category; ``policy``: a reviewed assetPlacement
+    # row, apply_placement_row), never a copy of it here.
+    assert {row["anchorClassEvidence"] for row in document["anchors"].values()} <= ANCHOR_EVIDENCE
 
 
 def test_a_loose_or_thin_cluster_is_points_not_a_band():
