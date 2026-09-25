@@ -66,6 +66,15 @@ function checkDeterminism() {
   const allowSet = new Set(allowed.map((a) => `${a.file}:${a.line ?? "*"}`));
   const isAllowed = (file, lineNo) =>
     allowSet.has(`${file}:${lineNo}`) || allowSet.has(`${file}:*`);
+  // Line drift: an allowlisted call that moved a few lines reads as a new hit.
+  // Name the nearest entry for the same file so the fix is obvious.
+  const DRIFT_LINES = 5;
+  const nearestAllowed = (file, lineNo) => {
+    const near = allowed
+      .filter((a) => a.file === file && Number.isInteger(a.line) && Math.abs(a.line - lineNo) <= DRIFT_LINES)
+      .sort((a, b) => Math.abs(a.line - lineNo) - Math.abs(b.line - lineNo));
+    return near.length ? near[0].line : null;
+  };
 
   const patterns = [
     { re: /\bMath\.random\s*\(/, what: "Math.random()" },
@@ -89,13 +98,16 @@ function checkDeterminism() {
         for (const { re, what } of patterns) {
           if (!re.test(stripped)) continue;
           if (isAllowed(rel, i + 1)) continue;
+          const drift = nearestAllowed(rel, i + 1);
           fail(
             6,
             rel,
             i + 1,
             `${what} in world-building code. Derive a seed from stable inputs ` +
               `(chunk coords, packet id, object id) instead, or add an entry ` +
-              `with a reason to tooling/repo-standards/allowlist-determinism.json.`,
+              `with a reason to tooling/repo-standards/allowlist-determinism.json.` +
+              (drift === null ? "" : ` The allowlist has this file at line ${drift}, ` +
+                `${Math.abs(drift - (i + 1))} line(s) away: if the call only moved, update that entry's line.`),
           );
         }
       }

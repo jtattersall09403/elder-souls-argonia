@@ -2401,6 +2401,14 @@ def _dir_signature(blueprint_dir: Path) -> tuple:
 _VALIDATE_ALL_CACHE: dict = {}
 
 
+def blueprint_paths(blueprint_dir: Path = BLUEPRINT_DIR) -> list[Path]:
+    """The blueprint files in ``blueprint_dir``: every *.json with a top-level
+    `blueprint` key. A place's layout file (<place>.layout.json, 0100
+    decision 2) sits beside its blueprint and is not one."""
+    return [path for path in sorted(blueprint_dir.glob("*.json"))
+            if "blueprint" in json.loads(path.read_text())]
+
+
 def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] | None = None,
                  warnings: list[str] | None = None) -> list[str]:
     errors: list[str] = []
@@ -2420,7 +2428,7 @@ def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] 
             warnings += cached_warnings
         return list(cached_errors)
     own_warnings: list[str] = []
-    for path in sorted(blueprint_dir.glob("*.json")):
+    for path in blueprint_paths(blueprint_dir):
         data = json.loads(path.read_text())
         if data.get("schemaVersion") != SCHEMA_VERSION:
             errors.append(f"{path.name}: schemaVersion must be {SCHEMA_VERSION}")
@@ -2450,7 +2458,7 @@ def main(argv: list[str] | None = None) -> int:
     ids = catalogue_ids()
     warnings: list[str] = []
     if args.id:
-        paths = [p for p in sorted(BLUEPRINT_DIR.glob("*.json"))
+        paths = [p for p in blueprint_paths(BLUEPRINT_DIR)
                  if p.stem == args.id or p.stem.rsplit(".", 1)[-1] == args.id]
         if not paths:
             print(f"blueprint: no blueprint matches --id {args.id!r} in {BLUEPRINT_DIR}", file=sys.stderr)

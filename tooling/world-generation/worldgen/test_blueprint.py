@@ -1155,3 +1155,19 @@ def test_a_way_that_only_ends_at_the_gate_sets_no_outer_side(front_index):
     assert blueprint._front_failures(bp)[0]           # crossing: the road is behind it
     bp["routes"][0]["endsAt"] = ["parcel.walled.gate"]
     assert blueprint._front_failures(bp) == ([], [])
+
+
+def test_a_layout_file_beside_the_blueprints_is_never_read_as_one(tmp_path, monkeypatch, capsys):
+    """0100 decision 2: <place>.layout.json sits in the blueprints folder; the
+    validators read only files with a top-level `blueprint` key (16k lane F)."""
+    import shutil
+    from . import blueprint as bp
+    src = bp.BLUEPRINT_DIR / "place.fixture.proving-ground.json"
+    shutil.copy(src, tmp_path / src.name)
+    (tmp_path / "place.fixture.proving-ground.layout.json").write_text(
+        json.dumps({"schemaVersion": 1, "placeId": "place.fixture.proving-ground", "parcels": []}))
+    assert [p.name for p in bp.blueprint_paths(tmp_path)] == [src.name]
+    errors = bp.validate_all(tmp_path, known_place_ids=bp.catalogue_ids())
+    assert not [e for e in errors if "layout" in e], errors
+    monkeypatch.setattr(bp, "BLUEPRINT_DIR", tmp_path)
+    assert bp.main(["--id", "layout"]) == 2

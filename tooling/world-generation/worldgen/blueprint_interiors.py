@@ -10,7 +10,7 @@ agents run to see what their blueprint still owes.
 
 Index record, per kit asset (see the pipeline module for how each is derived):
 
-    interior          "matched" | "tileset" | "shell" | "none"
+    interior          "matched" | "tileset" | "shell" | "promised" | "none"
     interiorAssetRef  the pool's own matched interior mesh (interior=matched)
     tileset           the interior kit Phase 12 builds it from (interior=tileset)
     entrance          THE canonical way in, or null (owner ruling 2026-09-07:
@@ -98,7 +98,7 @@ DOORWAY_TOLERANCE_DEG = 45.0
 # to stand ON the ring: the threshold within this of the measured radius.
 RADIAL_TOLERANCE_M = 0.5
 
-NEEDS_INTERIOR = ("matched", "tileset", "shell")
+NEEDS_INTERIOR = ("matched", "tileset", "shell", "promised")
 
 SIZE_CLASS_SMALL_MAX_M2 = 40.0
 SIZE_CLASS_MEDIUM_MAX_M2 = 120.0

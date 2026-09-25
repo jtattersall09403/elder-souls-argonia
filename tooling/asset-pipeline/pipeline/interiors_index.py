@@ -241,7 +241,27 @@ ASSEMBLIES_PATH = (REPO_ROOT / "world" / "sources" / "placement"
 #: below, because it is the mod's own load door rather than an inference.
 LINKS_PATH = (REPO_ROOT / "world" / "sources" / "placement"
               / "exterior-interior-links.json")
-SCHEMA_VERSION = 1
+#: 2: interior state `promised` (a building whose interior Phase 12 builds).
+SCHEMA_VERSION = 2
+
+#: Buildings the geometry calls a shell whose interior no pool ships and no
+#: plugin load door links: Phase 12 builds each one (16k lane F, planner
+#: 2026-09-25). The record says `promised` with this reason instead of `shell`,
+#: so "nobody has claimed it" and "claimed, not built yet" read apart.
+#: Evidence: King of the Murkmire's own load doors, mined in
+#: tooling/.reports/16k/kotm-door-links.json (only smpodext02 is linked).
+PROMISED_INTERIORS: dict[str, str] = {
+    "kotm:argonia/mudhuts/lizardhouse": (
+        "King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"),
+    "kotm:argonia/mudhuts/mudhut01": (
+        "King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"),
+    "kotm:argonia/mudhuts/smpodext01": (
+        "King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"),
+    "kotm:argonia/mudhuts/manorext": (
+        "King of the Murkmire never places it; Phase 12 builds its interior"),
+    "kotm:argonia/mudhuts/shed": (
+        "King of the Murkmire never places it; Phase 12 builds its interior"),
+}
 
 # --- enclosure / doorway measurement constants ----------------------------- #
 BINS = 72                      # 5° rays around the horizon
@@ -1084,7 +1104,7 @@ def leaf_doorways(triangles, centre: tuple[float, float], floor_y: float,
 # doorways from mined assemblies
 # --------------------------------------------------------------------------- #
 #: Interior classes whose piece is a building, and so may take a mined door.
-BUILDING_INTERIORS = ("matched", "tileset", "shell")
+BUILDING_INTERIORS = ("matched", "tileset", "shell", "promised")
 
 
 KIT_CONFIG_DIR = Path(__file__).resolve().parent / "config" / "kits"
@@ -1516,6 +1536,24 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
     return record
 
 
+
+def promise_or_shell(record: dict, asset_id: str) -> dict:
+    """A measured building with no interior link: `promised` when
+    `PROMISED_INTERIORS` names it (Phase 12 builds it), else `shell`."""
+    reason = PROMISED_INTERIORS.get(asset_id)
+    if reason:
+        record.update(interior="promised", promiseReason=reason,
+                      why=(f"measured to enclose a volume ({record['ringFraction']:.0%} of the ring "
+                           f"at 1.6 m hits a wall, a roof overhead) with no matched interior and no "
+                           f"tileset rule: {reason}"))
+        return record
+    record.update(interior="shell",
+                  why=(f"measured to enclose a volume — {record['ringFraction']:.0%} of the ring "
+                       f"at 1.6 m hits a wall, there is a roof overhead and {record['medianWallM']:.1f} m "
+                       f"of room to stand — with no matched interior and no tileset rule, so Phase 12 "
+                       f"must claim an interior for it"))
+    return record
+
 ESP_DOOR_RADIAL_SPREAD_DEG = 45.0
 
 
@@ -1708,12 +1746,7 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
         return record
 
     if encloses and category_ok:
-        record.update(interior="shell",
-                      why=(f"measured to enclose a volume — {record['ringFraction']:.0%} of the ring "
-                           f"at 1.6 m hits a wall, there is a roof overhead and {record['medianWallM']:.1f} m "
-                           f"of room to stand — with no matched interior and no tileset rule, so Phase 12 "
-                           f"must claim an interior for it"))
-        return record
+        return promise_or_shell(record, asset_id)
 
     if not big_enough:
         why = f"too small to hold an interior ({area:.1f} m² plan, {height:.1f} m tall)"

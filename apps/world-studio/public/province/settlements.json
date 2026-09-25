@@ -7128,7 +7128,7 @@
       80
     ],
     "atlasMaxSize": 4096,
-    "colliderPartBudget": 141,
+    "colliderPartBudget": 152,
     "colliderRadiusM": 180,
     "distancePerFootprintDiagonal": [
       4.0,
@@ -8968,7 +8968,8 @@
     }
   ],
   "pendingPadGrades": [
-    "authored pad parcels have no final heightfield evidence"
+    "settlement pad receipt does not cover the exact authored pad set",
+    "settlement pad receipt does not match current blueprints and final heightfield"
   ],
   "phase11ObligationReceipts": [],
   "placements": [

@@ -76,8 +76,13 @@ DELIVERY_FIELDS = {
 # `ownerGuided` says the owner is hands-on for this record: it changes who
 # authors the place, so it never becomes a delivery obligation.
 PROCESS_FIELDS = {"ownerGuided"}
+# Read by a check, owed by nobody (planner 2026-09-25, 16k lane F): the
+# PRIMARY `culture` is the delivery promise and decides the place's policy;
+# `secondaryCultures` only widens the kit check's allowed cultures.
+INFORMATION_FIELDS = {"secondaryCultures"}
 FIELD_POLICY = {
     **{k: "process" for k in PROCESS_FIELDS},
+    **{k: "information" for k in INFORMATION_FIELDS},
     **{k: "provenance" for k in PROVENANCE_FIELDS},
     **{k: "plot" for k in PLOT_FIELDS},
     **{k: "delivery" for k in DELIVERY_FIELDS},

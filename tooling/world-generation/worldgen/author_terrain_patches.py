@@ -27,8 +27,11 @@ Three sources become patches, deterministically:
   census is measured on the ground the patches already moved): pass `--prune`
   to drop a correction the current census no longer asks for.
 
-Grading (16e) and settlement pads (16h) author their own kinds into the same
-file with the same contract. Run this after editing either source and commit
+* `settlement-pad` patches (16k lane F): emitted by the settlement export
+  (`settlement_run_pads`) and merged cumulatively into the file; every run
+  here keeps them as they are (`KEPT_KINDS`).
+
+Grading (16e) authors its own kind into the same file with the same contract. Run this after editing either source and commit
 the result; `apply_terrain_patches` reads only the file.
 """
 
@@ -94,6 +97,8 @@ def request_patches() -> list[dict]:
 
 
 WATER_KINDS_AUTHORED = ("bed-cut", "levee")
+#: Kinds another stage authors into the file; this module keeps them untouched.
+KEPT_KINDS = ("settlement-pad",)
 
 
 def author(water_corrections: list[dict] | None = None) -> list[dict]:
@@ -101,7 +106,8 @@ def author(water_corrections: list[dict] | None = None) -> list[dict]:
     bed-cut / levee patches; None keeps the ones already in the file."""
     if water_corrections is None:
         water_corrections = [p for p in tp.load() if p["kind"] in WATER_KINDS_AUTHORED]
-    patches = tp.ordered(poling_patches() + request_patches() + water_corrections)
+    kept = [p for p in tp.load() if p["kind"] in KEPT_KINDS]
+    patches = tp.ordered(poling_patches() + request_patches() + water_corrections + kept)
     # overlapping regions must declare an order: the later in (order, id)
     # waits for the earlier (deterministic, and the applier runs them so);
     # recomputed from scratch, so nothing stale survives a re-author

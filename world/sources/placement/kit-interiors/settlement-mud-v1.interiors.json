@@ -409,13 +409,14 @@
    "frontFaceFraction": 1.0,
    "headroomM": 6.76,
    "heightM": 14.2,
-   "interior": "shell",
+   "interior": "promised",
    "medianWallM": 3.4,
    "planAreaM2": 123.88,
    "planCentreM": [
     -0.4,
     -0.39
    ],
+   "promiseReason": "King of the Murkmire places it with no load door of its own; Phase 12 builds its interior",
    "provenance": [
     {
      "arcM": 3.23,
@@ -430,7 +431,7 @@
    "ringFraction": 0.931,
    "roofOverhead": true,
    "sizeClass": "large",
-   "why": "measured to enclose a volume \u2014 93% of the ring at 1.6 m hits a wall, there is a roof overhead and 3.4 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+   "why": "measured to enclose a volume (93% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/manorext": {
    "category": "misc",
@@ -448,18 +449,19 @@
    "frontFaceFraction": 0.0,
    "headroomM": 13.38,
    "heightM": 21.6,
-   "interior": "shell",
+   "interior": "promised",
    "medianWallM": 4.8,
    "planAreaM2": 195.41,
    "planCentreM": [
     -1.9,
     -1.99
    ],
+   "promiseReason": "King of the Murkmire never places it; Phase 12 builds its interior",
    "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
-   "why": "measured to enclose a volume \u2014 100% of the ring at 1.6 m hits a wall, there is a roof overhead and 4.8 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+   "why": "measured to enclose a volume (100% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire never places it; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/mudhut01": {
    "category": "misc",
@@ -478,13 +480,14 @@
    "frontFaceFraction": 0.028,
    "headroomM": 8.51,
    "heightM": 9.03,
-   "interior": "shell",
+   "interior": "promised",
    "medianWallM": 5.22,
    "planAreaM2": 99.39,
    "planCentreM": [
     0.31,
     -1.91
    ],
+   "promiseReason": "King of the Murkmire places it with no load door of its own; Phase 12 builds its interior",
    "provenance": [
     {
      "arcM": 1.69,
@@ -500,7 +503,7 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
-   "why": "measured to enclose a volume \u2014 100% of the ring at 1.6 m hits a wall, there is a roof overhead and 5.2 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+   "why": "measured to enclose a volume (100% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/mudhut02": {
    "category": "misc",
@@ -611,18 +614,19 @@
    "frontFaceFraction": 1.0,
    "headroomM": 2.42,
    "heightM": 6.41,
-   "interior": "shell",
+   "interior": "promised",
    "medianWallM": 1.69,
    "planAreaM2": 24.55,
    "planCentreM": [
     0.21,
     -0.7
    ],
+   "promiseReason": "King of the Murkmire never places it; Phase 12 builds its interior",
    "provenance": [],
    "ringFraction": 0.764,
    "roofOverhead": true,
    "sizeClass": "small",
-   "why": "measured to enclose a volume \u2014 76% of the ring at 1.6 m hits a wall, there is a roof overhead and 1.7 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+   "why": "measured to enclose a volume (76% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire never places it; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/smpodext01": {
    "category": "misc",
@@ -640,13 +644,14 @@
    "frontFaceFraction": 0.0,
    "headroomM": 12.52,
    "heightM": 13.52,
-   "interior": "shell",
+   "interior": "promised",
    "medianWallM": 3.95,
    "planAreaM2": 74.63,
    "planCentreM": [
     0.05,
     -1.73
    ],
+   "promiseReason": "King of the Murkmire places it with no load door of its own; Phase 12 builds its interior",
    "provenance": [
     {
      "arcM": 6.57,
@@ -661,7 +666,7 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
-   "why": "measured to enclose a volume \u2014 100% of the ring at 1.6 m hits a wall, there is a roof overhead and 4.0 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+   "why": "measured to enclose a volume (100% of the ring at 1.6 m hits a wall, a roof overhead) with no matched interior and no tileset rule: King of the Murkmire places it with no load door of its own; Phase 12 builds its interior"
   },
   "kotm:argonia/mudhuts/smpodext02": {
    "category": "misc",
@@ -1346,5 +1351,5 @@
    "small": 40.0
   }
  },
- "schemaVersion": 1
+ "schemaVersion": 2
 }

@@ -47,9 +47,16 @@ owner approved on 2026-09-14 (16c ledger §4, authored by
              never a wet cell and never a channel width, and it dries nothing
              (`driesBodyCells: false`).
 
+  `settlement-pad` (schema 2, 16k lane F, 0081 addendum): the ground under
+             the members of a modular run that seats as one rigid chain and
+             floats over falling ground, graded up to each member's designed
+             ground line (`settlement_run_pads`; id
+             `patch.pad.settlement.<placeId>.<runId>`, order 3 so it comes
+             after every other kind). Emitted by the settlement export and
+             merged cumulatively, never re-derived.
+
 Dock and lane DREDGES are retired (ruling 6: a berth goes where the water
-floats the hull). Grading (16e) and settlement pads (16h) add their kinds
-here with the same contract.
+floats the hull). Grading (16e) adds its kind here with the same contract.
 
 Patch record (metres, province frame; `bboxM` = [x0, z0, x1, z1]):
 
@@ -71,8 +78,9 @@ from .scale import RAW_M
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PATCHES_PATH = REPO_ROOT / "world" / "sources" / "terrain" / "terrain-patches.json"
 STRUCTURES_PATH = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "route-structures.json"
-SCHEMA_VERSION = 1
-KINDS = ("poling-channel", "terrain-request", "bed-cut", "levee", "route-grade")
+SCHEMA_VERSION = 2                            # 2: the `settlement-pad` kind (16k lane F)
+READABLE_SCHEMA_VERSIONS = (1, 2)             # a v1 file is a valid v2 file (v2 only adds a kind)
+KINDS = ("poling-channel", "terrain-request", "bed-cut", "levee", "route-grade", "settlement-pad")
 GRADE_KINDS = ("route-grade",)                # 16e: may never change a cell inside recorded water or its shore band (invariant 7)
 SHORE_GUARD_M = 22.0                          # = the water shader's wet-shore band: grading stops at its outer edge
 CHANNEL_CLASS_KINDS = ("poling-channel", "bed-cut")    # may LOWER ground inside a channel or its shoulder
@@ -100,8 +108,9 @@ def load(path: Path = PATCHES_PATH) -> list[dict]:
     if not Path(path).exists():
         return []
     doc = json.loads(Path(path).read_text(encoding="utf-8"))
-    if doc.get("schemaVersion") != SCHEMA_VERSION:
-        raise ValueError(f"{path}: schemaVersion {doc.get('schemaVersion')!r}, expected {SCHEMA_VERSION}")
+    if doc.get("schemaVersion") not in READABLE_SCHEMA_VERSIONS:
+        raise ValueError(f"{path}: schemaVersion {doc.get('schemaVersion')!r}, expected one of "
+                         f"{READABLE_SCHEMA_VERSIONS}")
     return list(doc.get("patches", []))
 
 
@@ -330,6 +339,9 @@ def apply_kind(h: np.ndarray, patch: dict, ctx: Context, mpp: float = RAW_M) -> 
         return apply_levee(out, patch, ctx, mpp)
     if kind == "route-grade":
         return apply_route_grade(out, patch, ctx, mpp)
+    if kind == "settlement-pad":
+        from .settlement_run_pads import apply_settlement_pad
+        return apply_settlement_pad(out, patch, mpp)
     raise ValueError(f"unknown kind {kind}")
 
 

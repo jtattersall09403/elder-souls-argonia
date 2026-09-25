@@ -290,8 +290,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
+    from .blueprint import blueprint_paths
     documents = [json.loads(path.read_text())
-                 for path in sorted(args.blueprints.glob("place.*.json"))]
+                 for path in blueprint_paths(args.blueprints) if path.name.startswith("place.")]
     specs = pad_specs(documents)
     source = np.load(args.heights).astype(np.float32)
     vault_receipt = args.receipt or args.heights.with_name("settlement-pad-grades.json")

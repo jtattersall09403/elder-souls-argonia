@@ -711,7 +711,7 @@ def doorways_from(sets: dict[str, dict], interiors: dict[str, dict]) -> dict:
                 "family": t["family"],
                 "anchorEncloses": (None if not record else
                                    record.get("interior") in
-                                   {"matched", "tileset", "shell"}),
+                                   {"matched", "tileset", "shell", "promised"}),
                 "anchorInterior": record.get("interior"),
                 "doorways": []})
             entry["doorways"].append({
@@ -753,7 +753,7 @@ def gaps_from(doorways: dict, interiors: dict[str, dict]) -> list[dict]:
     """Enclosed shells with no door piece and no ray-detected opening."""
     rows = []
     for ref, record in sorted(interiors.items()):
-        if record.get("interior") not in {"matched", "tileset", "shell"}:
+        if record.get("interior") not in {"matched", "tileset", "shell", "promised"}:
             continue
         if record.get("doorways"):
             continue

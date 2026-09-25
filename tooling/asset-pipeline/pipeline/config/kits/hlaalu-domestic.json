@@ -1,7 +1,7 @@
 {
  "id": "hlaalu-domestic",
  "description": "The domestic tier under the Imperial keep masonry (Phase 11 vibe-sheet audit §4, source S2): premade and modular Hlaalu houses, a base/middle/top tower stack, yard and street walls with broken variants, steps, awnings, fences, stone blocks, small bridges, dockside cranes and lamp posts. Built ON the Imperial Keep set (SSE 133090) and retextured, so it shares that pool's texture paths — the keep pool is declared as its texture sibling in build_kit. Ruins/Winterhold/Seaview/Sheogorad/Redoran folders in the mod are Nordic or interior filler and are excluded. NOT tropicalised, for the same reason as imperial-keep.",
- "culture": "imperial",
+ "culture": "dunmer-hlaalu",
  "output": "tooling/asset-pipeline/output/kits/hlaalu-domestic.glb",
  "lodRatios": [
   0.35,

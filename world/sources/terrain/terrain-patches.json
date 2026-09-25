@@ -1,5 +1,5 @@
 {
- "schemaVersion": 1,
+ "schemaVersion": 2,
  "about": "Typed local terrain patches applied to the frozen base in (order, id) order; see worldgen/terrain_patches.py for the six invariants each must pass.",
  "patches": [
   {
@@ -38124,6 +38124,609 @@
     ]
    },
    "why": "27 dry rim cell(s) of body.992-2622 (marsh-deep) stand under its 1.54 m level (the body-side hovering edge): the rim is raised to level + 0.3 m so the sheet is held by ground (owner 2026-09-14)"
+  },
+  {
+   "id": "patch.pad.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run",
+   "kind": "settlement-pad",
+   "order": 3,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    4370.26,
+    6031.03,
+    4380.762,
+    6033.558
+   ],
+   "blendM": 3.0,
+   "maxDeltaM": 2.0,
+   "source": {
+    "placeId": "place.fixture.proving-ground-b",
+    "runId": "place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run",
+    "by": "worldgen.export_settlement_bundle (settlement_run_pads)"
+   },
+   "params": {
+    "pieces": [
+     {
+      "placementId": "place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.1",
+      "targetM": 1.354,
+      "gapM": 0.063,
+      "footprintM": [
+       [
+        4370.26,
+        6031.3
+       ],
+       [
+        4370.26,
+        6031.29
+       ],
+       [
+        4370.42,
+        6031.16
+       ],
+       [
+        4370.52,
+        6031.11
+       ],
+       [
+        4373.1,
+        6031.1
+       ],
+       [
+        4373.73,
+        6031.14
+       ],
+       [
+        4373.9,
+        6031.2
+       ],
+       [
+        4373.9,
+        6031.4
+       ],
+       [
+        4373.69,
+        6032.62
+       ],
+       [
+        4373.59,
+        6032.73
+       ],
+       [
+        4373.23,
+        6032.88
+       ],
+       [
+        4373.08,
+        6032.93
+       ],
+       [
+        4370.6,
+        6032.93
+       ],
+       [
+        4370.58,
+        6032.93
+       ],
+       [
+        4370.49,
+        6032.93
+       ],
+       [
+        4370.4,
+        6032.86
+       ],
+       [
+        4370.26,
+        6032.73
+       ],
+       [
+        4370.26,
+        6032.72
+       ]
+      ]
+     },
+     {
+      "placementId": "place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.2",
+      "targetM": 1.354,
+      "gapM": 0.156,
+      "footprintM": [
+       [
+        4377.16,
+        6032.66
+       ],
+       [
+        4377.16,
+        6032.67
+       ],
+       [
+        4377.0,
+        6032.8
+       ],
+       [
+        4376.9,
+        6032.85
+       ],
+       [
+        4374.32,
+        6032.86
+       ],
+       [
+        4373.69,
+        6032.82
+       ],
+       [
+        4373.52,
+        6032.76
+       ],
+       [
+        4373.52,
+        6032.56
+       ],
+       [
+        4373.73,
+        6031.34
+       ],
+       [
+        4373.83,
+        6031.23
+       ],
+       [
+        4374.19,
+        6031.08
+       ],
+       [
+        4374.34,
+        6031.03
+       ],
+       [
+        4376.82,
+        6031.03
+       ],
+       [
+        4376.84,
+        6031.03
+       ],
+       [
+        4376.93,
+        6031.03
+       ],
+       [
+        4377.02,
+        6031.1
+       ],
+       [
+        4377.16,
+        6031.23
+       ],
+       [
+        4377.16,
+        6031.24
+       ]
+      ]
+     },
+     {
+      "placementId": "place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.3",
+      "targetM": 1.354,
+      "gapM": 0.319,
+      "footprintM": [
+       [
+        4377.22,
+        6031.254
+       ],
+       [
+        4377.223,
+        6031.244
+       ],
+       [
+        4377.411,
+        6031.16
+       ],
+       [
+        4377.521,
+        6031.137
+       ],
+       [
+        4380.015,
+        6031.795
+       ],
+       [
+        4380.614,
+        6031.997
+       ],
+       [
+        4380.762,
+        6032.099
+       ],
+       [
+        4380.711,
+        6032.292
+       ],
+       [
+        4380.192,
+        6033.416
+       ],
+       [
+        4380.067,
+        6033.497
+       ],
+       [
+        4379.68,
+        6033.548
+       ],
+       [
+        4379.523,
+        6033.558
+       ],
+       [
+        4377.127,
+        6032.916
+       ],
+       [
+        4377.108,
+        6032.911
+       ],
+       [
+        4377.021,
+        6032.887
+       ],
+       [
+        4376.952,
+        6032.797
+       ],
+       [
+        4376.85,
+        6032.635
+       ],
+       [
+        4376.853,
+        6032.625
+       ]
+      ]
+     }
+    ]
+   },
+   "why": "run place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run seats as one rigid chain and the ground falls away under 3 member(s) by more than 0.05 m: the pad grades it up to each member's designed ground line"
+  },
+  {
+   "id": "patch.pad.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run",
+   "kind": "settlement-pad",
+   "order": 3,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    4181.72,
+    6007.667,
+    4191.766,
+    6042.817
+   ],
+   "blendM": 3.0,
+   "maxDeltaM": 2.0,
+   "source": {
+    "placeId": "place.fixture.proving-ground-b",
+    "runId": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run",
+    "by": "worldgen.export_settlement_bundle (settlement_run_pads)"
+   },
+   "params": {
+    "pieces": [
+     {
+      "placementId": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.1",
+      "targetM": 5.403,
+      "gapM": 0.097,
+      "footprintM": [
+       [
+        4191.351,
+        6007.693
+       ],
+       [
+        4191.766,
+        6007.817
+       ],
+       [
+        4190.577,
+        6014.563
+       ],
+       [
+        4187.209,
+        6013.969
+       ],
+       [
+        4188.277,
+        6007.912
+       ],
+       [
+        4190.919,
+        6007.667
+       ]
+      ]
+     },
+     {
+      "placementId": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.2",
+      "targetM": 5.403,
+      "gapM": 0.259,
+      "footprintM": [
+       [
+        4190.579,
+        6014.553
+       ],
+       [
+        4189.314,
+        6021.722
+       ],
+       [
+        4185.946,
+        6021.128
+       ],
+       [
+        4184.263,
+        6019.329
+       ],
+       [
+        4184.245,
+        6019.315
+       ],
+       [
+        4184.992,
+        6015.081
+       ],
+       [
+        4185.013,
+        6015.074
+       ],
+       [
+        4187.211,
+        6013.959
+       ]
+      ]
+     },
+     {
+      "placementId": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.3",
+      "targetM": 5.403,
+      "gapM": 0.294,
+      "footprintM": [
+       [
+        4189.316,
+        6021.712
+       ],
+       [
+        4189.185,
+        6022.745
+       ],
+       [
+        4188.282,
+        6027.866
+       ],
+       [
+        4188.052,
+        6028.882
+       ],
+       [
+        4184.684,
+        6028.288
+       ],
+       [
+        4184.815,
+        6027.255
+       ],
+       [
+        4185.718,
+        6022.134
+       ],
+       [
+        4185.948,
+        6021.118
+       ]
+      ]
+     },
+     {
+      "placementId": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.4",
+      "targetM": 5.403,
+      "gapM": 0.352,
+      "footprintM": [
+       [
+        4188.054,
+        6028.872
+       ],
+       [
+        4186.789,
+        6036.041
+       ],
+       [
+        4183.421,
+        6035.447
+       ],
+       [
+        4181.738,
+        6033.648
+       ],
+       [
+        4181.72,
+        6033.634
+       ],
+       [
+        4182.467,
+        6029.4
+       ],
+       [
+        4182.489,
+        6029.393
+       ],
+       [
+        4184.686,
+        6028.278
+       ]
+      ]
+     },
+     {
+      "placementId": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.5",
+      "targetM": 5.4,
+      "gapM": 0.325,
+      "footprintM": [
+       [
+        4186.791,
+        6036.031
+       ],
+       [
+        4185.595,
+        6042.817
+       ],
+       [
+        4185.196,
+        6042.777
+       ],
+       [
+        4184.807,
+        6042.678
+       ],
+       [
+        4182.336,
+        6041.602
+       ],
+       [
+        4183.423,
+        6035.437
+       ]
+      ]
+     }
+    ]
+   },
+   "why": "run place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run seats as one rigid chain and the ground falls away under 5 member(s) by more than 0.05 m: the pad grades it up to each member's designed ground line"
+  },
+  {
+   "id": "patch.pad.settlement.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run",
+   "kind": "settlement-pad",
+   "order": 3,
+   "after": [],
+   "crosses": [],
+   "makesWater": false,
+   "bboxM": [
+    4233.458,
+    5684.626,
+    4238.918,
+    5706.086
+   ],
+   "blendM": 3.0,
+   "maxDeltaM": 2.0,
+   "source": {
+    "placeId": "place.fixture.proving-ground",
+    "runId": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run",
+    "by": "worldgen.export_settlement_bundle (settlement_run_pads)"
+   },
+   "params": {
+    "pieces": [
+     {
+      "placementId": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.2",
+      "targetM": 21.761,
+      "gapM": 0.112,
+      "footprintM": [
+       [
+        4238.868,
+        5684.626
+       ],
+       [
+        4238.918,
+        5685.666
+       ],
+       [
+        4238.918,
+        5690.866
+       ],
+       [
+        4238.868,
+        5691.906
+       ],
+       [
+        4235.448,
+        5691.906
+       ],
+       [
+        4235.398,
+        5690.866
+       ],
+       [
+        4235.398,
+        5685.666
+       ],
+       [
+        4235.448,
+        5684.626
+       ]
+      ]
+     },
+     {
+      "placementId": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.3",
+      "targetM": 21.761,
+      "gapM": 0.112,
+      "footprintM": [
+       [
+        4238.868,
+        5691.896
+       ],
+       [
+        4238.868,
+        5699.176
+       ],
+       [
+        4235.448,
+        5699.176
+       ],
+       [
+        4233.478,
+        5697.696
+       ],
+       [
+        4233.458,
+        5697.686
+       ],
+       [
+        4233.458,
+        5693.386
+       ],
+       [
+        4233.478,
+        5693.376
+       ],
+       [
+        4235.448,
+        5691.896
+       ]
+      ]
+     },
+     {
+      "placementId": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.4",
+      "targetM": 21.757,
+      "gapM": 0.062,
+      "footprintM": [
+       [
+        4238.868,
+        5699.166
+       ],
+       [
+        4238.868,
+        5706.056
+       ],
+       [
+        4238.468,
+        5706.086
+       ],
+       [
+        4238.068,
+        5706.056
+       ],
+       [
+        4235.448,
+        5705.426
+       ],
+       [
+        4235.448,
+        5699.166
+       ]
+      ]
+     }
+    ]
+   },
+   "why": "run place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run seats as one rigid chain and the ground falls away under 3 member(s) by more than 0.05 m: the pad grades it up to each member's designed ground line"
   }
  ]
 }

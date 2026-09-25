@@ -873,18 +873,26 @@ def test_collider_budget_gate_fails_below_the_requirement_and_passes_above(tmp_p
     assert ex.collider_budget_errors(settlements, placements, 10, tmp_path) == []
 
 
+def test_collider_budget_is_derived_and_the_ceiling_gate_fails_above_it(tmp_path):
+    settlements, placements = _budget_fixture(tmp_path)
+    budget, errors = ex.collider_part_budget(settlements, placements, tmp_path, ceiling=16)
+    assert budget == round(10 * ex.COLLIDER_PART_HEADROOM) == 16 and errors == []
+    budget, errors = ex.collider_part_budget(settlements, placements, tmp_path, ceiling=15)
+    assert len(errors) == 1 and "place.test.big" in errors[0] and "15" in errors[0]
+
+
 def test_shipped_bundle_settlements_fit_the_shipped_collider_budget():
     """The gate on the real data: Lilmoth is the settlement that broke this."""
     bundle = json.loads(ex.OUT.read_text())
     totals = ex.resident_collision_parts(
         bundle["settlements"], bundle["placements"], ex.PUBLIC_KITS)
     assert totals, "published bundle has no settlements"
-    assert bundle["lod"]["colliderPartBudget"] == ex.COLLIDER_PART_BUDGET
-    # Decision 0052's rule, re-applied to the measured worst resident case:
-    # the budget is 1.55x it, so the biggest settlement can grow by half again.
-    assert ex.COLLIDER_PART_BUDGET == round(max(totals.values()) * 1.55)
-    over = {name: parts for name, parts in totals.items()
-            if parts > ex.COLLIDER_PART_BUDGET}
+    budget = bundle["lod"]["colliderPartBudget"]
+    # Decision 0052's rule, derived from THIS bundle: the budget is 1.55x the
+    # worst resident case, so the biggest settlement can grow by half again.
+    assert budget == round(max(totals.values()) * ex.COLLIDER_PART_HEADROOM)
+    assert budget <= ex.COLLIDER_PART_CEILING
+    over = {name: parts for name, parts in totals.items() if parts > budget}
     assert not over, f"published settlements exceed the collider budget: {over}"
 
 

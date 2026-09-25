@@ -112,6 +112,19 @@ def test_missing_inputs_export_empty_records(tmp_path: Path):
 def test_committed_map_records_are_fresh(out: Path, builder, key: str):
     if not out.exists():
         pytest.skip(f"{out.name} not exported")
+    if builder is export_routes.build_grades and not export_routes.grade_receipts():
+        # The applied deltas come from the vault receipt (decision 0066); on a
+        # machine without the chain vault part every one would read null, which
+        # is a missing input, not a stale record (16k lane F): check the rest.
+        committed = json.loads(out.read_text())
+        rebuilt = builder()
+        for doc in (committed, rebuilt):
+            for row in doc["patches"]:
+                row["maxAbsDeltaM"] = None
+        assert committed == rebuilt, (
+            f"{out.name} is stale — run `python3 -m worldgen.export_routes` on a machine "
+            f"with the chain vault part (route-grade-applied.json)")
+        return
     assert out.read_text(encoding="utf-8") == render(builder()), (
         f"{out.name} is stale — run `python3 -m worldgen.export_routes`")
     assert json.loads(out.read_text())[key] is not None

@@ -375,7 +375,30 @@ def support_at(survey, x: float, z: float) -> float:
     return survey.height_at(x, z) + max(0.0, float(depth[row, col]))
 
 
-def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD) -> list[dict]:
+def place_pads(place: str) -> list[dict]:
+    """The `settlement-pad` terrain patches the export merged for ``place``
+    (16k carried item 13): the gates read the ground with them applied, in
+    memory, as the door-apron gate reads the clearance patches; the rasters
+    carry them from the next terrain chain run on."""
+    from . import terrain_patches as tp
+    return [p for p in tp.load() if p["kind"] == "settlement-pad"
+            and p["source"]["placeId"] == place]
+
+
+class _PatchedSurvey:
+    """The survey with a place's pads applied to its height raster."""
+
+    def __init__(self, survey, patches: list[dict]):
+        from .settlement_run_pads import patched_height_at
+        self._survey = survey
+        self.height_at = patched_height_at(survey, patches)
+
+    def __getattr__(self, name):
+        return getattr(self._survey, name)
+
+
+def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD,
+                 pads: list[dict] | None = None) -> list[dict]:
     """anchorPlacement, in Python, over the place's terrain-seated pieces
     (anchor class ground, or a parentless deck; never water).
 
@@ -387,6 +410,7 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD) -> list[di
     sink, the deck less its designed clearance) stands from the support
     surface at the legs, the mean over the samples of the ground or the water
     surface where water covers it, never the terrain at the pivot."""
+    survey = _PatchedSurvey(survey, place_pads(place) if pads is None else pads)
     site = next(s for s in bundle["settlements"] if s["id"] == place)
     ids = set(site["placementIds"])
     run_y = _run_seats(bundle, survey, place)
@@ -443,6 +467,22 @@ def test_no_published_yard_piece_floats_or_misplaces_its_sill(survey, place):
                     f"sink={r['sink']:.2f} float={r['floatM']:.2f}" for r in floats))
     assert not sills, (f"{len(sills)}/{len(rows)} sills > {SILL_LIMIT_M} m; worst: "
                        + "; ".join(f"{r['id']} {r['sillM']:.2f}" for r in sills[:8]))
+
+
+def test_yard_b_wall_run_floats_without_its_pads_and_the_export_emits_them(survey):
+    """16k carried item 13: yard B's five-piece wall seats as one rigid chain
+    and pieces 4-5 float 0.35/0.32 m on the bare ground; the export's
+    `settlement-pad` patch for that run is what seats them."""
+    from .settlement_run_pads import run_pad_patches
+    place = "place.fixture.proving-ground-b"
+    bundle = json.loads(PUBLISHED.read_text())
+    bare = ground_audit(bundle, survey, _published_kits(bundle), place, pads=[])
+    assert any(r["floatM"] > FLOAT_LIMIT_M and not (r["slopeExempt"] or r["dockExempt"])
+               for r in bare)
+    emitted = run_pad_patches(_place_rows(bundle, place), place, survey.height_at)
+    assert emitted, "the export emits no pad for the floating run"
+    recorded = {p["id"] for p in place_pads(place)}
+    assert {p["id"] for p in emitted} <= recorded, "the pad set lacks the emitted run pads"
 
 
 VISIBLE_MIN_M = 0.5
@@ -661,24 +701,11 @@ def test_the_run_contract_check_fails_on_the_pre_fix_export_and_on_a_wrong_rise(
 
 def _run_seats(bundle: dict, survey, place: str) -> dict[str, float]:
     """placement id -> pivot y of every run member, seated as one rigid chain
-    (`anchoring.ts anchorRun`): the datum is the member with the highest mean
-    ground under its own footprint, at that mean less its sink; every other
-    member at y_datum + riseM_i - riseM_datum. `ground_audit` uses it so the
-    float and visibility gates judge a run where the runtime puts it."""
-    runs: dict[str, list] = {}
-    for p in _place_rows(bundle, place):
-        if p.get("run") and p.get("footprintM"):
-            runs.setdefault(p["run"]["id"], []).append(p)
-    out = {}
-    for members in runs.values():
-        means = [sum(survey.height_at(float(x), float(z)) for x, z in p["footprintM"])
-                 / len(p["footprintM"]) for p in members]
-        d = max(range(len(members)), key=lambda i: means[i])
-        datum = means[d] - float(members[d]["anchor"]["designedSinkM"]["p50"]) * float(
-            members[d].get("scale", 1.0))
-        for p in members:
-            out[p["id"]] = datum + float(p["run"]["riseM"]) - float(members[d]["run"]["riseM"])
-    return out
+    (`settlement_run_pads.run_seats`, the Python form of `anchoring.ts
+    anchorRun`). `ground_audit` uses it so the float and visibility gates
+    judge a run where the runtime puts it."""
+    from .settlement_run_pads import run_seats
+    return run_seats(_place_rows(bundle, place), survey.height_at)
 
 
 def scatter_in_door_aprons(bundle: dict, place: str, patches: list[dict] | None = None,

@@ -695,7 +695,11 @@ def test_no_built_kit_leaves_a_building_without_a_doorway_or_an_interior():
                 continue
             if not record.get("entrance"):
                 doorless.append(asset_id)
-            if not (record.get("tileset") or record.get("interiorAssetRef")):
+            if record.get("interior") == "promised":
+                # claimed, not built yet: Phase 12 builds it, and says why
+                if not (record.get("promiseReason") or "").strip():
+                    unlinked.append(asset_id)
+            elif not (record.get("tileset") or record.get("interiorAssetRef")):
                 unlinked.append(asset_id)
     assert not doorless, f"enclosed pieces with no entrance: {doorless}"
     assert not unlinked, f"enclosed pieces with no interior kit: {unlinked}"
@@ -804,3 +808,17 @@ def test_the_most_placed_door_wins_between_equals():
         {"doorwaySource": "assembly", "sideDeg": 200.0, "count": 31}]}
     ix.finalise_entrance(record)
     assert record["entrance"]["sideDeg"] == 200.0
+
+
+def test_a_promised_building_says_why_and_only_the_promise_table_makes_one():
+    """16k lane F: `promised` is a building Phase 12 builds the interior of;
+    it comes only from `PROMISED_INTERIORS`, and each row carries its reason."""
+    assert all(reason.strip() for reason in ix.PROMISED_INTERIORS.values())
+    assert "promised" in ix.BUILDING_INTERIORS
+    probe = {"centre": [0.0, 0.0], "floorY": 0.0, "roomH": 3.0, "ring": [4.0] * ix.BINS}
+    for asset_id, expected in (("kotm:argonia/mudhuts/mudhut01", "promised"),
+                               ("kotm:argonia/mudhuts/mudhut99", "shell")):
+        record = {"interior": "shell", "ringFraction": 1.0, "medianWallM": 4.0, "_probe": probe}
+        got = ix.promise_or_shell(record, asset_id)
+        assert got["interior"] == expected
+        assert bool(got.get("promiseReason")) == (expected == "promised")

@@ -74,14 +74,13 @@ COLLISION_FRAME = "settlement-pivot-yup-v1"
 # settlement, and it silently blanked Lilmoth in the browser. See decision 0052.
 #
 # Rule (decision 0052): budget = round(worst shipped resident parts * 1.55).
-# Re-measured 2026-09-24 on the K14 publish: the five 2026-09-09 blueprints
-# are retired (owner 2026-09-23), the yard is the only compiled place and its
-# worst resident case was 100 parts (budget 155; was 1601 from Lilmoth's 1033).
-# Re-measured 2026-09-24 after the check-in 2 yard fixes (the stilt hut's door
-# record dropped, the mud hut replaced by the bamboo hut): 91 parts, so
-# round(91 * 1.55) = 141. Re-measure when a place joins or changes the bundle.
-# The runtime reads only the published lod.colliderPartBudget, never its own copy.
-COLLIDER_PART_BUDGET = 141
+# The budget is DERIVED on every export from the set it publishes
+# (`collider_part_budget`) and written to lod.colliderPartBudget; the runtime
+# reads only that published value. The fixed gate is the ceiling below.
+COLLIDER_PART_HEADROOM = 1.55
+# planner 2026-09-25: headroom over the 152 measured with yards A+B; re-measure
+# when a real place exceeds it.
+COLLIDER_PART_CEILING = 200
 
 # Error classes that are FATAL AT RUNTIME: each makes the layer refuse to draw
 # or throw outright, so the world the player gets is blank, not merely
@@ -572,6 +571,27 @@ def resident_collision_parts(
             total += max(1, kit_counts[kit].get(placement["assetId"], 1))
         totals[settlement["id"]] = total
     return totals
+
+
+def collider_part_budget(
+    settlements: list[dict], placements: list[dict], kits_dir: Path = KITS,
+    ceiling: int = COLLIDER_PART_CEILING,
+) -> tuple[int, list[str]]:
+    """Decision 0052's budget for the set being published, and the ceiling gate.
+
+    budget = round(worst resident parts x COLLIDER_PART_HEADROOM); an error when
+    that exceeds ``ceiling`` (a place grew past what the runtime was sized for).
+    """
+    totals = resident_collision_parts(settlements, placements, kits_dir)
+    worst_id, worst = max(sorted(totals.items()), key=lambda kv: kv[1], default=("", 0))
+    budget = round(worst * COLLIDER_PART_HEADROOM)
+    errors = []
+    if budget > ceiling:
+        errors.append(
+            f"{worst_id}: {worst} resident collision parts x {COLLIDER_PART_HEADROOM} = "
+            f"{budget} exceeds the collider part ceiling of {ceiling}; re-measure the "
+            f"runtime before raising COLLIDER_PART_CEILING")
+    return budget, errors
 
 
 def collider_budget_errors(
@@ -1279,11 +1299,17 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     designed_sink_gaps = [{"asset": key, "placements": count}
                           for key, count in sorted(fallback_counts.items())]
 
+    collider_budget, ceiling_errors = collider_part_budget(
+        settlements, all_placements, kits_dir, COLLIDER_PART_CEILING)
+    _refuse(
+        "collider ceiling", ceiling_errors,
+        "settlement collider part ceiling exceeded: " + "; ".join(ceiling_errors))
+
     lod_contract = {"tiers": 3, "absoluteTriangleFloor": [120, 80],
                     "distancePerFootprintDiagonal": [4.0, 12.0],
                     "farMergeDistanceM": 900, "atlasMaxSize": 4096,
                     "colliderRadiusM": 180,
-                    "colliderPartBudget": COLLIDER_PART_BUDGET}
+                    "colliderPartBudget": collider_budget}
 
     lod_errors = lod_contract_errors(all_placements, lod_contract, kits_dir)
     _refuse(
@@ -1296,7 +1322,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         "published kit texture is over the runtime cap: " + "; ".join(cap_errors))
 
     budget_errors = collider_budget_errors(
-        settlements, all_placements, COLLIDER_PART_BUDGET, kits_dir)
+        settlements, all_placements, collider_budget, kits_dir)
     _refuse(
         "collider budget", budget_errors,
         "settlement collider budget exceeded: " + "; ".join(budget_errors))
@@ -1578,10 +1604,55 @@ def merge_bundle(base: dict, part: dict, places) -> dict:
     }
 
 
+def emit_run_pads(bundle: dict, places, pads_path: Path, survey=None) -> list[dict]:
+    """16k carried item 13: one `settlement-pad` terrain patch per run whose
+    rigid seat floats a member over the seat bar, measured on the published
+    ground and merged CUMULATIVELY into the patch set at `pads_path` (a pad
+    already applied would measure no gap; re-deriving would drop it)."""
+    from . import terrain_patches as tp
+    from .settlement_run_pads import declare_order, merge_pad_patches, run_pad_patches
+    if survey is None:
+        from .street_router import default_survey
+        survey = default_survey()
+        if survey is None:
+            raise ValueError("run pads: the province survey rasters are unavailable")
+    depth = survey.water_signed_depth_m
+    depth_px = survey.extent_m / depth.shape[0]
+
+    def is_wet(x: float, z: float) -> bool:
+        row = min(max(int(z // depth_px), 0), depth.shape[0] - 1)
+        col = min(max(int(x // depth_px), 0), depth.shape[1] - 1)
+        return float(depth[row, col]) > 0.0
+
+    scope = _place_scope(places) if places is not None else None
+    by_id = {p["id"]: p for p in bundle["placements"]}
+    new: list[dict] = []
+    for site in bundle["settlements"]:
+        if scope is not None and site["id"] not in scope:
+            continue
+        rows = [by_id[i] for i in site["placementIds"] if i in by_id]
+        new += run_pad_patches(rows, site["id"], survey.height_at, is_wet)
+    if not new:
+        return []
+    existing = tp.load(pads_path)
+    merged = merge_pad_patches(existing, new)
+    declare_order(merged)
+    errors = tp.validate(merged)
+    if errors:
+        raise ValueError("run pads: " + "; ".join(errors))
+    if tp.ordered(merged) != tp.ordered(existing):
+        tp.save(merged, pads_path)
+    return new
+
+
 def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None = None,
            report_path: Path = accepted_places.REPORT_PATH, fixtures_ok: bool = False,
-           all_kit_assets: bool = False) -> dict:
+           all_kit_assets: bool = False, pads_path: Path | None = None) -> dict:
     """Build, optionally copy the kits, and publish atomically.
+
+    With `pads_path` (the CLI passes `terrain_patches.PATCHES_PATH`), the
+    `settlement-pad` patches under floating run members of the exported
+    places are merged into that patch set (`emit_run_pads`).
 
     With `places`, only those places are built and they replace their rows in
     `base` (default: the bundle at `out`); nothing else is read or judged.
@@ -1595,6 +1666,15 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
             raise ValueError(f"--places needs a published bundle to publish into; "
                              f"{base_path} does not exist (run one full export)")
         bundle = merge_bundle(_read(base_path), bundle, _place_scope(places))
+        # the budget is the MERGED set's (decision 0052): the part's own worst
+        # case says nothing about the places carried from the base
+        budget, ceiling_errors = collider_part_budget(
+            bundle["settlements"], bundle["placements"], KITS, COLLIDER_PART_CEILING)
+        _refuse("collider ceiling", ceiling_errors,
+                "settlement collider part ceiling exceeded: " + "; ".join(ceiling_errors))
+        bundle["lod"] = {**bundle["lod"], "colliderPartBudget": budget}
+    if pads_path is not None:
+        emit_run_pads(bundle, places, pads_path)
     if places is not None and report_path.exists():
         # A --places publish re-judges only its own places: every other
         # accepted place's report-mode rows stand as the last export left them.
@@ -1614,6 +1694,7 @@ def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None =
 
 
 def main() -> int:
+    from . import terrain_patches
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=OUT)
     ap.add_argument("--copy-assets", action="store_true")
@@ -1635,7 +1716,8 @@ def main() -> int:
     places = None if args.places is None else [p.strip() for p in args.places.split(",")]
     try:
         bundle = export(args.out, args.copy_assets, places=places, base=args.base,
-                        fixtures_ok=args.fixtures_ok, all_kit_assets=args.all_kit_assets)
+                        fixtures_ok=args.fixtures_ok, all_kit_assets=args.all_kit_assets,
+                        pads_path=terrain_patches.PATCHES_PATH)
     except ValueError as exc:
         print(f"export_settlement_bundle: {exc}")
         return 1

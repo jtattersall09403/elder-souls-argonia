@@ -216868,14 +216868,14 @@
    "only": []
   },
   "stats": {
-   "abutFaceBand": 633,
-   "abutSidePatch": 1991,
-   "boxPairs": 11682,
-   "candidates": 17637,
-   "contact_side": 3116,
-   "contact_top": 2963,
-   "contact_under": 995,
-   "pivotInsideParent": 2965,
+   "abutFaceBand": 700,
+   "abutSidePatch": 2144,
+   "boxPairs": 13206,
+   "candidates": 19963,
+   "contact_side": 3455,
+   "contact_top": 3207,
+   "contact_under": 1207,
+   "pivotInsideParent": 3418,
    "meshesMissing": 0
   },
   "pairs": [
@@ -217210,6 +217210,28 @@
     "sourceSet": "vanilla"
    },
    {
+    "parent": "vanilla:architecture/shackkit/shackframerend02",
+    "child": "vanilla:architecture/shackkit/shackroofside01",
+    "parentPiece": "shackframerend02",
+    "childPiece": "shackroofside01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -3.64,
+     -0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 14,
+    "offsetSpreadM": 0.023,
+    "contactPoints": 3,
+    "sourceSet": "vanilla"
+   },
+   {
     "parent": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "child": "vanilla:clutter/stockade/stockadescaffoldtop0sided01",
     "parentPiece": "stockadescaffoldtop0sided01",
@@ -217430,6 +217452,28 @@
     "sourceSet": "vanilla"
    },
    {
+    "parent": "vanilla:architecture/shackkit/shackroofside01",
+    "child": "vanilla:architecture/shackkit/shackroofside01",
+    "parentPiece": "shackroofside01",
+    "childPiece": "shackroofside01",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -3.64,
+     0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 9,
+    "offsetSpreadM": 0.016,
+    "contactPoints": 12,
+    "sourceSet": "vanilla"
+   },
+   {
     "parent": "vanilla:architecture/farmhouse/fencewoven02",
     "child": "vanilla:architecture/farmhouse/fencewoven02",
     "parentPiece": "fencewoven02",
@@ -217470,6 +217514,50 @@
     "yawDeg": 0.0,
     "count": 8,
     "offsetSpreadM": 0.077,
+    "contactPoints": 17,
+    "sourceSet": "vanilla"
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackroofside01",
+    "child": "vanilla:architecture/shackkit/shackroofmid01",
+    "parentPiece": "shackroofside01",
+    "childPiece": "shackroofmid01",
+    "parentFace": "-y",
+    "childFace": "-y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.01,
+     -1.82,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 180.0,
+    "count": 8,
+    "offsetSpreadM": 0.076,
+    "contactPoints": 32,
+    "sourceSet": "vanilla"
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackroofside01",
+    "child": "vanilla:architecture/shackkit/shackroofside01",
+    "parentPiece": "shackroofside01",
+    "childPiece": "shackroofside01",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     3.64,
+     0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.11,
+    "yawDeg": 0.12,
+    "count": 8,
+    "offsetSpreadM": 0.012,
     "contactPoints": 17,
     "sourceSet": "vanilla"
    },
@@ -217602,6 +217690,28 @@
     "yawDeg": 0.0,
     "count": 7,
     "offsetSpreadM": 0.065,
+    "contactPoints": 17,
+    "sourceSet": "vanilla"
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackroofside01",
+    "child": "vanilla:architecture/shackkit/shackroofmid01",
+    "parentPiece": "shackroofside01",
+    "childPiece": "shackroofmid01",
+    "parentFace": "-y",
+    "childFace": "+y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     0.02,
+     -1.83,
+     0.0
+    ],
+    "riseMinM": -0.09,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.17,
+    "count": 7,
+    "offsetSpreadM": 0.084,
     "contactPoints": 17,
     "sourceSet": "vanilla"
    },
@@ -217845,6 +217955,28 @@
     "count": 6,
     "offsetSpreadM": 0.088,
     "contactPoints": 47,
+    "sourceSet": "vanilla"
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackwallwindow02",
+    "child": "vanilla:architecture/shackkit/shackwallr01",
+    "parentPiece": "shackwallwindow02",
+    "childPiece": "shackwallr01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 6,
+    "offsetSpreadM": 0.001,
+    "contactPoints": 17,
     "sourceSet": "vanilla"
    },
    {
@@ -218483,6 +218615,28 @@
     "count": 4,
     "offsetSpreadM": 0.068,
     "contactPoints": 7,
+    "sourceSet": "vanilla"
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackroofside01",
+    "child": "vanilla:architecture/shackkit/shackwalll01",
+    "parentPiece": "shackroofside01",
+    "childPiece": "shackwalll01",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     3.64,
+     -0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 180.0,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 15,
     "sourceSet": "vanilla"
    },
    {
@@ -219143,6 +219297,72 @@
     "count": 3,
     "offsetSpreadM": 0.05,
     "contactPoints": 40,
+    "sourceSet": "vanilla"
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackwalltopwindow01",
+    "child": "vanilla:architecture/shackkit/shackroofmid01",
+    "parentPiece": "shackwalltopwindow01",
+    "childPiece": "shackroofmid01",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 180.0,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 45,
+    "sourceSet": "vanilla"
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackwalltopwindow01",
+    "child": "vanilla:architecture/shackkit/shackwalll01",
+    "parentPiece": "shackwalltopwindow01",
+    "childPiece": "shackwalll01",
+    "parentFace": "-y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.0,
+     -1.81,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 3,
+    "offsetSpreadM": 0.025,
+    "contactPoints": 43,
+    "sourceSet": "vanilla"
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackwalltopwindow01",
+    "child": "vanilla:architecture/shackkit/shackwallr01",
+    "parentPiece": "shackwalltopwindow01",
+    "childPiece": "shackwallr01",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.01,
+     1.82,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 3,
+    "offsetSpreadM": 0.017,
+    "contactPoints": 5,
     "sourceSet": "vanilla"
    },
    {
@@ -219894,6 +220114,28 @@
     "sourceSet": "kotm"
    },
    {
+    "parent": "kotm:argonia/mudhuts/stairs02",
+    "child": "kotm:argonia/mudhuts/stairs02",
+    "parentPiece": "stairs02",
+    "childPiece": "stairs02",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -2.47,
+     0.03,
+     2.92
+    ],
+    "riseMinM": 2.92,
+    "riseMaxM": 3.17,
+    "yawDeg": 0.0,
+    "count": 4,
+    "offsetSpreadM": 0.085,
+    "contactPoints": 401,
+    "sourceSet": "kotm"
+   },
+   {
     "parent": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01",
     "child": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01",
     "parentPiece": "mwimparchdockplatfront01",
@@ -220291,6 +220533,31 @@
     }
    },
    {
+    "parent": "vanilla:architecture/shackkit/shackroofside",
+    "child": "vanilla:architecture/shackkit/shackroofside",
+    "parentPiece": "shackroofside",
+    "childPiece": "shackroofside",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     3.64,
+     0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.11,
+    "yawDeg": 0.06,
+    "count": 17,
+    "offsetSpreadM": 0.018,
+    "contactPoints": 12,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackroofside01>shackroofside01": 17
+    }
+   },
+   {
     "parent": "vanilla:architecture/farmhouse/fencewoven",
     "child": "vanilla:architecture/farmhouse/fencewoven",
     "parentPiece": "fencewoven",
@@ -220338,6 +220605,31 @@
     "sourceSet": "vanilla",
     "members": {
      "fencewoven02>fencewoven02": 14
+    }
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackframerend",
+    "child": "vanilla:architecture/shackkit/shackroofside",
+    "parentPiece": "shackframerend",
+    "childPiece": "shackroofside",
+    "parentFace": "-x",
+    "childFace": "+x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     -3.64,
+     -0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 14,
+    "offsetSpreadM": 0.023,
+    "contactPoints": 3,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackframerend02>shackroofside01": 14
     }
    },
    {
@@ -220691,6 +220983,31 @@
     }
    },
    {
+    "parent": "vanilla:architecture/shackkit/shackroofside",
+    "child": "vanilla:architecture/shackkit/shackroofmid",
+    "parentPiece": "shackroofside",
+    "childPiece": "shackroofmid",
+    "parentFace": "-y",
+    "childFace": "-y",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.01,
+     -1.82,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 180.0,
+    "count": 8,
+    "offsetSpreadM": 0.076,
+    "contactPoints": 32,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackroofside01>shackroofmid01": 8
+    }
+   },
+   {
     "parent": "vanilla:architecture/farmhouse/fencewoven",
     "child": "vanilla:architecture/farmhouse/fencewoven",
     "parentPiece": "fencewoven",
@@ -220838,6 +221155,57 @@
     "sourceSet": "vanilla",
     "members": {
      "fencewoven02>fencewoven02": 7
+    }
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackroofside",
+    "child": "vanilla:architecture/shackkit/shackroofmid",
+    "parentPiece": "shackroofside",
+    "childPiece": "shackroofmid",
+    "parentFace": "-y",
+    "childFace": "+y",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     0.02,
+     -1.83,
+     0.0
+    ],
+    "riseMinM": -0.09,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.17,
+    "count": 7,
+    "offsetSpreadM": 0.084,
+    "contactPoints": 17,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackroofside01>shackroofmid01": 7
+    }
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackwallwindow",
+    "child": "vanilla:architecture/shackkit/shackwallr",
+    "parentPiece": "shackwallwindow",
+    "childPiece": "shackwallr",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 7,
+    "offsetSpreadM": 0.001,
+    "contactPoints": 17,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackwallwindow01>shackwallr01": 1,
+     "shackwallwindow02>shackwallr01": 6
     }
    },
    {
@@ -221692,6 +222060,31 @@
     }
    },
    {
+    "parent": "vanilla:architecture/shackkit/shackroofside",
+    "child": "vanilla:architecture/shackkit/shackwalll",
+    "parentPiece": "shackroofside",
+    "childPiece": "shackwalll",
+    "parentFace": "+x",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     3.64,
+     -0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 180.0,
+    "count": 4,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 15,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackroofside01>shackwalll01": 4
+    }
+   },
+   {
     "parent": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor",
     "child": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr",
     "parentPiece": "wrfencebasecor",
@@ -222471,6 +222864,31 @@
     }
    },
    {
+    "parent": "vanilla:architecture/shackkit/shackframerend",
+    "child": "vanilla:architecture/shackkit/shackframerend",
+    "parentPiece": "shackframerend",
+    "childPiece": "shackframerend",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     3.64,
+     -0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 32,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackframerend02>shackframerend02": 3
+    }
+   },
+   {
     "parent": "vanilla:architecture/shackkit/shackroofcorner",
     "child": "vanilla:architecture/shackkit/shackroofmid",
     "parentPiece": "shackroofcorner",
@@ -222493,6 +222911,81 @@
     "sourceSet": "vanilla",
     "members": {
      "shackroofcorner01>shackroofmid01": 3
+    }
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackwalltopwindow",
+    "child": "vanilla:architecture/shackkit/shackroofmid",
+    "parentPiece": "shackwalltopwindow",
+    "childPiece": "shackroofmid",
+    "parentFace": "-x",
+    "childFace": "-x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 180.0,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 45,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackwalltopwindow01>shackroofmid01": 3
+    }
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackwalltopwindow",
+    "child": "vanilla:architecture/shackkit/shackwalll",
+    "parentPiece": "shackwalltopwindow",
+    "childPiece": "shackwalll",
+    "parentFace": "-y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     0.0,
+     -1.81,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 3,
+    "offsetSpreadM": 0.025,
+    "contactPoints": 43,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackwalltopwindow01>shackwalll01": 3
+    }
+   },
+   {
+    "parent": "vanilla:architecture/shackkit/shackwalltopwindow",
+    "child": "vanilla:architecture/shackkit/shackwallr",
+    "parentPiece": "shackwalltopwindow",
+    "childPiece": "shackwallr",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.01,
+     1.82,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 0.0,
+    "count": 3,
+    "offsetSpreadM": 0.017,
+    "contactPoints": 5,
+    "sourceSet": "vanilla",
+    "members": {
+     "shackwalltopwindow01>shackwallr01": 3
     }
    },
    {
@@ -222568,6 +223061,32 @@
     "sourceSet": "vanilla",
     "members": {
      "barrel01>barrel01": 3
+    }
+   },
+   {
+    "parent": "vanilla:clutter/barrel",
+    "child": "vanilla:clutter/barrel",
+    "parentPiece": "barrel",
+    "childPiece": "barrel",
+    "parentFace": "+y",
+    "childFace": "+x",
+    "joint": "double",
+    "relScale": 1.0,
+    "offsetM": [
+     -0.1,
+     0.78,
+     0.0
+    ],
+    "riseMinM": 0.0,
+    "riseMaxM": 0.0,
+    "yawDeg": 52.23,
+    "count": 3,
+    "offsetSpreadM": 0.216,
+    "contactPoints": 23,
+    "sourceSet": "vanilla",
+    "members": {
+     "barrel01>barrel01": 2,
+     "barrel02>barrel02": 1
     }
    },
    {
@@ -223382,6 +223901,31 @@
      "mwimparchwall01destroyed02>mwimparchwall01destroyed01": 2,
      "mwimparchwallgate01>mwimparchwallgate01destroyed01": 1
     }
+   },
+   {
+    "parent": "kotm:argonia/mudhuts/stairs",
+    "child": "kotm:argonia/mudhuts/stairs",
+    "parentPiece": "stairs",
+    "childPiece": "stairs",
+    "parentFace": "+x",
+    "childFace": "-x",
+    "joint": "run",
+    "relScale": 1.0,
+    "offsetM": [
+     2.49,
+     -0.01,
+     -2.92
+    ],
+    "riseMinM": -2.92,
+    "riseMaxM": -2.92,
+    "yawDeg": 0.0,
+    "count": 3,
+    "offsetSpreadM": 0.0,
+    "contactPoints": 401,
+    "sourceSet": "kotm",
+    "members": {
+     "stairs02>stairs02": 3
+    }
    }
   ],
   "families": {
@@ -223432,6 +223976,10 @@
    ],
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort": [
     "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01"
+   ],
+   "kotm:argonia/mudhuts/stairs": [
+    "kotm:argonia/mudhuts/stairs01",
+    "kotm:argonia/mudhuts/stairs02"
    ],
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout": [
     "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01"
@@ -223492,17 +224040,30 @@
    "vanilla:architecture/shackkit/shackframelmid": [
     "vanilla:architecture/shackkit/shackframelmid01"
    ],
+   "vanilla:architecture/shackkit/shackframerend": [
+    "vanilla:architecture/shackkit/shackframerend02"
+   ],
    "vanilla:architecture/shackkit/shackroofcorner": [
     "vanilla:architecture/shackkit/shackroofcorner01"
    ],
    "vanilla:architecture/shackkit/shackroofmid": [
     "vanilla:architecture/shackkit/shackroofmid01"
    ],
+   "vanilla:architecture/shackkit/shackroofside": [
+    "vanilla:architecture/shackkit/shackroofside01"
+   ],
    "vanilla:architecture/shackkit/shackwalll": [
     "vanilla:architecture/shackkit/shackwalll01"
    ],
    "vanilla:architecture/shackkit/shackwallr": [
     "vanilla:architecture/shackkit/shackwallr01"
+   ],
+   "vanilla:architecture/shackkit/shackwalltopwindow": [
+    "vanilla:architecture/shackkit/shackwalltopwindow01"
+   ],
+   "vanilla:architecture/shackkit/shackwallwindow": [
+    "vanilla:architecture/shackkit/shackwallwindow01",
+    "vanilla:architecture/shackkit/shackwallwindow02"
    ],
    "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way": [
     "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01"
@@ -223521,7 +224082,8 @@
     "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01"
    ],
    "vanilla:clutter/barrel": [
-    "vanilla:clutter/barrel01"
+    "vanilla:clutter/barrel01",
+    "vanilla:clutter/barrel02"
    ],
    "vanilla:clutter/stockade/stockade": [
     "vanilla:clutter/stockade/stockadegate01",
@@ -223605,6 +224167,14 @@
    },
    "bmv:architecture/newcastle/wall/512/512pillar01": {
     "+x": 6
+   },
+   "kotm:argonia/mudhuts/stairs01": {
+    "+x": 3,
+    "-x": 3
+   },
+   "kotm:argonia/mudhuts/stairs02": {
+    "+x": 7,
+    "-x": 7
    },
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01": {
     "+x": 14,
@@ -223704,8 +224274,18 @@
    "vanilla:architecture/shackkit/shackframelmid01": {
     "-x": 6
    },
+   "vanilla:architecture/shackkit/shackframerend02": {
+    "+x": 3,
+    "-x": 31
+   },
    "vanilla:architecture/shackkit/shackroofmid01": {
+    "+y": 14,
     "-y": 10
+   },
+   "vanilla:architecture/shackkit/shackroofside01": {
+    "+x": 62,
+    "-x": 34,
+    "-y": 14
    },
    "vanilla:architecture/shackkit/shackwalll01": {
     "+x": 18
@@ -223731,6 +224311,12 @@
     "+y": 12,
     "-x": 6,
     "-y": 12
+   },
+   "vanilla:clutter/barrel02": {
+    "+x": 3,
+    "+y": 6,
+    "-x": 3,
+    "-y": 6
    },
    "vanilla:clutter/stockade/stockadegate01": {
     "+x": 6
@@ -223888,13 +224474,30 @@
     "-y": 6
    },
    "vanilla:architecture/shackkit/shackroofmid01": {
-    "+x": 6
+    "+x": 6,
+    "-x": 6,
+    "-y": 16
+   },
+   "vanilla:architecture/shackkit/shackroofside01": {
+    "+x": 8,
+    "-y": 16
    },
    "vanilla:architecture/shackkit/shackwalll01": {
-    "+x": 84
+    "+x": 98
    },
    "vanilla:architecture/shackkit/shackwallr01": {
-    "+x": 84
+    "+x": 103
+   },
+   "vanilla:architecture/shackkit/shackwalltopwindow01": {
+    "+y": 6,
+    "-x": 6,
+    "-y": 6
+   },
+   "vanilla:architecture/shackkit/shackwallwindow01": {
+    "+x": 7
+   },
+   "vanilla:architecture/shackkit/shackwallwindow02": {
+    "+x": 13
    },
    "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01": {
     "+x": 8,
@@ -223911,6 +224514,10 @@
     "-x": 47
    },
    "vanilla:clutter/barrel01": {
+    "+x": 9,
+    "+y": 9
+   },
+   "vanilla:clutter/barrel02": {
     "+x": 6,
     "+y": 6
    },
@@ -224050,6 +224657,16 @@
     "+y": 1,
     "-x": 1
    },
+   "kotm:argonia/mudhuts/smpodext01": {
+    "-x": 1
+   },
+   "kotm:argonia/mudhuts/stairs02": {
+    "+x": 4,
+    "-x": 4
+   },
+   "kotm:argonia/mudhuts/window01": {
+    "+x": 1
+   },
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01": {
     "+x": 1
    },
@@ -224176,14 +224793,25 @@
     "+x": 1,
     "-x": 1
    },
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs8": {
+    "+x": 1
+   },
+   "vanilla:architecture/shackkit/shackbrokepole01": {
+    "+x": 2
+   },
    "vanilla:architecture/shackkit/shackframelend01": {
     "+x": 9,
-    "+y": 1,
+    "+y": 2,
     "-x": 3,
     "-y": 5
    },
    "vanilla:architecture/shackkit/shackframelmid01": {
     "+x": 3
+   },
+   "vanilla:architecture/shackkit/shackframerend02": {
+    "+x": 12,
+    "-x": 1,
+    "-y": 1
    },
    "vanilla:architecture/shackkit/shackroofcorner01": {
     "+y": 2,
@@ -224191,14 +224819,23 @@
    },
    "vanilla:architecture/shackkit/shackroofmid01": {
     "+x": 1,
-    "+y": 2,
-    "-x": 1
+    "-x": 1,
+    "-y": 4
+   },
+   "vanilla:architecture/shackkit/shackroofside01": {
+    "+x": 13,
+    "+y": 7,
+    "-x": 18
    },
    "vanilla:architecture/shackkit/shackwalll01": {
     "-x": 7
    },
    "vanilla:architecture/shackkit/shackwallr01": {
     "-x": 3
+   },
+   "vanilla:architecture/shackkit/shackwallwindow02": {
+    "+x": 1,
+    "-x": 1
    },
    "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01": {
     "+y": 5,
@@ -224221,10 +224858,16 @@
     "+x": 1
    },
    "vanilla:clutter/barrel01": {
-    "+x": 16,
-    "+y": 16,
-    "-x": 16,
-    "-y": 16
+    "+x": 17,
+    "+y": 19,
+    "-x": 19,
+    "-y": 18
+   },
+   "vanilla:clutter/barrel02": {
+    "+x": 9,
+    "+y": 9,
+    "-x": 6,
+    "-y": 8
    },
    "vanilla:clutter/basket03": {
     "+y": 1
@@ -224234,22 +224877,25 @@
    },
    "vanilla:clutter/bucket01": {
     "+x": 1,
-    "-y": 2
+    "-y": 3
    },
    "vanilla:clutter/carts/handcart01": {
     "+x": 1,
     "-x": 1
    },
+   "vanilla:clutter/carts/handcart02": {
+    "-x": 1
+   },
    "vanilla:clutter/common/cratesmall01": {
-    "+x": 3,
+    "+x": 4,
     "+y": 2,
-    "-x": 3,
+    "-x": 4,
     "-y": 2
    },
    "vanilla:clutter/common/cratesmalllong01": {
     "+x": 1,
     "-x": 2,
-    "-y": 1
+    "-y": 2
    },
    "vanilla:clutter/containers/miscsack02largeflat": {
     "+x": 4,
@@ -224267,8 +224913,8 @@
    "vanilla:clutter/containers/miscsacklarge": {
     "+x": 4,
     "+y": 1,
-    "-x": 5,
-    "-y": 4
+    "-x": 6,
+    "-y": 5
    },
    "vanilla:clutter/containers/miscsacklargeflat01": {
     "+x": 4,
@@ -224295,6 +224941,9 @@
     "+x": 9,
     "+y": 2,
     "-x": 8
+   },
+   "vanilla:clutter/hay/haymound01": {
+    "+y": 1
    },
    "vanilla:clutter/hay/hayscatter05": {
     "+x": 2,
@@ -224357,7 +225006,7 @@
     "-y": 8
    },
    "vanilla:clutter/stockade/stockadescaffoldramp01": {
-    "-x": 9
+    "-x": 10
    },
    "vanilla:clutter/stockade/stockadescaffoldstairs01": {
     "-x": 4
@@ -224495,6 +225144,9 @@
     "+y": 1,
     "-y": 2
    },
+   "vanilla:furniture/common/commonchair01": {
+    "+x": 1
+   },
    "vanilla:furniture/orcfurniture/orcshelf01": {
     "+y": 1
    }
@@ -224586,6 +225238,16 @@
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort": {
     "+y": 1,
     "-x": 1
+   },
+   "kotm:argonia/mudhuts/smpodext": {
+    "-x": 1
+   },
+   "kotm:argonia/mudhuts/stairs": {
+    "+x": 4,
+    "-x": 4
+   },
+   "kotm:argonia/mudhuts/window": {
+    "+x": 1
    },
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock": {
     "+x": 1,
@@ -224692,14 +225354,25 @@
     "+x": 1,
     "-x": 1
    },
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs": {
+    "+x": 1
+   },
+   "vanilla:architecture/shackkit/shackbrokepole": {
+    "+x": 2
+   },
    "vanilla:architecture/shackkit/shackframelend": {
     "+x": 9,
-    "+y": 1,
+    "+y": 2,
     "-x": 3,
     "-y": 5
    },
    "vanilla:architecture/shackkit/shackframelmid": {
     "+x": 3
+   },
+   "vanilla:architecture/shackkit/shackframerend": {
+    "+x": 12,
+    "-x": 1,
+    "-y": 1
    },
    "vanilla:architecture/shackkit/shackroofcorner": {
     "+y": 2,
@@ -224707,14 +225380,23 @@
    },
    "vanilla:architecture/shackkit/shackroofmid": {
     "+x": 1,
-    "+y": 2,
-    "-x": 1
+    "-x": 1,
+    "-y": 4
+   },
+   "vanilla:architecture/shackkit/shackroofside": {
+    "+x": 13,
+    "+y": 7,
+    "-x": 18
    },
    "vanilla:architecture/shackkit/shackwalll": {
     "-x": 7
    },
    "vanilla:architecture/shackkit/shackwallr": {
     "-x": 3
+   },
+   "vanilla:architecture/shackkit/shackwallwindow": {
+    "+x": 1,
+    "-x": 1
    },
    "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way": {
     "+y": 5,
@@ -224734,10 +225416,10 @@
     "+x": 4
    },
    "vanilla:clutter/barrel": {
-    "+x": 16,
-    "+y": 16,
-    "-x": 16,
-    "-y": 16
+    "+x": 26,
+    "+y": 28,
+    "-x": 25,
+    "-y": 26
    },
    "vanilla:clutter/basket": {
     "+y": 1
@@ -224747,22 +225429,22 @@
    },
    "vanilla:clutter/bucket": {
     "+x": 1,
-    "-y": 2
+    "-y": 3
    },
    "vanilla:clutter/carts/handcart": {
     "+x": 1,
-    "-x": 1
+    "-x": 2
    },
    "vanilla:clutter/common/cratesmall": {
-    "+x": 3,
+    "+x": 4,
     "+y": 2,
-    "-x": 3,
+    "-x": 4,
     "-y": 2
    },
    "vanilla:clutter/common/cratesmalllong": {
     "+x": 1,
     "-x": 2,
-    "-y": 1
+    "-y": 2
    },
    "vanilla:clutter/containers/miscsack02largeflat": {
     "+x": 4,
@@ -224780,8 +225462,8 @@
    "vanilla:clutter/containers/miscsacklarge": {
     "+x": 4,
     "+y": 1,
-    "-x": 5,
-    "-y": 4
+    "-x": 6,
+    "-y": 5
    },
    "vanilla:clutter/containers/miscsacklargeflat": {
     "+x": 4,
@@ -224808,6 +225490,9 @@
     "+x": 9,
     "+y": 2,
     "-x": 8
+   },
+   "vanilla:clutter/hay/haymound": {
+    "+y": 1
    },
    "vanilla:clutter/hay/hayscatter": {
     "+x": 2,
@@ -224862,7 +225547,7 @@
     "-y": 8
    },
    "vanilla:clutter/stockade/stockadescaffoldramp": {
-    "-x": 9
+    "-x": 10
    },
    "vanilla:clutter/stockade/stockadescaffoldstairs": {
     "-x": 4
@@ -224980,6 +225665,9 @@
     "+y": 1,
     "-y": 2
    },
+   "vanilla:furniture/common/commonchair": {
+    "+x": 1
+   },
    "vanilla:furniture/orcfurniture/orcshelf": {
     "+y": 1
    }
@@ -225058,6 +225746,21 @@
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01": 75,
    "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist": 6,
    "htbm:here there be monsters - curse of cipactli/clutter/histfruit": 10,
+   "kotm:argonia/mudhuts/door01": 7,
+   "kotm:argonia/mudhuts/door02": 69,
+   "kotm:argonia/mudhuts/lizardhouse": 1,
+   "kotm:argonia/mudhuts/mudhut01": 1,
+   "kotm:argonia/mudhuts/mudhut02": 6,
+   "kotm:argonia/mudhuts/mudhutchimney": 5,
+   "kotm:argonia/mudhuts/overhang01": 2,
+   "kotm:argonia/mudhuts/overhang03": 1,
+   "kotm:argonia/mudhuts/smpodext01": 1,
+   "kotm:argonia/mudhuts/smpodext02": 7,
+   "kotm:argonia/mudhuts/smpodextdoor": 6,
+   "kotm:argonia/mudhuts/stairs01": 43,
+   "kotm:argonia/mudhuts/stairs02": 34,
+   "kotm:argonia/mudhuts/window01": 10,
+   "kotm:argonia/mudhuts/window02": 12,
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01": 3,
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01": 2,
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01": 7,
@@ -225127,6 +225830,9 @@
    "vanilla:architecture/farmhouse/fencewoven01": 251,
    "vanilla:architecture/farmhouse/fencewoven02": 506,
    "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02": 1,
+   "vanilla:architecture/farmhouse/ivy01": 21,
+   "vanilla:architecture/farmhouse/ivy02": 20,
+   "vanilla:architecture/farmhouse/ivy03": 19,
    "vanilla:architecture/farmhouse/lumbermill01waterwheel01": 6,
    "vanilla:architecture/farmhouse/lumbermill01waterwheel02": 3,
    "vanilla:architecture/farmhouse/stonewall/stonewall01": 119,
@@ -225138,14 +225844,22 @@
    "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01": 2,
    "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01": 9,
    "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02": 1,
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs1": 29,
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs4": 39,
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs8": 43,
    "vanilla:architecture/riften/clutter/rtbanneranchor01": 4,
    "vanilla:architecture/shackkit/shackbrokepole01": 9,
    "vanilla:architecture/shackkit/shackframelend01": 41,
    "vanilla:architecture/shackkit/shackframelmid01": 5,
+   "vanilla:architecture/shackkit/shackframerend02": 33,
    "vanilla:architecture/shackkit/shackroofcorner01": 10,
    "vanilla:architecture/shackkit/shackroofmid01": 14,
+   "vanilla:architecture/shackkit/shackroofside01": 63,
    "vanilla:architecture/shackkit/shackwalll01": 65,
    "vanilla:architecture/shackkit/shackwallr01": 60,
+   "vanilla:architecture/shackkit/shackwalltopwindow01": 3,
+   "vanilla:architecture/shackkit/shackwallwindow01": 4,
+   "vanilla:architecture/shackkit/shackwallwindow02": 10,
    "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01": 1,
    "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01": 12,
    "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01": 20,
@@ -225157,6 +225871,7 @@
    "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01": 6,
    "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01": 5,
    "vanilla:clutter/barrel01": 647,
+   "vanilla:clutter/barrel02": 405,
    "vanilla:clutter/basket01": 25,
    "vanilla:clutter/basket03": 29,
    "vanilla:clutter/basketclosed01": 37,
@@ -225175,6 +225890,7 @@
    "vanilla:clutter/carts/handcartcrate": 1,
    "vanilla:clutter/carts/vendorcartstatic01": 4,
    "vanilla:clutter/chopping block/choppingblock01": 34,
+   "vanilla:clutter/common/candlelanternwithcandle01": 147,
    "vanilla:clutter/common/cratesmall01": 159,
    "vanilla:clutter/common/cratesmalllong01": 52,
    "vanilla:clutter/common/pitchfork01": 7,
@@ -225195,6 +225911,7 @@
    "vanilla:clutter/firewood/firewoodpilesmall01": 75,
    "vanilla:clutter/giant/giantcampfire01off": 2,
    "vanilla:clutter/hay/haybale01": 121,
+   "vanilla:clutter/hay/haymound01": 123,
    "vanilla:clutter/hay/hayscatter04": 30,
    "vanilla:clutter/hay/hayscatter05": 126,
    "vanilla:clutter/hay/hayscatter06": 70,
@@ -225291,6 +226008,7 @@
    "vanilla:furniture/bedroll/bedrollhay01": 109,
    "vanilla:furniture/common/commonbench01": 26,
    "vanilla:furniture/common/commonchair01": 161,
+   "vanilla:furniture/farm/farmbench01": 124,
    "vanilla:furniture/orcfurniture/orcshelf01": 11,
    "vanilla:furniture/smallcookingpot": 8
   },
@@ -225362,6 +226080,19 @@
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
    "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist",
    "htbm:here there be monsters - curse of cipactli/clutter/histfruit",
+   "kotm:argonia/mudhuts/door01",
+   "kotm:argonia/mudhuts/door02",
+   "kotm:argonia/mudhuts/lizardhouse",
+   "kotm:argonia/mudhuts/mudhut01",
+   "kotm:argonia/mudhuts/mudhut02",
+   "kotm:argonia/mudhuts/mudhutchimney",
+   "kotm:argonia/mudhuts/overhang01",
+   "kotm:argonia/mudhuts/overhang03",
+   "kotm:argonia/mudhuts/smpodext01",
+   "kotm:argonia/mudhuts/smpodext02",
+   "kotm:argonia/mudhuts/smpodextdoor",
+   "kotm:argonia/mudhuts/window01",
+   "kotm:argonia/mudhuts/window02",
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01",
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01",
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01",
@@ -225414,6 +226145,9 @@
    "vanilla:architecture/farmhouse/farmhousedoor01",
    "vanilla:architecture/farmhouse/farmhouseldoor01",
    "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02",
+   "vanilla:architecture/farmhouse/ivy01",
+   "vanilla:architecture/farmhouse/ivy02",
+   "vanilla:architecture/farmhouse/ivy03",
    "vanilla:architecture/farmhouse/lumbermill01waterwheel01",
    "vanilla:architecture/farmhouse/lumbermill01waterwheel02",
    "vanilla:architecture/farmhouse/stonewall/stonewallterrace01",
@@ -225421,10 +226155,16 @@
    "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01",
    "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01",
    "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs1",
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
    "vanilla:architecture/riften/clutter/rtbanneranchor01",
    "vanilla:architecture/shackkit/shackbrokepole01",
    "vanilla:architecture/shackkit/shackroofcorner01",
    "vanilla:architecture/shackkit/shackwallr01",
+   "vanilla:architecture/shackkit/shackwalltopwindow01",
+   "vanilla:architecture/shackkit/shackwallwindow01",
+   "vanilla:architecture/shackkit/shackwallwindow02",
    "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01",
    "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01",
    "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01",
@@ -225448,6 +226188,7 @@
    "vanilla:clutter/carts/handcartcrate",
    "vanilla:clutter/carts/vendorcartstatic01",
    "vanilla:clutter/chopping block/choppingblock01",
+   "vanilla:clutter/common/candlelanternwithcandle01",
    "vanilla:clutter/common/cratesmall01",
    "vanilla:clutter/common/cratesmalllong01",
    "vanilla:clutter/common/pitchfork01",
@@ -225468,6 +226209,7 @@
    "vanilla:clutter/firewood/firewoodpilesmall01",
    "vanilla:clutter/giant/giantcampfire01off",
    "vanilla:clutter/hay/haybale01",
+   "vanilla:clutter/hay/haymound01",
    "vanilla:clutter/hay/hayscatter04",
    "vanilla:clutter/hay/hayscatter05",
    "vanilla:clutter/hay/hayscatter06",
@@ -225550,6 +226292,7 @@
    "vanilla:furniture/bedroll/bedrollhay01",
    "vanilla:furniture/common/commonbench01",
    "vanilla:furniture/common/commonchair01",
+   "vanilla:furniture/farm/farmbench01",
    "vanilla:furniture/orcfurniture/orcshelf01",
    "vanilla:furniture/smallcookingpot"
   ],
@@ -225975,6 +226718,19 @@
    "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
    "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist",
    "htbm:here there be monsters - curse of cipactli/clutter/histfruit",
+   "kotm:argonia/mudhuts/door01",
+   "kotm:argonia/mudhuts/door02",
+   "kotm:argonia/mudhuts/lizardhouse",
+   "kotm:argonia/mudhuts/mudhut01",
+   "kotm:argonia/mudhuts/mudhut02",
+   "kotm:argonia/mudhuts/mudhutchimney",
+   "kotm:argonia/mudhuts/overhang01",
+   "kotm:argonia/mudhuts/overhang03",
+   "kotm:argonia/mudhuts/smpodext01",
+   "kotm:argonia/mudhuts/smpodext02",
+   "kotm:argonia/mudhuts/smpodextdoor",
+   "kotm:argonia/mudhuts/window01",
+   "kotm:argonia/mudhuts/window02",
    "mudmother:gv_meshes/argoniannest/mudhut01",
    "mudmother:gv_meshes/argoniannest/mudhut01intnew",
    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01",
@@ -226157,6 +226913,9 @@
    "vanilla:architecture/farmhouse/interior/farmintwoodend01",
    "vanilla:architecture/farmhouse/interior/farmintwoodend02",
    "vanilla:architecture/farmhouse/interior/farmintwoodwall01",
+   "vanilla:architecture/farmhouse/ivy01",
+   "vanilla:architecture/farmhouse/ivy02",
+   "vanilla:architecture/farmhouse/ivy03",
    "vanilla:architecture/farmhouse/lumbermill01waterwheel01",
    "vanilla:architecture/farmhouse/lumbermill01waterwheel02",
    "vanilla:architecture/farmhouse/stonewall/stonewallterrace01",
@@ -226165,12 +226924,18 @@
    "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01",
    "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01",
    "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs1",
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs4",
+   "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
    "vanilla:architecture/riften/clutter/rtbanneranchor01",
    "vanilla:architecture/riften/interior/smallroomsingle/rifrmsmpartitionbeamtall01",
    "vanilla:architecture/shackkit/shackbrokepole01",
    "vanilla:architecture/shackkit/shackbrokewall01",
    "vanilla:architecture/shackkit/shackroofcorner01",
    "vanilla:architecture/shackkit/shackwallr01",
+   "vanilla:architecture/shackkit/shackwalltopwindow01",
+   "vanilla:architecture/shackkit/shackwallwindow01",
+   "vanilla:architecture/shackkit/shackwallwindow02",
    "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01",
    "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01",
    "vanilla:architecture/whiterun/wreffects/wrstairsstreamrapids01foam",
@@ -226200,6 +226965,7 @@
    "vanilla:clutter/carts/handcartcrate",
    "vanilla:clutter/carts/vendorcartstatic01",
    "vanilla:clutter/chopping block/choppingblock01",
+   "vanilla:clutter/common/candlelanternwithcandle01",
    "vanilla:clutter/common/cratesmall01",
    "vanilla:clutter/common/cratesmalllong01",
    "vanilla:clutter/common/pitchfork01",
@@ -226220,6 +226986,7 @@
    "vanilla:clutter/firewood/firewoodpilesmall01",
    "vanilla:clutter/giant/giantcampfire01off",
    "vanilla:clutter/hay/haybale01",
+   "vanilla:clutter/hay/haymound01",
    "vanilla:clutter/hay/hayscatter04",
    "vanilla:clutter/hay/hayscatter05",
    "vanilla:clutter/hay/hayscatter06",
@@ -226366,6 +227133,7 @@
    "vanilla:furniture/bedroll/bedrollhay01",
    "vanilla:furniture/common/commonbench01",
    "vanilla:furniture/common/commonchair01",
+   "vanilla:furniture/farm/farmbench01",
    "vanilla:furniture/orcfurniture/orcshelf01",
    "vanilla:furniture/smallcookingpot"
   ]

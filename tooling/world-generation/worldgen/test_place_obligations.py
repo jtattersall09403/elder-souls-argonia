@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import json
+from pathlib import Path
 
 import pytest
 
@@ -57,6 +58,9 @@ def test_every_catalogue_field_has_exactly_one_contract_policy():
     mutant["newPromiseNobodyClassified"] = "a faction seat"
     assert "unclassified catalogue field" in po.classify_record_fields(mutant)[0]
     assert not (po.PROCESS_FIELDS & po.DELIVERY_FIELDS)
+    fields = (po.PROCESS_FIELDS, po.INFORMATION_FIELDS, po.PROVENANCE_FIELDS,
+              po.PLOT_FIELDS, po.DELIVERY_FIELDS)
+    assert sum(len(f) for f in fields) == len(set().union(*fields))
     assert not (po.PROVENANCE_FIELDS & po.PLOT_FIELDS)
     assert not (po.PROVENANCE_FIELDS & po.DELIVERY_FIELDS)
     assert not (po.PLOT_FIELDS & po.DELIVERY_FIELDS)
@@ -525,3 +529,21 @@ def test_a_record_only_place_that_is_also_blueprinted_is_rejected():
         expected_place_ids={place_id},
         record_only_place_ids=[place_id])
     assert any("both blueprinted and record-only" in e for e in errors), errors
+
+
+def test_the_primary_culture_is_owed_and_secondary_cultures_owe_nothing():
+    """16k lane F on Claywater Station's committed record: `culture` is a
+    delivery promise; `secondaryCultures` is information for the kit check."""
+    import subprocess
+    doc = json.loads(subprocess.check_output(
+        ["git", "show", "HEAD:world/sources/catalogue/places-imperial-fringe.json"],
+        cwd=Path(__file__).parent))
+    places = doc["places"] if isinstance(doc, dict) else doc
+    rec = next(r for r in places if r["id"] == "place.imperial-fringe.claywater-station")
+    assert rec.get("secondaryCultures"), "Claywater's record carries secondaryCultures"
+    assert not po.classify_record_fields(rec)
+    assert po.FIELD_POLICY["culture"] == "delivery"
+    assert po.FIELD_POLICY["secondaryCultures"] == "information"
+    rows, _errors = po.build_obligations(rec, {"id": rec["id"]})
+    paths = {r.sourcePath.split(".", 1)[0].split("[", 1)[0] for r in rows}
+    assert "culture" in paths and "secondaryCultures" not in paths
