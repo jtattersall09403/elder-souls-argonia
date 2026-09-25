@@ -106,10 +106,15 @@ record `R=world/sources/placement/kit-assemblies-mined.json`, kit configs
    `composite_anchor_poses` carries it (and the anchor's plugin door link
    and sibling door-piece boxes) through part 0's `scale`/`offsetM`/`yawDeg`
    (K11 A: mud hut 5.01 → 6.50 m).
-10a. Yaw sign: a mined relative `yawDeg` (templates, abuts) is CLOCKWISE;
-   `import_composite` turns counter-clockwise. Check a turned part on the
-   meshes (contact points against its parent) before trusting a copied yaw
-   (K11 D: the fence cap at mined 90 needs `yawDeg` 270).
+10a. Yaw: ONE convention. A part's `yawDeg` IS the mined relative yaw,
+   clockwise from above as `kit-assemblies-mined.json` records it; copy it
+   unchanged and name its source in the part's `template` field.
+   `blender/build_kit.py import_composite` converts the sign once, and
+   `interiors_index.pose_point_zup` reads the same convention. A hand-authored
+   yaw (no template) is written in the same clockwise convention. Gate:
+   `pipeline/test_build_kit.py::test_every_templated_composite_part_carries_its_mined_yaw`
+   (16h check-in 3: the bamboo hut leaf copied mined 120 and, under the old
+   counter-clockwise importer, stood 240 deg off).
 
 ## 6. Rebuild, then the door agreement tests on compiled output
 
@@ -150,7 +155,8 @@ record `R=world/sources/placement/kit-assemblies-mined.json`, kit configs
     view stands in for it. A Sonnet reader (a separate agent) judges the
     frames against this list and answers each line yes/no with the view:
     the door leaf stands IN its doorway (not inside the room, not outside the
-    wall); the leaf's foot is on the sill or deck; nothing of the door or any
+    wall); the leaf lies in the plane of the frame (not turned across the
+    opening); the leaf's foot is on the sill or deck; nothing of the door or any
     part passes through the roof or a wall; every part is at the right scale
     (a door leaf 2.0-2.5 m against the 1.8 m bar); stairs and ramps reach the
     red ground line; no part floats. A "no" blocks the ship; fix the offset

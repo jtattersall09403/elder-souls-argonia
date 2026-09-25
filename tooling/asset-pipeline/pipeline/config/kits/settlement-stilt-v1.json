@@ -199,7 +199,8 @@
               0.0
             ],
             "yawDeg": 120,
-            "scale": 1.0
+            "scale": 1.0,
+            "template": "htbm:t0027"
           }
         ]
       }
@@ -220,7 +221,8 @@
               0.0
             ],
             "yawDeg": 120,
-            "scale": 1.0
+            "scale": 1.0,
+            "template": "htbm:t0016"
           }
         ]
       }

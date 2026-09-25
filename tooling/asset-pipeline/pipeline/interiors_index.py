@@ -1111,6 +1111,15 @@ def composite_parts(kit_name: str, config_dir: Path = KIT_CONFIG_DIR) -> dict[st
     return out
 
 
+def composite_part_rows(kit_name: str, config_dir: Path = KIT_CONFIG_DIR) -> dict[str, list[dict]]:
+    """composite asset id -> its `compose.parts` rows as authored."""
+    path = config_dir / f"{kit_name}.json"
+    if not path.exists():
+        return {}
+    return {entry["asset"]: list(entry["compose"].get("parts", []))
+            for entry in json.loads(path.read_text()).get("assets", []) if entry.get("compose")}
+
+
 def composite_anchor_poses(kit_name: str,
                            config_dir: Path = KIT_CONFIG_DIR) -> dict[str, dict]:
     """composite asset id -> part 0's pose in the composite: ``scale``,
@@ -1146,10 +1155,12 @@ def pose_point_zup(pose: dict | None, point) -> list[float]:
     if not pose:
         return [x, y, z]
     k = pose["scale"]
+    # `yawDeg` is clockwise seen from above, the mined convention the Blender
+    # importer converts once (blender/build_kit.py `import_composite`).
     yaw = math.radians(pose["yawDeg"])
     c, s = math.cos(yaw), math.sin(yaw)
     ox, oy, oz = pose["offsetM"]
-    return [ox + k * (x * c - y * s), oy + k * (x * s + y * c), oz + k * z]
+    return [ox + k * (x * c + y * s), oy + k * (-x * s + y * c), oz + k * z]
 
 
 def _is_identity_pose(pose: dict | None) -> bool:
@@ -1235,6 +1246,42 @@ def composite_doorways(parts: list[str],
             if d.get("doorAsset") in present]
 
 
+#: basename fragments of a door LEAF part (a frame ring is not a leaf).
+LEAF_TOKENS = ("door",)
+LEAF_EXCLUDE_TOKENS = ("frame",)
+
+
+def composite_leaf_doorways(parts: list[dict], mined: list[dict]) -> list[dict]:
+    """The door leaves a composite hangs at an authored offset that no mined
+    door of its anchor already accounts for, as mined-door rows in the
+    composite's own z-up frame (``doorwaySource: "composite-leaf"``).
+
+    The stilt house's leaf is measured off the shell's jambs because no plugin
+    places it (16h check-in 3 item 3): without this row the ray probe's open
+    front on the far side won the entrance, 6.26 m from the leaf.
+    """
+    covered = {d.get("doorAsset") for d in mined}
+    out = []
+    for part in parts[1:]:
+        base = part["asset"].rsplit("/", 1)[-1].lower()
+        offset = part.get("offsetM")
+        if (not offset or part["asset"] in covered
+                or not any(t in base for t in LEAF_TOKENS)
+                or any(t in base for t in LEAF_EXCLUDE_TOKENS)):
+            continue
+        x, y, z = (float(v) for v in offset)
+        out.append({
+            "doorwaySource": "composite-leaf",
+            "doorAsset": part["asset"],
+            "offsetLocalM": [x, y, z],
+            "radiusM": round(math.hypot(x, y), 3),
+            "sideDeg": round(math.degrees(math.atan2(x, y)) % 360.0, 2),
+            "yawDeg": round(float(part.get("yawDeg", 0.0)) % 360.0, 2),
+            "count": 1,
+        })
+    return out
+
+
 def load_assembly_doorways(path: Path = ASSEMBLIES_PATH) -> dict[str, list[dict]]:
     """asset id -> the mined door placements against that shell.
 
@@ -1269,7 +1316,7 @@ def assembly_doorway_entries(doors: list[dict]) -> list[dict]:
     out: list[dict] = []
     for door in doors:
         entry: dict = {
-            "doorwaySource": "assembly",
+            "doorwaySource": door.get("doorwaySource", "assembly"),
             "doorAsset": door.get("doorAsset"),
             "count": door.get("count"),
         }
@@ -1309,9 +1356,15 @@ def apply_assembly_doorways(record: dict, doors: list[dict]) -> None:
         record["doorwaysCorroboration"] = entries
         return
     record["doorways"] = entries
-    record["doorwaySource"] = "assembly"
+    record["doorwaySource"] = entries[0]["doorwaySource"]
     record.pop("doorwaysWhy", None)
     top = entries[0]
+    if top["doorwaySource"] == "composite-leaf":
+        record["doorwaysWhy"] = (
+            f"the composite hangs its own door leaf ({pieces}) at {top['sideDeg']:.0f} deg in "
+            f"the piece's own frame, seated in the shell's doorway in the kit config; no plugin "
+            f"places it, so the leaf is the doorway")
+        return
     where = ("at a constant radius but on no fixed bearing"
              if top.get("radial") else f"at {top['sideDeg']:.0f} deg in the piece's own frame")
     record["doorwaysWhy"] = (
@@ -1708,6 +1761,7 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
 ENTRANCE_RANK: tuple[str, ...] = (
     "esp-door",     # the mod's own door teleport offset: evidence, not inference
     "assembly",     # a door part the source authors repeatedly placed on this shell
+    "composite-leaf",  # a leaf the composite hangs in the shell's doorway (kit config)
     "door-piece",   # the entrance mesh the family authored, fitted to the wall line
     "leaf",         # a shut door modelled into the shell
     "opening",      # a hole in the wall, measured by ray
@@ -1770,6 +1824,7 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     pool_ids = load_pool_ids(registry_dir)
     mined_doors = load_assembly_doorways()
     parts_of = composite_parts(kit_name)
+    part_rows = composite_part_rows(kit_name)
     poses = composite_anchor_poses(kit_name)
 
     coplacements = pf.load_coplacements()
@@ -1787,6 +1842,8 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         # pieces the composite actually carries.
         doors = (composite_doorways(parts_of[asset["id"]], mined_doors, poses.get(asset["id"]))
                  if asset["id"] in parts_of else mined_doors.get(asset["id"]))
+        if asset["id"] in part_rows:
+            doors = (doors or []) + composite_leaf_doorways(part_rows[asset["id"]], doors or [])
         anchor = parts_of[asset["id"]][0] if asset["id"] in parts_of and parts_of[asset["id"]] else None
         assets[asset["id"]] = classify_asset(
             asset, kit_name, verts, triangles, pool_ids, doors, anchor_id=anchor,

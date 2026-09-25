@@ -973,7 +973,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -1030,7 +1030,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -1087,7 +1087,7 @@
     "slopeTermMPerDeg": -0.0099,
     "evidence": "plugin"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -1534,6 +1534,7 @@
     "tell": "foundation-top",
     "valueM": -0.0426
    },
+   "designedWaterlineM": 0.12,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2633,7 +2634,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -2769,7 +2770,7 @@
     "slopeTermMPerDeg": 0.00027,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -3885,7 +3886,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3944,7 +3945,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4003,7 +4004,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4060,8 +4061,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "deck",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4118,7 +4119,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4136,7 +4137,7 @@
    "pivotAboveBaseM": 0.018
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-stilt-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/cubemaps/shinydull.dds"
@@ -4184,16 +4185,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 38045328,
-  "bytesAfter": 15599228,
+  "bytesBefore": 38044980,
+  "bytesAfter": 15598584,
   "images": 51,
   "imageBytesAfter": 11094672,
   "warnings": [],
-  "sha256": "23ebc970ccb0f6e61bef6a6781c21e2e98065c73d5f8c3d2fb6a3166ec006894",
+  "sha256": "6bda21d20774ee008f2923460d1f385fd54bcbfb152b95e5b5d3ffd92981a8cf",
   "sidecarBytes": {
    "connectors": 60443,
-   "footprints": 89090,
-   "interiors": 48834
+   "footprints": 89019,
+   "interiors": 48740
   }
  }
 }

@@ -2482,32 +2482,6 @@
           ],
           "sideDeg": 299.7,
           "source": "interiors/assembly"
-        },
-        {
-          "facingDeg": 190.1,
-          "offsetInPieceM": [
-            -3.82,
-            -2.21
-          ],
-          "positionM": [
-            4257.23,
-            6004.345
-          ],
-          "sideDeg": 300.1,
-          "source": "interiors/open-front"
-        },
-        {
-          "facingDeg": null,
-          "offsetInPieceM": [
-            -2.04,
-            -0.27
-          ],
-          "positionM": [
-            4258.444,
-            6002.009
-          ],
-          "sideDeg": null,
-          "source": "interiors/probe-centre"
         }
       ],
       "id": "parcel.proving-ground-b.mud-hut",
@@ -2525,7 +2499,7 @@
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
       },
-      "sourceObjectSha256": "39796a821f81b221017c02dab242a5d0c634f07b50e7b9314389195b2cbee744",
+      "sourceObjectSha256": "a3dd91096d20f367934bd4a5e7d1a504b7458b809777072a85e6cd6b20450df1",
       "spec": {
         "assetRef": "composite:stilt/bamboohut01-with-door",
         "buildingFamily": "test.bamboo-hut",
@@ -2540,16 +2514,12 @@
             6003.189
           ],
           [
-            4257.028,
-            6003.44
+            4258.648,
+            6003.212
           ],
           [
-            4256.971,
-            6003.429
-          ],
-          [
-            4256.967,
-            6003.419
+            4256.292,
+            6002.793
           ],
           [
             4256.161,
@@ -2879,6 +2849,20 @@
         }
       ],
       "doorways": [
+        {
+          "doorAsset": "bmv:architecture/stilthouse/stilthousedooranim",
+          "facingDeg": 180.0,
+          "offsetInPieceM": [
+            0.0,
+            3.06
+          ],
+          "positionM": [
+            4314.0,
+            6032.06
+          ],
+          "sideDeg": 180.0,
+          "source": "interiors/composite-leaf"
+        },
         {
           "facingDeg": 20.6,
           "offsetInPieceM": [
@@ -4109,32 +4093,6 @@
           ],
           "sideDeg": 299.7,
           "source": "interiors/assembly"
-        },
-        {
-          "facingDeg": 148.4,
-          "offsetInPieceM": [
-            -3.82,
-            -2.21
-          ],
-          "positionM": [
-            4274.892,
-            5776.99
-          ],
-          "sideDeg": 300.1,
-          "source": "interiors/open-front"
-        },
-        {
-          "facingDeg": null,
-          "offsetInPieceM": [
-            -2.04,
-            -0.27
-          ],
-          "positionM": [
-            4274.244,
-            5774.438
-          ],
-          "sideDeg": null,
-          "source": "interiors/probe-centre"
         }
       ],
       "id": "parcel.proving-ground.mud-hut",
@@ -4152,7 +4110,7 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
-      "sourceObjectSha256": "5d89bf5b8eb57fc941dd61a31f5d5041029b59475c5a3fb48c2d3317e0588381",
+      "sourceObjectSha256": "9a9b7ba185e210a4da1a84190e0f10c5cb652966fabf22e45606cbc0461bebeb",
       "spec": {
         "assetRef": "composite:stilt/bamboohut01-with-door",
         "buildingFamily": "test.bamboo-hut",
@@ -4167,16 +4125,12 @@
             5775.082
           ],
           [
-            4274.139,
-            5776.448
+            4275.196,
+            5775.2
           ],
           [
-            4274.088,
-            5776.477
-          ],
-          [
-            4274.08,
-            5776.473
+            4273.159,
+            5776.454
           ],
           [
             4273.014,
@@ -4506,6 +4460,20 @@
         }
       ],
       "doorways": [
+        {
+          "doorAsset": "bmv:architecture/stilthouse/stilthousedooranim",
+          "facingDeg": 197.1,
+          "offsetInPieceM": [
+            0.0,
+            3.06
+          ],
+          "positionM": [
+            4324.683,
+            5779.813
+          ],
+          "sideDeg": 180.0,
+          "source": "interiors/composite-leaf"
+        },
         {
           "facingDeg": 37.7,
           "offsetInPieceM": [
@@ -5438,7 +5406,8 @@
           6032.72
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.1"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.1",
+      "kind": "deck"
     },
     {
       "footprintM": [
@@ -5515,7 +5484,8 @@
           6031.24
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.2"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.2",
+      "kind": "deck"
     },
     {
       "footprintM": [
@@ -5592,7 +5562,8 @@
           6032.625
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.3"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run.piece.3",
+      "kind": "deck"
     },
     {
       "footprintM": [
@@ -5629,7 +5600,8 @@
           6006.42
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.cave-mouth.building"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.cave-mouth.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -5722,9 +5694,17 @@
           6057.699
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.hull-berth.building"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.hull-berth.building",
+      "kind": "floor"
     },
     {
+      "apronsM": [
+        [
+          4221.18,
+          6000.56,
+          1.5
+        ]
+      ],
       "footprintM": [
         [
           4212.98,
@@ -5831,7 +5811,8 @@
           5998.82
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-house.building"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-house.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -5860,7 +5841,8 @@
           6007.667
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.1"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.1",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -5897,7 +5879,8 @@
           6013.959
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.2"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.2",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -5934,7 +5917,8 @@
           6021.118
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.3"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.3",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -5971,7 +5955,8 @@
           6028.278
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.4"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.4",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6000,7 +5985,8 @@
           6035.437
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.5"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.5",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6057,25 +6043,29 @@
           6052.035
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.landing-stage.building"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.landing-stage.building",
+      "kind": "floor"
     },
     {
+      "apronsM": [
+        [
+          4257.52,
+          6002.803,
+          1.5
+        ]
+      ],
       "footprintM": [
         [
           4258.799,
           6003.189
         ],
         [
-          4257.028,
-          6003.44
+          4258.648,
+          6003.212
         ],
         [
-          4256.971,
-          6003.429
-        ],
-        [
-          4256.967,
-          6003.419
+          4256.292,
+          6002.793
         ],
         [
           4256.161,
@@ -6138,7 +6128,8 @@
           6002.387
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.mud-hut.building"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.mud-hut.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6159,7 +6150,8 @@
           6040.35
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.sconce-wall.building"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.sconce-wall.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6216,7 +6208,8 @@
           6028.49
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.sign-post.building"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.sign-post.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6277,7 +6270,8 @@
           6032.14
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.stilt-hut.building"
+      "id": "treatment.place.fixture.proving-ground-b.parcel.proving-ground-b.stilt-hut.building",
+      "kind": "deck"
     },
     {
       "footprintM": [
@@ -6354,7 +6348,8 @@
           5736.764
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.boardwalk.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.boardwalk.building",
+      "kind": "deck"
     },
     {
       "footprintM": [
@@ -6391,7 +6386,8 @@
           5738.096
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.cave-mouth.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.cave-mouth.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6484,9 +6480,17 @@
           5723.062
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.hull-berth.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.hull-berth.building",
+      "kind": "floor"
     },
     {
+      "apronsM": [
+        [
+          4274.412,
+          5798.727,
+          1.5
+        ]
+      ],
       "footprintM": [
         [
           4266.212,
@@ -6593,7 +6597,8 @@
           5796.987
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-house.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-house.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6622,7 +6627,8 @@
           5677.786
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.1"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.1",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6659,7 +6665,8 @@
           5684.626
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.2"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.2",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6696,7 +6703,8 @@
           5691.896
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.3"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.3",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6725,7 +6733,8 @@
           5699.166
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.4"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.4",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6782,25 +6791,29 @@
           5723.759
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.landing-stage.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.landing-stage.building",
+      "kind": "floor"
     },
     {
+      "apronsM": [
+        [
+          4274.082,
+          5775.645,
+          1.5
+        ]
+      ],
       "footprintM": [
         [
           4275.294,
           5775.082
         ],
         [
-          4274.139,
-          5776.448
+          4275.196,
+          5775.2
         ],
         [
-          4274.088,
-          5776.477
-        ],
-        [
-          4274.08,
-          5776.473
+          4273.159,
+          5776.454
         ],
         [
           4273.014,
@@ -6863,7 +6876,8 @@
           5773.212
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.mud-hut.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.mud-hut.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6884,7 +6898,8 @@
           5685.146
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.sconce-wall.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.sconce-wall.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -6941,7 +6956,8 @@
           5694.646
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.sign-post.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.sign-post.building",
+      "kind": "floor"
     },
     {
       "footprintM": [
@@ -7002,7 +7018,8 @@
           5778.51
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.stilt-hut.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.stilt-hut.building",
+      "kind": "deck"
     },
     {
       "footprintM": [
@@ -7063,7 +7080,8 @@
           5675.939
         ]
       ],
-      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.stilt-stair.building"
+      "id": "treatment.place.fixture.proving-ground.parcel.proving-ground.stilt-stair.building",
+      "kind": "floor"
     }
   ],
   "kits": {
@@ -7850,16 +7868,12 @@
           6003.189
         ],
         [
-          4257.028,
-          6003.44
+          4258.648,
+          6003.212
         ],
         [
-          4256.971,
-          6003.429
-        ],
-        [
-          4256.967,
-          6003.419
+          4256.292,
+          6002.793
         ],
         [
           4256.161,
@@ -8601,16 +8615,12 @@
           5775.082
         ],
         [
-          4274.139,
-          5776.448
+          4275.196,
+          5775.2
         ],
         [
-          4274.088,
-          5776.477
-        ],
-        [
-          4274.08,
-          5776.473
+          4273.159,
+          5776.454
         ],
         [
           4273.014,
@@ -9198,6 +9208,11 @@
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
       },
+      "run": {
+        "id": "place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run",
+        "index": 0,
+        "riseM": 0.0
+      },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground-b",
       "yawDeg": 0.0
@@ -9322,6 +9337,11 @@
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
       },
+      "run": {
+        "id": "place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run",
+        "index": 1,
+        "riseM": 0.0
+      },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground-b",
       "yawDeg": 180.0
@@ -9445,6 +9465,11 @@
         "seed": "place.fixture.proving-ground-b",
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
+      },
+      "run": {
+        "id": "place.fixture.proving-ground-b.parcel.proving-ground-b.boardwalk-run",
+        "index": 2,
+        "riseM": 0.0
       },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground-b",
@@ -9904,6 +9929,11 @@
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
       },
+      "run": {
+        "id": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run",
+        "index": 0,
+        "riseM": 0.0
+      },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground-b",
       "yawDeg": 100.0
@@ -9987,6 +10017,11 @@
         "seed": "place.fixture.proving-ground-b",
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
+      },
+      "run": {
+        "id": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run",
+        "index": 1,
+        "riseM": 0.0
       },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground-b",
@@ -10072,6 +10107,11 @@
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
       },
+      "run": {
+        "id": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run",
+        "index": 2,
+        "riseM": 0.0
+      },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground-b",
       "yawDeg": 100.0
@@ -10156,6 +10196,11 @@
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
       },
+      "run": {
+        "id": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run",
+        "index": 3,
+        "riseM": 0.0
+      },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground-b",
       "yawDeg": 100.0
@@ -10233,6 +10278,11 @@
         "seed": "place.fixture.proving-ground-b",
         "sourceBlueprintId": "place.fixture.proving-ground-b",
         "sourceDataHashes": []
+      },
+      "run": {
+        "id": "place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run",
+        "index": 4,
+        "riseM": 0.0
       },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground-b",
@@ -10379,16 +10429,12 @@
           6003.189
         ],
         [
-          4257.028,
-          6003.44
+          4258.648,
+          6003.212
         ],
         [
-          4256.971,
-          6003.429
-        ],
-        [
-          4256.967,
-          6003.419
+          4256.292,
+          6002.793
         ],
         [
           4256.161,
@@ -11461,6 +11507,11 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
+      "run": {
+        "id": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run",
+        "index": 0,
+        "riseM": 0.0
+      },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground",
       "yawDeg": 90.0
@@ -11544,6 +11595,11 @@
         "seed": "place.fixture.proving-ground",
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
+      },
+      "run": {
+        "id": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run",
+        "index": 1,
+        "riseM": 0.0
       },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground",
@@ -11629,6 +11685,11 @@
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
       },
+      "run": {
+        "id": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run",
+        "index": 2,
+        "riseM": 0.0
+      },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground",
       "yawDeg": 90.0
@@ -11706,6 +11767,11 @@
         "seed": "place.fixture.proving-ground",
         "sourceBlueprintId": "place.fixture.proving-ground",
         "sourceDataHashes": []
+      },
+      "run": {
+        "id": "place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run",
+        "index": 3,
+        "riseM": 0.0
       },
       "scale": 1.0,
       "sourceId": "place.fixture.proving-ground",
@@ -11852,16 +11918,12 @@
           5775.082
         ],
         [
-          4274.139,
-          5776.448
+          4275.196,
+          5775.2
         ],
         [
-          4274.088,
-          5776.477
-        ],
-        [
-          4274.08,
-          5776.473
+          4273.159,
+          5776.454
         ],
         [
           4273.014,
@@ -28781,7 +28843,7 @@
       "yawDeg": -45.0
     }
   ],
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "settlementPadGrades": {
     "inputHeightSha256": "e069d546a738bd34ad0c99ab6a7dfcc39147fd7370c526f32d88613dd8135843",
     "kind": "settlement-pad-grades",
@@ -29515,7 +29577,7 @@
             "openWaterSamples": 0,
             "overOpenWater": false,
             "parcelId": "parcel.proving-ground-b.mud-hut",
-            "sampleCount": 42,
+            "sampleCount": 40,
             "touchesFloodSection": false,
             "use": "dwelling",
             "waterEntities": [],
@@ -30055,7 +30117,7 @@
             "openWaterSamples": 0,
             "overOpenWater": false,
             "parcelId": "parcel.proving-ground.mud-hut",
-            "sampleCount": 42,
+            "sampleCount": 40,
             "touchesFloodSection": false,
             "use": "dwelling",
             "waterEntities": [],

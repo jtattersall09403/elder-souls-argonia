@@ -868,6 +868,11 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     for asset in summary["assets"]:
         for name, cutoff in asset.get("alphaMaskMaterials", {}).items():
             masked.setdefault(name, cutoff)
+    # A NIF decal overlay (SLSF1 Decal / Dynamic_Decal, blender/build_kit.py
+    # DECAL_MATERIALS) carries the material extra `decal: true`, the field the
+    # settlement runtime reads (`SettlementKitMaterialExtras`, materials.ts
+    # `applySettlementDecal`; 16h check-in 3 item 3).
+    decals = {name for asset in summary["assets"] for name in asset.get("decalMaterials", [])}
     data = bytearray(glb.read_bytes())
     header = struct.unpack_from("<4sII", data, 0)
     chunk_length, chunk_type = struct.unpack_from("<I4s", data, 12)
@@ -886,6 +891,14 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
             material.pop("alphaMode", None)
             material.pop("alphaCutoff", None)
             counts["OPAQUE"] += 1
+        extras = material.get("extras") or {}
+        extras.pop("decal", None)
+        if material.get("name") in decals:
+            extras["decal"] = True
+        if extras:
+            material["extras"] = extras
+        else:
+            material.pop("extras", None)
 
     encoded = json.dumps(gltf, separators=(",", ":")).encode("utf-8")
     encoded += b" " * (-len(encoded) % 4)
@@ -894,7 +907,8 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     rebuilt += data[start + chunk_length:]
     struct.pack_into("<I", rebuilt, 8, len(rebuilt))
     glb.write_bytes(bytes(rebuilt))
-    print(f"[kit] alpha modes: {counts['MASK']} masked, {counts['OPAQUE']} opaque")
+    print(f"[kit] alpha modes: {counts['MASK']} masked, {counts['OPAQUE']} opaque; "
+          f"{sum(1 for m in gltf.get('materials', []) if (m.get('extras') or {}).get('decal'))} decal")
     return counts
 
 

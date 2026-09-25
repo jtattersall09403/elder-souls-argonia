@@ -983,6 +983,7 @@
   "entranceRank": [
    "esp-door",
    "assembly",
+   "composite-leaf",
    "door-piece",
    "leaf",
    "opening",

@@ -585,6 +585,83 @@ kits root in `blueprint_footprints.py:69`, `blueprint_interiors.py:54`,
 neither in the codespace unless needed, and record it in
 `tooling/bootstrap/README.md` and the migration plan.
 
+### Owner check-in 3 (2026-09-25): causes, rulings, and every yard defect as a gate
+
+Causes (the read-only diagnosis of 2026-09-25, recorded here in full):
+- **Camera swing.** The look target stayed at player + 0.55 m while the
+  obstructed camera slid toward the pivot at + 1.15 m, so the view pitch
+  followed the arm length (25° at 5.8 m, 71° at 0.25 m) and nodded as a pan
+  changed the wall distance. Fix 259b200a: aim along a direction taken at
+  full arm (`followCamera.ts`).
+- **Wall-run seam.** The compile seats a run on one datum; the export dropped
+  `run` and the runtime re-seated every piece on its own ground (destroyed01
+  +5.6 cm against the gate). Fix 259b200a: `run {id, index, riseM}` on each
+  piece, `anchoring.ts anchorRun` seats the run rigidly.
+- **Skirting flicker.** impfreewall01's ImpDirt01 overlay (SLSF1 Decal |
+  Dynamic_Decal) duplicates all nine planes of the ImpWall06 band; no decal
+  flag was read, so the pair z-fought. 203 materials carry the flag across
+  the raw kits. Fix: `blender/build_kit.py` records `decalMaterials`,
+  `build_kit.set_alpha_modes` writes the material extra `decal: true`, the
+  runtime biases it (259b200a). Rebuilt 2026-09-25: settlement-imperial-v1
+  (10 decal materials), settlement-stilt-v1 and settlement-mud-v1 (0). The
+  other kits pick the flag up at their next rebuild (kit-build skill).
+- **Bamboo hut leaf rotated.** The mined relative yaw is clockwise and
+  `import_composite` turned counter-clockwise, so the leaf copied at mined
+  120 stood 240° off. Rule: one convention, `yawDeg` IS the mined value and
+  the importer converts once (composite-author step 10a); the hand-inverted
+  configs (enclosure fence ends, flora canopy parts) were converted to keep
+  their shape.
+- **Stilt-house leaf 6.256 m from its doorway.** No plugin places that leaf,
+  so the ray probe's open front on the far side won the entrance. Fix:
+  `interiors_index.composite_leaf_doorways` makes a leaf the composite hangs
+  its doorway (`composite-leaf`, ranked after `assembly`).
+- **Bush at the farmhouse door.** Groundcover was cleared inside footprints
+  only, and scatter had no settlement clearance at all (algrass03b 0.52 m
+  from the threshold). Fix: door aprons (1.5 m) on every treatment, and
+  `vegetation_patches.settlement_clearance_patches` writes one
+  `patch.clearance.settlement.*` patch per treatment (a floor clears its
+  footprint and aprons, a deck only its aprons and contacts, so ground cover
+  stays under the deck: owner 2026-09-25).
+- **Cave mouth** (doorcaveb is an interior tileset piece no plugin places
+  outdoors) and **landing stage** (the bank never reaches the 18.60 m deck
+  within 40 m; the "1.9 m drop" was to ground under water): DEFERRED by the
+  owner (hand-off 2026-09-25 ruling 5) to the 16k carried backlog, where the
+  owner's dry-ground rule for the landing stage is written out.
+
+Owner rulings at check-in 3: the landing stage reaches DRY ground first
+(0.2 m above the local water surface at the tip and under the closing
+piece's whole foot), extended by straight sections or shifted along its
+axis, and is closed by the smallest catalogued drop piece whose drop covers
+deck minus dry ground, sunk by a recorded remainder; never a step piece
+chosen by drop alone (the full rule: 16k § Carried backlog). Groundcover
+stays under a raised deck. The yard is never walked again (0099 decision 7):
+every defect below is an automatic gate on proving grounds A and B.
+
+Check-in 1–3 defects as gates (`[A,B]` = parametrised over both yards; test
+files: `worldgen/test_proving_ground.py` unless named):
+
+| # | Defect | Cause | Gate |
+|---|---|---|---|
+| C1-1, C1-2 | gate gap, hollow gate and tower faces | modular pieces placed as lone parcels | compile `openModularEnds`; `test_every_yard_run_piece_carries_its_run_contract[A,B]` |
+| C1-3, C1-11, C2-5 | stilt hut, boardwalk seated by leg tips; stilt hut sunk on dry ground | stilt fit seated by its legs; water class on land | `test_no_published_yard_piece_floats_or_misplaces_its_sill[A,B]` |
+| C1-4 | farmhouse door a body-height up | sink fallback at the mesh bottom | same sill test |
+| C1-5, C2-6 | mud hut door beside the hut | assembly offset at the plugin's 1.30 scale | `test_every_yard_composite_door_leaf_stands_in_its_doorway`, `test_every_yard_composite_door_stands_on_its_doorway[A,B]` |
+| C1-6, C2-1 | random chairs and tables; rubble ring and skirt | hostless template dressing; K6 ring | `test_a_fixture_carries_no_ring_dressing`, `test_no_yard_dressing_stands_over_water` |
+| C1-7, C2-7 | stair, cave, boardwalk not visible | seated below their tops | `test_every_published_yard_piece_shows_above_the_ground_at_its_coordinates[A,B]` |
+| C1-8, C2-10, C3-7 | landing stage too high, short of the shore | deck datum; no dry-ground rule | `test_the_landing_stage_starts_at_the_shore_and_ends_at_the_hull` (A); the dry-ground gate is deferred (16k backlog) |
+| C1-9 | ferry raft, sign post not solid | no collider sidecar | `worldgen/test_kit_colliders.py` |
+| C2-2 | buildings flash | build-effect cleanup, depth twins, alpha test (5d854e98) | `packages/game-core/src/settlement/settlement.test.ts` depth-twin pair check |
+| C2-3, C3-1 | camera clips; camera swings at a wall | no settlement collision; look target below the pivot | `packages/game-core/src/camera/followCamera.test.ts` (collision, view pitch under obstruction) |
+| C2-5 | stilt-house door in the roof | leaf at the shared origin | `test_the_door_leaf_check_fails_on_the_shared_origin` plus the leaf test |
+| C3-2 | wall-run joints off | per-piece re-seat | `test_every_yard_run_piece_carries_its_run_contract[A,B]` (each `riseM` equals the compile's laid rise); `runs.test.ts` (the rigid seat) |
+| C3-3 | skirting flicker | decal overlay without a flag | `test_every_yard_decal_material_ships_flagged[A,B]`; `pipeline/test_build_kit.py::test_set_alpha_modes_flags_a_nif_decal_material_and_only_it`; `decal.test.ts` |
+| C3-4 | bamboo hut leaf turned | importer yaw sign | `test_every_yard_door_leaf_lies_in_the_plane_of_its_doorway` (built geometry); `pipeline/test_build_kit.py::test_every_templated_composite_part_carries_its_mined_yaw` |
+| C3-5 | bush at the farmhouse door | no apron, no scatter clearance | `test_no_scatter_stands_in_a_yard_door_apron[A,B]`; `test_vegetation_patches.py::test_the_settlement_patches_match_the_published_treatments`; `groundTreatment.test.ts` |
+| C2-9, C3-6 | cave mouth hollow, high sill | interior piece used outdoors | deferred (16k backlog) |
+| C2-4 | no paths | ground paint not built | 16k row G1 |
+| C2-8 | no windows | kit-build research | 16k checklist "windows glowing at night" (item 28, done) |
+| C1-10, C2-11, C2-12, C2-13 | wall ends, lone ramp, tower height, sconce wall ends | by design or a labelled single piece | none (accepted at check-in 2) |
+
 ### Commit state
 
 The check-in 2 fixes are committed (2026-09-24): runtime `5d854e98`,

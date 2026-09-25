@@ -490,3 +490,67 @@ def keep_field(x: np.ndarray, z: np.ndarray, clearance: dict,
             continue
         keep = np.where(np.hypot(x - px, z - pz) <= radius, 1.0, keep)
     return keep
+
+
+# --- settlement clearance patches (16h check-in 3 item 5) ------------------- #
+#: Id prefix of the patches emitted from a settlement bundle's ground
+#: treatments; the whole set under it is REPLACED on every emit (the track
+#: set under `patch.clearance.track.` is untouched: cumulative authoring).
+SETTLEMENT_PATCH_PREFIX = "patch.clearance.settlement."
+#: Sides of the polygon an apron disc is cleared as, the runtime's number
+#: (`packages/game-core/src/settlement/groundTreatment.ts` `apronPolygon`).
+APRON_SIDES = 16
+SETTLEMENT_WHY = {
+    "floor": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+    "deck": "the deck stands on legs over the ground, so plants stay under it; only the ground in front of its door is kept clear",
+}
+
+
+def apron_polygon(x: float, z: float, radius_m: float) -> list[list[float]]:
+    """A disc as the polygon that circumscribes it, as the runtime draws it."""
+    r = radius_m / math.cos(math.pi / APRON_SIDES)
+    return [[round(x + r * math.cos(2 * math.pi * i / APRON_SIDES), 3),
+             round(z + r * math.sin(2 * math.pi * i / APRON_SIDES), 3)]
+            for i in range(APRON_SIDES)]
+
+
+def settlement_clearance_patches(bundle: dict) -> list[dict]:
+    """One `vegetation-clearance` patch per ground treatment of a published
+    settlement bundle. A floor clears its footprint and its door aprons; a
+    deck (raised on legs) clears its contact polygons and aprons only, so the
+    ground cover under the deck stays (owner 2026-09-25), the same split as
+    the runtime ring (`treatmentClearancePolygons`)."""
+    out = []
+    for t in sorted(bundle.get("groundTreatments") or [], key=lambda r: r["id"]):
+        kind = t.get("kind", "floor")
+        polys = [] if kind == "deck" else [t["footprintM"]]
+        polys += [list(p) for p in t.get("contactsM") or []] if kind == "deck" else []
+        polys += [apron_polygon(*a) for a in t.get("apronsM") or []]
+        if not polys:
+            continue
+        tid = t["id"].removeprefix("treatment.")
+        place = tid.split(".parcel.")[0]
+        out.append({"id": SETTLEMENT_PATCH_PREFIX + tid, "kind": PATCH_KIND,
+                    "owner": {"record": place, "chunk": "16h"},
+                    "why": SETTLEMENT_WHY[kind], "treatmentKind": kind,
+                    "hardClear": [[[float(x), float(z)] for x, z in p] for p in polys]})
+    return out
+
+
+def write_settlement_patches(bundle: dict, path: Path | None = None) -> list[dict]:
+    """Replace the `patch.clearance.settlement.*` set in the patch file,
+    keeping every other patch where it stands."""
+    path = path or PATCHES_PATH
+    doc = json.loads(path.read_text())
+    patches = settlement_clearance_patches(bundle)
+    doc["patches"] = [p for p in doc["patches"]
+                      if not p["id"].startswith(SETTLEMENT_PATCH_PREFIX)] + patches
+    path.write_text(json.dumps(doc, indent=1) + "\n")
+    load_patches(path)                 # the written file validates
+    return patches
+
+
+if __name__ == "__main__":             # python3 -m worldgen.vegetation_patches <settlements.json>
+    import sys
+    written = write_settlement_patches(json.loads(Path(sys.argv[1]).read_text()))
+    print(f"{len(written)} settlement clearance patches written to {PATCHES_PATH}")

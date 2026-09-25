@@ -113,17 +113,17 @@
     "radiusM": 6.5,
     "sideDeg": 151.59
    },
-   "entranceWhy": "the shell's own mesh has no opening \u2014 its door is a separate piece (doorframe01), which the source authors placed against it 22 times at 152 deg in the piece's own frame; measured from placements, not geometry",
+   "entranceWhy": "the shell's own mesh has no opening \u2014 its door is a separate piece (doorframe01, vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01), which the source authors placed against it 22 times at 152 deg in the piece's own frame; measured from placements, not geometry",
    "floorOffsetM": 0.0,
-   "frontFaceFraction": 0.056,
+   "frontFaceFraction": 0.014,
    "headroomM": 4.52,
    "heightM": 9.45,
    "interior": "tileset",
-   "medianWallM": 6.26,
-   "planAreaM2": 173.07,
+   "medianWallM": 6.25,
+   "planAreaM2": 171.38,
    "planCentreM": [
-    -0.06,
-    -0.12
+    0.28,
+    0.36
    ],
    "provenance": [
     {
@@ -137,6 +137,18 @@
      ],
      "radiusM": 7.06,
      "sideDeg": 151.64
+    },
+    {
+     "count": 1,
+     "doorAsset": "vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
+     "doorwaySource": "composite-leaf",
+     "kind": "composite-leaf",
+     "offsetM": [
+      3.19,
+      5.92
+     ],
+     "radiusM": 6.72,
+     "sideDeg": 151.68
     }
    ],
    "ringFraction": 1.0,
@@ -1317,6 +1329,7 @@
   "entranceRank": [
    "esp-door",
    "assembly",
+   "composite-leaf",
    "door-piece",
    "leaf",
    "opening",

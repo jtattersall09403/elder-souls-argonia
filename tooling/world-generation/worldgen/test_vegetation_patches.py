@@ -321,3 +321,59 @@ def test_the_polygon_cull_agrees_on_a_shipped_patch_over_a_real_chunk(monkeypatc
             assert (want < 1.0).any()
             return
     pytest.skip("no shipped patch reaches a published bundle")
+
+
+def test_settlement_patches_clear_a_floor_and_only_the_aprons_of_a_deck(tmp_path):
+    """16h check-in 3 item 5: a floor clears its footprint and door aprons; a
+    deck on legs clears its aprons only, so ground cover stays under it."""
+    import json
+    vp = sc
+    square = [[0.0, 0.0], [4.0, 0.0], [4.0, 4.0], [0.0, 4.0]]
+    bundle = {"groundTreatments": [
+        {"id": "treatment.place.x.parcel.p.house.building", "kind": "floor",
+         "footprintM": square, "apronsM": [[2.0, -1.0, 1.5]]},
+        {"id": "treatment.place.x.parcel.p.stilt.building", "kind": "deck",
+         "footprintM": square, "apronsM": [[2.0, 5.0, 1.5]]},
+        {"id": "treatment.place.x.parcel.p.dock.building", "kind": "deck", "footprintM": square},
+    ]}
+    patches = {p["id"]: p for p in vp.settlement_clearance_patches(bundle)}
+    assert set(patches) == {"patch.clearance.settlement.place.x.parcel.p.house.building",
+                            "patch.clearance.settlement.place.x.parcel.p.stilt.building"}
+    house = patches["patch.clearance.settlement.place.x.parcel.p.house.building"]
+    stilt = patches["patch.clearance.settlement.place.x.parcel.p.stilt.building"]
+    assert house["owner"] == {"record": "place.x", "chunk": "16h"}
+    assert len(house["hardClear"]) == 2 and len(stilt["hardClear"]) == 1
+    assert vp.keep_at(2.0, 2.0, house) == 0.0          # under the floor
+    assert vp.keep_at(2.0, 2.0, stilt) > 0.0           # under the deck
+    assert vp.keep_at(2.0, 5.0, stilt) == 0.0          # in front of its door
+    path = tmp_path / "patches.json"
+    path.write_text(json.dumps({"schemaVersion": 1, "patches": [
+        {**house, "id": "patch.clearance.track.keep-me"},
+        {**house, "id": "patch.clearance.settlement.stale"}]}))
+    vp.write_settlement_patches(bundle, path)
+    ids = [p["id"] for p in json.loads(path.read_text())["patches"]]
+    assert ids[0] == "patch.clearance.track.keep-me" and "patch.clearance.settlement.stale" not in ids
+
+
+def settlement_patch_drift(patch_doc: dict, bundle: dict) -> list[str]:
+    """Ids whose `patch.clearance.settlement.*` record differs from what the
+    published settlement bundle's treatments emit (missing, stale or extra)."""
+    fresh = {p["id"]: p for p in sc.settlement_clearance_patches(bundle)}
+    held = {p["id"]: p for p in patch_doc["patches"]
+            if p["id"].startswith(sc.SETTLEMENT_PATCH_PREFIX)}
+    return sorted(i for i in set(fresh) | set(held) if fresh.get(i) != held.get(i))
+
+
+def test_the_settlement_patches_match_the_published_treatments():
+    """Fails when a place was republished and nobody re-emitted its clearance
+    (`python3 -m worldgen.vegetation_patches <settlements.json>`): a moved
+    door would keep a stale apron."""
+    import json
+    bundle = json.loads((sc.PROVINCE / "settlements.json").read_text())
+    doc = json.loads(sc.PATCHES_PATH.read_text())
+    assert settlement_patch_drift(doc, bundle) == []
+    moved = json.loads(json.dumps(bundle))
+    for t in moved["groundTreatments"]:
+        for apron in t.get("apronsM") or []:
+            apron[0] += 2.0
+    assert settlement_patch_drift(doc, moved)

@@ -127,6 +127,29 @@ def test_set_alpha_modes_masks_a_nif_cutout_at_its_own_threshold(tmp_path):
     assert modes["Farmhouse01:14.Mat"] == (None, None)   # glow is not alpha
 
 
+def test_set_alpha_modes_flags_a_nif_decal_material_and_only_it(tmp_path):
+    # 16h check-in 3 item 3: impfreewall01's ImpDirt01 overlay (SLSF1 Decal |
+    # Dynamic_Decal) duplicates every plane of the skirting band; with no flag
+    # the pair z-fought. The Blender half lists it in `decalMaterials`; this
+    # pass writes the runtime's field, the material extra `decal: true`.
+    glb = tmp_path / "kit.glb"
+    _make_glb(glb, {"asset": {"version": "2.0"}, "materials": [
+        {"name": "ImpDirt01:5.Mat", "extras": {"decal": True, "keep": 1}},
+        {"name": "ImpWall06:14.Mat", "extras": {"decal": True}},
+    ]})
+    summary = {"assets": [{"alphaTest": False,
+        "materials": ["ImpDirt01:5.Mat", "ImpWall06:14.Mat"],
+        "alphaMaskMaterials": {"ImpDirt01:5.Mat": 0.42},
+        "decalMaterials": ["ImpDirt01:5.Mat"]}]}
+    set_alpha_modes(glb, summary)
+    data = glb.read_bytes()
+    chunk_length = struct.unpack_from("<I", data, 12)[0]
+    mats = {m["name"]: m for m in json.loads(data[20:20 + chunk_length])["materials"]}
+    assert mats["ImpDirt01:5.Mat"]["extras"] == {"decal": True, "keep": 1}
+    assert mats["ImpDirt01:5.Mat"]["alphaMode"] == "MASK"
+    assert "extras" not in mats["ImpWall06:14.Mat"]     # a stale flag is cleared
+
+
 def test_set_alpha_modes_rejects_a_file_that_is_not_a_glb(tmp_path):
     path = tmp_path / "not.glb"
     path.write_bytes(b"nope" + b"\x00" * 32)
@@ -443,3 +466,54 @@ def test_two_tiny_kits_build_identically_serial_and_concurrent(tmp_path, monkeyp
         manifests[n] = {k: (tmp_path / "out" / f"{k}.kit.json").read_bytes()
                         for k in assets}
     assert manifests[1] == manifests[2]
+
+
+# --- one composite yaw convention (16h check-in 3 item 4) ------------------ #
+def composite_yaw_mismatches(config_dir: Path, assemblies: dict) -> list[str]:
+    """`<kit> <composite> part <n>` for every part that names its mined
+    `template` and carries a yaw other than the template's. The rule: a part's
+    `yawDeg` IS the mined relative yaw (clockwise from above, as
+    `kit-assemblies-mined.json` records it); `blender/build_kit.py
+    import_composite` converts the sign once. A config that inverts by hand
+    (the bamboo hut leaf turned 240 deg off) fails here."""
+    templates = {t["id"]: t for s in assemblies["sets"].values() for t in s["templates"]}
+    out = []
+    for path in sorted(config_dir.glob("*.json")):
+        for entry in json.loads(path.read_text()).get("assets", []):
+            for n, part in enumerate((entry.get("compose") or {}).get("parts", [])):
+                if "template" not in part:
+                    continue
+                template = templates.get(part["template"])
+                if template is None:
+                    out.append(f"{path.stem} {entry['asset']} part {n}: no template {part['template']}")
+                    continue
+                d = (float(part.get("yawDeg", 0.0)) - float(template["yawDeg"]) + 180.0) % 360.0 - 180.0
+                if abs(d) > 0.05:
+                    out.append(f"{path.stem} {entry['asset']} part {n}: yaw {part.get('yawDeg')} "
+                               f"vs mined {template['yawDeg']}")
+    return out
+
+
+_ASSEMBLIES = build_kit.REPO_ROOT / "world/sources/placement/kit-assemblies-mined.json"
+_CONFIGS = Path(build_kit.__file__).resolve().parent / "config" / "kits"
+
+
+def test_every_templated_composite_part_carries_its_mined_yaw():
+    assemblies = json.loads(_ASSEMBLIES.read_text())
+    assert composite_yaw_mismatches(_CONFIGS, assemblies) == []
+    # the templated parts exist: the check is not vacuous
+    named = sum(1 for p in _CONFIGS.glob("*.json") for e in json.loads(p.read_text()).get("assets", [])
+                for part in (e.get("compose") or {}).get("parts", []) if "template" in part)
+    assert named >= 12
+
+
+def test_the_yaw_check_fails_on_a_hand_inverted_yaw(tmp_path):
+    assemblies = json.loads(_ASSEMBLIES.read_text())
+    config = json.loads((_CONFIGS / "settlement-stilt-v1.json").read_text())
+    for entry in config["assets"]:
+        for part in (entry.get("compose") or {}).get("parts", []):
+            if part.get("template") == "htbm:t0027":
+                part["yawDeg"] = 360 - part["yawDeg"]      # 120 -> 240: the check-in 3 leaf
+    (tmp_path / "settlement-stilt-v1.json").write_text(json.dumps(config))
+    assert composite_yaw_mismatches(tmp_path, assemblies) == [
+        "settlement-stilt-v1 composite:stilt/bamboohut01-with-door part 1: yaw 240 vs mined 120.0"]

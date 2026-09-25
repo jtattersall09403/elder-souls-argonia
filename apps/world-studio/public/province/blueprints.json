@@ -1079,16 +1079,12 @@
               5775.082
             ],
             [
-              4274.139,
-              5776.448
+              4275.196,
+              5775.2
             ],
             [
-              4274.088,
-              5776.477
-            ],
-            [
-              4274.08,
-              5776.473
+              4273.159,
+              5776.454
             ],
             [
               4273.014,
@@ -1302,13 +1298,13 @@
           ],
           "districtId": "district.proving-ground.stilt",
           "entrance": {
-            "arcM": 10.43,
-            "bearingDeg": 37.7,
+            "arcM": null,
+            "bearingDeg": 197.1,
             "interiorRef": "vanilla-farmhouse-int",
-            "kind": "open-front",
+            "kind": "composite-leaf",
             "worldM": [
-              4328.699,
-              5775.022
+              4324.683,
+              5779.813
             ]
           },
           "front": null,
@@ -2810,16 +2806,12 @@
               6003.189
             ],
             [
-              4257.028,
-              6003.44
+              4258.648,
+              6003.212
             ],
             [
-              4256.971,
-              6003.429
-            ],
-            [
-              4256.967,
-              6003.419
+              4256.292,
+              6002.793
             ],
             [
               4256.161,
@@ -3033,13 +3025,13 @@
           ],
           "districtId": "district.proving-ground-b.stilt",
           "entrance": {
-            "arcM": 10.43,
-            "bearingDeg": 20.6,
+            "arcM": null,
+            "bearingDeg": 180.0,
             "interiorRef": "vanilla-farmhouse-int",
-            "kind": "open-front",
+            "kind": "composite-leaf",
             "worldM": [
-              4316.43,
-              6026.3
+              4314.0,
+              6032.06
             ]
           },
           "front": null,

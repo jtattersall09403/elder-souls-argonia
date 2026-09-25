@@ -1025,16 +1025,12 @@
             0.783220605
           ],
           [
-            0.579661591,
-            0.783405785
+            0.579805064,
+            0.783236588
           ],
           [
-            0.579654794,
-            0.783409826
-          ],
-          [
-            0.579653599,
-            0.783409183
+            0.579528678,
+            0.783406613
           ],
           [
             0.579509113,
@@ -1535,7 +1531,7 @@
     "scaleGrounding": {
       "buildingsPlanned": 13,
       "households": 0,
-      "loreSource": "none \u2014 fixture",
+      "loreSource": "none — fixture",
       "npcsPlanned": 0,
       "population": 0,
       "why": "Ten test pieces, one of each mechanism under test; no population."

@@ -134,6 +134,9 @@
     "Farmhouse02:4.Mat": 0.502,
     "L2_Rope:22.Mat": 0.502
    },
+   "decalMaterials": [
+    "L2_Rope:22.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -197,6 +200,9 @@
     "Farmhouse01Walkway:19 - L2_Posts:19.Mat": 0.784,
     "L2_Posts.Mat": 0.502
    },
+   "decalMaterials": [
+    "L2_Posts.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.5634,
     "p50": -0.4018,
@@ -383,7 +389,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "deck",
+   "anchorClass": "water",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
@@ -392,6 +398,7 @@
     "deckTopM": 0.0,
     "deckClearanceM": 0.35
    },
+   "designedWaterlineM": -0.0273,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -1401,6 +1408,9 @@
     "Farmhouse02:4.Mat.001": 0.502,
     "L2_Rope:22.Mat.001": 0.502
    },
+   "decalMaterials": [
+    "L2_Rope:22.Mat.001"
+   ],
    "designedSinkM": {
     "p25": -0.3084,
     "p50": 0.4218,
@@ -1658,6 +1668,9 @@
    "alphaMaskMaterials": {
     "ImpFreeWall01:5.Mat": 0.42
    },
+   "decalMaterials": [
+    "ImpFreeWall01:5.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.3414,
     "p50": -0.3414,
@@ -1983,7 +1996,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2218,7 +2231,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2325,6 +2338,9 @@
     "HayMound01:0.Mat": 0.039,
     "L1_Flats.Mat": 0.039
    },
+   "decalMaterials": [
+    "HayMound01:0.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.25,
     "p50": 0.25,
@@ -2334,7 +2350,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2388,6 +2404,9 @@
     "L2_Rope.Mat": 0.502,
     "WalkwayStairs1:19 - L2_Rope:19.Mat": 0.784
    },
+   "decalMaterials": [
+    "L2_Rope.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.25,
     "p50": 0.25,
@@ -2397,7 +2416,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2451,6 +2470,9 @@
     "L2_Rope.Mat.001": 0.502,
     "WalkwayStairs4:19 - L2_Rope:19.Mat": 0.784
    },
+   "decalMaterials": [
+    "L2_Rope.Mat.001"
+   ],
    "designedSinkM": {
     "p25": 0.25,
     "p50": 0.25,
@@ -2460,7 +2482,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2514,6 +2536,9 @@
     "L2_Rope.Mat.002": 0.502,
     "WalkwayStairs8:19 - L2_Rope:19.Mat": 0.784
    },
+   "decalMaterials": [
+    "L2_Rope.Mat.002"
+   ],
    "designedSinkM": {
     "p25": 0.25,
     "p50": 0.25,
@@ -2523,7 +2548,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2580,8 +2605,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2638,8 +2663,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2696,8 +2721,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2744,6 +2769,10 @@
     "ChickenNest01:0.Mat",
     "ChickenNest01_1:0.Mat"
    ],
+   "decalMaterials": [
+    "ChickenNest01:0.Mat",
+    "ChickenNest01_1:0.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.25,
     "p50": 0.25,
@@ -2752,8 +2781,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2813,7 +2842,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -2831,7 +2860,7 @@
    "pivotAboveBaseM": 0.024
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-imperial-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [],
  "texturesSubstituted": {},
@@ -2870,16 +2899,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 26640536,
-  "bytesAfter": 12164744,
+  "bytesBefore": 26640668,
+  "bytesAfter": 12164864,
   "images": 46,
   "imageBytesAfter": 10520852,
   "warnings": [],
-  "sha256": "779a15ff4b6a9adecaeb81dd385320831fedaf8755d698bb4315a257e8f7e9ff",
+  "sha256": "adbb109414ebf173befa3a9cd4f816558612d8b0b91d2ae2ab53271f55765cef",
   "sidecarBytes": {
    "connectors": 32243,
    "footprints": 55309,
-   "interiors": 31024
+   "interiors": 31045
   }
  }
 }

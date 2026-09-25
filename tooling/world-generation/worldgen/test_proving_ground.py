@@ -150,24 +150,24 @@ DOOR_COMPOSITES = ("composite:stilt/bamboohut01-with-door",
 DOOR_DOORWAY_M = 0.5
 
 
-def _published_yard(bundle: dict) -> tuple[list[dict], list[dict]]:
+def _published_yard(bundle: dict, place: str = YARD) -> tuple[list[dict], list[dict]]:
     """The yard's published rows. A published placement carries `kind`
     (`settlement` for a parcel's piece, `dressing`, `landmark`) and no
     `objectKind`/`parcelId`: those are the compile's own fields."""
-    placements = [row for row in bundle["placements"] if row["id"].startswith(YARD + ".")]
-    doors = [row for row in bundle["doors"] if row.get("settlementId") == YARD]
+    placements = [row for row in bundle["placements"] if row["id"].startswith(place + ".")]
+    doors = [row for row in bundle["doors"] if row.get("settlementId") == place]
     return placements, doors
 
 
-def door_doorway_gaps(bundle: dict, interiors: dict[str, dict]) -> dict[str, float]:
+def door_doorway_gaps(bundle: dict, interiors: dict[str, dict], place: str = YARD) -> dict[str, float]:
     """Per yard composite: the published door threshold's distance to the
     composite's doorway, put into the world from the COMPILED placement
     (position and yaw) and the kit's entrance meta (`entrance.offsetM`), so
     the check reads what the runtime is handed, never the blueprint (K6: the
     K5 test re-derived both points from the blueprint and agreed with itself)."""
     from .blueprint_integration import runtime_world_xz
-    placements, doors = _published_yard(bundle)
-    by_parcel = {row["id"][len(YARD) + 1:-len(".building")]: row for row in placements
+    placements, doors = _published_yard(bundle, place)
+    by_parcel = {row["id"][len(place) + 1:-len(".building")]: row for row in placements
                  if row.get("kind") == "settlement" and row["id"].endswith(".building")}
     gaps = {}
     for door in doors:
@@ -187,11 +187,12 @@ def door_doorway_gaps(bundle: dict, interiors: dict[str, dict]) -> dict[str, flo
     return gaps
 
 
-def test_every_yard_composite_door_stands_on_its_doorway():
+@pytest.mark.parametrize("place", ("place.fixture.proving-ground", "place.fixture.proving-ground-b"))
+def test_every_yard_composite_door_stands_on_its_doorway(place):
     """K6 (brief § Part 1 state, cause 3): for every composite in the yard the
     published door threshold equals the doorway within 0.5 m."""
     bundle = json.loads(PUBLISHED.read_text())
-    gaps = door_doorway_gaps(bundle, cs.kit_interiors())
+    gaps = door_doorway_gaps(bundle, cs.kit_interiors(), place)
     assert set(gaps) == set(DOOR_COMPOSITES), gaps
     assert all(gap <= DOOR_DOORWAY_M for gap in gaps.values()), gaps
 
@@ -388,6 +389,7 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD) -> list[di
     surface where water covers it, never the terrain at the pivot."""
     site = next(s for s in bundle["settlements"] if s["id"] == place)
     ids = set(site["placementIds"])
+    run_y = _run_seats(bundle, survey, place)
     rows = []
     for p in bundle["placements"]:
         asset = kits.get(p["kit"], {}).get(p["assetId"], {})
@@ -401,7 +403,7 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD) -> list[di
         fit = cs.asset_fit(asset)
         ground = min(heights) if fit == "dug-in" else sum(heights) / len(heights)
         sink = float(anchor["designedSinkM"]["p50"]) * scale
-        y = ground - sink
+        y = run_y.get(p["id"], ground - sink)
         pivot_ground = survey.height_at(float(p["positionM"][0]), float(p["positionM"][2]))
         foot = p.get("footprintM") or []
         slope_exempt = bool(asset) and len(foot) >= 3 and cs.fit_slope_failure(
@@ -423,10 +425,11 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD) -> list[di
     return rows
 
 
-def test_no_published_yard_piece_floats_or_misplaces_its_sill(survey):
+@pytest.mark.parametrize("place", ("place.fixture.proving-ground", "place.fixture.proving-ground-b"))
+def test_no_published_yard_piece_floats_or_misplaces_its_sill(survey, place):
     bundle = json.loads(PUBLISHED.read_text())
-    assert bundle["schemaVersion"] == 2
-    rows = ground_audit(bundle, survey, _published_kits(bundle))
+    assert bundle["schemaVersion"] == 3
+    rows = ground_audit(bundle, survey, _published_kits(bundle), place)
     assert rows
     slope = [r for r in rows if r["slopeExempt"]]
     docks = [r for r in rows if r["dockExempt"] and not r["slopeExempt"]]
@@ -452,11 +455,12 @@ def buried_pieces(rows: list[dict]) -> list[dict]:
     return sorted((r for r in rows if r["topAboveM"] < VISIBLE_MIN_M), key=lambda r: r["topAboveM"])
 
 
-def test_every_published_yard_piece_shows_above_the_ground_at_its_coordinates(survey):
+@pytest.mark.parametrize("place", ("place.fixture.proving-ground", "place.fixture.proving-ground-b"))
+def test_every_published_yard_piece_shows_above_the_ground_at_its_coordinates(survey, place):
     """Headless: the published mesh's top, seated as the runtime seats it
     (`ground_audit`), stands >= VISIBLE_MIN_M over the highest ground sample."""
     bundle = json.loads(PUBLISHED.read_text())
-    rows = ground_audit(bundle, survey, _published_kits(bundle))
+    rows = ground_audit(bundle, survey, _published_kits(bundle), place)
     assert rows
     hidden = buried_pieces(rows)
     assert not hidden, "; ".join(f"{r['id']} top {r['topAboveM']:.2f} m above the ground"
@@ -582,3 +586,261 @@ def test_the_truth_table_check_can_fail():
     found = yard_truth_mismatches(truth, KITS, mounts, moved)
     assert f"{SCONCE} anchorClass" in found and f"{SCONCE} pairClass" in found
     assert any(key.endswith(" pitch") for key in found)
+
+
+# --- 0099 decision 7: every check-in 1-3 yard defect is a gate on A and B ----
+# The yard is never walked again. The mapping (defect -> cause -> gate) is the
+# table in the 16h brief § Part 1 state, "Check-in 1-3 defects as gates".
+YARD_B = "place.fixture.proving-ground-b"
+YARDS = (YARD, YARD_B)
+VEGETATION = PUBLISHED.parent / "vegetation"
+#: The runtime's joint tolerance (`anchoring.ts` RUN_JOINT_TOLERANCE_M).
+RUN_JOINT_TOLERANCE_M = 0.005
+#: The door apron the exporter writes (`export_settlement_bundle._attach_door_apron`).
+DOOR_APRON_M = 1.5
+
+
+def _place_rows(bundle: dict, place: str) -> list[dict]:
+    ids = set(next(s for s in bundle["settlements"] if s["id"] == place)["placementIds"])
+    return [p for p in bundle["placements"] if p["id"] in ids]
+
+
+def run_contract_failures(bundle: dict, place: str) -> list[str]:
+    """C3-2: every piece of a laid run (`.piece.<n>` placement) carries the
+    exporter's `run` {id, index, riseM} and a footprint, one run's indexes are
+    0..n-1, and each `riseM` is the rise the compile lays for that piece from
+    the authored blueprint (`blueprint_footprints.lay_pieces`, the mined
+    abuts pairs), so the runtime can seat the run as one rigid chain
+    (`anchoring.ts anchorRun`, proven by `runs.test.ts`). Before 259b200a the
+    export dropped the field and every piece was re-seated on its own ground:
+    the north end sat 5.6 cm high against the gate."""
+    bp_path = {YARD: BLUEPRINT,
+               YARD_B: BLUEPRINT.with_name("place.fixture.proving-ground-b.json")}[place]
+    parcels = {pc["id"]: pc for pc in json.loads(bp_path.read_text())["blueprint"]["parcels"]
+               if "pieces" in pc}
+    laid = {pid: cs.fp_mod.lay_pieces(pc)[0] for pid, pc in parcels.items()}
+    out, runs = [], {}
+    for p in _place_rows(bundle, place):
+        if ".piece." not in p["id"]:
+            continue
+        run = p.get("run")
+        if not run or not {"id", "index", "riseM"} <= set(run) or not p.get("footprintM"):
+            out.append(f"{p['id']}: no run contract or no footprint")
+            continue
+        runs.setdefault(run["id"], []).append(run)
+        parcel_id = p["id"][len(place) + 1:].split(".piece.")[0]
+        rows = laid.get(parcel_id) or []
+        if not 0 <= run["index"] < len(rows):
+            out.append(f"{p['id']}: index {run['index']} outside the laid run")
+        elif abs(float(run["riseM"]) - float(rows[run["index"]].get("riseM", 0.0))) > RUN_JOINT_TOLERANCE_M:
+            out.append(f"{p['id']}: riseM {run['riseM']} but the compile lays "
+                       f"{rows[run['index']].get('riseM', 0.0)}")
+    for run_id, members in runs.items():
+        if sorted(m["index"] for m in members) != list(range(len(members))):
+            out.append(f"{run_id}: indexes {sorted(m['index'] for m in members)}")
+    return out
+
+
+@pytest.mark.parametrize("place", YARDS)
+def test_every_yard_run_piece_carries_its_run_contract(place):
+    bundle = json.loads(PUBLISHED.read_text())
+    assert any(".piece." in p["id"] for p in _place_rows(bundle, place)), place
+    assert run_contract_failures(bundle, place) == []
+
+
+def test_the_run_contract_check_fails_on_the_pre_fix_export_and_on_a_wrong_rise():
+    bundle = json.loads(PUBLISHED.read_text())
+    wrong = json.loads(json.dumps(bundle))
+    piece = next(p for p in wrong["placements"] if p["id"].startswith(YARD + ".") and p.get("run"))
+    piece["run"]["riseM"] = float(piece["run"]["riseM"]) + 0.3
+    assert any("but the compile lays" in f for f in run_contract_failures(wrong, YARD))
+    for p in bundle["placements"]:
+        p.pop("run", None)          # what the v2 exporter published
+    assert run_contract_failures(bundle, YARD)
+
+
+def _run_seats(bundle: dict, survey, place: str) -> dict[str, float]:
+    """placement id -> pivot y of every run member, seated as one rigid chain
+    (`anchoring.ts anchorRun`): the datum is the member with the highest mean
+    ground under its own footprint, at that mean less its sink; every other
+    member at y_datum + riseM_i - riseM_datum. `ground_audit` uses it so the
+    float and visibility gates judge a run where the runtime puts it."""
+    runs: dict[str, list] = {}
+    for p in _place_rows(bundle, place):
+        if p.get("run") and p.get("footprintM"):
+            runs.setdefault(p["run"]["id"], []).append(p)
+    out = {}
+    for members in runs.values():
+        means = [sum(survey.height_at(float(x), float(z)) for x, z in p["footprintM"])
+                 / len(p["footprintM"]) for p in members]
+        d = max(range(len(members)), key=lambda i: means[i])
+        datum = means[d] - float(members[d]["anchor"]["designedSinkM"]["p50"]) * float(
+            members[d].get("scale", 1.0))
+        for p in members:
+            out[p["id"]] = datum + float(p["run"]["riseM"]) - float(members[d]["run"]["riseM"])
+    return out
+
+
+def scatter_in_door_aprons(bundle: dict, place: str, patches: list[dict] | None = None,
+                           radius_m: float = DOOR_APRON_M) -> list[str]:
+    """C3-5: no scatter instance stands within the door apron of a yard door
+    (the algrass03b bush 0.52 m from the farmhouse threshold) once the
+    published clearance patches are applied to the published bundle, in
+    memory, exactly as `apply_vegetation_patches` applies them. The bundles
+    on disk carry the patches from the next province publish on (standard 6
+    holds them to the release); this gate proves the patch record clears the
+    door, whatever the publish state."""
+    from .apply_vegetation_patches import _prune_decoded, species_radii
+    from .compile_scatter import DEFAULT_SEED
+    from .scatter import decode
+    from .vegetation_patches import CHUNK_M, affected_chunks
+    if patches is None:
+        patches = json.loads((PUBLISHED.parent / "vegetation-patches.json").read_text())["patches"]
+    index = json.loads((VEGETATION / "vegetation-index.json").read_text())
+    species = index.get("speciesOrder", [])
+    radii = species_radii()
+    out = []
+    for door in bundle["doors"]:
+        if door.get("settlementId") != place:
+            continue
+        x, z = door["thresholdM"]
+        cx, cz = int(x // CHUNK_M), int(z // CHUNK_M)
+        path = VEGETATION / f"chunk_{cx}_{cz}_vegetation.bin"
+        if not path.exists():
+            continue
+        groups = decode(path.read_bytes())
+        for patch in patches:
+            if (cx, cz) in {tuple(c) for c in affected_chunks(patch)}:
+                _prune_decoded(groups, species, patch, DEFAULT_SEED, radii)
+        for group in groups:
+            for inst in group["instances"]:
+                d = math.hypot(inst["x"] - x, inst["z"] - z)
+                if d < radius_m:
+                    out.append(f"{door['id']}: {species[group['index']]} at {d:.2f} m")
+    return out
+
+
+@pytest.mark.parametrize("place", YARDS)
+def test_no_scatter_stands_in_a_yard_door_apron(place):
+    bundle = json.loads(PUBLISHED.read_text())
+    assert any(d.get("settlementId") == place for d in bundle["doors"]), place
+    assert scatter_in_door_aprons(bundle, place) == []
+
+
+def test_the_apron_check_fails_without_the_settlement_patches():
+    """Without the `patch.clearance.settlement.*` set the farmhouse bush stands
+    at the door, as the owner saw it at check-in 3."""
+    bundle = json.loads(PUBLISHED.read_text())
+    patches = [p for p in json.loads((PUBLISHED.parent / "vegetation-patches.json").read_text())["patches"]
+               if not p["id"].startswith("patch.clearance.settlement.")]
+    assert any("algrass03b" in hit for hit in scatter_in_door_aprons(bundle, YARD, patches))
+
+
+def _glb_json(path: Path) -> dict:
+    import struct
+    data = path.read_bytes()
+    length = struct.unpack_from("<I", data, 12)[0]
+    return json.loads(data[20:20 + length])
+
+
+def undecaled_materials(bundle: dict, place: str) -> list[str]:
+    """C3-3: every material a yard kit's manifest lists in `decalMaterials`
+    (the NIF's SLSF1 Decal / Dynamic_Decal overlay) ships with the glTF
+    material extra `decal: true`, the field the settlement runtime biases
+    (`materials.ts applySettlementDecal`). The skirting flicker was
+    impfreewall01's ImpDirt overlay z-fighting its band with no flag."""
+    public = PUBLISHED.parent.parent
+    kits = {p["kit"] for p in _place_rows(bundle, place)}
+    out = []
+    for kit_id in sorted(kits):
+        kit = bundle["kits"][kit_id]
+        manifest = json.loads((public / kit["manifest"]).read_text())
+        wanted = {m for a in manifest["assets"] for m in a.get("decalMaterials", [])}
+        flagged = {m.get("name") for m in _glb_json(public / kit["glb"]).get("materials", [])
+                   if (m.get("extras") or {}).get("decal")}
+        out += [f"{kit_id} {m}" for m in sorted(wanted - flagged)]
+    return out
+
+
+@pytest.mark.parametrize("place", YARDS)
+def test_every_yard_decal_material_ships_flagged(place):
+    bundle = json.loads(PUBLISHED.read_text())
+    manifest = json.loads((PUBLISHED.parent.parent / bundle["kits"]["settlement-imperial-v1"]["manifest"]).read_text())
+    wall = next(a for a in manifest["assets"] if a["id"] == "vanilla:dungeons/imperial/clutterkits/impfreewall01")
+    assert wall.get("decalMaterials"), "impfreewall01's ImpDirt overlay is not recorded as a decal"
+    assert undecaled_materials(bundle, place) == []
+
+
+RAW_KITS = REPO_ROOT / "tooling/asset-pipeline/output/kits"
+#: Composite -> (kit, the NIF shape names of its door leaf). Leaves at a
+#: nonzero part yaw are the ones a sign error turns; the stilt house leaf is
+#: the check-in 2 fix.
+LEAF_SHAPES = {
+    "composite:stilt/bamboohut01-with-door": ("settlement-stilt-v1", ("es|Door01:",)),
+    "composite:stilt/bamboohut02-with-door": ("settlement-stilt-v1", ("es|Door01:",)),
+    "composite:stilt/stilthouse-with-door": ("settlement-stilt-v1", ("es|RiftenDoor02",)),
+}
+LEAF_PLANE_DEG = 10.0
+
+
+def _leaf_vertices(kit: str, composite: str, shapes: tuple[str, ...]):
+    """The leaf's full-detail vertices in the composite's z-up frame (x east,
+    y north), read from the raw built GLB (transforms are baked)."""
+    import struct
+    import numpy as np
+    data = (RAW_KITS / f"{kit}.glb").read_bytes()
+    gltf = _glb_json(RAW_KITS / f"{kit}.glb")
+    length = struct.unpack_from("<I", data, 12)[0]
+    binary = data[20 + length + 8:]
+    node_name = "composite__" + composite.removeprefix("composite:").replace("/", "_")
+    parent = next(n for n in gltf["nodes"] if n.get("name", "").endswith(node_name))
+    out = []
+    for child in parent.get("children", []):
+        node = gltf["nodes"][child]
+        if "__lod" in node["name"] or not node["name"].startswith(shapes):
+            continue
+        for prim in gltf["meshes"][node["mesh"]]["primitives"]:
+            acc = gltf["accessors"][prim["attributes"]["POSITION"]]
+            view = gltf["bufferViews"][acc["bufferView"]]
+            start = view.get("byteOffset", 0) + acc.get("byteOffset", 0)
+            xyz = np.frombuffer(binary, np.float32, acc["count"] * 3, start).reshape(-1, 3)
+            out.append(np.column_stack([xyz[:, 0], -xyz[:, 2]]))    # glTF y-up -> plan (x, north)
+    return np.concatenate(out)
+
+
+def leaf_off_plane_deg(xy) -> float:
+    """Angle between the leaf's thin plan axis and the radial line through its
+    centre (the doorway's normal in a round hut, and at the stilt house's
+    centred front door), folded to 0-90 deg."""
+    import numpy as np
+    centre = xy.mean(axis=0)
+    evals, evecs = np.linalg.eigh(np.cov((xy - centre).T))
+    thin = evecs[:, 0]
+    radial = centre / np.linalg.norm(centre)
+    cos = abs(float(thin @ radial))
+    return math.degrees(math.acos(min(1.0, cos)))
+
+
+@pytest.mark.parametrize("composite", sorted(LEAF_SHAPES))
+def test_every_yard_door_leaf_lies_in_the_plane_of_its_doorway(composite):
+    """C3-4: the bamboo hut leaf copied mined yaw 120 and the old importer
+    turned it the other way, 60 deg across its doorway. Reads the BUILT
+    geometry, so it gates the importer's sign, not the config."""
+    kit, shapes = LEAF_SHAPES[composite]
+    if not (RAW_KITS / f"{kit}.glb").exists():
+        pytest.skip(f"raw kit {kit} not built on this machine")
+    assert leaf_off_plane_deg(_leaf_vertices(kit, composite, shapes)) <= LEAF_PLANE_DEG
+
+
+def test_the_leaf_plane_check_fails_on_the_old_importer_turn():
+    """The leaf turned by -120 instead of +120 about its own centre (the
+    pre-fix `import_composite`) fails the gate."""
+    import numpy as np
+    kit, shapes = LEAF_SHAPES["composite:stilt/bamboohut01-with-door"]
+    if not (RAW_KITS / f"{kit}.glb").exists():
+        pytest.skip(f"raw kit {kit} not built on this machine")
+    xy = _leaf_vertices(kit, "composite:stilt/bamboohut01-with-door", shapes)
+    centre = xy.mean(axis=0)
+    a = math.radians(240.0)           # counter-clockwise: clockwise 120 undone, counter-clockwise 120 applied
+    rot = np.array([[math.cos(a), -math.sin(a)], [math.sin(a), math.cos(a)]])
+    assert leaf_off_plane_deg((xy - centre) @ rot.T + centre) > LEAF_PLANE_DEG

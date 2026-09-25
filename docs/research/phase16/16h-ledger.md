@@ -263,6 +263,17 @@ override kind.
 | commits | runtime `5d854e98`; yard and kits `cbf94703` (the imperial and stilt kit configs also carry the building-breadth lane's added pieces, which the rebuilt manifests list); docs | review cc932960's four items fixed before the commits |
 | preflight `--paths` | typecheck, npm-test, credits, water, rasters, python-deps pass | 5 placement reds + 1 pipeline red, none in these commits' reach: leaf-in-doorway (Open yard 0(a)); `test_mine_mounts` record-follows-rows (the yard's new `stilthouseext` rows wait on a miner run), golden set, `test_mine_abuts` single-use (miner lane); `test_interiors_index` KotM mud huts (KotM lane) |
 
+### Check-in 3 fixes: kit and yard (2026-09-25; deliver, hand-off ruling 5)
+
+| Lane | Delivered | Numbers / gaps |
+|---|---|---|
+| C3 decal | `blender/build_kit.py` `decalMaterials`; `set_alpha_modes` writes `decal: true` | rebuilt settlement-imperial-v1 (10 decal materials, 26.6 → 12.2 MB), settlement-stilt-v1 (38.0 → 15.6 MB), settlement-mud-v1 (36.2 → 16.9 MB), 0 decal each; peak 5264 MiB; the other kits with the flag (diagnosis count: vanilla-imperial-int 66, xanmeer-interior 47, wrecks 21, flora 15, enclosure 14, underwater 6, works 5) take it at their next rebuild |
+| C3 yaw | one clockwise convention, converted once in `import_composite` and `pose_point_zup`; `template` named on 12 parts | built-geometry leaf gate: bamboohut01 5.8°, bamboohut02 5.6°, stilt house 0.2° off the doorway plane (bar 10°); the pre-fix turn measures 65.8° |
+| C3 render check | turntable + plan of bamboohut01-, stilthouse-, farmhouse01-with-door, read by the lane agent (no separate Sonnet reader) | leaf in its doorway and in the frame's plane, no part through a roof or wall, leaf 2.0–2.5 m: yes for all three; farmhouse leaf foot sits ~1.5 m under the render's red ground line (the yard sill gate passes) |
+| C3 stilt leaf | `composite_leaf_doorways`, rank `composite-leaf` | door-leaf gap 6.256 → within 0.5 m |
+| C3 clearance | `vegetation_patches.settlement_clearance_patches`, 24 patches in `vegetation-patches.json` | yard A farmhouse apron: algrass03b at 0.52 m without them, none within 1.5 m with them (gate applies the published patches in memory); the bundles on disk stay the release (standard 6) and carry the patches from the next province publish |
+| C3 gates | A/B gates in `test_proving_ground.py` and the patch staleness gate in `test_vegetation_patches.py` (brief § Part 1 state table) | `test_proving_ground.py` 38 tests, 37 pass; red: yard B wall run floats 0.35/0.32 m (16k backlog) |
+
 ### Skills (0086) (2026-09-24)
 
 | Row | Delivered | Numbers / gaps |

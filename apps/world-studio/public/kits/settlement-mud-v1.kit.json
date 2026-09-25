@@ -1514,7 +1514,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "mesh-sill"
    },
-   "anchorClass": "wall",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "groundLineTell": {
     "type": "mesh",
@@ -3032,7 +3032,7 @@
     }
    },
    "undersideClosed": true,
-   "undersideCoverage": 0.916,
+   "undersideCoverage": 0.912,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 3.924
   },
@@ -3075,7 +3075,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3234,7 +3234,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3287,7 +3287,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3351,7 +3351,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3515,7 +3515,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3574,8 +3574,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3632,8 +3632,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "hanging",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3741,7 +3741,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3794,8 +3794,8 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClass": "wall",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3850,7 +3850,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3906,7 +3906,7 @@
     "evidence": "policy-fallback"
    },
    "anchorClass": "ground",
-   "anchorClassEvidence": "unplaced",
+   "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -4050,7 +4050,7 @@
    "pivotAboveBaseM": 0.548
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-mud-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-mud-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/_resourcepack/landscape/desertcracked01_d.dds",
@@ -4103,16 +4103,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 36191616,
-  "bytesAfter": 16949516,
+  "bytesBefore": 36191504,
+  "bytesAfter": 16946972,
   "images": 64,
   "imageBytesAfter": 13457061,
   "warnings": [],
-  "sha256": "a3f3caf7ae89a5772a81ec3008482e5222470a5c8a0c6435a89373fed35606de",
+  "sha256": "e92a8aa385edcde9db7bdc675c262b604cb9c18d959350b82cbcf315b0cbd84a",
   "sidecarBytes": {
    "connectors": 42961,
-   "footprints": 94934,
-   "interiors": 40966
+   "footprints": 95135,
+   "interiors": 41338
   }
  }
 }

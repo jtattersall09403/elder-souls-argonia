@@ -410,10 +410,6 @@
   },
   "composite:stilt/bamboohut01-with-door": {
    "category": "architecture",
-   "doorwayProbeCentreM": [
-    -2.04,
-    -0.27
-   ],
    "entrance": {
     "doorAsset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
     "kind": "esp-door",
@@ -435,12 +431,12 @@
     "plugin": "Here There Be Monsters - Curse of Cipactli.esp"
    },
    "floorOffsetM": 0.0,
-   "frontFaceFraction": 1.0,
+   "frontFaceFraction": 0.917,
    "headroomM": 5.35,
    "heightM": 5.83,
    "interior": "tileset",
    "interiorSource": "esp-door",
-   "medianWallM": 3.03,
+   "medianWallM": 2.99,
    "planAreaM2": 52.02,
    "planCentreM": [
     0.0,
@@ -458,18 +454,9 @@
      ],
      "radiusM": 2.84,
      "sideDeg": 299.71
-    },
-    {
-     "arcM": 1.61,
-     "kind": "open-front",
-     "offsetM": [
-      -3.82,
-      -2.21
-     ],
-     "sideDeg": 300.06
     }
    ],
-   "ringFraction": 0.958,
+   "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
    "tileset": "htbm-hut-int",
@@ -477,10 +464,6 @@
   },
   "composite:stilt/bamboohut02-with-door": {
    "category": "architecture",
-   "doorwayProbeCentreM": [
-    -2.04,
-    -0.27
-   ],
    "entrance": {
     "doorAsset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
     "kind": "esp-door",
@@ -502,12 +485,12 @@
     "plugin": "Here There Be Monsters - Curse of Cipactli.esp"
    },
    "floorOffsetM": 0.0,
-   "frontFaceFraction": 1.0,
+   "frontFaceFraction": 0.917,
    "headroomM": 5.35,
    "heightM": 5.83,
    "interior": "tileset",
    "interiorSource": "esp-door",
-   "medianWallM": 3.03,
+   "medianWallM": 2.99,
    "planAreaM2": 52.02,
    "planCentreM": [
     0.0,
@@ -525,18 +508,9 @@
      ],
      "radiusM": 2.83,
      "sideDeg": 299.59
-    },
-    {
-     "arcM": 1.61,
-     "kind": "open-front",
-     "offsetM": [
-      -3.82,
-      -2.21
-     ],
-     "sideDeg": 300.06
     }
    ],
-   "ringFraction": 0.958,
+   "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
    "tileset": "htbm-hut-int",
@@ -621,13 +595,16 @@
     -3.16
    ],
    "entrance": {
-    "arcM": 10.43,
-    "kind": "open-front",
+    "count": 1,
+    "doorAsset": "bmv:architecture/stilthouse/stilthousedooranim",
+    "doorwaySource": "composite-leaf",
+    "kind": "composite-leaf",
     "offsetM": [
-     2.43,
-     -2.7
+     0.0,
+     3.06
     ],
-    "sideDeg": 20.58
+    "radiusM": 3.06,
+    "sideDeg": 180.0
    },
    "floorOffsetM": 6.0,
    "frontFaceFraction": 1.0,
@@ -640,7 +617,17 @@
     0.57,
     2.26
    ],
-   "provenance": [],
+   "provenance": [
+    {
+     "arcM": 10.43,
+     "kind": "open-front",
+     "offsetM": [
+      2.43,
+      -2.7
+     ],
+     "sideDeg": 20.58
+    }
+   ],
    "ringFraction": 0.917,
    "roofOverhead": true,
    "sizeClass": "large",
@@ -1481,6 +1468,7 @@
   "entranceRank": [
    "esp-door",
    "assembly",
+   "composite-leaf",
    "door-piece",
    "leaf",
    "opening",

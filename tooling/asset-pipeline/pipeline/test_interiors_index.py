@@ -474,15 +474,16 @@ def test_a_composite_that_carries_no_door_piece_gets_no_doorway(tmp_path):
 def test_a_scaled_anchor_carries_its_mined_door_through_the_composite_pose():
     """16h K11 A: the mine measures the door in the anchor's UNSCALED frame; a
     composite that stands the anchor at 1.3, turned 90 deg and lifted 1 m must
-    report the door where that pose puts it."""
+    report the door where that pose puts it. Part 0's `yawDeg` is clockwise
+    from above, the one composite convention (16h check-in 3 item 4)."""
     pose = {"scale": 1.3, "offsetM": [0.0, 0.0, 1.0], "yawDeg": 90.0}
     door = ix.posed_mined_door({**_mined_fixed(), "riseM": 0.5,
                                 "offsetLocalM": [-2.45, 1.4, 0.5]}, pose)
     x, y, z = door["offsetLocalM"]
-    assert (x, y, z) == pytest.approx((-1.82, -3.185, 1.65), abs=1e-3)
+    assert (x, y, z) == pytest.approx((1.82, 3.185, 1.65), abs=1e-3)
     assert door["radiusM"] == pytest.approx(2.82 * 1.3, abs=0.01)
-    # a +90 deg turn about z (counter-clockwise) takes 90 off the clockwise bearing
-    assert door["sideDeg"] == pytest.approx(299.75 - 90.0, abs=0.05)
+    # a clockwise 90 deg turn adds 90 to the clockwise bearing
+    assert door["sideDeg"] == pytest.approx((299.75 + 90.0) % 360.0, abs=0.05)
     assert door["yawDeg"] == pytest.approx(210.0)
     assert door["riseM"] == pytest.approx(1.65)
     # identity pose leaves the record untouched

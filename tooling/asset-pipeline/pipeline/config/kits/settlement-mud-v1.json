@@ -170,7 +170,8 @@
        -3.91
       ],
       "yawDeg": 153.74,
-      "scale": 1.0
+      "scale": 1.0,
+      "template": "bmv-blackmarsh:t0089"
      },
      {
       "asset": "bmv:architecture/huts/exterior/doorframe01",
@@ -180,7 +181,8 @@
        -3.91
       ],
       "yawDeg": 153.74,
-      "scale": 1.0
+      "scale": 1.0,
+      "template": "bmv-blackmarsh:t0089"
      },
      {
       "asset": "bmv:architecture/huts/exterior/doorframe01",
@@ -190,7 +192,8 @@
        -3.9
       ],
       "yawDeg": 153.74,
-      "scale": 1.0
+      "scale": 1.0,
+      "template": "bmv-blackmarsh:t0090"
      },
      {
       "asset": "bmv:architecture/huts/exterior/doorframe01",
@@ -200,7 +203,8 @@
        -3.9
       ],
       "yawDeg": 153.74,
-      "scale": 1.0
+      "scale": 1.0,
+      "template": "bmv-blackmarsh:t0090"
      },
      {
       "asset": "vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
@@ -210,7 +214,8 @@
        -3.84
       ],
       "yawDeg": 245.41,
-      "scale": 1.0
+      "scale": 1.0,
+      "template": "bmv-blackmarsh:t0091"
      }
     ]
    }

@@ -293388,6 +293388,1750 @@
      ]
     ]
    ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.cave-mouth.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4354.64,
+      6007.21
+     ],
+     [
+      4351.93,
+      6009.26
+     ],
+     [
+      4350.07,
+      6009.26
+     ],
+     [
+      4347.36,
+      6007.21
+     ],
+     [
+      4347.36,
+      6006.42
+     ],
+     [
+      4350.07,
+      6004.37
+     ],
+     [
+      4351.93,
+      6004.37
+     ],
+     [
+      4354.64,
+      6006.42
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.hull-berth.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4412.021,
+      6057.668
+     ],
+     [
+      4412.002,
+      6057.645
+     ],
+     [
+      4411.997,
+      6057.623
+     ],
+     [
+      4411.974,
+      6057.55
+     ],
+     [
+      4411.976,
+      6057.536
+     ],
+     [
+      4412.422,
+      6057.135
+     ],
+     [
+      4413.717,
+      6056.049
+     ],
+     [
+      4414.128,
+      6055.73
+     ],
+     [
+      4414.283,
+      6055.665
+     ],
+     [
+      4414.526,
+      6055.814
+     ],
+     [
+      4416.939,
+      6058.489
+     ],
+     [
+      4416.965,
+      6058.519
+     ],
+     [
+      4416.97,
+      6058.541
+     ],
+     [
+      4416.989,
+      6058.564
+     ],
+     [
+      4417.004,
+      6058.643
+     ],
+     [
+      4417.002,
+      6058.657
+     ],
+     [
+      4415.158,
+      6060.1
+     ],
+     [
+      4414.754,
+      6060.427
+     ],
+     [
+      4414.593,
+      6060.484
+     ],
+     [
+      4414.405,
+      6060.432
+     ],
+     [
+      4414.283,
+      6060.286
+     ],
+     [
+      4412.047,
+      6057.699
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-house.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4212.98,
+      5997.0
+     ],
+     [
+      4213.1,
+      5995.18
+     ],
+     [
+      4213.23,
+      5994.03
+     ],
+     [
+      4213.51,
+      5993.04
+     ],
+     [
+      4214.47,
+      5992.35
+     ],
+     [
+      4215.72,
+      5992.11
+     ],
+     [
+      4217.54,
+      5991.98
+     ],
+     [
+      4228.46,
+      5991.98
+     ],
+     [
+      4230.28,
+      5992.11
+     ],
+     [
+      4231.43,
+      5992.35
+     ],
+     [
+      4232.42,
+      5992.97
+     ],
+     [
+      4232.77,
+      5993.93
+     ],
+     [
+      4232.9,
+      5995.18
+     ],
+     [
+      4233.02,
+      5997.0
+     ],
+     [
+      4232.9,
+      5998.82
+     ],
+     [
+      4232.77,
+      5999.97
+     ],
+     [
+      4232.49,
+      6000.96
+     ],
+     [
+      4231.53,
+      6001.65
+     ],
+     [
+      4230.28,
+      6001.89
+     ],
+     [
+      4228.46,
+      6002.02
+     ],
+     [
+      4217.54,
+      6002.02
+     ],
+     [
+      4215.72,
+      6001.89
+     ],
+     [
+      4214.57,
+      6001.65
+     ],
+     [
+      4213.58,
+      6001.03
+     ],
+     [
+      4213.23,
+      6000.07
+     ],
+     [
+      4213.1,
+      5998.82
+     ]
+    ],
+    [
+     [
+      4222.709,
+      6000.56
+     ],
+     [
+      4222.593,
+      6001.145
+     ],
+     [
+      4222.261,
+      6001.641
+     ],
+     [
+      4221.765,
+      6001.973
+     ],
+     [
+      4221.18,
+      6002.089
+     ],
+     [
+      4220.595,
+      6001.973
+     ],
+     [
+      4220.099,
+      6001.641
+     ],
+     [
+      4219.767,
+      6001.145
+     ],
+     [
+      4219.651,
+      6000.56
+     ],
+     [
+      4219.767,
+      5999.975
+     ],
+     [
+      4220.099,
+      5999.479
+     ],
+     [
+      4220.595,
+      5999.147
+     ],
+     [
+      4221.18,
+      5999.031
+     ],
+     [
+      4221.765,
+      5999.147
+     ],
+     [
+      4222.261,
+      5999.479
+     ],
+     [
+      4222.593,
+      5999.975
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4191.351,
+      6007.693
+     ],
+     [
+      4191.766,
+      6007.817
+     ],
+     [
+      4190.577,
+      6014.563
+     ],
+     [
+      4187.209,
+      6013.969
+     ],
+     [
+      4188.277,
+      6007.912
+     ],
+     [
+      4190.919,
+      6007.667
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4190.579,
+      6014.553
+     ],
+     [
+      4189.314,
+      6021.722
+     ],
+     [
+      4185.946,
+      6021.128
+     ],
+     [
+      4184.263,
+      6019.329
+     ],
+     [
+      4184.245,
+      6019.315
+     ],
+     [
+      4184.992,
+      6015.081
+     ],
+     [
+      4185.013,
+      6015.074
+     ],
+     [
+      4187.211,
+      6013.959
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4189.316,
+      6021.712
+     ],
+     [
+      4189.185,
+      6022.745
+     ],
+     [
+      4188.282,
+      6027.866
+     ],
+     [
+      4188.052,
+      6028.882
+     ],
+     [
+      4184.684,
+      6028.288
+     ],
+     [
+      4184.815,
+      6027.255
+     ],
+     [
+      4185.718,
+      6022.134
+     ],
+     [
+      4185.948,
+      6021.118
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4188.054,
+      6028.872
+     ],
+     [
+      4186.789,
+      6036.041
+     ],
+     [
+      4183.421,
+      6035.447
+     ],
+     [
+      4181.738,
+      6033.648
+     ],
+     [
+      4181.72,
+      6033.634
+     ],
+     [
+      4182.467,
+      6029.4
+     ],
+     [
+      4182.489,
+      6029.393
+     ],
+     [
+      4184.686,
+      6028.278
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.imperial-wall-run.piece.5",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4186.791,
+      6036.031
+     ],
+     [
+      4185.595,
+      6042.817
+     ],
+     [
+      4185.196,
+      6042.777
+     ],
+     [
+      4184.807,
+      6042.678
+     ],
+     [
+      4182.336,
+      6041.602
+     ],
+     [
+      4183.423,
+      6035.437
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.landing-stage.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4404.048,
+      6049.193
+     ],
+     [
+      4402.706,
+      6047.251
+     ],
+     [
+      4402.721,
+      6047.082
+     ],
+     [
+      4402.859,
+      6046.967
+     ],
+     [
+      4407.195,
+      6046.814
+     ],
+     [
+      4407.364,
+      6046.828
+     ],
+     [
+      4409.749,
+      6049.018
+     ],
+     [
+      4414.343,
+      6054.431
+     ],
+     [
+      4414.459,
+      6054.569
+     ],
+     [
+      4414.436,
+      6054.744
+     ],
+     [
+      4411.173,
+      6057.482
+     ],
+     [
+      4411.004,
+      6057.468
+     ],
+     [
+      4406.433,
+      6052.035
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.mud-hut.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4258.799,
+      6003.189
+     ],
+     [
+      4258.648,
+      6003.212
+     ],
+     [
+      4256.292,
+      6002.793
+     ],
+     [
+      4256.161,
+      6002.723
+     ],
+     [
+      4254.635,
+      6001.31
+     ],
+     [
+      4254.58,
+      6001.16
+     ],
+     [
+      4254.84,
+      5999.096
+     ],
+     [
+      4254.897,
+      5998.959
+     ],
+     [
+      4256.431,
+      5997.123
+     ],
+     [
+      4256.562,
+      5997.043
+     ],
+     [
+      4258.541,
+      5996.429
+     ],
+     [
+      4258.71,
+      5996.453
+     ],
+     [
+      4260.361,
+      5997.715
+     ],
+     [
+      4260.456,
+      5997.829
+     ],
+     [
+      4261.276,
+      6000.084
+     ],
+     [
+      4261.277,
+      6000.233
+     ],
+     [
+      4260.823,
+      6002.261
+     ],
+     [
+      4260.71,
+      6002.387
+     ]
+    ],
+    [
+     [
+      4259.049,
+      6002.803
+     ],
+     [
+      4258.933,
+      6003.388
+     ],
+     [
+      4258.601,
+      6003.884
+     ],
+     [
+      4258.105,
+      6004.216
+     ],
+     [
+      4257.52,
+      6004.332
+     ],
+     [
+      4256.935,
+      6004.216
+     ],
+     [
+      4256.439,
+      6003.884
+     ],
+     [
+      4256.107,
+      6003.388
+     ],
+     [
+      4255.991,
+      6002.803
+     ],
+     [
+      4256.107,
+      6002.218
+     ],
+     [
+      4256.439,
+      6001.722
+     ],
+     [
+      4256.935,
+      6001.39
+     ],
+     [
+      4257.52,
+      6001.274
+     ],
+     [
+      4258.105,
+      6001.39
+     ],
+     [
+      4258.601,
+      6001.722
+     ],
+     [
+      4258.933,
+      6002.218
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.sconce-wall.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4204.99,
+      6039.65
+     ],
+     [
+      4211.01,
+      6039.65
+     ],
+     [
+      4211.01,
+      6040.35
+     ],
+     [
+      4204.99,
+      6040.35
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground-b.parcel.proving-ground-b.sign-post.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground-b",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4197.87,
+      6028.49
+     ],
+     [
+      4197.9,
+      6028.42
+     ],
+     [
+      4197.96,
+      6028.38
+     ],
+     [
+      4198.03,
+      6028.38
+     ],
+     [
+      4198.04,
+      6028.38
+     ],
+     [
+      4198.1,
+      6028.43
+     ],
+     [
+      4198.12,
+      6028.5
+     ],
+     [
+      4198.1,
+      6028.57
+     ],
+     [
+      4198.04,
+      6028.61
+     ],
+     [
+      4197.96,
+      6028.61
+     ],
+     [
+      4197.96,
+      6028.61
+     ],
+     [
+      4197.9,
+      6028.56
+     ],
+     [
+      4197.87,
+      6028.49
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.cave-mouth.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4323.74,
+      5738.886
+     ],
+     [
+      4321.03,
+      5740.936
+     ],
+     [
+      4319.17,
+      5740.936
+     ],
+     [
+      4316.46,
+      5738.886
+     ],
+     [
+      4316.46,
+      5738.096
+     ],
+     [
+      4319.17,
+      5736.046
+     ],
+     [
+      4321.03,
+      5736.046
+     ],
+     [
+      4323.74,
+      5738.096
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.hull-berth.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4383.307,
+      5723.062
+     ],
+     [
+      4383.337,
+      5723.062
+     ],
+     [
+      4383.357,
+      5723.072
+     ],
+     [
+      4383.427,
+      5723.102
+     ],
+     [
+      4383.437,
+      5723.112
+     ],
+     [
+      4383.457,
+      5723.712
+     ],
+     [
+      4383.457,
+      5725.402
+     ],
+     [
+      4383.437,
+      5725.922
+     ],
+     [
+      4383.387,
+      5726.082
+     ],
+     [
+      4383.117,
+      5726.172
+     ],
+     [
+      4379.517,
+      5726.302
+     ],
+     [
+      4379.477,
+      5726.302
+     ],
+     [
+      4379.457,
+      5726.292
+     ],
+     [
+      4379.427,
+      5726.292
+     ],
+     [
+      4379.357,
+      5726.252
+     ],
+     [
+      4379.347,
+      5726.242
+     ],
+     [
+      4379.427,
+      5723.902
+     ],
+     [
+      4379.437,
+      5723.382
+     ],
+     [
+      4379.497,
+      5723.222
+     ],
+     [
+      4379.657,
+      5723.112
+     ],
+     [
+      4379.847,
+      5723.112
+     ],
+     [
+      4383.267,
+      5723.062
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.imperial-house.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4266.212,
+      5795.167
+     ],
+     [
+      4266.332,
+      5793.347
+     ],
+     [
+      4266.462,
+      5792.197
+     ],
+     [
+      4266.742,
+      5791.207
+     ],
+     [
+      4267.702,
+      5790.517
+     ],
+     [
+      4268.952,
+      5790.277
+     ],
+     [
+      4270.772,
+      5790.147
+     ],
+     [
+      4281.692,
+      5790.147
+     ],
+     [
+      4283.512,
+      5790.277
+     ],
+     [
+      4284.662,
+      5790.517
+     ],
+     [
+      4285.652,
+      5791.137
+     ],
+     [
+      4286.002,
+      5792.097
+     ],
+     [
+      4286.132,
+      5793.347
+     ],
+     [
+      4286.252,
+      5795.167
+     ],
+     [
+      4286.132,
+      5796.987
+     ],
+     [
+      4286.002,
+      5798.137
+     ],
+     [
+      4285.722,
+      5799.127
+     ],
+     [
+      4284.762,
+      5799.817
+     ],
+     [
+      4283.512,
+      5800.057
+     ],
+     [
+      4281.692,
+      5800.187
+     ],
+     [
+      4270.772,
+      5800.187
+     ],
+     [
+      4268.952,
+      5800.057
+     ],
+     [
+      4267.802,
+      5799.817
+     ],
+     [
+      4266.812,
+      5799.197
+     ],
+     [
+      4266.462,
+      5798.237
+     ],
+     [
+      4266.332,
+      5796.987
+     ]
+    ],
+    [
+     [
+      4275.941,
+      5798.727
+     ],
+     [
+      4275.825,
+      5799.312
+     ],
+     [
+      4275.493,
+      5799.808
+     ],
+     [
+      4274.997,
+      5800.14
+     ],
+     [
+      4274.412,
+      5800.256
+     ],
+     [
+      4273.827,
+      5800.14
+     ],
+     [
+      4273.331,
+      5799.808
+     ],
+     [
+      4272.999,
+      5799.312
+     ],
+     [
+      4272.883,
+      5798.727
+     ],
+     [
+      4272.999,
+      5798.142
+     ],
+     [
+      4273.331,
+      5797.646
+     ],
+     [
+      4273.827,
+      5797.314
+     ],
+     [
+      4274.412,
+      5797.198
+     ],
+     [
+      4274.997,
+      5797.314
+     ],
+     [
+      4275.493,
+      5797.646
+     ],
+     [
+      4275.825,
+      5798.142
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4238.438,
+      5677.736
+     ],
+     [
+      4238.868,
+      5677.786
+     ],
+     [
+      4238.868,
+      5684.636
+     ],
+     [
+      4235.448,
+      5684.636
+     ],
+     [
+      4235.448,
+      5678.486
+     ],
+     [
+      4238.008,
+      5677.786
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4238.868,
+      5684.626
+     ],
+     [
+      4238.918,
+      5685.666
+     ],
+     [
+      4238.918,
+      5690.866
+     ],
+     [
+      4238.868,
+      5691.906
+     ],
+     [
+      4235.448,
+      5691.906
+     ],
+     [
+      4235.398,
+      5690.866
+     ],
+     [
+      4235.398,
+      5685.666
+     ],
+     [
+      4235.448,
+      5684.626
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4238.868,
+      5691.896
+     ],
+     [
+      4238.868,
+      5699.176
+     ],
+     [
+      4235.448,
+      5699.176
+     ],
+     [
+      4233.478,
+      5697.696
+     ],
+     [
+      4233.458,
+      5697.686
+     ],
+     [
+      4233.458,
+      5693.386
+     ],
+     [
+      4233.478,
+      5693.376
+     ],
+     [
+      4235.448,
+      5691.896
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.imperial-wall-run.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4238.868,
+      5699.166
+     ],
+     [
+      4238.868,
+      5706.056
+     ],
+     [
+      4238.468,
+      5706.086
+     ],
+     [
+      4238.068,
+      5706.056
+     ],
+     [
+      4235.448,
+      5705.426
+     ],
+     [
+      4235.448,
+      5699.166
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.landing-stage.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4367.023,
+      5722.693
+     ],
+     [
+      4364.835,
+      5721.807
+     ],
+     [
+      4364.755,
+      5721.657
+     ],
+     [
+      4364.806,
+      5721.485
+     ],
+     [
+      4368.347,
+      5718.976
+     ],
+     [
+      4368.496,
+      5718.896
+     ],
+     [
+      4371.691,
+      5719.416
+     ],
+     [
+      4378.503,
+      5721.418
+     ],
+     [
+      4378.676,
+      5721.47
+     ],
+     [
+      4378.753,
+      5721.629
+     ],
+     [
+      4377.529,
+      5725.709
+     ],
+     [
+      4377.38,
+      5725.79
+     ],
+     [
+      4370.576,
+      5723.759
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.mud-hut.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4275.294,
+      5775.082
+     ],
+     [
+      4275.196,
+      5775.2
+     ],
+     [
+      4273.159,
+      5776.454
+     ],
+     [
+      4273.014,
+      5776.49
+     ],
+     [
+      4270.935,
+      5776.449
+     ],
+     [
+      4270.794,
+      5776.373
+     ],
+     [
+      4269.616,
+      5774.66
+     ],
+     [
+      4269.566,
+      5774.52
+     ],
+     [
+      4269.491,
+      5772.128
+     ],
+     [
+      4269.536,
+      5771.982
+     ],
+     [
+      4270.605,
+      5770.207
+     ],
+     [
+      4270.747,
+      5770.112
+     ],
+     [
+      4272.818,
+      5769.956
+     ],
+     [
+      4272.965,
+      5769.978
+     ],
+     [
+      4275.079,
+      5771.116
+     ],
+     [
+      4275.178,
+      5771.226
+     ],
+     [
+      4276.188,
+      5773.042
+     ],
+     [
+      4276.187,
+      5773.212
+     ]
+    ],
+    [
+     [
+      4275.611,
+      5775.645
+     ],
+     [
+      4275.495,
+      5776.23
+     ],
+     [
+      4275.163,
+      5776.726
+     ],
+     [
+      4274.667,
+      5777.058
+     ],
+     [
+      4274.082,
+      5777.174
+     ],
+     [
+      4273.497,
+      5777.058
+     ],
+     [
+      4273.001,
+      5776.726
+     ],
+     [
+      4272.669,
+      5776.23
+     ],
+     [
+      4272.553,
+      5775.645
+     ],
+     [
+      4272.669,
+      5775.06
+     ],
+     [
+      4273.001,
+      5774.564
+     ],
+     [
+      4273.497,
+      5774.232
+     ],
+     [
+      4274.082,
+      5774.116
+     ],
+     [
+      4274.667,
+      5774.232
+     ],
+     [
+      4275.163,
+      5774.564
+     ],
+     [
+      4275.495,
+      5775.06
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.sconce-wall.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4268.275,
+      5685.846
+     ],
+     [
+      4262.255,
+      5685.846
+     ],
+     [
+      4262.255,
+      5685.146
+     ],
+     [
+      4268.275,
+      5685.146
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.sign-post.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4261.739,
+      5694.646
+     ],
+     [
+      4261.709,
+      5694.716
+     ],
+     [
+      4261.649,
+      5694.756
+     ],
+     [
+      4261.579,
+      5694.756
+     ],
+     [
+      4261.569,
+      5694.756
+     ],
+     [
+      4261.509,
+      5694.706
+     ],
+     [
+      4261.489,
+      5694.636
+     ],
+     [
+      4261.509,
+      5694.566
+     ],
+     [
+      4261.569,
+      5694.526
+     ],
+     [
+      4261.649,
+      5694.526
+     ],
+     [
+      4261.649,
+      5694.526
+     ],
+     [
+      4261.709,
+      5694.576
+     ],
+     [
+      4261.739,
+      5694.646
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.fixture.proving-ground.parcel.proving-ground.stilt-stair.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.fixture.proving-ground",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      4252.55,
+      5675.969
+     ],
+     [
+      4252.55,
+      5675.979
+     ],
+     [
+      4252.54,
+      5675.999
+     ],
+     [
+      4252.53,
+      5676.009
+     ],
+     [
+      4252.5,
+      5676.029
+     ],
+     [
+      4252.48,
+      5676.029
+     ],
+     [
+      4250.65,
+      5675.959
+     ],
+     [
+      4250.6,
+      5675.949
+     ],
+     [
+      4252.19,
+      5673.039
+     ],
+     [
+      4252.37,
+      5673.039
+     ],
+     [
+      4252.48,
+      5673.039
+     ],
+     [
+      4252.51,
+      5673.069
+     ],
+     [
+      4252.52,
+      5673.109
+     ],
+     [
+      4252.55,
+      5675.939
+     ]
+    ]
+   ]
   }
  ]
 }

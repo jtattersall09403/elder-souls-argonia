@@ -41,6 +41,15 @@ GLOW_MATERIALS = set()
 #: glTF MASK, never as opaque (the HTBM fringe, 16h check-in 2 item 8).
 ALPHA_MASK_MATERIALS = {}
 
+#: Materials whose NIF shader sets SLSF1 Decal or Dynamic_Decal: an overlay
+#: the engine draws with a depth bias over a coplanar surface (impfreewall01's
+#: ImpDirt01 duplicates every plane of its skirting band). They ship with the
+#: glTF material extra `decal: true`; the settlement runtime gives them a
+#: polygon offset and no depth write (16h check-in 3 item 3, materials.ts
+#: `applySettlementDecal`). Without it the pair z-fights: the owner's flicker.
+DECAL_MATERIALS = set()
+DECAL_SHADER_FLAGS = ("DECAL", "DYNAMIC_DECAL")
+
 #: NiAlphaProperty flag bits (Gamebryo): bit 0 blend enable, bit 9 test enable.
 NI_ALPHA_BLEND = 0x001
 NI_ALPHA_TEST = 0x200
@@ -91,6 +100,23 @@ def glow_image(mat):
                  and n.name.split(".")[0] == "Glow_Map_Texture"), None)
 
 
+def shader_flags1(mat) -> set:
+    """The names in the NIF's BSLightingShaderProperty Shader_Flags_1, as
+    PyNifly records them ("SPECULAR | DECAL | ..."): on the material's typed
+    `pyn_shader` group, or as a legacy custom property."""
+    raw = None
+    group = getattr(mat, "pyn_shader", None)
+    if group is not None:
+        raw = getattr(group, "Shader_Flags_1", None)
+    if not raw:
+        raw = mat.get("Shader_Flags_1")
+    if not raw:
+        return set()
+    if isinstance(raw, int):
+        return {name for bit, name in ((26, "DECAL"), (27, "DYNAMIC_DECAL")) if raw >> bit & 1}
+    return {part.strip() for part in str(raw).split("|") if part.strip()}
+
+
 def ni_alpha(mat):
     """(test_or_blend, cutoff) from the NiAlphaProperty PyNifly recorded on
     the material, or (False, None) when the NIF has none."""
@@ -118,6 +144,8 @@ def rebuild_material(mat, double_sided):
     """
     glow = glow_image(mat)
     alpha_wanted, alpha_cutoff = ni_alpha(mat)
+    if shader_flags1(mat) & set(DECAL_SHADER_FLAGS):
+        DECAL_MATERIALS.add(mat.name)
     images = []
     if mat.use_nodes:
         images = [n.image for n in mat.node_tree.nodes
@@ -294,7 +322,12 @@ def import_composite(parts):
             print("[kit]   dropped stray shape %s at %s" % (stray["shape"], stray["offsetM"]))
         offset = Vector(part.get("offsetM", [0.0, 0.0, 0.0]))
         scale = part.get("scale", 1.0)
-        yaw = math.radians(part.get("yawDeg", 0.0))
+        # A part's `yawDeg` IS the mined relative yaw, CLOCKWISE seen from
+        # above as `kit-assemblies-mined.json` records it (Bethesda's z
+        # rotation); Blender turns counter-clockwise, so the sign is converted
+        # here, once, and nowhere else (16h check-in 3 item 2: the bamboo hut
+        # leaf copied mined 120 and turned the other way).
+        yaw = -math.radians(part.get("yawDeg", 0.0))
         transform = (Matrix.Translation(offset)
                      @ Matrix.Rotation(yaw, 4, "Z")
                      @ Matrix.Scale(scale, 4))
@@ -1055,6 +1088,9 @@ for asset in PLAN["assets"]:
                    if m in ALPHA_MASK_MATERIALS}
     if alpha_masks:
         record["alphaMaskMaterials"] = alpha_masks
+    decals = sorted(materials & DECAL_MATERIALS)
+    if decals:
+        record["decalMaterials"] = decals
     if billboard_materials:
         record["billboard"] = True
         record["billboardMaterials"] = sorted(billboard_materials)
