@@ -19,6 +19,7 @@ water entity under each window sample (`ProvinceSurvey.water_entity_at`).
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -35,6 +36,39 @@ def _chunk_manifest() -> dict:
     return json.loads((paths.CHUNKS / "chunks-web-manifest.json").read_text())
 
 
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def window_chunks(centre_m: tuple[float, float], half_m: float,
+                  manifest: dict | None = None) -> list[dict]:
+    """The chunk manifest rows whose square touches the window: the files
+    `extract` reads (their lod1 grids are the runtime's seat surface)."""
+    manifest = manifest or _chunk_manifest()
+    cx, cz = centre_m
+    x0, x1, z0, z1 = cx - half_m, cx + half_m, cz - half_m, cz + half_m
+    cell = float(manifest["chunkMetres"])
+    return [c for c in manifest["chunks"]
+            if not (c["originM"][0] > x1 or c["originM"][1] > z1
+                    or c["originM"][0] + cell < x0 or c["originM"][1] + cell < z0)]
+
+
+def provenance(chunks: list[dict]) -> dict:
+    """{chunks: {key: sha256}, sha256}: one hash over the window's source
+    chunk files, keyed so a changed chunk is named (0100 decision 6)."""
+    per = {c["key"]: c["sha256"] for c in chunks}
+    whole = hashlib.sha256("".join(f"{k}:{v}\n" for k, v in sorted(per.items())).encode())
+    return {"chunks": per, "sha256": whole.hexdigest()}
+
+
+def current_provenance(centre_m: tuple[float, float], half_m: float) -> dict:
+    """The provenance of the chunk files on disk NOW for this window."""
+    rows = [{"key": f"chunk_{c['cx']}_{c['cy']}",
+             "sha256": _sha256(paths.CHUNKS / c["lods"]["1"]["file"])}
+            for c in window_chunks(centre_m, half_m)]
+    return provenance(rows)
+
+
 def extract(centre_m: tuple[float, float], half_m: float, out: Path) -> dict:
     """Write the window's ground to ``out`` (npz + json meta); return the meta."""
     paths.bridge()
@@ -48,16 +82,15 @@ def extract(centre_m: tuple[float, float], half_m: float, out: Path) -> dict:
     cell = float(manifest["chunkMetres"])
     arrays: dict[str, np.ndarray] = {}
     chunks = []
-    for chunk in manifest["chunks"]:
+    for chunk in window_chunks(centre_m, half_m, manifest):
         ox, oz = chunk["originM"]
-        if ox > x1 or oz > z1 or ox + cell < x0 or oz + cell < z0:
-            continue
         lod = chunk["lods"]["1"]
         heights = decode_rg16(Image.open(paths.CHUNKS / lod["file"]), lod["minM"], lod["maxM"])
         key = f"chunk_{chunk['cx']}_{chunk['cy']}"
         arrays[key] = heights.astype(np.float32)
         chunks.append({"key": key, "cx": chunk["cx"], "cy": chunk["cy"], "originM": [ox, oz],
-                       "metresPerSample": lod["metresPerSample"]})
+                       "metresPerSample": lod["metresPerSample"],
+                       "sha256": _sha256(paths.CHUNKS / lod["file"])})
     survey = shared_survey()
     hp = float(survey.height_px_m)
     gp = float(survey.grid_px_m)
@@ -107,6 +140,14 @@ class Ground:
         self.a = {k: data[k] for k in data.files}
         self._chunks = {(c["cx"], c["cy"]): c for c in self.meta["chunks"]}
         self.extent_m = self.meta["extentM"]
+
+    def provenance(self) -> dict:
+        """The source chunk files this window was read from (hashed at
+        extraction; a window extracted before hashes were recorded is hashed
+        from the files on disk now)."""
+        if all("sha256" in c for c in self.meta["chunks"]):
+            return provenance(self.meta["chunks"])
+        return current_provenance(tuple(self.meta["centreM"]), float(self.meta["halfM"]))
 
     # -- heights -----------------------------------------------------------
     def _sampler(self):

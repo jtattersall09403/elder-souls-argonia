@@ -13,6 +13,18 @@ Run (from tooling/world-generation/):
     python -m worldgen.render_blueprint --blueprint world/sources/blueprints/<id>.json
     python -m worldgen.render_blueprint --blueprint <path> --out <dir> --no-terrain
 
+    python -m worldgen.render_blueprint --blueprint <path> --plan
+    python -m worldgen.render_blueprint --layout world/sources/blueprints/<id>.layout.json
+
+`--plan` adds only what a 3D top view cannot show (decision 0100 decision 3):
+each parcel's ground delta under its outline in metres against its fit's
+limit, door facing in degrees, the clearance polygons by tier and kept
+features, and every socket (quest sockets bound to a parcel, network
+terminals). `--layout` renders the blueprint `wb.py apply` derived from that
+layout (tooling/placement-workbench/output/apply/<placeId>.blueprint.json),
+refusing when the layout changed since that apply; it implies `--plan` and
+writes `<id>.plan.png`.
+
 Output: `<out>/<blueprint-id>.png` (default out: tooling/world-generation/output/
 blueprint-maps/, gitignored — renders are derived, the blueprint is the source).
 
@@ -159,9 +171,18 @@ class TerrainCrop:
         c1 = min(n, int(math.ceil(x1 / px)) + 1)
         r1 = min(n, int(math.ceil(z1 / px)) + 1)
         self.px_m = px
+        self.r0, self.c0 = r0, c0
         self.height = np.asarray(fields.height_m[r0:r1, c0:c1], dtype=np.float32)
         self.depth = np.asarray(fields.depth_m[r0:r1, c0:c1], dtype=np.float32)
         self.extent = (c0 * px, c1 * px, r1 * px, r0 * px)  # imshow extent, z down
+
+    def height_at(self, x: float, z: float) -> float:
+        """The compile's own sampler (`ProvinceSurvey.height_at`: the nearest
+        pixel of the refined raster), inside the crop."""
+        rows, cols = self.height.shape
+        r = min(max(int(z / self.px_m) - self.r0, 0), rows - 1)
+        c = min(max(int(x / self.px_m) - self.c0, 0), cols - 1)
+        return float(self.height[r, c])
 
     @property
     def hillshade(self) -> np.ndarray:
@@ -181,9 +202,91 @@ def _poly(ax, pts_m: np.ndarray, **kw) -> None:
     ax.add_patch(MplPolygon(pts_m[:, :2], closed=True, **kw))
 
 
+PLAN_COLOURS = {"hardClear": "#ff5c5c", "thinned": "#f2a65a", "kept": "#7bd88f",
+                "terminal": "#61dafb", "over": "#ff4d4d", "within": "#f4f7fb"}
+
+
+def _plan_overlay(ax, bp: dict, crop, to_m) -> dict:
+    """What a 3D top view cannot show (0100 decision 3): the ground delta
+    under each parcel's outline against its fit's limit (the compile's own
+    rule, `compile_settlement.FIT_MAX`; needs the terrain; red over the
+    limit), door facing in
+    degrees, the clearance polygons by tier and kept features, and sockets
+    with no position of their own (bound to a parcel) and network
+    terminals."""
+    from .compile_settlement import FIT_MAX, KitShelf, with_record_ground_fits
+    # the compile's own resolution (the district's kit set, not the first
+    # kit holding the id: 53 asset ids carry different fits in two kits)
+    fitted, _errors = with_record_ground_fits(bp, KitShelf())
+    fits = {p.get("id"): p.get("groundFit") for p in fitted.get("parcels", [])}
+    got = {"padDeltas": 0, "padOver": 0, "doorFacings": 0, "clearance": 0, "kept": 0,
+           "parcelSockets": 0, "terminals": 0}
+    centres = {}
+    for p in bp.get("parcels", []):
+        foot = p.get("footprint")
+        if not (foot and isinstance(foot[0], list)) or not p.get("centreUV"):
+            continue
+        m = to_m(foot)
+        cx, cz = to_m([p["centreUV"]])[0]
+        centres[p.get("id")] = (cx, cz)
+        if crop is None:
+            continue
+        heights = [crop.height_at(x, z) for x, z in m] + [crop.height_at(cx, cz)]
+        delta = max(heights) - min(heights)
+        fit = fits.get(p.get("id"))
+        limit = FIT_MAX.get(fit) if fit else None
+        over = limit is not None and delta > limit
+        text = f"\u0394{delta:.2f}" + (f"/{limit:.2f}" if limit is not None
+                                         and math.isfinite(limit) else "") + " m"
+        ax.text(float(m[:, 0].min()), float(m[:, 1].max()) + 1.0, text, fontsize=6.5,
+                color=PLAN_COLOURS["over" if over else "within"], zorder=9, va="top",
+                bbox=dict(boxstyle="round,pad=0.15", fc="#0d1218cc", ec="none"))
+        got["padDeltas"] += 1
+        got["padOver"] += int(over)
+    for dr in bp.get("doors", []):
+        if dr.get("thresholdUV") and dr.get("facingDeg") is not None:
+            cx, cz = to_m([dr["thresholdUV"]])[0]
+            facing = float(dr["facingDeg"])
+            dx, dz = math.sin(math.radians(facing)) * 8.5, -math.cos(math.radians(facing)) * 8.5
+            ax.text(cx + dx, cz + dz, f"{facing:.0f}\u00b0", fontsize=6.5, color="#ff8f5e",
+                    ha="center", va="center", zorder=9)
+            got["doorFacings"] += 1
+    clearance = bp.get("clearance") or {}
+    for tier, style in (("hardClear", (0, (5, 3))), ("thinned", (0, (1, 2)))):
+        for poly in clearance.get(tier) or []:
+            if poly and isinstance(poly[0], list):
+                _poly(ax, to_m(poly), fill=False, edgecolor=PLAN_COLOURS[tier],
+                      linewidth=1.1, linestyle=style, zorder=3)
+                got["clearance"] += 1
+    for item in clearance.get("kept") or []:
+        if isinstance(item, dict) and item.get("position"):
+            cx, cz = to_m([item["position"]])[0]
+            ax.plot(cx, cz, marker="o", markersize=7, markerfacecolor="none",
+                    markeredgecolor=PLAN_COLOURS["kept"], zorder=8)
+            ax.text(cx + 2, cz - 2, str(item.get("kind", "kept")), fontsize=6,
+                    color=PLAN_COLOURS["kept"], zorder=9)
+            got["kept"] += 1
+    for sk in bp.get("questSockets", []):
+        if not sk.get("position") and sk.get("parcelId") in centres:
+            cx, cz = centres[sk["parcelId"]]
+            ax.plot(cx, cz, marker="x", markersize=8, color="#c678dd", zorder=8)
+            ax.text(cx + 2, cz + 2, f"{sk.get('kind')}", fontsize=6, color="#e0b6ef", zorder=9)
+            got["parcelSockets"] += 1
+    for t in bp.get("networkTerminals", []):
+        if t.get("entryUV"):
+            cx, cz = to_m([t["entryUV"]])[0]
+            ax.plot(cx, cz, marker="^", markersize=8, color=PLAN_COLOURS["terminal"],
+                    markeredgecolor="#0d1218", zorder=8)
+            ax.text(cx + 2, cz + 2, str(t.get("id", "")).rsplit(".", 1)[-1], fontsize=6,
+                    color=PLAN_COLOURS["terminal"], zorder=9)
+            got["terminals"] += 1
+    return got
+
+
 def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD_M,
            seed: int | None = None, extent_m: float | None = None,
-           crop_m: tuple[float, float, float, float] | None = None) -> dict:
+           crop_m: tuple[float, float, float, float] | None = None,
+           plan: bool = False) -> dict:
     """Render one blueprint. Returns a summary of what was drawn.
 
     `crop_m` (x0, z0, x1, z1 in world metres) overrides the automatic box so a
@@ -345,6 +448,9 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
                 color="#e0b6ef", zorder=8)
         drawn["sockets"] += 1
 
+    if plan:
+        drawn["plan"] = _plan_overlay(ax, bp, crop, to_m)
+
     # -- frame, scale bar, title block, legend ------------------------------
     ax.set_xlim(x0, x1)
     ax.set_ylim(z1, z0)                    # Z grows south — north is up
@@ -384,6 +490,19 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
         Line2D([], [], color="#7f8c99", linewidth=0.5, label="contour (m)"),
         Patch(facecolor="#6fb7e0", alpha=0.55, label="water"),
     ]
+    if plan:
+        handles += [
+            Line2D([], [], color=PLAN_COLOURS["hardClear"], linestyle=(0, (5, 3)),
+                   label="clearance: hard clear"),
+            Line2D([], [], color=PLAN_COLOURS["thinned"], linestyle=(0, (1, 2)),
+                   label="clearance: thinned"),
+            Line2D([], [], color=PLAN_COLOURS["kept"], marker="o", linestyle="",
+                   label="kept feature"),
+            Line2D([], [], color=PLAN_COLOURS["terminal"], marker="^", linestyle="",
+                   label="network terminal"),
+            Line2D([], [], color="#ffffff", linestyle="", marker="$\\Delta$",
+                   label="ground delta under the outline / fit limit (m)"),
+        ]
     ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(1.01, 1.0),
               fontsize=7, framealpha=0.9)
 
@@ -411,9 +530,37 @@ def load_blueprint(path: Path) -> dict:
     return data["blueprint"]
 
 
+APPLY_OUT = REPO_ROOT / "tooling" / "placement-workbench" / "output" / "apply"
+
+
+def applied_blueprint(layout: Path, apply_out: Path = APPLY_OUT) -> Path:
+    """The derived blueprint `wb.py apply` left for this layout (its compile
+    step writes it; `apply` deletes the old one first), refused unless its
+    own `authoredOn.layout.sha256` is this layout file's hash: a stale plan
+    is worse than none."""
+    import hashlib
+    doc = json.loads(Path(layout).read_text())
+    derived = apply_out / f"{doc.get('placeId')}.blueprint.json"
+    if not derived.exists():
+        raise ValueError(f"no applied blueprint for {doc.get('placeId')}: run "
+                         f"`wb.py apply {layout}` (with its compile) first")
+    authored = (json.loads(derived.read_text())["blueprint"].get("authoredOn") or {})
+    now = hashlib.sha256(Path(layout).read_bytes()).hexdigest()
+    if (authored.get("layout") or {}).get("sha256") != now:
+        raise ValueError(f"{layout} changed since the last apply: run `wb.py apply {layout}` "
+                         f"again")
+    return derived
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--blueprint", type=Path, required=True, help="blueprint JSON path")
+    src = ap.add_mutually_exclusive_group(required=True)
+    src.add_argument("--blueprint", type=Path, help="blueprint JSON path")
+    src.add_argument("--layout", type=Path,
+                     help="a workbench layout: render the blueprint `wb.py apply` derived from "
+                          "it (implies --plan)")
+    ap.add_argument("--plan", action="store_true",
+                    help="add ground deltas, door facings, clearance tiers and sockets")
     ap.add_argument("--out", type=Path, default=DEFAULT_OUT, help="output directory")
     ap.add_argument("--pad-m", type=float, default=PAD_M, help="crop padding, metres")
     ap.add_argument("--seed", type=int, default=None, help="label-jitter seed")
@@ -432,7 +579,12 @@ def main(argv: list[str] | None = None) -> int:
         x0, z0, x1, z1 = (float(v) for v in args.crop.split(","))
         crop_m = (x0, z0, x1, z1)
 
-    bp = load_blueprint(args.blueprint)
+    plan = args.plan or args.layout is not None
+    try:
+        bp = load_blueprint(args.blueprint or applied_blueprint(args.layout))
+    except ValueError as err:
+        print(f"render_blueprint: {err}")
+        return 1
     if not args.skip_validate:
         # Catalogue cross-check is deliberately off: this tool renders drafts
         # and fixtures too. `python -m worldgen.blueprint --check` is the gate.
@@ -444,8 +596,9 @@ def main(argv: list[str] | None = None) -> int:
                   "to render anyway")
             return 1
 
-    summary = render(bp, args.out / f"{args.name or bp['id']}.png", terrain=not args.no_terrain,
-                     pad_m=args.pad_m, seed=args.seed, crop_m=crop_m)
+    stem = args.name or (f"{bp['id']}.plan" if args.layout else bp["id"])
+    summary = render(bp, args.out / f"{stem}.png", terrain=not args.no_terrain,
+                     pad_m=args.pad_m, seed=args.seed, crop_m=crop_m, plan=plan)
     print(json.dumps(summary, indent=1))
     return 0
 

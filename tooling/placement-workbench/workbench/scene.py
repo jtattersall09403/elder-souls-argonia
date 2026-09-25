@@ -90,6 +90,7 @@ class Scene:
     pieces: list[Piece] = field(default_factory=list)
     paths: list[dict] = field(default_factory=list)    # {id, kind, widthM, pointsM [[x,z]...]}
     log: list[str] = field(default_factory=list)
+    layout: dict | None = None     # {path, sha256} of the layout `apply` built it from
 
     @classmethod
     def load(cls, path: Path) -> "Scene":
@@ -103,14 +104,15 @@ class Scene:
         return cls(path=path, placeId=data.get("placeId", ""),
                    groundStem=data.get("groundStem", ""),
                    pieces=[Piece(**p) for p in data.get("pieces", [])],
-                   paths=data.get("paths", []), log=data.get("log", []))
+                   paths=data.get("paths", []), log=data.get("log", []),
+                   layout=data.get("layout"))
 
     def save(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         out = {"schemaVersion": SCHEMA_VERSION, "placeId": self.placeId,
                "groundStem": self.groundStem,
                "pieces": [asdict(p) for p in self.pieces], "paths": self.paths,
-               "log": self.log[-400:]}
+               "log": self.log[-400:], "layout": self.layout}
         tmp = self.path.with_suffix(".tmp")
         tmp.write_text(json.dumps(out, indent=1))
         tmp.replace(self.path)

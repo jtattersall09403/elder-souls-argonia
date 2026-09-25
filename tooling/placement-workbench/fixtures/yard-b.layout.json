@@ -1,0 +1,594 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.fixture.proving-ground-b",
+ "window": {
+  "centreKm": [
+   4.32,
+   6.01
+  ],
+  "halfM": 150.0
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "gate",
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
+   "at": [
+    4187.0,
+    6025.0
+   ],
+   "yaw": 100.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "towerA",
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
+   "at": [
+    4190.0,
+    6011.0
+   ],
+   "yaw": 100.0
+  },
+  {
+   "op": "snap",
+   "child": "towerA",
+   "child_face": "east",
+   "parent": "gate",
+   "parent_face": "west",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "d1",
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+   "at": [
+    4190.0,
+    6011.0
+   ],
+   "yaw": 100.0
+  },
+  {
+   "op": "snap",
+   "child": "d1",
+   "child_face": "east",
+   "parent": "towerA",
+   "parent_face": "west",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "tower",
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01",
+   "at": [
+    4190.0,
+    6011.0
+   ],
+   "yaw": 100.0
+  },
+  {
+   "op": "snap",
+   "child": "tower",
+   "child_face": "west",
+   "parent": "gate",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "d2",
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
+   "at": [
+    4190.0,
+    6011.0
+   ],
+   "yaw": 100.0
+  },
+  {
+   "op": "snap",
+   "child": "d2",
+   "child_face": "west",
+   "parent": "tower",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "snap",
+   "child": "towerA",
+   "child_face": "east",
+   "parent": "gate",
+   "parent_face": "west",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "house",
+   "asset": "composite:farmhouse/farmhouse01-with-door",
+   "at": [
+    4223.0,
+    5997.0
+   ],
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "stilt",
+   "asset": "composite:stilt/stilthouse-with-door",
+   "at": [
+    4314.0,
+    6029.0
+   ],
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "mud",
+   "asset": "composite:stilt/bamboohut01-with-door",
+   "at": [
+    4258.0,
+    6000.0
+   ],
+   "yaw": 28.4,
+   "settle": true
+  },
+  {
+   "op": "move",
+   "uid": "mud",
+   "yaw": 250.0,
+   "resettle": true
+  },
+  {
+   "op": "place",
+   "uid": "post",
+   "asset": "vanilla:clutter/signage/whiterun/signwrpost01",
+   "at": [
+    4198.0,
+    6028.5
+   ],
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "swall",
+   "asset": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
+   "at": [
+    4208.0,
+    6040.0
+   ],
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "sign",
+   "asset": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01",
+   "at": [
+    4198.0,
+    6028.0
+   ]
+  },
+  {
+   "op": "mount",
+   "child": "sign",
+   "parent": "post"
+  },
+  {
+   "op": "place",
+   "uid": "sconce",
+   "asset": "vanilla:clutter/imperial/impwallsconcecandle01",
+   "at": [
+    4206.0,
+    6039.0
+   ]
+  },
+  {
+   "op": "mount",
+   "child": "sconce",
+   "parent": "swall"
+  },
+  {
+   "op": "place",
+   "uid": "cave",
+   "asset": "bmv:architecture/philscaves/small/doorcaveb",
+   "at": [
+    4351.0,
+    6005.0
+   ],
+   "yaw": 180.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "bw1",
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+   "at": [
+    4372.0,
+    6032.0
+   ],
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "bw2",
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+   "at": [
+    4375.0,
+    6032.0
+   ]
+  },
+  {
+   "op": "snap",
+   "child": "bw2",
+   "child_face": "east",
+   "parent": "bw1",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "bw3",
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+   "at": [
+    4378.0,
+    6032.0
+   ]
+  },
+  {
+   "op": "snap",
+   "child": "bw3",
+   "child_face": "west",
+   "parent": "bw2",
+   "parent_face": "west",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "snap",
+   "child": "bw3",
+   "child_face": "west",
+   "parent": "bw2",
+   "parent_face": "west",
+   "by": "evidence",
+   "pick": 1,
+   "settle": true
+  },
+  {
+   "op": "snap",
+   "child": "bw3",
+   "child_face": "west",
+   "parent": "bw2",
+   "parent_face": "west",
+   "by": "evidence"
+  },
+  {
+   "op": "snap",
+   "child": "bw2",
+   "child_face": "east",
+   "parent": "bw1",
+   "parent_face": "east",
+   "by": "evidence"
+  },
+  {
+   "op": "snap",
+   "child": "bw2",
+   "child_face": "east",
+   "parent": "bw1",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "snap",
+   "child": "bw3",
+   "child_face": "west",
+   "parent": "bw2",
+   "parent_face": "west",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "stage",
+   "asset": "composite:docks/quay-run-2",
+   "at": [
+    4405.9,
+    6047.9
+   ],
+   "yaw": 320.0,
+   "settle": true
+  },
+  {
+   "op": "move",
+   "uid": "stage",
+   "forward": 0.025
+  },
+  {
+   "op": "place",
+   "uid": "hull",
+   "asset": "ferryraft:snt/ferry/ferryraft01",
+   "at": [
+    4414.486,
+    6058.132
+   ],
+   "yaw": 320.0,
+   "settle": true
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.proving-ground-b.way",
+   "points": [
+    [
+     4165.0,
+     6026.0
+    ],
+    [
+     4187.0,
+     6025.0
+    ],
+    [
+     4240.0,
+     6022.0
+    ],
+    [
+     4300.0,
+     6019.0
+    ],
+    [
+     4360.0,
+     6022.0
+    ],
+    [
+     4395.0,
+     6034.0
+    ],
+    [
+     4403.3,
+     6036.0
+    ]
+   ],
+   "width": 4.3,
+   "kind": "road"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.proving-ground-b.imperial-house-path",
+   "points": [
+    [
+     4224.2,
+     6022.2
+    ],
+    [
+     4224.18,
+     6017.56
+    ]
+   ]
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.proving-ground-b.stilt-hut-path",
+   "points": [
+    [
+     4316.4,
+     6019.1
+    ],
+    [
+     4316.43,
+     6026.3
+    ]
+   ]
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.proving-ground-b.mud-hut-path",
+   "points": [
+    [
+     4262.0,
+     6020.8
+    ],
+    [
+     4257.52,
+     6002.8
+    ]
+   ]
+  },
+  {
+   "op": "bind",
+   "uid": "d1",
+   "kind": "run",
+   "id": "parcel.proving-ground-b.imperial-wall-run"
+  },
+  {
+   "op": "bind",
+   "uid": "towerA",
+   "kind": "run",
+   "id": "parcel.proving-ground-b.imperial-wall-run",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "gate",
+   "kind": "run",
+   "id": "parcel.proving-ground-b.imperial-wall-run",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "tower",
+   "kind": "run",
+   "id": "parcel.proving-ground-b.imperial-wall-run",
+   "index": 3
+  },
+  {
+   "op": "bind",
+   "uid": "d2",
+   "kind": "run",
+   "id": "parcel.proving-ground-b.imperial-wall-run",
+   "index": 4
+  },
+  {
+   "op": "bind",
+   "uid": "bw1",
+   "kind": "run",
+   "id": "parcel.proving-ground-b.boardwalk-run"
+  },
+  {
+   "op": "bind",
+   "uid": "bw2",
+   "kind": "run",
+   "id": "parcel.proving-ground-b.boardwalk-run",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "bw3",
+   "kind": "run",
+   "id": "parcel.proving-ground-b.boardwalk-run",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "house",
+   "kind": "parcel",
+   "id": "parcel.proving-ground-b.imperial-house"
+  },
+  {
+   "op": "bind",
+   "uid": "post",
+   "kind": "parcel",
+   "id": "parcel.proving-ground-b.sign-post"
+  },
+  {
+   "op": "bind",
+   "uid": "swall",
+   "kind": "parcel",
+   "id": "parcel.proving-ground-b.sconce-wall"
+  },
+  {
+   "op": "bind",
+   "uid": "mud",
+   "kind": "parcel",
+   "id": "parcel.proving-ground-b.mud-hut"
+  },
+  {
+   "op": "bind",
+   "uid": "stilt",
+   "kind": "parcel",
+   "id": "parcel.proving-ground-b.stilt-hut"
+  },
+  {
+   "op": "bind",
+   "uid": "stage",
+   "kind": "parcel",
+   "id": "parcel.proving-ground-b.landing-stage"
+  },
+  {
+   "op": "bind",
+   "uid": "hull",
+   "kind": "parcel",
+   "id": "parcel.proving-ground-b.hull-berth"
+  },
+  {
+   "op": "bind",
+   "uid": "cave",
+   "kind": "parcel",
+   "id": "parcel.proving-ground-b.cave-mouth"
+  },
+  {
+   "op": "bind",
+   "uid": "sign",
+   "kind": "landmark",
+   "id": "landmark.proving-ground-b.huntsman-sign"
+  },
+  {
+   "op": "bind",
+   "uid": "sconce",
+   "kind": "landmark",
+   "id": "landmark.proving-ground-b.sconce"
+  },
+  {
+   "op": "mount",
+   "child": "sconce",
+   "parent": "swall"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.proving-ground-b.way",
+   "points": [
+    [
+     4165.0,
+     6026.0
+    ],
+    [
+     4194.0,
+     6024.7
+    ],
+    [
+     4240.0,
+     6022.0
+    ],
+    [
+     4300.0,
+     6019.0
+    ],
+    [
+     4360.0,
+     6022.0
+    ],
+    [
+     4390.0,
+     6030.0
+    ],
+    [
+     4398.0,
+     6040.0
+    ],
+    [
+     4403.27,
+     6044.76
+    ]
+   ],
+   "width": 4.3,
+   "kind": "road"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.proving-ground-b.imperial-house-path",
+   "points": [
+    [
+     4228.2,
+     6022.3
+    ],
+    [
+     4228.18,
+     6007.56
+    ]
+   ]
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.proving-ground-b.imperial-house-path",
+   "points": [
+    [
+     4221.2,
+     6023.2
+    ],
+    [
+     4221.18,
+     6000.56
+    ]
+   ]
+  }
+ ]
+}

@@ -21,6 +21,12 @@ A piece's `role` (set with `wb.py bind`) says where its pose goes:
   its `layer` and `evidence`. Roll and mirror are refused: the runtime
   turns a piece by yaw and pitch only.
 
+`--write` also records `authoredOn` (0100 decision 6): the sha256 of the
+ground window's source chunk files, of every kit manifest a piece comes
+from, of the layout file `apply` built the scene from, and the workbench
+schemaVersion, so a later change to the ground or a kit under an authored
+place is detected, never silent.
+
 Scene paths whose id matches a blueprint route write its `via` (UV);
 `street_router --apply` derives its `points` from them. A blueprint door on a bound shell takes the threshold and
 facing of the doorway `wb.py doors` measures nearest a path (`door_poses`).
@@ -33,7 +39,7 @@ import re
 from pathlib import Path
 
 from .assembly import _rel
-from .scene import Scene
+from .scene import SCHEMA_VERSION, Scene
 
 UV_ROUND = 9
 
@@ -151,6 +157,27 @@ def door_poses(scene: Scene, extent: float) -> dict[str, dict]:
     return out
 
 
+def _sha256(path: Path) -> str:
+    import hashlib
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def authored_on(scene: Scene) -> dict:
+    """What the poses were authored on: the ground window's chunk files,
+    the kit manifests of every piece, the layout file and the workbench
+    schema (0100 decision 6)."""
+    from . import paths
+    from .kits import Catalogue
+    cat = Catalogue()
+    ground = scene.ground()
+    kits = sorted({cat.row(p.asset)["kit"] for p in scene.pieces})
+    return {"wbSchemaVersion": SCHEMA_VERSION,
+            "ground": {"centreM": ground.meta["centreM"], "halfM": ground.meta["halfM"],
+                       **ground.provenance()},
+            "kits": {k: _sha256(paths.PUBLISHED_KITS / f"{k}.kit.json") for k in kits},
+            "layout": scene.layout}
+
+
 def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
     doc = json.loads(blueprint.read_text())
     bp = doc["blueprint"]
@@ -194,6 +221,7 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
             door.update(fields)
             changed.append(door["id"])
     if write:
+        bp["authoredOn"] = authored_on(scene)
         # the settlement passes' own writer convention (blueprint_footprints)
         blueprint.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
     return {"blueprint": str(blueprint), "written": write, "changed": changed,

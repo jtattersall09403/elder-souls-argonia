@@ -19,6 +19,7 @@ import math
 import os
 import subprocess
 import tempfile
+import time
 from pathlib import Path
 
 import numpy as np
@@ -127,18 +128,13 @@ def _door_side(cat: Catalogue, asset: str) -> float | None:
     return None
 
 
-def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = None,
-           res: int = 1024, out: Path | None = None, span: float | None = None,
-           bearing: float | None = None, cut: float = 0.0, samples: int = 12,
-           highlight: list[str] | None = None, pitch: float = 32.0) -> dict:
-    focus = focus or []
-    ground = scene.ground()
+def _plan(cat: Catalogue, scene: Scene, view: str, focus: list[str], span: float | None,
+          bearing: float | None, cut: float, pitch: float) -> dict:
+    """One view's cameras: {shots, span, bearing, centre, dist, groundHalf}."""
     low, high = _frame(cat, scene, focus)
     centre = (low + high) / 2
     extent = float(max(high[0] - low[0], high[1] - low[1], high[2] - low[2], 4.0))
     span = float(span or extent * 1.35)
-    out = Path(out or paths.OUTPUT / "renders" / Path(scene.path).stem / f"{view}.png")
-    out.parent.mkdir(parents=True, exist_ok=True)
     if bearing is None:
         bearing = 0.0
         if focus and view in FRONT:
@@ -184,63 +180,201 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
                           "bearing": bb % 360.0, "sunDir": list(sun / np.linalg.norm(sun))})
     else:
         raise ValueError(f"unknown view {view!r}")
-    work = Path(tempfile.mkdtemp(prefix="wb-render-", dir=paths.OUTPUT))
-    half = span * (0.75 if view == "top" else 1.6)
-    _ground_arrays(ground, centre, half, work / "ground.npz")
-    pieces = []
-    for p in scene.pieces:
-        got = cat.raw_glb(p.asset)
-        if got is None or p.y is None:
-            continue
-        a, b = p.matrix()
-        m = np.eye(4)
-        m[:3, :3], m[:3, 3] = a, b
-        tint = [0.95, 0.25, 0.85] if highlight and p.uid in highlight else None
-        pieces.append({"glb": str(got[0]), "assetId": p.asset, "matrix": m.tolist(),
-                       "tint": tint, "uid": p.uid})
-    rx, ry = res, res if view in ("top",) else int(res * 0.75)
-    job = {"res": [rx, ry], "samples": samples, "pieces": pieces,
-           "ground": str(work / "ground.npz"), "shots": []}
-    for i, s in enumerate(shots):
-        target = work / f"{s['name']}.png"
-        job["shots"].append({"ortho": s["ortho"], "orthoScale": span, "lens": LENS_MM,
-                             "matrix": _camera(s["rot"], s["pos"]),
-                             "clipStart": s.get("clipStart", 0.1), "clipEnd": dist * 3,
-                             "lights": s.get("lights", []),
-                             "sunDir": s.get("sunDir"),
-                             "res": [rx, ry], "out": str(target)})
-    (work / "job.json").write_text(json.dumps(job))
-    env = dict(os.environ, JOB=str(work / "job.json"))
-    proc = subprocess.run([str(paths.LINUX_BLENDER), "-b", "--factory-startup", "--python",
-                           str(paths.BLENDER_SCRIPT)], env=env, capture_output=True, text=True,
-                          timeout=TIMEOUT_S)
-    if proc.returncode != 0 or "[wb-render] done" not in proc.stdout:
-        raise RuntimeError("render failed:\n" + proc.stdout[-4000:] + proc.stderr[-2000:])
-    warnings = [l for l in proc.stdout.splitlines() if "[wb-render] warning" in l
-                or "[wb-render] missing" in l]
+    return {"shots": shots, "span": span, "bearing": bearing, "centre": centre, "dist": dist,
+            "groundHalf": span * (0.75 if view == "top" else 1.6), "view": view}
+
+
+def _launch(cat: Catalogue, scene: Scene, plans: list[dict], res: int, samples: int,
+            highlight: list[str] | None, ground_centre, ground_half: float) -> tuple[list, list]:
+    """ONE Blender launch rendering every shot of every plan; the temporary
+    work dir is removed however the launch ends. Returns (images per plan,
+    warnings); each image is annotated by the caller."""
+    import shutil
     from PIL import Image
-    images = []
-    for s, js in zip(shots, job["shots"]):
-        img = Image.open(js["out"]).convert("RGB")
-        if s["ortho"]:
-            _annotate_ortho(img, cat, scene, s, span, view, bearing, ground)
-        else:
-            _label_pieces(img, scene, _perspective_projector(img, s))
-            _caption(img, f"{view} bearing {s['bearing']:.0f} deg, pitch {pitch:.0f} deg; "
-                          f"grid 1 m, bright 5 m")
-        images.append(img)
+    work = Path(tempfile.mkdtemp(prefix="wb-render-", dir=paths.OUTPUT))
+    try:
+        _ground_arrays(scene.ground(), ground_centre, ground_half, work / "ground.npz")
+        pieces = []
+        for p in scene.pieces:
+            got = cat.raw_glb(p.asset)
+            if got is None or p.y is None:
+                continue
+            a, b = p.matrix()
+            m = np.eye(4)
+            m[:3, :3], m[:3, 3] = a, b
+            tint = [0.95, 0.25, 0.85] if highlight and p.uid in highlight else None
+            pieces.append({"glb": str(got[0]), "assetId": p.asset, "matrix": m.tolist(),
+                           "tint": tint, "uid": p.uid})
+        job = {"res": [res, res], "samples": samples, "pieces": pieces,
+               "ground": str(work / "ground.npz"), "shots": []}
+        for k, plan in enumerate(plans):
+            rx, ry = res, res if plan["view"] == "top" else int(res * 0.75)
+            plan["res"] = (rx, ry)
+            for s in plan["shots"]:
+                job["shots"].append({"ortho": s["ortho"], "orthoScale": plan["span"],
+                                     "lens": LENS_MM,
+                                     "matrix": _camera(s["rot"], s["pos"]),
+                                     "clipStart": s.get("clipStart", 0.1),
+                                     "clipEnd": plan["dist"] * 3,
+                                     "lights": s.get("lights", []), "sunDir": s.get("sunDir"),
+                                     "res": [rx, ry], "out": str(work / f"{k}-{s['name']}.png")})
+        (work / "job.json").write_text(json.dumps(job))
+        env = dict(os.environ, JOB=str(work / "job.json"))
+        proc = subprocess.run([str(paths.LINUX_BLENDER), "-b", "--factory-startup", "--python",
+                               str(paths.BLENDER_SCRIPT)], env=env, capture_output=True,
+                              text=True, timeout=TIMEOUT_S)
+        if proc.returncode != 0 or "[wb-render] done" not in proc.stdout:
+            raise RuntimeError("render failed:\n" + proc.stdout[-4000:] + proc.stderr[-2000:])
+        warnings = [l for l in proc.stdout.splitlines() if "[wb-render] warning" in l
+                    or "[wb-render] missing" in l]
+        outs = iter(job["shots"])
+        images = [[Image.open(next(outs)["out"]).convert("RGB") for _ in plan["shots"]]
+                  for plan in plans]
+        for per in images:
+            for img in per:
+                img.load()              # read before the work dir goes
+        return images, warnings
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+
+
+def _annotate(img, cat, scene, plan, shot, ground, pitch: float) -> None:
+    if shot["ortho"]:
+        _annotate_ortho(img, cat, scene, shot, plan["span"], plan["view"], plan["bearing"], ground)
+    else:
+        _label_pieces(img, scene, _perspective_projector(img, shot))
+        _caption(img, f"{plan['view']} bearing {shot['bearing']:.0f} deg, pitch {pitch:.0f} deg; "
+                      f"grid 1 m, bright 5 m")
+
+
+def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = None,
+           res: int = 1024, out: Path | None = None, span: float | None = None,
+           bearing: float | None = None, cut: float = 0.0, samples: int = 12,
+           highlight: list[str] | None = None, pitch: float = 32.0) -> dict:
+    focus = focus or []
+    plan = _plan(cat, scene, view, focus, span, bearing, cut, pitch)
+    out = Path(out or paths.OUTPUT / "renders" / Path(scene.path).stem / f"{view}.png")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    (images,), warnings = _launch(cat, scene, [plan], res, samples, highlight, plan["centre"],
+                                  plan["groundHalf"])
+    ground = scene.ground()
+    for s, img in zip(plan["shots"], images):
+        _annotate(img, cat, scene, plan, s, ground, pitch)
+    rx, ry = plan["res"]
     if len(images) == 1:
         images[0].save(out)
     else:
+        from PIL import Image
         cols = 4
         rows = math.ceil(len(images) / cols)
         sheet = Image.new("RGB", (cols * rx, rows * ry), "white")
         for i, img in enumerate(images):
             sheet.paste(img, ((i % cols) * rx, (i // cols) * ry))
         sheet.save(out)
-    return {"png": str(out), "view": view, "spanM": round(span, 2),
-            "bearingDeg": round(bearing, 1), "pieces": len(pieces), "warnings": warnings,
-            "pxPerM": round(rx / span, 2) if shots[0]["ortho"] else None}
+    pieces = sum(1 for p in scene.pieces if p.y is not None and cat.raw_glb(p.asset) is not None)
+    return {"png": str(out), "view": view, "spanM": round(plan["span"], 2),
+            "bearingDeg": round(plan["bearing"], 1), "pieces": pieces, "warnings": warnings,
+            "pxPerM": round(rx / plan["span"], 2) if plan["shots"][0]["ortho"] else None}
+
+
+ISO_BEARINGS = (0.0, 180.0)      # `iso` adds 45: the two isos look from opposite corners
+
+
+def buildings(cat: Catalogue, scene: Scene) -> list[dict]:
+    """Every building of the scene: a piece bound as a parcel, with the
+    assembly members bound to that parcel; the camera bearing that looks at
+    its best doorway (the door record `check` reports: the doorway nearest a
+    path, its outward direction), else at its +y side."""
+    from . import measure
+    out = []
+    for p in scene.pieces:
+        if (p.role or {}).get("kind") != "parcel" or p.y is None:
+            continue
+        pid = p.role["id"]
+        members = [q.uid for q in scene.pieces if q is not p and (q.role or {}).get("kind")
+                   == "assembly" and q.role.get("id") == pid and q.y is not None]
+        report = measure.door_report(cat, scene, p)
+        facing = None
+        if report:
+            best = report["best"]
+            facing = best["outwardDeg"] if best["outwardDeg"] is not None else best["facingDeg"]
+        bearing = ((facing if facing is not None else p.yaw) + 180.0) % 360.0
+        out.append({"uid": p.uid, "parcel": pid, "focus": [p.uid, *members],
+                    "bearing": bearing, "doorFacingDeg": facing})
+    return out
+
+
+def round_shots(cat: Catalogue, scene: Scene, spec: str) -> list[dict]:
+    """`auto` = top, a front per building, two isos at opposite bearings; else
+    a comma list of top | iso | iso:BEARING | front:UID."""
+    by_uid = {b["uid"]: b for b in buildings(cat, scene)}
+    wanted = []
+    for tok in (["top", *(f"front:{u}" for u in by_uid), "iso"] if spec == "auto"
+                else [t.strip() for t in spec.split(",") if t.strip()]):
+        view, _, arg = tok.partition(":")
+        if view == "top":
+            wanted.append({"view": "top", "subject": "whole scene", "focus": [], "bearing": None})
+        elif view == "iso" and not arg:
+            wanted += [{"view": "iso", "subject": f"whole scene from {(b + 45) % 360:.0f} deg",
+                        "focus": [], "bearing": b} for b in ISO_BEARINGS]
+        elif view == "iso":
+            wanted.append({"view": "iso", "subject": f"whole scene from {float(arg):.0f} deg",
+                           "focus": [], "bearing": float(arg) - 45.0})
+        elif view == "front" and arg:
+            b = by_uid.get(arg)
+            if b is None:
+                scene.piece(arg)            # a clear KeyError for an unknown uid
+                wanted.append({"view": "front", "subject": arg, "focus": [arg], "bearing": None})
+            else:
+                wanted.append({"view": "front", "subject": f"{b['uid']} ({b['parcel']})",
+                               "focus": b["focus"], "bearing": b["bearing"],
+                               "doorFacingDeg": b["doorFacingDeg"]})
+        else:
+            raise ValueError(f"shot {tok!r}: use top | iso | iso:BEARING | front:UID")
+    return wanted
+
+
+def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 1024,
+                 samples: int = 12, pitch: float = 32.0) -> dict:
+    """A render ROUND (0100 decision 2): every shot in ONE Blender launch,
+    written to output/renders/<scene>/round-N/ with a manifest naming each
+    shot's subject."""
+    t0 = time.time()
+    wanted = round_shots(cat, scene, spec)
+    plans = [_plan(cat, scene, w["view"], w["focus"], None, w["bearing"], 0.0, pitch)
+             for w in wanted]
+    lows = np.array([pl["centre"][:2] - pl["groundHalf"] for pl in plans])
+    highs = np.array([pl["centre"][:2] + pl["groundHalf"] for pl in plans])
+    lo, hi = lows.min(axis=0), highs.max(axis=0)
+    gc = np.array([(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, 0.0])
+    half = float(max(hi - lo) / 2)
+    base = paths.OUTPUT / "renders" / Path(scene.path).stem
+    n = 1 + max((int(d.name.split("-", 1)[1]) for d in base.glob("round-*")
+                 if d.name.split("-", 1)[1].isdigit()), default=0)
+    out_dir = base / f"round-{n}"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    images, warnings = _launch(cat, scene, plans, res, samples, None, gc, half)
+    ground = scene.ground()
+    shots = []
+    for k, (w, plan, imgs) in enumerate(zip(wanted, plans, images)):
+        shot, img = plan["shots"][0], imgs[0]
+        _annotate(img, cat, scene, plan, shot, ground, pitch)
+        name = f"{k:02d}-{w['view']}" + (f"-{w['focus'][0]}" if w["view"] == "front" else
+                                         f"-{plan['shots'][0].get('bearing', 0):.0f}"
+                                         if w["view"] == "iso" else "")
+        png = out_dir / f"{name}.png"
+        img.save(png)
+        shots.append({"png": str(png), "view": w["view"], "subject": w["subject"],
+                      "focus": w["focus"], "bearingDeg": round(shot.get("bearing", plan["bearing"]), 1),
+                      "spanM": round(plan["span"], 2),
+                      **({"doorFacingDeg": w["doorFacingDeg"]} if "doorFacingDeg" in w else {})})
+    manifest = {"scene": str(scene.path), "round": n, "spec": spec, "res": res,
+                "samples": samples, "seconds": round(time.time() - t0, 1),
+                "groundHalfM": round(half, 1), "warnings": warnings, "shots": shots}
+    (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
+    return {"round": n, "dir": str(out_dir), "manifest": str(out_dir / "manifest.json"),
+            "shots": [(s["png"], s["subject"]) for s in shots], "seconds": manifest["seconds"],
+            "warnings": warnings}
 
 
 def _font(size: int):

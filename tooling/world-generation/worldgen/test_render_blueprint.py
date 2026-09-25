@@ -59,3 +59,46 @@ def test_renders_over_the_real_terrain_hillshade(tmp_path):
     summary = render_blueprint.render(bp, out, terrain=True, seed=6)
     assert summary["terrain"] is True
     assert out.exists() and out.stat().st_size > 10_000
+
+
+def test_plan_overlay_draws_only_what_a_top_view_cannot(tmp_path):
+    """0100 decision 3: clearance tiers, kept features, door facings and
+    sockets; ground deltas need the terrain, so none without it."""
+    bp = render_blueprint.load_blueprint(FIXTURE)
+    summary = render_blueprint.render(bp, tmp_path / "p.png", terrain=False, seed=6, plan=True)
+    plan = summary["plan"]
+    clear = bp["clearance"]
+    assert plan["clearance"] == len(clear["hardClear"]) + len(clear["thinned"])
+    assert plan["kept"] == len(clear["kept"])
+    assert plan["doorFacings"] == sum(1 for d in bp["doors"] if d.get("facingDeg") is not None)
+    assert plan["terminals"] == sum(1 for t in bp["networkTerminals"] if t.get("entryUV"))
+    assert plan["padDeltas"] == 0
+    assert "plan" not in render_blueprint.render(bp, tmp_path / "q.png", terrain=False, seed=6)
+
+
+def test_plan_ground_delta_is_measured_on_the_terrain(tmp_path):
+    bp = render_blueprint.load_blueprint(FIXTURE)
+    summary = render_blueprint.render(bp, tmp_path / "t.png", terrain=True, seed=6, plan=True)
+    assert summary["plan"]["padDeltas"] == sum(
+        1 for p in bp["parcels"] if p.get("footprint") and p.get("centreUV"))
+
+
+def test_layout_input_refuses_a_layout_changed_since_apply(tmp_path):
+    import hashlib
+    import json
+
+    import pytest
+    layout = tmp_path / "x.layout.json"
+    layout.write_text(json.dumps({"schemaVersion": 1, "placeId": "place.x", "ops": []}))
+    out = tmp_path / "apply"
+    out.mkdir()
+    with pytest.raises(ValueError, match="run `wb.py apply"):
+        render_blueprint.applied_blueprint(layout, out)
+    doc = json.loads(FIXTURE.read_text())
+    sha = hashlib.sha256(layout.read_bytes()).hexdigest()
+    doc["blueprint"]["authoredOn"] = {"layout": {"path": "x", "sha256": sha}}
+    (out / "place.x.blueprint.json").write_text(json.dumps(doc))
+    assert render_blueprint.applied_blueprint(layout, out) == out / "place.x.blueprint.json"
+    layout.write_text(json.dumps({"schemaVersion": 1, "placeId": "place.x", "ops": [1]}))
+    with pytest.raises(ValueError, match="changed since the last apply"):
+        render_blueprint.applied_blueprint(layout, out)

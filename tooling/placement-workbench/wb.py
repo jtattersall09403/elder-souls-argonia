@@ -26,6 +26,13 @@ whole state. Prints JSON on stdout and a timing line on stderr.
                                           (every pose that passes the fit's slope rule)
     wb.py SCENE compile [BLUEPRINT]       (the real derive passes + compile on the scene's
                                           poses, in a temporary copy; errors by piece)
+    wb.py SCENE render --shots auto|LIST  (one Blender launch: top, a front per building,
+                                          two isos; output/renders/<scene>/round-N/)
+    wb.py apply LAYOUT.json [--scene NAME] [--no-compile] [--allow-stale-ground]
+                                          (a fresh scene from the layout's window, every op
+                                          in one process, then check + compile; one summary
+                                          in output/apply/<placeId>.json)
+    wb.py replay --scene NAME --out LAYOUT.json   (a scene's command log as a layout)
     wb.py - walktable PLACE_ID            (owner-walk table from the published bundle)
     wb.py - describe ASSET [--refresh]
     wb.py - evidence PARENT_ASSET CHILD_ASSET
@@ -39,6 +46,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import shlex
 import sys
 import time
 from pathlib import Path
@@ -509,6 +517,10 @@ def cmd_bind(a, scene, cat):
 
 def cmd_render(a, scene, cat):
     from workbench import render
+    if a.shots:
+        return render.render_round(cat, scene, a.shots, a.res, a.samples)
+    if a.view is None:
+        raise ValueError("render needs a VIEW or --shots auto|LIST")
     return render.render(cat, scene, a.view, a.focus, a.res, a.out, a.span, a.bearing, a.cut,
                          a.samples, a.highlight)
 
@@ -651,17 +663,25 @@ def cmd_site(a, scene, cat):
 
 def cmd_compile(a, scene, cat):
     """The real compile on the scene as it stands, without touching the
-    blueprint: export into a temporary copy, run the settlement-build derive
-    passes on it (twice: they feed each other) and `compile_settlement`, and
-    return its errors and warnings, each with the scene pieces bound to the
-    parcels, landmarks and routes it names. `check` measures contacts; this
-    is the compile's verdict on the same poses, so the two never disagree."""
+    blueprint (`compile_scene`)."""
+    from workbench import paths as wbpaths
+    src = Path(a.blueprint) if a.blueprint else wbpaths.BLUEPRINTS / f"{scene.placeId}.json"
+    return compile_scene(scene, src)
+
+
+def compile_scene(scene, src: Path, keep: Path | None = None) -> dict:
+    """Export into a temporary copy of the blueprint, run the settlement-build
+    derive passes on it (twice: they feed each other) and `compile_settlement`,
+    and return its errors and warnings, each with the scene pieces bound to
+    the parcels, landmarks and routes it names. `check` measures contacts;
+    this is the compile's verdict on the same poses, so the two never
+    disagree. `keep`: where to leave the derived copy (the plan render reads
+    it after `apply`)."""
     import re
     import shutil
     import subprocess
     import tempfile
     from workbench import export, paths as wbpaths
-    src = Path(a.blueprint) if a.blueprint else wbpaths.BLUEPRINTS / f"{scene.placeId}.json"
     tmp = Path(tempfile.mkdtemp(prefix="wb-compile-"))
     try:
         bp = tmp / src.name
@@ -677,6 +697,9 @@ def cmd_compile(a, scene, cat):
                 got = run(*args)
                 if got.returncode:
                     return {"stage": args[0], "failed": (got.stdout + got.stderr)[-2000:]}
+        if keep is not None:
+            keep.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(bp, keep)
         got = run("worldgen.compile_settlement", "--blueprint", str(bp), "--out", str(tmp))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -844,8 +867,12 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--evidence", default=None,
                    help="assembly: the template id, mount pair or 'measured'")
     s = sub.add_parser("render")
-    s.add_argument("view", choices=("top", "front", "side", "back", "iso", "turntable",
-                                    "cutaway"))
+    s.add_argument("view", nargs="?", default=None,
+                   choices=("top", "front", "side", "back", "iso", "turntable", "cutaway"))
+    s.add_argument("--shots", default=None,
+                   help="one Blender launch for a whole round: 'auto' (top, a front per "
+                        "parcel on its door side, isos at two opposite bearings) or a comma "
+                        "list of top | iso | iso:BEARING | front:UID")
     s.add_argument("--focus", nargs="*", default=[])
     s.add_argument("--highlight", nargs="*", default=[])
     s.add_argument("--res", type=int, default=1024)
@@ -893,14 +920,171 @@ READ_ONLY = {"measure", "ground", "doors", "check", "render", "export", "list", 
              "compile"}
 
 
+def apply_parser() -> argparse.ArgumentParser:
+    ap = argparse.ArgumentParser(prog="wb.py apply", description="build a scene from a layout")
+    ap.add_argument("layout", type=Path)
+    ap.add_argument("--scene", default=None, help="scene name or .json path "
+                                                  "(default <place slug>-layout); rebuilt fresh")
+    ap.add_argument("--no-compile", action="store_true")
+    ap.add_argument("--allow-stale-ground", action="store_true",
+                    help="build even when the blueprint was authored on other chunk files")
+    return ap
+
+
+def replay_parser() -> argparse.ArgumentParser:
+    ap = argparse.ArgumentParser(prog="wb.py replay", description="a scene's log as a layout")
+    ap.add_argument("--scene", required=True, help="scene name or .json path")
+    ap.add_argument("--out", type=Path, required=True)
+    return ap
+
+
+def run_replay(argv) -> int:
+    from workbench import layout
+    a = replay_parser().parse_args(argv)
+    scene = Scene.load(layout.scene_path(a.scene))
+    doc = layout.replay(scene, parser())
+    a.out.parent.mkdir(parents=True, exist_ok=True)
+    a.out.write_text(json.dumps(doc, indent=1) + "\n")
+    _emit({"layout": str(a.out), "placeId": doc["placeId"], "ops": len(doc["ops"])})
+    return 0
+
+
+def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: bool = True,
+                 allow_stale_ground: bool = False) -> dict:
+    """`apply`: a fresh scene from the layout (0100 decision 2). Returns the
+    summary, also written to output/apply/<placeId>.json."""
+    from workbench import ground, layout, paths as wbpaths
+    t0 = time.time()
+    doc = layout.load(layout_path)
+    place_id, window = doc["placeId"], doc["window"]
+    summary = {"schemaVersion": 1, "placeId": place_id, "layout": layout.repo_path(layout_path),
+               "layoutSha256": layout.sha256(layout_path)}
+    why = None if allow_stale_ground else layout.stale_ground(place_id, window)
+    if why:
+        summary.update({"refused": why, "elapsedS": round(time.time() - t0, 2)})
+        return summary
+    spath = layout.scene_path(scene_name or layout.default_scene_name(place_id))
+    derived = wbpaths.OUTPUT / "apply" / f"{place_id}.blueprint.json"
+    for stale in (spath, derived):      # derived state: never outlives its layout
+        if stale.exists():
+            stale.unlink()
+    scene = Scene(path=spath, placeId=place_id,
+                  layout={"path": layout.repo_path(layout_path),
+                          "sha256": summary["layoutSha256"]})
+    cat = Catalogue()
+    ap = parser()
+    cx, cz = window["centreKm"][0] * 1000, window["centreKm"][1] * 1000
+    half = float(window["halfM"])
+    stem = wbpaths.OUTPUT / "ground" / f"{spath.stem}-{int(cx)}-{int(cz)}-{int(half)}"
+    reused = layout._reusable_ground(stem, (cx, cz), half)
+    if not reused:
+        ground.extract((cx, cz), half, stem)
+    scene.groundStem = str(stem)
+    scene.log.append(shlex.join(["window", "--centre-km", repr(float(window["centreKm"][0])),
+                                 repr(float(window["centreKm"][1])), "--half", repr(half),
+                                 "--place-id", place_id]))
+    summary.update({"scene": str(spath), "groundReused": reused,
+                    "groundS": round(time.time() - t0, 2)})
+    ops, failed = [], None
+    for i, op in enumerate(doc["ops"]):
+        t1 = time.time()
+        try:
+            argv = layout.op_to_argv(op, ap)
+            ns = ap.parse_args(["-", *argv])
+            out = globals()[f"cmd_{ns.cmd}"](ns, scene, cat)
+        except (Exception, SystemExit) as err:    # argparse exits on a bad value
+            failed = {"index": i, "op": op, "error": f"{type(err).__name__}: {err}"}
+            break
+        scene.log.append(shlex.join(argv))
+        ops.append({"index": i, "op": ns.cmd, "uid": op.get("uid") or op.get("child")
+                    or op.get("id") or op.get("name"), "s": round(time.time() - t1, 3),
+                    "warnings": layout._warnings(out)})
+    scene.save()
+    summary.update({"opsRun": len(ops), "opsTotal": len(doc["ops"]), "ops": ops,
+                    "failed": failed})
+    if failed is None:
+        t1 = time.time()
+        check = cmd_check(None, scene, cat)
+        summary["check"] = {"failures": layout.check_failures(check),
+                            "pieces": len(check["pieces"]), "nearPairs": len(check["nearPairs"]),
+                            "doors": len(check["doors"]), "s": round(time.time() - t1, 2),
+                            "full": check}
+        src = wbpaths.BLUEPRINTS / f"{place_id}.json"
+        if compile_ and src.exists():
+            t1 = time.time()
+            got = compile_scene(scene, src, keep=derived)
+            got["s"] = round(time.time() - t1, 2)
+            summary["compile"] = got
+        elif compile_:
+            summary["compile"] = {"skipped": f"no blueprint {src}"}
+    summary["elapsedS"] = round(time.time() - t0, 2)
+    out = wbpaths.OUTPUT / "apply" / f"{place_id}.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(summary, indent=1, default=lambda o: round(float(o), 4)) + "\n")
+    summary["summaryPath"] = str(out)
+    return summary
+
+
+def digest(summary: dict) -> list[str]:
+    """At most 20 lines for the agent; the file holds everything."""
+    if summary.get("refused"):
+        return [f"apply {summary['placeId']}: REFUSED", summary["refused"]]
+    lines = [f"apply {summary['placeId']}: {summary['opsRun']}/{summary['opsTotal']} ops, "
+             f"{summary['elapsedS']} s (ground {'reused' if summary['groundReused'] else 'extracted'}"
+             f" {summary['groundS']} s); scene {summary['scene']}"]
+    f = summary.get("failed")
+    if f:
+        lines.append(f"FAILED at op {f['index']} ({f['op'].get('op')} "
+                     f"{f['op'].get('uid') or f['op'].get('child') or ''}): {f['error']}"[:300])
+    warned = [(o["index"], w) for o in summary["ops"] for w in o["warnings"]]
+    if warned:
+        lines.append(f"op warnings: {len(warned)}")
+        lines += [f"  op {i}: {w}"[:200] for i, w in warned[:3]]
+    c = summary.get("check")
+    if c:
+        lines.append(f"check: {c['pieces']} pieces, {c['nearPairs']} near pairs, {c['doors']} "
+                     f"doors; {len(c['failures'])} failures")
+        lines += [f"  {x}"[:200] for x in c["failures"][:5]]
+    comp = summary.get("compile")
+    if comp:
+        if "skipped" in comp or "stage" in comp:
+            lines.append(f"compile: {comp.get('skipped') or comp['stage'] + ' failed'}")
+        else:
+            lines.append(f"compile: exit {comp['exitCode']}, {len(comp['errors'])} errors, "
+                         f"{len(comp['warnings'])} warnings, {comp['s']} s; {comp['summary']}")
+            lines += [f"  {e['msg']}"[:200] for e in comp["errors"][:3]]
+    lines.append(f"summary: {summary['summaryPath']}")
+    return lines[:20]
+
+
+def run_apply(argv) -> int:
+    a = apply_parser().parse_args(argv)
+    summary = apply_layout(a.layout, a.scene, not a.no_compile, a.allow_stale_ground)
+    if "summaryPath" not in summary:
+        summary["summaryPath"] = "(not written: refused)"
+    print("\n".join(digest(summary)))
+    if summary.get("refused"):
+        return 2
+    comp = summary.get("compile") or {}
+    return 1 if summary.get("failed") or comp.get("exitCode") or comp.get("stage") else 0
+
+
 def main(argv=None) -> int:
+    args = list(sys.argv[1:] if argv is None else argv)
+    if args and args[0] == "-" and len(args) > 1 and args[1] in ("apply", "replay"):
+        args = args[1:]
+    if args and args[0] in ("apply", "replay"):
+        t0 = time.time()
+        code = (run_apply if args[0] == "apply" else run_replay)(args[1:])
+        print(f"[wb] {args[0]} {time.time() - t0:.2f} s", file=sys.stderr)
+        return code
     a = parser().parse_args(argv)
     t0 = time.time()
     scene = Scene.load(Path(a.scene)) if a.scene != "-" else None
     cat = Catalogue()
     out = globals()[f"cmd_{a.cmd}"](a, scene, cat)
     if scene is not None and a.cmd not in READ_ONLY:
-        scene.log.append(" ".join(sys.argv[2:]) if argv is None else " ".join(argv[1:]))
+        scene.log.append(shlex.join(sys.argv[2:] if argv is None else argv[1:]))
         scene.save()
     _emit(out)
     print(f"[wb] {a.cmd} {time.time() - t0:.2f} s", file=sys.stderr)
