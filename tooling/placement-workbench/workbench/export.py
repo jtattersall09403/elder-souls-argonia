@@ -21,8 +21,9 @@ A piece's `role` (set with `wb.py bind`) says where its pose goes:
   its `layer` and `evidence`. Roll and mirror are refused: the runtime
   turns a piece by yaw and pitch only.
 
-Scene paths whose id matches a blueprint route write its `via` and
-`points` (UV).
+Scene paths whose id matches a blueprint route write its `via` (UV);
+`street_router --apply` derives its `points` from them. A blueprint door on a bound shell takes the threshold and
+facing of the doorway `wb.py doors` measures nearest a path (`door_poses`).
 """
 from __future__ import annotations
 
@@ -123,7 +124,30 @@ def poses(scene: Scene, extent: float) -> dict:
         out["parcels"][rid]["assembly"] = rows
     for path in scene.paths:
         pts = [_uv(x, z, extent) for x, z in path["pointsM"]]
-        out["routes"][path["id"]] = {"via": pts, "points": pts}
+        out["routes"][path["id"]] = {"via": pts}     # points: street_router derives them
+    return out
+
+
+def door_poses(scene: Scene, extent: float) -> dict[str, dict]:
+    """{parcel id: {thresholdUV, facingDeg}} for every shell bound to a
+    parcel: the measured doorway `wb.py doors` reports as `best` (the one
+    nearest a scene path), with the facing its record gives, which is what
+    the validator matches (`blueprint_integration.match_entrance`: a radial
+    entrance's facing is its bearing on the ring). A door is a pose: it
+    moves with its building, so it is exported with it."""
+    from . import measure
+    from .kits import Catalogue
+    cat = Catalogue()
+    out = {}
+    for p in scene.pieces:
+        if p.role.get("kind") != "parcel":
+            continue
+        report = measure.door_report(cat, scene, p)
+        if not report or report["best"]["facingDeg"] is None:
+            continue
+        best = report["best"]
+        out[p.role["id"]] = {"thresholdUV": _uv(*best["thresholdM"], extent),
+                             "facingDeg": best["facingDeg"]}
     return out
 
 
@@ -163,6 +187,12 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
         if rid in routes:
             routes[rid].update(fields)
             changed.append(rid)
+    doors = door_poses(scene, extent)          # one pass over the shells
+    for door in bp.get("doors", []) or []:
+        fields = doors.get(door.get("parcelId"))
+        if fields:
+            door.update(fields)
+            changed.append(door["id"])
     if write:
         # the settlement passes' own writer convention (blueprint_footprints)
         blueprint.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")

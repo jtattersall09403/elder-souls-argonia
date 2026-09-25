@@ -247,6 +247,31 @@ def float_under(cat: Catalogue, ground, piece: Piece) -> dict:
             "footSamples": int(len(diffs))}
 
 
+FACING_TOLERANCE_DEG = 15.0
+"""A doorway's recorded facing further than this from its wall's outward
+direction is flagged (`facingOffOutwardDeg`)."""
+
+
+def outward_deg(cat: Catalogue, asset: str, plan_xz) -> float | None:
+    """The bearing (deg, clockwise from north, piece frame at yaw 0) the
+    doorway looks out along: from the threshold to the nearest point of the
+    piece's plan outline (from the outline out, when the threshold lies
+    outside it). None when the piece has no measured outline."""
+    from shapely.geometry import Point, Polygon
+    outline = cat.footprint(asset)
+    if not outline or len(outline) < 3:
+        return None
+    poly = Polygon([(float(p[0]), float(p[1])) for p in outline])
+    pt = Point(float(plan_xz[0]), float(plan_xz[1]))
+    edge = poly.exterior.interpolate(poly.exterior.project(pt))
+    dx, dz = edge.x - pt.x, edge.y - pt.y
+    if not poly.contains(pt):
+        dx, dz = -dx, -dz
+    if math.hypot(dx, dz) < 1e-6:
+        return None
+    return math.degrees(math.atan2(dx, -dz)) % 360.0
+
+
 def door_report(cat: Catalogue, scene, piece: Piece) -> dict | None:
     """Every measured doorway of the piece (the compile's own
     `piece_doorways`) in the province frame, each with its distance to the
@@ -260,11 +285,20 @@ def door_report(cat: Catalogue, scene, piece: Piece) -> dict | None:
         x, z = plan_to_province((piece.x, piece.z), piece.yaw,
                                 (ox * piece.scale, oz * piece.scale))
         near = min(((line.distance(Point(x, z)), pid) for line, pid in lines), default=None)
-        rows.append({"thresholdM": [round(x, 3), round(z, 3)], "source": d["source"],
-                     "facingDeg": None if d["sideDeg"] is None
-                     else round((piece.yaw + float(d["sideDeg"])) % 360, 1),
-                     "nearestPath": near and near[1],
-                     "pathDistanceM": None if near is None else round(near[0], 2)})
+        out_deg = outward_deg(cat, piece.asset, (ox, oz))
+        row = {"thresholdM": [round(x, 3), round(z, 3)], "source": d["source"],
+               "facingDeg": None if d["sideDeg"] is None
+               else round((piece.yaw + float(d["sideDeg"])) % 360, 1),
+               "outwardDeg": None if out_deg is None else round((piece.yaw + out_deg) % 360, 1),
+               "nearestPath": near and near[1],
+               "pathDistanceM": None if near is None else round(near[0], 2)}
+        if row["facingDeg"] is not None and row["outwardDeg"] is not None:
+            off = abs((row["facingDeg"] - row["outwardDeg"] + 180) % 360 - 180)
+            if off > FACING_TOLERANCE_DEG:
+                # the record's sideDeg is the doorway's BEARING from the pivot
+                # (radial records), not the way its wall faces
+                row["facingOffOutwardDeg"] = round(off, 1)
+        rows.append(row)
     if not rows:
         return None
     best = min(rows, key=lambda r: r["pathDistanceM"] if r["pathDistanceM"] is not None else 1e9)

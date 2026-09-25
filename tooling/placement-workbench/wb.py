@@ -21,7 +21,11 @@ whole state. Prints JSON on stdout and a timing line on stderr.
                             [--cut M] [--highlight UID ...] [--out PNG]
     wb.py SCENE export BLUEPRINT [--write]
     wb.py SCENE list | remove UID | note UID TEXT
-    wb.py SCENE map [--half M]            (ASCII slope / water map for siting)
+    wb.py SCENE map [--half M] [--heights] (ASCII slope / water map, or ground heights)
+    wb.py SCENE site ASSET [--yaw D] [--step M] [--centre X Z] [--half M]
+                                          (every pose that passes the fit's slope rule)
+    wb.py SCENE compile [BLUEPRINT]       (the real derive passes + compile on the scene's
+                                          poses, in a temporary copy; errors by piece)
     wb.py - walktable PLACE_ID            (owner-walk table from the published bundle)
     wb.py - describe ASSET [--refresh]
     wb.py - evidence PARENT_ASSET CHILD_ASSET
@@ -53,10 +57,37 @@ def _emit(obj) -> None:
 
 
 def _settle(cat, scene, piece: Piece, source: str = "chunks") -> dict:
+    """Seat the piece as the runtime does. A quay run is first slid along its
+    own axis to the bank exactly as the compile slides it
+    (`compile_settlement.anchor_quay_run`: the landward tip where the deck
+    plane meets the ground), so the pose the workbench exports is the pose
+    the compile places, not one it moves."""
+    shift = _quay_anchor(cat, piece)
+    if shift is not None:
+        piece.x, piece.z = shift["x"], shift["z"]
     got = measure.seat(cat, scene.ground(), piece, source)
     piece.y = got["y"]
     piece.settledBy = f"settle:{got['mode']}:{source}"
+    if shift is not None:
+        got["quayShiftM"] = shift["shiftM"]
     return got
+
+
+def _quay_anchor(cat, piece: Piece) -> dict | None:
+    """The compile's slide for a quay run at this pose ({x, z, shiftM}), or
+    None for any other piece. Raises when the compile would find no bank."""
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+    from worldgen import compile_settlement as cs
+    row = cat.row(piece.asset)
+    if not cs.is_quay_run(row):
+        return None
+    from worldgen.site_fields import shared_survey
+    got = cs.anchor_quay_run(row, (piece.x, piece.z), piece.yaw, piece.scale, shared_survey())
+    if got is None:
+        raise ValueError(f"{piece.uid}: the compile finds no bank (deck plane meets ground) "
+                         f"within {cs.QUAY_SHORE_SEARCH_M:.0f} m of its landward end")
+    return {"x": got[0], "z": got[1], "shiftM": got[2]}
 
 
 def cmd_window(a, scene, cat):
@@ -188,10 +219,83 @@ def cmd_probe(a, scene, cat):
     p.y = seat["y"]
     out = {"seat": seat}
     if seat["mode"] != "water":
-        report = measure.ground_report(cat, g, p)
-        report["slopeRule"] = cs.fit_slope_failure(cat.row(a.asset), report["maxSlopeDeg"])
-        out["ground"] = report
+        out["ground"] = measure.ground_report(cat, g, p)
+    out["rules"] = _fit_rules(cat, g, p, cs)
     return out
+
+
+def _authored_fit(scene, p: Piece) -> str | None:
+    """The `groundFit` the blueprint authors on the parcel this piece is
+    bound to (an override the compile keeps as written), else None."""
+    if (p.role or {}).get("kind") != "parcel" or not scene.placeId:
+        return None
+    from workbench import paths as wbpaths
+    path = wbpaths.BLUEPRINTS / f"{scene.placeId}.json"
+    if not path.exists():
+        return None
+    parcels = json.loads(path.read_text())["blueprint"].get("parcels", [])
+    return next((q.get("groundFit") for q in parcels if q.get("id") == p.role["id"]), None)
+
+
+def _fit_rules(cat, g, p, cs, authored_fit: str | None = None) -> dict:
+    """The compile's own per-parcel ground rules on this pose
+    (`compile_settlement.compile_blueprint`): the 97 B3 slope limit of the
+    asset's fit over every touched survey cell (water pieces too: the compile
+    judges a hull's seabed like any parcel's ground), and the ground delta
+    over the outline's vertices and centre on the survey against the
+    parcel's `groundFit` (`authored_fit`, the blueprint's override, else the
+    manifest policy's, `with_record_ground_fits`), plus the yard gate's sill.
+    `ok` is False exactly when the compile or the gate would refuse the pose."""
+    row = cat.row(p.asset)
+    poly = measure.footprint_province(cat, p)
+    slope = g.footprint_max_slope_deg(poly)
+    heights = [g.survey_height(x, z) for x, z in poly] + [g.survey_height(p.x, p.z)]
+    delta = max(heights) - min(heights)
+    fit = authored_fit or cs.record_ground_fit(row)
+    slope_why = cs.fit_slope_failure({**row}, slope)
+    if fit is None:
+        limit = float("inf")
+        delta_why = "no groundFit: the kit record names none, so the compile refuses the parcel"
+    else:
+        limit = cs.FIT_MAX[fit]
+        delta_why = (None if delta <= limit else
+                     f"survey delta {delta:.2f} m exceeds groundFit '{fit}' (max {limit:.2f} m)")
+    out = {"maxSlopeDeg": round(slope, 2), "slopeRule": slope_why, "groundFit": fit,
+           "surveyDeltaM": round(delta, 3),
+           "deltaMaxM": None if math.isinf(limit) else limit, "deltaRule": delta_why}
+    out.update(_sill(cat, g, p, row, cs))
+    out["ok"] = slope_why is None and delta_why is None and out.get("sillRule") is None
+    return out
+
+
+def _sill(cat, g, p, row, cs) -> dict:
+    """The yard gate's sill (`worldgen.test_proving_ground.ground_audit`) on
+    this pose: how far the designed ground line (the mean of the anchor's
+    survey samples, the lowest for `dug-in`) stands from the ground at the
+    pivot, where the doorway meets the ground. Stilt, water and deck pieces
+    A stilt fit is judged on its support line: the mean depth of the water
+    that covers its samples (the gate's `support_at`); water pieces are not
+    judged."""
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+    from worldgen import test_proving_ground as tpg
+    klass = row.get("anchorClass") or "ground"
+    fit = cs.asset_fit(row)
+    if klass not in ("ground", "deck"):
+        return {}
+    mode = (row.get("placement") or {}).get("anchorMode", "streamed-perimeter")
+    samples = (measure.footprint_province(cat, p) if mode == "streamed-perimeter"
+               else [(p.x, p.z)])
+    if fit == "stilt":
+        sill = sum(max(0.0, g.depth(x, z)) for x, z in samples) / len(samples)
+    else:
+        heights = [g.survey_height(x, z) for x, z in samples]
+        line = min(heights) if fit == "dug-in" else sum(heights) / len(heights)
+        sill = abs(line - g.survey_height(p.x, p.z))
+    return {"sillM": round(sill, 3), "sillMaxM": tpg.SILL_LIMIT_M,
+            "sillRule": None if sill <= tpg.SILL_LIMIT_M else
+            f"the ground line stands {sill:.2f} m off the ground at the pivot "
+            f"(the yard gate allows {tpg.SILL_LIMIT_M} m)"}
 
 
 def cmd_mount(a, scene, cat):
@@ -239,17 +343,24 @@ def cmd_check(a, scene, cat):
             seat = measure.seat(cat, g, p)
             r["runtimeY"] = round(seat["y"], 3)
             r["yOffRuntimeM"] = None if p.y is None else round(p.y - seat["y"], 3)
+            if p.role.get("kind") != "run":
+                # a run is judged by the compile on its union (`compile` command)
+                r.update(_fit_rules(cat, g, p, cs, _authored_fit(scene, p)))
             if seat["mode"] != "water":
                 poly = measure.footprint_province(cat, p)
-                slope = g.footprint_max_slope_deg(poly)
-                r["maxSlopeDeg"] = round(slope, 2)
-                r["slopeRule"] = cs.fit_slope_failure({**row}, slope)
+                if p.role.get("kind") == "run":
+                    slope = g.footprint_max_slope_deg(poly)
+                    r["maxSlopeDeg"] = round(slope, 2)
+                    r["slopeRule"] = cs.fit_slope_failure({**row}, slope)
+                    r.update(_sill(cat, g, p, row, cs))
                 r["deltaM"] = round(seat["deltaM"], 3)
                 r["wetVertices"] = sum(g.wet(x, z) for x, z in poly)
         if p.y is not None and not mounted and (row.get("anchorClass") or "ground") != "water":
             r.update(measure.float_under(cat, g, p))
         if cs.is_quay_run(row):
             r["quayReach"] = _quay_reach(cat, scene, g, p, row, cs)
+        elif (row.get("anchorClass") or "ground") == "water":
+            r["hullWater"] = _hull_water(cat, g, p)
         if p.roll or p.mirror:
             r["notExportable"] = "roll / mirror: the runtime has neither"
         rows[p.uid] = r
@@ -268,15 +379,49 @@ def cmd_check(a, scene, cat):
         for v in uids[i + 1:]:
             (l1, h1), (l2, h2) = boxes[u], boxes[v]
             if np.all(l1 <= h2 + 0.5) and np.all(l2 <= h1 + 0.5):
-                pairs.append(measure.contact(cat, scene.piece(u), scene.piece(v)))
+                a_, b_ = scene.piece(u), scene.piece(v)
+                got = measure.contact(cat, a_, b_)
+                got.update(_pair_verdict(a_, b_, got))
+                pairs.append(got)
     doors = cmd_doors(a, scene, cat)
     return {"pieces": rows, "nearPairs": pairs, "doors": doors}
 
 
+JOINT_GAP_M = 0.03           # a run joint: the miner's contact (0097 rule 3)
+JOINT_PENETRATION_M = 0.05
+
+
+def _pair_verdict(a: Piece, b: Piece, got: dict) -> dict:
+    """What the pair is and the bar it is judged on: a mounted child on its
+    parent (the mined pair or template IS the pose, so only contact is
+    required: its designed overlap is not a defect), neighbours in one run
+    or a piece snapped onto the other by evidence (gap <= 0.03 m,
+    penetration <= 0.05 m), anything else (must not cross)."""
+    def on(child, parent):
+        by, role = child.settledBy or "", child.role or {}
+        return (by == f"mount:{parent.uid}"
+                or (by.startswith("template:") and by.endswith(f":{parent.uid}"))
+                or role.get("mountedOn") == parent.uid
+                or (role.get("kind") == "assembly" and role.get("on") == "parent"
+                    and (parent.role or {}).get("id") == role.get("id")))
+    ra, rb = a.role or {}, b.role or {}
+    if on(a, b) or on(b, a):
+        return {"relation": "mounted", "ok": bool(got["contact"])}
+    snapped = any((x.settledBy or "") in (f"evidence-snap:{y.uid}", f"geometry-snap:{y.uid}")
+                  for x, y in ((a, b), (b, a)))
+    if snapped or (ra.get("kind") == rb.get("kind") == "run" and ra.get("id") == rb.get("id")
+                   and abs(int(ra.get("index", -9)) - int(rb.get("index", -9))) == 1):
+        return {"relation": "run-joint",
+                "ok": got["gapM"] <= JOINT_GAP_M and (got["penetrationM"] or 0.0) <= JOINT_PENETRATION_M}
+    return {"relation": "unrelated", "ok": not got["intersecting"]}
+
+
 def _quay_reach(cat, scene, g, p, row, cs) -> dict:
     """A quay run's two tips (`compile_settlement.quay_run_ends_local`): the
-    landward tip must stand on the ground/water line (dry 0.5 m inland, wet
-    0.5 m out) and the seaward tip within 0.5 m of a hull's outline."""
+    compile's slide to the bank from this pose (`compileShiftM`, 0 after
+    `settle`), the landward tip on the ground/water line (dry 0.5 m inland,
+    wet 0.5 m out), the seaward tip within 0.5 m of a hull's outline, and
+    the stage's outline 97 C5's `worksWith` clearance from the hull's."""
     from shapely.geometry import Point, Polygon
     from workbench.scene import plan_to_province
     landward, seaward = cs.quay_run_ends_local(row, p.scale)
@@ -284,11 +429,56 @@ def _quay_reach(cat, scene, g, p, row, cs) -> dict:
     hulls = [Polygon(measure.footprint_province(cat, q)) for q in scene.pieces
              if q is not p and (cat.row(q.asset).get("anchorClass") == "water")]
     sea = Point(tip(seaward))
-    return {"landwardTip": [round(v, 2) for v in tip(landward)],
+    from worldgen import blueprint_integration as bi
+    try:
+        anchored = _quay_anchor(cat, p)
+    except ValueError as err:            # no bank: report it, never abort `check`
+        return {"bankError": str(err)}
+    pub = Point(plan_to_province((anchored["x"], anchored["z"]), p.yaw, (0.0, seaward)))
+    stage = Polygon(measure.footprint_province(cat, p))
+    clear = None if not hulls else min(stage.distance(h) for h in hulls)
+    return {"compileShiftM": anchored["shiftM"],     # 0 = the compile places it here
+            "hullClearM": None if clear is None else round(clear, 2),
+            # 97 C5: a hull that `worksWith` its stage keeps this clear of it
+            "hullClearMinM": bi.WORKS_WITH_CLEAR_M,
+            "landwardTip": [round(v, 2) for v in tip(landward)],
             "dryInland": not g.wet(*tip(landward - 0.5)), "wetOut": g.wet(*tip(landward + 0.5)),
             "seawardTip": [round(v, 2) for v in tip(seaward)],
             "tipToHullM": None if not hulls else round(min(
-                0.0 if h.contains(sea) else h.exterior.distance(sea) for h in hulls), 2)}
+                0.0 if h.contains(sea) else h.exterior.distance(sea) for h in hulls), 2),
+            # the compile never keeps a quay pose exactly: `anchor_quay_run`
+            # always slides it by half a search step (QUAY_SHORE_STEP_M / 2)
+            # at least, so the published tip is judged here too
+            "publishedTipToHullM": None if not hulls else round(min(
+                0.0 if h.contains(pub) else h.exterior.distance(pub) for h in hulls), 2)}
+
+
+def _hull_bars() -> tuple[float, float]:
+    """The yard gate's own hull bars (`worldgen.test_proving_ground`): the
+    halo round the outline and the least depth in it."""
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+    from worldgen import test_proving_ground as tpg
+    return tpg.HULL_HALO_M, tpg.HULL_MIN_DEPTH_M
+
+
+def _hull_water(cat, g, p) -> dict:
+    """The depth ring round a floating piece: the shallowest depth-grid cell
+    whose centre lies within the gate's halo of its outline (the yard gate's
+    test, on the same grid)."""
+    from shapely.geometry import Point, Polygon
+    halo_m, least_m = _hull_bars()
+    halo = Polygon(measure.footprint_province(cat, p)).buffer(halo_m)
+    px = g.meta["depth"]["pxM"]
+    x0, z0, x1, z1 = halo.bounds
+    cells = [g.depth((c + .5) * px, (r + .5) * px)
+             for r in range(int(z0 // px), int(z1 // px) + 1)
+             for c in range(int(x0 // px), int(x1 // px) + 1)
+             if halo.contains(Point((c + .5) * px, (r + .5) * px))]
+    least = min(cells) if cells else None
+    return {"haloM": halo_m, "cells": len(cells),
+            "minDepthM": None if least is None else round(float(least), 2),
+            "ok": least is not None and least >= least_m}
 
 
 def cmd_path(a, scene, cat):
@@ -371,13 +561,19 @@ def cmd_map(a, scene, cat):
             for k in range(n + 1):
                 cell = (int((z0 + (z1 - z0) * k / n) // px), int((x0 + (x1 - x0) * k / n) // px))
                 marks.setdefault(cell, "=")
+    legend = ("heights: whole metres of the survey ground at the cell centre, 0-9 then a-z "
+              "for 10-35, - below 0" if a.heights else
+              ". <2 + <3 o <6 # steeper ~ wet W deep>=1m")
     lines = [f"x from {cx - half:.0f} to {cx + half:.0f} m east, {px:.2f} m per char; "
-             f"rows z (south) from {cz - half:.0f}; . <2 + <3 o <6 # steeper ~ wet W deep>=1m"]
+             f"rows z (south) from {cz - half:.0f}; {legend}"]
     for r in range(int((cz - half) // px), int((cz + half) // px)):
         row = []
         for c in range(int((cx - half) // px), int((cx + half) // px)):
             x, z = (c + 0.5) * px, (r + 0.5) * px
-            if (r, c) in marks:
+            if a.heights:
+                h = g.survey_height(x, z)
+                row.append("-" if h < 0 else HEIGHT_CHARS[min(int(h), len(HEIGHT_CHARS) - 1)])
+            elif (r, c) in marks:
                 row.append(marks[(r, c)])
             elif g.wet(x, z):
                 row.append("W" if g.depth(x, z) >= 1.0 else "~")
@@ -387,6 +583,127 @@ def cmd_map(a, scene, cat):
         lines.append(f"{r * px:7.0f} " + "".join(row))
     print("\n".join(lines))
     return {"rows": len(lines) - 1}
+
+
+HEIGHT_CHARS = "0123456789abcdefghijklmnopqrstuvwxyz"
+
+
+def cmd_site(a, scene, cat):
+    """Every pose in the window (a grid of --step metres, at --yaw) where the
+    asset passes the compile's own ground rules (`_fit_rules`: the fit's
+    slope limit and ground delta), with no wet footprint vertex (ground
+    pieces) and no province road or scene path within --clear metres of its
+    outline, inside the ground window; best (least slope, then least delta)
+    first. Only roads and tracks that reach the window are read. Water pieces: also
+    the yard gate's halo round the outline on at least its least depth
+    (`_hull_water`)."""
+    from shapely.geometry import LineString, Polygon
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+    from worldgen import compile_settlement as cs
+    g = scene.ground()
+    row = cat.row(a.asset)
+    water = (row.get("anchorClass") or "ground") == "water"
+    cx, cz = (a.centre if a.centre else g.meta["centreM"])
+    half = min(a.half or g.meta["halfM"], g.meta["halfM"])
+    from shapely.geometry import box
+    wx, wz = g.meta["centreM"]
+    window = box(wx - g.meta["halfM"], wz - g.meta["halfM"], wx + g.meta["halfM"], wz + g.meta["halfM"])
+    reach = window.buffer(a.clear)
+    ways = [LineString(p["pointsM"]) for p in scene.paths if len(p["pointsM"]) >= 2]
+    px = g.meta["grid"]["pxM"]
+    for name, key in (("routes.json", "routes"), ("routes-minor.json", "tracks")):
+        for route in json.loads((wbpaths.PROVINCE / name).read_text()).get(key, []):
+            pts = [((c + .5) * px, (r + .5) * px) for c, r in route.get("px") or []]
+            if len(pts) >= 2 and LineString(pts).intersects(reach):
+                ways.append(LineString(pts).intersection(reach))
+    halo = _hull_bars()[0] if water else 0.0
+    found = []
+    steps = int(2 * half // a.step)
+    for i in range(steps + 1):
+        for j in range(steps + 1):
+            x, z = cx - half + j * a.step, cz - half + i * a.step
+            p = Piece("site", a.asset, x, z, a.yaw % 360.0)
+            poly = measure.footprint_province(cat, p)
+            outline = Polygon(poly)
+            if not window.contains(outline.buffer(halo + 1.0)):
+                continue                    # the window's samplers refuse what lies outside it
+            if any(w.distance(outline) < a.clear for w in ways):
+                continue
+            rules = _fit_rules(cat, g, p, cs)
+            if not rules["ok"]:
+                continue
+            if water:
+                ring = _hull_water(cat, g, p)
+                if ring["ok"]:
+                    found.append({"at": [round(x, 2), round(z, 2)], "minDepthM": ring["minDepthM"],
+                                  "maxSlopeDeg": rules["maxSlopeDeg"]})
+                continue
+            if any(g.wet(vx, vz) for vx, vz in poly):
+                continue
+            found.append({"at": [round(x, 2), round(z, 2)], "maxSlopeDeg": rules["maxSlopeDeg"],
+                          "surveyDeltaM": rules["surveyDeltaM"], "sillM": rules.get("sillM")})
+    found.sort(key=lambda f: (f["maxSlopeDeg"], f.get("surveyDeltaM", 0.0),
+                              -f.get("minDepthM", 0.0)))
+    return {"asset": a.asset, "yaw": a.yaw, "fit": fit_of(row), "legal": len(found),
+            "best": found[:a.limit]}
+
+
+def cmd_compile(a, scene, cat):
+    """The real compile on the scene as it stands, without touching the
+    blueprint: export into a temporary copy, run the settlement-build derive
+    passes on it (twice: they feed each other) and `compile_settlement`, and
+    return its errors and warnings, each with the scene pieces bound to the
+    parcels, landmarks and routes it names. `check` measures contacts; this
+    is the compile's verdict on the same poses, so the two never disagree."""
+    import re
+    import shutil
+    import subprocess
+    import tempfile
+    from workbench import export, paths as wbpaths
+    src = Path(a.blueprint) if a.blueprint else wbpaths.BLUEPRINTS / f"{scene.placeId}.json"
+    tmp = Path(tempfile.mkdtemp(prefix="wb-compile-"))
+    try:
+        bp = tmp / src.name
+        shutil.copy(src, bp)
+        export.export(scene, bp, write=True)
+        run = lambda *args: subprocess.run(  # noqa: E731
+            [sys.executable, "-m", *args], cwd=wbpaths.WORLDGEN, capture_output=True, text=True)
+        for _ in range(2):
+            for args in (("worldgen.rederive_terminals", "--apply", str(bp)),
+                         ("worldgen.street_router", "--apply", str(bp)),
+                         ("worldgen.blueprint_footprints", "--apply", str(bp)),
+                         ("worldgen.blueprint_footprints", "--areas", "--doors", str(bp))):
+                got = run(*args)
+                if got.returncode:
+                    return {"stage": args[0], "failed": (got.stdout + got.stderr)[-2000:]}
+        got = run("worldgen.compile_settlement", "--blueprint", str(bp), "--out", str(tmp))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+    ids = {}
+    for p in scene.pieces:
+        rid = p.role.get("id")
+        if rid:
+            ids.setdefault(rid, []).append(p.uid)
+    for path in scene.paths:
+        ids.setdefault(path["id"], []).append(f"path:{path['id']}")
+    errors, warnings, waived, summary = [], [], [], None
+    for line in (got.stdout + got.stderr).splitlines():
+        if not line.startswith("compile_settlement: "):
+            continue
+        msg = line[len("compile_settlement: "):]
+        uids = sorted({u for rid, us in ids.items()
+                       if re.search(re.escape(rid) + r"(?![\w-])", msg) for u in us})
+        if msg.startswith("WARN: "):
+            warnings.append({"msg": msg[6:], "uids": uids})
+        elif msg.startswith("FIXTURE-WAIVED"):
+            waived.append(msg)
+        elif " placements, " in msg:
+            summary = msg.split(" — ", 1)[-1]
+        elif not msg.startswith("promise ledger"):
+            errors.append({"msg": msg, "uids": uids})
+    return {"blueprint": str(src), "exitCode": got.returncode, "summary": summary,
+            "errors": errors, "warnings": warnings, "fixtureWaived": len(waived)}
 
 
 def cmd_walktable(a, scene, cat):
@@ -548,6 +865,18 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("text")
     s = sub.add_parser("map")
     s.add_argument("--half", type=float, default=None)
+    s.add_argument("--heights", action="store_true", help="ground heights instead of slope")
+    s = sub.add_parser("site")
+    s.add_argument("asset")
+    s.add_argument("--yaw", type=float, default=0.0)
+    s.add_argument("--step", type=float, default=4.0)
+    s.add_argument("--half", type=float, default=None)
+    s.add_argument("--centre", type=float, nargs=2, default=None, help="province metres")
+    s.add_argument("--clear", type=float, default=3.0, help="metres from any way")
+    s.add_argument("--limit", type=int, default=12)
+    s = sub.add_parser("compile")
+    s.add_argument("blueprint", nargs="?", default=None,
+                   help="default world/sources/blueprints/<scene placeId>.json")
     s = sub.add_parser("walktable")
     s.add_argument("place")
     s = sub.add_parser("describe")
@@ -560,7 +889,8 @@ def parser() -> argparse.ArgumentParser:
 
 
 READ_ONLY = {"measure", "ground", "doors", "check", "render", "export", "list", "describe",
-             "evidence", "map", "walktable", "openings", "signature", "probe"}
+             "evidence", "map", "walktable", "openings", "signature", "probe", "site",
+             "compile"}
 
 
 def main(argv=None) -> int:

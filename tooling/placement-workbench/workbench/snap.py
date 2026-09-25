@@ -116,26 +116,29 @@ def snap_evidence(child: Piece, parent: Piece, child_face: str | None = None,
                   parent_face: str | None = None, pick: int = 0,
                   allow_terminal: bool = False) -> dict:
     """Place the child where the plugins put it against the parent: the
-    mined abuts step with the most evidence (or `pick`). A step from one of
-    the parent's `terminal_faces` is skipped unless `allow_terminal`."""
+    mined abuts step with the most evidence (or `pick`). A step joining on
+    one of EITHER piece's `terminal_faces` (a face the plugins end runs on,
+    such as a broken wall end) is skipped unless `allow_terminal`."""
     ends = terminal_faces(parent.asset)
+    child_ends = terminal_faces(child.asset)
     steps = [s for s in evidence_steps(parent.asset, child.asset)
              if (parent_face is None or s["parentFace"] == parent_face)
              and (child_face is None or s["childFace"] == child_face)]
-    skipped = [s for s in steps if s["parentFace"] in ends]
+    skipped = [s for s in steps if s["parentFace"] in ends or s["childFace"] in child_ends]
     if not allow_terminal:
         steps = [s for s in steps if s not in skipped]
     if not steps:
         raise ValueError(f"no mined abuts pair joins {child.asset} to {parent.asset}"
                          + (f" on {parent_face}>{child_face}" if parent_face or child_face else "")
                          + (f" (skipped {len(skipped)} on faces the plugins end the run on: "
-                            f"{sorted(ends)}; --allow-terminal to use them)" if skipped else ""))
+                            f"parent {sorted(ends)}, child {sorted(child_ends)}; "
+                            f"--allow-terminal to use them)" if skipped else ""))
     step = steps[min(pick, len(steps) - 1)]
     _set_from_parent(child, parent, step["offsetM"], step["riseM"], step["yawDeg"])
     child.settledBy = f"evidence-snap:{parent.uid}"
     return {"used": step, "alternatives": len(steps) - 1,
             "skippedTerminalSteps": len(skipped) if not allow_terminal else 0,
-            "parentTerminalFaces": sorted(ends)}
+            "parentTerminalFaces": sorted(ends), "childTerminalFaces": sorted(child_ends)}
 
 
 def _face_plane(row: dict, face: str) -> float:

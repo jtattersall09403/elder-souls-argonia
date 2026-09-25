@@ -113,6 +113,20 @@ def _ground_arrays(ground, centre_wb, half: float, out: Path) -> None:
              water_faces=np.array(wf, dtype=np.int64).reshape(-1, 3))
 
 
+def _door_side(cat: Catalogue, asset: str) -> float | None:
+    """The bearing (piece frame) the piece's first measured doorway looks out
+    along: the same doorway `wb.py doors` reports (`measure.outward_deg`),
+    else its recorded side. A radial entrance record carries no side."""
+    from . import measure
+    for d in cat.doorways(asset):
+        out = measure.outward_deg(cat, asset, d["offsetInPieceM"])
+        if out is not None:
+            return out
+        if d.get("sideDeg") is not None:
+            return float(d["sideDeg"])
+    return None
+
+
 def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = None,
            res: int = 1024, out: Path | None = None, span: float | None = None,
            bearing: float | None = None, cut: float = 0.0, samples: int = 12,
@@ -129,10 +143,9 @@ def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = No
         bearing = 0.0
         if focus and view in FRONT:
             p = scene.piece(focus[0])
-            ent = (cat.interiors(p.asset) or {}).get("entrance") or {}
-            side = ent.get("sideDeg")
-            # look AT the entrance (camera on the entrance side), else at +y
-            base = (p.yaw + (float(side) if side is not None else 0.0) + 180.0) % 360.0
+            side = _door_side(cat, p.asset)
+            # look AT the doorway (camera on the doorway's side), else at +y
+            base = (p.yaw + (side if side is not None else 0.0) + 180.0) % 360.0
             bearing = (base + FRONT[view]) % 360.0
         elif view in FRONT:
             bearing = FRONT[view]

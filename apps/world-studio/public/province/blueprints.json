@@ -1663,6 +1663,1682 @@
           "widthM": 4.3
         }
       ]
+    },
+    {
+      "approaches": [
+        {
+          "firstSeen": "parcel.proving-ground-b.landing-stage",
+          "fromDirection": "east, from the sea",
+          "fromRouteId": null,
+          "id": "approach.proving-ground-b.east",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "The raft and the landing stage read first; the boardwalk and the stilt house follow up the beach.",
+          "wayfinding": "Step off the raft and walk north-west along the landing stage onto the way."
+        },
+        {
+          "firstSeen": "parcel.proving-ground-b.imperial-wall-run",
+          "fromDirection": "west, across open fringe ground",
+          "fromRouteId": null,
+          "id": "approach.proving-ground-b.west",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "The two towers show first. The gate between them opens onto the way, with the houses east along it.",
+          "wayfinding": "Walk east along the way through the gate in the wall run."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          4162.475,
+          5978.0
+        ],
+        [
+          4432.16,
+          5978.0
+        ],
+        [
+          4432.16,
+          6066.0
+        ],
+        [
+          4162.475,
+          6066.0
+        ]
+      ],
+      "budget": {
+        "maxColliders": 200,
+        "maxInstances": 200,
+        "maxTextureMB": 64,
+        "maxUniqueMaterials": 106
+      },
+      "causalModel": {
+        "founding": "Built as a fixture: ten test cells laid out in the placement workbench to compare with the first yard.",
+        "occupantsMotive": "None: yard B has no occupants and no lore.",
+        "pressures": "None: yard B is a fixture and is never part of the shipped game.",
+        "siteAdvantages": "Empty fringe ground falling gently east to open sea deep enough for the raft within 15 m of the beach.",
+        "wouldChangeIf": "A kit piece under test changes, the runtime contract moves, or the workbench is retired."
+      },
+      "clearance": {
+        "hardClear": [
+          [
+            [
+              4162.475,
+              5978.0
+            ],
+            [
+              4432.16,
+              5978.0
+            ],
+            [
+              4432.16,
+              6066.0
+            ],
+            [
+              4162.475,
+              6066.0
+            ]
+          ]
+        ],
+        "kept": [],
+        "thinned": [
+          [
+            [
+              4147.475,
+              5963.0
+            ],
+            [
+              4447.16,
+              5963.0
+            ],
+            [
+              4447.16,
+              6081.0
+            ],
+            [
+              4147.475,
+              6081.0
+            ]
+          ]
+        ]
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.proving-ground-b.yard",
+          "notes": null,
+          "polygon": [
+            [
+              4193.113,
+              6020.742
+            ],
+            [
+              4165.357,
+              6032.053
+            ],
+            [
+              4412.149,
+              6051.661
+            ],
+            [
+              4392.318,
+              6026.478
+            ],
+            [
+              4360.622,
+              6018.026
+            ],
+            [
+              4299.992,
+              6014.995
+            ]
+          ],
+          "why": "The ground along the way through yard B is kept open for the animation tests."
+        }
+      ],
+      "contextM": {
+        "x0": 2602.475,
+        "x1": 5992.16,
+        "z0": 4327.158,
+        "z1": 7716.842
+      },
+      "districts": [
+        {
+          "centreM": [
+            4232.751,
+            6017.082
+          ],
+          "cultureKit": "imperial",
+          "id": "district.proving-ground-b.imperial",
+          "kind": "test-yard",
+          "notes": "Test cells for the imperial kit set.",
+          "polygon": [
+            [
+              4215.199,
+              5988.137
+            ],
+            [
+              4213.029,
+              5988.554
+            ],
+            [
+              4185.16,
+              6005.111
+            ],
+            [
+              4181.142,
+              6013.881
+            ],
+            [
+              4178.528,
+              6028.705
+            ],
+            [
+              4177.693,
+              6033.438
+            ],
+            [
+              4178.533,
+              6044.31
+            ],
+            [
+              4183.507,
+              6046.474
+            ],
+            [
+              4184.499,
+              6046.727
+            ],
+            [
+              4185.357,
+              6046.813
+            ],
+            [
+              4411.714,
+              6051.109
+            ],
+            [
+              4392.318,
+              6026.478
+            ],
+            [
+              4360.965,
+              6018.118
+            ],
+            [
+              4232.288,
+              5988.443
+            ],
+            [
+              4230.834,
+              5988.139
+            ],
+            [
+              4228.603,
+              5987.98
+            ],
+            [
+              4217.397,
+              5987.98
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "Level fringe ground at the west end of yard B, each cell under the plinth or pad limit.",
+            "playerPurpose": "None. The imperial group of yard B proves the imperial kit set; it is not part of the game.",
+            "what": "The imperial group of yard B: the wall run, the farmhouse, the sign post and the sconce wall.",
+            "whyHere": "The imperial group sits on empty fringe ground at the west end of yard B; its position has no lore reason.",
+            "whyNeighbours": "The imperial group keeps to one kit set, so that a kit-purity warning in yard B reads as a real one."
+          }
+        },
+        {
+          "centreM": [
+            4351.0,
+            6006.815
+          ],
+          "cultureKit": "argonian-root",
+          "id": "district.proving-ground-b.root",
+          "kind": "test-yard",
+          "notes": "Test cells for the argonian-root kit set.",
+          "polygon": [
+            [
+              4343.36,
+              6004.43
+            ],
+            [
+              4343.36,
+              6009.2
+            ],
+            [
+              4348.728,
+              6013.26
+            ],
+            [
+              4353.272,
+              6013.26
+            ],
+            [
+              4358.64,
+              6009.2
+            ],
+            [
+              4358.64,
+              6004.43
+            ],
+            [
+              4353.272,
+              6000.37
+            ],
+            [
+              4348.728,
+              6000.37
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "Sloping fringe ground north of the way, falling south.",
+            "playerPurpose": "None. The root group of yard B proves the argonian-root kit set; it is not part of the game.",
+            "what": "The root group of yard B: the dug-in cave mouth alone.",
+            "whyHere": "The root group sits on empty fringe ground north of the way; its position has no lore reason.",
+            "whyNeighbours": "The cave mouth keeps its own kit set apart, so that a kit-purity warning reads as a real one."
+          }
+        },
+        {
+          "centreM": [
+            4363.748,
+            6037.728
+          ],
+          "cultureKit": "argonian-stilt",
+          "id": "district.proving-ground-b.stilt",
+          "kind": "test-yard",
+          "notes": "Test cells for the argonian-stilt kit set.",
+          "polygon": [
+            [
+              4255.165,
+              5993.289
+            ],
+            [
+              4167.745,
+              6031.464
+            ],
+            [
+              4415.016,
+              6064.576
+            ],
+            [
+              4416.708,
+              6063.979
+            ],
+            [
+              4420.837,
+              6060.73
+            ],
+            [
+              4421.035,
+              6058.458
+            ],
+            [
+              4420.81,
+              6057.213
+            ],
+            [
+              4420.412,
+              6056.486
+            ],
+            [
+              4417.694,
+              6052.201
+            ],
+            [
+              4417.4,
+              6051.851
+            ],
+            [
+              4412.668,
+              6046.276
+            ],
+            [
+              4392.03,
+              6026.401
+            ],
+            [
+              4361.004,
+              6018.128
+            ],
+            [
+              4259.482,
+              5992.523
+            ],
+            [
+              4258.214,
+              5992.343
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "Fringe ground falling east to the beach and the open sea.",
+            "playerPurpose": "None. The stilt group of yard B proves the stilt kit set; it is not part of the game.",
+            "what": "The stilt group of yard B: the two huts, the boardwalk run, the landing stage and the raft.",
+            "whyHere": "The stilt group sits on empty ground running down to the sea; its position has no lore reason.",
+            "whyNeighbours": "The stilt group keeps to the argonian-stilt kit set, so that a kit-purity warning reads as a real one."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [
+        {
+          "facingDeg": 207.0,
+          "id": "door.fixture.proving-ground-b.imperial-house",
+          "interiorClaim": {
+            "culture": "imperial",
+            "owner": null,
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.proving-ground-b.imperial-house",
+          "thresholdM": [
+            4221.18,
+            6000.56
+          ]
+        },
+        {
+          "facingDeg": 189.7,
+          "id": "door.fixture.proving-ground-b.mud-hut",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": null,
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.proving-ground-b.mud-hut",
+          "thresholdM": [
+            4257.52,
+            6002.803
+          ]
+        }
+      ],
+      "id": "place.fixture.proving-ground-b",
+      "landmarks": [
+        {
+          "assetRef": "vanilla:clutter/signage/whiterun/signwrdrunkenhuntsman01",
+          "id": "landmark.proving-ground-b.huntsman-sign",
+          "kind": "mounted-sign",
+          "notes": "Mounted child of the sign-post piece by its mined mount pair.",
+          "positionM": [
+            4198.004,
+            6027.862
+          ],
+          "why": {
+            "microGeography": "About 2.4 m above level ground, under the arm of the post.",
+            "playerPurpose": "None. The hanging sign in yard B proves a mounted piece; it is not part of the game.",
+            "what": "Test piece sign: the Drunken Huntsman board hung from the Whiterun sign post in yard B.",
+            "whyHere": "The sign is a fixture; it proves that a board hangs from its post at Bethesda's own offset.",
+            "whyNeighbours": "It hangs from the sign post beside the way, just inside the gate of yard B.",
+            "whySpot": "Under the arm of the post, at the offset Bethesda's own two placements of this pair use."
+          }
+        },
+        {
+          "assetRef": "vanilla:clutter/imperial/impwallsconcecandle01",
+          "id": "landmark.proving-ground-b.sconce",
+          "kind": "mounted-light",
+          "notes": "Mounted child of the sconce-wall piece by its mined mount pair.",
+          "positionM": [
+            4208.083,
+            6039.845
+          ],
+          "why": {
+            "microGeography": "About 2.7 m up the face of the panel, above level ground.",
+            "playerPurpose": "None. The sconce in yard B proves a hung light; it is not part of the game.",
+            "what": "Test piece sconce: the candle sconce hung on the free-standing imperial wall panel in yard B.",
+            "whyHere": "The sconce is a fixture; it proves that a light hangs on a wall at a mined offset.",
+            "whyNeighbours": "It hangs on the sconce wall panel, 13 m from the sign post in yard B.",
+            "whySpot": "On the face of the panel at the offset Bethesda's own placements of this pair use most often."
+          }
+        }
+      ],
+      "networkTerminals": [],
+      "parcels": [
+        {
+          "assetRef": null,
+          "buildingFamily": "test.boardwalk-run",
+          "centreM": [
+            4372.0,
+            6032.0
+          ],
+          "districtId": "district.proving-ground-b.stilt",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.boardwalk-run",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The run lies east to west beside the way near the shore, its last plank turned at the joint angle HTBM uses for its own docks.",
+          "polygon": [
+            [
+              4370.26,
+              6031.29
+            ],
+            [
+              4370.26,
+              6032.73
+            ],
+            [
+              4370.49,
+              6032.93
+            ],
+            [
+              4373.08,
+              6032.93
+            ],
+            [
+              4373.519,
+              6032.76
+            ],
+            [
+              4373.69,
+              6032.82
+            ],
+            [
+              4374.32,
+              6032.86
+            ],
+            [
+              4376.9,
+              6032.85
+            ],
+            [
+              4376.964,
+              6032.819
+            ],
+            [
+              4377.021,
+              6032.888
+            ],
+            [
+              4379.522,
+              6033.558
+            ],
+            [
+              4379.68,
+              6033.548
+            ],
+            [
+              4380.067,
+              6033.497
+            ],
+            [
+              4380.192,
+              6033.416
+            ],
+            [
+              4380.71,
+              6032.292
+            ],
+            [
+              4380.762,
+              6032.099
+            ],
+            [
+              4380.614,
+              6031.997
+            ],
+            [
+              4380.015,
+              6031.795
+            ],
+            [
+              4377.521,
+              6031.137
+            ],
+            [
+              4377.411,
+              6031.16
+            ],
+            [
+              4377.223,
+              6031.244
+            ],
+            [
+              4377.167,
+              6031.413
+            ],
+            [
+              4377.16,
+              6031.23
+            ],
+            [
+              4376.93,
+              6031.03
+            ],
+            [
+              4374.34,
+              6031.03
+            ],
+            [
+              4373.901,
+              6031.2
+            ],
+            [
+              4373.73,
+              6031.14
+            ],
+            [
+              4373.1,
+              6031.1
+            ],
+            [
+              4370.52,
+              6031.11
+            ],
+            [
+              4370.42,
+              6031.16
+            ]
+          ],
+          "spans": null,
+          "use": "work",
+          "why": {
+            "microGeography": "Low fringe ground a metre above the sea: the steepest cell under the planks is 2.6 deg.",
+            "playerPurpose": "None. The boardwalk run proves a built way laid piece by piece; it is not part of the game.",
+            "what": "Test run boardwalk-run: three Kothringi plank docks from HTBM, joined on the paired joints that mod uses, as a built way.",
+            "whyHere": "The boardwalk run is a fixture on empty fringe ground; its position has no lore reason.",
+            "whyNeighbours": "The boardwalk is 26 m from the landing stage and 29 m from the cave mouth.",
+            "whySpot": "Low ground near the shore where every cell under the planks is under the 3 deg limit for a piece on legs."
+          },
+          "yawDeg": 0.0
+        },
+        {
+          "assetRef": "bmv:architecture/philscaves/small/doorcaveb",
+          "buildingFamily": "test.cave-mouth",
+          "centreM": [
+            4351.0,
+            6005.0
+          ],
+          "districtId": "district.proving-ground-b.root",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.cave-mouth",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Turned so that the ramp into the mouth faces north towards the way.",
+          "polygon": [
+            [
+              4354.64,
+              6007.21
+            ],
+            [
+              4351.93,
+              6009.26
+            ],
+            [
+              4350.07,
+              6009.26
+            ],
+            [
+              4347.36,
+              6007.21
+            ],
+            [
+              4347.36,
+              6006.42
+            ],
+            [
+              4350.07,
+              6004.37
+            ],
+            [
+              4351.93,
+              6004.37
+            ],
+            [
+              4354.64,
+              6006.42
+            ]
+          ],
+          "spans": null,
+          "use": "work",
+          "why": {
+            "microGeography": "Sloping fringe ground: the steepest cell under the frame is 4.2 deg.",
+            "playerPurpose": "None. The cave mouth cell proves a dug-in opening; it is not part of the game.",
+            "what": "Test piece cave-mouth: the cave door frame doorcaveb, dug in so its sill is flush with the ground in front of it.",
+            "whyHere": "The cave mouth is a fixture on empty fringe ground; its position has no lore reason.",
+            "whyNeighbours": "The cave mouth is 31 m from the stilt house and 29 m from the boardwalk run.",
+            "whySpot": "North of the way, where the ground rises behind the frame and holds it dug into the slope."
+          },
+          "yawDeg": 180.0
+        },
+        {
+          "assetRef": "ferryraft:snt/ferry/ferryraft01",
+          "buildingFamily": "test.hull-berth",
+          "centreM": [
+            4414.486,
+            6058.132
+          ],
+          "districtId": "district.proving-ground-b.stilt",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.hull-berth",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The raft lies end on to the landing stage, in line with its deck.",
+          "polygon": [
+            [
+              4412.021,
+              6057.668
+            ],
+            [
+              4412.002,
+              6057.645
+            ],
+            [
+              4411.997,
+              6057.623
+            ],
+            [
+              4411.974,
+              6057.55
+            ],
+            [
+              4411.976,
+              6057.536
+            ],
+            [
+              4412.422,
+              6057.135
+            ],
+            [
+              4413.717,
+              6056.049
+            ],
+            [
+              4414.128,
+              6055.73
+            ],
+            [
+              4414.283,
+              6055.665
+            ],
+            [
+              4414.526,
+              6055.814
+            ],
+            [
+              4416.939,
+              6058.489
+            ],
+            [
+              4416.965,
+              6058.519
+            ],
+            [
+              4416.97,
+              6058.541
+            ],
+            [
+              4416.989,
+              6058.564
+            ],
+            [
+              4417.004,
+              6058.643
+            ],
+            [
+              4417.002,
+              6058.657
+            ],
+            [
+              4415.158,
+              6060.1
+            ],
+            [
+              4414.754,
+              6060.427
+            ],
+            [
+              4414.593,
+              6060.484
+            ],
+            [
+              4414.405,
+              6060.432
+            ],
+            [
+              4414.283,
+              6060.286
+            ],
+            [
+              4412.047,
+              6057.699
+            ]
+          ],
+          "spans": null,
+          "use": "quay",
+          "why": {
+            "microGeography": "Open sea at least 1.3 m deep under and around the raft.",
+            "playerPurpose": "None. The raft cell proves a floating hull at a stage; it is not part of the game.",
+            "what": "Test piece hull-berth: the ferry raft ferryraft01 floating at the recorded sea level.",
+            "whyHere": "The raft is a fixture; it proves that a hull floats on at least a metre of water.",
+            "whyNeighbours": "It lies half a metre off the sea end of the landing stage; the boardwalk run is 40 m to the north-west.",
+            "whySpot": "Off the end of the landing stage, where every cell within 2.5 m of the raft holds at least 1.3 m of water over a seabed under 3 deg."
+          },
+          "yawDeg": 320.0
+        },
+        {
+          "assetRef": "composite:farmhouse/farmhouse01-with-door",
+          "buildingFamily": "test.imperial-house",
+          "centreM": [
+            4223.0,
+            5997.0
+          ],
+          "districtId": "district.proving-ground-b.imperial",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": null,
+            "interiorRef": "vanilla-farmhouse-int",
+            "kind": "esp-door",
+            "radial": true,
+            "radiusM": 4.003,
+            "worldM": null
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.imperial-house",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its door is on the south wall, which faces the way; a short footpath joins the door to the way.",
+          "polygon": [
+            [
+              4212.98,
+              5997.0
+            ],
+            [
+              4213.1,
+              5995.18
+            ],
+            [
+              4213.23,
+              5994.03
+            ],
+            [
+              4213.51,
+              5993.04
+            ],
+            [
+              4214.47,
+              5992.35
+            ],
+            [
+              4215.72,
+              5992.11
+            ],
+            [
+              4217.54,
+              5991.98
+            ],
+            [
+              4228.46,
+              5991.98
+            ],
+            [
+              4230.28,
+              5992.11
+            ],
+            [
+              4231.43,
+              5992.35
+            ],
+            [
+              4232.42,
+              5992.97
+            ],
+            [
+              4232.77,
+              5993.93
+            ],
+            [
+              4232.9,
+              5995.18
+            ],
+            [
+              4233.02,
+              5997.0
+            ],
+            [
+              4232.9,
+              5998.82
+            ],
+            [
+              4232.77,
+              5999.97
+            ],
+            [
+              4232.49,
+              6000.96
+            ],
+            [
+              4231.53,
+              6001.65
+            ],
+            [
+              4230.28,
+              6001.89
+            ],
+            [
+              4228.46,
+              6002.02
+            ],
+            [
+              4217.54,
+              6002.02
+            ],
+            [
+              4215.72,
+              6001.89
+            ],
+            [
+              4214.57,
+              6001.65
+            ],
+            [
+              4213.58,
+              6001.03
+            ],
+            [
+              4213.23,
+              6000.07
+            ],
+            [
+              4213.1,
+              5998.82
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "Gently sloping fringe ground with 0.4 m of fall across the footprint, taken up by the stone plinth; the steepest cell is 3.8 deg.",
+            "playerPurpose": "None. The farmhouse cell proves a plinth-seated building and its door; it is not part of the game.",
+            "what": "Test piece imperial-house: the farmhouse composite with the door leaf Skyrim hangs on it, seated as a plinth.",
+            "whyHere": "The farmhouse is a fixture on empty fringe ground; its position has no lore reason.",
+            "whyNeighbours": "The farmhouse stands 22 m from the bamboo hut to its east and 23 m from the wall run to its west.",
+            "whySpot": "North of the way on ground where the plinth fit holds: 0.4 m of fall under the house, with the ground at its door level with the ground around it."
+          },
+          "yawDeg": 0.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "test.imperial-wall-run",
+          "centreM": [
+            4189.525,
+            6010.681
+          ],
+          "districtId": "district.proving-ground-b.imperial",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.imperial-wall-run",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The run stands roughly north to south across the west end of the way, so the gate arch lets the way pass east into the yard.",
+          "polygon": [
+            [
+              4181.72,
+              6033.634
+            ],
+            [
+              4183.421,
+              6035.45
+            ],
+            [
+              4182.336,
+              6041.602
+            ],
+            [
+              4184.807,
+              6042.678
+            ],
+            [
+              4185.196,
+              6042.777
+            ],
+            [
+              4185.595,
+              6042.817
+            ],
+            [
+              4188.052,
+              6028.883
+            ],
+            [
+              4188.282,
+              6027.866
+            ],
+            [
+              4189.185,
+              6022.745
+            ],
+            [
+              4189.316,
+              6021.712
+            ],
+            [
+              4191.766,
+              6007.817
+            ],
+            [
+              4191.351,
+              6007.693
+            ],
+            [
+              4190.919,
+              6007.667
+            ],
+            [
+              4188.277,
+              6007.912
+            ],
+            [
+              4187.211,
+              6013.956
+            ],
+            [
+              4184.992,
+              6015.081
+            ],
+            [
+              4184.245,
+              6019.315
+            ],
+            [
+              4185.945,
+              6021.131
+            ],
+            [
+              4185.718,
+              6022.134
+            ],
+            [
+              4184.815,
+              6027.255
+            ],
+            [
+              4184.686,
+              6028.273
+            ],
+            [
+              4182.467,
+              6029.4
+            ]
+          ],
+          "spans": null,
+          "use": "civic",
+          "why": {
+            "microGeography": "Level fringe ground: the steepest cell under any of the five pieces is 1.8 deg.",
+            "playerPurpose": "None. The wall run proves a run authored piece by piece in the workbench; it is not part of the game.",
+            "what": "Test run imperial-wall-run: five curtain-wall pieces from the Morrowind keep set, laid in the workbench on the joints its plugins use, a broken wall at each end.",
+            "whyHere": "The wall run is a fixture on empty fringe ground; its position has no lore reason.",
+            "whyNeighbours": "The run stands alone at the west end; the sign post is 9.6 m east of it and the sconce wall 18.6 m east.",
+            "whySpot": "A strip about 35 m long west of the yard where every cell under each piece is under 2 deg."
+          },
+          "yawDeg": 100.0
+        },
+        {
+          "assetRef": "composite:docks/quay-run-2",
+          "buildingFamily": "test.landing-stage",
+          "centreM": [
+            4405.9,
+            6047.9
+          ],
+          "districtId": "district.proving-ground-b.stilt",
+          "entrance": null,
+          "front": {
+            "deg": 41.4,
+            "evidence": "asymmetry",
+            "outside": true,
+            "worldDeg": 1.4
+          },
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.landing-stage",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its shore end meets the end of the way and its deck runs south-east over the sea to the raft.",
+          "polygon": [
+            [
+              4404.048,
+              6049.193
+            ],
+            [
+              4402.706,
+              6047.251
+            ],
+            [
+              4402.721,
+              6047.082
+            ],
+            [
+              4402.859,
+              6046.967
+            ],
+            [
+              4407.195,
+              6046.814
+            ],
+            [
+              4407.364,
+              6046.828
+            ],
+            [
+              4409.749,
+              6049.018
+            ],
+            [
+              4414.343,
+              6054.431
+            ],
+            [
+              4414.459,
+              6054.569
+            ],
+            [
+              4414.436,
+              6054.744
+            ],
+            [
+              4411.173,
+              6057.482
+            ],
+            [
+              4411.004,
+              6057.468
+            ],
+            [
+              4406.433,
+              6052.035
+            ]
+          ],
+          "spans": null,
+          "use": "quay",
+          "why": {
+            "microGeography": "Dry beach under the shore end and open sea under the rest of the run.",
+            "playerPurpose": "None. The landing stage cell proves a quay seated at sea level; it is not part of the game.",
+            "what": "Test piece landing-stage: the docks-v1 quay run of two dock sections, from the beach out to the raft.",
+            "whyHere": "The landing stage is a fixture; it carries the way from the beach out to deep enough water for the raft.",
+            "whyNeighbours": "The ferry raft lies half a metre off its sea end; the boardwalk run is 26 m inland.",
+            "whySpot": "Where the bank rises to the height of the deck at the water's edge, so that the stage starts on the shore and spans the shallows."
+          },
+          "yawDeg": 320.0
+        },
+        {
+          "assetRef": "composite:stilt/bamboohut01-with-door",
+          "buildingFamily": "test.bamboo-hut",
+          "centreM": [
+            4258.0,
+            6000.0
+          ],
+          "districtId": "district.proving-ground-b.stilt",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": null,
+            "interiorRef": "htbm-hut-int",
+            "kind": "esp-door",
+            "radial": true,
+            "radiusM": 2.826,
+            "worldM": null
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.mud-hut",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Turned so that its door faces south towards the way; a footpath joins the door to the way.",
+          "polygon": [
+            [
+              4258.799,
+              6003.189
+            ],
+            [
+              4257.028,
+              6003.44
+            ],
+            [
+              4256.971,
+              6003.429
+            ],
+            [
+              4256.967,
+              6003.419
+            ],
+            [
+              4256.161,
+              6002.723
+            ],
+            [
+              4254.635,
+              6001.31
+            ],
+            [
+              4254.58,
+              6001.16
+            ],
+            [
+              4254.84,
+              5999.096
+            ],
+            [
+              4254.897,
+              5998.959
+            ],
+            [
+              4256.431,
+              5997.123
+            ],
+            [
+              4256.562,
+              5997.043
+            ],
+            [
+              4258.541,
+              5996.429
+            ],
+            [
+              4258.71,
+              5996.453
+            ],
+            [
+              4260.361,
+              5997.715
+            ],
+            [
+              4260.456,
+              5997.829
+            ],
+            [
+              4261.276,
+              6000.084
+            ],
+            [
+              4261.277,
+              6000.233
+            ],
+            [
+              4260.823,
+              6002.261
+            ],
+            [
+              4260.71,
+              6002.387
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "Level fringe ground: the steepest cell under the hut is 1.7 deg.",
+            "playerPurpose": "None. The bamboo hut cell proves a small hut on legs and its door; it is not part of the game.",
+            "what": "Test piece hut: HTBM's bamboo hut with the door leaf the mod hangs on it at a fixed offset, seated on its legs.",
+            "whyHere": "The bamboo hut is a fixture on empty fringe ground; its position has no lore reason.",
+            "whyNeighbours": "The hut is 22 m east of the farmhouse; the stilt house is 52 m further east.",
+            "whySpot": "North of the way on ground under the 3 deg limit for a piece on legs."
+          },
+          "yawDeg": 250.0
+        },
+        {
+          "assetRef": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
+          "buildingFamily": "test.sconce-wall",
+          "centreM": [
+            4208.0,
+            6040.0
+          ],
+          "districtId": "district.proving-ground-b.imperial",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.sconce-wall",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall stands square to the way so that its candle sconce faces the walker.",
+          "polygon": [
+            [
+              4204.99,
+              6039.65
+            ],
+            [
+              4211.01,
+              6039.65
+            ],
+            [
+              4211.01,
+              6040.35
+            ],
+            [
+              4204.99,
+              6040.35
+            ]
+          ],
+          "spans": null,
+          "use": "civic",
+          "why": {
+            "microGeography": "Level fringe ground: the steepest cell under the panel is 1.2 deg.",
+            "playerPurpose": "None. The sconce wall cell proves a wall that carries a hung light; it is not part of the game.",
+            "what": "Test piece sconce-wall: the free-standing imperial wall panel impfreewall01 standing on its designed sink.",
+            "whyHere": "The sconce wall is a fixture on empty fringe ground; its position has no lore reason.",
+            "whyNeighbours": "The panel is 13 m from the sign post and 18.6 m from the wall run.",
+            "whySpot": "South of the way near the gate, on ground under 2 deg."
+          },
+          "yawDeg": 0.0
+        },
+        {
+          "assetRef": "vanilla:clutter/signage/whiterun/signwrpost01",
+          "buildingFamily": "test.sign-post",
+          "centreM": [
+            4198.0,
+            6028.5
+          ],
+          "districtId": "district.proving-ground-b.imperial",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.sign-post",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The post stands beside the way just inside the gate, with its board hanging over the verge.",
+          "polygon": [
+            [
+              4197.87,
+              6028.49
+            ],
+            [
+              4197.9,
+              6028.42
+            ],
+            [
+              4197.96,
+              6028.38
+            ],
+            [
+              4198.03,
+              6028.38
+            ],
+            [
+              4198.04,
+              6028.38
+            ],
+            [
+              4198.1,
+              6028.43
+            ],
+            [
+              4198.12,
+              6028.5
+            ],
+            [
+              4198.1,
+              6028.57
+            ],
+            [
+              4198.04,
+              6028.61
+            ],
+            [
+              4197.96,
+              6028.61
+            ],
+            [
+              4197.96,
+              6028.61
+            ],
+            [
+              4197.9,
+              6028.56
+            ],
+            [
+              4197.87,
+              6028.49
+            ]
+          ],
+          "spans": null,
+          "use": "civic",
+          "why": {
+            "microGeography": "Level fringe ground: the steepest cell under the post is 1.8 deg.",
+            "playerPurpose": "None. The sign post cell proves a post with a hanging board; it is not part of the game.",
+            "what": "Test piece sign-post: the Whiterun sign post standing on its designed sink.",
+            "whyHere": "The sign post is a fixture on empty fringe ground; its position has no lore reason.",
+            "whyNeighbours": "The post is 9.6 m east of the wall run and 13 m from the sconce wall.",
+            "whySpot": "Beside the way, 3.5 m south of its centreline and clear of the gate arch."
+          },
+          "yawDeg": 0.0
+        },
+        {
+          "assetRef": "composite:stilt/stilthouse-with-door",
+          "buildingFamily": "test.stilt-hut",
+          "centreM": [
+            4314.0,
+            6029.0
+          ],
+          "districtId": "district.proving-ground-b.stilt",
+          "entrance": {
+            "arcM": 10.43,
+            "bearingDeg": 20.6,
+            "interiorRef": "vanilla-farmhouse-int",
+            "kind": "open-front",
+            "worldM": [
+              4316.43,
+              6026.3
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.proving-ground-b.stilt-hut",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front faces north onto the way, joined to it by a short footpath.",
+          "polygon": [
+            [
+              4309.31,
+              6026.11
+            ],
+            [
+              4309.31,
+              6022.3
+            ],
+            [
+              4309.33,
+              6022.29
+            ],
+            [
+              4316.92,
+              6022.29
+            ],
+            [
+              4320.55,
+              6022.29
+            ],
+            [
+              4320.57,
+              6022.31
+            ],
+            [
+              4320.57,
+              6035.91
+            ],
+            [
+              4319.81,
+              6040.01
+            ],
+            [
+              4319.79,
+              6040.03
+            ],
+            [
+              4315.04,
+              6040.04
+            ],
+            [
+              4314.81,
+              6040.04
+            ],
+            [
+              4309.33,
+              6035.94
+            ],
+            [
+              4309.31,
+              6035.92
+            ],
+            [
+              4309.31,
+              6032.14
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "Level fringe ground: the steepest cell under the stilt house is 1.5 deg.",
+            "playerPurpose": "None. The stilt house cell proves a deck seated above the ground on long legs; it is not part of the game.",
+            "what": "Test piece stilt-hut: the BM&V stilt house composite, its deck held at the height the mod's own placements use and its legs driven into the ground.",
+            "whyHere": "The stilt house is a fixture on empty fringe ground; its position has no lore reason.",
+            "whyNeighbours": "The stilt house is 31 m from the cave mouth and 50 m from the boardwalk run.",
+            "whySpot": "South of the way on ground under the 3 deg limit for a piece on legs."
+          },
+          "yawDeg": 0.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [],
+      "scaleGrounding": {
+        "buildingsPlanned": 10,
+        "households": 0,
+        "loreSource": "none: fixture",
+        "npcsPlanned": 0,
+        "population": 0,
+        "why": "Ten test cells, one of each mechanism under test, laid out in the workbench; no population."
+      },
+      "seed": "place.fixture.proving-ground-b",
+      "siting": null,
+      "summary": {
+        "approaches": 2,
+        "combatSpaces": 1,
+        "districts": 3,
+        "docks": 0,
+        "doors": 2,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 2,
+        "networkTerminals": 0,
+        "parcels": 10,
+        "questSockets": 0,
+        "sitingCandidates": 0,
+        "ways": 4
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.proving-ground-b.imperial-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.proving-ground-b.imperial-house-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4221.2,
+              6023.2
+            ],
+            [
+              4221.18,
+              6000.56
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4221.2,
+              6023.2
+            ],
+            [
+              4221.18,
+              6000.56
+            ]
+          ],
+          "waterOk": null,
+          "why": "The footpath from the way to the farmhouse door, so that the door opens onto a walked line.",
+          "widthM": 3.0
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.proving-ground-b.mud-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.proving-ground-b.mud-hut-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4262.0,
+              6020.8
+            ],
+            [
+              4257.52,
+              6002.803
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4262.0,
+              6020.8
+            ],
+            [
+              4257.52,
+              6002.8
+            ]
+          ],
+          "waterOk": null,
+          "why": "The footpath from the way to the bamboo hut door, so that its door opens onto a walked line.",
+          "widthM": 3.0
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.proving-ground-b.stilt-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.proving-ground-b.stilt-hut-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4316.4,
+              6022.29
+            ],
+            [
+              4316.43,
+              6026.3
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4316.4,
+              6019.1
+            ],
+            [
+              4316.43,
+              6026.3
+            ]
+          ],
+          "waterOk": null,
+          "why": "The footpath from the way to the stilt house front, so that its door opens onto a walked line.",
+          "widthM": 3.0
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.proving-ground-b.imperial-wall-run",
+            "parcel.proving-ground-b.landing-stage"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.proving-ground-b.way",
+          "kind": "road",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              4182.467,
+              6029.4
+            ],
+            [
+              4194.0,
+              6024.7
+            ],
+            [
+              4300.0,
+              6019.0
+            ],
+            [
+              4360.0,
+              6022.0
+            ],
+            [
+              4390.0,
+              6030.0
+            ],
+            [
+              4403.347,
+              6046.949
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              4165.0,
+              6026.0
+            ],
+            [
+              4194.0,
+              6024.7
+            ],
+            [
+              4240.0,
+              6022.0
+            ],
+            [
+              4300.0,
+              6019.0
+            ],
+            [
+              4360.0,
+              6022.0
+            ],
+            [
+              4390.0,
+              6030.0
+            ],
+            [
+              4398.0,
+              6040.0
+            ],
+            [
+              4403.27,
+              6044.76
+            ]
+          ],
+          "waterOk": null,
+          "why": "The way through yard B from the gate in the wall run east to the landing stage.",
+          "widthM": 4.3
+        }
+      ]
     }
   ],
   "layers": [

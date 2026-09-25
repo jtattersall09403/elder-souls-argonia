@@ -146,12 +146,17 @@ class Ground:
 
     # -- slope and water ---------------------------------------------------
     def _grid(self, name: str, block: str, x: float, z: float):
+        """The window's cell of `name` under (x, z). A point outside the
+        window is refused like `survey_height` refuses it: a clamped edge
+        cell (or a wrapped negative index) would read as real ground."""
         g = self.meta[block]
-        row = int(z // g["pxM"]) - g["origin"][1]
-        col = int(x // g["pxM"]) - g["origin"][0]
+        return self._cell(name, int(z // g["pxM"]) - g["origin"][1],
+                          int(x // g["pxM"]) - g["origin"][0], x, z)
+
+    def _cell(self, name: str, row: int, col: int, x: float, z: float):
         arr = self.a[name]
-        row = min(max(row, 0), arr.shape[0] - 1)
-        col = min(max(col, 0), arr.shape[1] - 1)
+        if not (0 <= row < arr.shape[0] and 0 <= col < arr.shape[1]):
+            raise ValueError(f"({x:.1f}, {z:.1f}) is outside the scene's ground window")
         return arr[row, col]
 
     def footprint_max_slope_deg(self, polygon_m) -> float:
@@ -165,7 +170,8 @@ class Ground:
         for r in range(int(z0 // px), int(z1 // px) + 1):
             for c in range(int(x0 // px), int(x1 // px) + 1):
                 if box(c * px, r * px, (c + 1) * px, (r + 1) * px).intersects(poly):
-                    out = max(out, float(self.a["slope"][r - g["origin"][1], c - g["origin"][0]]))
+                    out = max(out, float(self._cell("slope", r - g["origin"][1],
+                                                    c - g["origin"][0], c * px, r * px)))
         return out
 
     def wet(self, x: float, z: float) -> bool:
