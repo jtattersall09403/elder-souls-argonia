@@ -123,7 +123,10 @@
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 
-VAULT="${VAULT:-${ES_VAULT_ROOT:-$HOME/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/argonia-heightfield}}"
+# The default heightfield directory comes from worldgen/vault.py (one place
+# that knows where the vault lives on this machine or a codespace).
+VAULT="${VAULT:-${ES_VAULT_ROOT:-$(cd "$REPO_ROOT/tooling/world-generation" \
+  && python3 -c 'from worldgen.vault import HEIGHTFIELD_DIR; print(HEIGHTFIELD_DIR)')}}"
 FOOTPRINT_FILE="$VAULT/province-refined/chain-footprint.json"
 declare -A STAGE_ARGS=(
   [sculpt_province]="$VAULT/heightfield-f32.npy"

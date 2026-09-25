@@ -15,7 +15,10 @@
 # what it published, and they legitimately differ between the two paths.
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-VAULT="${ES_VAULT_ROOT:-$HOME/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/argonia-heightfield}"
+# The default heightfield directory comes from worldgen/vault.py (one place
+# that knows where the vault lives on this machine or a codespace).
+VAULT="${ES_VAULT_ROOT:-$(cd "$REPO_ROOT/tooling/world-generation" \
+  && python3 -c 'from worldgen.vault import HEIGHTFIELD_DIR; print(HEIGHTFIELD_DIR)')}"
 out="${1:?usage: chain-manifest.sh <output file>}"
 : > "$out"
 ( cd "$REPO_ROOT/apps/world-studio/public/province" \
