@@ -1,0 +1,4 @@
+# Build context is the repo root (devcontainer.json "context": ".."); the
+# image needs only the toolchain script.
+*
+!tooling/bootstrap/install-toolchain.sh
