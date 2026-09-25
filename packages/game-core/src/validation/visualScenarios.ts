@@ -69,6 +69,7 @@ export const VISUAL_SCENARIO_IDS = [
   "sneak-attack",
   "sneak-swing",
   "sneak-detected",
+  "sneak-heard",
   "swim-cross",
 ] as const;
 
@@ -1103,6 +1104,19 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     cues: [{ from: 0.2, to: 2.0, move: [0, 0.5] }],
     // Waits until the warden engages: an unaware or suspicious enemy takes no cue.
     enemyCues: [{ at: 2.6, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
+  },
+  // Heard, not seen (decision 0095): crouched 3 m behind the unaware warden,
+  // out of its sight, the player swings at the air. The swing's sound event
+  // is the stealth feed's noise, and the warden turns suspicious.
+  "sneak-heard": {
+    id: "sneak-heard",
+    label: "Heard \u2192 crouched behind an unaware warden, a swing at the air makes it suspicious",
+    warmup: 0.5,
+    duration: 3.0,
+    player: { position: [0, Y, -3], yaw: 0, weaponId: "steel-sword", stance: "crouching" },
+    stealth: { startUnaware: true, sneakSkill: 50 },
+    enemy: FACING_ENEMY,
+    cues: [{ from: 0.5, to: 0.59, actions: ["light"] }],
   },
 
   // --- swimming (decision 0093) ------------------------------------------------

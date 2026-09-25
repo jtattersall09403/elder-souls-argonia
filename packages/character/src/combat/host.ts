@@ -1,9 +1,11 @@
+import type { FootContact, SoundEventBus } from "@elder-souls/audio";
 import type { AimView, CombatAction } from "@elder-souls/game-core/core/types";
 import type { BowPhase } from "@elder-souls/game-core/combat/bowShot";
 import type { LightEnvironment } from "@elder-souls/game-core/fx/carriedLight";
 import type { Awareness } from "@elder-souls/game-core/perception/detection";
 import type { WaterSampler } from "@elder-souls/game-core/physics/waterSampler";
 import type { FlightSample } from "../Arrows";
+import type { SoundEmitters } from "./soundStep";
 
 /**
  * What a host hands the combat runtime, and what the runtime hands back.
@@ -137,4 +139,20 @@ export type CombatRuntimeHost = {
    * Absent means dry everywhere: no swimming.
    */
   water?: WaterSampler;
+  /**
+   * The session's sound-event bus (decision 0095): every swing, hit, block,
+   * draw, bow cycle, footstep, jump and stroke the encounter makes is emitted
+   * on it, and the stealth feed hears the player's own events off it. The host
+   * attaches its AudioManager to the same bus. Absent: the runtime keeps a
+   * private bus, so stealth still hears with no speakers.
+   */
+  sounds?: SoundEventBus;
+  /** Continuous sources (a lit carried torch) play through the host's AudioManager. Absent: silent. */
+  soundEmitters?: SoundEmitters;
+  /**
+   * What the ground under a foot is made of (module 75 §54): the collider's
+   * physical material or the terrain's ground-material id at a world position.
+   * The runtime adds the water depth from `water`. Absent: dirt.
+   */
+  groundContact?: (worldPosition: { x: number; y: number; z: number }) => Omit<FootContact, "waterDepthM">;
 };

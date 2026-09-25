@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import characterAssets from "@elder-souls/character-assets/plugin";
 import basisTranscoder from "@elder-souls/basis-transcoder/plugin";
+import audioFiles from "@elder-souls/audio/plugin";
 
 // The Analytical Platform exposes local dev servers through this fixed
 // VS Code tunnel host, terminating TLS in front of a plain-http dev server.
@@ -25,7 +26,10 @@ export default defineConfig(({ command }) => ({
   base: command === "build" ? "/elder-souls-argonia/" : "/",
   // basisTranscoder: any kit the sandbox ever loads is KTX2-compressed
   // (game-core/assets/kitLoader.ts); the transcoder ships beside the app.
-  plugins: [react(), characterAssets(), basisTranscoder()],
+  // audioFiles: the shipped Opus/WebM sounds (decision 0094), served at
+  // <base>audio/. The sandbox is the one app on the Pages site that ships
+  // them; a second app passes { sharedBase } (standard 16).
+  plugins: [react(), characterAssets(), basisTranscoder(), audioFiles()],
   build: { target: "es2022", sourcemap: false, chunkSizeWarningLimit: 4000 },
   server: {
     host: "0.0.0.0",

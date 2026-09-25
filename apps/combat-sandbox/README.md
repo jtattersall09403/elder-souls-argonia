@@ -19,6 +19,7 @@ The Pages build is published from `main`. Desktop and mobile browsers load the s
 - equip/unequip state with a data-defined weapon moveset
 - pipeline-built Skyrim character with semantic combat and locomotion clips
 - keyboard/mouse, responsive touch UI, and GameSir/Nintendo-layout controls
+- vanilla Skyrim sound (decision 0095): swings, hits, blocks, draws, the bow, footsteps on the arena's stone and in the pool, swimming and a burning torch; sound starts after the first click or key press
 
 ## Controls
 

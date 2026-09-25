@@ -7,20 +7,20 @@ import {
   type DetectionTarget,
   type Observer,
 } from "@elder-souls/game-core/perception/detection";
-import { NOISE_LOUDNESS, noiseHeard, type NoiseEvent } from "@elder-souls/game-core/perception/noise";
+import { noiseHeard } from "@elder-souls/game-core/perception/noise";
 import { CHARACTER_CHEST_ABOVE_BODY_CENTRE } from "@elder-souls/game-core/physics/characterPhysics";
 import { sneakMultiplier } from "@elder-souls/game-core/stats/derived";
 import { sneakWeaponKindFor } from "@elder-souls/game-core/equipment/sneakWeaponKind";
 import type { WeaponClass } from "@elder-souls/game-core/equipment/types";
 import { engagedAwareness, type EnemyRuntime } from "./enemyRuntime";
 import { PLAYER_EYE_OFFSET_Y } from "./aimRig";
-import { STRIDE_RUN_ABOVE_MAGNITUDE, STRIDE_WALK_ABOVE_MAGNITUDE } from "./locomotionHelpers";
 
 /**
  * Stealth's frame (decision 0092): each enemy looks at and listens for the
  * player through the pure detection rule (`game-core/perception`), before its
  * own step. The runtime supplies what only the world knows (a line-of-sight
- * ray, the light on the player, the loudest thing the player did); nothing
+ * ray, the light on the player, the loudest thing the player did, heard off
+ * the sound-event bus through `perception/soundNoise`); nothing
  * here decides what an aware enemy does, which stays `enemyStep`'s.
  */
 
@@ -67,24 +67,6 @@ export function strikeAwareness(e: EnemyRuntime, playerPosition: THREE.Vector3):
 /** The sneak-attack table's multiplier for a weapon class at a Sneak skill (§121.5). */
 export function sneakAttackMultiplier(classId: WeaponClass, sneakSkill: number): number {
   return sneakMultiplier(sneakWeaponKindFor(classId), sneakSkill);
-}
-
-/** Which footstep the player's movement makes, from the same thresholds as the stride clip. */
-export function locomotionNoise(input: {
-  moveMagnitude: number;
-  grounded: boolean;
-  sprinting: boolean;
-  crouching: boolean;
-}): NoiseEvent | null {
-  if (!input.grounded || input.moveMagnitude <= STRIDE_WALK_ABOVE_MAGNITUDE) return null;
-  if (input.crouching) return "walkSneaking";
-  if (input.sprinting) return "sprint";
-  return input.moveMagnitude > STRIDE_RUN_ABOVE_MAGNITUDE ? "run" : "walk";
-}
-
-/** The louder of a running loudness and an event. */
-export function louder(loudness: number, event: NoiseEvent | null): number {
-  return event ? Math.max(loudness, NOISE_LOUDNESS[event]) : loudness;
 }
 
 /** Advance every living enemy's awareness by one frame. */

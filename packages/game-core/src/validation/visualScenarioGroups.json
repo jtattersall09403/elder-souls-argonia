@@ -82,7 +82,8 @@
   "stealth": [
     "sneak-attack",
     "sneak-swing",
-    "sneak-detected"
+    "sneak-detected",
+    "sneak-heard"
   ],
   "swim": [
     "swim-cross"

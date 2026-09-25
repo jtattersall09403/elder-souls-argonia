@@ -343,7 +343,10 @@ written rule is the weakest of the three layers below, so all three exist.
   (`test_kit_compress.py`, 45.6 MB today); composed site fails over 900 MB
   and warns over 750 MB (`tooling/pages-site/compose.mjs`, 380 MB today with
   the current ladder, 561 MB with every kit); every published kit carries a
-  `compression` record whose size matches the shipped file. Raising a budget
+  `compression` record whose size matches the shipped file. Audio
+  (`packages/audio/files/`, decision 0094) warns over 30 MB and fails over
+  50 MB (`packages/audio/budget.json`, counted once on the site by
+  compose.mjs; 5.0 MB today). Raising a budget
   is a decision with a measurement, never an edit in passing.
 - **Ship only what the shipped ladder can display.** The Pages artefact
   derives its contents from `province/ladder.json` and reachability, so data

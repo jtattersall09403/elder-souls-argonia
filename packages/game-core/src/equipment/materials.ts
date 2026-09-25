@@ -179,3 +179,20 @@ export const MATERIAL_IDS = MATERIALS.map((m) => m.id);
 export function scaleGuardValue(base: number, scale: number) {
   return Math.min(0.95, Number((base * scale).toFixed(4)));
 }
+
+/**
+ * A material at or above this weight scale makes heavy armour and heavy
+ * shields; below it, light. Skyrim's own light/heavy split falls on one side
+ * of it for every material both games share: studded (leather), elven and
+ * glass are light (0.5-0.8), iron, steel, dwarven, orcish, ebony and daedric
+ * heavy (1.0-1.4). Read wherever the split matters (footstep and impact
+ * sounds, combat-sandbox lane round 7) so it is decided once.
+ */
+export const HEAVY_MATERIAL_WEIGHT_SCALE = 0.9;
+
+export type MaterialWeightClass = "light" | "heavy";
+
+/** Whether armour or a shield of this material is light or heavy. */
+export function materialWeightClass(id: MaterialId): MaterialWeightClass {
+  return MATERIAL_PROFILES[id].weightScale >= HEAVY_MATERIAL_WEIGHT_SCALE ? "heavy" : "light";
+}

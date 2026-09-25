@@ -25,6 +25,9 @@ the world studio and the game run the same code. The rules it calls
 | `onArrowSample` | Optional; every simulated arrow step (probes). |
 | `lightEnvironment` | Optional `(worldPosition) => LightEnvironment`: whether a carried light is under water there (decision 0091); a torch put out by water is not used up. When absent the runtime asks `water`; with neither, dry. |
 | `water` | Optional `WaterSampler` (`game-core/physics/waterSampler`, the `sample` half of the contracts' `WorldWaterQuery`): where the player swims (decision 0093). The sandbox passes its pool (`flatPoolSampler`); the studio passes its `WaterWorld` (10b). With it the player loads the `swim` animation pack and the HUD carries `swimming` and `submergedSeconds`. Absent means no swimming. |
+| `sounds` | Optional `SoundEventBus` (`@elder-souls/audio`, decision 0095): every swing, hit, block, parry, draw/sheathe, bow nock/pull/release, footstep (one per foot plant), jump, landing, roll thump, splash and stroke is emitted on it; the host attaches its `AudioManager` to the same bus. The stealth feed hears the player's own events off it (`perception/soundNoise`), so absent, the runtime keeps a private bus and stealth still hears. |
+| `soundEmitters` | Optional `Pick<AudioManager, "addEmitter" \| "moveEmitter" \| "removeEmitter">`: a lit carried torch burns as an emitter at its flame. Absent: silent. |
+| `groundContact` | Optional `(worldPosition) => { physical?, groundMaterialId? }`: what the ground under a foot is made of (module 75 §54); the runtime adds the water depth from `water` (`footstepSurface`). The sandbox passes stone; the studio passes the terrain's ground-material id. Absent: dirt. |
 | `visualScenario` | Optional scripted validation scene (`game-core/validation`); writes `window.__COMBAT_VISUAL_SCENARIO__` telemetry (`visualTelemetry.ts`). |
 
 What else the host must supply (Phase 10b's adoption list for
@@ -47,6 +50,7 @@ What else the host must supply (Phase 10b's adoption list for
 | `CombatRuntime.tsx` | The component: refs, callbacks, reset, the frame loop for the player, camera and HUD. |
 | `enemyStep.ts` | One enemy's frame: status ticks, facing, the AI intent and the tactical state machine. An enemy that is not engaged chooses nothing (decision 0092). |
 | `stealthStep.ts` | Stealth's frame (decision 0092), run before the enemies' steps: each enemy's sight (a Rapier ray the runtime supplies) and hearing fed to `game-core/perception`, its awareness advanced; the sneak-attack multiplier and the HUD's detection readout. |
+| `soundStep.ts` | The runtime's side of the sound events: the player's source id, the stride gait, and the per-actor footstep clock (a plant when a foot becomes the supporting one, `game-core/anim/footPlant`). Which family each event carries is `game-core/fx/soundClasses`. |
 | `enemyRuntime.ts` | `EnemyRuntime` (Fighter plus body/view handles), spawn defaults. |
 | `enemyBow.ts` | An archer's aim solve and loose. |
 | `EnemyActor.tsx` | An enemy's Ecctrl body, actor, reticle, health bar and hit volumes. |

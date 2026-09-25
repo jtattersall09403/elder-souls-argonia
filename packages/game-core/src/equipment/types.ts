@@ -2,6 +2,7 @@ import type { AttackTimeScale } from "../anim/clipTiming";
 import type { BowPhysics } from "../combat/ballistics";
 import type { AnimationState } from "../core/types";
 import type { LightSourceSpec } from "../fx/carriedLight";
+import type { MaterialId } from "./materials";
 
 /**
  * Equipment vocabulary. Deliberately separate from `core/types` (session/HUD
@@ -504,6 +505,8 @@ export type ShieldDefinition = {
   kind: "shield";
   id: string;
   label: string;
+  /** What it is made of: its weight class (`materialWeightClass`) is what a block sounds like. */
+  materialId: MaterialId;
   stats: ShieldStats;
   /** How this shield is guarded and bashed with; overrides the weapon's. */
   animations: GuardAnimationProfile;

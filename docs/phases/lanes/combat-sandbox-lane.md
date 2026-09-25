@@ -32,6 +32,7 @@ boats, factions) rather than for the sandbox.
 | 4 | Stealth slice: detection service, awareness states, sneak-attack band | delivered 2026-09-24 | [0092](../../decisions/0092-stealth-is-a-detection-service-the-runtime-feeds.md) |
 | 5 | Thin swim: swim mode behind an injected water sampler | delivered 2026-09-24; full suite 61/61 | [0093](../../decisions/0093-swimming-is-a-movement-mode-behind-the-controller-boundary.md) |
 | 6 | Off-hand gesture into `io`, dual-wield combat actions; `sneak-swing` scene; owner-overridable defaults | delivered 2026-09-24 | notes below |
+| 7 | Audio wired: the injected sound-event bus and AudioManager replace the `combatAudio` stub; combat, bow, draw, footstep, jump, swim events; torch emitter; stealth hears the bus; `sneak-heard` scene | delivered 2026-09-24 | notes below |
 
 Round 1 notes: the pack is `STARTING_SUPPLIES` (arrows, draughts, picks) plus
 `STARTING_ARMOURY_IDS` (every key of `ARSENAL_WEAPONS`, `ARSENAL_SHIELDS` and
@@ -150,6 +151,40 @@ as the light and heavy they cost. `sneak-swing` (stealth group): a crouched
 Sneak-50 steel sword light1 on an unaware warden facing sideways lands 57.14
 (24 × 3 through armour 39), no backstab.
 
+Round 7 notes (audio, decisions 0094/0095, the sound lane's handoff):
+
+- **Wiring.** The sandbox composes a `SoundEventBus` and an `AudioManager`
+  (listener on the scene camera, `useSandboxAudio.ts`; unlock on every
+  gesture; the arena's sets prefetched and pinned outside validation) and
+  hands the runtime `sounds`, `soundEmitters` and `groundContact` (stone);
+  `audioFiles()` ships `packages/audio/files/` with the sandbox build.
+  `fx/audio.ts` and `CombatEventBus`'s unused `sound` event are gone.
+- **What fires.** A swing as each attack's blade goes live (player and
+  enemy); hits by weapon family on the struck body's cuirass (flesh, light
+  armour, plate); blocks and parries by what took the blow (a shield by its
+  material's weight, a torch as a light shield); draw/sheathe; bow nock, pull
+  and release; an arrow sticking in the ground; jump and landing; the roll
+  and backstep thump; splash and one stroke sound per stroke cycle; the lit
+  torch as an emitter. Light or heavy is one rule, `materialWeightClass`
+  (weight scale 0.9 and up is heavy: Skyrim's split for every shared
+  material). Heal and death have no event (no vanilla set shipped).
+- **Footsteps.** One per foot plant, player and enemies: a foot plants when
+  it becomes the lower of the two posed foot bones (`anim/footPlant`, 2 cm
+  hysteresis; the manifest has no contact times). Surface from
+  `footstepSurface`, wading in the pool from the water's depth.
+- **Stealth.** The perception step subscribes to the bus and hears the
+  player's own events through `perception/soundNoise` (the handoff table; a
+  thump while rolling is a roll). Footsteps are now pulses at each plant
+  rather than a noise every frame; suspicion takes the maximum, so the
+  design's thresholds are unchanged.
+- **Headless check.** Scenes count sound events by type
+  (`soundEvents` telemetry, `scripts/lib/visual-sounds.mjs`); expected counts
+  written before the run on the attacks and stealth groups. New scene
+  `sneak-heard`: crouched 3 m behind an unaware warden, a swing at the air
+  turns it suspicious (0.32 heard against the 0.2 threshold). Attacks and
+  stealth 11/11; with the swing's noise withheld from the stealth feed,
+  `sneak-heard` fails.
+
 Defaults the owner can override (set in round 6):
 - Sprint-swim: the sprint input swims at 1.4 × the swim speed and drains
   stamina at the ground sprint's rate; at 0 stamina it stops until the input
@@ -165,9 +200,11 @@ whole suite for cross-cutting rounds), then `npm run preflight -- --paths
 <the round's files>` and a pathspec commit. Full reports per round in
 `/tmp/lanes/combat/round-N.md`.
 
-## Closed (2026-09-24, after round 6)
+## Closed (2026-09-24, after round 7)
 
-Reopen with: "reopen the combat-sandbox lane: round 7 from the lane doc's open calls".
+Reopen with: "reopen the combat-sandbox lane: round 8 from the lane doc's open calls".
+Round 7's owner call: listen in the sandbox (swings, hits, blocks, footsteps on
+stone and in the pool, the bow, the torch) and say what sounds wrong.
 Owner playtest calls still open: sign the speed table (debug panel timing
 panel); the warbow headshot calibration (0090); skill curves on or off at start;
 the three defaults above (sprint-swim 1.4×, draughts in water, torch 6 cd) and

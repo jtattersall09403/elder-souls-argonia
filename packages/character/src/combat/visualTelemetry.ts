@@ -63,6 +63,11 @@ export type VisualScenarioTelemetry = {
     grounded: boolean;
   }>;
   /**
+   * Every sound event the scene emitted, counted by type (decision 0095): what
+   * the headless check holds each attacks and stealth scene to.
+   */
+  soundEvents?: Partial<Record<string, number>>;
+  /**
    * Every blow the player landed on an enemy, per hand: what proves each blade
    * of a dual-wield attack resolves its own contact (decision 0091).
    */

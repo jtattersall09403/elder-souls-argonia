@@ -1,7 +1,9 @@
 import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import * as THREE from "three";
 import { clipConfig } from "@elder-souls/game-core/anim/animationManifest";
-import { combatAudio } from "@elder-souls/game-core/fx/audio";
+import type { FootstepSurface, GuardClass, SoundEventBus } from "@elder-souls/audio";
+import { SWING_CLASS } from "@elder-souls/game-core/fx/soundClasses";
+import { PLAYER_SOUND_SOURCE } from "./soundStep";
 import { BLOCK_RECOIL_DURATION, PARRY_RECOIL_SPEED, blockRecoilVelocity } from "@elder-souls/game-core/combat/blockReaction";
 import { enemyGuardTacticalDuration, resolveEnemyGuardVisualStep } from "@elder-souls/game-core/combat/enemyGuard";
 import { BACKSTEP_DISTANCE_MULTIPLIER, ENEMY_SHARED_DURATIONS } from "@elder-souls/game-core/combat/tuning";
@@ -65,6 +67,12 @@ export type EnemyStepContext = {
   triggerShake: (kind: HitShakeKind, worldDirection?: { x: number; z: number }) => void;
   /** Resolve this enemy's blade against the player (`resolveHit`). */
   attemptEnemyHit: (e: EnemyRuntime) => void;
+  /** The session's sound-event bus (decision 0095). */
+  sounds: SoundEventBus;
+  /** What takes a blow the player parries. */
+  playerGuardSound: GuardClass;
+  /** The footstep surface at a world position (the host's ground). */
+  groundSurface: (at: THREE.Vector3) => FootstepSurface;
 };
 
 /**
@@ -78,6 +86,7 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
     playerAction, playerActionTime, playerAttack, playerAttackHit, playerWeapon, playerGuardAnimations,
     playerParryOverlaps, playerWeaponOverlaps, executionVictim,
     setEnemyMode, setEnemyAnim, clearLockIfTarget, announce, triggerShake, attemptEnemyHit,
+    sounds, playerGuardSound, groundSurface,
   } = ctx;
   const f = e.fighter;
   const archetype = f.archetype;
@@ -94,7 +103,6 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
     if (f.health <= 0) {
       clearLockIfTarget(e);
       setEnemyMode(e, "dead", "DEATH");
-      combatAudio.play("death");
       announce(text(CATALOGUE, "text.combat.enemy-felled"), ENEMY_FELLED_MESSAGE_DURATION);
     }
   }
@@ -270,7 +278,7 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
         f.stamina -= COMBAT_TUNING.rollCost;
         f.staminaCooldown = COMBAT_TUNING.staminaRegenDelay;
         setEnemyMode(e, "dodge", "ROLL");
-        combatAudio.play("roll");
+        sounds.emit({ type: "movement.land", footwear: e.sound.footwear, surface: groundSurface(e.position), at: e.position, source: e.sound.source });
       } else if (enemyIntent === "backstep") {
         e.dodgeDirection.set(-dirX, 0, -dirZ);
         f.stamina -= COMBAT_TUNING.backstepCost;
@@ -282,7 +290,7 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
           && f.stamina >= weapon.attacks.light1.stamina
           && Math.random() < archetype.decision.backstepAttackChance;
         setEnemyMode(e, "backstep", "BACKSTEP");
-        combatAudio.play("roll");
+        sounds.emit({ type: "movement.land", footwear: e.sound.footwear, surface: groundSurface(e.position), at: e.position, source: e.sound.source });
       } else if (enemyIntent === "heal") {
         f.estus -= 1;
         f.healed = false;
@@ -366,6 +374,7 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
       if (step.loosed) {
         e.bowRelease.current += 1;
         looseEnemyArrow(e, ranged, distance, Boolean(visualScenario));
+        sounds.emit({ type: "bow.release", at: e.position, source: e.sound.source });
       }
       if (step.phase === "done") {
         f.decisionTimer = 0;
@@ -396,7 +405,11 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
     const weaponActive = isWeaponHitboxActive(f.actionTime, attack);
     const transitionAt = comboTransitionTime(attack);
     e.hitboxActive.current = weaponActive && f.health > 0;
-    if (phase === "windup" && f.actionTime <= delta * 1.5) combatAudio.play("swing");
+    // The swing sounds as the blade goes live, once per attack.
+    if (weaponActive && !e.swingSounded) {
+      e.swingSounded = true;
+      sounds.emit({ type: "combat.swing", weapon: SWING_CLASS[weapon.stats.class], at: e.position, source: e.sound.source });
+    }
     if (
       enemyHandle
       && footDrivenMotion
@@ -460,7 +473,7 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
           PARRY_RECOIL_SPEED,
         ), true);
       }
-      combatAudio.play("parry");
+      sounds.emit({ type: "combat.parry", guard: playerGuardSound, source: PLAYER_SOUND_SOURCE });
       announce(text(CATALOGUE, "text.combat.weapons-clashed"), 1.5);
       triggerShake("parry", { x: playerPos.x - e.position.x, z: playerPos.z - e.position.z });
     } else if (
@@ -499,7 +512,6 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
       const successorStart = comboEntryTime(nextCombo) + comboSuccessorStartTime(f.actionTime, attack);
       f.attack = nextCombo;
       setEnemyMode(e, "attack", nextCombo.animation, successorStart);
-      combatAudio.play("swing");
     } else if (phase === "none") {
       f.comboRemaining = 0;
       setEnemyMode(e, "recover", weapon.animations.combatIdle);
@@ -558,7 +570,6 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
         f.stamina -= dash.stamina;
         f.staminaCooldown = COMBAT_TUNING.staminaRegenDelay;
         setEnemyMode(e, "attack", dash.animation);
-        combatAudio.play("swing");
       } else {
         e.backstepAttackQueued.current = false;
         setEnemyMode(e, "recover", weapon.animations.combatIdle);
@@ -568,7 +579,6 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
     if (f.actionTime > 0.82 && !f.healed) {
       f.healed = true;
       f.health = Math.min(f.maxHealth, f.health + COMBAT_TUNING.healAmount);
-      combatAudio.play("heal");
     }
     if (f.actionTime > COMBAT_TUNING.healDuration) {
       setEnemyMode(e, "recover", weapon.animations.combatIdle);
@@ -632,7 +642,6 @@ export function stepEnemy(ctx: EnemyStepContext, e: EnemyRuntime) {
         f.criticalType = null;
         e.criticalByPair = null;
         e.criticalByAttack = null;
-        combatAudio.play("death");
         announce(text(CATALOGUE, "text.combat.enemy-felled"), ENEMY_FELLED_MESSAGE_DURATION);
       } else {
         // Transfer FSM ownership into one complete authored outcome. If

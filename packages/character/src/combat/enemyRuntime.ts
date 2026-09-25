@@ -10,7 +10,12 @@ import type { AttackDefinition, PairedCriticalProfile } from "@elder-souls/game-
 import { createActorVisualProbe, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
 import { initialAwareness, type AwarenessState } from "@elder-souls/game-core/perception/detection";
+import { bodyImpactTarget, footwearFor, guardSoundClass } from "@elder-souls/game-core/fx/soundClasses";
+import { wornArmourFor } from "@elder-souls/game-core/inventory/store";
+import type { Footwear, GuardClass, ImpactTarget } from "@elder-souls/audio";
 import type { HurtboxBone } from "../SkeletalHurtbox";
+import type { SoleBoneRefs } from "../SkyrimFighter";
+import { createFootstepState, type FootstepState } from "./soundStep";
 import * as THREE from "three";
 
 /**
@@ -133,6 +138,17 @@ export type EnemyRuntime = {
   bodyName: string;
   hurtboxName: string;
   weaponName: string;
+  /**
+   * What this enemy sounds like (decision 0095), fixed by its archetype: the
+   * id its sounds are attributed to, its footsteps, what a blow on its body
+   * strikes and what takes a blow it blocks.
+   */
+  sound: { source: string; footwear: Footwear; body: ImpactTarget; guard: GuardClass };
+  /** The swing in progress has sounded (reset as each action starts). */
+  swingSounded: boolean;
+  /** Live foot bones, for its footsteps. */
+  soleBones: MutableRefObject<SoleBoneRefs | null>;
+  footsteps: FootstepState;
 };
 
 /** Awareness for an enemy that is already fighting: every enemy while stealth is off. */
@@ -147,6 +163,7 @@ export function createEnemyRuntime(
   archetype: EnemyArchetype = DEFAULT_ENEMY_ARCHETYPE,
 ): EnemyRuntime {
   const fighter = createFighter(`enemy-${id}`, "enemy", archetype);
+  const worn = wornArmourFor(archetype.armour);
   fighter.attack = archetype.loadout.mainHand.attacks.light1;
   const weapon: MutableRefObject<THREE.Object3D | null> = { current: null };
   const offHand: MutableRefObject<THREE.Object3D | null> = { current: null };
@@ -195,5 +212,14 @@ export function createEnemyRuntime(
     bodyName: `enemy-${id}`,
     hurtboxName: `enemy-${id}-hurtbox`,
     weaponName: `enemy-weapon-${id}`,
+    sound: {
+      source: fighter.id,
+      footwear: footwearFor(worn),
+      body: bodyImpactTarget(worn),
+      guard: guardSoundClass(archetype.loadout),
+    },
+    swingSounded: false,
+    soleBones: { current: null },
+    footsteps: createFootstepState(),
   };
 }

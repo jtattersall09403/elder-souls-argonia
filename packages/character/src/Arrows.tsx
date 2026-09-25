@@ -13,6 +13,8 @@ import { isActorCapsuleName } from "@elder-souls/game-core/combat/stuckArrows";
 
 export type ArrowHit = {
   target: string | null;
+  /** Who loosed it: the shooter's hurtbox name. */
+  shooter: string;
   arrow: ArrowDefinition;
   speed: number;
   obliquityRad: number;
@@ -21,6 +23,8 @@ export type ArrowHit = {
   object: THREE.Object3D | null;
   bone: THREE.Object3D;
 };
+/** An arrow coming to rest in the world (not a body): where, and who loosed it. */
+export type ArrowLanding = { point: THREE.Vector3; shooter: string };
 export type ArrowTrace = (origin: THREE.Vector3, direction: THREE.Vector3, distance: number,
   shooter: string) => (ArrowSurfaceHit & { target: string }) | null;
 export type FlightSample = { t: number; wallTime: number; y: number; vx: number; vy: number; vz: number;
@@ -30,19 +34,21 @@ export type FlightSample = { t: number; wallTime: number; y: number; vx: number;
  * Sensor-only bodies cannot bounce on the shooter's capsule or other arrows.
  * A centred mass also prevents an imposed attitude moving an offset COM at apex.
  */
-export function Arrows({ arrows, retire, onHit, traceActor, gravityScale = DEFAULT_ARROW_GRAVITY_SCALE, onSample }: {
+export function Arrows({ arrows, retire, onHit, onLand, traceActor, gravityScale = DEFAULT_ARROW_GRAVITY_SCALE, onSample }: {
   arrows: readonly LiveArrow[];
   retire: (id: number) => void;
   onHit: (hit: ArrowHit) => void;
+  onLand?: (landing: ArrowLanding) => void;
   traceActor: ArrowTrace;
   gravityScale?: number;
   onSample?: (sample: FlightSample) => void;
 }) {
-  return <>{arrows.map(live => <Arrow key={live.id} {...{ live, retire, onHit, traceActor, gravityScale, onSample }} />)}</>;
+  return <>{arrows.map(live => <Arrow key={live.id} {...{ live, retire, onHit, onLand, traceActor, gravityScale, onSample }} />)}</>;
 }
 
-function Arrow({ live, retire, onHit, traceActor, gravityScale, onSample }: {
+function Arrow({ live, retire, onHit, onLand, traceActor, gravityScale, onSample }: {
   live: LiveArrow; retire: (id: number) => void; onHit: (hit: ArrowHit) => void;
+  onLand?: (landing: ArrowLanding) => void;
   traceActor: ArrowTrace; gravityScale: number; onSample?: (sample: FlightSample) => void;
 }) {
   const { world, rapier, rigidBodyStates } = useRapier();
@@ -114,7 +120,7 @@ function Arrow({ live, retire, onHit, traceActor, gravityScale, onSample }: {
         if (skinHit && (!worldHit || skinHit.distance <= worldHit.timeOfImpact)) {
           spent.current = true;
           model.removeFromParent();
-          onHit({ target: skinHit.target, arrow: live.arrow,
+          onHit({ target: skinHit.target, shooter: live.shooter, arrow: live.arrow,
             speed: Math.hypot(velocity.x, velocity.y, velocity.z), obliquityRad: skinHit.obliquityRad,
             point: skinHit.point, quaternion: scratch.rotation.clone(), object: model, bone: skinHit.bone });
           retire(live.id);
@@ -128,6 +134,7 @@ function Arrow({ live, retire, onHit, traceActor, gravityScale, onSample }: {
           rigid.setLinvel({ x: 0, y: 0, z: 0 }, true);
           rigid.resetForces(true);
           rigid.setBodyType(rapier.RigidBodyType.Fixed, true);
+          onLand?.({ point, shooter: live.shooter });
           return;
         }
       }

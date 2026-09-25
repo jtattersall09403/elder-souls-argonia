@@ -124,7 +124,6 @@ export type ArsenalWeapon = WeaponDefinition & {
 };
 
 export type ArsenalShield = ShieldDefinition & {
-  materialId: MaterialId;
   icon: string;
   value: number;
   description: string;

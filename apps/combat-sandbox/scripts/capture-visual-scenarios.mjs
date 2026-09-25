@@ -1,6 +1,7 @@
 import { evaluateMeasuredReach } from "./lib/measured-reach.mjs";
 import { evaluatePlayerHits } from "./lib/visual-player-hits.mjs";
 import { evaluateSwim } from "./lib/visual-swim.mjs";
+import { evaluateSounds } from "./lib/visual-sounds.mjs";
 import { spawn, spawnSync } from "node:child_process";
 import { link, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
@@ -208,12 +209,18 @@ function semanticFailures(scenario, telemetry, expected) {
     // Stealth scenes (decision 0092): the enemy's awareness at the start and
     // end, and when it first engaged, from the runtime's awareness events.
     const events = telemetry.awarenessEvents ?? [];
-    const { startsAs, endsAs, engagedWithinSeconds } = expected.awareness;
+    const { startsAs, endsAs, engagedWithinSeconds, suspiciousWithinSeconds } = expected.awareness;
     if (startsAs !== undefined && events[0]?.awareness !== startsAs) {
       failures.push(`${scenario}: expected the enemy to start ${startsAs}, observed ${events[0]?.awareness ?? "no awareness events"}`);
     }
     if (endsAs !== undefined && telemetry.enemyAwareness !== endsAs) {
       failures.push(`${scenario}: expected the enemy to end ${endsAs}, observed ${telemetry.enemyAwareness}`);
+    }
+    if (suspiciousWithinSeconds !== undefined) {
+      const suspicious = events.find((event) => event.awareness === "suspicious");
+      if (!suspicious || suspicious.time > suspiciousWithinSeconds) {
+        failures.push(`${scenario}: expected suspicion within ${suspiciousWithinSeconds} s, observed ${suspicious ? `${suspicious.time} s` : "never"}`);
+      }
     }
     if (engagedWithinSeconds !== undefined) {
       const engaged = events.find((event) => event.awareness === "engaged");
@@ -228,6 +235,13 @@ function semanticFailures(scenario, telemetry, expected) {
     failures.push(...hits.failures);
     if (hits.measured) console.log(`${scenario}: player hits ${JSON.stringify(hits.measured)}`);
   }
+  if (expected.sounds) {
+    // Sound events counted by type (decision 0095), expected before the run.
+    const { note: _note, ...counts } = expected.sounds;
+    failures.push(...evaluateSounds(scenario, telemetry, counts).failures);
+  }
+  // Every scene's sound events are printed, held to counts or not.
+  if (telemetry.soundEvents) console.log(`${scenario}: sounds ${JSON.stringify(telemetry.soundEvents)}`);
   if (expected.swim) {
     // The swim scene (decision 0093): mode, sheathed weapon, chest at the surface.
     const swim = evaluateSwim(scenario, telemetry, expected.swim);

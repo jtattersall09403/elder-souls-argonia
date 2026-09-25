@@ -8,7 +8,9 @@ import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "rea
 import { createAnimationCommand, updateAnimationCommand } from "@elder-souls/game-core/anim/animationCommand";
 import { clipAuthoredGroundSpeed, clipConfig, clipPlaybackDuration, clipPlaybackSourceSpan } from "@elder-souls/game-core/anim/animationManifest";
 import { landingAnimationSpeed, selectLandingAnimation } from "@elder-souls/game-core/anim/landing";
-import { combatAudio } from "@elder-souls/game-core/fx/audio";
+import { SoundEventBus, footstepSurface, type SoundEvent } from "@elder-souls/audio";
+import { DRAW_CLASS, IMPACT_WEAPON, SWING_CLASS, bodyImpactTarget, bowCycleSounds, footwearFor, guardSoundClass } from "@elder-souls/game-core/fx/soundClasses";
+import { noiseForSound } from "@elder-souls/game-core/perception/soundNoise";
 import { PARRY_RECOIL_SPEED, blockRecoilVelocity, guardCovers, resolveGuardImpact } from "@elder-souls/game-core/combat/blockReaction";
 import { createHitShake, sampleHitShake, type HitShakeImpulse, type HitShakeKind } from "@elder-souls/game-core/fx/cameraShake";
 import { isHeavyAttack, resolveHit } from "@elder-souls/game-core/combat/resolveHit";
@@ -28,7 +30,7 @@ import { WEAPON_CLASSES } from "@elder-souls/game-core/equipment/weaponClasses";
 import { hitZoneForBone } from "@elder-souls/game-core/combat/hitZones";
 import { isActorCapsuleName, nearestHurtboxBone, stickArrow } from "@elder-souls/game-core/combat/stuckArrows";
 import { traceArrowSurface } from "@elder-souls/game-core/combat/arrowSurface";
-import { Arrows, type ArrowHit, type ArrowTrace } from "../Arrows";
+import { Arrows, type ArrowHit, type ArrowLanding, type ArrowTrace } from "../Arrows";
 import { totalArmourRating } from "@elder-souls/game-core/equipment/armour";
 import { clearArrows, fireArrow, useArrowStore } from "@elder-souls/game-core/combat/arrowStore";
 import { usePlayerBuild } from "@elder-souls/game-core/actors/raceStore";
@@ -80,10 +82,15 @@ import { BackstabZoneIndicator } from "./BackstabZoneIndicator";
 import { EnemyActor } from "./EnemyActor";
 import { useCarriedAssetWarmup } from "./useCarriedAssetWarmup";
 import { stepEnemy, type EnemyStepContext } from "./enemyStep";
-import { detectionReadout, locomotionNoise, louder, resetAwareness, sneakAttackMultiplier, stepStealth, strikeAwareness } from "./stealthStep";
+import { detectionReadout, resetAwareness, sneakAttackMultiplier, stepStealth, strikeAwareness } from "./stealthStep";
+import { PLAYER_SOUND_SOURCE, PLAYER_TORCH_EMITTER, createFootstepState, createSwimStrokeState, locomotionGait, stepFootsteps, stepSwimStrokes, stepTorchEmitter } from "./soundStep";
 import { ViewConeIndicator } from "./ViewConeIndicator";
 import { NOISE_LOUDNESS } from "@elder-souls/game-core/perception/noise";
 import { ENEMY_FELLED_MESSAGE_DURATION, PARRY_HIT_GRACE_SECONDS, PLAYER_HURTBOX_NAME } from "./combatConstants";
+
+/** Enemy modes in which it strides, and the ground speed above which it does (m/s). */
+const ENEMY_STRIDING_MODES: ReadonlySet<string> = new Set<EnemyMode>(["watching", "approach", "strafe", "withdraw"]);
+const ENEMY_STRIDE_SPEED = 0.3;
 
 /** The off-hand blade's sensor name (dual wield). */
 const PLAYER_OFF_HAND_WEAPON = "player-offhand-weapon";
@@ -175,6 +182,9 @@ export function CombatRuntime({
   onArrowSample,
   lightEnvironment,
   water,
+  sounds: hostSounds,
+  soundEmitters,
+  groundContact,
   visualScenario = null,
   layout = DEFAULT_ENCOUNTER_LAYOUT,
 }: CombatRuntimeProps) {
@@ -260,6 +270,12 @@ export function CombatRuntime({
   // same place: the off hand if there is one, the weapon otherwise. Deriving
   // both from the loadout is what stops a shielded player angling a sword edge.
   const playerGuardAnimations = useMemo(() => activeGuardAnimations(playerLoadout), [playerLoadout]);
+  /** What the player sounds like (decision 0095): footsteps, a blow on the body, a blocked blow. */
+  const playerSound = useMemo(() => ({
+    footwear: footwearFor(playerArmour),
+    body: bodyImpactTarget(playerArmour),
+    guard: guardSoundClass(playerLoadout),
+  }), [playerArmour, playerLoadout]);
   // Which slices of the rig this actor must have downloaded to fight with what
   // it is holding. Changing it remounts the actor (see SkyrimFighter), which is
   // why it is memoised on the loadout rather than recomputed per frame.
@@ -315,12 +331,23 @@ export function CombatRuntime({
   const carriedLightLevel = useRef(0);
   const carriedLightClock = useRef(0);
   /**
-   * Stealth (decision 0092): the loudest one-off noise the player made since
-   * the last stealth step (a landing, a blocked blow; `perception/noise`).
-   * Continuous noises (footsteps, a roll, a swing) are read at the step.
+   * Stealth (decision 0092): the loudest noise the player made since the last
+   * stealth step, heard off the sound-event bus (`perception/soundNoise`): a
+   * footstep, a landing or roll, a swing, a blocked blow.
    */
   const pendingNoise = useRef(0);
   const stealthScratch = useRef({ eye: new THREE.Vector3(), chest: new THREE.Vector3(), toChest: new THREE.Vector3() });
+  /**
+   * The sound-event bus (decision 0095): the host's, or a private one so the
+   * stealth feed still hears the player with no speakers attached.
+   */
+  const sounds = useMemo(() => hostSounds ?? new SoundEventBus(), [hostSounds]);
+  /** The player's attack in progress has sounded its swing (reset as each action starts). */
+  const playerSwingSounded = useRef(false);
+  const playerFootsteps = useRef(createFootstepState());
+  const swimStrokes = useRef(createSwimStrokeState());
+  /** The lit torch is playing as an emitter. */
+  const torchEmitting = useRef(false);
   // Parry checks a wide shield zone in front of the player rather than the
   // weapon's own thin volume (see ParryShield) — landing a parry shouldn't
   // require exact blade-to-blade contact.
@@ -564,6 +591,24 @@ export function CombatRuntime({
     );
     return hit ? from.y - hit.timeOfImpact : null;
   }, [rigidBodyStates, world]);
+  const footScratch = useRef(new THREE.Vector3());
+  /**
+   * What the player's feet are on (module 75 §54): the host's ground material
+   * under them, turned to wading or a puddle by the water's depth there.
+   */
+  const playerSurface = useCallback(() => {
+    const handle = player.current;
+    if (!handle) return footstepSurface({});
+    const foot = footScratch.current.set(handle.currPos.x, playerSupportY.current, handle.currPos.z);
+    const sample = water?.sample(foot, 0);
+    const waterDepthM = sample && sample.waterBodyId !== null ? Math.max(0, sample.surfaceHeight - foot.y) : 0;
+    return footstepSurface({ ...groundContact?.(foot), waterDepthM });
+  }, [groundContact, water]);
+  /** The footstep surface under anyone else's feet: the host's ground, dry. */
+  const groundSurface = useCallback(
+    (at: { x: number; y: number; z: number }) => footstepSurface({ ...groundContact?.(at) }),
+    [groundContact],
+  );
   const { camera } = useThree();
   const started = settings.started;
   const enemyEnabled = settings.enemyEnabled;
@@ -647,6 +692,7 @@ export function CombatRuntime({
     e.fighter.state = mode;
     e.fighter.actionTime = startAt;
     e.fighter.attackHit = false;
+    e.swingSounded = false;
     e.guardHitUntil = 0;
     if (mode === "attack") {
       const target = player.current?.currPos;
@@ -747,6 +793,7 @@ export function CombatRuntime({
       }
     }
     playerAttackHit.current = false;
+    playerSwingSounded.current = false;
     playerHandHit.current.main = false;
     playerHandHit.current.off = false;
     comboQueued.current = null;
@@ -860,13 +907,12 @@ export function CombatRuntime({
       nextGuardHitVariant.current += 1;
       e.guardHitUntil = f.actionTime + (clipPlaybackDuration(guardHit) ?? 0.8333);
       setEnemyAnim(e, guardHit, 0, true);
-      combatAudio.play("guard");
+      sounds.emit({ type: "combat.block", guard: e.sound.guard, at: e.position, source: e.sound.source });
       triggerShake("block");
       announce(text(CATALOGUE, "text.combat.enemy-blocked"), 0.6);
       if (f.health <= 0) {
         clearLockIfTarget(e);
         setEnemyMode(e, "dead", "DEATH");
-        combatAudio.play("death");
         announce(text(CATALOGUE, "text.combat.enemy-felled"), ENEMY_FELLED_MESSAGE_DURATION);
       }
       return true;
@@ -874,6 +920,7 @@ export function CombatRuntime({
     if (result.kind === "guardBroken") {
       f.health = result.health;
       f.stamina = result.stamina;
+      sounds.emit({ type: "combat.block", guard: e.sound.guard, at: e.position, source: e.sound.source });
       setEnemyMode(e, "parried", enemyWeapon.animations.guardBreak);
       announce(text(CATALOGUE, "text.combat.enemy-guard-broken"), 1.1);
       return true;
@@ -894,7 +941,13 @@ export function CombatRuntime({
       x: e.position.x - handle.currPos.x,
       z: e.position.z - handle.currPos.z,
     } : undefined);
-    combatAudio.play(result.killed && result.kind !== "execution" ? "death" : "hit");
+    sounds.emit({
+      type: "combat.hit",
+      weapon: IMPACT_WEAPON[handWeapon.stats.class],
+      target: e.sound.body,
+      at: e.position,
+      source: PLAYER_SOUND_SOURCE,
+    });
     if (result.killed) {
       if (result.kind !== "execution") {
         clearLockIfTarget(e);
@@ -919,7 +972,7 @@ export function CombatRuntime({
       }
     }
     return true;
-  }, [announce, clearLockIfTarget, playerDualWield, playerOffWeapon, playerWeapon, poiseEnabled, setEnemyAnim, setEnemyMode, sneakSkillFor, startPlayerAction, triggerShake, visualScenario]);
+  }, [announce, clearLockIfTarget, playerDualWield, playerOffWeapon, playerWeapon, poiseEnabled, setEnemyAnim, setEnemyMode, sneakSkillFor, sounds, startPlayerAction, triggerShake, visualScenario]);
 
   /**
    * An arrow arriving somewhere.
@@ -941,6 +994,16 @@ export function CombatRuntime({
     }
     return closest;
   }, [enemies]);
+
+  /** Who a shot came from, as a sound source: the player, or the enemy whose hurtbox loosed it. */
+  const arrowSoundSource = useCallback((shooter: string) => shooter === PLAYER_HURTBOX_NAME
+    ? PLAYER_SOUND_SOURCE
+    : enemies.find((e) => e.hurtboxName === shooter)?.sound.source ?? shooter, [enemies]);
+
+  /** An arrow at rest in the ground or a wall: it sticks. */
+  const handleArrowLand = useCallback((landing: ArrowLanding) => {
+    sounds.emit({ type: "combat.hit", weapon: "arrow", target: "stick", at: landing.point, source: arrowSoundSource(landing.shooter) });
+  }, [arrowSoundSource, sounds]);
 
   const handleArrowHit = useCallback((hit: ArrowHit) => {
     if (!hit.target) return;
@@ -986,7 +1049,7 @@ export function CombatRuntime({
         playerHealth.current = guarded.health;
         playerStamina.current = guarded.stamina;
         staminaCooldown.current = 1;
-        combatAudio.play("guard");
+        sounds.emit({ type: "combat.block", guard: playerSound.guard, source: PLAYER_SOUND_SOURCE });
         announce(guarded.blocked ? text(CATALOGUE, "text.combat.arrow-blocked") : text(CATALOGUE, "text.combat.guard-broken"), 0.7);
         if (playerHealth.current <= 0) {
           startPlayerAction("dead", "DEATH");
@@ -1003,7 +1066,13 @@ export function CombatRuntime({
       playerHealth.current = Math.max(0, playerHealth.current - damage);
       triggerDamageVignette();
       triggerShake(zone.heavyReaction ? "playerHeavyHit" : "playerHit", { x: flightForward.x, z: flightForward.z });
-      combatAudio.play(playerHealth.current <= 0 ? "death" : "hit");
+      // The player's own body: played at the listener.
+      sounds.emit({
+        type: "combat.hit",
+        weapon: "arrow",
+        target: impact.penetrated ? playerSound.body : "bounce",
+        source: arrowSoundSource(hit.shooter),
+      });
       if (playerHealth.current <= 0) {
         startPlayerAction("dead", "DEATH");
         announce(text(CATALOGUE, "text.combat.you-died"), 8);
@@ -1061,7 +1130,7 @@ export function CombatRuntime({
       f.health = guarded.health;
       f.stamina = guarded.stamina;
       f.staminaCooldown = COMBAT_TUNING.staminaRegenDelay;
-      combatAudio.play("guard");
+      sounds.emit({ type: "combat.block", guard: victim.sound.guard, at: hit.point, source: victim.sound.source });
       announce(guarded.blocked ? text(CATALOGUE, "text.combat.arrow-blocked") : text(CATALOGUE, "text.combat.guard-broken"), 0.7);
       if (!guarded.blocked) {
         setEnemyMode(victim, "parried", f.archetype.loadout.mainHand.animations.guardBreak);
@@ -1069,7 +1138,6 @@ export function CombatRuntime({
       if (f.health <= 0) {
         clearLockIfTarget(victim);
         setEnemyMode(victim, "dead", "DEATH");
-        combatAudio.play("death");
         announce(text(CATALOGUE, "text.combat.enemy-felled"), ENEMY_FELLED_MESSAGE_DURATION);
       }
       return;
@@ -1081,14 +1149,19 @@ export function CombatRuntime({
       x: victim.position.x,
       z: victim.position.z,
     });
+    sounds.emit({
+      type: "combat.hit",
+      weapon: "arrow",
+      target: impact.penetrated ? victim.sound.body : "bounce",
+      at: hit.point,
+      source: PLAYER_SOUND_SOURCE,
+    });
     if (f.health <= 0) {
       clearLockIfTarget(victim);
       setEnemyMode(victim, "dead", "DEATH");
-      combatAudio.play("death");
       announce(text(CATALOGUE, "text.combat.enemy-felled"), ENEMY_FELLED_MESSAGE_DURATION);
       return;
     }
-    combatAudio.play("hit");
     // A head hit ignores poise outright, as it does in Dark Souls; a shaft
     // turned by mail spends none at all. Everything between goes through the
     // pool like any other blow.
@@ -1105,7 +1178,7 @@ export function CombatRuntime({
       f.staggerDuration = f.archetype.stateDurations.staggerLight;
       setEnemyMode(victim, "stagger", "HIT");
     }
-  }, [announce, clearLockIfTarget, enemies, playerArmour, playerGuard, playerWeapon, poiseEnabled, setEnemyMode, sneakSkillFor, startPlayerAction, triggerDamageVignette, triggerShake]);
+  }, [announce, arrowSoundSource, clearLockIfTarget, enemies, playerArmour, playerGuard, playerSound, playerWeapon, poiseEnabled, setEnemyMode, sneakSkillFor, sounds, startPlayerAction, triggerDamageVignette, triggerShake]);
 
   const attemptEnemyHit = useCallback((e: EnemyRuntime) => {
     const f = e.fighter;
@@ -1160,17 +1233,15 @@ export function CombatRuntime({
         ), true);
       }
       setEnemyMode(e, "recoil", "RECOIL");
-      pendingNoise.current = Math.max(pendingNoise.current, NOISE_LOUDNESS.blockHit);
       const guardHit = playerGuardAnimations.hitVariants[nextGuardHitVariant.current % playerGuardAnimations.hitVariants.length];
       nextGuardHitVariant.current += 1;
       guardHitUntil.current = playerActionTime.current + (clipConfig(guardHit).sourceDuration ?? 0.83);
       setAnim(guardHit, 0, true);
-      combatAudio.play("guard");
+      sounds.emit({ type: "combat.block", guard: playerSound.guard, source: PLAYER_SOUND_SOURCE });
       triggerShake("block", { x: handle.currPos.x - e.position.x, z: handle.currPos.z - e.position.z });
       announce(text(CATALOGUE, "text.combat.blocked"));
       if (playerHealth.current <= 0) {
         startPlayerAction("dead", "DEATH");
-        combatAudio.play("death");
         announce(text(CATALOGUE, "text.combat.you-died"), 8);
       }
       return;
@@ -1180,7 +1251,7 @@ export function CombatRuntime({
       playerHealth.current = result.health;
       playerStamina.current = result.stamina;
       startPlayerAction(result.killed ? "dead" : "guardBreak", result.killed ? "DEATH" : playerWeapon.animations.guardBreak);
-      combatAudio.play("hit");
+      sounds.emit({ type: "combat.block", guard: playerSound.guard, source: PLAYER_SOUND_SOURCE });
       triggerDamageVignette();
       triggerShake("playerHit", { x: handle.currPos.x - e.position.x, z: handle.currPos.z - e.position.z });
       announce(result.killed ? text(CATALOGUE, "text.combat.you-died") : text(CATALOGUE, "text.combat.guard-broken"), result.killed ? 8 : 1.2);
@@ -1197,7 +1268,7 @@ export function CombatRuntime({
       x: handle.currPos.x - e.position.x,
       z: handle.currPos.z - e.position.z,
     });
-    combatAudio.play(result.killed ? "death" : "hit");
+    sounds.emit({ type: "combat.hit", weapon: IMPACT_WEAPON[enemyWeapon.stats.class], target: playerSound.body, source: e.sound.source });
     if (result.killed) {
       startPlayerAction("dead", "DEATH");
       announce(text(CATALOGUE, "text.combat.you-died"), 8);
@@ -1210,7 +1281,7 @@ export function CombatRuntime({
       // the whole reason not to over-commit.
       startPlayerAction(reaction.action, reaction.animation);
     }
-  }, [announce, playerGuard, playerWeapon, poiseEnabled, setAnim, setEnemyMode, startPlayerAction, triggerDamageVignette, triggerShake]);
+  }, [announce, playerGuard, playerSound, playerWeapon, poiseEnabled, setAnim, setEnemyMode, sounds, startPlayerAction, triggerDamageVignette, triggerShake]);
 
   // The debug panel can grow/shrink the fight without a full reset. Only the
   // leading `enemyCount` enemies are simulated and rendered.
@@ -1278,8 +1349,7 @@ export function CombatRuntime({
 
   useEffect(() => input.attach(), []);
   useEffect(() => bus.on((event) => {
-    if (event.type === "sound") combatAudio.play(event.sound);
-    else if (event.type === "message") {
+    if (event.type === "message") {
       message.current = event.text;
       messageTimer.current = event.duration;
     } else if (event.type === "vignette") {
@@ -1298,6 +1368,22 @@ export function CombatRuntime({
       shake.current = createHitShake(event.kind, shakeSeed.current, side);
     }
   }), [bus, camera, publish]);
+  // The stealth feed hears the player's own sounds off the same bus the
+  // speakers play from (decision 0092 §3, 0095), muted or not.
+  useEffect(() => sounds.subscribe((event: SoundEvent) => {
+    if (event.source !== PLAYER_SOUND_SOURCE) return;
+    const rolling = playerAction.current === "roll" || playerAction.current === "backstep";
+    const noise = noiseForSound(event, { rolling });
+    if (noise) pendingNoise.current = Math.max(pendingNoise.current, NOISE_LOUDNESS[noise]);
+  }), [sounds]);
+  // A validation scene counts every sound event by type (the headless check).
+  useEffect(() => {
+    if (!visualScenario) return;
+    return sounds.subscribe((event: SoundEvent) => {
+      const counts = window.__COMBAT_VISUAL_SCENARIO__?.soundEvents;
+      if (counts) counts[event.type] = (counts[event.type] ?? 0) + 1;
+    });
+  }, [sounds, visualScenario]);
   useEffect(() => {
     const blockMenu = (event: MouseEvent) => event.preventDefault();
     window.addEventListener("contextmenu", blockMenu);
@@ -1457,6 +1543,7 @@ export function CombatRuntime({
           ? [{ time: 0, awareness: enemies[0].awareness.awareness, suspicion: enemies[0].awareness.suspicion }]
           : [],
         swimSamples: water ? [] : undefined,
+        soundEvents: {},
         visualFrames: [],
       };
     }
@@ -1481,6 +1568,12 @@ export function CombatRuntime({
     if (staged.offHandId) equip(staged.offHandId, "offHand");
     if (staged.ammoId) equip(staged.ammoId);
   }, [visualScenario]);
+
+  // The torch's emitter leaves with the host's audio (or the runtime).
+  useEffect(() => () => {
+    if (torchEmitting.current) soundEmitters?.removeEmitter(PLAYER_TORCH_EMITTER);
+    torchEmitting.current = false;
+  }, [soundEmitters]);
 
   // A torch lights as it is taken in hand, and goes dark when it leaves it.
   useEffect(() => {
@@ -1604,6 +1697,8 @@ export function CombatRuntime({
       if (mode !== playerController.movementMode) {
         playerController.setMovementMode(mode);
         if (mode === "swim") {
+          sounds.emit({ type: "movement.splash", source: PLAYER_SOUND_SOURCE });
+          swimStrokes.current = createSwimStrokeState();
           equipped.current = false;
           if (playerAction.current !== "idle" && playerAction.current !== "dead") finishPlayerAction();
           lockedOn.current = false;
@@ -1665,7 +1760,6 @@ export function CombatRuntime({
       playerHealth.current = Math.max(0, playerHealth.current - playerStatusTick.damage);
       if (playerHealth.current <= 0) {
         startPlayerAction("dead", "DEATH");
-        combatAudio.play("death");
         announce(text(CATALOGUE, "text.combat.you-died"), 8);
       }
     }
@@ -1698,7 +1792,7 @@ export function CombatRuntime({
       landingDuration.current = landing.duration;
       landingTimer.current = landing.duration;
       if (landing.impactSpeed > 2.5) triggerShake("landing");
-      pendingNoise.current = Math.max(pendingNoise.current, NOISE_LOUDNESS.jumpLanding);
+      sounds.emit({ type: "movement.land", footwear: playerSound.footwear, surface: playerSurface(), source: PLAYER_SOUND_SOURCE });
       maximumDownwardSpeed.current = 0;
       landingArmed.current = false;
     }
@@ -1707,6 +1801,7 @@ export function CombatRuntime({
     const jumpStarted = intent.jumpPressed && playerGrounded && playerStance.current !== "crouching"
       && playerAction.current === "idle" && spendStamina(COMBAT_TUNING.jumpCost);
     if (jumpStarted) {
+      sounds.emit({ type: "movement.jump", footwear: playerSound.footwear, surface: playerSurface(), source: PLAYER_SOUND_SOURCE });
       jumpStartTimer.current = JUMP_LAUNCH_ANIMATION_DURATION;
       landingTimer.current = 0;
       maximumDownwardSpeed.current = 0;
@@ -1824,6 +1919,7 @@ export function CombatRuntime({
       const skillState = settingsRef.current;
       const rangedModifiers = playerRangedModifiers(skillState.skillsEnabled, skillState.marksmanSkill);
       const raised = isAiming(bowCycle.current);
+      const phaseBefore = bowCycle.current.phase;
       const bowStep = advanceBowCycle(
         bowCycle.current,
         {
@@ -1840,6 +1936,10 @@ export function CombatRuntime({
         rangedModifiers,
       );
       bowCycle.current = bowStep.cycle;
+      // The string's sounds (decision 0090's cycle, outside the action FSM).
+      for (const type of bowCycleSounds(phaseBefore, bowStep.cycle.phase, bowStep.shot !== null)) {
+        sounds.emit({ type, source: PLAYER_SOUND_SOURCE });
+      }
       if (bowStep.staminaSpent > 0) {
         playerStamina.current = Math.max(0, playerStamina.current - bowStep.staminaSpent);
         staminaCooldown.current = COMBAT_TUNING.staminaRegenDelay;
@@ -1939,7 +2039,6 @@ export function CombatRuntime({
           ],
         });
         consumeArrow(arrow.id, 1);
-        combatAudio.play("swing");
       }
       if (bowStep.exited) {
         aimPitch.current = 0;
@@ -1997,18 +2096,18 @@ export function CombatRuntime({
     if (canStartAction && intent.equipPressed) {
       equipped.current = !equipped.current;
       startPlayerAction(equipped.current ? "equip" : "unequip", equipped.current ? playerWeapon.animations.equip : playerWeapon.animations.unequip);
+      const drawType = equipped.current ? "combat.draw" : "combat.sheathe";
+      sounds.emit({ type: drawType, weapon: DRAW_CLASS[playerWeapon.stats.class], source: PLAYER_SOUND_SOURCE });
+      if (playerOffWeapon) sounds.emit({ type: drawType, weapon: "left-hand", source: PLAYER_SOUND_SOURCE });
       announce(equipped.current ? playerWeapon.label : text(CATALOGUE, "text.combat.weapon-stowed"));
     } else if (canStartAction && intent.healPressed && estus.current > 0 && playerHealth.current < playerMaxHealth) {
       estus.current -= 1;
       startPlayerAction("heal", "HEAL");
-      combatAudio.play("heal");
     } else if (canStartAction && dualWield && intent.offHeavyPressed && equipped.current && spendStamina(dualWield.offPower.stamina)) {
       // Dual wield: the guard control is the off hand's attack. No block, no parry.
       startPlayerAction(dualWield.offPower.id, dualWield.offPower.animation, 0, undefined, null, true, dualWield.offPower);
-      combatAudio.play("swing");
     } else if (canStartAction && dualWield && intent.offLightPressed && equipped.current && spendStamina(dualWield.offLight.stamina)) {
       startPlayerAction(dualWield.offLight.id, dualWield.offLight.animation, 0, undefined, null, true, dualWield.offLight);
-      combatAudio.play("swing");
     } else if (canStartAction && !dualWield && intent.parryPressed && equipped.current && spendStamina(COMBAT_TUNING.parryCost)) {
       startPlayerAction("parry", playerGuardAnimations.parry.intro);
       announce(text(CATALOGUE, "text.combat.parry"), 0.55);
@@ -2017,7 +2116,6 @@ export function CombatRuntime({
       // semantic here was invisible while there was one moveset and became a
       // greatsword opening with a one-handed swing the moment there were three.
       startPlayerAction(mainHeavy.id, mainHeavy.animation, 0, undefined, null, true, mainHeavy);
-      combatAudio.play("swing");
     } else if (canStartAction && (intent.lightPressed || riposteQueued.current > 0) && equipped.current) {
       // Riposte the nearest enemy we just parried; otherwise backstab the
       // nearest enemy we are standing behind; otherwise a normal light attack.
@@ -2135,7 +2233,6 @@ export function CombatRuntime({
           lockTargetIndex.current = victim.id;
           announce(type === "backstab" ? text(CATALOGUE, "text.combat.backstab") : text(CATALOGUE, "text.combat.riposte"), 1.4);
         }
-        combatAudio.play("swing");
         riposteQueued.current = 0;
       }
       }
@@ -2155,7 +2252,9 @@ export function CombatRuntime({
     if (intent.dodgeReleased && dodgeHold.current <= 0.28 && canStartAction && spendStamina(moveMagnitude > 0.15 ? COMBAT_TUNING.rollCost : COMBAT_TUNING.backstepCost)) {
       const action = moveMagnitude > 0.15 ? "roll" : "backstep";
       startPlayerAction(action, action === "roll" ? "ROLL" : "BACKSTEP");
-      combatAudio.play("roll");
+      // Vanilla has no roll sound: the landing thump stands in, and the
+      // stealth feed hears it as a roll (`noiseForSound`).
+      sounds.emit({ type: "movement.land", footwear: playerSound.footwear, surface: playerSurface(), source: PLAYER_SOUND_SOURCE });
       if (moveMagnitude > 0.15) {
         const direction = cameraRelativeDirection(intent.move, cameraYaw.current);
         dodgeDirection.current.set(direction.x, direction.y, direction.z).normalize();
@@ -2187,6 +2286,13 @@ export function CombatRuntime({
       const victim = executionVictim.current;
       // One sensor per hand, armed by the attack's `hand` (dual wield).
       const hand = attack.hand ?? "main";
+      // The swing sounds as the blade goes live, once per attack, from the
+      // hand that swings it (the main hand's for both blades at once).
+      if (weaponActive && !playerSwingSounded.current) {
+        playerSwingSounded.current = true;
+        const swingClass = hand === "off" && playerOffWeapon ? playerOffWeapon.stats.class : playerWeapon.stats.class;
+        sounds.emit({ type: "combat.swing", weapon: SWING_CLASS[swingClass], source: PLAYER_SOUND_SOURCE });
+      }
       const armed = weaponActive && equipped.current && enemyEnabled && aliveEnemies.length > 0;
       playerHitboxActive.current = armed && hand !== "off";
       playerOffHitboxActive.current = armed && hand !== "main" && Boolean(playerOffWeapon);
@@ -2302,7 +2408,7 @@ export function CombatRuntime({
           // through. Cutting directly to idle here made the enemy pop upright
           // in the exact interaction where its motion should read most clearly.
           parriedBy.hitboxActive.current = false;
-          combatAudio.play("parry");
+          sounds.emit({ type: "combat.parry", guard: parriedBy.sound.guard, at: parriedBy.position, source: parriedBy.sound.source });
           triggerShake("parry");
           announce(text(CATALOGUE, "text.combat.attack-parried"), 1.1);
         } else if (!playerAttackHit.current && execution && criticalPair && victim && victim.fighter.state === "critical") {
@@ -2364,7 +2470,6 @@ export function CombatRuntime({
             true,
             nextAttack,
           );
-          combatAudio.play("swing");
         } else {
           comboQueued.current = null;
         }
@@ -2413,7 +2518,6 @@ export function CombatRuntime({
             body.setRotation(tmp.current.quaternion, true);
             body.setLinvel({ x: 0, y: body.linvel().y, z: 0 }, true);
             startPlayerAction(queuedAttack.id, queuedAttack.animation, 0, tmp.current.movement, null, true, queuedAttack);
-            combatAudio.play("swing");
           } else {
             rollAttackQueued.current = null;
             finishPlayerAction();
@@ -2442,7 +2546,6 @@ export function CombatRuntime({
             body.setRotation(tmp.current.quaternion, true);
             startPlayerAction(queuedAttack.id, queuedAttack.animation, 0, tmp.current.movement, null, true, queuedAttack);
             attackDashDistance.current = travelled * BACKSTEP_ATTACK_DASH_FRACTION;
-            combatAudio.play("swing");
           } else {
             finishPlayerAction();
           }
@@ -2564,6 +2667,12 @@ export function CombatRuntime({
         const stroke = swimClipFor(velocity, handle.bodyZAxis, moveMagnitude);
         playerAnimationSpeed.current = stroke === "SWIM_FORWARD" ? swimStrokeRate(moveMagnitude) : 1;
         setAnim(stroke);
+        stepSwimStrokes(swimStrokes.current, {
+          moving,
+          cycleSeconds: clipPlaybackDuration(stroke) ?? 1,
+          advanceSeconds: delta * playerAnimationSpeed.current,
+          source: PLAYER_SOUND_SOURCE,
+        }, sounds);
       }
       clipDrivenState.current = null;
     } else if (bowFootworkCommitted && playerGrounded && footDrivenMotion && hasGroundTrack(bowFootworkState)) {
@@ -2718,6 +2827,27 @@ export function CombatRuntime({
       });
     }
 
+    // Footsteps: one per foot plant while the player strides (decision 0095),
+    // before the stealth step, which hears them this frame.
+    const gait = movementAllowed ? locomotionGait({ moveMagnitude, grounded: playerGrounded, sprinting, crouching }) : null;
+    stepFootsteps(playerFootsteps.current, {
+      soles: playerSoleBones.current,
+      gait,
+      footwear: playerSound.footwear,
+      surface: playerSurface,
+      source: PLAYER_SOUND_SOURCE,
+      positional: false,
+    }, sounds);
+
+    // A lit torch burns audibly where its flame is (decision 0091): an
+    // emitter while lit, gone when it is doused, stowed or burnt out.
+    const torchLit = Boolean(playerTorch && carriedLight.current?.lit);
+    torchEmitting.current = stepTorchEmitter(
+      torchEmitting.current,
+      soundEmitters,
+      torchLit ? playerOffHandObject.current?.getWorldPosition(tmp.current.lightWorld) ?? playerPos : null,
+    );
+
     // Every enemy runs its own step against the shared player (`enemyStep`).
     const enemyStep: EnemyStepContext = {
       delta,
@@ -2744,20 +2874,15 @@ export function CombatRuntime({
       announce,
       triggerShake,
       attemptEnemyHit,
+      sounds,
+      playerGuardSound: playerSound.guard,
+      groundSurface,
     };
     // Stealth first: what each enemy sees and hears decides whether its own
     // step fights at all (`stealthStep`, decision 0092).
     {
       const bootWeightKg = playerArmour.find((piece) => piece.slot === "feet")?.weightKg ?? 0;
-      const attack = playerAttack.current;
-      let loudness = louder(pendingNoise.current, locomotionNoise({
-        moveMagnitude,
-        grounded: playerGrounded,
-        sprinting,
-        crouching,
-      }));
-      if (playerAction.current === "roll") loudness = louder(loudness, "roll");
-      if (attack && phaseAt(playerActionTime.current, attack) === "active") loudness = louder(loudness, "attackSwing");
+      const loudness = pendingNoise.current;
       pendingNoise.current = 0;
       stepStealth({
         delta,
@@ -2775,7 +2900,20 @@ export function CombatRuntime({
         scratch: stealthScratch.current,
       }, activeEnemies);
     }
-    for (const e of activeEnemies) stepEnemy(enemyStep, e);
+    for (const e of activeEnemies) {
+      stepEnemy(enemyStep, e);
+      // Its footsteps, where its feet land: striding in one of the moving modes.
+      const striding = e.fighter.health > 0 && e.moveSpeed.current > ENEMY_STRIDE_SPEED
+        && ENEMY_STRIDING_MODES.has(e.fighter.state);
+      stepFootsteps(e.footsteps, {
+        soles: e.soleBones.current,
+        gait: striding ? (e.running.current ? "run" : "walk") : null,
+        footwear: e.sound.footwear,
+        surface: () => groundSurface(e.position),
+        source: e.sound.source,
+        positional: true,
+      }, sounds);
+    }
 
     const lockTargetActive = lockTarget !== null && (lockTarget.fighter.health > 0 || lockTarget.fighter.state === "critical");
     // A stationary archer turns about a planted sole. Rotating the capsule
@@ -3372,6 +3510,7 @@ export function CombatRuntime({
           arrows={liveArrows}
           retire={retireArrow}
           onHit={handleArrowHit}
+          onLand={handleArrowLand}
           traceActor={traceActorArrow}
           gravityScale={settings.arrowGravityScale}
           onSample={onArrowSample}

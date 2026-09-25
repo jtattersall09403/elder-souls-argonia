@@ -8,6 +8,7 @@ import { SANDBOX_POOL } from "@elder-souls/game-core/validation/sandboxPool";
 import { useGameStore, type GameSnapshot } from "../sandboxStore";
 import { Arena } from "./Arena";
 import { ArrowProbe, recordArrowProbeSample } from "./ArrowProbe";
+import { useSandboxAudio } from "./useSandboxAudio";
 
 /**
  * The sandbox scene: the arena, its lights, and the combat runtime from
@@ -17,6 +18,14 @@ import { ArrowProbe, recordArrowProbeSample } from "./ArrowProbe";
 
 /** The arena pool's water, for swimming (decision 0093). One instance: the runtime resets on a new one. */
 const SANDBOX_WATER = flatPoolSampler(SANDBOX_POOL);
+
+/**
+ * What the arena's feet stand on (module 75 §54): the slab, the deck and the
+ * pool's basin and ramp are all stone. The runtime turns the pool's water
+ * into wading and puddles from its depth.
+ */
+const ARENA_GROUND = { physical: "stone" } as const;
+const arenaGround = () => ARENA_GROUND;
 
 /** The debug store's slice the runtime reads as `settings`. */
 function pickRuntimeSettings(state: GameSnapshot): CombatRuntimeSettings {
@@ -59,6 +68,8 @@ export function CombatScene({ visualScenario = null }: { visualScenario?: Visual
   // fog takes it too: otherwise the far arena would still fade to the old sky
   // and the "backdrop" a gap shows through would be two different colours.
   const backdrop = visualScenario?.portrait?.backdrop ?? "#dceff4";
+  // A validation scene streams nothing it does not need (the runtime's own rule for asset warm-up).
+  const { sounds, audio } = useSandboxAudio({ prefetch: !visualScenario });
   return (
     <>
       <color attach="background" args={[backdrop]} />
@@ -83,6 +94,9 @@ export function CombatScene({ visualScenario = null }: { visualScenario?: Visual
           publish={publish}
           onArrowSample={recordArrowProbeSample}
           water={SANDBOX_WATER}
+          sounds={sounds}
+          soundEmitters={audio ?? undefined}
+          groundContact={arenaGround}
           visualScenario={visualScenario}
         />
         <ArrowProbe />

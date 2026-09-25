@@ -1,5 +1,4 @@
 import { solveBowAim } from "@elder-souls/game-core/combat/solveBowAim";
-import { combatAudio } from "@elder-souls/game-core/fx/audio";
 import { directionTo } from "@elder-souls/game-core/combat/aimConvergence";
 import { launchSpeed } from "@elder-souls/game-core/combat/ballistics";
 import { fireArrow } from "@elder-souls/game-core/combat/arrowStore";
@@ -54,7 +53,6 @@ export function looseEnemyArrow(
     origin: [origin.x, origin.y, origin.z],
     velocity: [Math.sin(yaw) * horizontal, Math.sin(pitch) * speed, Math.cos(yaw) * horizontal],
   });
-  combatAudio.play("swing");
 }
 
 /**

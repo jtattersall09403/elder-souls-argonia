@@ -1,11 +1,9 @@
 import type { HitShakeKind } from "../fx/cameraShake";
 
-type Sound = "swing" | "hit" | "guard" | "parry" | "roll" | "heal" | "death";
-
-// The simulation decides what happened; subscribers own how it looks and
-// sounds. This keeps audio, camera shake, and HUD messaging out of the rules.
+// The simulation decides what happened; subscribers own how it looks. This
+// keeps camera shake and HUD messaging out of the rules. Sound has its own
+// typed bus (`@elder-souls/audio` SoundEventBus, decision 0095).
 export type CombatEvent =
-  | { type: "sound"; sound: Sound }
   | { type: "shake"; kind: HitShakeKind; direction?: { x: number; z: number } }
   | { type: "vignette" }
   | { type: "message"; text: string; duration: number };
@@ -22,10 +20,6 @@ export class CombatEventBus {
 
   emit(event: CombatEvent) {
     for (const listener of this.listeners) listener(event);
-  }
-
-  sound(sound: Sound) {
-    this.emit({ type: "sound", sound });
   }
 
   shake(kind: HitShakeKind, direction?: { x: number; z: number }) {

@@ -11,7 +11,6 @@ import { CharacterPicker } from "./ui/CharacterPicker";
 import { enterFullscreen, FullscreenButton } from "./components/FullscreenButton";
 import { Hud } from "./components/Hud";
 import { VisualFrameMarker } from "./components/VisualFrameMarker";
-import { combatAudio } from "@elder-souls/game-core/fx/audio";
 import { useGameStore } from "./sandboxStore";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
 import { visualScenarioFromSearch } from "@elder-souls/game-core/validation/visualScenarios";
@@ -213,7 +212,6 @@ export function App() {
   }, []);
 
   const begin = () => {
-    combatAudio.unlock();
     enterFullscreen();
     requestMouseLook();
     patch({ started: true, message: text(CATALOGUE, "text.sandbox.combat-ready") });

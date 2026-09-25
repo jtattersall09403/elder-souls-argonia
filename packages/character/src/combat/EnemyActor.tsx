@@ -82,6 +82,7 @@ export function EnemyActor({ runtime, reticleVisible, validation, showWeaponHitb
           offHandRef={runtime.offHand}
           targetAnchorRef={runtime.targetAnchor}
           hurtboxRef={runtime.hurtbox}
+          soleBoneRefs={runtime.soleBones}
           aimPitchRef={runtime.archetype.loadout.mainHand.stats.ranged ? runtime.aimPitch : undefined}
           bowDraw={{ fraction: runtime.bowDrawFraction, release: runtime.bowRelease }}
           quiver={runtime.archetype.loadout.mainHand.stats.ranged && DEFAULT_ARROW.quiver
