@@ -1,6 +1,6 @@
 # tooling/bootstrap
 
-Scripts that turn a fresh GitHub codespace into a working copy of the build VM. `.devcontainer/devcontainer.json` calls them. The plan behind them is `docs/research/infrastructure/codespaces-migration-plan.md` (Part 3).
+Scripts that turn a fresh GitHub codespace, or an EC2 machine (§ EC2 below), into a working copy of the build VM. `.devcontainer/devcontainer.json` calls them. The plan behind them is `docs/research/infrastructure/codespaces-migration-plan.md` (Part 3).
 
 The image comes first (`.devcontainer/Dockerfile`). It installs the system packages, rclone, rtk and the asset-pipeline toolchain under `/opt/es-tools`: Wine 11.13 wow64, the Windows build of Blender 4.4.3 with PyNifly V28.1.0 in its `addons_core`, and gltfpack 1.2. Every download is pinned by sha256. There is no X server: Wine and Blender run headless, as on the VM. Then three lifecycle scripts run automatically, in this order, and one script is run by hand:
 
@@ -53,7 +53,7 @@ When `/tmp` is emptied (GitHub's docs say at every stop, the owner's 2026-09-25 
 
 Owner rulings 2026-09-25, after two crashes of the 4-core codespace at 97-100 % CPU. Three layers, all in `tooling/repo-standards/`:
 
-- `cpu_watchdog.sh` (the logic and thresholds are in `cpu_watchdog.py`'s docstring) is a daemon `on-start.sh` starts on every start (nohup, setsid, one instance per machine by flock on `/tmp/es-jobs/watchdog.lock`). Every 2 s it reads whole-machine CPU from `/proc/stat`. Above 85 % for three samples it SIGSTOPs the heaviest throttleable process, one per sample, until a sample is under 70 %; once CPU has stayed under 60 % for 10 s it SIGCONTs them one at a time, oldest first. Every 30 s it kills (SIGTERM, SIGKILL 10 s later) any `rtk` older than 120 s with no live child and any Blender, `wb.py`, miner, `build_kit`, vitest or node test worker orphaned (ppid 1) for 10 min. The editor server and its extension hosts, sshd, the `claude` CLI and init are never touched. Log `/tmp/es-jobs/watchdog.log` (one line per action: pid, command, CPU, reason); `cpu_watchdog.sh --status` prints the state and the stopped list, `--stop` ends it and continues everything it stopped. A restarted watchdog re-adopts what its predecessor left stopped. Start it from a shell that is not niced: it inherits the priority.
+- `cpu_watchdog.sh` (the logic and thresholds are in `cpu_watchdog.py`'s docstring) is a daemon `on-start.sh` starts on every start (nohup, setsid, one instance per machine by flock on `/tmp/es-jobs/watchdog.lock`). Every 2 s it reads whole-machine CPU from `/proc/stat`. Above 85 % for three samples it SIGSTOPs the heaviest throttleable process, one per sample, until a sample is under 70 %; once CPU has stayed under 60 % for 10 s it SIGCONTs them one at a time, oldest first. Every 30 s it kills (SIGTERM, SIGKILL 10 s later) any `rtk` older than 120 s with no live child and any Blender, `wb.py`, miner, `build_kit`, vitest or node test worker orphaned (ppid 1) for 10 min. The editor server and its extension hosts, the VS Code tunnel CLI (`code tunnel`), sshd, the `claude` CLI and init are never touched. Log `/tmp/es-jobs/watchdog.log` (one line per action: pid, command, CPU, reason); `cpu_watchdog.sh --status` prints the state and the stopped list, `--stop` ends it and continues everything it stopped. A restarted watchdog re-adopts what its predecessor left stopped. Start it from a shell that is not niced: it inherits the priority.
 - `job_guard.sh <lane> -- <command>` runs every heavy job: it waits for load, disk and memory headroom, takes one of max(1, floor(nproc/2) - 1) slots and runs the job under `memwatch.sh` with `nice -n 10 ionice -c3 taskset -c <upper half of the cores>` (2-3 here), so cores 0-1 stay free for the editor tunnel and the CLI.
 - `jobs.mjs` caps parallel work at `ES_JOBS`, default max(1, floor(nproc/2)): `preflight.mjs` runs at most that many gates at once and that many pytest workers, and `run-workspaces.mjs` that many workspaces, each vitest pool with `VITEST_MAX_WORKERS` set to it. The caps multiply, so the CPU bound is the pin: when not already under job_guard, both run their children at nice 10 on the upper half of the cores (`pinPrefix`). Under job_guard, `memwatch.sh` exports its ceiling and preflight keeps each gate's ceiling 0.25 GiB below it, so a gate is killed and reported before the whole preflight. `npm run preflight -- --paths <pathspec...>` runs only the gates whose inputs the changed files touch (`preflight_select.mjs`).
 
@@ -68,3 +68,53 @@ A crashed session's lanes resume from their own transcripts (owner 2026-09-25). 
 ```
 
 It prints nothing when every subagent of the last 3 days finished, and nothing in a headless `claude -p` session; else one line per unfinished lane and the instruction to relaunch each with `lane_resume.py --packet <agent-id>` as its brief (PROGRESS.md protocol 5). Printing a packet claims the lane (kept in `lane-resume-dismissed.json` in the project dir), so a second session is not told to relaunch it. The transcripts are in `$CLAUDE_CONFIG_DIR/projects/-workspaces-elder-souls-argonia/`, which the `claude-transcripts` part backs up; the tool's docstring says how it decides "unfinished".
+
+## EC2 (browser VS Code, no ssh)
+
+The same scripts run natively on an AWS EC2 machine (Ubuntu 24.04, no container), with the repo at the same path, `/workspaces/elder-souls-argonia`, so every path, the Claude project folder and the snapshot keys stay as they are. You reach it through VS Code in the browser (vscode.dev) over a VS Code tunnel. Nothing needs ssh, a key pair or an open port. The EC2 files:
+
+- `ec2-user-data.sh` is pasted into the launch form. At first boot it creates the user `es` (with passwordless sudo), makes `/workspaces`, copies `tooling/bootstrap` from GitHub, runs `install-toolchain.sh --host --owner es`, and installs the three scripts below into `/opt/es/`. It also sets up `es-on-start.service`, which runs `on-start.sh` at every boot once the repo exists, and the idle timer. It ends by writing `/opt/es/USER-DATA-DONE`. Log: `/var/log/es-user-data.log`.
+- `install-toolchain.sh` installs the codespace image's toolchain, with the same pins as `.devcontainer/Dockerfile` (`python3 -m pytest tooling/bootstrap/test_ec2.py` fails if the two drift; no npm test runner collects it yet). With `--host` it adds what the devcontainer features gave a codespace: Node 22, gh, Claude Code, the VS Code CLI `code` (sha256 pinned; the tunnel service updates it afterwards), and a Python venv at `/opt/es/venv`, first on PATH, because stock Ubuntu's `python3` refuses `pip install`. It also writes `/etc/profile.d/es.sh`: the three containerEnv variables, plus `/workspaces/.es-machine.env` and `/workspaces/.es-secrets.env` read into every shell.
+- `ec2-stage2.sh` (installed as `/opt/es/stage2.sh`) signs the tunnel in to GitHub and installs it as a user service of `es` named `es-argonia`.
+- `ec2-stage3.sh` (installed as `/opt/es/stage3.sh`) does GitHub sign-in for pushing, clones the repo on `dev`, checks the secrets file and writes `ES_CACHE_LINKS=0` into `/workspaces/.es-machine.env`. That setting matters because there is one disk and `/tmp` is emptied at boot, so the mod pool stays in place. It then runs `on-create.sh`, `post-create.sh`, `first-run.sh`, `vault-pull.sh --tier mod --tier chain` (the whole pool, about 42 GiB) and `on-start.sh`. Every step skips what is done, so re-run it after a failure.
+- `idle-stop.sh` (installed as `/opt/es/idle-stop.sh`, run by `es-idle-stop.timer` every 10 minutes) powers the machine off after 90 idle minutes in a row. Idle means all four hold: no `job_guard` slot is held, no Claude transcript changed in the last 90 minutes, the 1-minute load is under 0.5, and the tunnel has no client connection. Settings: `/etc/es/idle.env`. Log: `/var/log/es-idle.log`, one line per check. Add `--dry-run` to check without stopping.
+
+**Owner steps**, once, in the AWS console and the browser:
+
+1. **Launch the machine.** Sign in to the AWS console, set the region (top right) to Europe (London), open EC2 and click Launch instance.
+   - Name: `es-argonia`.
+   - Image: Ubuntu Server 24.04 LTS, 64-bit (x86).
+   - Instance type: `m7i.2xlarge`.
+   - Key pair: "Proceed without a key pair".
+   - Network settings: click Edit and create a security group whose only inbound rule is type SSH with source the prefix list `com.amazonaws.eu-west-2.ec2-instance-connect` (the rule it offers says "Anywhere": change the source). The browser shell in step 3 needs this rule; you delete it after step 3, and the tunnel needs no inbound rule.
+   - Storage: 250 GiB, gp3.
+   - Advanced details: set "Shutdown behavior" to Stop. Under "User data", paste the whole of [ec2-user-data.sh](ec2-user-data.sh). No IAM role is needed.
+   - Click Launch instance. You should see the instance go to "Running".
+2. **Wait for the first boot to finish** (about 20 minutes). Select the instance, then Actions > Monitor and troubleshoot > Get system log, and refresh now and then. You should see a line `ES USER-DATA DONE` near the bottom.
+3. **Connect the editor tunnel.** Select the instance, click Connect, choose "EC2 Instance Connect" and click Connect. A black terminal opens in the browser. Type `sudo -iu es bash /opt/es/stage2.sh` and press Enter. It prints a github.com address and an 8-character code. Open the address, enter the code and approve. You should see `Open https://vscode.dev/tunnel/es-argonia` at the end. Close the terminal tab.
+   - Then remove the SSH rule: Security tab > the security group > Edit inbound rules > Delete > Save. You should see "Inbound rules (0)". To use the browser shell again later, add the same rule back for the session.
+4. **Open the editor.** Go to https://vscode.dev/tunnel/es-argonia and sign in with the same GitHub account. Open the folder `/workspaces`. You should see the folder open, with a terminal available (Terminal > New Terminal).
+5. **Add the secrets.** In the editor, create the file `/workspaces/.es-secrets.env` with these five lines, fill in the values after each `=` and save:
+   ```
+   ES_SNAPSHOT_ACCESS_KEY_ID=
+   ES_SNAPSHOT_SECRET_ACCESS_KEY=
+   ES_SNAPSHOT_ENDPOINT=
+   NEXUS_API_KEY=
+   CLAUDE_CODE_OAUTH_TOKEN=
+   ```
+   Then run `chmod 600 /workspaces/.es-secrets.env` in the terminal. You should see no output from `chmod`. The values are the same as the Codespaces secrets; the file lives outside the repo, so git never sees it.
+6. **Restore everything.** In the terminal, run `bash /opt/es/stage3.sh`. It first prints a github.com address and a code for GitHub sign-in; approve it as in step 3. It then runs for about 40 minutes. You should see `[stage3] done. The machine is ready.` followed by the studio steps. Then open the folder `/workspaces/elder-souls-argonia`.
+7. **Record the studio address, once.** Open the Ports panel (the "Ports" tab next to Terminal), click "Forward a Port", type `8081` and press Enter. Copy the address it shows (`https://....devtunnels.ms`) and leave it Private. In the terminal run `echo 'ES_TUNNEL_URL=<the address>' >> /workspaces/.es-machine.env`, then `bash tooling/bootstrap/on-start.sh`. Open a new terminal and run `npm run studio`. You should see the studio when you open that address. If the address changes after a restart, replace that line in `/workspaces/.es-machine.env` and run `on-start.sh` again.
+8. **Add the backstop alarm** (in case the idle check misses something). Select the instance, then Actions > Monitor and troubleshoot > Manage CloudWatch alarms > Create an alarm. Choose CPU utilization, Average, period 5 minutes, "less than or equal to" 3 %, for 24 consecutive periods (2 hours), and the alarm action "Stop". You should see the alarm listed with state OK or "Insufficient data".
+9. **Stop and start.** Instance state > Stop instance when you are done; the idle check does the same after 90 quiet minutes. A stopped machine costs only its disk (no compute charge), and everything on the disk stays. Instance state > Start instance brings it back. After about a minute the tunnel is up again at https://vscode.dev/tunnel/es-argonia. You should see the instance "Stopped" or "Running" in the list.
+
+Other machine settings go in `/workspaces/.es-machine.env`, one `NAME=value` per line: `ES_TUNNEL_URL`, `ES_CACHE_LINKS`, and optionally `ES_GIT_NAME` and `ES_GIT_EMAIL` for the commit identity. Without them, stage 3 uses the GitHub login and its noreply address.
+
+## Leaving Codespaces
+
+The vault is edited on one machine at a time. Hand it over before the codespace goes:
+
+1. On the codespace, run `bash tooling/bootstrap/snapshot-vault.sh`, then commit `tooling/bootstrap/snapshot-manifest.json`.
+2. Push `dev`, so the EC2 machine clones the new manifest and these scripts.
+3. Build the EC2 machine (§ EC2 above) and check that the studio loads there.
+4. Then delete the codespace (github.com/codespaces > ... > Delete). Do not edit the vault on it after step 1.

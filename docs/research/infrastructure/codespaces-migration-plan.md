@@ -112,8 +112,9 @@ the three `ES_SNAPSHOT_*` values (type s3, provider Cloudflare,
 
 **Delivered 2026-09-24** (lanes A–C; reports were in `/tmp/codespaces-lane-2026-09-24/`):
 
-- **Snapshot.** `tooling/bootstrap/snapshot-vault.sh` wrote the full snapshot:
-  76 parts, 44.9 GiB, uploaded in 402 s at about 110 MB/s. The contract is
+- **Snapshot.** `tooling/bootstrap/snapshot-vault.sh` wrote the full snapshot,
+  uploaded in 402 s at about 110 MB/s. Today's manifest holds 85 parts,
+  53.3 GiB (76 parts, 44.9 GiB at that first run). The contract is
   `tooling/bootstrap/snapshot-manifest.json`. Largest parts: bmv 9.0 GiB,
   drjacopo grass 8.6, cipactli 4.5, vanilla 3.9. `Skyrim - Sounds.bsa`
   (954 MB) was added to vanilla `Data/` by another process during the run and
@@ -124,7 +125,7 @@ the three `ES_SNAPSHOT_*` values (type s3, provider Cloudflare,
   `tooling/bootstrap/README.md`, the operating doc. Every toolchain download
   is pinned by sha256: Wine 11.13 wow64, Blender 4.4.3 Windows, PyNifly
   V28.1.0, gltfpack 1.2, rclone 1.75.1, rtk 0.49.0. The Wine prefix is a plain
-  `wineboot -i`, and `on-create` builds it. `~/tools` links to `/opt/es-tools`.
+  `wineboot -i`, and `first-run.sh` builds it. `~/tools` links to `/opt/es-tools`.
   `vault-pull.sh` passed its tests against the real bucket: hash mismatch,
   LRU eviction and tier restore.
 - **Requirements.** `tooling/asset-pipeline/requirements.txt` exists.
@@ -383,6 +384,44 @@ restore after creation. Prove the scripted prefix by building one kit in
 the codespace and matching the VM's output hash. This supersedes the
 `~/tools` snapshot bundle and reason (e) 6 (prebuild storage is about
 $1/month at the image size).
+
+## EC2 host (2026-09-25)
+
+The same bootstrap runs natively on an AWS EC2 machine, reached from VS Code
+in the browser over a VS Code tunnel; the owner's steps and the scripts are
+in `tooling/bootstrap/README.md` § EC2, which is the operating doc. Design:
+
+- **Native, no container.** Nothing in the tree needs one. Ubuntu Server
+  24.04 on m7i.2xlarge (8 vCPU, 32 GiB) in eu-west-2, one 250 GB gp3 root
+  volume. The repo stays at `/workspaces/elder-souls-argonia`, so the Claude
+  project folder (`-workspaces-elder-souls-argonia`), the snapshot keys and
+  every path are unchanged. User `es`, passwordless sudo.
+- **One toolchain script.** `tooling/bootstrap/install-toolchain.sh` holds
+  the Dockerfile's apt set and sha256 pins; `--host` adds Node 22, gh,
+  Claude Code and a venv at `/opt/es/venv` first on PATH (stock Ubuntu's
+  python3 is externally managed, PEP 668). The Dockerfile keeps its own copy
+  of the pins until devcontainer.json sets `"context": ".."`;
+  `tooling/bootstrap/test_ec2.py` fails when the two differ (run by hand
+  until a test runner collects it).
+- **Access.** The security group has no inbound rule once the tunnel is up.
+  The EC2 Instance Connect browser shell is used once (it needs inbound SSH
+  from the `com.amazonaws.eu-west-2.ec2-instance-connect` prefix list for that
+  session) to sign the `code tunnel` user service in to GitHub; lingering
+  keeps it up at boot. The studio's `ES_TUNNEL_URL` is the tunnel's
+  forwarded 8081 address (`*.devtunnels.ms`, private to the owner's GitHub
+  sign-in), stored in `/workspaces/.es-machine.env`, which `on-start.sh`
+  reads off a codespace.
+- **Secrets.** Never in user data (plain text to anyone with
+  `ec2:DescribeInstanceAttribute`) or the repo: the owner writes
+  `/workspaces/.es-secrets.env` (mode 600) in the editor, and
+  `/etc/profile.d/es.sh` exports it into every shell.
+- **Disk.** With one volume `/tmp` shares the dev root and is wiped at boot,
+  so `ES_CACHE_LINKS=0` and the whole mod pool (85 parts, 53.3 GiB with the
+  rest) lives pulled in place; about 75 GiB used of 250.
+- **Cost control.** `idle-stop.sh` on a 10-minute timer powers off 90
+  minutes after the last of: a held job_guard slot, a Claude transcript
+  write, load of 0.5 or more, a tunnel client connection; a CloudWatch alarm (CPU ≤ 3 % for 2 h,
+  action Stop) is the backstop. Stopped, only the disk is billed.
 
 ## Recommendations
 

@@ -21,11 +21,14 @@ Numbers:
                    flat 1,600 tokens (how they are billed), text at bytes/4
 Decision 0079 records the baseline these controls were measured against.
 """
-import argparse, collections, datetime as dt, glob, json, os, sys
+import argparse, collections, datetime as dt, glob, json, os, re, sys
 
-PROJ = os.path.expanduser(
-    "~/.claude/projects/-home-analyticalplatform-workspace-elder-souls-dev-elder-souls-argonia")
-import re
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from lane_resume import project_dir  # noqa: E402  one derivation of the project folder
+
+# This repo's transcripts: $CLAUDE_CONFIG_DIR (default ~/.claude) /projects/<repo path, non-alphanumerics as ->,
+# so it follows the machine (VM, codespace, EC2) instead of naming one.
+PROJ = str(project_dir())
 EXPLORE = re.compile(r"(^|[;&|]\s*)(rtk\s+)?(cat|head|tail|sed\s+-n|grep|rg|ls|find|tree|wc|"
                      r"git\s+(log|status|diff|show|grep)|python3?\s+-\s*<<|python3?\s+-c|jq|stat|du|file)\b")
 # 1-hour cache TTL on this machine writes at 2x base (was 1.25, the 5-minute rate;

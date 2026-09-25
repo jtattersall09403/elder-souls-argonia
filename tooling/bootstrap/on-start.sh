@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# postStartCommand: runs on every codespace start. The one place that derives
-# ES_TUNNEL_URL (from ES_STUDIO_PORT and the codespace name): it replaces its
+# postStartCommand: runs on every codespace start (on the EC2 host,
+# es-on-start.service runs it at every boot). The one place that sets
+# ES_TUNNEL_URL (on a codespace from ES_STUDIO_PORT and the codespace name; on
+# any other machine from /workspaces/.es-machine.env): it replaces its
 # block in ~/.bashrc (read by every interactive shell, VS Code terminals
 # included) and sets env.ES_TUNNEL_URL / env.ES_STUDIO_PORT in the repo's
 # gitignored .claude/settings.local.json (merged, every other key kept;
@@ -13,6 +15,19 @@
 set -euo pipefail
 
 say() { echo "[on-start] $*"; }
+
+# A machine that is not a codespace (the EC2 host) keeps its settings in
+# /workspaces/.es-machine.env, outside the repo: ES_CACHE_LINKS=0 (one volume;
+# /tmp is wiped at boot) and ES_TUNNEL_URL (the VS Code tunnel's forwarded
+# 8081 address, copied once from the Ports panel). Read first, so
+# cache-links.sh below sees ES_CACHE_LINKS.
+MACHINE_ENV="${ES_MACHINE_ENV:-/workspaces/.es-machine.env}"
+if [[ -z "${CODESPACE_NAME:-}" && -r "$MACHINE_ENV" ]]; then
+  set -a
+  # shellcheck source=/dev/null
+  . "$MACHINE_ENV"
+  set +a
+fi
 
 # First, on any machine: the CPU watchdog (owner ruling 2026-09-25, after two
 # crashes at 100 % CPU). It pauses the heaviest processes while the machine is
@@ -29,16 +44,20 @@ fi
 # reported and the start goes on.
 bash "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/cache-links.sh" || say "WARNING: cache-links.sh failed (exit $?); the mod pool stays where it is"
 
-if [[ -z "${CODESPACE_NAME:-}" || -z "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}" ]]; then
-  say "not in a codespace (no CODESPACE_NAME); leaving ES_TUNNEL_URL alone"
+PORT="${ES_STUDIO_PORT:-8081}"
+if [[ -n "${CODESPACE_NAME:-}" && -n "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}" ]]; then
+  URL="https://${CODESPACE_NAME}-${PORT}.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
+elif [[ -z "${CODESPACE_NAME:-}" && -n "${ES_TUNNEL_URL:-}" && -r "$MACHINE_ENV" ]] \
+     && grep -q '^ES_TUNNEL_URL=' "$MACHINE_ENV"; then
+  URL="${ES_TUNNEL_URL%/}"
+else
+  say "no codespace and no ES_TUNNEL_URL in $MACHINE_ENV; leaving ES_TUNNEL_URL alone"
   exit 0
 fi
-PORT="${ES_STUDIO_PORT:-8081}"
-URL="https://${CODESPACE_NAME}-${PORT}.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
 
 BEGIN="# >>> elder-souls codespace env >>>"
 END="# <<< elder-souls codespace env <<<"
-# Replace the block on every start (the port or codespace name may change):
+# Replace the block on every start (the port, codespace name or tunnel URL may change):
 # drop any old block between the markers, then append the current one.
 RC="$HOME/.bashrc"
 touch "$RC"
