@@ -1,0 +1,53 @@
+{
+  "set": "lights",
+  "items": {
+    "torch": {
+      "class": "torch",
+      "material": "wood",
+      "sheathSocket": "Shield",
+      "asset": "lights/torch.glb",
+      "icon": "lights-icons/torch.png",
+      "lengthMeters": 0.6554,
+      "sizeMeters": [
+        0.1064,
+        0.09912,
+        0.6554
+      ],
+      "nodes": {
+        "AttachLight": [
+          -0.0,
+          0.01392,
+          0.41199
+        ]
+      },
+      "light": {
+        "formId": "0001d4ec",
+        "burnSeconds": 240,
+        "radiusUnits": 512,
+        "colourRgb": [
+          250,
+          190,
+          131
+        ],
+        "flicker": {
+          "frequency": 0.667,
+          "intensityAmplitude": 0.5,
+          "movementAmplitude": 10
+        },
+        "flags": [
+          "dynamic",
+          "canBeCarried",
+          "flicker"
+        ],
+        "weightKg": 0.5,
+        "value": 2
+      },
+      "flame": "particles-not-exported",
+      "sha256": "bcc07c3f88fcf47074c195550be2cc085fa8a5819971ea6b8d74589bac949dd7",
+      "source": {
+        "nif": "meshes/weapons/torch/torch.nif",
+        "sha256": "3d930a946e5c122c4a792f99e9d2e07aca20168b1ee9cfbd6e4b8ed5633706de"
+      }
+    }
+  }
+}
