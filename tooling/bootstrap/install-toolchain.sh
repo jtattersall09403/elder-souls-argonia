@@ -4,7 +4,7 @@
 # there at the pinned version, so a re-run is cheap.
 #
 #   install-toolchain.sh --image --owner vscode   the codespace image's layer
-#       (.devcontainer/Dockerfile:30-94): apt packages, rclone and rtk into
+#       (.devcontainer/Dockerfile RUNs this): apt packages, rclone and rtk into
 #       /usr/local/bin, Wine, Blender + PyNifly and gltfpack into /opt/es-tools
 #   install-toolchain.sh --host --owner es        the same, plus what the
 #       devcontainer features and containerEnv give a codespace
@@ -18,11 +18,8 @@
 #       /etc/profile.d/es.sh (read by login shells and, through a line added
 #       to /etc/bash.bashrc, by every interactive bash).
 #
-# The pins below are the ones in .devcontainer/Dockerfile's ARGs (sha256 of
-# the downloaded file, as there); tooling/bootstrap/test_ec2.py checks the two
-# agree (run by hand: no npm test runner collects tooling/bootstrap yet). The Dockerfile cannot call this script yet: its build context
-# is .devcontainer/ (devcontainer.json has no "context"), which cannot see
-# tooling/.
+# The pins below are the only copy: .devcontainer/Dockerfile runs this script
+# with --image (build context = repo root), so the image and EC2 cannot drift.
 set -euo pipefail
 
 WINE_VERSION=11.13

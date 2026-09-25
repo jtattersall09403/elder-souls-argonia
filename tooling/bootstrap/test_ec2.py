@@ -1,7 +1,6 @@
-"""Checks for the EC2 bootstrap (run: python3 -m pytest -q tooling/bootstrap/test_ec2.py).
+"""Checks for the EC2 bootstrap (npm test collects it through tooling/repo-standards).
 
-- install-toolchain.sh pins equal the Dockerfile ARGs (the two must not drift
-  while the Dockerfile cannot call the script);
+- the Dockerfile builds through install-toolchain.sh (one copy of the pins);
 - every bootstrap script parses (bash -n);
 - session_tokens.py finds this repo's transcripts the way lane_resume.py does;
 - cpu_watchdog never throttles the `code tunnel` CLI;
@@ -25,11 +24,11 @@ def assigns(text, pattern):
     return dict(re.findall(pattern, text, re.M))
 
 
-def test_pins_match_the_dockerfile():
-    docker = assigns((REPO / ".devcontainer" / "Dockerfile").read_text(), r"^ARG (\w+)=(\S+)$")
-    script = assigns((HERE / "install-toolchain.sh").read_text(), r"^([A-Z_]+(?:VERSION|SHA256|TAG))=(\S+)$")
-    assert docker, "no ARG pins read from the Dockerfile"
-    assert {k: script.get(k) for k in docker} == docker
+def test_dockerfile_runs_install_toolchain():
+    docker = (REPO / ".devcontainer" / "Dockerfile").read_text()
+    assert "install-toolchain.sh --image --owner vscode" in docker
+    assert not re.search(r"^ARG \w+_SHA256=", docker, re.M), "pins belong in install-toolchain.sh only"
+    assert json.loads((REPO / ".devcontainer" / "devcontainer.json").read_text())["build"]["context"] == ".."
 
 
 def test_every_script_parses():

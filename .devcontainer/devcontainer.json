@@ -1,7 +1,8 @@
 {
   "name": "Elder Souls: Argonia",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "context": ".."
   },
   "hostRequirements": {
     "cpus": 4,
