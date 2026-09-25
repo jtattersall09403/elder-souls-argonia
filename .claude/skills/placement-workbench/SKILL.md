@@ -1,6 +1,6 @@
 ---
 name: placement-workbench
-description: Build a place's layout the way a person does in Blender or the Creation Kit — in the headless placement workbench (tooling/placement-workbench/wb.py) over the frozen ground: describe each kit piece, place, snap, settle and mount it, measure every contact and every door-to-path, render and have a Sonnet reader look, iterate, then export the poses as the blueprint record the compile realises unchanged. Use when authoring or re-authoring the layout of a settlement, fixture yard or composite place; when a compile reports floats, crossings, open run ends or doors off their ways; or when a layout must be judged on the actual geometry.
+description: The tool manual for the headless placement workbench (tooling/placement-workbench/wb.py) over the frozen ground — every command (describe, place, snap, settle, mount, attach, group, measure, check, compile, render, export), its bars and its cost. The design procedure for a place is the place-build skill; use this one for how to run a wb.py command, read its output, or judge a contact, a seat or a door on the actual geometry.
 ---
 
 # Placement workbench
@@ -9,16 +9,17 @@ description: Build a place's layout the way a person does in Blender or the Crea
 > decisions 0085 (kit truth is mined; mined records are evidence), 0086,
 > 0087, 0097 (agent-authored placement in a workbench; the record is the
 > output; the `atM` run field); world 97 B3 (slope ladder), C8 (orientation), C9 (doors onto
-> ways), C11a (dug-in), C14 (verticality); the `settlement-build` skill
-> (steps 2-9: derive, validate, compile, publish, walk packet, prose);
+> ways), C11a (dug-in), C14 (verticality); the `place-build` skill
+> (the procedure; its step numbers are cited below);
 > `tooling/placement-workbench/README.md`; the lane record
 > `docs/phases/lanes/placement-workbench-lane.md` § Rounds (round 1 and 3
 > reports); `docs/research/placement-settlements/building-depth-and-variety.md`
 > §2 (the building-assembly layers and checks). If a cited record has
 > moved, this skill is stale: report it.
 
-The workbench is the authoring tool; `settlement-build` stays the umbrella
-for everything after the export. The mined records
+This is the tool manual. What to read, what to design, when to render,
+and how a place is published and walked is the `place-build` skill; its
+step numbers are cited below. The mined records
 (`kit-designed-sink.json`, `kit-mounts-mined.json`, the abuts section of
 `kit-assemblies-mined.json`) are EVIDENCE you query with `describe` and
 `evidence`; the pose you choose is yours and is recorded as such.
@@ -28,15 +29,16 @@ for everything after the export. The mined records
 province metres, x east / z south (studio km x 1000). Faces are
 east/west/north/south in the piece's own frame at yaw 0 (= +x/-x/+y/-y).
 Every call prints JSON and a `[wb] <cmd> <s>` line; a place-and-check cycle
-is 1-2 s; a render is 10-15 s for a few pieces and about 40 s for a whole
-yard (each kit it uses is imported into Blender).
+is 1-2 s; a Blender launch costs 40-50 s (measured, yard B: each kit it
+uses is imported), so a render round is ONE launch (`render --shots`: 205 s
+for yard B's 11 shots at 1024 px on the two job_guard cores).
 
 ## 1. Read before you place
 
-- The place record: the catalogue row (or, for a fixture, its
-  `world/sources/sites/<slug>.json`) and the plot; for a real place the
-  culture's grammar (world 97 Part F) and `docs/quests/20-world-provisions.md`.
-- The kit list: the district `cultureKit`s and the pieces the brief names.
+- The design reading (record, promises, culture grammar, lessons, design
+  index) is `place-build` step 0; the kit list and the piece per use come
+  from its design brief (step 1). A fixture reads its
+  `world/sources/sites/<slug>.json`.
 - Memory: `grep '^anon' /sys/fs/cgroup/memory.stat` under 7 GiB before a
   render (one Blender at a time).
 
@@ -62,6 +64,21 @@ Read: `sizeM`, `pivotAboveBaseM`, `manifest.fit` / `anchorClass` /
 `wb.py - evidence <parent> <child>`.
 
 ## 4. Lay it out
+
+A place is one layout file applied whole (decision 0100; `place-build`
+step 2). Each op is one mutating command below as JSON with the CLI's
+argument names; the standing example is
+`tooling/placement-workbench/fixtures/yard-b.layout.json`.
+
+    python3 tooling/placement-workbench/wb.py apply <place>.layout.json [--scene NAME]
+        [--no-compile] [--allow-stale-ground]   # fresh scene, every op, check + compile: 12 s (yard B)
+    python3 tooling/placement-workbench/wb.py replay --scene NAME --out <place>.layout.json
+    cd tooling/world-generation && python3 -m worldgen.render_blueprint --layout <layout>   # plan, 3 s
+
+`apply` stops at the first failing op (its index in the digest), writes
+`output/apply/<placeId>.json`, and refuses when the place's blueprint was
+exported on other chunk files (`authoredOn`). The commands, one per op or
+for trying a pose by hand:
 
     $W probe <asset> --at X Z --yaw D   # try a pose without adding it: seat, ground, slope rule
     $W place <uid> <asset> --at X Z --yaw D --settle
@@ -113,6 +130,10 @@ runtime's `anchorPlacement`); doors within 4 m of a path.
     $W render front --focus <uid>        # faces the doorway; red line = terrain cut
     $W render cutaway --focus <uid> --cut 0
     $W render iso | turntable [--focus <uid>]
+    $W render --shots auto               # a round in ONE launch: top, a front per parcel on its
+                                         # door side, isos from 45 and 225 deg; or a list
+                                         # top,iso,iso:BEARING,front:UID -> output/renders/<scene>/round-N/
+                                         # with manifest.json naming each shot's subject
 
 Hand the PNG paths to a Sonnet `general-purpose` agent (read-only) with this
 list: is each base on the red ground line (float / sunk, in metres from the
@@ -133,19 +154,20 @@ Export writes POSE fields only (`centreUV`, `yawDeg`, `assetRef`, run
 pitch, on, layer, evidence}]` (`blueprint.assembly_failures`), landmark
 `position`, route `via`/`points`).
 Never hand-edit a pose in the JSON: move it in the workbench and export
-again. Everything else (districts, prose, doors' interior claims) is
-authored as `settlement-build` step 1 says. Then `settlement-build` steps
-2-4 (derive passes, `blueprint --check`, compile). A compile finding about
-a pose goes back to step 4 here.
+again. Everything else (districts, prose, doors' interior claims) is the
+blueprint skeleton of `place-build` step 2; `wb.py compile` runs the
+derive passes and the compile. A compile finding about a pose goes back
+to the layout file (`place-build` step 2).
 
 ## 7b. Building assembly (every inhabited building)
 
 A building is an assembly, not a shell: the layer table, its evidence and
 its checks are `docs/research/placement-settlements/building-depth-and-variety.md`
-§2 (read it; do not restate it). The procedure:
+§2 (read it; do not restate it). The purpose card and the piece per
+layer are decided in the design brief (`place-build` step 1); the
+commands, per building:
 
-1. Purpose card first: who lives here and what trade, from the place
-   record (layer 1).
+1. Purpose card: read it from the design brief (layer 1).
 2. The shell: its composite holds only the shell, the door its mod placed
    with it and a mined walkway or porch (§2 rules). Place, settle, turn the
    doorway to its path.
@@ -172,13 +194,14 @@ its checks are `docs/research/placement-settlements/building-depth-and-variety.m
 
 ## 8. Publish and hand over
 
-`settlement-build` step 5 (for the yard: `bash tooling/studio-loop/yard-publish.sh`,
-which exports every compiled blueprint); then
-`python3 tooling/placement-workbench/wb.py - walktable <place-id>` for the
-owner-walk table (every item, every time; settlement-build step 8). Prose
-through `text-review` in a separate agent (settlement-build step 9).
+`place-build` steps 5-6 (export, compile, publish this place only, the
+walk packet); for the yard, `bash tooling/studio-loop/yard-publish.sh`.
+`python3 tooling/placement-workbench/wb.py - walktable <place-id>` prints
+the owner-walk table (every item, every time). Prose goes through
+`text-review` in a separate agent.
 
 ## Record as you go
 
-Per item: iterations (moves after the first place), what the numbers said,
-what the renders showed. Tool gaps go to the lane doc's Rounds notes.
+A finding that cost more than one render round, and every compile
+refusal, is a row in `place-build`'s `references/lessons.md` (its step
+8). Tool gaps also go to the lane doc's Rounds notes.
