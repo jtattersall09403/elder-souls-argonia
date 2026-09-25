@@ -183,8 +183,11 @@ cities mount them: whfxwindowglow01–04 and fxambwindowglow00 (W (a)). They are
 ## 5. Variety required vs reachable, per culture
 
 The requirement:
-- No template above ~25 % of its family in a region, which needs at least 4 templates per family
-  per region.
+- Variety is measured per settlement against the bars in
+  [0098](../../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md)
+  (shells, top-shell share, pieces within 12 m, dressing breadth per tier), recorded as data in
+  `world/sources/placement/breadth-bars.json` (16k § 1b). The earlier ~25 % template cap per
+  family and region is retired by 0098.
 - Two instances within 2 km differ on at least 3 axes.
 - Source: 97-placement-principles.md Part A, "anti-sameyness" (line ~131); LV §4.
 - No doc sets a form count per tier (LV §4).

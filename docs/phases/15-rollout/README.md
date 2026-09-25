@@ -1,5 +1,13 @@
 # Phase 15 — rollout by region packet (sketch, 2026-09-20; 16j writes the roadmap and the template)
 
+**Superseded rhythm (2026-09-25, [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md)).**
+The packet rhythm below (16i recipe, 16j trial packet, 16j roadmap) is
+superseded by the 16k place loop. Phase 15 opens when
+[16k](../16-foundation-and-places/16k-place-loop.md)'s exit bar is met,
+with the skill set the loop proved and the per-type templates it
+recorded; 16k's exit rewrites this README, the roadmap and the packet
+template. Nothing below is to be followed until then.
+
 **What Phase 15 is.** The province beyond the exemplars, built one region
 packet at a time with the recipe 16i wrote and 16j proved, once every
 system a packet needs exists (decision 0062 §6: after 9, 10b, 10c, 13,

@@ -57,7 +57,9 @@ owner is not idle while a chunk runs. The world build keeps its one queue
   21 agent-hours of lane leads sleeping on their builders). The shell guard
   refuses `sleep` from every session, subagents included. Waiting is
   job_guard's own wait, `run_in_background` (the harness wakes you when the
-  job exits) or a subagent's hand-back.
+  job exits) or a subagent's hand-back. A slow builder is the defect: fix it
+  at the source (scoped gates, sampled mines, cached builds). The sleep
+  guard stays as a backstop, never as the fix.
 - **A crashed session's lanes resume from their transcripts.** The
   SessionStart hook runs `tooling/repo-standards/lane_resume.py --brief`;
   relaunch each lane it lists with `lane_resume.py --packet <agent-id>` as

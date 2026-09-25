@@ -457,7 +457,9 @@ miner list blocks a yard item.
 5. The literal run rule makes `wrfencestr01` (−x/−x along y, n 17) a
    double joint.
 6. The seven meshes absent from the vault (backlog row, sourcing).
-7. **Migration leftover for this lane:** a batch mode + merge step in
+7. **WITHDRAWN 2026-09-25 (owner and planner):** the miner runs once over
+   the whole pool on the `/tmp` cache volume, so no batch mode is built
+   ([16k](16k-place-loop.md) § 1a). Was: a batch mode + merge step in
    the three miners so a full run can pull, mine and evict one batch at
    a time (a batch = one plugin plus the mod folders of every master
    and asset source it references, read from the plugin's master list

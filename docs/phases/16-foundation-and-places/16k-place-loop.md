@@ -135,10 +135,10 @@ texture `Ground050`, impwindow moss (×6); distance: `fxambwindowglow01`,
 **1a. Close 16h part 1.** Resume the check-in 3 fix round's lanes from
 their transcripts (`python3 tooling/repo-standards/lane_resume.py --packet
 <agent-id>` as each brief, same agent type): the kit/yard lane, the miner
-full run (after its batch mode lands, item M7 of the 16h miner list) and
-the combat round-7 close. Dismiss or relaunch 7f2405fa. Turn every
-check-in 1–3 yard defect into an automatic gate on proving grounds A and
-B (0099 decision 7); the yard is not walked again. 16h part 1 closes on
+full run (ONCE over the whole pool on the `/tmp` cache volume, owner and
+planner 2026-09-25; no batch mode) and the combat round-7 close.
+Dismiss or relaunch 7f2405fa. Turn every check-in 1–3 yard defect into
+an automatic gate on proving grounds A and B (0099 decision 7); the yard is not walked again. 16h part 1 closes on
 green gates and the ledger row.
 
 **1b. Set the bars.** Before the place is designed: the breadth bars as
@@ -146,29 +146,30 @@ numbers the skill reads, from `building-asset-breadth.md` §3,
 `building-depth-and-variety.md` §5 and 0098 (Fable writes the numbers
 and their record); the within-place variety number (yard, ground,
 lights, enclosure kinds) beside 0098; building-depth §5 brought in line
-with 0098; the checklist's Gate column signed by the owner.
+with 0098; the checklist's Gate column signed by the owner. The record is
+`world/sources/placement/breadth-bars.json` (`schemaVersion` 1), authored
+in 1b from 0098, 97 Part C7/F, 16h item 17 and `building-asset-breadth.md`
+§3: one object per settlement tier and per place type, each giving
+shells, top-shell share, pieces within 12 m, dressing assets (min and max
+share), ground, light and enclosure kinds (min), and the distance bars
+between places of one type or purpose. The skill reads it; no bar lives
+in prose only.
 
-**1c. The first real place: Chasepoint**
-(`place.mercantile-coast.chasepoint`). A road-station village (M2,
-`simple`, footprint 65 m): an Imperial way-station the wreck-salvage
-families squat, reed-roofed, its yard stacked with ships' timber. It sits
-25 m off the Gideon–Soulrest leg (`route.road.gideon-soulrest`, a 16e
-city leg), in fringe marsh (the yard's terrain class), 3.6 km from the
-yard; its `dependsOn` are a ruined plantation and a wrecker beach, no
-city; its asset plan is vanilla farmhouse, wattle fences, signage,
-market tents and clutter (Imperial pools we hold). Watch: its centre is
-355 m from Soulrest's (radius 230 m), so its east edge is ~60 m from the
-city footprint; nothing in it may lean on Soulrest's unbuilt edge.
+**1c. The first real place: Claywater Station**
+(`place.imperial-fringe.claywater-station`). An Imperial road-station
+village (M2, `simple`) 20 m off the Gideon–Blackwood trunk, firm
+lowland; two villages facing each other across the road (danger band
+4). Chosen because it is built from Imperial pools we hold, has no
+`dependsOn`, sits on the trunk and has no city edge within reach.
 
-Alternatives:
-- **Highwater** (`place.imperial-fringe.highwater-hamlet`): an Argonian
-  flood-high hamlet (M2, `simple`) 35 m off the Gideon–Blackwood trunk,
-  firm lowland, 1.2 km from the nearest town; depends on the Drowning
-  Gate ferry, which 16h already stood up.
-- **Claywater Station** (`place.imperial-fringe.claywater-station`): an
-  Imperial road-station village (M2, `simple`) 20 m off the
-  Gideon–Blackwood trunk, firm lowland, no dependencies; two villages
-  facing each other across the road (danger band 4).
+- **Chasepoint** (`place.mercantile-coast.chasepoint`) is dropped as
+  first: its east edge is ~60 m from Soulrest's footprint (centre 355 m
+  from Soulrest's, radius 230 m), so it would lean on an unbuilt city
+  edge.
+- **Highwater** (`place.imperial-fringe.highwater-hamlet`) is the second
+  slice candidate: an Argonian flood-high hamlet (M2, `simple`) 35 m off
+  the Gideon–Blackwood trunk, firm lowland, 1.2 km from the nearest
+  town; depends on the Drowning Gate ferry, which 16h already stood up.
 
 ### Slices 2 on
 
@@ -251,8 +252,8 @@ text and test.
 ## Owner check-ins
 
 - **Once, before slice 1's place is designed:** sign the type list, the
-  exit bar and the checklist's Gate column; confirm Chasepoint or pick
-  an alternative.
+  exit bar and the checklist's Gate column; confirm Claywater Station
+  or pick an alternative.
 - **Every walk.** The packet lists every thing in the place with a
   studio link (`$ES_TUNNEL_URL/?view=character&x=..&z=..&t=..`) and one
   check per line, plus "what changed since the last walk".
@@ -273,9 +274,10 @@ text and test.
   a yard gate is not ready to walk.
 - Waiting is the hand-back or `run_in_background`; if a builder is slow,
   the speed item is the fix.
-- Chasepoint's `culture` is argonian while its shells are Imperial: the
-  grammar is a squatted way-station, read against 97 Part F, not a
-  village of either culture alone.
+- Claywater Station's `culture` is imperial, but its record is two
+  communities: the Imperial well and the Argonian landing on one road.
+  Read the grammar against 97 Part F as two halves facing each other,
+  not a village of either culture alone.
 - Player-visible text (catalogue prose, `why` lines, door messages) goes
   through `text-review` in a separate agent before commit.
 
@@ -296,9 +298,10 @@ cannot come back, and the recipe improves. You walk again, and we repeat
 until you say it looks right. Only then do we build the next place, of a
 different kind somewhere else.
 
-**The first place** is Chasepoint, an old Imperial road station on the
-road into Soulrest that salvage families took over, with a reed
-roof on a stone building and ship's timber piled in its yard.
+**The first place** is Claywater Station, a road-station village on the
+main road between Gideon and Blackwood, where an Imperial well and an
+Argonian boat landing serve the same travellers. It needs nothing else
+built first and sits well clear of any city.
 
 **When it ends.** When every kind of place on your list has come out
 right twice in a row without your help, the recipe is trusted and the
