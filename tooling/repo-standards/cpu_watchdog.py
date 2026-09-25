@@ -19,8 +19,11 @@ Every INTERVAL s (2) it samples whole-machine CPU from /proc/stat.
     the throttle), and any blender / wb.py / mine_*.py / build_kit / vitest /
     node test worker whose parent has been dead (ppid 1) for ORPHAN_MAX s (600).
 Throttleable = every process except code-server / vscode-server / extension
-hosts, sshd, the `claude` CLI, systemd/init (pid 1), kernel threads, and the
-watchdog itself with its ancestors. Every action is one log line with pid,
+hosts, sshd, the `claude` CLI, systemd/init (pid 1), kernel threads, the
+watchdog itself with its ancestors, and any process whose own command line
+or an ancestor's is job_guard.sh (it holds a slot on purpose; exempt from
+both the throttle and the stale/orphan sweep). Every action is one log line
+with pid,
 command, CPU and reason. A restarted watchdog re-adopts the processes its
 predecessor left stopped; SIGTERM/SIGINT continues everything it stopped.
 
@@ -54,6 +57,7 @@ EXEMPT_ARGS = re.compile(
     r"code-server|vscode-server|/vscode/|\.vscode|extensionHost|"
     r"/claude-code/|@anthropic-ai/claude|cpu_watchdog")
 EXEMPT_COMM = {"sshd", "claude", "systemd", "init"}
+JOB_GUARD = re.compile(r"job_guard\.sh")
 STALE_ORPHAN = re.compile(
     r"blender|\bwb\.py\b|mine_\w+(\.py)?|build_kit|vitest|tinypool|jest-worker|node\s+--test")
 
@@ -194,12 +198,27 @@ class Watchdog:
     last_t: float | None = None
 
     # --- helpers
-    def throttleable(self, p: Proc) -> bool:
+    @staticmethod
+    def held_by_job_guard(p: Proc, procs: dict) -> bool:
+        """True if p's own command line, or that of any ancestor, is job_guard.sh
+        (it holds a slot on purpose: never throttled or swept as stale/orphan)."""
+        seen = set()
+        cur = p
+        while cur is not None and cur.pid not in seen:
+            if JOB_GUARD.search(cur.args or ""):
+                return True
+            seen.add(cur.pid)
+            cur = procs.get(cur.ppid)
+        return False
+
+    def throttleable(self, p: Proc, procs: dict | None = None) -> bool:
         if p.pid in self.self_pids or p.pid <= 1 or p.ppid == 2 or not p.args:
             return False
         if p.comm in EXEMPT_COMM or os.path.basename(p.args.split(" ", 1)[0]) == "claude":
             return False
         if EXEMPT_ARGS.search(p.args):
+            return False
+        if procs is not None and self.held_by_job_guard(p, procs):
             return False
         if self.cfg.match and not re.search(self.cfg.match, p.args):
             return False
@@ -272,7 +291,7 @@ class Watchdog:
                 stopped_pids = {s.pid for s in self.stopped} | set(self.pending)
                 cands = [p for p in procs.values()
                          if p.pid not in stopped_pids and p.state != "T"
-                         and deltas.get(p.pid, 0) > 0 and self.throttleable(p)]
+                         and deltas.get(p.pid, 0) > 0 and self.throttleable(p, procs)]
                 if cands:
                     p = max(cands, key=lambda q: deltas[q.pid])
                     pc = self.pct(deltas[p.pid])
@@ -304,6 +323,8 @@ class Watchdog:
         live_keys = set()
         for p in procs.values():
             if p.pid in self.pending or p.pid in self.self_pids:
+                continue
+            if self.held_by_job_guard(p, procs):
                 continue
             reason = None
             if p.comm == "rtk" and p.age > c.rtk_max and not children.get(p.pid):
@@ -402,9 +423,16 @@ def status() -> int:
         st = {}
     age = time.time() - st["updated"] if st.get("updated") else None
     cpu = st.get("cpu")
+    nice_val = None
+    if running and st.get("pid"):
+        try:
+            nice_val = os.getpriority(os.PRIO_PROCESS, int(st["pid"]))
+        except OSError:
+            pass
     print(f"watchdog: {'running' if running else 'NOT running'}"
           + (f", pid {st.get('pid')}, last sample {age:.0f} s ago" if age is not None else "")
           + (f", machine CPU {cpu:.0f}%" if cpu is not None else "")
+          + (f", nice {nice_val}" if nice_val is not None else "")
           + (", THROTTLING" if st.get("throttling") else ""))
     stopped = st.get("stopped", [])
     print(f"stopped: {len(stopped)}")

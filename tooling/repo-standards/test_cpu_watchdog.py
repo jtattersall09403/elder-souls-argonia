@@ -113,6 +113,30 @@ def test_exempt_processes_are_never_stopped():
     assert {pid for pid, s in w.signals if s == "SIGSTOP"} == {24}
 
 
+def test_job_guard_and_its_descendants_are_never_touched():
+    w = World([99] * 8, [
+        P(50, 400, "bash tooling/repo-standards/job_guard.sh miner -- python3 mine.py", ppid=1),
+        P(51, 400, "python3 -m worldgen.mine_mounts --jobs 2", ppid=50),          # guarded child
+        P(52, 300, "node vitest", ppid=1),                                       # not guarded: fair game
+    ])
+    dog = w.dog()
+    w.run(dog, 8)
+    assert {pid for pid, s in w.signals if s == "SIGSTOP"} == {52}
+    assert 50 not in [pid for pid, _ in w.signals]
+    assert 51 not in [pid for pid, _ in w.signals]
+
+
+def test_job_guard_orphan_is_never_swept():
+    # ppid 1 and a STALE_ORPHAN-matching name would normally be swept after
+    # orphan_max, but its own command line is job_guard.sh: held on purpose.
+    w = World([10] * 400, [
+        P(60, 1, "bash tooling/repo-standards/job_guard.sh miner -- python3 mine_mounts.py", ppid=1),
+    ])
+    dog = w.dog()
+    w.run(dog, 400)
+    assert w.signals == []
+
+
 def test_stale_rtk_terminated_then_killed_unless_wrapping_a_live_child():
     w = World([10] * 20, [
         P(30, 1, "rtk grep x", age=200),                 # old, alone: stale

@@ -30,7 +30,7 @@ case "${1:---start}" in
     if running && [[ -n "$pid" ]]; then kill -TERM "$pid" && echo "cpu_watchdog: sent SIGTERM to $pid"; else echo "cpu_watchdog: not running"; fi ;;
   --start)
     if running; then echo "cpu_watchdog: already running (log $dir/watchdog.log)"; exit 0; fi
-    nohup setsid python3 "$py" >>"$dir/watchdog.log" 2>&1 </dev/null &
+    nohup setsid nice -n 0 python3 "$py" >>"$dir/watchdog.log" 2>&1 </dev/null &
     echo "cpu_watchdog: started pid $! (log $dir/watchdog.log)" ;;
   *) echo "usage: cpu_watchdog.sh [--start|--status|--stop|--foreground]" >&2; exit 2 ;;
 esac

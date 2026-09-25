@@ -18,7 +18,11 @@ say() { echo "[on-start] $*"; }
 # crashes at 100 % CPU). It pauses the heaviest processes while the machine is
 # saturated and clears stale ones, with no agent involved; a second start is a
 # no-op (flock). A failure is reported and the start goes on.
-bash "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../repo-standards/cpu_watchdog.sh" --start || say "WARNING: cpu_watchdog.sh failed to start (exit $?)"
+nice -n 0 bash "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../repo-standards/cpu_watchdog.sh" --start || say "WARNING: cpu_watchdog.sh failed to start (exit $?)"
+WD_NICE="$(bash "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../repo-standards/cpu_watchdog.sh" --status 2>/dev/null | grep -o 'nice [-0-9]*' | awk '{print $2}')"
+if [[ -n "$WD_NICE" && "$WD_NICE" != "0" ]]; then
+  say "WARNING: cpu_watchdog is running at nice $WD_NICE, not 0"
+fi
 
 # First, on any machine: the mod pool, mesh cache and builds onto the /tmp
 # volume (a no-op where /tmp shares the dev root's volume). A failure is
