@@ -1142,3 +1142,16 @@ Status: CLOSED; no new mod, no new credit line.
   repaints; its nordic, imperial, dwemer, mines and Riften-dungeon files
   are vanilla copies. It becomes a second overlay behind Tropical in 16h
   part 2 item 37.
+
+## 2026-09-25 — owner rulings: tropical retextures and KotM
+
+- **SCO Tropical Edition v2 (skyrim 69382) and New Windhelm summer and
+  tropical edition v2 (skyrim 63649): permission held** (owner
+  2026-09-25). They may be downloaded and used. Status OPEN until the
+  download lands: queued as 16h part 2 item 38, with the families they
+  cover (Markarth, Windhelm, Winterhold, High Hrothgar, Imperial forts,
+  caves; all of Windhelm).
+- **King of the Murkmire (SSE 190459), the "no AI" clause:** it concerns
+  creating art, not coding (owner 2026-09-25). Our use, the assets
+  unchanged and no generated art, is within the permission. The owner
+  decision is closed.

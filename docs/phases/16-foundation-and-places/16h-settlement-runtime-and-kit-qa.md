@@ -1091,7 +1091,7 @@ Items 24–28 come from check-in 2 and
     them and the building-assembly skill chapter belong to the
     [placement-workbench lane](../lanes/placement-workbench-lane.md).
 
-Items 32–37 come from
+Items 32–38 come from
 [building-asset-breadth.md](../../research/placement-settlements/building-asset-breadth.md)
 (2026-09-24). Item 33 absorbs item 27's kit additions.
 
@@ -1215,6 +1215,21 @@ Items 32–37 come from
     ground and cave repaints" in the same change. Licence: "Patches,
     bugfixes, updates, add-ons, third-party retextures, and the like are
     allowed freely ... as long as due credit is given."
+38. **SCO Tropical and New Windhelm tropical repaints** (owner
+    2026-09-25: permission held; download and use). Download SCO
+    Tropical Edition v2 (Tamikonelf and AceeQ, skyrim 69382) and New
+    Windhelm summer and tropical edition v2 (tamikoneolf, skyrim 63649,
+    built on Osmodius's Windhelm Texture Pack, skyrim 54322) with the
+    Nexus API into `mod-sources/` with hashes, a sourcing-log row, a
+    mod-register entry and the README.md credit in the same change. They
+    cover Markarth, Windhelm, Winterhold, High Hrothgar, the Imperial
+    forts and the caves (69382) and all of Windhelm (63649). They add
+    texture overlays in `build_kit.vanilla_texture_roots` the way item 37
+    adds Project Rainforest. Under decision 0098 §2 these families still
+    fail the silhouette rule (rule 1), so the repaints matter for pieces
+    that pass it: Markarth or Windhelm stone used as an alias target, and
+    fort walls. Re-derive the breadth doc §2 verdict table after the
+    overlay.
 
 Planner rulings (2026-09-24):
 - The variety rule is decision 0098's per-settlement table; it replaces
@@ -1387,16 +1402,18 @@ Still part 2 (not in this walk):
   and Dragonborn archives into the vault? The vault holds the 2011 depot
   you pulled; an SE/AE depot pull, if you own it, unblocks the KotM mud
   huts, Ayleid ruins and 184 tree meshes.
-- KotM and AI (plan § 5.2): the author's page asks for no AI use. Please
-  confirm your permission covers AI-assisted development. KotM voice
+- KotM and AI (plan § 5.2): **RULED 2026-09-25**. The author's "no AI"
+  clause concerns creating art, not coding. Our use (the assets
+  unchanged, no generated art) is within the permission. KotM voice
   lines are never used.
 - Tropical Skyrim (skyrim 33017): **RULED 2026-09-24**, covered. Its
   page says "you MUST contact me and obtain permission before ...
   using its contents in your own mod"; the owner's statement of
   2026-09-24 (permission held from every author in the pool) covers
   it.
-- Stone cities and forts in a tropical repaint: may we ask two authors
-  for permission? Tropical Skyrim repaints no Markarth, Winterhold or
+- Stone cities and forts in a tropical repaint: **RULED 2026-09-25**,
+  permission held for both mods below; download and use them (part 2
+  item 38). Tropical Skyrim repaints no Markarth, Winterhold or
   fort texture and only one Windhelm map (breadth doc §2). The only full
   repaints found are SCO Tropical Edition v2 (Tamikonelf and AceeQ,
   skyrim 69382: Markarth, Windhelm, Winterhold, High Hrothgar, Imperial
