@@ -150,13 +150,13 @@ parts defined by file age would drop old sessions from the backup.
 **Agent work remaining**:
 
 1. Prove the image on the first codespace: `on-create` end to end, then one
-   kit build whose GLB hash must match the VM's.
-2. The portability fixes, after the 16h part 1 commit, because those files
-   are in its uncommitted set: the heightfield defaults in
-   `terrain-chain.sh:126` and `chain-manifest.sh:18` go through `vault.py`,
-   and the `memwatch.sh:31` ceiling comes from `memory.max`/`MemTotal`.
+   kit build whose GLB hash must match the VM's. Kit build hash comparison
+   skipped by the owner 2026-09-25.
+2. Verified 2026-09-25 on the first codespace: all three resolve through
+   `worldgen/vault.py` or the cgroup limit; no fix needed. Moved to the 16h
+   briefs 2026-09-25.
 3. The miners' batch mode, after 16h part 1, because the miners are in its
-   set.
+   set. Moved to the 16h briefs 2026-09-25.
 4. The prebuild configuration. This is owner UI: repo Settings → Codespaces
    → Set up prebuild.
 

@@ -450,6 +450,13 @@ miner list blocks a yard item.
 5. The literal run rule makes `wrfencestr01` (−x/−x along y, n 17) a
    double joint.
 6. The seven meshes absent from the vault (backlog row, sourcing).
+7. **Migration leftover for this lane:** a batch mode + merge step in
+   the three miners so a full run can pull, mine and evict one batch at
+   a time (a batch = one plugin plus the mod folders of every master
+   and asset source it references, read from the plugin's master list
+   and `exterior-interior-links.json`, vanilla always present); spec in
+   docs/research/infrastructure/codespaces-migration-plan.md § miners'
+   batch mode (lines ~346–354).
 
 ### The miner lane and the yard are decoupled (owner 2026-09-24)
 
@@ -560,6 +567,14 @@ no tables.
     set has taller towers (`mwimparchtowerbg01`); note in the ledger.
 13. **Sconce wall's open ends** are expected (interior piece, no
     exterior evidence); the yard keeps it as the mount exemplar.
+
+**Migration leftover, do in this part:** `ES_ASSET_PIPELINE_ROOT` has
+two meanings (vault root in `tooling/world-generation/worldgen/vault.py:41`;
+kits root in `blueprint_footprints.py:69`, `blueprint_interiors.py:54`,
+`vegetationSolidity.test.ts:40`, `preflight.mjs:61`). Split into a
+`ES_VAULT_ROOT`-style vault name and a separate kits-root name, set
+neither in the codespace unless needed, and record it in
+`tooling/bootstrap/README.md` and the migration plan.
 
 ### Commit state
 
