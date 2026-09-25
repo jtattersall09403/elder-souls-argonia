@@ -29,5 +29,4 @@ apps/world-studio/public/province/apron/**/*.png
 
 # decision 0079 §8: automatic review stamp and findings (per checkout)
 .claude/review-stamp.json
-.claude/review-findings.md
-.claude/review-findings-range.md
+.claude/review-findings*.md
