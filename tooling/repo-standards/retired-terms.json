@@ -102,6 +102,47 @@
         "docs/research/",
         "docs/quests/40-factions.md"
       ]
+    },
+    {
+      "pattern": "settlement-build",
+      "why": "the settlement-build skill was retired by 0100 decision 1 (a pointer for one release, then deleted)",
+      "say": "the place-build skill (.claude/skills/place-build/)",
+      "exempt": [
+        ".claude/skills/settlement-build/",
+        "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
+        "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
+        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md"
+      ]
+    },
+    {
+      "pattern": "\\b16i exemplars?\\b",
+      "why": "the 16i exemplars were dropped; places are built one at a time in the 16k loop (0099, 0100)",
+      "say": "the 16k place loop (docs/phases/16-foundation-and-places/16k-place-loop.md)",
+      "exempt": [
+        "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
+        "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
+        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md"
+      ]
+    },
+    {
+      "pattern": "\\b16j trial packet\\b",
+      "why": "the 16j unattended trial packet was superseded by the 16k place loop (0099)",
+      "say": "the 16k place loop and its walk packet per place",
+      "exempt": [
+        "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
+        "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
+        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md"
+      ]
+    },
+    {
+      "pattern": "\\bPhase 11 exemplars?\\b",
+      "why": "the five Phase 11 exemplar blueprints were retired and deleted; the loop has no exemplar set (0099 addendum, 0100)",
+      "say": "the yard fixtures or the places accepted in the 16k loop (accepted-places.json)",
+      "exempt": [
+        "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
+        "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
+        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md"
+      ]
     }
   ],
   "hashRecords": [

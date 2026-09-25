@@ -11,7 +11,7 @@
  */
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
-import { join, relative, sep } from "node:path";
+import { isAbsolute, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { computeFacts, renderFacts } from "./facts.mjs";
 
@@ -27,8 +27,12 @@ const note = (message) => notes.push(message);
 
 const readJson = (p) => JSON.parse(readFileSync(join(ROOT, p), "utf8"));
 
-/** Every file under `dir` matching one of `exts`, skipping the usual noise. */
+/** Every file under `dir` matching one of `exts`, skipping the usual noise.
+ *  `dir` is ROOT-relative and so is every path returned. An absolute `dir` is
+ *  refused: join(ROOT, abs) names a path that does not exist, so the walk
+ *  would return nothing and the gate reading it could never fail (16k S1). */
 function walk(dir, exts, out = []) {
+  if (isAbsolute(dir)) throw new Error(`walk() takes a ROOT-relative path, got ${dir}`);
   const abs = join(ROOT, dir);
   if (!existsSync(abs)) return out;
   for (const entry of readdirSync(abs)) {
@@ -389,9 +393,19 @@ function checkCredits() {
 // with the default branch. On the default branch itself the second view is
 // the last commit, so a placement commit that forgot the playbook still fails
 // the next `npm test` until a follow-up commit records it.
+// 0100 decision 4: the operative lessons live in the place skill, so the
+// workbench and the skill are placement work, and the skill's lessons store,
+// world 97 or decision 0041 record the lesson (world 96 stays accepted for
+// edits to its history).
 const PLAYBOOK = "docs/world/96-placement-playbook.md";
-const PLAYBOOK_ALSO_OK = ["docs/decisions/0041-phase11-settlement-decisions.md"];
+const PLAYBOOK_ALSO_OK = [
+  ".claude/skills/place-build/references/lessons.md",
+  "docs/world/97-placement-principles.md",
+  "docs/decisions/0041-phase11-settlement-decisions.md",
+];
 const PLACEMENT_WORK = [
+  /^tooling\/placement-workbench\//,
+  /^\.claude\/skills\/place-build\//,
   /^world\/sources\/blueprints\/place\./,
   /^world\/sources\/(placement|routes)\/(lane-terminals|route-structures|kit-assemblies)/,
   /^tooling\/world-generation\/worldgen\/(blueprint|blueprint_footprints|blueprint_integration|blueprint_interiors|blueprint_promises|compile_settlement|street_router|apply_sitings|export_blueprints|render_blueprint|derive_services|macro_plot|compile_route_structures|author_route_structures|grade_routes|mine_assemblies)\.py$/,
@@ -430,6 +444,11 @@ function checkPlaybookMoves() {
     note("standard 13: git unavailable; playbook drift not checked");
     return;
   }
+  playbookVerdict(changed);
+}
+
+/** Standard 13 on a list of changed ROOT-relative paths. */
+function playbookVerdict(changed) {
   const placement = changed.filter((p) => PLACEMENT_WORK.some((re) => re.test(p)));
   if (placement.length === 0) return;
   const recorded = changed.includes(PLAYBOOK) || PLAYBOOK_ALSO_OK.some((p) => changed.includes(p));
@@ -438,8 +457,8 @@ function checkPlaybookMoves() {
       13,
       PLAYBOOK,
       0,
-      `placement work changed (${placement.slice(0, 3).join(", ")}${placement.length > 3 ? ", …" : ""}) but neither the ` +
-        `placement playbook nor decision 0041 did (working tree + commits since the base). Write the round's lesson or steer (a one-line row is enough), then re-run.`,
+      `placement work changed (${placement.slice(0, 3).join(", ")}${placement.length > 3 ? ", …" : ""}) but none of the ` +
+        `lessons store (.claude/skills/place-build/references/lessons.md), world 97, the playbook nor decision 0041 did (working tree + commits since the base). Write the lesson (a merged row, 0100 decision 4), then re-run.`,
     );
 }
 
@@ -592,16 +611,14 @@ function checkDocsCurrent() {
   if (existsSync(researchRoot)) {
     for (const folder of readdirSync(researchRoot, { withFileTypes: true })) {
       if (!folder.isDirectory() || folder.name === "archive") continue;
-      const dir = join(researchRoot, folder.name);
-      const readme = join(dir, "README.md");
-      if (!existsSync(readme)) { fail(15, rel(dir), 0, "research folder has no README.md index"); continue; }
-      const idx = readFileSync(readme, "utf8");
-      const docs = [];
-      walk(dir, [".md"], docs);
-      for (const d of docs) {
-        const name = relative(dir, d).split(sep).join("/");
+      const dir = posix(join("docs", "research", folder.name));
+      const readme = `${dir}/README.md`;
+      if (!existsSync(join(ROOT, readme))) { fail(15, dir, 0, "research folder has no README.md index"); continue; }
+      const idx = readFileSync(join(ROOT, readme), "utf8");
+      for (const d of walk(dir, [".md"])) {
+        const name = posix(relative(dir, d));
         if (name === "README.md") continue;
-        if (!idx.includes(name) && !idx.includes(name.split("/")[0] + "/")) fail(15, rel(d), 0, `research doc is not linked from ${rel(readme)} (standard 15: the folder README is the status register)`);
+        if (!idx.includes(name) && !idx.includes(name.split("/")[0] + "/")) fail(15, posix(d), 0, `research doc is not linked from ${readme} (standard 15: the folder README is the status register)`);
       }
     }
   }
@@ -674,7 +691,17 @@ function checkProvinceRasters() {
 // that has just written prose can fix it before the two-minute preflight
 // instead of learning about it from the preflight (owner, 2026-09-18).
 const docsOnly = process.argv.includes("--docs");
-if (docsOnly) {
+// `--standard13 <path> [<path>…]` (spaces or commas): judge standard 13 on that
+// changed-path list alone, the way a gate is shown failing on its defect
+// without editing the tree. Every argument up to the next `--flag` counts.
+const s13 = process.argv.indexOf("--standard13");
+if (s13 !== -1) {
+  const rest = process.argv.slice(s13 + 1);
+  const end = rest.findIndex((a) => a.startsWith("--"));
+  const given = (end === -1 ? rest : rest.slice(0, end)).flatMap((a) => a.split(",")).filter(Boolean);
+  if (given.length === 0) { console.error("--standard13 needs at least one path"); process.exit(2); }
+  playbookVerdict(given);
+} else if (docsOnly) {
   checkProse();
   checkDocsCurrent();
 } else {

@@ -12,10 +12,9 @@
 # (decision 0072, vite.config.ts es-fresh-public-files), so a browser reload shows the new
 # bundle without restarting the dev server.
 #
-# Scope today: the exporter has no per-place flag (16j item 7b adds `--places`); it exports
-# every authored blueprint plus the route pieces. Since the five old blueprints were retired
-# the only authored blueprint is the fixture, so the bundle IS the yard. When 16i authors a
-# place, step 2 exports it too until `--places` exists.
+# Scope: the export is per place (`--places`, 0100 decision 6): it builds only the yard and
+# carries every other place and the route pieces from the published bundle unchanged, so
+# another place's compile can neither be rebuilt nor block the yard.
 #
 # Usage (from anywhere):  bash tooling/studio-loop/yard-publish.sh
 # Env: ES_TUNNEL_URL (studio base URL; a placeholder is printed when unset)
@@ -42,9 +41,9 @@ fi
 grep "placements," "$STAGE/compile.log" | sed 's/^/      /'
 T1=$(now)
 
-echo "[2/4] export bundle (--fixtures-ok, no asset copy)"
+echo "[2/4] export the yard into the bundle (--places, --fixtures-ok, no asset copy)"
 if ! (cd "$WG" && python3 -m worldgen.export_settlement_bundle --fixtures-ok \
-        --out "$STAGE/settlements.json" >"$STAGE/export.log" 2>&1); then
+        --places place.fixture.proving-ground --base "$PUBLIC" --out "$STAGE/settlements.json" >"$STAGE/export.log" 2>&1); then
   tail -20 "$STAGE/export.log"; echo "yard-publish: export FAILED"; exit 1
 fi
 grep -E "PENDING PAD|KNOWN-RED|settlement \+" "$STAGE/export.log" | sed 's/^/      /'
@@ -54,7 +53,7 @@ echo "[3/4] publish settlements.json"
 if cmp -s "$STAGE/settlements.json" "$PUBLIC"; then
   echo "      unchanged: $PUBLIC"
 else
-  cp "$STAGE/settlements.json" "$PUBLIC.yard-publish.tmp"
+  install -m 0644 "$STAGE/settlements.json" "$PUBLIC.yard-publish.tmp"   # 0644 whatever the umask
   mv -f "$PUBLIC.yard-publish.tmp" "$PUBLIC"     # atomic on the same filesystem
   echo "      written: $PUBLIC"
 fi

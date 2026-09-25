@@ -36,8 +36,9 @@ from .compile_settlement import (
 )
 from . import blueprint as bp_mod
 from . import blueprint_footprints as fp_mod
-from . import catalogue, place_obligations
+from . import accepted_places, catalogue, place_obligations
 from . import grade_settlement_pads
+from .atomic_write import atomic_write_json, publish_copy
 
 _ASSET_PIPELINE = Path(__file__).resolve().parents[3] / "tooling" / "asset-pipeline"
 if str(_ASSET_PIPELINE) not in sys.path:
@@ -167,23 +168,9 @@ def _read(path: Path) -> dict:
 
 
 def _atomic_json(path: Path, data: dict) -> None:
-    """Replace a complete file; an interrupted export never leaves half JSON."""
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, sort_keys=True)
-            f.write("\n")
-            f.flush()
-            os.fsync(f.fileno())
-        # mkstemp creates 0600; the published bundle is a world-readable
-        # static asset served by Pages, so give it the mode every other
-        # published file has BEFORE it takes the publication name.
-        os.chmod(name, 0o644)
-        os.replace(name, path)
-    finally:
-        if os.path.exists(name):
-            os.unlink(name)
+    """Replace a complete file; an interrupted export never leaves half JSON,
+    and the file is published world-readable (atomic_write)."""
+    atomic_write_json(path, data)
 
 
 def _is_number(value: object) -> bool:
@@ -848,6 +835,28 @@ def _unwaived(doc: dict, errors: list[str]) -> list[str]:
     return [e for e in errors if e not in waived]
 
 
+# Place gates by id and the date each was added (0100 decision 6). A gate added
+# after a place's acceptance runs on that place in REPORT mode: its findings go
+# to output/accepted-report.json and fail nothing. Every gate that existed
+# when the register opened carries the register's opening date; a new
+# per-place gate is added here with the date it lands.
+PLACE_GATES = {
+    "compile-errors": "2026-09-25",
+    "unexplained-warning": "2026-09-25",
+    "compiled-objects-complete": "2026-09-25",
+    "obligations-delivered": "2026-09-25",
+}
+
+
+def _place_scope(places) -> set[str] | None:
+    if places is None:
+        return None
+    scope = {p for p in places if p}
+    if not scope:
+        raise ValueError("--places names no place")
+    return scope
+
+
 def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  structures_dir: Path = DEFAULT_STRUCTURES,
                  blueprints_dir: Path = BLUEPRINTS,
@@ -859,7 +868,11 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  final_height: np.ndarray | None = None,
                  known_red_path: Path | None = None,
                  fixtures_ok: bool = False,
-                 all_kit_assets: bool = False) -> dict:
+                 all_kit_assets: bool = False,
+                 places=None,
+                 accepted_path: Path | None = None,
+                 patch_files=accepted_places.PATCH_FILES,
+                 report: list | None = None) -> dict:
     """Build the bundle, or refuse. There is no waiver (16h item 6).
 
     Fail-closed is the rule: a stale or simply absent place must never quietly
@@ -871,9 +884,33 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
 
     `fixtures_ok` publishes fixture records (`fixture: true`, e.g. the proving
     ground) to a studio-only target. The shipped build refuses them.
+
+    `places` (a --places publish, 0100 decision 6) builds only the named
+    places: no other place's compile is read, so no other place's errors can
+    refuse, and route structures are left to the full export. The result is a
+    PART bundle for `merge_bundle`, never a publication on its own.
+
+    An accepted place (accepted-places.json) whose compiled record or own
+    patches changed refuses (the freeze). A place gate added after the place's
+    acceptance (`PLACE_GATES`) appends to `report` instead of refusing.
     """
+    scope = _place_scope(places)
+    accepted = accepted_places.load(accepted_path)
+    report = [] if report is None else report
+
+    def place_gate(gate_id: str, place_id: str, message: str) -> None:
+        if accepted_places.report_only(place_id, PLACE_GATES[gate_id], accepted):
+            report.append({"placeId": place_id, "gate": gate_id,
+                           "gateAddedOn": PLACE_GATES[gate_id],
+                           "acceptedOn": accepted[place_id]["acceptedOn"],
+                           "mode": "report-only", "finding": message})
+            return
+        raise ValueError(message)
+
     survey = shared_survey()
     known_red = load_warning_known_red(known_red_path)
+    if scope is not None:
+        known_red = {key: row for key, row in known_red.items() if key[0] in scope}
     pending_pads: list[str] = []
     if catalogue_records_by_id is None:
         catalogue_records_by_id = {
@@ -913,8 +950,20 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     # the climbs from route-structures-v1 and the crossings from route-spans-v1.
     # A placement names neither, so the kit is resolved per asset below and both
     # manifests must be loaded.
-    kit_names: set[str] = {"route-structures-v1", "route-spans-v1"}
-    for path in sorted(settlements_dir.glob("place.*.settlement.json")):
+    kit_names: set[str] = ({"route-structures-v1", "route-spans-v1"} if scope is None
+                           else set())
+    if scope is None:
+        compiled_paths = sorted(settlements_dir.glob("place.*.settlement.json"))
+    else:
+        unknown = sorted(scope - set(blueprint_by_id))
+        if unknown:
+            raise ValueError(f"--places names places with no authored blueprint: {unknown}")
+        compiled_paths = sorted(settlements_dir / f"{pid}.settlement.json" for pid in scope)
+        absent = [p.name for p in compiled_paths if not p.exists()]
+        if absent:
+            raise ValueError(f"--places names places that are not compiled: {absent} "
+                             f"(python3 -m worldgen.compile_settlement --all --places ...)")
+    for path in compiled_paths:
         doc = _read(path)
         if not fixtures_ok and _is_fixture(
                 doc, catalogue_records_by_id.get(doc["id"]),
@@ -925,9 +974,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 f"publish it to the studio with --fixtures-ok, or drop the flag "
                 f"from the record")
         if doc.get("errors"):
-            raise ValueError(f"{doc['id']} has {len(doc['errors'])} compile errors; "
-                             "refusing to publish stale/incomplete massing: "
-                             + "; ".join(str(e) for e in doc["errors"]))
+            place_gate("compile-errors", doc["id"],
+                       f"{doc['id']} has {len(doc['errors'])} compile errors; "
+                       "refusing to publish stale/incomplete massing: "
+                       + "; ".join(str(e) for e in doc["errors"]))
         flood_report = doc.get("floodBandReport")
         if not isinstance(flood_report, dict):
             raise ValueError(f"{doc['id']} has no floodBandReport; refusing unchecked section placement")
@@ -966,8 +1016,14 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         compiled.append((doc, bp))
 
     compiled_ids = {doc["id"] for doc, _bp in compiled}
-    missing = sorted(set(blueprint_by_id) - compiled_ids)
-    unexpected = sorted(compiled_ids - set(blueprint_by_id))
+    freeze = accepted_places.check_frozen(
+        compiled_ids, entries=accepted, compiled_docs={doc["id"]: doc for doc, _bp in compiled},
+        patch_files=patch_files)
+    if freeze:
+        raise ValueError("accepted places would change (0100 decision 6): " + "; ".join(freeze))
+    authored_ids = set(blueprint_by_id) if scope is None else scope
+    missing = sorted(authored_ids - compiled_ids)
+    unexpected = sorted(compiled_ids - authored_ids)
     if missing or unexpected:
         details = []
         if missing:
@@ -988,6 +1044,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     for key in split["unexplained"]:
         if key[0] in replayed:
             continue    # recorded in that site's fixtureWaived, never judged
+        if accepted_places.report_only(key[0], PLACE_GATES["unexplained-warning"], accepted):
+            place_gate("unexplained-warning", key[0],
+                       f"UNEXPLAINED WARNING {key[0]} / {key[1]} / {key[2]}")
+            continue
         blocking.append(f"UNEXPLAINED WARNING {key[0]} / {key[1]} / {key[2]}")
     for key in split["noLongerRed"]:
         blocking.append(f"NO LONGER RED — remove from {WARNING_KNOWN_RED.name}: "
@@ -1004,7 +1064,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         for key in split["knownRed"]
     ]
 
-    route_docs = _validated_route_docs(structures_dir, route_structures_source)
+    route_docs = (_validated_route_docs(structures_dir, route_structures_source)
+                  if scope is None else [])
     used: set[tuple[str, str]] | None = None
     if not all_kit_assets:
         used = {(p["kit"], p["assetId"]) for doc, _bp in compiled
@@ -1046,8 +1107,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             object_errors += terrain_errors
         object_errors = _unwaived(doc, object_errors)
         if object_errors:
-            raise ValueError(f"{doc['id']} compiled object set is incomplete: "
-                             + "; ".join(object_errors))
+            place_gate("compiled-objects-complete", doc["id"],
+                       f"{doc['id']} compiled object set is incomplete: "
+                       + "; ".join(object_errors))
         actual_objects = doc.get("compiledObjects")
         if not isinstance(actual_objects, list):
             raise ValueError(f"{doc['id']} has no compiledObjects final-delivery record")
@@ -1085,8 +1147,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 object_registry=payload["objectRegistry"])
             delivery_errors = _unwaived(doc, delivery_errors)
             if delivery_errors:
-                raise ValueError(f"{doc['id']} phase-11-compiled obligations are not delivered: "
-                                 + "; ".join(delivery_errors))
+                place_gate("obligations-delivered", doc["id"],
+                           f"{doc['id']} phase-11-compiled obligations are not delivered: "
+                           + "; ".join(delivery_errors))
             obligation_receipts.append(receipt)
         all_compiled_objects.extend(actual_objects)
         parcels = {p["id"]: p for p in bp.get("parcels", [])}
@@ -1410,11 +1473,7 @@ def _stage_assets(bundle: dict, kits_dir: Path, public_dir: Path,
                 kits_dir / f"{name}{suffix}" for suffix in sidecar_suffixes(name)]
             for source in sources:
                 require(source)
-                target = stage / source.name
-                shutil.copy2(source, target)
-                os.chmod(target, 0o644)
-                with target.open("rb") as handle:
-                    os.fsync(handle.fileno())
+                publish_copy(source, stage / source.name)
                 names.append(source.name)
         return stage, names
     except Exception:
@@ -1433,13 +1492,124 @@ def copy_assets(bundle: dict, kits_dir: Path = KITS,
         shutil.rmtree(stage, ignore_errors=True)
 
 
-def export(out: Path = OUT, copy: bool = False) -> dict:
-    bundle = build_bundle()
+def merge_bundle(base: dict, part: dict, places) -> dict:
+    """The published bundle `base` with the named places replaced by `part`.
+
+    Every other place's rows, and the route structures, are carried from
+    `base` unchanged and in the order a full export writes them (places in
+    compiled-file order, each place's rows in its own order), so a --places
+    publish of an unchanged place writes the bytes a full export would."""
+    places = set(places)
+    if base.get("schemaVersion") != SCHEMA_VERSION or base.get("collisionFrame") != COLLISION_FRAME:
+        raise ValueError(
+            f"the published bundle is schemaVersion {base.get('schemaVersion')} / "
+            f"{base.get('collisionFrame')}, this exporter writes {SCHEMA_VERSION} / "
+            f"{COLLISION_FRAME}: run one full export before publishing per place")
+
+    def is_place_row(p: dict) -> bool:
+        return p.get("kind") != "route-structure" and p.get("sourceId") in places
+
+    placements = sorted([p for p in base["placements"] if not is_place_row(p)]
+                        + part["placements"], key=lambda p: p["id"])
+    place_of = {p["id"]: p["sourceId"] for p in placements if p.get("kind") != "route-structure"}
+    for p in base["placements"]:
+        place_of.setdefault(p["id"], p.get("sourceId"))
+    order = sorted({s["id"] for s in base["settlements"]} | places,
+                   key=lambda pid: f"{pid}.settlement.json")
+
+    def by_place(field: str, place_key) -> list:
+        groups: dict[str, list] = {}
+        for row in base.get(field) or []:
+            if place_key(row) not in places:
+                groups.setdefault(place_key(row), []).append(row)
+        for row in part.get(field) or []:
+            groups.setdefault(place_key(row), []).append(row)
+        ordered = order + sorted(set(groups) - set(order), key=str)
+        return [row for pid in ordered for row in groups.get(pid, [])]
+
+    of_placement = lambda row: place_of.get(row["placementId"])  # noqa: E731
+    merged_kits = {**base["kits"], **part["kits"]}
+    used_kits = {p["kit"] for p in placements}
+    kits = {name: kit for name, kit in merged_kits.items()
+            if name in used_kits or name in ("route-structures-v1", "route-spans-v1")}
+
+    # A gap is judged fresh for every asset the part places; the base's
+    # judgement stands for the rest. Counts are over the merged placements.
+    judged = {f"{p['kit']}/{p['assetId']}" for p in part["placements"]}
+    gap_keys = ({row["asset"] for row in base.get("designedSinkGaps") or []} - judged) | {
+        row["asset"] for row in part.get("designedSinkGaps") or []}
+    counts: dict[str, int] = {}
+    for p in placements:
+        key = f"{p['kit']}/{p['assetId']}"
+        if key in gap_keys:
+            counts[key] = counts.get(key, 0) + 1
+
+    settlements = by_place("settlements", lambda row: row["id"])
+    rank = {pid: i for i, pid in enumerate(order)}   # a full export's tie order
+    return {
+        **base,
+        "lod": part["lod"],
+        "kits": kits,
+        "settlements": settlements,
+        "knownRedWarnings": sorted(
+            [row for row in base.get("knownRedWarnings") or [] if row["placeId"] not in places]
+            + part["knownRedWarnings"],
+            key=lambda row: (row["placeId"], row["subjectId"], row["rule"])),
+        "phase11ObligationReceipts": sorted(
+            [r for r in base.get("phase11ObligationReceipts") or [] if r["placeId"] not in places]
+            + part["phase11ObligationReceipts"], key=lambda r: r["placeId"]),
+        "compiledObjects": sorted(
+            [o for o in base.get("compiledObjects") or [] if o.get("placeId") not in places]
+            + part["compiledObjects"],
+            key=lambda o: (o["id"], rank.get(o.get("placeId"), len(rank)))),
+        "settlementPadGrades": part["settlementPadGrades"],
+        "pendingPadGrades": part["pendingPadGrades"],
+        "designedSinkGaps": [{"asset": key, "placements": n} for key, n in sorted(counts.items())],
+        "placements": placements,
+        "groundTreatments": by_place(
+            "groundTreatments", lambda row: place_of.get(row["id"].removeprefix("treatment."))),
+        "navmeshCuts": by_place("navmeshCuts", of_placement),
+        "navmeshLinks": by_place("navmeshLinks", of_placement),
+        "doors": by_place("doors", lambda row: row["settlementId"]),
+        "stats": {"settlements": len(settlements),
+                  "settlementPlacements": sum(len(s["placementIds"]) for s in settlements),
+                  "routeStructurePlacements": sum(
+                      1 for p in placements if p.get("kind") == "route-structure")},
+    }
+
+
+def export(out: Path = OUT, copy: bool = False, places=None, base: Path | None = None,
+           report_path: Path = accepted_places.REPORT_PATH, fixtures_ok: bool = False,
+           all_kit_assets: bool = False) -> dict:
+    """Build, optionally copy the kits, and publish atomically.
+
+    With `places`, only those places are built and they replace their rows in
+    `base` (default: the bundle at `out`); nothing else is read or judged.
+    The report-mode rows of accepted places are written to `report_path`."""
+    report: list[dict] = []
+    bundle = build_bundle(fixtures_ok=fixtures_ok, all_kit_assets=all_kit_assets,
+                          places=places, report=report)
+    if places is not None:
+        base_path = base or out
+        if not base_path.exists():
+            raise ValueError(f"--places needs a published bundle to publish into; "
+                             f"{base_path} does not exist (run one full export)")
+        bundle = merge_bundle(_read(base_path), bundle, _place_scope(places))
+    if places is not None and report_path.exists():
+        # A --places publish re-judges only its own places: every other
+        # accepted place's report-mode rows stand as the last export left them.
+        scope = _place_scope(places)
+        report = [row for row in _read(report_path).get("rows", [])
+                  if row.get("placeId") not in scope] + report
     if copy:
         copy_assets(bundle)
     # settlements.json is the publication marker. It can never name assets
     # that have not all been validated, staged and moved into place.
     _atomic_json(out, bundle)
+    _atomic_json(report_path, {"schemaVersion": 1, "kind": "accepted-place-report",
+                               "about": "report-mode gate findings on accepted places "
+                                        "(0100 decision 6); queue each to the polish backlog",
+                               "rows": report})
     return bundle
 
 
@@ -1455,13 +1625,17 @@ def main() -> int:
                     help="check the shipped-kit placement contract on every asset of "
                          "every referenced kit, not only the placed ones (the miner "
                          "lane's catalogue-wide form, 16h K14)")
+    ap.add_argument("--places", default=None,
+                    help="comma-separated place ids: build and publish only these, "
+                         "carrying every other place and the routes from --base "
+                         "unchanged (0100 decision 6)")
+    ap.add_argument("--base", type=Path, default=None,
+                    help="the bundle a --places publish merges into (default: --out)")
     args = ap.parse_args()
+    places = None if args.places is None else [p.strip() for p in args.places.split(",")]
     try:
-        bundle = build_bundle(fixtures_ok=args.fixtures_ok,
-                              all_kit_assets=args.all_kit_assets)
-        if args.copy_assets:
-            copy_assets(bundle)
-        _atomic_json(args.out, bundle)
+        bundle = export(args.out, args.copy_assets, places=places, base=args.base,
+                        fixtures_ok=args.fixtures_ok, all_kit_assets=args.all_kit_assets)
     except ValueError as exc:
         print(f"export_settlement_bundle: {exc}")
         return 1
@@ -1471,9 +1645,14 @@ def main() -> int:
               f"(local terrain patches, 16h part 2):")
         for row in pending:
             print(f"    PENDING PAD: {row}")
+    reported = json.loads(accepted_places.REPORT_PATH.read_text())["rows"]
+    for row in reported:
+        print(f"    REPORT-ONLY ({row['placeId']} accepted {row['acceptedOn']}, gate "
+              f"{row['gate']} added {row['gateAddedOn']}): {row['finding']}")
     print(f"export_settlement_bundle: {args.out} — "
           f"{bundle['stats']['settlementPlacements']} settlement + "
-          f"{bundle['stats']['routeStructurePlacements']} route pieces")
+          f"{bundle['stats']['routeStructurePlacements']} route pieces"
+          + (f" (--places {','.join(places)})" if places else ""))
     return 0
 
 

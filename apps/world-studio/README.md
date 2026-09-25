@@ -64,12 +64,6 @@ chunks are RG16 PNGs + `chunks-web-manifest.json` written by
 
 - `npm test` — data-contract tests (anchors, chunk manifest coverage) + the
   light-rig unit tests (`src/sky/lightRig.test.ts`).
-- `npm run probe:phase11` — builds once, starts one production-preview server,
-  captures all five live exemplar blueprints in one browser/app load, then
-  runs the complete water probe against the same build. Use `-- --prebuilt`
-  only when that exact build has already succeeded; `-- --without-water` is
-  the fast blueprint-only diagnosis. `PHASE11_WATER_SITE=<comma-list>` narrows
-  the water half for diagnosis without changing the normal close-out suite.
 - `node scripts/probe-deployed-requests.mjs "?view=character&x=..&z=.."` —
   deployed-build request audit: serves `dist/` under the Pages base path
   with a plain static server (no dev middleware), opens the URL headless and

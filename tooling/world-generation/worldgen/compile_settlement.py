@@ -2475,6 +2475,10 @@ def main(argv: list[str] | None = None) -> int:
                          "blueprint has moved under it, and until this existed "
                          "nothing in the chain PRODUCED what the exporter consumes, "
                          "so a blueprint edit silently left the world unbuildable.")
+    ap.add_argument("--places", default=None,
+                    help="with --all: compile only these comma-separated place ids "
+                         "(a per-place publish, 0100 decision 6); every other "
+                         "place's compile is left untouched")
     ap.add_argument("--skip-catalogue", action="store_true",
                     help="skip the blueprint-id-in-catalogue check (fixtures)")
     ap.add_argument("--fixture-replay", action="store_true",
@@ -2488,12 +2492,25 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     if args.all == bool(args.blueprint):
         ap.error("give exactly one of --blueprint or --all")
+    if args.places is not None and not args.all:
+        ap.error("--places selects within --all")
 
     if args.all:
         args.out = args.out or str(DEFAULT_OUT_DIR)
+        # A place's layout file (<place>.layout.json, 0100 decision 2) sits
+        # beside its blueprint and is not one.
+        paths = [path for path in sorted(BLUEPRINT_DIR.glob("place.*.json"))
+                 if "blueprint" in json.loads(path.read_text())]
+        if args.places is not None:
+            wanted = {p.strip() for p in args.places.split(",") if p.strip()}
+            by_id = {path.stem: path for path in paths}
+            unknown = sorted(wanted - set(by_id))
+            if not wanted or unknown:
+                ap.error(f"--places names no authored blueprint: {unknown or '(empty)'}")
+            paths = [by_id[pid] for pid in sorted(wanted)]
         shelf = KitShelf()          # one shelf for the whole run
         worst = 0
-        for path in sorted(BLUEPRINT_DIR.glob("place.*.json")):
+        for path in paths:
             args.blueprint = str(path)
             worst = max(worst, _compile_one(args, shelf))
         return worst

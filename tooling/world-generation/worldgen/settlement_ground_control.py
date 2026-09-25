@@ -40,6 +40,7 @@ from typing import Iterable
 import numpy as np
 from PIL import Image
 
+from .atomic_write import stage_bytes
 from .landcover import PATH
 from .scale import PROVINCE_EXTENT_M
 
@@ -253,18 +254,8 @@ def _png_bytes(array: np.ndarray) -> bytes:
 
 
 def _stage_write(path: Path, data: bytes) -> str:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
-    try:
-        with os.fdopen(fd, "wb") as handle:
-            handle.write(data)
-            handle.flush()
-            os.fsync(handle.fileno())
-        return temporary
-    except Exception:
-        if os.path.exists(temporary):
-            os.unlink(temporary)
-        raise
+    """A fsynced, world-readable temp sibling of `path` (atomic_write)."""
+    return stage_bytes(path, data)
 
 
 def _publish_with_marker(content_path: Path, content: bytes,

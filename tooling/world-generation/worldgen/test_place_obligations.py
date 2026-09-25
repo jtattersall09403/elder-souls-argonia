@@ -232,11 +232,18 @@ def test_interchange_document_is_byte_deterministic():
     assert po.serialise(a) == po.serialise(b)
 
 
-def test_the_live_exemplar_set_is_not_silently_shrunk_to_what_is_shipped():
-    # The executable gate's expected set still names the five retired places:
-    # it must report every one of them missing, never pass on the yard alone.
+def test_the_live_expected_set_is_derived_not_listed():
+    """16k S3: the expected set is the accepted places plus the live
+    blueprints, so an accepted place whose blueprint is gone is reported
+    missing, and the live gate passes on the tree as it stands."""
+    live = list(_blueprints())
+    assert po.live_expected_place_ids(live, accepted=[]) == {bp["id"] for bp in live}
+    gone = "place.mercantile-coast.lilmoth"
+    expected = po.live_expected_place_ids(live, accepted=[gone])
+    _document, errors = po.obligation_document(_records(), live, expected_place_ids=expected)
+    assert any("missing expected blueprint places" in e and gone in e for e in errors)
     _document, errors = po.live_phase11_document()
-    assert any("missing expected blueprint places" in e for e in errors)
+    assert errors == [], errors
 
 
 def test_export_rejects_a_whole_missing_or_unexpected_place():
@@ -500,10 +507,10 @@ def test_the_document_carries_record_only_places():
     records = _records()
     place_id = next(rid for rid, rec in records.items()
                     if (rec.get("interior") or {}).get("kind") in catalogue.DUNGEON_KINDS
-                    and rid not in po.PHASE11_EXEMPLAR_PLACE_IDS)
+                    and rid not in po.live_expected_place_ids(_blueprints()))
     document, errors = po.obligation_document(
         records, list(_blueprints()),
-        expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS,
+        expected_place_ids=po.live_expected_place_ids(_blueprints()),
         record_only_place_ids=[place_id])
     assert document["recordOnlyPlaceIds"] == [place_id]
     assert any(row["placeId"] == place_id for row in document["rows"])
@@ -512,9 +519,9 @@ def test_the_document_carries_record_only_places():
 
 def test_a_record_only_place_that_is_also_blueprinted_is_rejected():
     records = _records()
-    place_id = sorted(po.PHASE11_EXEMPLAR_PLACE_IDS)[0]
+    place_id = "place.mercantile-coast.lilmoth"
     _document, errors = po.obligation_document(
         records, list(_blueprints()),
-        expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS,
+        expected_place_ids={place_id},
         record_only_place_ids=[place_id])
     assert any("both blueprinted and record-only" in e for e in errors), errors

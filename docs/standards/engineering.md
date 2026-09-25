@@ -245,17 +245,26 @@ round; every later register (creatures, items, quests, dialogue) inherits it.
 
 ---
 
-## 13. The placement playbook moves with the placement work
+## 13. The placement lesson moves with the placement work
 
 Owner ruling 2026-09-05: the workflow record is kept by a mechanism, not by
-memory. If a blueprint, a design record or a placement tool
-(`blueprint*.py`, `compile_settlement.py`, `street_router.py`,
-`apply_sitings.py`, `export_blueprints.py`, `render_blueprint.py`) changes in
-the working tree and neither [world/96-placement-playbook.md](../world/96-placement-playbook.md)
-nor decision 0041 does, `npm test` fails. A one-line lesson or steer row is
-enough; the point is that no round ends without its lesson written where the
-next agent reads it. **Checked mechanically** (`tooling/repo-standards/check.mjs`,
-standard 13, via `git status`).
+memory. If a blueprint, a design record or a placement tool changes and no
+lesson record does, `npm test` fails. Placement work is a blueprint
+(`world/sources/blueprints/place.*`), the lane-terminal, route-structure and
+kit-assembly records, the placement code in `worldgen` (`blueprint*.py`,
+`compile_settlement.py`, `street_router.py`, `apply_sitings.py`,
+`export_blueprints.py`, `render_blueprint.py` and the rest of the list in
+`check.mjs`), the kit builder, the workbench (`tooling/placement-workbench/**`)
+and the place skill (`.claude/skills/place-build/**`). The records that satisfy
+it are the skill's lessons store
+(`.claude/skills/place-build/references/lessons.md`, the operative one,
+decision 0100 decision 4), [world 97](../world/97-placement-principles.md) and
+decision 0041; [world 96](../world/96-placement-playbook.md) stays accepted
+for edits to its history. A merged lesson row is enough; the point is that no
+round ends without its lesson written where the next designer reads it.
+**Checked mechanically** (`tooling/repo-standards/check.mjs`, standard 13, via
+`git status` and the commits since the base; `node check.mjs --standard13
+<paths>` judges a given changed-path list).
 
 ## 14. A gate reads shipped data and has been seen to fail
 
@@ -269,9 +278,13 @@ gates were found that could not fail on their own defect. So:
   keeps that demonstration;
 - probes **report** and tests **assert**; a probe that prints a number nobody
   compares is not a gate;
-- agents ingest at most **six images per chunk**, only from tooling that
-  renders to a file, only for a check a number cannot express (plan §8);
-  every image ingested is listed in the chunk's report with what it decided.
+- images are read in **render rounds** (decision 0100 decision 2): one
+  Blender launch per round (the top view, one front per building, two isos),
+  read by one Sonnet reader against the place skill's reader checklist, at
+  most **four rounds** before the walk packet; the 2.5 s plan render and its
+  reader pass come first. Images come only from tooling that renders to a
+  file, only for a check a number cannot express; the report lists each
+  round with what it decided.
 
 Checked mechanically where it can be: the hydrology graph (`worldgen
 .hydrology_graph check`, decision 0058) and the player-text prose

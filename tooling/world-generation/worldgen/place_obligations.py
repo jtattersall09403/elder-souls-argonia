@@ -30,19 +30,11 @@ from . import blueprint_promises
 SCHEMA_VERSION = 2
 MANIFEST_SCHEMA_VERSION = 2
 DELIVERY_OWNERS = {"phase-11-compiled", "phase-12", "phase-13", "quests"}
-# The exemplar set 16i builds (docs/phases/16-foundation-and-places/
-# 16i-exemplars-end-to-end.md step 1: "Keep the five", Phase 16 ruling 13).
-# Their 2026-09-09 blueprints were retired 2026-09-23 and deleted 2026-09-25
-# (the exemplars are dropped, decision 0099 addendum), so the live gate
-# reports all five missing; what replaces this set in the 16k loop is a
-# planner call (the loop has no exemplar set).
-PHASE11_EXEMPLAR_PLACE_IDS = frozenset({
-    "place.dunmer-north.mazzatun",
-    "place.hist-heartland.nine-trunks",
-    "place.hist-heartland.sap-tapping-licensed",
-    "place.mercantile-coast.lilmoth",
-    "place.naga-kur-deeps.wamasu-pond-adult",
-})
+# The expected place set is DERIVED, never a literal list (16k S3): every
+# place the owner has accepted (world/sources/placement/accepted-places.json,
+# decision 0100 decision 6) plus every live (non-fixture) authored blueprint.
+# An accepted place whose blueprint vanishes is therefore reported missing;
+# a place in the loop is expected from the moment its blueprint exists.
 
 # Every top-level catalogue field must be consciously classified.  This is a
 # schema policy, not a second copy of 800 records.  Tests walk the live
@@ -543,8 +535,10 @@ def obligation_document(records: dict[str, dict], blueprints: Iterable[dict], *,
     rows: list[Obligation] = []
     errors: list[str] = []
     expected = set(expected_place_ids)
-    if not expected or any(not isinstance(place_id, str) for place_id in expected):
-        errors.append("phase-11 export: expected_place_ids must be a non-empty set of strings")
+    # Empty is legal (no place authored or accepted yet); the set still comes
+    # from the caller, never from the supplied blueprints.
+    if any(not isinstance(place_id, str) for place_id in expected):
+        errors.append("phase-11 export: expected_place_ids must be a set of strings")
     supplied = list(blueprints)
     supplied_ids = [bp.get("id") for bp in supplied]
     duplicates = sorted(place_id for place_id in set(supplied_ids) if isinstance(place_id, str)
@@ -927,16 +921,29 @@ def verify_final_delivery(obligations: Iterable[Obligation], manifests: Iterable
 
 
 def live_phase11_document() -> tuple[dict, list[str]]:
-    """Build the checked-in exemplar manifest used by the executable gate."""
+    """Build the live obligation manifest the executable gate checks."""
     from . import blueprint, catalogue
 
     records = {record["id"]: record
                for region_file in catalogue.load_region_files()
                for record in region_file.places}
-    blueprints = [json.loads(path.read_text())["blueprint"]
-                  for path in sorted(blueprint.BLUEPRINT_DIR.glob("*.json"))]
+    # A blueprint file carries a `blueprint` object; the place's layout file
+    # (<place>.layout.json, 0100 decision 2) sits beside it and is not one.
+    docs = [json.loads(path.read_text())
+            for path in sorted(blueprint.BLUEPRINT_DIR.glob("place.*.json"))]
+    blueprints = [doc["blueprint"] for doc in docs if "blueprint" in doc]
     return obligation_document(records, blueprints,
-                               expected_place_ids=PHASE11_EXEMPLAR_PLACE_IDS)
+                               expected_place_ids=live_expected_place_ids(blueprints))
+
+
+def live_expected_place_ids(blueprints: Iterable[dict],
+                            accepted: Iterable[str] | None = None) -> set[str]:
+    """The places the live gate expects: accepted places plus every live
+    (non-fixture) authored blueprint (see the comment at the top)."""
+    from . import accepted_places
+    from .blueprint import is_fixture
+    accepted_ids = set(accepted_places.load()) if accepted is None else set(accepted)
+    return accepted_ids | {bp["id"] for bp in blueprints if not is_fixture(bp)}
 
 
 def main(argv: list[str] | None = None) -> int:

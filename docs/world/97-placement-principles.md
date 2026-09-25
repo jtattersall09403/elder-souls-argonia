@@ -231,8 +231,9 @@ is rejected however good its ground. (2) Buildable tiers within the footprint
 ring (height over the ring, slope at each bench). (3) Route tie-in without a
 new spur. (4) Approach and reveal (Part D). (5) Neighbours' sightlines and the
 write-back cost. Losers are recorded with the ground on which they lost. *O*
-2026-09-04 (geometry, never labels); Lilmoth record §1 (the east face won
-on depth, tiers and reveal). **Enforced by** the validator
+2026-09-04 (geometry, never labels); the worked candidate table is the
+first loop place's design brief (Claywater Station, 16k slice 1c,
+`<place>.design.md`, 0100 decision 2). **Enforced by** the validator
 (`candidates[].rejectedBecause`); the design record; owner Round A.
 
 **B3. The slope ladder: the building is fixed and the ground meets it,
@@ -263,7 +264,9 @@ over-water share are not measured — G8.
 line.** A canoe or raft landing needs ≥0.6 m; a small-draft boat station ≥1.2
 m; a keeled hull berth ≥3 m — and a place whose living depends on hulls *not*
 berthing (Lilmoth's lighters) needs the shallow shelf recorded as a feature.
-*L* (small-draft doctrine; Lilmoth's ships anchor out); Lilmoth record §1.
+*L* (small-draft doctrine; Lilmoth's ships anchor out); the worked dock
+table is the first loop place's design brief (Claywater Station's ferry
+landing, 16k slice 1c).
 **Enforced by** `blueprint._validate_docks` (hull class, the water terminal, the 10 m reach and the `fit` direction) plus the design record's candidate table — G9.
 
 **B6. The approach is designed at meso, before geometry.** The chosen

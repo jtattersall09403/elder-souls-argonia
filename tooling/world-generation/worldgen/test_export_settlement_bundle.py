@@ -1,6 +1,9 @@
 import json
+import os
 import hashlib
 import struct
+
+from pathlib import Path
 
 import pytest
 import numpy as np
@@ -1083,12 +1086,28 @@ def test_every_published_kit_ships_its_sidecars(tmp_path):
     assert not missing, "\n".join(missing)
 
 
-def test_the_published_bundle_is_world_readable(tmp_path):
+@pytest.mark.parametrize("umask", [0o000, 0o077])
+def test_every_file_the_exporter_writes_is_world_readable(tmp_path, umask):
     """A shipped file was mode 0600 on 2026-09-22 because mkstemp creates 0600
-    and the atomic write kept it. The export sets the mode it publishes with."""
-    ex._atomic_json(tmp_path / "out.json", {"a": 1})
-    assert oct((tmp_path / "out.json").stat().st_mode & 0o777) == "0o644"
-    assert oct(ex.OUT.stat().st_mode & 0o777) == "0o644"
+    and the atomic write kept it. What is asserted is the mode of the files the
+    exporter WRITES (the bundle, a staged kit copy, a ground-control stage),
+    under both a permissive and a strict umask; the checkout's own mode is the
+    clone's umask and is not the exporter's to set (combat r7 close)."""
+    from . import settlement_ground_control as sgc
+    from .atomic_write import publish_copy
+    source = tmp_path / "source.glb"
+    source.write_bytes(b"glb")
+    previous = os.umask(umask)
+    try:
+        ex._atomic_json(tmp_path / "out.json", {"a": 1})
+        publish_copy(source, tmp_path / "stage" / "kit.glb")
+        staged = Path(sgc._stage_write(tmp_path / "control.png", b"png"))
+    finally:
+        os.umask(previous)
+    for written in (tmp_path / "out.json", tmp_path / "stage" / "kit.glb", staged):
+        mode = written.stat().st_mode
+        assert mode & 0o444 == 0o444, f"{written.name}: {oct(mode & 0o777)} is not world-readable"
+        assert mode & 0o022 == 0, f"{written.name}: {oct(mode & 0o777)} is group/world-writable"
 
 
 def test_the_bundle_carries_the_compiles_mount_and_water_fields():
@@ -1194,3 +1213,157 @@ def test_every_door_threshold_gets_a_one_and_a_half_metre_apron():
     with pytest.raises(ValueError, match="no ground treatment"):
         ex._attach_door_apron({"id": "door.b", "parcelId": "parcel.b"}, 0, 0,
                               {"parcel.a": floor})
+
+
+# --- per-place publishing (--places, 0100 decision 6) ----------------------- #
+
+def _two_places(tmp_path, monkeypatch):
+    """Places a and b, one house each, plus one route piece: the smallest
+    world where a publish of one place can disturb the other."""
+    monkeypatch.setattr(ex, "shared_survey", lambda: _MetreSurvey())
+    for pid in ("place.a", "place.b"):
+        bp = {"id": pid, "boundary": [[0, 0], [1, 0], [1, 1]],
+              "parcels": [{"id": "parcel.a", "footprint": [[.1, .2], [.3, .2], [.2, .4]]}],
+              "variants": []}
+        _write(tmp_path / f"bp/{pid}.json", {"blueprint": bp})
+        placement = {"id": f"{pid}.parcel.a.building", "parcelId": "parcel.a",
+                     "assetId": "asset.house", "kit": "kit-a", "positionM": [20, 4, 30],
+                     "yawDeg": 17, "scale": 1, "groundFit": "plinth", "provenance": {}}
+        objects, errors = cs.compiled_blueprint_objects(bp, [placement], [], _MetreSurvey())
+        assert errors == []
+        _write(tmp_path / f"sett/{pid}.settlement.json",
+               {"id": pid, "sourceBlueprintSha256": ex.blueprint_sha256(bp),
+                "errors": [], "warnings": [], "floodBandReport": {"warningCount": 0},
+                "placements": [placement], "doors": [], "budgetReport": {},
+                "compiledObjects": objects})
+    structure = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
+                 "fromM": 10, "toM": 20}
+    _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [structure],
+                                         "placements": [{
+                                             "id": "structure.a.1.p1", "assetId": "asset.bridge",
+                                             "posM": [9, 2, 8], "fromM": 10, "toM": 20, "yawDeg": 90,
+                                             "provenance": {"sourceStructureId": "structure.a.1"}}]})
+    for kit, asset, policy, mode in (
+            ("kit-a", "asset.house", "plinth", "streamed-origin"),
+            ("route-structures-v1", "asset.bridge", "route-structure", "streamed-perimeter"),
+            ("route-spans-v1", "asset.viaduct", "route-structure", "streamed-perimeter")):
+        _write(tmp_path / f"kits/{kit}.kit.json", {"kit": kit, "assets": [{
+            "id": asset, "sizeM": [4, 6, 8], "originOffsetM": [2, 3, 1], "triangles": 500,
+            "collision": "mesh", "placement": _manifest_placement(policy, mode=mode)}]})
+        _fake_glb(tmp_path / f"kits/{kit}.glb", {asset: [2, 1, 1]})
+    source = _route_source(tmp_path, [structure])
+
+    def build(**kw):
+        return ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                               tmp_path / "kits", source,
+                               accepted_path=tmp_path / "accepted.json", **kw)
+    return build
+
+
+def _place_rows(bundle, pid):
+    """Every row of `bundle` that belongs to place `pid`, as canonical JSON."""
+    ids = {p["id"] for p in bundle["placements"] if p.get("sourceId") == pid}
+    rows = {
+        "settlements": [s for s in bundle["settlements"] if s["id"] == pid],
+        "placements": [p for p in bundle["placements"] if p["id"] in ids],
+        "compiledObjects": [o for o in bundle["compiledObjects"] if o["placeId"] == pid],
+        "groundTreatments": [t for t in bundle["groundTreatments"]
+                             if t["id"].removeprefix("treatment.") in ids],
+        "navmeshCuts": [c for c in bundle["navmeshCuts"] if c["placementId"] in ids],
+        "doors": [d for d in bundle["doors"] if d["settlementId"] == pid],
+    }
+    return json.dumps(rows, sort_keys=True)
+
+
+def test_a_places_publish_of_an_unchanged_place_writes_the_full_export(tmp_path, monkeypatch):
+    build = _two_places(tmp_path, monkeypatch)
+    full = build()
+    part = build(places=["place.a"])
+    assert part["stats"] == {"settlements": 1, "settlementPlacements": 1,
+                             "routeStructurePlacements": 0}
+    assert ex.merge_bundle(full, part, {"place.a"}) == full
+
+
+def test_a_places_publish_never_reads_or_refuses_on_another_place(tmp_path, monkeypatch):
+    """16k item 7b: another place's compile error blocks the full export but
+    not a --places publish of this one, and every row of the other place is
+    carried byte-identical from the published bundle."""
+    build = _two_places(tmp_path, monkeypatch)
+    published = build()
+    doc = json.loads((tmp_path / "sett/place.b.settlement.json").read_text())
+    doc["errors"] = ["bad"]
+    _write(tmp_path / "sett/place.b.settlement.json", doc)
+    with pytest.raises(ValueError, match="place.b has 1 compile errors"):
+        build()
+    moved = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    moved["placements"][0]["positionM"] = [21, 4, 30]
+    moved["compiledObjects"], errors = cs.compiled_blueprint_objects(
+        json.loads((tmp_path / "bp/place.a.json").read_text())["blueprint"],
+        moved["placements"], [], _MetreSurvey())
+    assert errors == []
+    _write(tmp_path / "sett/place.a.settlement.json", moved)
+    merged = ex.merge_bundle(published, build(places=["place.a"]), {"place.a"})
+    assert _place_rows(merged, "place.b") == _place_rows(published, "place.b")
+    assert [p for p in merged["placements"] if p["kind"] == "route-structure"] == \
+        [p for p in published["placements"] if p["kind"] == "route-structure"]
+    house = next(p for p in merged["placements"] if p["id"] == "place.a.parcel.a.building")
+    assert house["positionM"] == [21, 4, 30]
+    assert merged["stats"] == published["stats"]
+
+
+def test_places_names_only_authored_compiled_places(tmp_path, monkeypatch):
+    build = _two_places(tmp_path, monkeypatch)
+    with pytest.raises(ValueError, match="no authored blueprint"):
+        build(places=["place.nowhere"])
+    (tmp_path / "sett/place.b.settlement.json").unlink()
+    with pytest.raises(ValueError, match="not compiled"):
+        build(places=["place.b"])
+    with pytest.raises(ValueError, match="schemaVersion"):
+        ex.merge_bundle({"schemaVersion": 2}, build(places=["place.a"]), {"place.a"})
+
+
+def test_a_gate_added_after_acceptance_reports_and_does_not_fail(tmp_path, monkeypatch):
+    """0100 decision 6: a place gate newer than the place's acceptance lists
+    its finding in report mode; the same finding on a place accepted after
+    the gate existed, or not accepted, still refuses."""
+    from . import accepted_places as ap
+    monkeypatch.setattr(ex, "shared_survey", lambda: object())
+    _warned_settlement(tmp_path)
+    doc = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    accepted = tmp_path / "accepted.json"
+
+    def accept(on):
+        _write(accepted, {"schemaVersion": 1, "places": [{
+            "placeId": "place.a", "acceptedOn": on, "compiledHash": ap.compiled_hash(doc),
+            "patchesHash": ap.patches_hash("place.a", ()), "authoredOn": on}]})
+
+    def build(report):
+        return ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                               tmp_path / "kits", _route_source(tmp_path, []),
+                               accepted_path=accepted, patch_files=(), report=report)
+    monkeypatch.setitem(ex.PLACE_GATES, "unexplained-warning", "2026-10-01")
+    with pytest.raises(ValueError, match="UNEXPLAINED WARNING"):
+        build([])                                   # not accepted: the gate fails
+    accept("2026-10-02")
+    with pytest.raises(ValueError, match="UNEXPLAINED WARNING"):
+        build([])                                   # accepted after the gate: fails
+    accept("2026-09-30")
+    report = []
+    build(report)                                   # accepted before the gate: reports
+    assert [(r["placeId"], r["gate"], r["mode"]) for r in report] == [
+        ("place.a", "unexplained-warning", "report-only")]
+
+
+def test_the_export_refuses_to_publish_a_changed_accepted_place(tmp_path, monkeypatch):
+    from . import accepted_places as ap
+    build = _two_places(tmp_path, monkeypatch)
+    doc = json.loads((tmp_path / "sett/place.a.settlement.json").read_text())
+    _write(tmp_path / "accepted.json", {"schemaVersion": 1, "places": [{
+        "placeId": "place.a", "acceptedOn": "2026-09-25", "compiledHash": ap.compiled_hash(doc),
+        "patchesHash": ap.patches_hash("place.a"), "authoredOn": "2026-09-25"}]})
+    build(places=["place.a"])
+    doc["budgetReport"] = {"changed": True}
+    _write(tmp_path / "sett/place.a.settlement.json", doc)
+    with pytest.raises(ValueError, match="accepted places would change"):
+        build(places=["place.a"])
+    build(places=["place.b"])                        # another place publishes freely
