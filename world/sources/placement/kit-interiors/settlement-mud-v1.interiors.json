@@ -672,30 +672,54 @@
    "category": "misc",
    "closedShellPromotedBy": "own-geometry-door",
    "entrance": {
-    "arcM": 1.21,
-    "kind": "opening",
-    "offsetM": [
-     -4.8,
-     4.68
-    ],
-    "sideDeg": 220.0
+    "doorAsset": "kotm:argonia/mudhuts/door01",
+    "kind": "esp-door",
+    "placements": 12,
+    "radial": true,
+    "radiusM": 6.313
+   },
+   "entranceWhy": "the exterior door kotm:argonia/mudhuts/door01 that opens this interior, at a constant radius on any bearing across the plugin's placements (12 placements)",
+   "espLink": {
+    "doorModel": "kotm:argonia/mudhuts/door01",
+    "interiorCell": "KeebaHouseElder",
+    "interiorFamily": "vanilla:architecture/farmhouse",
+    "interiorSizeM": {
+     "heightM": 15.03,
+     "planXM": 21.86,
+     "planYM": 14.15
+    },
+    "placements": 4,
+    "plugin": "King of the Murkmire.esp"
    },
    "floorOffsetM": 0.0,
    "frontFaceFraction": 0.0,
    "headroomM": 9.02,
    "heightM": 13.88,
-   "interior": "shell",
+   "interior": "tileset",
+   "interiorSource": "esp-door",
    "medianWallM": 5.77,
    "planAreaM2": 146.82,
    "planCentreM": [
     -1.25,
     0.46
    ],
-   "provenance": [],
+   "promiseReason": "King of the Murkmire places no interior door for this shell (door-link mine 2026-09-25); Phase 12 builds it",
+   "provenance": [
+    {
+     "arcM": 1.21,
+     "kind": "opening",
+     "offsetM": [
+      -4.8,
+      4.68
+     ],
+     "sideDeg": 220.0
+    }
+   ],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
-   "why": "measured to enclose a volume \u2014 100% of the ring at 1.6 m hits a wall, there is a roof overhead and 5.8 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+   "tileset": "vanilla-farmhouse-int",
+   "why": "King of the Murkmire.esp teleports from this shell into interior cell KeebaHouseElder (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse, which is packaged as vanilla-farmhouse-int"
   },
   "kotm:argonia/mudhuts/smpodextdoor": {
    "category": "misc",

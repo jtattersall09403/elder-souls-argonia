@@ -261,6 +261,9 @@ PROMISED_INTERIORS: dict[str, str] = {
         "King of the Murkmire never places it; Phase 12 builds its interior"),
     "kotm:argonia/mudhuts/shed": (
         "King of the Murkmire never places it; Phase 12 builds its interior"),
+    "kotm:argonia/mudhuts/smpodext02": (
+        "King of the Murkmire places no interior door for this shell (door-link mine "
+        "2026-09-25); Phase 12 builds it"),
 }
 
 # --- enclosure / doorway measurement constants ----------------------------- #
