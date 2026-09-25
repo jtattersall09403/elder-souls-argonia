@@ -121,7 +121,12 @@ quality.
      lanes at once;
    - every check-in packet is followed by the work the walk cannot change
      (the next slice's research, sourcing and 2D register reads, tooling
-     speed-ups), never an idle wait.
+     speed-ups), never an idle wait;
+   - **no long tail** (owner 2026-09-25): a red that arrives with a
+     lane's diagnosis has its cause verified by a `find` agent before any
+     brief acts on it; parallel lanes taper towards the session's end,
+     and the LAST lane runs alone with full path authority and finishes
+     every red it meets instead of reporting it.
 9. **Parked lanes with automatic pickup.** Combat round 8 and weapons
    round 2 are named inputs of Phase 10b (sandbox parity); the stats-lab
    owner test runs at the start of Phase 10c; breadth research continues
