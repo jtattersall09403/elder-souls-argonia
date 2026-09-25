@@ -15,6 +15,8 @@ description: Change or re-run the three kit miners (designed sink, mounts, abuts
 
 `W=tooling/world-generation` (run `python3 -m worldgen.*` from it);
 `MW=../repo-standards/memwatch.sh`; records under `world/sources/placement/`.
+Plugins live in the vault; a mod folder missing there is fetched with
+`bash tooling/bootstrap/vault-pull.sh mod-sources/<folder>` (see tooling/bootstrap/README.md).
 
 | Miner | Record | Sample tool | Tests |
 |---|---|---|---|

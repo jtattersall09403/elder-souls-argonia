@@ -99,6 +99,10 @@ discards.
 
 ## Starting state (2026-09-20; written by the 16h planner from the verified tree; the part 1 agent re-audits it with `routing-audit`)
 
+A mod not yet on this machine (kit source or chain heightfield) is fetched
+with `bash tooling/bootstrap/vault-pull.sh mod-sources/<folder>` (or
+`--tier chain` for the base heightfield); see tooling/bootstrap/README.md.
+
 **What 16g settled.** 567 live records sited, 567 of 567 (the thirteen
 unsited were cut on the owner walk 2026-09-20; four `promise-unmet` rows
 stay open as owner calls in `world/sources/sites/plot-homeless-accepted.json`);

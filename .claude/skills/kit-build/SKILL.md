@@ -24,6 +24,8 @@ Published = `apps/world-studio/public/kits/<kit>.*` (what ships, standard 16).
 |---|---|---|
 | kit config: assets, `compose.parts`, part scale, `collision`, `publish` | 1–7 | geometry and manifest come only from Blender (K6, K10 D) |
 | registry row / texture pool / vault asset | 1–7 | `build_kit.assemble` reads them |
+
+A vault asset missing on this machine: `bash tooling/bootstrap/vault-pull.sh mod-sources/<folder>` (see tooling/bootstrap/README.md).
 | `mine_assemblies` record (templates, doorways) only | 2, 3, 5–7 | connectors + interiors read it; GLB unchanged (K7 A) |
 | sink / mounts / policy record only (miner full run) | 4, 5–7 | policy-only metadata; never rebuild for it (M13–M16) |
 | nothing, published kit suspect | `kit_compress --check`, 5 | — |

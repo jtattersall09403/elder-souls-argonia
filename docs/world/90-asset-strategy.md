@@ -24,7 +24,9 @@ missing asset is a *sourcing* task, never a modelling or hand-animation task.
    and root pieces were sitting there unused, and so are hundreds more. Then
    the asset vault itself (`ELDER_SOULS_ASSET_ROOT`, see decision 0001) and
    this module's candidate tables. (Read directory and file names; don't
-   keyword-search asset archives — CLAUDE.md.)
+   keyword-search asset archives — CLAUDE.md.) A vault folder missing on this
+   machine is fetched with `bash tooling/bootstrap/vault-pull.sh
+   mod-sources/<folder>` (see tooling/bootstrap/README.md).
 2. **Research the mod scene** for the best available source, weighing quality,
    completeness and how cleanly it converts.
 

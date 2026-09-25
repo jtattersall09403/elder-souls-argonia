@@ -6,7 +6,10 @@ the gap list in [settlement-asset-inventory.md](settlement-asset-inventory.md)
 (that file and its JSON twin are owned by the inventory agent — this log records
 only what was *downloaded, registered and kitted*).
 
-Archives live in the vault (`mod-sources/archives/`), never in git. Every pool
+Archives live in the vault (`mod-sources/archives/`), never in git; a folder
+missing on this machine is fetched with `bash
+tooling/bootstrap/vault-pull.sh mod-sources/<folder>` (see
+tooling/bootstrap/README.md). Every pool
 below is credited in the root [README](../../../README.md) § Credits and checked
 mechanically by `python3 -m worldgen.check_credits`.
 
