@@ -16,18 +16,29 @@
  *
  * `npm run preflight -- --paths <pathspec...>` (decision 0087 §3): the review
  * gate hook (review_gate.py) reads the pathspec from this command and reviews
- * only those files' diff, with its own stamp; the gates below still run on the
- * whole tree. A lane preflights its own commit this way.
+ * only those files' diff, with its own stamp; and (owner ruling 2026-09-25)
+ * only the gates whose inputs intersect the changed files under that pathspec
+ * run, npm test only in the touched workspaces and their dependents
+ * (preflight_select.mjs holds the map; the skipped gates are printed by name).
+ * No --paths runs every gate: the once-before-merge full run. A lane
+ * preflights its own commit this way.
+ *
+ * Parallelism is capped by jobs.mjs (ES_JOBS, else half the cores): at most
+ * that many gates at once, pytest workers and vitest workers likewise, so a
+ * preflight never takes every core (two codespace crashes at 100 % CPU,
+ * 2026-09-25).
  *
  * Exit code is non-zero if any gate failed. Each gate's full log is kept at
  * /tmp/preflight/<gate>.log; the summary prints the lines that matter.
  */
-import { spawn } from "node:child_process";
+import { spawn, execFileSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { availableParallelism } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { jobsCap, pinPrefix } from "./jobs.mjs";
+import { loadWorkspaces, selectGates } from "./preflight_select.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const outDir = "/tmp/preflight";
@@ -124,22 +135,52 @@ const budget = capBytes - usedBytes;
 // 1.5 GiB per pytest worker, at most 4 workers; and every gate runs under
 // memwatch.sh, which kills THE GATE if the unreclaimable memory passes the
 // ceiling, never the session.
-const pyWorkers = Math.max(1, Math.min(4, availableParallelism(),
+const jobs = jobsCap();
+const pyWorkers = Math.max(1, Math.min(4, availableParallelism(), jobs,
   Math.floor((budget - 1.5 * GIB) / (1.5 * GIB))));
-const wsJobs = Math.max(2, Math.min(4, availableParallelism()));
-const ceilingGib = Math.max(6, Math.floor(capBytes / GIB) - 2);
-const env = { PYTEST_XDIST_AUTO_NUM_WORKERS: String(pyWorkers), WORKSPACE_JOBS: String(wsJobs), ...runnerEnv };
+const wsJobs = Math.min(4, jobs);
+// Under an outer memwatch (job_guard), each gate's ceiling sits 0.25 GiB below
+// the outer one, so the gate is killed and reported, never the whole preflight.
+const outerMib = Number(process.env.MEMWATCH_OUTER_CEILING_MIB);
+const ceilingGib = Math.min(Math.max(6, Math.floor(capBytes / GIB) - 2),
+  outerMib > 0 ? Math.floor((outerMib / 1024 - 0.25) * 100) / 100 : Infinity);
+const env = { PYTEST_XDIST_AUTO_NUM_WORKERS: String(pyWorkers), WORKSPACE_JOBS: String(wsJobs),
+  VITEST_MAX_WORKERS: String(jobs), ...runnerEnv };
+
+// PATH SCOPING: the changed files under the pathspec (tracked changes against
+// HEAD plus untracked files); a pathspec with nothing changed counts as itself.
+function changedFiles(pathspec) {
+  if (!pathspec.length) return [];
+  const git = (...a) => execFileSync("git", a, { cwd: repoRoot, encoding: "utf8" }).split("\n").filter(Boolean);
+  const files = [...new Set([...git("diff", "--name-only", "HEAD", "--", ...pathspec),
+    ...git("ls-files", "-o", "--exclude-standard", "--", ...pathspec)])];
+  return files.length ? files : pathspec.map((p) => p.replace(/^\.\//, ""));
+}
+const selection = selectGates(changedFiles(reviewPaths), loadWorkspaces(repoRoot), Object.keys(GATES));
+const gateEnv = {};
+const gateCmd = Object.fromEntries(Object.entries(GATES).map(([k, v]) => [k, v[0]]));
+if (!selection.all) {
+  gateEnv["npm-test"] = { ...env, WORKSPACE_ONLY: selection.workspaces.join(",") };
+  gateCmd["npm-test"] = [selection.workspaces.length ? "node tooling/repo-standards/run-workspaces.mjs test" : "",
+    selection.weapons ? "npm run weapons:reach -- --check" : ""].filter(Boolean).join(" && ");
+  console.log(`preflight: scoped to ${reviewPaths.join(" ")}: running ${selection.gates.join(", ") || "no gates"}` +
+    (selection.gates.includes("npm-test") ? ` (npm test in ${selection.workspaces.join(", ")}${selection.weapons ? " + weapons reach" : ""})` : ""));
+  console.log(`preflight: skipped (inputs untouched): ${selection.skipped.join(", ") || "none"}`);
+}
 if (runnerMode) console.log("preflight: runner mode (no asset vault)");
-if (reviewPaths.length) console.log(`preflight: reviewed pathspec ${reviewPaths.join(" ")} (gates run on the whole tree)`);
-console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, two waves, watchdog ceiling ${ceilingGib} GiB`);
+console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / GIB).toFixed(1)} GiB already used → ${(budget / GIB).toFixed(1)} GiB free → ${pyWorkers} pytest workers, ${wsJobs} workspace jobs, ${jobs} gates at once (ES_JOBS cap), two waves, watchdog ceiling ${ceilingGib} GiB`);
 const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // Two waves: the placement suite (10.2 GiB beside typecheck on 2026-09-16,
 // before the survey cache) now runs with the water, typecheck and raster gates.
 const WAVES = [["placement", "water", "typecheck", "rasters"], ["pipeline", "npm-test", "credits", "python-deps"]];
 const results = [];
 for (const wave of WAVES) {
-  results.push(...await Promise.all(wave.map((name) =>
-    run(name, `${memwatch} --ceiling-gib ${ceilingGib} '${GATES[name][0]}'`, env))));
+  const queue = wave.filter((name) => selection.gates.includes(name));
+  await Promise.all(Array.from({ length: Math.min(jobs, queue.length) }, async () => {
+    for (let name = queue.shift(); name; name = queue.shift()) {
+      results.push(await run(name, `${pinPrefix()}${memwatch} --ceiling-gib ${ceilingGib} '${gateCmd[name]}'`, gateEnv[name] ?? env));
+    }
+  }));
 }
 let failed = 0;
 console.log("\npreflight — every deploy gate, run together\n");
@@ -153,5 +194,6 @@ for (const r of results) {
     for (const l of [...new Set(lines)].slice(0, 25)) console.log("      " + l.trim().slice(0, 200));
   }
 }
-console.log(`\n${results.length - failed} passed, ${failed} failed; slowest ${Math.max(...results.map((r) => r.seconds))}s\n`);
+console.log(`\n${results.length - failed} passed, ${failed} failed; slowest ${Math.max(0, ...results.map((r) => r.seconds))}s` +
+  (selection.skipped.length ? `; skipped ${selection.skipped.join(", ")}` : "") + "\n");
 process.exit(failed ? 1 : 0);

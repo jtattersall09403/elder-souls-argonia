@@ -28,9 +28,42 @@ owner is not idle while a chunk runs. The world build keeps its one queue
 - **No fixed number of lanes** ([0087](../../decisions/0087-opus-decides-when-delegated-no-lane-cap-review-by-pathspec.md) §2).
   A new lane runs only if its folders are disjoint from every running lane
   and chunk, it shares no catalogue writer with them (whole-file writers
-  clobber each other), at most one heavy job (compile, preflight, probe)
-  runs at a time under the 12 GiB session cgroup, and the planner judges
-  the clash risk with the other lanes acceptable.
+  clobber each other), its heavy jobs go through `job_guard.sh` (next rule:
+  the slot count there is the machine-wide cap on concurrent heavy jobs), and
+  the planner judges the clash risk with the other lanes acceptable.
+- **The machine's CPU is guarded twice** (owner rulings 2026-09-25, after
+  two codespace crashes at 97-100 % CPU with four lanes on 4 cores).
+  Every heavy job (kit builds, Blender, miners, compiles, preflight,
+  `npm test`) runs as `bash tooling/repo-standards/job_guard.sh <lane> --
+  <command...>`: it waits (up to 30 min, then exits 75) until the 1-min
+  load is under nproc - 1, the current directory's volume and the `/tmp`
+  cache volume each have over 3 GB free and memory is under memwatch's
+  ceiling, takes one of max(1, floor(nproc/2) - 1) machine-wide slots and
+  runs the job under `memwatch.sh` with `nice -n 10 ionice -c3 taskset` on
+  the upper half of the cores (2-3 on the codespace), leaving cores 0-1 to
+  the editor tunnel and the Claude CLI. Behind it, `cpu_watchdog.sh`
+  (started by `on-start.sh`, no agent involved) pauses the heaviest
+  processes while the whole machine is above 85 % CPU, continues them one
+  at a time once it is calm, and kills stale `rtk` filters and orphaned
+  Blender, miner, kit-build and test workers (log
+  `/tmp/es-jobs/watchdog.log`; `cpu_watchdog.sh --status` lists what it
+  holds stopped). Preflight gates and workspace test runs are capped at
+  `ES_JOBS`, default max(1, floor(nproc/2)), and pinned the same way to the
+  upper half of the cores (`tooling/repo-standards/jobs.mjs`), and `npm run preflight -- --paths` runs only the gates its files touch.
+  A lane never runs two heavy jobs at once; the planner launches at most
+  floor(nproc/2) heavy lanes at a time (two on the 4-core codespace); light
+  lanes (docs, reads) run freely.
+- **No agent polls with `sleep`** (owner 2026-09-25: the time audit found
+  21 agent-hours of lane leads sleeping on their builders). The shell guard
+  refuses `sleep` from every session, subagents included. Waiting is
+  job_guard's own wait, `run_in_background` (the harness wakes you when the
+  job exits) or a subagent's hand-back.
+- **A crashed session's lanes resume from their transcripts.** The
+  SessionStart hook runs `tooling/repo-standards/lane_resume.py --brief`;
+  relaunch each lane it lists with `lane_resume.py --packet <agent-id>` as
+  the brief (same agent type; printing the packet claims the lane so no
+  other session relaunches it), and `--dismiss <agent-id>` a lane judged
+  finished or obsolete.
 
 ## Lanes
 

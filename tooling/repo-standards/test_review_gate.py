@@ -33,6 +33,15 @@ NEGATIVE = [
 ]
 
 
+def test_fires_through_job_guard_with_its_pathspec():
+    from review_gate import preflight_paths
+    for cmd in ['bash tooling/repo-standards/job_guard.sh infra -- "npm run preflight -- --paths a b"',
+                "bash tooling/repo-standards/job_guard.sh infra -- npm run preflight -- --paths a b"]:
+        assert is_preflight_command(cmd) is True
+        assert preflight_paths(cmd) == ["a", "b"]
+    assert is_preflight_command("bash tooling/repo-standards/job_guard.sh kits -- python3 build_kit.py x") is False
+
+
 @pytest.mark.parametrize("cmd", POSITIVE)
 def test_fires(cmd):
     assert is_preflight_command(cmd) is True

@@ -34,7 +34,8 @@ The overall goal at this point is to build the province-scale world, in a way th
    `find` agents. Records are binding until superseded.
 3. Run `git status` and `git log -5`. A dirty tree or an `in progress` row means
    a previous agent stopped mid-work — follow the crash-recovery protocol in
-   PROGRESS.md before starting anything new. (Other agents may be working in
+   PROGRESS.md before starting anything new, including relaunching every lane
+   `tooling/repo-standards/lane_resume.py` lists from its `--packet`. (Other agents may be working in
    the same tree on disjoint folders: dirty is not always crashed; commit by
    pathspec only.)
 4. **Ask explicitly: does any part of my task decide or depend on what the

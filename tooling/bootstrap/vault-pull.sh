@@ -29,7 +29,14 @@
 # no marker, if any of the part's files (read from its sidecar object
 # filesObject) already exists here and is not a git-tracked file equal to HEAD.
 #
+# A root may be a link into the /tmp cache volume (cache-links.sh, run by
+# on-start.sh on a codespace): the pull links it first (cache-links.sh
+# --root), always stages into that volume ($ES_CACHE_ROOT/.staging; tar
+# will not extract through a link leading outside -C) and moves the files in,
+# counts free space and evicts there, and an eviction removes the target and
+# the link (the folder reads as absent again).
 # Environment: ES_DEVROOT (default: the repo's parent), ES_SNAPSHOT_MANIFEST,
+# ES_CACHE_ROOT (default /tmp/es-cache),
 # ES_RCLONE_REMOTE (default r2), ES_VAULT_PULL_RESERVE (bytes kept free,
 # default 2 GiB), ES_PULL_FREE_LIMIT_BYTES (test only: treat the dev root as a
 # disk of this size, so free = min(real free, limit - bytes under the root)),
@@ -58,8 +65,18 @@ part() {  # part <id>: sets P_OBJECT P_BYTES P_SHA P_ROOT P_TIER P_ARCH P_NEEDS
 }
 
 LIMIT="${ES_PULL_FREE_LIMIT_BYTES:-}"
-free_bytes() {
-  local real; real="$(df -B1 --output=avail "$DEVROOT" | tail -1 | tr -d ' ')"
+# A part's root may be a link into another volume (cache-links.sh: on a
+# codespace the mod pool and the caches live on /tmp). Space, staging and
+# eviction are all per volume: the volume a path lands on, found from its
+# nearest existing ancestor with links followed.
+landing() {  # landing <path>: its nearest existing ancestor, links resolved
+  local p="$1"
+  while [[ ! -e "$p" && "$p" != / ]]; do p="$(dirname "$p")"; done
+  readlink -f "$p"
+}
+vol_of() { stat -c %d "$(landing "$1")"; }
+free_bytes() {  # free_bytes [<path>]: free bytes on the volume <path> lands on (default the dev root)
+  local real; real="$(df -B1 --output=avail "$(landing "${1:-$DEVROOT}")" | tail -1 | tr -d ' ')"
   if [[ -n "$LIMIT" ]]; then
     local sim=$(( LIMIT - $(du -sb "$DEVROOT" | cut -f1) ))
     (( sim < real )) && real=$sim
@@ -82,7 +99,13 @@ safe_remove() {  # remove a part's root (a leaf only) and the markers of every p
   # mod folder) is never removed: that would take the other parts with it.
   [[ -z "$(mf nested-rel "$P_ROOT")" ]] \
     || die "refusing to remove $path: other parts live under it"
-  rm -rf -- "$path"
+  if [[ -L "$path" ]]; then   # a link into the cache volume: its target and the link go
+    local real cache; real="$(readlink -f "$path")"; cache="$(readlink -f "${ES_CACHE_ROOT:-/tmp/es-cache}")"
+    [[ "$real" == "$cache"/?* ]] || die "refusing to remove $path: it links to $real, outside $cache"
+    rm -rf -- "$real"; rm -f -- "$path"
+  else
+    rm -rf -- "$path"
+  fi
   while IFS= read -r other; do drop_marker "$other"; done < <(mf same-root "$P_ROOT")
 }
 
@@ -102,8 +125,14 @@ root_evictable() {  # root_evictable <root>
 
 drop_marker() { rm -f -- "$(marker "$1")" "$(marker "$1").files"; }
 
-# A part's staging dir: under $MARKS (same filesystem, outside every repo).
-stage_of() { echo "$MARKS/staging/${1//\//__}"; }
+# A part's staging dir, on the volume its root lands on (the move into place
+# is a rename): under $MARKS, or, for a root linked into the cache volume,
+# under $ES_CACHE_ROOT/.staging (both outside every repo). P_* loaded.
+stage_of() {
+  local t; t="$(target_of "$1")"
+  if [[ "$(vol_of "$t")" == "$(vol_of "$DEVROOT")" ]]; then echo "$MARKS/staging/${1//\//__}"
+  else echo "${ES_CACHE_ROOT:-/tmp/es-cache}/.staging/${1//\//__}"; fi
+}
 
 # set_inprogress <id> <key=value...>: (re)write <marker>.inprogress atomically.
 set_inprogress() {
@@ -387,16 +416,22 @@ evict_root() {
     [[ -f "$mk.files" ]] && cat "$mk.files" >> "$tmp/all"
   done < <(mf same-root "$P_ROOT")
   drop_stale "$tmp/all" "$tmp/none"
-  find "$1" -depth -type d -empty -delete 2>/dev/null || true
+  find -H "$1" -depth -type d -empty -delete 2>/dev/null || true
+  # A root linked into the cache volume, now empty: the link goes too, so the
+  # folder reads as absent again (cache-links.sh links it at the next pull).
+  if [[ -L "$1" ]] && [[ -z "$(find -H "$1" -mindepth 1 -print -quit 2>/dev/null)" ]]; then
+    rmdir -- "$(readlink -f "$1")" 2>/dev/null || true; rm -f -- "$1"
+  fi
   rm -rf -- "$tmp"
   while IFS= read -r other; do drop_marker "$other"; done < <(mf same-root "$P_ROOT")
 }
 
-# ensure_room <bytes> <ids being pulled...>: evict LRU mod roots until it fits.
+# ensure_room <bytes> <target> <ids being pulled...>: evict LRU mod roots on
+# the target's volume until it fits.
 ensure_room() {
-  local need=$(( $1 + RESERVE )); shift
-  local keep=" $* "
-  local free; free="$(free_bytes)"
+  local need=$(( $1 + RESERVE )) where="$2"; shift 2
+  local keep=" $* " vol; vol="$(vol_of "$where")"
+  local free; free="$(free_bytes "$where")"
   (( free >= need )) && return 0
   local m id other busy
   while IFS= read -r m; do
@@ -406,6 +441,7 @@ ensure_room() {
     mf get "$id" >/dev/null 2>&1 || continue
     part "$id"
     evictable_tier "$P_TIER" || continue
+    [[ "$(vol_of "$(target_of "$id")")" == "$vol" ]] || continue   # frees nothing where it is needed
     if ! is_bundle; then
       root_evictable "$P_ROOT" || continue
       busy=""
@@ -416,9 +452,9 @@ ensure_room() {
       continue
     fi
     evict "$id"
-    free="$(free_bytes)"
+    free="$(free_bytes "$where")"
   done < <(ls -1tr "$MARKS"/*.done 2>/dev/null)
-  (( free >= need )) || die "not enough space on $DEVROOT: need $need bytes (part + reserve), $free free after evicting every unused mod root"
+  (( free >= need )) || die "not enough space on $(landing "$where"): need $need bytes (part + reserve), $free free after evicting every unused mod root"
 }
 
 pull() {  # pull <id> <ids in this request...>
@@ -463,9 +499,19 @@ pull() {  # pull <id> <ids in this request...>
         || die "local changes in $P_ROOT ($(grep -c . <<<"$hits") file(s) the part holds exist here and git does not hold them, e.g. $(head -1 <<<"$hits")): snapshot them first (snapshot-vault.sh --only $id) or pass --force"
     fi
   fi
-  local existed=0; [[ -e "$target" ]] && existed=1
+  # A root the cache plan names (mod folders, caches) is linked into the
+  # /tmp cache volume before anything lands in it (cache-links.sh).
+  if ! is_bundle; then
+    bash "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/cache-links.sh" --root "$P_ROOT" \
+      || die "$id: cache-links.sh --root $P_ROOT failed"
+  fi
+  # "existed" = holds something to protect: a bundle file, or a root with files
+  # (an empty root, such as a cache link cache-links.sh just made, is a first pull).
+  local existed=0
+  if is_bundle; then [[ -e "$target" ]] && existed=1
+  elif [[ -n "$(find -H "$target" -mindepth 1 -print -quit 2>/dev/null)" ]]; then existed=1; fi
   mkdir -p "$DEVROOT"   # a pull about to write; df in ensure_room needs it
-  ensure_room "$P_BYTES" "$id" "$@"
+  ensure_room "$P_BYTES" "$target" "$id" "$@"
   part "$id"   # ensure_room may have loaded other parts into P_*
   local bucket; bucket="$(mf bucket)"
   local tmp; tmp="$(mktemp -d)"
@@ -474,11 +520,14 @@ pull() {  # pull <id> <ids in this request...>
   # matches are the old version's stale files removed (not with --force: no
   # guard ran) and the staged files moved into place. A failed stream leaves
   # the live root and its marker untouched. A first pull extracts in place.
+  # A root that is a link into the cache volume is always staged: GNU tar
+  # 1.35 refuses to extract through a link that leads outside -C (EXDEV),
+  # while the staged move (os.replace, same volume) follows it.
   local dest="$DEVROOT" stage=""
-  if ! is_bundle && (( existed )) && [[ "$P_TIER" != vault ]]; then
+  if ! is_bundle && { (( existed )) || [[ -L "$target" ]]; } && [[ "$P_TIER" != vault ]]; then
     stage="$(stage_of "$id")"
     rm -rf -- "$stage"; mkdir -p "$stage"; dest="$stage"
-    [[ "$(stat -c %d "$stage")" == "$(stat -c %d "$DEVROOT")" ]] || die "$stage is not on the dev root's filesystem"
+    [[ "$(vol_of "$stage")" == "$(vol_of "$target")" ]] || die "$stage is not on the filesystem $target lands on"
   fi
   # Until the marker is written, a record that this part is mid-pull: the
   # next pull of it cleans up first (recover).
@@ -570,6 +619,9 @@ list() {
 
 show_free() {
   say "free on $DEVROOT: $(free_bytes) bytes (reserve $RESERVE)"
+  local cache="${ES_CACHE_ROOT:-/tmp/es-cache}"
+  [[ -d "$cache" && "$(vol_of "$cache")" != "$(vol_of "$DEVROOT")" ]] \
+    && say "free on $cache (the linked mod pool and caches, cache-links.sh): $(free_bytes "$cache") bytes"
   local m id
   while IFS= read -r m; do
     id="$(basename "$m" .done)"; id="${id//__//}"

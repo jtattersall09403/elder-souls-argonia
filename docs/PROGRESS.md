@@ -20,7 +20,10 @@ open only the plan sections the active phase needs.
    *Waiting on user*.
 5. **Crash recovery:** if a row says `in progress` and no agent is running,
    use `git status`, `git log -5` and the gates to decide whether to finish,
-   redo or revert the partial work; then correct this file.
+   redo or revert the partial work; then correct this file. Before any new
+   work, run `python3 tooling/repo-standards/lane_resume.py` (the SessionStart
+   hook prints the same) and relaunch each unfinished lane with its
+   `--packet <agent-id>` output as the brief.
 6. **Keep this file under ~80 lines.** One line per row. Handoffs, evidence
    and round narratives live in `docs/decisions/`, the phase folders and
    `docs/research/`; link them, never paste them.

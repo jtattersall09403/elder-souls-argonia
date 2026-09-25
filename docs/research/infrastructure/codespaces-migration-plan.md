@@ -37,7 +37,7 @@ heightfield ladder that existed only on the VM, is now snapshotted to R2.
 | Spending budget | A personal account's Codespaces budget is **$0 by default**: once the included usage is spent, codespaces stop and cannot start until the owner adds a payment method and sets a budget. On 8 cores, Pro's 180 core-hours last **22.5 hours** | billing docs (budgets) |
 | Idle timeout | Default 30 min, configurable from 5 to 240 min. Terminal input or output resets it. Users report the timeout fires after the browser or VS Code closes, even while a job is printing | [Timeout docs](https://docs.github.com/en/codespaces/setting-your-user-preferences/setting-your-timeout-period-for-github-codespaces), [Discussion #60407](https://github.com/orgs/community/discussions/60407) |
 | Retention | A stopped codespace is deleted after 30 days by default, and 30 days is also the maximum. It is deleted "irrespective of whether a codespace contains unpushed changes" | [Auto-deletion docs](https://docs.github.com/en/codespaces/setting-your-user-preferences/configuring-automatic-deletion-of-your-codespaces) |
-| Persistence | `/workspaces` survives stop and rebuild. The rest of the container (including `~`) survives a stop but not a rebuild. `/tmp` is a separate disk (32–44 GB in user reports) that survives a rebuild and is **emptied at every stop** | [Deep dive](https://docs.github.com/en/codespaces/about-codespaces/deep-dive), [Persisting temp files](https://docs.github.com/en/codespaces/developing-in-a-codespace/persisting-environment-variables-and-temporary-files) |
+| Persistence | `/workspaces` survives stop and rebuild. The rest of the container (including `~`) survives a stop but not a rebuild. `/tmp` is a separate disk (32–44 GB in user reports; 118 GB measured on our 4-core codespace, 2026-09-25) that survives a rebuild and is **emptied at every stop** | [Deep dive](https://docs.github.com/en/codespaces/about-codespaces/deep-dive), [Persisting temp files](https://docs.github.com/en/codespaces/developing-in-a-codespace/persisting-environment-variables-and-temporary-files) |
 | Dev containers | `.devcontainer/devcontainer.json`. Features add tools. Lifecycle runs `onCreateCommand` → `updateContentCommand` → `postCreateCommand` → `postStartCommand` → `postAttachCommand`. `hostRequirements` takes `{cpus, memory, storage}` | [Dev containers intro](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/adding-a-dev-container-configuration/introduction-to-dev-containers), [hostRequirements](https://docs.github.com/en/codespaces/setting-up-your-project-for-codespaces/configuring-dev-containers/setting-a-minimum-specification-for-codespace-machines) |
 | Prebuilds | Run as Actions (Actions minutes plus storage). Only `onCreateCommand` and `updateContentCommand` run, never `postCreateCommand`. A prebuild has **no access to Codespaces secrets**. Unavailable on 32 GB machines when the repo is over 32 GB. No documented prebuild time limit was found: the brief's "4-hour" figure is the idle-timeout maximum, and Actions jobs cap at 6 h | [Prebuild docs](https://docs.github.com/en/codespaces/prebuilding-your-codespaces/about-github-codespaces-prebuilds), [Troubleshooting prebuilds](https://docs.github.com/en/codespaces/troubleshooting/troubleshooting-prebuilds) |
 | Secrets | User secrets (100 maximum, 48 KB each) are scoped to chosen repos and "exported as an environment variable into the user's terminal session". Names must not start with `GITHUB_`. A secret added later needs a stop and start. Not available at build time or inside features | [Secrets docs](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces) |
@@ -190,7 +190,16 @@ delivered files, the files and `tooling/bootstrap/README.md` win.
 | `snapshot-vault.sh` (run on the VM, then on demand) | tars the Part 2 set in parts under 2 GB with `SHA256SUMS`, plus a `git bundle --all` of the vault repo, then uploads. Streams tar straight to `rclone rcat` so the VM needs no staging space | rclone |
 
 Everything persistent lives under `/workspaces`: the repo, the vault sibling,
-`tools/` and `.claude-home/`. Only caches go to `/tmp`, and they are refilled after a stop.
+`tools/` and `.claude-home/`. The re-pullable bulk goes to `/tmp` (owner
+2026-09-25, after `first-run.sh` left 8 GB free): the mod pool (every
+all-`mod`-tier root, bmv included), the miners' mesh cache and the kit
+`build/` live under `/tmp/es-cache`, linked from their usual paths by
+`tooling/bootstrap/cache-links.sh`, which `on-start.sh` runs on every start;
+emptied targets lose their vault-pull markers and are pulled again on demand.
+Measured 2026-09-25 on the 4-core codespace: `/workspaces` 32 GB (5.8 GB free
+before, 10.1 GB after moving `build/` and the mesh cache), `/tmp` a separate
+118 GB volume with 109 GB free. How and why: tooling/bootstrap/README.md
+§ Disk.
 
 ### (b) Snapshot or re-download
 
@@ -318,6 +327,15 @@ A Claude subscription is separate and unchanged.
 | | **Total** | **about 6** | **about 65** |
 
 ### (g) Tiered restore: working on the 4-core/32 GB machine now
+
+**CPU on 4 cores** (owner rulings 2026-09-25, after two crashes at
+97-100 % CPU with four lanes running). Heavy jobs run through `job_guard.sh`
+on cores 2-3 at low priority, preflight gates and workspace test runs are
+capped at `ES_JOBS` (half the cores) and pinned to the same cores, path-scoped preflight runs only the gates its
+files touch, no agent polls with `sleep`, and `cpu_watchdog.sh`, started by
+`on-start.sh`, pauses the heaviest processes above 85 % machine CPU and kills
+stale ones with no agent involved. The planner runs at most two heavy lanes.
+Details: tooling/bootstrap/README.md § Resource guard.
 
 Owner question, 2026-09-24: does every session need all 57 GiB? No. The
 deploy gates are built to run without the vault (`preflight.mjs:61` points

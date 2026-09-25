@@ -94,7 +94,9 @@ catalogue() {
     # tamriel-worldspaces holds the base heightfield the terrain chain reads:
     # tier chain (pulled on demand, never evicted).
     tier="mod"; [[ "$d" == "tamriel-worldspaces-118678" ]] && tier="chain"
-    if [[ -n "$(find "$DEVROOT/$MODS_REL/$d" -type f "${ARCHIVE_FIND[@]}" -print -quit)" ]]; then
+    # find -H throughout: on a codespace a mod folder may be a link into the
+    # /tmp cache volume (cache-links.sh); its files are what the part holds.
+    if [[ -n "$(find -H "$DEVROOT/$MODS_REL/$d" -type f "${ARCHIVE_FIND[@]}" -print -quit)" ]]; then
       printf '%s\t%s\t%s\ttar\t%s\n' "$id" "$tier" "$MODS_REL/$d" "$id.archives"
       # The .archives part (original zips/7z/rar) is never needed to run, so
       # it is always tier "mod" even when its main part is not.
@@ -149,16 +151,16 @@ emit_list() {
   case "$id" in
     mod-sources/*.archives)
       local f="${id#mod-sources/}"; f="${f%.archives}"
-      (cd "$DEVROOT" && find "$MODS_REL/$f" -type f "${ARCHIVE_FIND[@]}" -print0) ;;
+      (cd "$DEVROOT" && find -H "$MODS_REL/$f" -type f "${ARCHIVE_FIND[@]}" -print0) ;;
     mod-sources/*)
-      (cd "$DEVROOT" && find "$MODS_REL/${id#mod-sources/}" -not \( -type f "${ARCHIVE_FIND[@]}" \) -print0) ;;
+      (cd "$DEVROOT" && find -H "$MODS_REL/${id#mod-sources/}" -not \( -type f "${ARCHIVE_FIND[@]}" \) -print0) ;;
     vanilla)
       (cd "$DEVROOT" && find "$VAULT_NAME/skyrim-source/Data" -print0) ;;
     skyrim-source-misc)
       # Everything under skyrim-source except Data/ and the mod folders; the
       # loose files directly in mod-sources/ (SOURCES.json) ride here too.
       (cd "$DEVROOT" && find "$VAULT_NAME/skyrim-source" -mindepth 1 \
-          \( -path "$VAULT_NAME/skyrim-source/Data" -o -path "$MODS_REL/*" -type d \) -prune \
+          \( -path "$VAULT_NAME/skyrim-source/Data" -o -path "$MODS_REL/*" \( -type d -o -type l \) \) -prune \
           -o -print0) ;;
     vault-output)
       (cd "$DEVROOT" && find "$VAULT_NAME/output" -print0) ;;
@@ -171,7 +173,7 @@ roots = [r.encode() + b"/" for r in sys.argv[2:]]
 for p in sys.stdin.buffer.read().split(b"\0"):
     if not p or p.startswith(b"build/"): continue
     q = name + b"/" + p
-    if any(q.startswith(r) for r in roots): continue
+    if any(q.startswith(r) for r in roots) or q + b"/" in roots: continue   # (a root linked to the cache volume)
     sys.stdout.buffer.write(q + b"\0")' "$VAULT_NAME" "${roots[@]}" ;;
     vault-worktree)
       # Changed and untracked files of the vault checkout, minus any path under
@@ -192,7 +194,7 @@ while i < len(f):
     out.append(q)
 sys.stdout.buffer.write(b"".join(x + b"\0" for x in out))' "$VAULT_NAME" "${roots[@]}" ;;
     bmv)
-      (cd "$DEVROOT" && find "$BMV_REL" -print0) ;;
+      (cd "$DEVROOT" && find -H "$BMV_REL" -print0) ;;
     repo-*)
       # Only files git ignores under the part's own root (never a tracked
       # file), and no node_modules/ folder, except in repo-water-recovery,
@@ -208,7 +210,10 @@ sys.stdout.buffer.write(b"".join(x + b"\0" for x in out))' "$VAULT_NAME" "${root
       [[ "$id" == repo-wg-products ]] && only="chain/receipts/ blueprint-maps/ route-structures/ settlements/ route-grading-stretches.json major-routes-report.json semantic-audit.json asset-deliverability.json hostility-frequency.json"
       [[ "$id" == repo-asset-output ]] && skip="sheets/ kits/!glb"
       [[ "$id" == repo-asset-kits-meta ]] && skip="*.glb"
-      git -C "$REPO" ls-files -o -i --exclude-standard -z -- "$rel" | python3 -c '
+      # A root linked into the /tmp cache volume (cache-links.sh) is ours
+      # whole: git neither descends a link nor ignores it by a "dir/" rule.
+      { if [[ -L "$REPO/$rel" ]]; then (cd "$REPO" && find -H "$rel" -type f -print0)
+        else git -C "$REPO" ls-files -o -i --exclude-standard -z -- "$rel"; fi; } | python3 -c '
 import sys
 name, nm, rel = sys.argv[1].encode(), sys.argv[2] == "1", sys.argv[3].encode() + b"/"
 only = [x.encode() for x in sys.argv[4].split()]
@@ -419,6 +424,10 @@ prepare_part() {
 
 tar_args() {  # tar_args <id> <workdir>: sets TARGS, the tar create arguments
   TARGS=(-C "$(part_base "$1")" -cf - --no-recursion --null -T "$2/list")
+  # A root that is a link into the /tmp cache volume (cache-links.sh) is
+  # archived as the directory it points at, never as a link.
+  local root; root="$(awk -F'\t' -v i="$1" '$1 == i {print $3}' "$WORK/catalogue.tsv" 2>/dev/null)"
+  [[ -n "$root" && -L "$DEVROOT/$root" ]] && TARGS+=(-h)
   if [[ "$1" == claude-home || "$1" == claude-transcripts ]]; then
     [[ "$SRC_KEY" != "$TARGET_KEY" ]] && TARGS+=(--transform "s,^projects/$SRC_KEY/,projects/$TARGET_KEY/,")
     TARGS+=(--transform 's,^,.claude-home/,')

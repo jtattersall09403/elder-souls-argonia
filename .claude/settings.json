@@ -7,6 +7,11 @@
           {
             "type": "command",
             "command": "python3 tooling/repo-standards/session_tokens.py --brief --last 10 2>/dev/null || true"
+          },
+          {
+            "type": "command",
+            "command": "python3 tooling/repo-standards/lane_resume.py --brief 2>/dev/null || true",
+            "timeout": 30
           }
         ]
       }

@@ -83,8 +83,26 @@ DIFF:
 """
 
 
+def _unwrap_job_guard(cmd: str) -> str:
+    """The inner command of `[bash] .../job_guard.sh <lane> -- <command...>`
+    (job_guard runs `bash -c "$*"`), else `cmd` unchanged. Every heavy job,
+    preflight included, runs through job_guard (owner 2026-09-25)."""
+    try:
+        segs = _segments(cmd)
+    except ValueError:
+        return cmd
+    for toks in segs:
+        for i, t in enumerate(toks):
+            if os.path.basename(t) == "job_guard.sh" and len(toks) > i + 3 and toks[i + 2] == "--":
+                return " ".join(toks[i + 3:])
+    return cmd
+
+
 def is_preflight_command(cmd: str) -> bool:
     """True when `cmd` actually runs preflight (not merely mentions the word)."""
+    inner = _unwrap_job_guard(cmd)
+    if inner != cmd:
+        return is_preflight_command(inner)
     lines, skip_until = [], None
     for line in (cmd or "").splitlines():
         if skip_until is not None:
@@ -134,6 +152,7 @@ def preflight_paths(cmd: str):
     Tokens after `--paths` up to the next `--flag` are the pathspec. A command
     that cannot be tokenised falls back to None (whole tree, the stricter review).
     """
+    cmd = _unwrap_job_guard(cmd)
     try:
         segs = _segments(cmd)
     except ValueError:

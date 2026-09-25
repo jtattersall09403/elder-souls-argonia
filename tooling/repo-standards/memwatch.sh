@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+# RULE (owner 2026-09-25): a heavy job (kit build, Blender, miner, compile,
+# preflight, npm test) never calls memwatch.sh directly: it runs through
+#   bash tooling/repo-standards/job_guard.sh <lane> -- <command...>
+# which waits for CPU, disk and memory headroom, takes one of
+# max(1, floor(nproc/2) - 1) machine-wide slots, then calls this script with
+# MEMWATCH_LANE=<lane> (printed in every line below). A lane never runs two
+# heavy jobs at once; the planner launches at most floor(nproc/2) heavy lanes
+# (docs/phases/lanes/README.md).
+#
 # Run a command under a memory watchdog: poll the cgroup's UNRECLAIMABLE
 # memory (anon + shmem + kernel from memory.stat; file cache is reclaimed
 # before the kernel ever kills) every half second, record the peak, and kill
@@ -52,9 +61,13 @@ log_run() {
   python3 "$here/tool_timings.py" --record "$wall" "$start_mib" "$peak" "$1" "$PWD" "${cmd[@]}" 2>/dev/null || true
 }
 cmd=("$@")
+tag="memwatch${MEMWATCH_LANE:+[$MEMWATCH_LANE]}"
 # MiB of unreclaimable memory, integer.
 used() { awk '$1=="anon"||$1=="shmem"||$1=="kernel"{s+=$2} END{printf "%d", (s+0)/1048576}' "$stat" 2>/dev/null || echo 0; }
 start_mib=$(used)
+# A preflight (or any nested memwatch) under this one keeps its own ceilings
+# below this one, so its inner gate is killed and reported first.
+export MEMWATCH_OUTER_CEILING_MIB="$ceiling_mib"
 setsid bash -c "$*" &
 pid=$!
 peak=$start_mib
@@ -62,13 +75,13 @@ while kill -0 "$pid" 2>/dev/null; do
   now=$(used)
   (( now > peak )) && peak=$now
   if (( now > ceiling_mib )); then
-    echo "memwatch: cgroup unreclaimable ${now} MiB > ceiling ${ceiling_mib} MiB — killing" >&2
+    echo "$tag: cgroup unreclaimable ${now} MiB > ceiling ${ceiling_mib} MiB — killing" >&2
     kill -TERM -- -"$pid" 2>/dev/null; sleep 2; kill -KILL -- -"$pid" 2>/dev/null
-    echo "memwatch: peak ${peak} MiB (KILLED)"; log_run 137; exit 137
+    echo "$tag: peak ${peak} MiB (KILLED)"; log_run 137; exit 137
   fi
   sleep 0.5
 done
 wait "$pid"; code=$?
-echo "memwatch: peak ${peak} MiB, exit $code"
+echo "$tag: peak ${peak} MiB, exit $code"
 log_run "$code"
 exit $code

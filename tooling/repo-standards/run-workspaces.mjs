@@ -10,11 +10,12 @@
  *
  *   node tooling/repo-standards/run-workspaces.mjs <script> [--jobs N]
  *
- * Jobs default to one per core (floor of 2). Each workspace gate is a single
- * long-lived process (tsc is single-threaded; vitest sizes its own worker pool
- * from the same core count), so one lane per core is the setting that measured
- * fastest here. Override with --jobs N or WORKSPACE_JOBS=N on a small or
- * memory-tight machine.
+ * Jobs default to the machine cap in jobs.mjs (ES_JOBS, else half the cores;
+ * owner ruling 2026-09-25, after two crashes at 100 % CPU), and every vitest
+ * pool gets VITEST_MAX_WORKERS = the same cap unless it is already set, so a
+ * test run never takes every core. Override with --jobs N or WORKSPACE_JOBS=N.
+ * WORKSPACE_ONLY=<dir,dir,...> runs only those workspaces (preflight's path
+ * scoping sets it).
  *
  * Output is buffered per workspace and printed when that workspace finishes,
  * so parallel runs stay readable. Exit code is non-zero if any workspace
@@ -22,9 +23,9 @@
  */
 import { spawn } from "node:child_process";
 import { readFileSync, existsSync, readdirSync } from "node:fs";
-import { availableParallelism } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { jobsCap, pinPrefix } from "./jobs.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -38,7 +39,7 @@ const jobsFlag = args.indexOf("--jobs");
 const jobsValue =
   jobsFlag >= 0
     ? args[jobsFlag + 1]
-    : process.env.WORKSPACE_JOBS ?? Math.max(2, availableParallelism());
+    : process.env.WORKSPACE_JOBS ?? jobsCap();
 const jobs = Number(jobsValue);
 if (!Number.isSafeInteger(jobs) || jobs < 1) {
   console.error(`--jobs/WORKSPACE_JOBS must be a positive integer (got ${String(jobsValue)})`);
@@ -57,12 +58,18 @@ const dirs = root.workspaces
   })
   .sort();
 
+const only = process.env.WORKSPACE_ONLY ? new Set(process.env.WORKSPACE_ONLY.split(",").filter(Boolean)) : null;
 const targets = [];
 for (const dir of dirs) {
+  if (only && !only.has(dir)) continue;
   const manifest = join(repoRoot, dir, "package.json");
   if (!existsSync(manifest)) continue;
   const pkg = JSON.parse(readFileSync(manifest, "utf8"));
   if (pkg.scripts?.[script]) targets.push({ dir, name: pkg.name ?? dir });
+}
+if (targets.length === 0 && only) {
+  console.log(`${script}: no workspace in WORKSPACE_ONLY (${[...only].join(", ")}) defines it; nothing to run`);
+  process.exit(0);
 }
 if (targets.length === 0) {
   console.error(`no workspace defines the ${JSON.stringify(script)} script`);
@@ -75,8 +82,10 @@ const npm = process.platform === "win32" ? "npm.cmd" : "npm";
 function run({ dir, name }) {
   const started = Date.now();
   return new Promise((resolve) => {
-    const child = spawn(npm, ["run", script], {
+    const child = spawn(`${pinPrefix()}${npm} run ${script}`, {
+      shell: true,
       cwd: join(repoRoot, dir),
+      env: { ...process.env, VITEST_MAX_WORKERS: process.env.VITEST_MAX_WORKERS || String(jobsCap()) },
       stdio: ["ignore", "pipe", "pipe"],
     });
     const chunks = [];

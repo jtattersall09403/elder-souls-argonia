@@ -6,10 +6,24 @@
 # gitignored .claude/settings.local.json (merged, every other key kept;
 # created, mode 600, when absent). It never touches $CLAUDE_CONFIG_DIR, which
 # the claude-home snapshot part owns.
-# Warns when rtk, which the global Claude hook calls, is missing.
+# Warns when rtk, which the global Claude hook calls, is missing. Before all
+# that it starts the CPU watchdog (tooling/repo-standards/cpu_watchdog.sh, one
+# instance per machine) and runs cache-links.sh (the mod pool, mesh cache and
+# builds on /tmp).
 set -euo pipefail
 
 say() { echo "[on-start] $*"; }
+
+# First, on any machine: the CPU watchdog (owner ruling 2026-09-25, after two
+# crashes at 100 % CPU). It pauses the heaviest processes while the machine is
+# saturated and clears stale ones, with no agent involved; a second start is a
+# no-op (flock). A failure is reported and the start goes on.
+bash "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../repo-standards/cpu_watchdog.sh" --start || say "WARNING: cpu_watchdog.sh failed to start (exit $?)"
+
+# First, on any machine: the mod pool, mesh cache and builds onto the /tmp
+# volume (a no-op where /tmp shares the dev root's volume). A failure is
+# reported and the start goes on.
+bash "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/cache-links.sh" || say "WARNING: cache-links.sh failed (exit $?); the mod pool stays where it is"
 
 if [[ -z "${CODESPACE_NAME:-}" || -z "${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN:-}" ]]; then
   say "not in a codespace (no CODESPACE_NAME); leaving ES_TUNNEL_URL alone"

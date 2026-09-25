@@ -5,6 +5,6 @@
   "type": "module",
   "description": "Mechanical enforcement of docs/standards/engineering.md \u2014 determinism, no new package singletons, stable IDs, schemaVersion, asset credits. No dependencies by design.",
   "scripts": {
-    "test": "python3 -m pytest -q -p no:cacheprovider .; p=$?; node check.mjs && node --test ../province-artefact/common.test.mjs; c=$?; exit $((p | c))"
+    "test": "python3 -m pytest -q -p no:cacheprovider .; p=$?; node check.mjs && node --test preflight_select.test.mjs ../province-artefact/common.test.mjs; c=$?; exit $((p | c))"
   }
 }
