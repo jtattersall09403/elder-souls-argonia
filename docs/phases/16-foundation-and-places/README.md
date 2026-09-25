@@ -1,7 +1,10 @@
 # Phase 16 — the frozen foundation and the place ladder
 
-**Owner instruction:** `deliver 16a`, then `deliver 16b`, and so on to `deliver 16j`, one
-fresh agent per chunk, an owner check between chunks. Each chunk is a brief in
+**Owner instruction:** `deliver 16a`, then `deliver 16b`, and so on to 16h part 1, one
+fresh agent per chunk, an owner check between chunks; then the place loop,
+`deliver 16k slice N` and `continue 16k slice N after owner walk`
+([0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md):
+16h part 2, 16i and 16j are superseded by it and are its carried backlog). Each chunk is a brief in
 this folder; PROGRESS.md carries the status. Decision
 [0057](../../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md)
 records why. This file is the plan: the owner's items, the ladder, the chunks,
@@ -127,7 +130,8 @@ H3 Slotted into the phase plan as the current work and integrated with the route
                     16g macro plot (places adapt) ──► 16h settlement runtime + kit QA
                                                    │
                                                    ▼
-                              16i exemplars end to end ──► 16j rollout skill + trial packet
+                              16k the place loop (one real place per slice, walked until
+                              right; supersedes 16h part 2, 16i, 16j, decision 0099)
 ```
 
 - **The ladder is the owner's earlier write-up, applied.** Macro → meso →
@@ -245,16 +249,17 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 | 16e | [Routes, grading, spans and ferries on the frozen world](16e-routes-grading-spans-ferries.md) — routes on the record, grading as a patch stack, span pips, crossings and ferries decided from the graph, the one travel-service graph with a talk-pay-arrive contract, paint on the published line; nothing drawn in 3D that 16h's runtime cannot yet draw right | walk three roads, two fords; use one ferry; spans and services on the 2D map | 9 | delivered 2026-09-15, owner walk pending ([ledger](../../research/phase16/16e-ledger.md), [0068](../../decisions/0068-routes-below-the-gate-records-here-realised-in-16h.md)) |
 | 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md) — the bake and the scatter ported to the record; channel membership; ground cover restored with a floor; the existing boulder ladder extended to cliffs, falls, rapids beds, rocky surf, the uplands and one authored boulder field (dressing zones); rows, hanging roots, bare rock under trees; the submerged band and the wreck kit (0062); life over the water, the algae constituent and the seasonal foliage response (the strays sent here); the chain contract pass; vegetation clearance for tracks and settlements defined as a patch kind applied later by 16g/16h; seasonal foliage to the polish backlog (owner 2026-09-16) | five region sites + one river + one fall + the beach + the boulder field | 10 | delivered 2026-09-16, owner walk pending ([ledger](../../research/phase16/16f-ledger.md), [0070](../../decisions/0070-vegetation-and-dressing-read-the-record.md)) |
 | 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md) — the province-wide re-plot and the review of every record on the frozen ground (move, re-type, rewrite, merge, cut); design groups and co-siting sets; the minor tracks and waterways; the travel-service graph re-authored with the places (fast travel, harbour stations, the rootworm stations at the hero Hist); the stronghold, hero Hist, owner-guided and wreck records; then the promise vocabulary for dungeon-kind places and its migration (0062), the NPC roster and the names of the water and the land. Brief rewritten with a delivery plan 2026-09-18 | one check: the 2D plot, tracks, lanes and the fast-travel network + the review report, the recipe table, a promise sample, the names | 11 | delivered 2026-09-19, owner check pending ([0078](../../decisions/0078-places-adapt-to-the-frozen-world.md), [0080](../../decisions/0080-the-chain-runs-by-dependency-not-position.md), [ledger](../../research/phase16/16g-ledger.md), [remedy plan](../../research/phase16/16g-remedy-plan.md)) |
-| 16h | [The building blocks](16h-settlement-runtime-and-kit-qa.md) — designs no place: per-asset designed sink and mounts mined from the plugins, yaw sign, real colliders, the LOD ladder for buildings, kit data shipped; renderable kinds incl. 16e's route structures, hulls and entrances; doors as records (TES transitions, 0081) with reachability; the three local patch kinds (`settlement-pad`, `vegetation-clearance` by tier, `dressing-add`); the route-structure exemplar set stood up; the assembly and plan renderers, Sonnet ingestion and the `kit-qa` skill. Brief rewritten as two parts 2026-09-20 (0081) | two: kit sheets + a walk round the proving ground (a test yard, not a place); the yard with its three local edits + the route exemplars | 12 | todo: "deliver 16h part 1" |
-| 16i | [The exemplars, end to end](16i-exemplars-end-to-end.md) — six places (the five plus one dungeon-kind) designed on paper as assemblies, interior claim per door (tier A verbatim, fit rule, reserved), the door transition + interior load contract + interior lighting, built once, walked, steers → rules, skill v2. Brief rewritten as three parts 2026-09-20 (0081) | three: six plans + door tables before any ground is touched; the walk; the second round + the skill | 13 | todo |
-| 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) — one region packet (places, dungeon sites with reserved doors, its route structures and berths) through the skills unattended, plans first; gaps closed in the skill; automation-readiness; the packet roadmap and template; Phase 16 closes, 9a thin swim is next (0062). Brief rewritten as two parts 2026-09-20 (0081) | two: the packet on paper; the walk + the roadmap | — | todo |
+| 16h | [The building blocks](16h-settlement-runtime-and-kit-qa.md) — designs no place: per-asset designed sink and mounts mined from the plugins, yaw sign, real colliders, the LOD ladder for buildings, kit data shipped; renderable kinds incl. 16e's route structures, hulls and entrances; doors as records (TES transitions, 0081) with reachability; the three local patch kinds (`settlement-pad`, `vegetation-clearance` by tier, `dressing-add`); the route-structure exemplar set stood up; the assembly and plan renderers, Sonnet ingestion and the `kit-qa` skill. Brief rewritten as two parts 2026-09-20 (0081) | two: kit sheets + a walk round the proving ground (a test yard, not a place); the yard with its three local edits + the route exemplars | 12 | part 1 closing with the check-in 3 fix round; part 2 superseded by 16k (0099) |
+| 16i | [The exemplars, end to end](16i-exemplars-end-to-end.md) — six places (the five plus one dungeon-kind) designed on paper as assemblies, interior claim per door (tier A verbatim, fit rule, reserved), the door transition + interior load contract + interior lighting, built once, walked, steers → rules, skill v2. Brief rewritten as three parts 2026-09-20 (0081) | three: six plans + door tables before any ground is touched; the walk; the second round + the skill | 13 | superseded by 16k 2026-09-25 (0099); items carried by number |
+| 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) — one region packet (places, dungeon sites with reserved doors, its route structures and berths) through the skills unattended, plans first; gaps closed in the skill; automation-readiness; the packet roadmap and template; Phase 16 closes, 9a thin swim is next (0062). Brief rewritten as two parts 2026-09-20 (0081) | two: the packet on paper; the walk + the roadmap | — | superseded by 16k 2026-09-25 (0099); items carried by number |
+| 16k | [The place loop](16k-place-loop.md) — one real place per slice: the place skill designs it in 2D and in the workbench, builds it unattended on the frozen world, the automatic gates, the owner walks, every defect becomes a rule, a gate and a skill edit in one fix round, walked again until right; then a fresh place of a different type. Exits when every type on the owner's list passes unattended twice in a row; carries 16h part 2, 16i and 16j by number | every walk (one-message reply); the type list and the exit bar once | — | in progress: slice 1 (close the yard, then Chasepoint) |
 
 **Why this order.** Water depends on terrain; routes and vegetation depend on
 water; places depend on all three; the settlement runtime must be correct
-before exemplars are judged; the skill is proved last. 16d is small and
-independent after 16c and gives the owner a visible win while 16e is big.
-16h precedes 16i so the five exemplars are judged on a runtime that draws
-them where the blueprint put them.
+before places are judged; the skill is proved last, per place type, in
+the 16k loop. 16d is small and independent after 16c and gives the owner
+a visible win while 16e is big. 16h part 1 precedes 16k so the first real
+place is judged on a runtime that draws it where the blueprint put it.
 
 **What 16a needs from the owner: nothing.** 16b cannot start until rulings
 1–6 in §7 are given; 16a's report is written to make those rulings easy.

@@ -6,6 +6,10 @@ owner's feedback, off-hand items, a stealth slice and a thin swim into it, each
 shaped for the later systems (stealth, magic, lanterns, Phase 9 swim, climb and
 boats, factions) rather than for the sandbox.
 
+**Status (2026-09-25, decision [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) §9):** round 7 closes inside 16k slice 1;
+the lane then PARKS. Round 8 (its open calls) is picked up automatically as a
+named input at the start of [Phase 10b](../README.md#phase-10b--full-portable-sandbox-parity-in-the-studio).
+
 ## Folders
 
 - **Owns:** `apps/combat-sandbox/**`;

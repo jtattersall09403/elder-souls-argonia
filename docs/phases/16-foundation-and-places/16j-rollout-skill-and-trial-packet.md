@@ -1,5 +1,13 @@
 # 16j — The rollout skill, proved on one packet without the owner
 
+> **SUPERSEDED 2026-09-25** by the place loop (decision
+> [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md),
+> brief [16k](16k-place-loop.md)): the skill is proved per place type,
+> two unattended passes in a row, instead of on one packet. The items
+> below (co-design pass, gap closing, automation readiness, `--places`
+> selectors, the Phase 15 roadmap and template) are 16k's carried
+> backlog by number. Do not run `deliver 16j`.
+
 **Goal.** Prove that the recipe the exemplars produced can be run by a
 fresh agent with no owner in the loop: one small region packet (three to
 six non-city places of types the exemplars covered, its dungeon-kind

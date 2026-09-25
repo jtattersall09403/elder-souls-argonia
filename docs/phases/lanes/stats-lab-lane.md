@@ -6,6 +6,9 @@ data, proves it equal to the sim, and gives the owner a lab app to play
 with the model. It is the first slice of Phase 10c (module 76 §104): the
 model and the harness, not the actor, UI or save wiring.
 
+**Status (2026-09-25, decision [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) §9):** rounds 1–5 delivered; PARKED. The
+owner's test of the lab runs as the first item of [Phase 10c](../README.md#phase-10c--stats-progression-and-character-systems-module-76).
+
 ## Folders
 
 - **Owns:** `packages/game-core/src/stats/**`, `apps/stats-lab/**`,

@@ -1,5 +1,13 @@
 # 16i — The exemplars, end to end: designed on paper, built, walked, and the skill written from it
 
+> **SUPERSEDED 2026-09-25** by the place loop (decision
+> [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md),
+> brief [16k](16k-place-loop.md)): real places are built one at a time
+> and walked until right, instead of six exemplars on paper first. The
+> items below (lesson reconciliation, interior claims, the interior
+> runtime, tier A cells, the approach checklist, skill v2, the type
+> register) are 16k's carried backlog by number. Do not run `deliver 16i`.
+
 **Goal.** Take six example places all the way from a dot on the map to a
 place you can walk into and enter, on 16h's building blocks, then write
 the `settlement-build` skill v2 from what was actually needed. The five

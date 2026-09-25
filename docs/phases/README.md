@@ -15,7 +15,7 @@ are not phases — several phases each draw on one module.
 | 0–8c | sources, monorepo, province ingest, hydrology, society, studio, terrain, character, light, water, weather | [§86.1](#861-done--phases-08c-summary-statuses-and-evidence-in-progressmd) (done) | decisions 0001–0032; round logs in [../research/archive/](../research/README.md) |
 | 10 | asset deep catalogue, kits, vegetation machinery | [§ Phase 10](#phase-10--asset-deep-catalogue-and-kit-compilers) (done) | [0036](../decisions/0036-phase10-placement-decisions.md), [0048](../decisions/0048-vegetation-density-ladder.md), archive `phase10-rounds/` |
 | 11 | settlement and location system, exemplar-first | [§ Phase 11](#phase-11--the-settlement-and-location-system-exemplar-first--absorbed-into-phase-16-2026-09-11-seams-re-cut-2026-09-12-decision-0061) — absorbed into 16; the table there says where each deliverable went | [0041](../decisions/0041-phase11-settlement-decisions.md), archive `phase11-rounds/` |
-| **16** | **terrain once, water once, places on a frozen world** (current) | [16-foundation-and-places/](16-foundation-and-places/README.md) — chunks 16a–16j | [0057](../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md); audits in [../research/phase16/](../research/phase16/README.md) |
+| **16** | **terrain once, water once, places on a frozen world** (current) | [16-foundation-and-places/](16-foundation-and-places/README.md) — chunks 16a–16h part 1, then the 16k place loop ([0099](../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md)) | [0057](../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md); audits in [../research/phase16/](../research/phase16/README.md) |
 | 9 | swimming, climbing, boats | [§ Phase 9](#phase-9--swimming-climbing-and-boats) | research [swim-climb-boat](../research/combat-and-systems/swim-climb-boat-implementation.md) |
 | 10b | full sandbox parity in the studio | [§ Phase 10b](#phase-10b--full-portable-sandbox-parity-in-the-studio) | [0017](../decisions/0017-sandbox-parity-moved-to-phase-10b.md) |
 | 10c | stats and progression implementation | [§ Phase 10c](#phase-10c--stats-progression-and-character-systems-module-76) | [../world/76](../world/76-stats-progression.md), [0019](../decisions/0019-stats-system-workstream-and-placement.md) |
@@ -23,7 +23,7 @@ are not phases — several phases each draw on one module.
 | **12** | **interiors**: every assembled interior, dungeon or building — research, the furnishing mine, the skill proved on exemplars then unattended; sites and promises are authored earlier with the places | [§ Phase 12](#phase-12--interiors-research-the-furnishing-mine-and-a-skill-proved-on-exemplars) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
 | P (+12b) | rolling polish pass; the soundscape | [§ Phase P](#phase-p--general-polish-pass-rolling-including-phase-12b--the-soundscape) + [P-polish/backlog.md](P-polish/backlog.md) | [0023](../decisions/0023-soundscape-polish-tier-and-credits.md) |
 | 14 | streaming and deployment (budgets; the renderer extraction moved to 10b) | [§ Phase 14](#phase-14--streaming-and-deployment) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
-| 15 | rollout by region packet, one pass per packet once every system exists; the 16j trial packet is packet one | [§ Phase 15](#phase-15--rollout-by-region-packet) | [0034](../decisions/0034-build-sequence-rework.md), [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
+| 15 | rollout by region packet, one pass per packet once every system exists, with the skill set the 16k loop proved (0099) | [§ Phase 15](#phase-15--rollout-by-region-packet) | [0034](../decisions/0034-build-sequence-rework.md), [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
 | after | the game build-out (everything the final game needs beyond the world) | [buildout/](buildout/README.md) | [0038](../decisions/0038-world-build-vs-game-buildout-seam.md) |
 
 Parallel workstreams (L lore, N quest review, S stats design, T text, C combat)
@@ -31,11 +31,14 @@ are recorded in PROGRESS.md and their decisions, not here. Phase numbers are
 stable ids, not positions ([Phase-ID history](#phase-id-history)).
 
 **The queue (owner 2026-09-13, decision 0062).** One ordered line, one
-chunk at a time, with an owner check after each: **16a–16j → 9 (thin swim first) →
-10b → 10c → 13 → 12 interiors → 12b soundscape → 14 → 15 rollout**. Nothing
+chunk at a time, with an owner check after each: **16a–16h part 1 → 16k place loop
+(0099) → 9 (thin swim first) → 10b → 10c → 13 → 12 interiors → 12b soundscape → 14 →
+15 rollout**. Nothing
 runs in parallel unless the owner opens a second line for a specific job.
-Rollout waits until every system it rolls out exists. 16j proves the
-settlement rollout skill once; that proof holds until Phase 15 uses it.
+Rollout waits until every system it rolls out exists. The 16k loop proves
+the place skill per place type (two unattended passes in a row per type,
+0099); that proof holds until Phase 15 uses it, with templates for the
+minor types the loop marks template-able.
 **The owner is hands-on for every major city and for the opening-scene
 places** (the prisoner tutorial in the marsh near Stormhold and Alten
 Corimont, quests 00 §overview) in every phase that touches them: no skill
@@ -641,6 +644,12 @@ not from deliberate, owner-reviewed improvement here (module 75 §51.1). The
 owner enumerates specifics at phase kickoff; items surfacing earlier
 accumulate in [polish-backlog.md](P-polish/backlog.md) tagged `10b`.
 
+**Named inputs picked up at kickoff (0099 decision 9, owner 2026-09-25):**
+the combat-sandbox lane's round 8 (its open calls, [lane doc](lanes/combat-sandbox-lane.md))
+and the weapons lane's round 2 ([lane doc](lanes/weapons-lane.md)) were
+parked to keep the machine for the place loop; this phase runs them as its
+first items, after the owner's playtest of what those lanes delivered.
+
 Deliverables:
 
 - scene-orchestration extraction (§53): actor spawning, environment queries,
@@ -707,6 +716,11 @@ Implements the design settled by parallel workstream **S** (module 76 §103):
 attributes/skills/derived stats, races, equipment scaling, encumbrance,
 progression and the absolute power ladder — in `packages/game-core`, consumed
 by both apps.
+
+**First item at kickoff (0099 decision 9):** the owner's test of the
+stats lab (`npm run dev -w @elder-souls/stats-lab`, [lane doc](lanes/stats-lab-lane.md)
+§ rounds), parked 2026-09-25 while the place loop runs; its findings
+open this phase's first chunk.
 
 **Running ahead as a side lane (2026-09-24):** the model, data and balance
 harness port into `packages/game-core/src/stats` and the owner's lab app —
@@ -1004,13 +1018,15 @@ Deliverables:
 The province-wide fields (terrain, hydrology, light, water, weather) exist
 and are **frozen** (Phase 16); what expands region-by-region is **content**,
 as data. This phase runs **once per packet, after every world-build system it rolls
-out exists** (the 16j skill, 12 interiors, 13 ecology, 10b nav and probes,
+out exists** (the place skill proved in the 16k loop, 0099; 12 interiors, 13 ecology, 10b nav and probes,
 10c numbers, 14 budgets; build-out systems such as dialogue, crime and the
 factions runtime are hooks and data only) (owner 2026-09-13, decision 0062, collapsing the 0061 two-pass
-split): the settlement rollout skill proved in 16j, the interiors skill
+split): the place skill proved per type in the 16k loop, the interiors skill
 proved in Phase 12, the fauna/encounter/loot systems of 13, the navmesh
 and probes of 10b, the compiled numbers of 10c, the budgets of 14. The
-16j trial packet is packet one and is completed here.
+places built in the 16k loop are completed here with the packets that
+hold them; minor types the loop marked template-able roll out as varied
+templates (0099 decision 3).
 
 **The packet roadmap** (ordered packets, rough scope, the place types each
 needs, cities and opening-scene places flagged owner-guided) is drafted by

@@ -11,6 +11,9 @@ bows, arrows, archers or locked locomotion; the animation playbook before any
 clip work. Sandbox rules apply: semantic animation states, never Bethesda
 filenames; `PlayerMovementController`, never ecctrl directly.
 
+**Status (2026-09-25, decision [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) §9):** PARKED. Round 2 is picked up
+automatically as a named input at the start of [Phase 10b](../README.md#phase-10b--full-portable-sandbox-parity-in-the-studio).
+
 ## Goal
 
 The chassis weapon list decision 0031 kept — spears, pikes, halberds,

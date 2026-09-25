@@ -19,7 +19,7 @@ The overall goal at this point is to build the province-scale world, in a way th
    the active phase, what's blocked on the user, and the update protocol.
    For "deliver 16x" (Phase 16: terrain once, water once, places on a
    frozen world), read [docs/phases/16-foundation-and-places/README.md](docs/phases/16-foundation-and-places/README.md)
-   and then only the chunk brief it names.
+   and then only the chunk brief it names; places are now built in the 16k loop ("deliver 16k slice N", [16k](docs/phases/16-foundation-and-places/16k-place-loop.md)).
 1b. The quest/narrative strategy lives in [docs/quests/](docs/quests/README.md);
    the world build must satisfy its per-quest world provisions — its
    `20-world-provisions.md` module is required reading when placing anything

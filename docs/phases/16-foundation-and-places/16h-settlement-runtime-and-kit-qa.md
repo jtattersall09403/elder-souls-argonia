@@ -1,5 +1,12 @@
 # 16h — The building blocks: kit truth, the settlement runtime, doors, patches and the picture-checking loop
 
+> **Part 2 SUPERSEDED 2026-09-25** by the place loop (decision
+> [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md),
+> brief [16k](16k-place-loop.md)). Part 1 closes with the check-in 3 fix
+> round and then 16k slice 1 takes over. Part 2's items 10–38 and part 1's
+> open items stay below as their text; 16k § Carried backlog takes them by
+> number, one slice at a time. Do not run `deliver 16h part 2`.
+
 **Goal.** Give the two chunks after this one (16i, the exemplars; 16j, the
 rollout) every mechanism they need and none of the design work. After
 16h: every kit piece is understood (how it sits in the ground, what hangs
