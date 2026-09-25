@@ -15,6 +15,8 @@ Every narrative datum should use the existing source-confidence categories:
 | **Project-original** | New offices, people, events and mechanisms must fill a real gap, respect known history and avoid pretending to be canon. |
 | **Community inspiration** | Credit named fan contributors/projects and identify what was adapted. |
 
+**King of the Murkmire (KotM) text** ([KotM plan](../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 3.8): its dialogue, books and names are a register reference for Saxhleel speech, never a source; cite UESP for canon books. The extracted corpus lives in the vault (`elder-scrolls-asset-pipeline/derived/text/king-of-the-murkmire/`), never in the repo. Never reuse its invented names: [86-never-reuse-names.md](86-never-reuse-names.md).
+
 The Veiled Reed, Unbound Root and Root of Accord are project-original. The Eye of Argonia, Hist, Sithis, Nisswo, An-Xileel, Shadowscales, Duskfall, Xanmeers, Lilmoth/Umbriel and Black Marsh cities are grounded in established lore.
 
 ## 45b. Argonian register — and the layered model it sits in

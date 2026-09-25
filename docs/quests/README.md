@@ -20,6 +20,7 @@ until then this plan's job is to tell the world build what to provide.
 | Writing, dialogue, lore-confidence layers | [60-writing-and-lore.md](60-writing-and-lore.md) — **incl. §45e, the TES-voice rules and the banned-constructions list, binding on every line written.** Strings live in `packages/text-catalogue`, never as literals (engineering standard 4). |
 | **Gating anything on world state** — a stage requirement, a dialogue line's availability, a faction check, a reward | [85-condition-vocabulary.md](85-condition-vocabulary.md) — the only language conditions and actions may be written in. Need a predicate that isn't there? Add it there, then use it. Never prose. |
 | Asset planning/ingestion | [70-assets.md](70-assets.md) (A/V codes cited by every quest). |
+| **Naming anything** (place, NPC, book, item) | [86-never-reuse-names.md](86-never-reuse-names.md): names invented by other mods that we never reuse. |
 | Narrative runtime design (post-gate) | [80-technical-architecture.md](80-technical-architecture.md), [90-production-sequence.md](90-production-sequence.md). |
 | Source/credit lookups (L/C codes) | [99-sources-credits.md](99-sources-credits.md). |
 

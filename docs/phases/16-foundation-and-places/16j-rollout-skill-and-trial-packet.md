@@ -188,7 +188,11 @@ bundles.
    `docs/phases/15-rollout/packet-template.md` written from what this
    packet actually needed (the two parts, the check-ins, the skill calls,
    the owed-to-later-phases list, and that every per-packet stage runs
-   with the item 7b `--places` selector, full runs only at freeze); the trial packet's **owed list**
+   with the item 7b `--places` selector, full runs only at freeze; the
+   four Argonian village forms from King of the Murkmire's spacing enter
+   `type-recipes.json` as bands with `sources` naming the KotM set:
+   mud compound, platform stilt, Hist-centred, dock hamlet,
+   [KotM plan](../../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 2, § 3.3); the trial packet's **owed list**
    (assembled interiors at its reserved doors: 12; fauna, encounters,
    loot: 13; navmesh and combat-space probes: 10b; balance: 10c;
    streaming budgets: 14) as a typed record on the packet; the

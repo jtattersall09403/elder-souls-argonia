@@ -295,6 +295,21 @@ settlement bundle. Its output is records and pictures.
    catalogue named a kit that cannot serve; a missing piece is a sourcing
    row, shown as a gap. Run `kit-qa` on every assembly (Sonnet reads each
    sheet); fix shared causes as rules.
+   Each plan lists, per settlement, its tier row from decision 0098 and
+   the shells it draws on
+   ([building-asset-breadth.md](../../research/placement-settlements/building-asset-breadth.md)
+   §3 reachability), and per building its assembly layers and kits and
+   the evidence for each layer
+   ([building-depth-and-variety.md](../../research/placement-settlements/building-depth-and-variety.md)
+   §2, §6 item 8). **Settle first:** the kit table (research §6 item 8,
+   from the retired blueprints) gives Nine-Trunks mud and root and
+   Mazzatun stilt and works; § The story calls Nine-Trunks "the stilt
+   village" and Mazzatun "the stepped stone town". Rule on each place's
+   grammar before any plan is drawn.
+   King of the Murkmire (KotM) families and layout lessons per exemplar:
+   the § 3.2 table of [king-of-the-murkmire-adoption-plan.md](../../research/placement-settlements/king-of-the-murkmire-adoption-plan.md). Lilmoth's plan takes KotM's 8.5 m
+   street spacing and dock density only; `lilmoth.md` § Lilmoth in
+   4E 201 (owner decision Q4) rejects KotM's Imperial-industrial Lilmoth.
 
 3. **Every place's walkable set, as records** (16h's renderable kinds):
    ways from the road to every door, stairs to every deck, a hull at
@@ -317,6 +332,10 @@ settlement bundle. Its output is records and pictures.
      `interior: matched` but has no linked furnished cell is **not** tier
      A: its door is `reserved` with `interiorShell: <mesh>` recorded so
      Phase 12 furnishes that mesh (item 0's ruling).
+     First Argonian tier A candidates: the 18 KotM hut cells behind KotM
+     hut shells (Keeba Hollow 5, Root-Whisper 6, Seekhat-Yol 7; KotM
+     plan § 3.2); copy furniture and clutter only, drop actors, quest
+     items, notes and books.
    - **Fit rule, `evidence: fit-rule`** (0062 §4 relaxed preference 1):
      the shell has no link; pick a furnished vanilla or mod cell whose
      plan extent is within 0.6–1.5× the shell's footprint on both axes,
@@ -461,6 +480,14 @@ settlement bundle. Its output is records and pictures.
   message; the three patch receipts name only the six places' tiles and
   chunks; skill v2 exists and v1's banner is gone; the type register
   names all six; three owner check-ins passed or accepted as good enough.
+- Per settlement, the variety table of decision 0098 holds for the
+  settlement's tier: signature share, distinct shells, top-shell share,
+  ≥ 3 differences between two houses on one shell, pieces within 12 m
+  per dwelling, and the minimum set per dwelling (door, light, roof
+  detail, ≥ 5 personal clutter); no assembly repeats within 2 km or
+  more than 3 times province-wide; every dwelling has windows unless
+  [building-depth-and-variety.md](../../research/placement-settlements/building-depth-and-variety.md)
+  §4 rules "none by design".
 
 ## Owner check-ins
 

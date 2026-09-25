@@ -127,9 +127,11 @@ IMMUTABLE: no relaxation stage touches it. A related pair whose type declares
 only the smaller radius — that is how a city's own hist sits inside the city
 while an unrelated lighthouse 38 m off the quay still fails.
 On top of extent: the same type never twice within 300 m (700 m for
-landmarks, 900 m along one road) and never twice in sight; no template above
-~25 % of its family in a region; two instances of one template within 2 km
-differ on ≥3 axes; the same purpose not twice within 500 m along one road.
+landmarks, 900 m along one road) and never twice in sight; building variety
+is the per-settlement table of decision 0098 (signature share, shells and
+top-shell share per tier, ≥3 axes between two houses on one shell, one
+assembly at most 3 times province-wide and never twice within 2 km); the same
+purpose not twice within 500 m along one road.
 *S* (anti-sameyness); *O* 0041 Part 3; *O* 2026-09-09 (extent); *E* (the five
 measured blueprint boundaries; the scour: median site sees 18 % of its 1.2 km
 surroundings, so marsh "in sight" is short). **Enforced by**

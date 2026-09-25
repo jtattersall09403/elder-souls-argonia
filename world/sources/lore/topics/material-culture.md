@@ -18,6 +18,11 @@ Online:Kothringi Tidal Canoe, Online:Tide-Born Boat, Online:Argonian Houseboat
 - **Shadowfen**: **mud huts** — wattle-and-daub over an exposed log skeleton;
   walls sweat in humidity; a strong odour; dry excreta reported in the window
   sealing. Argonians "really like this sun-blessed mud".
+- **Openings**: mud huts have windows — "dry excreta mixed into the sealing at
+  the edges of windows" (Lore:The Improved Emperor's Guide to Tamriel/Black
+  Marsh). No canon source makes an Argonian dwelling windowless; xanmeers are
+  sealed mazes by design (Lore:Xanmeer). Windows rule per kit:
+  `docs/research/placement-settlements/building-depth-and-variety.md` §4.
 - **Murkmire**: settlements **woven from reeds**, on **wooden stilts**, with
   platforms that "sometimes extend high into the air", connecting to one another
   and ascending from ground to hover above water and marsh. **Imperial houses

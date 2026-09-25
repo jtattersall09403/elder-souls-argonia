@@ -14,7 +14,7 @@ mechanically by `python3 -m worldgen.check_credits`.
 
 | Mod | Nexus | Version | sha256 (first 16) | Pool | Verdict |
 |---|---|---|---|---|---|
-| Mud Mother Grove — An Argonian Mud Hut (GeminiVoid) | SSE 146557 | 1.5.1 | `7ac552437eeac11f` | `mudmother` | **the find of the pass** — 62 meshes incl. `MudHut01`, `ThatchRoofing`, `RoundFloor01`, woven furniture/fences, tents, carapace oven, fish rack, totem, bone chime, Sithis shrine and **`HistTree` (27 × 28 × 22 m)** |
+| Mud Mother Grove — An Argonian Mud Hut (GeminiVoid) | SSE 146557 | 1.5.1 | `7ac552437eeac11f` | `mudmother` | **the find of the pass** — 62 meshes incl. `MudHut01`, `ThatchRoofing`, `RoundFloor01`, woven furniture/fences, tents, carapace oven, fish rack, totem, bone chime, Sithis shrine and **`HistTree` (27 × 28 × 22 m)**. **2026-09-24:** the hut (`mudhut01`), its interior (`mudhut01intnew`) and the `mudmother-hut-int` shell retire once King of the Murkmire's mud houses are kitted (they have windows and six interiors); the pool's other 57 pieces stay, 6 kits depend on them ([building-asset-breadth.md](building-asset-breadth.md) §5) |
 | Skyrim Ferries (Mharlek1; meshes by yamadori) | SSE 109843 | 1.4.1 | `2fb9aae7ba870042` | `ferries` | 89 meshes; `plank_ferry_swamp_01/03` + `rowboat_ferry_swamp_01` are our first keel-less hulls. **Caution:** `plank_ferry_swamp_02/04/05/06` are editor markers with no geometry |
 | RowBoats and Oars of Skyrim (PraedythXVI) | SSE 35341 | Final | `9edfe3ebe786a00f` | `rowboats` | 3 meshes (rowboat, animated rowboat, oar) — keeled, so **Imperial fringe only** |
 | Creation Club Ayleid Ruin Resources (SarthesArai) | SSE 83999 | 1.0 | `03f9203f14744f48` | `ayleidcc` | 68 meshes, **all interior modules** — does *not* close the stepped-pyramid exterior gap |
@@ -96,7 +96,7 @@ credit/provenance/pipeline liability. "Nice but redundant" is a skip.
 
 | Mod | Nexus | Verdict |
 |---|---|---|
-| **Hovelmud** (owner lead) | SSE 63329 | **Not a mud hut.** It is Stroti's *Mushroom House* kit — fungal/Telvanni idiom, which material-culture puts off-limits inland, and BM&V already bundles the same Stroti mushroom material |
+| **Hovelmud** (owner lead) | SSE 63329 | **Not a mud hut.** It is Stroti's *Mushroom House* kit — fungal/Telvanni idiom, which material-culture puts off-limits inland, and BM&V already bundles the same Stroti mushroom material. **Retired 2026-09-24**: a duplicate of the mushroom set BM&V ships twice (`architecture/mushroom house`, `stroti/mushroom house`) and off-culture; no pool, no kit ([building-asset-breadth.md](building-asset-breadth.md) §5) |
 | Sailboats — Script Free Sailing EXPANDED | SSE 40057 | 8 hulls, all keeled and sailed. The canoe the research promised is **not** in v2.0 — it is in 67727, which we took |
 | Boats — Operational Animated Travel (owner lead) | SSE 110882 | 3 unique meshes, all vicn "boat carrier" rigs around the vanilla rowboat. It is a travel-script mod |
 | Cyrodiil Ship and boat resource | classic 59426 | Rowboat + 2 broken variants + an Imperial ship — all superseded by SBOT |
@@ -157,7 +157,7 @@ per the owner's Phase-11 scope rule.
 
 | # | Gap | Status |
 |---|---|---|
-| 1 | Mud-hut / dwelling variety | **closed** — Mud Mother Grove's mud shell + HTBM's two bamboo huts + BM&V's shells now clear the 25 %-per-template quota |
+| 1 | Mud-hut / dwelling variety | **open** (corrected 2026-09-24): argonian-mud has 3 shells, below decision 0098's village row (≥ 4). King of the Murkmire's mudhuts (about 8 more shells) close it once extracted and kitted (16h part 2 item 33; [building-asset-breadth.md](building-asset-breadth.md) §3). The 25 % quota this row cited is retired (0098) |
 | 2 | Xanmeer exteriors and ornament | **closed** — Ayleid kit for massing (blocks/stairs/statue walls), HTBM for ornament (serpent statues, goddess, gargoyle, runic stone, pyramids) |
 | 3 | Grave-stakes / burial markers | **substitute found, exact asset still absent** — Skyfall's rock cairns and rune circle. No staked-dead mesh exists on Nexus |
 | 4 | Argonian cultural props | **closed** — Mud Mother Grove + HTBM wicker family + xanmeer urns/pots |
@@ -201,7 +201,10 @@ Corimont all read as the same Nordic thatch village.
 |---|---|---|---|---|---|
 | Morrowind Imperial Keep Set (Remodeled) (Tesak1243) | SSE 133090 | 1.0 | `d22974919cdd3d6cea25f2b0b0851f2cb636a7569b7c3d1f8ae7b34c8584b9c0` | `mwkeep` | **164 meshes, all architecture.** A complete Morrowind-Imperial fort language: curtain walls with gate/corner/destroyed variants, wall stairs, big+small stackable towers (base/shaft/top), two keep blocks, guard towers, foundations, plaza, low stone yard walls, ledges and steps, river bridges and stone docks, stables, civic clutter, rubble variants, plus interior hall/room/spiral-stair modules and 8 animated doors |
 | Morrowind Hlaalu Architecture (Angelio, uploaded by Kai4304) | SSE 157997 | v2.0 | `c32811d704f25d33fe421e20d1258a965232c6fafc530a2f99d95c1f74c8cad7` | `hlaalu` | **127 meshes.** Premade and modular Hlaalu houses, a base/middle/top tower stack, yard/street walls with broken variants, steps, awnings, fences, stone blocks, small bridges, dockside cranes and lamp posts. Bundles other credited resources (Tamriel-Rebuilt-style walls, Oaristys props) and a `MorrowindImperialFort/` folder that duplicates 133090 |
-| King of the Murkmire (pancake0723) | SSE 190459 | 1.0.2 (Main, file 803646) | `7bf18067157130d47058ce20f0bc15759f5df71b6f81eb05079b8dba720a5ff2` | `mwkeep` (placement evidence only) | Plugin `King of the Murkmire.esp` (44 MB; archive 688 MB, assets in a BSA not extracted). 133090 ships no plugin and no Nexus mod requires it; this one places 318 exterior `mwimparch*` refs (62 pieces, 14 curtain-wall refs) in its own ArgoniaWorld with its own LAND, under 133090's model paths. Registered 2026-09-23 (16h K8) as the `mwkeep` pool plugin. Statistics only: no mesh, texture or voice is taken (its page forbids reuse of the voice assets). Three Reimperialized plugins (133861/134592/134616, TheLootist) place the set under re-pathed keys and are in the vault unregistered |
+| King of the Murkmire (pancake0723) | SSE 190459 | 1.0.2 (Main, file 803646) | `7bf18067157130d47058ce20f0bc15759f5df71b6f81eb05079b8dba720a5ff2` | `kotm` (own meshes) and `mwkeep` (the `tesak1243/` keep set it re-bundles), split by model path (`mine_assemblies.PLUGIN_PATH_POOLS`) | Plugin `King of the Murkmire.esp` (44 MB, sha256 `9fb7c467eb053e18c4680c8be1719dc8252c95fdd5c9cf9894c8573e830ef31d`) and `King of the Murkmire.bsa` (837 MB, sha256 `fa64a2215d767b98772b7f7a864901495c3a4ffb4218a52ff2b47fb8486d36d6`), both kept in the vault's `extracted/Kotm BSA Test/`; the BSA's meshes and textures were unpacked beside them into a Data root on 2026-09-24 (3,018 files: 2,292 meshes + 726 textures, every mesh and texture entry of the BSA, counted with `find -type f` 2026-09-24; registry pool `kotm`, 2096 rows, `tesak1243/` left to `mwkeep`). 133090 ships no plugin and no Nexus mod requires it; this one places 318 exterior `mwimparch*` refs (62 pieces, 14 curtain-wall refs) in its own ArgoniaWorld with its own LAND, under 133090's model paths (registered 2026-09-23, 16h K8). Owner ruling 2026-09-24: permission is held from every mod author in the pool, KotM included, so it is an asset source. 692 of the BSA's 2,292 meshes name textures found neither in the BSA nor in vanilla Skyrim: they sit in the SE/AE `_ResourcePack.bsa`, the Creation Club and the DLC archives, none in the vault (OPEN, owner decision in the 16h brief; [KotM adoption plan](king-of-the-murkmire-adoption-plan.md) § 5.1). The pool bundles other authors' work: every sub-family taken gets its own row below with its origin mod, credit and licence note (plan § 4.3 folder-to-origin table) before it ships. Sub-family rows below. Three Reimperialized plugins (133861/134592/134616, TheLootist) place the set under re-pathed keys and are in the vault unregistered |
+| ↳ KotM `argonia/mudhuts/` mud houses | SSE 190459 | 1.0.2 | (BSA above) | `kotm` | **Taken 2026-09-24 into `settlement-mud-v1`:** eight shells (`mudhut01`, `mudhut02`, `mudhut03`, `smpodext01`, `smpodext02`, `lizardhouse`, `manorext`, `shed`), the doorway piece `smpodextdoor`, doors `door01`/`door02`, `window01`/`window02`, `mudhutchimney`, `stairs01`/`stairs02`, `overhang01`/`overhang03`. Provenance: KotM author's own work per its description ("much meshwork done by me"); the credits name no other author for this folder. Its mud texture `_resourcepack/landscape/desertcracked01` comes from Bethesda's `_ResourcePack.bsa`, which KotM requires and does not ship; that archive is not in the vault, so every shell but `lizardhouse` and `manorext` (own `argonia/landscape/rivermud`) builds without its mud texture: OPEN, reason: the file is Bethesda game content (Anniversary-era free resource pack) obtainable only from the owner's game install, not from Nexus. The doors and stairs use vanilla `dungeons/dryoakpost01`; `window01` also uses Creation Club `bgssse025` amber, not in the vault either. |
+| ↳ KotM `argonia/mudhuts/tamu_wooddock*` | SSE 190459 | 1.0.2 | (BSA above) | `kotm` | Not taken. Provenance per KotM credits: tamu75, Wood Dock Resource (Nexus LE 63982). |
+| Jet's building kits (Jet4571 & Elianora, "Building kits and other items") | LE 58262 | not downloaded separately | none | none yet | **Usable, author permission held by the owner 2026-09-24.** Not downloaded as its own archive; 292 of its meshes ship inside BM&V at `architecture/jets/` (farmhouse 235, riften 19, whiterun 38). Modular farmhouse walls, roofs, chimney stack, porch set, stairs (building-depth-and-variety.md §3). No placement evidence: its sample plugin is not in the vault |
 
 Permissions checked via `/v1/games/skyrimspecialedition/mods/{id}.json`: both
 `published` + `available`, both category 82 (modder's resources), credit
@@ -1101,3 +1104,41 @@ plate). There is no vanilla lantern-on-post and no vanilla sign-on-wall to
 source. The two sourceable pairs are therefore a sconce on an imperial wall and
 a sign plate on a road-sign post; each plate is lettered with a Skyrim place
 name, so a sign needs an unlettered plate or a new one. That choice is open.
+
+## Tropical Skyrim (skyrim 33017): all four files, v1.1 applied (Phase 16h, 2026-09-24)
+
+Status: CLOSED; no new mod, no new credit line.
+
+- **Files.** All four Nexus files are in the vault folder
+  `mod-sources/tropical-skyrim-33017/`: main 1000016188 (`main.zip`),
+  update 1000017932 (v1.1), the one-texture fix 1000016632 and Less Bloom
+  Option 1000016119 (`extra_1000016119.bin`, 1,602,819 B, sha256
+  75327a0368f2489528dcd0c5a941e83d4291368de00f5a4db116274f5921d255; one
+  `.esp`, no textures). Hashes in the folder's `SHA256SUMS`.
+- **v1.1 applied to `extracted/`.** The update's plugin
+  (`Tropical Skyrim.esp`, 1,992,588 B, sha256 e10cfa5e…8830) and its two
+  trunk meshes under `meshes/landscape/trees/tropical/`
+  (`anvil_palm_trunk.nif` 822,418 B, sha256 d57c6a7d…8aa4;
+  `anvilgianttrunk.nif` 1,198,599 B, sha256 ed6dcfac…8f58) replace the
+  v1.0 files, which stay beside them as `*.v1_0`; the update readme is
+  `Readme-v1_1-update.txt`. The update's archive uses Deflate64, which
+  Python's `zipfile` and `bsdtar` cannot read; Info-ZIP `unzip` can.
+- **The fix unpacked.** `textures/cubemaps/glacierice_e.dds` (4,304 B,
+  sha256 3cf57647…dcbe).
+- **Coverage, measured.** 108 changed diffuse maps (Whiterun 46,
+  Solitude 28, Riften 12, farmhouse 9, caves 11, ridgedstone 3,
+  Windhelm 1); Markarth, Winterhold, forts, Nordic and Dwemer ruins have
+  none; 180 of its 368 architecture files are vanilla copies
+  ([building-asset-breadth.md](building-asset-breadth.md) §2). The v1.1
+  update changes no texture.
+- **Permission.** The mod page says "you MUST contact me and obtain
+  permission before ... using its contents in your own mod." Covered by
+  the owner's statement of 2026-09-24 that permission is held from every
+  author in the pool (16h § Owner check-ins).
+- **Project Rainforest SE (skyrimspecialedition 20636).** The vault
+  archive `pr-base-loose.7z` (file 74798, BASE Loose 1.5) had its 261
+  architecture and dungeon textures extracted on 2026-09-24. Its Windhelm
+  street and ground maps (6 diffuse) and caves (12 diffuse) are real
+  repaints; its nordic, imperial, dwemer, mines and Riften-dungeon files
+  are vanilla copies. It becomes a second overlay behind Tropical in 16h
+  part 2 item 37.

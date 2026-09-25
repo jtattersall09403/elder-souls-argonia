@@ -106,6 +106,14 @@ condensed craft summary in [The Level Design Book](https://book.leveldesignbook.
   (variants, clutter, lighting) late and data-driven. The scatter layer
   ([65](../../world/65-vegetation-scatter.md)) is our built-in repetition-hider.
 
+### 1.4 Exterior buildings: authored shells + dressing
+
+This section's kits are dungeon kits; exterior houses work differently. A
+Skyrim house is one authored shell with modelled windows, plus 20 to 70
+separate pieces within 12 m (porch, steps, door, smoke, firewood, barrels,
+lanterns). How we assemble ours, layer by layer, and what each culture can
+reach: [building-depth-and-variety.md](building-depth-and-variety.md).
+
 ## 2. Dungeon design craft (for Phase 12 grammars)
 
 ### 2.1 The Bethesda pattern [lore — widely documented player/critic analyses]

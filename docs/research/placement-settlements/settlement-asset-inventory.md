@@ -38,7 +38,7 @@ and `world/sources/lore/topics/material-culture.md`.
 
 | Gap | Status | Closed by |
 |---|---|---|
-| Mud-hut variety | **CLOSED** | HTBM's two bamboo huts (+interiors) + Mud Mother Grove + BM&V — three form sources clear the 25 %-per-template quota |
+| Mud-hut variety | **OPEN** (corrected 2026-09-24) | HTBM's bamboo huts are stilt-kit forms, so they do not count as mud variety. Mud has BM&V `hutexterior`/`hutdecking` + Mud Mother `MudHut01`: 3 shells, 0 windows. The cap is met only by assemblies (planner ruling 2026-09-24) or with King of the Murkmire (owner decision). See [building-depth-and-variety.md](building-depth-and-variety.md) §3, §5 |
 | Xanmeer **massing** | **CLOSED** | Ayleid Ruins Building Kit — 85 exterior pieces (blocks, quad blocks, stairs, statue walls, bridges, towers) |
 | Xanmeer **ornament** | **CLOSED** | HTBM's 57-piece xanmeer set — feathered-serpent and serpent-sigil statues, goddess, gargoyle, runic stone, totems, skull stack |
 | Argonian props | **CLOSED** | Mud Mother Grove + HTBM's wicker family + xanmeer urns/pots |
@@ -69,12 +69,9 @@ of the phase; **BM&V extraction is no longer a blocker** (`RarSource` pulls
 single members on demand in ~0.1 s); and the **owner ruled the "no porting to
 other games" clauses approved**, which unblocked the Ayleid kit and the canoe.
 
-> ⚠️ **One unresolved conflict.** 6b registered **Darkwater Den** as a pool, but
-> its README forbids use of Elianora-original meshes in "any PUBLIC WORK under
-> ANY CIRCUMSTANCES" and we deploy publicly. The owner's porting ruling doesn't
-> obviously cover a blanket public-work ban. Recorded in 0041's owner Q&A —
-> **until it's ruled on, don't write an asset plan that needs `eli*.nif`**; the
-> rest of the vault covers the same clutter roles.
+> **Darkwater Den public-work ban (Elianora-original meshes): superseded
+> 2026-09-24: the owner holds permission from every author in the pool (see the
+> [sourcing log](settlement-kit-sourcing-log.md)).**
 
 ### Round 2 — what the full-vault sweep changed
 
@@ -103,14 +100,19 @@ Plus three findings round 1 missed entirely:
 
 ---
 
-## 1. The two-culture rule (binding)
+## 1. The two-culture rule (superseded)
+
+> **Superseded by the three-kit ruling of 2026-09-02** (mud, stilt, root; one
+> kit per building, one per settlement unless the record says why):
+> `world/sources/lore/topics/material-culture.md` § The three building kits.
+> The table below is kept for its per-culture reads.
 
 Canon gives **two Argonian building cultures that are never blended in one
 settlement**, plus a dead monumental layer and a foreign layer:
 
 | Culture | Reads as | Where | Our best assets |
 |---|---|---|---|
-| **Shadowfen mud/wattle** | wattle-and-daub over an exposed log skeleton; round lumpy shells; walls that sweat; ground-level | Shadowfen, inland/north | ~3 monolithic hut shells — **our weakest family** |
+| **Shadowfen mud/wattle** | wattle-and-daub over an exposed log skeleton; round lumpy shells; walls that sweat; ground-level | Shadowfen, inland/north | ~3 monolithic hut shells in a kit — **our weakest family**. King of the Murkmire has a modular mud-hut set (about 16 forms), usable only if the owner grants it ([building-depth-and-variety.md](building-depth-and-variety.md) §3) |
 | **Murkmire reed/stilt** | woven reed on wooden stilts; platforms ascending from ground to hover over water, linked to one another | Murkmire, deltas, coasts | shackkit + passerelles walkway kit + stockade scaffolding + docks — **our strongest family** |
 | **Xanmeer (ancient, dead)** | stepped stone pyramids, stone bridges, mazelike interiors. Stone is a moral error post-Duskfall, so *no modern Argonian building may read as stone* | province-wide ruin, densest deep interior | Xanmeer Tileset (interiors), 11 monumental statics, Ayleid kit |
 | **Imperial / foreign stone-timber** | cut stone, mortar, sawn timber, slate; foundations that sank | west/north-west fringe, Topal ports, road corridors | vanilla farmhouse + five city kits + forts — very deep |
@@ -122,6 +124,11 @@ off-limits inland** — they are for Thorn and the Morrowind border only.
 ---
 
 ## 2. Building families
+
+> **Missing from this table (2026-09-24):** Jet's farmhouse kit, BM&V
+> `smallhouseext`, `cyrfarmhouse01`–`03`, Phitt `house01`–`04`, King of the
+> Murkmire's mud and thatch sets, and the dressing layer round each house
+> (never mined). Per-family counts and gaps: [building-depth-and-variety.md](building-depth-and-variety.md) §3.
 
 | Family | Culture | Pieces | Where it lives | Palette words | Condition variants | Have? |
 |---|---|---|---|---|---|---|
@@ -390,10 +397,10 @@ it — where the two disagree, **the sourcing log wins**, because 6b downloaded 
 opened the meshes while this was description-level research. Full candidate
 tables live in the JSON under `nexusResearch`. Four findings worth knowing:
 
-- **No true Argonian mud-hut modular kit exists on Nexus.** ESO/Murkmire ports
-  don't exist (ZeniMax assets aren't permitted) and Beyond Skyrim: Argonia has
-  released no public assets. **The mud culture will be kitbashed, permanently** —
-  plan for that rather than waiting for a kit.
+- ~~**No true Argonian mud-hut modular kit exists on Nexus.**~~ **Superseded
+  2026-09-24:** King of the Murkmire (Nexus SSE 190459) ships mud huts with
+  windows, doors, chimneys, stairs and pods; its use waits on the owner's
+  licence decision ([building-depth-and-variety.md](building-depth-and-variety.md) § Decisions for the owner).
 - **No dugout, outrigger, twin-hulled, reed or raft-village asset exists**
   either. Exactly *one* genuine canoe mesh was found on all of Nexus. That gap
   is bound by **permissions, not availability**.
@@ -413,6 +420,8 @@ faster than web search. Filters must be a **flat** dict, one domain at a time.
 ---
 
 ## 9. Where things live (vault map)
+
+Piece counts and use per pool: [building-asset-breadth.md](building-asset-breadth.md) §1 (2026-09-24), which owns breadth and counts.
 
 ```
 $ELDER_SOULS_ASSET_ROOT -> ../elder-scrolls-asset-pipeline/skyrim-source
@@ -437,6 +446,15 @@ $ELDER_SOULS_ASSET_ROOT -> ../elder-scrolls-asset-pipeline/skyrim-source
     depths-26913 (+174995 fixes)/ reef/bed flora for the drowned layer
     sirenroot-70917/              walkable submerged rubble + caustics
     xalfek-55595/                 72 nif — re-bundled 3rd-party, low value
+    king-of-the-murkmire-190459/  KotM BSA — ~500 exterior pieces (mudhuts 38,
+                                  blackwood 107, argonia clutter 77, denoffen
+                                  30, xanmeer 148); breadth doc §1c        HAVE
+    morrowind-hlaalu-157997/      127 nif — Hlaalu kit (68 in hlaalu-domestic) HAVE
+    morrowind-imperial-keep-133090/ 164 nif — mwkeep (88 kitted)             HAVE
+    reimperialized-abandoned-prison-134616/, -darklight-tower-133861/,
+      -fort-frostmoth-134592/     177/171/178 nif — re-path mwkeep; only
+                                  fort/windows impwindow ×6 worth having   HAVE
+    hovelmud-63329/               79 nif — Stroti mushroom house; RETIRED 2026-09-24
     marsh-rest-50111/             1 file (an .esp) — NO ASSETS
     darkwater-den-52630/          124 nif — ⛔ DO NOT SHIP (permissions)
     aendemika-59713, project-rainforest-20636, cc0-ground-textures,

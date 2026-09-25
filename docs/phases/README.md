@@ -432,9 +432,12 @@ acoustic profiles and budgets read finished rooms. Rollout of its skill is Phase
   100,000 clutter and 12,000 furniture); the plugin reader already decodes
   every reference's transform. 16i ships these verbatim. Tropical Skyrim
   retextured the cave and town-kit texture sets those cells use.
-- **Nothing Argonian ships an interior.** Every xanmeer interior and every
-  hut interior is tier B. The hut kits carry matching hollow interior
-  shells, unfurnished.
+- **Argonian interiors are few, and all from one mod.** King of the
+  Murkmire (KotM) ships 62 furnished dwelling and shop cells (18 of them
+  Argonian huts), 8 furnished xanmeer cells (22,082 refs), 9 Hist-root
+  caves and 24 cells with water, behind 120 exterior load doors
+  ([KotM plan](../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 3.4). Every other xanmeer and hut interior is tier B;
+  our hut kits carry hollow interior shells, unfurnished.
 - **Our cave kit is modular.** `dungeon-root-v1` is BM&V's cave kit: halls,
   corridors and rooms on 256- and 512-unit modules with doorway sockets.
   The "freely placed, 40 % tilted" finding in the mined data is vanilla
@@ -474,8 +477,11 @@ static collections and copied reference groups as the mod authors'
 prefab idiom; **the furnishing mine**: room function inferred from the
 furniture mix per chamber, wall-relative positions and co-occurrence per
 function, ceiling clearance from mesh bounds (the follow-up the mined-interior
-research names and did not do); xanmeer connect geometry derived from the
-meshes, since no placed example exists.
+research names and did not do); xanmeer connect geometry mined from
+KotM's 8 placed xanmeer cells. The mines add KotM (`mine_door_links`,
+`interiors_index`): its 62 dwellings to the furnishing mine, its 8
+xanmeers and 9 root caves to the chamber library, its 24 wet cells as
+flooded-cave references.
 
 **How an agent places things precisely** (the owner's question): it never
 types coordinates. Every kit piece carries its footprint, origin offset and
@@ -594,6 +600,9 @@ at worst (owner tolerance, 0034). **The province boundary** (16d): four
 fixed cuboid colliders stand just outside the built ground
 (`packages/game-core/src/boundary/`, `PROVINCE_BOUNDARY` in contracts);
 9c's climb-surface detection must exclude them; 9b's boats stop at them as the character does.
+The Phase 9 briefs take from KotM ([KotM plan](../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 3.5): 9a judges its 7
+water-plane caves as swim-through references; 9b makes its 4 small hulls
+sailable (collision is in the NIF; KotM ships no rowing or sailing clip).
 
 **Scope rule (0034): Phase 9 covers the player's own craft only.** Ferry
 services and boat fast travel are **Morrowind-style** — speak to the
@@ -818,6 +827,14 @@ same record.
 fields, the 12b-facing schedule fields) is written now; the population,
 encounter and loot chunks at 10c close, when the power ladder is numeric.
 
+**King of the Murkmire creatures** ([KotM plan](../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 3.7 holds the
+keep/replace/drop table): add river troll and Argonian behemoth; replace
+the voriplasm with KotM's mesh; frog, wamasu, crocodile and leviathan as
+variants; drop the kotu gava mesh, snail, jimasu, megalania and arachas.
+KotM ships no creature animation: the first job measures bone-name parity
+between each custom `skeleton*.nif` and the vanilla rig it rides, on
+frog, wamasu and voriplasm.
+
 Deliverables:
 
 - **the contrast set proposed to the owner at phase start** (§85.4: the
@@ -887,6 +904,10 @@ are part of the budget).
   - authored region tables (`world/sources/audio/`), reverb impulses, and
     creature and settlement ambience from Phase 13;
   - booted mud footsteps (a sourcing call, lane doc register);
+  - creature SFX and frog loops: a sourcing job from the original creature
+    mods and naturenorth.com, licence per file. King of the Murkmire ships
+    none; its ambience records (cypress-swamp frogs, crickets, cicadas by
+    time of day over vanilla loops) are reference only ([KotM plan](../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 3.6).
   - the studio audio layer, hot reload and the voice/memory probe.
 
 Deliverables (the first two are met by the above; the rest remain):
@@ -965,6 +986,11 @@ Deliverables:
   [research/rendering/gpu-texture-and-mesh-compression.md](../research/rendering/gpu-texture-and-mesh-compression.md).
   What stays here: per-device texture budgets and any ETC1S trade the owner
   chooses for opaque architecture (measured 4/5, ~30 % smaller);
+- **King of the Murkmire** ([KotM plan](../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 3.9, § 4.4): its LOD meshes
+  are rungs on the 0075 ladder; its whole pool (1,653 MB raw, about
+  660 MB compressed) cannot ship under the 900 MB site gate, so each kit
+  ships only placed pieces with its own download line, and its creature
+  and actor textures (542 MB raw) wait for this phase's streaming host;
 - performance budgets by device class;
 - GitHub Pages build containing approved runtime content only;
 - **sparse local state variants, consumed and budgeted** (the overlay

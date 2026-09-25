@@ -1,0 +1,24 @@
+family	diffuse	fail_rule2	textures
+clutter/stockade	5	2	stockadeplanks01snow stockadewood01snow
+architecture/riften	29	0	
+dungeons/riften	14	0	
+dungeons/azurasstar	2	0	
+dungeons/(root)	46	12	hallmuralfox01 hallmurallintel01 hallmurallintel02 hallmuralowl01 hallmuralwolf01 hallmuraldragon01 hallmuralbear01 hallmuralmoth01 hallmuralhawk01 dragonrunealphabet hallmuralwhale01 hallmuralsnake01
+architecture/sovngarde	22	1	sovngardebanner01
+dungeons/nordic	14	7	ruinsdragonstone01 ruinsms06wolfdoor ruinsdragonglow01 ruinsdragonglow02 ruinsdragonstatue01 ruinsdragonstatue02 ridgedstone01dragonswitch
+architecture/tents	4	2	smallnordtent largenordtent01
+architecture/highhrothgar	20	1	hhdragoncol01
+dungeons/imperial	24	4	impextdecals01ice impwall05ice impextwall01ice impextrubble01ice
+architecture/markarth	60	1	mrkbanner01
+architecture/winterhold	12	1	winterholdbanner01
+architecture/edgetrim	2	0	
+architecture/whiterun	88	7	wrchbanner01 wrdragontileblack01 wrcitybannerinsidetall01 wrcitybannerinsidetall02 wrcitybannerinside01 wrdragontile01 wrdragoncarvings01
+architecture/solitude	63	4	thalmorsbanner01 sdragonhead01 sdragontile01 sbanner01
+dungeons/caves	25	10	icecavesnowtrim01 icecavewall01 icecavewall02 icecavewall04 icefrozen01 icefrozen02 icefrozen03 icecaverocks01 icecavesubsurfacetint01 icecavesubsurfacetint02
+dungeons/mines	9	0	
+dungeons/ships	18	1	shipdragonmetal01
+architecture/windhelm	108	1	sonsofskyrimfancybanner
+dungeons/dwemerruins	28	0	
+architecture/falmer hut	2	0	
+architecture/farmhouse	29	1	arkaybanner01
+architecture/skyhaventemple	21	0	

@@ -1241,6 +1241,15 @@
           "version": "1.1"
         },
         {
+          "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tropical-skyrim-33017/extra_1000016119.bin",
+          "bytes": 1602819,
+          "sha256": "75327a0368f2489528dcd0c5a941e83d4291368de00f5a4db116274f5921d255",
+          "md5": "a8d44a207bc70e90d775d103255e2ee8",
+          "fileId": 1000016119,
+          "fileName": "Less Bloom Option-33017-1-0.zip",
+          "version": "1.0"
+        },
+        {
           "path": "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tropical-skyrim-33017/main.zip",
           "bytes": 918846876,
           "sha256": "563649269c353bb2162461ee8cac69a04ffb3afebf01045ef9ab412bfdd17d7f",
