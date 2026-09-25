@@ -28,7 +28,8 @@
 - **City interiors are not dots.** Provisions naming a district, office or hall
   inside a major city (`helstrom.archive`, `gideon.continuity_office`,
   `lilmoth.tidal_palace`, …) resolve to the *city* record. Districts and
-  interiors are Part 5/6 grain (exemplar, then meso) and Phase 12 for the
+  interiors are a whole-city type-8 slice of the 16k loop with the owner
+  hands-on (0099) and Phase 12 for the
   interiors themselves; the provision is satisfied when the city packet is
   authored, not before.
 

@@ -1,4 +1,4 @@
-# Settlement blueprints (Phase 11 Parts 6–8)
+# Place blueprints (built in the 16k place loop with the `place-build` skill)
 
 One `<place-id>.json` per authored place; the deterministic compiler consumes
 these. Schema + validator: `tooling/world-generation/worldgen/blueprint.py`
@@ -10,12 +10,19 @@ file in `tooling/repo-standards/id-registry.json` with `"references": ["place"]`
 (the blueprint's own id is the catalogue place it details; every object
 inside it has its own `<kind>.<slug>.<name>` id — standard 2).
 
-## What sits next to each blueprint (Part 6 convention, 2026-09-04)
+## What sits next to each blueprint (0100 decision 2, 2026-09-25)
+
+Since the 16k loop a place is authored as two files the designer writes
+first, and the blueprint is exported from the workbench (`wb.py apply`, then
+`wb.py export --write`, the pose record of 0097). The yards
+(`place.fixture.proving-ground*.json`) are the regression fixtures.
 
 | File | What |
 |---|---|
+| `<place-id>.design.md` | the design brief: the causal answer for every building, enclosure, path, light, water edge and dressing group, each with its kit piece and its lore or rule pointer; ends with § Lessons this slice |
+| `<place-id>.layout.json` | the layout (`schemaVersion` 1): the ordered workbench operations for the whole place; schema in `tooling/placement-workbench/README.md` § apply |
 | `<place-id>.json` | the blueprint: `siting` (dossier ref + the 2–3 exact candidates, one chosen), districts as **kit sets** (`cultureKit` ∈ `KIT_SETS`), parcels with an exact `assetRef` chosen on measured geometry, landmarks, docks, sockets, clearance, budget |
-| `<place-id>.md` | the meso design record: the candidate sitings with their numbers, why one won, the high-level design (districts, layout intent, signature feature), the asset picks with their measured footprints, open questions for the owner, and anything the catalogue record should change (never edited from here) |
+| `<place-id>.md` | (Phase 11 to 16h; the loop writes `design.md` instead) the meso design record: the candidate sitings with their numbers, why one won, the high-level design (districts, layout intent, signature feature), the asset picks with their measured footprints, open questions for the owner, and anything the catalogue record should change (never edited from here) |
 | `../sites/dossiers/<slug>.{json,md}` | the site dossier over the plotted neighbourhood (`worldgen.site_dossier`) the siting cites |
 | `tooling/world-generation/output/settlements/<place-id>.ledger.md` | the promise ledger (`worldgen.blueprint_promises`): every promise the catalogue record makes the player against the blueprint object that realises it, with the remedy for each unmet one (97 E9); derived, gitignored |
 | `tooling/world-generation/output/blueprint-maps/<place-id>.png` | the rendered map (`worldgen.render_blueprint`); derived, gitignored, regenerate in seconds |
@@ -33,12 +40,14 @@ spacing, orientation, culture grammars, doors and ways) are
 [docs/world/97-placement-principles.md](../../../docs/world/97-placement-principles.md);
 its Part F table is the grammar for each `cultureKit`.
 
-Loop (decision 0041 Parts 6–7; the full playbook is
+The procedure is the `place-build` skill
+([.claude/skills/place-build/SKILL.md](../../../.claude/skills/place-build/SKILL.md)).
+The Phase 11 loop below is history (decision 0041 Parts 6–7;
 [docs/world/96-placement-playbook.md](../../../docs/world/96-placement-playbook.md)):
 dossier → candidates → choose → design → blueprint → `blueprint --check` →
 `compile_settlement` → `render_blueprint` → **`worldgen.apply_sitings`** (a
 moved place moves its dot, paths and waterways too — owner rule 2026-09-05)
-→ `export_blueprints` → owner Round A in the studio. Fixes go to the grammar or the compiler, never to hand
+→ `export_blueprints` → owner Round A in the studio (since 0099: the owner's walk of the place). Fixes go to the grammar or the compiler, never to hand
 edits of compiled output; every owner steer becomes a Taste-ledger rule.
 
 Geometry, never labels: a piece is chosen from its measured outline in
@@ -49,7 +58,8 @@ Geometry, never labels: a piece is chosen from its measured outline in
 
 A place is judged from the ground, never from the air. The design record
 `<place-id>.md` must carry a section headed **Approach and wayfinding** with
-two parts, and a blueprint whose record lacks it is not ready for Round A.
+two parts, and a blueprint whose record lacks it is not ready for the owner's walk (in the
+loop the section lives in `<place-id>.design.md`).
 
 **Part 1 — per approach.** One sub-heading per entry in the blueprint's
 `approaches[]`, giving in prose the sequence of what a walking (or boating)

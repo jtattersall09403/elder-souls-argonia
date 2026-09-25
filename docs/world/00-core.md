@@ -23,11 +23,16 @@ basin "reference watershed" of decision 0008 is STALE as a special status —
 terrain/textures/water are built good-enough province-wide, and the Phase 10
 vegetation exemplars span several areas of which Blackrose is only one;
 exemplars are chosen per system on contrast, not tied to one basin),
-(3) small disposable laboratories. **Placement systems
-(vegetation, settlements, dungeons, ecology) are built exemplar-first**
-(docs/phases/README.md §85.4, decision 0029/0034): one retained exemplar authored
-*through* the data format, validated on 2–3 contrasting instances, then
-rolled out as data per region packet — never whole-province hand authoring.
+(3) small disposable laboratories. **Vegetation and ecology are built
+exemplar-first** (docs/phases/README.md §85.4, decision 0029/0034): one
+retained exemplar authored *through* the data format, validated on 2–3
+contrasting instances, then rolled out as data per region packet. **Places
+(settlements, camps, shrines, works, dungeon entrances) are built in a loop,
+one real place per slice** (decision 0099, the `place-build` skill of 0100):
+the owner walks each place until it looks right, and the loop ends when every
+place type passes unattended twice in a row; Phase 15 then rolls out the rest
+per region packet, with templates allowed for minor types. Never
+whole-province hand authoring.
 
 ## The rules that bind every task
 

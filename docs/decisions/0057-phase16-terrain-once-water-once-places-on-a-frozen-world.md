@@ -7,6 +7,8 @@ the plan** ([docs/phases/16-foundation-and-places/README.md](../phases/16-founda
 shipped raster" rule of 0049 **for terrain-moving consumers only**. Phase 11's
 delivery plan (0041) and the 2026-09-07 gap plan are absorbed, not reopened.
 
+**Superseded in part by [0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) and [0100](0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) (2026-09-25):** decision 6 (the five exemplars go end to end) no longer holds; the exemplars were dropped and places are built one per slice in the 16k loop with the `place-build` skill.
+
 ## The problem
 
 The province has been rebuilt and the water re-solved every time place work

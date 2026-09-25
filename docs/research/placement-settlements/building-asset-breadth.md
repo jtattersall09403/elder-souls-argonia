@@ -329,11 +329,13 @@ Not candidates:
 
    Credits go in root README § Credits in the same change.
 3. **Rule check on existing kits.** route-spans-v1 carries 9 `nortmpextplat*` plus dragonbridge01, and route-structures-v1 carries wrcastlestairs01 with its platform. Both fail §2 rule 1 (Nordic burial and castle silhouettes). The planner decides whether to swap them for imperial-fort bridge and stair pieces.
-4. **Brief edits:**
+4. **Brief edits** (2026-09-24; since 0099 the 16h part 2 and 16i items are
+   16k carried backlog, and the numbers live in
+   `world/sources/placement/breadth-bars.json`):
    - 16h part 2: replace the A6 "~25 % template" check with §3's table, and have the workbench's repetition-signature command (depth doc §6 item 6) compute the signature defined in §3.
    - 16h part 2: add "extract and register KotM" as the first step.
    - 16h part 2: add the Mud Mother hut retirement to the yard rebuild, where the mud hut becomes KotM mudhut02 per depth doc §6 item 7.
-   - 16i: the part-1 paper plans list, per settlement, its tier row from §3 and the shells it draws on. The acceptance checks gain the dressing-per-dwelling and signature rows.
+   - 16i (no paper-plan phase since 0100 §3; now each slice's design brief): the part-1 paper plans list, per settlement, its tier row from §3 and the shells it draws on. The acceptance checks gain the dressing-per-dwelling and signature rows.
 5. **Corrections to apply with the edit:**
    - depth doc §3 Hlaalu row and §1 cause 4;
    - sourcing-log:160;

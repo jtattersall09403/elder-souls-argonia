@@ -99,7 +99,12 @@ wamasu 5, swamp leviathans 3.
 
 ## 3. Stage plan
 
-### 3.1 16h part 2 (kits, templates, dressing mine, dressing-add)
+Re-keyed 2026-09-25 to the 16k place loop (0099): 16h part 2, 16i and 16j
+were superseded; their items are carried into the 16k backlog under their
+original numbers, the exemplars were dropped, and each place type takes
+its KotM families when a slice first builds it.
+
+### 3.1 Carried 16h part 2 items in the 16k backlog (kits, templates, dressing mine, dressing-add)
 
 - **Kits** (item 27): `settlement-mud-v1` keeps its 18 KotM pieces but cannot build them until
   §5.1 lands (`argonia/mudhuts`: 71 absent texture refs over 30 meshes; mudhut02 uses
@@ -123,22 +128,22 @@ wamasu 5, swamp leviathans 3.
   need `textures/argonia/curse of immortals/boatdecor01.dds` (absent; source Akavir Curse of the
   Immortals, SSE 107667). tradeship (54,709 tris) only as a distant anchored hull.
 
-### 3.2 16i (six exemplars)
+### 3.2 Per place type in the 16k loop (was 16i's six exemplars)
 
-| Exemplar | KotM families | Layout lesson from §2 |
+| Type (was the 16i place) | KotM families | Layout lesson from §2 |
 |---|---|---|
-| Lilmoth | plank houses on platforms, docks, stockade, boats | our ruling (lilmoth.md § 4E 201: "wholly Argonian stilt town") rejects KotM's Imperial-industrial Lilmoth; take its 8.5 m street spacing and dock density, not its content |
-| Nine-Trunks | mud compound huts, Hist set, roundhuts | Keeba compounds (1.5 m) round a Hist; Root-Whisper's 25 m ritual spacing near the xanmeer |
-| Mazzatun | stockade scaffolds and bridges, xanmeer stone | stacked scaffold runs as mined templates |
-| Tapping camp | scale tents 01–03, saxhleel fences, lanterns, Hist gland | Huluxinoag camp: 3 shells, 7 dressing per shell |
-| Wamasu pond | mud huts, tamu docks, boats | Alten dock hamlet 5.4 m |
-| Sixth (root cavern / flooded cave) | Hist-root cave composition | 9 cells, 8,027 refs; water plane in 7 of 24 wet cells |
+| 8 town or city (Lilmoth) | plank houses on platforms, docks, stockade, boats | our ruling (lilmoth.md § 4E 201: "wholly Argonian stilt town") rejects KotM's Imperial-industrial Lilmoth; take its 8.5 m street spacing and dock density, not its content |
+| 2 Hist village (was Nine-Trunks) | mud compound huts, Hist set, roundhuts | Keeba compounds (1.5 m) round a Hist; Root-Whisper's 25 m ritual spacing near the xanmeer |
+| dropped with the Mazzatun exemplar; a later Dunmer place (was Mazzatun) | stockade scaffolds and bridges, xanmeer stone | stacked scaffold runs as mined templates |
+| 4 camp or hold (was the tapping camp) | scale tents 01–03, saxhleel fences, lanterns, Hist gland | Huluxinoag camp: 3 shells, 7 dressing per shell |
+| 3 water village (was Wamasu pond) | mud huts, tamu docks, boats | Alten dock hamlet 5.4 m |
+| 5 dungeon entrance (was the sixth, root cavern / flooded cave) | Hist-root cave composition | 9 cells, 8,027 refs; water plane in 7 of 24 wet cells |
 
-Tier A interiors: the 18 Argonian hut cells behind KotM hut shells (Keeba 5, Root-Whisper 6,
+Tier A interiors (carried 16i items 4–5): the 18 Argonian hut cells behind KotM hut shells (Keeba 5, Root-Whisper 6,
 Seekhat 7) are the first Argonian tier A candidates; copy furniture and clutter only, drop ACHR,
 quest items, notes and books (0062 tier A; 00-core rule 6 covers the rest).
 
-### 3.3 16j and Phase 15 (rollout)
+### 3.3 The loop's exit and Phase 15 (rollout)
 
 Village packets pick house forms by grammar: `argonian-mud` = KotM compound (hut + pod + chimney
 + windows); `argonian-stilt` = platform thatch/plank (Seekhat); Hist-centred = roundhut +
@@ -322,7 +327,8 @@ about 4 M.
    Dawnguard/Dragonborn/HearthFires BSAs into the vault; this unblocks mud huts, Ayleid ruins and
    trees (§5.1). Until then build only the pieces whose textures resolve (`tex.out`).
 2. Owner call: confirm the KotM permission covers AI-assisted development (§5.2).
-3. Brief edits:
+3. Brief edits (applied 2026-09-24 to the 16h/16i/16j briefs; since 0099
+   they are carried 16k backlog items under the numbers below):
    1. 16h item 27: KotM kit list of §3.1; "extract its archive first" → "meshes and textures
       extracted 2026-09-24; `settlement-mud-v1` KotM pieces blocked on §5.1".
    2. 16h item 26: dressing mine sets = vanilla, BM&V, HTBM, **kotm**; first sample = Keeba
@@ -331,13 +337,14 @@ about 4 M.
       after the SSE 107667 texture download.
    4. 16h "Record reads": add the `kotm` set to `mine_assemblies`, `mine_mounts`, `mine_abuts`,
       `mine_door_links`, sample-first.
-   5. 16i part 1 item 2: the §3.2 table per exemplar; Lilmoth plan cites lilmoth.md Q4 against
+   5. 16i part 1 item 2 (no paper-plan phase since 0100 §3; read per type in
+      the slice's design brief): the §3.2 table per type; Lilmoth plan cites lilmoth.md Q4 against
       KotM's Lilmoth.
-   6. 16i tier A: 18 KotM Argonian hut cells as candidates, furniture and clutter only.
-   7. 16j/15 template: the four KotM village forms as `type-recipes.json` bands.
+   6. 16i tier A (carried items 4–5): 18 KotM Argonian hut cells as candidates, furniture and clutter only.
+   7. The loop's exit and Phase 15 template: the four KotM village forms as `type-recipes.json` bands.
    8. Phase 12 (phases README :434–437, :477–478): replace both claims with the KotM counts;
       add KotM's 62 dwellings, 8 xanmeers, 9 root caves and 24 wet cells to the mines.
-   9. Phase 9 brief (written at 16j close): the 4 small hulls and 7 water-plane caves.
+   9. Phase 9 brief (written at 16k's exit, carried 16j item 9): the 4 small hulls and 7 water-plane caves.
    10. Phase 12b: KotM cypress layering as a table reference; creature SFX and frog loops a
        sourcing job.
    11. Phase 13: add river troll and Argonian behemoth to `creatures.json`; replace voriplasm;

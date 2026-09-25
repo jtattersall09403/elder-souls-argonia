@@ -4,7 +4,7 @@
 > and [00-core.md](00-core.md) for the universal principles. Section numbers (§NN)
 > preserved from the original plan; cross-doc references resolve via the README map.
 
-> **Before authoring any interior or kit assembler (16i for tier A building interiors, Phase 12 for every assembled interior), read the
+> **Before authoring any interior or kit assembler (the 16k slice that takes carried 16i items 4–5 for tier A building interiors, Phase 12 for every assembled interior), read the
 > measured evidence, not just this plan:**
 > [research/placement-settlements/mined-interior-assembly-and-settlement-form.md](../research/placement-settlements/mined-interior-assembly-and-settlement-form.md)
 > — per-kit snap module (128 units ≈ 1.82 m, but *statistical*: town kits lift
@@ -65,7 +65,7 @@ a coastal wreck's hull breach — not just marsh trapdoors and root-mouths).
 A dungeon-kind place (`interior.kind` delve, dungeon, warren or complex;
 327 records) is sited, named and given its purpose with every other place.
 What must be *inside* it is a set of typed **promises** on the record's
-`interior` block, fixed here so 16j and Phase 15 author more in the same
+`interior` block, fixed here so the 16k slices and Phase 15 author more in the same
 words and Phase 12 builds every interior against them. The binding schema
 is `worldgen/catalogue.py` (`interior`, schemaVersion 3); this section is
 the design statement and the two never disagree. The earlier
@@ -118,15 +118,15 @@ in `apps/world-studio/public/kits/` or a built kit in
 `tooling/asset-pipeline/output/kits/` with its source, hash and credit; a
 family with no recipe is re-typed or sourced, never promised (0062). (3)
 The promises project to record-only obligations (`worldgen.place_obligations`,
-owner `phase-12`); the first chunk that emits a delivery manifest (16i)
-writes the manifest verifier. (4) Entrances stay decoupled from geology
+owner `phase-12`); the 16k slice that takes carried 16i item 4 (the first to emit a delivery
+manifest) writes the manifest verifier. (4) Entrances stay decoupled from geology
 (§47); the entrance type on the record is siting data and picks the first
 room's kind (a `stair-throat` opens on a `stair-shaft`, an
 `underwater-entry` on a `flooded-gallery`).
 
 Exterior generation creates foundations, doors, cave mouths, wells, drains
 and underwater portals consistent with the promises. The runtime **must**
-support (nothing below exists yet: 16i builds the load contract, Phase 12
+support (nothing below exists yet: the 16k slice that takes carried 16i item 5 builds the load contract, Phase 12
 the rest; AI-state preservation across portals is build-out work):
 
 - streamed interior cells for large buildings and dungeons;

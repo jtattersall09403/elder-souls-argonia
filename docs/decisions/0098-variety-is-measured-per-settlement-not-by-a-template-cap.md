@@ -99,3 +99,9 @@ usable in kits and places.
 - Project Rainforest's repaints (Windhelm streets and ground, caves,
   dungeon root) join the texture fallback as a second overlay behind
   Tropical Skyrim: 16h part 2 item 37.
+
+## Addendum 2026-09-25 ([0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md), 0100)
+
+The 16i acceptance named above is now the 16k slice gates: the place-completeness
+checklist rows marked Gate, this table (`wb.py signature`) and the breadth bars
+in `world/sources/placement/breadth-bars.json`.

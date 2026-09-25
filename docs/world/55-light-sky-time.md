@@ -26,7 +26,7 @@ atmosphere, not by geometry. Two rules follow:
    and hour*. A material that reads right under a flat white hemisphere light
    and wrong under humid noon haze has not been approved. This is why the light
    stack lands **before** the asset catalogue (Phase 10) and settlement
-   authoring (16i, 16j and every Phase 15 packet), not after.
+   authoring (the 16k place loop and every Phase 15 packet), not after.
 
 Everything here obeys the fixed-difficulty rule (0004): weather, darkness and
 tides are **world state on a calendar**, never scaled to the player.

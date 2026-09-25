@@ -54,7 +54,7 @@ in this folder only as the text of those items (a notice at the top of
 each; 16h keeps part 1 live until it closes). The five Phase 11
 exemplars are dropped (16k hand-off ruling 4; their blueprints were
 deleted 2026-09-25, 0099 addendum); Lilmoth returns as the owner-guided
-whole-city slice. The six 16i exemplars were never built.
+whole-city slice. The six exemplars planned for 16i were never built.
 
 ## Reading order for a fresh agent
 
@@ -74,7 +74,7 @@ whole-city slice. The six 16i exemplars were never built.
 ## 1. Where this came from
 
 Between 2026-09-05 and 2026-09-10, Opus-led sessions delivered water round 2,
-the Phase 11 exemplars, route spans and the vegetation ladder and reported
+the exemplar places of Phase 11, route spans and the vegetation ladder and reported
 them complete. The owner's walk of the deployed build found the water visually
 worse in places than a week earlier, the buildings "a total mess" and the
 chain rebuilding the whole province and re-solving the water every time a
@@ -395,7 +395,7 @@ in the 16k loop, on a runtime that draws a place where its record puts it.
 | C10 | 16f | the air layer's density patches read the shipped wetness and body kinds (graph ids) instead of value noise; a test that a firefly patch centre stands over wet ground |
 | C9 | 16f | measured against the pre-0048 bundles in git; the density ladder is not retuned, but the groundcover layer is — coverage floor nearly everywhere, height and clump variation by land cover, distance fade the way shipped games do it |
 | D1 | 16h, 16k | composites per culture from the mined templates; connectors and fronts exported and checked on runtime transforms |
-| D2 | 16h, 16k | every loop place built as assemblies (the Phase 11 exemplars were dropped, 0099 addendum) |
+| D2 | 16h, 16k | every loop place built as assemblies (the five exemplar places of Phase 11 were dropped, 0099 addendum) |
 | D3 | 16h | the yaw sign; pivot plan offsets applied |
 | D4 | 16h | doors bound to the mesh doorway, exported and checked |
 | D5 | 16h | per-fit anchoring, stilt exemption removed, shipped-bundle replay gate |
@@ -636,7 +636,7 @@ The list below is the seed for that work.
   row per type; the first place is Claywater Station; the five Phase 11
   exemplars are dropped (addendum).
 - **2026-09-25, [0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md):**
-  one place skill (`place-build`; `settlement-build` retired); a place is
+  one place skill (`place-build`; the settlement skill retired); a place is
   authored as one whole layout and iterated on renders, the plan read
   first; lessons live in the skill; dressing is authored to 0098's
   numbers; an accepted place is frozen by its receipt.

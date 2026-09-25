@@ -93,3 +93,9 @@ rootworm network was to be re-authored before the Hist trees it hangs on are pla
 **Consequences.** The 16e brief is the specification; the 16g and 16h briefs,
 the phases README (Phase 9 scope note, Phase 11 table, Phase 15 list), quests
 20's root-transit note and 0061 §4 were reconciled in the same change.
+
+## Addendum 2026-09-25 ([0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md))
+
+The ferries (decision 3) and the landing ties (decision 4) assigned to 16i and
+16j are built with each place in its 16k slice (the water village and waystation types), then in
+the Phase 15 packets.

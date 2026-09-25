@@ -5,6 +5,12 @@ under the lane rules in [README.md](README.md). Owner ruling 2026-09-20: run
 it **before 16h starts**, because every chunk from 16h on ends in an owner
 walk and the walk must not be judged on a renderer that stutters.
 
+**Status (2026-09-25, decision [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) §9):** rounds 0–12 are
+delivered and accepted; the lane is PARKED. Round 13 (briefed below) is
+picked up automatically after 16k's exit, as a named input at the start of
+[Phase 10b](../README.md#phase-10b--full-portable-sandbox-parity-in-the-studio),
+like combat round 8.
+
 ## Goal
 
 The T2 vegetation renderer (`apps/world-studio/src/vegetation/Vegetation.tsx`)
@@ -273,7 +279,8 @@ character body draws at the pose interpolated between fixed physics steps
 the 3 s-reset fix 31324505, HUD fold): "all good"; round 13 deferred by the
 owner until after 16h.
 Round 13 (part-aware mid tier) is briefed below and not yet started.
-Owner 2026-09-22: round 13 after Phase 16h.
+Owner 2026-09-22: round 13 after Phase 16h; since 0099 (2026-09-25) it runs
+at the start of Phase 10b (Status above).
 
 Round 12 is accepted by the owner: 57 fps at rest in the jungle (was 22).
 What follows is the round-11 state it builds on.

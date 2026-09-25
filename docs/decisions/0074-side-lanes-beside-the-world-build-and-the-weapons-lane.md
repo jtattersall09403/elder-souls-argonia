@@ -84,3 +84,8 @@ items; each is placed below.
   completion" row point at the lane.
 - Text a player reads (class labels, weapon names, effect names) goes
   through `packages/text-catalogue` and the `text-review` skill as ever.
+
+## Addendum 2026-09-25 ([0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md))
+
+Decision 5's build-out re-plan moves from "16j close" to the 16k loop's exit,
+with 16j's other hand-off items (0099 Consequences).

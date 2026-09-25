@@ -16,7 +16,7 @@ owner's test of the lab runs as the first item of [Phase 10c](../README.md#phase
   new decision records, short pointers in
   [phases README § Phase 10c](../README.md#phase-10c--stats-progression-and-character-systems-module-76),
   the Stats lab row in `docs/PROGRESS.md` (one line, index-blob).
-- **Never touches:** anything 16h owns (`tooling/world-generation`,
+- **Never touches:** anything Phase 16 owns (16k now; `tooling/world-generation`,
   `tooling/asset-pipeline`, `packages/game-core/src/settlement`, `world/`,
   `apps/world-studio`, `tooling/pages-site`, root `package.json`/`README.md`,
   `docs/phases/16-*`); anything the combat-sandbox lane owns
@@ -36,7 +36,7 @@ owner's test of the lab runs as the first item of [Phase 10c](../README.md#phase
    reconciled into one record.
 3. **`apps/stats-lab`**: sliders for the inputs, tables and curves for the
    outputs, the design's scenario presets; kept out of the Pages site until
-   16h commits `tooling/pages-site/compose.mjs` (backlog row).
+   16k releases `tooling/pages-site/compose.mjs` (backlog row).
 
 | Round | State | Commit | Record | Proof |
 |---|---|---|---|---|

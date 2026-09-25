@@ -269,7 +269,7 @@ author intended; never interleave two sets piece-for-piece.
 | `xanmeer-interior-v1` | 68 | xanmeer-ancient | — | ayleidcc | walkable Xanmeer ruin interiors |
 | `flora-province-v1`, `groundcover-province-v1` | — | — | — | bmv, tropical, vanilla | Phase 10 vegetation |
 
-Not built, still a Part 6 prerequisite: **`settlement-dunmer-v1`** (288 BM&V
+Not built; needed by the first 16k slice that builds a Dunmer place (the Mazzatun exemplar was dropped, 0099 addendum): **`settlement-dunmer-v1`** (288 BM&V
 Velothi/Telvanni/Redoran pieces). Kit provenance and the two build fixes the
 root kits needed are in
 [settlement-kit-sourcing-log.md](../research/placement-settlements/settlement-kit-sourcing-log.md)

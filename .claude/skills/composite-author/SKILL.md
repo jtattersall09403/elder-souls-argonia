@@ -10,7 +10,7 @@ description: Author or audit a kit COMPOSITE (`compose.parts`) as the source plu
 > § Part 1 state, "Open, in order" b2(1); decisions 0036 (composites),
 > 0085 (kit truth is mined), 0086 (this skill). Siblings: `kit-build` (the
 > rebuild), `kit-mining` (any miner re-run), `modular-runs` (chains of
-> abutting pieces: not composites), `settlement-build` (umbrella).
+> abutting pieces: not composites), `place-build` (umbrella; its step 5 calls this skill).
 > A rule below that disagrees with a cited row: the row wins; report it.
 
 Paths: `W=tooling/world-generation` (run `python3 -m worldgen.*` from it),
@@ -144,7 +144,7 @@ record `R=world/sources/placement/kit-assemblies-mined.json`, kit configs
     `python3 -m pytest -q worldgen/test_compile_settlement.py -k corrected`
     (the mire-landing fixture); from `$P`:
     `python3 -m pytest -q pipeline/test_interiors_index.py pipeline/test_build_kit.py pipeline/test_render_assembly.py`.
-    The published-bundle door tests need the export: `settlement-build` §5.
+    The published-bundle door tests need the export: `place-build` §5.
 14b. **Visual step, MANDATORY before the kit ships** (owner check-in 2):
     render the BUILT composite, not its parts: an assembly file
     `{"name": "<name>-built", "pieces": [{"assetId": "<composite id>",

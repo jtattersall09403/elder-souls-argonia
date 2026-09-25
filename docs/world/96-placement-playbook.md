@@ -1,20 +1,25 @@
 # Module 96 — The placement playbook (how a place gets built, and what we learned)
 
-> The working process for building a place (begun as Phase 11 Parts 6–8, now the 16k place loop of decisions 0099 and 0100, then the Phase 15 packets; the operative procedure and lessons store are the `place-build` skill, which this module's history feeds), kept as ONE document so the
-> back-and-forth between the owner and the agents converges on a procedure we
-> trust enough to automate for the long tail (Phase 15). Rules that are
-> already binding live where they live (decision 0041, the blueprint README,
-> the schema docstring); this module is the **route through them**, the
-> **lessons** each round taught and the **automation-readiness checklist**.
-> Owner steers on taste go to 0041's Taste ledger; steers on *process* go
-> here. Update it every round; prune it, do not append forever.
+> **History and pointers, not the live procedure** (decision 0100, 2026-09-25).
+> Places are now built in the 16k place loop (decision 0099) with the
+> `place-build` skill: its [SKILL.md](../../.claude/skills/place-build/SKILL.md)
+> is the procedure, `references/lessons.md` the operative lessons store,
+> `references/design-index.md` the grounding index and `references/types/`
+> the per-type sheets. This module keeps the Phase 11 to 16h record the skill
+> was seeded from: the old per-place loop (§1, history), the seed and
+> write-back rules (§1, still binding), the lessons table (§2, history; new
+> lessons go to `lessons.md`), the Phase 15 automation-readiness checklist
+> (§3) and the record routing (§4). Owner steers on taste still go to 0041's
+> Taste ledger.
 
 ## 1. The loop, per place
 
-The rules that the loop applies — siting, the slope ladder, spacing,
-orientation, culture grammars, what enforces each — live in
-[97-placement-principles.md](97-placement-principles.md) (binding). This
-section is the route through them.
+History: the per-place steps as they ran from Phase 11 to 16h. The live
+steps are `place-build` §0–8 (site dossier, design brief, the layout file and
+`wb.py apply`, the plan read, render rounds, export and publish per place,
+the walk packet, the fix round, the slice close). The rules the steps apply
+live in [97-placement-principles.md](97-placement-principles.md) (binding).
+The seed rule and the write-back rule below the table still bind.
 
 | Step | Tool / artefact | Gate before the next step |
 |---|---|---|
@@ -63,16 +68,16 @@ dot (the blueprint's geometry sits around it).
 - The chain runs by dependency (receipts, `--check-stale`, cascade; 0080),
   so a hand edit invalidates only what read it.
 
-## 1b. How this document stays current
+## 1b. Where lessons go now
 
-Not by memory. Engineering standard 13 (`npm test`) fails when a blueprint,
-design record or placement tool changes without this file or decision 0041
-changing too. So every round of placement work ends by writing its lesson or
-steer here (a row is enough) — the gate makes the omission visible before the
-commit. Sourcing gaps are filled in the session they are found (CLAUDE.md
-sourcing rule); the register only records outcomes.
+To `.claude/skills/place-build/references/lessons.md`, one merged row per
+lesson (0100 decision 4), never here. Engineering standard 13 (`npm test`)
+fails when a blueprint, design record, placement tool, the workbench or the
+place-build skill changes without that file, world 97, this module or
+decision 0041 changing too. Sourcing gaps are filled in the session they are
+found (CLAUDE.md sourcing rule); the register only records outcomes.
 
-## 2. Lessons so far (each one changed a tool or a rule)
+## 2. Lessons to 2026-09-24 (history; `lessons.md` was seeded from this table)
 
 | Round | Lesson | Where it now lives |
 |---|---|---|
@@ -82,7 +87,7 @@ sourcing rule); the register only records outcomes.
 | Rollout 2026-09-09 | **A proxy for "the wall" is not the wall.** The door-facing check took the nearest footprint EDGE for the wall holding a door. On a composite whose threshold sits 0.3 m from the hull centre, 0.3 m of re-derivation swings that "wall" 68 degrees and fails doors the kit itself placed. Where the pipeline mined a real entrance, the piece's own measured entrance is the authority | `blueprint.py` door-facing check; the mined `sideDeg` + yaw |
 | Rollout 2026-09-09 | **Two halves of the pipeline must read the same copy.** Found three times in one session: the settlement compiler read terrain evidence from the VAULT while the checker published only to `apps/`; the postcondition report defaulted its output to the vault while reading published inputs; and the road paint used the frozen carve snapshot while structures were measured on the published line. Each looked like a different bug | published-first with vault fallback; `PUBLISHED_DIR` as the postcondition default |
 | Rollout 2026-09-09 | **A rule that a hand-maintained table cannot satisfy is a treadmill rather than a gate.** Over-cap windows are measured on GRADED ground and a window is itself grading-exempt, so authoring one changes the ground and raises another elsewhere: six ways authored, then forty on twenty-one different ways. Split it — hard on what matters (nothing unauthored is ever PUBLISHED) and a ratchet on the churn. Then the owner ruled the churn away entirely: a bridge needs no authored reason, only the buildings do | `test_no_published_route_structure_is_unauthored`; `_default_why`, scoped narrowly to way-carrying pieces |
-| Rollout 2026-09-09 | **Fan out per place, reconcile, then apply once** (owner). Five blueprints are independent files that compile in ~12 s each, so per-place agents parallelise perfectly — but only against a FROZEN world; their proposals also need a reconciliation pass into one consistent set before applying, or two places move things into each other. Freeze, fan out, reconcile, apply, rebuild once | the rollout shape; `.claude/skills/settlement-build/` |
+| Rollout 2026-09-09 | **Fan out per place, reconcile, then apply once** (owner). Five blueprints are independent files that compile in ~12 s each, so per-place agents parallelise perfectly — but only against a FROZEN world; their proposals also need a reconciliation pass into one consistent set before applying, or two places move things into each other. Freeze, fan out, reconcile, apply, rebuild once | the rollout shape; `.claude/skills/place-build/` (it replaced the retired settlement skill, 0100) |
 | Rollout 2026-09-09 | **A physical fact is measured, never read off a class raster.** Six independent systems each decided "is there water here" from `water-class.png` or the hydrology pass — type labels drawn over a superset of the wet area — and each was wrong in its own way: a berth passed a 10 m wet-join rule from 91 m away, the road grader cut 10,641 cells under the waterline, marsh depth was manufactured out of class membership, the province's land area was 7.14 km² short so every danger density read high; a published boat lane between two cities ran 576 m over a headland that the pass called "tidal" while the depth puts it 5.28 m above the sea. Every physical-water question now goes through one accessor that **requires a season argument**, so the question cannot be asked without naming its season | `water_report.ShippedWater.wet_grid(season)`; `ProvinceSurvey` delegates; decision 0049; `test_water_fact_invariants` asserts on the shipped rasters, not on code shape |
 | Rollout 2026-09-09 | **A rule is scoped by measured ground, not by the label on the thing it judges.** The 15–30 % over-open-water rule fired on every `argonian-stilt` district, including two of Lilmoth's standing on an 11–13 m bench and a 19–23 m crest with zero water samples. Same shape as the row above, one level up | `compile_settlement` flood-band report: `applicable: false` with a reason, printed by name |
 | 16h part 1 2026-09-23 | **A bounding box is not the mesh.** Five rounds classed kit pieces (ground / wall / hanging) from box overlap with vanilla's placements and each round got a different noisy wall list (chairs, planks, waterfall FX, rocks). The plugin gives every placed object's exact transform and the meshes give their surfaces, so attachment is a distance check: contact on the underside means it stands (support from below wins), contact behind means wall-hung, contact on top means hanging; the touching kit parent is the pair with its exact offsets; boxes only filter candidates (decision 0085 §1) | `mine_mounts.py` contact classifier; `kit-mounts-mined.json` schema 3 (`band` / `points`, `abuts`); `kit-designed-sink.json` as the one sink record for every writer |
@@ -156,10 +161,10 @@ sourcing rule); the register only records outcomes.
 
 A place type may be rolled out without an owner round when ALL of these hold:
 
-- [ ] two exemplars of the type have passed an owner round with no steer that changed a rule — the exit bar of the 16k loop (0099 decision 3): two fresh places of the type in a row pass unattended with no defect from the owner's walk; city and early-game types exit by owner acceptance instead (16k § The type list);
+- [ ] the exit bar of the 16k loop (0099 decision 3): two fresh places of the type in a row pass unattended with no defect from the owner's walk; city and early-game types exit by owner acceptance instead (16k § The type list);
 - [ ] every steer from its rounds is a rule in the Taste ledger or a compiler check, none is a one-off edit;
-- [ ] `apply_sitings` + compile + export run clean on the type's exemplars from the blueprint alone (the exemplar is a regression fixture);
-- [ ] the type's siting grammar (which candidates, how measured, what wins) is written in the recipe; the meso pass reproduces the exemplar's choice from it;
+- [ ] the type's accepted places rebuild clean from their layout files alone (`wb.py apply`, then export and compile) and their acceptance receipts in `accepted-places.json` hold (0100 decisions 2 and 6); the yards are the regression fixture (0099 decision 7);
+- [ ] the type's siting grammar (which candidates, how measured, what wins) is written in the recipe; the type sheet (`place-build/references/types/<n>-<type>.md`) reproduces the accepted places' choices from it;
 - [ ] the agent-as-reviewer experiment (0041) has matched the owner's verdict on one non-city instance of the type;
 - [ ] no OPEN row in the sourcing-gap register for a piece the type needs.
 
@@ -191,9 +196,12 @@ the next rebuild. Wamasu Pond needed exactly this after the sap-tapping chain.
 
 ## 4. Records and routing
 
-- Process (this module) · taste steers → 0041 Taste ledger · per-place
-  reasoning → `world/sources/blueprints/<id>.md` · per-round delivery →
-  0041 round records · lessons that are really *rules* → the schema docstring
-  or the linter, then a one-line pointer here.
-- Router rows: [docs/README.md](../README.md) "Authoring or reviewing a
-  settlement blueprint"; [world/README.md](README.md) module table.
+- Procedure and lessons → the `place-build` skill (`SKILL.md`,
+  `references/lessons.md`) · taste steers → 0041 Taste ledger · per-place
+  reasoning → `world/sources/blueprints/<place>.design.md` and the layout
+  `<place>.layout.json` (0100 decision 2) · acceptance →
+  `world/sources/placement/accepted-places.json` · lessons that are really
+  *rules* → world 97, a gate or a `check` rule, with a `lessons.md` row
+  naming it.
+- Router rows: [docs/README.md](../README.md) "Siting, laying out or
+  building a place"; [world/README.md](README.md) module table.

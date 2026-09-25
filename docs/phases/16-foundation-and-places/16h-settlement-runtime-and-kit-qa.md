@@ -226,8 +226,9 @@ miner defects. Yard rounds K4 and K5 fixed the entrance derivation
 defect across all 23 kits. The threshold is now the measured opening,
 the slope rule 97 B3 lives in the compile, docks are exempt, and fixture
 obligations are skipped through one predicate. The five 2026-09-09
-blueprints are RETIRED to `world/sources/blueprints/retired/` (owner
-2026-09-23: the yard is the only fixture). Test-fix rounds 1–7 fixed
+blueprints were RETIRED to `world/sources/blueprints/retired/` (owner
+2026-09-23: the yard is the only fixture) and then deleted with that folder
+(16k hand-off ruling 4, 0099 addendum 2026-09-25). Test-fix rounds 1–7 fixed
 stale `plot_remedies` tests, the survey cache read-only defect, water
 facts on reseats, stale exports (regenerated), roster `slotId` authored
 ids, and type bands 5–9 and 2–6 after the owner's cut. The owner CUT

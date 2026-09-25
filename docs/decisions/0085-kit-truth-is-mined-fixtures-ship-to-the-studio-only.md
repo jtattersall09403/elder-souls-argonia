@@ -106,3 +106,10 @@ cheaper than any rule and is what 16i and 16j build every place from.
   - The sink excludes static-supported refs.
   - Stilt and quay fits are seated by their deck (owner 2026-09-23).
   - Dug-in fits anchor on the lowest sample (world 97 C11a).
+
+## Addendum 2026-09-25 ([0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md), 0100)
+
+The 16i and 16j references above are history: 16i and 16j were superseded by
+the 16k place loop. Places built in its slices use the mined records as
+decision 5 says; the replayed layouts are not re-authored (the exemplars were
+dropped, 0099 addendum).

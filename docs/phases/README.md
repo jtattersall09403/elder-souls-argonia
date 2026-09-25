@@ -134,7 +134,11 @@ out as data:
 4. roll out as data, region packet by region packet (Phase 15, one pass per
    packet once every system it rolls out exists), with owner gates at the
    exemplar and the contrast set, not per instance; cities and the
-   opening-scene places are always owner-guided. **Done
+   opening-scene places are always owner-guided. **Places differ
+   (0099):** they are built one real place per slice in the 16k loop, the
+   owner walking each until it looks right, and a type is proven when two
+   fresh places in a row pass unattended; Phase 15 then rolls out, with
+   templates for minor types. **Done
    early for vegetation**: the terrain chain's final `compile_scatter` stage
    bakes every chunk, so flora has been province-wide since 2026-09-07
    (decision 0036, 2026-09-08 record) — the gates were the six Phase 10
@@ -650,8 +654,9 @@ accumulate in [polish-backlog.md](P-polish/backlog.md) tagged `10b`.
 
 **Named inputs picked up at kickoff (0099 decision 9, owner 2026-09-25):**
 the combat-sandbox lane's round 8 (its open calls, [lane doc](lanes/combat-sandbox-lane.md))
-and the weapons lane's round 2 ([lane doc](lanes/weapons-lane.md)) were
-parked to keep the machine for the place loop; this phase runs them as its
+the weapons lane's round 2 ([lane doc](lanes/weapons-lane.md)) and the
+vegetation renderer lane's round 13 ([lane doc](lanes/vegetation-renderer-lane.md),
+the part-aware mid tier) were parked to keep the machine for the place loop; this phase runs them as its
 first items, after the owner's playtest of what those lanes delivered.
 
 Deliverables:
@@ -1096,9 +1101,10 @@ this file is in git history.
   browser, or the settlement/dungeon systems can't produce good places, the
   project needs to know before investing in the well-understood work
   (traversal, parity, streaming) — hence assets/vegetation and the placement
-  exemplars ahead of Phase 9/10b (owner, 0034);
+  work (now the 16k place loop, 0099) ahead of Phase 9/10b (owner, 0034);
 - **exemplar-first placement** (§85.4) means systems are proven cheap and
-  small before the province pays for them, and every exemplar ships;
+  small before the province pays for them, and every exemplar ships (for
+  places: every place the 16k loop accepts ships);
 - province hydrology cannot drift between independently built local areas;
 - the physical character enters before settlement and dungeon compilers harden;
 - semantic authoring (0019) decouples content from stat retunes, so authoring

@@ -7,6 +7,8 @@ planner; delivered by the placement-workbench lane under 0087). Extends
 0085 (kit truth is mined) and 0066 (read the record, never re-solve it) to
 layout. The `placement-workbench` skill is its procedure (0086).
 
+**Superseded in part by [0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) and [0100](0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) (2026-09-25):** every place is authored in the workbench from one layout file (`wb.py apply`); the per-chunk choice and the `settlement-build` umbrella in Consequences no longer hold. `place-build` is the procedure and `placement-workbench` its tool manual.
+
 ## What was decided
 
 1. **The layout is authored, not solved.** An agent builds a place in the

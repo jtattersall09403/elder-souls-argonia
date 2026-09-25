@@ -42,7 +42,7 @@ site won), `candidatesConsidered` (the runners-up and why each lost),
 `whySiteWon` (one generated sentence: landform, region, danger band, route
 distance, the scoring terms that carried it, and whether it came from the
 homeless batch), `plotFacts` (the land under the dot). Positions are
-approximate; Part 6's compiler sites the footprint on real terrain. To move a
+approximate; the place's compile (the `place-build` skill) sites the footprint on real terrain. To move a
 place, change its `sitingPrefs` or a scoring weight and re-run the plot.
 Typed siting in `sitingPrefs`: `boundTo {place, maxM}`, `sightlineTo [ids]`, `nearWater {entityId, maxM}` (a hydrology-graph river, reach or body id; a reach counts as its river; maxM 10-1500) `minDepthM` (0.3-40 m of recorded water within 150 m) and `nearPoint {x, z, maxM}` (a point in metres the place must stand near) — the plot reads all five as hard gates, so a tie written only as prose is a tie nothing honours.
 A record the plot cannot site is homeless and fails a seeded run, unless it is

@@ -140,7 +140,10 @@ layout edit that will fix it.
 
 ## 3. The plan read (seconds per round)
 
-    python3 -m worldgen.render_blueprint --blueprint <the blueprint apply exported> --out output/plan   # (worldgen)
+    python3 -m worldgen.render_blueprint --layout ../../world/sources/blueprints/<place>.layout.json --out output/plan   # (worldgen)
+
+`--layout` renders the blueprint the last `apply` derived from that layout
+(it refuses when the layout changed since) and implies `--plan`.
 
 Hand the PNG to one Sonnet reader (read-only `general-purpose` agent)
 with the **Plan** rows of `references/reader-checklist.md` and the brief's
@@ -230,6 +233,10 @@ Ends when: every "wrong" is a lessons row with its gate; the packet is out.
    date, the hashes of the compiled record and of the place's patches, the
    export's provenance). From now on later gates run on this place in
    report mode only.
+   The slice close copies every report-mode row for an accepted place in
+   `tooling/world-generation/output/accepted-report.json` into
+   `docs/phases/P-polish/backlog.md` as a row (place, gate, finding).
+   Nothing writes them there automatically (0100 decision 6).
 4. Choose the next slice by the contrast rule: a type not yet passing, in
    a contrasting region, not the same type within 300 m or the same
    purpose within 500 m along one road (97 A6, :130–134).

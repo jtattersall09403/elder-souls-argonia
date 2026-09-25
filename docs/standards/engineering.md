@@ -20,7 +20,7 @@ Enforcement is one of:
 ## 1. The typed condition/action vocabulary exists before content is authored
 
 **What.** Every quest gate, faction check, reward grant and world-state change is
-written in one typed vocabulary. It was authored *before* the places were sited (Phase 11, now 16g–16j) and
+written in one typed vocabulary. It was authored *before* the places were sited (Phase 11, now 16g and the 16k place loop) and
 anything.
 
 **Why.** This is the packages mistake about to repeat. The vocabulary is
@@ -35,7 +35,7 @@ living document — an author who needs a predicate that does not exist **adds i
 there** rather than inventing prose. The Q1 gate (quests 90) checks that every
 authored condition names a listed predicate.
 
-**Owner.** Authored now; extended by place and interior authoring (16g–16j, Phase 12, Phase 15); implemented in
+**Owner.** Authored now; extended by place and interior authoring (16g, the 16k place loop, Phase 12, Phase 15); implemented in
 build-out G2 (`narrative-core`).
 
 ## 2. Stable IDs, and a registry, from the first placed object
@@ -66,7 +66,7 @@ field is optional, but the *opportunity* to set it is not deferred.
 **Why.** Retrofitting "who owns this crate" across a province is the expensive
 version; the Morrowind-visibility theft model (0039) depends on it.
 
-**Enforcement.** hook (homed in 16i by 0062; already a register row).
+**Enforcement.** hook (homed in 16i by 0062, carried into the 16k backlog under its 16i number by 0099; already a register row).
 
 ## 4. One text catalogue; every player-visible string has an ID
 

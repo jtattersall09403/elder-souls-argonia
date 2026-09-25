@@ -2,7 +2,7 @@
 
 Seeded 2026-09-25 by 16k slice 1b: **this seeding is 16i item 0** (the
 lesson reconciliation), done over world 96 §2, the retired
-`settlement-build` rules, the 16h check-in 1 causes (16h brief :279-324),
+settlement skill's rules, the 16h check-in 1 causes (16h brief :279-324),
 the check-in 2 rulings (:505-578), the check-in 3 diagnosis
 (`tooling/.reports/16h/checkin3-diagnosis.md`, gitignored: its operative
 content is copied into the rows below) and the workbench lane's open tool
@@ -110,7 +110,7 @@ compile refusal, or the record it came from.
   16k walk packet (SKILL step 6).
 - 97 C12 compile-placed dressing ring → L33 (0100 decision 5).
 - The 25 % template cap → L20 (0098).
-- `settlement-build`'s exemplar table and `--fixture-replay` of the five
+- The retired settlement skill's exemplar table and `--fixture-replay` of the five
   2026-09-09 blueprints (retired; hand-off ruling 4).
 - "2D blueprint phase, then 3D" → the plan read of the same layout
   (0100 decision 3).

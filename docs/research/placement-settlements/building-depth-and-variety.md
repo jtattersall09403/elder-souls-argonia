@@ -253,7 +253,9 @@ per-settlement bars above, so the question no longer applies.
      stairs if the owner approves KotM. Otherwise BM&V hutexterior + window01–03 + doorframe01 +
      steps02 at measured contact, labelled "fit measured, not mined".
    - The check-in rows gain "windows visible; lit after dusk; porch and dressing present".
-8. **16i part 1 paper plans.** Each building in each exemplar lists its assembly layers and the
+8. **16i part 1 paper plans** (superseded: no paper-plan phase since 0100 §3;
+   each slice's design brief `<place>.design.md` lists, per building, what
+   this item asked; the exemplars were dropped, 0099 addendum). Each building in each exemplar lists its assembly layers and the
    evidence for each. Exemplar kit lists:
    - Lilmoth: imperial (row 4 kit) and mud.
    - Nine-Trunks: mud and root.
@@ -263,7 +265,8 @@ per-settlement bars above, so the question no longer applies.
    - Source: VB legend, from the retired blueprints. The 16i § The story calls Nine-Trunks "the
      stilt village" and Mazzatun "the stepped stone town", so the planner reconciles the grammar
      per place before part 1.
-9. **16i acceptance** gains two checks:
+9. **16i acceptance** gains two checks (since 0099: the 16k slice gates, the
+   0098 table and `world/sources/placement/breadth-bars.json`):
    - per settlement, no two houses share a signature, and each culture meets A6;
    - every dwelling has windows unless §4 rules "none by design".
 10. **Corrections outside the briefs:**

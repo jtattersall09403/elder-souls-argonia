@@ -54,7 +54,7 @@ walks as it needs; it closes only on the owner's "looks right".
 - [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) and [0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) in full; [0098](../../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md) § Decisions; [0097](../../decisions/0097-placement-is-authored-in-a-workbench-and-the-pose-record-is-the-output.md); [0081](../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md) decisions 3–6 (doors, patches).
 - `tooling/.reports/plan/place-audit.md` (the checklist's source) and
   `tooling/.reports/audit/time-audit-2026-09-25.md` § (e).
-- Skills: `place-build` (the procedure, `references/lessons.md` and the design index; replaces `settlement-build`), `placement-workbench` (its tool manual), `kit-build`,
+- Skills: `place-build` (the procedure, `references/lessons.md` and the design index; replaces the retired settlement skill), `placement-workbench` (its tool manual), `kit-build`,
   `modular-runs`, `composite-author`, `text-review`.
 - [world 97](../../world/97-placement-principles.md) Parts A, C7 and F;
   [quests 20](../../quests/20-world-provisions.md) for the slice's place.
@@ -166,9 +166,11 @@ texture `Ground050`, impwindow moss (×6); distance: `fxambwindowglow01`,
 
 **1a. Close 16h part 1.** Resume the check-in 3 fix round's lanes from
 their transcripts (`python3 tooling/repo-standards/lane_resume.py --packet
-<agent-id>` as each brief, same agent type): the kit/yard lane, the miner
-full run (ONCE over the whole pool on the `/tmp` cache volume, owner and
-planner 2026-09-25; no batch mode) and the combat round-7 close.
+<agent-id>` as each brief, same agent type): the kit/yard lane, the miners
+per kit on demand (no full-pool run now: the full-pool run is the overnight
+job, lowest priority, launched only when nothing else is queued, through
+`job_guard.sh`; 16k hand-off ruling 5, kit-mining §5) and the combat
+round-7 close.
 Dismiss or relaunch 7f2405fa. Turn every check-in 1–3 yard defect into
 an automatic gate on proving grounds A and B (0099 decision 7); the yard is not walked again. 16h part 1 closes on
 green gates and the ledger row.

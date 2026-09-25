@@ -56,7 +56,7 @@ Things to know before trusting a rebuild (Phase 16b, decision 0059):
   `apply_terrain_patches`, proved by `patch_water`). A refused patch is listed
   in `province/refined/terrain-patches-applied.json` with the invariant it
   broke; the place adapts. Settlement pads still grade the ground below the
-  gate until 16h makes them patches.
+  gate until the 16k slice that takes carried 16h item 13 makes them patches.
 - **The freeze gate** is `python3 -m worldgen.terrain_preconditions` (also
   `test_terrain_preconditions.py`): the frozen array must keep every promise
   the hydrology graph makes; named leftovers live in

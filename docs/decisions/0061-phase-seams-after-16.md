@@ -3,6 +3,8 @@
 **Date:** 2026-09-12. **Superseded in part by [0062](0062-dungeons-are-places-interiors-are-a-late-phase.md) (2026-09-13):** decisions 1, 2 and 5 below (Phase 12 "dungeons only", the 15A/15B split, the double density declaration) no longer hold; 3, 4 and 6 stand. **Addendum 2026-09-15 ([0068](0068-routes-below-the-gate-records-here-realised-in-16h.md)):** decision 4's "root-transit re-authoring in 16e" moved to 16g; 16e records the services. **Owner:** accepted the recommendations in full
 ("happy to go with your recommendations and decisions on everything").
 
+**Superseded in part by [0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) (2026-09-25):** decision 6 (a 16j trial-packet place is the second exemplar of its type) no longer holds; a type's exit bar is two fresh places in a row passing unattended in the 16k loop (0099 decision 3).
+
 ## Problem
 
 Phase 16 pulled Phase 11's exemplars and "Phase 12's exemplar slice" into

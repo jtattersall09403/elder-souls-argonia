@@ -11,7 +11,7 @@ description: Change or re-run the three kit miners (designed sink, mounts, abuts
 > `worldgen/mine_mounts.py`, `mine_designed_sink.py`, `mine_abuts.py` and in
 > `fixtures/mount-golden.json` `_`; this file is the procedure only. If a
 > cited row or record has moved, this skill is stale: report it. Umbrella:
-> `settlement-build`. Refresh and gates: `kit-build` §4–5. Runs: `modular-runs`.
+> `place-build` (§5 calls this skill when a kit is missing). Refresh and gates: `kit-build` §4–5. Runs: `modular-runs`.
 
 `W=tooling/world-generation` (run `python3 -m worldgen.*` from it);
 `MW=../repo-standards/memwatch.sh`; records under `world/sources/placement/`.
@@ -103,14 +103,22 @@ Plugins live in the vault; a mod folder missing there is fetched with
 
 ## 5. The ONE full run (only after a batch passes with no code change)
 
+Scheduling (16k hand-off ruling 5; 0099 decision 8): inside a slice, mine
+per kit on demand (`mine_abuts --set <id>` or `--only`; `mine_mounts --assets
+<ids>`, which prints and writes nothing). The full-pool run is
+an overnight job at the lowest priority, launched only when nothing else is
+queued, and always through the guard,
+`JG='bash ../repo-standards/job_guard.sh miner --'` (it runs the command
+under memwatch; run from `$W`).
+
 17. Headroom: `awk '/^(anon|shmem) /{s+=$2}END{print s/2^30}'
     /sys/fs/cgroup/memory.stat`; memwatch ceilings are cgroup-wide (ledger §6
     B); one heavy job per lane; no other lane's kit build or full run beside it.
-18. Mounts: `cd $W && $MW python3 -m worldgen.mine_mounts --quiet` (default
+18. Mounts: `cd $W && $JG python3 -m worldgen.mine_mounts --quiet` (default
     `--jobs 5`; workers start from a forkserver, `mine_mounts.py:1153`: a fork
     copied 1.5 GB into each, 10 GiB, killed twice, M10). M16: 806 s, 7.22 GiB.
     Needs the mesh cache: `--dump-meshes` first when `meshesMissing` > 0.
-19. Sink (rule change in the sink): `cd $W && $MW python3 -m
+19. Sink (rule change in the sink): `cd $W && $JG python3 -m
     worldgen.mine_designed_sink` (M10/M11: ~900 s, 6.3–6.9 GiB).
     Always after mounts or a kit rebuild: `--complete-only` (swap, base,
     mesh-sill rows; seconds). Report p50 changes (count, median, max).

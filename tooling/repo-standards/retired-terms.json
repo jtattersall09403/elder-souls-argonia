@@ -104,14 +104,18 @@
       ]
     },
     {
-      "pattern": "settlement-build",
+      "pattern": "settlement-build(?!ing)",
       "why": "the settlement-build skill was retired by 0100 decision 1 (a pointer for one release, then deleted)",
       "say": "the place-build skill (.claude/skills/place-build/)",
       "exempt": [
         ".claude/skills/settlement-build/",
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
         "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
-        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md"
+        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md",
+        "docs/phases/16-foundation-and-places/16g-macro-plot-places-adapt.md",
+        "docs/research/phase16/16h-catalogue-wide-steps-audit.md",
+        "docs/research/phase16/16h-ledger.md",
+        "docs/research/phase16/audit-routers-and-context.md"
       ]
     },
     {
@@ -121,7 +125,8 @@
       "exempt": [
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
         "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
-        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md"
+        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md",
+        "docs/research/phase16/16k-handoff-2026-09-25.md"
       ]
     },
     {
@@ -131,7 +136,8 @@
       "exempt": [
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
         "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
-        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md"
+        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md",
+        "docs/phases/15-rollout/README.md"
       ]
     },
     {
@@ -141,7 +147,8 @@
       "exempt": [
         "docs/phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md",
         "docs/phases/16-foundation-and-places/16i-exemplars-end-to-end.md",
-        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md"
+        "docs/phases/16-foundation-and-places/16j-rollout-skill-and-trial-packet.md",
+        "docs/research/phase16/16k-handoff-2026-09-25.md"
       ]
     }
   ],

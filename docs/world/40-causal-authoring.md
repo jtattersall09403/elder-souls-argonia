@@ -111,7 +111,7 @@ they converge. Detail and enforcement: 0041.
 **Breadth before depth.** For placement at province scale, derive and plot
 *everything* shallowly before authoring *anything* deeply — one-at-a-time
 placement dead-ends the map and hides coverage, density and variety
-problems until they are expensive. 16g and 16i executed this; Phase 15 repeats it per packet as
+problems until they are expensive. 16g executed this and the 16k place loop runs it per place (0099); Phase 15 repeats it per packet as
 derive → catalogue → macro plot → review → author (0041).
 
 ## 29. Example causal derivations

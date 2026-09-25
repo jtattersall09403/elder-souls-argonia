@@ -5,6 +5,8 @@ recommendation, during 16h part 1's fix round). Extends 0079 (the planner
 briefs, subagents execute) and the `settlement-build` skill; the
 `routing-audit` skill gains one check.
 
+**Superseded in part by [0100](0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) (2026-09-25):** decision 2's umbrella is now the `place-build` skill; `settlement-build` is retired. The four kit skills stand, called from place-build's build step.
+
 ## Why
 
 The 16h part 1 fix round (ledger rows K6–K9, M13–M15) had three delivery

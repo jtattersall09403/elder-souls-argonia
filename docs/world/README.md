@@ -7,7 +7,7 @@ across the repo resolve via the map below.
 
 | Your task touches… | Module (sections) |
 |---|---|
-| Design judgement — "would Morrowind do it this way?" | [10-vvardenfell-lessons.md](10-vvardenfell-lessons.md) (§1–10) — the Morrowind models: §4 transport graphs, §5 settlement causation (built in Phase 11, now 16g–16j and Phase 15), §8 dungeon graph grammars (Phase 12); §9: terrain identity comes from placed assets, not heightfield detail |
+| Design judgement — "would Morrowind do it this way?" | [10-vvardenfell-lessons.md](10-vvardenfell-lessons.md) (§1–10) — the Morrowind models: §4 transport graphs, §5 settlement causation (built in Phase 11, now 16g, the 16k place loop and Phase 15), §8 dungeon graph grammars (Phase 12); §9: terrain identity comes from placed assets, not heightfield detail |
 | Province macro structure, danger/access philosophy, era, settlement anchors, region taxonomy | [20-province-design.md](20-province-design.md) (§11–16) — §16 region grammar is the semantic backbone |
 | Turning lore into systems: infrastructure decay, drifting settlements, rootworms, Hist, tribes, pirates, disease, fauna, ecology | [30-lore-systems.md](30-lore-systems.md) (§17–27) — §26 disease/toxins/insects and §27 deep-marsh biology are the Phase 13 ecology source |
 | Causal location records, agent blueprints, review loop, orphan validation | [40-causal-authoring.md](40-causal-authoring.md) (§28–32) |
@@ -26,7 +26,8 @@ across the repo resolve via the map below.
 | Finding/reusing assets: vanilla families + vetted mod candidates (architecture, flora, boats, creatures, ruins) + ingestion order | [90-asset-strategy.md](90-asset-strategy.md) (§71–80) — check before hunting new sources |
 | Populations, cultures mix, demographic priors | [92-demographics.md](92-demographics.md) (§81–84) — read when deciding how many people live in a settlement (Phase 11) |
 | Phase deliverables in detail, three-scales model, sequencing rationale, the phase plans | [../phases/README.md](../phases/README.md) (§85–87; was module 95, moved 2026-09-11) |
-| **Building a place** (16i/16j and every Phase 15 packet): the per-place loop, the write-back rule, lessons per round, the automation-readiness checklist | [96-placement-playbook.md](96-placement-playbook.md) |
+| **Building a place** (every 16k slice and Phase 15 packet): the procedure, the design index, the lessons store and the type sheets | the `place-build` skill ([.claude/skills/place-build/](../../.claude/skills/place-build/SKILL.md), decision 0100) |
+| History of place building (Phase 11 to 16h): the old per-place loop, the lessons table the skill was seeded from, the seed and write-back rules, the automation-readiness checklist | [96-placement-playbook.md](96-placement-playbook.md) |
 | **The rules for siting and laying out a place** (BINDING): province → place, place → ground, ground → layout, the walking player, integration, one grammar table per culture, the enforcement-gap table and the owner sense-check list | [97-placement-principles.md](97-placement-principles.md) |
 | Resolving [^..] citations from any module | [99-sources.md](99-sources.md) |
 

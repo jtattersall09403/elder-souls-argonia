@@ -9,16 +9,24 @@ record unchanged and the existing gates verify it. The mined records
 `kit-assemblies-mined.json`) are evidence the agent queries, never rules
 that place (owner 2026-09-24).
 
+**Status (2026-09-25):** rounds 1–4 delivered. The round-4 recommendation
+below was adopted by [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) §5 and
+[0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) §1–2: every place is authored in
+the workbench from one layout file, and the `placement-workbench` skill is
+the `place-build` skill's tool manual. Since 16k slice 1b (lane A:
+`wb.py apply`, render rounds, export provenance) the workbench is changed
+by 16k slice lanes; no lane round is open.
+
 ## Folders
 
 - **Owns:** `tooling/placement-workbench/**`, this brief and its row in
-  [README.md](README.md), `docs/research/placement-workbench/**`; after the
-  16h commit lands: `.claude/skills/placement-workbench/`, one decision
+  [README.md](README.md), `docs/research/placement-workbench/**` (not yet
+  created); `.claude/skills/placement-workbench/`, one decision
   record, the second yard fixture under `world/sources/blueprints/` and
   `world/sources/sites/`, one root `package.json` script, the lane's row in
   `docs/PROGRESS.md` (index-blob).
 - **Never touches:** the combat-sandbox, stats-lab and sound lanes'
-  folders; any other file under the 16h pathspec.
+  folders; any other file under the 16k slice's pathspec.
 
 ## Rounds
 
@@ -70,9 +78,9 @@ rules. It now calls the compile's and the gate's own functions, and
 | Agent time | about 80 min in the codespace (27 min cut, then 55 min), plus the lost VM run | not measured; 16h part 1's fix rounds and check-in 2 |
 | What it cannot do | scale to a catalogue without an agent turn per piece; keep a quay pose to the centimetre (the compile slides it 0.025 m); read dark close-ups (one reader view came back black) | see a contact before the owner walks it; try a variant cheaply; catch a rule the gates do not hold |
 
-**Recommendation (for the planner; 0097's "decided per chunk" stands until
-then):** author every hand-built place in the workbench, the 16i exemplars
-first, with `wb.py compile` as the inner loop and `check` before every
+**Recommendation (round 4; adopted by 0099 §5 and 0100 §1–2, where the
+prefab question moved to the loop's exit per type, 0099 §3):** author every hand-built place in the workbench, 16i's places
+first as then planned, with `wb.py compile` as the inner loop and `check` before every
 render. For 16j's catalogue rollout, use workbench prefabs (`group save` /
 `group place`) per building type rather than a fresh layout per place;
 the per-piece turn cost is the limit, not the tool's accuracy.

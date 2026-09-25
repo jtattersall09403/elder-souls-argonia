@@ -226,7 +226,7 @@ consumed by both apps). Definitions land as **data files consumed like
 - **the simulation invariants become standing tests** (§103.1 step 7) so later
   tuning and content authoring cannot silently break the balance envelope;
 - the power ladder documented for Phase 13 authors (§128), **as five combat
-  bands D1–D5** — D0 is a safe-ground location property authored with the places (16i, then each Phase 15 packet),
+  bands D1–D5** — D0 is a safe-ground location property authored with the places (each 16k slice, then each Phase 15 packet),
   never an enemy tier.
 
 Sequenced after 10b (parity) and **before Phase 13 and the first Phase 15 packet freeze** (Phase 11 is absorbed into 16): settlements, dungeons and

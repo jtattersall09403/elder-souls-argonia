@@ -18,7 +18,7 @@ named input at the start of [Phase 10b](../README.md#phase-10b--full-portable-sa
   `packages/text-catalogue` (combat and sandbox strings); this brief and the
   weapons brief; new decision records; one note in
   [phases README § Phase 10c](../README.md).
-- **Never touches:** 16h's folders (`tooling/world-generation`,
+- **Never touches:** Phase 16's folders (16k now; `tooling/world-generation`,
   `tooling/asset-pipeline` outside character/weapon configs,
   `packages/game-core/src/settlement`, `world/`, `apps/world-studio`,
   `tooling/pages-site`, root `package.json`/`README.md`,

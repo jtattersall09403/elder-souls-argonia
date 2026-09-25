@@ -4,8 +4,9 @@
 > out, from the province down to the door. Synthesised 2026-09-05 from the
 > measured evidence, the source review, the lore dossiers and the owner's
 > rulings to date; presented to the owner for a sense check (the closing list).
-> [Module 96](96-placement-playbook.md) is the *procedure* that applies these
-> rules; decision [0041](../decisions/0041-phase11-settlement-decisions.md)
+> The `place-build` skill (`.claude/skills/place-build/`, decision 0100) is
+> the *procedure* that applies these rules, and its `references/lessons.md`
+> the lessons store; [module 96](96-placement-playbook.md) is their history; decision [0041](../decisions/0041-phase11-settlement-decisions.md)
 > holds the round records and the Taste ledger; the research documents hold
 > the evidence. This module holds the rules and says what enforces each one.
 > When a rule here and a tool disagree, the tool is wrong until the owner
@@ -234,7 +235,7 @@ write-back cost. Losers are recorded with the ground on which they lost. *O*
 2026-09-04 (geometry, never labels); the worked candidate table is the
 first loop place's design brief (Claywater Station, 16k slice 1c,
 `<place>.design.md`, 0100 decision 2). **Enforced by** the validator
-(`candidates[].rejectedBecause`); the design record; owner Round A.
+(`candidates[].rejectedBecause`); the design record; the owner's walk of the place (0099 decision 2).
 
 **B3. The slope ladder: the building is fixed and the ground meets it,
 within limits.** Δ across the footprint: <0.15 m place direct · 0.15–0.6 plinth ·
@@ -737,10 +738,13 @@ reference register, reviewed by a separate agent.** *O* standards 2 and 12;
 style guide §2.8; 0043. **Enforced by** the id registry, `why` blocks
 (`MIN_WHY_CHARS`), the prose linter (npm test) and the `text-review` skill.
 
-**E7. Derived data is not hand-edited; the exemplar is a regression fixture;
-every compile is deterministic and carries provenance.** *O* standard 6;
-module 40 §31. **Enforced by** drift checks, `GenerationProvenance`,
-byte-stable outputs.
+**E7. Derived data is not hand-edited; the proving-ground yards are the
+regression fixture and an accepted place is frozen; every compile is
+deterministic and carries provenance.** *O* standard 6; module 40 §31; 0099
+decision 7; 0100 decision 6. **Enforced by** drift checks,
+`GenerationProvenance`, byte-stable outputs, the yard gates
+(`test_proving_ground.py`, `test_proving_ground_b.py`) and the acceptance
+receipt `accepted-places.json`.
 
 **E8. The budget is declared and the report is checked against it.** *O* 0041
 perf contract. **Enforced by** `compile_settlement` budget report vs `budget`.
@@ -800,7 +804,7 @@ message, so a failure sends the reader to one rule above.
 | G8 | B4 | highest seasonal water and over-water share not measured | compiler reads the flood-band raster at each footprint; reports the over-water share per district against the culture band  | OPEN (needs a flood-band raster read) |
 | G9 | B5 | dock depth by hull class, and the dock ON the water that serves it | `blueprint._validate_docks`: `docks[].hullClass` (canoe 0.6 / small-draft 1.2 / keeled 3.0 m) sampled over the first 100 m of the serving route; a `networkTerminals[]` entry of kind lane/channel carrying `dockId`; the published water within 10 m of the berth; `docks[].fit` (`water-to-dock` re-ends the channel on the berth in `compile_minor_waterways`, `to-water` moves the berth to the channel end), derived when absent and reported with the metres | CLOSED 2026-09-08 |
 | G10 | B6/D2 | first-seen height vs canopy not computed | compiler line-of-sight from each approach's start to `firstSeen` using the dossier heights + palette canopy height along the ray  | **PART-CLOSED** — `compile_settlement._first_seen_warnings` runs bare-terrain line of sight from the approach's first waypoint to the `firstSeen` piece and reports the piece's height against the region palette's measured canopy (WARN). Canopy is not in the survey, so the ray itself is bare-terrain only |
-| G11 | B7 | `terrainRequests` not carved | Part 6 carve job in the chunk rebuild; validator warns while a request is unfulfilled  | OPEN (Part 6 carve job) |
+| G11 | B7 | `terrainRequests` not carved | typed per-place terrain patches (0059): 16k carried 16h item 13 (pads as patches) and open item 0c (dug-in pieces); validator warns while a request is unfulfilled | OPEN (16k carried items 13, 0c) |
 | G12 | C3/D8 | spine width and 1.3 m passage not checked | integration: spine `widthM` > every other way in the blueprint; min gap between neighbouring footprints along a way ≥ 1.3 m  | **CLOSED** — `blueprint_integration` `passage` (a way between two hulls needs 1.3 m of clear gap, HARD) + width classes in `_placement_warnings` (road 4.3 m, track 2.5, path 1.2, plus no rank inversion, WARN) |
 | G13 | C4 | first-node-is-commerce not checked | checklist item; later an integration rule that the first `endsAt` on the spine after the `spans` parcel is a market/deck/hall `use`  | OPEN (reviewer checklist) |
 | G14 | C5 | 8 m nearest-neighbour floor | integration `parcel-gap` (centre distance ≥ 8 m unless `stacksOn`)  | **CLOSED** — `blueprint_integration` `parcel-gap` (8 m between centres, HARD), with the designed-contact exceptions `stacksOn`, `spans`, enclosure `use` plus the new parcel flag `abuts` + `abutsWhy` |

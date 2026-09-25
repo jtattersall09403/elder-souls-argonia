@@ -4,7 +4,7 @@
 
 # Part XIII — Post-world-generation production sequence
 
-## 65b. QW — the quest–world co-design loop (runs inside 16j and every Phase 15 packet, before the exit gate)
+## 65b. QW — the quest–world co-design loop (runs inside every 16k slice and every Phase 15 packet, before the exit gate)
 
 *(Added 2026-08-26, owner directive. Quests and world-building feed each other:
 what settlements exist determines who can give quests; what quests need
@@ -15,7 +15,7 @@ directly. The gap is the 60–80 regional/local quests, most of which are not ye
 designed. This loop closes it, region by region, without pulling full quest
 production forward.)*
 
-For **every region packet** (the 16j trial packet and each Phase 15
+For **every region packet** (each 16k slice, per carried 16j item 2, and each Phase 15
 packet; Phase 12 interiors and Phase 13 populations answer the promises the
 packet's briefs make):
 

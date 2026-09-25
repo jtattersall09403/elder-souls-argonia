@@ -6,6 +6,8 @@ owner workflow). Amends the 16h plan of 2026-09-20 (same day) and the
 16i/16j briefs of 2026-09-13; refines 0062 §3; resolves world 80 §63
 against 0062.
 
+**Superseded in part by [0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) (2026-09-25):** decision 1's flow from 16h part 2 on (exemplars in 16i, rollout in 16j) is replaced by the 16k place loop; 16h part 1, the door model and the three patch kinds stand.
+
 ## What the owner asked
 
 Review the 16h, 16i and 16j briefs as one flow into Phase 15; make the
@@ -118,3 +120,7 @@ chunk.
 - The old 16h "part 3" items moved into 16h part 2 (machinery) or 16i
   (place design). Nothing was dropped; the coverage matrix rows D1–D13
   still map to 16h except D14, which is 16i/16j.
+
+## Addendum 2026-09-25 (16k lane F): run pads are typed terrain patches
+
+- A modular run that seats as one rigid chain over falling ground gets a `settlement-pad` terrain patch (`patch.pad.settlement.<placeId>.<runId>`, `terrain-patches.json` schema 2), emitted by the settlement export under each member more than 0.05 m over the ground and merged cumulatively (`worldgen/settlement_run_pads.py`).

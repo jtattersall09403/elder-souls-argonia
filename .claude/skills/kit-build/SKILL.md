@@ -8,7 +8,8 @@ description: Take a kit config to a published, compressed, measured kit under ap
 > docs/research/phase16/16h-ledger.md rows **K6** (found on disk, yard),
 > **K7 A hut**, **K9 not done**, **K10 D composites**, **K10 E**, **M13**, **M14**,
 > **M15**, **M16**, **K11 A**. If a cited row or record has moved, this skill is stale:
-> report it, do not follow it blind. Umbrella: `settlement-build`. Miner
+> report it, do not follow it blind. Umbrella: `place-build`
+> (it calls this skill from its step 5 when a kit is missing or stale). Miner
 > protocol: `kit-mining`. Composite authoring: `composite-author`.
 
 # Kit build
@@ -116,7 +117,7 @@ A vault asset missing on this machine: `bash tooling/bootstrap/vault-pull.sh mod
 
 ## 6. Downstream consumers (the kit is not done until they read it)
 
-- Settlements using the kit: `settlement-build` §4 compile, §5 export. The
+- Places using the kit: `place-build` §5 (export, compile, publish per place). The
   export reads published sidecars; the game-core collider budget test
   (`packages/game-core/src/settlement/settlementCollision.test.ts:139`,
   `round(worst × 1.55)`) is stale until the export runs (K6 yard):
@@ -124,7 +125,7 @@ A vault asset missing on this machine: `bash tooling/bootstrap/vault-pull.sh mod
       npm test -w @elder-souls/game-core -- src/settlement
 
 - A composite whose geometry moved: re-derive footprint, threshold and path
-  (`settlement-build` §2; K7 A hut, K10 E), and rerun the door agreement
+  (`place-build` §2 `apply`, then §5 export; K7 A hut, K10 E), and rerun the door agreement
   tests (`composite-author`).
 
 ## 7. Download budget (standard 16)

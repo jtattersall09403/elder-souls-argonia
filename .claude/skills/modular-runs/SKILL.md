@@ -9,7 +9,8 @@ description: Chains of abutting kit pieces (walls, fences, docks, and the built 
 > `docs/world/97-placement-principles.md` B3 (slope ladder). Rules live there
 > and in the docstrings of `worldgen/mine_abuts.py` (method 1–9),
 > `blueprint.py` (parcel `pieces`) and `compile_settlement.open_modular_ends`;
-> this file is the procedure only. Umbrella: `settlement-build`. Miner
+> this file is the procedure only. Umbrella: `place-build`
+> (its step 5 calls this skill). Miner
 > protocol in general: `kit-mining`. Rebuild and sidecars: `kit-build`.
 
 All paths below are from the repo root; `WG=tooling/world-generation`,
@@ -73,7 +74,7 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
     `worldgen/test_proving_ground.py` for yard work (four read the exported
     bundle and stay red until the yard is exported: K7–K10).
 11. Materials budget: a run adds each piece's materials (K9: yard 98 → 106);
-    raise the declared budget with the reason, per `settlement-build`.
+    raise the declared budget with the reason, per `place-build` §5.
 
 ## D. A set no plugin places (King of the Murkmire precedent, K8)
 
@@ -107,7 +108,9 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
 19. One full run, all five sets (`vanilla`, `bmv-blackmarsh`, `bmv-valenwood`,
     `htbm`, `kotm`; plugin and worldspace arguments as `sets.*.plugins` /
     `worldspaces` in `$R`, kotm as step 15) under
-    `tooling/repo-standards/memwatch.sh python3 -m worldgen.mine_abuts … --write`.
+    `bash tooling/repo-standards/job_guard.sh miner -- python3 -m worldgen.mine_abuts … --write`
+    (0099 decision 8; job_guard runs it under memwatch). Overnight, when
+    nothing else is queued (kit-mining §5).
     K9/K10: 251–278 s, cgroup peak 4.50–5.34 GiB; nothing else heavy alongside.
 20. After `--write`: `test_mine_abuts.py` (the spread check fails on purpose if
     a family pair spreads > 0.3 m), recompile every blueprint with a `pieces`
