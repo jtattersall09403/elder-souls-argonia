@@ -22,15 +22,15 @@ ARG RCLONE_SHA256=982b5aa772841168f8e380f139e9e787b2a105403e32b94da8676a0e1c0a13
 ARG RTK_VERSION=0.49.0
 ARG RTK_SHA256=a051b22361c7cfa36022bc3f06bb41cdc88e58a07263dc340d8bd3468c41befe
 
-# System packages. bsdtar reads the mod RARs (pipeline/build_kit.py); xvfb
-# gives Wine a display for wineboot; the lib* set is what the wow64 Wine build
+# System packages. bsdtar reads the mod RARs (pipeline/build_kit.py); no X
+# server: Wine and Blender run headless, as on the VM; the lib* set is what the wow64 Wine build
 # links or loads for a headless Blender (no i386 packages: the build is wow64);
 # libspatialindex backs rtree for the mounts miner; ffmpeg (with ffprobe) is
 # called by tooling/audio-pipeline/audio_pipeline/codec.py.
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       ca-certificates curl unzip xz-utils \
-      libarchive-tools xvfb xauth \
+      libarchive-tools \
       ffmpeg \
       libspatialindex-dev \
       libx11-6 libx11-xcb1 libxext6 libxrender1 libxcursor1 libxi6 libxrandr2 \
@@ -67,8 +67,9 @@ RUN curl -fsSL -o rclone.zip "https://downloads.rclone.org/v${RCLONE_VERSION}/rc
 #                                               as on the VM; the Blender
 #                                               scripts enable it by module)
 #   gltfpack-1.2/gltfpack                      (meshoptimizer v1.2)
-# The Wine prefix (wine-pynifly-prefix) is built by on-create.sh as the
-# vscode user, since Wine refuses a prefix owned by someone else.
+# The Wine prefix (wine-pynifly-prefix) is built by tooling/bootstrap/first-run.sh
+# (run by hand) as the vscode user, since Wine refuses a prefix owned by
+# someone else.
 RUN mkdir -p /opt/es-tools \
  && curl -fsSL -o wine.tar.xz "https://github.com/Kron4ek/Wine-Builds/releases/download/${WINE_VERSION}/wine-${WINE_VERSION}-amd64-wow64.tar.xz" \
  && echo "${WINE_SHA256}  wine.tar.xz" | sha256sum -c - \
