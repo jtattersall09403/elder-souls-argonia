@@ -6,7 +6,7 @@
 #   vault-pull.sh --with-archives <id>...   also pull each part's archivesPart
 #   vault-pull.sh --list             every part: tier, size, pulled or not
 #   vault-pull.sh --free             free space and the pulled parts, oldest use first
-#   vault-pull.sh --evict <id>       remove a pulled "mod" part (with its root)
+#   vault-pull.sh --evict <id>       remove a pulled "mod" or "cache" part (with its root)
 #   vault-pull.sh --force ...        extract over local changes
 #
 # Reads tooling/bootstrap/snapshot-manifest.json (schemaVersion 1). Each part is
@@ -24,7 +24,7 @@
 # deleted then). Eviction runs the same guard over the whole root and keeps a
 # root with local changes. Parts sharing a root are one eviction
 # unit: a root is evicted (when a pull needs room, least recently used first)
-# only if every part with that root is tier "mod". Before extracting, the pull
+# only if every part with that root is tier "mod" or "cache". Before extracting, the pull
 # refuses (unless --force) if the part's files changed since the marker, or, with
 # no marker, if any of the part's files (read from its sidecar object
 # filesObject) already exists here and is not a git-tracked file equal to HEAD.
@@ -86,12 +86,17 @@ safe_remove() {  # remove a part's root (a leaf only) and the markers of every p
   while IFS= read -r other; do drop_marker "$other"; done < <(mf same-root "$P_ROOT")
 }
 
-# The parts sharing a root are one unit: evictable only if every one is tier mod.
+# Tiers whose parts may be evicted (their files removed to make room). Tier
+# chain (the terrain heightfield) and base/vault/claude/toolchain never are.
+evictable_tier() { [[ "$1" == mod || "$1" == cache ]]; }
+
+# The parts sharing a root are one unit: evictable only if every one is of an
+# evictable tier.
 root_evictable() {  # root_evictable <root>
   local other
   while IFS= read -r other; do
     [[ -z "$other" ]] && continue
-    [[ "$(mf field "$other" tier)" == "mod" ]] || return 1
+    evictable_tier "$(mf field "$other" tier)" || return 1
   done < <(mf same-root "$1")
 }
 
@@ -189,51 +194,67 @@ fetch_filelist() {  # fetch_filelist <id> <out>: the part's sidecar list, or an 
   fi
 }
 
+# Python shared by local_conflicts and drop_stale: git_sets(dev, paths)
+# returns (tracked, changed), the dev-root-relative paths among <paths> that
+# git tracks, and that differ from HEAD, in the work tree holding each. One
+# ls-files and one diff per work tree (grouped by first path component); a
+# path in no work tree is in neither set.
+GITPY='
+import os, subprocess
+def git_sets(dev, paths):
+    groups, tracked, changed = {}, set(), set()
+    for p in paths:
+        groups.setdefault(p.split("/", 1)[0], []).append(p)
+    for first in groups:
+        try:
+            top = subprocess.run(["git", "-C", os.path.join(dev, first), "rev-parse", "--show-toplevel"],
+                                 capture_output=True, text=True, check=True).stdout.strip()
+        except (subprocess.CalledProcessError, FileNotFoundError, NotADirectoryError):
+            continue
+        rel = os.path.relpath(top, dev)
+        pre = "" if rel == "." else rel + "/"
+        def z(*a):
+            r = subprocess.run(["git", "-C", top, *a], capture_output=True, check=True).stdout
+            return {pre + q.decode("utf-8", "surrogateescape") for q in r.split(b"\0") if q}
+        tracked |= z("ls-files", "-z")
+        changed |= z("diff", "--name-only", "--no-renames", "-z", "HEAD")
+    return tracked, changed
+'
+
 local_conflicts() {  # local_conflicts <id> (P_* loaded)
   local tmp rc=0
   tmp="$(mktemp)"
   fetch_filelist "$1" "$tmp" || { rm -f -- "$tmp"; return 1; }
-  python3 - "$DEVROOT" "$tmp" <<'PY' || rc=$?
-import os, subprocess, sys
+  python3 -c "$GITPY$(cat <<'PY'
+
+import sys
 root = sys.argv[1]
-groups = {}  # first path component -> existing listed files under it
-for line in open(sys.argv[2], encoding="utf-8", errors="surrogateescape").read().splitlines():
-    if not line or line.endswith("/"):
-        continue
-    if os.path.lexists(os.path.join(root, line)):
-        groups.setdefault(line.split("/", 1)[0], []).append(line)
-out = []
-for first, paths in sorted(groups.items()):
-    held = set()
-    try:
-        top = subprocess.run(["git", "-C", os.path.join(root, first), "rev-parse", "--show-toplevel"],
-                             capture_output=True, text=True, check=True).stdout.strip()
-        rel = os.path.relpath(top, root)
-        pre = "" if rel == "." else rel + "/"
-        def z(*a):
-            r = subprocess.run(["git", "-C", top, *a], capture_output=True, check=True).stdout
-            return {pre + p.decode("utf-8", "surrogateescape") for p in r.split(b"\0") if p}
-        # One ls-files and one diff per work tree: tracked, minus changed vs HEAD.
-        held = z("ls-files", "-z") - z("diff", "--name-only", "--no-renames", "-z", "HEAD")
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        pass  # not inside a git work tree: every present file is a local change
-    out += [p for p in paths if p not in held]
+present = [l for l in open(sys.argv[2], encoding="utf-8", errors="surrogateescape").read().splitlines()
+           if l and not l.endswith("/") and os.path.lexists(os.path.join(root, l))]
+tracked, changed = git_sets(root, present)
+held = tracked - changed   # git holds it unchanged: a fresh clone's file
+out = [p for p in present if p not in held]
 sys.stdout.buffer.write("".join(p + "\n" for p in out).encode("utf-8", "surrogateescape"))
 PY
+)" "$DEVROOT" "$tmp" || rc=$?
   rm -f -- "$tmp"
   return "$rc"
 }
 
 # drop_stale <old list> <new list>: delete the files the old list names and
-# the new does not (only under the part's root), then the directories that
-# deletion left empty, up to the root.
+# the new does not (only under the part's root, never one git tracks in the
+# work tree holding it), then the directories that deletion left empty, up to
+# the root.
 drop_stale() {
-  python3 - "$DEVROOT" "$P_ROOT" "$1" "$2" <<'PY'
-import os, sys
+  python3 -c "$GITPY$(cat <<'PY'
+
+import sys
 dev, root, old, new = sys.argv[1:5]
 rd = lambda p: {l for l in open(p, encoding="utf-8", errors="surrogateescape").read().splitlines() if l and not l.endswith("/")}
 top = os.path.join(dev, root)
 gone = sorted(p for p in rd(old) - rd(new) if p.startswith(root.rstrip("/") + "/"))
+tracked, _ = git_sets(dev, gone)
+gone = [p for p in gone if p not in tracked]   # a file git tracks is never deleted
 n = 0
 for p in gone:
     f = os.path.join(dev, p)
@@ -249,12 +270,13 @@ for p in gone:
 if n:
     print(f"[vault-pull] removed {n} file(s): an old or interrupted version of the part held them, the new one does not")
 PY
+)" "$DEVROOT" "$P_ROOT" "$1" "$2"
 }
 
 # root_clean <root>: the pull guard over a whole root. Every part on it with a
 # marker still matches that marker's fingerprint, and every file under the
-# root is one some marker's .files lists (a file added since, such as a new
-# archive, is a local change).
+# root (outside nested part roots) is one some marker's .files lists or one
+# git tracks (a file added since, such as a new archive, is a local change).
 root_clean() {
   local other mk lists=()
   while IFS= read -r other; do
@@ -263,17 +285,29 @@ root_clean() {
     [[ "$(marker_files_fp "$mk.files")" == "$(sed -n 2p "$mk")" ]] || return 1
     lists+=("$mk.files")
   done < <(mf same-root "$1")
-  python3 - "$DEVROOT" "$1" "${lists[@]}" <<'PY'
-import os, sys
-dev, root, lists = sys.argv[1], sys.argv[2], sys.argv[3:]
+  # Roots of other parts nested under this one are theirs: not walked.
+  local nested; nested="$(mf nested-rel "$1" | tr '\n' '\t')"
+  python3 -c "$GITPY$(cat <<'PY'
+
+import sys
+dev, root, nested, lists = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4:]
+top = os.path.join(dev, root)
+skip = {os.path.join(top, n) for n in nested.split("\t") if n}
 known = set()
 for l in lists:
     known.update(x for x in open(l, encoding="utf-8", errors="surrogateescape").read().splitlines() if x)
-for d, _, fs in os.walk(os.path.join(dev, root)):
+unknown = []
+for d, ds, fs in os.walk(top):
+    ds[:] = [x for x in ds if os.path.join(d, x) not in skip]
     for f in fs:
-        if os.path.relpath(os.path.join(d, f), dev) not in known:
-            sys.exit(1)
+        p = os.path.relpath(os.path.join(d, f), dev)
+        if p not in known:
+            unknown.append(p)
+# A file git tracks is git's, not a local change: eviction never deletes it.
+tracked, _ = git_sets(dev, unknown)
+sys.exit(1 if any(p not in tracked for p in unknown) else 0)
 PY
+)" "$DEVROOT" "$1" "$nested" "${lists[@]}"
 }
 
 # move_staged <stage> <names>: move every staged entry the tar listed to the
@@ -326,17 +360,36 @@ PY
 
 evict() {  # evict <id>: the part's whole root, and every marker on it
   part "$1"
-  [[ "$P_TIER" == "mod" ]] || die "$1 is tier '$P_TIER'; only mod parts are evicted"
+  evictable_tier "$P_TIER" || die "$1 is tier '$P_TIER'; only mod and cache parts are evicted"
   local path; path="$(target_of "$1")"
   if is_bundle; then
     say "evict $1 ($P_BYTES bytes): $path"; rm -f -- "$path"
   else
-    root_evictable "$P_ROOT" || die "$1 shares root $P_ROOT with a part that is not tier mod; not evicted"
+    root_evictable "$P_ROOT" || die "$1 shares root $P_ROOT with a part that is not tier mod or cache; not evicted"
     root_clean "$P_ROOT" || die "kept $P_ROOT: local changes (snapshot-vault.sh --only $1 first)"
     say "evict root $P_ROOT (parts: $(mf same-root "$P_ROOT" | tr '\n' ' '))"
-    safe_remove "$path"
+    evict_root "$path"
   fi
   drop_marker "$1"
+}
+
+# evict_root <path> (P_* loaded): delete the files the markers of every part
+# on the root list (drop_stale: never a file git tracks, e.g. the vault's
+# tracked output/ files under vault-output), then the directories left empty
+# (the root too, once empty), and drop those markers. root_clean has already
+# proved no other file lives there, outside the roots of parts nested under
+# it (e.g. repo-asset-kits-meta under repo-asset-output), whose files are not
+# in these lists and so stay.
+evict_root() {
+  local other mk tmp; tmp="$(mktemp -d)"; : > "$tmp/all"; : > "$tmp/none"
+  while IFS= read -r other; do
+    mk="$(marker "$other")"
+    [[ -f "$mk.files" ]] && cat "$mk.files" >> "$tmp/all"
+  done < <(mf same-root "$P_ROOT")
+  drop_stale "$tmp/all" "$tmp/none"
+  find "$1" -depth -type d -empty -delete 2>/dev/null || true
+  rm -rf -- "$tmp"
+  while IFS= read -r other; do drop_marker "$other"; done < <(mf same-root "$P_ROOT")
 }
 
 # ensure_room <bytes> <ids being pulled...>: evict LRU mod roots until it fits.
@@ -352,7 +405,7 @@ ensure_room() {
     id="$(basename "$m" .done)"; id="${id//__//}"
     mf get "$id" >/dev/null 2>&1 || continue
     part "$id"
-    [[ "$P_TIER" == "mod" ]] || continue
+    evictable_tier "$P_TIER" || continue
     if ! is_bundle; then
       root_evictable "$P_ROOT" || continue
       busy=""
@@ -475,7 +528,7 @@ pull() {  # pull <id> <ids in this request...>
     elif (( ! existed )) || root_evictable "$P_ROOT"; then
       ( safe_remove "$target" ) && rm -f -- "$mk.inprogress"
     else
-      say "$id: kept $target (its root is shared with a part that is not tier mod)"
+      say "$id: kept $target (its root is shared with a part that is not tier mod or cache)"
     fi
     drop_marker "$id"; rm -rf -- "$tmp"
     die "$id: stream failed (exit $rc) or hash mismatch (want $P_SHA, got ${got:-none}); $target removed unless kept or refused above"

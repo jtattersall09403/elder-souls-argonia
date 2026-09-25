@@ -16,7 +16,10 @@
       "version": "3.12"
     },
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
   },
   "forwardPorts": [8081],
   "portsAttributes": {
@@ -28,7 +31,6 @@
   },
   "containerEnv": {
     "ES_STUDIO_PORT": "8081",
-    "ES_ASSET_PIPELINE_ROOT": "/workspaces/elder-scrolls-asset-pipeline",
     "CLAUDE_CONFIG_DIR": "/workspaces/.claude-home",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   },

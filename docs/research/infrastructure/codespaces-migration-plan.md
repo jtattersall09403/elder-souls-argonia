@@ -140,6 +140,13 @@ switch day, run `snapshot-vault.sh` on the VM (it skips unchanged parts),
 commit the manifest, then create the codespace. After that the codespace is
 the only machine that edits the vault.
 
+**Claude transcripts (owner ruling 2026-09-25).** This project's whole Claude
+project dir (transcripts, subagent dirs) is the `claude-transcripts` part
+(tier `claude`). It is restored in full in every codespace and never goes into
+git. Claude Code's default `cleanupPeriodDays` (30) stays, so the backup holds
+about the last month of sessions. There is no recent/archive split, because
+parts defined by file age would drop old sessions from the backup.
+
 **Agent work remaining**:
 
 1. Prove the image on the first codespace: `on-create` end to end, then one

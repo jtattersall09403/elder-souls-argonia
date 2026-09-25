@@ -37,13 +37,10 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .vault_path import vault_root
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_VAULT = Path(
-    os.environ.get(
-        "ELDER_SOULS_ASSET_ROOT",
-        Path.home() / "workspace/elder-souls-dev/elder-scrolls-asset-pipeline",
-    )
-)
+DEFAULT_VAULT = vault_root()
 REPORT = REPO_ROOT / "world/sources/assets/vault-inventory.md"
 SIDECAR = REPO_ROOT / "tooling/asset-pipeline/output/vault-inventory.json"
 

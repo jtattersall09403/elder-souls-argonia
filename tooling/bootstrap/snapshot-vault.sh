@@ -40,7 +40,7 @@
 # vault-pull marker there (a part new to the manifest uploads; off with
 # --allow-partial); and a part whose sourceBytes fell below 50% of the
 # manifest's is refused (off with --allow-shrink; vault-worktree and
-# claude-home are exempt).
+# claude-home and claude-transcripts are exempt).
 # The manifest is rewritten atomically after each part, so a crash resumes.
 # Env: RCLONE (default ~/.local/bin/rclone or rclone on PATH), SNAPSHOT_JOBS (3),
 # SNAPSHOT_WARNINGS (tar warning log, default /tmp/snapshot-vault-warnings.log),
@@ -56,7 +56,8 @@ es_paths
 VAULT_NAME="elder-scrolls-asset-pipeline"
 VAULT="$DEVROOT/$VAULT_NAME"
 MODS_REL="$VAULT_NAME/skyrim-source/mod-sources"
-BMV_REL="$(basename "$REPO")/tooling/asset-pipeline/black-marsh-mod-source"
+REPO_NAME="$(basename "$REPO")"
+BMV_REL="$REPO_NAME/tooling/asset-pipeline/black-marsh-mod-source"
 CLAUDE_SRC="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 # Claude Code's project key: the repo path with "/" (and ".") as "-". The tar
 # stores the codespace key; it is rewritten only when this machine's differs.
@@ -90,11 +91,13 @@ catalogue() {
   for d in "$DEVROOT/$MODS_REL"/*/; do
     d="$(basename "$d")"; id="mod-sources/$d"
     [[ "$d" == *.incoming-* ]] && continue   # a vault-pull staging dir
-    tier="mod"; [[ "$d" == "tamriel-worldspaces-118678" ]] && tier="base"
+    # tamriel-worldspaces holds the base heightfield the terrain chain reads:
+    # tier chain (pulled on demand, never evicted).
+    tier="mod"; [[ "$d" == "tamriel-worldspaces-118678" ]] && tier="chain"
     if [[ -n "$(find "$DEVROOT/$MODS_REL/$d" -type f "${ARCHIVE_FIND[@]}" -print -quit)" ]]; then
       printf '%s\t%s\t%s\ttar\t%s\n' "$id" "$tier" "$MODS_REL/$d" "$id.archives"
       # The .archives part (original zips/7z/rar) is never needed to run, so
-      # it is always tier "mod" even when its main part is base.
+      # it is always tier "mod" even when its main part is not.
       printf '%s\t%s\t%s\ttar\t-\n' "$id.archives" "mod" "$MODS_REL/$d"
     else
       # No archives on this disk (a codespace pulls them only on request): the
@@ -108,15 +111,36 @@ catalogue() {
   fixed() { [[ -d "$4" ]] && printf '%s\t%s\t%s\t%s\t-\n' "$1" "$2" "$3" "$5"; return 0; }
   fixed vanilla            toolchain "$VAULT_NAME/skyrim-source/Data" "$DEVROOT/$VAULT_NAME/skyrim-source/Data" tar
   fixed skyrim-source-misc base      "$VAULT_NAME/skyrim-source" "$DEVROOT/$VAULT_NAME/skyrim-source" tar
-  fixed vault-output       base      "$VAULT_NAME/output" "$DEVROOT/$VAULT_NAME/output" tar
+  fixed vault-output       cache     "$VAULT_NAME/output" "$DEVROOT/$VAULT_NAME/output" tar
   fixed vault-git          vault     "$VAULT_NAME" "$VAULT/.git" bundle
   fixed vault-worktree     vault     "$VAULT_NAME" "$VAULT/.git" tar
+  # The vault's git-ignored files outside every other part's root, but build/
+  # (rebuildable): the KotM text corpus (derived/text/...), shots/ ...
+  fixed vault-extra        base      "$VAULT_NAME" "$VAULT/.git" tar
   fixed bmv                mod       "$BMV_REL" "$DEVROOT/$BMV_REL" tar
+  # The repo's git-ignored data a fresh clone lacks (never a tracked file).
+  # Base (restored at create): the studio's public data and the world-gen
+  # chain/report products (about 1 MB). Cache (pulled on request, evictable
+  # like mod): the kit mesh cache, the asset-pipeline build and output, the
+  # water dependency recovery tree. Not carried: world-generation
+  # survey-cache (rebuilt in ~13 s) and mesh-cache-work (scratch).
+  local WG="$REPO_NAME/tooling/world-generation/output" AP="$REPO_NAME/tooling/asset-pipeline"
+  fixed repo-studio-public  base  "$REPO_NAME/apps/world-studio/public" "$REPO/apps/world-studio/public" tar
+  fixed repo-wg-products    base  "$WG" "$DEVROOT/$WG" tar
+  fixed repo-wg-mesh-cache  cache "$WG/mesh-cache" "$DEVROOT/$WG/mesh-cache" tar
+  fixed repo-asset-build    cache "$AP/build" "$DEVROOT/$AP/build" tar
+  fixed repo-asset-kits-meta base  "$AP/output/kits" "$DEVROOT/$AP/output/kits" tar
+  fixed repo-asset-output   cache "$AP/output" "$DEVROOT/$AP/output" tar
+  fixed repo-water-recovery cache "$REPO_NAME/.water-dependency-recovery" "$REPO/.water-dependency-recovery" tar
   fixed claude-home        claude    .claude-home "$CLAUDE_SRC" tar
+  # This project's Claude session transcripts, subagent/workflow dirs and
+  # tool results: everything in its project dir but memory/ (claude-home
+  # has that). Backed up to the private bucket only, never to git.
+  fixed claude-transcripts claude    .claude-home "$CLAUDE_SRC/projects/$SRC_KEY" tar
 }
 
 # Base directory tar runs in (-C) for a part.
-part_base() { if [[ "$1" == "claude-home" ]]; then echo "$CLAUDE_SRC"; else echo "$DEVROOT"; fi; }
+part_base() { if [[ "$1" == claude-home || "$1" == claude-transcripts ]]; then echo "$CLAUDE_SRC"; else echo "$DEVROOT"; fi; }
 
 # NUL-separated, sorted entry list (relative to part_base) for a tar part.
 # Directories are listed too (tar runs with --no-recursion) so empty dirs survive.
@@ -138,6 +162,17 @@ emit_list() {
           -o -print0) ;;
     vault-output)
       (cd "$DEVROOT" && find "$VAULT_NAME/output" -print0) ;;
+    vault-extra)
+      local roots; mapfile -t roots < <(awk -F'\t' -v v="$VAULT_NAME/" 'index($3, v) == 1 {print $3}' "$WORK/catalogue.tsv" | sort -u)
+      git -C "$VAULT" ls-files -o -i --exclude-standard -z | python3 -c '
+import sys
+name = sys.argv[1].encode()
+roots = [r.encode() + b"/" for r in sys.argv[2:]]
+for p in sys.stdin.buffer.read().split(b"\0"):
+    if not p or p.startswith(b"build/"): continue
+    q = name + b"/" + p
+    if any(q.startswith(r) for r in roots): continue
+    sys.stdout.buffer.write(q + b"\0")' "$VAULT_NAME" "${roots[@]}" ;;
     vault-worktree)
       # Changed and untracked files of the vault checkout, minus any path under
       # another part's root (output/, skyrim-source/...): each file lives in
@@ -158,6 +193,43 @@ while i < len(f):
 sys.stdout.buffer.write(b"".join(x + b"\0" for x in out))' "$VAULT_NAME" "${roots[@]}" ;;
     bmv)
       (cd "$DEVROOT" && find "$BMV_REL" -print0) ;;
+    repo-*)
+      # Only files git ignores under the part's own root (never a tracked
+      # file), and no node_modules/ folder, except in repo-water-recovery,
+      # whose whole content is a kept node_modules/ tree. repo-wg-products
+      # takes only the chain/report products under its root (not the
+      # mesh-cache part nested there, not survey-cache or mesh-cache-work);
+      # repo-asset-kits-meta takes the non-GLB files of output/kits (the
+      # sidecars the compile and footprints read); repo-asset-output takes
+      # the rest of output/ but sheets/ (renders): each file in one part.
+      local rel nm=1 only="" skip=""
+      rel="$(awk -F'\t' -v i="$id" '$1 == i {print $3}' "$WORK/catalogue.tsv")"; rel="${rel#"$REPO_NAME"/}"
+      [[ "$id" == repo-water-recovery ]] && nm=0
+      [[ "$id" == repo-wg-products ]] && only="chain/receipts/ blueprint-maps/ route-structures/ settlements/ route-grading-stretches.json major-routes-report.json semantic-audit.json asset-deliverability.json hostility-frequency.json"
+      [[ "$id" == repo-asset-output ]] && skip="sheets/ kits/!glb"
+      [[ "$id" == repo-asset-kits-meta ]] && skip="*.glb"
+      git -C "$REPO" ls-files -o -i --exclude-standard -z -- "$rel" | python3 -c '
+import sys
+name, nm, rel = sys.argv[1].encode(), sys.argv[2] == "1", sys.argv[3].encode() + b"/"
+only = [x.encode() for x in sys.argv[4].split()]
+skip = [x.encode() for x in sys.argv[5].split()]
+def m1(sub, x):
+    if x.endswith(b"/!glb"):   # under that dir, and not a .glb
+        return sub.startswith(x[:-4]) and not sub.endswith(b".glb")
+    if x.startswith(b"*"):     # a name suffix
+        return sub.endswith(x[1:])
+    return sub == x or (x.endswith(b"/") and sub.startswith(x))
+match = lambda sub, pats: any(m1(sub, x) for x in pats)
+for p in sys.stdin.buffer.read().split(b"\0"):
+    if not p: continue
+    sub = p[len(rel):]
+    if nm and b"node_modules" in p.split(b"/"): continue
+    if only and not match(sub, only): continue
+    if skip and match(sub, skip): continue
+    sys.stdout.buffer.write(name + b"/" + p + b"\0")' "$REPO_NAME" "$nm" "$rel" "$only" "$skip" ;;
+    claude-transcripts)
+      (cd "$CLAUDE_SRC" && find "projects/$SRC_KEY" -mindepth 1 \
+          -path "projects/$SRC_KEY/memory" -prune -o -print0) ;;
     claude-home)
       # settings.json is NOT listed: upload_part appends a filtered copy
       # (env.ES_TUNNEL_URL and ES_STUDIO_PORT removed) from the work dir.
@@ -196,8 +268,13 @@ list_bytes() {
 # The sidecar <workdir>/files: the tar entry names of <workdir>/list (the
 # claude-home transforms applied), C-sorted, one per line, dirs ending "/".
 write_filelist() {  # write_filelist <id> <workdir>
-  local claude=0; [[ "$1" == "claude-home" ]] && claude=1
-  local extra=""; [[ "$1" == "vault-worktree" ]] && extra="$VAULT_NAME/.vault-worktree-deletions"
+  # claude: 1 = claude-home, 2 = claude-transcripts (the project-key and
+  # .claude-home/ transforms). extra: tar names added from the work dir
+  # (claude-home's filtered settings files, vault-worktree's deletions list).
+  local claude=0; [[ "$1" == "claude-home" ]] && claude=1; [[ "$1" == "claude-transcripts" ]] && claude=2
+  local extra=""
+  [[ "$1" == "vault-worktree" ]] && extra="$VAULT_NAME/.vault-worktree-deletions"
+  if [[ "$1" == "claude-home" ]]; then extra="$(sed 's,^,.claude-home/,' "$2/cfg.names" | tr '\n' ' ')"; fi
   python3 - "$(part_base "$1")" "$2/list" "$2/files" "$claude" "$SRC_KEY" "$TARGET_KEY" "$extra" <<'PY'
 import os, sys
 base, lst, out, claude, src, tgt, extra = sys.argv[1:8]
@@ -207,7 +284,7 @@ for p in open(lst, "rb").read().split(b"\0"):
         continue
     full = os.path.join(base.encode(), p)
     d = os.path.isdir(full) and not os.path.islink(full)
-    if claude == "1":
+    if claude in ("1", "2"):
         pre = b"projects/" + src.encode() + b"/"
         if p.startswith(pre):
             p = b"projects/" + tgt.encode() + b"/" + p[len(pre):]
@@ -215,10 +292,7 @@ for p in open(lst, "rb").read().split(b"\0"):
     if b"\n" in p:
         sys.exit(f"file-list: a path holds a newline: {p!r}")
     names.append(p + (b"/" if d else b""))
-if claude == "1":
-    names.append(b".claude-home/settings.json")
-if extra:
-    names.append(extra.encode())
+names += [x.encode() for x in extra.split()]
 with open(out, "wb") as f:
     f.write(b"".join(n + b"\n" for n in sorted(names)))
 PY
@@ -269,8 +343,8 @@ print(h.hexdigest(), n)'
 # Filtered copy of settings.json (env.ES_TUNNEL_URL and env.ES_STUDIO_PORT
 # removed: they are per-machine and live in the repo's settings.local.json).
 # The real settings.json is only read.
-filtered_settings() {  # <out>
-  python3 - "$CLAUDE_SRC/settings.json" "$1" <<'PY'
+filtered_settings() {  # filtered_settings <src> <out>
+  python3 - "$1" "$2" <<'PY'
 import json, sys
 d = json.load(open(sys.argv[1]))
 for k in ("ES_TUNNEL_URL", "ES_STUDIO_PORT"):
@@ -313,12 +387,22 @@ prepare_part() {
   emit_list "$id" > "$w/list"
   SRC_BYTES="$(list_bytes "$base" "$w/list")"
   if [[ "$id" == "claude-home" ]]; then
-    mkdir -p "$w/cfg"
-    filtered_settings "$w/cfg/settings.json"
-    local sb; sb="$(stat -c %s "$w/cfg/settings.json")"
-    SRC_BYTES=$(( SRC_BYTES + sb ))
-    SRC_FP="$({ fp_lines_list "$base" "$w/list"
-                printf 'settings.json\t%s\t%s\n' "$sb" "$(sha256sum < "$w/cfg/settings.json" | cut -d' ' -f1)"; } | fp_hash)"
+    # Filtered copies (the per-machine ES_TUNNEL_URL / ES_STUDIO_PORT
+    # removed) of Claude's settings.json and of the repo's gitignored
+    # .claude/settings.local.json (stored as repo-settings.local.json;
+    # post-create.sh puts it back only where the repo has none).
+    mkdir -p "$w/cfg"; : > "$w/cfg.names"
+    filtered_settings "$CLAUDE_SRC/settings.json" "$w/cfg/settings.json"; echo settings.json >> "$w/cfg.names"
+    if [[ -f "$REPO/.claude/settings.local.json" ]]; then
+      filtered_settings "$REPO/.claude/settings.local.json" "$w/cfg/repo-settings.local.json"
+      echo repo-settings.local.json >> "$w/cfg.names"
+    fi
+    local cn cfp=""
+    while IFS= read -r cn; do
+      SRC_BYTES=$(( SRC_BYTES + $(stat -c %s "$w/cfg/$cn") ))
+      cfp+="$(printf '%s\t%s\t%s' "$cn" "$(stat -c %s "$w/cfg/$cn")" "$(sha256sum < "$w/cfg/$cn" | cut -d' ' -f1)")"$'\n'
+    done < "$w/cfg.names"
+    SRC_FP="$({ fp_lines_list "$base" "$w/list"; printf '%s' "$cfp"; } | fp_hash)"
     if [[ "$SRC_KEY" == "$TARGET_KEY" ]]; then LOG "claude-home: source key $SRC_KEY, no transform"
     else LOG "claude-home: source key $SRC_KEY, transformed to $TARGET_KEY"; fi
   elif [[ "$id" == "vault-worktree" ]]; then
@@ -335,9 +419,13 @@ prepare_part() {
 
 tar_args() {  # tar_args <id> <workdir>: sets TARGS, the tar create arguments
   TARGS=(-C "$(part_base "$1")" -cf - --no-recursion --null -T "$2/list")
-  if [[ "$1" == "claude-home" ]]; then
+  if [[ "$1" == claude-home || "$1" == claude-transcripts ]]; then
     [[ "$SRC_KEY" != "$TARGET_KEY" ]] && TARGS+=(--transform "s,^projects/$SRC_KEY/,projects/$TARGET_KEY/,")
-    TARGS+=(--transform 's,^,.claude-home/,' -C "$2/cfg" settings.json)
+    TARGS+=(--transform 's,^,.claude-home/,')
+    if [[ "$1" == claude-home ]]; then
+      local cfgn; mapfile -t cfgn < "$2/cfg.names"
+      TARGS+=(-C "$2/cfg" "${cfgn[@]}")
+    fi
   elif [[ "$1" == "vault-worktree" ]]; then
     # Always in the tar (empty when nothing was deleted), at the vault root.
     TARGS+=(--transform "s,^\\.vault-worktree-deletions\$,$VAULT_NAME/.vault-worktree-deletions," -C "$2/extra" .vault-worktree-deletions)
@@ -406,8 +494,9 @@ upload_part() {
   if [[ -z "$FORCE$ONLY_FORCE" && "$man_fp" == "$SRC_FP" ]]; then
     LOG "skip $id (manifest has sourceFingerprint ${SRC_FP:0:16})"; return 0
   fi
-  # vault-worktree and claude-home shrink honestly (changes committed, memory pruned): no shrink guard.
-  if [[ -z "$ALLOW_SHRINK" && -n "$man_bytes" && "$id" != vault-worktree && "$id" != claude-home ]] && (( SRC_BYTES * 2 < man_bytes )); then
+  # vault-worktree, claude-home and claude-transcripts shrink honestly
+  # (changes committed, memory or transcripts pruned): no shrink guard.
+  if [[ -z "$ALLOW_SHRINK" && -n "$man_bytes" && "$id" != vault-worktree && "$id" != claude-home && "$id" != claude-transcripts ]] && (( SRC_BYTES * 2 < man_bytes )); then
     LOG "refuse $id: sourceBytes $SRC_BYTES here is below 50% of the manifest's $man_bytes (partial restore?); pass --allow-shrink to upload anyway"
     return 1
   fi
@@ -580,7 +669,7 @@ if [[ -n "$LIST" ]]; then
       printf '%-60s %14s  %s\n' "$id" "$SRC_BYTES" "$tier"
       if [[ -n "$FILES" ]]; then
         tar_args "$id" "$WORK/l"
-        tar "${TARGS[@]}" | tar -tf - | sed 's/^/    /'
+        { tar "${TARGS[@]}" || [[ $? -eq 1 ]]; } | tar -tf - | sed 's/^/    /'   # tar 1 = a file changed while read
       fi
     fi
   done < "$WORK/sel.tsv"

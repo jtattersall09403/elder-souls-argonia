@@ -19,14 +19,18 @@ die() { echo "[post-create] ERROR: $*" >&2; exit 1; }
 say() { echo "[post-create] $*"; }
 
 # The vault lives at one place: the manifest's vault-git root under the dev
-# root. ES_ASSET_PIPELINE_ROOT (read by the pipeline) must agree with it.
+# root. The codespace sets no vault variable (ES_ASSET_PIPELINE_ROOT,
+# ELDER_SOULS_ASSET_ROOT, ES_VAULT_ROOT): each has two meanings in the code
+# (ES_ASSET_PIPELINE_ROOT: the vault in worldgen/vault.py, the repo base
+# holding the kits in blueprint_footprints.py; set to the vault it hides
+# every footprint). Every resolver finds the vault as the repo's sibling.
 [[ -f "$MANIFEST" ]] || die "snapshot manifest not found: $MANIFEST"
 VAULT_REL="$(python3 -c 'import json,sys; print(next(p["root"] for p in json.load(open(sys.argv[1]))["parts"] if p["id"]=="vault-git"))' "$MANIFEST")" \
   || die "manifest has no 'vault-git' part: $MANIFEST"
 VAULT="$DEVROOT/$VAULT_REL"
-if [[ -n "${ES_ASSET_PIPELINE_ROOT:-}" && "$(realpath -m "$ES_ASSET_PIPELINE_ROOT")" != "$(realpath -m "$VAULT")" ]]; then
-  die "ES_ASSET_PIPELINE_ROOT=$ES_ASSET_PIPELINE_ROOT is not the manifest's vault root $VAULT; make them agree"
-fi
+for v in ES_ASSET_PIPELINE_ROOT ELDER_SOULS_ASSET_ROOT ES_VAULT_ROOT; do
+  [[ -z "${!v:-}" ]] || die "$v=${!v} is set; no vault variable may be set in a codespace (each has two meanings in the code). Remove it and re-run"
+done
 
 missing=()
 # The five Codespaces secrets. The four restore secrets are fatal; without the
@@ -95,4 +99,46 @@ has_part "$VAULT_WORKTREE_ID" || die "manifest has no '$VAULT_WORKTREE_ID' part 
 # part. No --force: the pull's guard lets the part overlay the clone's tracked
 # files that still equal HEAD, and refuses real local changes.
 ES_DEVROOT="$DEVROOT" bash "$PULL" --tier vault
+
+# The repo's gitignored .claude/settings.local.json travels in claude-home
+# (filtered: no ES_TUNNEL_URL / ES_STUDIO_PORT); it is put back only where
+# the repo has none. on-start.sh then merges this codespace's env into it.
+if [[ ! -e "$REPO/.claude/settings.local.json" && -f "$DEVROOT/.claude-home/repo-settings.local.json" ]]; then
+  mkdir -p "$REPO/.claude"
+  install -m 600 "$DEVROOT/.claude-home/repo-settings.local.json" "$REPO/.claude/settings.local.json"
+  say "restored .claude/settings.local.json from the claude-home part"
+fi
+
+# The asset pipeline reads the vault's Skyrim sources through relative links
+# in tooling/asset-pipeline/skyrim-source/ (untracked; the same links as on
+# the VM). Made idempotently; a link whose tier is not pulled yet dangles.
+AP_SRC="$REPO/tooling/asset-pipeline/skyrim-source"
+mkdir -p "$AP_SRC"
+for d in Data extracted mod-sources; do
+  link="../../../../$VAULT_REL/skyrim-source/$d"
+  if [[ -L "$AP_SRC/$d" && "$(readlink "$AP_SRC/$d")" == "$link" ]]; then continue; fi
+  [[ -e "$AP_SRC/$d" && ! -L "$AP_SRC/$d" ]] && die "$AP_SRC/$d exists and is not a link; move it aside and re-run"
+  ln -sfn "$link" "$AP_SRC/$d"
+done
+
+# Every vault resolver must answer the manifest's vault root ($VAULT; on a
+# codespace /workspaces/elder-scrolls-asset-pipeline): worldgen.vault through
+# its sibling fallback, the asset pipeline through vault_path. And the kit
+# footprints the settlement compile reads must be found.
+want="$(realpath -m "$VAULT")"
+wg="$(cd "$REPO/tooling/world-generation" && python3 -c 'from worldgen.vault import VAULT_ROOT; print(VAULT_ROOT)')"
+ap="$(python3 "$REPO/tooling/asset-pipeline/pipeline/vault_path.py")"
+say "vault: worldgen.vault.VAULT_ROOT=$wg; asset-pipeline vault_path=$ap"
+[[ "$(realpath -m "$wg")" == "$want" ]] || die "worldgen.vault.VAULT_ROOT is $wg, not the vault $want"
+[[ "$(realpath -m "$ap")" == "$want" ]] || die "the asset pipeline's vault_path is $ap, not the vault $want"
+fp="$(cd "$REPO/tooling/world-generation" && python3 -c 'from worldgen.blueprint_footprints import FootprintLibrary; print(len(FootprintLibrary().by_asset))')" \
+  || die "could not count the kit footprints (worldgen.blueprint_footprints failed to import)"
+say "kit footprints found: $fp"
+(( fp > 0 )) || die "blueprint_footprints finds 0 kit footprints under tooling/asset-pipeline/output/kits"
+for d in Data extracted mod-sources; do
+  t="$(realpath -m "$AP_SRC/$d")"
+  [[ "$t" == "$want/"* ]] || die "$AP_SRC/$d points at $t, outside the vault $want"
+  if [[ -e "$AP_SRC/$d" ]]; then say "link skyrim-source/$d -> $t"
+  else say "link skyrim-source/$d -> $t (dangling until its tier is pulled)"; fi
+done
 say "done. Pull a mod folder with: bash tooling/bootstrap/vault-pull.sh mod-sources/<folder>"

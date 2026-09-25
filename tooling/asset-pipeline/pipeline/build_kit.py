@@ -39,6 +39,7 @@ from .build import (BUILD_DIR, TOOLCHAIN, TROPICAL_TEXTURES, _expand,
                     _referenced_textures, to_windows)
 from .models import ROOT
 from .placement_metadata import apply_placement_metadata
+from .vault_path import vault_root
 
 KIT_SCRIPT = Path(__file__).resolve().parent / "blender" / "build_kit.py"
 CONFIG = Path(__file__).resolve().parent / "config" / "kits"
@@ -48,12 +49,7 @@ REGISTRY_DIR = REPO_ROOT / "world" / "sources" / "assets"
 #: The vault holds the archives every pool reads from (decision 0001). `ROOT`
 #: falls back to the pipeline directory when the variable is unset, which is
 #: right for the character build and wrong for ours, so resolve it explicitly.
-DEFAULT_VAULT = Path(
-    os.environ.get(
-        "ELDER_SOULS_ASSET_ROOT",
-        Path.home() / "workspace/elder-souls-dev/elder-scrolls-asset-pipeline",
-    )
-).expanduser()
+DEFAULT_VAULT = vault_root()
 
 #: Bethesda's nominal unit. Statics keep their source proportions, so this is
 #: the one conversion that matters for the whole world (module 90 §72).
