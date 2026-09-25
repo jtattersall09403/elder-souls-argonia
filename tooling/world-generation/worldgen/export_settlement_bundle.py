@@ -35,6 +35,7 @@ from .compile_settlement import (
     compiled_terrain_objects, kit_connectors, kit_interiors,
 )
 from . import blueprint as bp_mod
+from . import blueprint_footprints as fp_mod
 from . import catalogue, place_obligations
 from . import grade_settlement_pads
 
@@ -48,9 +49,12 @@ from pipeline.placement_metadata import (  # noqa: E402
     SINK_EVIDENCE_PREFIXES,
     fit_policy_evidence,
     load_inventory,
+    normalize_asset_id,
 )
 
-SCHEMA_VERSION = 2
+# 3 (16h check-in 3): run pieces carry `run` {id, index, riseM}; ground
+# treatments carry `kind` (floor | deck), `apronsM` and a deck's `contactsM`.
+SCHEMA_VERSION = 3
 COLLISION_FRAME = "settlement-pivot-yup-v1"
 
 # Hard ceiling on the collision parts the runtime will build for the settlement
@@ -1016,6 +1020,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     all_compiled_objects = []
     all_placements = []
     treatments = []
+    inventory = load_inventory()
     navmesh = []
     navmesh_links = []
     doors = []
@@ -1086,6 +1091,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         all_compiled_objects.extend(actual_objects)
         parcels = {p["id"]: p for p in bp.get("parcels", [])}
         ids = []
+        laid_runs: dict[str, list[dict]] = {}
+        parcel_treatment: dict[str, dict] = {}
         for raw in doc.get("placements", []):
             if not raw.get("kit"):
                 raise ValueError(
@@ -1123,15 +1130,19 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "collision": _collision_contract(asset, disabled=is_dressing),
                 "provenance": raw["provenance"],
                 **_mount_contract(raw),
+                **_run_contract(raw, parcel, laid_runs),
             }
             ids.append(placement["id"])
             all_placements.append(placement)
             if footprint and not is_dressing:
-                # id + footprint only: the grass exclusion reads it; the
-                # skirt, rubble and far-tier fields were cut at check-in 2.
-                treatments.append({
-                    "id": f"treatment.{placement['id']}", "footprintM": footprint,
-                })
+                # The grass exclusion reads it (the skirt, rubble and far-tier
+                # fields were cut at check-in 2): a floor clears its footprint,
+                # a raised deck only its contacts (check-in 3 §5).
+                treatment = {"id": f"treatment.{placement['id']}",
+                             "kind": _treatment_kind(asset, raw, fit, inventory),
+                             "footprintM": footprint}
+                treatments.append(treatment)
+                parcel_treatment.setdefault(raw.get("parcelId"), treatment)
                 navmesh.append({"id": f"navcut.{placement['id']}",
                                 "placementId": placement["id"],
                                 "polygonM": footprint, "order": 3})
@@ -1143,6 +1154,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                     })
         for door in doc.get("doors", []):
             x, z = survey.uv_to_m(*door["thresholdUV"])
+            _attach_door_apron(door, x, z, parcel_treatment)
             doors.append({**door, "settlementId": doc["id"],
                           "thresholdM": [round(x, 3), round(z, 3)],
                           "interiorArrival": {"doorId": door["id"],
@@ -1259,6 +1271,71 @@ MOUNT_FIELDS = ("anchorClass", "parentPlacementId", "mountOffsetM",
 
 def _mount_contract(raw: dict) -> dict:
     return {field: raw[field] for field in MOUNT_FIELDS if field in raw}
+
+
+def _run_contract(raw: dict, parcel: dict, laid_runs: dict[str, list[dict]]) -> dict:
+    """A modular-run piece's `run` {id, index, riseM} (16h check-in 3 §2).
+    riseM is the cumulative mined rise the compile laid the piece at: the same
+    `lay_pieces` over the same blueprint parcel (the compiled output was
+    checked equal to what the current blueprint compiles to above). The
+    runtime seats the whole run as one rigid chain on it (anchoring.ts
+    anchorRun)."""
+    run = raw.get("run")
+    if not isinstance(run, dict):
+        return {}
+    pid = raw.get("parcelId")
+    if pid not in laid_runs:
+        laid, errors = fp_mod.lay_pieces(parcel)
+        if errors:
+            raise ValueError(f"{raw['id']}: its run no longer lays: " + "; ".join(errors))
+        laid_runs[pid] = laid
+    laid = laid_runs[pid]
+    index = run.get("index")
+    if not isinstance(index, int) or not 0 <= index < len(laid) or len(laid) != run.get("length"):
+        raise ValueError(f"{raw['id']}: run index {index} of {run.get('length')} does not match "
+                         f"the {len(laid)} pieces its parcel lays")
+    return {"run": {"id": raw["id"].rsplit(".piece.", 1)[0], "index": index,
+                    "riseM": float(laid[index]["riseM"])}}
+
+
+#: Door apron radius (m) the groundcover keeps clear at every threshold.
+DOOR_APRON_RADIUS_M = 1.5
+#: A stilt/deck piece whose deck stands more than this over the ground keeps
+#: the groundcover under it (owner 2026-09-25).
+DECK_TREATMENT_CLEARANCE_M = 0.8
+
+
+def _attach_door_apron(door: dict, x: float, z: float,
+                       parcel_treatment: dict[str, dict]) -> None:
+    """Every door threshold keeps a DOOR_APRON_RADIUS_M disc of groundcover
+    clear, carried on its parcel's first ground treatment (check-in 3 §5)."""
+    owner = parcel_treatment.get(door.get("parcelId"))
+    if owner is None:
+        raise ValueError(f"{door['id']}: its parcel {door.get('parcelId')!r} has no "
+                         "ground treatment to carry the door apron")
+    owner.setdefault("apronsM", []).append([round(x, 3), round(z, 3), DOOR_APRON_RADIUS_M])
+
+
+def _deck_clearance_m(asset: dict, inventory: dict) -> float | None:
+    """The deck's height over its support surface: the asset's
+    ``assetPlacement`` row ``deckClearanceM``, else its placement policy's
+    (placement_metadata.py: the stilt policy default 0.35 m)."""
+    row = (inventory.get("assetPlacement") or {}).get(normalize_asset_id(asset["id"])) or {}
+    if isinstance(row.get("deckClearanceM"), (int, float)):
+        return float(row["deckClearanceM"])
+    policy = (inventory.get("policies") or {}).get(asset.get("_placementPolicyId")) or {}
+    value = policy.get("deckClearanceM")
+    return float(value) if isinstance(value, (int, float)) else None
+
+
+def _treatment_kind(asset: dict, raw: dict, fit: str, inventory: dict) -> str:
+    """`deck` for a stilt/deck fit whose deck clears the ground by more than
+    DECK_TREATMENT_CLEARANCE_M, else `floor` (16h check-in 3 §5)."""
+    anchor_class = raw.get("anchorClass") or asset.get("anchorClass")
+    if fit != "stilt" and anchor_class != "deck":
+        return "floor"
+    clearance = _deck_clearance_m(asset, inventory)
+    return "deck" if clearance is not None and clearance > DECK_TREATMENT_CLEARANCE_M else "floor"
 
 
 def _collision_contract(asset: dict, *, disabled: bool = False) -> dict:

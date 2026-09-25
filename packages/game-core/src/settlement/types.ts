@@ -35,6 +35,10 @@ export interface SettlementPlacement {
   /** Water children only: the recorded level of the berth's body or reach. */
   waterLevelM?: number;
   waterEntityId?: string;
+  /** A modular-run member (walls, fences, docks): the run it belongs to, its
+   * place in the run, and the cumulative mined rise (m) the compile laid it
+   * at. The runtime seats the whole run as one rigid chain on it. */
+  run?: SettlementRun;
   collision: {
     frame: string;
     kind: string;
@@ -44,16 +48,34 @@ export interface SettlementPlacement {
   };
 }
 
-/** A building footprint row. The runtime draws nothing from it (the
- * wall-foot skirt and the rubble ring are cut, 16h check-in 2 ruling 1);
- * the groundcover reads `footprintM` as the grass exclusion. */
+export interface SettlementRun {
+  id: string;
+  index: number;
+  riseM: number;
+}
+
+/**
+ * A building's ground treatment row: what the groundcover keeps out of. The
+ * runtime draws nothing from it (the wall-foot skirt and the rubble ring are
+ * cut, 16h check-in 2 ruling 1).
+ *  - `floor`: the piece meets the ground; its whole `footprintM` is cleared.
+ *  - `deck`: a stilt/deck piece whose deck stands more than 0.8 m over the
+ *    ground; only `contactsM` (where its legs and stairs meet the ground) is
+ *    cleared, so groundcover grows under the raised deck (owner 2026-09-25).
+ * `apronsM` are discs `[x, z, radiusM]` kept clear at every door threshold.
+ * `footprintM` stays the building's outline for every kind (the ground-control
+ * painter and navmesh cut read it).
+ */
 export interface GroundTreatment {
   id: string;
+  kind: "floor" | "deck";
   footprintM: [number, number][];
+  contactsM?: [number, number][][];
+  apronsM?: [number, number, number][];
 }
 
 export interface SettlementBundle {
-  schemaVersion: 2;
+  schemaVersion: 3;
   collisionFrame: string;
   lod: {
     tiers: number;
@@ -139,6 +161,9 @@ export interface SettlementFinalTransformEvidence {
   groundBoundInstances: number;
   shadowPairedDraws: number;
   shadowPairFailures: readonly string[];
+  /** Run joints whose drawn step is more than RUN_JOINT_TOLERANCE_M off the
+   * mined rise (16h check-in 3 §2). Must stay empty. */
+  runJointFailures: readonly string[];
 }
 
 export type SettlementGroundStatus =
@@ -244,6 +269,16 @@ export interface SettlementKitAssetMeta {
    * field the compile's `fit_slope_failure` reads. `dug-in` anchors on the
    * lowest ground under the footprint (97 §C); every other fit on the mean. */
   fit?: string;
+}
+
+/**
+ * What a kit's glTF material record may carry in its `extras` (on
+ * `material.userData` once loaded). `decal`: the NIF shader flags DECAL or
+ * DYNAMIC_DECAL were set, so the material is a coplanar overlay drawn with a
+ * depth bias (materials.ts applySettlementDecal). Absent means not a decal.
+ */
+export interface SettlementKitMaterialExtras {
+  decal?: true;
 }
 
 /** kit id -> asset id -> manifest metadata. */

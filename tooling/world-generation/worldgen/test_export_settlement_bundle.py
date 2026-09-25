@@ -997,11 +997,11 @@ def test_the_bundle_schema_version_moved_with_the_mount_fields(tmp_path):
     """The layer refuses a bundle it does not understand by version, so the
     version must move when the placement shape does (16h item 6: anchorClass,
     parentPlacementId, mountOffsetM, waterLevelM, waterEntityId)."""
-    assert ex.SCHEMA_VERSION == 2
+    assert ex.SCHEMA_VERSION == 3
     _warned_settlement(tmp_path, conforms=True)
     bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
                              tmp_path / "kits", _route_source(tmp_path, []))
-    assert bundle["schemaVersion"] == 2
+    assert bundle["schemaVersion"] == 3
 
 
 def test_the_shipped_build_refuses_a_fixture_record(tmp_path):
@@ -1147,3 +1147,50 @@ def test_the_kit_contract_is_scoped_to_the_placed_assets(tmp_path):
     assert set(assets) == {("kit-a", "asset.placed")}
     with pytest.raises(ValueError, match="asset.broken: manifest has no placement metadata"):
         ex._kit_assets({"kit-a"}, tmp_path)
+
+
+# 16h check-in 3 §2: a run piece carries the run it belongs to and the
+# cumulative mined rise the compile laid it at.
+def test_a_run_piece_carries_its_run_id_index_and_mined_rise(monkeypatch):
+    laid = [{"asset": "a", "riseM": 0.0}, {"asset": "b", "riseM": 0.12},
+            {"asset": "c", "riseM": 0.3}]
+    calls = []
+    monkeypatch.setattr(ex.fp_mod, "lay_pieces", lambda parcel: (calls.append(1), (laid, []))[1])
+    cache: dict = {}
+    raw = {"id": "place.a.parcel.wall.piece.3", "parcelId": "parcel.wall", "assetId": "c",
+           "run": {"index": 2, "length": 3, "pair": "family:x n8"}}
+    assert ex._run_contract(raw, {"id": "parcel.wall"}, cache) == {
+        "run": {"id": "place.a.parcel.wall", "index": 2, "riseM": 0.3}}
+    ex._run_contract({**raw, "run": {"index": 0, "length": 3}}, {}, cache)
+    assert len(calls) == 1  # laid once per parcel
+    assert ex._run_contract({"id": "x", "parcelId": "p"}, {}, cache) == {}
+    with pytest.raises(ValueError, match="does not match"):
+        ex._run_contract({**raw, "run": {"index": 3, "length": 3}}, {}, cache)
+    with pytest.raises(ValueError, match="does not match"):
+        ex._run_contract({**raw, "run": {"index": 1, "length": 4}}, {}, cache)
+
+
+# 16h check-in 3 §5: a stilt/deck fit whose deck clears the ground by more
+# than 0.8 m is a deck treatment; everything else is a floor.
+def test_treatment_kind_follows_the_deck_clearance():
+    inventory = {"policies": {"stilt": {"deckClearanceM": 0.35}, "plinth": {}},
+                 "assetPlacement": {"composite:stilt/stilthouse-with-door": {"deckClearanceM": 3.462}}}
+    house = {"id": "composite:stilt/stilthouse-with-door", "_placementPolicyId": "stilt"}
+    hut = {"id": "bamboohut01", "_placementPolicyId": "stilt"}
+    barn = {"id": "barn", "_placementPolicyId": "plinth"}
+    assert ex._treatment_kind(house, {}, "stilt", inventory) == "deck"
+    assert ex._treatment_kind(hut, {}, "stilt", inventory) == "floor"  # 0.35 m deck
+    assert ex._treatment_kind(house, {}, "plinth", inventory) == "floor"  # not a stilt fit
+    assert ex._treatment_kind(barn, {"anchorClass": "deck"}, "plinth", inventory) == "floor"
+    assert ex._treatment_kind({**barn, "id": "composite:stilt/stilthouse-with-door"},
+                              {"anchorClass": "deck"}, "plinth", inventory) == "deck"
+
+
+def test_every_door_threshold_gets_a_one_and_a_half_metre_apron():
+    floor = {"id": "treatment.a", "kind": "floor", "footprintM": [[0, 0], [1, 0], [0, 1]]}
+    ex._attach_door_apron({"id": "door.a", "parcelId": "parcel.a"}, 4.2, 5.25,
+                          {"parcel.a": floor})
+    assert floor["apronsM"] == [[4.2, 5.25, 1.5]]
+    with pytest.raises(ValueError, match="no ground treatment"):
+        ex._attach_door_apron({"id": "door.b", "parcelId": "parcel.b"}, 0, 0,
+                              {"parcel.a": floor})

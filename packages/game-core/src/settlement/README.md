@@ -44,6 +44,12 @@ Load-bearing contracts:
   FINAL transform times `mountOffsetM` (parent's local frame) and its own
   rotation — a missing parent, a mount cycle or a missing offset is a named
   error — and a `water` child sits at `waterLevelM - designedWaterlineM`;
+- a modular-run piece (bundle schema 3 `run` {id, index, riseM}) is seated
+  with its whole run as one rigid chain (`anchorRun`): the member with the
+  highest mean ground is the datum, every other member sits at the datum's
+  pivot plus its mined rise difference, so no joint steps with the terrain.
+  `runJointErrors` (> 5 mm off the mined rise) is reported as
+  `finalTransformEvidence.runJointFailures` and must stay empty;
 - one rotation authority (`placementQuaternion`): the compile rotates with
   `wx = cx + x·cosθ − z·sinθ`, which three.js reaches by rotating about +Y by
   **−yawDeg**; `pitchDeg` (16e spans) follows as YXZ Euler. The draw, the
@@ -70,14 +76,21 @@ Load-bearing contracts:
   emissive map (the NIF's Glow_Map slot, carried by the kit build); it is lit
   in the emissive stage as mask × warm colour × `settlementNightFactor`, a
   ramp on the sun's altitude read from the injected world clock
-  (`environment().epochMinutes`);
+  (`environment().epochMinutes`). A decal material (glTF material extras
+  `decal: true`, from the NIF DECAL/DYNAMIC_DECAL shader flags) gets polygon
+  offset -1/-1 and no depth write, draws at renderOrder 1 after its opaque
+  parent and casts no shadow (`applySettlementDecal`,
+  `settlementMeshDrawFlags`);
 - a rebuild (every ≤ 40 m of focus movement, a 2 s retry while terrain is
   missing, a kit or manifest arriving) is built detached and swapped in one
   synchronous step; the build effect's cleanup only cancels, and the live
   group is disposed only when the world goes (unmount, new bundle, fatal). A
   retry that resolves exactly what is live is not swapped. Nothing is drawn
   at a building's foot (16h check-in 2 ruling 1: skirt and rubble ring cut);
-- footprint ground treatments are the grass exclusion input only.
+- ground treatments are the grass exclusion input only
+  (`treatmentClearancePolygons`): a `floor` clears its footprint, a `deck`
+  (stilt deck > 0.8 m over the ground) only its `contactsM`, and both their
+  1.5 m door `apronsM`.
 
 Browser acceptance may read the immutable `globalThis.__STUDIO_SETTLEMENT_DEBUG__`
 snapshot. It reports `loading`/`loaded`/`failed`, bundle and rendered placement

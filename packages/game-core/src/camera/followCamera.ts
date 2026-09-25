@@ -58,7 +58,15 @@ export class FollowCamera {
   yaw = 0;
   pitch: number;
   readonly position = new THREE.Vector3();
+  /** The point the camera looks at this frame: `position + aim`. */
   readonly look = new THREE.Vector3();
+  /** Smoothed unit view direction, taken from the UNobstructed geometry
+   * (desiredLook - desiredPosition at full arm). The obstructed camera looks
+   * along it, so pulling the arm in never changes the view pitch (16h
+   * check-in 3 §1: aiming at a fixed point below the pivot made the pitch a
+   * function of arm length and the view nodded along a wall). */
+  readonly aim = new THREE.Vector3(0, 0, -1);
+  private readonly desiredAim = new THREE.Vector3();
   private readonly desiredPosition = new THREE.Vector3();
   private readonly desiredLook = new THREE.Vector3();
   /** The smoothed, UNobstructed orbit position; `position` is this pulled in
@@ -90,11 +98,12 @@ export class FollowCamera {
     this.computeDesired(playerPosition);
     this.orbit.copy(this.desiredPosition);
     this.position.copy(this.desiredPosition);
-    this.look.copy(this.desiredLook);
+    this.aim.copy(this.desiredAim);
     this.lastPlayer.copy(playerPosition);
     this.armLimit = Number.POSITIVE_INFINITY;
     this.applyObstruction(playerPosition, 0, false);
     this.arm = this.position.distanceTo(this.pivot);
+    this.look.addVectors(this.position, this.aim);
   }
 
   /** Inject (or remove) the world query the arm collides with. */
@@ -118,13 +127,16 @@ export class FollowCamera {
       this.desiredPosition,
       1 - Math.exp(-delta * this.cfg.positionSmoothing),
     );
-    this.look.lerp(this.desiredLook, 1 - Math.exp(-delta * this.cfg.lookSmoothing));
+    this.aim.lerp(this.desiredAim, 1 - Math.exp(-delta * this.cfg.lookSmoothing));
+    if (this.aim.lengthSq() < 1e-8) this.aim.copy(this.desiredAim);
+    else this.aim.normalize();
     // "Input": the camera stick, or the player moving (> 0.2 m/s).
     const moved = this.lastPlayer.distanceTo(playerPosition) > 0.2 * Math.max(delta, 1e-3);
     this.lastPlayer.copy(playerPosition);
     const input = moved || Math.abs(cameraInput.x) + Math.abs(cameraInput.y) > 0.05;
     this.applyObstruction(playerPosition, delta, input);
     this.arm = this.position.distanceTo(this.pivot);
+    this.look.addVectors(this.position, this.aim);
   }
 
   /**
@@ -153,7 +165,7 @@ export class FollowCamera {
 
   applyTo(camera: THREE.Camera): void {
     camera.position.copy(this.position);
-    camera.lookAt(this.look);
+    camera.lookAt(this.scratch.addVectors(this.position, this.aim));
   }
 
   private computeDesired(playerPosition: THREE.Vector3): void {
@@ -174,5 +186,8 @@ export class FollowCamera {
       playerPosition.y + this.cfg.lookHeightOffset + lookRise,
       playerPosition.z,
     );
+    this.desiredAim.subVectors(this.desiredLook, this.desiredPosition);
+    if (this.desiredAim.lengthSq() < 1e-8) this.desiredAim.set(0, 0, -1);
+    else this.desiredAim.normalize();
   }
 }

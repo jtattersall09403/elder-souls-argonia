@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { sunAt, TWILIGHT } from "@elder-souls/world-time";
+import type { SettlementKitMaterialExtras } from "./types";
 
 export interface SettlementMaterialUniforms {
   esSettlementRain: { value: number };
@@ -30,6 +31,47 @@ const LAMPS_ON_START_DEG = 2;
  */
 export function isSettlementGlowMaterial(material: THREE.Material): boolean {
   return Boolean((material as THREE.MeshStandardMaterial).emissiveMap);
+}
+
+/**
+ * A decal material is an overlay its makers drew coplanar with the surface
+ * under it (the NIF's shader flags DECAL / DYNAMIC_DECAL, which give it a
+ * depth bias in Skyrim; e.g. the ImpDirt01 grime over the imperial wall
+ * skirting). The kit build carries the flag as the glTF material's extras
+ * `{ "decal": true }`, which the loader puts on `userData`
+ * (SettlementKitMaterialExtras). Selected by that flag, never by name.
+ */
+export function isSettlementDecalMaterial(material: THREE.Material): boolean {
+  return (material.userData as SettlementKitMaterialExtras | undefined)?.decal === true;
+}
+
+/** Draw order of a decal relative to the opaque surface it overlays. */
+export const SETTLEMENT_DECAL_RENDER_ORDER = 1;
+
+/**
+ * Give a decal material the depth bias Skyrim gives it, so it never
+ * z-fights the coplanar surface under it (16h check-in 3 §3): pulled towards
+ * the camera by polygon offset, and it writes no depth. Returns whether the
+ * material is a decal. Idempotent.
+ */
+export function applySettlementDecal(material: THREE.Material): boolean {
+  if (!isSettlementDecalMaterial(material)) return false;
+  material.polygonOffset = true;
+  material.polygonOffsetFactor = -1;
+  material.polygonOffsetUnits = -1;
+  material.depthWrite = false;
+  return true;
+}
+
+/** How a settlement mesh drawing `material` is flagged: a decal draws after
+ * its parent's opaque surface and casts no shadow (the surface under it
+ * already does; its twin would double the caster at the same depth). */
+export function settlementMeshDrawFlags(material: THREE.Material): {
+  castShadow: boolean; renderOrder: number;
+} {
+  return isSettlementDecalMaterial(material)
+    ? { castShadow: false, renderOrder: SETTLEMENT_DECAL_RENDER_ORDER }
+    : { castShadow: true, renderOrder: 0 };
 }
 
 /** 0 by day, 1 from civil twilight down, a smooth ramp between. */

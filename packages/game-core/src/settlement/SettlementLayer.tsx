@@ -9,6 +9,8 @@ import { useKitDecoders } from "../assets/useKitDecoders";
 import {
   footprintDiagonalM,
   createPlacementResolver,
+  runJointErrors,
+  type RunJointSample,
   placementGroundAudit,
   settlementGroundAudits,
 } from "./anchoring";
@@ -27,10 +29,12 @@ import {
   selectCollisionResidency,
 } from "./collisionResidency";
 import {
+  applySettlementDecal,
   applySettlementSurface,
   applySettlementSurfaceWithShadow,
   isSettlementGlowMaterial,
   SETTLEMENT_GROUND_ATTRIBUTE,
+  settlementMeshDrawFlags,
   settlementShadowPairErrors,
   syncSettlementDepthTwin,
   updateSettlementEnvironment,
@@ -62,6 +66,7 @@ const EMPTY_FINAL_TRANSFORM_EVIDENCE = Object.freeze({
   finalAnchoredPlacements: 0, nearInstances: 0, farMergedInstances: 0,
   groundBoundInstances: 0, shadowPairedDraws: 0,
   shadowPairFailures: Object.freeze([] as string[]),
+  runJointFailures: Object.freeze([] as string[]),
 });
 
 /** Dispose and detach everything the layer put in `group`: the per-build
@@ -122,6 +127,7 @@ function publishSettlementProof(state: SettlementProofState): void {
     finalTransformEvidence: Object.freeze({
       ...state.finalTransformEvidence,
       shadowPairFailures: Object.freeze([...state.finalTransformEvidence.shadowPairFailures]),
+      runJointFailures: Object.freeze([...state.finalTransformEvidence.runJointFailures]),
     }),
     collision: Object.freeze({
       ...state.collision,
@@ -142,11 +148,12 @@ export async function loadSettlementBundle(baseUrl: string): Promise<SettlementB
   const response = await fetch(`${baseUrl}province/settlements.json`);
   if (!response.ok) throw new Error(`settlement bundle HTTP ${response.status}`);
   const bundle = await response.json() as SettlementBundle;
-  // 16h item 5: schema 2 is the bundle that carries anchorClass,
-  // parentPlacementId, mountOffsetM and the water fields. A schema-1 bundle
-  // has no anchor classes at all, so it is refused rather than drawn as if
-  // every piece were a ground piece.
-  if (bundle.schemaVersion !== 2) throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
+  // 16h item 5: schema 2 carried anchorClass, parentPlacementId,
+  // mountOffsetM and the water fields; schema 3 adds the run record every
+  // modular-run piece is seated on (check-in 3 §2) and the treatment kind
+  // and aprons (§5). An older bundle is refused rather than drawn with its
+  // runs stepped at every joint.
+  if (bundle.schemaVersion !== 3) throw new Error(`unsupported settlement schema ${bundle.schemaVersion}`);
   if (bundle.collisionFrame !== SETTLEMENT_COLLISION_FRAME) {
     throw new Error(`unsupported settlement collision frame ${bundle.collisionFrame}`);
   }
@@ -448,6 +455,7 @@ export function SettlementLayer({
         value: SettlementSolid; placementId: string; distanceM: number; parts: number;
       }[] = [];
       const placementGrounding: SettlementPlacementGroundAudit[] = [];
+      const runJoints: RunJointSample[] = [];
       let placementCount = 0;
       incomplete.current = false;
       let sinceYield = 0;
@@ -472,6 +480,9 @@ export function SettlementLayer({
         if (!here) { incomplete.current = true; continue; }
         const { matrix: transform, anchored } = here;
         if (anchored) placementGrounding.push(placementGroundAudit(placement, anchored));
+        if (placement.run) {
+          runJoints.push({ placementId: placement.id, run: placement.run, y: transform.elements[13] });
+        }
         const groundLineM = anchored ? anchored.groundLineM : transform.elements[13];
         if (inDrawRange) {
           const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
@@ -535,6 +546,11 @@ export function SettlementLayer({
       let triangles = 0; let draws = 0; let farInstances = 0; let farMeshes = 0;
       let nearInstances = 0; let groundBoundInstances = 0; let shadowPairedDraws = 0;
       const shadowPairFailures: string[] = [];
+      // The run-joint gate (check-in 3 §2): a drawn run must step by its
+      // mined rise at every joint. Reported in the evidence the probes read
+      // and on the console; never thrown, so one bad run cannot blank a place.
+      const runJointFailures = runJointErrors(runJoints);
+      if (runJointFailures.length) console.error(`settlement run joints: ${runJointFailures.join("; ")}`);
       for (const bucket of buckets.values()) {
         yield;
         const material = bucket.part.material;
@@ -543,6 +559,8 @@ export function SettlementLayer({
         // Glow_Map slot, build_kit rebuild_material), never a name match.
         const glowMaterial = isSettlementGlowMaterial(material);
         materialPatch?.(material);
+        applySettlementDecal(material);
+        const drawFlags = settlementMeshDrawFlags(material);
         let depthMaterial: THREE.MeshDepthMaterial | undefined;
         if (depthTwins.current.has(material)) {
           applySettlementSurface(material, uniforms, glowMaterial);
@@ -575,7 +593,8 @@ export function SettlementLayer({
           const mesh = new THREE.InstancedMesh(geometry, material, bucket.transforms.length);
           bucket.transforms.forEach((matrix, i) => mesh.setMatrixAt(i, matrix));
           mesh.instanceMatrix.needsUpdate = true;
-          mesh.castShadow = true; mesh.receiveShadow = true;
+          mesh.castShadow = drawFlags.castShadow; mesh.receiveShadow = true;
+          mesh.renderOrder = drawFlags.renderOrder;
           if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
           mesh.userData.esSettlementLodAuthority = true;
           mesh.userData.esSettlementOwnedGeometry = true;
@@ -590,7 +609,8 @@ export function SettlementLayer({
         );
         if (farGeometry) {
           const mesh = new THREE.Mesh(farGeometry, material);
-          mesh.castShadow = true; mesh.receiveShadow = true;
+          mesh.castShadow = drawFlags.castShadow; mesh.receiveShadow = true;
+          mesh.renderOrder = drawFlags.renderOrder;
           if (depthMaterial) mesh.customDepthMaterial = depthMaterial;
           mesh.userData.esSettlementFarMerge = true;
           next.add(mesh);
@@ -645,6 +665,7 @@ export function SettlementLayer({
         groundBoundInstances,
         shadowPairedDraws,
         shadowPairFailures,
+        runJointFailures,
       };
       onStats?.({ placements: placementCount, draws, triangles,
         colliderParts: collision.parts, colliderCoveredRadiusM: collision.coveredRadiusM,

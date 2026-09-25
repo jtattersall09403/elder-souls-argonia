@@ -5,6 +5,7 @@ import type {
   SettlementPlacementGroundAudit,
   SettlementAnchorClass,
   SettlementKitAssetMeta,
+  SettlementRun,
   TerrainHeight,
 } from "./types";
 import * as THREE from "three";
@@ -120,6 +121,97 @@ export function anchorPlacement(
     pivotToBaseM: pivotToBase,
     complete: true,
   };
+}
+
+/** How far a run joint may step off its mined rise before it is a defect. */
+export const RUN_JOINT_TOLERANCE_M = 0.005;
+
+/**
+ * Seat a modular run (walls, fences, docks) as ONE rigid chain, as the
+ * compile lays it (compile_settlement.py, the `pieces` branch: one datum for
+ * the run, each piece at datum + its cumulative mined rise). The datum is
+ * taken from the streamed ground here, not the compile's survey datum (the
+ * highest parcel sample minus BURY_M), so the run's height can differ from
+ * the compiled one while its joints cannot. Seating each piece on its own
+ * ground stepped the joints by the terrain's difference under neighbouring
+ * pieces (16h check-in 3 §2).
+ *
+ * Datum = the member with the highest mean ground under its own footprint;
+ * its pivot sits at that mean minus its designed sink; every other member
+ * sits at the datum's pivot plus (its riseM - the datum's riseM), so adjacent
+ * pieces differ by exactly their mined rise. Returns null while any member's
+ * terrain is missing; throws on a malformed run record.
+ */
+export function anchorRun(
+  members: readonly SettlementPlacement[],
+  groundAt: TerrainHeight,
+  designedSinkOf: (p: SettlementPlacement) => number,
+): Map<string, AnchoredPlacement> | null {
+  const runId = members[0]?.run?.id ?? "?";
+  const indices = members.map((m) => m.run?.index);
+  const sorted = [...indices].sort((a, b) => (a ?? -1) - (b ?? -1));
+  if (sorted.some((index, i) => index !== i)) {
+    throw new Error(`run ${runId}: member indices ${JSON.stringify(indices)} are not 0..${members.length - 1}`);
+  }
+  for (const m of members) {
+    if (m.run?.id !== runId || !Number.isFinite(m.run.riseM)) {
+      throw new Error(`${m.id}: run member carries no finite riseM for run ${runId}`);
+    }
+  }
+  const own = members.map((m) => anchorPlacement(m, groundAt, designedSinkOf(m)));
+  if (own.some((a) => !a.complete)) return null;
+  let datum = 0;
+  own.forEach((a, i) => { if (a.groundLineM > own[datum].groundLineM) datum = i; });
+  const yDatum = own[datum].y;
+  const riseDatum = (members[datum].run as SettlementRun).riseM;
+  const out = new Map<string, AnchoredPlacement>();
+  members.forEach((m, i) => {
+    const y = yDatum + (m.run as SettlementRun).riseM - riseDatum;
+    const a = own[i];
+    out.set(m.id, {
+      ...a,
+      y,
+      gapM: Math.max(0, y - a.pivotToBaseM - a.terrainMinM),
+      overBuryM: 0,
+    });
+  });
+  return out;
+}
+
+/** One drawn run member: its run record and the pivot height it was drawn at. */
+export interface RunJointSample {
+  placementId: string;
+  run: SettlementRun;
+  y: number;
+}
+
+/**
+ * The run-joint gate: every pair of adjacent members of a run (both drawn)
+ * must step by its mined rise within RUN_JOINT_TOLERANCE_M. Returns one line
+ * per failing joint.
+ */
+export function runJointErrors(samples: readonly RunJointSample[]): string[] {
+  const byRun = new Map<string, RunJointSample[]>();
+  for (const s of samples) {
+    const rows = byRun.get(s.run.id) ?? [];
+    rows.push(s);
+    byRun.set(s.run.id, rows);
+  }
+  const errors: string[] = [];
+  for (const [runId, rows] of byRun) {
+    rows.sort((a, b) => a.run.index - b.run.index);
+    for (let i = 1; i < rows.length; i++) {
+      const a = rows[i - 1];
+      const b = rows[i];
+      if (b.run.index !== a.run.index + 1) continue;
+      const off = (b.y - a.y) - (b.run.riseM - a.run.riseM);
+      if (Math.abs(off) > RUN_JOINT_TOLERANCE_M) {
+        errors.push(`run ${runId}: ${a.placementId} -> ${b.placementId} steps `
+          + `${(off * 1000).toFixed(1)} mm off its mined rise`);
+      }
+    }
+  }
+  return errors.sort();
 }
 
 /**
@@ -322,7 +414,28 @@ export function createPlacementResolver(
   groundAt: TerrainHeight,
 ): (p: SettlementPlacement) => ResolvedPlacement | null {
   const byId = new Map(placements.map((p) => [p.id, p]));
+  const byRun = new Map<string, SettlementPlacement[]>();
+  for (const p of placements) {
+    if (!p.run) continue;
+    const rows = byRun.get(p.run.id) ?? [];
+    rows.push(p);
+    byRun.set(p.run.id, rows);
+  }
   const resolved = new Map<string, ResolvedPlacement>();
+  /** Seat a whole run at once (anchorRun); every member lands in `resolved`. */
+  const resolveRun = (runId: string): boolean => {
+    const members = byRun.get(runId) as SettlementPlacement[];
+    const metas = members.map(metaOf);
+    if (metas.some((meta) => !meta)) return false;
+    const seats = anchorRun(members, groundAt,
+      (m) => metas[members.indexOf(m)]?.designedSinkM?.p50 as number);
+    if (!seats) return false;
+    for (const m of members) {
+      const anchored = seats.get(m.id) as AnchoredPlacement;
+      resolved.set(m.id, { matrix: finalPlacementTransform(m, anchored), anchored });
+    }
+    return true;
+  };
   const resolve = (p: SettlementPlacement, chain: string[]): ResolvedPlacement | null => {
     const cached = resolved.get(p.id);
     if (cached) return cached;
@@ -332,6 +445,10 @@ export function createPlacementResolver(
     const meta = metaOf(p);
     if (!meta) return null;
     const anchorClass = p.anchorClass ?? meta.anchorClass ?? "ground";
+    if (p.run && !p.parentPlacementId && anchorClass !== "water"
+        && anchorClass !== "wall" && anchorClass !== "hanging") {
+      return resolveRun(p.run.id) ? resolved.get(p.id) ?? null : null;
+    }
     let parentResolved: ResolvedPlacement | null = null;
     if (p.parentPlacementId) {
       const parent = byId.get(p.parentPlacementId);

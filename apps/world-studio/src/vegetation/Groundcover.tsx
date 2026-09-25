@@ -83,6 +83,8 @@ import { makeSlotGeometry } from "@elder-souls/game-core/vegetation/slotGeometry
 import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
 import { useFrameSegments } from "@elder-souls/game-core/fx/frameSegments";
+import { treatmentClearancePolygons } from "@elder-souls/game-core/settlement/groundTreatment";
+import type { GroundTreatment } from "@elder-souls/game-core/settlement/types";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { groundHeightM } from "./terrainHeight";
 import { STUDIO_TOOLS } from "../studioTools";
@@ -451,13 +453,6 @@ interface ControlRaster {
 }
 
 type Footprint = [number, number][];
-
-/** A settlement building's footprint, as the bundle's `groundTreatments`
- * rows carry it: the grass keeps out of it. No dressing is placed at a
- * building's foot (16h check-in 2 ruling 1: the rubble ring is cut). */
-interface BuildingFootprint {
-  footprintM: Footprint;
-}
 
 function pointSegmentDistance(x: number, z: number, a: [number, number], b: [number, number]): number {
   const dx = b[0] - a[0]; const dz = b[1] - a[1];
@@ -1207,10 +1202,14 @@ export function Groundcover({
     let cancelled = false;
     fetch(`${baseUrl}province/settlements.json`)
       .then((r) => r.ok ? r.json() : Promise.reject(new Error("no settlements")))
-      .then((b: { groundTreatments?: BuildingFootprint[] }) => {
+      .then((b: { groundTreatments?: GroundTreatment[] }) => {
+        // A floor keeps the grass out of its footprint, a raised deck only
+        // out of its leg/stair contacts, and both out of their door aprons
+        // (16h check-in 3 §5; owner 2026-09-25). No dressing is placed at a
+        // building's foot (check-in 2 ruling 1).
         if (!cancelled) {
           setExclusions((b.groundTreatments ?? [])
-            .filter((t) => Array.isArray(t.footprintM)).map((t) => t.footprintM));
+            .filter((t) => Array.isArray(t.footprintM)).flatMap(treatmentClearancePolygons));
         }
       })
       .catch((e) => { if (!cancelled) console.warn("groundcover: settlements fetch failed", e); });

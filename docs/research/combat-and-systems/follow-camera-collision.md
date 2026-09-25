@@ -45,6 +45,11 @@ for part 2 item 24 (the interior camera). Read by
   moving bodies are excluded by the query flags.
 - The player model fades from a 1.2 m arm to nothing at 0.5 m.
 - The CPU terrain clamp stays as the fallback outside the collider ring.
+- The view aims along a direction, not at a point (2026-09-25, check-in 3):
+  the aim is taken from the unobstructed geometry (look target minus the
+  full-arm orbit position), smoothed at `lookSmoothing` and renormalised, and
+  the pulled-in camera looks along it, so the view pitch no longer changes
+  with arm length (it nodded 25 to 71 deg as a wall shortened the arm).
 
 ## Open
 

@@ -61,6 +61,55 @@ describe("follow camera collision", () => {
   });
 });
 
+// 16h check-in 3 §1: the view pitch must not depend on arm length.
+function viewPitchDeg(camera: FollowCamera): number {
+  const cam = new THREE.PerspectiveCamera();
+  camera.applyTo(cam);
+  cam.updateMatrixWorld();
+  const dir = cam.getWorldDirection(new THREE.Vector3());
+  return THREE.MathUtils.radToDeg(Math.asin(-dir.y));
+}
+
+describe("follow camera view pitch under obstruction", () => {
+  for (const pitch of [0.34, 0.06]) {
+    it(`holds the view pitch while a wall sweeps the arm 5.8 -> 0.25 m (pitch ${pitch})`, () => {
+      let hit: number | null = null;
+      const camera = new FollowCamera({ initialPitch: pitch });
+      camera.setObstruction(() => hit);
+      camera.reset(player, Math.PI);
+      settled(camera);
+      const clear = viewPitchDeg(camera);
+      const seen: number[] = [];
+      for (let d = 5.8; d >= 0.25 - 1e-9; d -= 0.05) {
+        hit = d;
+        camera.update(still, player, 1 / 60);
+        seen.push(viewPitchDeg(camera));
+      }
+      expect(camera.arm).toBeCloseTo(0.25, 5);
+      expect(Math.max(...seen) - Math.min(...seen)).toBeLessThan(0.5);
+      expect(Math.abs(seen[0] - clear)).toBeLessThan(0.5);
+    });
+  }
+
+  it("matches the old look-at-point pitch when nothing obstructs", () => {
+    for (const pitch of [-0.8, 0, 0.06, 0.34, 0.7]) {
+      const camera = new FollowCamera({ initialPitch: pitch });
+      camera.reset(player, Math.PI);
+      settled(camera);
+      // Old behaviour: camera at the orbit, looking at the player + lookHeightOffset (+ sky rise).
+      const posPitch = Math.max(pitch, FOLLOW_CAMERA.minPosPitch);
+      const rise = Math.tan(Math.min(Math.max(0, posPitch - pitch), 1.35)) * FOLLOW_CAMERA.distance * 1.5;
+      const old = new THREE.PerspectiveCamera();
+      old.position.copy(camera.position);
+      old.lookAt(new THREE.Vector3(0, FOLLOW_CAMERA.lookHeightOffset + rise, 0));
+      old.updateMatrixWorld();
+      const dir = old.getWorldDirection(new THREE.Vector3());
+      const oldDeg = THREE.MathUtils.radToDeg(Math.asin(-dir.y));
+      expect(Math.abs(viewPitchDeg(camera) - oldDeg)).toBeLessThan(0.5);
+    }
+  });
+});
+
 describe("camera collision groups", () => {
   // Rapier's pair test: (a.memberships & b.filter) && (b.memberships & a.filter).
   const passes = (query: number, collider: number) =>
