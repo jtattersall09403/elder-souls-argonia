@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # idle-stop.sh: power the EC2 dev machine off once it has been idle for
-# ES_IDLE_MINUTES (default 90) in a row. Run as root by es-idle-stop.timer
+# ES_IDLE_MINUTES (default 30) in a row. Run as root by es-idle-stop.timer
 # every 10 minutes (ec2-user-data.sh installs both). A stopped EBS instance
 # costs only its disk; the owner starts it again from the console.
 #
@@ -25,7 +25,7 @@ set -uo pipefail
 
 # shellcheck source=/dev/null
 [[ -r /etc/es/idle.env ]] && . /etc/es/idle.env
-MINUTES="${ES_IDLE_MINUTES:-90}"
+MINUTES="${ES_IDLE_MINUTES:-30}"
 MAX_LOAD="${ES_IDLE_LOAD:-0.5}"
 BASELINE="${ES_IDLE_TUNNEL_BASELINE:-1}"
 LOCKS="${ES_JOB_LOCK_DIR:-/tmp/es-jobs}"

@@ -64,7 +64,7 @@ install -m 755 "$B/ec2-stage3.sh" /opt/es/stage3.sh
 install -m 755 "$B/idle-stop.sh" /opt/es/idle-stop.sh
 [[ -f /etc/es/idle.env ]] || cat > /etc/es/idle.env <<'EOF'
 # idle-stop.sh settings (see its header). Edit, no restart needed.
-ES_IDLE_MINUTES=90
+ES_IDLE_MINUTES=30
 ES_IDLE_LOAD=0.5
 ES_IDLE_TUNNEL_BASELINE=1
 EOF
