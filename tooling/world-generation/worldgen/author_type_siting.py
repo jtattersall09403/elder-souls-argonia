@@ -41,11 +41,21 @@ from .scale import PROVINCE_EXTENT_M
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RECIPES_PATH = catalogue.CATALOGUE_DIR / "type-recipes.json"
 BLUEPRINT_DIR = REPO_ROOT / "world" / "sources" / "blueprints"
-#: Blueprints the owner retired (2026-09-23; 16i re-authors those places).
-#: Only their FILENAMES are read, to name the types whose built-ground
-#: footprint was measured on them: those types keep their committed
-#: `footprintRadiusM` until a live blueprint of the type measures it again.
-RETIRED_BLUEPRINT_DIR = BLUEPRINT_DIR / "retired"
+#: Types whose built-ground footprint was measured on the Phase 11
+#: blueprints the owner retired (2026-09-23) and dropped (16k hand-off
+#: ruling 4; the files were deleted 2026-09-25, decision 0099 addendum).
+#: They keep their committed `footprintRadiusM` until a live blueprint of
+#: the type measures it again: a band would move the frozen plot (a 175 m
+#: wamasu pond would become 45 m). The radii are the values measured on
+#: those blueprints (type-recipes.json, 2026-09-23). The map only shrinks:
+#: a type a live blueprint measures leaves it (test_type_siting).
+CARRIED_BUILT_GROUND_M = {
+    "rebuilt-stilt-city": 225,      # place.mercantile-coast.lilmoth
+    "heretic-stone-village": 105,   # place.dunmer-north.mazzatun
+    "hist-village": 105,            # place.hist-heartland.nine-trunks
+    "sap-tapping-camp": 25,         # place.hist-heartland.sap-tapping-licensed
+    "wamasu-pond": 175,             # place.naga-kur-deeps.wamasu-pond-adult
+}
 
 # --------------------------------------------------------------------------- #
 # 1. footprint radius
@@ -184,13 +194,9 @@ def built_ground_radii() -> dict[str, float]:
 
 
 def retired_types() -> set[str]:
-    """Types of the catalogue records whose blueprint sits in `retired/`
-    (filenames only: nothing reads the retired layouts)."""
-    if not RETIRED_BLUEPRINT_DIR.exists():
-        return set()
-    ids = {path.stem for path in RETIRED_BLUEPRINT_DIR.glob("place.*.json")}
-    return {rec["classification"]["type"] for rf in catalogue.load_region_files()
-            for rec in rf.places if rec["id"] in ids}
+    """Types carried from the dropped Phase 11 blueprints that no live
+    blueprint has re-measured yet."""
+    return set(CARRIED_BUILT_GROUND_M)
 
 
 def derive_footprint_m(recipe: dict, measured: dict[str, float]) -> tuple[int, str]:
@@ -341,8 +347,11 @@ def author(data: dict) -> dict:
     for recipe in data["types"]:
         # A built-ground footprint measured on a now-retired blueprint is
         # carried unchanged: the ground it measured has not been re-authored
-        # yet (16i), and a band would shrink a 175 m wamasu pond to 45 m.
-        if not (recipe["type"] in retired and recipe.get("footprintSource") == "built-ground"):
+        # yet (16k loop), and a band would shrink a 175 m wamasu pond to 45 m.
+        if recipe["type"] in retired:
+            recipe["footprintRadiusM"] = CARRIED_BUILT_GROUND_M[recipe["type"]]
+            recipe["footprintSource"] = "built-ground"
+        else:
             radius, source = derive_footprint_m(recipe, measured)
             recipe["footprintRadiusM"] = radius
             recipe["footprintSource"] = source

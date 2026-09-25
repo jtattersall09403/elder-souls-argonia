@@ -160,7 +160,7 @@ The world compile produces a **danger band field 1–5** (owner-approved;
 | Quest tier | World data |
 |---|---|
 | D1–D5 | danger bands 1–5 of the compiled field, directly |
-| **D0** | **not a field band** — an authored *location property* of settlement interiors and safe buildings, applied during city/settlement authoring (16i, then each Phase 15 packet) (a "safe interior" flag over the local area) |
+| **D0** | **not a field band** — an authored *location property* of settlement interiors and safe buildings, applied during city/settlement authoring (each 16k loop slice, then each Phase 15 packet) (a "safe interior" flag over the local area) |
 
 Special case (canon + quest requirement): **Helstrom's interior is D0 while the
 field around it stays band 5** — the danger model deliberately gives Helstrom
@@ -217,7 +217,7 @@ joined by three rootways out of Helstrom, each carried into the travel-service
 graph with a Waykeeper slot. Gideon is seasonal rather than a standing
 station (§12b). The Underway stays story-only: it carries no travel service.
 Quests and rewards that touch root transit are finalised in the packet
-co-design loop (16j, then Phase 15).
+co-design loop (per 16k slice, carried 16j item 2; then Phase 15).
 
 ## 13. Quest-ready location packet
 

@@ -57,7 +57,11 @@ layout. The `placement-workbench` skill is its procedure (0086).
 
 - 16i's exemplar places and 16j's rollout may be laid out in the
   workbench; the planner decides this per chunk. `settlement-build` stays
-  the umbrella for everything after the export.
+  the umbrella for everything after the export. *Superseded 2026-09-25:*
+  16i and 16j are replaced by the 16k loop (0099), where the workbench is
+  the method (0099 decision 5), a place is applied from one whole layout
+  file (0100 decision 2) and `place-build` replaces `settlement-build`
+  (0100 decision 1).
 - The proof is `place.fixture.proving-ground-b`, built only with the
   workbench, the skill and Sonnet views. The lane doc's § Rounds compares
   it with the original yard for the owner.

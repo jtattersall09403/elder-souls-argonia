@@ -118,8 +118,9 @@ prior landed: `SEPARATION_M` no longer exists anywhere in `tooling/`
 **A6. A place has EXTENT, and its spacing follows from that extent and from
 sight.** Two places must clear the SUM of their typed `footprintRadiusM` —
 a real occupancy, derived from the authored blueprint boundary where one
-exists (Lilmoth 275 m, Mazzatun 130, Nine Trunks 120, the licensed sap camp
-30, a held wamasu pond 280 capped to 230) and banded from magnitude / class /
+exists (history: the retired Phase 11 blueprints gave Lilmoth 275 m,
+Mazzatun 130, Nine Trunks 120, the licensed sap camp 30, a held wamasu pond
+280 capped to 230; those files were deleted 2026-09-25, 0099 addendum) and banded from magnitude / class /
 `complexityBudget` otherwise (M5 230 · M4 140 · M3 115 · M2 65 · M1 45; a
 non-settlement type from its production budget × its class). The floor is
 IMMUTABLE: no relaxation stage touches it. A related pair whose type declares
@@ -208,8 +209,8 @@ Argonian); *O* 2026-09-03. **Enforced by** `macro_plot` culture-zone gate
 (hard; ≤350 m spill when relaxed).
 
 **A12. The plot is provisional; the meso pass may move a place 60–150 m
-on measurement and must write the move back.** Four of five Part 6 exemplars
-could not stand on their dot. *O* 2026-09-05 (write-back rule). **Enforced
+on measurement and must write the move back.** Four of five Part 6 exemplars (the
+retired Phase 11 set) could not stand on their dot. *O* 2026-09-05 (write-back rule). **Enforced
 by** `worldgen.apply_sitings` (sole writer of `macro-plot-overrides.json`;
 pins applied after the solve; dependants re-run).
 
@@ -495,22 +496,28 @@ uphill side of a dug-in piece buries deeper and nothing hovers. **Enforced by**
 `anchoring.ts` `anchorPlacement` (fit read from the kit manifest's
 `placement.evidence.policyId`), mirrored in the yard float check.
 
-**C12. Outdoor dressing is authored per use, above Bethesda's median and below
-its long tail; it varies.** Within 10 m of a lived-in dwelling 3–6 pieces
-(racks, canoes, mats, jars, totems, chimes at the threshold); a works site
-6–12 (the layout and the props *are* the trade, since no machinery props
-exist); a ruin or abandoned place 1–3 plus decay; a camp 4–8 around the fire
-with the loot cached away from it. Repeated detail is noticed before repeated
-architecture, so the vocabulary belongs to the district kit and its
-deterministic distribution varies around each parcel. *E* (Skyrim p50 2,
-p90 19 within 10 m; the mod sets 0 — an unfinished world, not a target); *S*
-(GDC 2013 detail-repetition finding; five-slot recipe); *L* material-culture
-prop brief. **Enforced by** `compile_settlement`: `dressing_count` holds
-dwellings to 3–6 and works uses to 6–12, resolves every object through the
-district kit's `dressing[]` vocabulary, and publishes per-parcel counts in
-`dressingReport`. Missing kit vocabulary is HARD (G18 closed for occupied
-dwellings and works; ruin/camp bands remain Phase 15 because those record
-classes are not settlement parcels).
+**C12. Outdoor dressing is authored per building, to the per-settlement
+numbers of [0098](../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md),
+and the compile realises it; it varies.** The designer places dressing in
+the place's layout file as groups (the yard set per building kind, defined
+in the type sheet of the `place-build` skill, placed with `group place`):
+pieces within 12 m of a dwelling at the tier's p50 (hamlet ≥ 15, village
+≥ 20, town ≥ 25, city ≥ 40) with the minimum set per dwelling (door, light,
+roof detail, windows unless "none by design", ≥ 5 personal clutter); a works
+site carries the trade as its layout and props; a ruin or abandoned place
+little plus decay; a camp around the fire with the loot cached away from
+it. Dressing stands on a host (a wall face, a porch, a deck, a table), never
+on a ring round the parcel. Repeated detail is noticed before repeated
+architecture, so the vocabulary belongs to the district kit and each yard
+set varies. *E* (vanilla houses carry 19.5–69.5 pieces within 12 m, 0098;
+Skyrim p50 2, p90 19 within 10 m); *S* (GDC 2013 detail-repetition finding);
+*L* material-culture prop brief. **Enforced by** the 0098 table checked at
+export and `world/sources/placement/breadth-bars.json`; `compile_settlement`
+resolves every object through the district kit's `dressing[]` vocabulary
+(missing vocabulary is HARD) and never invents dressing near a building.
+History: the compile-placed ring of 3–6 pieces per dwelling (`dressing_count`)
+is retired by [0100](../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md)
+decision 5 (16h item 23 removes it from the compile).
 
 **C13. Vegetation meets buildings as a graded field, not a line.** Hard
 clearance is the footprint union dilated by a jittered offset; a thinned ring
@@ -704,17 +711,23 @@ session it is found; it is shown as a gap, not faked.** *O* 2026-09-05.
 in [settlement-kit-sourcing-log](../research/placement-settlements/settlement-kit-sourcing-log.md);
 engineering standard 13 (playbook moves with the work).
 
-**E5. Everything designed to have an interior has a derived doorway and a
-linked interior kit; the door teleports the player into that kit's interior
-(the Morrowind/Skyrim model). No door mesh is placed: the door is part of the
-building assembly or a measured opening on the shell; the blueprint only
-records by which doorway the player enters and where it leads.** *O*
-2026-09-05. **Enforced by** the interiors index (`tooling/asset-pipeline/pipeline/interiors_index.py`: enclosure
+**E5. Every enterable shell and entrance piece has a derived doorway and
+one door record; the door moves the player into a separate interior cell
+and back to its exterior arrival marker (the Morrowind/Skyrim model,
+[0081](../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md)
+decision 4).** The interior is a tier A cell shipped verbatim where a mined
+plugin links one to the shell, a fit-rule claim (`evidence: fit-rule`), or
+`reserved` with a reviewed message; an open structure with no interior
+(deck, gate arch, shelter) has no door record. No door mesh is placed: the
+door is part of the building assembly or a measured opening on the shell;
+the record says by which doorway the player enters and where it leads.
+*O* 2026-09-05, re-ruled 2026-09-20 (0081). **Enforced by** the interiors
+index (`tooling/asset-pipeline/pipeline/interiors_index.py`: enclosure
 needs front-facing walls, so hollow props are masses; doorways from the
 opening, an open front, a baked leaf, a mined placement or a composed door
-part; every `tileset` resolves to a built kit — 49 of 49 buildings) and the
-validator (a building with an interior carries a door; `interiorRef` must
-be an existing kit); standard 12.
+part) and the validator (a building with an interior carries a door;
+`interiorRef` must be an existing kit); door records and reachability per
+compile are 16h item 11, carried into the 16k loop; standard 12.
 
 **E6. Everything placed has a stable id and a plain-English why in the
 reference register, reviewed by a separate agent.** *O* standards 2 and 12;

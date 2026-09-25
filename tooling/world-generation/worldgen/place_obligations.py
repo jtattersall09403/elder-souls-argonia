@@ -32,9 +32,10 @@ MANIFEST_SCHEMA_VERSION = 2
 DELIVERY_OWNERS = {"phase-11-compiled", "phase-12", "phase-13", "quests"}
 # The exemplar set 16i builds (docs/phases/16-foundation-and-places/
 # 16i-exemplars-end-to-end.md step 1: "Keep the five", Phase 16 ruling 13).
-# Their 2026-09-09 blueprints are retired (blueprints/retired/, 2026-09-23), so
-# the live gate reports all five missing until 16i re-authors them; 16i adds
-# its sixth (a dungeon-kind record) here when it chooses it.
+# Their 2026-09-09 blueprints were retired 2026-09-23 and deleted 2026-09-25
+# (the exemplars are dropped, decision 0099 addendum), so the live gate
+# reports all five missing; what replaces this set in the 16k loop is a
+# planner call (the loop has no exemplar set).
 PHASE11_EXEMPLAR_PLACE_IDS = frozenset({
     "place.dunmer-north.mazzatun",
     "place.hist-heartland.nine-trunks",

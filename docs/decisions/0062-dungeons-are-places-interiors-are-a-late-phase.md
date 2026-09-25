@@ -102,3 +102,15 @@ opening-scene places.
   engineering-standards count, a duplicated CLAUDE.md rule, a non-existent
   npm script, a resolved CI note) landed in the same commit.
 - `docs/phases/15-rollout/` (roadmap, packet template) is created by 16j.
+
+## Addendum 2026-09-25 ([0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md), [0100](0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md))
+
+The queue after Phase 16 stands. Every 16i/16j clause above now reads as
+the 16k place loop: decision 6's "16a–16j" is 16a–16g, 16h part 1, 16k;
+decision 10's Phase 9 chunking job and the Phase 15 template run at 16k's
+exit (16j items 8–9, carried); decision 11's exemplar count is 0099
+decision 3 (two fresh places in a row per type, unattended), stated in
+world 96 §3; decisions 2–3's tier A interiors and the promises authored
+"in 16j" are carried 16i items 4–5 and 16j item 2, taken per slice. The
+opening-scene places of decision 9 are the 16k type 9 "early-game location
+(owner-guided)".

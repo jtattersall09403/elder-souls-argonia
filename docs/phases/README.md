@@ -187,8 +187,8 @@ convenience and can be re-ordered by the owner.
 | 13 ecology | 12b soundscape | creature calls and settlement/ecology ambience are authored **from** the ecology data *by the sound phase* — you can't place frog sounds until you know where the frogs are (0034). 12b sits in the Phase P polish tier and must land before Phase 14 locks performance budgets |
 | 10 vegetation renderer + scatter compiler (§109–112) | 11, 13 | places are dressed and judged at real vegetation density; Phase 13 authors against measured budgets |
 | **16 frozen base + water** | 12, 15 | nothing after 16b re-carves terrain or moves water; a packet's or an interior's ground work is typed local patches that fail when they would (0057/0059); interior water is a plane inside a cell, never terrain hydrology |
-| 16g promise vocabulary | 16j, 12, 15 | every dungeon-kind record carries typed promises (rooms, loops, traversal, combat spaces, anchor sockets, slots) in a vocabulary fixed before anyone authors more of them; a family with no realisation recipe backed by a kit that exists is re-typed, not promised |
-| 16i interior load contract + tier A | 12, 15 | the door transition and cell loading exist and have been walked before any interior is assembled |
+| 16g promise vocabulary | 16k, 12, 15 | every dungeon-kind record carries typed promises (rooms, loops, traversal, combat spaces, anchor sockets, slots) in a vocabulary fixed before anyone authors more of them; a family with no realisation recipe backed by a kit that exists is re-typed, not promised |
+| interior load contract + tier A (16i items 4–5, carried into 16k) | 12, 15 | the door transition and cell loading exist and have been walked before any interior is assembled |
 | 9 thin swim | 12 (underwater entrances), 15 | 52 records have underwater entrances; nobody can review one without swimming |
 | 13 fauna/loot | 12 interiors | rooms are designed knowing what will live in them and what the loot compiler can fill |
 | 12 interiors | 12b, 15 | acoustic profiles and the interiors rollout both read the interiors skill's output |
@@ -343,14 +343,14 @@ parked:
 | Phase 11 deliverable | Where it is delivered now |
 |---|---|
 | runtime correctness of what the compiler placed | 16h |
-| the five exemplars, exterior | 16i |
-| the **Hist-centred** and **Imperial-fringe settlement grammars** — in practice the type recipes (`type-recipes.json`) plus the mined kit-assembly templates | proven on the exemplars in 16i (Lilmoth is the Imperial-fringe city; Nine-Trunks and Mazzatun the Hist-centred pair), proven unattended in 16j; further recipes per packet in 15 |
-| "all settlement structures enterable": door, interior-claim record, door reachable every compile | 16h (door + reachability), 16i (tier A interiors and the reserved-door state), Phase 12 (assembled interiors) |
-| **D0 safe interiors** per settlement; Helstrom D0 with gates against the band-5 basin | the exemplars' in 16i; every other settlement's in its Phase 15 packet (tier A verbatim where a linked cell exists, else assembled by the Phase 12 skill); Helstrom is a city, owner-guided, in its packet |
+| the five exemplars, exterior | retired 2026-09-23 (the yard is the fixture); their blueprints deleted in 16k slice 1b (0099 addendum); Lilmoth returns as the owner-guided whole-city slice of the 16k loop |
+| the **Hist-centred** and **Imperial-fringe settlement grammars** — in practice the type recipes (`type-recipes.json`) plus the mined kit-assembly templates | proven per place type in the 16k loop (0099: two fresh places in a row per type, unattended; one type sheet per type in the `place-build` skill, 0100); further recipes per packet in 15 |
+| "all settlement structures enterable": door, interior-claim record, door reachable every compile | 16h (door model, 0081), the 16k loop (door records and reachability, tier A interiors and the reserved-door state: carried 16h item 11, 16i items 4–5), Phase 12 (assembled interiors) |
+| **D0 safe interiors** per settlement; Helstrom D0 with gates against the band-5 basin | each 16k loop place's in its slice; every other settlement's in its Phase 15 packet (tier A verbatim where a linked cell exists, else assembled by the Phase 12 skill); Helstrom is a city, owner-guided, in its packet |
 | **Morrowind-style travel services** (ferrymen, boat owners, rootworm Waykeepers: talk-pay-arrive over a geographically sensible service graph) and the **root-transit network re-authoring** with Hist-node placement | 16e (the typed service graph as one record with ferries, boat services and a talk-pay-arrive contract; ferry landings and berths recorded on the graph); 16h draws the hulls and landings; 16g re-authors the rootworm stations at the hero Hist nodes it places (0068) |
 | **player-stronghold site reservation** (quests 30 §24b.5; 0028) | 16g reserves the record and its design group; its interior is a Phase 12 family (a reoccupied xanmeer or a river station) |
 | **quest location roster** and the per-quest world provisions | re-validated in 16g against the frozen world; per packet in 15 |
-| **quest–world co-design loop** (quests 90 §65b, a completion gate per packet) | 16j runs it on the trial packet; Phase 15 runs it per packet before freeze |
+| **quest–world co-design loop** (quests 90 §65b, a completion gate per packet) | the 16k loop runs it per slice (carried 16j item 2); Phase 15 runs it per packet before freeze |
 | **content-density budget** (18–22 named POIs/km² in D0–D3, 8–12 in D4–D5, something named within ≤300 m of every road and lane; reward coverage per 20 §12.3b) | 16g reports it per zone on the re-validated plot; Phase 15 declares it per packet as built content at freeze; a dungeon-kind record counts once its interior is delivered against its promises |
 
 Decisions and history: [0041](../decisions/0041-phase11-settlement-decisions.md),
@@ -364,7 +364,8 @@ The mined composition rules (§86.0b) are in
 exemplar work, the water round-2 leftovers and the terrain/vegetation/route
 rows of the polish backlog are absorbed into one sequenced phase (decision
 [0057](../decisions/0057-phase16-terrain-once-water-once-places-on-a-frozen-world.md)).
-The plan, its chunks (16a–16j, one fresh agent each, owner check between),
+The plan, its chunks (16a–16g, 16h part 1, then the 16k place loop, decision
+[0099](../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md)),
 the coverage matrix and the owner decisions are in
 [../phases/16-foundation-and-places/README.md](../phases/16-foundation-and-places/README.md);
 this section only fixes what the phase ships.
@@ -399,25 +400,28 @@ Deliverables:
   doors, lamps mounted, stairs reachable, navigation consumed) and an
   off-world **kit QA loop** that produces rules and a skill, not per-piece
   approvals;
-- the **five exemplars end to end** — 16i builds the door transition and
-  the **interior load contract**, delivers every exemplar interior that a
-  mod plugin already ships furnished behind that shell (**tier A**,
-  verbatim); every other door gets a typed reserved state; **tier B**
-  (assembled interiors) is Phase 12's;
+- **real places built one at a time in the 16k loop** until the place
+  skill passes unattended twice in a row per type (0099, 0100); the loop
+  builds the door transition and the **interior load contract** (carried
+  16i items 4–5) and delivers every loop place's interior that a mod
+  plugin already ships furnished behind that shell (**tier A**, verbatim);
+  every other door gets a typed reserved state; **tier B** (assembled
+  interiors) is Phase 12's;
 - the **promise vocabulary** for dungeon-kind places fixed and every record
   migrated (16g), so sites, purposes, quest links and what-must-be-inside
   are authored with the places and the interiors are built later against
   them (decision 0062);
-- the **rollout skill** proved on one unattended packet (16j), including
-  dungeon sites with their entrances built and doors reserved; that packet
-  is Phase 15's packet one and is completed there.
+- the **`place-build` skill** proved per type in the 16k loop, including a
+  dungeon entrance type with its entrance built and its door reserved; the
+  loop's exit writes the Phase 15 roadmap and packet template (carried 16j
+  item 8).
 
 ### Phase 12 — interiors: research, the furnishing mine and a skill proved on exemplars
 
 **What this phase is (owner 2026-09-13, decision 0062).** Dungeons are
 places. Their sites, identity, prose, purpose, quest links and **typed
 promises of what must be inside** are authored with every other place
-(16g fixes the vocabulary; 16j and Phase 15 author them per packet). This
+(16g fixes the vocabulary; the 16k loop and Phase 15 author them per place). This
 phase, late in the queue, builds **the insides**: every interior that has
 to be *assembled* rather than copied — dungeons of every family, hero
 interiors and the settlement buildings whose shells have no furnished
@@ -433,7 +437,7 @@ acoustic profiles and budgets read finished rooms. Rollout of its skill is Phase
   our mod kits; none of our kit pieces has a `matched` interior of its
   own (about 279,000 placed objects, roughly
   100,000 clutter and 12,000 furniture); the plugin reader already decodes
-  every reference's transform. 16i ships these verbatim. Tropical Skyrim
+  every reference's transform. The 16k loop ships these verbatim (carried 16i item 5). Tropical Skyrim
   retextured the cave and town-kit texture sets those cells use.
 - **Argonian interiors are few, and all from one mod.** King of the
   Murkmire (KotM) ships 62 furnished dwelling and shop cells (18 of them
@@ -472,7 +476,7 @@ Creation Kit data model, per §86.0b):** furniture records' NPC-use markers
 (sit, sleep, lean, work) mapped onto sourced idle clips; room bounds and
 portals for occlusion; lighting templates and interior light placement
 (no sun, local lights, fog colour: the one genuinely new rendering job,
-forced early by 16i's tier A); locks, ownership, counts and enable-parents
+forced early by the tier A interiors of the 16k loop); locks, ownership, counts and enable-parents
 on references (a container record is read for what the container *is*: its
 mesh, lock and owner; **never its levelled list** — loot is authored per
 record and fixed, 00-core rule 9);
@@ -502,13 +506,13 @@ positions.
 - the research chunk above, recorded in `docs/research/interiors/`;
 - the chamber library and furnishing rules mined from the plugins (statistics
   and reusable chambers, never a copied dungeon: 00-core rule 6);
-- the chamber-graph compiler on the 16i load contract: grid families
+- the chamber-graph compiler on the interior load contract (built in the 16k loop, carried 16i item 5): grid families
   (`dungeon-root-v1`, `xanmeer-interior-v1`, imperial and hlaalu tilesets),
-  the interior water plane, entrances hung on the 16i portal records so a
+  the interior water plane, entrances hung on the loop's portal records so a
   dungeon door and a house door are one mechanism, exterior footprint as a
   typed patch or nothing;
 - interior navmesh bakes through 10b's pipeline; per-cell lighting profiles
-  (acoustic values are 12b's, on the field 16i created);
+  (acoustic values are 12b's, on the field the loop creates, carried 16i item 4);
 - **the exemplar loop, until the skill holds**: one exemplar per grid family
   authored by hand *through the tools* (a modular root cavern first), every
   hand decision promoted into the `interior-build` skill, the skill run
@@ -525,7 +529,7 @@ positions.
   promises project to record-only obligations today
   (`worldgen.place_obligations.record_obligations`, owner `phase-12`, 16g);
   the manifest verifier is written by the first chunk that emits a
-  manifest (16i, tier A interiors) and hard-fails missing, empty,
+  manifest (the 16k slice that first ships a tier A interior) and hard-fails missing, empty,
   duplicate and stale rows; the automation-readiness checklist (96 §3)
   ticked per family.
 
@@ -590,9 +594,9 @@ swim logic in `packages/` and touches the app-side blit as little as it can.
 
 **Phase 9 runs as chunks, in this order: 9a thin swim** (vanilla clips,
 the existing water query, Argonian breath, the thin stat hook; this is the
-first chunk after 16j because 52 places have underwater entrances that
+first chunk after 16k's exit because 52 places have underwater entrances that
 nobody can review without it), **9b boats, 9c climb**. The chunk briefs are
-written by a "chunk Phase 9" job at 16j close, from module 90 §74.3 and
+written by a "chunk Phase 9" job at 16k's exit (carried 16j item 9), from module 90 §74.3 and
 [swim-climb-boat-implementation.md](../research/combat-and-systems/swim-climb-boat-implementation.md). Climbing carries the animation-sourcing
 risk — no ready-made wall-climb loops exist, but two sourceable pools do
 (EVGAT's ladder-climb loops as the primary retarget candidate, and the
@@ -687,8 +691,8 @@ Deliverables:
   version pin asserted in CI — enemies in the studio path on baked data;
 - combat-space probes (§69) measured against production kits and collision,
   including "enemy navigation access" against the baked navmesh (§115);
-- **the freeze-gate opened for use**: those probes run over the 16i and 16j
-  places; freezing itself is Phase 15's per-packet act (§86.0).
+- **the freeze-gate opened for use**: those probes run over the places built in the
+  16k loop; freezing itself is Phase 15's per-packet act (§86.0).
 
 **Chunking (0062):** a skeleton of chunk briefs is written when 9 closes;
 the navmesh chunk is knowable the day 16h lands (kit collision fixed) and
@@ -814,7 +818,7 @@ author later, in 12b, from this phase's data. What remains here is the
 **fauna and content half** — habitats, populations, encounters, loot — which
 genuinely needs 10b (enemies, nav) and 10c (compiled stats). Same
 exemplar-first shape (§85.4): build the habitat/encounter/loot systems, prove
-them on the exemplar areas and a contrast set, roll out per region packet in
+them on the places built in the 16k loop and a contrast set, roll out per region packet in
 Phase 15. Authoring is semantic (ladder references, §86.0); mine the shipped
 games' data for habitat/encounter patterns where useful (§86.0b).
 
@@ -852,7 +856,7 @@ frog, wamasu and voriplasm.
 Deliverables:
 
 - **the contrast set proposed to the owner at phase start** (§85.4: the
-  exemplar areas plus two or three contrasting regions and danger bands);
+  16k loop places plus two or three contrasting regions and danger bands);
 - habitat and territory system (territories/leashes on the baked nav data,
   §113–115);
 - fixed creature/faction populations, with the Morrowind-leaning ambient
@@ -1008,7 +1012,7 @@ Deliverables:
 - performance budgets by device class;
 - GitHub Pages build containing approved runtime content only;
 - **sparse local state variants, consumed and budgeted** (the overlay
-  mechanism in the bundle format is 16i's, per the buildout register and
+  mechanism in the bundle format is the 16k loop's (carried 16h item 18), per the buildout register and
   0062; this phase budgets it) — 2–3 authored variants per
   quest location: occupants, barricades, banners, clutter, ambience — the
   quest consequence budget, quests 20 §14; never terrain/hydrology).
@@ -1029,9 +1033,10 @@ hold them; minor types the loop marked template-able roll out as varied
 templates (0099 decision 3).
 
 **The packet roadmap** (ordered packets, rough scope, the place types each
-needs, cities and opening-scene places flagged owner-guided) is drafted by
-16j for owner sign-off and kept in `docs/phases/15-rollout/roadmap.md`;
-each packet is a chunk brief from the template 16j ships. **Every packet
+needs, cities and opening-scene places flagged owner-guided) is drafted at
+16k's exit for owner sign-off (carried 16j item 8) and kept in
+`docs/phases/15-rollout/roadmap.md`; each packet is a chunk brief from the
+template the loop's exit ships. **Every packet
 runs in two parts with an owner check-in after each** (decision 0081: the
 plans and door tables on paper before any ground or vegetation is
 touched, then the walk); the rhythm is sketched in
@@ -1054,7 +1059,7 @@ Each packet:
    minor-route and service stages (16e's code, on 16g's ladder row; never a
    fresh major-route solve; minor routes are never graded);
 4. the causal location network for the packet from the 16g plot: settlements
-   and POIs through the settlement skill, every dungeon-kind record's
+   and POIs through the `place-build` skill (and its per-type templates), every dungeon-kind record's
    promises checked against a realisation recipe that exists, tier A
    interiors verbatim, the rest through the interiors skill;
 5. **quest-brief co-design pass** (quests 90 §65b, a completion gate, 0027):

@@ -188,9 +188,11 @@ The requirement:
   (shells, top-shell share, pieces within 12 m, dressing breadth per tier), recorded as data in
   `world/sources/placement/breadth-bars.json` (16k § 1b). The earlier ~25 % template cap per
   family and region is retired by 0098.
-- Two instances within 2 km differ on at least 3 axes.
+- Two houses on one shell in a settlement differ on at least 3 axes; one exact assembly appears
+  at most 3 times in the province and never twice within 2 km (0098 §1).
 - Source: 97-placement-principles.md Part A, "anti-sameyness" (line ~131); LV §4.
-- No doc sets a form count per tier (LV §4).
+- The shell count per tier is 0098's table (hamlet ≥ 2, village ≥ 4, town ≥ 6, city ≥ 8 per
+  culture quarter), checked per settlement, never as a share of a family in a region.
 - Tiers: `settlement` spans lone and homestead up to major city (settlement-type-recipes.md § Size).
 - A city needs civic and work buildings as well as dwellings. Vanilla 26+ settlements are 5 %
   dwelling and 21 % work; BM&V Black Marsh 26+ are 15 % dwelling (settlement-form-evidence.md
@@ -200,15 +202,16 @@ The requirement:
 |---|---|---|---|---|
 | argonian-mud | 3 + 2 tents, 0 windows | BM&V 2 + Mud Mother 1. With KotM: +8 | without KotM, 3 shells × windows, steps, hangings. With KotM, about 16 | Only with assemblies. With KotM, comfortably |
 | argonian-stilt | 2, bamboo 1, shack 8 pieces | stilthouse, bamboohut, the full shack kit. With KotM: +24 | the shack kit is unbounded | Yes once the shack kit is complete, if its plank reads fit the grammar |
-| argonian-root | 3 + kiosk | 3 (no fourth in the vault) | 3 × balconies, access, windows, lianas | Only if A6 counts assemblies |
+| argonian-root | 3 + kiosk | 3 (no fourth in the vault) | 3 × balconies, access, windows, lianas | Hamlet tier only; a village (≥ 4 shells) is a sourcing gap |
 | imperial | 2 | farmhouse 11, cyrfarmhouse 3, smallhouse 1, Jet unbounded | farmhouse × walkway × shutters × ivy × destroyed | Yes |
 | dunmer-hlaalu | `hlaalu-domestic` (68 Hlaalu pieces) | Hlaalu ~6, Dagon Fel 9 | awnings, chimneys, windows | Yes; Dagon Fel joins `hlaalu-domestic` (16h part 2 item 33) |
 | argonian-stone | tileset | ruin forms only | n/a (monument) | n/a |
 
-The rule's wording decides the root row: does "template" in A6 mean the shell or the assembly?
-(Decisions, item 2.)
+History: this section first measured against A6's ~25 % template cap and asked whether it
+counted shells or assemblies (Decisions, item 2); 0098 (2026-09-24) replaced the cap with the
+per-settlement bars above, so the question no longer applies.
 
-## 6. Brief edits for 16h part 2 and 16i (the planner applies them)
+## 6. Brief edits for 16h part 2 and 16i (history: both are 16k's carried backlog since 0099)
 
 1. **Building-assembly procedure.** Add §2's layer table, rules and checks to the
    placement-workbench skill (lane round 2, not yet written) as a "building assembly" chapter.
@@ -282,6 +285,8 @@ The rule's wording decides the root row: does "template" in A6 mean the shell or
    assemblies lets root and mud meet the cap from the vault as it is.
    **Ruled by the planner 2026-09-24:** the 25 % template cap counts ASSEMBLIES (shell,
    attachments and dressing), not shells (16h brief, part 2 planner rulings).
+   **Superseded the same day by [0098](../../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md):**
+   no template cap; variety is the per-settlement bars (§5).
 3. **Can we take the Dragonborn door from the owner's DLC archive?** It is the door Mud Mother's
    mudhut01 needs (T6 rec 1).
 4. **Can a piece go where its own mod never placed it,** if it comes from the same mod folder and

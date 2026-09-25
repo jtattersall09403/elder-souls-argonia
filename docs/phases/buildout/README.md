@@ -5,7 +5,7 @@
 > seventeen), kit compression has left Phase 14 (standard 16), the polearm
 > item moved to the weapons lane. Read it as the *shape* of the seam, verify
 > any row against the tree before acting on it; do not re-plan it until
-> 16j closes and CLAUDE.md § GOAL resets.
+> the 16k place loop exits (0099) and CLAUDE.md § GOAL resets.
 
 The world-build master plan deliberately builds **only as much of the game's
 systems as the world build needs** — contracts, thin slices and calibration
@@ -77,7 +77,7 @@ will also use.
   direction multiplier).
 - **Shield parry ruling** — in [polish-backlog.md](../P-polish/backlog.md) tagged
   `10b`.
-- **Homed in Phase 16 (was "at Phase 11 kickoff"; 0062):** `owner`/`ownerFaction` + value tier, `STATION` sockets, per-body `WaterBody` records and the catalogue-as-registry rule are done (records carry them); the `LocalStateVariant` overlay in the bundle format and the door + interior-claim records are **16i**; timetable data, urban water-taxi edges and the travel-service graph are **16e**; the prior→roster demographic rule and the vastei tutorial scene flag are **16g** (the opening-scene places are owner-guided in every phase). Original list kept for the record: **`owner`/`ownerFaction` + value tier on every
+- **Homed in Phase 16 (was "at Phase 11 kickoff"; 0062):** `owner`/`ownerFaction` + value tier, `STATION` sockets, per-body `WaterBody` records and the catalogue-as-registry rule are done (records carry them); the `LocalStateVariant` overlay in the bundle format and the door + interior-claim records are the **16k loop's** (carried 16h items 11 and 18, 16i item 4; 0099); timetable data, urban water-taxi edges and the travel-service graph are **16e**; the prior→roster demographic rule and the vastei tutorial scene flag are **16g** (the opening-scene places are owner-guided in every phase). Original list kept for the record: **`owner`/`ownerFaction` + value tier on every
   placed interactable** (cross-check §1 — retrofit is the expensive
   version) · `STATION` socket type (crafting stations; assets in vault) ·
   per-body `WaterBody` records (0025 deferred them *to* Phase 11) ·
@@ -92,7 +92,7 @@ will also use.
   typed socket lists) · **the compiled settlement bundle format carries a
   `LocalStateVariant` overlay mechanism from v1** (quests 20 §14; else every
   bundle is rebuilt at 14) · **door + interior-claim records** on every
-  enterable structure (stable door ID = the fill point for 16i's building interiors and
+  enterable structure (stable door ID = the fill point for the 16k loop's tier A building interiors and
   Phase 12's dungeon portals, *and* the interior streaming boundary), with door *reachability* validated every
   compile. Full statements: decision 0041's forward-compatibility block.
 - **At the Phase 10 gate:** schedule or consciously re-defer the

@@ -137,3 +137,23 @@ quality.
   `--places` selectors) moves to the loop's exit.
 - `docs/phases/15-rollout/README.md` still describes the 16j rhythm; the
   loop's exit rewrites it.
+
+## Addendum 2026-09-25 (16k hand-off rulings 1–4, 6)
+
+- **The five Phase 11 exemplars are dropped** (ruling 4). Deleted with
+  their folder: `world/sources/blueprints/retired/` (README.md and
+  `place.dunmer-north.mazzatun`, `place.hist-heartland.nine-trunks`,
+  `place.hist-heartland.sap-tapping-licensed`,
+  `place.mercantile-coast.lilmoth`, `place.naga-kur-deeps.wamasu-pond-adult`,
+  each `.json` and `.md`). Their types keep the committed built-ground
+  footprints through `author_type_siting.CARRIED_BUILT_GROUND_M` (the measured radii), so
+  the frozen plot does not move. The site dossiers stay: they are ground
+  evidence, not layouts. Lilmoth returns as the owner-guided whole-city
+  slice (type 8).
+- **Type list, exit bar and Gate column signed** (rulings 1–3): type 8 is a
+  whole city; type 9 "early-game location (owner-guided)" added; the four
+  system rows (occupants, navmesh, interiors, ambience) gate on the socket
+  as data, so decision 6's idle-occupant pass is withdrawn: no occupant
+  pass runs in the loop. Detail in the 16k brief.
+- **First place Claywater Station** (ruling 6); slice 2 is chosen at slice
+  1's close by the contrast rule (0100 Consequences).

@@ -1,4 +1,4 @@
-# Phase 15 — rollout by region packet (sketch, 2026-09-20; 16j writes the roadmap and the template)
+# Phase 15 — rollout by region packet (sketch, 2026-09-20; 16k's exit rewrites it, with the roadmap and the template)
 
 **Superseded rhythm (2026-09-25, [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md)).**
 The packet rhythm below (16i recipe, 16j trial packet, 16j roadmap) is

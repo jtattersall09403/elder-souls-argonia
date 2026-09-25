@@ -6,7 +6,8 @@
 > two unattended passes in a row, instead of on one packet. The items
 > below (co-design pass, gap closing, automation readiness, `--places`
 > selectors, the Phase 15 roadmap and template) are 16k's carried
-> backlog by number. Do not run `deliver 16j`.
+> backlog by number; this file is kept only for the item text. Do not run
+> `deliver 16j`.
 
 **Goal.** Prove that the recipe the exemplars produced can be run by a
 fresh agent with no owner in the loop: one small region packet (three to

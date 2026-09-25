@@ -6,7 +6,11 @@
 > and walked until right, instead of six exemplars on paper first. The
 > items below (lesson reconciliation, interior claims, the interior
 > runtime, tier A cells, the approach checklist, skill v2, the type
-> register) are 16k's carried backlog by number. Do not run `deliver 16i`.
+> register) are 16k's carried backlog by number; this file is kept only
+> for the item text. None of the six was built; the five Phase 11
+> exemplars are dropped (16k hand-off ruling 4, their blueprints deleted
+> 2026-09-25) and Lilmoth returns as the owner-guided whole-city slice.
+> Do not run `deliver 16i`.
 
 **Goal.** Take six example places all the way from a dot on the map to a
 place you can walk into and enter, on 16h's building blocks, then write

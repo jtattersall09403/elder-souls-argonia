@@ -63,19 +63,27 @@ def test_every_type_carries_a_footprint_radius(recipes):
 
 def test_footprints_are_derived_from_the_blueprints_built_ground_not_hand_typed(recipes):
     """MUTATION: change `rebuilt-stilt-city` to 100 in type-recipes.json — red
-    (the derivation says 225, measured off Lilmoth's built ground)."""
+    (225 was measured off Lilmoth's built ground and is carried in
+    `CARRIED_BUILT_GROUND_M`; a type a live blueprint measures is checked
+    against that measurement instead)."""
     measured = author_type_siting.built_ground_radii()
     for typ, radius_m in measured.items():
         expected = int(round(radius_m / 5.0) * 5)
         assert recipes[typ]["footprintRadiusM"] == expected, typ
         assert recipes[typ]["footprintSource"] == "built-ground", typ
-    # Every built-ground footprint is either measured on a live blueprint now
-    # or carried from a retired one (16i re-authors those places); none is
-    # left over from a blueprint that no longer exists anywhere.
+    carried = author_type_siting.CARRIED_BUILT_GROUND_M
+    # The carried map only shrinks: a type a live blueprint now measures
+    # leaves it, so the measurement is the one truth.
+    assert not set(carried) & set(measured), sorted(set(carried) & set(measured))
+    for typ, radius_m in carried.items():
+        assert recipes[typ]["footprintRadiusM"] == radius_m, typ
+    # Every built-ground footprint is measured on a live blueprint now or
+    # carried from a dropped Phase 11 one, and every one of those is
+    # built-ground in the committed file (a deriver that stopped reading the
+    # blueprints leaves a measured type missing here).
     built = {typ for typ, r in recipes.items() if r.get("footprintSource") == "built-ground"}
-    assert built, "no built-ground footprint at all — the deriver is not reading the blueprints"
-    assert built <= set(measured) | author_type_siting.retired_types(), (
-        sorted(built - set(measured) - author_type_siting.retired_types()))
+    assert built == set(measured) | set(carried), (
+        sorted(built ^ (set(measured) | set(carried))))
 
 
 def test_a_retired_blueprints_type_keeps_its_committed_footprint(recipes):
@@ -86,7 +94,7 @@ def test_a_retired_blueprints_type_keeps_its_committed_footprint(recipes):
     data = author_type_siting.author(json.loads(author_type_siting.RECIPES_PATH.read_text()))
     out = {t["type"]: t for t in data["types"]}
     for typ in retired:
-        assert out[typ]["footprintRadiusM"] == recipes[typ]["footprintRadiusM"], typ
+        assert out[typ]["footprintRadiusM"] == author_type_siting.CARRIED_BUILT_GROUND_M[typ], typ
         assert out[typ]["footprintSource"] == "built-ground", typ
 
 

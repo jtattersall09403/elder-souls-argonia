@@ -95,7 +95,7 @@ cheaper than any rule and is what 16i and 16j build every place from.
 ## Amendments 2026-09-23 (night)
 
 - **§5.** The five replays are retired to
-  `world/sources/blueprints/retired/`. The yard is the only fixture.
+  `world/sources/blueprints/retired/` (deleted 2026-09-25, 0099 addendum). The yard is the only fixture.
   `--fixture-replay` is unused; the fix round retires the code path.
 - **§1 addenda.**
   - Refs whose base lives in a master are mined.
