@@ -13,41 +13,15 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-09-25 13:43 UTC, from `tooling/.reports/plan/place-audit.md` §4; the closing agent of each slice replaces this section)
+## Starting state (2026-09-25 evening, after slice 1a/1b; the closing agent of each slice replaces this section)
 
-- HEAD ee5d853c (watchdog); e56a4a4f infra lane (CPU watchdog,
-  `job_guard.sh`, `ES_JOBS` cap, path-scoped preflight, `sleep` guard,
-  `lane_resume.py`); 259b200a check-in 3 runtime fixes (camera aims along
-  a direction, runs seat as one rigid chain, decal bias, deck/floor
-  treatments); dc4056f9 workbench rounds 3–4 (yard B authored in the
-  workbench, compiled with 0 errors, published); 310a2bf2 miner golden
-  red cleared.
-- Dirty: ` M tooling/repo-standards/baseline-singletons.json`, left on
-  purpose by the infra lane.
-- Check-in 3 fix round: runtime lane done except the deck `contactsM`
-  source (no record holds leg or stair contact geometry); kit/yard lane
-  done 2026-09-25 (decal flag, one composite yaw convention, the stilt-house
-  leaf doorway, settlement clearance patches with door aprons, both yards
-  republished; the cave entrance and the landing-stage rule are deferred to
-  § Carried backlog). Causes, owner rulings and the check-in 1–3 defect →
-  gate table: 16h brief § Part 1 state, "Owner check-in 3".
-- Miner: 2 of 3 tests fixed; `test_the_record_single_use_is_the_derived_set`
-  red (814 vs 825); the full mounts/sink/abuts runs are blocked on the
-  miners' batch mode and disk (`tooling/.reports/miner/relaunch-2026-09-25.md`).
-- Combat r7: `preflight --paths` ran; placement red `0o666 == 0o644` at
-  `worldgen/test_export_settlement_bundle.py:1091` (codespace umask, an
-  environment defect).
-- Known reds: `settlementCollision.test.ts:142` (141 vs 152); standard 6
-  `vault_inventory.py:559/563`; `test_mine_abuts` single-use;
-  `test_proving_ground` yard B wall-run float (0.35 m; § Carried backlog);
-  `test_interiors_index` (KotM mud huts; § Carried backlog);
-  `test_weapon_records` ×2 FileNotFound; the file-mode test.
-- Unfinished lane 7f2405fa `[deliver] KotM + stilt window kit work`, idle
-  ~21 h, cut on a `sleep` poll; it overlaps items 28 and 33: dismiss or
-  relaunch it before new work.
-- Settled (PROGRESS.md:77): the owner's "road-wear ground paint cut" is
-  road wear on the legs; settlement path paint stays (16h:326/:530 "paths
-  are part 2's ground paint, at the front"; item G1 below).
+- HEAD 1f5ab7e3. Slice 1a (yard close) and 1b (bars, skill, tooling, docs) are DONE and committed: decision [0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) is the architecture; the `place-build` skill (procedure, `references/design-index.md`, `lessons.md` seeded with 46 rows = 16i item 0, `reader-checklist.md`, `types/01-road-station.md`) is what "deliver 16k slice 1c" runs; `wb.py apply LAYOUT.json` / `replay` / `render --shots auto` and `render_blueprint --layout` exist (yard B: apply 9.7 s, plan render 2.7 s, one render round 205 s); `export_settlement_bundle --places`, `accepted-places.json` + the freeze gate, `breadth-bars.json` + `culture-kits.json`, standard 13 watches the workbench and the skill, standard 15's research-index gate fixed (it could not fail).
+- Claywater Station's record is corrected and text-reviewed (culture imperial + secondaryCultures [argonian]; `vanilla-farmhouse` + farm fence + `bmv-round-huts`; D3; no ferry: the frozen lanes reach no place from its landing, boats pulled up; both roster NPCs have sockets). Site dossier and design brief NOT yet written: that is step 0–1 of slice 1c.
+- Yard: proving grounds A and B republished, every check-in 1–3 defect a gate, yard B's run float fixed by the new `settlement-pad` patch kind (item 13, minimal). Collider budget is derived at export (ceiling 200).
+- Known reds at HEAD: standard 6 `vault_inventory.py:559/563` is allowlisted (green); `test_interiors_index` green after the six KotM huts became `promised`. No full preflight was run after the lanes (owner 2026-09-25: a green board is for the next agent); slice 1c's first scoped preflight shows what is real.
+- Queued owner call (ask in the first walk packet): 12 lived-in records sit one danger band beyond 97 A7 because `macro_plot.py:1182/:1982` relax by +1 (re-plot or amend A7). Carried rows added today: KotM per-kit miners cannot write records yet (lane E rec 1); the navmesh chunk has no pickup line (PROGRESS:41); report-mode gate rows are printed, not yet queued to the backlog automatically.
+- Per-kit mining on demand: `mine_mounts --assets` prints but writes nothing and `mine_designed_sink` has no per-kit selector; the first slice needing a new kit fixes that (speed item S3).
+- Slice 1c step owners (0100 dec. 8): Fable writes the design brief and judges reader findings; a `deliver` agent authors the layout, runs apply/plan/render rounds, exports, publishes `--places place.imperial-fringe.claywater-station`, writes the walk packet.
 
 ## Read (fresh agent: this is your whole map)
 
