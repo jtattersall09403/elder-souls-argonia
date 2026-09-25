@@ -2305,11 +2305,12 @@
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Gideon (the Blackwood Road)",
-        "uesp:Lore:Gideon"
+        "uesp:Lore:Gideon",
+        "uesp:Lore:Tribes of Blackwood"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A mixed village at the road's water point, where the Imperial well and the Argonian landing serve the same travellers.",
+        "founding": "A mixed village at the road's water point: an Imperial well on one side of the road, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the channel before the Imperials dug the well. Their boats lie pulled up on the bank.",
         "siteAdvantages": "A perennial spring beside a boat channel. Here the road and the water meet on level terms.",
         "occupantsMotive": "Two communities share it because neither can hold the other's half.",
         "pressures": "The well is Imperial-built and failing. The Argonian half of the village will not help to repair it in stone.",
@@ -2367,6 +2368,9 @@
         ]
       },
       "culture": "imperial",
+      "secondaryCultures": [
+        "argonian"
+      ],
       "ownerFaction": null,
       "occupants": [
         "D1 mixed villagers",
@@ -2382,7 +2386,7 @@
           "role": "the landing's poler"
         }
       ],
-      "dangerTier": "D2",
+      "dangerTier": "D3",
       "approachDanger": "D3",
       "traversalModes": [
         "walk",
@@ -2410,10 +2414,10 @@
         "senses": "A windlass; water poured; two languages across one street."
       },
       "assetPlan": [
-        "hlaalu-domestic",
+        "vanilla-farmhouse",
+        "bmv-round-huts",
         "signage-blank",
         "landmark-civic",
-        "fences-wattle",
         "clutter",
         "market-tents"
       ],
@@ -2540,20 +2544,8 @@
         ],
         "loot": []
       },
-      "travelStation": {
-        "modes": [
-          "boat"
-        ],
-        "destinations": [
-          "place.imperial-fringe.fig-market",
-          "place.imperial-fringe.low-water-fair",
-          "place.imperial-fringe.lowmere-raft-town"
-        ]
-      },
       "sitingNote": "Bound to the Blackwood Road's western reach (round 4), where the road runs within 40 m of open water; the old site was up in the border mountains with no road and no channel.",
-      "services": [
-        "ferry"
-      ]
+      "services": []
     },
     {
       "id": "place.imperial-fringe.collections-dig",
@@ -4140,8 +4132,7 @@
           "place.imperial-fringe.onkobra-ferry",
           "place.imperial-fringe.slough-point",
           "place.imperial-fringe.low-water-fair",
-          "place.imperial-fringe.cartwrights-cross",
-          "place.imperial-fringe.claywater-station"
+          "place.imperial-fringe.cartwrights-cross"
         ]
       },
       "services": [
@@ -9105,7 +9096,6 @@
         ],
         "destinations": [
           "place.imperial-fringe.fig-market",
-          "place.imperial-fringe.claywater-station",
           "place.imperial-fringe.lowmere-raft-town"
         ]
       },
@@ -9597,7 +9587,6 @@
           "boat"
         ],
         "destinations": [
-          "place.imperial-fringe.claywater-station",
           "place.imperial-fringe.low-water-fair",
           "place.imperial-fringe.the-lake-divers-yard"
         ]

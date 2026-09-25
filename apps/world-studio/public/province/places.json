@@ -29710,7 +29710,7 @@
       "type": "road-station-village",
       "magnitude": "M2",
       "importanceTier": 3,
-      "dangerTier": "D2",
+      "dangerTier": "D3",
       "densityLayer": "fine-tempo",
       "status": "active",
       "workflow": "plotted",
@@ -29740,7 +29740,7 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 4), 20 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, route; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
-        "founding": "A mixed village at the road's water point, where the Imperial well and the Argonian landing serve the same travellers.",
+        "founding": "A mixed village at the road's water point: an Imperial well on one side of the road, an Argonian landing on the other. The landing is older than the station. Argonian polers worked the channel before the Imperials dug the well. Their boats lie pulled up on the bank.",
         "siteAdvantages": "A perennial spring beside a boat channel. Here the road and the water meet on level terms.",
         "occupantsMotive": "Two communities share it because neither can hold the other's half.",
         "pressures": "The well is Imperial-built and failing. The Argonian half of the village will not help to repair it in stone.",
@@ -29795,25 +29795,7 @@
         ],
         "loot": []
       },
-      "travelStation": {
-        "modes": [
-          "boat"
-        ],
-        "destinations": [
-          {
-            "id": "place.imperial-fringe.fig-market",
-            "name": "Fig Market"
-          },
-          {
-            "id": "place.imperial-fringe.low-water-fair",
-            "name": "Low-Water Fair"
-          },
-          {
-            "id": "place.imperial-fringe.lowmere-raft-town",
-            "name": "Lowmere"
-          }
-        ]
-      },
+      "travelStation": null,
       "questProvisions": [],
       "tierOwnership": "LF83 · tier-3",
       "questLinks": [
@@ -30471,10 +30453,6 @@
           {
             "id": "place.imperial-fringe.cartwrights-cross",
             "name": "Cartwright's Cross"
-          },
-          {
-            "id": "place.imperial-fringe.claywater-station",
-            "name": "Claywater Station"
           }
         ]
       },
@@ -32825,10 +32803,6 @@
             "name": "Fig Market"
           },
           {
-            "id": "place.imperial-fringe.claywater-station",
-            "name": "Claywater Station"
-          },
-          {
             "id": "place.imperial-fringe.lowmere-raft-town",
             "name": "Lowmere"
           }
@@ -33051,10 +33025,6 @@
           "boat"
         ],
         "destinations": [
-          {
-            "id": "place.imperial-fringe.claywater-station",
-            "name": "Claywater Station"
-          },
           {
             "id": "place.imperial-fringe.low-water-fair",
             "name": "Low-Water Fair"
