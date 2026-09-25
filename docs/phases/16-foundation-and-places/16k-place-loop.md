@@ -346,6 +346,10 @@ text and test.
   to one piece. End with "looks right" when the place is done.
 - **World-level calls** (a place moved or cut, a new type, a city
   choice) are asked as they arise, batched into the next walk packet.
+  Queued:
+  - 12 lived-in records sit one band beyond 97 A7's ±1 because
+    macro_plot.py:1182/:1982 relax by +1: re-plot them or amend A7
+    (owner call).
 
 ## Gotchas
 
@@ -360,8 +364,10 @@ text and test.
   a yard gate is not ready to walk.
 - Waiting is the hand-back or `run_in_background`; if a builder is slow,
   the speed item is the fix.
-- Claywater Station's `culture` is imperial, but its record is two
-  communities: the Imperial well and the Argonian landing on one road.
+- Claywater Station's `culture` is imperial with `secondaryCultures`
+  [argonian] (its kits are checked against
+  `world/sources/placement/culture-kits.json`): the record is two
+  communities, the Imperial well and the Argonian landing on one road.
   Read the grammar against 97 Part F as two halves facing each other,
   not a village of either culture alone: `settlement-imperial-v1` with
   the farm-fence family on one side, `settlement-mud-v1` with its

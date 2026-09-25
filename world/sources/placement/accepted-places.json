@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "id": "placement.accepted-places",
+  "comment": "Decision 0100 decision 6: the receipt for every place the owner has accepted. Each entry holds the place id, the owner's 'looks right' date, the hash of the compiled settlement record and of the place's own patches, and the ground and kit provenance from the export. A gate fails the build when an accepted place's compiled record would change and the entry has no 'reopened' item (owner date and reason). Gates added after acceptance run on the place in report mode only.",
+  "places": []
+}

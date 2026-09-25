@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "id": "placement.breadth-bars",
+  "purpose": "Per-place breadth and variety bars the place-build skill and the compile's 0098 check read (16k slice 1b, decision 0100 decision 7). Tiers are the catalogue magnitude; M4 and M5 are city bars counted per culture quarter. Every number carries its source. Read through tooling/world-generation/worldgen/breadth_bars.py (bars_for).",
+  "fieldNotes": {
+    "groundKindsMin": "distinct surface materials in the place, path paint kinds included",
+    "lightKindsMin": "distinct man-made light fixture kinds; 0 is allowed only for a place whose catalogue record says it is unlit at night and why",
+    "dressingAssetShareMax": "the largest share any one dressing asset may take of the place's dressing pieces",
+    "defaultTier": "used only when a record carries no magnitude; the record's classification.magnitude decides otherwise"
+  },
+  "tiers": {
+    "M1": {
+      "label": "hamlet",
+      "buildingsMin": 4,
+      "buildingsMax": 6,
+      "perQuarter": false,
+      "shellsMin": {
+        "value": 2,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:21 (Hamlet (4–6)); docs/research/placement-settlements/building-asset-breadth.md:238"
+      },
+      "topShellShareMax": {
+        "value": 0.5,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:22 (Hamlet (4–6)); docs/research/placement-settlements/building-asset-breadth.md:239"
+      },
+      "signatureRatioMin": {
+        "value": 0.75,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (Hamlet (4–6)); docs/research/placement-settlements/building-asset-breadth.md:237"
+      },
+      "dressingPiecesPerDwellingWithin12mMin": {
+        "value": 15,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (Hamlet (4–6), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+      },
+      "clutterPiecesMin": {
+        "value": 5,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:25 (≥ 5 personal clutter per dwelling); docs/research/placement-settlements/building-asset-breadth.md:242"
+      },
+      "dressingAssetKindsMin": {
+        "value": 6,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "dressingAssetShareMax": {
+        "value": 0.25,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "groundKindsMin": {
+        "value": 2,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "lightKindsMin": {
+        "value": 1,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      }
+    },
+    "M2": {
+      "label": "village",
+      "buildingsMin": 7,
+      "buildingsMax": 12,
+      "perQuarter": false,
+      "shellsMin": {
+        "value": 4,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:21 (Village (7–12)); docs/research/placement-settlements/building-asset-breadth.md:238"
+      },
+      "topShellShareMax": {
+        "value": 0.35,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:22 (Village (7–12)); docs/research/placement-settlements/building-asset-breadth.md:239"
+      },
+      "signatureRatioMin": {
+        "value": 1.0,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (Village (7–12)); docs/research/placement-settlements/building-asset-breadth.md:237"
+      },
+      "dressingPiecesPerDwellingWithin12mMin": {
+        "value": 20,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (Village (7–12), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+      },
+      "clutterPiecesMin": {
+        "value": 5,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:25 (≥ 5 personal clutter per dwelling); docs/research/placement-settlements/building-asset-breadth.md:242"
+      },
+      "dressingAssetKindsMin": {
+        "value": 10,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "dressingAssetShareMax": {
+        "value": 0.25,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "groundKindsMin": {
+        "value": 3,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "lightKindsMin": {
+        "value": 2,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      }
+    },
+    "M3": {
+      "label": "town",
+      "buildingsMin": 13,
+      "buildingsMax": 25,
+      "perQuarter": false,
+      "shellsMin": {
+        "value": 6,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:21 (Town (13–25)); docs/research/placement-settlements/building-asset-breadth.md:238"
+      },
+      "topShellShareMax": {
+        "value": 0.25,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:22 (Town (13–25)); docs/research/placement-settlements/building-asset-breadth.md:239"
+      },
+      "signatureRatioMin": {
+        "value": 1.0,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (Town (13–25)); docs/research/placement-settlements/building-asset-breadth.md:237"
+      },
+      "dressingPiecesPerDwellingWithin12mMin": {
+        "value": 25,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (Town (13–25), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+      },
+      "clutterPiecesMin": {
+        "value": 5,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:25 (≥ 5 personal clutter per dwelling); docs/research/placement-settlements/building-asset-breadth.md:242"
+      },
+      "dressingAssetKindsMin": {
+        "value": 14,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "dressingAssetShareMax": {
+        "value": 0.25,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "groundKindsMin": {
+        "value": 4,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "lightKindsMin": {
+        "value": 3,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      }
+    },
+    "M4": {
+      "label": "city",
+      "buildingsMin": 26,
+      "buildingsMax": null,
+      "perQuarter": true,
+      "shellsMin": {
+        "value": 8,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:21 (City (26+)); docs/research/placement-settlements/building-asset-breadth.md:238"
+      },
+      "topShellShareMax": {
+        "value": 0.2,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:22 (City (26+)); docs/research/placement-settlements/building-asset-breadth.md:239"
+      },
+      "signatureRatioMin": {
+        "value": 0.9,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (City (26+)); docs/research/placement-settlements/building-asset-breadth.md:237"
+      },
+      "dressingPiecesPerDwellingWithin12mMin": {
+        "value": 40,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (City (26+), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+      },
+      "clutterPiecesMin": {
+        "value": 5,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:25 (≥ 5 personal clutter per dwelling); docs/research/placement-settlements/building-asset-breadth.md:242"
+      },
+      "dressingAssetKindsMin": {
+        "value": 20,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "dressingAssetShareMax": {
+        "value": 0.25,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "groundKindsMin": {
+        "value": 5,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "lightKindsMin": {
+        "value": 4,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      }
+    },
+    "M5": {
+      "label": "city",
+      "buildingsMin": 26,
+      "buildingsMax": null,
+      "perQuarter": true,
+      "shellsMin": {
+        "value": 8,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:21 (City (26+)); docs/research/placement-settlements/building-asset-breadth.md:238"
+      },
+      "topShellShareMax": {
+        "value": 0.2,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:22 (City (26+)); docs/research/placement-settlements/building-asset-breadth.md:239"
+      },
+      "signatureRatioMin": {
+        "value": 0.9,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:20 (City (26+)); docs/research/placement-settlements/building-asset-breadth.md:237"
+      },
+      "dressingPiecesPerDwellingWithin12mMin": {
+        "value": 40,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:24 (City (26+), p50); docs/research/placement-settlements/building-asset-breadth.md:241; docs/world/97-placement-principles.md:504"
+      },
+      "clutterPiecesMin": {
+        "value": 5,
+        "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:25 (≥ 5 personal clutter per dwelling); docs/research/placement-settlements/building-asset-breadth.md:242"
+      },
+      "dressingAssetKindsMin": {
+        "value": 20,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "dressingAssetShareMax": {
+        "value": 0.25,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "groundKindsMin": {
+        "value": 5,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      },
+      "lightKindsMin": {
+        "value": 4,
+        "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25)"
+      }
+    }
+  },
+  "enclosureKindsMin": {
+    "imperial": {
+      "byTier": {
+        "M1": 1,
+        "M2": 1,
+        "M3": 2,
+        "M4": 2,
+        "M5": 2
+      },
+      "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25); docs/world/97-placement-principles.md:774 (Part F imperial: newcastle curtain + Whiterun farm-fence family); docs/world/97-placement-principles.md:463-469 (C10)"
+    },
+    "dunmer-hlaalu": {
+      "byTier": {
+        "M1": 1,
+        "M2": 1,
+        "M3": 1,
+        "M4": 1,
+        "M5": 1
+      },
+      "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25); docs/world/97-placement-principles.md:775 (Part F dunmer-hlaalu: Redoran compound family)"
+    },
+    "argonian-stilt": {
+      "byTier": {
+        "M1": 1,
+        "M2": 1,
+        "M3": 1,
+        "M4": 1,
+        "M5": 1
+      },
+      "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25); docs/world/97-placement-principles.md:770 (Part F argonian-stilt: enclosure-v1 Argonian village family at a footpath)"
+    },
+    "argonian-mud": {
+      "byTier": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0,
+        "M5": 0
+      },
+      "source": "docs/phases/16-foundation-and-places/16k-place-loop.md:176-189 (planner numbers, 16k slice 1b lane D brief 2026-09-25); docs/world/97-placement-principles.md:771 (Part F argonian-mud: pens only); docs/world/97-placement-principles.md:463 (C10)"
+    },
+    "argonian-root": {
+      "byTier": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0,
+        "M5": 0
+      },
+      "source": "docs/world/97-placement-principles.md:772 (Part F argonian-root: 'none; the grove is the defence')"
+    },
+    "argonian-stone": {
+      "byTier": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0,
+        "M5": 0
+      },
+      "source": "docs/world/97-placement-principles.md:773 (Part F argonian-stone: 'the terrace itself')"
+    },
+    "neutral-works": {
+      "byTier": {
+        "M1": 0,
+        "M2": 0,
+        "M3": 0,
+        "M4": 0,
+        "M5": 0
+      },
+      "source": "docs/world/97-placement-principles.md:776 (Part F neutral-works: stockade family only 'where a works is shut')"
+    }
+  },
+  "distance": {
+    "sameTypeMinM": {
+      "value": 300,
+      "source": "docs/world/97-placement-principles.md:130-134 (A6); macro_plot.SAME_TYPE_MIN_M"
+    },
+    "sameTypeLandmarkMinM": {
+      "value": 700,
+      "source": "docs/world/97-placement-principles.md:130-134 (A6); macro_plot.SAME_TYPE_LANDMARK_MIN_M"
+    },
+    "sameTypeOnOneRoadMinM": {
+      "value": 900,
+      "source": "docs/world/97-placement-principles.md:130-134 (A6); macro_plot.ROUTE_REPEAT_MIN_M"
+    },
+    "samePurposeOnOneRoadMinM": {
+      "value": 500,
+      "source": "docs/world/97-placement-principles.md:130-134 (A6); macro_plot.PURPOSE_REPEAT_ROUTE_M"
+    },
+    "sameTypeInSight": {
+      "value": false,
+      "source": "docs/world/97-placement-principles.md:130-134 (A6) ('never twice in sight')"
+    },
+    "assemblyMaxPerProvince": {
+      "value": 3,
+      "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:31-32; docs/world/97-placement-principles.md:130-134 (A6)"
+    },
+    "assemblyRepeatMinM": {
+      "value": 2000,
+      "source": "docs/decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md:31-32; docs/world/97-placement-principles.md:130-134 (A6)"
+    }
+  },
+  "types": {
+    "1": {
+      "name": "road station or hamlet",
+      "defaultTier": "M2",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:224)"
+    },
+    "2": {
+      "name": "Hist village",
+      "defaultTier": "M2",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:225)"
+    },
+    "3": {
+      "name": "water village",
+      "defaultTier": "M2",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:226)"
+    },
+    "4": {
+      "name": "camp or hold",
+      "defaultTier": "M1",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:227)"
+    },
+    "5": {
+      "name": "dungeon entrance",
+      "defaultTier": "M1",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:228)"
+    },
+    "6": {
+      "name": "shrine or sacred site",
+      "defaultTier": "M1",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:229)"
+    },
+    "7": {
+      "name": "works and landing",
+      "defaultTier": "M1",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:230)"
+    },
+    "8": {
+      "name": "town or city",
+      "defaultTier": "M4",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:231)"
+    },
+    "9": {
+      "name": "early-game location",
+      "defaultTier": "M1",
+      "overrides": {},
+      "source": "planner 2026-09-25 fallback; the record's own tier wins (type list docs/phases/16-foundation-and-places/16k-place-loop.md:232)"
+    }
+  }
+}

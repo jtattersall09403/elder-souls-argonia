@@ -362,3 +362,34 @@ def test_a_deleted_slots_name_is_free_again(tmp_path, monkeypatch):
     monkeypatch.setattr(nr, "REGISTRY", tmp_path / "empty.json")
     virgin, _ = nr.generate([dict(p) for p in places])
     assert [e["name"] for e in with_stale_registry] == [e["name"] for e in virgin]
+
+
+# 7. station sockets (rule 7, decision 0100 decision 7) ----------------------
+
+def test_claywater_npcs_stand_at_their_station_sockets(generated):
+    entries, _ = generated
+    homes = {e["id"]: e["home"]["socketId"] for e in entries}
+    assert homes["npc.imperial-fringe.claywater-station.well-keeper"] == "station.claywater-station.well-keeper"
+    assert homes["npc.imperial-fringe.claywater-station.landing-s-poler"] == "station.claywater-station.poler"
+
+
+def test_no_socketless_npc_escapes_the_unmatched_list(live, generated):
+    entries, _ = generated
+    listed = {row["npcId"] for row in nr.unmatched_sockets(entries, live)}
+    by_id = {p["id"]: p for p in live}
+    for e in entries:
+        place = by_id.get(e["home"]["placeId"])
+        if place is None or e["home"]["slotIndex"] is None:
+            continue
+        if (place.get("sockets") or {}).get("station") and e["home"]["socketId"] is None:
+            assert e["id"] in listed, e["id"]
+        if e["home"]["socketId"] is not None:
+            assert e["home"]["socketId"] in place["sockets"]["station"], e["id"]
+
+
+def test_slot_socket_rule():
+    place = {"id": "place.r.p", "sockets": {"station": ["station.p.poler", "station.p.well-keeper"]}}
+    assert nr.slot_socket(place, "landing-s-poler") == "station.p.poler"
+    assert nr.slot_socket(place, "well-keeper") == "station.p.well-keeper"
+    assert nr.slot_socket(place, "keeper") is None
+    assert nr.slot_socket({"id": "place.r.q", "sockets": {"station": []}}, "poler") is None

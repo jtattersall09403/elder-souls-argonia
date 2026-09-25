@@ -38,6 +38,13 @@ The rule, in order (92 84; mining 16g-mining.md 3):
               the province, no name equal to a place name.
   6. Faction  the matching contents.npcs[] slot's faction, else the record's
               ownerFaction, else [].
+  7. Socket   (2026-09-25, decision 0100 decision 7) `home.socketId` is the
+              home record's declared station socket for the slot's role, by
+              `slot_socket` alone: SOCKET_RENAMES first, then a slot named
+              `<x>-s-<role>` (or plain `<role>`) takes the socket whose id or
+              last id segment equals `<role>`. No match is null, and `--apply`
+              lists every null slot of a record that declares station sockets
+              in output/npc-sockets-unmatched.json.
 
 Zones. `population-priors.json` has seven zones and a `cultureZoneMap` that
 covers five of the eight catalogue regions. The remaining three are mapped
@@ -65,6 +72,11 @@ PRIORS = REPO_ROOT / "world" / "sources" / "demographics" / "population-priors.j
 REGISTRY = REPO_ROOT / "world" / "sources" / "registries" / "npcs.json"
 
 DEAD_STATUSES = {"cut", "deferred"}
+UNMATCHED_SOCKETS = REPO_ROOT / "tooling" / "world-generation" / "output" / "npc-sockets-unmatched.json"
+# Slots whose role word differs from the socket the record declares for the
+# same post: (place id, slotId) -> socket id. Every entry is a known rename
+# written down, never a fuzzy match; empty until one is found and checked.
+SOCKET_RENAMES: dict[tuple[str, str], str] = {}
 SCHEMA_VERSION = 2
 
 REGISTRY_NOTE = (
@@ -757,6 +769,38 @@ def _existing_entries() -> dict[str, dict]:
     return {e["id"]: e for e in json.loads(REGISTRY.read_text()).get("entries", [])}
 
 
+def slot_socket(place: dict, slot_id: str) -> str | None:
+    """The ONE slot -> station-socket rule (rule 7). Returns the socket id
+    from the home record's `sockets.station`, or None."""
+    declared = list((place.get("sockets") or {}).get("station") or [])
+    renamed = SOCKET_RENAMES.get((place["id"], slot_id))
+    if renamed is not None:
+        return renamed if renamed in declared else None
+    role = slot_id.rsplit("-s-", 1)[-1]
+    for socket in declared:
+        if socket == role or socket.rsplit(".", 1)[-1] == role:
+            return socket
+    return None
+
+
+def unmatched_sockets(entries: list[dict], places: list[dict] | None = None) -> list[dict]:
+    """Every slot NPC left without a socket whose home record declares
+    station sockets: the list a rename or a record fix works from."""
+    by_id = {p["id"]: p for p in live_places(places)}
+    out = []
+    for e in entries:
+        home = e["home"]
+        place = by_id.get(home["placeId"])
+        if place is None or home["socketId"] is not None or home["slotIndex"] is None:
+            continue
+        declared = (place.get("sockets") or {}).get("station") or []
+        if declared:
+            out.append({"npcId": e["id"], "placeId": place["id"],
+                        "slotId": place["notableNpcSlots"][home["slotIndex"]]["slotId"],
+                        "stationSockets": list(declared)})
+    return out
+
+
 def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
     places = live_places(places)
     priors = json.loads(PRIORS.read_text())
@@ -820,7 +864,8 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
                 "race": race,
                 "sex": sex,
                 "factionIds": pick_factions(place, text),
-                "home": {"placeId": place["id"], "slotIndex": index, "socketId": None},
+                "home": {"placeId": place["id"], "slotIndex": index,
+                         "socketId": slot_socket(place, slot["slotId"])},
                 "role": text,
                 "archetype": None,
                 "statblock": None,
@@ -909,7 +954,8 @@ def generate(places: list[dict] | None = None) -> tuple[list[dict], dict]:
             "race": race,
             "sex": sex,
             "factionIds": pick_factions(place, text),
-            "home": {"placeId": place["id"], "slotIndex": index, "socketId": None},
+            "home": {"placeId": place["id"], "slotIndex": index,
+                     "socketId": None if index is None else slot_socket(place, slots[index]["slotId"])},
             "role": text,
             "archetype": None, "statblock": None, "hostility": None,
             "fightFleeAlarm": None, "marks": [], "schedules": [], "patrols": [],
@@ -1045,6 +1091,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.apply:
         write(entries)
         print(f"wrote {len(entries)} entries to {REGISTRY.relative_to(REPO_ROOT)}")
+        unmatched = unmatched_sockets(entries)
+        UNMATCHED_SOCKETS.parent.mkdir(parents=True, exist_ok=True)
+        UNMATCHED_SOCKETS.write_text(json.dumps(
+            {"schemaVersion": 1, "rule": "worldgen.npc_roster.slot_socket",
+             "count": len(unmatched), "slots": unmatched}, indent=2) + "\n")
+        print(f"{len(unmatched)} slot(s) without a station socket -> "
+              f"{UNMATCHED_SOCKETS.relative_to(REPO_ROOT)}")
     print(json.dumps({k: v for k, v in stats.items() if k != "castJoins"}, indent=2))
     print(f"cast joins: {len(stats['castJoins'])}")
     for line in stats["castJoins"]:

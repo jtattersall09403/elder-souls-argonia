@@ -302,6 +302,12 @@
     "name": "Other foreign (Dunmer, Bosmer, Nord, Breton, Akaviri-flavoured)",
     "description": "use only where lore places these peoples: Dunmer border/Thorn, Bosmer/Valenwood fringe, Nord/Breton crews at ports. Never as a generic Argonian substitute.",
     "regionHint": "borders, ports, trade enclaves"
+   },
+   {
+    "id": "dunmer-hlaalu",
+    "name": "Dunmer Great House Hlaalu domestic",
+    "description": "the Hlaalu domestic set (Morrowind Hlaalu Architecture): Dunmer townhouses, tower stacks and compound walls; a Dunmer quarter's kit, never an Imperial one (docs/world/97-placement-principles.md:778, Part F dunmer-hlaalu; retagged from imperial 2026-09-25, 16k slice 1b lane D2)",
+    "regionHint": "dunmer-north (Thorn, Stormhold quarters)"
    }
   ]
  },
@@ -2006,7 +2012,7 @@
    "id": "arch.imperial.hlaalu-domestic",
    "label": "Hlaalu domestic tier - houses, tower stacks, street walls, quay cranes (Morrowind Hlaalu Architecture)",
    "class": "building",
-   "culture": "imperial",
+   "culture": "dunmer-hlaalu",
    "status": "have",
    "pool": "hlaalu",
    "vaultPaths": [

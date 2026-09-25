@@ -302,7 +302,7 @@
       "home": {
         "placeId": "place.dunmer-north.climbs-to-see",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.climbs-to-see.flood-watcher"
       },
       "role": "the flood-watcher who calls the day on which the water turns",
       "archetype": null,
@@ -340,7 +340,7 @@
       "home": {
         "placeId": "place.dunmer-north.crystalgate",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.crystalgate.cutter"
       },
       "role": "the cutter who is going blind",
       "archetype": null,
@@ -378,7 +378,7 @@
       "home": {
         "placeId": "place.dunmer-north.crystalgate",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.crystalgate.grand-grader"
       },
       "role": "the grand grader",
       "archetype": null,
@@ -414,7 +414,7 @@
       "home": {
         "placeId": "place.dunmer-north.cut-and-stack",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.cut-and-stack.cut-master"
       },
       "role": "the cut-master who imposed the strip system after the second fire",
       "archetype": null,
@@ -522,7 +522,7 @@
       "home": {
         "placeId": "place.dunmer-north.draws-the-herds",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.draws-the-herds.allocation-keeper"
       },
       "role": "the allocation-keeper who reads out last year's shares",
       "archetype": null,
@@ -774,7 +774,7 @@
       "home": {
         "placeId": "place.dunmer-north.greylight-village",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.greylight-village.naheesh"
       },
       "role": "the naheesh who mediates for four villages",
       "archetype": null,
@@ -810,7 +810,7 @@
       "home": {
         "placeId": "place.dunmer-north.hackwing-wall",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.hackwing-wall.ledge-keeper"
       },
       "role": "the ledge-keeper who rings the bell",
       "archetype": null,
@@ -922,7 +922,7 @@
       "home": {
         "placeId": "place.dunmer-north.hatching-pools",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.hatching-pools.warden-mother"
       },
       "role": "the warden-mother",
       "archetype": null,
@@ -958,7 +958,7 @@
       "home": {
         "placeId": "place.dunmer-north.hixinoag",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.hixinoag.mooring-caller"
       },
       "role": "the mooring-caller who decides when to move",
       "archetype": null,
@@ -1072,7 +1072,7 @@
       "home": {
         "placeId": "place.dunmer-north.hutan-tzel",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.hutan-tzel.totem-carver"
       },
       "role": "the totem-carver who will not teach the runes",
       "archetype": null,
@@ -1220,7 +1220,7 @@
       "home": {
         "placeId": "place.dunmer-north.mazzatun",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.mazzatun.shaper"
       },
       "role": "the shaper who directs the building",
       "archetype": null,
@@ -1292,7 +1292,7 @@
       "home": {
         "placeId": "place.dunmer-north.murkwater",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.murkwater.naheesh"
       },
       "role": "the naheesh who was a child in 2E 582",
       "archetype": null,
@@ -1436,7 +1436,7 @@
       "home": {
         "placeId": "place.dunmer-north.nine-fords",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.nine-fords.ford-runner"
       },
       "role": "the ford-runner who works the other eight",
       "archetype": null,
@@ -1616,7 +1616,7 @@
       "home": {
         "placeId": "place.dunmer-north.reedmoor-stilts",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.reedmoor-stilts.pile-driver"
       },
       "role": "the pile-driver, an office as much as a job",
       "archetype": null,
@@ -1688,7 +1688,7 @@
       "home": {
         "placeId": "place.dunmer-north.rimfield",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.rimfield.grain-factor"
       },
       "role": "the grain-factor who fixes the pass price",
       "archetype": null,
@@ -1724,7 +1724,7 @@
       "home": {
         "placeId": "place.dunmer-north.riverwalk",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.riverwalk.stage-mistress"
       },
       "role": "the stage-mistress",
       "archetype": null,
@@ -1760,7 +1760,7 @@
       "home": {
         "placeId": "place.dunmer-north.riverwalk",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.riverwalk.toll-holder"
       },
       "role": "the toll-holder",
       "archetype": null,
@@ -1832,7 +1832,7 @@
       "home": {
         "placeId": "place.dunmer-north.saltmarch-village",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.saltmarch-village.field-speaker"
       },
       "role": "the field-speaker",
       "archetype": null,
@@ -1868,7 +1868,7 @@
       "home": {
         "placeId": "place.dunmer-north.seam-chasers",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.seam-chasers.prospector"
       },
       "role": "the prospector who is right and cannot prove it",
       "archetype": null,
@@ -1980,7 +1980,7 @@
       "home": {
         "placeId": "place.dunmer-north.silyanorn-diggings",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.silyanorn-diggings.digging-master"
       },
       "role": "the digging-master",
       "archetype": null,
@@ -2124,7 +2124,7 @@
       "home": {
         "placeId": "place.dunmer-north.stands-on-the-island",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.stands-on-the-island.ground-holder"
       },
       "role": "the ground-holder who rents standing room",
       "archetype": null,
@@ -2162,7 +2162,7 @@
       "home": {
         "placeId": "place.dunmer-north.stillrise-village",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.stillrise-village.array-keeper"
       },
       "role": "the array-keeper",
       "archetype": null,
@@ -2504,7 +2504,7 @@
       "home": {
         "placeId": "place.dunmer-north.stormhold",
         "slotIndex": 3,
-        "socketId": null
+        "socketId": "station.stormhold.tunnel-overseer"
       },
       "role": "the tunnel overseer",
       "archetype": null,
@@ -2618,7 +2618,7 @@
       "home": {
         "placeId": "place.dunmer-north.tearmouth",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.tearmouth.transfer-master"
       },
       "role": "the transfer master who sets which hull goes where",
       "archetype": null,
@@ -2690,7 +2690,7 @@
       "home": {
         "placeId": "place.dunmer-north.ten-thousand-nests",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.ten-thousand-nests.guano-licensor"
       },
       "role": "the guano licensor who is bribed annually",
       "archetype": null,
@@ -2798,7 +2798,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-ash-holding",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-ash-holding.house-mother"
       },
       "role": "the house-mother",
       "archetype": null,
@@ -2906,7 +2906,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-charge-works",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-charge-works.works-mother"
       },
       "role": "the works-mother",
       "archetype": null,
@@ -3122,7 +3122,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-diggings-ladder",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-diggings-ladder.hoist-master"
       },
       "role": "the hoist master who keeps the lost-time list",
       "archetype": null,
@@ -3158,7 +3158,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-divers-landing",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-divers-landing.sorting-elder"
       },
       "role": "the sorting elder who rules on each piece",
       "archetype": null,
@@ -3302,7 +3302,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-fish-boon-ground",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-fish-boon-ground.root-steward"
       },
       "role": "the Root Steward who will not turn a comer away",
       "archetype": null,
@@ -3378,7 +3378,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-freed-rows",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-freed-rows.shelter-holder"
       },
       "role": "the shelter-holder",
       "archetype": null,
@@ -3522,7 +3522,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-last-landing",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-last-landing.landing-holder"
       },
       "role": "the landing-holder who sets the carry rate",
       "archetype": null,
@@ -3738,7 +3738,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-north-border-post",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-north-border-post.head-counter"
       },
       "role": "the head-counter",
       "archetype": null,
@@ -3812,7 +3812,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-permit-dig",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-permit-dig.alcove-keeper"
       },
       "role": "the alcove-keeper",
       "archetype": null,
@@ -4396,7 +4396,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-tide-fair",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-tide-fair.tide-caller"
       },
       "role": "the tide-caller",
       "archetype": null,
@@ -4468,7 +4468,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-veterans-ridge",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-veterans-ridge.hall-holder"
       },
       "role": "the hall-holder",
       "archetype": null,
@@ -4576,7 +4576,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-xanmeer-hold",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-xanmeer-hold.hold-holder"
       },
       "role": "the hold-holder",
       "archetype": null,
@@ -4612,7 +4612,7 @@
       "home": {
         "placeId": "place.dunmer-north.the-xanmeer-hold",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.the-xanmeer-hold.mechanism-keeper"
       },
       "role": "the mechanism-keeper who does not know how it works",
       "archetype": null,
@@ -5244,7 +5244,7 @@
       "home": {
         "placeId": "place.dunmer-north.wolk-market",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.wolk-market.charter-factor"
       },
       "role": "the Charter factor who keeps the three sets of weights",
       "archetype": null,
@@ -5320,7 +5320,7 @@
       "home": {
         "placeId": "place.dunmer-north.wolk-market",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.wolk-market.market-warden"
       },
       "role": "the market-warden who allocates pitches by road of origin",
       "archetype": null,
@@ -8314,7 +8314,7 @@
       "home": {
         "placeId": "place.imperial-fringe.burnt-field-village",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.burnt-field-village.fire-watcher"
       },
       "role": "the fire-watcher who maps the smoulder",
       "archetype": null,
@@ -8460,7 +8460,7 @@
       "home": {
         "placeId": "place.imperial-fringe.claywater-station",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.claywater-station.poler"
       },
       "role": "the landing's poler",
       "archetype": null,
@@ -8496,7 +8496,7 @@
       "home": {
         "placeId": "place.imperial-fringe.claywater-station",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.claywater-station.well-keeper"
       },
       "role": "the well-keeper",
       "archetype": null,
@@ -8534,7 +8534,7 @@
       "home": {
         "placeId": "place.imperial-fringe.collections-dig",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.collections-dig.chapter-agent"
       },
       "role": "the chapter-agent who signs the finds out",
       "archetype": null,
@@ -8752,7 +8752,7 @@
       "home": {
         "placeId": "place.imperial-fringe.fenmarch-village",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.fenmarch-village.naheesh"
       },
       "role": "the naheesh",
       "archetype": null,
@@ -8788,7 +8788,7 @@
       "home": {
         "placeId": "place.imperial-fringe.fenmarch-village",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.fenmarch-village.tree-minder"
       },
       "role": "the tree-minder who opposed the cutting",
       "archetype": null,
@@ -9614,7 +9614,7 @@
       "home": {
         "placeId": "place.imperial-fringe.glenbridge",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.glenbridge.reading-nisswo"
       },
       "role": "the reading Nisswo",
       "archetype": null,
@@ -9760,7 +9760,7 @@
       "home": {
         "placeId": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.keepers-lodge-of-the-lower-onkobra.keeper"
       },
       "role": "the keeper who knows the poachers' names",
       "archetype": null,
@@ -9868,7 +9868,7 @@
       "home": {
         "placeId": "place.imperial-fringe.lowmere-raft-town",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.lowmere-raft-town.mooring-holder"
       },
       "role": "the mooring-holder who decides where the village sits",
       "archetype": null,
@@ -9904,7 +9904,7 @@
       "home": {
         "placeId": "place.imperial-fringe.marcians-terrace",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.marcians-terrace.cistern-keeper"
       },
       "role": "the cistern-keeper, an office older than any family here",
       "archetype": null,
@@ -9940,7 +9940,7 @@
       "home": {
         "placeId": "place.imperial-fringe.marcians-terrace",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.marcians-terrace.grain-factor"
       },
       "role": "the grain-factor who argues the assessment every year",
       "archetype": null,
@@ -10048,7 +10048,7 @@
       "home": {
         "placeId": "place.imperial-fringe.moonmarch-ground",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.moonmarch-ground.ground-keeper"
       },
       "role": "the ground-keeper who owns it in order to keep it empty",
       "archetype": null,
@@ -10084,7 +10084,7 @@
       "home": {
         "placeId": "place.imperial-fringe.moonrack-calcinator",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.moonrack-calcinator.sign-reader"
       },
       "role": "the sign-reader who set the court",
       "archetype": null,
@@ -10156,7 +10156,7 @@
       "home": {
         "placeId": "place.imperial-fringe.onkobra-ferry",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.onkobra-ferry.ferrywoman"
       },
       "role": "the ferrywoman who sets the crossing order",
       "archetype": null,
@@ -10342,7 +10342,7 @@
       "home": {
         "placeId": "place.imperial-fringe.red-cart-yard",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.red-cart-yard.porter"
       },
       "role": "the porter whose name is on the board",
       "archetype": null,
@@ -10560,7 +10560,7 @@
       "home": {
         "placeId": "place.imperial-fringe.slough-point",
         "slotIndex": 1,
-        "socketId": null
+        "socketId": "station.slough-point.ferryman"
       },
       "role": "the ferryman who is also a smuggler",
       "archetype": null,
@@ -10632,7 +10632,7 @@
       "home": {
         "placeId": "place.imperial-fringe.stonefoot-terrace-village",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.stonefoot-terrace-village.water-holder"
       },
       "role": "the water-holder who allocates the spring",
       "archetype": null,
@@ -10928,7 +10928,7 @@
       "home": {
         "placeId": "place.imperial-fringe.the-cold-forge",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-cold-forge.smith"
       },
       "role": "the smith",
       "archetype": null,
@@ -11036,7 +11036,7 @@
       "home": {
         "placeId": "place.imperial-fringe.the-kept-terrace",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-kept-terrace.terrace-keeper"
       },
       "role": "the terrace-keeper who explains the offence",
       "archetype": null,
@@ -11072,7 +11072,7 @@
       "home": {
         "placeId": "place.imperial-fringe.the-lake-divers-yard",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-lake-divers-yard.yard-elder"
       },
       "role": "the yard elder who forbids the town",
       "archetype": null,
@@ -11180,7 +11180,7 @@
       "home": {
         "placeId": "place.imperial-fringe.the-ledge-of-tallies",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-ledge-of-tallies.ledge-master"
       },
       "role": "the ledge-master who keeps the tally",
       "archetype": null,
@@ -11216,7 +11216,7 @@
       "home": {
         "placeId": "place.imperial-fringe.the-old-office-house",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-old-office-house.officeholder"
       },
       "role": "the officeholder",
       "archetype": null,
@@ -11324,7 +11324,7 @@
       "home": {
         "placeId": "place.imperial-fringe.the-ravine-doors",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-ravine-doors.ladder-keeper"
       },
       "role": "the ladder-keeper",
       "archetype": null,
@@ -11360,7 +11360,7 @@
       "home": {
         "placeId": "place.imperial-fringe.the-road-nisswo-house",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.the-road-nisswo-house.road-nisswo"
       },
       "role": "the road Nisswo",
       "archetype": null,
@@ -11796,7 +11796,7 @@
       "home": {
         "placeId": "place.imperial-fringe.westfield-village",
         "slotIndex": 0,
-        "socketId": null
+        "socketId": "station.westfield-village.field-holder"
       },
       "role": "the field-holder who keeps the common register",
       "archetype": null,

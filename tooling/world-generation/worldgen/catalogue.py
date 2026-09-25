@@ -39,7 +39,12 @@ rest become required as `workflow` advances):
                   whySiteWon, scourSiteId?
   relations       relations {dependsOn, supplies, rivals, patrols, tolls,
                   visibleFrom, reachedVia, travelServiceEdges}
-  people & power  culture, ownerFaction?, occupants (S-ladder semantic refs),
+  people & power  culture ∈ RECORD_CULTURES, secondaryCultures? [..] (other
+                  RECORD_CULTURES whose kits the place also uses, e.g. an
+                  Imperial station with an Argonian landing; never 'mixed',
+                  never the record's own culture; added 2026-09-25 as an
+                  optional field, no schemaVersion bump: standard 7 bumps
+                  only on an incompatible change), ownerFaction?, occupants (S-ladder semantic refs),
                   notableNpcSlots [{slotId, role}] (slotId authored, never
                   derived from the role: worldgen.npc_roster.mint_slot_id)
                   factionPresence? [{factionRef, role}] distinguishes a seat,
@@ -264,6 +269,11 @@ COMPLEXITY = {"trivial", "simple", "standard", "complex"}
 WORKFLOW = ("derived", "plotted", "authored", "frozen")
 MAGNITUDES = {None, "M1", "M2", "M3", "M4", "M5"}
 SOCKET_KINDS = ("scene", "evidence", "station", "marks")
+# The peoples a record's `culture` names. Which asset kits each may use is
+# world/sources/placement/culture-kits.json (test_record_services holds the
+# two in step).
+RECORD_CULTURES = {"argonian", "imperial", "dunmer", "mixed", "khajiit", "altmer",
+                   "lost-peoples", "outsider"}
 
 # --- schemaVersion 2 vocabularies (typed, per engineering standard 9) ---
 PURPOSES = {"service-hub", "safe-rest", "combat-challenge", "stealth-challenge", "dungeon-delve",
@@ -497,6 +507,7 @@ def validate_record(rec: dict, region: str, classes: dict, errors: list[str]) ->
         _fail(errors, rid, "magnitude must be M1–M5 or null")
     if rec.get("status") not in STATUSES:
         _fail(errors, rid, f"status must be one of {sorted(STATUSES)}")
+    _validate_cultures(rec, rid, errors)
     if rec.get("provenance") not in PROVENANCES:
         _fail(errors, rid, f"provenance must be one of {sorted(PROVENANCES)}")
     if rec.get("discovery") not in DISCOVERY:
@@ -573,6 +584,26 @@ def hydrology_entity_ids() -> frozenset[str]:
     doc = json.loads(HYDROLOGY_GRAPH.read_text())
     return frozenset(e["id"] for key in ("rivers", "reaches", "bodies")
                      for e in (doc.get(key) or []))
+
+
+def _validate_cultures(rec: dict, rid: str, errors: list[str]) -> None:
+    culture = rec.get("culture")
+    if culture is not None and culture not in RECORD_CULTURES:
+        _fail(errors, rid, f"culture must be one of {sorted(RECORD_CULTURES)}")
+    if "secondaryCultures" not in rec:
+        return
+    sec = rec["secondaryCultures"]
+    if not isinstance(sec, list) or not sec:
+        _fail(errors, rid, "secondaryCultures must be a non-empty list when present")
+        return
+    if len(set(map(str, sec))) != len(sec):
+        _fail(errors, rid, "secondaryCultures has duplicates")
+    for c in sec:
+        if c not in RECORD_CULTURES or c == "mixed":
+            _fail(errors, rid, f"secondaryCultures entry {c!r} must be one of "
+                               f"{sorted(RECORD_CULTURES - {'mixed'})}")
+        elif c == culture:
+            _fail(errors, rid, f"secondaryCultures repeats the record's culture {c!r}")
 
 
 def _validate_water_siting_prefs(rec: dict, rid: str, errors: list[str]) -> None:
