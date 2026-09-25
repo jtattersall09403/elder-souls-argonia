@@ -45,7 +45,7 @@
       ],
       "dressingKits": [],
       "waterPlane": false,
-      "note": "A hall and its offices; the 16i fit rule chooses by culture.",
+      "note": "A hall and its offices; the fit rule chooses by culture.",
       "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:111 (civic-hall, deliverable)"
     },
     "dwelling": {
@@ -59,7 +59,7 @@
       ],
       "dressingKits": [],
       "waterPlane": false,
-      "note": "One to a few furnished rooms; the 16i fit rule chooses the kit from the exterior behind which it sits.",
+      "note": "One to a few furnished rooms; the fit rule chooses the kit from the exterior behind which it sits.",
       "source": "docs/research/placement-settlements/place-asset-deliverability-audit.md:110 (dwelling, deliverable)"
     },
     "flooded-cave": {
