@@ -77,6 +77,11 @@ class Pool:
     plugins: list[str] = field(default_factory=list)
     #: Path prefix stripped before the semantic id (case-insensitive).
     strip_prefix: str = "meshes/"
+    #: Normalised path prefixes left out of a directory walk because another
+    #: pool owns them (a mod that re-bundles an earlier resource under the
+    #: same paths: King of the Murkmire's copy of the `tesak1243/` keep set is
+    #: the `mwkeep` pool's, `mine_assemblies.PLUGIN_PATH_POOLS`).
+    exclude_prefixes: tuple[str, ...] = ()
 
 
 POOLS: tuple[Pool, ...] = (
@@ -310,6 +315,23 @@ POOLS: tuple[Pool, ...] = (
         plugins=["{vault}/skyrim-source/mod-sources/king-of-the-murkmire-190459"
                  "/extracted/Kotm BSA Test/King of the Murkmire.esp"],
     ),
+    # King of the Murkmire's own meshes (owner 2026-09-24: permission held from
+    # every author in its pool). Its BSA is unpacked beside the kept BSA and
+    # plugin into a Data root; the `tesak1243/` keep set it re-bundles stays
+    # the `mwkeep` pool's, so the same plugin names both pools, split by model
+    # path (`mine_assemblies.pool_for`).
+    Pool(
+        id="kotm",
+        label="King of the Murkmire",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/190459",
+        credit="King of the Murkmire (Nexus SSE 190459, pancake0723), bundling many "
+               "credited modder resources",
+        directory="{vault}/skyrim-source/mod-sources/king-of-the-murkmire-190459/extracted",
+        plugins=["{vault}/skyrim-source/mod-sources/king-of-the-murkmire-190459"
+                 "/extracted/Kotm BSA Test/King of the Murkmire.esp"],
+        exclude_prefixes=("meshes/tesak1243/",),
+        archive_sha256="7bf18067157130d47058ce20f0bc15759f5df71b6f81eb05079b8dba720a5ff2",
+    ),
     # The domestic tier under the same masonry — built ON 133090 and
     # retextured. v2.0 bundles several other credited modder resources
     # (Tamriel Rebuilt-style walls, Oaristys props), like BM&V does.
@@ -378,6 +400,7 @@ def _paths_for(pool: Pool, vault: Path) -> list[str]:
     return [
         str(p.relative_to(directory)) for p in directory.rglob("*")
         if p.is_file() and p.suffix.lower() == ".nif"
+        and not normalise(str(p.relative_to(directory))).startswith(pool.exclude_prefixes)
     ]
 
 

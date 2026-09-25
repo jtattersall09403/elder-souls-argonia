@@ -90,6 +90,9 @@
    "materials": [
     "WinterholdTowerIntFloor01:3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WinterholdTowerIntFloor01:3.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.6828,
     "p50": -0.6828,
@@ -218,6 +221,11 @@
     "WRTrellisArch01:10.Mat",
     "WRTrellisArch01:23.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRTrellisArch01:1.Mat": 0.502,
+    "WRTrellisArch01:10.Mat": 0.502,
+    "WRTrellisArch01:23.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 3.9947,
     "p50": 3.9947,
@@ -278,6 +286,9 @@
    "materials": [
     "DLC2RieklingBridgePlatform01:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingBridgePlatform01:0.Mat": 0.5
+   },
    "designedSinkM": {
     "p25": -0.1723,
     "p50": -0.1723,
@@ -338,6 +349,9 @@
    "materials": [
     "DLC2RieklingBridgePlatformSmall:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingBridgePlatformSmall:0.Mat": 0.5
+   },
    "designedSinkM": {
     "p25": -0.1571,
     "p50": -0.1571,
@@ -401,6 +415,9 @@
     "DLC2RieklingBridge01:1.Mat",
     "DLC2RieklingBridge01:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingBridge01:0.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 0.0435,
     "p50": 0.0435,
@@ -468,6 +485,10 @@
     "DLC2RieklingBridgeStart01:2.Mat",
     "DLC2RieklingBridgeStart01:3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingBridgeStart01:0.Mat": 0.502,
+    "DLC2RieklingBridgeStart01:1.Mat": 0.5
+   },
    "designedSinkM": {
     "p25": -0.0119,
     "p50": -0.0119,
@@ -532,6 +553,9 @@
     "DLC2RieklingFence01:0.Mat",
     "DLC2RieklingFence01:1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingFence01:0.Mat": 0.5
+   },
    "designedSinkM": {
     "p25": -0.0419,
     "p50": -0.0272,
@@ -589,6 +613,9 @@
     "DLC2RieklingFence02:0.Mat",
     "DLC2RieklingFence02:1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingFence02:0.Mat": 0.5
+   },
    "designedSinkM": {
     "p25": 0.0161,
     "p50": 0.0161,
@@ -651,6 +678,9 @@
     "DLC2RieklingFenceEnd01:0.Mat",
     "DLC2RieklingFenceEnd01:1.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingFenceEnd01:0.Mat": 0.5
+   },
    "designedSinkM": {
     "p25": -0.0459,
     "p50": -0.0459,
@@ -713,6 +743,9 @@
     "HagravenFence01:13.Mat",
     "HagravenFence01:20.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HagravenFence01:20.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.1546,
     "p50": -0.1546,
@@ -778,6 +811,11 @@
     "L1_Branches01:14.Mat",
     "L1_Branches01:15.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Fur01.Mat": 0.502,
+    "L1_Branches01:14.Mat": 0.176,
+    "L1_Branches01:15.Mat": 0.275
+   },
    "designedSinkM": {
     "p25": -0.4605,
     "p50": -0.4605,
@@ -840,6 +878,9 @@
     "Furs.Mat",
     "HagravenHouse03:13 - L1_Branches02:13.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Furs.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.4494,
     "p50": -0.4494,
@@ -1457,6 +1498,14 @@
     "Rope04.Mat",
     "Skull.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Bone01.Mat": 0.5,
+    "Bone02.Mat": 0.5,
+    "Bone03.Mat": 0.5,
+    "Bone04.Mat": 0.5,
+    "Bone05.Mat": 0.5,
+    "Skull.Mat": 0.5
+   },
    "designedSinkM": {
     "p25": -0.2694,
     "p50": -0.2694,
@@ -1517,6 +1566,9 @@
    "materials": [
     "DLC2RieklingSkull02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "DLC2RieklingSkull02:0.Mat": 0.5
+   },
    "designedSinkM": {
     "p25": 0.18,
     "p50": 0.18,
@@ -1763,6 +1815,9 @@
     "AmethystEgg.Mat",
     "Serpent.Mat"
    ],
+   "alphaMaskMaterials": {
+    "AmethystEgg.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 0.0654,
     "p50": 0.0654,
@@ -1825,6 +1880,9 @@
     "Hist.Mat",
     "L1_WRTempleTree02.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L1_WRTempleTree02.Mat": 0.51
+   },
    "designedSinkM": {
     "p25": -8.8224,
     "p50": -8.8224,
@@ -2173,6 +2231,11 @@
     "cedartree1:2.Mat",
     "cedartree1:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "cedartree1:1.Mat": 0.502,
+    "cedartree1:2.Mat": 0.502,
+    "cedartree1:5.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -1.4177,
     "p50": -1.4177,
@@ -2233,6 +2296,12 @@
    "materials": [
     "Cylinder.Mat"
    ],
+   "glowMaterials": [
+    "Cylinder.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Cylinder.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 6.1957,
     "p50": 6.1957,
@@ -2293,6 +2362,12 @@
    "materials": [
     "Cylinder.Mat.001"
    ],
+   "glowMaterials": [
+    "Cylinder.Mat.001"
+   ],
+   "alphaMaskMaterials": {
+    "Cylinder.Mat.001": 0.502
+   },
    "designedSinkM": {
     "p25": 6.0086,
     "p50": 6.0086,
@@ -2841,6 +2916,9 @@
     "planks04.Mat",
     "planks05.Mat"
    ],
+   "alphaMaskMaterials": {
+    "CandleLanternWithCandle:7.Mat": 0.89
+   },
    "designedSinkM": {
     "p25": -0.4728,
     "p50": -0.4728,
@@ -2957,17 +3035,1042 @@
    "undersideCoverage": 0.916,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 3.924
+  },
+  {
+   "id": "kotm:argonia/mudhuts/mudhut01",
+   "node": "es|6e50dd5429|kotm__argonia_mudhuts_mudhut01",
+   "category": "misc",
+   "sizeM": [
+    10.083,
+    13.28,
+    9.025
+   ],
+   "originOffsetM": [
+    4.846,
+    5.661,
+    4.379
+   ],
+   "triangles": 1430,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds"
+   ],
+   "materials": [
+    "Quader01:0.Mat",
+    "Quader01:1.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 4.379,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.044,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 4.379
+  },
+  {
+   "id": "kotm:argonia/mudhuts/mudhut02",
+   "node": "es|6d8d7f9c37|kotm__argonia_mudhuts_mudhut02",
+   "category": "misc",
+   "sizeM": [
+    13.483,
+    13.957,
+    12.252
+   ],
+   "originOffsetM": [
+    6.742,
+    6.978,
+    0.013
+   ],
+   "triangles": 512,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "RuinsSpiderSac01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.013,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.247,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.013
+  },
+  {
+   "id": "kotm:argonia/mudhuts/mudhut03",
+   "node": "es|39ccab6887|kotm__argonia_mudhuts_mudhut03",
+   "category": "misc",
+   "sizeM": [
+    18.484,
+    18.621,
+    17.561
+   ],
+   "originOffsetM": [
+    8.587,
+    10.206,
+    -0.415
+   ],
+   "triangles": 667,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "RuinsSpiderSac04:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.415,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.298,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.415
+  },
+  {
+   "id": "kotm:argonia/mudhuts/smpodext01",
+   "node": "es|c65f0ee08f|kotm__argonia_mudhuts_smpodext01",
+   "category": "misc",
+   "sizeM": [
+    10.111,
+    9.571,
+    13.521
+   ],
+   "originOffsetM": [
+    4.87,
+    2.955,
+    5.116
+   ],
+   "triangles": 638,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "dim_smallcorkpod.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.116,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.964,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.116
+  },
+  {
+   "id": "kotm:argonia/mudhuts/smpodext02",
+   "node": "es|5073a0dae5|kotm__argonia_mudhuts_smpodext02",
+   "category": "misc",
+   "sizeM": [
+    13.557,
+    13.918,
+    13.877
+   ],
+   "originOffsetM": [
+    7.445,
+    7.724,
+    7.179
+   ],
+   "triangles": 852,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "dim_smallcorkpod2.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 7.179,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.976,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 7.179
+  },
+  {
+   "id": "kotm:argonia/mudhuts/lizardhouse",
+   "node": "es|53558cd3f6|kotm__argonia_mudhuts_lizardhouse",
+   "category": "misc",
+   "sizeM": [
+    11.647,
+    18.736,
+    14.201
+   ],
+   "originOffsetM": [
+    7.04,
+    5.002,
+    1.898
+   ],
+   "triangles": 3875,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "basket01.dds.001",
+    "dryoakpost01.dds",
+    "lizardhut_d.dds",
+    "rivermud.dds",
+    "rottingwood01.dds"
+   ],
+   "materials": [
+    "80930698.obj.Mat",
+    "80930698.obj_1.Mat",
+    "Scene Root:13.Mat",
+    "Scene Root:17.Mat",
+    "Scene Root:19.Mat",
+    "Scene Root:22.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.898,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.271,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.898
+  },
+  {
+   "id": "kotm:argonia/mudhuts/manorext",
+   "node": "es|5c7cd777b5|kotm__argonia_mudhuts_manorext",
+   "category": "misc",
+   "sizeM": [
+    19.695,
+    15.014,
+    21.596
+   ],
+   "originOffsetM": [
+    11.192,
+    5.174,
+    5.902
+   ],
+   "triangles": 1022,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rivermud.dds"
+   ],
+   "materials": [
+    "dim_corkpod9.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 5.902,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.98,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 5.902
+  },
+  {
+   "id": "kotm:argonia/mudhuts/shed",
+   "node": "es|2530cbda36|kotm__argonia_mudhuts_shed",
+   "category": "misc",
+   "sizeM": [
+    5.594,
+    5.487,
+    6.412
+   ],
+   "originOffsetM": [
+    2.63,
+    1.372,
+    2.614
+   ],
+   "triangles": 366,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "dim_corkpod01.Mat",
+    "dim_corkpod02.Mat",
+    "dim_corkpod03.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 2.614,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.963,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.614
+  },
+  {
+   "id": "kotm:argonia/mudhuts/smpodextdoor",
+   "node": "es|4a3247b2bb|kotm__argonia_mudhuts_smpodextdoor",
+   "category": "misc",
+   "sizeM": [
+    3.487,
+    4.277,
+    4.995
+   ],
+   "originOffsetM": [
+    2.157,
+    3.851,
+    0.636
+   ],
+   "triangles": 210,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "dim_smallcorkpod4.Mat",
+    "dim_smallcorkpod5.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.636,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.31,
+   "openBackYawDeg": 157.5,
+   "pivotAboveBaseM": 0.636
+  },
+  {
+   "id": "kotm:argonia/mudhuts/door01",
+   "node": "es|330ce92cef|kotm__argonia_mudhuts_door01",
+   "category": "door",
+   "sizeM": [
+    2.332,
+    0.834,
+    2.784
+   ],
+   "originOffsetM": [
+    1.219,
+    0.408,
+    -0.006
+   ],
+   "triangles": 445,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "metalwork01.dds"
+   ],
+   "materials": [
+    "Door:23.Mat",
+    "Door:24.Mat",
+    "Door:26.Mat",
+    "Door:29.Mat",
+    "dim_corkmanor.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": -0.006,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.486,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": -0.006
+  },
+  {
+   "id": "kotm:argonia/mudhuts/door02",
+   "node": "es|59378c4f6f|kotm__argonia_mudhuts_door02",
+   "category": "door",
+   "sizeM": [
+    1.366,
+    0.436,
+    2.503
+   ],
+   "originOffsetM": [
+    0.683,
+    0.225,
+    0.0
+   ],
+   "triangles": 395,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "metalwork01.dds"
+   ],
+   "materials": [
+    "Door:12.Mat",
+    "Door:22.Mat",
+    "Object01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": 180.0,
+   "pivotAboveBaseM": 0.0
+  },
+  {
+   "id": "kotm:argonia/mudhuts/window01",
+   "node": "es|9f79e72e1e|kotm__argonia_mudhuts_window01",
+   "category": "misc",
+   "sizeM": [
+    3.681,
+    4.117,
+    1.872
+   ],
+   "originOffsetM": [
+    1.841,
+    2.046,
+    0.554
+   ],
+   "triangles": 432,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "Objekt01:1.Mat",
+    "TM_MWNordHouseChimney01:1.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.554,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.418,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.554
+  },
+  {
+   "id": "kotm:argonia/mudhuts/window02",
+   "node": "es|2ab5919564|kotm__argonia_mudhuts_window02",
+   "category": "misc",
+   "sizeM": [
+    1.777,
+    1.987,
+    0.824
+   ],
+   "originOffsetM": [
+    0.889,
+    0.979,
+    0.175
+   ],
+   "triangles": 492,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "Kugel02:1.Mat",
+    "TM_MWNordHouseChimney01:1.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.175,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.373,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.175
+  },
+  {
+   "id": "kotm:argonia/mudhuts/mudhutchimney",
+   "node": "es|1e157d97de|kotm__argonia_mudhuts_mudhutchimney",
+   "category": "misc",
+   "sizeM": [
+    1.138,
+    1.436,
+    2.797
+   ],
+   "originOffsetM": [
+    0.57,
+    0.723,
+    1.353
+   ],
+   "triangles": 200,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [],
+   "materials": [
+    "TM_MWNordHouseChimney01:0.Mat",
+    "TM_MWNordHouseChimney01:1.Mat.002"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.353,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.237,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.353
+  },
+  {
+   "id": "kotm:argonia/mudhuts/stairs01",
+   "node": "es|2cd80cb3f2|kotm__argonia_mudhuts_stairs01",
+   "category": "misc",
+   "sizeM": [
+    2.453,
+    2.188,
+    2.22
+   ],
+   "originOffsetM": [
+    1.228,
+    1.089,
+    1.109
+   ],
+   "triangles": 164,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds"
+   ],
+   "materials": [
+    "Objekt04.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 1.109,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.289,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 1.109
+  },
+  {
+   "id": "kotm:argonia/mudhuts/stairs02",
+   "node": "es|1a65daf61d|kotm__argonia_mudhuts_stairs02",
+   "category": "misc",
+   "sizeM": [
+    3.448,
+    1.181,
+    3.768
+   ],
+   "originOffsetM": [
+    1.627,
+    0.591,
+    3.67
+   ],
+   "triangles": 861,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "rottingwood01.dds"
+   ],
+   "materials": [
+    "RifRmSmSecondFloorStair01:1.Mat",
+    "RifRmSmSecondFloorStair01:12.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.67,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.4,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.67
+  },
+  {
+   "id": "kotm:argonia/mudhuts/overhang01",
+   "node": "es|cf46d8c6e3|kotm__argonia_mudhuts_overhang01",
+   "category": "misc",
+   "sizeM": [
+    2.779,
+    3.092,
+    4.773
+   ],
+   "originOffsetM": [
+    1.39,
+    1.546,
+    2.386
+   ],
+   "triangles": 836,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "leatherhide01.dds",
+    "riftenrope01.dds"
+   ],
+   "materials": [
+    "Objekt02:0.Mat",
+    "Objekt02:1.Mat",
+    "Objekt02:2.Mat",
+    "Objekt02:3.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Objekt02:3.Mat": 0.5
+   },
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 2.386,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.443,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 2.386
+  },
+  {
+   "id": "kotm:argonia/mudhuts/overhang03",
+   "node": "es|4b0670fa77|kotm__argonia_mudhuts_overhang03",
+   "category": "misc",
+   "sizeM": [
+    2.784,
+    2.852,
+    1.096
+   ],
+   "originOffsetM": [
+    1.392,
+    1.426,
+    0.548
+   ],
+   "triangles": 424,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dryoakpost01.dds",
+    "leatherhide01.dds",
+    "riftenrope01.dds"
+   ],
+   "materials": [
+    "Objekt02:0:0.Mat",
+    "Objekt02:0:1.Mat",
+    "Objekt02:0:2.Mat",
+    "Objekt02:0:3.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Objekt02:0:0.Mat": 0.5
+   },
+   "designedSinkM": {
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.18,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.548,
+    "buryCapM": 0.5,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.185,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.548
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\settlement-mud-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
-  "textures/cubemaps/shinydull.dds"
+  "textures/_resourcepack/landscape/desertcracked01_d.dds",
+  "textures/_resourcepack/landscape/desertcracked01_n.dds",
+  "textures/_resourcepack/landscape/desertcracked01light_d.dds",
+  "textures/creationclub/bgssse025/clutter/amber.dds",
+  "textures/creationclub/bgssse025/clutter/amber_bl.dds",
+  "textures/creationclub/bgssse025/clutter/amber_n.dds",
+  "textures/cubemaps/shinydull.dds",
+  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02.dds",
+  "textures/dlc02/architecture/ravenrock/dlc2rrbuildings02_n.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomdetails01.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomdetails01_n.dds"
  ],
- "texturesSubstituted": {},
+ "texturesSubstituted": {
+  "textures/argonia/landscape/riverbottom_n.dds": "textures/landscape/riverbottom_n.dds"
+ },
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 181
+  "MASK": 34,
+  "OPAQUE": 190
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -3000,16 +4103,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 32531656,
-  "bytesAfter": 15010696,
-  "images": 56,
-  "imageBytesAfter": 11819084,
+  "bytesBefore": 36191616,
+  "bytesAfter": 16949516,
+  "images": 64,
+  "imageBytesAfter": 13457061,
   "warnings": [],
-  "sha256": "5045fffb36692bab7a3a0ecbb6f95da3ca41ee3f808e903b69134125e22de417",
+  "sha256": "a3f3caf7ae89a5772a81ec3008482e5222470a5c8a0c6435a89373fed35606de",
   "sidecarBytes": {
-   "connectors": 30687,
-   "footprints": 68310,
-   "interiors": 28571
+   "connectors": 42961,
+   "footprints": 94934,
+   "interiors": 40966
   }
  }
 }

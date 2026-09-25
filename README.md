@@ -221,9 +221,13 @@ asset registry.
   the imperial fringe reading as Nordic thatch. Archive
   `Morrowind Imperial Keep Set-133090-1-0-1730675084.rar`, sha256
   `d22974919cdd3d6cea25f2b0b0851f2cb636a7569b7c3d1f8ae7b34c8584b9c0`.
-- **King of the Murkmire** (Nexus SSE mod 190459, pancake0723, v1.0.2): its
-  plugin's placement of the Morrowind Imperial Keep Set is read as statistics
-  to learn how the set's walls join (no assets taken). Archive
+- **King of the Murkmire** (Nexus SSE mod 190459, pancake0723, v1.0.2), used
+  with the author's permission (held by the owner, 2026-09-24): its mud-house
+  set behind the `settlement-mud-v1` kit (eight shells, a doorway piece, two
+  doors, two windows, a chimney, two stairs and two awnings from
+  `argonia/mudhuts/`, the author's own meshwork), and its plugin's placement
+  of the Morrowind Imperial Keep Set, read as statistics to learn how the
+  set's walls join. Archive
   `King of the Murkmire - Main 190459 1.0.2 2026-09-11T09-42Z cE8hkAoxS.7z`,
   sha256 `7bf18067157130d47058ce20f0bc15759f5df71b6f81eb05079b8dba720a5ff2`.
 - **Morrowind Hlaalu Architecture** (Nexus SSE mod 157997, Angelio, uploaded

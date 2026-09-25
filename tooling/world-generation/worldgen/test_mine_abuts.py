@@ -119,6 +119,13 @@ def test_record_pairs_carry_their_joint_kind():
         assert p["joint"] == joint_kind(p["parentFace"], p["childFace"], p["offsetM"]), p
     ends = {f for faces in section["endFaces"].values() for f in faces}
     assert ends <= {"+x", "-x", "+y", "-y"}
+    # the Whiterun farm fence rail set face to face along y (-x/-x, 3.64 m, n 17)
+    # is a double joint, never a run (brief 16h miner lane item 5)
+    rail = "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01"
+    self_pairs = [p for p in section["pairs"] if p["parent"] == p["child"] == rail]
+    assert [(p["parentFace"], p["childFace"], p["joint"]) for p in self_pairs] == [
+        ("-x", "-x", "double")]
+    assert "-x" in section["doubleFaces"][rail]
 
 
 def _piece(pid: str, asset: str, x: float) -> dict:

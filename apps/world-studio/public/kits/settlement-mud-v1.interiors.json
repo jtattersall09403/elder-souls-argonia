@@ -344,6 +344,422 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.1 m\u00b2 plan, 2.2 m tall)"
   },
+  "kotm:argonia/mudhuts/door01": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 347.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 348\u00b0 in the piece's own frame carries 2.11x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.78,
+   "interior": "none",
+   "planAreaM2": 1.2,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.2 m\u00b2 plan, 2.8 m tall)"
+  },
+  "kotm:argonia/mudhuts/door02": {
+   "category": "door",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 196.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 196\u00b0 in the piece's own frame carries 6.56x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.5,
+   "interior": "none",
+   "planAreaM2": 0.49,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.5 m\u00b2 plan, 2.5 m tall)"
+  },
+  "kotm:argonia/mudhuts/lizardhouse": {
+   "category": "misc",
+   "doorwayProbeCentreM": [
+    -1.86,
+    1.25
+   ],
+   "entrance": {
+    "arcM": 2.02,
+    "kind": "opening",
+    "offsetM": [
+     -3.22,
+     0.01
+    ],
+    "sideDeg": 261.96
+   },
+   "floorOffsetM": 4.0,
+   "frontFaceFraction": 1.0,
+   "headroomM": 6.76,
+   "heightM": 14.2,
+   "interior": "shell",
+   "medianWallM": 3.4,
+   "planAreaM2": 123.88,
+   "planCentreM": [
+    -0.4,
+    -0.39
+   ],
+   "provenance": [
+    {
+     "arcM": 3.23,
+     "kind": "open-front",
+     "offsetM": [
+      -2.2,
+      2.51
+     ],
+     "sideDeg": 211.82
+    }
+   ],
+   "ringFraction": 0.931,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "measured to enclose a volume \u2014 93% of the ring at 1.6 m hits a wall, there is a roof overhead and 3.4 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+  },
+  "kotm:argonia/mudhuts/manorext": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 2.43,
+    "kind": "opening",
+    "offsetM": [
+     4.91,
+     0.15
+    ],
+    "sideDeg": 107.5
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 13.38,
+   "heightM": 21.6,
+   "interior": "shell",
+   "medianWallM": 4.8,
+   "planAreaM2": 195.41,
+   "planCentreM": [
+    -1.9,
+    -1.99
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "measured to enclose a volume \u2014 100% of the ring at 1.6 m hits a wall, there is a roof overhead and 4.8 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+  },
+  "kotm:argonia/mudhuts/mudhut01": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 0.84,
+    "heightM": 1.8,
+    "kind": "leaf",
+    "offsetM": [
+     4.62,
+     -0.34
+    ],
+    "sideDeg": 110.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.028,
+   "headroomM": 8.51,
+   "heightM": 9.03,
+   "interior": "shell",
+   "medianWallM": 5.22,
+   "planAreaM2": 99.39,
+   "planCentreM": [
+    0.31,
+    -1.91
+   ],
+   "provenance": [
+    {
+     "arcM": 1.69,
+     "heightM": 3.0,
+     "kind": "leaf",
+     "offsetM": [
+      -3.97,
+      0.08
+     ],
+     "sideDeg": 245.0
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "measured to enclose a volume \u2014 100% of the ring at 1.6 m hits a wall, there is a roof overhead and 5.2 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+  },
+  "kotm:argonia/mudhuts/mudhut02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 12.13,
+   "heightM": 12.25,
+   "interior": "none",
+   "medianWallM": 6.17,
+   "planAreaM2": 153.26,
+   "planCentreM": [
+    0.18,
+    -0.01
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "kotm:argonia/mudhuts/mudhut03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 0.0,
+   "front": null,
+   "frontFaceFraction": 0.0,
+   "headroomM": 17.47,
+   "heightM": 17.56,
+   "interior": "none",
+   "medianWallM": 8.08,
+   "planAreaM2": 273.47,
+   "planCentreM": [
+    0.5,
+    -0.2
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "a closed prop seen from inside, not a room \u2014 only 0% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "kotm:argonia/mudhuts/mudhutchimney": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 2.8,
+   "interior": "none",
+   "planAreaM2": 1.37,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (1.4 m\u00b2 plan, 2.8 m tall)"
+  },
+  "kotm:argonia/mudhuts/overhang01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 309.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 310\u00b0 in the piece's own frame carries 2.67x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 4.77,
+   "interior": "none",
+   "planAreaM2": 4.97,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.0 m\u00b2 plan, 4.8 m tall)"
+  },
+  "kotm:argonia/mudhuts/overhang03": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 125.0,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 125\u00b0 in the piece's own frame carries 5.49x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 1.1,
+   "interior": "none",
+   "planAreaM2": 7.92,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (7.9 m\u00b2 plan, 1.1 m tall)"
+  },
+  "kotm:argonia/mudhuts/shed": {
+   "category": "misc",
+   "doorwayProbeCentreM": [
+    -0.39,
+    -0.83
+   ],
+   "entrance": {
+    "arcM": 2.07,
+    "kind": "open-front",
+    "offsetM": [
+     -0.34,
+     0.3
+    ],
+    "sideDeg": 208.77
+   },
+   "floorOffsetM": 2.0,
+   "frontFaceFraction": 1.0,
+   "headroomM": 2.42,
+   "heightM": 6.41,
+   "interior": "shell",
+   "medianWallM": 1.69,
+   "planAreaM2": 24.55,
+   "planCentreM": [
+    0.21,
+    -0.7
+   ],
+   "provenance": [],
+   "ringFraction": 0.764,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "measured to enclose a volume \u2014 76% of the ring at 1.6 m hits a wall, there is a roof overhead and 1.7 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+  },
+  "kotm:argonia/mudhuts/smpodext01": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 4.75,
+    "kind": "opening",
+    "offsetM": [
+     1.22,
+     -4.93
+    ],
+    "sideDeg": 20.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 12.52,
+   "heightM": 13.52,
+   "interior": "shell",
+   "medianWallM": 3.95,
+   "planAreaM2": 74.63,
+   "planCentreM": [
+    0.05,
+    -1.73
+   ],
+   "provenance": [
+    {
+     "arcM": 6.57,
+     "kind": "open-front",
+     "offsetM": [
+      0.94,
+      1.1
+     ],
+     "sideDeg": 162.5
+    }
+   ],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "measured to enclose a volume \u2014 100% of the ring at 1.6 m hits a wall, there is a roof overhead and 4.0 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+  },
+  "kotm:argonia/mudhuts/smpodext02": {
+   "category": "misc",
+   "closedShellPromotedBy": "own-geometry-door",
+   "entrance": {
+    "arcM": 1.21,
+    "kind": "opening",
+    "offsetM": [
+     -4.8,
+     4.68
+    ],
+    "sideDeg": 220.0
+   },
+   "floorOffsetM": 0.0,
+   "frontFaceFraction": 0.0,
+   "headroomM": 9.02,
+   "heightM": 13.88,
+   "interior": "shell",
+   "medianWallM": 5.77,
+   "planAreaM2": 146.82,
+   "planCentreM": [
+    -1.25,
+    0.46
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "measured to enclose a volume \u2014 100% of the ring at 1.6 m hits a wall, there is a roof overhead and 5.8 m of room to stand \u2014 with no matched interior and no tileset rule, so Phase 12 must claim an interior for it"
+  },
+  "kotm:argonia/mudhuts/smpodextdoor": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 227.2,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 227\u00b0 in the piece's own frame carries 3.58x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.161,
+   "headroomM": 2.26,
+   "heightM": 5.0,
+   "interior": "none",
+   "medianWallM": 1.25,
+   "planAreaM2": 12.87,
+   "planCentreM": [
+    -0.47,
+    2.04
+   ],
+   "provenance": [],
+   "ringFraction": 0.778,
+   "roofOverhead": true,
+   "sizeClass": "small",
+   "why": "a closed prop seen from inside, not a room \u2014 only 16% of the ring hits show a face turned towards the stander (a room needs 60%, and the down ray finds no up-facing floor, and the up ray finds no down-facing ceiling): the mesh is a hollow shell whose faces all point outward, so this is massing \u2014 a plinth, a basin, a stair block, a tower mass \u2014 usable as a solid, never entered"
+  },
+  "kotm:argonia/mudhuts/stairs01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 43.7,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 44\u00b0 in the piece's own frame carries 1.43x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.22,
+   "interior": "none",
+   "planAreaM2": 5.17,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (5.2 m\u00b2 plan, 2.2 m tall)"
+  },
+  "kotm:argonia/mudhuts/stairs02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.77,
+   "interior": "none",
+   "planAreaM2": 4.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (4.1 m\u00b2 plan, 3.8 m tall)"
+  },
+  "kotm:argonia/mudhuts/window01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.87,
+   "interior": "none",
+   "planAreaM2": 12.11,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (12.1 m\u00b2 plan, 1.9 m tall)"
+  },
+  "kotm:argonia/mudhuts/window02": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.82,
+   "interior": "none",
+   "planAreaM2": 2.82,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.8 m\u00b2 plan, 0.8 m tall)"
+  },
   "mudmother:gv_meshes/argoniannest/archwaysticks": {
    "category": "misc",
    "entrance": null,

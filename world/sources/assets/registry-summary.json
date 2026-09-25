@@ -449,10 +449,45 @@
    "registered": 164,
    "skippedNonContent": {},
    "categories": {
-    "architecture": 164
+    "architecture": 159,
+    "door": 5
    },
    "withLodVariant": 0,
-   "withDimensions": 0,
+   "withDimensions": 161,
+   "observedPlaced": 0
+  },
+  "kotm": {
+   "label": "King of the Murkmire",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/190459",
+   "credit": "King of the Murkmire (Nexus SSE 190459, pancake0723), bundling many credited modder resources",
+   "archiveSha256": "7bf18067157130d47058ce20f0bc15759f5df71b6f81eb05079b8dba720a5ff2",
+   "meshesSeen": 2114,
+   "registered": 2096,
+   "skippedNonContent": {
+    "lod": 17,
+    "sky": 1
+   },
+   "categories": {
+    "misc": 1111,
+    "creature": 376,
+    "clutter": 201,
+    "armour": 132,
+    "furniture": 55,
+    "architecture": 51,
+    "dungeon-kit": 38,
+    "grass": 30,
+    "weapon": 26,
+    "plant": 21,
+    "container": 16,
+    "door": 14,
+    "trap": 8,
+    "shrub": 6,
+    "fungus": 4,
+    "tree": 4,
+    "ammo": 3
+   },
+   "withLodVariant": 12,
+   "withDimensions": 1038,
    "observedPlaced": 0
   },
   "sailboats": {

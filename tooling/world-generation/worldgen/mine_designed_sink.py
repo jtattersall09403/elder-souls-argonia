@@ -83,10 +83,13 @@ if str(REPO_ROOT / "tooling" / "asset-pipeline") not in sys.path:
     sys.path.insert(0, str(REPO_ROOT / "tooling" / "asset-pipeline"))
 # The evidence vocabulary lives once in the manifest writer (16h round 17 ruling 5).
 from pipeline.placement_metadata import (  # noqa: E402
+    PLUGIN_SPREAD_SILL,
     PLUGIN_UNSUPPORTED_SILL,
     SINK_EVIDENCE_PREFIXES,
     STATIC_SUPPORTED_SILL,
 )
+
+from .mine_assemblies import PLUGIN_PATH_POOLS, PLUGIN_POOLS, STRUCTURAL_CATEGORIES, pool_for  # noqa: E402
 
 PUBLISHED_KITS_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 BUILT_KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
@@ -194,8 +197,13 @@ EXTRA_POOL_PLUGINS: dict[str, list[str]] = {
 
 
 def pool_plugins(vault: Path) -> list[tuple[str, Path]]:
-    """``(pool id, plugin path)`` for every pool that names an existing plugin."""
+    """``(pool id, plugin path)`` for every pool that names an existing plugin,
+    each plugin once: a plugin two pools declare (King of the Murkmire: the
+    `mwkeep` keep set it places and its own `kotm` meshes) is read once under
+    the pool ``mine_assemblies.PLUGIN_POOLS`` names, and its models are split
+    by path in ``LoadOrderIndex.model_pool``."""
     rows: list[tuple[str, Path]] = []
+    seen: set[Path] = set()
     declared: dict[str, list[str]] = {pool.id: list(pool.plugins)
                                       for pool in asset_registry.POOLS}
     for pool_id, extra in EXTRA_POOL_PLUGINS.items():
@@ -203,8 +211,9 @@ def pool_plugins(vault: Path) -> list[tuple[str, Path]]:
     for pool_id, templates in declared.items():
         for template in templates:
             path = asset_registry._resolve(template, vault)
-            if path.exists():
-                rows.append((pool_id, path))
+            if path.exists() and path not in seen:
+                seen.add(path)
+                rows.append((PLUGIN_POOLS.get(path.name.lower(), pool_id), path))
     return rows
 
 
@@ -310,13 +319,20 @@ class LoadOrderIndex:
                 seen[gid] = (base, source)
         return seen
 
+    def model_pool(self, name: str, model_key: str, default: str | None) -> str | None:
+        """The pool a file's model belongs to: split by path for the plugins in
+        ``mine_assemblies.PLUGIN_PATH_POOLS``, else ``default``."""
+        return pool_for(name, model_key) if name in PLUGIN_PATH_POOLS else default
+
     def kit_asset(self, joins: dict[str, "PoolJoin"], pool: str, source: str,
-                  model_key: str) -> str | None:
+                  model_key: str, referrer: str = "") -> str | None:
         """The kit asset a base's model is: the referencing plugin's pool
+        (``referrer``, the plugin's case-folded file name, splits it by path)
         first, then the pool of the file the base comes from."""
+        pool = self.model_pool(referrer, model_key, pool)
         join = joins.get(pool)
         asset_id = join.resolve(model_key) if join is not None else None
-        other = self.pool_of.get(source)
+        other = self.model_pool(source, model_key, self.pool_of.get(source))
         if asset_id is None and other != pool and other in joins:
             asset_id = joins[other].resolve(model_key)
         return asset_id
@@ -429,7 +445,7 @@ def measure(kits: dict[str, dict], vault: Path, progress: bool = False,
         for gid, (base, source) in index.visible(name).items():
             if not base.model_key:
                 continue
-            asset_id = index.kit_asset(joins, pool, source, base.model_key)
+            asset_id = index.kit_asset(joins, pool, source, base.model_key, name)
             if asset_id is not None:
                 wanted[gid] = (asset_id, base.model_key)
                 if source != name:
@@ -582,6 +598,31 @@ def same_shape(a: dict, b: dict) -> bool:
     return True
 
 
+SPREAD_IQR_M = 1.0
+"""A plugin sink sample wider than this (IQR) is a candidate spread row."""
+SPREAD_MAX_N = 6
+"""Round 20 fix (b): a spread row with fewer references than this is too thin
+to outvote the mesh."""
+SPREAD_HEIGHT_SHARE = 0.5
+"""Round 20 fix (b): a spread over this share of the mesh height is no sink."""
+PLUGIN_FIELDS = ("p25", "p50", "p75", "n", "iqrM", "slopeTermMPerDeg")
+
+
+def is_plugin_spread(record: dict, kit: dict | None) -> bool:
+    """Round 20 fix (b) (M19 ruling 3, scoped): a STRUCTURE piece
+    (``mine_assemblies.STRUCTURAL_CATEGORIES``) whose plugin sink spreads over
+    ``SPREAD_IQR_M`` with n < ``SPREAD_MAX_N`` or an IQR over half its mesh
+    height: the makers set it at many depths (a trunk on cliff slopes,
+    ``housetronc001``), so no one sink is designed. Rocks, plants and effects
+    keep their plugin rows (0075 rock seating)."""
+    if kit is None or kit.get("category") not in STRUCTURAL_CATEGORIES:
+        return False
+    iqr, n = record.get("iqrM", 0.0), record.get("n", 0)
+    size = kit.get("sizeM")
+    height = float(size[2]) if isinstance(size, list) and len(size) == 3 else 0.0
+    return iqr > SPREAD_IQR_M and (n < SPREAD_MAX_N or iqr > SPREAD_HEIGHT_SHARE * height)
+
+
 def complete_record(assets: dict[str, dict], kits: dict[str, dict],
                     tells: dict[str, dict],
                     bases: dict[str, str] | None = None) -> dict[str, int]:
@@ -595,14 +636,31 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
     same mesh (``swap:<id>``); then the mesh-sill tell (``mesh-sill``, n 0).
     Assets with none keep no p50 and take the policy fallback at write time."""
     bases = composite_bases() if bases is None else bases
+    for record in assets.values():
+        # Idempotent: a spread row keeps its plugin measurement in pluginSpread.
+        if record.get("evidence") == PLUGIN_SPREAD_SILL and "pluginSpread" in record:
+            record.update(record.pop("pluginSpread"), evidence="plugin")
+            record.pop("groundLineTell", None)
+    spread = {asset_id for asset_id, record in assets.items()
+              if record.get("evidence") == "plugin" and asset_id in tells
+              and is_plugin_spread(record, kits.get(asset_id))}
     plugin = {asset_id: record for asset_id, record in sorted(assets.items())
-              if record.get("evidence") == "plugin"}
+              if record.get("evidence") == "plugin" and asset_id not in spread}
     twins: dict[str, str] = {}
     for asset_id in plugin:
         twins.setdefault(asset_id.partition(":")[2].casefold(), asset_id)
-    counts = {"base": 0, "swap": 0, "mesh-sill": 0}
+    counts = {"base": 0, "swap": 0, "mesh-sill": 0, "plugin-spread": 0}
     for asset_id in sorted(set(kits) | set(assets)):
         record = assets.get(asset_id, {})
+        if asset_id in spread:
+            value = tells[asset_id]["valueM"]
+            record["pluginSpread"] = {key: record[key] for key in PLUGIN_FIELDS}
+            record.update({"p25": value, "p50": value, "p75": value, "n": 0,
+                           "iqrM": 0.0, "slopeTermMPerDeg": None,
+                           "evidence": PLUGIN_SPREAD_SILL,
+                           "groundLineTell": tells[asset_id]})
+            counts["plugin-spread"] += 1
+            continue
         if record.get("evidence") == "plugin":
             continue
         for key in ("p25", "p50", "p75", "n", "iqrM", "slopeTermMPerDeg",
@@ -677,7 +735,11 @@ METHOD = ("designedSinkM = groundZ - pivotZ (metres, z-up, positive = "
           "the raw kit GLB (pipeline/mesh_ground_line.py, evidence "
           "mesh-sill, n 0; evidence 'mesh-sill (plugin refs static-supported)' "
           "when the left-out references are what left it short, 'mesh-sill "
-          "(plugin-unsupported)' when the unsupported ones are); a stilt-fit "
+          "(plugin-unsupported)' when the unsupported ones are); a structure "
+          "piece (architecture, ruin, dungeon-kit, bridge) whose plugin IQR "
+          "exceeds 1.0 m with n < 6 or over half its mesh height takes its "
+          "mesh-sill tell (evidence 'mesh-sill (plugin-spread)', the plugin "
+          "percentiles kept in pluginSpread); a stilt-fit "
           "asset's mesh tell is its deck top minus the stilt policy's "
           "deckClearanceM (tell deck-top); neither: "
           "no p50 (policy fallback at write "

@@ -62,6 +62,18 @@ does for the designed sink: a piece whose lowest point touches the LAND
 when it is also set into or on a neighbour (``ground``, or ``water`` on
 submerged terrain per round 11); the neighbour is an abut
 (``terrainOverNeighbour`` on the asset row counts such references).
+Round 20 (brief 16h miner lane, fixes (a) and (c)): ground (with ``free``)
+and ``deck`` references are pooled as ONE support vote before the plurality
+against ``wall``, ``hanging``, ``water`` and ``fx`` (support from below wins,
+0085; M19's ``wrfencestr01`` ground 17 / wall 15 / deck 6 is supported, not
+wall); inside the pool the larger of ground and deck is the class (a tie is
+ground) and ``share`` is the pool's. Non-kit statics under ``sky/`` (cloud
+meshes) join ``NON_SUPPORT_STATIC_DIRS``. An ``assetPlacement`` row naming an
+``anchorClass`` in ``placement-policies.json`` (planner ruling 2026-09-24,
+reviewed per asset) decides the class ahead of the vote and every other
+policy, ``anchorClassEvidence`` and ``evidence`` ``policy`` with
+``votedClass``, and its ``designedWaterlineM`` is the waterline (evidence
+``policy``), so the record says what the refreshed manifests say.
 Interior structure (round 7): in an interior cell a shell piece
 (``SHELL_CATEGORIES``) that no non-kit static top or LAND supports and whose
 every structural contact is a kit shell (a copy of itself counts; kit clutter
@@ -215,9 +227,10 @@ MAX_SPREAD_M = 0.3
 
 STATIC_PARENT_TYPES = ("STAT", "TREE")
 NON_KIT_PREFIX = "plugin-static:"
-NON_SUPPORT_STATIC_DIRS = tuple(NON_KIT_PREFIX + d for d in ("effects/", "magic/"))
-"""Round 17 ruling 1: non-kit statics here (effect and spell art) are never
-candidate parents, for any contact kind."""
+NON_SUPPORT_STATIC_DIRS = tuple(NON_KIT_PREFIX + d for d in ("effects/", "magic/", "sky/"))
+"""Round 17 ruling 1: non-kit statics here (effect and spell art; round 20
+fix (c): the sky's cloud meshes) are never candidate parents, for any
+contact kind."""
 CELL_UNITS = 4096.0
 CONTAINMENT_MARGIN_M = 0.25
 """Slack on a parent's horizontal reach for the cheap radius pre-filter."""
@@ -248,6 +261,8 @@ MARKER_WORDS = ("marker", "xmarker", "triggerbox", "collisionbox")
 SCALE_TOLERANCE = 1e-3
 ABUTS_KEPT = 10
 MOUNTED_CLASSES = ("wall", "hanging")
+SUPPORT_CLASSES = ("ground", "deck")
+"""Round 20 fix (a): the classes pooled as support before the plurality vote."""
 SHELL_CATEGORIES = ("architecture", "dungeon-kit", "ruin")
 """Kit manifest categories that are building structure (interior shells)."""
 VANILLA_SHELL_PREFIX = NON_KIT_PREFIX + "dungeons/"
@@ -782,7 +797,7 @@ def collect(kits: dict[str, dict], vault: Path, progress: bool = False,
                 view.tree_forms.add(gid)
             if base.type == "DOOR":
                 view.door_forms.add(gid)
-            asset_id = index.kit_asset(joins, pool, source, key)
+            asset_id = index.kit_asset(joins, pool, source, key, name)
             if asset_id is not None:
                 view.wanted[gid] = asset_id
                 if source != name:
@@ -794,7 +809,7 @@ def collect(kits: dict[str, dict], vault: Path, progress: bool = False,
             elif base.type in STATIC_PARENT_TYPES and obnd_box(base.bounds):
                 static_id = NON_KIT_PREFIX + key
                 view.statics[gid] = static_id
-                static_pool.setdefault(static_id, index.pool_of[source])
+                static_pool.setdefault(static_id, index.model_pool(source, key, index.pool_of[source]))
                 cell_boxes.setdefault(static_id, obnd_box(base.bounds))
         views[name] = view
     resolver = index.resolver
@@ -1452,6 +1467,37 @@ def policy_rows(asset_id: str, kit_id: str | None,
             inventory.get("kitPolicies", {}).get(kit_id or ""))
 
 
+def placement_row(asset_id: str, inventory: dict) -> dict:
+    """The asset's ``assetPlacement`` row (planner ruling 2026-09-24), or {}."""
+    key = asset_id.strip().replace("\\", "/").casefold()
+    return inventory.get("assetPlacement", {}).get(key, {})
+
+
+def apply_placement_row(anchor_class: str, evidence: str, fields: dict,
+                        row: dict, sink_row: dict | None = None) -> tuple[str, str]:
+    """Round 20: a reviewed ``assetPlacement`` row decides ahead of the vote and
+    every other policy, as the manifest writer applies it
+    (``placement_metadata.apply_placement_metadata``): its ``anchorClass``
+    (``anchorClassEvidence`` and ``evidence`` policy, ``votedClass`` the vote)
+    and, on a water class, the waterline the writer takes from the row: its
+    ``designedWaterlineM``, else its deck line (the sink record's deck-top
+    tell less ``deckClearanceM``, ``placement_metadata.deck_support_line``).
+    Mutates ``fields``; returns ``(anchorClass, anchorClassEvidence)``."""
+    if "anchorClass" not in row:
+        return anchor_class, evidence
+    fields.update(votedClass=anchor_class, evidence="policy")
+    if row["anchorClass"] == "water":
+        tell = (sink_row or {}).get("groundLineTell") or {}
+        level = (row["designedWaterlineM"] if "designedWaterlineM" in row
+                 else float(tell["deckTopM"]) - float(row["deckClearanceM"])
+                 if "deckClearanceM" in row and isinstance(tell.get("deckTopM"), (int, float))
+                 else None)
+        if level is not None:
+            fields["waterline"] = {"p50": round(float(level), 4), "n": 0,
+                                   "evidence": "policy", "policyId": "assetPlacement"}
+    return row["anchorClass"], "policy"
+
+
 def policy_override(anchor_class: str, fields: dict, asset_policy: str | None,
                     kit_policy: str | None) -> str | None:
     """Round 17 ruling 2, policy rows decide: an ASSET row naming a class
@@ -1520,13 +1566,22 @@ def classify_anchor(ref_classes: list[str], sink: dict,
         anchor = next(iter(tally)) if len(tally) == 1 else "ground"
         fields.update(share=round(tally[anchor] / n, 3), evidence="thin")
     else:
-        best = max(tally.values())
-        leaders = sorted(c for c, k in tally.items() if k == best)
+        # Round 20 fix (a), support from below wins (0085): ground (with
+        # free) and deck vote as ONE support class against wall, hanging,
+        # water and fx; the pool then splits ground vs deck (a tie is ground).
+        pooled = Counter({c: k for c, k in tally.items() if c not in SUPPORT_CLASSES})
+        pool = sum(tally[c] for c in SUPPORT_CLASSES)
+        if pool:
+            pooled["support"] = pool
+        best = max(pooled.values())
+        leaders = sorted(c for c, k in pooled.items() if k == best)
         mounted = [c for c in leaders if c in MOUNTED_CLASSES]
-        if len(leaders) > 1 and "ground" in leaders:
-            anchor = mounted[0] if (mounted and not supported) else "ground"
+        if len(leaders) > 1 and "support" in leaders:
+            anchor = mounted[0] if (mounted and not supported) else "support"
         else:
             anchor = leaders[0]
+        if anchor == "support":
+            anchor = "deck" if tally["deck"] > tally["ground"] else "ground"
         fields["share"] = round(best / n, 3)
     by_class = Counter({source: k for (cls, source), k in (hanging_from or {}).items()
                         if cls == anchor})
@@ -1768,10 +1823,14 @@ def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts:
             # else the kit row, else ground).
             fields.update(votedClass=anchor_class, evidence="policy")
             anchor_class = policy_class
+        placement = placement_row(asset_id, inventory)
+        anchor_class, evidence = apply_placement_row(anchor_class, evidence, fields,
+                                                     placement, sink.get(asset_id))
         if outvoted[asset_id]:
             fields["otherFileRefsNotVoting"] = outvoted[asset_id]
         sink_waterline = (sink.get(asset_id, {}).get("waterline") or {}).get("p50")
-        if anchor_class == "water" and not isinstance(sink_waterline, (int, float)):
+        if (anchor_class == "water" and "waterline" not in fields
+                and not isinstance(sink_waterline, (int, float))):
             waterline = water_column_waterline(column_levels.get(asset_id, []),
                                                asset_policy, kit_policy, inventory)
             if waterline is not None:
@@ -1874,7 +1933,12 @@ def classify_document(kits: dict[str, dict], children: list[ChildRef], contacts:
                   "waterline carries waterline: cell water minus pivot, median over "
                   "the defining file's water-column references (n >= 3, evidence "
                   "column), else the policy row's fallbackWaterlineM (evidence policy). "
-                  "Non-kit statics under effects/ and magic/ are never candidates; "
+                  "Ground (with free) and deck references pool as one support "
+                  "vote before the plurality, then split ground vs deck (tie "
+                  "ground); an assetPlacement row's anchorClass decides ahead of "
+                  "everything (evidence policy, votedClass; its designedWaterlineM "
+                  "is the waterline). "
+                  "Non-kit statics under effects/, magic/ and sky/ are never candidates; "
                   "kit clutter never supports a shell; an interior ray-cast floor "
                   "within 0.10 m under the footprint supports; a non-kit static's "
                   "mesh comes from its pool, then the BSA beside the pool's plugins, "

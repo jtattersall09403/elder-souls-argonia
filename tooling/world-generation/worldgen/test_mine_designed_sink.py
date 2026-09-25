@@ -6,7 +6,8 @@ import pytest
 
 pytest.importorskip("trimesh")
 
-from .mine_designed_sink import PLUGIN_UNSUPPORTED_SILL, STATIC_SUPPORTED_SILL, build_document
+from .mine_designed_sink import (PLUGIN_UNSUPPORTED_SILL, STATIC_SUPPORTED_SILL, build_document,
+                                 complete_record)
 from .mine_mounts import static_supported_refs
 from .test_mine_mounts import (_ALL_BASES, _BASES, _LAND_OFFSET, _MESHES, _box, _kit,
                                _plugin_file)
@@ -82,3 +83,30 @@ def test_a_piece_set_into_a_neighbour_but_touching_the_land_keeps_its_plugin_sin
     row = document["assets"]["vanilla:test/barrier01"]
     assert (row["evidence"], row["n"]) == ("plugin", 3), row
     assert "refsDroppedStaticSupported" not in row
+
+
+def test_a_structure_whose_plugin_sink_spreads_takes_its_mesh_tell():
+    """Round 20 fix (b) (M19 ruling 3, scoped): housetronc001 (architecture,
+    n 4, IQR 41.6 m on a 55.6 m mesh) takes its mesh tell; a rock with the same
+    spread keeps its plugin row (0075); a structure with n >= 6 and a spread
+    under half its height keeps it; a second completion is idempotent."""
+    from .mine_designed_sink import PLUGIN_SPREAD_SILL
+
+    def plugin(n, iqr):
+        return {"p25": 0.0, "p50": 15.64, "p75": iqr, "n": n, "iqrM": iqr,
+                "slopeTermMPerDeg": None, "evidence": "plugin"}
+    kits = {"a:trunk": {"category": "architecture", "sizeM": [9.0, 9.0, 55.6]},
+            "a:rock": {"category": "rock", "sizeM": [9.0, 9.0, 55.6]},
+            "a:wall": {"category": "architecture", "sizeM": [4.0, 1.0, 4.0]},
+            "a:tall": {"category": "ruin", "sizeM": [4.0, 1.0, 1.5]}}
+    assets = {"a:trunk": plugin(4, 41.6), "a:rock": plugin(4, 41.6),
+              "a:wall": plugin(8, 1.2), "a:tall": plugin(8, 1.2)}
+    tells = {aid: {"tell": "post-foot", "valueM": -23.87} for aid in kits}
+    counts = complete_record(assets, kits, tells, bases={})
+    assert counts["plugin-spread"] == 2
+    got = {aid: (row["evidence"], row["p50"]) for aid, row in assets.items()}
+    assert got == {"a:trunk": (PLUGIN_SPREAD_SILL, -23.87), "a:rock": ("plugin", 15.64),
+                   "a:wall": ("plugin", 15.64), "a:tall": (PLUGIN_SPREAD_SILL, -23.87)}
+    assert assets["a:trunk"]["pluginSpread"]["iqrM"] == 41.6
+    complete_record(assets, kits, tells, bases={})
+    assert {aid: (row["evidence"], row["p50"]) for aid, row in assets.items()} == got

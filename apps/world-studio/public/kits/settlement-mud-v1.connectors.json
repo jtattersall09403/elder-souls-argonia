@@ -692,6 +692,768 @@
     "widthM": 0.33
    }
   ],
+  "kotm:argonia/mudhuts/door01": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.78,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.11,
+     -0.01
+    ],
+    "widthM": 0.84
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.78,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.22,
+     -0.01
+    ],
+    "widthM": 0.84
+   }
+  ],
+  "kotm:argonia/mudhuts/door02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.5,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.68,
+     0.01
+    ],
+    "widthM": 0.44
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.5,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.68,
+     0.01
+    ],
+    "widthM": 0.44
+   }
+  ],
+  "kotm:argonia/mudhuts/lizardhouse": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 14.2,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.21,
+     -13.73
+    ],
+    "widthM": 11.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 14.2,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     4.61,
+     -4.37
+    ],
+    "widthM": 18.73
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 14.2,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.21,
+     5.0
+    ],
+    "widthM": 11.65
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 14.2,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.04,
+     -4.37
+    ],
+    "widthM": 18.73
+   }
+  ],
+  "kotm:argonia/mudhuts/manorext": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 21.6,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.34,
+     -9.84
+    ],
+    "widthM": 19.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 21.6,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     8.5,
+     -2.33
+    ],
+    "widthM": 15.01
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 21.6,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.34,
+     5.17
+    ],
+    "widthM": 19.69
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 21.6,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -11.19,
+     -2.33
+    ],
+    "widthM": 15.01
+   }
+  ],
+  "kotm:argonia/mudhuts/mudhut01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 9.03,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.2,
+     -7.62
+    ],
+    "widthM": 10.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 9.03,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.24,
+     -0.98
+    ],
+    "widthM": 13.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 9.03,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.2,
+     5.66
+    ],
+    "widthM": 10.09
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 9.03,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.85,
+     -0.98
+    ],
+    "widthM": 13.28
+   }
+  ],
+  "kotm:argonia/mudhuts/mudhut02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 12.25,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -6.98
+    ],
+    "widthM": 13.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 12.25,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.74,
+     0.0
+    ],
+    "widthM": 13.96
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 12.25,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     6.98
+    ],
+    "widthM": 13.48
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 12.25,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -6.74,
+     0.0
+    ],
+    "widthM": 13.96
+   }
+  ],
+  "kotm:argonia/mudhuts/mudhut03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 17.56,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.66,
+     -8.41
+    ],
+    "widthM": 18.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 17.56,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     9.9,
+     0.9
+    ],
+    "widthM": 18.62
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 17.56,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.66,
+     10.21
+    ],
+    "widthM": 18.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 17.56,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.59,
+     0.9
+    ],
+    "widthM": 18.62
+   }
+  ],
+  "kotm:argonia/mudhuts/mudhutchimney": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.8,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -0.71
+    ],
+    "widthM": 1.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.8,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.57,
+     0.01
+    ],
+    "widthM": 1.43
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.8,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.72
+    ],
+    "widthM": 1.14
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.8,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.57,
+     0.01
+    ],
+    "widthM": 1.43
+   }
+  ],
+  "kotm:argonia/mudhuts/overhang01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 4.77,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.55
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 4.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.39,
+     0.0
+    ],
+    "widthM": 3.1
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 4.77,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.55
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 4.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.39,
+     0.0
+    ],
+    "widthM": 3.1
+   }
+  ],
+  "kotm:argonia/mudhuts/overhang03": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.1,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.43
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.1,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.39,
+     0.0
+    ],
+    "widthM": 2.86
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.1,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.43
+    ],
+    "widthM": 2.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.1,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.39,
+     0.0
+    ],
+    "widthM": 2.86
+   }
+  ],
+  "kotm:argonia/mudhuts/shed": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 6.41,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.17,
+     -4.12
+    ],
+    "widthM": 5.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 6.41,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     2.96,
+     -1.38
+    ],
+    "widthM": 5.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 6.41,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.17,
+     1.37
+    ],
+    "widthM": 5.59
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 6.41,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.63,
+     -1.38
+    ],
+    "widthM": 5.49
+   }
+  ],
+  "kotm:argonia/mudhuts/smpodext01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.52,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.19,
+     -6.62
+    ],
+    "widthM": 10.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.52,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.24,
+     -1.83
+    ],
+    "widthM": 9.58
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.52,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.19,
+     2.96
+    ],
+    "widthM": 10.11
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.52,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -4.87,
+     -1.83
+    ],
+    "widthM": 9.58
+   }
+  ],
+  "kotm:argonia/mudhuts/smpodext02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 13.88,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.67,
+     -6.19
+    ],
+    "widthM": 13.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 13.88,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.11,
+     0.76
+    ],
+    "widthM": 13.91
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 13.88,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.67,
+     7.72
+    ],
+    "widthM": 13.55
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 13.88,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -7.44,
+     0.76
+    ],
+    "widthM": 13.91
+   }
+  ],
+  "kotm:argonia/mudhuts/smpodextdoor": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 5.0,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -0.42,
+     -0.43
+    ],
+    "widthM": 3.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 5.0,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.33,
+     1.71
+    ],
+    "widthM": 4.28
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 5.0,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -0.42,
+     3.85
+    ],
+    "widthM": 3.49
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 5.0,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -2.16,
+     1.71
+    ],
+    "widthM": 4.28
+   }
+  ],
+  "kotm:argonia/mudhuts/stairs01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 2.22,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.1
+    ],
+    "widthM": 2.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 2.22,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.23,
+     -0.01
+    ],
+    "widthM": 2.19
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 2.22,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     1.09
+    ],
+    "widthM": 2.46
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 2.22,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.23,
+     -0.01
+    ],
+    "widthM": 2.19
+   }
+  ],
+  "kotm:argonia/mudhuts/stairs02": [
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.77,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.82,
+     0.0
+    ],
+    "widthM": 1.18
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.77,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.63,
+     0.0
+    ],
+    "widthM": 1.18
+   }
+  ],
+  "kotm:argonia/mudhuts/window01": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 1.87,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -2.07
+    ],
+    "widthM": 3.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 1.87,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     1.84,
+     -0.01
+    ],
+    "widthM": 4.12
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 1.87,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     2.05
+    ],
+    "widthM": 3.68
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 1.87,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -1.84,
+     -0.01
+    ],
+    "widthM": 4.12
+   }
+  ],
+  "kotm:argonia/mudhuts/window02": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 0.82,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     0.0,
+     -1.01
+    ],
+    "widthM": 1.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 0.82,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     0.89,
+     -0.02
+    ],
+    "widthM": 1.99
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 0.82,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     0.0,
+     0.98
+    ],
+    "widthM": 1.78
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 0.82,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -0.89,
+     -0.02
+    ],
+    "widthM": 1.99
+   }
+  ],
   "mudmother:gv_meshes/argoniannest/archwaysticks": [
    {
     "evidence": "bounds",
@@ -1852,8 +2614,8 @@
   ]
  },
  "counts": {
-  "assets": 45,
-  "bounds": 160,
+  "assets": 63,
+  "bounds": 226,
   "co-placement": 0
  },
  "elongationRatio": 2.0,

@@ -116,13 +116,29 @@ PLUGIN_POOLS = {
     "black marsh north.esp": "bmv",
     "valenwood.esp": "bmv",
     "here there be monsters - curse of cipactli.esp": "htbm",
-    # places the mwkeep set under its own paths (asset_registry mwkeep pool)
-    "king of the murkmire.esp": "mwkeep",
+    # its own meshes (asset_registry kotm pool); the keep set it re-bundles
+    # is split off by path below
+    "king of the murkmire.esp": "kotm",
+}
+
+#: Plugins whose models come from more than one pool, split by model path
+#: (normalised, relative to `meshes/`): first matching prefix wins, else
+#: `PLUGIN_POOLS`. King of the Murkmire places the Morrowind Imperial Keep Set
+#: under 133090's own `tesak1243/` paths (16h K8), and its own meshes beside it.
+PLUGIN_PATH_POOLS = {
+    "king of the murkmire.esp": (("tesak1243/", "mwkeep"),),
 }
 
 
-def pool_for(plugin_name: str) -> str:
-    return PLUGIN_POOLS.get(plugin_name.lower(), "?")
+def pool_for(plugin_name: str, model_key: str = "") -> str:
+    """The pool a plugin's model belongs to (path-aware for the plugins in
+    `PLUGIN_PATH_POOLS`; `model_key` "" gives the plugin's own pool)."""
+    name = plugin_name.lower()
+    key = model_key.replace("\\", "/").lower().lstrip("/")
+    for prefix, pool in PLUGIN_PATH_POOLS.get(name, ()):
+        if key.startswith(prefix):
+            return pool
+    return PLUGIN_POOLS.get(name, "?")
 
 
 def asset_ref(pool: str, model_key: str) -> str:
@@ -207,7 +223,7 @@ def collect(plugin_paths: list[str], worlds: set[str], name_paths: list[str],
                     sorted(worlds))
     seen_worlds: set[str] = set()
     for plugin in plugins:
-        pool = pool_for(Path(plugin.path).name)
+        plugin_name = Path(plugin.path).name
         spaces = plugin.worldspaces()
         keep = {fid for fid, ws in spaces.items()
                 if not worlds or ws.editor_id in worlds}
@@ -228,6 +244,7 @@ def collect(plugin_paths: list[str], worlds: set[str], name_paths: list[str],
                     out.unresolved += 1
                     continue
                 key = base.model_key or ""
+                pool = pool_for(plugin_name, key)
                 volume = 0.0
                 if base.bounds:
                     x1, y1, z1, x2, y2, z2 = base.bounds

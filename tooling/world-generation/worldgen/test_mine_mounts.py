@@ -162,6 +162,57 @@ def test_majority_class_and_thin_agreement():
     assert classify_anchor([], {})[:2] == ("ground", "unplaced")
 
 
+def test_ground_and_deck_pool_as_support_before_the_plurality():
+    """Round 20 fix (a), support from below wins (0085): M18's wrfencestr01
+    (wall 15 / deck 13 / ground 10) and M19's (ground 17 / wall 15 / deck 6)
+    are supported; the pool then splits ground vs deck. The round-19 rule
+    chose wall on the first."""
+    anchor, _, fields = classify_anchor(["wall"] * 15 + ["deck"] * 13 + ["ground"] * 10, {})
+    assert (anchor, fields["share"]) == ("deck", 0.605)
+    assert classify_anchor(["ground"] * 17 + ["wall"] * 15 + ["deck"] * 6, {})[0] == "ground"
+    assert classify_anchor(["wall"] * 5 + ["deck"] * 2 + ["free"] * 2, {})[0] == "wall"
+    assert classify_anchor(["wall"] * 4 + ["deck"] * 2 + ["free"] * 2, {})[0] == "ground"
+
+
+def test_an_asset_placement_row_decides_the_class_and_waterline():
+    """Round 20: the reviewed assetPlacement row decides as the manifest writer
+    applies it, so the mounts record and the manifests agree."""
+    from .mine_mounts import apply_placement_row
+    fields = {"n": 20, "share": 0.8}
+    assert apply_placement_row("deck", "plugin", fields, {}) == ("deck", "plugin")
+    assert fields == {"n": 20, "share": 0.8}
+    got = apply_placement_row("deck", "plugin", fields,
+                              {"anchorClass": "water", "designedWaterlineM": -0.30621})
+    assert got == ("water", "policy")
+    assert (fields["votedClass"], fields["evidence"], fields["waterline"]["p50"],
+            fields["waterline"]["evidence"]) == ("deck", "policy", -0.3062, "policy")
+    deck = {"n": 0}
+    apply_placement_row("ground", "unplaced", deck, {"anchorClass": "water", "deckClearanceM": 0.672},
+                        {"groundLineTell": {"tell": "deck-top", "deckTopM": 0.366}})
+    assert deck["waterline"]["p50"] == -0.306
+    unplaced = {"n": 0}
+    assert apply_placement_row("ground", "unplaced", unplaced,
+                               {"anchorClass": "hanging"}) == ("hanging", "policy")
+    assert unplaced == {"n": 0, "votedClass": "ground", "evidence": "policy"}
+
+
+def test_the_record_follows_every_asset_placement_row():
+    """The mounts record says what the refreshed manifests say: every
+    assetPlacement row's anchorClass is the record's (round 20)."""
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "asset-pipeline"))
+    from pipeline.placement_metadata import load_inventory
+    anchors = json.loads(MOUNTS_RECORD.read_text())["anchors"]
+    rows = load_inventory().get("assetPlacement", {})
+    wrong = sorted(f"{aid}: record {anchors.get(aid, {}).get('anchorClass')}, row "
+                   f"{row['anchorClass']}" for aid, row in rows.items()
+                   if "anchorClass" in row
+                   and (anchors.get(aid, {}).get("anchorClass"),
+                        anchors.get(aid, {}).get("anchorClassEvidence"))
+                   != (row["anchorClass"], "policy"))
+    assert not wrong, wrong
+
+
 # --- contact on real (test) meshes --------------------------------------- #
 def _box(low, high):
     low, high = np.array(low, float), np.array(high, float)
@@ -688,11 +739,12 @@ def test_kit_clutter_never_supports_a_shell():
 
 def test_effect_and_spell_statics_are_never_candidates(tmp_path):
     """Round 17 ruling 1 (lantern02_blue set into maginvlightspellart): a
-    non-kit static under magic/ or effects/ holds nothing up; the same box
+    non-kit static under magic/ or effects/ holds nothing up; round 20 fix (c):
+    nor one under sky/ (clouddistant03 under the stockade tops); the same box
     under another folder does."""
     art = _box((-1.0, -1.0, 0.0), (1.0, 1.0, 1.0))
     got = {}
-    for folder in ("Magic", "Effects", "Other"):
+    for folder in ("Magic", "Effects", "Sky", "Other"):
         kits = {"vanilla:test/chair01": _kit(_CHAIR)}
         static_id = f"plugin-static:{folder.lower()}/art01.nif"
         meshes = {"vanilla:test/chair01": _CHAIR, static_id: art}
@@ -706,7 +758,8 @@ def test_effect_and_spell_statics_are_never_candidates(tmp_path):
         document = build_document(kits, Path("/nonexistent"), sink={},
                                   plugins=[("vanilla", path)], meshes=meshes.get)
         got[folder] = document["anchors"]["vanilla:test/chair01"]["refClasses"]
-    assert got == {"Magic": {"free": 3}, "Effects": {"free": 3}, "Other": {"ground": 3}}
+    assert got == {"Magic": {"free": 3}, "Effects": {"free": 3}, "Sky": {"free": 3},
+                   "Other": {"ground": 3}}
 
 
 def test_policy_rows_decide_asset_row_always_kit_row_when_ambiguous():
@@ -830,7 +883,7 @@ def test_the_record_carries_the_mesh_sill_so_both_writers_agree():
     kits = {"a:x/plugin": {}, "b:x/plugin": {}, "a:y/sill": {}, "a:z/none": {}}
     counts = complete_record(assets, kits, {"a:y/sill": {"tell": "post-foot", "valueM": -1.5}},
                              bases={})
-    assert counts == {"base": 0, "swap": 1, "mesh-sill": 1}
+    assert counts == {"base": 0, "swap": 1, "mesh-sill": 1, "plugin-spread": 0}
     assert assets["b:x/plugin"]["evidence"] == "swap:a:x/plugin"
     assert assets["a:y/sill"]["p50"] == -1.5 and "a:z/none" not in assets
 
@@ -851,7 +904,7 @@ def test_a_composite_shaped_like_its_base_piece_takes_the_base_plugin_sink():
              "composite:quay": {"tell": "deck-top", "valueM": -0.31}}
     counts = complete_record(assets, kits, tells,
                              bases={"composite:house-door": "v:house", "composite:quay": "v:deck"})
-    assert counts == {"base": 1, "swap": 0, "mesh-sill": 1}
+    assert counts == {"base": 1, "swap": 0, "mesh-sill": 1, "plugin-spread": 0}
     door = assets["composite:house-door"]
     assert (door["p50"], door["n"], door["evidence"]) == (-0.05, 20, "base:v:house")
     assert (assets["composite:quay"]["p50"], assets["composite:quay"]["evidence"]) == (

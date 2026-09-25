@@ -53,6 +53,7 @@ POOL_CREDIT_MARKERS = {
     "sirenroot": "SIRENROOT",
     "htbm": "Here There Be Monsters",
     "mwkeep": "Morrowind Imperial Keep Set",
+    "kotm": "King of the Murkmire",
     "hlaalu": "Morrowind Hlaalu Architecture",
     "sailboats": "Sailboats - Script Free Sailing EXPANDED",
     "impships": "Cyrodiil Ship and boat resource",
