@@ -21,7 +21,11 @@ import bpy
 import json
 import math
 import os
+import sys
 from mathutils import Matrix, Vector
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from effect_materials import is_effect_material, rebuild_effect_material  # noqa: E402
 
 PLAN = json.loads(open(os.environ["BUILD_PLAN"], "r", encoding="utf-8").read())
 SUMMARY = {"items": {}, "warnings": []}
@@ -77,44 +81,6 @@ def is_glow_map(image):
     return base.endswith("_g")
 
 
-def is_effect_material(material):
-    """PyNifly stamps the NIF shader block on the material it imports."""
-    return material.get("BS_Shader_Block_Name") == "BSEffectShaderProperty"
-
-
-def rebuild_effect_material(material, images):
-    """An additive glow shell (BSEffectShaderProperty) as a plain alpha material.
-
-    The source texture keeps its alpha and exports as PNG; the object carries
-    `extras.additive` so the runtime draws it with additive blending, which
-    glTF itself cannot express. Greyscale palette gradients are not the
-    surface and are skipped when anything else is present.
-    """
-    surface = [i for i in images if is_diffuse(i) and "gradients" not in (
-        i.filepath or i.name).lower().replace("\\", "/")]
-    source = surface[0] if surface else (images[0] if images else None)
-    material.use_nodes = True
-    tree = material.node_tree
-    tree.nodes.clear()
-    output = tree.nodes.new("ShaderNodeOutputMaterial")
-    shader = tree.nodes.new("ShaderNodeBsdfPrincipled")
-    shader.inputs["Metallic"].default_value = 0.0
-    shader.inputs["Roughness"].default_value = 1.0
-    tree.links.new(shader.outputs["BSDF"], output.inputs["Surface"])
-    if source is not None:
-        source.colorspace_settings.name = "sRGB"
-        texture = tree.nodes.new("ShaderNodeTexImage")
-        texture.image = source
-        tree.links.new(texture.outputs["Color"], shader.inputs["Base Color"])
-        tree.links.new(texture.outputs["Alpha"], shader.inputs["Alpha"])
-    if hasattr(material, "blend_method"):
-        try:
-            material.blend_method = "BLEND"
-        except TypeError:
-            pass
-    return source
-
-
 def rebuild_materials(objects, glow_emissive=False, effect_additive=False):
     """PyNifly's Skyrim shader exports to glTF washed out; rebuild it clean.
 
@@ -140,7 +106,7 @@ def rebuild_materials(objects, glow_emissive=False, effect_additive=False):
                 diffuse = next((i for i in images if is_diffuse(i)), None) or (
                     images[0] if images else None)
             if effect_additive and is_effect_material(material):
-                source = rebuild_effect_material(material, images)
+                source = rebuild_effect_material(material, images, is_diffuse)
                 textures[material.name] = [os.path.basename(
                     source.filepath or source.name)] if source else []
                 continue

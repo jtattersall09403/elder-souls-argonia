@@ -87,7 +87,7 @@ def test_set_alpha_modes_masks_foliage_and_clears_everything_else(tmp_path):
 
     counts = set_alpha_modes(glb, summary)
 
-    assert counts == {"MASK": 3, "OPAQUE": 1}
+    assert counts == {"MASK": 3, "OPAQUE": 1, "BLEND": 0}
     data = glb.read_bytes()
     magic, version, length = struct.unpack_from("<4sII", data, 0)
     assert magic == b"glTF" and length == len(data)   # header length rewritten
@@ -117,7 +117,7 @@ def test_set_alpha_modes_masks_a_nif_cutout_at_its_own_threshold(tmp_path):
         "alphaMaskMaterials": {"OrcAwningFull01:1.Mat": 0.502}},
         {"alphaTest": False, "materials": ["Farmhouse01:14.Mat"],
          "glowMaterials": ["Farmhouse01:14.Mat"]}]}
-    assert set_alpha_modes(glb, summary) == {"MASK": 1, "OPAQUE": 2}
+    assert set_alpha_modes(glb, summary) == {"MASK": 1, "OPAQUE": 2, "BLEND": 0}
     data = glb.read_bytes()
     chunk_length = struct.unpack_from("<I", data, 12)[0]
     modes = {m["name"]: (m.get("alphaMode"), m.get("alphaCutoff"))
@@ -517,3 +517,41 @@ def test_the_yaw_check_fails_on_a_hand_inverted_yaw(tmp_path):
     (tmp_path / "settlement-stilt-v1.json").write_text(json.dumps(config))
     assert composite_yaw_mismatches(tmp_path, assemblies) == [
         "settlement-stilt-v1 composite:stilt/bamboohut01-with-door part 1: yaw 240 vs mined 120.0"]
+
+
+def test_set_alpha_modes_blends_an_effect_card_and_flags_it_additive(tmp_path):
+    # 16k kits lane 2: campfire01burning's flame-glow cards (BSEffectShader)
+    # shipped MASK/opaque, i.e. solid cards. An `"effect": "additive"` piece
+    # lists them in `additiveMaterials`; they ship BLEND with `additive: true`,
+    # and win over an alpha-test mask the same material also carries.
+    glb = tmp_path / "kit.glb"
+    _make_glb(glb, {"asset": {"version": "2.0"}, "materials": [
+        {"name": "Glow02:0.Mat", "alphaMode": "MASK", "alphaCutoff": 0.5},
+        {"name": "Ash.Mat"},
+    ]})
+    summary = {"assets": [{"alphaTest": False, "materials": ["Glow02:0.Mat", "Ash.Mat"],
+                           "alphaMaskMaterials": {"Glow02:0.Mat": 0.5},
+                           "additiveMaterials": ["Glow02:0.Mat"]}]}
+    assert set_alpha_modes(glb, summary) == {"MASK": 0, "OPAQUE": 1, "BLEND": 1}
+    data = glb.read_bytes()
+    chunk_length = struct.unpack_from("<I", data, 12)[0]
+    materials = {m["name"]: m for m in json.loads(data[20:20 + chunk_length])["materials"]}
+    assert materials["Glow02:0.Mat"]["alphaMode"] == "BLEND"
+    assert "alphaCutoff" not in materials["Glow02:0.Mat"]
+    assert materials["Glow02:0.Mat"]["extras"] == {"additive": True}
+    assert "alphaMode" not in materials["Ash.Mat"] and "extras" not in materials["Ash.Mat"]
+
+
+def test_light_records_copy_the_config_block_and_refuse_a_partial_one():
+    from pipeline.build_kit import apply_light_records
+    light = {"formId": "000af8ba", "burnSeconds": -1, "radiusUnits": 512, "colourRgb": [226, 140, 63],
+             "flags": ["dynamic", "flicker"]}
+    summary = {"assets": [{"id": "a"}, {"id": "b", "light": {"stale": True}}]}
+    kit = {"assets": [{"asset": "a", "light": light}, {"asset": "b"}]}
+    assert apply_light_records(summary, kit) == 1
+    assert summary["assets"][0]["light"] == light
+    assert "light" not in summary["assets"][1]
+    with pytest.raises(ValueError, match="radiusUnits"):
+        apply_light_records({"assets": [{"id": "a"}]},
+                            {"assets": [{"asset": "a", "light": {"formId": "x", "burnSeconds": -1,
+                                                          "colourRgb": [1, 1, 1], "flags": []}}]})

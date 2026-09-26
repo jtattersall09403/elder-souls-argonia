@@ -71,6 +71,59 @@
    "sizeClass": "small",
    "why": "category 'clutter' is never a building"
   },
+  "kotm:argonia/clutter/basket01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.53,
+   "interior": "none",
+   "planAreaM2": 0.14,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.5 m tall)"
+  },
+  "kotm:argonia/clutter/basket02": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.27,
+   "interior": "none",
+   "planAreaM2": 0.13,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 0.3 m tall)"
+  },
+  "kotm:argonia/clutter/basketcontainer": {
+   "category": "container",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.0,
+   "interior": "none",
+   "planAreaM2": 0.46,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.5 m\u00b2 plan, 1.0 m tall)"
+  },
+  "kotm:argonia/clutter/saxhleelmetalpot01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 347.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 348\u00b0 in the piece's own frame carries 1.40x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.2,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
   "mudmother:gv_meshes/argoniannest/basketfull": {
    "category": "container",
    "entrance": null,
@@ -225,6 +278,23 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.4 m\u00b2 plan, 1.8 m tall)"
+  },
+  "shores:shoresofskyrim/fishnet01": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 343.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 344\u00b0 in the piece's own frame carries 2.80x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 0.46,
+   "interior": "none",
+   "planAreaM2": 0.25,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.5 m tall)"
   },
   "vanilla:architecture/docks/dockstepsdown01": {
    "category": "architecture",
@@ -434,6 +504,30 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:clutter/basket05": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.51,
+   "interior": "none",
+   "planAreaM2": 0.4,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 0.5 m tall)"
+  },
+  "vanilla:clutter/basket06": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.4,
+   "interior": "none",
+   "planAreaM2": 0.39,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 0.4 m tall)"
   },
   "vanilla:clutter/basketclosed01": {
    "category": "clutter",
@@ -883,6 +977,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (0.0 m\u00b2 plan, 0.1 m tall)"
   },
+  "vanilla:clutter/kitchen/castironpotmedium01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.21,
+   "interior": "none",
+   "planAreaM2": 0.17,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
+  },
   "vanilla:clutter/largerainbarrel01": {
    "category": "clutter",
    "entrance": null,
@@ -1324,6 +1430,23 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (6.4 m\u00b2 plan, 0.8 m tall)"
   },
+  "vanilla:clutter/woodfires/campfire01burning": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 72.8,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 73\u00b0 in the piece's own frame carries 1.77x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "heightM": 2.16,
+   "interior": "none",
+   "planAreaM2": 6.48,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (6.5 m\u00b2 plan, 2.2 m tall)"
+  },
   "vanilla:clutter/woodfires/cookingstand01": {
    "category": "clutter",
    "entrance": null,
@@ -1347,6 +1470,30 @@
    "provenance": [],
    "sizeClass": "small",
    "why": "too small to hold an interior (2.1 m\u00b2 plan, 1.6 m tall)"
+  },
+  "vanilla:clutter/woodfires/spitpotopen01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.72,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.7 m tall)"
+  },
+  "vanilla:clutter/woodfires/spitpotopenloose01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.2,
+   "interior": "none",
+   "planAreaM2": 0.16,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.2 m\u00b2 plan, 0.2 m tall)"
   },
   "vanilla:dungeons/mines/clutter/genericwell01": {
    "category": "dungeon-kit",

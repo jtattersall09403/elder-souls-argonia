@@ -31,6 +31,23 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
 | sink / mounts / policy record only (miner full run) | 4, 5–7 | policy-only metadata; never rebuild for it (M13–M16) |
 | nothing, published kit suspect | `kit_compress --check`, 5 | — |
 
+## Per-piece config fields that reach the runtime
+
+- `"effect": "additive"`: the piece's effect-shader materials (BSEffectShader:
+  flames, smoke, glow cards) are rebuilt by `blender/effect_materials.py` (shared
+  with the weapons lights set) and ship glTF BLEND + material extra
+  `additive: true`; the manifest lists them in `additiveMaterials`. Its
+  refraction-only shapes (heat shimmer) are dropped into `droppedShapes`.
+  Without the flag they ship opaque or masked: solid cards.
+- `"light": {formId, editorId, radiusUnits, colourRgb, flicker, flags,
+  offsetM, evidence, burnSeconds}`: the Skyrim LIGH record the plugin places
+  with the piece (mined from the ref nearest the piece's refs), copied onto
+  the manifest record by `build_kit.apply_light_records`; the shape of
+  `game-core/fx/carriedLight` `LightRecord`, `offsetM` in glTF Y-up metres
+  from the pivot. Example: works-v1 `campfire01burning` (LightCampFire01).
+  No runtime reads `light` or the `additive` extra yet (16h item 22): until
+  then flames draw alpha-blended and give no light.
+
 ## 1. Build (geometry + manifest + sidecars + publish)
 
     cd $P && ../../tooling/repo-standards/memwatch.sh \

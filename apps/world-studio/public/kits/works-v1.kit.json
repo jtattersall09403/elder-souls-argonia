@@ -5444,6 +5444,33 @@
    "materials": [
     "ImpBrazier01:11.Mat"
    ],
+   "light": {
+    "formId": "00088243",
+    "editorId": "DefaultTorch01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     197,
+     156,
+     112
+    ],
+    "flicker": {
+     "frequency": 0.25,
+     "intensityAmplitude": 0.25,
+     "movementAmplitude": 48.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "offsetM": [
+     -0.09,
+     1.3,
+     -0.18
+    ],
+    "evidence": "Skyrim.esm: DefaultTorch01NS is the nearest LIGH ref (< 200 units) to 35 of 262 ImpBrazier01 refs (next: DefaultTorch01 15; none 137); offset is the median of those 35 in the piece's frame, glTF Y-up metres (horizontal median 0.76 m). The flame vanilla stands in the bowl is a separate effect (FXFireWithEmbers01, 105 of 262)."
+   },
    "designedSinkM": {
     "p25": 0.021,
     "p50": 0.0427,
@@ -5469,6 +5496,110 @@
    "undersideCoverage": 0.945,
    "openBackYawDeg": null,
    "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/woodfires/campfire01burning",
+   "node": "es|5116a03db3|lla__clutter_woodfires_campfire01burning",
+   "category": "clutter",
+   "sizeM": [
+    3.701,
+    2.793,
+    2.156
+   ],
+   "originOffsetM": [
+    1.851,
+    1.456,
+    0.247
+   ],
+   "triangles": 944,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [
+    {
+     "shape": "Plane05:0",
+     "reason": "refraction-only"
+    }
+   ],
+   "textures": [
+    "ash01.dds",
+    "fxglowingemberspallet01.dds",
+    "glowslightflash.dds",
+    "mountainslab02.dds",
+    "woodfires01.dds",
+    "woodfires01_g.dds"
+   ],
+   "materials": [
+    "Ash.Mat",
+    "BurningWood:1 - L1_RocksBottomLog:1.Mat",
+    "Glow02:0.Mat",
+    "Glow:2.Mat",
+    "Glow:3.Mat",
+    "L1_RocksBottomLog.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Ash.Mat": 0.149
+   },
+   "additiveMaterials": [
+    "Glow02:0.Mat",
+    "Glow:2.Mat",
+    "Glow:3.Mat"
+   ],
+   "light": {
+    "formId": "000af8ba",
+    "editorId": "LightCampFire01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     226,
+     140,
+     63
+    ],
+    "flicker": {
+     "frequency": 0.667,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 12.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "offsetM": [
+     0.03,
+     1.17,
+     0.04
+    ],
+    "evidence": "Skyrim.esm: LightCampFire01 is the nearest LIGH ref (< 200 units) to 60 of 145 Campfire01Burning refs (next: DefaultTorch01NS_Fast 9; none 31); offset is the median of those 60 in the piece's frame, glTF Y-up metres (horizontal median 0.13 m)."
+   },
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.247,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.615,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.247
   },
   {
    "id": "vanilla:clutter/signage/roadsigns/roadsignpost",
@@ -5537,6 +5668,575 @@
    "undersideCoverage": 0.0,
    "openBackYawDeg": null,
    "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "shores:shoresofskyrim/fishnet01",
+   "node": "es|503ed3ef60|shores__shoresofskyrim_fishnet01",
+   "category": "misc",
+   "sizeM": [
+    0.547,
+    0.549,
+    0.458
+   ],
+   "originOffsetM": [
+    0.274,
+    0.275,
+    -0.021
+   ],
+   "triangles": 2115,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fishinggear01.dds"
+   ],
+   "materials": [
+    "FishingGear_FishNet01:0.Mat",
+    "SM_Limpet_03_LOD0.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "FishingGear_FishNet01:0.Mat": 0.502
+   },
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.021,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.915,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.021
+  },
+  {
+   "id": "vanilla:clutter/woodfires/spitpotopen01",
+   "node": "es|2bc1e20ad7|vanilla__clutter_woodfires_spitpotopen01",
+   "category": "clutter",
+   "sizeM": [
+    0.453,
+    0.467,
+    1.57
+   ],
+   "originOffsetM": [
+    0.221,
+    0.234,
+    0.043
+   ],
+   "triangles": 686,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "wrfireplaceclutter01.dds"
+   ],
+   "materials": [
+    "Handle.Mat.001",
+    "L1_Hook:0.Mat",
+    "Pot:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.043,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.789,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.043
+  },
+  {
+   "id": "vanilla:clutter/woodfires/spitpotopenloose01",
+   "node": "es|a9fc0ffea9|la__clutter_woodfires_spitpotopenloose01",
+   "category": "clutter",
+   "sizeM": [
+    0.453,
+    0.446,
+    0.199
+   ],
+   "originOffsetM": [
+    0.227,
+    0.223,
+    0.099
+   ],
+   "triangles": 388,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "wrfireplaceclutter01.dds"
+   ],
+   "materials": [
+    "SpitPotOpenLoose01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.099,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.789,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.099
+  },
+  {
+   "id": "vanilla:clutter/kitchen/castironpotmedium01",
+   "node": "es|68941e9f1a|lla__clutter_kitchen_castironpotmedium01",
+   "category": "clutter",
+   "sizeM": [
+    0.427,
+    0.563,
+    0.213
+   ],
+   "originOffsetM": [
+    0.213,
+    0.282,
+    -0.0
+   ],
+   "triangles": 328,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "castironpotmedium01.dds"
+   ],
+   "materials": [
+    "CastIronPotMedium01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.781,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "kotm:argonia/clutter/saxhleelmetalpot01",
+   "node": "es|3de29155d8|kotm__argonia_clutter_saxhleelmetalpot01",
+   "category": "clutter",
+   "sizeM": [
+    0.453,
+    0.446,
+    0.199
+   ],
+   "originOffsetM": [
+    0.227,
+    0.223,
+    0.099
+   ],
+   "triangles": 388,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "armlet_r.dds"
+   ],
+   "materials": [
+    "SpitPotOpenLoose01:0.Mat.001"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.099,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.789,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.099
+  },
+  {
+   "id": "vanilla:clutter/basket05",
+   "node": "es|f85b7c1ca5|vanilla__clutter_basket05",
+   "category": "clutter",
+   "sizeM": [
+    0.721,
+    0.71,
+    0.512
+   ],
+   "originOffsetM": [
+    0.36,
+    0.355,
+    -0.0
+   ],
+   "triangles": 428,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "basket01.dds"
+   ],
+   "materials": [
+    "Basket05:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.941,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/basket06",
+   "node": "es|009baf491d|vanilla__clutter_basket06",
+   "category": "clutter",
+   "sizeM": [
+    0.869,
+    0.514,
+    0.405
+   ],
+   "originOffsetM": [
+    0.434,
+    0.271,
+    0.0
+   ],
+   "triangles": 788,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "basket01.dds"
+   ],
+   "materials": [
+    "Basket06:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.0
+  },
+  {
+   "id": "kotm:argonia/clutter/basket01",
+   "node": "es|6f0ca84307|kotm__argonia_clutter_basket01",
+   "category": "clutter",
+   "sizeM": [
+    0.408,
+    0.464,
+    0.532
+   ],
+   "originOffsetM": [
+    0.204,
+    0.232,
+    0.262
+   ],
+   "triangles": 644,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "basket01.dds"
+   ],
+   "materials": [
+    "Zylinder01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.262,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.797,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.262
+  },
+  {
+   "id": "kotm:argonia/clutter/basket02",
+   "node": "es|522da83c52|kotm__argonia_clutter_basket02",
+   "category": "clutter",
+   "sizeM": [
+    0.408,
+    0.42,
+    0.267
+   ],
+   "originOffsetM": [
+    0.204,
+    0.21,
+    0.262
+   ],
+   "triangles": 572,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "basket01.dds"
+   ],
+   "materials": [
+    "Objekt01.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.262,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.262
+  },
+  {
+   "id": "kotm:argonia/clutter/basketcontainer",
+   "node": "es|0069e68a37|kotm__argonia_clutter_basketcontainer",
+   "category": "container",
+   "sizeM": [
+    0.843,
+    0.758,
+    1.002
+   ],
+   "originOffsetM": [
+    0.422,
+    0.382,
+    0.501
+   ],
+   "triangles": 416,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "basket01.dds"
+   ],
+   "materials": [
+    "Zylinder01.Mat.001"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.371,
+     0.441,
+     0.334
+    ],
+    "centreOffsetM": [
+     0.0,
+     -0.0,
+     0.003
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.501,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.501
   },
   {
    "id": "composite:works/stockade-scaffold-2stage",
@@ -5675,7 +6375,9 @@
   "textures/_byoh/clutter/food/dumpling01.dds",
   "textures/_byoh/clutter/food/dumpling01_n.dds",
   "textures/_byoh/furniture/oven01.dds",
-  "textures/_byoh/furniture/oven01_n.dds"
+  "textures/_byoh/furniture/oven01_n.dds",
+  "textures/shoresofskyrim/limpets01.dds",
+  "textures/shoresofskyrim/limpets01_n.dds"
  ],
  "texturesSubstituted": {
   "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
@@ -5684,8 +6386,9 @@
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
  },
  "alphaModes": {
-  "MASK": 33,
-  "OPAQUE": 209
+  "MASK": 35,
+  "OPAQUE": 223,
+  "BLEND": 3
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -5718,16 +6421,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 36502416,
-  "bytesAfter": 17748936,
-  "images": 74,
-  "imageBytesAfter": 15455539,
+  "bytesBefore": 40135568,
+  "bytesAfter": 19520600,
+  "images": 82,
+  "imageBytesAfter": 17032331,
   "warnings": [],
-  "sha256": "c47e1ff9ec3765edfad864bcddd062ca9e7bd70da90f8f9e169d83a34ad97ee4",
+  "sha256": "354aad5ff1e5ff454686162c5bdc1063391f6b1571741f2477b4b4d861c5ab5f",
   "sidecarBytes": {
-   "connectors": 63345,
-   "footprints": 113190,
-   "interiors": 50822
+   "connectors": 71458,
+   "footprints": 131405,
+   "interiors": 55485
   }
  }
 }

@@ -513,6 +513,11 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         }
         if entry.get("collisionRadiusM"):
             record["collisionRadiusM"] = entry["collisionRadiusM"]
+        if entry.get("effect") is not None:
+            if entry["effect"] not in EFFECT_MODES:
+                raise ValueError(f"{entry['asset']}: effect {entry['effect']!r} "
+                                 f"is not one of {sorted(EFFECT_MODES)}")
+            record["effect"] = entry["effect"]
         # Decided here, once, for both halves: the Blender half bakes when
         # this is true and imports the authored `_lod_flat` (if any) only
         # when it is false.
@@ -839,6 +844,39 @@ def bakes_own_card(entry, kit, category):
     return resolve_bake_card(entry)
 
 
+#: Kit-config `effect` values: how a piece's effect-shader materials
+#: (BSEffectShaderProperty: flames, smoke, glow cards) are exported.
+#: "additive": glTF BLEND plus the material extra `additive: true`
+#: (blender/effect_materials.py, shared with the weapons lights set).
+EFFECT_MODES = frozenset({"additive"})
+
+
+def apply_light_records(summary: dict, kit: dict) -> int:
+    """Copy each piece's kit-config `light` block onto its manifest record.
+
+    The block is the mined Skyrim LIGH record the source plugin places with
+    the piece, in the shape `game-core/fx/carriedLight` `LightRecord` reads
+    (formId, editorId, radiusUnits, colourRgb, flicker, flags) plus the
+    placement evidence and the NIF-local offset of the emitter, for the
+    settlement runtime to turn into a point light (16h item 22; no kit-side
+    reader exists yet). Nothing is re-derived here.
+    """
+    lights = {entry["asset"]: entry["light"] for entry in kit.get("assets", [])
+              if entry.get("light")}
+    written = 0
+    for record in summary.get("assets", []):
+        light = lights.get(record["id"])
+        if light is None:
+            record.pop("light", None)
+            continue
+        missing = {"formId", "burnSeconds", "radiusUnits", "colourRgb", "flags"} - light.keys()
+        if missing:
+            raise ValueError(f"{record['id']}: light block lacks {sorted(missing)}")
+        record["light"] = light
+        written += 1
+    return written
+
+
 def _default_collision(row: dict) -> str:
     return _COLLISION_BY_CATEGORY.get(row.get("category", ""), "none")
 
@@ -873,6 +911,11 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     # settlement runtime reads (`SettlementKitMaterialExtras`, materials.ts
     # `applySettlementDecal`; 16h check-in 3 item 3).
     decals = {name for asset in summary["assets"] for name in asset.get("decalMaterials", [])}
+    # An effect-shader card of an `"effect": "additive"` piece (flames, smoke:
+    # blender/build_kit.py ADDITIVE_MATERIALS) is see-through: glTF BLEND,
+    # plus the material extra `additive: true` for the runtime's blend mode.
+    additive = {name for asset in summary["assets"]
+                for name in asset.get("additiveMaterials", [])}
     data = bytearray(glb.read_bytes())
     header = struct.unpack_from("<4sII", data, 0)
     chunk_length, chunk_type = struct.unpack_from("<I4s", data, 12)
@@ -881,9 +924,13 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     start = 20
     gltf = json.loads(bytes(data[start:start + chunk_length]))
 
-    counts = {"MASK": 0, "OPAQUE": 0}
+    counts = {"MASK": 0, "OPAQUE": 0, "BLEND": 0}
     for material in gltf.get("materials", []):
-        if material.get("name") in masked:
+        if material.get("name") in additive:
+            material["alphaMode"] = "BLEND"
+            material.pop("alphaCutoff", None)
+            counts["BLEND"] += 1
+        elif material.get("name") in masked:
             material["alphaMode"] = "MASK"
             material["alphaCutoff"] = masked[material["name"]]
             counts["MASK"] += 1
@@ -893,8 +940,11 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
             counts["OPAQUE"] += 1
         extras = material.get("extras") or {}
         extras.pop("decal", None)
+        extras.pop("additive", None)
         if material.get("name") in decals:
             extras["decal"] = True
+        if material.get("name") in additive:
+            extras["additive"] = True
         if extras:
             material["extras"] = extras
         else:
@@ -907,7 +957,8 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     rebuilt += data[start + chunk_length:]
     struct.pack_into("<I", rebuilt, 8, len(rebuilt))
     glb.write_bytes(bytes(rebuilt))
-    print(f"[kit] alpha modes: {counts['MASK']} masked, {counts['OPAQUE']} opaque; "
+    print(f"[kit] alpha modes: {counts['MASK']} masked, {counts['OPAQUE']} opaque, "
+          f"{counts['BLEND']} additive blend; "
           f"{sum(1 for m in gltf.get('materials', []) if (m.get('extras') or {}).get('decal'))} decal")
     return counts
 
@@ -971,6 +1022,9 @@ def build(kit_id: str, vault: Path) -> dict:
     summary["texturesMissing"] = notes["texturesMissing"]
     summary["texturesSubstituted"] = notes["texturesSubstituted"]
     summary["alphaModes"] = set_alpha_modes(output_glb, summary)
+    lights = apply_light_records(summary, kit)
+    if lights:
+        print(f"[kit] light records: {lights}")
     apply_placement_metadata(summary, kit["id"])
     manifest_path = output_glb.with_suffix(".kit.json")
     manifest_path.write_text(json.dumps(summary, indent=1) + "\n")

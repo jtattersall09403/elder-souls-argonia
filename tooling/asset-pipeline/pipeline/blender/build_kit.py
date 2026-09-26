@@ -19,8 +19,12 @@ import hashlib
 import json
 import math
 import os
+import sys
 import numpy as np
 from mathutils import Matrix, Vector
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from effect_materials import is_effect_material, rebuild_effect_material  # noqa: E402
 
 PLAN = json.loads(open(os.environ["BUILD_PLAN"], "r", encoding="utf-8").read())
 SUMMARY = {"kit": PLAN["kit"], "assets": []}
@@ -49,6 +53,21 @@ ALPHA_MASK_MATERIALS = {}
 #: `applySettlementDecal`). Without it the pair z-fights: the owner's flicker.
 DECAL_MATERIALS = set()
 DECAL_SHADER_FLAGS = ("DECAL", "DYNAMIC_DECAL")
+
+#: SLSF1 flags of a heat-shimmer plane (campfire01burning's Plane05: a quad
+#: whose only texture is a normal map the engine refracts through). glTF and
+#: the runtime have no refraction, so the plane would ship as an opaque slab;
+#: an `"effect"` piece drops it and records it in `droppedShapes`.
+REFRACTION_SHADER_FLAGS = ("REFRACTION", "FIRE_REFRACTION")
+
+#: Effect-shader materials (BSEffectShaderProperty: flames, smoke, glow cards)
+#: of a piece whose kit config sets `"effect": "additive"`. Rebuilt by the
+#: shared `effect_materials.rebuild_effect_material` (the weapons lights path)
+#: and shipped as glTF BLEND with the material extra `additive: true`
+#: (pipeline/build_kit.py set_alpha_modes). Without the flag they were
+#: rebuilt as lit diffuse and left opaque or masked: see-through flames and
+#: smoke came out as solid cards (16k kits lane, 2026-09-26).
+ADDITIVE_MATERIALS = set()
 
 #: NiAlphaProperty flag bits (Gamebryo): bit 0 blend enable, bit 9 test enable.
 NI_ALPHA_BLEND = 0x001
@@ -113,7 +132,9 @@ def shader_flags1(mat) -> set:
     if not raw:
         return set()
     if isinstance(raw, int):
-        return {name for bit, name in ((26, "DECAL"), (27, "DYNAMIC_DECAL")) if raw >> bit & 1}
+        return {name for bit, name in ((15, "REFRACTION"), (16, "FIRE_REFRACTION"),
+                                       (26, "DECAL"), (27, "DYNAMIC_DECAL"))
+                if raw >> bit & 1}
     return {part.strip() for part in str(raw).split("|") if part.strip()}
 
 
@@ -131,7 +152,7 @@ def ni_alpha(mat):
     return True, 0.5
 
 
-def rebuild_material(mat, double_sided):
+def rebuild_material(mat, double_sided, effect=None):
     """Diffuse Principled BSDF with alpha linked, and the glow map on Emission.
 
     Foliage is alpha-tested, and the cheapest way to be certain of that at
@@ -140,8 +161,17 @@ def rebuild_material(mat, double_sided):
     the blend mode is deliberately not decided in Blender. A non-foliage
     piece whose NIF tests or blends alpha is carried as a cutout too
     (ALPHA_MASK_MATERIALS); a glow-mapped piece keeps its glow mask as the
-    emissive texture (GLOW_MATERIALS).
+    emissive texture (GLOW_MATERIALS). With `effect == "additive"` (the
+    piece's kit config) an effect-shader material takes the shared effect
+    path instead (ADDITIVE_MATERIALS).
     """
+    if effect == "additive" and is_effect_material(mat):
+        images = [n.image for n in mat.node_tree.nodes
+                  if n.type == "TEX_IMAGE" and n.image] if mat.use_nodes else []
+        source = rebuild_effect_material(mat, images, is_diffuse)
+        mat.use_backface_culling = False
+        ADDITIVE_MATERIALS.add(mat.name)
+        return source.name if source else None
     glow = glow_image(mat)
     alpha_wanted, alpha_cutoff = ni_alpha(mat)
     if shader_flags1(mat) & set(DECAL_SHADER_FLAGS):
@@ -905,6 +935,18 @@ for asset in PLAN["assets"]:
         print("[kit] WARNING no mesh in %s" % asset["id"])
         continue
 
+    refraction = []
+    if asset.get("effect"):
+        for obj in list(meshes):
+            if any(slot.material and shader_flags1(slot.material)
+                   & set(REFRACTION_SHADER_FLAGS) for slot in obj.material_slots):
+                refraction.append({"shape": obj.name, "reason": "refraction-only"})
+                print("[kit]   dropped refraction shape %s" % obj.name)
+                meshes.remove(obj)
+                if solid_meshes and obj in solid_meshes:
+                    solid_meshes.remove(obj)
+                bpy.data.objects.remove(obj, do_unlink=True)
+
     textures = set()
     materials = set()
     for obj in meshes:
@@ -916,17 +958,19 @@ for asset in PLAN["assets"]:
                 # this asset would silently retexture the other one.
                 if slot.material.users > 1:
                     slot.material = slot.material.copy()
-                name = rebuild_material(slot.material, asset["doubleSided"])
+                name = rebuild_material(slot.material, asset["doubleSided"],
+                                        asset.get("effect"))
                 materials.add(slot.material.name)
                 if name:
                     textures.add(name)
 
-    dropped = []
+    dropped = list(refraction)
     if not asset.get("parts"):
         # Composites drop their strays per part, inside import_composite —
         # doing it again here would read a legitimately offset crown as a stray.
-        meshes, dropped = drop_strays(meshes)
-        for stray in dropped:
+        meshes, strays = drop_strays(meshes)
+        dropped += strays
+        for stray in strays:
             print("[kit]   dropped stray shape %s at %s"
                   % (stray["shape"], stray["offsetM"]))
     lo, hi = world_bounds(meshes)
@@ -1091,6 +1135,9 @@ for asset in PLAN["assets"]:
     decals = sorted(materials & DECAL_MATERIALS)
     if decals:
         record["decalMaterials"] = decals
+    additive = sorted(materials & ADDITIVE_MATERIALS)
+    if additive:
+        record["additiveMaterials"] = additive
     if billboard_materials:
         record["billboard"] = True
         record["billboardMaterials"] = sorted(billboard_materials)

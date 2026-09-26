@@ -29,8 +29,9 @@
   "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in works-v1.kit.json.",
   "notice-board": "`bmv:advertising_board` is freestanding and self-supporting (two posts, shingled roof, papers nailed to the pane by its author). Place it standing on its own base, pane facing the approach, at the head of a quay, stage rail or toll post; never mount it on a wall or fuse it to a rail — nothing authored it to snap. Pane centre sits ~1.6 m up, i.e. eye height, which is what makes it readable at arm's length.",
   "assemblies": "Composites in this kit: `composite:works/stockade-scaffold-2stage` and `-3stage` freeze the one rule the vanilla scaffold family actually has — a base carries the next stage 2.73 m above itself, unrotated (template vanilla:t0019, 28 placements). Nothing else here is composited: bridges, ramps, stairs and props join platforms, and what they join is a site decision. Every single piece stays in the kit.",
-  "fire": "`cookingstand01` (a pot stand), `spit01` (a spit frame) and `impbrazier01` (a low brazier bowl) are the COLD bodies of a cook fire and a brazier: every one is a single lighting-shader shape with no flame. Vanilla lights them with separate pieces the kit pipeline cannot render yet: `campfire01burning` carries its flames and heat plane as effect-shader cards and a particle system (build_kit exports those cards opaque or masked, never additive), and the light itself is a LIGH record the plugin places. Until the kit build carries effect shaders and the runtime lights them, these stand unlit (16k kits lane, 2026-09-26).",
-  "road-sign": "`roadsignpost` is vanilla's bare road-sign post (0.26 x 0.24 x 3.64 m; plugin: every directional board in Skyrim hangs on it, sourcing log § signs on posts). Every vanilla board is lettered with a Skyrim town, so no board ships here: a Black Marsh board is a recorded sourcing gap and the post stands alone until one is sourced."
+  "fire": "`campfire01burning` is vanilla's lit campfire: logs, ash and stones with its ember and flame-glow cards (effect shaders). Its config sets `\"effect\": \"additive\"`, so those cards export see-through (glTF BLEND, material extra `additive: true`, manifest `additiveMaterials`) and its heat-shimmer plane (a refraction-only quad) is dropped; vanilla's flame particles are not imported. `cookingstand01` (a pot stand) and `spit01` (a spit frame) stand over it; `impbrazier01` is a low brazier bowl, cold (its flame in vanilla is the separate FXFireWithEmbers01 effect). The campfire and the brazier carry a `light` block in their manifest record: the Skyrim LIGH record the plugin places with them (LightCampFire01, DefaultTorch01NS), in the carriedLight `LightRecord` shape plus `offsetM` (glTF Y-up metres from the pivot) and the evidence; for the settlement runtime to turn into a point light by night (16h item 22; the runtime does not read it yet).",
+  "road-sign": "`roadsignpost` is vanilla's bare road-sign post (0.26 x 0.24 x 3.64 m; plugin: every directional board in Skyrim hangs on it, sourcing log § signs on posts). Every vanilla board is lettered with a Skyrim town, so no board ships here: a Black Marsh board is a recorded sourcing gap and the post stands alone until one is sourced.",
+  "dressing-2026-09-26": "Landing and hut-yard dressing added 2026-09-26 (16k kits lane 2), all plain ground-standers: `shores:shoresofskyrim/fishnet01` (a coiled fishing net, Shores of Skyrim), the cook pots `spitpotopen01` (hangs from `cookingstand01`'s hook), `spitpotopenloose01` and `kitchen/castironpotmedium01` (vanilla), `kotm:argonia/clutter/saxhleelmetalpot01` (King of the Murkmire), and baskets `basket05`, `basket06` (vanilla), `kotm:argonia/clutter/basket01`, `basket02` and `basketcontainer` (a lidded storage jar-basket)."
  },
  "assets": [
   {
@@ -298,11 +299,98 @@
    "asset": "vanilla:clutter/woodfires/spit01"
   },
   {
-   "asset": "vanilla:clutter/imperial/impbrazier01"
+   "asset": "vanilla:clutter/imperial/impbrazier01",
+   "light": {
+    "formId": "00088243",
+    "editorId": "DefaultTorch01NS",
+    "burnSeconds": -1,
+    "radiusUnits": 256,
+    "colourRgb": [
+     197,
+     156,
+     112
+    ],
+    "flicker": {
+     "frequency": 0.25,
+     "intensityAmplitude": 0.25,
+     "movementAmplitude": 48.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker",
+     "portalStrict"
+    ],
+    "offsetM": [
+     -0.09,
+     1.3,
+     -0.18
+    ],
+    "evidence": "Skyrim.esm: DefaultTorch01NS is the nearest LIGH ref (< 200 units) to 35 of 262 ImpBrazier01 refs (next: DefaultTorch01 15; none 137); offset is the median of those 35 in the piece's frame, glTF Y-up metres (horizontal median 0.76 m). The flame vanilla stands in the bowl is a separate effect (FXFireWithEmbers01, 105 of 262)."
+   }
+  },
+  {
+   "asset": "vanilla:clutter/woodfires/campfire01burning",
+   "effect": "additive",
+   "light": {
+    "formId": "000af8ba",
+    "editorId": "LightCampFire01",
+    "burnSeconds": -1,
+    "radiusUnits": 512,
+    "colourRgb": [
+     226,
+     140,
+     63
+    ],
+    "flicker": {
+     "frequency": 0.667,
+     "intensityAmplitude": 0.2,
+     "movementAmplitude": 12.0
+    },
+    "flags": [
+     "dynamic",
+     "flicker"
+    ],
+    "offsetM": [
+     0.03,
+     1.17,
+     0.04
+    ],
+    "evidence": "Skyrim.esm: LightCampFire01 is the nearest LIGH ref (< 200 units) to 60 of 145 Campfire01Burning refs (next: DefaultTorch01NS_Fast 9; none 31); offset is the median of those 60 in the piece's frame, glTF Y-up metres (horizontal median 0.13 m)."
+   }
   },
   {
    "asset": "vanilla:clutter/signage/roadsigns/roadsignpost",
    "collision": "convex"
+  },
+  {
+   "asset": "shores:shoresofskyrim/fishnet01"
+  },
+  {
+   "asset": "vanilla:clutter/woodfires/spitpotopen01"
+  },
+  {
+   "asset": "vanilla:clutter/woodfires/spitpotopenloose01"
+  },
+  {
+   "asset": "vanilla:clutter/kitchen/castironpotmedium01"
+  },
+  {
+   "asset": "kotm:argonia/clutter/saxhleelmetalpot01"
+  },
+  {
+   "asset": "vanilla:clutter/basket05"
+  },
+  {
+   "asset": "vanilla:clutter/basket06"
+  },
+  {
+   "asset": "kotm:argonia/clutter/basket01"
+  },
+  {
+   "asset": "kotm:argonia/clutter/basket02"
+  },
+  {
+   "asset": "kotm:argonia/clutter/basketcontainer"
   },
   {
    "asset": "composite:works/stockade-scaffold-2stage",
