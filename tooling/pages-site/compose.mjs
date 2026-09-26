@@ -47,6 +47,7 @@
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { kitRefs } from "./kit-ref.mjs";
 
 const root = resolve(fileURLToPath(new URL(".", import.meta.url)), "..", "..");
 const args = process.argv.slice(2);
@@ -129,14 +130,13 @@ const rel = (f) => relative(studio, f).split("\\").join("/");
 const isText = (f) => TEXT_EXT.has(f.slice(f.lastIndexOf(".")));
 const allFiles = walk(studio);
 const roots = allFiles.filter((f) => { const r = rel(f); return isText(f) && !r.startsWith("kits/") && !dark.has(r); });
-const KIT_REF = /kits\/([A-Za-z0-9_-]+)/g;
 const referenced = new Map(); // id -> first referencing file
 for (const f of roots) {
   const text = readFileSync(f, "utf8");
-  for (const m of text.matchAll(KIT_REF)) if (!referenced.has(m[1])) referenced.set(m[1], rel(f));
+  for (const id of kitRefs(text)) if (!referenced.has(id)) referenced.set(id, rel(f));
 }
 const darkNamed = new Set();
-for (const r of dark) for (const m of readFileSync(join(studio, r), "utf8").matchAll(KIT_REF)) darkNamed.add(m[1]);
+for (const r of dark) for (const id of kitRefs(readFileSync(join(studio, r), "utf8"))) darkNamed.add(id);
 
 const kitsDir = join(studio, "kits");
 const kitEntries = existsSync(kitsDir) ? readdirSync(kitsDir, { withFileTypes: true }) : [];
@@ -169,8 +169,8 @@ for (const r of CHAIN_ONLY) {
 // 4. Post-prune gate: nothing shipped may still name an excluded kit.
 const excludedSet = new Set(excluded);
 for (const f of walk(studio).filter(isText)) {
-  for (const m of readFileSync(f, "utf8").matchAll(KIT_REF)) {
-    if (excludedSet.has(m[1]) && !dark.has(rel(f)) && !rel(f).startsWith("kits/")) fail(`${rel(f)} names excluded kit ${m[1]}`);
+  for (const id of kitRefs(readFileSync(f, "utf8"))) {
+    if (excludedSet.has(id) && !dark.has(rel(f)) && !rel(f).startsWith("kits/")) fail(`${rel(f)} names excluded kit ${id}`);
   }
 }
 
