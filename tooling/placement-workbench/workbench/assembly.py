@@ -14,6 +14,9 @@ from .kits import Catalogue
 from .scene import Piece, Scene, plan_to_province
 
 PREFABS = paths.OUTPUT / "prefabs"
+YARD_SETS = paths.REPO_ROOT / "world" / "sources" / "placement" / "yard-sets"
+"""The tracked yard-set records (decision 0101): `group place` reads a set
+from here first; the gitignored PREFABS hold only the yard fixtures' groups."""
 BLOCK_M = 0.25
 """A piece whose surface comes this close to the line straight out of an
 opening (0.2 m to `clear` m out) stands in front of it."""
@@ -43,12 +46,49 @@ def save_group(scene: Scene, name: str, uids: list[str], anchor_uid: str) -> dic
     return {"saved": name, "members": len(members), "anchor": anchor.uid}
 
 
+def yard_sets() -> dict[str, dict]:
+    """{set id: set} over every tracked yard-set record."""
+    out = {}
+    for f in sorted(YARD_SETS.glob("*.json")):
+        for st in json.loads(f.read_text())["sets"]:
+            if st["id"] in out:
+                raise ValueError(f"yard set {st['id']!r} is defined twice ({f.name})")
+            out[st["id"]] = st
+    return out
+
+
+def group_names() -> list[str]:
+    return sorted(set(yard_sets()) | {p.stem for p in PREFABS.glob("*.json")})
+
+
+def load_group(name: str) -> dict:
+    """A group in the saved-prefab shape: the tracked yard set of that id
+    (members settled on the ground unless mounted `upM` above the anchor),
+    else the gitignored prefab `save_group` wrote."""
+    st = yard_sets().get(name)
+    if st is None:
+        path = PREFABS / f"{name}.json"
+        if not path.exists():
+            raise ValueError(f"no yard set or prefab named {name!r}")
+        return json.loads(path.read_text())
+    members = []
+    for m in st["members"]:
+        mount = m.get("mount")
+        members.append({"uid": m["uid"], "asset": m["piece"], "atM": m["offsetM"],
+                        "yaw": m["yaw"], "upM": mount["upM"] if mount else None,
+                        "scale": 1.0, "pitch": 0.0, "roll": 0.0, "mirror": False,
+                        "role": None if mount else {"on": "ground"}, "settledBy": None,
+                        "mountOn": mount["on"] if mount else None})
+    return {"schemaVersion": 1, "name": name, "anchor": {"uid": st["anchor"]},
+            "members": members}
+
+
 def place_group(scene: Scene, name: str, at, yaw: float, prefix: str,
                 parcel: str | None) -> list[Piece]:
     """Recreate a saved group with its anchor at `at`, turned to `yaw`;
     members keep their pose relative to the anchor (heights relative to the
     anchor's; settle the anchor first, then the ground members)."""
-    group = json.loads((PREFABS / f"{name}.json").read_text())
+    group = load_group(name)
     anchor_row = next(m for m in group["members"] if m["uid"] == group["anchor"]["uid"])
     made = []
     for m in group["members"]:
@@ -68,14 +108,17 @@ def place_group(scene: Scene, name: str, at, yaw: float, prefix: str,
 
 
 def lift_group(scene: Scene, name: str, prefix: str) -> None:
-    """After the anchor is settled: give every member its saved height above
-    the anchor (ground members are re-settled by the caller)."""
-    group = json.loads((PREFABS / f"{name}.json").read_text())
-    anchor = scene.piece(prefix + group["anchor"]["uid"])
+    """After the anchor and the ground members are settled: give every other
+    member its saved height above the member it is mounted on (a tracked
+    yard set's `mount.on`), else above the anchor (a saved prefab)."""
+    group = load_group(name)
+    anchor_uid = group["anchor"]["uid"]
     for m in group["members"]:
-        p = scene.piece(prefix + m["uid"])
-        if p is not anchor and m["upM"] is not None and anchor.y is not None:
-            p.y = anchor.y + m["upM"]
+        if m["uid"] == anchor_uid or m["upM"] is None or (m["role"] or {}).get("on") == "ground":
+            continue
+        base = scene.piece(prefix + (m.get("mountOn") or anchor_uid))
+        if base.y is not None:
+            scene.piece(prefix + m["uid"]).y = base.y + m["upM"]
 
 
 def swap(cat: Catalogue, piece: Piece, asset: str, keep: str = "base") -> dict:

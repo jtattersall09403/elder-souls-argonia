@@ -4,6 +4,7 @@ whole state. Prints JSON on stdout and a timing line on stderr.
 
     wb.py SCENE window --centre-km E S --half 150
     wb.py SCENE place UID ASSET --at X Z [--km] [--yaw D] [--settle]
+                     [--pad [apronM=M] [datumM=M] [floorMinM=M]]   (a building pad, 0101)
     wb.py SCENE move UID [--dx M] [--dz M] [--forward M] [--right M] [--dy M]
                          [--yaw D | --turn D] [--resettle]
     wb.py SCENE settle UID [--source chunks|survey]
@@ -70,10 +71,12 @@ def _settle(cat, scene, piece: Piece, source: str = "chunks") -> dict:
     (`compile_settlement.anchor_quay_run`: the landward tip where the deck
     plane meets the ground), so the pose the workbench exports is the pose
     the compile places, not one it moves."""
+    from workbench import pads
     shift = _quay_anchor(cat, piece)
     if shift is not None:
         piece.x, piece.z = shift["x"], shift["z"]
-    got = measure.seat(cat, scene.ground(), piece, source)
+    # a piece that declares a pad is seated on the patched ground (0101)
+    got = measure.seat(cat, pads.ground_for(cat, scene, piece), piece, source)
     piece.y = got["y"]
     piece.settledBy = f"settle:{got['mode']}:{source}"
     if shift is not None:
@@ -111,10 +114,11 @@ def cmd_window(a, scene, cat):
 
 
 def cmd_place(a, scene, cat):
+    from workbench import pads
     x, z = (a.at[0] * 1000, a.at[1] * 1000) if a.km else a.at
     cat.row(a.asset)
     p = scene.add(Piece(uid=a.uid, asset=a.asset, x=x, z=z, yaw=a.yaw % 360.0, y=a.y,
-                        scale=a.scale))
+                        scale=a.scale, pad=pads.parse(a.pad)))
     out = {"placed": a.uid}
     if a.settle:
         out["settle"] = _settle(cat, scene, p)
@@ -191,17 +195,17 @@ def cmd_swap(a, scene, cat):
 def cmd_group(a, scene, cat):
     from workbench import assembly
     if a.action == "list":
-        return sorted(p.stem for p in assembly.PREFABS.glob("*.json"))
+        return assembly.group_names()
     if a.action == "save":
         return assembly.save_group(scene, a.name, a.uids, a.anchor or a.uids[0])
     made = assembly.place_group(scene, a.name, tuple(a.at), a.yaw, a.prefix, a.parcel)
-    group = json.loads((assembly.PREFABS / f"{a.name}.json").read_text())
+    group = assembly.load_group(a.name)
     anchor = scene.piece(a.prefix + group["anchor"]["uid"])
     _settle(cat, scene, anchor)
-    assembly.lift_group(scene, a.name, a.prefix)
     for p in made:
         if p is not anchor and (p.role or {}).get("on") == "ground":
             _settle(cat, scene, p)
+    assembly.lift_group(scene, a.name, a.prefix)     # mounts stand on settled members
     return {"placed": [p.uid for p in made], "anchor": anchor.uid}
 
 
@@ -336,12 +340,14 @@ def cmd_doors(a, scene, cat):
 def cmd_check(a, scene, cat):
     """Every piece: seat vs its y, foot float, slope vs its fit's limit;
     every pair whose bounds come within 0.5 m: contact; every door: path."""
-    from workbench import paths
+    from workbench import pads, paths
     paths.bridge()
     from worldgen import compile_settlement as cs
-    g = scene.ground()
+    declared = pads.scene_pads(cat, scene)
     rows = {}
     for p in scene.pieces:
+        # a piece that declares a pad is judged on the patched ground (0101)
+        g = pads.ground_for(cat, scene, p, declared)
         row = cat.row(p.asset)
         r = {"asset": p.asset.rsplit("/", 1)[-1], "fit": fit_of(row),
              "anchorClass": row.get("anchorClass"), "settledBy": p.settledBy}
@@ -371,6 +377,10 @@ def cmd_check(a, scene, cat):
             r["hullWater"] = _hull_water(cat, g, p)
         if p.roll or p.mirror:
             r["notExportable"] = "roll / mirror: the runtime has neither"
+        if p.uid in declared:
+            r["pad"] = pads.pad_fit(cat, scene, p, declared[p.uid])
+            r["padRule"] = r["pad"].pop("padRule")
+            r["ok"] = r.get("ok", True) and r["padRule"] is None
         rows[p.uid] = r
     pairs = []
     boxes = {}
@@ -785,6 +795,8 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--y", type=float, default=None)
     s.add_argument("--scale", type=float, default=1.0)
     s.add_argument("--settle", action="store_true")
+    s.add_argument("--pad", nargs="*", default=None, metavar="KEY=VALUE",
+                   help="declare a building pad (0101): apronM, datumM, floorMinM")
     s = sub.add_parser("move")
     s.add_argument("uid")
     for k in ("dx", "dz", "dy", "forward", "right", "turn"):

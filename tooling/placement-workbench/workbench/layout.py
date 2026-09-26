@@ -6,7 +6,9 @@ the CLI's own argument names (the argparse ``dest``: ``child_face``,
 ``keep_yaw``, ``allow_terminal``...), e.g.
 ``{"op": "place", "uid": "house", "asset": "...", "at": [x, z], "yaw": 90,
 "settle": true}``, ``{"op": "group", "action": "place", "name": ...}``,
-``{"op": "path", "action": "add", "id": ..., "points": [[x, z], ...]}``.
+``{"op": "path", "action": "add", "id": ..., "points": [[x, z], ...]}``;
+a building pad is ``"pad": {"apronM": 1.5, "floorMinM": 35.8}`` on a
+`place` op (``{}`` for every default; decision 0101).
 
 `apply` builds a fresh scene from the window, runs the ops in order in one
 process (one catalogue, no per-call reload), stops at the first failing op,
@@ -73,6 +75,9 @@ def op_to_argv(op: dict, ap: argparse.ArgumentParser) -> list[str]:
                 raise ValueError(f"{name}: needs {act.dest!r}")
             continue
         v = op[act.dest]
+        if isinstance(v, dict):            # `pad: {apronM: 1.5}` -> --pad apronM=1.5
+            argv += [act.option_strings[0], *(f"{k}={_arg(x)}" for k, x in v.items())]
+            continue
         if not act.option_strings:
             argv += [_arg(x) for x in _flat(v)] if v is not None else []
         elif isinstance(act, argparse._StoreTrueAction):
@@ -102,6 +107,9 @@ def argv_to_op(tokens: list[str], ap: argparse.ArgumentParser) -> dict:
             continue
         if act.dest in ("points",):
             v = [[v[i], v[i + 1]] for i in range(0, len(v), 2)]
+        if act.dest == "pad":
+            from .pads import parse
+            v = parse(v)
         op[act.dest] = v
     return op
 
@@ -272,14 +280,15 @@ def _warnings(out) -> list[str]:
 
 def check_failures(check: dict) -> list[str]:
     """The `check` rows that break a bar the compile or the yard gate holds
-    (97 B3 slope, the fit delta, the sill, foot float, run joints and
-    crossings, hull depth, quay bank, doors within reach of a way)."""
+    (97 B3 slope, the fit delta, the sill, the pad fit of 0101, foot float,
+    run joints and crossings, hull depth, quay bank, doors within reach of a
+    way)."""
     paths.bridge()
     from worldgen import blueprint_integration as bi
     from worldgen import test_proving_ground as tpg
     out = []
     for uid, r in check["pieces"].items():
-        for rule in ("slopeRule", "deltaRule", "sillRule", "notExportable"):
+        for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "notExportable"):
             if r.get(rule):
                 out.append(f"{uid}: {r[rule]}")
         if (r.get("anchorClass") or "ground") == "ground" and \

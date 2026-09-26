@@ -49,8 +49,15 @@ for yard B's 11 shots at 1024 px on the two job_guard cores).
 
 Buildings with fit `direct`/`pad` need footprint cells under 2 deg, `stilt`
 under 3 deg (97 B3, `compile_settlement.fit_slope_failure`); `plinth` and
-`dug-in` are held by the ground delta instead. A hull needs >= 1 m of water
-all round. Keep off roads (`R`/`r`) unless the piece is meant to meet one.
+`dug-in` are held by the ground delta instead. A building on ground no fit
+takes can declare a pad (decision 0101: `place ... --pad [apronM=]
+[datumM=] [floorMinM=]`, layout `"pad": {...}`): a `settlement-pad` patch
+over its footprint plus 1.5 m, graded to the median ground, fill and cut
+each <= 2.0 m; `settle` and `check` then read the patched ground. An edge
+standing > 0.6 m off the ground needs a retaining-wall run of the kit's wall
+family (imperial: farmhouse stonewall; mud kits have none, so their pad
+stays within 0.6 m) laid along it, or `check` reports `padRule`. A hull
+needs >= 1 m of water all round. Keep off roads (`R`/`r`) unless the piece is meant to meet one.
 
 ## 3. Describe every piece you will use
 
@@ -121,7 +128,8 @@ for trying a pose by hand:
 Bars (the proving-ground gates): a run joint `gapM <= 0.03` and
 `penetrationM <= 0.05`; unrelated pieces never cross; `footFloatMaxM <=
 0.3` for ground pieces (docks exempt); `slopeRule` null for every
-building; `yOffRuntimeM` 0 after `settle` (the workbench seat IS the
+building; `padRule` null for every padded building (0101 R1);
+`yOffRuntimeM` 0 after `settle` (the workbench seat IS the
 runtime's `anchorPlacement`); doors within 4 m of a path.
 
 ## 6. Render and look (Sonnet reader)

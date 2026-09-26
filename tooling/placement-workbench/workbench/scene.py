@@ -70,6 +70,7 @@ class Piece:
     pitch: float = 0.0       # degrees about the piece's own x after the yaw
     roll: float = 0.0        # degrees about its own y (the runtime has none)
     mirror: bool = False     # mirrored across its own x (the runtime has none)
+    pad: dict | None = None  # a declared building pad {apronM?, datumM?, floorMinM?} (0101)
 
     def matrix(self) -> tuple[np.ndarray, np.ndarray]:
         """(A, b): kit-frame points p -> wb points A @ p + b."""

@@ -66,6 +66,7 @@ from .site_fields import ProvinceSurvey, shared_survey
 from .blueprint_integration import check_integration
 from .blueprint_promises import check_promises, load_record, write_ledger
 from . import place_obligations
+from . import settlement_run_pads as srp_mod
 from . import player_purpose as pp_mod
 from . import terrain_requests
 from . import vegetation_patches as sc_mod
@@ -1920,6 +1921,38 @@ def fit_slope_failure(asset: dict, slope_deg: float,
     return None
 
 
+def building_pad(parcel: dict, foot_m, survey) -> tuple[dict | None, str | None]:
+    """A building's declared pad (decision 0101), judged on the frozen survey
+    by `settlement_run_pads.building_pad` (the workbench's `check` calls the
+    same judge): (pad, None), (None, why) when refused, (None, None) without
+    one. A modular run never declares one: it takes the export's run pad."""
+    from . import settlement_run_pads as srp
+    spec = parcel.get("pad")
+    if spec is None:
+        return None, None
+    if parcel.get("pieces") and "assetRef" not in parcel:
+        return None, (f"pad: a modular run takes the run pad the export derives "
+                      f"(settlement_run_pads), never a declared one")
+    return srp.building_pad(spec, foot_m, survey.height_at,
+                            srp.depth_is_wet(survey.water_signed_depth_m, survey.extent_m))
+
+
+def resolve_building_pads(bp: dict, survey) -> tuple[dict, list[str]]:
+    """{parcel id: pad} for every building that declares one, and the
+    refusals; judged on the frozen survey before any piece is seated."""
+    pads, errors = {}, []
+    for parcel in bp["parcels"]:
+        if parcel.get("pad") is None or not parcel.get("footprint"):
+            continue
+        foot_m = [list(survey.uv_to_m(u, v)) for u, v in parcel["footprint"]]
+        pad, why = building_pad(parcel, foot_m, survey)
+        if why:
+            errors.append(f"{parcel['id']}: {why}")
+        else:
+            pads[parcel["id"]] = pad
+    return pads, errors
+
+
 def footprint_max_slope_deg(footprint_m, survey) -> float:
     """The steepest `slope_grid` cell the footprint polygon (metres) touches."""
     from shapely.geometry import Polygon, box
@@ -1948,6 +1981,13 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
 
     culture_of = {d["id"]: d["cultureKit"] for d in bp["districts"]}
     kind_of = pk_mod.kinds_of(bp)
+    # 0101: building pads are judged on the frozen ground, then every piece
+    # (its seat, fit delta, a stacked base, its assembly, dressing) reads the
+    # PATCHED ground the export will write; the frozen terrain is never edited
+    pads, pad_errors = resolve_building_pads(bp, survey)
+    errors.extend(pad_errors)
+    survey = srp_mod.PaddedSurvey(survey, [{"polygonM": p["polygonM"], "datumM": p["datumM"]}
+                                           for p in pads.values()])
 
     for parcel in sorted(bp["parcels"], key=lambda p: p["id"]):
         pid = parcel["id"]
@@ -1966,6 +2006,9 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         fit = parcel.get("groundFit")
         if fit is None:
             continue                    # named by with_record_ground_fits
+        if parcel.get("pad") is not None and pid not in pads:
+            continue                    # refused by resolve_building_pads
+        pad = pads.get(pid)
         if delta > FIT_MAX[fit]:
             errors.append(
                 f"{pid}: measured Δ={delta:.2f} m exceeds groundFit '{fit}' "
@@ -2043,7 +2086,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                               + f" in kit set '{culture}'")
             continue
 
-        slope_why = fit_slope_failure(asset, footprint_max_slope_deg(foot_m, survey))
+        slope_why = fit_slope_failure(asset, footprint_max_slope_deg(foot_m, survey)
+                                      if pad is None else pad["slopeDeg"])
         if slope_why:
             # recorded, not skipped: a replayed fixture waives it and keeps the piece
             errors.append(f"{pid}: 97 B3 — {asset['id']}: {slope_why}")
@@ -2094,6 +2138,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "groundFit": fit,
             "provenance": _provenance(bp_id, seed, f"parcel-building/{fit}", asset["id"], []),
             **({"shoreAnchorShiftM": quay_shift} if quay_shift is not None else {}),
+            **({"pad": {k: pad[k] for k in ("datumM", "apronM", "polygonM", "fillM", "cutM")}}
+               if pad is not None else {}),
         })
         placements.extend(assembly_placements(bp_id, seed, parcel, placements[-1], shelf, survey,
                                               errors))

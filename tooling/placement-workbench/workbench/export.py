@@ -6,7 +6,10 @@ re-derived afterwards by the settlement-build passes, never here.
 
 A piece's `role` (set with `wb.py bind`) says where its pose goes:
 
-* ``parcel <id>``: one-asset parcel: `assetRef`, `centreUV`, `yawDeg`.
+* ``parcel <id>``: one-asset parcel: `assetRef`, `centreUV`, `yawDeg`, and
+  `pad` {datumM, apronM, floorMinM?} when the piece declares one (0101: the
+  datum resolved here; the compile seats on it, the bundle export writes
+  its `settlement-pad` patch).
 * ``run <id> --index n``: a `pieces` parcel whose members carry authored
   poses: the parcel's `centreUV`/`yawDeg` are piece 0's pivot and yaw; each
   member is ``{asset, atM: [x, z], yaw}`` in the parcel's own frame (x
@@ -65,6 +68,7 @@ def poses(scene: Scene, extent: float) -> dict:
     out: dict[str, dict] = {"parcels": {}, "landmarks": {}, "routes": {}}
     runs: dict[str, list] = {}
     assemblies: dict[str, list] = {}
+    cat = None                          # built once, on the first padded piece
     for p in scene.pieces:
         kind, rid = p.role.get("kind"), p.role.get("id")
         if not kind:
@@ -83,6 +87,11 @@ def poses(scene: Scene, extent: float) -> dict:
             fields = {"assetRef": p.asset, "centreUV": _uv(p.x, p.z, extent), "yawDeg": yaw}
             if p.scale != 1.0:
                 fields["scale"] = p.scale
+            if p.pad is not None:
+                if cat is None:
+                    from .kits import Catalogue
+                    cat = Catalogue()           # one catalogue for every padded piece
+                fields["pad"] = _pad_record(cat, scene, p)
             out["parcels"][rid] = fields
         elif kind == "landmark":
             out["landmarks"][rid] = {"assetRef": p.asset, "position": _uv(p.x, p.z, extent),
@@ -132,6 +141,23 @@ def poses(scene: Scene, extent: float) -> dict:
         pts = [_uv(x, z, extent) for x, z in path["pointsM"]]
         out["routes"][path["id"]] = {"via": pts}     # points: street_router derives them
     return out
+
+
+def _pad_record(cat, scene: Scene, p) -> dict:
+    """A building's declared pad as the record the compile reads (0101): the
+    datum resolved on this pose (never re-solved downstream), the apron, the
+    flood floor when authored. A pad the compile would refuse is refused here
+    (`pads.refusal`, the compile's own judge)."""
+    from . import pads
+    g = scene.ground()
+    got = pads.resolve(cat, g, p)
+    why = pads.refusal(cat, g, p, got)
+    if why:
+        raise ValueError(f"{p.uid}: {why}")
+    rec = {"datumM": got["datumM"], "apronM": got["apronM"]}
+    if "floorMinM" in p.pad:
+        rec["floorMinM"] = float(p.pad["floorMinM"])
+    return rec
 
 
 def door_poses(scene: Scene, extent: float) -> dict[str, dict]:
@@ -199,6 +225,8 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
             parcel.pop("scale", None)       # scale 1.0 is written as no scale
         if "assembly" not in fields:
             parcel.pop("assembly", None)    # the scene holds no assembly for it now
+        if "pad" not in fields:
+            parcel.pop("pad", None)         # the piece declares no pad now
         parcel.update(fields)
         changed.append(pid)
     marks = {m["id"]: m for m in bp.get("landmarks", [])}

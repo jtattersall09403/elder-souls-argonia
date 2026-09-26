@@ -1214,6 +1214,9 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "provenance": raw["provenance"],
                 **_mount_contract(raw),
                 **_run_contract(raw, parcel, laid_runs),
+                # a building's declared pad (0101): the compile's resolved
+                # datum and polygon, written as its patch by `emit_run_pads`
+                **({"pad": raw["pad"]} if isinstance(raw.get("pad"), dict) else {}),
             }
             ids.append(placement["id"])
             all_placements.append(placement)
@@ -1607,22 +1610,20 @@ def merge_bundle(base: dict, part: dict, places) -> dict:
 def emit_run_pads(bundle: dict, places, pads_path: Path, survey=None) -> list[dict]:
     """16k carried item 13: one `settlement-pad` terrain patch per run whose
     rigid seat floats a member over the seat bar, measured on the published
-    ground and merged CUMULATIVELY into the patch set at `pads_path` (a pad
-    already applied would measure no gap; re-deriving would drop it)."""
+    ground, and one per building that declares a pad (decision 0101: the
+    compile's resolved datum over its footprint and apron, id suffix the
+    parcel id), merged CUMULATIVELY into the patch set at `pads_path` (a pad
+    already applied would measure no gap; re-deriving would drop it). One
+    writer for both (`settlement_run_pads.pad_patch`)."""
     from . import terrain_patches as tp
-    from .settlement_run_pads import declare_order, merge_pad_patches, run_pad_patches
+    from .settlement_run_pads import (building_pad_patches, declare_order, depth_is_wet,
+                                      merge_pad_patches, run_pad_patches)
     if survey is None:
         from .street_router import default_survey
         survey = default_survey()
         if survey is None:
             raise ValueError("run pads: the province survey rasters are unavailable")
-    depth = survey.water_signed_depth_m
-    depth_px = survey.extent_m / depth.shape[0]
-
-    def is_wet(x: float, z: float) -> bool:
-        row = min(max(int(z // depth_px), 0), depth.shape[0] - 1)
-        col = min(max(int(x // depth_px), 0), depth.shape[1] - 1)
-        return float(depth[row, col]) > 0.0
+    is_wet = depth_is_wet(survey.water_signed_depth_m, survey.extent_m)
 
     scope = _place_scope(places) if places is not None else None
     by_id = {p["id"]: p for p in bundle["placements"]}
@@ -1632,6 +1633,7 @@ def emit_run_pads(bundle: dict, places, pads_path: Path, survey=None) -> list[di
             continue
         rows = [by_id[i] for i in site["placementIds"] if i in by_id]
         new += run_pad_patches(rows, site["id"], survey.height_at, is_wet)
+        new += building_pad_patches(rows, site["id"])
     if not new:
         return []
     existing = tp.load(pads_path)

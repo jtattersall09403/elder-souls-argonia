@@ -1,0 +1,289 @@
+{
+ "schemaVersion": 1,
+ "type": "01-road-station",
+ "about": "Yard sets for road stations (decision 0101, 16h item 13): the dressing groups `wb.py group place` lays, rebuildable from the repo. Members are in the anchor's plan frame (offsetM [x east, z south] at the anchor's yaw 0); a member without `mount` is settled on the ground, one with `mount` stands upM above the settled anchor. Seeded from the Claywater Station layout's authored groups.",
+ "source": "world/sources/blueprints/claywater-station.layout.json (group save ops)",
+ "unsourced": {
+  "imperial-station-yard": [
+   "well (no well piece in any published kit)",
+   "road fire (no campfire or fire-pit piece in any published kit)"
+  ],
+  "imperial-stable-yard": [
+   "woven fence (published: composite:farmfence/wr-fence-run-3, a modular run, laid by the layout, not a set member)"
+  ],
+  "argonian-landing": [
+   "boats pulled up (published: canoe:actors/sfss/canoe/canoe1; not in the authored set)",
+   "cleats (published: bmv:sheogorad/dagon fel/cleat; not in the authored set)",
+   "nets (no net piece in any published kit)"
+  ],
+  "argonian-hut-yard": [
+   "cook fire (no fire piece in any published kit)",
+   "pots (published: mudmother pottery cups and plates only)",
+   "drying frame (published: vanilla:clutter/common/tanningrack01, wrherbdryingrack01; not in the authored set)"
+  ]
+ },
+ "sets": [
+  {
+   "id": "imperial-station-yard",
+   "anchor": "isy-barrel1",
+   "members": [
+    {
+     "uid": "isy-trough",
+     "piece": "vanilla:clutter/horsetrough/horsetrough01",
+     "offsetM": [
+      7.0,
+      -3.5
+     ],
+     "yaw": 14.0
+    },
+    {
+     "uid": "isy-bench",
+     "piece": "vanilla:furniture/farm/farmbench01",
+     "offsetM": [
+      9.0,
+      9.5
+     ],
+     "yaw": 48.0
+    },
+    {
+     "uid": "isy-cart",
+     "piece": "vanilla:clutter/carts/handcart01",
+     "offsetM": [
+      11.0,
+      12.0
+     ],
+     "yaw": 140.0
+    },
+    {
+     "uid": "isy-barrel1",
+     "piece": "vanilla:clutter/barrel02",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "isy-barrel2",
+     "piece": "vanilla:clutter/barrel01",
+     "offsetM": [
+      -0.7,
+      1.0
+     ],
+     "yaw": 30.0
+    },
+    {
+     "uid": "isy-crate",
+     "piece": "vanilla:clutter/common/cratesmall01",
+     "offsetM": [
+      7.5,
+      4.0
+     ],
+     "yaw": 48.0
+    },
+    {
+     "uid": "isy-bucket",
+     "piece": "vanilla:clutter/bucket01",
+     "offsetM": [
+      5.3,
+      -3.2
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "isy-lamp",
+     "piece": "vanilla:clutter/common/candlelanternwithcandle01",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 0.0,
+     "mount": {
+      "on": "isy-barrel1",
+      "upM": 1.14
+     }
+    }
+   ]
+  },
+  {
+   "id": "imperial-stable-yard",
+   "anchor": "sty-hay",
+   "members": [
+    {
+     "uid": "sty-hay",
+     "piece": "vanilla:clutter/hay/haymound01",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "sty-trough",
+     "piece": "vanilla:clutter/horsetrough/horsetrough01",
+     "offsetM": [
+      -1.62,
+      -6.31
+     ],
+     "yaw": 80.0
+    },
+    {
+     "uid": "sty-cart",
+     "piece": "vanilla:clutter/carts/handcart01",
+     "offsetM": [
+      13.12,
+      -11.96
+     ],
+     "yaw": 190.0
+    },
+    {
+     "uid": "sty-wood",
+     "piece": "vanilla:clutter/firewood/firewoodpilelarge01",
+     "offsetM": [
+      18.19,
+      2.38
+     ],
+     "yaw": 7.0
+    }
+   ]
+  },
+  {
+   "id": "argonian-landing",
+   "anchor": "al-rack1",
+   "members": [
+    {
+     "uid": "al-rack1",
+     "piece": "vanilla:clutter/deadanimals/fishrack01",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "al-rack2",
+     "piece": "mudmother:gv_meshes/argoniannest/fishracksmall",
+     "offsetM": [
+      -4.06,
+      3.84
+     ],
+     "yaw": 15.0
+    },
+    {
+     "uid": "al-basket1",
+     "piece": "mudmother:gv_meshes/argoniannest/basketfull",
+     "offsetM": [
+      2.26,
+      -1.84
+     ],
+     "yaw": 290.0
+    },
+    {
+     "uid": "al-basket2",
+     "piece": "vanilla:clutter/basketclosed01",
+     "offsetM": [
+      1.85,
+      -3.05
+     ],
+     "yaw": 310.0
+    },
+    {
+     "uid": "al-lantern1",
+     "piece": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
+     "offsetM": [
+      7.39,
+      -10.08
+     ],
+     "yaw": 290.0
+    },
+    {
+     "uid": "al-lantern2",
+     "piece": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
+     "offsetM": [
+      6.46,
+      -33.83
+     ],
+     "yaw": 290.0
+    },
+    {
+     "uid": "al-oar",
+     "piece": "rowboats:dungeons/clutter/shipoar01",
+     "offsetM": [
+      3.48,
+      -16.29
+     ],
+     "yaw": 50.0
+    }
+   ]
+  },
+  {
+   "id": "argonian-hut-yard",
+   "anchor": "ahy-candle",
+   "members": [
+    {
+     "uid": "ahy-candle",
+     "piece": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+     "offsetM": [
+      0.0,
+      0.0
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "ahy-urn",
+     "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
+     "offsetM": [
+      1.5,
+      2.5
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "ahy-basket",
+     "piece": "mudmother:gv_meshes/argoniannest/basketsmall01",
+     "offsetM": [
+      2.5,
+      2.8
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "ahy-table",
+     "piece": "mudmother:gv_meshes/argoniannest/woventable01",
+     "offsetM": [
+      -2.5,
+      2.0
+     ],
+     "yaw": 80.0
+    },
+    {
+     "uid": "ahy-chair",
+     "piece": "mudmother:gv_meshes/argoniannest/wovenchair01",
+     "offsetM": [
+      -2.3,
+      0.4
+     ],
+     "yaw": 170.0
+    },
+    {
+     "uid": "ahy-sack",
+     "piece": "vanilla:clutter/containers/miscsacklarge",
+     "offsetM": [
+      3.0,
+      1.6
+     ],
+     "yaw": 0.0
+    },
+    {
+     "uid": "ahy-chime",
+     "piece": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+     "offsetM": [
+      4.3,
+      0.0
+     ],
+     "yaw": 80.0
+    }
+   ]
+  }
+ ]
+}

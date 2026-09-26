@@ -135,3 +135,13 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
     (`compile_settlement.anchor_quay_run`, `quay_deck_rise_m`); extend the run
     or add the docks kit's shore piece by its mined pair when the slide is not
     enough.
+
+## G. Retaining walls along a building pad (decision 0101 R1)
+
+A pad edge whose fill or cut exceeds 0.6 m is a retaining-wall run from
+the building kit's wall family (`settlement_run_pads.RETAINING_WALLS`;
+imperial: `stonewall` pieces and the `composite:farmhouse/stonewall-run-*`
+composites). Author it as a `pieces` parcel (§ B) laid from the pad's
+downhill edge; `wb.py check` reports every edge the run leaves uncovered as
+`padRule`. A modular run never declares a pad of its own: it takes the run
+pad the export derives, through the same writer (`pad_patch`).
