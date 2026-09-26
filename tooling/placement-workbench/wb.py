@@ -236,7 +236,8 @@ def cmd_probe(a, scene, cat):
     from workbench import paths
     paths.bridge()
     from worldgen import compile_settlement as cs
-    g = scene.ground()
+    from workbench import pads
+    g = pads.ground_for(cat, scene, None)      # the patched ground check reads (0101)
     p = Piece("probe", a.asset, a.at[0], a.at[1], a.yaw % 360.0)
     seat = measure.seat(cat, g, p)
     p.y = seat["y"]
@@ -335,7 +336,8 @@ def cmd_measure(a, scene, cat):
 
 
 def cmd_ground(a, scene, cat):
-    g = scene.ground()
+    from workbench import pads
+    g = pads.ground_for(cat, scene, None)      # the patched ground check reads (0101)
     if a.at:
         x, z = a.at
         return {"chunks": g.chunk_height(x, z), "survey": g.survey_height(x, z),

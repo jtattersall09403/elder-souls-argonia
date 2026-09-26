@@ -200,7 +200,19 @@ class PaddedSurvey:
 
     def __init__(self, survey, pads: list[dict]):
         self._survey = survey
+        self._index = PadIndex([p["polygonM"] for p in pads])
         self.height_at = pad_ground(survey.height_at, pads)
+
+    def pad_slope_deg(self, polygon) -> float | None:
+        """The footing slope of the patched surface under ``polygon`` where
+        it touches a pad (`padded_slope_deg`), else None: the analysis
+        grid's cells read the frozen ground there. Any padded surface (the
+        workbench's `PaddedGround`, the yard gate's raster-patched survey)
+        exposes the same method; `compile_settlement.footprint_max_slope_deg`
+        reads it wherever it exists."""
+        from .compile_settlement import grid_max_slope_deg
+        return padded_slope_deg(self.height_at, self._index, polygon,
+                                lambda ring: grid_max_slope_deg(ring, self._survey))
 
     def __getattr__(self, name):
         return getattr(self._survey, name)
@@ -326,13 +338,20 @@ def pad_ground(height_at, pads: list[dict]):
     if not pads:
         return height_at
     from shapely.geometry import Point, Polygon
-    shapes = [(Polygon(p["polygonM"]), float(p["datumM"])) for p in pads]
+    shapes = []
+    for p in pads:
+        poly = Polygon(p["polygonM"])
+        x0, z0, x1, z1 = poly.bounds
+        shapes.append((poly, float(p["datumM"]),
+                       (x0 - PAD_BLEND_M, z0 - PAD_BLEND_M, x1 + PAD_BLEND_M, z1 + PAD_BLEND_M)))
 
     def at(x: float, z: float) -> float:
         base = height_at(x, z)
         pt = Point(x, z)
         pull = 0.0
-        for poly, datum in shapes:
+        for poly, datum, reach in shapes:
+            if not (reach[0] <= x <= reach[2] and reach[1] <= z <= reach[3]):
+                continue                 # beyond the blend: no pull
             d = poly.distance(pt)
             if d <= 0.0:
                 return datum
@@ -356,6 +375,66 @@ def surface_slope_deg(height_at, polygon, step: float = PAD_SAMPLE_STEP_M,
         gx = (height_at(x + probe, z) - height_at(x - probe, z)) / (2 * probe)
         gz = (height_at(x, z + probe) - height_at(x, z - probe)) / (2 * probe)
         worst = max(worst, math.degrees(math.atan(math.hypot(gx, gz))))
+    return worst
+
+
+class PadIndex:
+    """The graded polygons of a set of pads, built once: `split` cuts a
+    footprint into the parts on a pad and the parts off every pad (bounding
+    boxes first)."""
+
+    def __init__(self, polygons):
+        from shapely.geometry import Polygon
+        from shapely.ops import unary_union
+        self._union = unary_union([Polygon(p) for p in polygons]) if polygons else None
+        self._bounds = None if self._union is None else self._union.bounds
+
+    def split(self, polygon) -> tuple[list, list] | None:
+        """(on-pad parts, off-pad parts) of ``polygon``, each a list of
+        exterior rings; None when it touches no pad."""
+        from shapely.geometry import Polygon
+        if self._union is None:
+            return None
+        poly = Polygon(polygon)
+        x0, z0, x1, z1 = poly.bounds
+        b = self._bounds
+        if not (b[0] <= x1 and x0 <= b[2] and b[1] <= z1 and z0 <= b[3]):
+            return None
+        on = poly.intersection(self._union)
+        if on.is_empty or on.area <= 0.0:
+            return None
+
+        def rings(geom):
+            parts = getattr(geom, "geoms", [geom])
+            return [list(g.exterior.coords)[:-1] for g in parts
+                    if g.geom_type == "Polygon" and g.area > 1e-6]
+        return rings(on), rings(poly.difference(self._union))
+
+
+def padded_slope_deg(height_at, index: PadIndex, polygon, grid_slope,
+                     probe: float = 0.5) -> float | None:
+    """97 B3 on patched ground (0101): where ``polygon`` touches a pad of
+    ``index``, the steeper of the padded surface ``height_at`` under the
+    part on the pad (`surface_slope_deg`, its samples kept ``probe`` inside
+    the pad so the probe never reads the blend) and ``grid_slope`` (the
+    caller's analysis grid, a callable on a ring) under the part off every
+    pad; None where it touches none, so the caller reads its grid alone.
+    One rule for the compile (`PaddedSurvey`), the workbench
+    (`PaddedGround`) and the yard gate."""
+    from shapely.geometry import Polygon
+    parts = index.split(polygon)
+    if parts is None:
+        return None
+    on, off = parts
+    worst = 0.0
+    for ring in on:
+        inner = Polygon(ring).buffer(-probe, join_style=2)
+        for g in getattr(inner, "geoms", [inner]):
+            if g.geom_type == "Polygon" and not g.is_empty:
+                worst = max(worst, surface_slope_deg(height_at, list(g.exterior.coords)[:-1],
+                                                     probe=probe))
+    for ring in off:
+        worst = max(worst, grid_slope(ring))
     return worst
 
 

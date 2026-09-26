@@ -27,12 +27,25 @@ nothing said what holds up the edge of a levelled building.
 2. **The datum** is the median chunk-ground height under the pad, clamped
    so fill and cut are each at most `MAX_PAD_DELTA_M` = 2.0 m on the chunks
    and on the survey raster the compile judges; a place may
-   set a flood floor `floorMinM` below which no datum falls (Claywater's
-   north strip: 35.8 m). The workbench export resolves the datum and writes
+   set a flood floor `floorMinM` below which no datum falls. For a
+   culture with no retaining-wall family (rule R1, e.g. Argonian mud) the
+   floor is the local high-water line itself (16c: the map's water is the
+   high-water line), rounded up to the next 0.1 m, never a margin above it:
+   a margin pushes the pad's edges over R1's 0.6 m where no wall may hold
+   them (Claywater's north strip: line 35.24 m, floor 35.3 m; planner
+   2026-09-26). The workbench export resolves the datum and writes
    it into the blueprint; nothing downstream re-solves it (0066).
 3. **A padded piece is seated and judged on the patched ground**, never
    the frozen ground: the 97 B3 slope rule, the fit delta, the seat. The
-   frozen terrain is never edited.
+   frozen terrain is never edited. This holds for **every** piece whose
+   footprint touches a pad, not only the one that declares it: 97 B3
+   reads the patched surface's own slope under the part of the footprint
+   on a pad, never the 5.48 m analysis grid, whose cells still read the
+   frozen ground there, and the grid under the part off every pad
+   (`settlement_run_pads.padded_slope_deg`, read through `pad_slope_deg`
+   by `compile_settlement.footprint_max_slope_deg` on `PaddedSurvey`, the
+   workbench's `PaddedGround` and the yard gate's patched survey; planner
+   ruling 7a, 2026-09-26: a barrel on B1's apron read 11° on the grid).
 4. **Rule R1 (retaining walls).** Where the pad's fill or cut against the
    ground beyond it exceeds 0.6 m along an edge, that edge is a
    retaining-wall run from the culture's wall family
@@ -40,6 +53,11 @@ nothing said what holds up the edge of a levelled building.
    stonewall pieces and composite stonewall runs), laid as a modular run
    from the downhill edge. A culture with no wall family (Argonian mud)
    keeps its pad within 0.6 m; past that the piece moves or changes.
+   A piece of the wall family carries no 97 B3 footing-slope rule
+   (`compile_settlement.is_retaining_wall`, beside `SLOPE_EXEMPT_KITS`): it
+   stands where the ground steps by more than the limit by construction
+   and is not a floor. Every other rule still judges it (the fit delta,
+   the run's mined pairs, R1's cover; planner ruling 7b, 2026-09-26).
 5. **Gates.** `wb.py check` reports `padRule` (pad-fit) on an edge over
    0.6 m that wall pieces do not cover; the compile refuses a pad with no
    datum, a delta over 2.0 m, water under it (0059 invariant 4) or a datum

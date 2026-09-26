@@ -64,7 +64,7 @@ class PaddedGround:
     def __init__(self, g, pads: list[dict]):
         srp = _srp()
         self._g = g
-        self._pads = pads
+        self._index = srp.PadIndex([p["polygonM"] for p in pads])
         self._chunks = srp.pad_ground(g.chunk_height, pads)
         self._survey = srp.pad_ground(g.survey_height, pads)
 
@@ -83,11 +83,9 @@ class PaddedGround:
     def footprint_max_slope_deg(self, polygon_m) -> float:
         """Over a pad the patched surface's own slope (the grid's 5.48 m cells
         read the frozen ground); elsewhere the grid's."""
-        from shapely.geometry import Polygon
-        poly = Polygon(polygon_m)
-        if any(poly.intersects(Polygon(p["polygonM"])) for p in self._pads):
-            return _srp().surface_slope_deg(self._survey, polygon_m)
-        return self._g.footprint_max_slope_deg(polygon_m)
+        padded = _srp().padded_slope_deg(self._survey, self._index, polygon_m,
+                                         self._g.footprint_max_slope_deg)
+        return self._g.footprint_max_slope_deg(polygon_m) if padded is None else padded
 
 
 def refusal(cat, g, piece, pad: dict) -> str | None:
@@ -106,26 +104,51 @@ def refusal(cat, g, piece, pad: dict) -> str | None:
     return why
 
 
+def _pad_key(scene) -> tuple:
+    """What the scene's pads depend on: every padded piece's pose and spec."""
+    return (getattr(scene, "groundStem", ""), tuple(
+        (p.uid, p.asset, p.x, p.z, p.yaw, p.pitch, p.roll, p.mirror, p.scale,
+         tuple(sorted(p.pad.items()))) for p in scene.pieces if p.pad is not None))
+
+
 def scene_pads(cat, scene) -> dict:
-    """{uid: resolved pad} for every piece that declares one."""
-    g = scene.ground()
-    out = {}
-    for p in scene.pieces:
-        got = resolve(cat, g, p)
-        if got is not None:
-            out[p.uid] = got
-    return out
+    """{uid: resolved pad} for every piece that declares one; resolved once
+    per set of padded poses (a settle of an unpadded piece re-reads the
+    memo, never re-resolves every pad)."""
+    key = _pad_key(scene)
+    memo = scene.__dict__.setdefault("_padMemo", {})
+    if memo.get("key") != key:
+        g = scene.ground()
+        out = {}
+        for p in scene.pieces:
+            got = resolve(cat, g, p)
+            if got is not None:
+                out[p.uid] = got
+        memo.clear()
+        memo.update(key=key, pads=out)
+    return memo["pads"]
 
 
 def ground_for(cat, scene, piece, resolved: dict | None = None):
-    """The ground a piece is seated and judged on: patched by every pad in
-    the scene when it declares one, else the frozen ground."""
+    """The ground every piece is seated and judged on: the frozen ground
+    patched by every pad the scene declares, whether or not this piece
+    declares one (the compile reads `PaddedSurvey` for every piece once the
+    pads resolve, 0101); the frozen ground itself when no pad resolves.
+    ``piece`` is kept for the callers' signature."""
     g = scene.ground()
-    if piece.pad is None:
-        return g
     resolved = scene_pads(cat, scene) if resolved is None else resolved
-    return PaddedGround(g, [{"polygonM": r["polygonM"], "datumM": r["datumM"]}
-                            for r in resolved.values() if r["error"] is None])
+    live = [{"polygonM": r["polygonM"], "datumM": r["datumM"]}
+            for r in resolved.values() if r["error"] is None]
+    if not live:
+        return g
+    memo = scene.__dict__.setdefault("_padMemo", {})
+    # `scene.ground()` hands a new window object per call over the same
+    # ground: the key is the ground's stem and the pad set, never an id
+    key = (getattr(scene, "groundStem", ""),
+           tuple((tuple(map(tuple, r["polygonM"])), r["datumM"]) for r in live))
+    if memo.get("groundKey") != key:           # one PaddedGround per pad set, not per piece
+        memo.update(groundKey=key, ground=PaddedGround(g, live))
+    return memo["ground"]
 
 
 def pad_fit(cat, scene, piece, pad: dict) -> dict:

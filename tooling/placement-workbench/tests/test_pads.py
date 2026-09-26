@@ -117,9 +117,20 @@ def test_the_padded_ground_is_the_datum_under_the_pad_and_its_slope_is_flat():
     assert g.chunk_height(5.0, 3.0) == 9.0 and g.survey_height(5.0, 3.0) == 9.0
     assert g.chunk_height(60.0, 3.0) == scene.ground().chunk_height(60.0, 3.0)
     assert g.footprint_max_slope_deg(_outline(house)) == 0.0
-    plain = Piece("p", HOUSE, 20.0, 0.0)
+
+
+def test_a_piece_without_a_pad_reads_the_same_patched_surface_the_compile_does():
+    """The compile reads PaddedSurvey for every piece once the pads resolve
+    (0101); the workbench seats and judges an unpadded piece beside a pad on
+    that surface too, never the frozen ground."""
+    house = Piece("b1", HOUSE, 0.0, 0.0, pad={"datumM": 9.0})
+    plain = Piece("p", HOUSE, 11.0, 0.0)           # its outline starts 1 m off the pad's edge
     both = _Scene([house, plain])
-    assert pads.ground_for(_Cat(), both, plain) is both.ground()   # no pad: the frozen ground
+    g = pads.ground_for(_Cat(), both, plain)
+    assert g.chunk_height(2.0, 3.0) == 9.0         # the pad (the frozen ground there is 9.6)
+    assert g.chunk_height(60.0, 3.0) == both.ground().chunk_height(60.0, 3.0)
+    alone = _Scene([Piece("q", HOUSE, 20.0, 0.0)])
+    assert pads.ground_for(_Cat(), alone, alone.pieces[0]) is alone.ground()   # no pad anywhere
 
 
 def test_check_refuses_what_the_compile_refuses_water_under_the_pad():
@@ -130,3 +141,26 @@ def test_check_refuses_what_the_compile_refuses_water_under_the_pad():
     scene._g.wet_east_of = 5.0
     got = pads.pad_fit(_Cat(), scene, house, pads.scene_pads(_Cat(), scene)["b1"])
     assert got["padRule"] and "water" in got["padRule"]
+
+
+def test_a_one_metre_retaining_piece_on_a_steep_edge_skips_b3_but_not_r1(monkeypatch):
+    """Planner ruling 7b (2026-09-26): a piece of the kit's wall family on
+    the pad's steep east edge carries no 97 B3 footing rule, yet a 1 m piece
+    covers too little of the 10 m edge for rule R1, which stays red."""
+    from workbench import paths
+    paths.bridge()
+    from worldgen import compile_settlement as cs
+    stone = "vanilla:architecture/farmhouse/stonewall/stonewall01"
+    monkeypatch.setitem(KITS, stone, "settlement-imperial-v1")
+    house = Piece("b1", HOUSE, 0.0, 0.0, pad={})
+    wall = Piece("w1", stone, 11.5, 2.5)
+    outlines = {"w1": [(11.0, 2.5), (12.0, 2.5), (12.0, 3.5), (11.0, 3.5)]}
+    monkeypatch.setattr(pads.measure, "footprint_province",
+                        lambda cat, p: outlines.get(p.uid) or _outline(p))
+    scene = _Scene([house, wall])
+    row = {"kit": KITS[stone], "id": stone, "placement": {"evidence": {"policyId": "pad"}}}
+    slope = scene.ground().footprint_max_slope_deg(outlines["w1"])       # 11.3 degrees
+    assert cs.fit_slope_failure(row, slope) is None
+    assert cs.fit_slope_failure({**row, "id": "vanilla:clutter/barrel01"}, slope)
+    got = pads.pad_fit(_Cat(), scene, house, pads.resolve(_Cat(), scene.ground(), house))
+    assert got["padRule"] and got["unretainedEdges"]

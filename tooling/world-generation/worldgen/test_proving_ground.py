@@ -389,9 +389,20 @@ class _PatchedSurvey:
     """The survey with a place's pads applied to its height raster."""
 
     def __init__(self, survey, patches: list[dict]):
-        from .settlement_run_pads import patched_height_at
+        from .settlement_run_pads import PadIndex, patched_height_at
         self._survey = survey
         self.height_at = patched_height_at(survey, patches)
+        # 97 B3 over a pad reads the patched surface, as the compile does
+        # (`footprint_max_slope_deg` reads `pad_slope_deg`); every member
+        # footprint of a settlement pad is graded ground
+        self._index = PadIndex([r["footprintM"] for p in patches
+                                if p.get("kind") == "settlement-pad"
+                                for r in p["params"]["pieces"]])
+
+    def pad_slope_deg(self, polygon):
+        from .settlement_run_pads import padded_slope_deg
+        return padded_slope_deg(self.height_at, self._index, polygon,
+                                lambda ring: cs.grid_max_slope_deg(ring, self._survey))
 
     def __getattr__(self, name):
         return getattr(self._survey, name)

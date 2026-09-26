@@ -1805,6 +1805,17 @@ FIT_SLOPE_LIMIT_DEG = {"direct": 2.0, "pad": 2.0, "stilt": 3.0}
 #: from the manifest that holds the placed asset, never from the asset's name.
 SLOPE_EXEMPT_KITS = frozenset({"docks-v1"})
 
+
+def is_retaining_wall(asset: dict) -> bool:
+    """A piece of its kit's retaining-wall family (0101 rule R1,
+    `settlement_run_pads.RETAINING_WALLS`, read from the manifest row's
+    `kit` and id, never a label). It stands where the ground steps by more
+    than the slope limit by construction, so it is not a floor and carries
+    no 97 B3 footing rule (planner ruling 7b, 2026-09-26); every other rule
+    (ground delta by fit, the run's pairs, R1's cover) still judges it."""
+    family = srp_mod.RETAINING_WALLS.get(asset.get("kit"))
+    return bool(family) and str(asset.get("id", "")).startswith(family)
+
 QUAY_RUN_PREFIX = "composite:docks/quay-run-"
 QUAY_SHORE_SEARCH_M = 30.0
 QUAY_SHORE_STEP_M = 0.05
@@ -1910,7 +1921,7 @@ def fit_slope_failure(asset: dict, slope_deg: float,
                       limits: dict[str, float] = FIT_SLOPE_LIMIT_DEG) -> str | None:
     """Why this manifest row (carrying the `kit` that holds it) may not stand
     on `slope_deg`, or None."""
-    if asset.get("kit") in SLOPE_EXEMPT_KITS:
+    if asset.get("kit") in SLOPE_EXEMPT_KITS or is_retaining_wall(asset):
         return None
     fit = asset_fit(asset)
     if fit not in limits:
@@ -1954,6 +1965,21 @@ def resolve_building_pads(bp: dict, survey) -> tuple[dict, list[str]]:
 
 
 def footprint_max_slope_deg(footprint_m, survey) -> float:
+    """The footing slope under the footprint polygon (metres): over a
+    building pad, the patched surface's own for the part on the pad (the
+    grid's 5.48 m cells read the frozen ground a pad has graded; planner
+    ruling 7a, 2026-09-26) and the grid for the part off it
+    (`pad_slope_deg`, which any padded surface exposes); elsewhere the
+    steepest `slope_grid` cell it touches."""
+    pad_slope = getattr(survey, "pad_slope_deg", None)     # any padded surface
+    if pad_slope is not None:
+        padded = pad_slope(footprint_m)
+        if padded is not None:
+            return padded
+    return grid_max_slope_deg(footprint_m, survey)
+
+
+def grid_max_slope_deg(footprint_m, survey) -> float:
     """The steepest `slope_grid` cell the footprint polygon (metres) touches."""
     from shapely.geometry import Polygon, box
 
@@ -2138,7 +2164,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "groundFit": fit,
             "provenance": _provenance(bp_id, seed, f"parcel-building/{fit}", asset["id"], []),
             **({"shoreAnchorShiftM": quay_shift} if quay_shift is not None else {}),
-            **({"pad": {k: pad[k] for k in ("datumM", "apronM", "polygonM", "fillM", "cutM")}}
+            **({"pad": {"parcelId": pid,
+                        **{k: pad[k] for k in ("datumM", "apronM", "polygonM", "fillM", "cutM")}}}
                if pad is not None else {}),
         })
         placements.extend(assembly_placements(bp_id, seed, parcel, placements[-1], shelf, survey,
@@ -2545,8 +2572,7 @@ def main(argv: list[str] | None = None) -> int:
         args.out = args.out or str(DEFAULT_OUT_DIR)
         # A place's layout file (<place>.layout.json, 0100 decision 2) sits
         # beside its blueprint and is not one.
-        paths = [path for path in sorted(BLUEPRINT_DIR.glob("place.*.json"))
-                 if "blueprint" in json.loads(path.read_text())]
+        paths = bp_mod.blueprint_paths(BLUEPRINT_DIR)
         if args.places is not None:
             wanted = {p.strip() for p in args.places.split(",") if p.strip()}
             by_id = {path.stem: path for path in paths}
