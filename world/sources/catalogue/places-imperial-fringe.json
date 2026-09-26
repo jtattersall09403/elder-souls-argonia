@@ -2351,7 +2351,6 @@
           "route.blackwood-road"
         ],
         "travelServiceEdges": [
-          "boat:route.boat.alten-corimont-helstrom",
           "road:route.road.gideon-blackwood-road"
         ],
         "supplies": [
@@ -2404,13 +2403,13 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "A stone well head with a tiled roof on one side of the road; reed houses on stilts over water on the other.",
-        "palette": "Wet stone grey against reed gold; the two halves do not share a colour.",
-        "materials": "Imperial well masonry and pantile on one side, Argonian stilt frames and reed on the other.",
+        "silhouette": "A stone well head with a tiled roof on one side of the road; low round mud huts on the bank on the other.",
+        "palette": "Wet stone grey against thatch gold; the two halves do not share a colour.",
+        "materials": "Imperial well masonry and pantile on one side, Argonian mud walls and thatch on the other.",
         "signatureFeature": "The road is the boundary. Two villages face each other across it.",
-        "condition": "The stone half is cracking; the reed half was rebuilt last year.",
+        "condition": "The stone half is cracking; the mud half was replastered last year.",
         "mood": "Neighbourly and wary.",
-        "approach": "The well roof shows first. The far side of the road stands on stilts.",
+        "approach": "The well roof shows first. Across the road the huts sit low by the water.",
         "senses": "A windlass; water poured; two languages across one street."
       },
       "assetPlan": [
@@ -2545,7 +2544,12 @@
         "loot": []
       },
       "sitingNote": "Bound to the Blackwood Road's western reach (round 4), where the road runs within 40 m of open water; the old site was up in the border mountains with no road and no channel.",
-      "services": []
+      "services": [
+        "ferry",
+        "lodging",
+        "stable",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.collections-dig",
@@ -3154,7 +3158,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "proseRefs": [
         {
           "sourcePath": "questHooks.opportunity",
@@ -3833,6 +3839,7 @@
         ]
       },
       "services": [
+        "council",
         "ferry",
         "lodging",
         "shrine",
@@ -5822,7 +5829,9 @@
           }
         ]
       },
-      "services": []
+      "services": [
+        "guild-hall"
+      ]
     },
     {
       "id": "place.imperial-fringe.giovesse-lines",
@@ -7391,7 +7400,9 @@
         ],
         "loot": []
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "scourSiteId": "site.scour.upland-hills.waterfall-031"
     },
     {
@@ -7829,7 +7840,8 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "lodging"
       ]
     },
     {
@@ -9100,7 +9112,8 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "trader"
       ]
     },
     {
@@ -9592,7 +9605,9 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "lodging",
+        "trader"
       ],
       "scourSiteId": "site.scour.lake-standing-water.water-narrows-001"
     },
@@ -9861,7 +9876,10 @@
           }
         ]
       },
-      "services": []
+      "services": [
+        "lodging",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.mile-house-of-the-eagle",
@@ -10361,7 +10379,9 @@
         ],
         "loot": []
       },
-      "services": [],
+      "services": [
+        "trader"
+      ],
       "proseRefs": [
         {
           "sourcePath": "contents.npcs[1].note",
@@ -15112,7 +15132,9 @@
         ],
         "loot": []
       },
-      "services": []
+      "services": [
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.silver-mouth",
@@ -16269,7 +16291,8 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "trader"
       ]
     },
     {
@@ -16944,7 +16967,8 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "lodging"
       ]
     },
     {
@@ -21476,7 +21500,10 @@
         ],
         "loot": []
       },
-      "services": []
+      "services": [
+        "council",
+        "lodging"
+      ]
     },
     {
       "id": "place.imperial-fringe.the-drowning-gate",
@@ -27781,7 +27808,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "scourSiteId": "site.scour.border-mountains.saddle-024"
     },
     {
@@ -28352,7 +28381,9 @@
         }
       ],
       "services": [
-        "ferry"
+        "ferry",
+        "lodging",
+        "trader"
       ]
     },
     {

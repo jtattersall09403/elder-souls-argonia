@@ -1064,7 +1064,9 @@
         "opportunity": "a hull turned over for scraping hides whatever went under it",
         "tierOwnership": "LP06 · tier-3"
       },
-      "services": []
+      "services": [
+        "trader"
+      ]
     },
     {
       "id": "place.pirate-freeholds.channel-pirate-anchorage",
@@ -1666,7 +1668,10 @@
       },
       "terrainRequests": [],
       "sitingNote": "Moved in round 4: 'a creek mouth deep enough to lie in' was plotted 118 m from any water. Bound to the rise over the creek east of the toll span, where the water is 36 m below the houses.",
-      "services": []
+      "services": [
+        "lodging",
+        "trader"
+      ]
     },
     {
       "aliases": [],
@@ -3127,7 +3132,9 @@
           "place.dunmer-north.hissmir"
         ]
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "scourSiteId": "site.scour.firm-lowland.land-bridge-008"
     },
     {
@@ -3670,7 +3677,9 @@
         "opportunity": "debts get settled here in cargo that is signed over without leaving the hold",
         "tierOwnership": null
       },
-      "services": []
+      "services": [
+        "lodging"
+      ]
     },
     {
       "id": "place.pirate-freeholds.dres-holding-pens",
@@ -5224,7 +5233,9 @@
         "opportunity": "a forged grade on the board would move a cargo between lawful and contraband before anyone checked",
         "tierOwnership": "LP05 · tier-3"
       },
-      "services": [],
+      "services": [
+        "trader"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.pressures",
@@ -5884,7 +5895,9 @@
         "opportunity": null,
         "tierOwnership": null
       },
-      "services": []
+      "services": [
+        "trader"
+      ]
     },
     {
       "id": "place.pirate-freeholds.gorge-portage-slipway",
@@ -12424,7 +12437,10 @@
         },
         "score": 3.357
       },
-      "services": []
+      "services": [
+        "lodging",
+        "trader"
+      ]
     },
     {
       "id": "place.pirate-freeholds.trunk-toll-bridge",

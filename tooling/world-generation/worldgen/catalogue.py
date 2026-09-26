@@ -318,7 +318,8 @@ SERVICES = {"lodging", "trader", "smith", "apothecary", "temple", "shrine", "gui
 SERVICE_MIN = {"M3": 1, "M4": 4, "M5": 6}
 # A hamlet or a station has no service quarter: at most a shrine and the
 # ferry it exists to run (settlement-register §1 — M1/M2 is "one family, one
-# trade" / "transient or seasonal").
+# trade" / "transient or seasonal"), plus what the record itself implies
+# (its reward kinds, its type recipe: derive_services R10, 2026-09-26).
 HAMLET_SERVICE_CEILING = {"shrine", "ferry"}
 CONTENT_SLOT_LIMIT = 4
 DANGER_TIERS = ("D0", "D1", "D2", "D3", "D4", "D5")
@@ -1090,14 +1091,25 @@ def _validate_services(rec: dict, rid: str, errors: list[str]) -> None:
     if svc != sorted(set(svc)):
         _fail(errors, rid, "services must be sorted and free of duplicates (determinism)")
     mag = (rec.get("classification") or {}).get("magnitude")
-    if mag in ("M1", "M2") and set(svc) - HAMLET_SERVICE_CEILING:
-        _fail(errors, rid, f"a {mag} settlement offers nothing beyond {sorted(HAMLET_SERVICE_CEILING)}; "
-                           f"drop {sorted(set(svc) - HAMLET_SERVICE_CEILING)} or raise the magnitude")
+    over = hamlet_overreach(rec, svc)
+    if over:
+        _fail(errors, rid, f"a {mag} settlement offers nothing beyond {sorted(HAMLET_SERVICE_CEILING)} "
+                           f"and what its record implies (derive_services R10); "
+                           f"drop {over} or raise the magnitude")
     if (rec.get("playerPurpose") or {}).get("primary") == "service-hub" and mag in SERVICE_MIN:
         need = SERVICE_MIN[mag]
         if len(svc) < need:
             _fail(errors, rid, f"a {mag} service-hub promises 'services' but lists {len(svc)} "
                                f"of the {need} its band owes the player")
+
+
+def hamlet_overreach(rec: dict, svc: list[str]) -> list[str]:
+    """M1/M2 services beyond the ceiling that the derivation does not give
+    this record (derive_services R10 spares only what the record implies)."""
+    if (rec.get("classification") or {}).get("magnitude") not in ("M1", "M2"):
+        return []
+    from .derive_services import derive
+    return sorted(set(svc) - HAMLET_SERVICE_CEILING - set(derive(rec) or []))
 
 
 def services_scoped(rec: dict) -> bool:

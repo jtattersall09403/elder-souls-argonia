@@ -1068,7 +1068,10 @@
       ],
       "lore": "Lore:Blackwood Road; openworld research (waystation recipe)",
       "footprintRadiusM": 65,
-      "footprintSource": "band"
+      "footprintSource": "band",
+      "services": [
+        "stable"
+      ]
     },
     {
       "type": "contested-ex-capital",

@@ -1285,6 +1285,13 @@ def check(doc: dict | None = None, warn: list[str] | None = None) -> list[str]:
         npid = op.get("nearestPlaceId")
         if npid and npid not in places:
             errs.append(f"service {sid}: operator.nearestPlaceId {npid!r} is not a catalogue place")
+        # operator.socketRef: the owning place's station socket the operator
+        # stands on (a crossing inside one place's footprint is that place's;
+        # worldgen/test_record_services.py).
+        ref = op.get("socketRef")
+        if ref is not None and ref not in ((places.get(npid) or {}).get("sockets") or {}).get("station", []):
+            errs.append(f"service {sid}: operator.socketRef {ref!r} is not a sockets.station id "
+                        f"of {npid!r}")
 
         for field in ("available", "refusedIf"):
             for cond in s.get(field) or []:

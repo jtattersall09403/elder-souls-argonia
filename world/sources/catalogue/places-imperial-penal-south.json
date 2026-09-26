@@ -4271,7 +4271,9 @@
           "note": "Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line."
         }
       ],
-      "services": []
+      "services": [
+        "council"
+      ]
     },
     {
       "id": "place.imperial-penal-south.chainlink-watchtower",
@@ -8570,7 +8572,8 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "trader"
       ],
       "position": {
         "u": 0.32164,
@@ -13164,7 +13167,9 @@
         ]
       },
       "sitingNote": "West of the lake on ground that the culture raster calls mercantile-coast. The refuge exists to be out from under Blackrose, so standing at the edge of its cultural reach suits the record.",
-      "services": [],
+      "services": [
+        "council"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.pressures",
@@ -14178,7 +14183,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.pressures",

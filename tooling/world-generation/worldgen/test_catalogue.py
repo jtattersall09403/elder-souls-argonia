@@ -303,10 +303,9 @@ def test_service_hubs_meet_their_band_minimum():
 
 
 def test_a_hamlet_offers_nothing_beyond_a_shrine_or_its_ferry():
-    over = [(r["id"], sorted(set(r["services"]) - catalogue.HAMLET_SERVICE_CEILING))
+    over = [(r["id"], catalogue.hamlet_overreach(r, r["services"]))
             for r in _service_scoped_records()
-            if r["classification"].get("magnitude") in ("M1", "M2") and r.get("services")
-            and set(r["services"]) - catalogue.HAMLET_SERVICE_CEILING]
+            if r.get("services") and catalogue.hamlet_overreach(r, r["services"])]
     assert not over, f"M1/M2 records with a service quarter: {over}"
 
 

@@ -5674,7 +5674,9 @@
         ]
       },
       "sitingNote": "Bound to Archon: 'a short walk outside the city' is the whole record; the free pass had drifted it 750 m north into hist-heartland culture ground.",
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.wouldChangeIf",
@@ -14642,7 +14644,9 @@
         "tierOwnership": "MQ14 · tier-0; SX32 · tier-3"
       },
       "services": [
-        "ferry"
+        "ferry",
+        "lodging",
+        "trader"
       ]
     },
     {
@@ -15578,7 +15582,9 @@
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.founding",

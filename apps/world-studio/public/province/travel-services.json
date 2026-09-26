@@ -1071,13 +1071,14 @@
         "spanM": 14.1
       },
       "operator": {
-        "nearestPlaceId": "place.imperial-fringe.the-drowning-gate",
+        "nearestPlaceId": "place.imperial-fringe.claywater-station",
         "ownerFaction": null,
-        "role": "barrier keeper",
-        "slotId": "ferry-slot.drowning-gate.barrier-family",
+        "role": "landing poler",
+        "slotId": "ferry-slot.claywater-station.poler",
         "socket": {
           "stationId": "ferry-landing.drowning-gate.east"
-        }
+        },
+        "socketRef": "station.claywater-station.poler"
       },
       "questUse": "The province's attested western exit. Seasonal availability gives a quest a hard reason a route is shut without moving any terrain.",
       "refusedIf": [],
@@ -1095,7 +1096,7 @@
         "class": "river",
         "name": "the western road's flood reach"
       },
-      "why": "The Drowning Gate is a monsoon barrier 108 m up the road: 'the western road closes every monsoon at this point'; 'two families are paid by Gideon to swing the barrier and to argue with whoever wants it opened anyway'. They already stand at a shut road with a crowd of people who want past. The ferry is what they sell when the gate is down. In the wet season it is the only way onto the Blackwood Road out of the province. In the dry season the gate is open and the reach is a ford, so the service is seasonal and the fare is what a monopoly charges."
+      "why": "Claywater Station's Argonian landing sits on the ford's north bank. Its poler lives beside the crossing. Each monsoon the ford floods and the Drowning Gate, up the road, swings its barrier shut; the poler then carries travellers over on the plank ferry. In the dry season they wade the ford and the ferry lies pulled up on the bank. While the water is up this is the only way onto the Blackwood Road out of the province, so the fare is a monopoly price."
     },
     {
       "available": [],
@@ -1140,7 +1141,8 @@
         "slotId": "ferry-slot.onkobra-bond.clerk",
         "socket": {
           "stationId": "ferry-landing.onkobra-bond.town"
-        }
+        },
+        "socketRef": "station.bonded-shed-of-the-onkobra.bond-clerk"
       },
       "questUse": "A customs choke on every road out of Gideon. `carriedValueAtLeast` refuses the boat, which pushes a traveller to the ford and into the Owing ledger.",
       "refusedIf": [

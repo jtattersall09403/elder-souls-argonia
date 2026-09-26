@@ -1212,6 +1212,7 @@
         "loot": []
       },
       "services": [
+        "council",
         "lodging",
         "shrine",
         "trader"
@@ -3041,7 +3042,9 @@
         ],
         "loot": []
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "scourSiteId": "site.scour.border-mountains.ravine-034"
     },
     {
@@ -5117,6 +5120,7 @@
         ]
       },
       "services": [
+        "council",
         "lodging",
         "shrine",
         "trader"
@@ -5793,6 +5797,7 @@
       },
       "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern.",
       "services": [
+        "council",
         "lodging",
         "shrine",
         "trader"
@@ -6361,7 +6366,9 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "lodging",
+        "trader"
       ]
     },
     {
@@ -6758,6 +6765,7 @@
         ]
       },
       "services": [
+        "council",
         "ferry",
         "lodging",
         "shrine",
@@ -8537,7 +8545,9 @@
       },
       "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern.",
       "services": [
+        "council",
         "ferry",
+        "guild-hall",
         "lodging",
         "shrine",
         "trader"
@@ -9314,6 +9324,7 @@
         }
       ],
       "services": [
+        "council",
         "ferry",
         "lodging",
         "shrine",
@@ -10814,7 +10825,10 @@
           "place.dunmer-north.the-pass-station"
         ]
       },
-      "services": []
+      "services": [
+        "lodging",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.riverwalk",
@@ -19667,7 +19681,9 @@
         ]
       },
       "terrainRequests": [],
-      "services": [],
+      "services": [
+        "trader"
+      ],
       "position": {
         "u": 0.31718,
         "v": 0.01525
@@ -20292,7 +20308,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "trader"
+      ],
       "scourSiteId": "site.scour.firm-lowland.flood-high-002"
     },
     {
@@ -22157,7 +22175,9 @@
         ],
         "loot": []
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.pressures",
@@ -22765,7 +22785,10 @@
           "place.pirate-freeholds.freed-worker-shelter"
         ]
       },
-      "services": []
+      "services": [
+        "council",
+        "lodging"
+      ]
     },
     {
       "id": "place.dunmer-north.the-gravel-six",
@@ -24627,7 +24650,9 @@
           }
         ]
       },
-      "services": []
+      "services": [
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.the-monsoon-boom",
@@ -28928,7 +28953,8 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "lodging"
       ]
     },
     {
@@ -31231,7 +31257,9 @@
         }
       ],
       "sitingNote": "Danger raised to D4 to match the band-5 reedbeds around it. The causeway keeps the village itself safe; the reedbeds beyond it are band 5.",
-      "services": []
+      "services": [
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.the-silyanorn-crown",
@@ -32121,7 +32149,9 @@
         },
         "score": 5.2
       },
-      "services": []
+      "services": [
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.the-stormhold-falls-chamber",
@@ -34459,7 +34489,9 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "lodging",
+        "trader"
       ],
       "scourSiteId": "site.scour.mangrove-forest.cove-036"
     },
@@ -35553,6 +35585,8 @@
         ]
       },
       "services": [
+        "council",
+        "guild-hall",
         "shrine",
         "trader"
       ],

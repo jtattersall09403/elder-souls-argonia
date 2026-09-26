@@ -10345,6 +10345,7 @@
         ]
       },
       "services": [
+        "council",
         "lodging",
         "shrine",
         "trader"
@@ -11514,7 +11515,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "council"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.pressures",
@@ -17522,7 +17525,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "scourSiteId": "site.scour.firm-lowland.flood-high-030"
     },
     {

@@ -1334,6 +1334,7 @@
         ]
       },
       "services": [
+        "council",
         "lodging",
         "shrine",
         "trader"
@@ -3284,7 +3285,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "lodging"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.pressures",
@@ -12263,6 +12266,7 @@
         ]
       },
       "services": [
+        "council",
         "lodging",
         "shrine",
         "trader"

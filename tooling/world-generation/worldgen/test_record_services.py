@@ -325,3 +325,288 @@ def test_validator_holds_secondary_cultures_to_the_vocabulary():
     errors = []
     catalogue._validate_cultures({"culture": "elves"}, "x", errors)
     assert errors
+
+
+# --- travel edges on routes that pass the place (16k slice 1c, 2026-09-26) --
+# `relations.travelServiceEdges` names a road or boat lane the place serves.
+# The line must pass within the audit's named-route tolerance
+# (audit_place_semantics.NAMED_ROUTE_TOL_M, 250 m) beyond the record's own
+# footprint. Claywater carried `boat:route.boat.alten-corimont-helstrom`,
+# whose nearest point is 3,069 m off. Pinned: the other records measured
+# 2026-09-26 with the edges that fail; a fixed one must leave the pin.
+TRAVEL_EDGE_PINNED: dict[str, list[str]] = {
+    "place.dunmer-north.channel-cross-village": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.hixinoag": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.murkwater": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.nine-fords": ["route.road.thorn-tear-road"],
+    "place.dunmer-north.reedmoor-stilts": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.riverwalk": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.stormhold": ["route.road.thorn-tear-road"],
+    "place.dunmer-north.tear-road-stage": ["route.road.thorn-tear-road"],
+    "place.dunmer-north.tearmouth": ["route.boat.archon-thorn", "route.road.thorn-tear-road"],
+    "place.dunmer-north.the-black-stage": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.the-last-landing": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.the-pilots-rest": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.the-thorn-bond": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.thorn": ["route.boat.stormhold-alten-corimont"],
+    "place.dunmer-north.wolk-market": ["route.boat.stormhold-alten-corimont", "route.road.thorn-tear-road"],
+    "place.hist-heartland.porter-relay-poling": ["boat:route.boat.alten-corimont-helstrom"],
+    "place.hist-heartland.stilt-channel-edge-uxaneet": ["boat:route.boat.alten-corimont-helstrom"],
+    "place.imperial-fringe.fig-market": ["boat:route.boat.alten-corimont-helstrom"],
+    "place.imperial-fringe.gideon": ["boat:route.boat.alten-corimont-helstrom"],
+    "place.imperial-fringe.low-water-fair": ["boat:route.boat.alten-corimont-helstrom"],
+    "place.imperial-fringe.lowmere-raft-town": ["boat:route.boat.blackrose-lilmoth"],
+    "place.imperial-fringe.onkobra-ferry": ["boat:route.boat.alten-corimont-helstrom", "route.boat.alten-corimont-helstrom"],
+    "place.imperial-fringe.saddle-fair": ["road:route.road.gideon-blackwood-road"],
+    "place.imperial-fringe.slough-point": ["boat:route.boat.alten-corimont-helstrom", "road:route.road.gideon-blackwood-road"],
+    "place.imperial-fringe.the-eight-steps": ["boat:route.boat.alten-corimont-helstrom"],
+    "place.mercantile-coast.alten-meerhleel": ["boat:route.boat.lilmoth-archon"],
+    "place.mercantile-coast.bright-throat-village": ["boat:route.boat.lilmoth-archon"],
+    "place.mercantile-coast.lighter-flotilla": ["boat:route.boat.lilmoth-archon"],
+    "place.mercantile-coast.moonmarch": ["boat:route.boat.lilmoth-archon"],
+    "place.mercantile-coast.oliis-ferry-stage": ["boat:route.boat.lilmoth-archon"],
+    "place.mercantile-coast.quinrawl-anchorage": ["boat:route.boat.soulrest-lilmoth"],
+    "place.pirate-freeholds.chasecreek": ["boat:route.boat.stormhold-alten-corimont"],
+    "place.pirate-freeholds.half-chartered-anchorage": ["boat:route.boat.alten-corimont-helstrom"],
+    "place.pirate-freeholds.opening-work-barge": ["boat:route.boat.stormhold-alten-corimont"],
+    "place.saxhleel-coast.portdun-mont": ["boat:route.boat.lilmoth-archon"],
+}
+
+
+def _route_lines() -> dict:
+    import numpy as np
+    province = ts.REPO_ROOT / "apps" / "world-studio" / "public" / "province"
+    px = float(json.loads((province / "hydrology-meta.json").read_text())["metresPerPixel"])
+    lines = {}
+    for r in json.loads((province / "routes.json").read_text())["routes"]:
+        lines[r["id"]] = (np.asarray(r["px"], float) + 0.5) * px
+    for lane in json.loads((province / "waterways.json").read_text())["lanes"]:
+        lines[lane["id"]] = (np.asarray(lane["px"], float) + 0.5) * px
+    return lines
+
+
+def far_travel_edges(places: dict, lines: dict) -> dict[str, list[str]]:
+    import numpy as np
+    from worldgen.audit_place_semantics import NAMED_ROUTE_TOL_M
+    bad: dict[str, list[str]] = {}
+    for pid, rec in places.items():
+        if rec.get("status") == "cut" or not rec.get("positionM"):
+            continue
+        x, z = rec["positionM"]
+        tol = NAMED_ROUTE_TOL_M + float(rec.get("footprintRadiusM") or 0.0)
+        for edge in (rec.get("relations") or {}).get("travelServiceEdges") or []:
+            pts = lines.get(str(edge).split(":", 1)[-1])
+            if pts is None or not len(pts):
+                continue
+            if float(np.hypot(pts[:, 0] - x, pts[:, 1] - z).min()) > tol:
+                bad.setdefault(pid, []).append(edge)
+    return {pid: sorted(set(e)) for pid, e in bad.items()}
+
+
+def test_travel_edges_name_routes_that_pass_the_place():
+    bad = far_travel_edges(_places(), _route_lines())
+    assert "place.imperial-fringe.claywater-station" not in bad, bad.get(
+        "place.imperial-fringe.claywater-station")
+    assert bad == TRAVEL_EDGE_PINNED
+
+
+def test_travel_edge_rule_fails_on_a_planted_violation():
+    places = _places()
+    rec = json.loads(json.dumps(places["place.imperial-fringe.claywater-station"]))
+    rec["relations"]["travelServiceEdges"] = ["boat:route.boat.alten-corimont-helstrom"]
+    assert far_travel_edges({rec["id"]: rec}, _route_lines()) == {
+        rec["id"]: ["boat:route.boat.alten-corimont-helstrom"]}
+
+
+# --- stilt prose needs a stilt kit (16k slice 1c, 2026-09-26) ---------------
+# A record whose `vibe` or `why` says its houses stand on stilts promises a
+# stilt kit; with none in its assetPlan the prose describes a place the
+# layout cannot build (lesson L06: prose describing a rejected option is a
+# defect). Claywater's Argonian half is `bmv-round-huts` (97 Part F
+# argonian-mud; imperial-fringe is outside the argonian-stilt zones) while
+# its vibe still said "reed houses on stilts". Stilt kits: the
+# argonian-reed-stilt families and the neutral scaffold platform
+# (world/sources/catalogue/asset-aliases.json). Pinned: the other records
+# measured 2026-09-26; each waits for its own dossier (add the kit with its
+# zone reason, or rewrite the prose through text-review).
+STILT_KITS = {"bamboo-hut", "bmv-stilthouse", "passerelles-walkway", "stockade-scaffold",
+              "vanilla-shackkit"}
+STILT_PROSE_PINNED: set[str] = {
+    "place.dunmer-north.the-pilots-rest",
+    "place.imperial-fringe.the-drowned-mule",
+    "place.imperial-fringe.westfield-village",
+    "place.imperial-fringe.whispers-house-of-the-low-fen",
+    "place.imperial-penal-south.imperial-farmstead-basin",
+    "place.mercantile-coast.lilmoth-beast-market",
+    "place.mercantile-coast.long-bar-wreckers",
+    "place.mercantile-coast.oliis-reef-harvest",
+    "place.mercantile-coast.varo-holding",
+}
+
+
+def stilt_prose_without_kit(places: dict) -> set[str]:
+    import re
+    word = re.compile(r"\bstilt", re.I)
+    return {
+        pid for pid, rec in places.items()
+        if rec.get("status") != "cut"
+        and word.search(json.dumps(rec.get("vibe") or {}) + json.dumps(rec.get("why") or {}))
+        and not set(rec.get("assetPlan") or []) & STILT_KITS
+    }
+
+
+def test_stilt_prose_has_a_stilt_kit():
+    bad = stilt_prose_without_kit(_places())
+    assert "place.imperial-fringe.claywater-station" not in bad
+    assert bad == STILT_PROSE_PINNED
+
+
+def test_stilt_prose_rule_fails_on_a_planted_violation():
+    rec = json.loads(json.dumps(_places()["place.imperial-fringe.claywater-station"]))
+    rec["vibe"]["silhouette"] = "Reed houses on stilts."
+    assert stilt_prose_without_kit({rec["id"]: rec}) == {rec["id"]}
+
+
+# --- a crossing inside one place belongs to it (16k slice 1c, 2026-09-26) ---
+# A travel-services row whose every landing (or station) lies inside one
+# place's footprint is that place's service: its operator names the place
+# (`operator.nearestPlaceId`) and one of the place's station sockets
+# (`operator.socketRef`, a `sockets.station` id of that record). Where two
+# footprints hold every landing, the smaller (the more specific place) owns
+# it. Claywater's ford ferry was run by the Drowning Gate's barrier family
+# 178 m away while both its landings stood inside Claywater's 65 m footprint
+# and Claywater's roster already had a poler. Measured 2026-09-26: two rows
+# fall under the rule (the Drowning Gate ford ferry, the Onkobra bond ferry);
+# none is pinned.
+FOOTPRINT_OWNER_PINNED: dict[str, str] = {}
+
+
+def footprint_owner_failures(places: dict, doc: dict) -> dict[str, str]:
+    import math
+    stations = {s["id"]: s for s in doc["stations"]}
+    bad: dict[str, str] = {}
+    for svc in doc["services"]:
+        if svc.get("status") != "active":
+            continue
+        ids = svc.get("landings") or svc.get("stations") or []
+        pts = [stations[i]["positionM"] for i in ids if (stations.get(i) or {}).get("positionM")]
+        if not pts or len(pts) != len(ids):
+            continue
+        owners = sorted(
+            (float(rec["footprintRadiusM"]), pid) for pid, rec in places.items()
+            if rec.get("status") not in ("cut", "deferred") and rec.get("positionM")
+            and rec.get("footprintRadiusM")
+            and all(math.dist(rec["positionM"], p) <= float(rec["footprintRadiusM"]) for p in pts))
+        if not owners:
+            continue
+        owner = owners[0][1]
+        op = svc.get("operator") or {}
+        sockets = (places[owner].get("sockets") or {}).get("station") or []
+        if op.get("nearestPlaceId") != owner or op.get("socketRef") not in sockets:
+            bad[svc["id"]] = owner
+    return bad
+
+
+def test_a_crossing_inside_one_place_is_run_from_its_station_socket():
+    bad = footprint_owner_failures(_places(), json.loads(ts.SERVICES.read_text(encoding="utf-8")))
+    assert "ferry.imperial-fringe.drowning-gate" not in bad
+    assert bad == FOOTPRINT_OWNER_PINNED
+
+
+def test_footprint_owner_rule_fails_on_a_planted_violation():
+    doc = json.loads(ts.SERVICES.read_text(encoding="utf-8"))
+    svc = next(s for s in doc["services"] if s["id"] == "ferry.imperial-fringe.drowning-gate")
+    svc["operator"]["nearestPlaceId"] = "place.imperial-fringe.the-drowning-gate"
+    assert footprint_owner_failures(_places(), doc)["ferry.imperial-fringe.drowning-gate"] == (
+        "place.imperial-fringe.claywater-station")
+
+
+def test_travel_services_check_refuses_a_socket_the_place_does_not_have():
+    doc = json.loads(ts.SERVICES.read_text(encoding="utf-8"))
+    svc = next(s for s in doc["services"] if s["id"] == "ferry.imperial-fringe.drowning-gate")
+    svc["operator"]["socketRef"] = "station.claywater-station.nobody"
+    assert any("socketRef" in e for e in ts.check(doc=doc))
+
+
+# --- every reward kind is backed by a service (16k slice 1c, 2026-09-26) ----
+# `rewardProfile.kinds` promises the player a kind of place: rest-shelter
+# needs lodging or a tavern, trade-access a trader or a market, and so on
+# (`blueprint_promises.REWARD_NEEDS`; `services` needs any one service).
+# Claywater Station promised services, rest-shelter and trade-access with
+# `services: []` because the M1/M2 ceiling stripped what its reward kinds
+# imply. `derive_services` now derives the services a record's reward kinds
+# and its type recipe imply, and the ceiling never strips those (coordinator
+# ruling 2026-09-26). Count-pinned: the records still unbacked, each a
+# record outside the services scope or with a kind no single service
+# answers, or a non-settlement record whose kind (faction-access) the
+# NON_SETTLEMENT_CEILING still strips (low-water-fair, red-cart-yard); the
+# count only falls.
+REWARD_UNBACKED_PINNED_COUNT = 173
+
+
+def unbacked_reward_kinds(places: dict) -> dict[str, list[str]]:
+    from worldgen.blueprint_promises import REWARD_NEEDS
+    bad: dict[str, list[str]] = {}
+    for pid, rec in places.items():
+        if rec.get("status") in ("cut", "deferred"):
+            continue
+        have = set(rec.get("services") or [])
+        for kind in (rec.get("rewardProfile") or {}).get("kinds") or []:
+            if kind in REWARD_NEEDS and not have & REWARD_NEEDS[kind]:
+                bad.setdefault(pid, []).append(kind)
+    return bad
+
+
+def test_every_reward_kind_is_backed_by_a_service():
+    bad = unbacked_reward_kinds(_places())
+    assert "place.imperial-fringe.claywater-station" not in bad, bad.get(
+        "place.imperial-fringe.claywater-station")
+    assert len(bad) == REWARD_UNBACKED_PINNED_COUNT, (
+        f"{len(bad)} records with an unbacked reward kind (pin {REWARD_UNBACKED_PINNED_COUNT})")
+
+
+def test_reward_backing_rule_fails_on_a_planted_violation():
+    rec = json.loads(json.dumps(_places()["place.imperial-fringe.claywater-station"]))
+    rec["services"] = []
+    assert unbacked_reward_kinds({rec["id"]: rec})[rec["id"]]
+
+
+def test_only_a_road_crossing_derives_ferry_from_its_operator():
+    """Kind-aware (coordinator ruling 2026-09-26): a crossing the place runs
+    (`form: road-crossing`, hops that follow the road, no lane) derives
+    `ferry`; a boat or canoe station-run carrying a socketRef derives
+    nothing here (a scheduled run is promised by `travelStation`, R5)."""
+    from worldgen import derive_services
+    doc = json.loads(ts.SERVICES.read_text(encoding="utf-8"))
+    assert "place.imperial-fringe.claywater-station" in derive_services.crossing_operators(doc)
+    run = next(s for s in doc["services"] if s.get("form") != "road-crossing"
+               and s.get("status") == "active")
+    run["operator"]["socketRef"] = "station.x.y"
+    assert run["operator"]["nearestPlaceId"] not in derive_services.crossing_operators(
+        {"services": [run]})
+
+
+def test_the_ceiling_spares_only_what_the_record_implies():
+    from worldgen import catalogue, derive_services
+    rec = json.loads(json.dumps(_places()["place.imperial-fringe.claywater-station"]))
+    assert derive_services.derive(rec) == ["ferry", "lodging", "stable", "trader"]
+    assert catalogue.hamlet_overreach(rec, rec["services"]) == []
+    assert catalogue.hamlet_overreach(rec, rec["services"] + ["smith"]) == ["smith"]
+    rec["rewardProfile"]["kinds"] = []
+    rec["classification"]["type"] = "flood-high-hamlet"
+    assert derive_services.derive(rec) == ["ferry"]
+
+
+def test_the_ceiling_check_is_the_derivation():
+    """The M1/M2 gate spares exactly what `derive` gives: a listed service
+    that backs a reward kind does not justify itself."""
+    from worldgen import catalogue
+    rec = json.loads(json.dumps(_places()["place.imperial-fringe.claywater-station"]))
+    rec["rewardProfile"]["kinds"] = ["rest-shelter"]
+    assert catalogue.hamlet_overreach(rec, ["ferry", "lodging", "stable", "tavern"]) == ["tavern"]
+
+
+def test_type_recipe_services_are_in_the_vocabulary():
+    from worldgen import derive_services
+    derive_services.recipe_services.cache_clear()
+    assert derive_services.recipe_services()["road-station-village"] == ("stable",)

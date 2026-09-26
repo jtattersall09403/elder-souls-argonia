@@ -1528,6 +1528,7 @@
         ]
       },
       "services": [
+        "council",
         "lodging",
         "shrine",
         "trader"
@@ -2761,7 +2762,9 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "guild-hall",
+        "trader"
       ]
     },
     {
@@ -3349,7 +3352,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "trader"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.siteAdvantages",
@@ -8136,7 +8141,8 @@
         }
       ],
       "services": [
-        "ferry"
+        "ferry",
+        "trader"
       ],
       "scourSiteId": "site.scour.firm-lowland.flood-high-009"
     },
@@ -12520,7 +12526,9 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "lodging",
+        "trader"
       ],
       "proseRefs": [
         {
@@ -13607,7 +13615,9 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "trader"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.founding",
@@ -15195,7 +15205,8 @@
         ]
       },
       "services": [
-        "ferry"
+        "ferry",
+        "trader"
       ],
       "scourSiteId": "site.scour.firm-lowland.islet-003"
     },
@@ -16463,6 +16474,7 @@
       },
       "sitingNote": "Xul-Vaat is filed with the coast because its burial trade serves the coastal towns; the ground under it is rootland deep marsh and its neighbours upriver are Nagas.",
       "services": [
+        "council",
         "lodging",
         "shrine",
         "trader"
@@ -20901,6 +20913,7 @@
       },
       "sitingNote": "Bound to Bramman's Screen: the village exists only as the pilotage of that river mouth. Unbound it landed a mile clear of it in the next culture zone.",
       "services": [
+        "council",
         "ferry"
       ],
       "proseRefs": [
@@ -22629,7 +22642,9 @@
           "place.saxhleel-coast.archon-shipyard"
         ]
       },
-      "services": [],
+      "services": [
+        "trader"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.pressures",
@@ -23216,7 +23231,9 @@
         },
         "score": 4.618
       },
-      "services": [],
+      "services": [
+        "trader"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.wouldChangeIf",
@@ -23865,7 +23882,9 @@
           }
         ]
       },
-      "services": []
+      "services": [
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-synod-outstation",
@@ -26380,7 +26399,10 @@
           }
         ]
       },
-      "services": [],
+      "services": [
+        "council",
+        "guild-hall"
+      ],
       "proseRefs": [
         {
           "sourcePath": "why.founding",
