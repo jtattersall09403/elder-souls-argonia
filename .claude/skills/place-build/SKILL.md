@@ -125,7 +125,9 @@ Ends when: every row has all four columns and every bar a planned number.
    § apply): the ordered operations for the **whole place** — `window`,
    `place`, `snap`, `mount`, `attach`, `group place` (dressing yard sets),
    `path`, `bind`, `note`. Every building and every dressing group from the
-   brief is in it before the first apply.
+   brief is in it before the first apply. Yard sets come from the tracked
+   `world/sources/placement/yard-sets/<type>.json` (0101); a new set is
+   added there, never only as a `group save` in the layout.
 3. Apply:
 
         python3 tooling/placement-workbench/wb.py <scene> apply world/sources/blueprints/<place>.layout.json
