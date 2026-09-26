@@ -1543,7 +1543,9 @@ Still part 2 (not in this walk):
 - `apply_route_patches` aborts if the natural array moved and
   `apply_terrain_patches` if the frozen base moved: pads go *after* route
   grading, on the graded array and never touch either.
-- One `shared_survey()` per process (the 12 GiB cgroup); three patch
+- One `shared_survey()` per process (heavy jobs run under `job_guard.sh`;
+  the memory guard is 3/4 of the machine's limit, was 12 GiB on the
+  codespace); three patch
   workers, not six.
 - Catalogue and remedy writers dump whole files: run them one at a time
   and the placement tests serially before preflight.

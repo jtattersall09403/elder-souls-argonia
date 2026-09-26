@@ -51,7 +51,7 @@ owner is not idle while a chunk runs. The world build keeps its one queue
   `ES_JOBS`, default max(1, floor(nproc/2)), and pinned the same way to the
   upper half of the cores (`tooling/repo-standards/jobs.mjs`), and `npm run preflight -- --paths` runs only the gates its files touch.
   A lane never runs two heavy jobs at once; the planner launches at most
-  floor(nproc/2) heavy lanes at a time (two on the 4-core codespace); light
+  floor(nproc/2) heavy lanes at a time (four on the 8-vCPU EC2 box; was two on the 4-core codespace); light
   lanes (docs, reads) run freely.
 - **No agent polls with `sleep`** (owner 2026-09-25: the time audit found
   21 agent-hours of lane leads sleeping on their builders). The shell guard

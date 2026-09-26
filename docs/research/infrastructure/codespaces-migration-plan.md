@@ -94,7 +94,8 @@ fallback: `tooling/world-generation/scripts/terrain-chain.sh:126` and
 `tooling/world-generation/scripts/chain-manifest.sh:18`. Python goes through
 `vault.py`, and the sibling `/workspaces/elder-scrolls-asset-pipeline`
 satisfies it with neither variable set. `tooling/repo-standards/memwatch.sh:31` reads
-`/sys/fs/cgroup/memory.stat` with a fixed 9 GiB default ceiling. `preflight.mjs:86`
+`/sys/fs/cgroup/memory.stat`; its ceiling is now 3/4 of the machine's limit
+(cgroup `memory.max`, else `MemTotal`; was a fixed 9 GiB for the 12 GiB cgroup). `preflight.mjs:86`
 already derives its budget from `memory.max`, falling back to `MemAvailable`,
 so it adapts. `apps/world-studio/vite.config.ts:103-107,130` requires
 `ES_TUNNEL_URL` and `ES_STUDIO_PORT` and sets HMR to `wss` on port 443 of the
@@ -147,6 +148,10 @@ project dir (transcripts, subagent dirs) is the `claude-transcripts` part
 git. Claude Code's default `cleanupPeriodDays` (30) stays, so the backup holds
 about the last month of sessions. There is no recent/archive split, because
 parts defined by file age would drop old sessions from the backup.
+
+**Delivered 2026-09-26 (EC2).**
+
+- 2026-09-26: moved to EC2 (8 vCPU, 30 GiB, 242 GiB); job_guard gives 3 heavy slots; Workflow concurrency cap is min(16, cpus-2) = 6.
 
 **Agent work remaining**:
 
@@ -257,11 +262,10 @@ A Claude subscription is separate and unchanged.
   can reach it. Studio links in hand-offs change shape. The CLAUDE.md
   "Test locally" rule stays true as written, because it names the env vars and
   not the host.
-- **12 GiB guard.** The codespace container has no 12 GiB session cgroup: the
-  whole machine's RAM is the limit, 32 GB on 8-core. `preflight.mjs` adapts by
-  itself. `memwatch.sh`'s 9 GiB default should become a fraction of
-  `memory.max`/`MemTotal`, otherwise it kills jobs that would fit. The
-  "preflight and the 12 GiB cgroup" memory becomes stale.
+- **Memory guard.** Heavy jobs run under `job_guard.sh`; the memory guard is
+  3/4 of the machine's limit (`memwatch.sh` reads `memory.max`, else
+  `MemTotal`; was 12 GiB on the codespace's session cgroup). `preflight.mjs`
+  adapts by itself. Done 2026-09-26.
 - **Paths (not yet done; waits for the 16h part 1 commit).** The heightfield
   defaults in `terrain-chain.sh:126` and `chain-manifest.sh:18` are to be
   rewritten to ask `worldgen/vault.py` (`heightfield_dir()`) instead of

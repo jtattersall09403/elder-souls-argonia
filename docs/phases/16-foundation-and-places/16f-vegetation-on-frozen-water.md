@@ -776,7 +776,8 @@ runtime rule changed. `?view=character&…`. Start the studio yourself
   ring's budget is decision 0036's).
 - `probe-vegetation.mjs` can hang under SwiftShader on dense jungle; it is
   not a gate. Numbers come from the bundles and the browser profiler.
-- The 12 GiB memory cap: a rebake or a scatter that dies at exit 137 leaves
+- The memory guard (3/4 of the machine's limit under `memwatch.sh`; was
+  12 GiB on the codespace): a rebake or a scatter that dies at exit 137 leaves
   half-written rasters; restore from HEAD.
 - CSM's `setupMaterial` overwrites `onBeforeCompile`: the litter blend needs
   the same re-apply the wind has.

@@ -182,9 +182,10 @@ block, not a second one. Built and unpublished kits also exist:
   wreck is plotted (PROGRESS, waiting on user).
 - **Dressing zones** (`world/sources/flora/dressing-zones.json`) are the
   authored-overlay record; nothing here writes them.
-- **Memory**: one `shared_survey()` per process; the session cgroup dies
-  past 12 GiB (memory `preflight-memory-cgroup`). Use `memwatch.sh` on the
-  chain run.
+- **Memory**: one `shared_survey()` per process; heavy jobs run under
+  `job_guard.sh` and the memory guard is 3/4 of the machine's limit (was
+  12 GiB on the codespace; memory `preflight-memory-cgroup`). Use
+  `memwatch.sh` on the chain run.
 
 ## Read
 

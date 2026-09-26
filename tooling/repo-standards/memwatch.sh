@@ -12,8 +12,8 @@
 # memory (anon + shmem + kernel from memory.stat; file cache is reclaimed
 # before the kernel ever kills) every half second, record the peak, and kill
 # the command's whole process group if it passes the ceiling (default 75% of
-# the machine's limit: cgroup memory.max, else MemTotal; 9 GiB on the 12 GiB
-# VM cgroup, scaled on a codespace) — BEFORE the kernel kills the editor session with it (2026-09-16:
+# the machine's limit: 3/4 of the cgroup limit or MemTotal (≈22 GiB on the
+# 30 GiB EC2 box; was 9 GiB on the 12 GiB cgroup) — BEFORE the kernel kills the editor session with it (2026-09-16:
 # preflight's parallel gates took the 12 GiB cgroup down three times).
 # memory.current is the wrong signal: on 2026-09-17 it read 5.2 GiB idle of
 # which 3.1 GiB was file cache from the province rasters.
