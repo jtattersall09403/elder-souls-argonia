@@ -8,12 +8,15 @@
 #   slot     a job_guard slot is held: a /tmp/es-jobs/slot-*.lock that flock
 #            cannot take (job_guard.sh holds it with flock for the job's life)
 #   load     the 1-minute load average is >= ES_IDLE_LOAD (default 0.5)
-#   tunnel   the `code tunnel` process tree holds more established TCP
-#            connections than ES_IDLE_TUNNEL_BASELINE (default 1: the host's
-#            own link to the tunnel relay, which is up with no client). NOT
-#            measured on EC2 yet: read the tunnel= counts in the log with
-#            vscode.dev open and closed on day 1 and set the baseline in
-#            /etc/es/idle.env if the default is wrong.
+#   tunnel   (only when ES_IDLE_USE_TUNNEL=1, default off) the `code tunnel`
+#            process tree holds more established TCP connections than
+#            ES_IDLE_TUNNEL_BASELINE (default 1: the host's own link to the
+#            tunnel relay, which is up with no client). Off by default: the
+#            tunnel relay keeps connections open regardless of whether anyone
+#            is actively using the box, so this check never let the machine
+#            go idle. Enable only after confirming the baseline for real
+#            usage (read the tunnel= counts in the log with vscode.dev open
+#            and closed) and setting it in /etc/es/idle.env.
 # The first idle check writes the time to /var/lib/es/idle-since; any busy
 # check deletes it. Idle time runs from the latest of that time, the boot and
 # the newest Claude transcript write (*.jsonl under $ES_IDLE_CLAUDE_DIR,
@@ -28,6 +31,7 @@ set -uo pipefail
 MINUTES="${ES_IDLE_MINUTES:-30}"
 MAX_LOAD="${ES_IDLE_LOAD:-0.5}"
 BASELINE="${ES_IDLE_TUNNEL_BASELINE:-1}"
+USE_TUNNEL="${ES_IDLE_USE_TUNNEL:-0}"
 LOCKS="${ES_JOB_LOCK_DIR:-/tmp/es-jobs}"
 CLAUDE_DIR="${ES_IDLE_CLAUDE_DIR:-/workspaces/.claude-home/projects}"
 STATE="${ES_IDLE_STATE:-/var/lib/es/idle-since}"
@@ -66,11 +70,13 @@ tunnel_pids() {
   echo "$all" | xargs -n1 2>/dev/null | sort -u
 }
 tunnel=0
-pids=$(tunnel_pids)
-if [[ -n "$pids" ]]; then
-  pat=$(echo "$pids" | awk '{printf "%spid=%s,", (NR>1?"|":""), $1}')
-  tunnel=$(ss -Htnp state established 2>/dev/null | grep -cE "$pat" || true)
-  (( tunnel > BASELINE )) && busy+=("tunnel:$tunnel")
+if (( USE_TUNNEL )); then
+  pids=$(tunnel_pids)
+  if [[ -n "$pids" ]]; then
+    pat=$(echo "$pids" | awk '{printf "%spid=%s,", (NR>1?"|":""), $1}')
+    tunnel=$(ss -Htnp state established 2>/dev/null | grep -cE "$pat" || true)
+    (( tunnel > BASELINE )) && busy+=("tunnel:$tunnel")
+  fi
 fi
 
 now=$(date +%s)

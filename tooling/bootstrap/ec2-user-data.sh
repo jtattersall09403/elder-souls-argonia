@@ -67,6 +67,7 @@ install -m 755 "$B/idle-stop.sh" /opt/es/idle-stop.sh
 ES_IDLE_MINUTES=30
 ES_IDLE_LOAD=0.5
 ES_IDLE_TUNNEL_BASELINE=1
+ES_IDLE_USE_TUNNEL=0
 EOF
 
 # 6. systemd: lingering (the tunnel's user service), on-start at boot, the idle timer.
