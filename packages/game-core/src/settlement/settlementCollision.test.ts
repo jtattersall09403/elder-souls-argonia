@@ -133,8 +133,20 @@ describe("settlement collision is the real shape", () => {
       return Math.max(1, placement.collision.parts?.length ?? 1);
     };
     const byId = new Map(bundle.placements.map((p) => [p.id, p]));
-    const worst = Math.max(...bundle.settlements.map((settlement) => settlement.placementIds
-      .reduce((sum, id) => sum + (byId.has(id) ? parts(byId.get(id)!) : 0), 0)));
+    // a bound run of mesh pieces is ONE joined part (runColliders.ts, 0101 rule 9)
+    const residentParts = (ids: string[]): number => {
+      const placed = ids.map((id) => byId.get(id)).filter((p): p is SettlementPlacement =>
+        !!p && p.collision.kind !== "none");
+      const runs = new Map<string, SettlementPlacement[]>();
+      for (const p of placed) if (p.run) runs.set(p.run.id, [...(runs.get(p.run.id) ?? []), p]);
+      const joined = new Set([...runs].filter(([, m]) => m.length >= 2
+        && m.every((p) => (p.collision.kind === "mesh" || p.collision.kind === "convex")
+          && !p.collision.parts?.length)).map(([id]) => id));
+      return joined.size + placed.filter((p) => !(p.run && joined.has(p.run.id)))
+        .reduce((sum, p) => sum + parts(p), 0);
+    };
+    const worst = Math.max(...bundle.settlements.map((settlement) =>
+      residentParts(settlement.placementIds)));
     // Decision 0052, one source: the published budget seats the worst place's
     // resident parts and is exactly round(worst x 1.55) of THIS bundle.
     expect(worst).toBeGreaterThan(0);

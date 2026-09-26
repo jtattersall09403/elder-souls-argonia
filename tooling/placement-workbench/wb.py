@@ -123,7 +123,7 @@ def cmd_place(a, scene, cat):
     x, z = (a.at[0] * 1000, a.at[1] * 1000) if a.km else a.at
     cat.row(a.asset)
     p = scene.add(Piece(uid=a.uid, asset=a.asset, x=x, z=z, yaw=a.yaw % 360.0, y=a.y,
-                        scale=a.scale, pad=pads.parse(a.pad)))
+                        scale=a.scale, pad=pads.parse(a.pad), beached=a.beached))
     out = {"placed": a.uid}
     if a.settle:
         out["settle"] = _settle(cat, scene, p)
@@ -292,6 +292,40 @@ def _fit_rules(cat, g, p, cs, authored_fit: str | None = None) -> dict:
     return out
 
 
+BEACHED_FLOAT_MAX_M = 0.3     # R5 (planner 2026-09-26): the keel or base rests on the bank
+BEACHED_SLOPE_MAX_DEG = 20.0
+BEACHED_WATER_REACH_M = 1.5   # ... and stands within this of the water line
+
+
+def _beached(cat, g, p) -> dict:
+    """R5 (planner ruling 2026-09-26): a hull or cleat placed `beached` is
+    judged on its base contact with the bank (foot float <= 0.3 m), the
+    bank's slope under it (<= 20 deg) and its reach to the water line (a wet
+    depth cell within 1.5 m of its outline), in place of 97 B3, the fit
+    delta and the sill."""
+    from shapely.geometry import Polygon
+    poly = measure.footprint_province(cat, p)
+    slope = g.footprint_max_slope_deg(poly)
+    fl = measure.float_under(cat, g, p)["footFloatMaxM"] if p.y is not None else None
+    ring = Polygon(poly).buffer(BEACHED_WATER_REACH_M).exterior
+    n = max(8, int(ring.length / 0.5))
+    reach = any(g.depth(pt.x, pt.y) > 0.0
+                for pt in (ring.interpolate(i / n, normalized=True) for i in range(n)))
+    why = []
+    if fl is None:
+        why.append("it is not seated (no y): place it with --settle")
+    elif fl > BEACHED_FLOAT_MAX_M:
+        why.append(f"its base stands {fl:.2f} m off the bank (> {BEACHED_FLOAT_MAX_M})")
+    if slope > BEACHED_SLOPE_MAX_DEG:
+        why.append(f"the bank under it is {slope:.1f} deg (> {BEACHED_SLOPE_MAX_DEG})")
+    if not reach:
+        why.append(f"no water within {BEACHED_WATER_REACH_M} m of its outline")
+    return {"beached": True, "maxSlopeDeg": round(slope, 2), "footFloatMaxM": fl,
+            "waterWithinReach": reach,
+            "beachedRule": ("beached: " + "; ".join(why)) if why else None,
+            "ok": not why}
+
+
 def _sill(cat, g, p, row, cs) -> dict:
     """The yard gate's sill (`worldgen.test_proving_ground.ground_audit`) on
     this pose: how far the designed ground line (the mean of the anchor's
@@ -310,7 +344,13 @@ def _sill(cat, g, p, row, cs) -> dict:
     mode = (row.get("placement") or {}).get("anchorMode", "streamed-perimeter")
     samples = (measure.footprint_province(cat, p) if mode == "streamed-perimeter"
                else [(p.x, p.z)])
-    if fit == "stilt":
+    retained = (None if p.y is None else
+                cs.retaining_sill(row, g.survey_height, getattr(g, "pad_index", None),
+                                  samples, (p.x, p.z),
+                                  p.y + (float(row["sizeM"][2]) - float(row["originOffsetM"][2])) * p.scale))
+    if retained is not None:
+        sill = retained              # a retaining wall meets its pad (0101 rule 4)
+    elif fit == "stilt":
         sill = sum(max(0.0, g.depth(x, z)) for x, z in samples) / len(samples)
     else:
         heights = [g.survey_height(x, z) for x, z in samples]
@@ -370,7 +410,9 @@ def cmd_check(a, scene, cat):
             seat = measure.seat(cat, g, p)
             r["runtimeY"] = round(seat["y"], 3)
             r["yOffRuntimeM"] = None if p.y is None else round(p.y - seat["y"], 3)
-            if p.role.get("kind") != "run":
+            if p.beached:
+                r.update(_beached(cat, g, p))
+            elif p.role.get("kind") != "run":
                 # a run is judged by the compile on its union (`compile` command)
                 r.update(_fit_rules(cat, g, p, cs, _authored_fit(scene, p)))
             if seat["mode"] != "water":
@@ -636,9 +678,12 @@ def cmd_site(a, scene, cat):
     from workbench import paths as wbpaths
     wbpaths.bridge()
     from worldgen import compile_settlement as cs
-    g = scene.ground()
+    from workbench import pads
+    g = pads.ground_for(cat, scene, None)      # the patched ground check reads (0101)
     row = cat.row(a.asset)
     water = (row.get("anchorClass") or "ground") == "water"
+    taken = ([Polygon(measure.footprint_province(cat, q)).buffer(0.15) for q in scene.pieces
+              if q.uid not in (getattr(a, "skip", None) or [])] if getattr(a, "free", False) else [])
     cx, cz = (a.centre if a.centre else g.meta["centreM"])
     half = min(a.half or g.meta["halfM"], g.meta["halfM"])
     from shapely.geometry import box
@@ -665,21 +710,39 @@ def cmd_site(a, scene, cat):
                 continue                    # the window's samplers refuse what lies outside it
             if any(w.distance(outline) < a.clear for w in ways):
                 continue
-            rules = _fit_rules(cat, g, p, cs)
+            if any(outline.intersects(t) for t in taken):
+                continue
+            try:
+                if getattr(a, "beached", False):
+                    p.y = measure.seat(cat, g, p)["y"]
+                    rules = _beached(cat, g, p)
+                else:
+                    rules = _fit_rules(cat, g, p, cs)
+                    if rules["ok"] and not water and getattr(a, "free", False):
+                        p.y = measure.seat(cat, g, p)["y"]
+                        if measure.float_under(cat, g, p)["footFloatMaxM"] > 0.3:
+                            continue
+            except ValueError:                  # a sample outside the ground window
+                continue
             if not rules["ok"]:
                 continue
             if water:
                 ring = _hull_water(cat, g, p)
                 if ring["ok"]:
                     found.append({"at": [round(x, 2), round(z, 2)], "minDepthM": ring["minDepthM"],
-                                  "maxSlopeDeg": rules["maxSlopeDeg"]})
+                                  "maxSlopeDeg": rules["maxSlopeDeg"],
+                                  "fromCentreM": round(math.hypot(x - cx, z - cz), 2)})
                 continue
             if any(g.wet(vx, vz) for vx, vz in poly):
                 continue
             found.append({"at": [round(x, 2), round(z, 2)], "maxSlopeDeg": rules["maxSlopeDeg"],
-                          "surveyDeltaM": rules["surveyDeltaM"], "sillM": rules.get("sillM")})
-    found.sort(key=lambda f: (f["maxSlopeDeg"], f.get("surveyDeltaM", 0.0),
-                              -f.get("minDepthM", 0.0)))
+                          "surveyDeltaM": rules.get("surveyDeltaM", 0.0), "sillM": rules.get("sillM"),
+                          "fromCentreM": round(math.hypot(x - cx, z - cz), 2)})
+    if getattr(a, "nearest", False):
+        found.sort(key=lambda f: (f.get("fromCentreM", 0.0), f["maxSlopeDeg"]))
+    else:
+        found.sort(key=lambda f: (f["maxSlopeDeg"], f.get("surveyDeltaM", 0.0),
+                                  -f.get("minDepthM", 0.0)))
     return {"asset": a.asset, "yaw": a.yaw, "fit": fit_of(row), "legal": len(found),
             "best": found[:a.limit]}
 
@@ -810,6 +873,9 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--settle", action="store_true")
     s.add_argument("--pad", nargs="*", default=None, metavar="KEY=VALUE",
                    help="declare a building pad (0101): apronM, datumM, floorMinM")
+    s.add_argument("--beached", action="store_true",
+                   help="a hull or cleat drawn up on the bank (R5): judged on its base "
+                        "contact, bank slope and reach to the water line, not 97 B3")
     s = sub.add_parser("move")
     s.add_argument("uid")
     for k in ("dx", "dz", "dy", "forward", "right", "turn"):
@@ -926,6 +992,12 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--centre", type=float, nargs=2, default=None, help="province metres")
     s.add_argument("--clear", type=float, default=3.0, help="metres from any way")
     s.add_argument("--limit", type=int, default=12)
+    s.add_argument("--free", action="store_true",
+                   help="only poses clear of every scene piece's outline (0.15 m), with the "
+                        "foot seated within the float bar: dressing siting")
+    s.add_argument("--skip", nargs="*", default=[], help="piece uids --free ignores (the piece being moved)")
+    s.add_argument("--beached", action="store_true", help="judge the pose on R5 (beached hull or cleat)")
+    s.add_argument("--nearest", action="store_true", help="order by distance from --centre")
     s = sub.add_parser("compile")
     s.add_argument("blueprint", nargs="?", default=None,
                    help="default world/sources/blueprints/<scene placeId>.json")

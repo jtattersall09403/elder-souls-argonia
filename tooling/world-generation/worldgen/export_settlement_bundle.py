@@ -78,6 +78,9 @@ COLLISION_FRAME = "settlement-pivot-yup-v1"
 # (`collider_part_budget`) and written to lod.colliderPartBudget; the runtime
 # reads only that published value. The fixed gate is the ceiling below.
 COLLIDER_PART_HEADROOM = 1.55
+# SettlementLayer.tsx TRIMESH_COLLISION_KINDS: pieces that collide as their own
+# LOD0 triangles, which a bound run joins into one part
+TRIMESH_COLLISION_KINDS = frozenset({"mesh", "convex"})
 # planner 2026-09-25: headroom over the 152 measured with yards A+B; re-measure
 # when a real place exceeds it.
 COLLIDER_PART_CEILING = 200
@@ -548,18 +551,40 @@ def lod0_part_counts(kit: str, kits_dir: Path = KITS) -> dict[str, int]:
 def resident_collision_parts(
     settlements: list[dict], placements: list[dict], kits_dir: Path = KITS,
 ) -> dict[str, int]:
-    """Collision parts the runtime must build for each settlement's residents."""
+    """Collision parts the runtime must build for each settlement's residents.
+
+    A bound run whose members all collide as their own triangles (`mesh`,
+    `convex`) is ONE part: the runtime joins it into one trimesh, since the run
+    is seated as one rigid chain (`runColliders.ts mergeRunColliders`, decision
+    0101 rule 9). Any other member counts its own parts."""
     by_id = {placement["id"]: placement for placement in placements}
     kit_counts: dict[str, dict[str, int]] = {}
     totals: dict[str, int] = {}
     for settlement in settlements:
         total = 0
+        runs: dict[str, list[dict]] = {}
         for placement_id in settlement["placementIds"]:
             placement = by_id.get(placement_id)
             if placement is None:
                 continue
             collision = placement.get("collision") or {}
             if collision.get("kind", "none") == "none":
+                continue
+            run_id = (placement.get("run") or {}).get("id")
+            if run_id:
+                runs.setdefault(run_id, []).append(placement)
+        joined = {run_id for run_id, members in runs.items() if len(members) >= 2
+                  and all((m["collision"].get("kind") in TRIMESH_COLLISION_KINDS)
+                          and not m["collision"].get("parts") for m in members)}
+        total += len(joined)
+        for placement_id in settlement["placementIds"]:
+            placement = by_id.get(placement_id)
+            if placement is None:
+                continue
+            collision = placement.get("collision") or {}
+            if collision.get("kind", "none") == "none":
+                continue
+            if (placement.get("run") or {}).get("id") in joined:
                 continue
             parts = collision.get("parts")
             if parts:
@@ -939,7 +964,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             for record in region_file.places
         }
     blueprint_by_id = {}
-    for path in sorted(blueprints_dir.glob("place.*.json")):
+    for path in bp_mod.blueprint_paths(blueprints_dir):
         doc = _read(path)
         bp = doc.get("blueprint")
         if bp:
@@ -1628,16 +1653,20 @@ def emit_run_pads(bundle: dict, places, pads_path: Path, survey=None) -> list[di
     scope = _place_scope(places) if places is not None else None
     by_id = {p["id"]: p for p in bundle["placements"]}
     new: list[dict] = []
+    rebuilt: dict[str, dict] = {}
     for site in bundle["settlements"]:
         if scope is not None and site["id"] not in scope:
             continue
         rows = [by_id[i] for i in site["placementIds"] if i in by_id]
         new += run_pad_patches(rows, site["id"], survey.height_at, is_wet)
         new += building_pad_patches(rows, site["id"])
-    if not new:
-        return []
+        # what the layout holds now: a pad whose run or building left it goes
+        rebuilt[site["id"]] = {
+            "runs": {p["run"]["id"] for p in rows if isinstance(p.get("run"), dict)},
+            "buildings": {p["pad"]["parcelId"] for p in rows if isinstance(p.get("pad"), dict)},
+            "placements": {p["id"] for p in rows}}
     existing = tp.load(pads_path)
-    merged = merge_pad_patches(existing, new)
+    merged = merge_pad_patches(existing, new, rebuilt)
     declare_order(merged)
     errors = tp.validate(merged)
     if errors:

@@ -55,6 +55,7 @@ PAD_HARD_RADIUS_PX = 1.5   # every sample within this many samples of the footpr
 MAX_PAD_DELTA_M = 2.0      # = grade_settlement_pads.MAX_PAD_DELTA_M: a pad is a small engineered base
 PAD_APRON_M = 1.5          # a building pad reaches this far beyond its footprint (0101)
 RETAIN_BAR_M = 0.6         # R1: a pad edge whose fill or cut exceeds this is a retaining-wall run
+RETAIN_REACH_M = 1.0       # R1: a wall piece within this of a pad edge retains it (= workbench pads.RETAIN_REACH_M)
 PAD_SAMPLE_STEP_M = 1.0    # the grid the ground under a building pad is read on
 #: R1: the retaining-wall family of a building's kit (asset id prefixes the
 #: wall run's pieces must carry). A kit absent here has none (argonian mud:
@@ -200,7 +201,7 @@ class PaddedSurvey:
 
     def __init__(self, survey, pads: list[dict]):
         self._survey = survey
-        self._index = PadIndex([p["polygonM"] for p in pads])
+        self.pad_index = PadIndex([p["polygonM"] for p in pads])
         self.height_at = pad_ground(survey.height_at, pads)
 
     def pad_slope_deg(self, polygon) -> float | None:
@@ -211,7 +212,7 @@ class PaddedSurvey:
         exposes the same method; `compile_settlement.footprint_max_slope_deg`
         reads it wherever it exists."""
         from .compile_settlement import grid_max_slope_deg
-        return padded_slope_deg(self.height_at, self._index, polygon,
+        return padded_slope_deg(self.height_at, self.pad_index, polygon,
                                 lambda ring: grid_max_slope_deg(ring, self._survey))
 
     def __getattr__(self, name):
@@ -227,7 +228,8 @@ def merge_pad_patches(existing: list[dict], new: list[dict],
     ({placeId: {"runs": run ids, "buildings": padded parcel ids}}, the places
     this export rebuilt), an existing pad of this writer whose run or
     building is no longer there is dropped. Returns the merged list
-    (unordered)."""
+    (unordered). A member whose placement is no longer in its rebuilt place
+    (``rebuilt[place]["placements"]``) is dropped from its pad."""
     def gone(patch: dict) -> bool:
         src = patch.get("source") or {}
         live = (rebuilt or {}).get(src.get("placeId"))
@@ -237,7 +239,25 @@ def merge_pad_patches(existing: list[dict], new: list[dict],
             return src["buildingId"] not in live["buildings"]
         return "runId" in src and src["runId"] not in live["runs"]
 
-    out = {p["id"]: p for p in existing if not gone(p)}
+    out = {}
+    for p in existing:
+        if gone(p):
+            continue
+        live = ((rebuilt or {}).get((p.get("source") or {}).get("placeId")) or {}).get("placements")
+        if p.get("kind") == "settlement-pad" and live is not None:
+            # a member that left the rebuilt layout takes its grading with it
+            kept = [r for r in p["params"]["pieces"] if r["placementId"] in live]
+            if not kept:
+                continue
+            if len(kept) != len(p["params"]["pieces"]):
+                src = p["source"]
+                owner = "run" if "runId" in src else "building"
+                rebuilt_patch = pad_patch(src["placeId"], src.get("runId") or src["buildingId"],
+                                          kept, owner)
+                if owner == "building":
+                    rebuilt_patch["hardM"] = 0.0
+                p = rebuilt_patch
+        out[p["id"]] = p
     for patch in new:
         old = out.get(patch["id"])
         if old is None:
@@ -409,6 +429,39 @@ class PadIndex:
             return [list(g.exterior.coords)[:-1] for g in parts
                     if g.geom_type == "Polygon" and g.area > 1e-6]
         return rings(on), rings(poly.difference(self._union))
+
+    def pad_side(self, points, reach_m: float) -> list:
+        """The pad points nearest each of ``points`` that lies on a pad or
+        within ``reach_m`` of one: the pad side of a piece laid along a pad
+        edge."""
+        from shapely.geometry import Point
+        from shapely.ops import nearest_points
+        if self._union is None:
+            return []
+        out = []
+        for x, z in points:
+            pt = Point(x, z)
+            if self._union.distance(pt) <= reach_m:
+                got = nearest_points(self._union, pt)[0]
+                out.append((got.x, got.y))
+        return out
+
+
+def retaining_sill_m(height_at, index: "PadIndex | None", samples, pivot,
+                     top_m: float, reach_m: float = RETAIN_REACH_M) -> float | None:
+    """The yard-gate sill of a retaining-wall piece (0101 rule 10, planner
+    2026-09-26): measured on the pad side against the padded ground, where
+    the wall's top course must meet the pad: how far its placed top ``top_m``
+    falls short of the padded ground at the pad point nearest its pivot (0
+    when the top reaches or stands above it; the drop it retains below is its
+    job, not a gap). None when no footprint sample lies within ``reach_m``
+    (R1's reach) of a pad: the ordinary sill applies."""
+    if index is None or not index.pad_side(samples, reach_m):
+        return None
+    near = index.pad_side([pivot], float("inf"))
+    if not near:
+        return None
+    return max(0.0, height_at(*near[0]) - float(top_m))
 
 
 def padded_slope_deg(height_at, index: PadIndex, polygon, grid_slope,

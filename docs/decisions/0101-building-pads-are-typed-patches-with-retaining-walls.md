@@ -57,12 +57,15 @@ nothing said what holds up the edge of a levelled building.
    (`compile_settlement.is_retaining_wall`, beside `SLOPE_EXEMPT_KITS`): it
    stands where the ground steps by more than the limit by construction
    and is not a floor. Every other rule still judges it (the fit delta,
-   the run's mined pairs, R1's cover; planner ruling 7b, 2026-09-26).
-5. **Gates.** `wb.py check` reports `padRule` (pad-fit) on an edge over
+   the run's mined pairs, R1's cover; planner ruling 7b, 2026-09-26). Its
+   yard-gate sill is measured on the pad side against the padded ground
+   (rule 10).
+5. **97 C6 is measured per district, under the column the place is built.** The built ground is the union of the district hulls, each buffered by half the column's maximum building spacing, and the band is the `densityPerHa` of the `breadth-bars.json` column its counted buildings fall in (`blueprint.density_column`, `district_hull_area_ha`; planner ruling 2026-09-26: Claywater read 7.5/ha on one hull spanning road and ford, 14.3/ha under the hamlet column).
+6. **Gates.** `wb.py check` reports `padRule` (pad-fit) on an edge over
    0.6 m that wall pieces do not cover; the compile refuses a pad with no
    datum, a delta over 2.0 m, water under it (0059 invariant 4) or a datum
    under its flood floor.
-6. **One pad writer, one judge, one surface.** `settlement_run_pads.pad_patch`
+7. **One pad writer, one judge, one surface.** `settlement_run_pads.pad_patch`
    writes both the run pads and the building pads;
    `export_settlement_bundle.emit_run_pads` merges both cumulatively into
    the place's patch set. A building patch carries `hardM` 0, so the
@@ -71,12 +74,28 @@ nothing said what holds up the edge of a levelled building.
    the compile and by `wb.py check`; after the pads are resolved every
    compile read (seat, fit delta, a stacked base, assemblies, dressing) is
    on the patched ground (`PaddedSurvey`).
-7. **Yard sets are a tracked record.** `world/sources/placement/yard-sets/<type>.json`
+8. **Yard sets are a tracked record.** `world/sources/placement/yard-sets/<type>.json`
    (`schemaVersion` 1: set id, anchor, members with piece id, offset, yaw,
    optional mount) is what `wb.py group place` reads first; the gitignored
    `output/prefabs` serves only the yard fixtures. `01-road-station.json`
    holds Claywater's four sets.
 
+9. **A bound run collides as one part** (planner ruling 2026-09-26). A run is
+   seated as one rigid chain (259b200a), so the runtime joins its members'
+   LOD0 triangles into one trimesh (`game-core/src/settlement/runColliders.ts`)
+   and the export counts it once (`export_settlement_bundle.
+   resident_collision_parts`); a run of measured proxy boxes keeps one part
+   per piece. Claywater Station: 148 resident parts per piece, 113 joined
+   (x 1.55 = 175, under the 200 ceiling, which stays).
+10. **Beached craft and retaining-wall sills** (planner rulings 3 and 4,
+   2026-09-26). A retaining wall's yard-gate sill is measured on the pad side
+   against the padded ground: its top course must meet the pad, so the sill
+   is how far its placed top falls short of the pad
+   (`settlement_run_pads.retaining_sill_m`). A hull
+   or cleat placed `beached` (layout field) is judged on its base contact
+   (float <= 0.3 m), the bank's slope (<= 20 deg) and a wet cell within 1.5 m
+   of its outline (`wb.py` `_beached`), in place of 97 B3, the fit delta and
+   the sill.
 ## Measured (scratch scene, chunk ground)
 
 | Case | Without a pad | With a pad |

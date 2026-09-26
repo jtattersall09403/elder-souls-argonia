@@ -295132,6 +295132,5188 @@
      ]
     ]
    ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-basket",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      293.386,
+      3005.813
+     ],
+     [
+      293.598,
+      3005.447
+     ],
+     [
+      293.967,
+      3005.66
+     ],
+     [
+      293.755,
+      3006.026
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-candle",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      289.427,
+      3006.677
+     ],
+     [
+      289.848,
+      3005.947
+     ],
+     [
+      290.376,
+      3006.251
+     ],
+     [
+      289.954,
+      3006.982
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-chair",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      289.076,
+      3008.503
+     ],
+     [
+      288.866,
+      3009.08
+     ],
+     [
+      288.318,
+      3008.881
+     ],
+     [
+      288.528,
+      3008.304
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-pot",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      291.733,
+      3005.453
+     ],
+     [
+      291.959,
+      3005.061
+     ],
+     [
+      292.345,
+      3005.284
+     ],
+     [
+      292.119,
+      3005.676
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-sack",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      292.428,
+      3004.251
+     ],
+     [
+      292.694,
+      3003.79
+     ],
+     [
+      293.383,
+      3004.187
+     ],
+     [
+      293.117,
+      3004.648
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-table",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      289.811,
+      3007.463
+     ],
+     [
+      292.651,
+      3008.497
+     ],
+     [
+      292.15,
+      3009.874
+     ],
+     [
+      289.309,
+      3008.84
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.b5-ahy-urn",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      292.415,
+      3006.585
+     ],
+     [
+      292.781,
+      3005.952
+     ],
+     [
+      293.414,
+      3006.317
+     ],
+     [
+      293.048,
+      3006.95
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.assembly.f2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      293.993,
+      3004.574
+     ],
+     [
+      294.966,
+      3004.928
+     ],
+     [
+      294.683,
+      3005.706
+     ],
+     [
+      293.71,
+      3005.352
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.family-hut.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      278.184,
+      2996.467
+     ],
+     [
+      277.705,
+      2994.55
+     ],
+     [
+      277.514,
+      2992.735
+     ],
+     [
+      277.513,
+      2992.677
+     ],
+     [
+      277.539,
+      2992.625
+     ],
+     [
+      278.583,
+      2990.746
+     ],
+     [
+      279.854,
+      2989.233
+     ],
+     [
+      281.533,
+      2988.184
+     ],
+     [
+      283.45,
+      2987.705
+     ],
+     [
+      285.242,
+      2987.552
+     ],
+     [
+      285.3,
+      2987.551
+     ],
+     [
+      285.361,
+      2987.572
+     ],
+     [
+      287.254,
+      2988.583
+     ],
+     [
+      288.767,
+      2989.854
+     ],
+     [
+      289.816,
+      2991.533
+     ],
+     [
+      290.295,
+      2993.45
+     ],
+     [
+      290.932,
+      2996.602
+     ],
+     [
+      290.937,
+      2996.61
+     ],
+     [
+      290.955,
+      2996.752
+     ],
+     [
+      290.958,
+      2996.869
+     ],
+     [
+      290.931,
+      2996.921
+     ],
+     [
+      289.999,
+      2998.411
+     ],
+     [
+      289.941,
+      2998.507
+     ],
+     [
+      289.684,
+      2998.643
+     ],
+     [
+      289.667,
+      2998.654
+     ],
+     [
+      286.467,
+      2999.816
+     ],
+     [
+      284.55,
+      3000.295
+     ],
+     [
+      282.388,
+      3000.384
+     ],
+     [
+      282.33,
+      3000.385
+     ],
+     [
+      282.278,
+      3000.359
+     ],
+     [
+      280.746,
+      2999.417
+     ],
+     [
+      279.233,
+      2998.146
+     ]
+    ],
+    [
+     [
+      291.661,
+      2997.491
+     ],
+     [
+      291.545,
+      2998.076
+     ],
+     [
+      291.213,
+      2998.572
+     ],
+     [
+      290.717,
+      2998.904
+     ],
+     [
+      290.132,
+      2999.02
+     ],
+     [
+      289.547,
+      2998.904
+     ],
+     [
+      289.051,
+      2998.572
+     ],
+     [
+      288.719,
+      2998.076
+     ],
+     [
+      288.603,
+      2997.491
+     ],
+     [
+      288.719,
+      2996.906
+     ],
+     [
+      289.051,
+      2996.41
+     ],
+     [
+      289.547,
+      2996.078
+     ],
+     [
+      290.132,
+      2995.962
+     ],
+     [
+      290.717,
+      2996.078
+     ],
+     [
+      291.213,
+      2996.41
+     ],
+     [
+      291.545,
+      2996.906
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.ferry-raft.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      350.071,
+      3006.085
+     ],
+     [
+      350.101,
+      3006.088
+     ],
+     [
+      350.12,
+      3006.099
+     ],
+     [
+      350.187,
+      3006.135
+     ],
+     [
+      350.196,
+      3006.146
+     ],
+     [
+      350.164,
+      3006.746
+     ],
+     [
+      350.017,
+      3008.429
+     ],
+     [
+      349.951,
+      3008.946
+     ],
+     [
+      349.888,
+      3009.101
+     ],
+     [
+      349.611,
+      3009.167
+     ],
+     [
+      346.013,
+      3008.982
+     ],
+     [
+      345.973,
+      3008.979
+     ],
+     [
+      345.954,
+      3008.967
+     ],
+     [
+      345.924,
+      3008.965
+     ],
+     [
+      345.858,
+      3008.919
+     ],
+     [
+      345.849,
+      3008.908
+     ],
+     [
+      346.133,
+      3006.584
+     ],
+     [
+      346.188,
+      3006.067
+     ],
+     [
+      346.262,
+      3005.912
+     ],
+     [
+      346.431,
+      3005.817
+     ],
+     [
+      346.62,
+      3005.833
+     ],
+     [
+      350.031,
+      3006.082
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.paddock-fence.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      357.48,
+      3082.97
+     ],
+     [
+      357.51,
+      3082.97
+     ],
+     [
+      357.59,
+      3083.06
+     ],
+     [
+      357.58,
+      3086.98
+     ],
+     [
+      357.52,
+      3087.07
+     ],
+     [
+      357.47,
+      3087.06
+     ],
+     [
+      357.41,
+      3086.95
+     ],
+     [
+      357.41,
+      3084.08
+     ],
+     [
+      357.42,
+      3083.06
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.paddock-fence.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      357.412,
+      3080.88
+     ],
+     [
+      357.442,
+      3080.88
+     ],
+     [
+      357.523,
+      3080.97
+     ],
+     [
+      357.539,
+      3084.89
+     ],
+     [
+      357.48,
+      3084.98
+     ],
+     [
+      357.43,
+      3084.97
+     ],
+     [
+      357.369,
+      3084.861
+     ],
+     [
+      357.35,
+      3081.991
+     ],
+     [
+      357.353,
+      3080.971
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.paddock-fence.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      357.342,
+      3079.711
+     ],
+     [
+      357.372,
+      3079.721
+     ],
+     [
+      357.443,
+      3079.8
+     ],
+     [
+      357.491,
+      3081.86
+     ],
+     [
+      357.413,
+      3081.981
+     ],
+     [
+      357.363,
+      3081.971
+     ],
+     [
+      357.312,
+      3081.902
+     ],
+     [
+      357.284,
+      3079.822
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-basket",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      306.788,
+      3011.089
+     ],
+     [
+      307.211,
+      3011.089
+     ],
+     [
+      307.211,
+      3011.515
+     ],
+     [
+      306.788,
+      3011.515
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-candle",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      303.56,
+      3009.592
+     ],
+     [
+      304.403,
+      3009.592
+     ],
+     [
+      304.403,
+      3010.201
+     ],
+     [
+      303.56,
+      3010.201
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-chair",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      302.053,
+      3010.134
+     ],
+     [
+      301.448,
+      3010.241
+     ],
+     [
+      301.347,
+      3009.667
+     ],
+     [
+      301.952,
+      3009.56
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-oven",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      298.294,
+      3007.387
+     ],
+     [
+      301.556,
+      3008.575
+     ],
+     [
+      300.783,
+      3010.7
+     ],
+     [
+      297.52,
+      3009.513
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-pot",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      306.773,
+      3010.477
+     ],
+     [
+      307.226,
+      3010.477
+     ],
+     [
+      307.226,
+      3010.923
+     ],
+     [
+      306.773,
+      3010.923
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-sack",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      308.229,
+      3010.228
+     ],
+     [
+      308.761,
+      3010.228
+     ],
+     [
+      308.761,
+      3011.023
+     ],
+     [
+      308.229,
+      3011.023
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.ahy-urn",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      305.134,
+      3015.134
+     ],
+     [
+      305.865,
+      3015.134
+     ],
+     [
+      305.865,
+      3015.865
+     ],
+     [
+      305.134,
+      3015.865
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-basket1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      305.641,
+      3016.73
+     ],
+     [
+      306.356,
+      3016.73
+     ],
+     [
+      306.356,
+      3017.26
+     ],
+     [
+      305.641,
+      3017.26
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-basket2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      306.349,
+      3021.381
+     ],
+     [
+      306.815,
+      3021.551
+     ],
+     [
+      306.648,
+      3022.009
+     ],
+     [
+      306.182,
+      3021.84
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-lantern1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      315.183,
+      3009.68
+     ],
+     [
+      315.838,
+      3009.68
+     ],
+     [
+      315.838,
+      3010.319
+     ],
+     [
+      315.183,
+      3010.319
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-lantern2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      333.682,
+      3016.183
+     ],
+     [
+      334.337,
+      3016.183
+     ],
+     [
+      334.337,
+      3016.822
+     ],
+     [
+      333.682,
+      3016.822
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-net",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      303.225,
+      3009.912
+     ],
+     [
+      303.13,
+      3010.45
+     ],
+     [
+      302.589,
+      3010.355
+     ],
+     [
+      302.684,
+      3009.816
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-oar",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      321.022,
+      3007.358
+     ],
+     [
+      319.319,
+      3010.309
+     ],
+     [
+      318.958,
+      3010.101
+     ],
+     [
+      320.662,
+      3007.15
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.al-rack2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      297.764,
+      3005.642
+     ],
+     [
+      297.98,
+      3008.116
+     ],
+     [
+      295.343,
+      3008.346
+     ],
+     [
+      295.127,
+      3005.873
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.canoe",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      331.081,
+      3011.636
+     ],
+     [
+      330.09,
+      3013.351
+     ],
+     [
+      324.234,
+      3009.97
+     ],
+     [
+      325.225,
+      3008.255
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.cleat1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      328.533,
+      3007.49
+     ],
+     [
+      328.441,
+      3008.543
+     ],
+     [
+      328.058,
+      3008.51
+     ],
+     [
+      328.15,
+      3007.457
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.cleat2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      329.233,
+      3004.99
+     ],
+     [
+      329.141,
+      3006.043
+     ],
+     [
+      328.758,
+      3006.01
+     ],
+     [
+      328.85,
+      3004.957
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.assembly.plank",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      333.119,
+      3019.44
+     ],
+     [
+      330.628,
+      3020.346
+     ],
+     [
+      329.412,
+      3017.004
+     ],
+     [
+      331.902,
+      3016.098
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.polers-hut.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      311.99,
+      2996.755
+     ],
+     [
+      312.557,
+      2996.752
+     ],
+     [
+      313.136,
+      2996.818
+     ],
+     [
+      313.713,
+      2996.996
+     ],
+     [
+      314.284,
+      2997.267
+     ],
+     [
+      315.39,
+      2997.945
+     ],
+     [
+      315.888,
+      2998.319
+     ],
+     [
+      316.351,
+      2998.729
+     ],
+     [
+      316.745,
+      2999.15
+     ],
+     [
+      317.142,
+      2999.713
+     ],
+     [
+      317.282,
+      3000.065
+     ],
+     [
+      317.452,
+      3000.543
+     ],
+     [
+      317.565,
+      3001.042
+     ],
+     [
+      317.617,
+      3001.54
+     ],
+     [
+      317.61,
+      3002.048
+     ],
+     [
+      317.601,
+      3002.303
+     ],
+     [
+      317.591,
+      3002.426
+     ],
+     [
+      317.529,
+      3002.72
+     ],
+     [
+      317.385,
+      3003.139
+     ],
+     [
+      317.156,
+      3003.593
+     ],
+     [
+      316.847,
+      3004.11
+     ],
+     [
+      316.493,
+      3004.605
+     ],
+     [
+      315.655,
+      3005.544
+     ],
+     [
+      315.196,
+      3005.955
+     ],
+     [
+      314.705,
+      3006.299
+     ],
+     [
+      314.181,
+      3006.558
+     ],
+     [
+      313.638,
+      3006.709
+     ],
+     [
+      313.061,
+      3006.774
+     ],
+     [
+      310.772,
+      3006.727
+     ],
+     [
+      309.699,
+      3006.611
+     ],
+     [
+      308.67,
+      3006.396
+     ],
+     [
+      307.673,
+      3006.126
+     ],
+     [
+      306.613,
+      3005.723
+     ],
+     [
+      305.699,
+      3005.287
+     ],
+     [
+      305.357,
+      3005.059
+     ],
+     [
+      305.078,
+      3004.781
+     ],
+     [
+      304.852,
+      3004.454
+     ],
+     [
+      304.671,
+      3004.038
+     ],
+     [
+      304.512,
+      3003.507
+     ],
+     [
+      304.413,
+      3002.905
+     ],
+     [
+      304.394,
+      3002.3
+     ],
+     [
+      304.501,
+      3001.724
+     ],
+     [
+      304.733,
+      3001.23
+     ],
+     [
+      305.068,
+      3000.799
+     ],
+     [
+      305.767,
+      3000.126
+     ],
+     [
+      306.277,
+      2999.657
+     ],
+     [
+      308.46,
+      2998.393
+     ],
+     [
+      310.072,
+      2997.538
+     ],
+     [
+      311.408,
+      2996.973
+     ]
+    ],
+    [
+     [
+      312.619,
+      3006.502
+     ],
+     [
+      312.503,
+      3007.087
+     ],
+     [
+      312.171,
+      3007.583
+     ],
+     [
+      311.675,
+      3007.915
+     ],
+     [
+      311.09,
+      3008.031
+     ],
+     [
+      310.505,
+      3007.915
+     ],
+     [
+      310.009,
+      3007.583
+     ],
+     [
+      309.677,
+      3007.087
+     ],
+     [
+      309.561,
+      3006.502
+     ],
+     [
+      309.677,
+      3005.917
+     ],
+     [
+      310.009,
+      3005.421
+     ],
+     [
+      310.505,
+      3005.089
+     ],
+     [
+      311.09,
+      3004.973
+     ],
+     [
+      311.675,
+      3005.089
+     ],
+     [
+      312.171,
+      3005.421
+     ],
+     [
+      312.503,
+      3005.917
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      320.911,
+      3081.491
+     ],
+     [
+      320.685,
+      3081.231
+     ],
+     [
+      320.654,
+      3080.941
+     ],
+     [
+      320.647,
+      3080.536
+     ],
+     [
+      320.773,
+      3080.013
+     ],
+     [
+      320.921,
+      3079.646
+     ],
+     [
+      321.032,
+      3079.468
+     ],
+     [
+      321.81,
+      3078.562
+     ],
+     [
+      322.001,
+      3078.446
+     ],
+     [
+      323.188,
+      3079.187
+     ],
+     [
+      323.167,
+      3079.41
+     ],
+     [
+      322.694,
+      3080.506
+     ],
+     [
+      322.583,
+      3080.684
+     ],
+     [
+      322.317,
+      3080.978
+     ],
+     [
+      321.86,
+      3081.294
+     ],
+     [
+      321.536,
+      3081.492
+     ],
+     [
+      321.183,
+      3081.566
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      321.99,
+      3078.463
+     ],
+     [
+      322.839,
+      3076.576
+     ],
+     [
+      322.95,
+      3076.398
+     ],
+     [
+      323.728,
+      3075.492
+     ],
+     [
+      323.919,
+      3075.376
+     ],
+     [
+      325.106,
+      3076.118
+     ],
+     [
+      325.085,
+      3076.34
+     ],
+     [
+      324.613,
+      3077.436
+     ],
+     [
+      324.501,
+      3077.614
+     ],
+     [
+      323.177,
+      3079.204
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      323.914,
+      3075.384
+     ],
+     [
+      324.763,
+      3073.497
+     ],
+     [
+      324.874,
+      3073.319
+     ],
+     [
+      325.652,
+      3072.414
+     ],
+     [
+      325.843,
+      3072.297
+     ],
+     [
+      327.03,
+      3073.039
+     ],
+     [
+      327.009,
+      3073.262
+     ],
+     [
+      326.536,
+      3074.358
+     ],
+     [
+      326.425,
+      3074.536
+     ],
+     [
+      325.101,
+      3076.126
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-ne.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      325.832,
+      3072.314
+     ],
+     [
+      326.681,
+      3070.427
+     ],
+     [
+      326.792,
+      3070.249
+     ],
+     [
+      326.989,
+      3070.066
+     ],
+     [
+      327.567,
+      3069.613
+     ],
+     [
+      327.887,
+      3069.554
+     ],
+     [
+      328.085,
+      3069.595
+     ],
+     [
+      328.255,
+      3069.701
+     ],
+     [
+      328.477,
+      3069.875
+     ],
+     [
+      328.583,
+      3070.083
+     ],
+     [
+      328.653,
+      3070.291
+     ],
+     [
+      328.533,
+      3071.03
+     ],
+     [
+      328.454,
+      3071.288
+     ],
+     [
+      328.343,
+      3071.466
+     ],
+     [
+      327.019,
+      3073.056
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      300.879,
+      3069.241
+     ],
+     [
+      301.139,
+      3069.015
+     ],
+     [
+      301.429,
+      3068.984
+     ],
+     [
+      301.834,
+      3068.977
+     ],
+     [
+      302.357,
+      3069.103
+     ],
+     [
+      302.724,
+      3069.251
+     ],
+     [
+      302.902,
+      3069.362
+     ],
+     [
+      303.808,
+      3070.14
+     ],
+     [
+      303.924,
+      3070.331
+     ],
+     [
+      303.183,
+      3071.518
+     ],
+     [
+      302.96,
+      3071.497
+     ],
+     [
+      301.864,
+      3071.024
+     ],
+     [
+      301.686,
+      3070.913
+     ],
+     [
+      301.392,
+      3070.647
+     ],
+     [
+      301.076,
+      3070.19
+     ],
+     [
+      300.878,
+      3069.866
+     ],
+     [
+      300.804,
+      3069.513
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      303.907,
+      3070.32
+     ],
+     [
+      305.794,
+      3071.169
+     ],
+     [
+      305.972,
+      3071.28
+     ],
+     [
+      306.878,
+      3072.058
+     ],
+     [
+      306.994,
+      3072.249
+     ],
+     [
+      306.252,
+      3073.436
+     ],
+     [
+      306.03,
+      3073.415
+     ],
+     [
+      304.934,
+      3072.943
+     ],
+     [
+      304.756,
+      3072.831
+     ],
+     [
+      303.166,
+      3071.507
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      306.986,
+      3072.244
+     ],
+     [
+      308.873,
+      3073.093
+     ],
+     [
+      309.051,
+      3073.204
+     ],
+     [
+      309.956,
+      3073.982
+     ],
+     [
+      310.073,
+      3074.173
+     ],
+     [
+      309.331,
+      3075.36
+     ],
+     [
+      309.108,
+      3075.339
+     ],
+     [
+      308.012,
+      3074.866
+     ],
+     [
+      307.834,
+      3074.755
+     ],
+     [
+      306.244,
+      3073.431
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      310.064,
+      3074.167
+     ],
+     [
+      311.951,
+      3075.016
+     ],
+     [
+      312.129,
+      3075.128
+     ],
+     [
+      313.035,
+      3075.906
+     ],
+     [
+      313.151,
+      3076.096
+     ],
+     [
+      312.409,
+      3077.284
+     ],
+     [
+      312.187,
+      3077.262
+     ],
+     [
+      311.091,
+      3076.79
+     ],
+     [
+      310.913,
+      3076.678
+     ],
+     [
+      309.322,
+      3075.355
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.5",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      313.143,
+      3076.091
+     ],
+     [
+      315.03,
+      3076.94
+     ],
+     [
+      315.208,
+      3077.051
+     ],
+     [
+      316.113,
+      3077.829
+     ],
+     [
+      316.23,
+      3078.02
+     ],
+     [
+      315.488,
+      3079.207
+     ],
+     [
+      315.265,
+      3079.186
+     ],
+     [
+      314.169,
+      3078.713
+     ],
+     [
+      313.991,
+      3078.602
+     ],
+     [
+      312.401,
+      3077.278
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-nw.piece.6",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      316.213,
+      3078.009
+     ],
+     [
+      318.099,
+      3078.858
+     ],
+     [
+      318.278,
+      3078.969
+     ],
+     [
+      318.461,
+      3079.167
+     ],
+     [
+      318.914,
+      3079.744
+     ],
+     [
+      318.973,
+      3080.064
+     ],
+     [
+      318.932,
+      3080.263
+     ],
+     [
+      318.826,
+      3080.432
+     ],
+     [
+      318.652,
+      3080.654
+     ],
+     [
+      318.444,
+      3080.76
+     ],
+     [
+      318.235,
+      3080.83
+     ],
+     [
+      317.497,
+      3080.71
+     ],
+     [
+      317.239,
+      3080.632
+     ],
+     [
+      317.061,
+      3080.52
+     ],
+     [
+      315.471,
+      3079.197
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      306.459,
+      3055.529
+     ],
+     [
+      306.685,
+      3055.789
+     ],
+     [
+      306.716,
+      3056.079
+     ],
+     [
+      306.723,
+      3056.484
+     ],
+     [
+      306.597,
+      3057.007
+     ],
+     [
+      306.449,
+      3057.374
+     ],
+     [
+      306.338,
+      3057.552
+     ],
+     [
+      305.56,
+      3058.458
+     ],
+     [
+      305.369,
+      3058.574
+     ],
+     [
+      304.182,
+      3057.833
+     ],
+     [
+      304.203,
+      3057.61
+     ],
+     [
+      304.676,
+      3056.514
+     ],
+     [
+      304.787,
+      3056.336
+     ],
+     [
+      305.053,
+      3056.042
+     ],
+     [
+      305.51,
+      3055.726
+     ],
+     [
+      305.834,
+      3055.528
+     ],
+     [
+      306.187,
+      3055.454
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      305.38,
+      3058.557
+     ],
+     [
+      304.531,
+      3060.444
+     ],
+     [
+      304.42,
+      3060.622
+     ],
+     [
+      303.642,
+      3061.528
+     ],
+     [
+      303.451,
+      3061.644
+     ],
+     [
+      302.264,
+      3060.902
+     ],
+     [
+      302.285,
+      3060.68
+     ],
+     [
+      302.757,
+      3059.584
+     ],
+     [
+      302.869,
+      3059.406
+     ],
+     [
+      304.193,
+      3057.816
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      303.456,
+      3061.636
+     ],
+     [
+      302.607,
+      3063.523
+     ],
+     [
+      302.496,
+      3063.701
+     ],
+     [
+      301.718,
+      3064.606
+     ],
+     [
+      301.527,
+      3064.723
+     ],
+     [
+      300.34,
+      3063.981
+     ],
+     [
+      300.361,
+      3063.758
+     ],
+     [
+      300.834,
+      3062.662
+     ],
+     [
+      300.945,
+      3062.484
+     ],
+     [
+      302.269,
+      3060.894
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.retaining-wall-sw.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      301.538,
+      3064.706
+     ],
+     [
+      300.689,
+      3066.593
+     ],
+     [
+      300.578,
+      3066.771
+     ],
+     [
+      300.381,
+      3066.954
+     ],
+     [
+      299.803,
+      3067.407
+     ],
+     [
+      299.483,
+      3067.466
+     ],
+     [
+      299.285,
+      3067.425
+     ],
+     [
+      299.115,
+      3067.319
+     ],
+     [
+      298.893,
+      3067.145
+     ],
+     [
+      298.787,
+      3066.937
+     ],
+     [
+      298.717,
+      3066.729
+     ],
+     [
+      298.837,
+      3065.99
+     ],
+     [
+      298.916,
+      3065.732
+     ],
+     [
+      299.027,
+      3065.554
+     ],
+     [
+      300.351,
+      3063.964
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn.assembly.sty-hay",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      350.043,
+      3082.212
+     ],
+     [
+      349.681,
+      3084.265
+     ],
+     [
+      347.927,
+      3083.956
+     ],
+     [
+      348.289,
+      3081.903
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn.assembly.sty-trough",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      346.907,
+      3092.349
+     ],
+     [
+      345.064,
+      3092.349
+     ],
+     [
+      345.064,
+      3091.663
+     ],
+     [
+      346.907,
+      3091.663
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn.assembly.sty-wood",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      344.802,
+      3100.095
+     ],
+     [
+      343.967,
+      3102.825
+     ],
+     [
+      342.215,
+      3102.289
+     ],
+     [
+      343.049,
+      3099.559
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-barn.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      335.548,
+      3097.61
+     ],
+     [
+      335.294,
+      3097.544
+     ],
+     [
+      327.674,
+      3085.349
+     ],
+     [
+      327.726,
+      3085.093
+     ],
+     [
+      336.834,
+      3079.402
+     ],
+     [
+      337.096,
+      3079.462
+     ],
+     [
+      344.716,
+      3091.657
+     ],
+     [
+      344.656,
+      3091.919
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      348.122,
+      3091.462
+     ],
+     [
+      347.789,
+      3091.552
+     ],
+     [
+      347.514,
+      3091.452
+     ],
+     [
+      347.147,
+      3091.28
+     ],
+     [
+      346.733,
+      3090.938
+     ],
+     [
+      346.467,
+      3090.644
+     ],
+     [
+      346.356,
+      3090.466
+     ],
+     [
+      345.883,
+      3089.37
+     ],
+     [
+      345.862,
+      3089.147
+     ],
+     [
+      347.049,
+      3088.406
+     ],
+     [
+      347.24,
+      3088.522
+     ],
+     [
+      348.018,
+      3089.428
+     ],
+     [
+      348.129,
+      3089.606
+     ],
+     [
+      348.277,
+      3089.973
+     ],
+     [
+      348.36,
+      3090.523
+     ],
+     [
+      348.396,
+      3090.901
+     ],
+     [
+      348.308,
+      3091.251
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      345.873,
+      3089.164
+     ],
+     [
+      344.549,
+      3087.574
+     ],
+     [
+      344.437,
+      3087.396
+     ],
+     [
+      343.965,
+      3086.3
+     ],
+     [
+      343.944,
+      3086.078
+     ],
+     [
+      345.131,
+      3085.336
+     ],
+     [
+      345.322,
+      3085.452
+     ],
+     [
+      346.1,
+      3086.358
+     ],
+     [
+      346.211,
+      3086.536
+     ],
+     [
+      347.06,
+      3088.423
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      343.949,
+      3086.086
+     ],
+     [
+      342.625,
+      3084.496
+     ],
+     [
+      342.514,
+      3084.318
+     ],
+     [
+      342.041,
+      3083.222
+     ],
+     [
+      342.02,
+      3082.999
+     ],
+     [
+      343.207,
+      3082.257
+     ],
+     [
+      343.398,
+      3082.374
+     ],
+     [
+      344.176,
+      3083.279
+     ],
+     [
+      344.287,
+      3083.457
+     ],
+     [
+      345.136,
+      3085.344
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      342.025,
+      3083.008
+     ],
+     [
+      340.702,
+      3081.417
+     ],
+     [
+      340.59,
+      3081.239
+     ],
+     [
+      340.118,
+      3080.143
+     ],
+     [
+      340.096,
+      3079.921
+     ],
+     [
+      341.284,
+      3079.179
+     ],
+     [
+      341.474,
+      3079.295
+     ],
+     [
+      342.252,
+      3080.201
+     ],
+     [
+      342.364,
+      3080.379
+     ],
+     [
+      343.213,
+      3082.266
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-east.piece.5",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      340.107,
+      3079.938
+     ],
+     [
+      338.783,
+      3078.348
+     ],
+     [
+      338.672,
+      3078.169
+     ],
+     [
+      338.594,
+      3077.912
+     ],
+     [
+      338.44,
+      3077.194
+     ],
+     [
+      338.527,
+      3076.881
+     ],
+     [
+      338.651,
+      3076.72
+     ],
+     [
+      338.82,
+      3076.614
+     ],
+     [
+      339.074,
+      3076.492
+     ],
+     [
+      339.307,
+      3076.487
+     ],
+     [
+      339.525,
+      3076.516
+     ],
+     [
+      340.137,
+      3076.947
+     ],
+     [
+      340.334,
+      3077.131
+     ],
+     [
+      340.445,
+      3077.309
+     ],
+     [
+      341.294,
+      3079.196
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      335.492,
+      3076.708
+     ],
+     [
+      335.582,
+      3077.041
+     ],
+     [
+      335.482,
+      3077.316
+     ],
+     [
+      335.31,
+      3077.683
+     ],
+     [
+      334.968,
+      3078.097
+     ],
+     [
+      334.674,
+      3078.363
+     ],
+     [
+      334.496,
+      3078.474
+     ],
+     [
+      333.4,
+      3078.947
+     ],
+     [
+      333.177,
+      3078.968
+     ],
+     [
+      332.436,
+      3077.781
+     ],
+     [
+      332.552,
+      3077.59
+     ],
+     [
+      333.458,
+      3076.812
+     ],
+     [
+      333.636,
+      3076.701
+     ],
+     [
+      334.003,
+      3076.553
+     ],
+     [
+      334.553,
+      3076.47
+     ],
+     [
+      334.931,
+      3076.434
+     ],
+     [
+      335.281,
+      3076.522
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      333.194,
+      3078.957
+     ],
+     [
+      331.604,
+      3080.281
+     ],
+     [
+      331.426,
+      3080.393
+     ],
+     [
+      330.33,
+      3080.865
+     ],
+     [
+      330.108,
+      3080.886
+     ],
+     [
+      329.366,
+      3079.699
+     ],
+     [
+      329.482,
+      3079.508
+     ],
+     [
+      330.388,
+      3078.73
+     ],
+     [
+      330.566,
+      3078.619
+     ],
+     [
+      332.453,
+      3077.77
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      330.116,
+      3080.881
+     ],
+     [
+      328.526,
+      3082.205
+     ],
+     [
+      328.348,
+      3082.316
+     ],
+     [
+      327.252,
+      3082.789
+     ],
+     [
+      327.029,
+      3082.81
+     ],
+     [
+      326.287,
+      3081.623
+     ],
+     [
+      326.404,
+      3081.432
+     ],
+     [
+      327.309,
+      3080.654
+     ],
+     [
+      327.487,
+      3080.543
+     ],
+     [
+      329.374,
+      3079.694
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-north.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      327.046,
+      3082.799
+     ],
+     [
+      325.456,
+      3084.123
+     ],
+     [
+      325.278,
+      3084.234
+     ],
+     [
+      325.02,
+      3084.313
+     ],
+     [
+      324.303,
+      3084.467
+     ],
+     [
+      323.989,
+      3084.38
+     ],
+     [
+      323.829,
+      3084.256
+     ],
+     [
+      323.723,
+      3084.086
+     ],
+     [
+      323.6,
+      3083.833
+     ],
+     [
+      323.596,
+      3083.599
+     ],
+     [
+      323.624,
+      3083.381
+     ],
+     [
+      324.056,
+      3082.769
+     ],
+     [
+      324.239,
+      3082.572
+     ],
+     [
+      324.417,
+      3082.461
+     ],
+     [
+      326.304,
+      3081.612
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      335.888,
+      3100.922
+     ],
+     [
+      335.798,
+      3100.589
+     ],
+     [
+      335.898,
+      3100.314
+     ],
+     [
+      336.07,
+      3099.947
+     ],
+     [
+      336.412,
+      3099.533
+     ],
+     [
+      336.706,
+      3099.267
+     ],
+     [
+      336.884,
+      3099.156
+     ],
+     [
+      337.98,
+      3098.683
+     ],
+     [
+      338.203,
+      3098.662
+     ],
+     [
+      338.944,
+      3099.849
+     ],
+     [
+      338.828,
+      3100.04
+     ],
+     [
+      337.922,
+      3100.818
+     ],
+     [
+      337.744,
+      3100.929
+     ],
+     [
+      337.377,
+      3101.077
+     ],
+     [
+      336.827,
+      3101.16
+     ],
+     [
+      336.449,
+      3101.196
+     ],
+     [
+      336.099,
+      3101.108
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      338.186,
+      3098.673
+     ],
+     [
+      339.776,
+      3097.349
+     ],
+     [
+      339.954,
+      3097.237
+     ],
+     [
+      341.05,
+      3096.765
+     ],
+     [
+      341.272,
+      3096.744
+     ],
+     [
+      342.014,
+      3097.931
+     ],
+     [
+      341.898,
+      3098.122
+     ],
+     [
+      340.992,
+      3098.9
+     ],
+     [
+      340.814,
+      3099.011
+     ],
+     [
+      338.927,
+      3099.86
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      341.264,
+      3096.749
+     ],
+     [
+      342.854,
+      3095.425
+     ],
+     [
+      343.032,
+      3095.314
+     ],
+     [
+      344.128,
+      3094.841
+     ],
+     [
+      344.351,
+      3094.82
+     ],
+     [
+      345.093,
+      3096.007
+     ],
+     [
+      344.976,
+      3096.198
+     ],
+     [
+      344.071,
+      3096.976
+     ],
+     [
+      343.893,
+      3097.087
+     ],
+     [
+      342.006,
+      3097.936
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-south.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      344.334,
+      3094.831
+     ],
+     [
+      345.924,
+      3093.507
+     ],
+     [
+      346.102,
+      3093.396
+     ],
+     [
+      346.36,
+      3093.317
+     ],
+     [
+      347.077,
+      3093.164
+     ],
+     [
+      347.391,
+      3093.25
+     ],
+     [
+      347.551,
+      3093.374
+     ],
+     [
+      347.657,
+      3093.544
+     ],
+     [
+      347.78,
+      3093.797
+     ],
+     [
+      347.784,
+      3094.031
+     ],
+     [
+      347.756,
+      3094.249
+     ],
+     [
+      347.324,
+      3094.861
+     ],
+     [
+      347.141,
+      3095.058
+     ],
+     [
+      346.963,
+      3095.169
+     ],
+     [
+      345.076,
+      3096.018
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      324.368,
+      3085.688
+     ],
+     [
+      324.701,
+      3085.598
+     ],
+     [
+      324.976,
+      3085.698
+     ],
+     [
+      325.343,
+      3085.87
+     ],
+     [
+      325.757,
+      3086.212
+     ],
+     [
+      326.023,
+      3086.506
+     ],
+     [
+      326.134,
+      3086.684
+     ],
+     [
+      326.607,
+      3087.78
+     ],
+     [
+      326.628,
+      3088.003
+     ],
+     [
+      325.441,
+      3088.744
+     ],
+     [
+      325.25,
+      3088.628
+     ],
+     [
+      324.472,
+      3087.722
+     ],
+     [
+      324.361,
+      3087.544
+     ],
+     [
+      324.213,
+      3087.177
+     ],
+     [
+      324.13,
+      3086.627
+     ],
+     [
+      324.094,
+      3086.249
+     ],
+     [
+      324.182,
+      3085.899
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      326.617,
+      3087.986
+     ],
+     [
+      327.941,
+      3089.576
+     ],
+     [
+      328.053,
+      3089.754
+     ],
+     [
+      328.525,
+      3090.85
+     ],
+     [
+      328.546,
+      3091.072
+     ],
+     [
+      327.359,
+      3091.814
+     ],
+     [
+      327.168,
+      3091.698
+     ],
+     [
+      326.39,
+      3090.792
+     ],
+     [
+      326.279,
+      3090.614
+     ],
+     [
+      325.43,
+      3088.727
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      328.541,
+      3091.064
+     ],
+     [
+      329.865,
+      3092.654
+     ],
+     [
+      329.976,
+      3092.832
+     ],
+     [
+      330.449,
+      3093.928
+     ],
+     [
+      330.47,
+      3094.151
+     ],
+     [
+      329.283,
+      3094.893
+     ],
+     [
+      329.092,
+      3094.776
+     ],
+     [
+      328.314,
+      3093.871
+     ],
+     [
+      328.203,
+      3093.693
+     ],
+     [
+      327.354,
+      3091.806
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      330.465,
+      3094.142
+     ],
+     [
+      331.788,
+      3095.733
+     ],
+     [
+      331.9,
+      3095.911
+     ],
+     [
+      332.372,
+      3097.007
+     ],
+     [
+      332.394,
+      3097.229
+     ],
+     [
+      331.206,
+      3097.971
+     ],
+     [
+      331.016,
+      3097.855
+     ],
+     [
+      330.238,
+      3096.949
+     ],
+     [
+      330.126,
+      3096.771
+     ],
+     [
+      329.277,
+      3094.884
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.stable-wall-west.piece.5",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      332.383,
+      3097.212
+     ],
+     [
+      333.707,
+      3098.802
+     ],
+     [
+      333.818,
+      3098.981
+     ],
+     [
+      333.896,
+      3099.238
+     ],
+     [
+      334.05,
+      3099.956
+     ],
+     [
+      333.963,
+      3100.269
+     ],
+     [
+      333.839,
+      3100.43
+     ],
+     [
+      333.67,
+      3100.536
+     ],
+     [
+      333.416,
+      3100.658
+     ],
+     [
+      333.183,
+      3100.663
+     ],
+     [
+      332.965,
+      3100.634
+     ],
+     [
+      332.353,
+      3100.203
+     ],
+     [
+      332.156,
+      3100.019
+     ],
+     [
+      332.045,
+      3099.841
+     ],
+     [
+      331.196,
+      3097.954
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-barrel",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      315.904,
+      3061.504
+     ],
+     [
+      316.696,
+      3061.504
+     ],
+     [
+      316.696,
+      3062.296
+     ],
+     [
+      315.904,
+      3062.296
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-bench",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      311.923,
+      3060.372
+     ],
+     [
+      313.347,
+      3061.262
+     ],
+     [
+      313.104,
+      3061.65
+     ],
+     [
+      311.681,
+      3060.76
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-crate",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      325.131,
+      3067.343
+     ],
+     [
+      325.75,
+      3067.729
+     ],
+     [
+      324.67,
+      3069.458
+     ],
+     [
+      324.051,
+      3069.071
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-lamp",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      318.671,
+      3061.573
+     ],
+     [
+      318.931,
+      3061.573
+     ],
+     [
+      318.931,
+      3061.82
+     ],
+     [
+      318.671,
+      3061.82
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-sack",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      310.229,
+      3061.828
+     ],
+     [
+      310.761,
+      3061.828
+     ],
+     [
+      310.761,
+      3062.623
+     ],
+     [
+      310.229,
+      3062.623
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.assembly.b1-wood",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      308.913,
+      3061.871
+     ],
+     [
+      310.009,
+      3062.555
+     ],
+     [
+      309.271,
+      3063.737
+     ],
+     [
+      308.175,
+      3063.052
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.station-house.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      322.497,
+      3073.31
+     ],
+     [
+      321.431,
+      3074.79
+     ],
+     [
+      320.712,
+      3075.696
+     ],
+     [
+      319.95,
+      3076.387
+     ],
+     [
+      318.77,
+      3076.464
+     ],
+     [
+      317.582,
+      3076.005
+     ],
+     [
+      315.97,
+      3075.151
+     ],
+     [
+      306.709,
+      3069.364
+     ],
+     [
+      305.235,
+      3068.289
+     ],
+     [
+      304.387,
+      3067.476
+     ],
+     [
+      303.876,
+      3066.426
+     ],
+     [
+      304.088,
+      3065.426
+     ],
+     [
+      304.64,
+      3064.297
+     ],
+     [
+      305.503,
+      3062.69
+     ],
+     [
+      306.569,
+      3061.21
+     ],
+     [
+      307.288,
+      3060.304
+     ],
+     [
+      308.051,
+      3059.613
+     ],
+     [
+      309.23,
+      3059.536
+     ],
+     [
+      310.418,
+      3059.995
+     ],
+     [
+      312.03,
+      3060.849
+     ],
+     [
+      321.291,
+      3066.636
+     ],
+     [
+      322.765,
+      3067.711
+     ],
+     [
+      323.613,
+      3068.524
+     ],
+     [
+      324.124,
+      3069.574
+     ],
+     [
+      323.912,
+      3070.574
+     ],
+     [
+      323.36,
+      3071.703
+     ]
+    ],
+    [
+     [
+      318.959,
+      3065.945
+     ],
+     [
+      318.843,
+      3066.53
+     ],
+     [
+      318.511,
+      3067.026
+     ],
+     [
+      318.015,
+      3067.358
+     ],
+     [
+      317.43,
+      3067.474
+     ],
+     [
+      316.845,
+      3067.358
+     ],
+     [
+      316.349,
+      3067.026
+     ],
+     [
+      316.017,
+      3066.53
+     ],
+     [
+      315.901,
+      3065.945
+     ],
+     [
+      316.017,
+      3065.36
+     ],
+     [
+      316.349,
+      3064.864
+     ],
+     [
+      316.845,
+      3064.532
+     ],
+     [
+      317.43,
+      3064.416
+     ],
+     [
+      318.015,
+      3064.532
+     ],
+     [
+      318.511,
+      3064.864
+     ],
+     [
+      318.843,
+      3065.36
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.assembly.b6-basket",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      264.139,
+      3006.736
+     ],
+     [
+      264.854,
+      3006.736
+     ],
+     [
+      264.854,
+      3007.266
+     ],
+     [
+      264.139,
+      3007.266
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.assembly.b6-rack",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      260.569,
+      3002.016
+     ],
+     [
+      260.137,
+      3004.462
+     ],
+     [
+      257.531,
+      3004.002
+     ],
+     [
+      257.962,
+      3001.557
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.assembly.b6-urn",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      253.634,
+      3005.634
+     ],
+     [
+      254.365,
+      3005.634
+     ],
+     [
+      254.365,
+      3006.365
+     ],
+     [
+      253.634,
+      3006.365
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.store-hut.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      257.007,
+      2998.239
+     ],
+     [
+      256.999,
+      2998.159
+     ],
+     [
+      256.949,
+      2997.319
+     ],
+     [
+      257.304,
+      2996.19
+     ],
+     [
+      257.334,
+      2996.142
+     ],
+     [
+      258.226,
+      2995.074
+     ],
+     [
+      259.214,
+      2994.641
+     ],
+     [
+      260.292,
+      2994.597
+     ],
+     [
+      261.563,
+      2995.166
+     ],
+     [
+      261.61,
+      2995.196
+     ],
+     [
+      262.425,
+      2996.055
+     ],
+     [
+      262.748,
+      2996.832
+     ],
+     [
+      262.952,
+      2997.719
+     ],
+     [
+      262.716,
+      2998.871
+     ],
+     [
+      262.458,
+      2999.444
+     ],
+     [
+      262.385,
+      2999.574
+     ],
+     [
+      261.849,
+      3000.631
+     ],
+     [
+      261.729,
+      3000.69
+     ],
+     [
+      261.624,
+      3000.724
+     ],
+     [
+      259.715,
+      3001.165
+     ],
+     [
+      259.605,
+      3001.18
+     ],
+     [
+      259.472,
+      3001.18
+     ],
+     [
+      258.527,
+      3000.465
+     ],
+     [
+      258.404,
+      3000.38
+     ],
+     [
+      257.922,
+      2999.978
+     ],
+     [
+      257.204,
+      2999.046
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-barrel1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      313.104,
+      3053.604
+     ],
+     [
+      313.896,
+      3053.604
+     ],
+     [
+      313.896,
+      3054.396
+     ],
+     [
+      313.104,
+      3054.396
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-barrel2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      310.655,
+      3057.959
+     ],
+     [
+      311.341,
+      3058.355
+     ],
+     [
+      310.945,
+      3059.041
+     ],
+     [
+      310.259,
+      3058.645
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-bucket",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      318.55,
+      3050.531
+     ],
+     [
+      319.051,
+      3050.531
+     ],
+     [
+      319.051,
+      3051.069
+     ],
+     [
+      318.55,
+      3051.069
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-crate",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      317.155,
+      3061.871
+     ],
+     [
+      317.643,
+      3062.413
+     ],
+     [
+      316.828,
+      3063.146
+     ],
+     [
+      316.34,
+      3062.604
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-fire",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      315.473,
+      3056.473
+     ],
+     [
+      316.527,
+      3056.473
+     ],
+     [
+      316.527,
+      3057.527
+     ],
+     [
+      315.473,
+      3057.527
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-lamp",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      314.271,
+      3053.473
+     ],
+     [
+      314.531,
+      3053.473
+     ],
+     [
+      314.531,
+      3053.72
+     ],
+     [
+      314.271,
+      3053.72
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.isy-trough",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      326.704,
+      3043.442
+     ],
+     [
+      328.493,
+      3043.888
+     ],
+     [
+      328.327,
+      3044.553
+     ],
+     [
+      326.538,
+      3044.108
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.assembly.p1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      323.836,
+      3047.927
+     ],
+     [
+      323.971,
+      3048.144
+     ],
+     [
+      323.764,
+      3048.273
+     ],
+     [
+      323.629,
+      3048.056
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.the-well.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      327.088,
+      3046.773
+     ],
+     [
+      327.243,
+      3046.44
+     ],
+     [
+      327.512,
+      3046.188
+     ],
+     [
+      327.861,
+      3046.069
+     ],
+     [
+      328.227,
+      3046.088
+     ],
+     [
+      328.56,
+      3046.243
+     ],
+     [
+      328.812,
+      3046.512
+     ],
+     [
+      328.931,
+      3046.861
+     ],
+     [
+      328.912,
+      3047.227
+     ],
+     [
+      328.757,
+      3047.56
+     ],
+     [
+      328.488,
+      3047.812
+     ],
+     [
+      328.139,
+      3047.931
+     ],
+     [
+      327.773,
+      3047.912
+     ],
+     [
+      327.44,
+      3047.757
+     ],
+     [
+      327.188,
+      3047.488
+     ],
+     [
+      327.069,
+      3047.139
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.travellers-lean-to.assembly.isy-bench",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      321.119,
+      3064.237
+     ],
+     [
+      322.242,
+      3065.485
+     ],
+     [
+      321.902,
+      3065.791
+     ],
+     [
+      320.778,
+      3064.544
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.travellers-lean-to.assembly.isy-cart",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      324.388,
+      3066.527
+     ],
+     [
+      323.372,
+      3067.379
+     ],
+     [
+      321.953,
+      3065.688
+     ],
+     [
+      322.969,
+      3064.836
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.travellers-lean-to.building",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      323.531,
+      3048.769
+     ],
+     [
+      323.722,
+      3048.772
+     ],
+     [
+      333.598,
+      3059.741
+     ],
+     [
+      333.581,
+      3059.931
+     ],
+     [
+      333.44,
+      3060.058
+     ],
+     [
+      333.249,
+      3060.055
+     ],
+     [
+      323.373,
+      3049.086
+     ],
+     [
+      323.39,
+      3048.896
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall-north.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      329.741,
+      3068.399
+     ],
+     [
+      329.481,
+      3068.625
+     ],
+     [
+      329.191,
+      3068.656
+     ],
+     [
+      328.786,
+      3068.663
+     ],
+     [
+      328.263,
+      3068.537
+     ],
+     [
+      327.896,
+      3068.389
+     ],
+     [
+      327.718,
+      3068.278
+     ],
+     [
+      326.812,
+      3067.5
+     ],
+     [
+      326.696,
+      3067.309
+     ],
+     [
+      327.437,
+      3066.122
+     ],
+     [
+      327.66,
+      3066.143
+     ],
+     [
+      328.756,
+      3066.616
+     ],
+     [
+      328.934,
+      3066.727
+     ],
+     [
+      329.228,
+      3066.993
+     ],
+     [
+      329.544,
+      3067.45
+     ],
+     [
+      329.742,
+      3067.774
+     ],
+     [
+      329.816,
+      3068.127
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall-north.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      326.713,
+      3067.32
+     ],
+     [
+      324.826,
+      3066.471
+     ],
+     [
+      324.648,
+      3066.36
+     ],
+     [
+      323.742,
+      3065.582
+     ],
+     [
+      323.626,
+      3065.391
+     ],
+     [
+      324.368,
+      3064.204
+     ],
+     [
+      324.59,
+      3064.225
+     ],
+     [
+      325.686,
+      3064.697
+     ],
+     [
+      325.864,
+      3064.809
+     ],
+     [
+      327.454,
+      3066.133
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall-north.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      323.643,
+      3065.401
+     ],
+     [
+      321.756,
+      3064.553
+     ],
+     [
+      321.578,
+      3064.441
+     ],
+     [
+      321.394,
+      3064.244
+     ],
+     [
+      320.942,
+      3063.667
+     ],
+     [
+      320.882,
+      3063.346
+     ],
+     [
+      320.923,
+      3063.148
+     ],
+     [
+      321.029,
+      3062.979
+     ],
+     [
+      321.203,
+      3062.757
+     ],
+     [
+      321.411,
+      3062.651
+     ],
+     [
+      321.62,
+      3062.581
+     ],
+     [
+      322.359,
+      3062.701
+     ],
+     [
+      322.616,
+      3062.779
+     ],
+     [
+      322.794,
+      3062.89
+     ],
+     [
+      324.384,
+      3064.214
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.1",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      318.601,
+      3061.439
+     ],
+     [
+      318.341,
+      3061.665
+     ],
+     [
+      318.051,
+      3061.696
+     ],
+     [
+      317.646,
+      3061.703
+     ],
+     [
+      317.123,
+      3061.577
+     ],
+     [
+      316.756,
+      3061.429
+     ],
+     [
+      316.578,
+      3061.318
+     ],
+     [
+      315.672,
+      3060.54
+     ],
+     [
+      315.556,
+      3060.349
+     ],
+     [
+      316.297,
+      3059.162
+     ],
+     [
+      316.52,
+      3059.183
+     ],
+     [
+      317.616,
+      3059.656
+     ],
+     [
+      317.794,
+      3059.767
+     ],
+     [
+      318.088,
+      3060.033
+     ],
+     [
+      318.404,
+      3060.49
+     ],
+     [
+      318.602,
+      3060.814
+     ],
+     [
+      318.676,
+      3061.167
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.2",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      315.573,
+      3060.36
+     ],
+     [
+      313.686,
+      3059.511
+     ],
+     [
+      313.508,
+      3059.4
+     ],
+     [
+      312.602,
+      3058.622
+     ],
+     [
+      312.486,
+      3058.431
+     ],
+     [
+      313.228,
+      3057.244
+     ],
+     [
+      313.45,
+      3057.265
+     ],
+     [
+      314.546,
+      3057.737
+     ],
+     [
+      314.724,
+      3057.849
+     ],
+     [
+      316.314,
+      3059.173
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.3",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      312.494,
+      3058.436
+     ],
+     [
+      310.607,
+      3057.587
+     ],
+     [
+      310.429,
+      3057.476
+     ],
+     [
+      309.524,
+      3056.698
+     ],
+     [
+      309.407,
+      3056.507
+     ],
+     [
+      310.149,
+      3055.32
+     ],
+     [
+      310.372,
+      3055.341
+     ],
+     [
+      311.468,
+      3055.814
+     ],
+     [
+      311.646,
+      3055.925
+     ],
+     [
+      313.236,
+      3057.249
+     ]
+    ]
+   ]
+  },
+  {
+   "id": "patch.clearance.settlement.place.imperial-fringe.claywater-station.parcel.claywater-station.yard-wall.piece.4",
+   "kind": "vegetation-clearance",
+   "owner": {
+    "record": "place.imperial-fringe.claywater-station",
+    "chunk": "16h"
+   },
+   "why": "the building stands on this ground and its door opens here, so nothing wild grows on its floor or in front of its door",
+   "treatmentKind": "floor",
+   "hardClear": [
+    [
+     [
+      309.424,
+      3056.518
+     ],
+     [
+      307.537,
+      3055.669
+     ],
+     [
+      307.359,
+      3055.558
+     ],
+     [
+      307.176,
+      3055.361
+     ],
+     [
+      306.723,
+      3054.783
+     ],
+     [
+      306.664,
+      3054.463
+     ],
+     [
+      306.705,
+      3054.265
+     ],
+     [
+      306.811,
+      3054.095
+     ],
+     [
+      306.985,
+      3053.873
+     ],
+     [
+      307.193,
+      3053.767
+     ],
+     [
+      307.401,
+      3053.697
+     ],
+     [
+      308.14,
+      3053.817
+     ],
+     [
+      308.398,
+      3053.896
+     ],
+     [
+      308.576,
+      3054.007
+     ],
+     [
+      310.166,
+      3055.331
+     ]
+    ]
+   ]
   }
  ]
 }

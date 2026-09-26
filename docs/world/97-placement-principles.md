@@ -408,16 +408,16 @@ histogram were reading a drying yard as a village). **Enforced by**
 `parcel-gap`, `_placement_warnings` C1/C6/C7 and the `scaleGrounding`
 validator.
 
-**C6. Density falls as the place grows: hamlets 15–33 buildings/ha, villages
-7–16/ha, towns and cities 4–11/ha; growth buys radius, not tightness. The
-measure is taken over the BUILT HULL — the convex hull of the counted parcels,
-buffered by the 15 m vegetation-clearance radius of C13 — and only for records
+**C6. Density falls as the place grows; growth buys radius, not tightness
+(bands per column in `breadth-bars.json` `densityPerHa`). The
+measure is taken over the BUILT HULL — the convex hull of each district's
+counted parcels, buffered by half the column's maximum building spacing — and only for records
 classed `settlement`, from four counted parcels up.** Radii:
 M2 ~20–35 m, M3 ~50–75 m, M4 ~75–120 m, M5 100–225 m. A blueprint boundary
 carries the approaches, the water and the clearance ring, so measuring over it
 reported a village as empty ground; and the bands were mined from settlements,
 so a lair or a works camp judged on them is a number about nothing (audit
-§6.3). *E* (density and radius
+§6.3). The band and the buffer are read from the `breadth-bars.json` column the place is built under (its counted buildings), and a place of several districts is measured over the union of the district hulls, never one hull across the road or water between them (decision 0101 rule 5, 2026-09-26). *E* (density and radius
 by size class); *L* settlement-register (M3 12–35 structures, M4 40–120, M5
 150–400 total placed objects — see D7). **Enforced by** `scaleGrounding`
 (buildings and structures within ±25 % of `buildingsPlanned`); the density band

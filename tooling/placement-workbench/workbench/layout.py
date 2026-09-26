@@ -288,7 +288,7 @@ def check_failures(check: dict) -> list[str]:
     from worldgen import test_proving_ground as tpg
     out = []
     for uid, r in check["pieces"].items():
-        for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "notExportable"):
+        for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule", "notExportable"):
             if r.get(rule):
                 out.append(f"{uid}: {r[rule]}")
         if (r.get("anchorClass") or "ground") == "ground" and \

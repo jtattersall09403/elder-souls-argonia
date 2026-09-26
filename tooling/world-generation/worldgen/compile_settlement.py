@@ -861,7 +861,8 @@ def assembly_placements(bp_id: str, seed: str, parcel: dict, building: dict,
         m_scale = scale if member["on"] == "parent" else float(member.get("scale", 1.0))
         row = {"id": f"{bp_id}.{parcel['id']}.assembly.{member['id']}", "parcelId": parcel["id"],
                "objectKind": "assembly", "assetId": asset["id"], "kit": asset["kit"],
-               "scale": m_scale, "groundFit": asset_fit(asset) or "direct",
+               # the ground fit the policy names (interior-zero is direct), never the policy id
+               "scale": m_scale, "groundFit": record_ground_fit(asset) or "direct",
                "layer": member["layer"], "evidence": member["evidence"],
                "provenance": _provenance(bp_id, seed, f"parcel-assembly/{member['layer']}",
                                          asset["id"], [])}
@@ -1681,8 +1682,11 @@ def compiled_blueprint_objects(bp: dict, placements: list[dict], doors_out: list
     # A parcel that authors no groundFit carries the one its placement
     # realised from the kit record (decision 0085), so the compile and the
     # exporter's re-derivation from the authored blueprint emit one record.
+    # Only the parcel's own pieces: its assembly and dressing rows carry the
+    # same parcelId with their own fits, and the last row read would win.
     fit_of = {raw["parcelId"]: raw["groundFit"] for raw in placements
-              if isinstance(raw.get("parcelId"), str) and "groundFit" in raw}
+              if isinstance(raw.get("parcelId"), str) and "groundFit" in raw
+              and raw.get("objectKind", "parcel") == "parcel"}
     bp = {**bp, "parcels": [
         {**parcel, "groundFit": fit_of[parcel["id"]]}
         if "groundFit" not in parcel and parcel.get("id") in fit_of else parcel
@@ -1815,6 +1819,18 @@ def is_retaining_wall(asset: dict) -> bool:
     (ground delta by fit, the run's pairs, R1's cover) still judges it."""
     family = srp_mod.RETAINING_WALLS.get(asset.get("kit"))
     return bool(family) and str(asset.get("id", "")).startswith(family)
+
+def retaining_sill(asset: dict, height_at, pad_index, samples, pivot,
+                   top_m: float) -> float | None:
+    """The yard-gate sill of a retaining-wall piece (`is_retaining_wall`),
+    measured as the shortfall of its placed top ``top_m`` below the padded
+    ground on the pad side (`settlement_run_pads.retaining_sill_m`, 0101
+    rule 10); None for any other
+    piece, or a wall that touches no pad (the ordinary sill applies)."""
+    if not is_retaining_wall(asset):
+        return None
+    return srp_mod.retaining_sill_m(height_at, pad_index, samples, pivot, top_m)
+
 
 QUAY_RUN_PREFIX = "composite:docks/quay-run-"
 QUAY_SHORE_SEARCH_M = 30.0

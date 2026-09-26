@@ -530,6 +530,9 @@ PASSAGE_MIN_M = 1.3
 # ring of 30 m radius on the module's own ~50 m M3 radius. The bands are
 # SETTLEMENT bands: a lair, a camp or a works site is not judged on them
 # (`DENSITY_CLASSES`).
+# Since 0101 rule 5 (2026-09-26) a settlement's C6 band, and its hull buffer,
+# are read from breadth-bars.json (`density_column`); these keys still name the
+# size classes `size_class` accepts, and BUILT_HULL_BUFFER_M serves works yards.
 DENSITY_BAND = {"M2": (15.0, 33.0), "M3": (7.0, 16.0), "M4": (4.0, 11.0), "M5": (4.0, 11.0)}
 DENSITY_CLASSES = {"settlement"}
 # A works yard measures the deliberately compact surface plant, not the homes
@@ -728,6 +731,65 @@ def _convex_hull_m(points):
             upper.pop()
         upper.append(p)
     return lower[:-1] + upper[:-1]
+
+
+def density_column(bp: dict, kinds: dict, cls: str) -> tuple[str, tuple | None, float]:
+    """97 C6's column, band and hull buffer (0101 rule 5, planner 2026-09-26):
+    the breadth-bars column the place is built under (its counted buildings,
+    `breadth_bars.built_column`; the size class when below every column), that
+    column's `densityPerHa` band, and half its `buildingSpacingM` maximum as
+    the buffer round each district hull."""
+    from . import breadth_bars as bb
+    record = bb.load()
+    n = len(pk.counted_parcels(bp, kinds, include=("building",)))
+    column = bb.built_column(n, record) or cls
+    row = record["tiers"].get(column)
+    if row is None:              # a size class breadth-bars has no column for
+        return column, DENSITY_BAND.get(cls), BUILT_HULL_BUFFER_M
+    lo, hi = row["densityPerHa"]["value"]
+    return column, (float(lo), float(hi)), float(max(row["buildingSpacingM"]["value"])) / 2.0
+
+
+def column_label(column: str) -> str:
+    """The breadth-bars column's name (`hamlet`, `village`...), never the
+    record's magnitude: Claywater's record stays M2, built as a hamlet."""
+    from . import breadth_bars as bb
+    return (bb.load()["tiers"].get(column) or {}).get("label") or column
+
+
+def district_hull_area_ha(bp: dict, parcels, buffer_m: float,
+                          extent_m: float = fp.PROVINCE_EXTENT_M) -> tuple[float, dict]:
+    """97 C6's built ground (0101 rule 5): the UNION of the district hulls,
+    each the convex hull of that district's counted parcels buffered by
+    ``buffer_m``, never one hull spanning the road, ford or water between
+    districts. Returns (hectares, {districtId: (count, its own hull ha)})."""
+    from shapely.geometry import LineString, Point, Polygon
+    from shapely.ops import unary_union
+    groups: dict[str, list] = {}
+    for p in parcels:
+        groups.setdefault(p.get("districtId") or "", []).append(p)
+    shapes, per = [], {}
+    for did, members in sorted(groups.items()):
+        pts: list[tuple[float, float]] = []
+        for p in members:
+            poly = p.get("footprint")
+            if _polygon_ok(poly):
+                pts += [(float(q[0]) * extent_m, float(q[1]) * extent_m) for q in poly]
+            else:
+                c = _parcel_centre_m(p, extent_m)
+                if c is not None:
+                    pts.append(c)
+        hull = _convex_hull_m(pts)
+        if not hull:
+            continue
+        geom = (Polygon(hull) if len(hull) >= 3 else
+                LineString(hull) if len(hull) == 2 else Point(hull[0]))
+        shape = geom.buffer(buffer_m, 64)
+        shapes.append(shape)
+        per[did] = (len(members), shape.area / 10_000.0)
+    if not shapes:
+        return 0.0, per
+    return unary_union(shapes).area / 10_000.0, per
 
 
 def built_hull_area_ha(bp: dict, parcels=None, buffer_m: float = BUILT_HULL_BUFFER_M,
@@ -1017,14 +1079,23 @@ def _placement_warnings(bp: dict) -> list[str]:
     density_form = (bp.get("scaleGrounding") or {}).get("densityForm", "settlement")
     band = (DENSITY_BAND.get(cls) if density_form == "settlement"
             else DENSITY_FORM_BAND.get(density_form))
-    area_ha = built_hull_area_ha(bp, parcels)
+    column, per_district = cls, {}
+    if density_form == "settlement":
+        # 0101 rule 5: the column built under, its band and buffer, per district
+        column, band, buffer_m = density_column(bp, kinds, cls)
+        column = f"{column_label(column)} column"
+        area_ha, per_district = district_hull_area_ha(bp, parcels, buffer_m)
+    else:
+        area_ha = built_hull_area_ha(bp, parcels)       # a works yard: one hull, 15 m
     if (band and area_ha > 0 and len(parcels) >= MIN_PARCELS_FOR_DENSITY
             and (record_class in DENSITY_CLASSES or not record)):
         density = len(parcels) / area_ha
         if not (band[0] <= density <= band[1]):
+            districts = "; ".join(f"{d.rsplit('.', 1)[-1]} {n} over {a:.2f} ha = {n / a:.1f}/ha"
+                                  for d, (n, a) in sorted(per_district.items())) or "one hull"
             out.append(f"{bid}: 97 C6 — {len(parcels)} buildings and structures over {area_ha:.2f} ha of "
-                       f"built hull is {density:.1f}/ha; the {density_form} {cls} band is "
-                       f"{band[0]:.0f}–{band[1]:.0f}/ha "
+                       f"built hull is {density:.1f}/ha; the {density_form} {column} band is "
+                       f"{band[0]:.0f}–{band[1]:.0f}/ha (districts: {districts}) "
                        f"(spread the pieces or close them up; the hull is the parcels, not the boundary)")
 
     # 97 C7 — the building mix follows the ladder and the lore. Buildings only:

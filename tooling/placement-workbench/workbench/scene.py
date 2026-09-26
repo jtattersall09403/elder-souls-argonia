@@ -71,6 +71,7 @@ class Piece:
     roll: float = 0.0        # degrees about its own y (the runtime has none)
     mirror: bool = False     # mirrored across its own x (the runtime has none)
     pad: dict | None = None  # a declared building pad {apronM?, datumM?, floorMinM?} (0101)
+    beached: bool = False    # a hull or cleat drawn up on the bank (R5): `wb.py check` beachedRule
 
     def matrix(self) -> tuple[np.ndarray, np.ndarray]:
         """(A, b): kit-frame points p -> wb points A @ p + b."""

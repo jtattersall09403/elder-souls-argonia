@@ -796,7 +796,7 @@ def test_compact_works_yard_has_its_own_checked_density_band():
     grounding = {**_bp()["scaleGrounding"], "buildingsPlanned": 10}
     _errs, settlement_warns = blueprint.validate_blueprint_full(
         _bp(parcels=compact, doors=[], scaleGrounding=grounding), KNOWN)
-    assert any("97 C6" in w and "settlement M2 band" in w
+    assert any("97 C6" in w and "settlement village column band" in w
                for w in settlement_warns), settlement_warns
 
     _errs, works_warns = blueprint.validate_blueprint_full(

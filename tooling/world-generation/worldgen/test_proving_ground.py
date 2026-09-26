@@ -395,13 +395,13 @@ class _PatchedSurvey:
         # 97 B3 over a pad reads the patched surface, as the compile does
         # (`footprint_max_slope_deg` reads `pad_slope_deg`); every member
         # footprint of a settlement pad is graded ground
-        self._index = PadIndex([r["footprintM"] for p in patches
+        self.pad_index = PadIndex([r["footprintM"] for p in patches
                                 if p.get("kind") == "settlement-pad"
                                 for r in p["params"]["pieces"]])
 
     def pad_slope_deg(self, polygon):
         from .settlement_run_pads import padded_slope_deg
-        return padded_slope_deg(self.height_at, self._index, polygon,
+        return padded_slope_deg(self.height_at, self.pad_index, polygon,
                                 lambda ring: cs.grid_max_slope_deg(ring, self._survey))
 
     def __getattr__(self, name):
@@ -443,7 +443,15 @@ def ground_audit(bundle: dict, survey, kits: dict, place: str = YARD,
         foot = p.get("footprintM") or []
         slope_exempt = bool(asset) and len(foot) >= 3 and cs.fit_slope_failure(
             {**asset, "kit": p["kit"]}, cs.footprint_max_slope_deg(foot, survey)) is not None
-        if fit == "stilt":
+        retained = cs.retaining_sill({**asset, "kit": p["kit"]}, survey.height_at,
+                                     getattr(survey, "pad_index", None),
+                                     [(float(x), float(z)) for x, z in foot] or samples,
+                                     (float(p["positionM"][0]), float(p["positionM"][2])),
+                                     y - float(anchor["originOffsetM"][2]) * scale
+                                     + float((asset.get("sizeM") or [0.0, 0.0, 0.0])[2]) * scale)
+        if retained is not None:
+            sill = retained              # a retaining wall meets its pad (0101 rule 4)
+        elif fit == "stilt":
             support = sum(support_at(survey, float(x), float(z)) for x, z in samples) / len(samples)
             sill = abs(y + sink - support)
         else:

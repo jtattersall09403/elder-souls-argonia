@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "type": "01-road-station",
- "about": "Yard sets for road stations (decision 0101): the dressing groups that `wb.py group place` lays, rebuilt from the repo. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0). A member without `mount` is settled on the ground; a member with `mount` stands upM above the member it names. The sets were first laid at Claywater Station.",
+ "about": "Yard sets for road stations (decision 0101): the dressing groups that `wb.py group place` lays, rebuilt from the repo. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0). A member without `mount` is settled on the ground; a member with `mount` stands upM above the member it names, and only where kit-mounts-mined.json holds that child-on-parent pair. The sets were first laid at Claywater Station.",
  "source": "world/sources/blueprints/claywater-station.layout.json (first laid there by `group place`)",
  "pending": {
   "imperial-station-yard": [
@@ -80,14 +80,10 @@
      "uid": "isy-lamp",
      "piece": "vanilla:clutter/common/candlelanternwithcandle01",
      "offsetM": [
-      0.0,
-      0.0
+      0.9,
+      -0.4
      ],
-     "yaw": 0.0,
-     "mount": {
-      "on": "isy-barrel1",
-      "upM": 1.14
-     }
+     "yaw": 0.0
     },
     {
      "uid": "isy-fire",
@@ -277,15 +273,6 @@
       1.6
      ],
      "yaw": 0.0
-    },
-    {
-     "uid": "ahy-chime",
-     "piece": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
-     "offsetM": [
-      4.3,
-      0.0
-     ],
-     "yaw": 80.0
     },
     {
      "uid": "ahy-pot",

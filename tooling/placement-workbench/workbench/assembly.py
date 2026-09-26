@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import math
+from pathlib import Path
 
 import numpy as np
 
@@ -46,13 +47,36 @@ def save_group(scene: Scene, name: str, uids: list[str], anchor_uid: str) -> dic
     return {"saved": name, "members": len(members), "anchor": anchor.uid}
 
 
+MOUNTS_RECORD = paths.REPO_ROOT / "world" / "sources" / "placement" / "kit-mounts-mined.json"
+
+
+def mined_mount_pairs(path: Path = MOUNTS_RECORD) -> set[tuple[str, str]]:
+    """{(child asset, parent asset)} the plugins mount (kit-mounts-mined.json)."""
+    return {(p["child"], p["parent"]) for p in json.loads(path.read_text())["pairs"]}
+
+
+def unmined_mounts(st: dict, pairs: set[tuple[str, str]]) -> list[str]:
+    """The members of yard set ``st`` whose `mount` names no mined
+    child-on-parent pair (planner ruling 5, 2026-09-26: no height shortcut;
+    a piece stands on the ground, on a post piece, or on a mined mount)."""
+    piece = {m["uid"]: m["piece"] for m in st["members"]}
+    return [m["uid"] for m in st["members"] if "mount" in m
+            and (m["piece"], piece.get(m["mount"].get("on"))) not in pairs]
+
+
 def yard_sets() -> dict[str, dict]:
-    """{set id: set} over every tracked yard-set record."""
+    """{set id: set} over every tracked yard-set record; a member mounted
+    on a pair the plugins never mount is refused."""
     out = {}
+    pairs = mined_mount_pairs()
     for f in sorted(YARD_SETS.glob("*.json")):
         for st in json.loads(f.read_text())["sets"]:
             if st["id"] in out:
                 raise ValueError(f"yard set {st['id']!r} is defined twice ({f.name})")
+            bad = unmined_mounts(st, pairs)
+            if bad:
+                raise ValueError(f"yard set {st['id']!r}: {bad} mount on no mined pair "
+                                 f"({MOUNTS_RECORD.name}); stand them on the ground or a post piece")
             out[st["id"]] = st
     return out
 

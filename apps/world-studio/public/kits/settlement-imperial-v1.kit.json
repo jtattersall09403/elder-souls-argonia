@@ -1092,11 +1092,11 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
+    "buryCapM": 0.5,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
@@ -1204,11 +1204,11 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
+    "buryCapM": 0.5,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
@@ -1259,11 +1259,11 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
+    "buryCapM": 0.5,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,
@@ -1551,11 +1551,11 @@
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
     "groundContactOffsetM": -0.0,
-    "buryCapM": 0.9,
+    "buryCapM": 0.5,
     "evidence": {
      "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+     "policyId": "pad",
+     "fitPolicy": "authored placement-policies.json policy pad: Reviewed graded-pad policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     }
    },
    "undersideClosed": false,

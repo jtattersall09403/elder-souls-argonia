@@ -1067,8 +1067,8 @@
         5
       ],
       "lore": "Lore:Blackwood Road; openworld research (waystation recipe)",
-      "footprintRadiusM": 65,
-      "footprintSource": "band",
+      "footprintRadiusM": 90,
+      "footprintSource": "built-ground",
       "services": [
         "stable"
       ]

@@ -64,7 +64,7 @@ class PaddedGround:
     def __init__(self, g, pads: list[dict]):
         srp = _srp()
         self._g = g
-        self._index = srp.PadIndex([p["polygonM"] for p in pads])
+        self.pad_index = srp.PadIndex([p["polygonM"] for p in pads])
         self._chunks = srp.pad_ground(g.chunk_height, pads)
         self._survey = srp.pad_ground(g.survey_height, pads)
 
@@ -83,7 +83,7 @@ class PaddedGround:
     def footprint_max_slope_deg(self, polygon_m) -> float:
         """Over a pad the patched surface's own slope (the grid's 5.48 m cells
         read the frozen ground); elsewhere the grid's."""
-        padded = _srp().padded_slope_deg(self._survey, self._index, polygon_m,
+        padded = _srp().padded_slope_deg(self._survey, self.pad_index, polygon_m,
                                          self._g.footprint_max_slope_deg)
         return self._g.footprint_max_slope_deg(polygon_m) if padded is None else padded
 

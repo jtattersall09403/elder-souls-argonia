@@ -53,6 +53,7 @@ import {
   type SettlementSolid,
 } from "./types";
 import { trimeshFromGeometry } from "../physics/floraSolids";
+import { mergeRunColliders } from "./runColliders";
 
 interface DrawBucket {
   part: ArchitecturePart;
@@ -456,6 +457,7 @@ export function SettlementLayer({
       }[] = [];
       const placementGrounding: SettlementPlacementGroundAudit[] = [];
       const runJoints: RunJointSample[] = [];
+      const runOfPlacement = new Map<string, string>();
       let placementCount = 0;
       incomplete.current = false;
       let sinceYield = 0;
@@ -482,6 +484,7 @@ export function SettlementLayer({
         if (anchored) placementGrounding.push(placementGroundAudit(placement, anchored));
         if (placement.run) {
           runJoints.push({ placementId: placement.id, run: placement.run, y: transform.elements[13] });
+          runOfPlacement.set(placement.id, placement.run.id);
         }
         const groundLineM = anchored ? anchored.groundLineM : transform.elements[13];
         if (inDrawRange) {
@@ -515,7 +518,9 @@ export function SettlementLayer({
           distanceM: distance, parts: solid.parts.length });
       }
 
-      const collision = selectCollisionResidency(solidCandidates, bundle.settlements, focus,
+      // a bound run collides as one rigid chain: one joined part (0101 rule 9)
+      const collision = selectCollisionResidency(
+        mergeRunColliders(solidCandidates, (id) => runOfPlacement.get(id)), bundle.settlements, focus,
         bundle.lod.colliderRadiusM, bundle.lod.colliderPartBudget);
       if (collision.budgetExceeded) {
         const over = collision.budgetExceeded;

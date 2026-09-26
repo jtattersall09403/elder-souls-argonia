@@ -3331,6 +3331,4071 @@
           "widthM": 4.3
         }
       ]
+    },
+    {
+      "approaches": [
+        {
+          "firstSeen": "parcel.claywater-station.polers-hut",
+          "fromDirection": null,
+          "fromRouteId": "route.road.gideon-blackwood-road",
+          "id": "approach.claywater-station.north-road",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming from the north-west, the hut domes and the landing lanterns show first; the road passes between the huts to the ford. The well roof shows across the water.",
+          "wayfinding": "Follow the road through the landing to the ford; the poler's hut stands on the bank above it."
+        },
+        {
+          "firstSeen": "parcel.claywater-station.the-well",
+          "fromDirection": null,
+          "fromRouteId": "route.road.gideon-blackwood-road",
+          "id": "approach.claywater-station.south-road",
+          "mode": "walk",
+          "notes": null,
+          "sequence": "Coming down the road from the south-east, the station house roof and its smoke show first, then the well at the junction and the lean-to by the fire; the ford and the huts beyond open up at the junction.",
+          "wayfinding": "The road runs past the yard wall to the well junction; the station house path leaves the street there."
+        }
+      ],
+      "assetConstraints": [],
+      "boundary": [
+        [
+          250.0,
+          2983.0
+        ],
+        [
+          358.0,
+          2983.0
+        ],
+        [
+          358.0,
+          3102.0
+        ],
+        [
+          250.0,
+          3102.0
+        ]
+      ],
+      "budget": {
+        "maxColliders": 200,
+        "maxInstances": 200,
+        "maxTextureMB": 64,
+        "maxUniqueMaterials": 180
+      },
+      "causalModel": {
+        "founding": "A mixed village at the road's water point: an Imperial well on the south bench, an Argonian landing on the north bank across the ford. The landing is older than the station.",
+        "occupantsMotive": "Two communities share it because neither can hold the other's half.",
+        "pressures": "The well is Imperial-built and failing. The landing will not help to repair it in stone.",
+        "siteAdvantages": "A perennial spring beside a boat channel, where the road fords the water.",
+        "wouldChangeIf": "Would become one community or two villages within a generation."
+      },
+      "clearance": {
+        "hardClear": [
+          [
+            [
+              260.0,
+              2995.0
+            ],
+            [
+              350.0,
+              2995.0
+            ],
+            [
+              350.0,
+              3082.0
+            ],
+            [
+              260.0,
+              3082.0
+            ]
+          ]
+        ],
+        "kept": [],
+        "thinned": []
+      },
+      "combatSpaces": [
+        {
+          "clearanceClass": "open",
+          "id": "combat.claywater-station.the-street",
+          "notes": null,
+          "polygon": [
+            [
+              311.642,
+              3048.093
+            ],
+            [
+              354.017,
+              3090.774
+            ],
+            [
+              356.63,
+              3088.73
+            ],
+            [
+              317.494,
+              3024.318
+            ],
+            [
+              302.154,
+              3004.794
+            ]
+          ],
+          "why": "The street between the well and the ford, where a road fight at the station happens."
+        }
+      ],
+      "contextM": {
+        "x0": -1315.5,
+        "x1": 1923.5,
+        "z0": 1423.0,
+        "z1": 4662.0
+      },
+      "districts": [
+        {
+          "centreM": [
+            294.808,
+            3000.4
+          ],
+          "cultureKit": "argonian-mud",
+          "id": "district.claywater-station.the-landing",
+          "kind": "landing-hamlet",
+          "notes": "The Argonian half on the north strip; no Hist (see siting).",
+          "polygon": [
+            [
+              285.036,
+              2983.555
+            ],
+            [
+              282.792,
+              2983.746
+            ],
+            [
+              280.492,
+              2984.321
+            ],
+            [
+              257.849,
+              2990.872
+            ],
+            [
+              255.759,
+              2991.788
+            ],
+            [
+              254.088,
+              2993.789
+            ],
+            [
+              253.641,
+              2994.503
+            ],
+            [
+              252.912,
+              2996.822
+            ],
+            [
+              253.011,
+              2998.484
+            ],
+            [
+              253.056,
+              2998.921
+            ],
+            [
+              253.518,
+              3000.816
+            ],
+            [
+              254.883,
+              3002.588
+            ],
+            [
+              258.768,
+              3006.655
+            ],
+            [
+              310.499,
+              3024.888
+            ],
+            [
+              314.854,
+              3025.614
+            ],
+            [
+              352.904,
+              3012.282
+            ],
+            [
+              353.853,
+              3009.975
+            ],
+            [
+              353.995,
+              3008.855
+            ],
+            [
+              354.155,
+              3007.028
+            ],
+            [
+              354.276,
+              3004.785
+            ],
+            [
+              352.774,
+              3002.996
+            ],
+            [
+              351.639,
+              3002.367
+            ],
+            [
+              285.826,
+              2983.541
+            ]
+          ],
+          "wealth": "poor",
+          "why": {
+            "microGeography": "The dry strip on the ford's north bank, huts on mud pads raised above the high water.",
+            "playerPurpose": "The ford ferry in the wet season and the landing's side of LF83.",
+            "what": "The landing hamlet: three mud huts round an open common, the fish racks and the boats pulled up on the bank.",
+            "whyHere": "The landing is older than the station; its polers came up from the mud-hut country and built as they do at home, on the dry point by the channel.",
+            "whyNeighbours": "It faces the well-station across the ford. It keeps no Hist: its people's tree stands at Fenmarch Village (place.imperial-fringe.fenmarch-village, 1.7 km). They go home for the hatching."
+          }
+        },
+        {
+          "centreM": [
+            317.451,
+            3065.645
+          ],
+          "cultureKit": "imperial",
+          "id": "district.claywater-station.the-well",
+          "kind": "road-station",
+          "notes": "The Imperial half on the south bench.",
+          "polygon": [
+            [
+              315.384,
+              3043.758
+            ],
+            [
+              304.367,
+              3050.799
+            ],
+            [
+              301.576,
+              3053.927
+            ],
+            [
+              299.365,
+              3057.464
+            ],
+            [
+              297.553,
+              3060.365
+            ],
+            [
+              295.243,
+              3064.061
+            ],
+            [
+              294.932,
+              3065.084
+            ],
+            [
+              294.611,
+              3067.063
+            ],
+            [
+              295.089,
+              3068.491
+            ],
+            [
+              295.465,
+              3069.227
+            ],
+            [
+              298.356,
+              3073.279
+            ],
+            [
+              328.438,
+              3102.0
+            ],
+            [
+              343.579,
+              3102.0
+            ],
+            [
+              349.426,
+              3098.347
+            ],
+            [
+              358.0,
+              3091.748
+            ],
+            [
+              358.0,
+              3074.313
+            ],
+            [
+              331.789,
+              3043.838
+            ],
+            [
+              330.949,
+              3042.944
+            ],
+            [
+              329.213,
+              3042.134
+            ],
+            [
+              327.69,
+              3042.054
+            ]
+          ],
+          "wealth": "modest",
+          "why": {
+            "microGeography": "A narrow bench between the channel and the hillside, raised on stone pads.",
+            "playerPurpose": "A bed, food for the road, a stable for a horse and water from the well.",
+            "what": "The well-station: the station house, the stable, the lean-to and the well.",
+            "whyHere": "The Imperial half keeps the well and the road trade.",
+            "whyNeighbours": "It faces the landing across the ford, along the road."
+          }
+        }
+      ],
+      "docks": [],
+      "doors": [
+        {
+          "facingDeg": 59.0,
+          "id": "door.imperial-fringe.claywater-station.1",
+          "interiorClaim": {
+            "culture": "imperial",
+            "owner": "the well-keeper",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.claywater-station.station-house",
+          "thresholdM": [
+            317.43,
+            3065.945
+          ]
+        },
+        {
+          "facingDeg": 190.6,
+          "id": "door.imperial-fringe.claywater-station.2",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the landing's poler",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.claywater-station.polers-hut",
+          "thresholdM": [
+            311.09,
+            3006.502
+          ]
+        },
+        {
+          "facingDeg": 119.6,
+          "id": "door.imperial-fringe.claywater-station.3",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the landing family",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.claywater-station.family-hut",
+          "thresholdM": [
+            290.132,
+            2997.491
+          ]
+        }
+      ],
+      "id": "place.imperial-fringe.claywater-station",
+      "landmarks": [],
+      "networkTerminals": [
+        {
+          "id": "terminal.claywater-station.north-road",
+          "kind": "footpath",
+          "positionM": [
+            309.819,
+            3021.0
+          ],
+          "routeId": "route.road.gideon-blackwood-road",
+          "wayId": "route.claywater-station.the-street",
+          "why": "The road leaves the ford's north bank toward Blackwood through the landing."
+        },
+        {
+          "id": "terminal.claywater-station.south-road",
+          "kind": "footpath",
+          "positionM": [
+            343.0,
+            3074.0
+          ],
+          "routeId": "route.road.gideon-blackwood-road",
+          "wayId": "route.claywater-station.the-street",
+          "why": "The Blackwood Road arrives from Gideon along the bench to the south-east."
+        }
+      ],
+      "parcels": [
+        {
+          "assetRef": "composite:mud/hut-with-entrance",
+          "buildingFamily": "mud-hut",
+          "centreM": [
+            284.0,
+            2994.0
+          ],
+          "districtId": "district.claywater-station.the-landing",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 119.6,
+            "interiorRef": "vanilla-farmhouse-int",
+            "kind": "assembly",
+            "worldM": [
+              289.652,
+              2997.213
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.family-hut",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its entrance turns south-east to the common.",
+          "polygon": [
+            [
+              278.184,
+              2996.467
+            ],
+            [
+              277.705,
+              2994.55
+            ],
+            [
+              277.514,
+              2992.735
+            ],
+            [
+              277.513,
+              2992.677
+            ],
+            [
+              277.539,
+              2992.625
+            ],
+            [
+              278.583,
+              2990.746
+            ],
+            [
+              279.854,
+              2989.233
+            ],
+            [
+              281.533,
+              2988.184
+            ],
+            [
+              283.45,
+              2987.705
+            ],
+            [
+              285.242,
+              2987.552
+            ],
+            [
+              285.3,
+              2987.551
+            ],
+            [
+              285.361,
+              2987.572
+            ],
+            [
+              287.254,
+              2988.583
+            ],
+            [
+              288.767,
+              2989.854
+            ],
+            [
+              289.816,
+              2991.533
+            ],
+            [
+              290.295,
+              2993.45
+            ],
+            [
+              290.932,
+              2996.602
+            ],
+            [
+              290.937,
+              2996.61
+            ],
+            [
+              290.955,
+              2996.752
+            ],
+            [
+              290.958,
+              2996.869
+            ],
+            [
+              290.931,
+              2996.921
+            ],
+            [
+              289.999,
+              2998.411
+            ],
+            [
+              289.941,
+              2998.507
+            ],
+            [
+              289.684,
+              2998.643
+            ],
+            [
+              289.667,
+              2998.654
+            ],
+            [
+              286.467,
+              2999.816
+            ],
+            [
+              284.55,
+              3000.295
+            ],
+            [
+              282.388,
+              3000.384
+            ],
+            [
+              282.33,
+              3000.385
+            ],
+            [
+              282.278,
+              3000.359
+            ],
+            [
+              280.746,
+              2999.417
+            ],
+            [
+              279.233,
+              2998.146
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "Dry ground on a mud pad raised clear of the high water.",
+            "playerPurpose": "A home to enter and people to talk to about the well and the landing.",
+            "what": "The family hut of the landing, where one household of the landing lives.",
+            "whyHere": "The landing's families live on the dry point by the channel.",
+            "whyNeighbours": "It faces the common with the poler's hut across the road and the store hut to the west.",
+            "whySpot": "West of the road on the north strip, on the widest dry cell."
+          },
+          "yawDeg": 328.0
+        },
+        {
+          "assetRef": "ferryraft:snt/ferry/ferryraft01",
+          "buildingFamily": "native-craft",
+          "centreM": [
+            348.0,
+            3007.5
+          ],
+          "districtId": "district.claywater-station.the-landing",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.ferry-raft",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The raft lies with its long side to the bank for boarding.",
+          "polygon": [
+            [
+              350.071,
+              3006.085
+            ],
+            [
+              350.101,
+              3006.088
+            ],
+            [
+              350.12,
+              3006.099
+            ],
+            [
+              350.187,
+              3006.135
+            ],
+            [
+              350.196,
+              3006.146
+            ],
+            [
+              350.164,
+              3006.746
+            ],
+            [
+              350.017,
+              3008.429
+            ],
+            [
+              349.951,
+              3008.946
+            ],
+            [
+              349.888,
+              3009.101
+            ],
+            [
+              349.611,
+              3009.167
+            ],
+            [
+              346.013,
+              3008.982
+            ],
+            [
+              345.973,
+              3008.979
+            ],
+            [
+              345.954,
+              3008.967
+            ],
+            [
+              345.924,
+              3008.965
+            ],
+            [
+              345.858,
+              3008.919
+            ],
+            [
+              345.849,
+              3008.908
+            ],
+            [
+              346.133,
+              3006.584
+            ],
+            [
+              346.188,
+              3006.067
+            ],
+            [
+              346.262,
+              3005.912
+            ],
+            [
+              346.431,
+              3005.817
+            ],
+            [
+              346.62,
+              3005.833
+            ],
+            [
+              350.031,
+              3006.082
+            ]
+          ],
+          "spans": null,
+          "use": "dock",
+          "why": {
+            "microGeography": "Flood water at 35.24 m, more than a metre deep round the hull.",
+            "playerPurpose": "The ferry that carries the player across the flooded ford in the wet season.",
+            "what": "The ferry raft, moored in the flood water east of the landing.",
+            "whyHere": "The poler's ferry needs a hull afloat in the wet season.",
+            "whyNeighbours": "The cleats on the bank hold it; the landing path runs to it.",
+            "whySpot": "The nearest water that floats it: at least a metre all round, east of the road."
+          },
+          "yawDeg": 95.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-fence",
+          "centreM": [
+            357.5,
+            3085.0
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.paddock-fence",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The fence runs north to south along the paddock's west side.",
+          "polygon": [
+            [
+              357.284,
+              3079.822
+            ],
+            [
+              357.312,
+              3081.902
+            ],
+            [
+              357.35,
+              3081.957
+            ],
+            [
+              357.369,
+              3084.861
+            ],
+            [
+              357.41,
+              3084.937
+            ],
+            [
+              357.41,
+              3086.95
+            ],
+            [
+              357.47,
+              3087.06
+            ],
+            [
+              357.52,
+              3087.07
+            ],
+            [
+              357.58,
+              3086.98
+            ],
+            [
+              357.59,
+              3083.06
+            ],
+            [
+              357.531,
+              3082.99
+            ],
+            [
+              357.523,
+              3080.97
+            ],
+            [
+              357.469,
+              3080.907
+            ],
+            [
+              357.443,
+              3079.8
+            ],
+            [
+              357.372,
+              3079.721
+            ],
+            [
+              357.342,
+              3079.711
+            ]
+          ],
+          "spans": null,
+          "use": "boundary",
+          "why": {
+            "microGeography": "It stands on the last dry ground above the channel.",
+            "playerPurpose": "It keeps the station's horses and the player's in the paddock overnight.",
+            "what": "A woven fence of three panels round the stable paddock.",
+            "whyHere": "Imperial stations fence the paddock where the animals stand.",
+            "whyNeighbours": "It holds the paddock between the barn and the channel bank.",
+            "whySpot": "West of the stable barn, where the bench ends."
+          },
+          "yawDeg": 90.0
+        },
+        {
+          "assetRef": "kotm:argonia/mudhuts/mudhut01",
+          "buildingFamily": "kotm-mudhut",
+          "centreM": [
+            310.0,
+            3002.0
+          ],
+          "districtId": "district.claywater-station.the-landing",
+          "entrance": {
+            "arcM": 0.84,
+            "bearingDeg": 190.6,
+            "interiorRef": null,
+            "kind": "leaf",
+            "worldM": [
+              311.09,
+              3006.502
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.polers-hut",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its door turns south to the path down to the ford and the landing.",
+          "polygon": [
+            [
+              311.99,
+              2996.755
+            ],
+            [
+              312.557,
+              2996.752
+            ],
+            [
+              313.136,
+              2996.818
+            ],
+            [
+              313.713,
+              2996.996
+            ],
+            [
+              314.284,
+              2997.267
+            ],
+            [
+              315.39,
+              2997.945
+            ],
+            [
+              315.888,
+              2998.319
+            ],
+            [
+              316.351,
+              2998.729
+            ],
+            [
+              316.745,
+              2999.15
+            ],
+            [
+              317.142,
+              2999.713
+            ],
+            [
+              317.282,
+              3000.065
+            ],
+            [
+              317.452,
+              3000.543
+            ],
+            [
+              317.565,
+              3001.042
+            ],
+            [
+              317.617,
+              3001.54
+            ],
+            [
+              317.61,
+              3002.048
+            ],
+            [
+              317.601,
+              3002.303
+            ],
+            [
+              317.591,
+              3002.426
+            ],
+            [
+              317.529,
+              3002.72
+            ],
+            [
+              317.385,
+              3003.139
+            ],
+            [
+              317.156,
+              3003.593
+            ],
+            [
+              316.847,
+              3004.11
+            ],
+            [
+              316.493,
+              3004.605
+            ],
+            [
+              315.655,
+              3005.544
+            ],
+            [
+              315.196,
+              3005.955
+            ],
+            [
+              314.705,
+              3006.299
+            ],
+            [
+              314.181,
+              3006.558
+            ],
+            [
+              313.638,
+              3006.709
+            ],
+            [
+              313.061,
+              3006.774
+            ],
+            [
+              310.772,
+              3006.727
+            ],
+            [
+              309.699,
+              3006.611
+            ],
+            [
+              308.67,
+              3006.396
+            ],
+            [
+              307.673,
+              3006.126
+            ],
+            [
+              306.613,
+              3005.723
+            ],
+            [
+              305.699,
+              3005.287
+            ],
+            [
+              305.357,
+              3005.059
+            ],
+            [
+              305.078,
+              3004.781
+            ],
+            [
+              304.852,
+              3004.454
+            ],
+            [
+              304.671,
+              3004.038
+            ],
+            [
+              304.512,
+              3003.507
+            ],
+            [
+              304.413,
+              3002.905
+            ],
+            [
+              304.394,
+              3002.3
+            ],
+            [
+              304.501,
+              3001.724
+            ],
+            [
+              304.733,
+              3001.23
+            ],
+            [
+              305.068,
+              3000.799
+            ],
+            [
+              305.767,
+              3000.126
+            ],
+            [
+              306.277,
+              2999.657
+            ],
+            [
+              308.46,
+              2998.393
+            ],
+            [
+              310.072,
+              2997.538
+            ],
+            [
+              311.408,
+              2996.973
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "Dry ground above the flood line on a mud pad raised clear of the high water.",
+            "playerPurpose": "The ford ferry in the wet season; the second counter of LF83.",
+            "what": "The poler's hut, where the crossing fee is paid.",
+            "whyHere": "The landing hamlet lives by the crossing; the poler lives beside it.",
+            "whyNeighbours": "The fish racks and the landing lie between it and the water; the common is to the west.",
+            "whySpot": "The east end of the north strip, above the ford's north bank."
+          },
+          "yawDeg": 80.6
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            321.63,
+            3080.36
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.retaining-wall-ne",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs across the pad's north-east end, square to the house.",
+          "polygon": [
+            [
+              320.685,
+              3081.231
+            ],
+            [
+              320.912,
+              3081.491
+            ],
+            [
+              321.183,
+              3081.566
+            ],
+            [
+              321.536,
+              3081.492
+            ],
+            [
+              321.86,
+              3081.294
+            ],
+            [
+              322.317,
+              3080.978
+            ],
+            [
+              322.583,
+              3080.684
+            ],
+            [
+              322.694,
+              3080.506
+            ],
+            [
+              323.167,
+              3079.41
+            ],
+            [
+              323.189,
+              3079.191
+            ],
+            [
+              324.501,
+              3077.615
+            ],
+            [
+              324.613,
+              3077.436
+            ],
+            [
+              325.085,
+              3076.34
+            ],
+            [
+              325.108,
+              3076.118
+            ],
+            [
+              326.425,
+              3074.536
+            ],
+            [
+              326.536,
+              3074.358
+            ],
+            [
+              327.009,
+              3073.262
+            ],
+            [
+              327.031,
+              3073.042
+            ],
+            [
+              328.343,
+              3071.466
+            ],
+            [
+              328.454,
+              3071.288
+            ],
+            [
+              328.533,
+              3071.03
+            ],
+            [
+              328.653,
+              3070.291
+            ],
+            [
+              328.583,
+              3070.083
+            ],
+            [
+              328.477,
+              3069.875
+            ],
+            [
+              328.255,
+              3069.701
+            ],
+            [
+              328.085,
+              3069.595
+            ],
+            [
+              327.887,
+              3069.554
+            ],
+            [
+              327.567,
+              3069.613
+            ],
+            [
+              326.99,
+              3070.066
+            ],
+            [
+              326.792,
+              3070.249
+            ],
+            [
+              326.681,
+              3070.428
+            ],
+            [
+              325.839,
+              3072.298
+            ],
+            [
+              325.652,
+              3072.414
+            ],
+            [
+              324.874,
+              3073.319
+            ],
+            [
+              324.763,
+              3073.497
+            ],
+            [
+              323.918,
+              3075.375
+            ],
+            [
+              323.728,
+              3075.493
+            ],
+            [
+              322.95,
+              3076.398
+            ],
+            [
+              322.839,
+              3076.576
+            ],
+            [
+              321.998,
+              3078.446
+            ],
+            [
+              321.81,
+              3078.562
+            ],
+            [
+              321.032,
+              3079.467
+            ],
+            [
+              320.921,
+              3079.646
+            ],
+            [
+              320.773,
+              3080.014
+            ],
+            [
+              320.647,
+              3080.536
+            ],
+            [
+              320.654,
+              3080.941
+            ]
+          ],
+          "spans": null,
+          "use": "wall",
+          "why": {
+            "microGeography": "The ground drops toward the barn below this end.",
+            "playerPurpose": "It closes the pad on the barn side, so the yard ends at a wall.",
+            "what": "A dry-stone retaining wall across the north-east end of the station house's pad.",
+            "whyHere": "This end of the pad stands highest over the slope down to the barn, so its edge needs holding.",
+            "whyNeighbours": "It joins the back wall at the corner and stops short of the yard wall on the road side.",
+            "whySpot": "Across the pad's end toward the stable barn."
+          },
+          "yawDeg": 302.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            302.01,
+            3069.96
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.retaining-wall-nw",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs along the station house's long back wall, square to the pad.",
+          "polygon": [
+            [
+              300.804,
+              3069.513
+            ],
+            [
+              300.878,
+              3069.866
+            ],
+            [
+              301.076,
+              3070.19
+            ],
+            [
+              301.392,
+              3070.647
+            ],
+            [
+              301.686,
+              3070.913
+            ],
+            [
+              301.864,
+              3071.024
+            ],
+            [
+              302.96,
+              3071.497
+            ],
+            [
+              303.179,
+              3071.519
+            ],
+            [
+              304.755,
+              3072.831
+            ],
+            [
+              304.934,
+              3072.943
+            ],
+            [
+              306.03,
+              3073.415
+            ],
+            [
+              306.252,
+              3073.438
+            ],
+            [
+              307.834,
+              3074.755
+            ],
+            [
+              308.012,
+              3074.866
+            ],
+            [
+              309.108,
+              3075.339
+            ],
+            [
+              309.33,
+              3075.361
+            ],
+            [
+              310.913,
+              3076.679
+            ],
+            [
+              311.091,
+              3076.79
+            ],
+            [
+              312.186,
+              3077.262
+            ],
+            [
+              312.408,
+              3077.285
+            ],
+            [
+              313.991,
+              3078.602
+            ],
+            [
+              314.169,
+              3078.713
+            ],
+            [
+              315.265,
+              3079.186
+            ],
+            [
+              315.484,
+              3079.208
+            ],
+            [
+              317.061,
+              3080.52
+            ],
+            [
+              317.239,
+              3080.632
+            ],
+            [
+              317.497,
+              3080.71
+            ],
+            [
+              318.235,
+              3080.83
+            ],
+            [
+              318.444,
+              3080.76
+            ],
+            [
+              318.652,
+              3080.654
+            ],
+            [
+              318.826,
+              3080.432
+            ],
+            [
+              318.932,
+              3080.263
+            ],
+            [
+              318.973,
+              3080.064
+            ],
+            [
+              318.914,
+              3079.744
+            ],
+            [
+              318.461,
+              3079.167
+            ],
+            [
+              318.277,
+              3078.969
+            ],
+            [
+              318.099,
+              3078.858
+            ],
+            [
+              316.229,
+              3078.017
+            ],
+            [
+              316.113,
+              3077.829
+            ],
+            [
+              315.208,
+              3077.051
+            ],
+            [
+              315.03,
+              3076.94
+            ],
+            [
+              313.152,
+              3076.095
+            ],
+            [
+              313.034,
+              3075.905
+            ],
+            [
+              312.129,
+              3075.128
+            ],
+            [
+              311.951,
+              3075.016
+            ],
+            [
+              310.073,
+              3074.171
+            ],
+            [
+              309.956,
+              3073.982
+            ],
+            [
+              309.051,
+              3073.204
+            ],
+            [
+              308.873,
+              3073.093
+            ],
+            [
+              306.995,
+              3072.248
+            ],
+            [
+              306.877,
+              3072.058
+            ],
+            [
+              305.972,
+              3071.28
+            ],
+            [
+              305.794,
+              3071.169
+            ],
+            [
+              303.924,
+              3070.328
+            ],
+            [
+              303.808,
+              3070.14
+            ],
+            [
+              302.903,
+              3069.362
+            ],
+            [
+              302.725,
+              3069.251
+            ],
+            [
+              302.356,
+              3069.103
+            ],
+            [
+              301.834,
+              3068.977
+            ],
+            [
+              301.429,
+              3068.984
+            ],
+            [
+              301.139,
+              3069.015
+            ],
+            [
+              300.879,
+              3069.241
+            ]
+          ],
+          "spans": null,
+          "use": "wall",
+          "why": {
+            "microGeography": "The bench falls below this edge, so the wall stands tallest here.",
+            "playerPurpose": "It shows why the house stands level on a sloping bench.",
+            "what": "A dry-stone retaining wall along the back of the station house's pad.",
+            "whyHere": "The house stands on a raised stone pad; the wall holds the pad's edge where the bench falls away.",
+            "whyNeighbours": "It closes the pad behind the house; the end walls meet it at the corners.",
+            "whySpot": "Along the pad's long back edge, two paces out from the house wall."
+          },
+          "yawDeg": 32.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            305.74,
+            3056.66
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.retaining-wall-sw",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs across the pad's south-west end, square to the house.",
+          "polygon": [
+            [
+              298.717,
+              3066.729
+            ],
+            [
+              298.787,
+              3066.937
+            ],
+            [
+              298.893,
+              3067.145
+            ],
+            [
+              299.115,
+              3067.319
+            ],
+            [
+              299.285,
+              3067.425
+            ],
+            [
+              299.483,
+              3067.466
+            ],
+            [
+              299.803,
+              3067.407
+            ],
+            [
+              300.38,
+              3066.954
+            ],
+            [
+              300.578,
+              3066.771
+            ],
+            [
+              300.689,
+              3066.592
+            ],
+            [
+              301.531,
+              3064.722
+            ],
+            [
+              301.718,
+              3064.606
+            ],
+            [
+              302.496,
+              3063.701
+            ],
+            [
+              302.607,
+              3063.523
+            ],
+            [
+              303.452,
+              3061.645
+            ],
+            [
+              303.642,
+              3061.527
+            ],
+            [
+              304.42,
+              3060.622
+            ],
+            [
+              304.531,
+              3060.444
+            ],
+            [
+              305.372,
+              3058.574
+            ],
+            [
+              305.56,
+              3058.458
+            ],
+            [
+              306.338,
+              3057.553
+            ],
+            [
+              306.449,
+              3057.374
+            ],
+            [
+              306.597,
+              3057.006
+            ],
+            [
+              306.723,
+              3056.484
+            ],
+            [
+              306.716,
+              3056.079
+            ],
+            [
+              306.685,
+              3055.789
+            ],
+            [
+              306.459,
+              3055.529
+            ],
+            [
+              306.187,
+              3055.454
+            ],
+            [
+              305.834,
+              3055.528
+            ],
+            [
+              305.51,
+              3055.726
+            ],
+            [
+              305.053,
+              3056.042
+            ],
+            [
+              304.787,
+              3056.336
+            ],
+            [
+              304.676,
+              3056.514
+            ],
+            [
+              304.203,
+              3057.61
+            ],
+            [
+              304.181,
+              3057.829
+            ],
+            [
+              302.869,
+              3059.405
+            ],
+            [
+              302.757,
+              3059.584
+            ],
+            [
+              302.285,
+              3060.68
+            ],
+            [
+              302.262,
+              3060.902
+            ],
+            [
+              300.945,
+              3062.484
+            ],
+            [
+              300.834,
+              3062.662
+            ],
+            [
+              300.361,
+              3063.758
+            ],
+            [
+              300.339,
+              3063.978
+            ],
+            [
+              299.027,
+              3065.554
+            ],
+            [
+              298.916,
+              3065.732
+            ],
+            [
+              298.837,
+              3065.99
+            ]
+          ],
+          "spans": null,
+          "use": "wall",
+          "why": {
+            "microGeography": "The bench slopes away toward the landing below this end.",
+            "playerPurpose": "It closes the pad on the landing side, behind the woodpile.",
+            "what": "A dry-stone retaining wall across the south-west end of the station house's pad.",
+            "whyHere": "The bench dips at the house's landing end. The wall keeps the pad from slumping there.",
+            "whyNeighbours": "It joins the back wall at one corner and the road-side yard wall at the other.",
+            "whySpot": "Across the pad's end away from the barn, behind the woodpile and the hen's nest."
+          },
+          "yawDeg": 122.0
+        },
+        {
+          "assetRef": "vanilla:architecture/farmhouse/farmhouse02",
+          "buildingFamily": "vanilla-farmhouse",
+          "centreM": [
+            334.0,
+            3088.0
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": null,
+            "interiorRef": "vanilla-farmhouse-int",
+            "kind": "esp-door",
+            "radial": true,
+            "radiusM": 3.67,
+            "worldM": null
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.stable-barn",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open front faces the stable path and the paddock fence, away from the hillside.",
+          "polygon": [
+            [
+              335.548,
+              3097.61
+            ],
+            [
+              335.294,
+              3097.544
+            ],
+            [
+              327.674,
+              3085.349
+            ],
+            [
+              327.726,
+              3085.093
+            ],
+            [
+              336.834,
+              3079.402
+            ],
+            [
+              337.096,
+              3079.462
+            ],
+            [
+              344.716,
+              3091.657
+            ],
+            [
+              344.656,
+              3091.919
+            ]
+          ],
+          "spans": null,
+          "use": "storage",
+          "why": {
+            "microGeography": "The ground falls to the north; the barn stands on a pad with a retaining wall on its low side.",
+            "playerPurpose": "A stable where the player's horse is kept for the night.",
+            "what": "The stable barn, where horses and the handcart stand for the night.",
+            "whyHere": "A road station keeps a stable for animals that cannot come inside.",
+            "whyNeighbours": "The paddock fence runs along its west side; the stable path joins it to the well.",
+            "whySpot": "West of the station house, the last level ground before the bench drops to the channel."
+          },
+          "yawDeg": 238.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            347.42,
+            3090.32
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.stable-wall-east",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs the whole east side of the barn's pad, square to it.",
+          "polygon": [
+            [
+              338.44,
+              3077.194
+            ],
+            [
+              338.593,
+              3077.912
+            ],
+            [
+              338.672,
+              3078.17
+            ],
+            [
+              338.783,
+              3078.348
+            ],
+            [
+              340.095,
+              3079.924
+            ],
+            [
+              340.118,
+              3080.144
+            ],
+            [
+              340.59,
+              3081.239
+            ],
+            [
+              340.701,
+              3081.417
+            ],
+            [
+              342.019,
+              3083.0
+            ],
+            [
+              342.041,
+              3083.222
+            ],
+            [
+              342.514,
+              3084.318
+            ],
+            [
+              342.625,
+              3084.496
+            ],
+            [
+              343.942,
+              3086.078
+            ],
+            [
+              343.965,
+              3086.3
+            ],
+            [
+              344.437,
+              3087.396
+            ],
+            [
+              344.549,
+              3087.575
+            ],
+            [
+              345.861,
+              3089.151
+            ],
+            [
+              345.883,
+              3089.37
+            ],
+            [
+              346.356,
+              3090.466
+            ],
+            [
+              346.467,
+              3090.644
+            ],
+            [
+              346.733,
+              3090.938
+            ],
+            [
+              347.148,
+              3091.28
+            ],
+            [
+              347.514,
+              3091.452
+            ],
+            [
+              347.789,
+              3091.552
+            ],
+            [
+              348.122,
+              3091.462
+            ],
+            [
+              348.308,
+              3091.251
+            ],
+            [
+              348.396,
+              3090.901
+            ],
+            [
+              348.36,
+              3090.522
+            ],
+            [
+              348.277,
+              3089.974
+            ],
+            [
+              348.129,
+              3089.606
+            ],
+            [
+              348.018,
+              3089.427
+            ],
+            [
+              347.24,
+              3088.522
+            ],
+            [
+              347.052,
+              3088.406
+            ],
+            [
+              346.211,
+              3086.536
+            ],
+            [
+              346.1,
+              3086.358
+            ],
+            [
+              345.322,
+              3085.453
+            ],
+            [
+              345.132,
+              3085.335
+            ],
+            [
+              344.287,
+              3083.457
+            ],
+            [
+              344.176,
+              3083.279
+            ],
+            [
+              343.398,
+              3082.374
+            ],
+            [
+              343.209,
+              3082.257
+            ],
+            [
+              342.364,
+              3080.379
+            ],
+            [
+              342.252,
+              3080.201
+            ],
+            [
+              341.475,
+              3079.296
+            ],
+            [
+              341.287,
+              3079.179
+            ],
+            [
+              340.446,
+              3077.309
+            ],
+            [
+              340.334,
+              3077.131
+            ],
+            [
+              340.137,
+              3076.947
+            ],
+            [
+              339.525,
+              3076.516
+            ],
+            [
+              339.307,
+              3076.487
+            ],
+            [
+              339.074,
+              3076.492
+            ],
+            [
+              338.821,
+              3076.614
+            ],
+            [
+              338.651,
+              3076.72
+            ],
+            [
+              338.527,
+              3076.881
+            ]
+          ],
+          "spans": null,
+          "use": "wall",
+          "why": {
+            "microGeography": "The ground falls away toward the paddock along the whole of this edge.",
+            "playerPurpose": "From the paddock it reads as the barn's raised stone base, with no way up on this side.",
+            "what": "A dry-stone retaining wall along the whole east side of the stable barn's pad.",
+            "whyHere": "The pad stands up to 1.2 m above the paddock on this side; the wall holds the full length of that edge.",
+            "whyNeighbours": "It meets the south wall at one corner and ends at the north-east corner, at a gap about 2.8 m wide where the stable path comes up onto the pad and runs on between the barn and this wall to the barn door.",
+            "whySpot": "From the pad's south-east corner to its north-east corner, a pace out from the barn."
+          },
+          "yawDeg": 238.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            334.35,
+            3077.41
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.stable-wall-north",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs along the barn's long north side, square to the pad.",
+          "polygon": [
+            [
+              323.6,
+              3083.833
+            ],
+            [
+              323.723,
+              3084.086
+            ],
+            [
+              323.829,
+              3084.256
+            ],
+            [
+              323.989,
+              3084.38
+            ],
+            [
+              324.302,
+              3084.466
+            ],
+            [
+              325.02,
+              3084.313
+            ],
+            [
+              325.278,
+              3084.234
+            ],
+            [
+              325.456,
+              3084.123
+            ],
+            [
+              327.032,
+              3082.811
+            ],
+            [
+              327.252,
+              3082.789
+            ],
+            [
+              328.348,
+              3082.316
+            ],
+            [
+              328.526,
+              3082.205
+            ],
+            [
+              330.108,
+              3080.888
+            ],
+            [
+              330.33,
+              3080.865
+            ],
+            [
+              331.426,
+              3080.393
+            ],
+            [
+              331.605,
+              3080.281
+            ],
+            [
+              333.181,
+              3078.969
+            ],
+            [
+              333.4,
+              3078.947
+            ],
+            [
+              334.496,
+              3078.474
+            ],
+            [
+              334.674,
+              3078.363
+            ],
+            [
+              334.968,
+              3078.097
+            ],
+            [
+              335.31,
+              3077.682
+            ],
+            [
+              335.482,
+              3077.316
+            ],
+            [
+              335.582,
+              3077.041
+            ],
+            [
+              335.492,
+              3076.708
+            ],
+            [
+              335.281,
+              3076.522
+            ],
+            [
+              334.931,
+              3076.434
+            ],
+            [
+              334.552,
+              3076.47
+            ],
+            [
+              334.004,
+              3076.553
+            ],
+            [
+              333.635,
+              3076.701
+            ],
+            [
+              333.457,
+              3076.812
+            ],
+            [
+              332.552,
+              3077.59
+            ],
+            [
+              332.436,
+              3077.778
+            ],
+            [
+              330.566,
+              3078.619
+            ],
+            [
+              330.388,
+              3078.73
+            ],
+            [
+              329.483,
+              3079.508
+            ],
+            [
+              329.365,
+              3079.698
+            ],
+            [
+              327.487,
+              3080.543
+            ],
+            [
+              327.309,
+              3080.654
+            ],
+            [
+              326.404,
+              3081.432
+            ],
+            [
+              326.288,
+              3081.619
+            ],
+            [
+              324.418,
+              3082.461
+            ],
+            [
+              324.239,
+              3082.572
+            ],
+            [
+              324.056,
+              3082.77
+            ],
+            [
+              323.624,
+              3083.381
+            ],
+            [
+              323.596,
+              3083.599
+            ]
+          ],
+          "spans": null,
+          "use": "wall",
+          "why": {
+            "microGeography": "The bench rises above this edge toward the station house.",
+            "playerPurpose": "It keeps the bank off the barn's back wall.",
+            "what": "A dry-stone retaining wall along the north side of the stable barn's pad.",
+            "whyHere": "The pad is cut into the rising ground along the barn's back; the wall keeps the bank off it.",
+            "whyNeighbours": "It stops short of the pad's north-east corner, leaving a gap about 2.8 m wide where the stable path climbs onto the pad.",
+            "whySpot": "Along the pad's north edge, facing the station house."
+          },
+          "yawDeg": 148.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            337.03,
+            3100.22
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.stable-wall-south",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs along the barn's long south side, square to the pad.",
+          "polygon": [
+            [
+              335.798,
+              3100.589
+            ],
+            [
+              335.889,
+              3100.922
+            ],
+            [
+              336.099,
+              3101.108
+            ],
+            [
+              336.449,
+              3101.196
+            ],
+            [
+              336.828,
+              3101.16
+            ],
+            [
+              337.376,
+              3101.077
+            ],
+            [
+              337.745,
+              3100.929
+            ],
+            [
+              337.923,
+              3100.818
+            ],
+            [
+              338.828,
+              3100.04
+            ],
+            [
+              338.944,
+              3099.852
+            ],
+            [
+              340.814,
+              3099.011
+            ],
+            [
+              340.992,
+              3098.9
+            ],
+            [
+              341.897,
+              3098.122
+            ],
+            [
+              342.015,
+              3097.932
+            ],
+            [
+              343.893,
+              3097.087
+            ],
+            [
+              344.071,
+              3096.976
+            ],
+            [
+              344.976,
+              3096.198
+            ],
+            [
+              345.092,
+              3096.011
+            ],
+            [
+              346.962,
+              3095.169
+            ],
+            [
+              347.141,
+              3095.058
+            ],
+            [
+              347.324,
+              3094.86
+            ],
+            [
+              347.756,
+              3094.249
+            ],
+            [
+              347.784,
+              3094.031
+            ],
+            [
+              347.78,
+              3093.797
+            ],
+            [
+              347.657,
+              3093.544
+            ],
+            [
+              347.551,
+              3093.374
+            ],
+            [
+              347.391,
+              3093.25
+            ],
+            [
+              347.077,
+              3093.164
+            ],
+            [
+              346.36,
+              3093.317
+            ],
+            [
+              346.102,
+              3093.396
+            ],
+            [
+              345.924,
+              3093.507
+            ],
+            [
+              344.348,
+              3094.819
+            ],
+            [
+              344.128,
+              3094.841
+            ],
+            [
+              343.032,
+              3095.314
+            ],
+            [
+              342.854,
+              3095.425
+            ],
+            [
+              341.272,
+              3096.742
+            ],
+            [
+              341.05,
+              3096.765
+            ],
+            [
+              339.954,
+              3097.237
+            ],
+            [
+              339.775,
+              3097.349
+            ],
+            [
+              338.199,
+              3098.661
+            ],
+            [
+              337.98,
+              3098.683
+            ],
+            [
+              336.884,
+              3099.156
+            ],
+            [
+              336.706,
+              3099.267
+            ],
+            [
+              336.412,
+              3099.533
+            ],
+            [
+              336.07,
+              3099.948
+            ],
+            [
+              335.898,
+              3100.314
+            ]
+          ],
+          "spans": null,
+          "use": "wall",
+          "why": {
+            "microGeography": "The ground stands higher than the pad along most of this edge.",
+            "playerPurpose": "It keeps the bank off the barn's south wall.",
+            "what": "A dry-stone retaining wall along the south side of the stable barn's pad.",
+            "whyHere": "The barn's pad is cut into the ground on this side; the wall holds the bank back from the barn's south wall.",
+            "whyNeighbours": "It meets the east and west walls at the pad's corners.",
+            "whySpot": "Along the pad's south edge, a pace out from the barn wall."
+          },
+          "yawDeg": 328.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            325.07,
+            3086.83
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.stable-wall-west",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs across the barn's west end, square to the pad.",
+          "polygon": [
+            [
+              324.094,
+              3086.249
+            ],
+            [
+              324.13,
+              3086.628
+            ],
+            [
+              324.213,
+              3087.176
+            ],
+            [
+              324.361,
+              3087.545
+            ],
+            [
+              324.472,
+              3087.723
+            ],
+            [
+              325.25,
+              3088.628
+            ],
+            [
+              325.438,
+              3088.744
+            ],
+            [
+              326.279,
+              3090.614
+            ],
+            [
+              326.39,
+              3090.792
+            ],
+            [
+              327.168,
+              3091.697
+            ],
+            [
+              327.358,
+              3091.815
+            ],
+            [
+              328.203,
+              3093.693
+            ],
+            [
+              328.314,
+              3093.871
+            ],
+            [
+              329.092,
+              3094.776
+            ],
+            [
+              329.281,
+              3094.893
+            ],
+            [
+              330.126,
+              3096.771
+            ],
+            [
+              330.238,
+              3096.949
+            ],
+            [
+              331.015,
+              3097.854
+            ],
+            [
+              331.203,
+              3097.971
+            ],
+            [
+              332.044,
+              3099.841
+            ],
+            [
+              332.156,
+              3100.019
+            ],
+            [
+              332.353,
+              3100.203
+            ],
+            [
+              332.965,
+              3100.634
+            ],
+            [
+              333.183,
+              3100.663
+            ],
+            [
+              333.416,
+              3100.658
+            ],
+            [
+              333.669,
+              3100.536
+            ],
+            [
+              333.839,
+              3100.43
+            ],
+            [
+              333.963,
+              3100.269
+            ],
+            [
+              334.05,
+              3099.956
+            ],
+            [
+              333.897,
+              3099.238
+            ],
+            [
+              333.818,
+              3098.981
+            ],
+            [
+              333.707,
+              3098.802
+            ],
+            [
+              332.395,
+              3097.226
+            ],
+            [
+              332.372,
+              3097.006
+            ],
+            [
+              331.9,
+              3095.911
+            ],
+            [
+              331.789,
+              3095.733
+            ],
+            [
+              330.471,
+              3094.15
+            ],
+            [
+              330.449,
+              3093.928
+            ],
+            [
+              329.976,
+              3092.832
+            ],
+            [
+              329.865,
+              3092.654
+            ],
+            [
+              328.548,
+              3091.072
+            ],
+            [
+              328.525,
+              3090.85
+            ],
+            [
+              328.053,
+              3089.754
+            ],
+            [
+              327.941,
+              3089.575
+            ],
+            [
+              326.629,
+              3087.999
+            ],
+            [
+              326.607,
+              3087.78
+            ],
+            [
+              326.134,
+              3086.684
+            ],
+            [
+              326.023,
+              3086.506
+            ],
+            [
+              325.757,
+              3086.212
+            ],
+            [
+              325.343,
+              3085.87
+            ],
+            [
+              324.976,
+              3085.698
+            ],
+            [
+              324.701,
+              3085.598
+            ],
+            [
+              324.368,
+              3085.689
+            ],
+            [
+              324.182,
+              3085.899
+            ]
+          ],
+          "spans": null,
+          "use": "wall",
+          "why": {
+            "microGeography": "The ground rises above this end toward the bench.",
+            "playerPurpose": "It closes the barn's pad on the side that faces the landing.",
+            "what": "A dry-stone retaining wall across the west end of the stable barn's pad.",
+            "whyHere": "The pad is cut into the ground at the barn's west end; the wall keeps the slope from slumping onto it.",
+            "whyNeighbours": "It joins the north and south walls at the pad's corners.",
+            "whySpot": "Across the pad's west end, a pace out from the barn."
+          },
+          "yawDeg": 58.0
+        },
+        {
+          "assetRef": "composite:farmhouse/farmhouse01-with-door",
+          "buildingFamily": "vanilla-farmhouse",
+          "centreM": [
+            314.0,
+            3068.0
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": null,
+            "interiorRef": "vanilla-farmhouse-int",
+            "kind": "esp-door",
+            "radial": true,
+            "radiusM": 4.003,
+            "worldM": null
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.station-house",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "Its long wall runs with the road and its door turns north-east onto the path from the street.",
+          "polygon": [
+            [
+              322.497,
+              3073.31
+            ],
+            [
+              321.431,
+              3074.79
+            ],
+            [
+              320.712,
+              3075.696
+            ],
+            [
+              319.95,
+              3076.387
+            ],
+            [
+              318.77,
+              3076.464
+            ],
+            [
+              317.582,
+              3076.005
+            ],
+            [
+              315.97,
+              3075.151
+            ],
+            [
+              306.709,
+              3069.364
+            ],
+            [
+              305.235,
+              3068.289
+            ],
+            [
+              304.387,
+              3067.476
+            ],
+            [
+              303.876,
+              3066.426
+            ],
+            [
+              304.088,
+              3065.426
+            ],
+            [
+              304.64,
+              3064.297
+            ],
+            [
+              305.503,
+              3062.69
+            ],
+            [
+              306.569,
+              3061.21
+            ],
+            [
+              307.288,
+              3060.304
+            ],
+            [
+              308.051,
+              3059.613
+            ],
+            [
+              309.23,
+              3059.536
+            ],
+            [
+              310.418,
+              3059.995
+            ],
+            [
+              312.03,
+              3060.849
+            ],
+            [
+              321.291,
+              3066.636
+            ],
+            [
+              322.765,
+              3067.711
+            ],
+            [
+              323.613,
+              3068.524
+            ],
+            [
+              324.124,
+              3069.574
+            ],
+            [
+              323.912,
+              3070.574
+            ],
+            [
+              323.36,
+              3071.703
+            ]
+          ],
+          "spans": null,
+          "use": "dwelling",
+          "why": {
+            "microGeography": "The bench rises to the south; the house stands on a stone pad that takes up the fall.",
+            "playerPurpose": "A bed for the night and food for the road; the first of the two counters in LF83.",
+            "what": "The station house: the well-keeper's home, with beds for travellers upstairs and the provisions counter at the door.",
+            "whyHere": "A road station keeps a house where travellers sleep and buy food; this one belongs to the well-keeper.",
+            "whyNeighbours": "It stands behind the well and the lean-to, so the fire, the well and the door are seen together from the street.",
+            "whySpot": "The widest dry ground on the south bench, beside the well junction and square to the road."
+          },
+          "yawDeg": 212.0
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+          "buildingFamily": "mud-hut",
+          "centreM": [
+            260.0,
+            2998.0
+          ],
+          "districtId": "district.claywater-station.the-landing",
+          "entrance": {
+            "arcM": null,
+            "bearingDeg": 98.9,
+            "interiorRef": "mudmother-hut-int",
+            "kind": "esp-door",
+            "worldM": [
+              265.107,
+              2994.431
+            ]
+          },
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.store-hut",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open side faces the common and the fish racks.",
+          "polygon": [
+            [
+              257.007,
+              2998.239
+            ],
+            [
+              256.999,
+              2998.159
+            ],
+            [
+              256.949,
+              2997.319
+            ],
+            [
+              257.304,
+              2996.19
+            ],
+            [
+              257.334,
+              2996.142
+            ],
+            [
+              258.226,
+              2995.074
+            ],
+            [
+              259.214,
+              2994.641
+            ],
+            [
+              260.292,
+              2994.597
+            ],
+            [
+              261.563,
+              2995.166
+            ],
+            [
+              261.61,
+              2995.196
+            ],
+            [
+              262.425,
+              2996.055
+            ],
+            [
+              262.748,
+              2996.832
+            ],
+            [
+              262.952,
+              2997.719
+            ],
+            [
+              262.716,
+              2998.871
+            ],
+            [
+              262.458,
+              2999.444
+            ],
+            [
+              262.385,
+              2999.574
+            ],
+            [
+              261.849,
+              3000.631
+            ],
+            [
+              261.729,
+              3000.69
+            ],
+            [
+              261.624,
+              3000.724
+            ],
+            [
+              259.715,
+              3001.165
+            ],
+            [
+              259.605,
+              3001.18
+            ],
+            [
+              259.472,
+              3001.18
+            ],
+            [
+              258.527,
+              3000.465
+            ],
+            [
+              258.404,
+              3000.38
+            ],
+            [
+              257.922,
+              2999.978
+            ],
+            [
+              257.204,
+              2999.046
+            ]
+          ],
+          "spans": null,
+          "use": "storage",
+          "why": {
+            "microGeography": "The lowest hut on the strip, its pad raised furthest to clear the high water.",
+            "playerPurpose": "None beyond the look of a working landing.",
+            "what": "The landing's fish store and smokehouse.",
+            "whyHere": "The catch from the channel is dried and stored here.",
+            "whyNeighbours": "The fish racks stand between it and the common.",
+            "whySpot": "The west end of the north strip, beside the family hut."
+          },
+          "yawDeg": 347.0
+        },
+        {
+          "assetRef": "vanilla:dungeons/mines/clutter/genericwell01",
+          "buildingFamily": "works-well",
+          "centreM": [
+            328.0,
+            3047.0
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.the-well",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The windlass turns across the road so the bucket is drawn from the street side.",
+          "polygon": [
+            [
+              327.088,
+              3046.773
+            ],
+            [
+              327.243,
+              3046.44
+            ],
+            [
+              327.512,
+              3046.188
+            ],
+            [
+              327.861,
+              3046.069
+            ],
+            [
+              328.227,
+              3046.088
+            ],
+            [
+              328.56,
+              3046.243
+            ],
+            [
+              328.812,
+              3046.512
+            ],
+            [
+              328.931,
+              3046.861
+            ],
+            [
+              328.912,
+              3047.227
+            ],
+            [
+              328.757,
+              3047.56
+            ],
+            [
+              328.488,
+              3047.812
+            ],
+            [
+              328.139,
+              3047.931
+            ],
+            [
+              327.773,
+              3047.912
+            ],
+            [
+              327.44,
+              3047.757
+            ],
+            [
+              327.188,
+              3047.488
+            ],
+            [
+              327.069,
+              3047.139
+            ]
+          ],
+          "spans": null,
+          "use": "civic",
+          "why": {
+            "microGeography": "The verge a metre above the road, on the spring line.",
+            "playerPurpose": "Water, a landmark from the south road and the cracked well of LF83.",
+            "what": "The Imperial well, its head cracked, at the junction of the street and the station path.",
+            "whyHere": "The well is the reason for the place. It is the road's water point.",
+            "whyNeighbours": "The trough, the lantern and the station house door stand round it.",
+            "whySpot": "The first junction off the road on its west verge, where the spring rises."
+          },
+          "yawDeg": 14.0
+        },
+        {
+          "assetRef": "vanilla:architecture/farmhouse/farmhouse01walkway",
+          "buildingFamily": "vanilla-farmhouse",
+          "centreM": [
+            329.5,
+            3053.5
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": {
+            "deg": 161.7,
+            "evidence": "co-placement",
+            "outside": true,
+            "worldDeg": 209.7
+          },
+          "groundFit": null,
+          "id": "parcel.claywater-station.travellers-lean-to",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "Its open side faces the street so a traveller steps in from the road.",
+          "polygon": [
+            [
+              323.531,
+              3048.769
+            ],
+            [
+              323.722,
+              3048.772
+            ],
+            [
+              333.598,
+              3059.741
+            ],
+            [
+              333.581,
+              3059.931
+            ],
+            [
+              333.44,
+              3060.058
+            ],
+            [
+              333.249,
+              3060.055
+            ],
+            [
+              323.373,
+              3049.086
+            ],
+            [
+              323.39,
+              3048.896
+            ]
+          ],
+          "spans": null,
+          "use": "shelter",
+          "why": {
+            "microGeography": "Level verge ground a metre above the road.",
+            "playerPurpose": "A dry place to rest by the fire without paying.",
+            "what": "A covered walkway used as a lean-to for road travellers, beside the fire.",
+            "whyHere": "Travellers who will not pay for a bed sleep under cover by the fire.",
+            "whyNeighbours": "The road fire stands at its south end; the well is 8 m north.",
+            "whySpot": "Between the well and the station house, on the verge of the road."
+          },
+          "yawDeg": 48.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            317.47,
+            3060.72
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.yard-wall",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs along the road frontage, south of the lean-to.",
+          "polygon": [
+            [
+              306.664,
+              3054.463
+            ],
+            [
+              306.723,
+              3054.783
+            ],
+            [
+              307.176,
+              3055.36
+            ],
+            [
+              307.359,
+              3055.558
+            ],
+            [
+              307.538,
+              3055.669
+            ],
+            [
+              309.408,
+              3056.511
+            ],
+            [
+              309.524,
+              3056.698
+            ],
+            [
+              310.429,
+              3057.476
+            ],
+            [
+              310.607,
+              3057.587
+            ],
+            [
+              312.485,
+              3058.432
+            ],
+            [
+              312.603,
+              3058.622
+            ],
+            [
+              313.508,
+              3059.4
+            ],
+            [
+              313.686,
+              3059.511
+            ],
+            [
+              315.556,
+              3060.352
+            ],
+            [
+              315.672,
+              3060.54
+            ],
+            [
+              316.577,
+              3061.318
+            ],
+            [
+              316.755,
+              3061.429
+            ],
+            [
+              317.124,
+              3061.577
+            ],
+            [
+              317.646,
+              3061.703
+            ],
+            [
+              318.051,
+              3061.696
+            ],
+            [
+              318.341,
+              3061.665
+            ],
+            [
+              318.601,
+              3061.439
+            ],
+            [
+              318.676,
+              3061.167
+            ],
+            [
+              318.602,
+              3060.814
+            ],
+            [
+              318.404,
+              3060.49
+            ],
+            [
+              318.088,
+              3060.033
+            ],
+            [
+              317.794,
+              3059.767
+            ],
+            [
+              317.616,
+              3059.656
+            ],
+            [
+              316.52,
+              3059.183
+            ],
+            [
+              316.301,
+              3059.161
+            ],
+            [
+              314.725,
+              3057.849
+            ],
+            [
+              314.546,
+              3057.737
+            ],
+            [
+              313.45,
+              3057.265
+            ],
+            [
+              313.228,
+              3057.242
+            ],
+            [
+              311.646,
+              3055.925
+            ],
+            [
+              311.468,
+              3055.814
+            ],
+            [
+              310.372,
+              3055.341
+            ],
+            [
+              310.152,
+              3055.319
+            ],
+            [
+              308.576,
+              3054.007
+            ],
+            [
+              308.398,
+              3053.896
+            ],
+            [
+              308.14,
+              3053.817
+            ],
+            [
+              307.401,
+              3053.698
+            ],
+            [
+              307.193,
+              3053.767
+            ],
+            [
+              306.985,
+              3053.873
+            ],
+            [
+              306.811,
+              3054.095
+            ],
+            [
+              306.705,
+              3054.265
+            ]
+          ],
+          "spans": null,
+          "use": "boundary",
+          "why": {
+            "microGeography": "It follows the verge where the road climbs to the south-east.",
+            "playerPurpose": "It marks the station's yard from the road.",
+            "what": "A dry-stone wall along the station's road frontage.",
+            "whyHere": "Imperial yards are walled on the road side.",
+            "whyNeighbours": "It closes the yard between the station house and the road.",
+            "whySpot": "South of the lean-to along the road verge, leaving the well junction open."
+          },
+          "yawDeg": 212.0
+        },
+        {
+          "assetRef": null,
+          "buildingFamily": "vanilla-farmhouse-stonewall",
+          "centreM": [
+            328.61,
+            3067.68
+          ],
+          "districtId": "district.claywater-station.the-well",
+          "entrance": null,
+          "front": null,
+          "groundFit": null,
+          "id": "parcel.claywater-station.yard-wall-north",
+          "interior": {
+            "kind": "none"
+          },
+          "notes": null,
+          "orientationWhy": "The wall runs along the road side of the pad, north of the door gap.",
+          "polygon": [
+            [
+              320.882,
+              3063.346
+            ],
+            [
+              320.942,
+              3063.667
+            ],
+            [
+              321.394,
+              3064.244
+            ],
+            [
+              321.578,
+              3064.441
+            ],
+            [
+              321.756,
+              3064.553
+            ],
+            [
+              323.626,
+              3065.394
+            ],
+            [
+              323.743,
+              3065.582
+            ],
+            [
+              324.647,
+              3066.36
+            ],
+            [
+              324.825,
+              3066.471
+            ],
+            [
+              326.696,
+              3067.312
+            ],
+            [
+              326.812,
+              3067.5
+            ],
+            [
+              327.717,
+              3068.278
+            ],
+            [
+              327.895,
+              3068.389
+            ],
+            [
+              328.264,
+              3068.537
+            ],
+            [
+              328.786,
+              3068.663
+            ],
+            [
+              329.191,
+              3068.656
+            ],
+            [
+              329.481,
+              3068.625
+            ],
+            [
+              329.741,
+              3068.399
+            ],
+            [
+              329.816,
+              3068.127
+            ],
+            [
+              329.742,
+              3067.774
+            ],
+            [
+              329.544,
+              3067.45
+            ],
+            [
+              329.228,
+              3066.993
+            ],
+            [
+              328.934,
+              3066.727
+            ],
+            [
+              328.756,
+              3066.616
+            ],
+            [
+              327.66,
+              3066.143
+            ],
+            [
+              327.441,
+              3066.121
+            ],
+            [
+              325.865,
+              3064.809
+            ],
+            [
+              325.686,
+              3064.697
+            ],
+            [
+              324.59,
+              3064.225
+            ],
+            [
+              324.371,
+              3064.203
+            ],
+            [
+              322.795,
+              3062.891
+            ],
+            [
+              322.616,
+              3062.779
+            ],
+            [
+              322.358,
+              3062.701
+            ],
+            [
+              321.62,
+              3062.581
+            ],
+            [
+              321.411,
+              3062.651
+            ],
+            [
+              321.203,
+              3062.757
+            ],
+            [
+              321.03,
+              3062.978
+            ],
+            [
+              320.924,
+              3063.148
+            ]
+          ],
+          "spans": null,
+          "use": "wall",
+          "why": {
+            "microGeography": "The pad edge stands a little above the road verge here.",
+            "playerPurpose": "It marks the way into the station house through the gap.",
+            "what": "A short dry-stone wall on the road side of the station house's pad, north of the door.",
+            "whyHere": "Imperial yards are walled on the road side; this length also holds the pad's edge.",
+            "whyNeighbours": "With the yard wall south of the gap, it frames the path from the well junction to the door.",
+            "whySpot": "Between the pad's north-east corner and the gap left for the door path."
+          },
+          "yawDeg": 212.0
+        }
+      ],
+      "provision": {},
+      "questSockets": [
+        {
+          "id": "socket.claywater-station.poler",
+          "kind": "station",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            312.0,
+            3021.0
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.claywater-station.the-cracked-well",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            317.0,
+            3052.5
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.claywater-station.the-street",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            316.0,
+            3042.0
+          ],
+          "questId": null
+        },
+        {
+          "id": "socket.claywater-station.well-keeper",
+          "kind": "station",
+          "notes": null,
+          "ownerQuestTier": null,
+          "parcelId": null,
+          "positionM": [
+            319.0,
+            3051.0
+          ],
+          "questId": null
+        }
+      ],
+      "scaleGrounding": {
+        "buildingsPlanned": 8,
+        "households": 3,
+        "loreSource": "type recipe road-station-village (a keeper and travellers); record occupants D1 family (few), D2 travellers (few); roster npcs.json well-keeper and poler",
+        "npcsPlanned": 2,
+        "population": "6-10",
+        "why": "Two named keepers and one landing family live here; travellers come and go. Six buildings stand, three in the well-station and three in the landing; the dry ground holds no seventh. Beside them stand the well, the lean-to, the ferry raft and the dry-stone walls that hold the two station pads."
+      },
+      "seed": "place.imperial-fringe.claywater-station",
+      "siting": {
+        "candidates": [
+          {
+            "chosen": false,
+            "id": "candidate.claywater-station.east-of-road",
+            "positionM": [
+              356.0,
+              3084.0
+            ],
+            "rejectedBecause": "One flat pad east of the road; the rest of the east side is flood water at 35.24 m, with no room for either half.",
+            "why": "The flat pad east of the road beside the flood water."
+          },
+          {
+            "chosen": true,
+            "id": "candidate.claywater-station.ford-banks",
+            "positionM": [
+              301.0,
+              3059.2
+            ],
+            "rejectedBecause": null,
+            "why": "The only dry ground on both banks of the ford: the south bench for the well-station and the north strip for the landing."
+          }
+        ],
+        "dossier": "world/sources/sites/dossiers/claywater-station.json"
+      },
+      "summary": {
+        "approaches": 2,
+        "combatSpaces": 1,
+        "districts": 2,
+        "docks": 0,
+        "doors": 3,
+        "fences": 0,
+        "keptTrees": 0,
+        "landmarks": 0,
+        "networkTerminals": 2,
+        "parcels": 18,
+        "questSockets": 4,
+        "sitingCandidates": 2,
+        "ways": 6
+      },
+      "ways": [
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.claywater-station.polers-hut",
+            "parcel.claywater-station.family-hut",
+            "parcel.claywater-station.store-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.claywater-station.common-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              311.09,
+              3006.502
+            ],
+            [
+              311.5,
+              3008.5
+            ],
+            [
+              310.8,
+              3009.0
+            ],
+            [
+              308.5,
+              3007.5
+            ],
+            [
+              300.5,
+              3007.5
+            ],
+            [
+              292.5,
+              2999.5
+            ],
+            [
+              288.0,
+              3003.5
+            ],
+            [
+              275.5,
+              3003.5
+            ],
+            [
+              275.0,
+              3004.5
+            ],
+            [
+              273.5,
+              3003.5
+            ],
+            [
+              261.0,
+              3003.2
+            ],
+            [
+              286.5,
+              3003.5
+            ],
+            [
+              291.5,
+              2998.5
+            ],
+            [
+              291.5,
+              2997.5
+            ],
+            [
+              290.132,
+              2997.491
+            ]
+          ],
+          "routing": "terrain",
+          "via": [
+            [
+              311.5,
+              3021.0
+            ],
+            [
+              310.8,
+              3009.0
+            ],
+            [
+              300.0,
+              3007.0
+            ],
+            [
+              292.5,
+              2999.5
+            ],
+            [
+              288.0,
+              3003.5
+            ],
+            [
+              275.0,
+              3004.5
+            ],
+            [
+              261.0,
+              3003.2
+            ],
+            [
+              260.5,
+              3001.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the ford's north bank past the poler's hut across the common to the family hut and the store.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.claywater-station.ferry-raft"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.claywater-station.landing-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              311.5,
+              3021.0
+            ],
+            [
+              314.5,
+              3021.5
+            ],
+            [
+              322.5,
+              3013.5
+            ],
+            [
+              330.0,
+              3014.0
+            ],
+            [
+              335.5,
+              3008.5
+            ],
+            [
+              345.849,
+              3008.908
+            ]
+          ],
+          "routing": "terrain",
+          "via": [
+            [
+              311.5,
+              3021.0
+            ],
+            [
+              318.0,
+              3018.0
+            ],
+            [
+              330.0,
+              3014.0
+            ],
+            [
+              338.5,
+              3013.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the ford's north bank past the fish racks to the moored raft.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.claywater-station.stable-barn"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.claywater-station.stable-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              341.0,
+              3070.5
+            ],
+            [
+              336.5,
+              3075.5
+            ],
+            [
+              340.5,
+              3083.5
+            ],
+            [
+              340.035,
+              3084.166
+            ]
+          ],
+          "routing": "terrain",
+          "via": [
+            [
+              341.0,
+              3070.5
+            ],
+            [
+              338.4,
+              3073.6
+            ],
+            [
+              336.9,
+              3077.0
+            ],
+            [
+              337.9,
+              3079.6
+            ],
+            [
+              339.6,
+              3082.3
+            ],
+            [
+              337.9,
+              3085.5
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the well junction to the stable barn, up onto its pad at the north-east corner, then between the barn and the east wall to the barn door.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.claywater-station.station-house"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.claywater-station.station-house-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              321.5,
+              3053.5
+            ],
+            [
+              320.5,
+              3054.5
+            ],
+            [
+              320.6,
+              3061.4
+            ],
+            [
+              317.5,
+              3063.5
+            ],
+            [
+              317.43,
+              3065.945
+            ]
+          ],
+          "routing": "terrain",
+          "via": [
+            [
+              321.5,
+              3053.5
+            ],
+            [
+              320.6,
+              3061.4
+            ],
+            [
+              317.9,
+              3065.2
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the street to the station house door.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.claywater-station.the-street",
+          "kind": "road",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              309.8,
+              3021.0
+            ],
+            [
+              314.2,
+              3026.6
+            ],
+            [
+              315.5,
+              3035.0
+            ],
+            [
+              315.3,
+              3046.1
+            ],
+            [
+              343.0,
+              3074.0
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              309.8,
+              3021.0
+            ],
+            [
+              314.2,
+              3026.6
+            ],
+            [
+              315.5,
+              3035.0
+            ],
+            [
+              315.3,
+              3046.1
+            ],
+            [
+              326.0,
+              3057.0
+            ],
+            [
+              343.0,
+              3074.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "The Blackwood Road between the well junction and the ford: the street both halves face.",
+          "widthM": 4.3
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.claywater-station.the-well"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.claywater-station.well-junction",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              316.8,
+              3047.6
+            ],
+            [
+              327.46,
+              3046.237
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              316.8,
+              3047.6
+            ],
+            [
+              326.3,
+              3045.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "The short worn step from the road to the well head.",
+          "widthM": 1.2
+        }
+      ]
     }
   ],
   "layers": [

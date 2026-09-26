@@ -35,6 +35,10 @@ RCLONE_SHA256=982b5aa772841168f8e380f139e9e787b2a105403e32b94da8676a0e1c0a13ab
 RTK_VERSION=0.49.0
 RTK_SHA256=a051b22361c7cfa36022bc3f06bb41cdc88e58a07263dc340d8bd3468c41befe
 NODE_MAJOR=22
+# Linux Blender (host only): the placement workbench's headless renders
+# (`wb.py render`, tooling/placement-workbench/workbench/paths.py LINUX_BLENDER).
+LINUX_BLENDER_VERSION=3.2.2
+LINUX_BLENDER_SHA256=1726560157d90cf2aaaeb6d25ded1783d66bff043814cd95b90fc0af1d9e018b
 # The VS Code CLI (`code`, host only): the initial install; the tunnel service
 # updates itself afterwards.
 VSCODE_CLI_VERSION=1.139.1
@@ -226,8 +230,21 @@ EOF
 apt_install "${APT_IMAGE[@]}"
 install_bins
 install_tools
+install_linux_blender() {
+  local dir="$TOOLS/blender-${LINUX_BLENDER_VERSION}-linux-x64"
+  [[ -x "$dir/blender" ]] && return 0
+  say "Linux Blender ${LINUX_BLENDER_VERSION}"
+  curl -fsSL -o "$DL/blender.tar.xz" \
+    "https://download.blender.org/release/Blender${LINUX_BLENDER_VERSION%.*}/blender-${LINUX_BLENDER_VERSION}-linux-x64.tar.xz"
+  sha_ok "$DL/blender.tar.xz" "$LINUX_BLENDER_SHA256" || die "Linux Blender sha256 mismatch"
+  tar -xJf "$DL/blender.tar.xz" -C "$TOOLS"
+  [[ -x "$dir/blender" ]] || die "Linux Blender not at $dir/blender after unpacking"
+  rm -f "$DL/blender.tar.xz"
+}
+
 if [[ "$mode" == host ]]; then
   apt_install "${APT_HOST[@]}"
+  install_linux_blender
   install_node
   install_gh
   install_claude

@@ -25,6 +25,8 @@ TIER_FIELDS = (
     "dressingAssetShareMax",
     "groundKindsMin",
     "lightKindsMin",
+    "buildingSpacingM",
+    "densityPerHa",
 )
 TYPE_IDS = tuple(str(n) for n in range(1, 10))
 # A type's defaultTier is a fallback only (planner 2026-09-25): a record that
@@ -109,3 +111,17 @@ def bars_for(tier: str | None, culture: str, place_type: int | str, record: dict
     bars["tier"] = tier
     bars["perQuarter"] = bool(tier_row.get("perQuarter"))
     return bars
+
+
+def built_column(n_buildings: int, record: dict | None = None) -> str | None:
+    """The tier column a place is built under: the first whose
+    [buildingsMin, buildingsMax] holds its counted buildings (a place's brief
+    may build a record's magnitude under a smaller column, e.g. Claywater, an
+    M2 record built as a 4-6 building hamlet); None below every column."""
+    record = record if record is not None else load()
+    for tier in TIERS:
+        row = record["tiers"][tier]
+        lo, hi = row.get("buildingsMin"), row.get("buildingsMax")
+        if lo is not None and n_buildings >= lo and (hi is None or n_buildings <= hi):
+            return tier
+    return None

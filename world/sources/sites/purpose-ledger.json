@@ -8,10 +8,61 @@
     "quest authoring (docs/quests/)"
   ],
   "summary": {
-    "rows": 0,
-    "places": 0,
-    "byPhase": {},
-    "byKind": {}
+    "rows": 3,
+    "places": 1,
+    "byPhase": {
+      "phase-13": 3
+    },
+    "byKind": {
+      "service-station": 2,
+      "witness": 1
+    }
   },
-  "rows": []
+  "rows": [
+    {
+      "id": "purpose.claywater-station.family-hut.witness",
+      "placeId": "place.imperial-fringe.claywater-station",
+      "parcelId": "parcel.claywater-station.family-hut",
+      "kind": "witness",
+      "tier": "medium",
+      "note": "The landing family's home, where the player hears the landing's side of the argument over the well (LF83).",
+      "deliveredBy": "phase-13",
+      "deliverable": "an occupant carrying testimony a quest can query",
+      "interiorKind": "dwelling",
+      "interiorRef": "vanilla-farmhouse-int",
+      "socketRef": null,
+      "socketKind": null,
+      "questId": null
+    },
+    {
+      "id": "purpose.claywater-station.polers-hut.service-station",
+      "placeId": "place.imperial-fringe.claywater-station",
+      "parcelId": "parcel.claywater-station.polers-hut",
+      "kind": "service-station",
+      "tier": "major",
+      "note": "The poler's home and the crossing fee (LF83 counter 2); the ferry is run from the landing below it.",
+      "deliveredBy": "phase-13",
+      "deliverable": "a service station: travel, healing, storage or repair",
+      "interiorKind": "dwelling",
+      "interiorRef": "mudmother-hut-int",
+      "socketRef": null,
+      "socketKind": null,
+      "questId": null
+    },
+    {
+      "id": "purpose.claywater-station.station-house.service-station",
+      "placeId": "place.imperial-fringe.claywater-station",
+      "parcelId": "parcel.claywater-station.station-house",
+      "kind": "service-station",
+      "tier": "major",
+      "note": "Lodging upstairs and the well-keeper's provisions counter at the door (LF83 counter 1).",
+      "deliveredBy": "phase-13",
+      "deliverable": "a service station: travel, healing, storage or repair",
+      "interiorKind": "dwelling",
+      "interiorRef": "vanilla-farmhouse-int",
+      "socketRef": null,
+      "socketKind": null,
+      "questId": null
+    }
+  ]
 }
