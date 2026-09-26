@@ -173,6 +173,22 @@ def test_scan_passes_mentions_of_the_shapes(tmp_path):
     assert r.returncode == 0, r.stderr
 
 
+def test_scan_incremental_skips_old_file_flags_new_file(tmp_path):
+    old = tmp_path / "old.jsonl"
+    old.write_text(PLANTED["gh.jsonl"])
+    os.utime(old, (1_000, 1_000))
+    since = 500_000_000  # after old's mtime, before new's (now)
+    new = tmp_path / "new.jsonl"
+    new.write_text(PLANTED["aws.jsonl"])
+    lst = tmp_path / "list"
+    lst.write_bytes(b"old.jsonl\0new.jsonl\0")
+    r = subprocess.run(
+        ["bash", "-c", f"source {HERE / 'lib.sh'}; cd {tmp_path}; es_scan_secrets {lst} {since}"],
+        capture_output=True, text=True)
+    assert r.returncode == 1
+    assert "new.jsonl" in r.stderr and "old.jsonl" not in r.stderr
+
+
 def test_transcripts_part_with_a_key_is_refused(tmp_path):
     dev, repo, boot, mods, env = make_env(tmp_path)
     key = str(repo.resolve()).replace("/", "-").replace(".", "-")

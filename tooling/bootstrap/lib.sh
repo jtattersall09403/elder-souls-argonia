@@ -41,23 +41,29 @@ for p in sys.stdin.buffer.read().split(b"\0"):
         sys.stderr.write("secret path left out of the snapshot: %s\n" % p.decode(errors="replace")); continue
     sys.stdout.buffer.write(p + b"\0")' "$ES_SECRET_DENY"
 }
-# es_scan_secrets <filelist>: NUL path list (relative to the cwd) -> exit 1 and
-# the names of the files holding key-shaped text on stderr (never the values),
-# else exit 0 (an unreadable file counts as a hit). The shapes: a 40+
-# character token after `apikey`/`api_key` (the Nexus key), an AWS access key id, a GitHub token, an Anthropic key, a PEM private
-# key. snapshot-vault.sh runs it on the claude-transcripts part and refuses
-# that upload on any hit (2026-09-26).
+# es_scan_secrets <filelist> [<since-epoch>]: NUL path list (relative to the
+# cwd) -> exit 1 and the names of the files holding key-shaped text on stderr
+# (never the values), else exit 0 (an unreadable file counts as a hit). The
+# shapes: a 40+ character token after `apikey`/`api_key` (the Nexus key), an
+# AWS access key id, a GitHub token, an Anthropic key, a PEM private key.
+# snapshot-vault.sh runs it on the claude-transcripts and claude-home parts
+# and refuses that upload on any hit (2026-09-26). With <since-epoch>, only
+# files whose mtime is newer are scanned (incremental); omit it, or pass "0",
+# to scan every file (a first run with no marker).
 es_scan_secrets() {
-  python3 - "$1" <<'PY'
-import re, sys
+  python3 - "$1" "${2:-0}" <<'PY'
+import re, sys, os
 shapes = re.compile(rb"(?i:api_?key)[\\\"':= ]{1,8}[A-Za-z0-9+/=\-]{40,}"
                     rb"|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|sk-ant-[A-Za-z0-9_\-]{20,}"
                     rb"|-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----")
+since = float(sys.argv[2])
 hits = []
 for p in open(sys.argv[1], "rb").read().split(b"\0"):
     if not p:
         continue
     try:
+        if since and os.path.getmtime(p) <= since:
+            continue
         with open(p, "rb") as f:
             if shapes.search(f.read()):
                 hits.append(p.decode(errors="replace"))

@@ -6,16 +6,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 tooling/repo-standards/session_tokens.py --brief --last 10 2>/dev/null || true"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/session_tokens.py --brief --last 10 2>/dev/null || true"
           },
           {
             "type": "command",
-            "command": "python3 tooling/repo-standards/lane_resume.py --brief 2>/dev/null || true",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/lane_resume.py --brief 2>/dev/null || true",
             "timeout": 30
           },
           {
             "type": "command",
-            "command": "bash tooling/repo-standards/install_hooks.sh >/dev/null 2>&1 || true",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/install_hooks.sh >/dev/null 2>&1 || true",
             "timeout": 20
           }
         ]
@@ -30,7 +30,7 @@
           },
           {
             "type": "command",
-            "command": "python3 tooling/repo-standards/session_switch.py",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/session_switch.py",
             "timeout": 20
           }
         ]
@@ -42,7 +42,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 tooling/repo-standards/prose_hook.py",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/prose_hook.py",
             "timeout": 40
           }
         ]
@@ -54,11 +54,11 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 tooling/repo-standards/shell_guard.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/shell_guard.py"
           },
           {
             "type": "command",
-            "command": "python3 tooling/repo-standards/review_gate.py",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/tooling/repo-standards/review_gate.py",
             "timeout": 600
           }
         ]

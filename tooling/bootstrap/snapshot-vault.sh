@@ -509,9 +509,13 @@ upload_part() {
     LOG "refuse $id: sourceBytes $SRC_BYTES here is below 50% of the manifest's $man_bytes (partial restore?); pass --allow-shrink to upload anyway"
     return 1
   fi
-  if [[ "$id" == claude-transcripts ]] && ! (cd "$(part_base "$id")" && es_scan_secrets "$w/list"); then
-    LOG "refuse $id: key-shaped text in the files named above; remove it from those transcripts, then rerun"
-    return 1
+  if [[ "$id" == claude-transcripts || "$id" == claude-home ]]; then
+    local since=0 mk; mk="$(marker "$id")"
+    [[ -f "$mk" ]] && since="$(stat -c %Y "$mk")"
+    if ! (cd "$(part_base "$id")" && es_scan_secrets "$w/list" "$since"); then
+      LOG "refuse $id: key-shaped text in the files named above; remove it from those transcripts, then rerun"
+      return 1
+    fi
   fi
   if [[ -n "$DRY" ]]; then
     LOG "would upload $id ($SRC_BYTES source bytes; sourceFingerprint ${SRC_FP:0:16}, manifest ${man_fp:0:16})"; return 0

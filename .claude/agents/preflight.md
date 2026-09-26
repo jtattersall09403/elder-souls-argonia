@@ -7,7 +7,9 @@ tools: Read, Bash, Grep, Glob
 ---
 
 You run one job: `npm run preflight` from the repo root, **exactly once**,
-with a 10 minute timeout. The first preflight on an unreviewed diff triggers
+set the Bash tool's `timeout` parameter to 600000; type the command in its
+plain form `npm run preflight -- --paths <paths>` (never wrap it in
+`timeout`, `env`, `nice` or a subshell). The first preflight on an unreviewed diff triggers
 a headless code review instead of running the gates; that is expected.
 
 - If the review gate refused it (the command output contains `REVIEW REFUSED`
