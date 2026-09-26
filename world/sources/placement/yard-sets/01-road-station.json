@@ -1,25 +1,11 @@
 {
  "schemaVersion": 1,
  "type": "01-road-station",
- "about": "Yard sets for road stations (decision 0101, 16h item 13): the dressing groups `wb.py group place` lays, rebuildable from the repo. Members are in the anchor's plan frame (offsetM [x east, z south] at the anchor's yaw 0); a member without `mount` is settled on the ground, one with `mount` stands upM above the settled anchor. Seeded from the Claywater Station layout's authored groups.",
- "source": "world/sources/blueprints/claywater-station.layout.json (group save ops)",
- "unsourced": {
+ "about": "Yard sets for road stations (decision 0101): the dressing groups that `wb.py group place` lays, rebuilt from the repo. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0). A member without `mount` is settled on the ground; a member with `mount` stands upM above the member it names. The sets were first laid at Claywater Station.",
+ "source": "world/sources/blueprints/claywater-station.layout.json (first laid there by `group place`)",
+ "pending": {
   "imperial-station-yard": [
-   "well (no well piece in any published kit)",
-   "road fire (no campfire or fire-pit piece in any published kit)"
-  ],
-  "imperial-stable-yard": [
-   "woven fence (published: composite:farmfence/wr-fence-run-3, a modular run, laid by the layout, not a set member)"
-  ],
-  "argonian-landing": [
-   "boats pulled up (published: canoe:actors/sfss/canoe/canoe1; not in the authored set)",
-   "cleats (published: bmv:sheogorad/dagon fel/cleat; not in the authored set)",
-   "nets (no net piece in any published kit)"
-  ],
-  "argonian-hut-yard": [
-   "cook fire (no fire piece in any published kit)",
-   "pots (published: mudmother pottery cups and plates only)",
-   "drying frame (published: vanilla:clutter/common/tanningrack01, wrherbdryingrack01; not in the authored set)"
+   "flames and smoke on the road fire (isy-fire): build_kit draws effect-shader cards opaque, so the lit campfire and the chimney smoke wait for the effect path (kits2 lane)"
   ]
  },
  "sets": [
@@ -102,6 +88,15 @@
       "on": "isy-barrel1",
       "upM": 1.14
      }
+    },
+    {
+     "uid": "isy-fire",
+     "piece": "vanilla:clutter/imperial/impbrazier01",
+     "offsetM": [
+      2.5,
+      3.0
+     ],
+     "yaw": 0.0
     }
    ]
   },
@@ -213,6 +208,15 @@
       -16.29
      ],
      "yaw": 50.0
+    },
+    {
+     "uid": "al-net",
+     "piece": "shores:shoresofskyrim/fishnet01",
+     "offsetM": [
+      -2.0,
+      1.5
+     ],
+     "yaw": 30.0
     }
    ]
   },
@@ -282,6 +286,15 @@
       0.0
      ],
      "yaw": 80.0
+    },
+    {
+     "uid": "ahy-pot",
+     "piece": "vanilla:clutter/woodfires/spitpotopenloose01",
+     "offsetM": [
+      2.0,
+      1.2
+     ],
+     "yaw": 0.0
     }
    ]
   }

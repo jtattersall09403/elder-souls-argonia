@@ -1,0 +1,1616 @@
+{
+ "schemaVersion": 1,
+ "placeId": "place.imperial-fringe.claywater-station",
+ "window": {
+  "centreKm": [
+   0.305,
+   3.035
+  ],
+  "halfM": 150.0
+ },
+ "pending": {
+  "F1/F2 flames and SMOKE": "campfire01burning and fxsmokechimney01/02 from the kits2 lane once build_kit draws effect cards; F1 is impbrazier01 (yard set), F2 is cookingstand01 until then",
+  "P1 board": "a plain sign board (kits2 lane); roadsignpost stands alone until then",
+  "L1 sconce": "impwallsconcecandle01 mounts only on impfreewall01 (mined); B1's light is the candle lantern on a barrel at the door"
+ },
+ "ops": [
+  {
+   "op": "place",
+   "uid": "b1",
+   "asset": "composite:farmhouse/farmhouse01-with-door",
+   "at": [
+    314.0,
+    3068.0
+   ],
+   "yaw": 212.0,
+   "settle": true,
+   "pad": {
+    "apronM": 2.0
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b2",
+   "asset": "vanilla:architecture/farmhouse/farmhouse02",
+   "at": [
+    334.0,
+    3088.0
+   ],
+   "yaw": 238.0,
+   "settle": true,
+   "pad": {
+    "apronM": 2.0
+   }
+  },
+  {
+   "op": "place",
+   "uid": "s1",
+   "asset": "vanilla:architecture/farmhouse/farmhouse01walkway",
+   "at": [
+    322.5,
+    3056.0
+   ],
+   "yaw": 48.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "well",
+   "asset": "vanilla:dungeons/mines/clutter/genericwell01",
+   "at": [
+    317.0,
+    3052.5
+   ],
+   "yaw": 14.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b4",
+   "asset": "kotm:argonia/mudhuts/mudhut01",
+   "at": [
+    310.0,
+    3002.0
+   ],
+   "yaw": 80.6,
+   "settle": true,
+   "pad": {
+    "floorMinM": 35.3
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b5",
+   "asset": "composite:mud/hut-with-entrance",
+   "at": [
+    284.0,
+    2994.0
+   ],
+   "yaw": 328.0,
+   "settle": true,
+   "pad": {
+    "floorMinM": 35.8
+   }
+  },
+  {
+   "op": "place",
+   "uid": "b6",
+   "asset": "mudmother:gv_meshes/argoniannest/mudhut01",
+   "at": [
+    260.0,
+    2998.0
+   ],
+   "yaw": 347.0,
+   "settle": true,
+   "pad": {
+    "floorMinM": 35.8
+   }
+  },
+  {
+   "op": "place",
+   "uid": "fw1",
+   "asset": "vanilla:architecture/farmhouse/fencewoven01",
+   "at": [
+    353.0,
+    3095.0
+   ],
+   "yaw": 90.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "fw2",
+   "asset": "vanilla:architecture/farmhouse/fencewoven01",
+   "at": [
+    353.0,
+    3091.0
+   ],
+   "yaw": 90.0,
+   "settle": true
+  },
+  {
+   "op": "snap",
+   "child": "fw2",
+   "child_face": "east",
+   "parent": "fw1",
+   "parent_face": "west",
+   "by": "evidence",
+   "settle": true,
+   "allow_terminal": true
+  },
+  {
+   "op": "place",
+   "uid": "fw3",
+   "asset": "vanilla:architecture/farmhouse/fencewoven02",
+   "at": [
+    353.0,
+    3088.0
+   ],
+   "yaw": 90.0,
+   "settle": true
+  },
+  {
+   "op": "snap",
+   "child": "fw3",
+   "child_face": "east",
+   "parent": "fw2",
+   "parent_face": "west",
+   "by": "evidence",
+   "settle": true,
+   "allow_terminal": true
+  },
+  {
+   "op": "place",
+   "uid": "raft",
+   "asset": "ferryraft:snt/ferry/ferryraft01",
+   "at": [
+    346.0,
+    3013.0
+   ],
+   "yaw": 95.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "plank",
+   "asset": "ferries:yamadori/ferries/plank_ferry_swamp_01",
+   "at": [
+    318.0,
+    3016.5
+   ],
+   "yaw": 160.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "canoe",
+   "asset": "canoe:actors/sfss/canoe/canoe1",
+   "at": [
+    322.5,
+    3014.0
+   ],
+   "yaw": 120.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cleat1",
+   "asset": "bmv:sheogorad/dagon fel/cleat",
+   "at": [
+    339.5,
+    3012.0
+   ],
+   "yaw": 95.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "cleat2",
+   "asset": "bmv:sheogorad/dagon fel/cleat",
+   "at": [
+    339.8,
+    3015.0
+   ],
+   "yaw": 95.0,
+   "settle": true
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "imperial-station-yard",
+   "at": [
+    313.5,
+    3054.0
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "place",
+   "uid": "b1-wood",
+   "asset": "vanilla:clutter/firewood/firewoodpilemedium01",
+   "at": [
+    309.0,
+    3063.0
+   ],
+   "yaw": 32.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1-sack",
+   "asset": "vanilla:clutter/containers/miscsacklarge",
+   "at": [
+    310.5,
+    3062.2
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1-barrel",
+   "asset": "vanilla:clutter/barrel02",
+   "at": [
+    316.8,
+    3061.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1-lamp",
+   "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+   "at": [
+    316.8,
+    3061.4
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1-crate",
+   "asset": "vanilla:clutter/common/cratesmalllong01",
+   "at": [
+    318.4,
+    3062.4
+   ],
+   "yaw": 32.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1-bench",
+   "asset": "vanilla:furniture/farm/farmbench01",
+   "at": [
+    312.5,
+    3061.0
+   ],
+   "yaw": 32.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1-nest",
+   "asset": "vanilla:plants/chickennest01",
+   "at": [
+    306.5,
+    3066.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "move",
+   "uid": "b1-lamp",
+   "dy": 1.14
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "imperial-stable-yard",
+   "at": [
+    349.0,
+    3083.0
+   ],
+   "yaw": 100.0
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "argonian-landing",
+   "at": [
+    303.5,
+    3015.5
+   ],
+   "yaw": 70.0
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "argonian-hut-yard",
+   "at": [
+    304.0,
+    3013.0
+   ],
+   "yaw": 0.0
+  },
+  {
+   "op": "place",
+   "uid": "ahy-oven",
+   "asset": "mudmother:gv_meshes/argoniannest/carapaceoven",
+   "at": [
+    300.5,
+    3016.5
+   ],
+   "yaw": 20.0,
+   "settle": true
+  },
+  {
+   "op": "group",
+   "action": "place",
+   "name": "argonian-hut-yard",
+   "at": [
+    290.0,
+    3006.5
+   ],
+   "yaw": 300.0,
+   "prefix": "b5-",
+   "parcel": "parcel.claywater-station.family-hut"
+  },
+  {
+   "op": "place",
+   "uid": "b6-rack",
+   "asset": "mudmother:gv_meshes/argoniannest/fishracksmall",
+   "at": [
+    266.5,
+    3006.5
+   ],
+   "yaw": 100.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b6-basket",
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+   "at": [
+    264.5,
+    3007.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b6-urn",
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+   "at": [
+    254.0,
+    3006.0
+   ],
+   "yaw": 0.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "f2",
+   "asset": "vanilla:clutter/woodfires/cookingstand01",
+   "at": [
+    297.0,
+    3005.0
+   ],
+   "yaw": 20.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "p1",
+   "asset": "vanilla:clutter/signage/roadsigns/roadsignpost",
+   "at": [
+    314.8,
+    3048.6
+   ],
+   "yaw": 58.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-nw1",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+   "at": [
+    302.01,
+    3069.96
+   ],
+   "yaw": 32.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-nw2",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    305.08,
+    3071.88
+   ],
+   "yaw": 32.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-nw2",
+   "child_face": "west",
+   "parent": "b1w-nw1",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-nw3",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    308.15,
+    3073.79
+   ],
+   "yaw": 32.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-nw3",
+   "child_face": "west",
+   "parent": "b1w-nw2",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-nw4",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    311.21,
+    3075.71
+   ],
+   "yaw": 32.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-nw4",
+   "child_face": "west",
+   "parent": "b1w-nw3",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-nw5",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    314.28,
+    3077.63
+   ],
+   "yaw": 32.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-nw5",
+   "child_face": "west",
+   "parent": "b1w-nw4",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-nw6",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+   "at": [
+    317.34,
+    3079.54
+   ],
+   "yaw": 32.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-nw6",
+   "child_face": "west",
+   "parent": "b1w-nw5",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-ne1",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+   "at": [
+    321.63,
+    3080.36
+   ],
+   "yaw": 302.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-ne2",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    323.54,
+    3077.29
+   ],
+   "yaw": 302.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-ne2",
+   "child_face": "west",
+   "parent": "b1w-ne1",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-ne3",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    325.46,
+    3074.23
+   ],
+   "yaw": 302.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-ne3",
+   "child_face": "west",
+   "parent": "b1w-ne2",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-ne4",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+   "at": [
+    327.38,
+    3071.16
+   ],
+   "yaw": 302.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-ne4",
+   "child_face": "west",
+   "parent": "b1w-ne3",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sa1",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+   "at": [
+    328.61,
+    3067.68
+   ],
+   "yaw": 212.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sa2",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    325.54,
+    3065.76
+   ],
+   "yaw": 212.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-sa2",
+   "child_face": "west",
+   "parent": "b1w-sa1",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sa3",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+   "at": [
+    322.48,
+    3063.84
+   ],
+   "yaw": 212.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-sa3",
+   "child_face": "west",
+   "parent": "b1w-sa2",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sb1",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+   "at": [
+    317.47,
+    3060.72
+   ],
+   "yaw": 212.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sb2",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    314.41,
+    3058.8
+   ],
+   "yaw": 212.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-sb2",
+   "child_face": "west",
+   "parent": "b1w-sb1",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sb3",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    311.34,
+    3056.88
+   ],
+   "yaw": 212.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-sb3",
+   "child_face": "west",
+   "parent": "b1w-sb2",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sb4",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+   "at": [
+    308.28,
+    3054.97
+   ],
+   "yaw": 212.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-sb4",
+   "child_face": "west",
+   "parent": "b1w-sb3",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sw1",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+   "at": [
+    305.74,
+    3056.66
+   ],
+   "yaw": 122.0,
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sw2",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    303.82,
+    3059.73
+   ],
+   "yaw": 122.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-sw2",
+   "child_face": "west",
+   "parent": "b1w-sw1",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sw3",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+   "at": [
+    301.9,
+    3062.79
+   ],
+   "yaw": 122.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-sw3",
+   "child_face": "west",
+   "parent": "b1w-sw2",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "place",
+   "uid": "b1w-sw4",
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+   "at": [
+    299.99,
+    3065.86
+   ],
+   "yaw": 122.0
+  },
+  {
+   "op": "snap",
+   "child": "b1w-sw4",
+   "child_face": "west",
+   "parent": "b1w-sw3",
+   "parent_face": "east",
+   "by": "evidence",
+   "settle": true
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.claywater-station.the-street",
+   "points": [
+    [
+     313.0,
+     3021.0
+    ],
+    [
+     315.0,
+     3030.0
+    ],
+    [
+     315.3,
+     3046.1
+    ],
+    [
+     326.0,
+     3057.0
+    ],
+    [
+     343.0,
+     3074.0
+    ]
+   ],
+   "width": 4.3,
+   "kind": "road"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.claywater-station.station-house-path",
+   "points": [
+    [
+     321.5,
+     3053.5
+    ],
+    [
+     318.0,
+     3058.5
+    ],
+    [
+     316.5,
+     3062.8
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.claywater-station.well-junction",
+   "points": [
+    [
+     319.5,
+     3049.5
+    ],
+    [
+     317.5,
+     3051.0
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.claywater-station.stable-path",
+   "points": [
+    [
+     341.0,
+     3070.5
+    ],
+    [
+     345.0,
+     3078.0
+    ],
+    [
+     344.0,
+     3084.0
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.claywater-station.landing-path",
+   "points": [
+    [
+     311.5,
+     3021.0
+    ],
+    [
+     318.0,
+     3018.0
+    ],
+    [
+     330.0,
+     3014.0
+    ],
+    [
+     338.5,
+     3013.0
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "path",
+   "action": "add",
+   "id": "route.claywater-station.common-path",
+   "points": [
+    [
+     311.5,
+     3021.0
+    ],
+    [
+     306.0,
+     3014.0
+    ],
+    [
+     296.0,
+     3009.0
+    ],
+    [
+     285.0,
+     3006.0
+    ],
+    [
+     268.0,
+     3007.0
+    ]
+   ],
+   "width": 1.2,
+   "kind": "footpath"
+  },
+  {
+   "op": "bind",
+   "uid": "b1",
+   "kind": "parcel",
+   "id": "parcel.claywater-station.station-house"
+  },
+  {
+   "op": "bind",
+   "uid": "b2",
+   "kind": "parcel",
+   "id": "parcel.claywater-station.stable-barn"
+  },
+  {
+   "op": "bind",
+   "uid": "s1",
+   "kind": "parcel",
+   "id": "parcel.claywater-station.travellers-lean-to"
+  },
+  {
+   "op": "bind",
+   "uid": "well",
+   "kind": "parcel",
+   "id": "parcel.claywater-station.the-well"
+  },
+  {
+   "op": "bind",
+   "uid": "b4",
+   "kind": "parcel",
+   "id": "parcel.claywater-station.polers-hut"
+  },
+  {
+   "op": "bind",
+   "uid": "b5",
+   "kind": "parcel",
+   "id": "parcel.claywater-station.family-hut"
+  },
+  {
+   "op": "bind",
+   "uid": "b6",
+   "kind": "parcel",
+   "id": "parcel.claywater-station.store-hut"
+  },
+  {
+   "op": "bind",
+   "uid": "raft",
+   "kind": "parcel",
+   "id": "parcel.claywater-station.ferry-raft"
+  },
+  {
+   "op": "bind",
+   "uid": "fw1",
+   "kind": "run",
+   "id": "parcel.claywater-station.paddock-fence",
+   "index": 0
+  },
+  {
+   "op": "bind",
+   "uid": "fw2",
+   "kind": "run",
+   "id": "parcel.claywater-station.paddock-fence",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "fw3",
+   "kind": "run",
+   "id": "parcel.claywater-station.paddock-fence",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "isy-trough",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-bucket",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-barrel1",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-barrel2",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-crate",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-lamp",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-bench",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.travellers-lean-to",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-cart",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.travellers-lean-to",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-wood",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-sack",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-barrel",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-crate",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-bench",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-nest",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1-lamp",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.station-house",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sty-hay",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable-barn",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sty-trough",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable-barn",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sty-cart",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable-barn",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "sty-wood",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.stable-barn",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "al-rack1",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "al-rack2",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "al-basket1",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "al-basket2",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "al-oar",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "plank",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "canoe",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "cleat1",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "cleat2",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "al-lantern1",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "al-lantern2",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-urn",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-basket",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-table",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-chair",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-sack",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-chime",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-oven",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-candle",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b6-rack",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.store-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b6-basket",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.store-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b6-urn",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.store-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-ahy-urn",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-ahy-basket",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-ahy-table",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-ahy-chair",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-ahy-sack",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-ahy-chime",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-ahy-candle",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "light",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "f2",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "p1",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "isy-fire",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.the-well",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "al-net",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "ahy-pot",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.polers-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b5-ahy-pot",
+   "kind": "assembly",
+   "id": "parcel.claywater-station.family-hut",
+   "layer": "clutter",
+   "on": "ground",
+   "evidence": "measured"
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-nw1",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-nw"
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-nw2",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-nw",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-nw3",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-nw",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-nw4",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-nw",
+   "index": 3
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-nw5",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-nw",
+   "index": 4
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-nw6",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-nw",
+   "index": 5
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-ne1",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-ne"
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-ne2",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-ne",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-ne3",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-ne",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-ne4",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-ne",
+   "index": 3
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sa1",
+   "kind": "run",
+   "id": "parcel.claywater-station.yard-wall-north"
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sa2",
+   "kind": "run",
+   "id": "parcel.claywater-station.yard-wall-north",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sa3",
+   "kind": "run",
+   "id": "parcel.claywater-station.yard-wall-north",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sb1",
+   "kind": "run",
+   "id": "parcel.claywater-station.yard-wall"
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sb2",
+   "kind": "run",
+   "id": "parcel.claywater-station.yard-wall",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sb3",
+   "kind": "run",
+   "id": "parcel.claywater-station.yard-wall",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sb4",
+   "kind": "run",
+   "id": "parcel.claywater-station.yard-wall",
+   "index": 3
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sw1",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-sw"
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sw2",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-sw",
+   "index": 1
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sw3",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-sw",
+   "index": 2
+  },
+  {
+   "op": "bind",
+   "uid": "b1w-sw4",
+   "kind": "run",
+   "id": "parcel.claywater-station.retaining-wall-sw",
+   "index": 3
+  }
+ ]
+}

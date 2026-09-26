@@ -1,0 +1,2654 @@
+{
+  "schemaVersion": 2,
+  "blueprint": {
+    "id": "place.imperial-fringe.claywater-station",
+    "seed": "place.imperial-fringe.claywater-station",
+    "causalModel": {
+      "founding": "A mixed village at the road's water point: an Imperial well on the south bench, an Argonian landing on the north bank across the ford. The landing is older than the station.",
+      "siteAdvantages": "A perennial spring beside a boat channel, where the road fords the water.",
+      "occupantsMotive": "Two communities share it because neither can hold the other's half.",
+      "pressures": "The well is Imperial-built and failing. The landing will not help to repair it in stone.",
+      "wouldChangeIf": "Would become one community or two villages within a generation."
+    },
+    "boundary": [
+      [
+        0.034583274,
+        0.405505844
+      ],
+      [
+        0.047738481,
+        0.405505844
+      ],
+      [
+        0.047738481,
+        0.418389809
+      ],
+      [
+        0.034583274,
+        0.418389809
+      ]
+    ],
+    "districts": [
+      {
+        "id": "district.claywater-station.the-well",
+        "kind": "road-station",
+        "cultureKit": "imperial",
+        "wealth": "modest",
+        "boundary": [
+          [
+            0.040654164,
+            0.415964475
+          ],
+          [
+            0.040834849,
+            0.416335879
+          ],
+          [
+            0.04294612,
+            0.418389809
+          ],
+          [
+            0.047738481,
+            0.418389809
+          ],
+          [
+            0.047738481,
+            0.417500551
+          ],
+          [
+            0.047343974,
+            0.416665837
+          ],
+          [
+            0.041864664,
+            0.405909592
+          ]
+        ],
+        "notes": "The Imperial half on the south bench.",
+        "why": {
+          "what": "The well-station: the station house, the stable, the lean-to and the well.",
+          "whyHere": "The Imperial half keeps the well and the road trade.",
+          "whyNeighbours": "It faces the landing across the ford, along the road.",
+          "playerPurpose": "A bed, food for the road, a stable for a horse and water from the well.",
+          "microGeography": "A narrow bench between the channel and the hillside, raised on stone pads."
+        }
+      },
+      {
+        "id": "district.claywater-station.the-landing",
+        "kind": "landing-hamlet",
+        "cultureKit": "argonian-mud",
+        "wealth": "poor",
+        "boundary": [
+          [
+            0.034969661,
+            0.405624049
+          ],
+          [
+            0.034686246,
+            0.405748369
+          ],
+          [
+            0.034583274,
+            0.405871597
+          ],
+          [
+            0.034583274,
+            0.407233408
+          ],
+          [
+            0.046969299,
+            0.418009789
+          ],
+          [
+            0.047738481,
+            0.408811413
+          ],
+          [
+            0.047738481,
+            0.408212391
+          ],
+          [
+            0.047572258,
+            0.408014217
+          ],
+          [
+            0.047447641,
+            0.40794525
+          ],
+          [
+            0.042737746,
+            0.405946802
+          ],
+          [
+            0.041411304,
+            0.405505844
+          ],
+          [
+            0.035378232,
+            0.405505844
+          ]
+        ],
+        "notes": "The Argonian half on the north strip; no Hist (see siting).",
+        "why": {
+          "what": "The landing hamlet: three mud huts round an open common, the fish racks and the boats pulled up on the bank.",
+          "whyHere": "The landing is older than the station; its polers came up from the mud-hut country and built as they do at home, on the dry point by the channel.",
+          "whyNeighbours": "It faces the well-station across the ford. It keeps no Hist: its people's tree stands at Fenmarch Village (place.imperial-fringe.fenmarch-village, 1.7 km). They go home for the hatching.",
+          "playerPurpose": "The ford ferry in the wet season and the landing's side of LF83.",
+          "microGeography": "The dry strip on the ford's north bank, huts on mud pads raised above the high water."
+        }
+      }
+    ],
+    "parcels": [
+      {
+        "id": "parcel.claywater-station.station-house",
+        "districtId": "district.claywater-station.the-well",
+        "use": "dwelling",
+        "buildingFamily": "vanilla-farmhouse",
+        "interior": {
+          "kind": "dwelling"
+        },
+        "orientationWhy": "Its long wall runs with the road and its door turns north-east onto the path from the street.",
+        "playerPurpose": [
+          {
+            "kind": "service-station",
+            "tier": "major",
+            "note": "Lodging upstairs and the well-keeper's provisions counter at the door (LF83 counter 1)."
+          }
+        ],
+        "why": {
+          "what": "The station house: the well-keeper's home, with beds for travellers upstairs and the provisions counter at the door.",
+          "whyHere": "A road station keeps a house where travellers sleep and buy food; this one belongs to the well-keeper.",
+          "whySpot": "The widest dry ground on the south bench, beside the well junction and square to the road.",
+          "whyNeighbours": "It stands behind the well and the lean-to, so the fire, the well and the door are seen together from the street.",
+          "playerPurpose": "A bed for the night and food for the road; the first of the two counters in LF83.",
+          "microGeography": "The bench rises to the south; the house stands on a stone pad that takes up the fall."
+        },
+        "services": [
+          "lodging",
+          "trader"
+        ],
+        "assetRef": "composite:farmhouse/farmhouse01-with-door",
+        "centreUV": [
+          0.042584895,
+          0.416084257
+        ],
+        "yawDeg": 212.0,
+        "pad": {
+          "datumM": 37.699,
+          "apronM": 2.0
+        },
+        "assembly": [
+          {
+            "id": "b1-barrel",
+            "asset": "vanilla:clutter/barrel02",
+            "atM": [
+              1.1229,
+              7.0809
+            ],
+            "yaw": 148.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b1-bench",
+            "asset": "vanilla:furniture/farm/farmbench01",
+            "atM": [
+              4.9815,
+              5.1415
+            ],
+            "yaw": 180.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b1-crate",
+            "asset": "vanilla:clutter/common/cratesmalllong01",
+            "atM": [
+              -0.7639,
+              7.0807
+            ],
+            "yaw": 180.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b1-lamp",
+            "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+            "atM": [
+              1.1229,
+              7.0809
+            ],
+            "yaw": 148.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured"
+          },
+          {
+            "id": "b1-nest",
+            "asset": "vanilla:plants/chickennest01",
+            "atM": [
+              7.4202,
+              -2.2783
+            ],
+            "yaw": 148.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b1-sack",
+            "asset": "vanilla:clutter/containers/miscsacklarge",
+            "atM": [
+              6.0417,
+              3.064
+            ],
+            "yaw": 148.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b1-wood",
+            "asset": "vanilla:clutter/firewood/firewoodpilemedium01",
+            "atM": [
+              6.8898,
+              1.5906
+            ],
+            "yaw": 180.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          }
+        ],
+        "footprint": [
+          [
+            0.043737324,
+            0.416804374
+          ],
+          [
+            0.043592723,
+            0.417005074
+          ],
+          [
+            0.043495123,
+            0.417127996
+          ],
+          [
+            0.04339177,
+            0.417221735
+          ],
+          [
+            0.043231768,
+            0.417232101
+          ],
+          [
+            0.043070754,
+            0.417169869
+          ],
+          [
+            0.042852088,
+            0.417054021
+          ],
+          [
+            0.041596147,
+            0.416269222
+          ],
+          [
+            0.041396167,
+            0.416123471
+          ],
+          [
+            0.04128115,
+            0.416013219
+          ],
+          [
+            0.041211846,
+            0.415870762
+          ],
+          [
+            0.041240585,
+            0.415735196
+          ],
+          [
+            0.041315468,
+            0.415582087
+          ],
+          [
+            0.041432466,
+            0.41536414
+          ],
+          [
+            0.041577067,
+            0.41516344
+          ],
+          [
+            0.041674667,
+            0.415040518
+          ],
+          [
+            0.04177802,
+            0.414946779
+          ],
+          [
+            0.041938022,
+            0.414936413
+          ],
+          [
+            0.042099036,
+            0.414998645
+          ],
+          [
+            0.042317702,
+            0.415114493
+          ],
+          [
+            0.043573643,
+            0.415899292
+          ],
+          [
+            0.043773623,
+            0.416045043
+          ],
+          [
+            0.04388864,
+            0.416155295
+          ],
+          [
+            0.043957944,
+            0.416297752
+          ],
+          [
+            0.043929205,
+            0.416433318
+          ],
+          [
+            0.043854322,
+            0.416586427
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.stable-barn",
+        "districtId": "district.claywater-station.the-well",
+        "use": "storage",
+        "buildingFamily": "vanilla-farmhouse",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "Its open front faces the stable path and the paddock fence, away from the hillside.",
+        "why": {
+          "what": "The stable barn, where horses and the handcart stand for the night.",
+          "whyHere": "A road station keeps a stable for animals that cannot come inside.",
+          "whySpot": "West of the station house, the last level ground before the bench drops to the channel.",
+          "whyNeighbours": "The paddock fence runs along its west side; the stable path joins it to the well.",
+          "playerPurpose": "A stable where the player's horse is kept for the night.",
+          "microGeography": "The ground falls to the north; the barn stands on a pad with a retaining wall on its low side."
+        },
+        "services": [
+          "stable"
+        ],
+        "assetRef": "vanilla:architecture/farmhouse/farmhouse02",
+        "centreUV": [
+          0.045297308,
+          0.418796671
+        ],
+        "yawDeg": 238.0,
+        "pad": {
+          "datumM": 37.215,
+          "apronM": 2.0
+        },
+        "assembly": [
+          {
+            "id": "sty-cart",
+            "asset": "vanilla:clutter/carts/handcart01",
+            "atM": [
+              -21.4614,
+              15.4793
+            ],
+            "yaw": 52.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "sty-hay",
+            "asset": "vanilla:clutter/hay/haymound01",
+            "atM": [
+              -3.7085,
+              15.3703
+            ],
+            "yaw": 222.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "sty-trough",
+            "asset": "vanilla:clutter/horsetrough/horsetrough01",
+            "atM": [
+              -6.7269,
+              21.1436
+            ],
+            "yaw": 302.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "sty-wood",
+            "asset": "vanilla:clutter/firewood/firewoodpilelarge01",
+            "atM": [
+              -15.6338,
+              1.4301
+            ],
+            "yaw": 229.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          }
+        ],
+        "footprint": [
+          [
+            0.045507215,
+            0.420099997
+          ],
+          [
+            0.045472858,
+            0.420091081
+          ],
+          [
+            0.044439396,
+            0.418437196
+          ],
+          [
+            0.044446444,
+            0.418402408
+          ],
+          [
+            0.045681682,
+            0.417630545
+          ],
+          [
+            0.045717189,
+            0.417638743
+          ],
+          [
+            0.046750651,
+            0.419292628
+          ],
+          [
+            0.046742454,
+            0.419328135
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.travellers-lean-to",
+        "districtId": "district.claywater-station.the-well",
+        "use": "shelter",
+        "buildingFamily": "vanilla-farmhouse",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "Its open side faces the street so a traveller steps in from the road.",
+        "why": {
+          "what": "A covered walkway used as a lean-to for road travellers, beside the fire.",
+          "whyHere": "Travellers who will not pay for a bed sleep under cover by the fire.",
+          "whySpot": "Between the well and the station house, on the verge of the road.",
+          "whyNeighbours": "The road fire stands at its south end; the well is 8 m north.",
+          "playerPurpose": "A dry place to rest by the fire without paying.",
+          "microGeography": "Level verge ground a metre above the road."
+        },
+        "assetRef": "vanilla:architecture/farmhouse/farmhouse01walkway",
+        "centreUV": [
+          0.043330808,
+          0.415067102
+        ],
+        "yawDeg": 48.0,
+        "assembly": [
+          {
+            "id": "isy-bench",
+            "asset": "vanilla:furniture/farm/farmbench01",
+            "atM": [
+              4.2368,
+              -0.222
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "isy-cart",
+            "asset": "vanilla:clutter/carts/handcart01",
+            "atM": [
+              7.4329,
+              -0.0355
+            ],
+            "yaw": 92.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          }
+        ],
+        "footprint": [
+          [
+            0.042521293,
+            0.41442545
+          ],
+          [
+            0.0425472,
+            0.414425848
+          ],
+          [
+            0.04388664,
+            0.415913446
+          ],
+          [
+            0.043884327,
+            0.415939253
+          ],
+          [
+            0.043865178,
+            0.415956495
+          ],
+          [
+            0.043839271,
+            0.415956098
+          ],
+          [
+            0.042499831,
+            0.414468499
+          ],
+          [
+            0.042502144,
+            0.414442693
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.the-well",
+        "districtId": "district.claywater-station.the-well",
+        "use": "civic",
+        "buildingFamily": "works-well",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "The windlass turns across the road so the bucket is drawn from the street side.",
+        "why": {
+          "what": "The Imperial well, its head cracked, at the junction of the street and the station path.",
+          "whyHere": "The well is the reason for the place. It is the road's water point.",
+          "whySpot": "The first junction off the road on its west verge, where the spring rises.",
+          "whyNeighbours": "The trough, the lantern and the station house door stand round it.",
+          "playerPurpose": "Water, a landmark from the south road and the cracked well of LF83.",
+          "microGeography": "The verge a metre above the road, on the spring line."
+        },
+        "assetRef": "vanilla:dungeons/mines/clutter/genericwell01",
+        "centreUV": [
+          0.042991757,
+          0.413982137
+        ],
+        "yawDeg": 14.0,
+        "assembly": [
+          {
+            "id": "isy-barrel1",
+            "asset": "vanilla:clutter/barrel02",
+            "atM": [
+              -3.0332,
+              2.3022
+            ],
+            "yaw": 346.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "isy-barrel2",
+            "asset": "vanilla:clutter/barrel01",
+            "atM": [
+              -3.4704,
+              3.4418
+            ],
+            "yaw": 16.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "isy-bucket",
+            "asset": "vanilla:clutter/bucket01",
+            "atM": [
+              1.3353,
+              -2.085
+            ],
+            "yaw": 346.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "isy-crate",
+            "asset": "vanilla:clutter/common/cratesmall01",
+            "atM": [
+              5.2118,
+              4.3689
+            ],
+            "yaw": 34.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "isy-lamp",
+            "asset": "vanilla:clutter/common/candlelanternwithcandle01",
+            "atM": [
+              -3.0332,
+              2.3022
+            ],
+            "yaw": 346.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured"
+          },
+          {
+            "id": "isy-trough",
+            "asset": "vanilla:clutter/horsetrough/horsetrough01",
+            "atM": [
+              2.9122,
+              -2.7873
+            ],
+            "yaw": 0.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          }
+        ],
+        "footprint": [
+          [
+            0.04286806,
+            0.413951296
+          ],
+          [
+            0.042889083,
+            0.413906219
+          ],
+          [
+            0.042925573,
+            0.413871988
+          ],
+          [
+            0.042972928,
+            0.41385584
+          ],
+          [
+            0.043022598,
+            0.41385844
+          ],
+          [
+            0.043067675,
+            0.413879463
+          ],
+          [
+            0.043101906,
+            0.413915953
+          ],
+          [
+            0.043118054,
+            0.413963308
+          ],
+          [
+            0.043115454,
+            0.414012978
+          ],
+          [
+            0.043094431,
+            0.414058055
+          ],
+          [
+            0.043057941,
+            0.414092286
+          ],
+          [
+            0.043010586,
+            0.414108434
+          ],
+          [
+            0.042960916,
+            0.414105834
+          ],
+          [
+            0.042915839,
+            0.414084811
+          ],
+          [
+            0.042881608,
+            0.414048321
+          ],
+          [
+            0.04286546,
+            0.414000966
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.yard-wall",
+        "districtId": "district.claywater-station.the-well",
+        "use": "boundary",
+        "buildingFamily": "vanilla-farmhouse-stonewall",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "The wall runs along the road frontage, south of the lean-to.",
+        "why": {
+          "what": "A dry-stone wall along the station's road frontage.",
+          "whyHere": "Imperial yards are walled on the road side.",
+          "whySpot": "South of the lean-to along the road verge, leaving the well junction open.",
+          "whyNeighbours": "It closes the yard between the station house and the road.",
+          "playerPurpose": "It marks the station's yard from the road.",
+          "microGeography": "It follows the verge where the road climbs to the south-east."
+        },
+        "assetRef": "composite:farmhouse/stonewall-run-5",
+        "centreUV": [
+          0.044958257,
+          0.416423309
+        ],
+        "yawDeg": 50.0,
+        "footprint": [
+          [
+            0.044526035,
+            0.415906097
+          ],
+          [
+            0.044569036,
+            0.415887718
+          ],
+          [
+            0.044607787,
+            0.415895921
+          ],
+          [
+            0.044660283,
+            0.415912066
+          ],
+          [
+            0.044722404,
+            0.415950231
+          ],
+          [
+            0.044763675,
+            0.415984646
+          ],
+          [
+            0.046044614,
+            0.417506991
+          ],
+          [
+            0.04604951,
+            0.417517045
+          ],
+          [
+            0.046064903,
+            0.417550159
+          ],
+          [
+            0.046099081,
+            0.417643638
+          ],
+          [
+            0.046093326,
+            0.417687417
+          ],
+          [
+            0.046079689,
+            0.417711252
+          ],
+          [
+            0.046058911,
+            0.417728687
+          ],
+          [
+            0.046027206,
+            0.41774998
+          ],
+          [
+            0.045995967,
+            0.417754948
+          ],
+          [
+            0.0459661,
+            0.417755223
+          ],
+          [
+            0.045875821,
+            0.417708818
+          ],
+          [
+            0.045845883,
+            0.417687909
+          ],
+          [
+            0.045836831,
+            0.417681341
+          ],
+          [
+            0.044560047,
+            0.41615551
+          ],
+          [
+            0.044533321,
+            0.41610889
+          ],
+          [
+            0.044511718,
+            0.416036727
+          ],
+          [
+            0.04449974,
+            0.415986584
+          ],
+          [
+            0.044504958,
+            0.415937945
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.paddock-fence",
+        "districtId": "district.claywater-station.the-well",
+        "use": "boundary",
+        "buildingFamily": "vanilla-farmhouse-fence",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "The fence runs north to south along the paddock's west side.",
+        "why": {
+          "what": "A woven fence of three panels round the stable paddock.",
+          "whyHere": "Imperial stations fence the paddock where the animals stand.",
+          "whySpot": "West of the stable barn, where the bench ends.",
+          "whyNeighbours": "It holds the paddock between the barn and the channel bank.",
+          "playerPurpose": "It keeps the station's horses and the player's in the paddock overnight.",
+          "microGeography": "It stands on the last dry ground above the channel."
+        },
+        "pieces": [
+          {
+            "asset": "vanilla:architecture/farmhouse/fencewoven01",
+            "atM": [
+              0.0,
+              0.0
+            ],
+            "yaw": 0.0
+          },
+          {
+            "asset": "vanilla:architecture/farmhouse/fencewoven01",
+            "atM": [
+              -2.0897,
+              0.0542
+            ],
+            "yaw": -0.39
+          },
+          {
+            "asset": "vanilla:architecture/farmhouse/fencewoven02",
+            "atM": [
+              -4.1789,
+              0.1227
+            ],
+            "yaw": -0.78
+          }
+        ],
+        "centreUV": [
+          0.047874101,
+          0.419746016
+        ],
+        "yawDeg": 90.0,
+        "footprint": [
+          [
+            0.047844767,
+            0.419043811
+          ],
+          [
+            0.047848605,
+            0.41932584
+          ],
+          [
+            0.047853709,
+            0.419333268
+          ],
+          [
+            0.047856345,
+            0.419727113
+          ],
+          [
+            0.047861895,
+            0.41973751
+          ],
+          [
+            0.047861895,
+            0.420010442
+          ],
+          [
+            0.047870033,
+            0.420025393
+          ],
+          [
+            0.047876813,
+            0.420026749
+          ],
+          [
+            0.047884951,
+            0.420014512
+          ],
+          [
+            0.047886307,
+            0.419482947
+          ],
+          [
+            0.047878331,
+            0.419473429
+          ],
+          [
+            0.047877165,
+            0.419199464
+          ],
+          [
+            0.047869927,
+            0.419190907
+          ],
+          [
+            0.047866424,
+            0.419040803
+          ],
+          [
+            0.047856785,
+            0.419030085
+          ],
+          [
+            0.0478527,
+            0.419028785
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.polers-hut",
+        "districtId": "district.claywater-station.the-landing",
+        "use": "dwelling",
+        "buildingFamily": "kotm-mudhut",
+        "interior": {
+          "kind": "dwelling"
+        },
+        "orientationWhy": "Its door turns south to the path down to the ford and the landing.",
+        "playerPurpose": [
+          {
+            "kind": "service-station",
+            "tier": "major",
+            "note": "The poler's home and the crossing fee (LF83 counter 2); the ferry is run from the landing below it."
+          }
+        ],
+        "why": {
+          "what": "The poler's hut, where the crossing fee is paid.",
+          "whyHere": "The landing hamlet lives by the crossing; the poler lives beside it.",
+          "whySpot": "The east end of the north strip, above the ford's north bank.",
+          "whyNeighbours": "The fish racks and the landing lie between it and the water; the common is to the west.",
+          "playerPurpose": "The ford ferry in the wet season; the second counter of LF83.",
+          "microGeography": "Dry ground above the flood line on a mud pad raised clear of the high water."
+        },
+        "assetRef": "kotm:argonia/mudhuts/mudhut01",
+        "centreUV": [
+          0.042042412,
+          0.407133292
+        ],
+        "yawDeg": 80.6,
+        "pad": {
+          "datumM": 35.3,
+          "apronM": 1.5,
+          "floorMinM": 35.3
+        },
+        "assembly": [
+          {
+            "id": "ahy-basket",
+            "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+            "atM": [
+              13.0431,
+              5.7069
+            ],
+            "yaw": 279.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "ahy-candle",
+            "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+            "atM": [
+              9.8723,
+              7.716
+            ],
+            "yaw": 279.4,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured"
+          },
+          {
+            "id": "ahy-chair",
+            "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+            "atM": [
+              9.8913,
+              10.0505
+            ],
+            "yaw": 89.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "ahy-chime",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+            "atM": [
+              10.5746,
+              3.4738
+            ],
+            "yaw": 359.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "ahy-oven",
+            "asset": "mudmother:gv_meshes/argoniannest/carapaceoven",
+            "atM": [
+              12.7537,
+              11.7407
+            ],
+            "yaw": 299.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "ahy-sack",
+            "asset": "vanilla:clutter/containers/miscsacklarge",
+            "atM": [
+              11.9408,
+              5.0176
+            ],
+            "yaw": 279.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "ahy-table",
+            "asset": "mudmother:gv_meshes/argoniannest/woventable01",
+            "atM": [
+              11.4372,
+              10.5091
+            ],
+            "yaw": 359.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "ahy-urn",
+            "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+            "atM": [
+              12.5838,
+              6.6445
+            ],
+            "yaw": 279.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "al-basket1",
+            "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+            "atM": [
+              14.1401,
+              6.3933
+            ],
+            "yaw": 279.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "al-basket2",
+            "asset": "vanilla:clutter/basketclosed01",
+            "atM": [
+              13.5145,
+              5.2794
+            ],
+            "yaw": 299.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "al-lantern1",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
+            "atM": [
+              17.6668,
+              -2.6498
+            ],
+            "yaw": 279.4,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured"
+          },
+          {
+            "id": "al-lantern2",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
+            "atM": [
+              12.3838,
+              -25.8234
+            ],
+            "yaw": 279.4,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured"
+          },
+          {
+            "id": "al-oar",
+            "asset": "rowboats:dungeons/clutter/shipoar01",
+            "atM": [
+              12.6812,
+              -8.0345
+            ],
+            "yaw": 39.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "al-rack1",
+            "asset": "vanilla:clutter/deadanimals/fishrack01",
+            "atM": [
+              12.2571,
+              8.6176
+            ],
+            "yaw": 349.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "al-rack2",
+            "asset": "mudmother:gv_meshes/argoniannest/fishracksmall",
+            "atM": [
+              8.9728,
+              13.1389
+            ],
+            "yaw": 4.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "canoe",
+            "asset": "canoe:actors/sfss/canoe/canoe1",
+            "atM": [
+              13.8804,
+              -10.3722
+            ],
+            "yaw": 39.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "cleat1",
+            "asset": "bmv:sheogorad/dagon fel/cleat",
+            "atM": [
+              14.6838,
+              -27.4706
+            ],
+            "yaw": 14.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "cleat2",
+            "asset": "bmv:sheogorad/dagon fel/cleat",
+            "atM": [
+              17.6926,
+              -27.2766
+            ],
+            "yaw": 14.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "plank",
+            "asset": "ferries:yamadori/ferries/plank_ferry_swamp_01",
+            "atM": [
+              15.6119,
+              -5.5244
+            ],
+            "yaw": 79.4,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          }
+        ],
+        "footprint": [
+          [
+            0.042312298,
+            0.4064219
+          ],
+          [
+            0.042389219,
+            0.406421538
+          ],
+          [
+            0.042467691,
+            0.406430541
+          ],
+          [
+            0.042545923,
+            0.406454706
+          ],
+          [
+            0.042623473,
+            0.406491356
+          ],
+          [
+            0.042773424,
+            0.406583378
+          ],
+          [
+            0.042840926,
+            0.406634063
+          ],
+          [
+            0.04290374,
+            0.406689648
+          ],
+          [
+            0.042957188,
+            0.406746784
+          ],
+          [
+            0.043011061,
+            0.406823095
+          ],
+          [
+            0.043029961,
+            0.406870828
+          ],
+          [
+            0.043053078,
+            0.406935735
+          ],
+          [
+            0.043068388,
+            0.407003308
+          ],
+          [
+            0.04307545,
+            0.407070872
+          ],
+          [
+            0.043074483,
+            0.407139766
+          ],
+          [
+            0.043073331,
+            0.407174323
+          ],
+          [
+            0.043071975,
+            0.407191044
+          ],
+          [
+            0.043063459,
+            0.407230944
+          ],
+          [
+            0.043043999,
+            0.407287777
+          ],
+          [
+            0.043012941,
+            0.40734928
+          ],
+          [
+            0.042970949,
+            0.407419467
+          ],
+          [
+            0.042922939,
+            0.407486525
+          ],
+          [
+            0.042809315,
+            0.407613934
+          ],
+          [
+            0.042747048,
+            0.407669606
+          ],
+          [
+            0.042680556,
+            0.407716355
+          ],
+          [
+            0.042609394,
+            0.407751506
+          ],
+          [
+            0.042535795,
+            0.407771938
+          ],
+          [
+            0.042457527,
+            0.407780771
+          ],
+          [
+            0.042147174,
+            0.407774414
+          ],
+          [
+            0.042001599,
+            0.407758648
+          ],
+          [
+            0.041862058,
+            0.407729512
+          ],
+          [
+            0.041726762,
+            0.407692799
+          ],
+          [
+            0.041583013,
+            0.407638241
+          ],
+          [
+            0.041459112,
+            0.407579022
+          ],
+          [
+            0.04141277,
+            0.407548203
+          ],
+          [
+            0.041374908,
+            0.407510482
+          ],
+          [
+            0.041344188,
+            0.407466079
+          ],
+          [
+            0.041319724,
+            0.407409644
+          ],
+          [
+            0.041298175,
+            0.407337605
+          ],
+          [
+            0.041284663,
+            0.407255987
+          ],
+          [
+            0.041282077,
+            0.407173935
+          ],
+          [
+            0.041296654,
+            0.407095916
+          ],
+          [
+            0.041328164,
+            0.407028839
+          ],
+          [
+            0.041373489,
+            0.406970473
+          ],
+          [
+            0.041468346,
+            0.406879163
+          ],
+          [
+            0.041537532,
+            0.406815472
+          ],
+          [
+            0.041833585,
+            0.406644115
+          ],
+          [
+            0.042052212,
+            0.406528191
+          ],
+          [
+            0.042233338,
+            0.406451468
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.family-hut",
+        "districtId": "district.claywater-station.the-landing",
+        "use": "dwelling",
+        "buildingFamily": "mud-hut",
+        "interior": {
+          "kind": "dwelling"
+        },
+        "orientationWhy": "Its entrance turns south-east to the common.",
+        "playerPurpose": [
+          {
+            "kind": "witness",
+            "tier": "medium",
+            "note": "The landing family's home, where the player hears the landing's side of the argument over the well (LF83)."
+          }
+        ],
+        "why": {
+          "what": "The family hut of the landing, where one household of the landing lives.",
+          "whyHere": "The landing's families live on the dry point by the channel.",
+          "whySpot": "West of the road on the north strip, on the widest dry cell.",
+          "whyNeighbours": "It faces the common with the poler's hut across the road and the store hut to the west.",
+          "playerPurpose": "A home to enter and people to talk to about the well and the landing.",
+          "microGeography": "Dry ground on a mud pad raised clear of the high water."
+        },
+        "assetRef": "composite:mud/hut-with-entrance",
+        "centreUV": [
+          0.038516274,
+          0.406048327
+        ],
+        "yawDeg": 328.0,
+        "pad": {
+          "datumM": 35.8,
+          "apronM": 1.5,
+          "floorMinM": 35.8
+        },
+        "assembly": [
+          {
+            "id": "b5-ahy-basket",
+            "asset": "mudmother:gv_meshes/argoniannest/basketsmall01",
+            "atM": [
+              1.9862,
+              15.0787
+            ],
+            "yaw": 332.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b5-ahy-candle",
+            "asset": "mudmother:gv_meshes/argoniannest/argoniancandle01",
+            "atM": [
+              -1.5357,
+              13.7801
+            ],
+            "yaw": 332.0,
+            "on": "ground",
+            "layer": "light",
+            "evidence": "measured"
+          },
+          {
+            "id": "b5-ahy-chair",
+            "asset": "mudmother:gv_meshes/argoniannest/wovenchair01",
+            "atM": [
+              -3.3787,
+              15.2131
+            ],
+            "yaw": 142.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b5-ahy-chime",
+            "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+            "atM": [
+              2.261,
+              11.7614
+            ],
+            "yaw": 52.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b5-ahy-sack",
+            "asset": "vanilla:clutter/containers/miscsacklarge",
+            "atM": [
+              1.8643,
+              13.7844
+            ],
+            "yaw": 332.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b5-ahy-table",
+            "asset": "mudmother:gv_meshes/argoniannest/woventable01",
+            "atM": [
+              -2.8041,
+              16.7197
+            ],
+            "yaw": 52.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b5-ahy-urn",
+            "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+            "atM": [
+              0.9624,
+              15.2833
+            ],
+            "yaw": 332.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          }
+        ],
+        "footprint": [
+          [
+            0.037727444,
+            0.406382921
+          ],
+          [
+            0.03766249,
+            0.406122857
+          ],
+          [
+            0.037636637,
+            0.405876741
+          ],
+          [
+            0.037636494,
+            0.405868835
+          ],
+          [
+            0.037640089,
+            0.405861791
+          ],
+          [
+            0.03778157,
+            0.405607066
+          ],
+          [
+            0.037953955,
+            0.405401796
+          ],
+          [
+            0.03818168,
+            0.405259497
+          ],
+          [
+            0.038441744,
+            0.405194543
+          ],
+          [
+            0.038684696,
+            0.405173865
+          ],
+          [
+            0.038692603,
+            0.405173722
+          ],
+          [
+            0.038700797,
+            0.405176598
+          ],
+          [
+            0.038957535,
+            0.405313623
+          ],
+          [
+            0.039162805,
+            0.405486008
+          ],
+          [
+            0.039305104,
+            0.405713733
+          ],
+          [
+            0.039370058,
+            0.405973797
+          ],
+          [
+            0.039456416,
+            0.406401197
+          ],
+          [
+            0.039457134,
+            0.406402347
+          ],
+          [
+            0.039459577,
+            0.40642161
+          ],
+          [
+            0.039459863,
+            0.406437424
+          ],
+          [
+            0.039456268,
+            0.406444468
+          ],
+          [
+            0.039329886,
+            0.406646579
+          ],
+          [
+            0.039321978,
+            0.406659516
+          ],
+          [
+            0.039287187,
+            0.406678058
+          ],
+          [
+            0.039284887,
+            0.406679495
+          ],
+          [
+            0.038850868,
+            0.406837157
+          ],
+          [
+            0.038590804,
+            0.406902111
+          ],
+          [
+            0.038297681,
+            0.406914159
+          ],
+          [
+            0.038289774,
+            0.406914302
+          ],
+          [
+            0.038282731,
+            0.406910707
+          ],
+          [
+            0.038075013,
+            0.406783031
+          ],
+          [
+            0.037869743,
+            0.406610646
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.store-hut",
+        "districtId": "district.claywater-station.the-landing",
+        "use": "storage",
+        "buildingFamily": "mud-hut",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "Its open side faces the common and the fish racks.",
+        "why": {
+          "what": "The landing's fish store and smokehouse.",
+          "whyHere": "The catch from the channel is dried and stored here.",
+          "whySpot": "The west end of the north strip, beside the family hut.",
+          "whyNeighbours": "The fish racks stand between it and the common.",
+          "playerPurpose": "None beyond the look of a working landing.",
+          "microGeography": "The lowest hut on the strip, its pad raised furthest to clear the high water."
+        },
+        "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+        "centreUV": [
+          0.035261378,
+          0.406590809
+        ],
+        "yawDeg": 347.0,
+        "pad": {
+          "datumM": 36.095,
+          "apronM": 1.5,
+          "floorMinM": 35.8
+        },
+        "assembly": [
+          {
+            "id": "b6-basket",
+            "asset": "mudmother:gv_meshes/argoniannest/basketfull",
+            "atM": [
+              2.3601,
+              9.7816
+            ],
+            "yaw": 13.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b6-rack",
+            "asset": "mudmother:gv_meshes/argoniannest/fishracksmall",
+            "atM": [
+              4.4213,
+              9.7443
+            ],
+            "yaw": 113.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          },
+          {
+            "id": "b6-urn",
+            "asset": "mudmother:gv_meshes/argoniannest/paintedurn01",
+            "atM": [
+              -7.6458,
+              6.4453
+            ],
+            "yaw": 13.0,
+            "on": "ground",
+            "layer": "clutter",
+            "evidence": "measured"
+          }
+        ],
+        "footprint": [
+          [
+            0.034855485,
+            0.406623274
+          ],
+          [
+            0.034854365,
+            0.406612397
+          ],
+          [
+            0.034847544,
+            0.406498446
+          ],
+          [
+            0.034895713,
+            0.406345354
+          ],
+          [
+            0.034899778,
+            0.406338848
+          ],
+          [
+            0.035020832,
+            0.406193982
+          ],
+          [
+            0.035154804,
+            0.406135215
+          ],
+          [
+            0.035300979,
+            0.406129305
+          ],
+          [
+            0.035473286,
+            0.406206443
+          ],
+          [
+            0.035479792,
+            0.406210508
+          ],
+          [
+            0.035590197,
+            0.406326991
+          ],
+          [
+            0.035634019,
+            0.4064324
+          ],
+          [
+            0.035661782,
+            0.406552652
+          ],
+          [
+            0.035629674,
+            0.406708996
+          ],
+          [
+            0.035594713,
+            0.406786661
+          ],
+          [
+            0.035584855,
+            0.406804248
+          ],
+          [
+            0.035512187,
+            0.406947686
+          ],
+          [
+            0.035495923,
+            0.406955616
+          ],
+          [
+            0.035481693,
+            0.406960293
+          ],
+          [
+            0.035222689,
+            0.407020089
+          ],
+          [
+            0.035207848,
+            0.407022123
+          ],
+          [
+            0.035189754,
+            0.407022125
+          ],
+          [
+            0.035061562,
+            0.40692506
+          ],
+          [
+            0.035044991,
+            0.406913574
+          ],
+          [
+            0.034979522,
+            0.406859095
+          ],
+          [
+            0.034882128,
+            0.406732649
+          ]
+        ]
+      },
+      {
+        "id": "parcel.claywater-station.ferry-raft",
+        "districtId": "district.claywater-station.the-landing",
+        "use": "dock",
+        "buildingFamily": "native-craft",
+        "interior": {
+          "kind": "none"
+        },
+        "orientationWhy": "The raft lies with its long side to the bank for boarding.",
+        "why": {
+          "what": "The ferry raft, moored in the flood water east of the landing.",
+          "whyHere": "The poler's ferry needs a hull afloat in the wet season.",
+          "whySpot": "The nearest water that floats it: at least a metre all round, east of the road.",
+          "whyNeighbours": "The cleats on the bank hold it; the landing path runs to it.",
+          "playerPurpose": "The ferry that carries the player across the flooded ford in the wet season.",
+          "microGeography": "Flood water at 35.24 m, more than a metre deep round the hull."
+        },
+        "assetRef": "ferryraft:snt/ferry/ferryraft01",
+        "centreUV": [
+          0.046924757,
+          0.40862512
+        ],
+        "yawDeg": 95.0,
+        "footprint": [
+          [
+            0.047205654,
+            0.408433235
+          ],
+          [
+            0.047209707,
+            0.408433589
+          ],
+          [
+            0.047212291,
+            0.408435177
+          ],
+          [
+            0.047221394,
+            0.408440057
+          ],
+          [
+            0.047222627,
+            0.408441527
+          ],
+          [
+            0.047218237,
+            0.408522826
+          ],
+          [
+            0.047198261,
+            0.408751153
+          ],
+          [
+            0.047189412,
+            0.408821171
+          ],
+          [
+            0.047180766,
+            0.408842196
+          ],
+          [
+            0.047143223,
+            0.408851164
+          ],
+          [
+            0.04665531,
+            0.408826175
+          ],
+          [
+            0.046649906,
+            0.408825703
+          ],
+          [
+            0.046647322,
+            0.408824115
+          ],
+          [
+            0.046643269,
+            0.408823761
+          ],
+          [
+            0.046634285,
+            0.408817529
+          ],
+          [
+            0.046633052,
+            0.40881606
+          ],
+          [
+            0.046671519,
+            0.408500861
+          ],
+          [
+            0.046679017,
+            0.408430724
+          ],
+          [
+            0.046689014,
+            0.408409817
+          ],
+          [
+            0.046711931,
+            0.408396846
+          ],
+          [
+            0.046737601,
+            0.408399092
+          ],
+          [
+            0.04720025,
+            0.408432762
+          ]
+        ]
+      }
+    ],
+    "doors": [
+      {
+        "id": "door.imperial-fringe.claywater-station.1",
+        "parcelId": "parcel.claywater-station.station-house",
+        "interiorClaim": {
+          "sizeClass": "large",
+          "culture": "imperial",
+          "interiorRef": "vanilla-farmhouse-int",
+          "owner": "the well-keeper"
+        },
+        "thresholdUV": [
+          0.043050074,
+          0.415805557
+        ],
+        "facingDeg": 59.0
+      },
+      {
+        "id": "door.imperial-fringe.claywater-station.2",
+        "parcelId": "parcel.claywater-station.polers-hut",
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian",
+          "owner": "the landing's poler",
+          "interiorRef": "mudmother-hut-int"
+        },
+        "thresholdUV": [
+          0.042190238,
+          0.407743856
+        ],
+        "facingDeg": 190.6
+      },
+      {
+        "id": "door.imperial-fringe.claywater-station.3",
+        "parcelId": "parcel.claywater-station.family-hut",
+        "interiorClaim": {
+          "sizeClass": "large",
+          "culture": "argonian",
+          "interiorRef": "vanilla-farmhouse-int",
+          "owner": "the landing family"
+        },
+        "thresholdUV": [
+          0.0393479,
+          0.406521778
+        ],
+        "facingDeg": 119.6
+      }
+    ],
+    "routes": [
+      {
+        "id": "route.claywater-station.the-street",
+        "kind": "road",
+        "routing": "straight",
+        "widthM": 4.3,
+        "endsAt": [
+          "parcel.claywater-station.the-well",
+          "parcel.claywater-station.polers-hut"
+        ],
+        "why": "The Blackwood Road between the well junction and the ford: the street both halves face.",
+        "via": [
+          [
+            0.042449274,
+            0.409710085
+          ],
+          [
+            0.042720515,
+            0.410930671
+          ],
+          [
+            0.042761202,
+            0.413114164
+          ],
+          [
+            0.044212343,
+            0.41459243
+          ],
+          [
+            0.046517894,
+            0.416897981
+          ]
+        ],
+        "points": [
+          [
+            0.042190238,
+            0.407743856
+          ],
+          [
+            0.042720515,
+            0.410930671
+          ],
+          [
+            0.042761202,
+            0.413114164
+          ],
+          [
+            0.046517894,
+            0.416897981
+          ]
+        ]
+      },
+      {
+        "id": "route.claywater-station.station-house-path",
+        "kind": "footpath",
+        "routing": "terrain",
+        "widthM": 1.2,
+        "endsAt": [
+          "parcel.claywater-station.station-house"
+        ],
+        "why": "From the street to the station house door.",
+        "via": [
+          [
+            0.04360205,
+            0.414117757
+          ],
+          [
+            0.043127377,
+            0.414795861
+          ],
+          [
+            0.042923946,
+            0.41537903
+          ]
+        ],
+        "points": [
+          [
+            0.04360205,
+            0.414117757
+          ],
+          [
+            0.043059567,
+            0.41459936
+          ],
+          [
+            0.043127377,
+            0.414795861
+          ],
+          [
+            0.042652705,
+            0.414328118
+          ],
+          [
+            0.042381463,
+            0.414463739
+          ],
+          [
+            0.042381463,
+            0.41459936
+          ],
+          [
+            0.043195187,
+            0.415413084
+          ],
+          [
+            0.043195187,
+            0.415684325
+          ],
+          [
+            0.043050074,
+            0.415805557
+          ]
+        ]
+      },
+      {
+        "id": "route.claywater-station.well-junction",
+        "kind": "footpath",
+        "routing": "straight",
+        "widthM": 1.2,
+        "endsAt": [
+          "parcel.claywater-station.the-well"
+        ],
+        "why": "The short worn step from the road to the well head.",
+        "via": [
+          [
+            0.043330808,
+            0.413575275
+          ],
+          [
+            0.043059567,
+            0.413778706
+          ]
+        ],
+        "points": [
+          [
+            0.043330808,
+            0.413575275
+          ],
+          [
+            0.043022598,
+            0.41385844
+          ]
+        ]
+      },
+      {
+        "id": "route.claywater-station.stable-path",
+        "kind": "footpath",
+        "routing": "terrain",
+        "widthM": 1.2,
+        "endsAt": [
+          "parcel.claywater-station.stable-barn"
+        ],
+        "why": "From the well junction west along the bench to the stable barn.",
+        "via": [
+          [
+            0.046246653,
+            0.416423309
+          ],
+          [
+            0.046789136,
+            0.417440464
+          ],
+          [
+            0.046653515,
+            0.418254188
+          ]
+        ],
+        "points": [
+          [
+            0.046246653,
+            0.416423309
+          ],
+          [
+            0.046856946,
+            0.416904911
+          ],
+          [
+            0.046856946,
+            0.417311773
+          ],
+          [
+            0.046314463,
+            0.417989877
+          ],
+          [
+            0.046256702,
+            0.418502144
+          ]
+        ]
+      },
+      {
+        "id": "route.claywater-station.landing-path",
+        "kind": "footpath",
+        "routing": "terrain",
+        "widthM": 1.2,
+        "endsAt": [
+          "parcel.claywater-station.ferry-raft"
+        ],
+        "why": "From the ford's north bank past the fish racks to the moored raft.",
+        "via": [
+          [
+            0.042245843,
+            0.409710085
+          ],
+          [
+            0.043127377,
+            0.409303223
+          ],
+          [
+            0.044754826,
+            0.40876074
+          ],
+          [
+            0.045907601,
+            0.40862512
+          ]
+        ],
+        "points": [
+          [
+            0.042245843,
+            0.409710085
+          ],
+          [
+            0.042652705,
+            0.409310153
+          ],
+          [
+            0.043127377,
+            0.409303223
+          ],
+          [
+            0.043602049,
+            0.40876767
+          ],
+          [
+            0.044754826,
+            0.40876074
+          ],
+          [
+            0.045093877,
+            0.409038911
+          ],
+          [
+            0.046450084,
+            0.409038911
+          ],
+          [
+            0.046645366,
+            0.408715157
+          ]
+        ]
+      },
+      {
+        "id": "route.claywater-station.common-path",
+        "kind": "footpath",
+        "routing": "terrain",
+        "widthM": 1.2,
+        "endsAt": [
+          "parcel.claywater-station.polers-hut",
+          "parcel.claywater-station.family-hut",
+          "parcel.claywater-station.store-hut"
+        ],
+        "why": "From the ford's north bank past the poler's hut across the common to the family hut and the store.",
+        "via": [
+          [
+            0.042245843,
+            0.409710085
+          ],
+          [
+            0.041499929,
+            0.40876074
+          ],
+          [
+            0.040143722,
+            0.408082637
+          ],
+          [
+            0.038651895,
+            0.407675775
+          ],
+          [
+            0.036346343,
+            0.407811396
+          ]
+        ],
+        "points": [
+          [
+            0.042190238,
+            0.407743856
+          ],
+          [
+            0.042245843,
+            0.408089567
+          ],
+          [
+            0.041499929,
+            0.40876074
+          ],
+          [
+            0.040889636,
+            0.408089567
+          ],
+          [
+            0.039126567,
+            0.408089567
+          ],
+          [
+            0.038651895,
+            0.407675775
+          ],
+          [
+            0.039533429,
+            0.406868981
+          ],
+          [
+            0.039533429,
+            0.406597739
+          ],
+          [
+            0.0393479,
+            0.406521778
+          ]
+        ]
+      }
+    ],
+    "canals": [],
+    "boardwalks": [],
+    "fences": [],
+    "docks": [],
+    "landmarks": [],
+    "travelServices": [
+      {
+        "id": "travel.claywater-station.ford-ferry",
+        "kind": "ferry",
+        "toPlaceId": "place.imperial-fringe.claywater-station"
+      }
+    ],
+    "questSockets": [
+      {
+        "id": "socket.claywater-station.the-street",
+        "kind": "scene",
+        "socketRef": "scene.claywater-station.the-street",
+        "position": [
+          0.042856136,
+          0.412558119
+        ]
+      },
+      {
+        "id": "socket.claywater-station.the-cracked-well",
+        "kind": "evidence",
+        "socketRef": "evidence.claywater-station.the-cracked-well",
+        "position": [
+          0.042991757,
+          0.413982137
+        ]
+      },
+      {
+        "id": "socket.claywater-station.well-keeper",
+        "kind": "station",
+        "socketRef": "station.claywater-station.well-keeper",
+        "position": [
+          0.043262998,
+          0.413778706
+        ]
+      },
+      {
+        "id": "socket.claywater-station.poler",
+        "kind": "station",
+        "socketRef": "station.claywater-station.poler",
+        "position": [
+          0.042313653,
+          0.409710085
+        ]
+      }
+    ],
+    "occupants": [
+      {
+        "slotId": "well-keeper",
+        "ladderRef": "modest-d3 keeper",
+        "cultureRole": "the well-keeper",
+        "worksAt": "parcel.claywater-station.the-well",
+        "livesAt": "parcel.claywater-station.station-house"
+      },
+      {
+        "slotId": "landing-s-poler",
+        "ladderRef": "modest-d3 poler",
+        "cultureRole": "the landing's poler",
+        "worksAt": "parcel.claywater-station.ferry-raft",
+        "livesAt": "parcel.claywater-station.polers-hut"
+      },
+      {
+        "slotId": "o.family",
+        "ladderRef": "modest-d1 villager",
+        "cultureRole": "landing family",
+        "livesAt": "parcel.claywater-station.family-hut"
+      }
+    ],
+    "approaches": [
+      {
+        "id": "approach.claywater-station.south-road",
+        "mode": "walk",
+        "fromRouteId": "route.road.gideon-blackwood-road",
+        "firstSeen": "parcel.claywater-station.the-well",
+        "viaUV": [
+          [
+            0.049454636,
+            0.42055974
+          ]
+        ],
+        "sequence": "Coming down the road from the south-east, the station house roof and its smoke show first, then the well at the junction and the lean-to by the fire; the ford and the huts beyond open up at the junction.",
+        "wayfinding": "The road runs past the yard wall to the well junction; the station house path leaves the street there."
+      },
+      {
+        "id": "approach.claywater-station.north-road",
+        "mode": "walk",
+        "fromRouteId": "route.road.gideon-blackwood-road",
+        "firstSeen": "parcel.claywater-station.polers-hut",
+        "viaUV": [
+          [
+            0.038154004,
+            0.406274976
+          ]
+        ],
+        "sequence": "Coming from the north-west, the hut domes and the landing lanterns show first; the road passes between the huts to the ford. The well roof shows across the water.",
+        "wayfinding": "Follow the road through the landing to the ford; the poler's hut stands on the bank above it."
+      }
+    ],
+    "networkTerminals": [
+      {
+        "id": "terminal.claywater-station.south-road",
+        "routeId": "route.road.gideon-blackwood-road",
+        "entryUV": [
+          0.046517894,
+          0.416897981
+        ],
+        "wayId": "route.claywater-station.the-street",
+        "kind": "road",
+        "why": "The Blackwood Road arrives from Gideon along the bench to the south-east."
+      },
+      {
+        "id": "terminal.claywater-station.north-road",
+        "routeId": "route.road.gideon-blackwood-road",
+        "entryUV": [
+          0.042017848,
+          0.409710085
+        ],
+        "wayId": "route.claywater-station.the-street",
+        "kind": "road",
+        "why": "The road leaves the ford's north bank toward Blackwood through the landing."
+      }
+    ],
+    "combatSpaces": [
+      {
+        "id": "combat.claywater-station.the-street",
+        "aroundIds": [
+          "route.claywater-station.the-street"
+        ],
+        "clearanceClass": "open",
+        "why": "The street between the well and the ford, where a road fight at the station happens.",
+        "boundary": [
+          [
+            0.042241915,
+            0.413361088
+          ],
+          [
+            0.047234586,
+            0.418389809
+          ],
+          [
+            0.047738481,
+            0.418389809
+          ],
+          [
+            0.047738481,
+            0.418210579
+          ],
+          [
+            0.041732257,
+            0.405505844
+          ],
+          [
+            0.041406755,
+            0.405505844
+          ]
+        ]
+      }
+    ],
+    "clearance": {
+      "hardClear": [
+        [
+          [
+            0.035261378,
+            0.406183947
+          ],
+          [
+            0.047467239,
+            0.406183947
+          ],
+          [
+            0.047467239,
+            0.417982947
+          ],
+          [
+            0.035261378,
+            0.417982947
+          ]
+        ]
+      ],
+      "thinned": [],
+      "kept": []
+    },
+    "variants": [
+      {
+        "id": "variant.claywater-station.base",
+        "changedRefs": [],
+        "serviceOverrides": {},
+        "ambience": "road-station"
+      }
+    ],
+    "scaleGrounding": {
+      "loreSource": "type recipe road-station-village (a keeper and travellers); record occupants D1 family (few), D2 travellers (few); roster npcs.json well-keeper and poler",
+      "population": "6-10",
+      "households": 3,
+      "buildingsPlanned": 8,
+      "npcsPlanned": 2,
+      "why": "Two named keepers and one landing family live here; travellers come and go. Six buildings stand, three in the well-station and three in the landing; the dry ground holds no seventh. Two structures stand beside them, the well and the yard wall."
+    },
+    "siting": {
+      "dossier": "world/sources/sites/dossiers/claywater-station.json",
+      "candidates": [
+        {
+          "id": "candidate.claywater-station.ford-banks",
+          "positionM": [
+            301.0,
+            3059.2
+          ],
+          "chosen": true,
+          "why": "The only dry ground on both banks of the ford: the south bench for the well-station and the north strip for the landing."
+        },
+        {
+          "id": "candidate.claywater-station.east-of-road",
+          "positionM": [
+            356.0,
+            3084.0
+          ],
+          "why": "The flat pad east of the road beside the flood water.",
+          "rejectedBecause": "One flat pad east of the road; the rest of the east side is flood water at 35.24 m, with no room for either half."
+        }
+      ]
+    },
+    "macroEvidence": [
+      {
+        "sourcePaths": [
+          "assetPlan",
+          "contents",
+          "discovery",
+          "eraLayers",
+          "hostility",
+          "notableNpcSlots",
+          "playerPurpose",
+          "questHooks",
+          "relations",
+          "rewardProfile",
+          "season",
+          "services",
+          "sitingPrefs",
+          "sockets",
+          "status",
+          "traversalModes",
+          "underwaterAccess",
+          "vibe",
+          "why"
+        ],
+        "evidenceRefs": [
+          "parcel.claywater-station.the-well",
+          "parcel.claywater-station.station-house",
+          "parcel.claywater-station.polers-hut",
+          "socket.claywater-station.the-cracked-well",
+          "approach.claywater-station.south-road"
+        ]
+      }
+    ],
+    "budget": {
+      "maxInstances": 200,
+      "maxUniqueMaterials": 106,
+      "maxTextureMB": 64,
+      "maxColliders": 200
+    },
+    "assetConstraints": [],
+    "proseRefs": [
+      {
+        "sourcePath": "districts[1].why.whyNeighbours",
+        "placeRef": "place.imperial-fringe.fenmarch-village"
+      },
+      {
+        "sourcePath": "networkTerminals[0].why",
+        "placeRef": "place.imperial-fringe.gideon"
+      },
+      {
+        "sourcePath": "parcels[0].playerPurpose[0].note",
+        "serviceRef": "lodging"
+      }
+    ],
+    "authoredOn": {
+      "wbSchemaVersion": 1,
+      "ground": {
+        "centreM": [
+          305.0,
+          3035.0
+        ],
+        "halfM": 150.0,
+        "chunks": {
+          "chunk_0_6": "e8c70a8276d6c8ec367ff9fb53763e4114ec0a5828ea62b00419799028f7c9ec"
+        },
+        "sha256": "5ed27ca47c12e26f8deffdbec2c52e4a78ce69b4203a37ec04e52d13caa83a32"
+      },
+      "kits": {
+        "bmv-treehouse-int": "04f2ebf668da7b4b978673ba9e0792ef3df0c006a90468cb0a6cf05774deb15a",
+        "docks-v1": "81cf10564c5f1c3c04d16303e2c05e0ad65393a2eb8c2246506590b6bbf2824f",
+        "mudmother-hut-int": "f6dd8654ce2bef2c0058eb1e2d61171f2c20822bdcde262f9476036252686a69",
+        "settlement-imperial-v1": "92eef8882b4fe312dc15a47de71a747b2667588c828f4b8c1c9dd41e35faa707",
+        "settlement-mud-v1": "361dedcd1445ecd5109b32d702f1877ef9841f8975dda3937b39918c7ce5cdef",
+        "works-v1": "ddb4f5446ffe7f12816b888cdf54373d41e61efa036304d9b8386d204b27d2a7"
+      },
+      "layout": {
+        "path": "world/sources/blueprints/claywater-station.layout.json",
+        "sha256": "714cdc7d0d22b3eea447a382d133b127fcdee1eaff9b79ededb5fb4adc40e4e4"
+      }
+    }
+  }
+}
