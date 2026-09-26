@@ -10,15 +10,21 @@
 #      links the mod pool, mesh cache and kit builds there) each have more than
 #      3 GB free, and the cgroup's unreclaimable memory is under memwatch.sh's
 #      ceiling;
-#   2. takes one of N machine-wide slots, N = max(1, floor(nproc/2) - 1)
+#   2. takes one of N machine-wide slots, N = max(1, floor(nproc/2)) (4 on
+#      the 8-vCPU EC2 box; planner 2026-09-26, once memwatch reported each
+#      job's own memory: the placement suite is 3.8 GiB of its own, not the
+#      12.7 GiB machine figure that had held the count at nproc/2 - 1)
 #      (flock on /tmp/es-jobs/slot-<i>.lock, released when the job exits,
 #      however it exits), re-checking the headroom once it holds one;
 #   3. runs the command under memwatch.sh (killed past the memory ceiling;
-#      the timings log gets a line) at low priority on the upper half of the
-#      cores: `nice -n 10 ionice -c3 taskset -c <floor(nproc/2)>-<nproc-1>`
-#      (cores 2-3 on the 4-core codespace), leaving the lower half to the
-#      editor tunnel and the Claude CLI (owner 2026-09-25), and exits with the
-#      command's code. tooling/repo-standards/cpu_watchdog.sh is the
+#      the timings log gets a line with the job's own peak) at low priority
+#      on the heavy-job core pool: `nice -n 10 ionice -c3 taskset -c 2-<nproc-1>`
+#      (cores 2-7 on the EC2 box), every slot pinned to the whole pool
+#      (shared, the kernel balances), leaving cores 0-1 to the planner, the
+#      agents, the editor tunnel and the dev server (owner 2026-09-25), with
+#      PYTEST_XDIST_AUTO_NUM_WORKERS=4 exported (`-n auto` would otherwise
+#      start one pytest worker per pool core in every slot), and exits with
+#      the command's code. tooling/repo-standards/cpu_watchdog.sh is the
 #      machine-wide backstop behind it.
 # Lines it prints start "job_guard[<lane>]". Examples:
 #   bash tooling/repo-standards/job_guard.sh miner -- python3 -m worldgen.mine_mounts --jobs 2
@@ -32,7 +38,9 @@
 # ES_JOB_WAIT_S (1800), ES_JOB_POLL_S (5), ES_JOB_LOCK_DIR (/tmp/es-jobs),
 # ES_JOB_MAX_LOAD (nproc - 1), ES_JOB_MEM_CEILING_MIB (memwatch's default;
 # passed on to memwatch as its kill ceiling), ES_CACHE_ROOT (/tmp/es-cache),
-# ES_JOB_CPUS (the taskset list, default the upper half of the cores).
+# ES_JOB_CPUS (the taskset list, default the pool 2-<nproc-1>; on a 2- or
+# 3-core machine the last core, on one core core 0), PYTEST_XDIST_AUTO_NUM_WORKERS
+# (4; an explicit value is kept).
 set -uo pipefail
 
 lane="${1:-}"
@@ -44,7 +52,7 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 say() { echo "job_guard[$lane]: $*" >&2; }
 
 cores=$(nproc)
-slots="${ES_JOB_SLOTS:-$(( cores / 2 - 1 ))}"
+slots="${ES_JOB_SLOTS:-$(( cores / 2 ))}"
 (( slots < 1 )) && slots=1
 max_load="${ES_JOB_MAX_LOAD:-$(( cores - 1 ))}"
 (( max_load < 1 )) && max_load=1
@@ -52,8 +60,13 @@ min_free_kib=$(awk -v g="${ES_JOB_MIN_FREE_GB:-3}" 'BEGIN{printf "%d", g * 10000
 wait_s="${ES_JOB_WAIT_S:-1800}"
 poll_s="${ES_JOB_POLL_S:-5}"
 lock_dir="${ES_JOB_LOCK_DIR:-/tmp/es-jobs}"
-cpus="${ES_JOB_CPUS:-$(( cores / 2 ))-$(( cores - 1 ))}"
-(( cores == 1 )) && cpus="${ES_JOB_CPUS:-0}"
+if (( cores >= 4 )); then pool="2-$(( cores - 1 ))"
+elif (( cores >= 2 )); then pool="$(( cores - 1 ))"
+else pool=0; fi
+cpus="${ES_JOB_CPUS:-$pool}"
+# pytest-xdist reads this for `-n auto` (verified 2026-09-26, xdist 3.8): at
+# most 4 workers per job, whatever the pool's width.
+export PYTEST_XDIST_AUTO_NUM_WORKERS="${PYTEST_XDIST_AUTO_NUM_WORKERS:-4}"
 
 # memwatch.sh's ceiling: 75 % of cgroup memory.max, else of MemTotal.
 mw_args=()

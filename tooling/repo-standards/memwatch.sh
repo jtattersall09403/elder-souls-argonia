@@ -18,9 +18,17 @@
 # memory.current is the wrong signal: on 2026-09-17 it read 5.2 GiB idle of
 # which 3.1 GiB was file cache from the province rasters.
 #   memwatch.sh [--ceiling-gib N] <command...>     (N may be decimal, e.g. 11.75)
-# Every run, killed or not, appends one JSON line (tool, args, wall s, cgroup
-# GiB at start and at peak, exit) to output/tool-timings.jsonl (MEMWATCH_TIMINGS_LOG overrides);
-# `python3 tooling/repo-standards/tool_timings.py` ranks it (16h ledger §6 D).
+# TWO figures (2026-09-26): the ceiling above is MACHINE-wide (on the EC2 box
+# /sys/fs/cgroup is the root cgroup, so it holds every lane), and it is what
+# kills; the JOB's own figure is its process tree's RssAnon + RssShmem,
+# sampled every 0.5 s by own_memory.py. The last line reads
+#   memwatch[lane]: own peak X GiB · machine peak Y GiB, exit N
+# and per-job targets read the own peak (the placement suite's logged
+# "12.7 GiB" was the machine; its own peak was 3.8 GiB).
+# Every run, killed or not, appends one JSON line (tool, args, wall s, machine
+# GiB at start and at peak, own peak GiB, exit) to output/tool-timings.jsonl
+# (MEMWATCH_TIMINGS_LOG overrides); `python3 tooling/repo-standards/tool_timings.py`
+# ranks it (16h ledger §6 D).
 set -uo pipefail
 ceiling_gib=""
 if [[ "${1:-}" == "--ceiling-gib" ]]; then ceiling_gib="${2:-}"; shift 2; fi
@@ -58,7 +66,16 @@ start=$(date +%s.%N)
 # Log the run; a logging failure never changes the command's exit code.
 log_run() {
   local wall; wall=$(awk -v a="$start" -v b="$(date +%s.%N)" 'BEGIN{printf "%.3f", b - a}')
-  python3 "$here/tool_timings.py" --record "$wall" "$start_mib" "$peak" "$1" "$PWD" "${cmd[@]}" 2>/dev/null || true
+  python3 "$here/tool_timings.py" --record "$wall" "$start_mib" "$peak" "$1" "$PWD" --own-mib "$(own_peak)" "${cmd[@]}" 2>/dev/null || true
+}
+# The job's own peak (MiB) as own_memory.py last wrote it; 0 before its first sample.
+own_file=$(mktemp "${TMPDIR:-/tmp}/memwatch-own.XXXXXX")
+own_peak() { local v; v=$(cat "$own_file" 2>/dev/null); [[ "$v" =~ ^[0-9]+$ ]] && echo "$v" || echo 0; }
+gib() { awk -v m="$1" 'BEGIN{printf "%.2f", m / 1024}'; }
+finish() {  # $1 = exit code, $2 = suffix
+  kill "$own_pid" 2>/dev/null; wait "$own_pid" 2>/dev/null
+  echo "$tag: own peak $(gib "$(own_peak)") GiB · machine peak $(gib "$peak") GiB, exit $1$2"
+  log_run "$1"; rm -f "$own_file" "$own_file.tmp"
 }
 cmd=("$@")
 tag="memwatch${MEMWATCH_LANE:+[$MEMWATCH_LANE]}"
@@ -70,18 +87,19 @@ start_mib=$(used)
 export MEMWATCH_OUTER_CEILING_MIB="$ceiling_mib"
 setsid bash -c "$*" &
 pid=$!
+python3 "$here/own_memory.py" --watch "$pid" "$own_file" 0.5 &
+own_pid=$!
 peak=$start_mib
 while kill -0 "$pid" 2>/dev/null; do
   now=$(used)
   (( now > peak )) && peak=$now
   if (( now > ceiling_mib )); then
-    echo "$tag: cgroup unreclaimable ${now} MiB > ceiling ${ceiling_mib} MiB — killing" >&2
+    echo "$tag: machine unreclaimable ${now} MiB > ceiling ${ceiling_mib} MiB — killing (own tree $(gib "$(own_peak)") GiB at peak)" >&2
     kill -TERM -- -"$pid" 2>/dev/null; sleep 2; kill -KILL -- -"$pid" 2>/dev/null
-    echo "$tag: peak ${peak} MiB (KILLED)"; log_run 137; exit 137
+    finish 137 " (KILLED)"; exit 137
   fi
   sleep 0.5
 done
 wait "$pid"; code=$?
-echo "$tag: peak ${peak} MiB, exit $code"
-log_run "$code"
+finish "$code" ""
 exit $code

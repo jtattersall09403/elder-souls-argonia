@@ -38,10 +38,14 @@ owner is not idle while a chunk runs. The world build keeps its one queue
   <command...>`: it waits (up to 30 min, then exits 75) until the 1-min
   load is under nproc - 1, the current directory's volume and the `/tmp`
   cache volume each have over 3 GB free and memory is under memwatch's
-  ceiling, takes one of max(1, floor(nproc/2) - 1) machine-wide slots and
-  runs the job under `memwatch.sh` with `nice -n 10 ionice -c3 taskset` on
-  the upper half of the cores (2-3 on the codespace), leaving cores 0-1 to
-  the editor tunnel and the Claude CLI. Behind it, `cpu_watchdog.sh`
+  ceiling, takes one of max(1, floor(nproc/2)) machine-wide slots (four on
+  the 8-vCPU EC2 box) and runs the job under `memwatch.sh` with `nice -n 10
+  ionice -c3 taskset` on the shared heavy-job pool, cores 2..nproc-1 (2-7
+  on EC2), at most 4 pytest workers per job, leaving cores 0-1 to the
+  planner, the agents, the editor tunnel and the dev server. memwatch
+  kills on the MACHINE's memory but reports each job's OWN peak (its
+  process tree); size jobs by the own peak (2026-09-26: the placement suite
+  is 3.8 GiB of its own; the 12.7 GiB once logged was the machine). Behind it, `cpu_watchdog.sh`
   (started by `on-start.sh`, no agent involved) pauses the heaviest
   processes while the whole machine is above 85 % CPU, continues them one
   at a time once it is calm, and kills stale `rtk` filters and orphaned
@@ -49,7 +53,7 @@ owner is not idle while a chunk runs. The world build keeps its one queue
   `/tmp/es-jobs/watchdog.log`; `cpu_watchdog.sh --status` lists what it
   holds stopped). Preflight gates and workspace test runs are capped at
   `ES_JOBS`, default max(1, floor(nproc/2)), and pinned the same way to the
-  upper half of the cores (`tooling/repo-standards/jobs.mjs`), and `npm run preflight -- --paths` runs only the gates its files touch.
+  heavy-job pool (`tooling/repo-standards/jobs.mjs`), and `npm run preflight -- --paths` runs only the gates its files touch.
   A lane never runs two heavy jobs at once; the planner launches at most
   floor(nproc/2) heavy lanes at a time (four on the 8-vCPU EC2 box; was two on the 4-core codespace); light
   lanes (docs, reads) run freely.

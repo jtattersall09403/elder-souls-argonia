@@ -18,10 +18,9 @@ from .export_web_chunks import decode_rg16
 from .ladder import requires_layer
 
 # One xdist group for the whole module (`--dist=loadgroup` in `test:placement`):
-# the `inputs` fixture loads a 670 MB heightfield and a near block, module-scoped,
-# so scattering this file across workers loads them once PER WORKER and the 12 GiB
-# cgroup kills one — a lost worker, never an assertion. One group, one worker, one
-# load.
+# the `inputs` fixture maps the 62 MiB province heightfield (4033² f32) and the
+# 268 MiB near block (8385² f32), module-scoped, so scattering this file across
+# workers maps them once PER WORKER. One group, one worker, one load.
 pytestmark = [requires_layer("apron"),
               pytest.mark.xdist_group("border_apron"),
               pytest.mark.skipif(not apron.MANIFEST_PATH.exists(), reason="no apron built")]
@@ -49,8 +48,11 @@ def inputs():
     for path in (DEFAULT_HEIGHTS, apron.NEAR_PATH):
         if not path.exists():
             pytest.skip(f"vault input absent on this machine: {path.name}")
-    heights = np.load(DEFAULT_HEIGHTS).astype(np.float32)
-    near = np.load(apron.NEAR_PATH).astype(np.float32)
+    # Memory-mapped and never copied (both files are already float32): file
+    # pages the kernel can reclaim, not ~330 MiB of private memory twice over
+    # (2026-09-26: this worker peaked at 2.2 GiB, the placement suite's largest).
+    heights = np.load(DEFAULT_HEIGHTS, mmap_mode="r").astype(np.float32, copy=False)
+    near = np.load(apron.NEAR_PATH, mmap_mode="r").astype(np.float32, copy=False)
     return heights, near
 
 

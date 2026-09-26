@@ -124,7 +124,7 @@ def _vault_ready():
 def test_the_frozen_province_keeps_every_promise():
     from . import freeze
     from .carve_province import FROZEN_PATH
-    h = np.load(FROZEN_PATH)
+    h = np.load(FROZEN_PATH, mmap_mode="r")  # 62 MiB f32, read-only here: mapped, not copied
     assert freeze.recorded(freeze.FROZEN) == freeze.sha256_of(h), "the frozen array is not the recorded one"
     errs = tpc.province_violations()
     bad = tpc.unexpected(errs)

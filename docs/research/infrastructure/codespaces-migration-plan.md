@@ -151,7 +151,7 @@ parts defined by file age would drop old sessions from the backup.
 
 **Delivered 2026-09-26 (EC2).**
 
-- 2026-09-26: moved to EC2 (8 vCPU, 30 GiB, 242 GiB); job_guard gives 3 heavy slots; Workflow concurrency cap is min(16, cpus-2) = 6.
+- 2026-09-26: moved to EC2 (8 vCPU, 30 GiB, 242 GiB); job_guard gives 3 heavy slots (4 on a 6-core pool, cores 2-7, from later that day, once memwatch reported each job's own peak); Workflow concurrency cap is min(16, cpus-2) = 6.
 - 2026-09-26: automatic incremental backup, `tooling/bootstrap/backup_changed.sh` on every push (pre-push hook) and nightly (crontab 03:17); uploads only parts whose fingerprint changed and puts the manifest at `snapshot/v1/manifest.json`. `tooling/bootstrap/README.md` § Backups.
 
 **Agent work remaining**:

@@ -28,6 +28,11 @@ PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 STEP = 3
 M_C = RAW_M * STEP
 
+# One xdist group (`--dist=loadgroup` in `test:water`): the module fixtures load
+# the raw and sculpted province, ~0.9-1.3 GiB per worker; spread over three
+# workers they were loaded three times at once (2026-09-26).
+pytestmark = pytest.mark.xdist_group("sculpt")
+
 needs_vault = pytest.mark.skipif(not (RAW.exists() and SCULPTED.exists()),
                                  reason="vault sculpted terrain unavailable")
 

@@ -172,6 +172,10 @@ console.log(`preflight: ${(capBytes / GIB).toFixed(1)} GiB cap, ${(usedBytes / G
 const memwatch = join(repoRoot, "tooling", "repo-standards", "memwatch.sh");
 // Two waves: the placement suite (10.2 GiB beside typecheck on 2026-09-16,
 // before the survey cache) now runs with the water, typecheck and raster gates.
+// Measured alone under memwatch's own-tree figure (2026-09-26): placement
+// 3.8 GiB, water 4.4, typecheck 1.2, so wave 1 is ~10 GiB of its own under a
+// 22 GiB ceiling and needs no further serialising; the "12.7 GiB" once logged
+// for placement was the whole machine.
 const WAVES = [["placement", "water", "typecheck", "rasters"], ["pipeline", "npm-test", "credits", "python-deps"]];
 const results = [];
 for (const wave of WAVES) {
@@ -187,7 +191,11 @@ console.log("\npreflight — every deploy gate, run together\n");
 for (const r of results) {
   const ok = r.code === 0;
   if (!ok) failed++;
-  console.log(`${ok ? "PASS" : "FAIL"}  ${r.name.padEnd(10)} ${String(r.seconds).padStart(4)}s   (log: ${outDir}/${r.name}.log)`);
+  // The gate's own memory (its process tree), from its memwatch's last line;
+  // the machine figure beside it holds every other gate and lane, so it is
+  // never a per-gate number (2026-09-26).
+  const own = [...r.out.matchAll(/own peak ([\d.]+) GiB/g)].pop()?.[1];
+  console.log(`${ok ? "PASS" : "FAIL"}  ${r.name.padEnd(10)} ${String(r.seconds).padStart(4)}s ${own ? `${own.padStart(6)} GiB own` : "".padStart(14)}   (log: ${outDir}/${r.name}.log)`);
   if (!ok) {
     const patterns = GATES[r.name][1];
     const lines = r.out.split("\n").filter((l) => patterns.some((p) => p.test(l)));

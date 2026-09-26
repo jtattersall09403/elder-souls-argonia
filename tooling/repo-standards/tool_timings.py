@@ -6,11 +6,16 @@ Every `memwatch.sh` run appends one JSON line to `output/tool-timings.jsonl`
 (gitignored; `MEMWATCH_TIMINGS_LOG` overrides the path). This prints two
 tables over the last N days: tools by total wall time (tools whose name
 starts with an `--exclude` prefix left out; default `npm.`, preflight's own
-gate wrappers) and by worst single run (always complete). Memory is
-`deltaGiB`, the cgroup's peak minus its level when the run started, because
-the cgroup also holds every other session on the VM; the raw peak stays in
-the line. `TARGET` marks a tool whose worst run passed 60 s or whose delta
-passed 2 GiB: a candidate for a step-C profile (16h ledger §6 steps C and D).
+gate wrappers) and by worst single run (always complete). Memory has two
+columns: `ownPeakGiB`, the job's own process tree (RssAnon + RssShmem,
+own_memory.py), which is the per-job figure every target reads; and
+`machineDeltaGiB`, the machine's unreclaimable peak minus its level when the
+run started, which also holds every lane that ran beside it (on the EC2 box
+the cgroup memwatch reads is the root one: 2026-09-26, the placement suite's
+"12.7 GiB" was the machine, its own peak 3.8 GiB). Rows logged before the own
+figure existed show `-` there. `TARGET` marks a tool whose worst run passed
+60 s or whose own peak passed 2 GiB: a candidate for a step-C profile (16h
+ledger §6 steps C and D).
 `--record` is memwatch's writer and `record()` the in-process one
 (site_fields' ES_TIMINGS=1 import timing), so the naming lives here only.
 """
@@ -96,7 +101,8 @@ def tool_of(argv: list[str]) -> tuple[str, list[str]]:
     return named[0] if named else ("?", [])
 
 
-def record(wall_s: float, start_mib: int, peak_mib: int, code: int, cwd: str, argv: list[str]) -> None:
+def record(wall_s: float, start_mib: int, peak_mib: int, code: int, cwd: str, argv: list[str],
+           own_mib: int | None = None) -> None:
     tool, args = tool_of(argv)
     try:
         rel = os.path.relpath(cwd, REPO)
@@ -106,6 +112,8 @@ def record(wall_s: float, start_mib: int, peak_mib: int, code: int, cwd: str, ar
            "args": args, "wallS": round(wall_s, 3), "startGiB": round(start_mib / 1024, 3),
            "peakAnonGiB": round(peak_mib / 1024, 3),
            "exit": code, "cwd": rel}
+    if own_mib is not None:
+        row["ownPeakGiB"] = round(own_mib / 1024, 3)
     path = log_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a") as f:
@@ -126,9 +134,16 @@ def load(path: Path) -> list[dict]:
     return rows
 
 
-def delta_of(r: dict) -> float:
-    """Peak minus the cgroup level at the start; clamped at 0 (others may free memory)."""
+def machine_delta_of(r: dict) -> float:
+    """Machine peak minus the machine level at the start; clamped at 0 (others may
+    free memory). Includes every concurrent job: never a per-job target."""
     return max(0.0, float(r.get("peakAnonGiB", 0)) - float(r.get("startGiB", 0)))
+
+
+def own_of(r: dict) -> float | None:
+    """The job's own process-tree peak, or None on a row logged before it existed."""
+    v = r.get("ownPeakGiB")
+    return None if v is None else float(v)
 
 
 def rank(rows: list[dict], now: datetime, days: float,
@@ -139,16 +154,18 @@ def rank(rows: list[dict], now: datetime, days: float,
         if r["_date"] < since:
             continue
         t = tools.setdefault(r["tool"], {"tool": r["tool"], "runs": 0, "total": 0.0, "worst": -1.0,
-                                         "maxDelta": 0.0, "worstArgs": ""})
-        wall, delta = float(r.get("wallS", 0)), delta_of(r)
+                                         "maxOwn": None, "machineDeltaGiB": 0.0, "worstArgs": ""})
+        wall, own = float(r.get("wallS", 0)), own_of(r)
         t["runs"] += 1
         t["total"] += wall
-        t["maxDelta"] = max(t["maxDelta"], delta)
+        t["machineDeltaGiB"] = max(t["machineDeltaGiB"], machine_delta_of(r))
+        if own is not None:
+            t["maxOwn"] = own if t["maxOwn"] is None else max(t["maxOwn"], own)
         if wall >= t["worst"]:
             t["worst"], t["worstArgs"] = wall, " ".join(map(str, r.get("args", [])))
     for t in tools.values():
         t["mean"] = t["total"] / t["runs"]
-        t["mark"] = "TARGET" if t["worst"] > SLOW_S or t["maxDelta"] > HEAVY_GIB else ""
+        t["mark"] = "TARGET" if t["worst"] > SLOW_S or (t["maxOwn"] or 0.0) > HEAVY_GIB else ""
     kept = [t for t in tools.values() if not t["tool"].startswith(tuple(exclude))]
     by_total = sorted(kept, key=lambda t: (-t["total"], t["tool"]))
     by_worst = sorted(tools.values(), key=lambda t: (-t["worst"], t["tool"]))
@@ -157,18 +174,22 @@ def rank(rows: list[dict], now: datetime, days: float,
 
 def table(title: str, rows: list[dict]) -> str:
     out = [title, f"{'tool':<40} {'runs':>5} {'total s':>9} {'mean s':>8} {'worst s':>8} "
-                  f"{'Δ GiB':>8}  {'mark':<6}  worst run args"]
+                  f"{'own GiB':>8} {'mach Δ':>8}  {'mark':<6}  worst run args"]
     for t in rows:
         args = t["worstArgs"] if len(t["worstArgs"]) <= 60 else t["worstArgs"][:57] + "..."
+        own = "-" if t["maxOwn"] is None else f"{t['maxOwn']:.2f}"
         out.append(f"{t['tool']:<40} {t['runs']:>5} {t['total']:>9.1f} {t['mean']:>8.1f} "
-                   f"{t['worst']:>8.1f} {t['maxDelta']:>8.2f}  {t['mark']:<6}  {args}")
+                   f"{t['worst']:>8.1f} {own:>8} {t['machineDeltaGiB']:>8.2f}  {t['mark']:<6}  {args}")
     return "\n".join(out)
 
 
 def main() -> int:
     if sys.argv[1:2] == ["--record"]:
         wall, start, peak, code, cwd, *argv = sys.argv[2:]
-        record(float(wall), int(start), int(peak), int(code), cwd, argv)
+        own = None
+        if argv[:1] == ["--own-mib"]:
+            own, argv = int(argv[1]), argv[2:]
+        record(float(wall), int(start), int(peak), int(code), cwd, argv, own_mib=own)
         return 0
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--days", type=float, default=7)
@@ -186,7 +207,8 @@ def main() -> int:
     exclude = tuple(p for p in (a.exclude if a.exclude is not None else ["npm."]) if p)
     by_total, by_worst = rank(rows, datetime.now(timezone.utc), a.days, exclude)
     print(f"{len(rows)} runs in {path}; window {a.days:g} days; "
-          f"TARGET = worst run > {SLOW_S:g} s or peak-minus-start > {HEAVY_GIB:g} GiB\n")
+          f"TARGET = worst run > {SLOW_S:g} s or own peak > {HEAVY_GIB:g} GiB "
+          f"(own = the job's process tree; mach Δ = the machine, every lane beside it)\n")
     note = f" (excluding {', '.join(exclude)})" if exclude else ""
     print(table("By total wall time" + note, by_total[:a.top]))
     print()
