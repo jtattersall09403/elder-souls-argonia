@@ -486,3 +486,7 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   - add one `addEmitter` per river, rapid, shore or waterfall, moved to the feature's nearest point;
   - add a `&audio=0` URL switch.
   The full checklist is the sound-prep lane's studio handoff, copied into `docs/phases/lanes/sound-prep-lane.md` § Handoffs. Owner: the 16k checklist row "Ambience and footstep surfaces" gates only the ambience zone as data (a socket, not a gate on this wiring); the wiring is Phase 12b's unless a slice takes it (apps/world-studio is Phase 16's while 16k runs). Done when: the studio at a marsh coordinate plays the night crickets and frogs, swaps to the day set at noon, drowns in rain in a downpour and muffles underwater; `stats()` stays within 4 beds + 4 emitters + 12 one-shots.
+
+- **`packages/game-core` `cellGating.test.ts` "brute-force … 200 random eyes" runs at ~5.99 s under four concurrent preflight gates against vitest's 5 s timeout (flaked 2026-09-26): give it an explicit timeout or fewer eyes.** Evidence: `tooling/.reports/orient-2026-09-26/placement-test-memory.md` and `/tmp/memprobe/preflight2.log`.
+
+- **`tooling/repo-standards/preflight_select`: a change to one `test:*` script line in package.json runs every gate; map a single-script change to that gate only (2026-09-26, memwatch lane).**
