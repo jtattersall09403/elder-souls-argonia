@@ -62,6 +62,18 @@
     "Shading.Mat",
     "l_Accessories02:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Flames:0.Mat": 0.5,
+    "Glow:0.Mat": 0.5,
+    "L2_Flames01:2.Mat": 0.5,
+    "L2_Flames01:3.Mat": 0.5,
+    "L2_Flames:0.Mat": 0.5,
+    "L2_Flames:1.Mat": 0.5,
+    "L2_Flames:2.Mat": 0.5
+   },
+   "decalMaterials": [
+    "Shading.Mat"
+   ],
    "designedSinkM": {
     "p25": 0.0353,
     "p50": 0.0641,
@@ -304,6 +316,12 @@
     "Handle.Mat",
     "Spout.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Cracks.Mat": 0.125
+   },
+   "decalMaterials": [
+    "Cracks.Mat"
+   ],
    "designedSinkM": {
     "p25": -0.0,
     "p50": -0.0,
@@ -363,6 +381,13 @@
    ],
    "materials": [
     "Smelter01Coal01:0.Mat",
+    "Smelter01Coal01:1.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Smelter01Coal01:0.Mat": 0.122,
+    "Smelter01Coal01:1.Mat": 0.122
+   },
+   "decalMaterials": [
     "Smelter01Coal01:1.Mat"
    ],
    "designedSinkM": {
@@ -489,6 +514,9 @@
     "TanningRack:1.Mat",
     "TanningRack:2.Mat"
    ],
+   "alphaMaskMaterials": {
+    "TanningRack:0.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.0013,
     "p50": -0.0013,
@@ -551,6 +579,9 @@
     "WRHerbDryingRack01:4.Mat",
     "WRHerbDryingRack01:7.Mat"
    ],
+   "alphaMaskMaterials": {
+    "WRHerbDryingRack01:4.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.0581,
     "p50": -0.0581,
@@ -672,6 +703,9 @@
     "L2_Net.Mat",
     "L2_Ropes02.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_Net.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 0.2915,
     "p50": 0.5178,
@@ -965,7 +999,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -1126,6 +1160,9 @@
     "Firewood:0.Mat",
     "Firewood:14.Mat"
    ],
+   "alphaMaskMaterials": {
+    "Firewood:14.Mat": 0.498
+   },
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0312,
@@ -1183,6 +1220,9 @@
     "Firewood:0.Mat.001",
     "Firewood:14.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "Firewood:14.Mat.001": 0.498
+   },
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0564,
@@ -1240,6 +1280,9 @@
     "Firewood:0.Mat.002",
     "Firewood:14.Mat.002"
    ],
+   "alphaMaskMaterials": {
+    "Firewood:14.Mat.002": 0.498
+   },
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0738,
@@ -1297,6 +1340,9 @@
     "FirewoodPileHuge01:0.Mat",
     "FirewoodPileHuge01:14.Mat"
    ],
+   "alphaMaskMaterials": {
+    "FirewoodPileHuge01:14.Mat": 0.498
+   },
    "designedSinkM": {
     "p25": 0.0,
     "p50": 0.0,
@@ -2348,7 +2394,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "plugin"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -2517,7 +2563,7 @@
     "slopeTermMPerDeg": null,
     "evidence": "policy-fallback"
    },
-   "anchorClass": "ground",
+   "anchorClass": "deck",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -2574,7 +2620,7 @@
     "slopeTermMPerDeg": -0.01856,
     "evidence": "plugin"
    },
-   "anchorClass": "deck",
+   "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
    "placement": {
     "schemaVersion": 1,
@@ -3311,6 +3357,9 @@
     "SawWaterWheel03:19.Mat",
     "SawWaterWheel03:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "SawWaterWheel03:19.Mat": 0.784
+   },
    "designedSinkM": {
     "p25": -3.7312,
     "p50": -3.7123,
@@ -3369,6 +3418,9 @@
     "SawWaterWheel02:19.Mat",
     "SawWaterWheel02:5.Mat"
    ],
+   "alphaMaskMaterials": {
+    "SawWaterWheel02:19.Mat": 0.784
+   },
    "designedSinkM": {
     "p25": -4.6466,
     "p50": -3.6382,
@@ -3436,6 +3488,14 @@
     "WalkwayCWallGate01:5 - L1_Posts:5.Mat",
     "WalkwayCWallGate01:6.Mat"
    ],
+   "alphaMaskMaterials": {
+    "L2_Rope:22.Mat": 0.502,
+    "WalkwayCWallGate01:19 - L1_Posts:19.Mat": 0.784,
+    "WalkwayCWallGate01:20.Mat": 0.784
+   },
+   "decalMaterials": [
+    "L2_Rope:22.Mat"
+   ],
    "designedSinkM": {
     "p25": -1.7731,
     "p50": -1.3659,
@@ -3502,6 +3562,14 @@
     "WalkwayCWallGate02:20.Mat",
     "WalkwayCWallGate02:5 - L1_Posts:5.Mat",
     "WalkwayCWallGate02:6.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "L2_Rope:22.Mat.001": 0.502,
+    "WalkwayCWallGate02:19 - L1_Posts:19.Mat": 0.784,
+    "WalkwayCWallGate02:20.Mat": 0.784
+   },
+   "decalMaterials": [
+    "L2_Rope:22.Mat.001"
    ],
    "designedSinkM": {
     "p25": -1.8207,
@@ -3636,6 +3704,7 @@
    },
    "anchorClass": "water",
    "anchorClassEvidence": "policy",
+   "designedWaterlineM": -0.5473,
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-origin",
@@ -3650,8 +3719,7 @@
    "undersideClosed": true,
    "undersideCoverage": 0.732,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 6.233,
-   "designedWaterlineM": -0.5473
+   "pivotAboveBaseM": 6.233
   },
   {
    "id": "vanilla:clutter/ingredients/saltpile",
@@ -3684,6 +3752,9 @@
     "SaltPile:2.Mat",
     "SaltPile:3.Mat"
    ],
+   "alphaMaskMaterials": {
+    "SaltPile:3.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.0423,
     "p50": -0.0423,
@@ -4648,6 +4719,11 @@
     "oven.Mat",
     "oven02.Mat"
    ],
+   "alphaMaskMaterials": {
+    "m_Flames:0.Mat": 0.5,
+    "m_Flames:1.Mat": 0.5,
+    "m_Glow.Mat": 0.5
+   },
    "collisionFrame": "pivot-yup-v3",
    "collisionBox": {
     "halfExtentsM": [
@@ -4933,6 +5009,9 @@
     "HagravenFence01:13.Mat",
     "HagravenFence01:20.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HagravenFence01:20.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.1546,
     "p50": -0.1546,
@@ -4995,6 +5074,9 @@
     "HagravenFence01:13.Mat.001",
     "HagravenFence01:20.Mat.001"
    ],
+   "alphaMaskMaterials": {
+    "HagravenFence01:20.Mat.001": 0.502
+   },
    "designedSinkM": {
     "p25": -0.1546,
     "p50": -0.1546,
@@ -5057,6 +5139,9 @@
     "HagravenFence02:13.Mat",
     "HagravenFence02:20.Mat"
    ],
+   "alphaMaskMaterials": {
+    "HagravenFence02:20.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": 0.08,
     "p50": 0.08,
@@ -5112,6 +5197,9 @@
    "materials": [
     "BeachGrassObj02:0.Mat"
    ],
+   "alphaMaskMaterials": {
+    "BeachGrassObj02:0.Mat": 0.502
+   },
    "designedSinkM": {
     "p25": -0.8565,
     "p50": -0.8565,
@@ -5216,6 +5304,239 @@
    "undersideCoverage": 0.89,
    "openBackYawDeg": null,
    "pivotAboveBaseM": 0.041
+  },
+  {
+   "id": "vanilla:clutter/woodfires/cookingstand01",
+   "node": "es|0cfbaea78a|anilla__clutter_woodfires_cookingstand01",
+   "category": "clutter",
+   "sizeM": [
+    1.035,
+    0.828,
+    0.939
+   ],
+   "originOffsetM": [
+    0.451,
+    -0.243,
+    -0.003
+   ],
+   "triangles": 1100,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "wrfireplaceclutter01.dds"
+   ],
+   "materials": [
+    "CookingStand01:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.003,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.427,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.003
+  },
+  {
+   "id": "vanilla:clutter/woodfires/spit01",
+   "node": "es|4887f2880f|vanilla__clutter_woodfires_spit01",
+   "category": "clutter",
+   "sizeM": [
+    0.61,
+    3.561,
+    1.588
+   ],
+   "originOffsetM": [
+    0.364,
+    1.786,
+    0.001
+   ],
+   "triangles": 1560,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "wrfireplaceclutter01.dds"
+   ],
+   "materials": [
+    "Spit:0 - L2_Details:0 - L1_Supports:0.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": 0.001,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.053,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.001
+  },
+  {
+   "id": "vanilla:clutter/imperial/impbrazier01",
+   "node": "es|d8984da44e|vanilla__clutter_imperial_impbrazier01",
+   "category": "clutter",
+   "sizeM": [
+    1.054,
+    1.054,
+    0.473
+   ],
+   "originOffsetM": [
+    0.527,
+    0.527,
+    -0.0
+   ],
+   "triangles": 2228,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "imperialwallsconce01.dds"
+   ],
+   "materials": [
+    "ImpBrazier01:11.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.021,
+    "p50": 0.0427,
+    "p75": 0.0692,
+    "n": 13,
+    "slopeTermMPerDeg": -0.00381,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.945,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
+  },
+  {
+   "id": "vanilla:clutter/signage/roadsigns/roadsignpost",
+   "node": "es|b4063bca72|__clutter_signage_roadsigns_roadsignpost",
+   "category": "clutter",
+   "sizeM": [
+    0.256,
+    0.244,
+    3.641
+   ],
+   "originOffsetM": [
+    0.128,
+    0.122,
+    -0.0
+   ],
+   "triangles": 68,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "roadsignscities01.dds"
+   ],
+   "materials": [
+    "RoadSignPost:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionBox": {
+    "halfExtentsM": [
+     0.113,
+     1.602,
+     0.107
+    ],
+    "centreOffsetM": [
+     -0.0,
+     1.821,
+     -0.0
+    ]
+   },
+   "designedSinkM": {
+    "p25": 0.08,
+    "p50": 0.08,
+    "p75": 0.08,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-origin",
+    "groundContactOffsetM": -0.0,
+    "buryCapM": 0.25,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "direct",
+     "fitPolicy": "authored placement-policies.json policy direct: Reviewed direct-ground policy matching the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": false,
+   "undersideCoverage": 0.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": -0.0
   },
   {
    "id": "composite:works/stockade-scaffold-2stage",
@@ -5348,7 +5669,7 @@
    "pivotAboveBaseM": -0.0
   }
  ],
- "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\works-v1.glb",
+ "outputGlb": "Z:\\workspaces\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\works-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
   "textures/_byoh/clutter/food/dumpling01.dds",
@@ -5363,8 +5684,8 @@
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
  },
  "alphaModes": {
-  "MASK": 0,
-  "OPAQUE": 238
+  "MASK": 33,
+  "OPAQUE": 209
  },
  "trunkSolids": {
   "fitter": "pipeline.trunk_solids",
@@ -5397,16 +5718,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 35077008,
-  "bytesAfter": 17159744,
-  "images": 71,
-  "imageBytesAfter": 14991158,
+  "bytesBefore": 36502416,
+  "bytesAfter": 17748936,
+  "images": 74,
+  "imageBytesAfter": 15455539,
   "warnings": [],
-  "sha256": "46fb77039dc921f0964d6db8d2f0843c0b36284ac0a8860e2b471569910a5f44",
+  "sha256": "c47e1ff9ec3765edfad864bcddd062ca9e7bd70da90f8f9e169d83a34ad97ee4",
   "sidecarBytes": {
-   "connectors": 60705,
-   "footprints": 108713,
-   "interiors": 49338
+   "connectors": 63345,
+   "footprints": 113190,
+   "interiors": 50822
   }
  }
 }

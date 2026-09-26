@@ -859,6 +859,18 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (1.2 m\u00b2 plan, 0.5 m tall)"
   },
+  "vanilla:clutter/imperial/impbrazier01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.47,
+   "interior": "none",
+   "planAreaM2": 0.82,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.8 m\u00b2 plan, 0.5 m tall)"
+  },
   "vanilla:clutter/ingredients/saltpile": {
    "category": "clutter",
    "entrance": null,
@@ -897,6 +909,18 @@
    "roofOverhead": false,
    "sizeClass": "small",
    "why": "category 'clutter' is never a building"
+  },
+  "vanilla:clutter/signage/roadsigns/roadsignpost": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 3.64,
+   "interior": "none",
+   "planAreaM2": 0.05,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.1 m\u00b2 plan, 3.6 m tall)"
   },
   "vanilla:clutter/smelter/coal01": {
    "category": "clutter",
@@ -1300,6 +1324,30 @@
    "sizeClass": "small",
    "why": "too small to hold an interior (6.4 m\u00b2 plan, 0.8 m tall)"
   },
+  "vanilla:clutter/woodfires/cookingstand01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 0.94,
+   "interior": "none",
+   "planAreaM2": 0.85,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.8 m\u00b2 plan, 0.9 m tall)"
+  },
+  "vanilla:clutter/woodfires/spit01": {
+   "category": "clutter",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": null,
+   "heightM": 1.59,
+   "interior": "none",
+   "planAreaM2": 2.07,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (2.1 m\u00b2 plan, 1.6 m tall)"
+  },
   "vanilla:dungeons/mines/clutter/genericwell01": {
    "category": "dungeon-kit",
    "entrance": null,
@@ -1527,6 +1575,7 @@
   "entranceRank": [
    "esp-door",
    "assembly",
+   "composite-leaf",
    "door-piece",
    "leaf",
    "opening",
@@ -1543,5 +1592,5 @@
    "small": 40.0
   }
  },
- "schemaVersion": 1
+ "schemaVersion": 2
 }

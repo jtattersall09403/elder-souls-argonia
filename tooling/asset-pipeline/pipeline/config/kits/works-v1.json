@@ -28,7 +28,9 @@
   "reads": "Documented substitutions this kit is the answer to: kiln = `smelter01` + `smelter01coal01` + firewood stacks + drying racks; sluice gate = `walkwaycwallgate01/02` set in a compiler-cut channel; slipway/hull-on-stocks = stockade scaffold + `minewoodbeam` rollers + dock steps, with an SBoT hull raised on them (hull comes from the boat pools, not this kit); winding gear = mine scaffold and a shored tunnel mouth; saltern = terrain pans dressed with `saltpile`, baskets, rakes (`pitchfork01`), `shovel01` and a `horsetrough01` store; water-wheel works = `lumbermill01waterwheel01/02`.",
   "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in works-v1.kit.json.",
   "notice-board": "`bmv:advertising_board` is freestanding and self-supporting (two posts, shingled roof, papers nailed to the pane by its author). Place it standing on its own base, pane facing the approach, at the head of a quay, stage rail or toll post; never mount it on a wall or fuse it to a rail — nothing authored it to snap. Pane centre sits ~1.6 m up, i.e. eye height, which is what makes it readable at arm's length.",
-  "assemblies": "Composites in this kit: `composite:works/stockade-scaffold-2stage` and `-3stage` freeze the one rule the vanilla scaffold family actually has — a base carries the next stage 2.73 m above itself, unrotated (template vanilla:t0019, 28 placements). Nothing else here is composited: bridges, ramps, stairs and props join platforms, and what they join is a site decision. Every single piece stays in the kit."
+  "assemblies": "Composites in this kit: `composite:works/stockade-scaffold-2stage` and `-3stage` freeze the one rule the vanilla scaffold family actually has — a base carries the next stage 2.73 m above itself, unrotated (template vanilla:t0019, 28 placements). Nothing else here is composited: bridges, ramps, stairs and props join platforms, and what they join is a site decision. Every single piece stays in the kit.",
+  "fire": "`cookingstand01` (a pot stand), `spit01` (a spit frame) and `impbrazier01` (a low brazier bowl) are the COLD bodies of a cook fire and a brazier: every one is a single lighting-shader shape with no flame. Vanilla lights them with separate pieces the kit pipeline cannot render yet: `campfire01burning` carries its flames and heat plane as effect-shader cards and a particle system (build_kit exports those cards opaque or masked, never additive), and the light itself is a LIGH record the plugin places. Until the kit build carries effect shaders and the runtime lights them, these stand unlit (16k kits lane, 2026-09-26).",
+  "road-sign": "`roadsignpost` is vanilla's bare road-sign post (0.26 x 0.24 x 3.64 m; plugin: every directional board in Skyrim hangs on it, sourcing log § signs on posts). Every vanilla board is lettered with a Skyrim town, so no board ships here: a Black Marsh board is a recorded sourcing gap and the post stands alone until one is sourced."
  },
  "assets": [
   {
@@ -288,6 +290,19 @@
   },
   {
    "asset": "bmv:advertising_board"
+  },
+  {
+   "asset": "vanilla:clutter/woodfires/cookingstand01"
+  },
+  {
+   "asset": "vanilla:clutter/woodfires/spit01"
+  },
+  {
+   "asset": "vanilla:clutter/imperial/impbrazier01"
+  },
+  {
+   "asset": "vanilla:clutter/signage/roadsigns/roadsignpost",
+   "collision": "convex"
   },
   {
    "asset": "composite:works/stockade-scaffold-2stage",
