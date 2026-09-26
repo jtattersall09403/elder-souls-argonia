@@ -191,7 +191,7 @@ turn-wasters left. The owner ruled the same day:
     it as input and takes or rejects each item in the next brief; the
     decision and its record stay Fable's.
 
-## Addendum 2026-09-26 (owner): rule 17, exploration is comprehensive and funnelled
+## Addendum 2026-09-26: rule 17, exploration is comprehensive and funnelled; rules 18-19
 
 17. Any explore, audit, sourcing or "what exists for X" task covers the full
     breadth that could bear on it (docs folders and READMEs, the decisions
@@ -207,6 +207,17 @@ turn-wasters left. The owner ruled the same day:
     folders listed); `.claude/agents/research.md` gains the same line and the
     one-agent-per-area split. The UserPromptSubmit line in
     `.claude/settings.json` reminds the planner every turn.
+18. **2026-09-26: an agent may stage its own new files.** A pathspec commit
+    of a new file needs it staged, which the agents' "never `git add`" rule
+    forbade. `git add -- <path>` is allowed only for files you created in this
+    brief, immediately before the pathspec commit that includes them; never
+    `git add -A`, `.` or a directory. Text in `.claude/agents/deliver.md` and
+    `run.md`.
+19. **2026-09-26 (owner): Opus 5.5 `deliver` agents hold creative control
+    over headless Blender work** (shot choice beyond `--shots auto`, cameras,
+    lighting, render-script improvements) in place builds and all future
+    builds; Fable's brief fixes the layout and the bars, Opus decides how to
+    look at it. Standing note in `.claude/agents/deliver.md`.
 
 ## Not done here
 

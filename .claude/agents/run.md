@@ -15,6 +15,9 @@ the result tersely. The caller's context is expensive; yours is cheap.
 - Another agent may be working in the same tree. Never `git add`, `commit`,
   `stash`, `checkout --` or `reset`; edit only files the brief names as
   yours.
+- Exception: `git add -- <path>` is allowed only for files you created in this brief,
+  immediately before the pathspec commit that includes them; never
+  `git add -A`, `.` or a directory (decision 0079 rule 18).
 - Report: PASS/FAIL per command; for a failure, the failing line(s) and the
   10 lines around them, no more; the numbers the brief asked for, measured
   not restated. Output cap: 60 lines unless the brief asks for more.

@@ -134,3 +134,54 @@ def test_second_run_exits_zero_while_the_lock_is_held(tmp_path):
         r = run(boot, env)
     assert r.returncode == 0 and "already running" in r.stdout
     assert not (tmp_path / "r2" / "elder-souls-vault").exists()
+
+
+# Planted keys are built by concatenation so no key-shaped literal sits in this
+# file or in the transcript of the agent that wrote it.
+PLANTED = {
+    "nexus.jsonl": '{"command":"curl -H \\"apikey: ' + "Zx9" * 14 + '\\""}',
+    "nexus-env.jsonl": "NEXUS_API" + "_KEY=" + "Zx9" * 14,
+    "aws.jsonl": "id " + "AKIA" + "Q7" * 8,
+    "gh.jsonl": "token " + "ghp" + "_" + "a1" * 18,
+    "ant.jsonl": "key " + "sk-" + "ant-" + "api03" * 5,
+    "pem.jsonl": "-----BEGIN " + "RSA PRIVATE KEY-----\nMIIE",
+}
+CLEAN = ["the `apikey:` header, api.nexusmods.com", "rules mention sk-" + "ant- and ghp" + "_ by name",
+         "-----BEGIN .* PRIVATE KEY----- as a pattern", "sha256 " + "ab" * 32]
+
+
+def scan(tmp_path, files):
+    for name, text in files.items():
+        (tmp_path / name).write_text(text)
+    lst = tmp_path / "list"
+    lst.write_bytes(b"\0".join(n.encode() for n in files) + b"\0")
+    return subprocess.run(["bash", "-c", f"source {HERE / 'lib.sh'}; cd {tmp_path}; es_scan_secrets {lst}"],
+                          capture_output=True, text=True)
+
+
+def test_scan_names_every_planted_key_file_never_the_value(tmp_path):
+    r = scan(tmp_path, {**PLANTED, "clean.jsonl": "\n".join(CLEAN)})
+    assert r.returncode == 1
+    named = sorted(l.split(": ", 1)[1] for l in r.stderr.splitlines())
+    assert named == sorted(PLANTED)
+    for text in PLANTED.values():
+        assert text[-12:] not in r.stderr and text[-12:] not in r.stdout
+
+
+def test_scan_passes_mentions_of_the_shapes(tmp_path):
+    r = scan(tmp_path, {f"c{i}.jsonl": t for i, t in enumerate(CLEAN)})
+    assert r.returncode == 0, r.stderr
+
+
+def test_transcripts_part_with_a_key_is_refused(tmp_path):
+    dev, repo, boot, mods, env = make_env(tmp_path)
+    key = str(repo.resolve()).replace("/", "-").replace(".", "-")
+    proj = tmp_path / "no-claude" / "projects" / key
+    proj.mkdir(parents=True)
+    (proj / "s.jsonl").write_text(PLANTED["gh.jsonl"])
+    r = run(boot, env)
+    assert "failures ['claude-transcripts']" in r.stdout, r.stdout + r.stderr
+    out = r.stdout + r.stderr + "".join(p.read_text() for p in (repo / "tooling" / ".reports" / "backup").glob("*.log"))
+    assert "key-shaped text in: projects/" in out and "refuse claude-transcripts" in out, out
+    assert PLANTED["gh.jsonl"][-12:] not in out
+    assert not list((tmp_path / "r2").rglob("claude-transcripts.tar"))

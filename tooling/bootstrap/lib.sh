@@ -22,6 +22,8 @@
 #   es_drop_secrets          NUL path list on stdin -> the same list without any
 #                            path ES_SECRET_DENY matches (each drop said on
 #                            stderr): secrets never reach a tar or the bucket
+#   es_scan_secrets          NUL path list file -> exit 1 naming the files that
+#                            hold key-shaped text (never the values)
 
 ES_ARCHIVE_GLOBS=('*.zip' '*.7z' '*.rar')
 # Paths never uploaded, whatever part lists them (ERE over a tar entry path):
@@ -38,6 +40,35 @@ for p in sys.stdin.buffer.read().split(b"\0"):
     if deny.search(p):
         sys.stderr.write("secret path left out of the snapshot: %s\n" % p.decode(errors="replace")); continue
     sys.stdout.buffer.write(p + b"\0")' "$ES_SECRET_DENY"
+}
+# es_scan_secrets <filelist>: NUL path list (relative to the cwd) -> exit 1 and
+# the names of the files holding key-shaped text on stderr (never the values),
+# else exit 0 (an unreadable file counts as a hit). The shapes: a 40+
+# character token after `apikey`/`api_key` (the Nexus key), an AWS access key id, a GitHub token, an Anthropic key, a PEM private
+# key. snapshot-vault.sh runs it on the claude-transcripts part and refuses
+# that upload on any hit (2026-09-26).
+es_scan_secrets() {
+  python3 - "$1" <<'PY'
+import re, sys
+shapes = re.compile(rb"(?i:api_?key)[\\\"':= ]{1,8}[A-Za-z0-9+/=\-]{40,}"
+                    rb"|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}|sk-ant-[A-Za-z0-9_\-]{20,}"
+                    rb"|-----BEGIN [A-Z0-9 ]*PRIVATE KEY-----")
+hits = []
+for p in open(sys.argv[1], "rb").read().split(b"\0"):
+    if not p:
+        continue
+    try:
+        with open(p, "rb") as f:
+            if shapes.search(f.read()):
+                hits.append(p.decode(errors="replace"))
+    except (IsADirectoryError, FileNotFoundError):
+        continue
+    except OSError:
+        hits.append(p.decode(errors="replace") + " (unreadable, not scanned)")
+for h in hits:
+    sys.stderr.write("key-shaped text in: %s\n" % h)
+sys.exit(1 if hits else 0)
+PY
 }
 # sha256 of no lines at all: a part with no files of its own under its root.
 # shellcheck disable=SC2034  # read by the scripts that source this file

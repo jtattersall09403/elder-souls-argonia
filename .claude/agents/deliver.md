@@ -25,6 +25,9 @@ Rules of the road:
 - Another agent may be working in the same tree. Never `git add`, `commit`,
   `stash`, `checkout --` or `reset`; edit only the files the brief names as
   yours; never touch files it names as someone else's.
+- Exception: `git add -- <path>` is allowed only for files you created in this brief,
+  immediately before the pathspec commit that includes them; never
+  `git add -A`, `.` or a directory (decision 0079 rule 18).
 - Verify with the tools the brief names and report the actual numbers and
   the actual test output. Never restate a claim you did not measure.
 - Fill a sourcing gap you find in the same task (CLAUDE.md sourcing rule),
@@ -32,6 +35,11 @@ Rules of the road:
 - Player-visible or world-record prose goes through the `text-review` skill
   in a separate agent; say in your report whether that ran.
 - Report: what changed (file:line), what was measured, what failed.
+- Headless Blender (owner 2026-09-26, decision 0079 rule 19): Opus 5.5
+  `deliver` agents hold creative control over headless Blender work (shot
+  choice beyond `--shots auto`, cameras, lighting, render-script
+  improvements) in place builds and all future builds; Fable's brief fixes
+  the layout and the bars, Opus decides how to look at it.
 
 How to write the report (the caller re-reads it on every later turn, so
 each line is paid for many times; owner 2026-09-21):

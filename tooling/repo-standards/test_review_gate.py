@@ -42,6 +42,64 @@ def test_fires_through_job_guard_with_its_pathspec():
     assert is_preflight_command("bash tooling/repo-standards/job_guard.sh kits -- python3 build_kit.py x") is False
 
 
+# Every form an agent has typed or may type (review_gate.is_preflight_command,
+# 2026-09-26): the preflight agent's `timeout 600 npm run preflight -- --paths`
+# slipped past the old matcher (8 runs in the transcripts), as did memwatch,
+# `rtk run`, `npm --prefix` and a subshell.
+WRAPPED = [
+    "timeout 600 npm run preflight -- --paths a b",
+    "cd /workspaces/elder-souls-argonia; timeout 590 npm run preflight -- --paths a b",
+    "timeout -k 10 600 npm run preflight -- --paths a b 2>&1 | tail -40",
+    "npm run preflight --paths a b",
+    "npm run preflight -- --runner",
+    "npx npm run preflight -- --paths a b",
+    "npm --prefix /workspaces/elder-souls-argonia run preflight -- --paths a b",
+    "npm run-script preflight -- --paths a b",
+    "npm --silent run preflight -- --paths a b",
+    "env FOO=1 npm run preflight -- --paths a b",
+    "FOO=1 nice -n 5 npm run preflight -- --paths a b",
+    "(npm run preflight -- --paths a b) 2>&1 | tail -40",
+    "rtk run npm run preflight -- --paths a b",
+    "rtk proxy npm run preflight -- --paths a b",
+    "tooling/repo-standards/memwatch.sh npm run preflight -- --paths a b > /tmp/p.log 2>&1",
+    "cd tooling && timeout 600 npm run preflight -- --paths a b",
+    "nohup time npm run preflight -- --paths a b",
+    "npx -p npm npm run preflight -- --paths a b",
+]
+
+
+@pytest.mark.parametrize("cmd", ['npm run preflight -- --paths $(git diff --name-only)',
+                                 'npm run preflight -- --paths $P', 'npm run preflight -- --paths `cat l`'])
+def test_computed_pathspec_reviews_the_whole_tree(cmd):
+    from review_gate import preflight_paths
+    assert is_preflight_command(cmd) is True
+    assert preflight_paths(cmd) is None
+
+
+@pytest.mark.parametrize("cmd,paths", [('npm run preflight -- --paths a b; echo "exit $?"', ["a", "b"]),
+                                       ("npm run preflight -- --paths a b 2>&1 | tee $LOG", ["a", "b"]),
+                                       ("npm run preflight -- --paths a 3 > p.log", ["a", "3"]),
+                                       ("npm run preflight -- --paths a 2> /tmp/x", ["a"])])
+def test_fixed_pathspec_survives_what_follows_it(cmd, paths):
+    from review_gate import preflight_paths
+    assert preflight_paths(cmd) == paths
+
+
+
+@pytest.mark.parametrize("cmd", WRAPPED)
+def test_fires_on_every_wrapped_form_with_its_pathspec(cmd):
+    from review_gate import preflight_paths
+    assert is_preflight_command(cmd) is True
+    if "--paths" in cmd:
+        assert preflight_paths(cmd) == ["a", "b"]
+
+
+@pytest.mark.parametrize("cmd", ["timeout 600 echo preflight", "rtk grep preflight tooling/",
+                                 "timeout 600 npm run test -- preflight", "sudo tail /tmp/preflight.log"])
+def test_wrappers_do_not_make_a_mention_fire(cmd):
+    assert is_preflight_command(cmd) is False
+
+
 @pytest.mark.parametrize("cmd", POSITIVE)
 def test_fires(cmd):
     assert is_preflight_command(cmd) is True

@@ -116,29 +116,74 @@ def is_preflight_command(cmd: str) -> bool:
         lines.append(line)
     text = "\n".join(lines)
     text = re.sub(r"'[^']*'|\"[^\"]*\"", " ", text)
-    for seg in re.split(r"&&|\|\||[;|\n]", text):
-        toks = seg.split()
-        while toks and re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", toks[0]):
-            toks.pop(0)
-        if not toks:
-            continue
-        if toks[0] == "npm" and len(toks) > 2 and toks[1] == "run" and toks[2].startswith("preflight"):
-            return True
-        if toks[0] == "npx" and any(t == "preflight" or t.startswith("preflight") for t in toks[1:]):
-            return True
-        if any(os.path.basename(t) in ("preflight.mjs", "preflight.py") for t in toks[:2]):
+    for seg in re.split(r"&&|\|\||[;|\n()]", text):
+        if _runs_preflight(seg.split()):
             return True
     return False
 
 
+# Commands that run the rest of their line as a command: {name: options that
+# take a value}. `timeout` also takes its DURATION before the command.
+_WRAPPERS = {"timeout": {"-s", "--signal", "-k", "--kill-after"}, "env": {"-u", "--unset", "-C", "--chdir"},
+             "nice": {"-n", "--adjustment"}, "nohup": set(), "time": set(), "command": set(),
+             "exec": set(), "sudo": {"-u", "-g", "-C", "-D"}, "stdbuf": {"-i", "-o", "-e"},
+             "memwatch.sh": set()}
+# npm options before the subcommand that take a value.
+_NPM_VALUE_OPTS = {"--prefix", "-C", "-w", "--workspace", "--loglevel", "--userconfig"}
+
+
+def _strip_wrappers(toks):
+    """`toks` with leading env assignments and wrapper commands removed
+    (`timeout 600`, `env X=1`, `nice -n 5`, `rtk run`, `.../memwatch.sh`, ...)."""
+    toks = list(toks)
+    while toks:
+        if re.match(r"^[A-Za-z_][A-Za-z0-9_]*=", toks[0]):
+            toks.pop(0); continue
+        name = os.path.basename(toks[0])
+        if name == "rtk" and len(toks) > 1 and toks[1] in ("run", "proxy"):
+            toks = toks[2:]; continue
+        if name not in _WRAPPERS:
+            break
+        value_opts, toks = _WRAPPERS[name], toks[1:]
+        while toks and toks[0].startswith("-"):
+            opt = toks.pop(0)
+            if opt in value_opts and toks:
+                toks.pop(0)
+        if name == "timeout" and toks:
+            toks.pop(0)
+    return toks
+
+
+def _runs_preflight(toks) -> bool:
+    toks = _strip_wrappers(toks)
+    if not toks:
+        return False
+    if toks[0] == "npx":
+        rest, i = [], 1
+        while i < len(toks):
+            if toks[i].startswith("-"):
+                i += 2 if toks[i] in ("-p", "--package", "-c", "--call") else 1
+                continue
+            rest.append(toks[i]); i += 1
+        rest = _strip_wrappers(rest)
+        return bool(rest) and (rest[0].startswith("preflight") or _runs_preflight(rest))
+    if toks[0] == "npm":
+        i = 1
+        while i < len(toks) and toks[i].startswith("-"):
+            i += 2 if toks[i] in _NPM_VALUE_OPTS else 1
+        return (len(toks) > i + 1 and toks[i] in ("run", "run-script", "rum", "urn")
+                and toks[i + 1].startswith("preflight"))
+    return any(os.path.basename(t) in ("preflight.mjs", "preflight.py") for t in toks[:2])
+
+
 def _segments(cmd: str):
     """Shell-token lists of each simple command in `cmd` (quotes kept as one token)."""
-    lex = shlex.shlex(cmd or "", posix=True, punctuation_chars=";&|\n")
+    lex = shlex.shlex(cmd or "", posix=True, punctuation_chars=";&|\n()")
     lex.whitespace = " \t\r"
     lex.whitespace_split = True
     segs, cur = [], []
     for t in lex:
-        if t and set(t) <= set(";&|\n"):
+        if t and set(t) <= set(";&|\n()"):
             segs.append(cur); cur = []
         else:
             cur.append(t)
@@ -153,6 +198,13 @@ def preflight_paths(cmd: str):
     that cannot be tokenised falls back to None (whole tree, the stricter review).
     """
     cmd = _unwrap_job_guard(cmd)
+    # A pathspec the shell computes (`$(git diff ...)`, `$P`, backticks) cannot
+    # be read here: review the whole tree rather than a guessed subset.
+    # Redirections go first (` 2>&1`, ` > p.log`: never paths); the computed
+    # check reads only the preflight command itself, not what follows it.
+    cmd = re.sub(r"\s\d*(?:>>?|<)(?:&\d+|\s*[^\s;&|]+)", " ", cmd)
+    if "--paths" in cmd and re.search(r"[$`]", re.split(r"[;|&\n]", cmd.split("--paths", 1)[1])[0]):
+        return None
     try:
         segs = _segments(cmd)
     except ValueError:
