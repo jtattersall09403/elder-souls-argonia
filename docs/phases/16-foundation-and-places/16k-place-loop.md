@@ -13,15 +13,71 @@ their items are this loop's backlog, under their original numbers.
 owner's reply and republishes for the next walk. A slice spans as many
 walks as it needs; it closes only on the owner's "looks right".
 
-## Starting state (2026-09-25 evening, after slice 1a/1b; the closing agent of each slice replaces this section)
+## Starting state (2026-09-26, fix round 4: Claywater rebuilt under 0102 and 0103; the closing agent of each slice replaces this section)
 
-- HEAD 1f5ab7e3. Slice 1a (yard close) and 1b (bars, skill, tooling, docs) are DONE and committed: decision [0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) is the architecture; the `place-build` skill (procedure, `references/design-index.md`, `lessons.md` seeded with 46 rows = 16i item 0, `reader-checklist.md`, `types/01-road-station.md`) is what "deliver 16k slice 1c" runs; `wb.py apply LAYOUT.json` / `replay` / `render --shots auto` and `render_blueprint --layout` exist (yard B: apply 9.7 s, plan render 2.7 s, one render round 205 s); `export_settlement_bundle --places`, `accepted-places.json` + the freeze gate, `breadth-bars.json` + `culture-kits.json`, standard 13 watches the workbench and the skill, standard 15's research-index gate fixed (it could not fail).
-- Claywater Station's record is corrected and text-reviewed (culture imperial + secondaryCultures [argonian]; `vanilla-farmhouse` + farm fence + `bmv-round-huts`; D3; no ferry: the frozen lanes reach no place from its landing, boats pulled up; both roster NPCs have sockets). Site dossier and design brief NOT yet written: that is step 0–1 of slice 1c.
-- Yard: proving grounds A and B republished, every check-in 1–3 defect a gate, yard B's run float fixed by the new `settlement-pad` patch kind (item 13, minimal). Collider budget is derived at export (ceiling 200).
-- Known reds at HEAD: standard 6 `vault_inventory.py:559/563` is allowlisted (green); `test_interiors_index` green after the six KotM huts became `promised`. No full preflight was run after the lanes (owner 2026-09-25: a green board is for the next agent); slice 1c's first scoped preflight shows what is real.
-- Queued owner call (ask in the first walk packet): 12 lived-in records sit one danger band beyond 97 A7 because `macro_plot.py:1182/:1982` relax by +1 (re-plot or amend A7). Carried rows added today: KotM per-kit miners cannot write records yet (lane E rec 1); the navmesh chunk has no pickup line (PROGRESS:41); report-mode gate rows are printed, not yet queued to the backlog automatically.
-- Per-kit mining on demand: `mine_mounts --assets` prints but writes nothing and `mine_designed_sink` has no per-kit selector; the first slice needing a new kit fixes that (speed item S3).
-- Slice 1c step owners (0100 dec. 8): Fable writes the design brief and judges reader findings; a `deliver` agent authors the layout, runs apply/plan/render rounds, exports, publishes `--places place.imperial-fringe.claywater-station`, writes the walk packet.
+- **Claywater Station** (`place.imperial-fringe.claywater-station`) is
+  built and published (1a329fdf, f0c7f5a6; the 0101 rules). Walk packet 1
+  was withdrawn on the owner's feedback (issue #1). The place is being
+  rebuilt under [0102](../../decisions/0102-a-place-carries-its-own-ground-and-hands-over-nothing-it-can-check-itself.md)
+  (the place carries its own ground as a runtime overlay; every
+  measurable check is a `wb.py check` rule; no unfinished work in a
+  hand-off) and [0103](../../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md)
+  (shells chosen for their interiors; tier A cells copied verbatim and
+  enterable in the studio; every promise a placed socket). The procedure
+  is in the place-build skill (steps 1, 2, 5, 6 and
+  `references/doors-interiors-sockets.md`).
+- **Lanes and their reports** (`tooling/.reports/16k/`, gitignored; the
+  work is uncommitted in the tree at writing, commit by pathspec):
+  - fix round 2, rounds 1–3: terrain (`fix2-terrain.md`,
+    `fix2-terrain-r2.md`: the pad and clearance overlay,
+    `worldgen/pad_overlay.py`, `game-core/src/terrain/heightOverlays.ts`,
+    `vegetation/clearanceFilter.ts`, the bundle's
+    `province/settlements/ground-overlays.json` sidecar); workbench
+    (`fix2-workbench.md`, `-r2`, `-r3`: the 0102 rules in
+    `workbench/rules.py`, `walkRoutes` on export; Claywater's last apply
+    had 28 check failures and 2 compile errors); kits (`fix2-kits.md`,
+    `-r2`, `-r3`: texture tiers and the untextured-material gate); effects
+    (`fix2-effects-r3.md`: chimney smoke columns; the farmhouse shells
+    carry no chimney); docs (`fix2-docs.md`); the layout brief
+    (`fix2-layout-brief.md`);
+  - orientation for 0103: `orient-interiors.md`, `orient-sockets.md`
+    (and the other `orient-*.md`);
+  - fix round 4: one report per lane, `r4-<lane>.md` (this brief's docs
+    lane is `r4-docs.md`). In the tree at writing: the interior runtime
+    (`packages/game-core/src/interior/`, the studio's `InteriorDoors.tsx`),
+    `worldgen/export_interior_bundle.py`, the claim in
+    `blueprint_interiors.py --claim`, the `interior-farmhouse-v1` kit. The
+    socket vocabulary record (`world/sources/vocab/socket-vocabulary.json`)
+    does not exist yet.
+- **Open for the rebuild** (the walk-1 list; the lanes above worked on
+  most of it, read their reports): the woven fence run fw1–fw3 joints;
+  B4 `kotm:argonia/mudhuts/mudhut01` untextured; the dropped yard pieces
+  (sty-cart, al-rack1, ahy-table, b1-nest, two chimes); a lit entrance at
+  every door (97 C16) and the B1/B2 kit reading (reader Iso 27); the plain
+  sign board is an OPEN sourcing row (ca311b6e); Blender in the shared
+  devcontainer image; the export should refuse a parentless wall-anchored
+  piece.
+- **Carried from slices 1a/1b:** KotM per-kit miners cannot write
+  records yet; `mine_mounts --assets` prints but writes nothing and
+  `mine_designed_sink` has no per-kit selector (speed item S3); the
+  navmesh chunk has no pickup line; report-mode gate rows are printed,
+  not yet queued to the backlog automatically.
+- **Known reds:** `test_boat_stations_are_channelled_or_explained`
+  (backlog row 479, in `known_red.py`); the full preflight has not run
+  since the slice-1c lanes.
+- **Lessons this slice (write the rows at the close):** the ground
+  refused every brief shell until pads existed for buildings (item 13 was
+  the blocker, not the design); a wrong number (13 GiB) held the slot
+  count at 3 for a day; a measured-then-ruled loop (agent measures legal
+  poses, planner rules) worked, but Opus making design calls through
+  nested agents did not (0079); walk packet 1 handed the owner measurable
+  checks and unfinished work (0102).
+- **Owner calls:** none open. The halves-along-the-road reading is a
+  look-and-feel line in walk packet 2.
+- **Next step:** the layout rebuild (design brief § Interiors and
+  § Sockets, the step-1 inner loop to zero `check` failures and zero
+  reader NOs, the interior bundles and the socket gates), then walk
+  packet 2 (`tooling/.reports/16k/claywater-walk-2/`).
 
 ## Read (fresh agent: this is your whole map)
 
@@ -32,10 +88,11 @@ walks as it needs; it closes only on the owner's "looks right".
   `modular-runs`, `composite-author`, `text-review`.
 - [world 97](../../world/97-placement-principles.md) Parts A, C7 and F;
   [quests 20](../../quests/20-world-provisions.md) for the slice's place.
-- The carried item's own text in [16h](16h-settlement-runtime-and-kit-qa.md)
-  § Deliver part 2, [16i](16i-exemplars-end-to-end.md) § Deliver or
-  [16j](16j-rollout-skill-and-trial-packet.md) § Deliver, only when the
-  slice takes that item.
+- § Carried backlog below, only the items the slice takes (the single
+  copy of the retired briefs' live items), and
+  [0102](../../decisions/0102-a-place-carries-its-own-ground-and-hands-over-nothing-it-can-check-itself.md)
+  and [0103](../../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md)
+  in full.
 
 ## The loop (every slice)
 
@@ -49,30 +106,50 @@ walks as it needs; it closes only on the owner's "looks right".
    test, before design. Then write the **design brief**
    (`world/sources/blueprints/<place>.design.md`: the causal answer for
    every building, enclosure, path, light, water edge and dressing group,
-   each with its kit piece and its lore or rule pointer) and the **layout
+   each with its kit piece and its lore or rule pointer; § Interiors: the
+   tier per door with its chosen cell and why, shells chosen for their
+   interiors, 0103 decisions 1–2; § Sockets: one row per socket, 0103
+   decisions 5–6) and the **layout
    file** (`<place>.layout.json`, the ordered workbench operations for the
-   whole place). `wb.py apply <layout>` rebuilds the scene, runs `check`
-   and `compile` and writes one summary. **The plan is read first:** the
+   whole place, `socket` ops included). `wb.py apply <layout>` rebuilds
+   the scene, runs `check` and `compile` and writes one summary;
+   `blueprint_interiors.py --claim` writes each door's tier A claim. **The plan is read first:** the
    2.5 s plan render (`render_blueprint.py`, item 19) and a reader pass
    before any Blender render; footprint, spacing, path and door-facing
-   errors are fixed there. Then **render rounds**: one Blender launch
-   (top view, one front per building, two isos) read by one Sonnet
-   reader against the reader checklist; findings become layout edits and
-   one more `apply`; **at most four rounds** before the walk packet,
-   residuals listed in it. Export the pose record with its ground and kit
-   provenance.
-2. **Build and gate (unattended).** Local patches (pad, clearance,
-   dressing-add), compile, publish the place only (`--places` scope, item
-   7b), the automatic gates: every essential checklist row below, the
-   0098 bars, the yard regression gates, `preflight --paths`.
-3. **Walk packet** (Owner check-ins below) → the owner walks.
+   errors are fixed there. Then **render rounds** (0102 decision 4): one
+   Blender launch (top view, one front per building, two isos) read by
+   one Sonnet reader against the reader checklist; each round gathers
+   every reader NO and every `check` failure into ONE layout edit, one
+   `apply`, one plan render and at most one Blender round; **at most four
+   rounds**; a finding that returns after its fix escalates to the
+   planner. The inner loop ends at zero `check` failures and zero reader
+   NOs; there are no residuals. Export the pose record with its ground
+   and kit provenance.
+2. **Build and gate (unattended).** The tier A interior bundles
+   (`export_interior_bundle.py`, 0103 decision 3); local patches (pad,
+   clearance, dressing-add; they travel in the place's bundle as a runtime overlay,
+   and no chain stage, refreeze or province publish runs for a place,
+   0102 decision 1), compile, publish the place only (`--places` scope,
+   item 7b), the automatic gates: every essential checklist row below, the
+   0102 `check` rules and the lit-entrance compile rule (97 C16), the
+   socket gates and the interior bundle gate (0103), the 0098
+   bars, the yard regression gates, `preflight --paths`.
+3. **Walk packet** (Owner check-ins below) → the owner walks. The packet
+   reports the measured numbers per item and asks only look and feel; it
+   lists the interiors to enter (door, cell, `?interior=<cellId>` URL)
+   and the `?sockets=1` overlay; a
+   `§ Gaps` row carries one of 0102 decision 3's four reasons; the plan
+   render and up to four shots are embedded (`owner_inbox.py --attach`).
 4. **One fix round** (`continue 16k slice N after owner walk`): group the
    owner's defects by cause across the whole reply; each cause becomes a
    rule (97 §C or the skill), a test or gate shown failing first on the
    defect, and a skill edit; each cause is also a row in
    `place-build/references/lessons.md` (0100 decision 4: rule, defect and
    cause, the gate that now enforces it, source), merged into an existing
-   row where it restates one; one preflight, one republish, the next walk
+   row where it restates one. The rebuild runs the step-1 inner loop to
+   zero `check` failures and zero reader NOs (0102 decisions 3–4); a
+   finding the owner raises that a tool could have measured becomes a
+   `check` rule first. One preflight, one republish, the next walk
    packet.
 5. **Repeat 3–4** until the owner says it looks right. Then close the
    slice: the acceptance receipt in
@@ -93,12 +170,15 @@ walks as it needs; it closes only on the owner's "looks right".
 
 The audit's table with its coverage (2026-09-25). **Gate column signed
 by the owner 2026-09-25** (hand-off ruling 3): every visual row is a gate
-before rollout. The four system rows (occupants, navmesh, interiors,
-ambience) gate on the **socket as data**, not the system: the place
-records its NPC and idle sockets, its interior promises and its ambience
-zone (the 16g promise vocabulary and quest sockets, verified and
-extended, never a second vocabulary), and the later phase fills them. No
-idle-occupant pass runs in the loop. A gate row is an automatic check in
+before rollout. Interiors gate on the cells themselves (0103 decision 7):
+every tier A cell shipped and enterable, every other door reserved with
+its pool named. Occupants, items, containers and ambience gate on the
+**socket as data**, not the system: the place's `sockets[]` record
+(0103 decisions 5–6; kinds and vocabulary in
+`world/sources/vocab/socket-vocabulary.json`, never a second vocabulary)
+passes the compile's socket gates, and Phase 13 and 10b fill them. The
+navmesh gates on `walkRule` (0102 decision 2), whose walk graph is the
+navmesh socket's walkable ways. No idle-occupant pass runs in the loop. A gate row is an automatic check in
 step 2 from the slice that first builds it.
 
 | Row | Covered by (carried item) | Gate |
@@ -106,22 +186,24 @@ step 2 from the slice that first builds it.
 | Seated, joined (runs as one rigid chain) | 16h items 1–4, 7; 259b200a | yes |
 | Doors as transitions (reserved or claimed) | 0081; items 11, 18; 16i items 4–5 | yes |
 | Windows glowing at night | item 28 (done) | yes |
-| Paths and worn ground to every door | G1 ground paint; widths 97:341, :852 | yes |
+| Paths and worn ground to every door | G1 ground paint; widths 97:341, :852; `pathReachRule` (0102) | yes |
 | Ground-to-wall blend | item 25 | yes |
-| Pads, retaining walls, steps | items 12, 13; retaining walls: new rule R1 | yes |
+| Pads, retaining walls, steps | items 12, 13; retaining walls R1 (0101); `floorEdgeRule` (0102) | yes |
 | Enclosure (fences, walls as a placed rule) | new rule R2 (97 Part F column) | yes |
-| Yard dressing vocabulary | items 15, 17, 23, 26 | yes |
-| Lights by time of day (sconces, lanterns) | item 22 | yes |
+| Yard dressing vocabulary | items 15, 17, 23, 26; `propSeatRule` (0102) | yes |
+| Lights by time of day (sconces, lanterns) | item 22; a lit entrance at every door, 97 C16 (0102 decision 7) | yes |
 | Fire and smoke (chimney, cook fire, forge glow) | chimney smoke in dressing-v1; cook fire and forge: new R3 | yes |
 | Signage, banners, totems, shrines | mount sheets; totems 97:757 | yes |
 | Gardens, crops, kept trees | kept trees item 14; crops: new R4 (Argonian crops are a sourcing gap) | yes |
 | Water edge (docks, reeds, boats pulled up, moorings, wheels) | items 10, 16; boats pulled up and moorings: new R5 | yes where the place touches water |
 | Wear (moss, mud, puddles, wet ground) | 0098 condition axis; new R6 | yes |
-| Idle occupants (people and animals) | sockets only: NPC and idle sockets from the 16g roster and promises; people, animals and movement AI are 10b/13's | socket |
-| Ambience and footstep surfaces | 0095 rule 5; studio wiring (backlog row); the ambience zone as data | socket |
+| Idle occupants (people and animals) | `npc` and `idle` sockets from the 16g roster and promises (0103 decision 5); people, animals and movement AI are 10b/13's | yes, on the sockets record: every roster slot has a work and a home socket; every promised service an `npc` socket at its parcel; every `npc` and `idle` socket reachable by `walkRule` |
+| Items, containers and loot | `item` and `container` sockets (0103 decisions 5–6); contents are Phase 13's | yes, on the sockets record: every container placement has a fill rule; every item class is in the vocabulary |
+| Ambience and footstep surfaces | 0095 rule 5; studio wiring (backlog row); `ambience` sockets | yes, on the sockets record: the ambience zone placed as an `ambience` socket |
+| Sockets placed as data | 0103 decisions 5–6: `sockets[]` in the compiled record and the bundle, a § Sockets table in the design brief, `?sockets=1` in the studio | yes: the compile's socket gates green |
 | Seen from a distance (lit at range, skyline) | item 5; new R7 | yes |
-| Interiors (tier A verbatim, else reserved) | 16i items 4–5; Phase 12 | socket (interior promise per door); tier A cells shipped |
-| Navmesh | Phase 10b | socket (walkable ways and door links as data) |
+| Interiors (tier A verbatim, else reserved) | 16i items 4–5 (0103 decisions 1–4); Phase 12 keeps tiers B and C | yes: every tier A cell shipped and enterable (door and `?interior=<cellId>`, bundle count = the cell's references); every reserved door closed with its pool named |
+| Walkability and navmesh | `walkRule` (0102): a route from the road terminal to every door threshold and yard opening within the controller's step and slope limits; the runtime navmesh is Phase 10b's | yes, on `walkRule`: its walk graph is the navmesh socket's walkable ways and door links |
 | Map marker, discovery | catalogue `discovery`; Phase 13 | yes (the `discovery` record and C-stitch) |
 
 Pools for the new rows (audit §1): enclosure `arch.neutral.fence-and-enclosure`,
@@ -207,22 +289,433 @@ From the catalogue's active kind counts (419 active records: settlement
 | 8 | Town or city, always a WHOLE city, never a district (Imperial town, Blackrose, Lilmoth) | owner hands-on (0062 §9); built with the owner, not unattended; exits the loop by owner acceptance |
 | 9 | Early-game location (owner-guided): candidates `place.pirate-freeholds.opening-work-barge` (M1 works, `vasteiTutorialScene`), `.opening-work-camp` (M2 muster yard), `.corimont-crosstrees` (M1 transit) | the opening scenes of 0062 §9 and quest MQ01; owner hands-on; exits the loop by owner acceptance |
 
-### Carried backlog (numbers as in the superseded briefs)
+### Carried backlog (numbers as in the retired briefs)
 
-Taken by the slice whose place first needs them; each keeps its brief's
-text and test.
-- **16h part 2:** 10 renderable kinds; 11 doors as records; 12 stairs,
-  decks, honest navigation; 13 pads as patches; 14 clearance by tier;
-  15 dressing-add patch; 16 patch proof (now proved on the slice's
-  place and the yard); 17 dressing vocabulary; 18 bundle format; 19 plan
-  renderer (build it on `render_blueprint.py`); 20 `kit-qa` skill; 21
-  chain, gates, docs; 22 man-made lighting (sconces); 23 host-aware ring
-  dressing; 24 interior camera; 25 base height-blend (seam) shader;
-  26 dressing mine; 27 kit additions; 29 composite-author skill; 31
-  building checks as gates; 32 replace the Nordic route pieces; 33 the
-  kit plan; 34 owner sourcing list; 35 KotM registry origins; 36–38
-  tropical texture overlays. (28 and 30 are done.)
-- **16h part 1 open items:** 0c terrain patch for dug-in pieces (cave
+The single full copy of every still-live item of 16h part 2, 16i and
+16j (decision 0099; the 16i and 16j briefs are archived in
+[phase16-retired-briefs](../../research/archive/phase16-retired-briefs/),
+and 16h keeps only part 1's closed record). Taken by the slice whose
+place first needs them; each keeps its text and test. Inside the
+carried text, "16i" and "16j" name the retired chunk that first owned a
+step: that step is now this loop's. Procedure lives in the place-build
+skill: doors, interiors and sockets in
+`.claude/skills/place-build/references/doors-interiors-sockets.md`, the
+Phase 15 packet template in `references/rollout-packet-template.md`.
+
+#### From 16h part 2 (items 28 and 30 are done)
+
+10. **Renderable kinds place geometry** (D6). A declared list, each with
+    a hard export error when it owns no placement: ways (painted; laid as
+    boardwalk pieces where the culture builds them), canals, approaches,
+    docks (`jettyM` long, from the berth record), ferry landings and a hull
+    at every berth of its class (`travel-services.json`), the operator
+    socket as a stand-in marker, **entrance pieces** for every dungeon-kind
+    record with a blueprint (the door of the piece is a door record, item
+    11), **underwater-access entrances on the bank** from
+    `underwaterAccessDetail`; and 16e's route structures with their
+    `walkSurface`. **Exemplar first:** this chunk stands up the
+    **route-structure exemplar set**, recorded in
+    `world/sources/routes/route-structure-exemplars.json`: one structure of
+    each recorded kind (stair, deck, lip-step, bridge), chosen to include
+    the Nine-Trunks stair flight and the Xul-Vaat walkway (both on the
+    road, outside the village plots), plus the Drowning Gate ferry
+    crossing with its two berths and hulls. The berths that belong to the
+    six exemplar places are 16i's, with the places. The other structures
+    and berths keep their records
+    and are placed per packet by 16j and Phase 15 through the same kinds;
+    the export lists them as `pending: packet` so nothing is skipped
+    silently; the `route-structures` layer (`SHOWN_FROM`) shows what is
+    placed. Roads carry their 4E 201 `condition`: a `broken` road's
+    structure may be authored collapsed or overgrown where the kit has
+    such a piece (16f deliverable 5's condition dressing). The three OPEN
+    sourcing rows stay gaps, shown as gaps. Test: each renderable kind
+    owns ≥ 1 placement within the exemplar set or a replayed blueprint;
+    every exemplar berth has a hull; every placed structure's
+    `walkSurface` heights match the record within 0.1 m; every recorded
+    structure or berth is either placed or listed `pending: packet`,
+    never absent.
+
+11. **Doors as records** (0062 §3, 0081, the build-out register). Every
+    enterable shell and every entrance piece gets a stable door id
+    `door.<placeId>.<parcelId>.<n>`, one entrance per piece (16i: never
+    invent a second), bound to the mesh doorway, with `interiorClaim:
+    null`, `interiorStatus: "reserved"` by default, an `arrivalMarker`
+    (the exterior point and bearing where the character stands after
+    leaving), a `streamingBoundary` slot, plus the reserved-door catalogue
+    message reserved in `packages/text-catalogue` (16i writes and reviews
+    the text). **The door model is the TES one (0081):** using a door
+    moves the character into a separate interior cell and back; an open
+    structure with no interior (a deck, a gate arch, a shelter) has no
+    door record and is walked through as exterior geometry. **Reachability
+    is validated every compile:** the threshold is within 4 m of a way
+    (C9) and reachable from it under the step rules of item 12. Test: a
+    door 5 m from any way fails; a door with no id fails; ids are stable
+    across two compiles; an entrance piece with no door record fails.
+    Sample: the 58 replayed doors (47 sit more than 0.5 m from a doorway)
+    are the sample; the interiors index re-runs `--kit` for changed shells
+    only, never all 23 kits ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 5).
+
+    Procedure (fields, one entrance per piece, reachability, the reserved message): `place-build/references/doors-interiors-sockets.md` §1.
+
+12. **Stairs, decks and honest navigation** (D8). A real stair or ramp
+    piece from a kit per deck link (stockade, Ayleid, dock steps; never an
+    invented ramp), referenced by the link; decks and stilt assets that
+    ship a built-in stair are read from the kit's geometry (which reach
+    the ground by sinking stilts, which expect a piece attached at the
+    bottom step: recorded per asset in the manifest with the tell). The
+    character gets a step height and slope limit on placed geometry; the
+    handoff widget reports what is consumed and says the province navmesh
+    is 10b's. Test: collider top within step height of the deck, base
+    within step height of the ground, for every deck link; the widget test
+    no longer asserts a literal. Sample first ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 3): a
+    15-asset stair-tell golden file (`fixtures/stair-golden.json`, stilts
+    and decks with and without stairs, tell written first), then a fresh
+    15, before the one full manifest write.
+
+13. **Pads as terrain patches** (D9, C4). Replace
+    `grade_settlement_pads.py`'s in-place write with 16e's pattern: an
+    author stage writes `world/sources/terrain/settlement-pad-patches.json`
+    (a new `settlement-pad` grade kind in `terrain_patches.py`, `KINDS` +
+    `GRADE_KINDS`, consuming the shared exclusion-window module
+    unchanged), each patch proved on a scratch window with
+    `check_invariants`; an apply stage after `apply_route_patches` refuses
+    nothing it did not prove; `patch_water --graded` proves no water
+    moved. Pads are rare: prefer the asset's designed sink and stilts
+    (ruling 9's spirit). A pad re-runs the tile stages for its own tiles
+    only (`chain-footprint`); measure and record the seconds per pad. Test:
+    the pad receipt reads the shipped raster; a pad inside the 22 m shore
+    guard is refused; a pad touches only its own tiles.
+
+    *Status 2026-09-26:* built as `settlement-pad` patches with retaining runs (0101). 0102 decision 1 supersedes the apply stage, the per-pad tile re-run and `patch_water --graded`: a pad travels in the place's bundle as a runtime overlay over the frozen data and `apply_terrain_patches` refuses the kind.
+
+14. **Settlement vegetation clearance as patches, realistic by tier**
+    (0070 §3, 16f deliverable 9). A blueprint's `hardClear`, `thinned` and
+    `kept` become `vegetation-clearance` patches; the applier clears by
+    tier as a settlement would: trees and large plants go from plots,
+    ways, pads and a margin; low groundcover survives between buildings and
+    dies on hard surfaces (ways, pads, floors); the fringe thins on the
+    keep gradient; `kept` names the shade and Hist trees the place was
+    built around (C15: the Hist is never cleared). The groundcover ring
+    evaluates the same list. `compile_scatter` is never re-run for a
+    settlement. Test: a patch's receipt names only its chunks; a patch that
+    would clear a Hist tree fails; the receipt carries pre-patch counts;
+    the TS/Python parity tests extend to the tiers.
+
+    *Status 2026-09-26:* the clearance travels in the place's bundle as a runtime overlay (0102 decision 1); no chain stage runs for it.
+
+15. **Additive dressing as a patch** (new; owner 2026-09-20). A second
+    vegetation patch kind, `dressing-add`, that adds placed instances
+    locally with no re-run above: either an explicit list
+    `[{assetId, positionM, yawDeg?, scale?}]` or a rule
+    `{overlay, polygonM, seed}` using the `rock_dressing` overlay builders
+    on the polygon only. **Root cause first:** lift `compile_scatter`'s
+    instance emission (seat on the shipped ground by `designedSinkM`, the
+    0075 `lodCopies` rungs, the bundle encoding) into one function both the
+    compiler and the applier call, so a patched instance is
+    indistinguishable from a compiled one. Ordinals append after the
+    existing instances (an instance stays `(chunk, species, ordinal)`,
+    0070); the receipt names chunks and counts added; the runtime reads
+    nothing new. Every patch carries `why` and `sources` (a design act is
+    lore- and asset-aware). Test: an added instance round-trips through
+    the bundle with the same seat and ladder as a compiled neighbour; the
+    applier on a chunk with no patch leaves the file byte-identical; a
+    patch that adds an instance inside a clearance polygon of a higher tier
+    fails. The lifted emission is proved byte-identical on 3 named chunks,
+    then a fresh 3, then one full `compile_scatter` run; never a full run
+    per edit ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 8).
+
+16. **Prove the three patch kinds on the proving ground and the route
+    exemplar set, small and real.** On the proving ground: one
+    `settlement-pad` under the Imperial house, one `vegetation-clearance`
+    by tier over the yard with one tree named `kept`, one `dressing-add`
+    rock group at the cave entrance piece. On the route exemplars: the
+    clearance the Xul-Vaat walkway and the Nine-Trunks stair flight need
+    (their `walkSurface` footprint plus the C13 margin); a `dressing-add`
+    at the Drowning Gate landings (reeds or rocks by the bank, from the
+    region palette, with `why` and `sources`). These are the only patches
+    applied to the ground or the bundles in 16h; each is a few tens of
+    metres; 16i may re-emit the route ones.
+
+    *Status:* now proved on each slice's place and the yard, not on a separate exemplar set.
+
+17. **Dressing vocabulary** (D11). Per-rule draws with a distinct-asset
+    floor; interior-kit assets never placed outside. Test: ≥ 4 distinct
+    assets per place, ≤ 40 % share for any one, on the replayed
+    blueprints.
+
+18. **The bundle format the build-out asks for.** `schemaVersion` bumped;
+    a `variants` overlay slot (`LocalStateVariant`: a keyed set of
+    placements shown or hidden by a world-state key, empty by default) read
+    by the layer; `interiorStatus`, `interiorClaim`, `arrivalMarker` and
+    `streamingBoundary` on every door record; the bundle's `doors` array
+    is the list 16i's door transition consumes. Test: a variant that hides
+    a placement hides it in the layer; an old-schema bundle is refused
+    with the version named.
+
+    Procedure (door fields, `variants`): `place-build/references/doors-interiors-sockets.md` §1; the bundle also carries `sockets[]` (0103 decision 5).
+
+19. **The plan renderer.** A plan renderer to PNG per place (footprints
+    with front arrows and door dots, ways, pads with their delta in metres,
+    clearance polygons by tier, kept trees, stairs, berths and hulls,
+    entrances, additive dressing) and per route structure or ferry
+    crossing (the structure on its road line with its `walkSurface`, the
+    berths with their hulls). Proven here on the replayed blueprints and
+    the exemplar set; 16i's check-in 1 is built from it. Sonnet reads every
+    sheet against the C-rules with the protocol.
+
+    *Status:* the place plan is `render_blueprint.py --layout` (place-build step 3); the per-route-structure and ferry sheets are still open.
+
+20. **The `kit-qa` skill.** `.claude/skills/kit-qa/SKILL.md`: render an
+    assembly, a kit sheet, a plan sheet or an interior-cell sheet (16i
+    adds the interior renderer; leave the slot); the Sonnet prompt
+    template; the rule list it checks (97 §C) and the
+    `blueprint_integration` checks that back each; how a "wrong" becomes a
+    rule, never a per-piece fix; the refusal on `ownerGuided` records for
+    unattended runs. Runnable per assembly by a rollout agent without the
+    owner. Its own step carries the CLAUDE.md rule "Prove on a sample,
+    validate on a fresh batch, scale once" for every sweep
+    ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)).
+
+21. **Chain, gates, docs.** The `[16h]` ladder row lists the stages
+    actually delivered (expected: `rederive_blueprints`,
+    `author_settlement_pads`, `apply_settlement_pads`,
+    `compile_settlement`, `export_settlement_bundle`,
+    `settlement_ground_control`, `author_settlement_clearance`,
+    `author_dressing_add`; then 16f's `apply_vegetation_patches` cascades),
+    `DELIVERED_THROUGH="16h"`, `STAGES` reordered so `--check-contracts`
+    prints no `warn: order:`; one chain run from the freeze gate; the
+    licensed camp's track overrun fixed while you hold the chain lock.
+    Every test above green and shown failing first; audit §7's five gates
+    that cannot fail made to fail on their defect first; probe-blueprints
+    zero grounding findings on the real formula; `npm test`, typecheck,
+    `npm run preflight` green. Docs: the retired settlement skill's banner line (obsolete: 0100 replaced that
+    skill with `place-build`); 97 §C and §G carry
+    the rules the sheets produced; world 80 §63 edited to the door model
+    of 0081; the backlog rows above struck; the ledger
+    `docs/research/phase16/16h-ledger.md` (measurements, Sonnet reports,
+    departures from this plan); one decision record for the non-obvious
+    choices (the additive patch, the door record fields, the sink and
+    mount derivations); the 16i brief's Starting state replaced from the
+    ledger's ending state; PROGRESS.md.
+
+    *Status 2026-09-26:* 0102 decision 1: no chain run, refreeze or province publish for a place; the ladder and chain lines apply only to stages that stay chain stages.
+
+22. **Man-made lighting** (owner question, check-in 1, 2026-09-23). A
+    light emitter property on mount children (sconces, lanterns),
+    switched on and off by the calendar: lit from early evening to after
+    sunrise. The runtime reads the property; no per-piece code. Huts
+    without windows (0 of the BM&V, HTBM and stilt shells carry a window
+    shape, /tmp/wf/checkin2/windows.md) are lit by lanterns and braziers
+    placed under this item; the night factor is the settlement layer's
+    sun-altitude ramp (`settlement/materials.ts` `settlementNightFactor`).
+
+    *Status 2026-09-26:* every door needs a lit entrance (97 C16, 0102 decision 7; `compile_settlement.unlit_entrance_errors`).
+
+23. **Host-aware ring dressing** (planner ruling C, K7, 2026-09-23). The
+    97 decision 4 ring (`compile_settlement.dressing_count` by parcel
+    `use`) stands props on bare ground round the pivot: the owner's
+    "random tables" and "random chairs" at check-in 1. Place them against
+    wall faces, on porches and decks, and chairs at tables by mined pairs
+    (`kit-assemblies-mined.json` templates and `abuts`), never on a ring.
+    Fixtures are exempt already (`blueprint.is_fixture`, K7).
+
+Items 24–27 come from check-in 2 and
+[building-depth-and-variety.md](../../research/placement-settlements/building-depth-and-variety.md)
+(2026-09-24).
+
+24. **Interior camera** (check-in 2 item 3). Inside a shell, occluders
+    between the camera and the player fade at the near plane. Research:
+    [follow-camera-collision.md](../../research/combat-and-systems/follow-camera-collision.md)
+    (§ Open: a per-instance fade attribute and a `discard` in the
+    settlement material patch). The exterior pull-in, the gradual return
+    and the player fade landed 2026-09-24 (ledger "Check-in 2 fixes:
+    runtime").
+
+    *Status 2026-09-26:* ships with the interior runtime (0103 decision 4; `packages/game-core/src/interior/README.md` § Camera).
+
+25. **Base height-blend shader** (check-in 2 item 1): option 1 of the
+    seam research, the seam at a building's foot.
+26. **Dressing mine** (research §6 item 5). Evidence only, nothing
+    placed by code; sample first per `kit-mining`. From the ~227k
+    vanilla and ~131k BM&V non-structural refs the assemblies miner
+    skips, those within 12 m of shells, per family: counts and offsets for barrels, firewood, benches, lanterns,
+    smoke and gardens. Sets: vanilla, BM&V, HTBM and `kotm`; the first
+    KotM sample is the Keeba Hollow compounds and the Seekhat-Yol
+    platforms (KotM plan § 2).
+27. **Kit additions** (research §6 item 4), from the mined groups:
+    imperial farmhouse walkways, porches and steps, farmhouse03–06,
+    inn01, smith01; stilt shack window panels; mud BM&V hut windows and
+    steps, plus the KotM sets of KotM plan § 3.1 (permission held,
+    2026-09-24; meshes and textures extracted 2026-09-24;
+    `settlement-mud-v1` KotM pieces blocked on the missing archives, plan
+    § 5.1); root Phitt window composites; Dagon Fel into the
+    existing `hlaalu-domestic` kit (68 Hlaalu pieces; no new Hlaalu kit);
+    the window glow effect meshes in a shared kit. Superseded in order
+    and scope by item 33.
+29. **Composite-author skill** (research §6 item 2).
+    `.claude/skills/composite-author/SKILL.md` §1–2 states the composite
+    rule of check-in 2 item 6.
+31. **Building checks as gates** (research §2 checks, §6 item 7). Front
+    face to a path, window openings clear of neighbours and terrain by
+    1 m, the minimum dressing set (door, light, personal clutter, one
+    roof detail) and the per-settlement variety table of
+    [decision 0098](../../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md)
+    (it replaces the 25 % template cap; the workbench's
+    repetition-signature command computes the signature 0098 defines).
+    They gate the yard and every 16i plan. The workbench commands behind
+    them and the building-assembly skill chapter belong to the
+    [placement-workbench lane](../lanes/placement-workbench-lane.md).
+
+Items 32–38 come from
+[building-asset-breadth.md](../../research/placement-settlements/building-asset-breadth.md)
+(2026-09-24). Item 33 absorbs item 27's kit additions.
+
+32. **Replace the Nordic route pieces.** `route-spans-v1` carries the 9
+    `nortmpextplat*` Nordic temple platform pieces and `dragonbridge01`;
+    `route-structures-v1` carries `wrcastlestairs01` with its platform.
+    All fail 0098 rule 2.1 (Nordic burial and castle silhouettes; breadth
+    doc §2 table, Recommendations 3). Replace them with pieces that pass
+    (the vanilla imperial-fort bridge and stair pieces are the candidates
+    the breadth doc names), rebuild both kits, re-lay the runs that use
+    them.
+33. **The kit plan** (breadth doc Recommendations 2), in this order:
+    1. **Unpack and register King of the Murkmire (KotM) first.**
+       `pipeline/bsa.py` unpacks `King of the Murkmire.bsa` to
+       `extracted/`; register pool `kotm` in `build_kit.py` `dir_pools`
+       and `asset_registry.POOLS`; record authorship per folder
+       (`argonia/mudhuts`, `blackwood`, `clutter` the author's own;
+       `tesak1243` is mwkeep; `denoffen`, `ayleidruins`, `1mjy`
+       third-party); then `mine_assemblies` on `King of the Murkmire.esp`
+       for mudhut and blackwood templates, sample first per `kit-mining`.
+       **Settled 2026-09-24** (KotM plan, Reconciliation): meshes and
+       textures are extracted to the vault's `extracted/meshes` and
+       `textures` (3,018 files: 2,292 meshes, 726 textures) and the `kotm` pool is registered (2,096
+       rows); 692 meshes name textures held only in the SE resource
+       pack, Creation Club or DLC archives (plan § 5.1).
+    2. **Mud kit** (`settlement-mud-v1`): KotM mudhuts (30 exterior
+       pieces) and its 6 interior shells; BM&V hut window01–03,
+       windowbox01, steps01–03; KotM clutter (scalefence, scaletent,
+       saxhleelfence, saxhleellantern, townlantern, wallbasket,
+       hangingfeathers, tamwindchime, buntingline). Retire the Mud Mother
+       hut (`mudhut01`, `mudhut01intnew`, the `mudmother-hut-int` shell)
+       in the same change; the pool's other 57 pieces stay. The yard
+       rebuild takes the retirement: the yard's mud hut becomes KotM
+       `mudhut02`.
+    3. **Stilt kit** (`settlement-stilt-v1`): the other 50 shack kit
+       pieces; KotM blackwood (thatchhouse ×8, house ×5 with platforms,
+       roundhut ×3, walkways 8, plankwall ×5, partitions and windows,
+       watchtower, stable, watertower ×2, docks 13) once the lore check
+       against material-culture.md:21–24 passes.
+    4. **Imperial kit additions** (`settlement-imperial-v1`):
+       farmhouse03–06, inn01, smith01, farmlonghouse01, the 6 destroyed
+       variants, walkway01–04 and the 28-piece walkway kit, the 14
+       remaining terraces, ivy ×3, farmwell01; the Solitude farm set
+       (sfarmhouse ×3, porch ×3, steps, shed, silo, windmill, lighthouse,
+       lumbermill); cyrfarmhouse01–03, smallhouseext, Jet's farmhouse kit
+       (235), the BM&V `imp/` exterior 6, the BM&V chimney kit 13,
+       wrshutter ×4, imperial tents 2.
+    5. **A new Imperial town kit** (`settlement-imperial-town-v1`): the
+       Riften timber houses 17, decks 10 and Riften docks 18 for the
+       Imperial waterside quarter (Lilmoth, Gideon ports); the Solitude
+       named houses 13 as one-off landmark shells (owner question (b)
+       below).
+    6. **A new fort kit** (`fort-imperial-v1`): vanilla impext 75, tower
+       19, stable kit 9, and the Reimperialized impwindow moss ×6: the
+       second fort language beside mwkeep.
+    7. **Dagon Fel into `hlaalu-domestic`**: shack01–05, housetall ×2,
+       awnings, chimneys, window01–02 and doorframe, for Thorn only.
+    8. **A shared dressing kit** (`dressing-v1`): fxsmokechimney01/02,
+       fxsmokelargeclose01, whfxwindowglow01–04, fxambwindowglow01,
+       lampposts, and the vanilla farmhouse dressing set
+       (building-depth-and-variety.md §6 item 7).
+
+    Every family passes 0098 rule 2 first. Credits go in root README
+    § Credits in the same change.
+34. **Owner sourcing list** (breadth doc §4; ask the owner, download
+    nothing until permission is recorded):
+    - FYX 3D Shack Kit Walls / Roofs (Yuril), SSE 67123 / 67488: real 3D
+      boards on the shack kit the stilt kit uses; terms not stated.
+    - Keep and Middle Class Houses (kiko), SSE 137960: 7 town houses, 6
+      chimneys, a keep; "free to use", credit optional; lore fit to check.
+    - Cyrodiil Farmhouse Tileset (Beyond Skyrim), LE 48582: adds the inn
+      and windmill to the 3 cyrfarmhouses we hold.
+    - Stroti's Stilt House, optional split file, LE 61824: hut and
+      platform apart, so the stilt house stands on our own decks.
+
+    Owner questions carried with it: (b) Solitude's named houses and
+    Riften's timber houses as Imperial-quarter shells; (c) the FYX
+    author's and kiko's permission.
+35. **KotM registry origins** (KotM plan § 4.2–4.3).
+    `world/sources/assets/registry-kotm.jsonl` records no third-party
+    origin and classes 1,111 of its 2,096 rows `misc` (4 `tree` rows for
+    246 `argonia/trees` paths). Add `origin` per path prefix from the
+    plan's § 4.3 folder-to-origin table, rerun the taxonomy on a
+    25-asset sample first, and credit each origin shipped in root README
+    § Credits in the same change as its first kit.
+36. **Tropical Skyrim v1.1 in the kits.** The vault's `extracted/` took
+    the v1.1 update on 2026-09-24 (sourcing log, Tropical row): the
+    plugin and the two trunk meshes under
+    `meshes/landscape/trees/tropical/` (`anvil_palm_trunk.nif`,
+    `anvilgianttrunk.nif`); v1.0 copies sit beside them as `*.v1_0`.
+    No kit config, composite or placement record reads those two
+    meshes: every reference is to the root-folder copies
+    `tropical:landscape/trees/anvil_palm_trunk` and `.../anvilgianttrunk`
+    (`meshes/landscape/trees/`, unchanged by the update), in
+    `flora-province-v1.json`:185/230, `settlement-root-v1.json`:448/451,
+    `probe-gapfill.json`:7–8, `probe-tall-tropical.json`:38/41,
+    `placement-policies.json`:200 and `test_build_kit.py`:165/172; the
+    only rows naming the updated files are `registry-tropical.jsonl`:22–23.
+    No kit rebuild follows from the meshes. The plugin changed
+    (1,987,282 → 1,992,588 B; the update readme: "Fixed objects that
+    still had snow on them", "The large trees now have proper
+    collision"); its readers are `asset_registry.py`:118,
+    `mine_groundcover` and `mine_micro_siting`. Whether their records are
+    re-mined from v1.1 is the planner's call; the bootstrap snapshot
+    (`tooling/bootstrap/snapshot-manifest.json`:971–999) no longer
+    matches the vault folder.
+37. **Project Rainforest as a second texture overlay.** Add
+    `mod-sources/project-rainforest-20636/extracted` to
+    `build_kit.vanilla_texture_roots` (build_kit.py:232–250) behind
+    Tropical Skyrim and ahead of the vanilla BSA, so a texture Tropical
+    leaves unchanged resolves to Project Rainforest's repaint where one
+    exists. What it adds (breadth doc §2): Windhelm street and ground
+    maps (6 diffuse: whstreetstone01, whroughground*, whdirtbrick…),
+    caves 12 diffuse, dungeon root 5, Whiterun 2. Its nordic, imperial,
+    dwemer, mines and Riften-dungeon files (192) are vanilla copies and
+    change nothing. The per-file classification is
+    `docs/research/archive/building-depth-2026-09/diffuse-classes.tsv`
+    (pool `PR`). `test_tropical_default.py` gains the second root's
+    order; the README.md:157 credit scope widens from "tropical ground
+    textures" to "tropical ground textures and the Windhelm street and
+    ground and cave repaints" in the same change. Licence: "Patches,
+    bugfixes, updates, add-ons, third-party retextures, and the like are
+    allowed freely ... as long as due credit is given."
+38. **SCO Tropical and New Windhelm tropical repaints** (owner
+    2026-09-25: permission held; download and use). Download SCO
+    Tropical Edition v2 (Tamikonelf and AceeQ, skyrim 69382) and New
+    Windhelm summer and tropical edition v2 (tamikoneolf, skyrim 63649,
+    built on Osmodius's Windhelm Texture Pack, skyrim 54322) with the
+    Nexus API into `mod-sources/` with hashes, a sourcing-log row, a
+    mod-register entry and the README.md credit in the same change. They
+    cover Markarth, Windhelm, Winterhold, High Hrothgar, the Imperial
+    forts and the caves (69382) and all of Windhelm (63649). They add
+    texture overlays in `build_kit.vanilla_texture_roots` the way item 37
+    adds Project Rainforest. Under decision 0098 §2 these families still
+    fail the silhouette rule (rule 1), so the repaints matter for pieces
+    that pass it: Markarth or Windhelm stone used as an alias target, and
+    fort walls. Re-derive the breadth doc §2 verdict table after the
+    overlay.
+
+Planner rulings (2026-09-24):
+- The variety rule is decision 0098's per-settlement table; it replaces
+  the 25 % template cap and the earlier ruling that the cap counts
+  assemblies.
+- A piece may sit where its mod never placed it when it is fitted on
+  measured geometry in the workbench and passes a visual check.
+
+#### 16h part 1 open items (text in [16h](16h-settlement-runtime-and-kit-qa.md) § Part 1 state › Open, in order, unless given here)
+
+- 0c terrain patch for dug-in pieces (cave
   flanks); 0d runtime wet-stilt datum; 0f cutaway view; 2 truth-table
   fix path; 5 mount sheets pass 2; the deck `contactsM` source; miner
   items 1–7; and, deferred by the owner on 2026-09-25 (hand-off ruling 5):
@@ -272,19 +765,154 @@ text and test.
     chunks for the 184 `patch.clearance.track.*` patches, while the receipt
     reads 0 removed. The next province publish must run the apply stage
     first; the 24 `patch.clearance.settlement.*` patches ride with it.
-- **16i:** 0 lesson reconciliation; 1 dungeon-kind exemplar (now type
-  5); 4 interior claims per door; 5 the interior runtime (door
-  transition, load contract, interior lighting, tier A cells); 9 the
-  approach checklist; 12 skill v2 (now the place skill, rewritten each
-  fix round); 13 the type register. The Blackrose city pass (16g call 2;
+
+#### From 16i (the exemplar chunk, retired)
+
+0. **Reconcile the first round's lessons and the interior research.**
+   DONE 2026-09-25 as the seeding of `place-build/references/lessons.md`
+   (16k slice 1b); the interior half's ruling (a kit's `matched` mesh is
+   not tier A; `tileset` shells are Phase 12's; one entrance per piece)
+   is `place-build/references/doors-interiors-sockets.md` §2.
+
+1. **The dungeon-kind place (now the type-5 slice's place).** Choose one
+   dungeon-kind record (`interior.kind` in delve, dungeon, warren,
+   complex) by these criteria, all measured: not `ownerGuided`; its
+   family maps to a realisation recipe backed by a kit that exists (0062
+   §2, world 70 §47's recipe table); an entrance piece exists in a kit
+   for its `entrance` type; it satisfies the contrast rule (a type not yet
+   passing, in a contrasting region); its promises (world 70 §48) are
+   complete. Prefer a root cavern or flooded cave mouth where the owner's
+   own example applies (rocks around a cave entrance as `dressing-add`).
+   Record the choice and the two runners-up with the numbers in the
+   slice's design brief; the owner may swap at the walk. Write its entry
+   in `type-recipes.json` so later packets can count it. Its cave door is
+   `reserved`: its inside is Phase 12's first exemplar, a modular root
+   cavern (0062 §5). The vanilla rock cave entrance row above
+   (16h part 1 deferred items) is its entrance piece.
+
+4. **Interior claims, one per door, as records** (0103 decisions 1–2).
+   The procedure (shells chosen for their interiors, the deterministic
+   fit rule over the shell's linked set, `blueprint_interiors.py --claim`,
+   matched meshes stay `reserved` with `interiorShell`, the D0 safe
+   interior, the empty `acousticProfile` / `lightingProfile` slots) is
+   `place-build/references/doors-interiors-sockets.md` §2. 0103 decision 1
+   supersedes 16i's borrowing of a fitted cell for an unlinked shell: an
+   unlinked shell's door is `reserved` with the pool named. What stays
+   here as work: the use-class classifier is proved on a 12-cell labelled
+   sample (inn, shop, shrine, dwelling; labels written first), then a
+   fresh 12, before any claim is written
+   ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)
+   step 4). First Argonian tier A candidates: the 18 King of the Murkmire
+   hut cells behind its hut shells (Keeba Hollow 5, Root-Whisper 6,
+   Seekhat-Yol 7; KotM plan § 3.2); copy furniture and clutter only, drop
+   actors, quest items, notes and books (books and notes become item
+   sockets with `contentPending`, 0103 decision 3). The claims show as one
+   table per place on the plan render's margin: door, claim, evidence,
+   cell, size ratio.
+
+5. **The interior runtime** (0062 §3, 0081, 0103 decisions 3–4). The
+   contract (door transition, one bundle per cell streamed on approach,
+   interior lighting from the plugin's light records, the interior camera,
+   the `?interior=<cellId>` studio view, the reserved door and its
+   message) is `place-build/references/doors-interiors-sockets.md` §3–4;
+   the code is `packages/game-core/src/interior/` behind injected hosts
+   and `worldgen/export_interior_bundle.py`. Tests: a door with a tier A
+   claim opens into a bundle whose count matches the cell (placements plus
+   listed drops equal the cell's reference count); a reserved door does
+   not transition and the message key resolves; leaving returns the
+   character within 0.5 m of the `arrivalMarker`; an interior bundle with
+   an unlisted gap fails export. The light decode is checked on 6 claimed
+   cells plus 6 others against counts and colours read from the plugin
+   first; no full plugin re-index as verification
+   ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)
+   step 6). Measure the lighting cost per cell and record it. An interior
+   renderer for the reader (plan view and one eye-level view from the
+   arrival marker, light sources marked) joins `render --shots`. Interior
+   navmesh bakes wait for 10b and the record says so.
+
+9. **Approach, reveal, wayfinding on the ground.** The 16-question
+   checklist per approach per place; procedure in
+   `place-build/references/doors-interiors-sockets.md` §6 and SKILL
+   step 1 § Approach.
+
+12. **The place skill, rewritten each fix round** (was "skill v2"). The
+    `place-build` skill holds the steps the places actually needed, in
+    order, with the tools they ran; the interior claim as a step; per
+    field, the record that supplies it (graph id, `water-meta` id, route
+    line, `designedSinkM`, plugin link); every sentence no longer true is
+    deleted. Its "Not automated yet" section lists honestly what still
+    needed a hand (kit choice per parcel, `waterOk` reasons) so the
+    unattended passes can measure the gap.
+
+13. **The type register.** `world/sources/catalogue/type-recipes.json`
+    records which type each loop place is and which grammar it proved
+    (Imperial-fringe, Hist-centred, …); world 96 §3's box 1 is ticked per
+    type with the place named; a recipe that needed a hand decision is a
+    gap closed in the recipe, so the next agent does not meet it again.
+
+- **Type 8 carries the city work:** the Blackrose city pass (16g call 2;
   Blackrose spreads from its island over the lake and shore) and
-  Lilmoth's second round belong to type 8.
-- **16j:** 2 the co-design quest pass per slice; 6 gaps closed in the
-  skill; 7 automation readiness (world 96 §3) per type; 7b `--places`
-  selectors (needed from slice 1); 8 the Phase 15 roadmap and packet
-  template (at the loop's exit, with the template decision per type);
-  9 Phase 16 closes (the ledger, the decision, the "chunk Phase 9" job
-  queued, the PROGRESS rows, the routing audit), at the loop's exit.
+  Lilmoth's second round (0062 §9: cities are owner-guided, expect two
+  rounds). Lilmoth takes King of the Murkmire's 8.5 m street spacing and
+  dock density only; `lilmoth.md` § Lilmoth in 4E 201 (owner decision Q4)
+  rejects KotM's Imperial-industrial Lilmoth.
+
+#### From 16j (the unattended-packet chunk, retired)
+
+2. **The co-design quest pass, per slice** (quests 90 §65b). The place's
+   settlement set, routes and sockets are already the 16g record; the
+   quest-brief pass drafts the place's local quests to brief level only
+   (premise, cast, choice, size, provision list) and may request
+   placements; reconcile: place what the briefs request or negotiate
+   substitutes, register sockets and ids (0103's `sockets[]`); declare
+   the place's density against plan ruling 11's budget. Prose through
+   `text-review`.
+
+6. **Close the gaps in the skills, not in the places.** Every hand
+   decision a slice needed is a skill step (written into `place-build`,
+   with the rule that makes it), a record field (added to the schema and
+   back-filled for every loop place) or an owner call (batched into the
+   next walk packet with the options). Re-run the changed steps on the
+   place to show the skill now makes the decision.
+
+7. **Automation readiness** (world 96 §3) per type, with evidence: the
+   two places named, the rules named, the clean compile from the
+   blueprint alone, the recipe's siting grammar, the sourcing register
+   clean. The agent-as-reviewer experiment (0041): a fresh agent reads the
+   renders and the probes of one non-city place and gives a verdict
+   before the owner walks; the two verdicts are compared in the slice's
+   lessons.
+
+7b. **Place-scoped tooling.** `rederive_blueprints`,
+    `export_settlement_bundle`, `apply_vegetation_patches` and
+    `settlement_ground_control` each gain a `--places` / changed-set
+    selector, so a place re-derives, exports, patches and paints only its
+    own ids; the full run happens only at freeze. Test: a run with
+    `--places` on one place leaves every other place's output
+    byte-identical. *Status 2026-09-26:* `export_settlement_bundle
+    --places` exists (slice 1b); a place's pads and clearance travel in
+    its bundle (0102 decision 1), so the others matter only at freeze.
+
+8. **The hand-off to Phase 15** (at the loop's exit).
+   `docs/phases/15-rollout/roadmap.md`: every remaining packet in order
+   with rough scope, region, place count, the types each needs, the route
+   structures and berths each owes, major cities and the opening-scene
+   places flagged owner-guided, for owner sign-off;
+   `docs/phases/15-rollout/packet-template.md` written to the spec in
+   `place-build/references/rollout-packet-template.md`, with the template
+   decision per minor type; `15-rollout/README.md` reconciled with it.
+
+9. **Phase 16 closes** (at the loop's exit). The ledger; one decision
+   record (the types passed, the gaps closed, the readiness verdict per
+   type); the "chunk Phase 9" job queued as the next owner instruction in
+   PROGRESS.md (0062 §10: the 9a/9b/9c briefs are written by that job);
+   PROGRESS row 16 `done` with evidence and row 15 `todo` with the roadmap
+   linked; the Phase 16 README §4 table completed; `docs:check`,
+   preflight, commit by pathspec; the `routing-audit` skill over the whole
+   Phase 16 routed set.
+
+#### New rows and speed items
+
 - **New rows:** G1 settlement path and worn-ground paint; R1 retaining
   walls; R2 enclosure; R3 cook fire and forge glow; R4 crops and fish
   parks; R5 boats pulled up and moorings; R6 wet and worn ground; R7
@@ -322,10 +950,11 @@ text and test.
   to one piece. End with "looks right" when the place is done.
 - **World-level calls** (a place moved or cut, a new type, a city
   choice) are asked as they arise, batched into the next walk packet.
-  Queued:
-  - 12 lived-in records sit one band beyond 97 A7's ±1 because
-    macro_plot.py:1182/:1982 relax by +1: re-plot them or amend A7
-    (owner call).
+  Queued: none (the 97 A7 call was closed 2026-09-26, 0102 decision 9).
+- **What the owner is never asked** (0102 decisions 2–3): anything a
+  `check` rule measures (can you walk in, does a floor hang over a drop,
+  is the craft beached, does the path reach the door, does a prop stand
+  on the ground), and unfinished work listed as a gap.
 
 ## Gotchas
 
@@ -374,6 +1003,21 @@ main road between Gideon and Blackwood, where an Imperial well and an
 Argonian boat landing serve the same travellers. It needs no other place
 built first and sits well clear of any city. A place you have accepted
 is then locked, so later work cannot change it without asking you.
+
+**Going indoors, and what each place promises.** Most buildings you
+can walk into get their inside now, not years later. The mods we use
+already made furnished rooms for many of their buildings, so we choose
+buildings that come with a room and copy that room exactly: the
+furniture, the clutter, the lamps and their light. You press the action
+key at the door, the screen fades, and you are inside; the door inside
+takes you back to the same doorstep. The few doors with no ready-made
+room stay shut with a short message, and say which set of buildings
+they wait for. Everything a place will later need (who lives where and
+where they sleep, work and sit, what is in each barrel and chest, where
+danger or a sound belongs) is placed now as a labelled marker with its
+details written down, so the later stages that add people, loot and
+sound only fill them in. You can switch the markers on in the studio to
+see them.
 
 **When it ends.** When every kind of place on your list has come out
 right twice in a row without your help, the recipe is trusted and the

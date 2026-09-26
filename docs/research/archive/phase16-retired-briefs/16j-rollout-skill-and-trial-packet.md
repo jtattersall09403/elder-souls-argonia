@@ -1,13 +1,7 @@
 # 16j — The rollout skill, proved on one packet without the owner
 
-> **SUPERSEDED 2026-09-25** by the place loop (decision
-> [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md),
-> brief [16k](16k-place-loop.md)): the skill is proved per place type,
-> two unattended passes in a row, instead of on one packet. The items
-> below (co-design pass, gap closing, automation readiness, `--places`
-> selectors, the Phase 15 roadmap and template) are 16k's carried
-> backlog by number; this file is kept only for the item text. Do not run
-> `deliver 16j`.
+> Retired by [0099](../../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) on 2026-09-25; do not run it.
+> Its live items are now in [16k](../../../phases/16-foundation-and-places/16k-place-loop.md) § Carried backlog; procedure in the place-build skill.
 
 **Goal.** Prove that the recipe the exemplars produced can be run by a
 fresh agent with no owner in the loop: one small region packet (three to
@@ -71,24 +65,24 @@ leaves open.
   § The story and § What 16i needs from 16h (the contract you inherit
   twice over); the 16i ledger (`docs/research/phase16/16i-ledger.md`,
   written when 16i closes) § Ending state and § Hand decisions.
-- The plan [README](README.md) §3, §7 ruling 11 (the density budget is
+- The plan [README](../../../phases/16-foundation-and-places/README.md) §3, §7 ruling 11 (the density budget is
   a Phase 15 completion gate, not yours), §8.
-- Decisions [0062](../../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md),
-  [0081](../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md),
-  [0066](../../decisions/0066-downstream-stages-read-the-signed-record-never-re-solve-it.md),
-  [0078](../../decisions/0078-places-adapt-to-the-frozen-world.md).
+- Decisions [0062](../../../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md),
+  [0081](../../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md),
+  [0066](../../../decisions/0066-downstream-stages-read-the-signed-record-never-re-solve-it.md),
+  [0078](../../../decisions/0078-places-adapt-to-the-frozen-world.md).
 - `.claude/skills/settlement-build/SKILL.md` v2 and `.claude/skills/kit-qa/SKILL.md`
   in full: you run them, you do not redesign them until part 2.
-- [world/96](../../world/96-placement-playbook.md) §3 (the
-  automation-readiness checklist), [world/97](../../world/97-placement-principles.md)
+- [world/96](../../../world/96-placement-playbook.md) §3 (the
+  automation-readiness checklist), [world/97](../../../world/97-placement-principles.md)
   Part A (province → place: what a packet is judged on) and Part E.
-- [docs/phases/README.md](../../phases/README.md) § Phase 15;
-  [docs/phases/15-rollout/README.md](../15-rollout/README.md) (the
+- [docs/phases/README.md](../../../phases/README.md) § Phase 15;
+  [docs/phases/15-rollout/README.md](../../../phases/15-rollout/README.md) (the
   packet rhythm you are the first instance of);
-  [docs/quests/90-production-sequence.md](../../quests/90-production-sequence.md)
+  [docs/quests/90-production-sequence.md](../../../quests/90-production-sequence.md)
   §65b (the co-design loop, a completion gate per packet);
-  [docs/quests/20-world-provisions.md](../../quests/20-world-provisions.md)
-  for the packet's places; [docs/quests/25-quest-place-map.md](../../quests/25-quest-place-map.md).
+  [docs/quests/20-world-provisions.md](../../../quests/20-world-provisions.md)
+  for the packet's places; [docs/quests/25-quest-place-map.md](../../../quests/25-quest-place-map.md).
 - `world/sources/catalogue/type-recipes.json`, `world/sources/sites/design-groups.json`,
   the region dossiers in `world/sources/lore/` for the candidate regions,
   `world/sources/routes/route-structures.json` and `travel-services.json`
@@ -186,7 +180,7 @@ bundles.
    selector, so a packet re-derives, exports, patches and paints only its
    own place ids; the full run happens only at freeze. Today each walks
    every blueprint or patch, so packet N would redo packets 1 to N
-   ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) note 2). Test: a run with `--places` on one place leaves
+   ([16h catalogue audit](../../phase16/16h-catalogue-wide-steps-audit.md) note 2). Test: a run with `--places` on one place leaves
    every other place's output byte-identical.
 
 8. **The hand-off to Phase 15.** `docs/phases/15-rollout/roadmap.md`:
@@ -201,7 +195,7 @@ bundles.
    four Argonian village forms from King of the Murkmire's spacing enter
    `type-recipes.json` as bands with `sources` naming the KotM set:
    mud compound, platform stilt, Hist-centred, dock hamlet,
-   [KotM plan](../../research/placement-settlements/king-of-the-murkmire-adoption-plan.md) § 2, § 3.3); the trial packet's **owed list**
+   [KotM plan](../../placement-settlements/king-of-the-murkmire-adoption-plan.md) § 2, § 3.3); the trial packet's **owed list**
    (assembled interiors at its reserved doors: 12; fauna, encounters,
    loot: 13; navmesh and combat-space probes: 10b; balance: 10c;
    streaming budgets: 14) as a typed record on the packet; the
@@ -276,7 +270,7 @@ bundles.
 the skill through lanes and watch where it stops, not to design.
 
 **Catalogue runs** follow the CLAUDE.md golden rule "Prove on a sample,
-validate on a fresh batch, scale once" ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)). The place lanes
+validate on a fresh batch, scale once" ([16h catalogue audit](../../phase16/16h-catalogue-wide-steps-audit.md)). The place lanes
 share one `kit-qa` output directory with stamps, so no template renders
 twice, and the Sonnet protocol is tuned on 3 sheets with verdicts written
 first before each sweep, two loops at most.

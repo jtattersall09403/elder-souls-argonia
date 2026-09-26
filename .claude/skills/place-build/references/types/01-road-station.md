@@ -48,7 +48,7 @@ Read the type object and the M2 tier object from
 at this sheet's seeding) and 0098 § 1 (hamlet 4–6 or village 7–12
 buildings). Copy the numbers here in slice 1c.
 
-## Gate rows and their asset pools (16k § The checklist, :121-129)
+## Gate rows and their asset pools (16k § The checklist)
 
 | Gate row | Pool |
 |---|---|
@@ -56,10 +56,35 @@ buildings). Copy the numbers here in slice 1c.
 | Enclosure (Imperial half) | `arch.neutral.fence-and-enclosure`; vanilla farm fence (16) |
 | Yard dressing vocabulary | the vanilla farm dressing set; `prop.neutral.works-and-industry` |
 | Lights by time of day | `light.neutral.fixtures` |
-| Fire and smoke | vanilla woodfires (15); `fxsmokechimney01/02` |
+| Fire and smoke | vanilla woodfires (15); `fxsmokechimney01/02` over the yard fire only, at the mined `fire` socket (`kit-mounts-mined.json` `effectSockets.sockets.fire`: campfire01burning n 23, 1.0 m up; impbrazier01 n 7, 0.45 m up). The farmhouses take no chimney smoke: farmhouse01/02 have no chimney and vanilla smokes neither (chimney socket n 1 / 0; 16k fix 2 round 6 ruling E1) |
 | Water edge (the landing) | `boat.argonian.native-craft`, `boat.mixed.watercraft`; docks (13); `prop.neutral.fishing-and-water-trade` |
-| Idle occupants | the 16g NPC roster for the place; vanilla idles |
+| Interiors (tier A, 0103) | the Imperial half's linked shells (below); the interior kit built from the claimed cells (`interior-farmhouse-v1` for the farmhouses) |
+| Idle occupants, items, containers, ambience | the 16g NPC roster for the place (`npc` and `idle` sockets); the vanilla farm dressing set's barrels, sacks and chests (`container` sockets from the yard sets); vanilla idles |
 | Seen from a distance | `fxambwindowglow01`, `wrlodwindowglow01`, `fxsmokechimney01/02` |
+
+## Interiors (0103 decisions 1–2; `references/doors-interiors-sockets.md` §2)
+
+Every lived-in building of this type (the station house, the inn or
+stable where the record promises one, the homes on both halves) takes a
+shell a plugin links to a furnished cell; the fit rule picks the cell.
+Linked-cell counts in `exterior-interior-links.json` for the shells this
+type draws on (orientation 2026-09-26, `tooling/.reports/16k/orient-interiors.md`):
+
+| Shell | Linked furnished cells | Half |
+|---|---|---|
+| `vanilla:architecture/farmhouse/farmhouse01` (and its `-with-door` composite, which inherits the links) | 11 | Imperial |
+| `vanilla:architecture/farmhouse/farmhouse02` (and its composite) | 9 | Imperial |
+| `vanilla:architecture/riften/rtfarmhouse01` / `rtfarmhouse02` | 3 / 2 | Imperial |
+| `vanilla:architecture/solitude/farms/sfarmhouse01` / `02` | 1 / 1 | Imperial |
+| `bmv:architecture/riften/rtfarmhouse02` | 1 | Imperial |
+| `kotm:argonia/mudhuts/*` | 0 in the tracked links (the KotM pool predates the link mine; only `smpodext02` links, to five Keeba house cells) | Argonian |
+
+| Interior row | Rule | Gate |
+|---|---|---|
+| Imperial homes and the station house | a linked farmhouse shell, tier A by the fit rule (use class from the parcel's `services`) | 16k Interiors gate: shipped and enterable |
+| Argonian huts | tier A only where a linked shell exists in the mud or KotM pool; otherwise `reserved` naming the pool (`settlement-mud-v1`, KotM mud huts) until the KotM door links are re-mined (16k § Carried backlog, "KotM mud huts' interiors") | reserved door closed with its pool named |
+| Open sheds, pens, the landing's racks | no door (`none`) | L21 |
+| D0 safe interior | one tier A cell marked on the record (quests 20 §12); which one is the design brief's call | the record field |
 
 ## Approach (openworld-approach-and-wayfinding §5)
 
@@ -74,6 +99,14 @@ Per dwelling (0098; building-depth §2): door, light, roof detail,
 windows unless none by design, at least 5 personal clutter. The yard sets
 per building kind (well house, stable, dwelling, landing, works yard) and
 their pieces are written from Claywater in slice 1c.
+
+The tracked sets are `world/sources/placement/yard-sets/01-road-station.json`
+(0101). Two rows every set of this type answers:
+
+| Yard-set row | What the set holds | Bar and gate |
+|---|---|---|
+| Lit entrance | a `light`-layer member (lantern, sconce, candle, brazier) within 2 m of the building's threshold, unless the shell's window glow faces the approach (within 90 degrees of the door's bearing). At Claywater walk 1 no door met it: nearest light 4.5 m (station house), 5.6 m (poler's hut), 9.0 m (family hut) | 97 C16; `compile_settlement.unlit_entrance_errors` HARD; reader Front row 24 |
+| Beached craft | the landing's canoe and its cleats placed `beached` on the bank above the landing, reported with their three numbers in the packet | `wb.py check` `beachedRule` (R5, 0101): base float ≤ 0.3 m, bank slope ≤ 20 degrees, a wet cell within 1.5 m of the outline |
 
 ## Pieces that worked, pieces that failed
 

@@ -25,7 +25,7 @@ Evidence files (scripts and outputs): `/tmp/wf/buildings/kotm/` (`census.py` plu
 | `docs/phases/README.md:477–478` (Phase 12 research) | "xanmeer connect geometry derived from the meshes, since no placed example exists" | CONTRADICTED: 8 xanmeer interior cells, 22,082 refs (`an7.out`) |
 | `docs/world/90-asset-strategy.md` §78 | wamasu "custom Megalania-derived skeleton needs a conversion spike" | CONFIRMED and extended: KotM's wamasu rides the sabre-cat rig (`meshes/mihail monsters and animals/sabrecat/wamasu/skeletonwamasu.nif`) |
 | root `README.md:224–229` | KotM credited for `mwkeep` statistics only | INCOMPLETE: every asset family taken needs its origin credit (§4.3) |
-| 16h brief Part 2 item 27 | "plus the KotM sets … extract its archive first" | meshes and textures DONE; `sound/` (voice), `scripts/`, `source/`, `seq/`, `lodsettings/` not extracted (§4.1) |
+| 16k § Carried backlog, 16h item 27 | "plus the KotM sets … extract its archive first" | meshes and textures DONE; `sound/` (voice), `scripts/`, `source/`, `seq/`, `lodsettings/` not extracted (§4.1) |
 
 Single doc for the writer to edit afterwards: the sourcing log row 204 (status, blockers, sub-rows
 per origin); the Phase 12 lines above go to the phases README in the same change.

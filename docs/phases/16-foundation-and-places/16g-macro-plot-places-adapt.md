@@ -40,7 +40,7 @@ map's places, tracks, waterways and services.
 
 It places nothing in 3D. Wreck hulls, ferry boats, landings, entrance
 pieces and dungeon doors are stood up by 16h's runtime with each place in
-16i, 16j and Phase 15; interiors are Phase 12's, built against the
+the 16k loop and Phase 15; interiors are Phase 12's, built against the
 promises fixed here; NPC statblocks are 10c's, populations 13's and 15's.
 Vegetation clearance for the tracks it lays is a typed patch applied to
 the published bundles (0070); the scatter is never re-run.
@@ -276,7 +276,7 @@ green with only 16h's two rows left.
 ## Deliver
 
 Two parts, one owner check at the end (owner 2026-09-18): Part 1 is the
-ground; Part 2's records are the ones 16h–16j, 12, 13 and 15 read and
+ground; Part 2's records are the ones 16h, 16k, 12, 13 and 15 read and
 are built in parallel with Part 1's later steps. A cut or merge the owner
 rejects at the check re-migrates the Part 2 records built on it.
 
@@ -325,7 +325,7 @@ rejects at the check re-migrates the Part 2 records built on it.
      with **only the owner-approved city anchors pinned** (owner
      2026-09-18). The five exemplar blueprint sitings are **not** pins:
      they were chosen on the old ground, the records are re-plotted like
-     any other; 16i re-authors each blueprint where its record lands
+     any other; the 16k loop re-authors each place where its record lands
      (`apply_sitings` must not re-pin them from the stale blueprints; the
      ledger names where each of the five moved to). **A city pin is where the
      city's gate stands on its main road, not its centre** (owner
@@ -337,7 +337,7 @@ rejects at the check re-migrates the Part 2 records built on it.
      recipe), reachable from the gate by a street or way that the existing
      street router (`street_router`, the blueprint tooling) can actually
      find on the measured ground. The centre may be some distance from the
-     gate; the record stores the found gate-to-centre way so 16h/16i build
+     gate; the record stores the found gate-to-centre way so 16h/16k build
      it rather than re-derive it. The exclusion footprint is drawn around
      the centre. A city whose local geography cannot hold its footprint on
      any centre the router can reach from the gate is an owner call,
@@ -358,7 +358,7 @@ rejects at the check re-migrates the Part 2 records built on it.
      shore or a ridge, a town on a river bend), sized from the recipe's
      magnitude band and shaped to the buildable ground; the gate
      checks the polygon where one exists and the radius otherwise;
-     16i's built hull replaces the polygon when the blueprint exists, sightline
+     the 16k loop's built hull replaces the polygon when the blueprint exists, sightline
      (A6), proximity (A6b), danger bands (A7), "on the road"
      against the 0069 network (A8), navigable water sampled along the
      serving lane (B5 depth classes), the enclave gate (A11), the approach
@@ -516,7 +516,7 @@ rejects at the check re-migrates the Part 2 records built on it.
 ### Part 2 — the records later phases build against
 
 10. **The promise vocabulary for dungeon-kind places** (0062: Phase 12
-    builds the insides against promises made here; 16j and Phase 15 author
+    builds the insides against promises made here; the 16k loop and Phase 15 author
     more, so the vocabulary is fixed now). One vocabulary, edited in place:
     world 70 §48's `InteriorProgram` is the design statement and
     `catalogue.py`'s `interior` block is the binding schema (the research
@@ -557,7 +557,7 @@ rejects at the check re-migrates the Part 2 records built on it.
       plane; xanmeer-complex / hist-sanctum → `xanmeer-interior-v1`;
       imperial-fort → `imperial-keep`; shipwreck → `wrecks-v1`; dwelling /
       civic-hall / abandoned-plantation → a furnished vanilla cell under
-      the 16i fit rule; sinkhole-ruin → root kit plus `ruin-monumental-v1`
+      the fit rule (`place-build/references/doors-interiors-sockets.md` §2; since 0103 an unlinked shell's door is reserved); sinkhole-ruin → root kit plus `ruin-monumental-v1`
       dressing). For ayleid-nedic-ruin and kothringi-lilmothiit-site the
       vault has nothing: **source first** (Nexus, the owner's key, the
       golden rule) and record it; re-type only what no mod anywhere can
@@ -570,7 +570,7 @@ rejects at the check re-migrates the Part 2 records built on it.
       **record-only** obligations (no blueprint required; owner
       `phase-12`) from the promise fields, exported as the expected set;
       the manifest verifier is written by the first chunk that emits a
-      manifest (16i, tier A interiors) and the phases README's wording is
+      manifest (the 16k slice that first ships a tier A interior, 0103) and the phases README's wording is
       corrected to say so instead of naming a module that does not exist.
 11. **The prior→roster rule** (buildout register and 0062; cited as world
     92 §84, which does not yet state it — write it there): generate a

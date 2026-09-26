@@ -37,7 +37,7 @@ paint, the vegetation clearance patch kind, the water's colour
 constituents and the insects' habitat. It builds the wreck kit but places
 no wreck: a wreck is a catalogue place with promises (decision 0062),
 confirmed against the water record in 16g and stood up by 16h's runtime
-with its place (16i, 16j, Phase 15). It keeps the *how high* 16c fixed
+with its place (the 16k loop, Phase 15). It keeps the *how high* 16c fixed
 for the insects and moves only the *where*. It does not retune the tree
 density ladder (0048). The seasonal foliage response goes to the polish
 backlog (owner 2026-09-16); it is renderer-only and nothing here depends

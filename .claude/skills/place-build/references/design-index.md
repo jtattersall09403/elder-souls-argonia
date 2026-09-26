@@ -29,11 +29,14 @@ matter.
 | decision 0098 | § 1 table | per-settlement variety bars by tier; one assembly ≤ 3 province-wide, never twice within 2 km; tropicalise by texture only | settlements; steps 1, 5 | B |
 | decision 0099 | whole | the loop; the exit bar; the yard as regression fixture | every slice | B |
 | decision 0100 | whole | this skill's architecture: whole-layout authoring, lessons store, acceptance freeze, dependency direction | every slice | B |
+| decision 0101 | whole | building pads as typed patches with retaining walls; C6 per district; R5 beached craft; yard sets as a tracked record | steps 2, 5 | B |
+| decision 0102 | whole | a place carries its own ground as a runtime overlay; every measurable check is a `wb.py check` rule; no unfinished work in a hand-off; four render rounds | steps 2, 4-6 | B |
+| decision 0103 | whole | shells chosen for their interiors; the fit rule picks the tier A cell; tier A copied verbatim and enterable; every promise a placed socket (`references/doors-interiors-sockets.md`) | steps 1, 2, 5, 6 | B |
 | decision 0081 | decisions 3-5 | three patch kinds (pad, clearance, dressing-add); doors are TES transitions (tier A verbatim, else reserved); Sonnet ingestion | steps 2, 5 | B |
 | decision 0078 | whole | plot schema (`footprintRadiusM`, `coSitedWith`, `ownerGuided`); a city is a gate plus a centre; canon decides which way a fault is fixed | step 0 | B |
-| decision 0062 | § 9 | dungeons are places; interiors are a late phase; cities and opening scenes are owner-guided | types 5, 8 | B |
+| decision 0062 | § 9 | dungeons are places; tiers B and C of interiors are Phase 12 (tier A ships in 16k, 0103); cities and opening scenes are owner-guided | types 5, 8 | B |
 | decision 0036 | Q1, Q5 | vegetation density and groundcover: background for the clearance edge | step 5 | B |
-| `docs/phases/16-foundation-and-places/16k-place-loop.md` | § The loop, § The checklist :91-129, § Owner check-ins, § Gotchas | the steps, the Gate rows and their asset pools, the walk packet shape | every slice | B |
+| `docs/phases/16-foundation-and-places/16k-place-loop.md` | § The loop, § The checklist, § Carried backlog (the slice's items), § Owner check-ins, § Gotchas | the steps, the Gate rows and their asset pools, the walk packet shape | every slice | B |
 | `docs/research/phase16/16k-handoff-2026-09-25.md` | rulings 1-6 | type 9, the Gate column (sockets, not systems), exemplars dropped, the first place | slice 1 | B |
 | `docs/world/00-core.md` | whole | binding goals and acceptance | session start | B |
 | `docs/world/10-vvardenfell-lessons.md` | §5-6 | settlement causation; repetition as cultural language | step 1 | P |

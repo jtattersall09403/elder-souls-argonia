@@ -67,8 +67,9 @@ nothing said what holds up the edge of a levelled building.
    under its flood floor.
 7. **One pad writer, one judge, one surface.** `settlement_run_pads.pad_patch`
    writes both the run pads and the building pads;
-   `export_settlement_bundle.emit_run_pads` merges both cumulatively into
-   the place's patch set. A building patch carries `hardM` 0, so the
+   since 0102 they travel in the place's bundle as `groundOverlays`
+   (`export_settlement_bundle.attach_ground_overlays`, `pad_overlay`) and
+   are applied at load, never through the terrain chain. A building patch carries `hardM` 0, so the
    realised pad is exactly footprint + apron and `pad_ground` is its
    surface. `settlement_run_pads.building_pad` is the one refusal, called by
    the compile and by `wb.py check`; after the pads are resolved every

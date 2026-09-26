@@ -167,14 +167,18 @@ province holds 6.8 % of its land ≥800 m from every settlement and 13.9 % at
 G17.
 
 **A7. Danger is fixed by place and region and shapes what may sit where.**
-Lived-in classes sit within ±1 band of their ground, others ±2; D5 never
+Lived-in classes sit within ±2 bands of their ground (the plot prefers one
+and allows the second at its relaxed stages; relaxed to this by the owner,
+0102 decision 9), others ±2; D5 never
 within 200 m of a road unless its identity is the road; a city's edge (≤350 m)
 holds only wards, docks, works, shrines, gates; its hinterland (≤1.2 km) holds
 no hostile place and no D4+ lair; unrelated hostile places do not exceed a 70
 % share of any 800 m neighbourhood; fights sit off routes more than on them.
-*O* 00-core rule 2; *O* 2026-09-03/04 (rings, frequency by place). **Enforced
-by** `macro_plot` danger gate, `ring_fit`, `HOSTILE_CLUSTER_*`,
-`D5_MIN_ROUTE_M`; `hostility_frequency` gap report.
+*O* 00-core rule 2; *O* 2026-09-03/04 (rings, frequency by place); *O*
+2026-09-26 (±2 for lived-in, 0102). **Enforced by** `macro_plot` danger
+gate, `ring_fit`, `HOSTILE_CLUSTER_*`, `D5_MIN_ROUTE_M`;
+`test_record_services` (lived-in ±2 on the catalogue); `hostility_frequency`
+gap report.
 
 **A8. A place whose identity is a network role sits where the role exists or
 is cut.** "On the road" means ≤220 m from a route (380 relaxed); a gate sits
@@ -587,6 +591,13 @@ on a 2 m gradient; checklist item 12; `blueprint_integration` `abuts-snap`
 around it; its minders face it.** *L* (each xanmeer housed its tribe's Hist;
 the tree-minder office; Lilmoth's third Hist); *O* Round B steer list (Hist
 prominence). **Enforced by** `clearance.kept` kind `hist-tree`; reviewer.
+
+**C16. Every building shows a light at its entrance at night: a window glow
+facing the approach (within 90° of the door's bearing) or a mounted light
+(lantern, sconce, brazier, fire) within 2 m of the threshold.** *O* 2026-09-26
+(0102 decision 7). **Enforced by** `compile_settlement.unlit_entrance_errors`
+(HARD for a place, WARN for a fixture; glow facings from the kit manifest's
+`glowFacingsDeg`, lights by assembly layer `light`); reader checklist (front).
 
 ---
 

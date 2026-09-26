@@ -54,7 +54,7 @@ for part 2 item 24 (the interior camera). Read by
 ## Open
 
 - Interior shells (the stilt hut): near-plane fade of occluders inside a
-  shell, 16h part 2 item 24. The settlement renderer draws buildings as
+  shell, 16k carried 16h item 24. The settlement renderer draws buildings as
   `InstancedMesh` buckets, so a fade needs a per-instance attribute and a
   `discard` in the settlement material patch (which CSM re-hooks), on every
   material variant.

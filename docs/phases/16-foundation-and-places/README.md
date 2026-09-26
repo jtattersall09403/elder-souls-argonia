@@ -45,16 +45,19 @@ Phase 16 builds the world once and then the places on it:
    (carried 16j items 8–9); the queue then runs 9 (thin swim first) → 10b
    → 10c → 13 → 12 → 12b → 14 → 15 (0062, unchanged by 0099).
 
-**Where the superseded work went.** 16h part 2 (items 10–38), 16h part
-1's open items, 16i (items 0–13) and 16j (items 1–9) are the loop's
-backlog under their original numbers, listed in
-[16k § Carried backlog](16k-place-loop.md#carried-backlog-numbers-as-in-the-superseded-briefs);
-each slice takes the items its place first needs. The three briefs stay
-in this folder only as the text of those items (a notice at the top of
-each; 16h keeps part 1 live until it closes). The five Phase 11
-exemplars are dropped (16k hand-off ruling 4; their blueprints were
-deleted 2026-09-25, 0099 addendum); Lilmoth returns as the owner-guided
-whole-city slice. The six exemplars planned for 16i were never built.
+**Where the retired work went.** 16h part 2, 16i and 16j are retired by
+0099 (owner ruling 2026-09-26: 16k replaces them everywhere). Every
+still-live item of theirs is in
+[16k § Carried backlog](16k-place-loop.md#carried-backlog-numbers-as-in-the-retired-briefs)
+under its original number, as the only full copy; their procedure (door
+records, the interior fit rule, the interior runtime contract, the
+approach checklist, the packet template) is in the `place-build` skill's
+references. Each slice takes the items its place first needs. The 16i
+and 16j briefs are archived in
+[phase16-retired-briefs](../../research/archive/phase16-retired-briefs/);
+16h keeps only part 1's closed record. The five 2026-09-09 exemplar
+blueprints were deleted 2026-09-25 (0099 addendum); Lilmoth returns as
+the owner-guided whole-city slice (type 8).
 
 ## Reading order for a fresh agent
 
@@ -62,8 +65,8 @@ whole-city slice. The six exemplars planned for 16i were never built.
 2. For place work: the [16k brief](16k-place-loop.md) (its Starting state
    and § Read are the whole map), [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md)
    and [0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md)
-   in full, then the `place-build` skill (its lessons store first). Open
-   16h, 16i or 16j only for the text of a carried item the slice takes.
+   in full, then the `place-build` skill (its lessons store first). The
+   carried items the slice takes are in 16k § Carried backlog.
 3. For the yard close: the [16h brief](16h-settlement-runtime-and-kit-qa.md)
    § Part 1 state.
 4. For anything below the freeze (terrain, water, routes, vegetation,
@@ -318,10 +321,10 @@ H3 Slotted into the phase plan as the current work and integrated with the route
 | 16e | [Routes, grading, spans and ferries](16e-routes-grading-spans-ferries.md): routes on the record, grading as patches, crossings and ferries from the graph, the travel-service graph | three roads, two fords, one ferry | 9 | delivered 2026-09-15, round 3 2026-09-16 ([ledger](../../research/phase16/16e-ledger.md), [0068](../../decisions/0068-routes-below-the-gate-records-here-realised-in-16h.md), [0069](../../decisions/0069-the-road-network-is-six-legs-and-two-exits.md)); owner walk closed 2026-09-18 |
 | 16f | [Vegetation on the frozen water](16f-vegetation-on-frozen-water.md): bake and scatter on the record, ground cover, rocks, the submerged band, clearance as a patch kind | region sites, a river, a fall, the beach | 10 | rounds 1–5 delivered 2026-09-16/18 ([ledger](../../research/phase16/16f-ledger.md), [0070](../../decisions/0070-vegetation-and-dressing-read-the-record.md) to [0075](../../decisions/0075-lod-is-a-ladder-stepped-from-the-camera.md)); round 5 walk pending (PROGRESS § Waiting on user) |
 | 16g | [Macro plot on the frozen world](16g-macro-plot-places-adapt.md): the re-plot, every record reviewed, design groups, minor tracks, the travel-service graph with the places, the promise vocabulary, the NPC roster, the names | the 2D plot and the review report | 11 | delivered 2026-09-19 ([0078](../../decisions/0078-places-adapt-to-the-frozen-world.md), [0080](../../decisions/0080-the-chain-runs-by-dependency-not-position.md), [ledger](../../research/phase16/16g-ledger.md)); owner walk and follow-up closed 2026-09-20 |
-| 16h | [The building blocks](16h-settlement-runtime-and-kit-qa.md): kit truth mined from the plugins, yaw sign, real colliders, the building LOD ladder, doors as records, the three patch kinds, the proving ground | part 1: check-ins 1–3 on the yard | 12 | part 1 closing (check-in 3 fix round, 16k slice 1a); part 2 superseded by 16k (0099), items carried |
-| 16i | [The exemplars, end to end](16i-exemplars-end-to-end.md) | — | 13 | superseded by 16k 2026-09-25 (0099), never started; kept for the item text |
-| 16j | [Rollout skill and trial packet](16j-rollout-skill-and-trial-packet.md) | — | — | superseded by 16k 2026-09-25 (0099), never started; kept for the item text |
-| 16k | [The place loop](16k-place-loop.md): one real place per slice, the `place-build` skill, whole-layout authoring, the owner's walk, one fix round per walk, the acceptance freeze; carries 16h part 2, 16i and 16j by number | every walk (one-message reply); type list, exit bar and Gate column signed 2026-09-25 | — | in progress: slice 1a/1b (yard close lanes, workbench whole-layout tooling, the place skill, docs reconciled, breadth bars; 0100); next 1c Claywater Station |
+| 16h | [The building blocks](16h-settlement-runtime-and-kit-qa.md): kit truth mined from the plugins, yaw sign, real colliders, the building LOD ladder, the proving ground | part 1: check-ins 1–3 on the yard | 12 | part 1 closed with the check-in 3 fix round (16k slice 1a); part 2 retired by 0099, its live items in 16k § Carried backlog |
+| 16i | [The exemplars, end to end](../../research/archive/phase16-retired-briefs/16i-exemplars-end-to-end.md) (archived) | — | 13 | retired by 0099 on 2026-09-25, never started; live items in 16k § Carried backlog |
+| 16j | [Rollout skill and trial packet](../../research/archive/phase16-retired-briefs/16j-rollout-skill-and-trial-packet.md) (archived) | — | — | retired by 0099 on 2026-09-25, never started; live items in 16k § Carried backlog |
+| 16k | [The place loop](16k-place-loop.md): one real place per slice, the `place-build` skill, whole-layout authoring, the owner's walk, one fix round per walk, the acceptance freeze; carries 16h part 2, 16i and 16j by number; tier A interiors and placed sockets (0103) | every walk (one-message reply); type list, exit bar and Gate column signed 2026-09-25 | — | in progress: slices 1a/1b done (0100); slice 1c Claywater Station built and published, walk packet 1 withdrawn (0102), rebuilt under 0102/0103 for walk packet 2 |
 
 **Why this order.** Water depends on terrain; routes and vegetation depend on
 water; places depend on all three; the building blocks must be right
@@ -487,8 +490,8 @@ The numbered list is kept so briefs can cite "ruling N".
     for the three built places (Lilmoth, Mazzatun, Nine-Trunks) and the
     licensed camp's one stage building; Wamasu Pond has none.
     *Superseded 2026-09-25:* the five exemplars are dropped (0099
-    addendum); tier A interiors are built per loop place (carried 16i
-    items 4–5).
+    addendum); tier A interiors are built per loop place (16k § Carried
+    backlog, 16i items 4–5; 0103).
 
 ## 8. Visual ingestion and the kit QA loop (proposal for the owner, E2 / D13)
 
@@ -640,3 +643,8 @@ The list below is the seed for that work.
   authored as one whole layout and iterated on renders, the plan read
   first; lessons live in the skill; dressing is authored to 0098's
   numbers; an accepted place is frozen by its receipt.
+- **2026-09-26, [0102](../../decisions/0102-a-place-carries-its-own-ground-and-hands-over-nothing-it-can-check-itself.md) and [0103](../../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md):**
+  a place carries its own ground and hands over nothing a tool can check;
+  tier A interiors ship in 16k and every promise is a placed socket. The
+  16i and 16j briefs moved to the research archive; their live items and
+  16h part 2's are in 16k § Carried backlog only.

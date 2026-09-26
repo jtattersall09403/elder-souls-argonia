@@ -1,16 +1,7 @@
 # 16i — The exemplars, end to end: designed on paper, built, walked, and the skill written from it
 
-> **SUPERSEDED 2026-09-25** by the place loop (decision
-> [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md),
-> brief [16k](16k-place-loop.md)): real places are built one at a time
-> and walked until right, instead of six exemplars on paper first. The
-> items below (lesson reconciliation, interior claims, the interior
-> runtime, tier A cells, the approach checklist, skill v2, the type
-> register) are 16k's carried backlog by number; this file is kept only
-> for the item text. None of the six was built; the five Phase 11
-> exemplars are dropped (16k hand-off ruling 4, their blueprints deleted
-> 2026-09-25) and Lilmoth returns as the owner-guided whole-city slice.
-> Do not run `deliver 16i`.
+> Retired by [0099](../../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) on 2026-09-25; do not run it.
+> Its live items are now in [16k](../../../phases/16-foundation-and-places/16k-place-loop.md) § Carried backlog; procedure in the place-build skill.
 
 **Goal.** Take six example places all the way from a dot on the map to a
 place you can walk into and enter, on 16h's building blocks, then write
@@ -37,7 +28,7 @@ check-in happens once, at the end of the part.
 
 Needs ruling 13 (interior scope, given 2026-09-11: interiors for the three
 built places and the camp's stage building; Wamasu Pond has none) and
-decision [0081](../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md)
+decision [0081](../../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md)
 (the reshaped flow; the door model).
 
 ## How this chunk fits
@@ -144,37 +135,37 @@ starts, stop and record it in PROGRESS.md as 16h's gap.
 
 ## Read (fresh agent: this is your whole map)
 
-- This brief in full; the [16h brief](16h-settlement-runtime-and-kit-qa.md)
+- This brief in full; the [16h brief](../../../phases/16-foundation-and-places/16h-settlement-runtime-and-kit-qa.md)
   § What this chunk realises and § The story (what you inherit);
   the 16h ledger (`docs/research/phase16/16h-ledger.md`, written when
   16h closes) § Ending state.
-- The plan [README](README.md) §3 (ladder rules), §7 ruling 13, §8.
-- Decisions [0062](../../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md)
-  in full, [0081](../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md)
-  in full, [0066](../../decisions/0066-downstream-stages-read-the-signed-record-never-re-solve-it.md),
-  [0078](../../decisions/0078-places-adapt-to-the-frozen-world.md),
-  [0041](../../decisions/0041-phase11-settlement-decisions.md) § Taste
+- The plan [README](../../../phases/16-foundation-and-places/README.md) §3 (ladder rules), §7 ruling 13, §8.
+- Decisions [0062](../../../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md)
+  in full, [0081](../../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md)
+  in full, [0066](../../../decisions/0066-downstream-stages-read-the-signed-record-never-re-solve-it.md),
+  [0078](../../../decisions/0078-places-adapt-to-the-frozen-world.md),
+  [0041](../../../decisions/0041-phase11-settlement-decisions.md) § Taste
   ledger only (the owner's earlier steers as rules).
 - `.claude/skills/settlement-build/SKILL.md` in full (v1, the path you
   replace); `.claude/skills/kit-qa/SKILL.md` in full; `.claude/skills/text-review/`.
-- [world/96](../../world/96-placement-playbook.md) in full,
-  [world/97](../../world/97-placement-principles.md) in full (binding),
-  [world/70](../../world/70-dungeons-interiors.md) §47–50 (families,
-  promises, combat spaces, settlement form), [world/80](../../world/80-repo-architecture.md)
-  §63 (portals, as 16h edited it), [world/90](../../world/90-asset-strategy.md)
+- [world/96](../../../world/96-placement-playbook.md) in full,
+  [world/97](../../../world/97-placement-principles.md) in full (binding),
+  [world/70](../../../world/70-dungeons-interiors.md) §47–50 (families,
+  promises, combat spaces, settlement form), [world/80](../../../world/80-repo-architecture.md)
+  §63 (portals, as 16h edited it), [world/90](../../../world/90-asset-strategy.md)
   §71 (sourcing procedure).
-- Research: [settlement-type-recipes.md](../../research/placement-settlements/settlement-type-recipes.md),
-  [shipped-world-placement-rules.md](../../research/placement-settlements/shipped-world-placement-rules.md),
-  [mined-interior-assembly-and-settlement-form.md](../../research/placement-settlements/mined-interior-assembly-and-settlement-form.md),
-  [exterior-interior-linking-in-skyrim-mods.md](../../research/placement-settlements/exterior-interior-linking-in-skyrim-mods.md)
-  (how a door teleports: `XTEL`, paired markers), [kit-assemblies-evidence.md](../../research/placement-settlements/kit-assemblies-evidence.md),
-  [openworld-approach-and-wayfinding.md](../../research/placement-settlements/openworld-approach-and-wayfinding.md)
-  §5 (the 16-item approach checklist), [research/rendering/building-placement-rendering-treatments.md](../../research/rendering/building-placement-rendering-treatments.md)
-  §3, the [settlement kit sourcing log](../../research/placement-settlements/settlement-kit-sourcing-log.md)
+- Research: [settlement-type-recipes.md](../../placement-settlements/settlement-type-recipes.md),
+  [shipped-world-placement-rules.md](../../placement-settlements/shipped-world-placement-rules.md),
+  [mined-interior-assembly-and-settlement-form.md](../../placement-settlements/mined-interior-assembly-and-settlement-form.md),
+  [exterior-interior-linking-in-skyrim-mods.md](../../placement-settlements/exterior-interior-linking-in-skyrim-mods.md)
+  (how a door teleports: `XTEL`, paired markers), [kit-assemblies-evidence.md](../../placement-settlements/kit-assemblies-evidence.md),
+  [openworld-approach-and-wayfinding.md](../../placement-settlements/openworld-approach-and-wayfinding.md)
+  §5 (the 16-item approach checklist), [research/rendering/building-placement-rendering-treatments.md](../../rendering/building-placement-rendering-treatments.md)
+  §3, the [settlement kit sourcing log](../../placement-settlements/settlement-kit-sourcing-log.md)
   (OPEN rows are gaps you show, never fill by hand).
-- Quests: [docs/quests/20-world-provisions.md](../../quests/20-world-provisions.md)
+- Quests: [docs/quests/20-world-provisions.md](../../../quests/20-world-provisions.md)
   (each exemplar's provisions; §12 the D0 safe interior),
-  [docs/quests/25-quest-place-map.md](../../quests/25-quest-place-map.md)
+  [docs/quests/25-quest-place-map.md](../../../quests/25-quest-place-map.md)
   rows for the six places.
 - The six places' catalogue records and design records
   (`world/sources/sites/`, `world/sources/blueprints/`), their lore
@@ -237,21 +228,21 @@ settlement bundle. Its output is records and pictures.
    recommendation).
    Fable rules on every open row it can from the decisions; the rest go
    to the owner. Sources, all of them:
-   - Lessons: [world 96 §2](../../world/96-placement-playbook.md) (the
+   - Lessons: [world 96 §2](../../../world/96-placement-playbook.md) (the
      lessons list), [0041 § Taste ledger, § Places have EXTENT, § Part
-     3b/3c](../../decisions/0041-phase11-settlement-decisions.md), the
-     [Phase 11 rounds archive](../../research/archive/phase11-rounds/)
+     3b/3c](../../../decisions/0041-phase11-settlement-decisions.md), the
+     [Phase 11 rounds archive](../phase11-rounds)
      (the round log's owner steers, the Round A audit and owner-eye
      review, the plot review, the 2026-09-09 walkthrough, the gap plan,
-     the promise ledger), [research/phase11/](../../research/phase11/)
+     the promise ledger), [research/phase11/](../../phase11)
      (the vibe-sheet asset audit and the critique folder), the
-     [settlements audit](../../research/phase16/audit-settlements-delivered.md)
+     [settlements audit](../../phase16/audit-settlements-delivered.md)
      §9 (the doors round), the backlog's settlement rows and
-     [world 10](../../world/10-vvardenfell-lessons.md) Part I for the
+     [world 10](../../../world/10-vvardenfell-lessons.md) Part I for the
      authoring cascade.
-   - Interiors: [exterior-interior-linking-in-skyrim-mods.md](../../research/placement-settlements/exterior-interior-linking-in-skyrim-mods.md),
-     [mined-interior-assembly-and-settlement-form.md](../../research/placement-settlements/mined-interior-assembly-and-settlement-form.md),
-     [world 70 §47–50](../../world/70-dungeons-interiors.md) including
+   - Interiors: [exterior-interior-linking-in-skyrim-mods.md](../../placement-settlements/exterior-interior-linking-in-skyrim-mods.md),
+     [mined-interior-assembly-and-settlement-form.md](../../placement-settlements/mined-interior-assembly-and-settlement-form.md),
+     [world 70 §47–50](../../../world/70-dungeons-interiors.md) including
      the owner ruling of 2026-09-05 at §48 ("everything intended to have
      an interior must have a door; derive from our kits which buildings
      have interiors"), `tooling/asset-pipeline/pipeline/interiors_index.py`
@@ -309,17 +300,17 @@ settlement bundle. Its output is records and pictures.
    sheet); fix shared causes as rules.
    Each plan lists, per settlement, its tier row from decision 0098 and
    the shells it draws on
-   ([building-asset-breadth.md](../../research/placement-settlements/building-asset-breadth.md)
+   ([building-asset-breadth.md](../../placement-settlements/building-asset-breadth.md)
    §3 reachability), and per building its assembly layers and kits and
    the evidence for each layer
-   ([building-depth-and-variety.md](../../research/placement-settlements/building-depth-and-variety.md)
+   ([building-depth-and-variety.md](../../placement-settlements/building-depth-and-variety.md)
    §2, §6 item 8). **Settle first:** the kit table (research §6 item 8,
    from the retired blueprints) gives Nine-Trunks mud and root and
    Mazzatun stilt and works; § The story calls Nine-Trunks "the stilt
    village" and Mazzatun "the stepped stone town". Rule on each place's
    grammar before any plan is drawn.
    King of the Murkmire (KotM) families and layout lessons per exemplar:
-   the § 3.2 table of [king-of-the-murkmire-adoption-plan.md](../../research/placement-settlements/king-of-the-murkmire-adoption-plan.md). Lilmoth's plan takes KotM's 8.5 m
+   the § 3.2 table of [king-of-the-murkmire-adoption-plan.md](../../placement-settlements/king-of-the-murkmire-adoption-plan.md). Lilmoth's plan takes KotM's 8.5 m
    street spacing and dock density only; `lilmoth.md` § Lilmoth in
    4E 201 (owner decision Q4) rejects KotM's Imperial-industrial Lilmoth.
 
@@ -360,7 +351,7 @@ settlement bundle. Its output is records and pictures.
      count fails a test. Retexturing to the culture is Phase 12's; the
      claim says so. The use-class classifier is proved on a 12-cell
      labelled sample (inn, shop, shrine, dwelling; labels written first),
-     then a fresh 12, before any claim is written ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 4).
+     then a fresh 12, before any claim is written ([16h catalogue audit](../../phase16/16h-catalogue-wide-steps-audit.md) step 4).
    - **Reserved, `interiorStatus: reserved`**: everything else, including
      the sixth's cave door (its inside is Phase 12's first exemplar, a
      modular root cavern, 0062 §5). Ruling 13 bounds where tier A and
@@ -400,7 +391,7 @@ settlement bundle. Its output is records and pictures.
    unlisted gap fails export. Interior navmesh bakes wait for 10b and the
    record says so. The light decode is checked on 6 claimed cells plus 6
    others against counts and colours read from the plugin first; no full
-   plugin re-index as verification ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md) step 6).
+   plugin re-index as verification ([16h catalogue audit](../../phase16/16h-catalogue-wide-steps-audit.md) step 6).
 
 6. **Plan sheets and the check-in 1 packet.** One plan sheet per place
    from 16h's renderer (footprints with fronts and door dots, ways, pads
@@ -498,7 +489,7 @@ settlement bundle. Its output is records and pictures.
   per dwelling, and the minimum set per dwelling (door, light, roof
   detail, ≥ 5 personal clutter); no assembly repeats within 2 km or
   more than 3 times province-wide; every dwelling has windows unless
-  [building-depth-and-variety.md](../../research/placement-settlements/building-depth-and-variety.md)
+  [building-depth-and-variety.md](../../placement-settlements/building-depth-and-variety.md)
   §4 rules "none by design".
 
 ## Owner check-ins
@@ -576,7 +567,7 @@ city needs and the skill on which the rollout depends. Each is a batch.
 `deliver` on disjoint files with a time budget each and a named gate.
 
 **Catalogue runs** follow the CLAUDE.md golden rule "Prove on a sample,
-validate on a fresh batch, scale once" ([16h catalogue audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)). The place lanes
+validate on a fresh batch, scale once" ([16h catalogue audit](../../phase16/16h-catalogue-wide-steps-audit.md)). The place lanes
 share one `kit-qa` output directory with stamps, so no template renders
 twice, and the Sonnet protocol is tuned on 3 sheets with verdicts written
 first before each sweep, two loops at most.

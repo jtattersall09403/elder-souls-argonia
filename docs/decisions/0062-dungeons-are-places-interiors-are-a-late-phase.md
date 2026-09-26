@@ -54,7 +54,8 @@ opening-scene places.
    lock class) and migrates all 327 records; 16j and Phase 15 author more.
    **Every family maps to a realisation recipe backed by a kit that
    exists;** a record whose family has none is re-typed, never promised.
-3. **Building interiors split into tiers.** Tier A (a furnished cell a
+3. *(Superseded in part by [0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md)/[16k](../phases/16-foundation-and-places/16k-place-loop.md) and [0103](0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md), 2026-09-26: tier A ships in the 16k loop, not 16i; Phase 12 keeps tiers B and C.)*
+   **Building interiors split into tiers.** Tier A (a furnished cell a
    plugin links to the shell) ships verbatim in 16i with the door
    transition, the interior load contract and interior lighting. Tier B
    (assembled) is Phase 12's. Every door without an interior carries

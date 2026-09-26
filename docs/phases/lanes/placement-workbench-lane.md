@@ -79,9 +79,8 @@ rules. It now calls the compile's and the gate's own functions, and
 | What it cannot do | scale to a catalogue without an agent turn per piece; keep a quay pose to the centimetre (the compile slides it 0.025 m); read dark close-ups (one reader view came back black) | see a contact before the owner walks it; try a variant cheaply; catch a rule the gates do not hold |
 
 **Recommendation (round 4; adopted by 0099 §5 and 0100 §1–2, where the
-prefab question moved to the loop's exit per type, 0099 §3):** author every hand-built place in the workbench, 16i's places
-first as then planned, with `wb.py compile` as the inner loop and `check` before every
-render. For 16j's catalogue rollout, use workbench prefabs (`group save` /
+prefab question moved to the loop's exit per type, 0099 §3):** author every hand-built place in the workbench (the 16k loop's places), with `wb.py compile` as the inner loop and `check` before every
+render. For the catalogue rollout (Phase 15), use workbench prefabs (`group save` /
 `group place`) per building type rather than a fresh layout per place;
 the per-piece turn cost is the limit, not the tool's accuracy.
 

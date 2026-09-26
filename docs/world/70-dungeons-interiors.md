@@ -100,6 +100,12 @@ fields.
   `quest.provision.*` id it answers. These are the pins the quest and loot
   compilers address; a quest-required socket is written from the quest
   plan, never invented.
+- Placed sockets (people, idle spots, items, containers and their fill,
+  encounters, ambience), exterior and tier A interior alike, are the
+  compiled `sockets[]` of decision 0103 decision 5. They are written in the
+  vocabulary `world/sources/vocab/socket-vocabulary.json` and gated in
+  `worldgen/sockets.py`. An anchor socket above records the catalogue's
+  intent; the compiled socket records where it stands.
 - `light` — daylit | torchlit | bioluminescent | dark | mixed.
 - `lock` — none | simple | hard | unpickable-key | quest-sealed
   (the unpickable-lock class and the spell-as-alternate-key pattern of the

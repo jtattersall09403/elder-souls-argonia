@@ -88,7 +88,7 @@ check-in 2 ruling 1): the wall-foot skirt jutted past the ruined wall ends and
 flashed, and the rubble ring stood round every base, blocked the gateway and
 had no colliders. The rule is now: no code-placed dressing at a building's
 foot. The seam at the wall foot is the terrain height-blend shader (option 1
-of the 2026-09-23 seam research), 16h part 2 item 25; item 15 (contact AO in
+of the 2026-09-23 seam research), 16k carried 16h item 25; item 15 (contact AO in
 the terrain ambient term) is not implemented. Item 17 (night windows) was
 inert until 2026-09-24: the kit build dropped the NIF glow map, the runtime
 picked window materials by a name no exterior material has, and it added the
@@ -99,7 +99,7 @@ their emissive map and lights them in the emissive stage as mask × warm
 colour × a night factor ramped on the sun's altitude
 (`packages/game-core/src/settlement/materials.ts`). Of the yard's pieces only
 `farmhouse01` carries a glow-mapped window; huts without windows are lit by
-lanterns and braziers under 16h part 2 item 22.
+lanterns and braziers under 16k carried 16h item 22.
 
 ### 2.1 Contact shadow at the base — the "extra shadow where a building meets the ground"
 
@@ -440,7 +440,7 @@ hand-off as a known gap.
 
 **Ground and dressing**
 18. Ground control is repainted over footprints and yards with a trodden/built class (texel scale derived from the image's own size; 1.83 m/texel today).
-19. ~~A fine base skirt exists at 0.6–1.5 m as offset geometry~~ CUT 2026-09-24 (check-in 2 ruling 1): the seam is the height-blend shader, 16h part 2 item 25.
+19. ~~A fine base skirt exists at 0.6–1.5 m as offset geometry~~ CUT 2026-09-24 (check-in 2 ruling 1): the seam is the height-blend shader, 16k carried 16h item 25.
 20. Groundcover exclusion exists and is tested against instance origin **plus species radius**, not origin alone.
 21. ~~A foundation clutter/foliage ring is scattered on a signed distance to the footprint~~ CUT 2026-09-24 (check-in 2 ruling 1): no code-placed dressing at a building's foot.
 

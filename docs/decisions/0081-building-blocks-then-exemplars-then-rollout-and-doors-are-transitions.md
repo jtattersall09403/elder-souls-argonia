@@ -8,6 +8,8 @@ against 0062.
 
 **Superseded in part by [0099](0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) (2026-09-25):** decision 1's flow from 16h part 2 on (exemplars in 16i, rollout in 16j) is replaced by the 16k place loop; 16h part 1, the door model and the three patch kinds stand.
 
+**Superseded by 0099/[16k](../phases/16-foundation-and-places/16k-place-loop.md) wherever it cites 16i or 16j (2026-09-26):** those briefs are retired and archived in [phase16-retired-briefs](../research/archive/phase16-retired-briefs/); their live items are in 16k § Carried backlog; [0103](0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md) moves tier A interiors into 16k (the door record fields of decision 4 stand).
+
 ## What the owner asked
 
 Review the 16h, 16i and 16j briefs as one flow into Phase 15; make the

@@ -204,7 +204,7 @@ The requirement:
 | argonian-stilt | 2, bamboo 1, shack 8 pieces | stilthouse, bamboohut, the full shack kit. With KotM: +24 | the shack kit is unbounded | Yes once the shack kit is complete, if its plank reads fit the grammar |
 | argonian-root | 3 + kiosk | 3 (no fourth in the vault) | 3 × balconies, access, windows, lianas | Hamlet tier only; a village (≥ 4 shells) is a sourcing gap |
 | imperial | 2 | farmhouse 11, cyrfarmhouse 3, smallhouse 1, Jet unbounded | farmhouse × walkway × shutters × ivy × destroyed | Yes |
-| dunmer-hlaalu | `hlaalu-domestic` (68 Hlaalu pieces) | Hlaalu ~6, Dagon Fel 9 | awnings, chimneys, windows | Yes; Dagon Fel joins `hlaalu-domestic` (16h part 2 item 33) |
+| dunmer-hlaalu | `hlaalu-domestic` (68 Hlaalu pieces) | Hlaalu ~6, Dagon Fel 9 | awnings, chimneys, windows | Yes; Dagon Fel joins `hlaalu-domestic` (16k carried 16h item 33) |
 | argonian-stone | tileset | ruin forms only | n/a (monument) | n/a |
 
 History: this section first measured against A6's ~25 % template cap and asked whether it
@@ -237,7 +237,7 @@ per-settlement bars above, so the question no longer applies.
    - `settlement-stilt-v1`: the other 50 shack kit pieces.
    - `settlement-mud-v1`: BM&V hut window01–03, windowbox01, steps01/03.
    - `settlement-root-v1`: Phitt `window` if it is not already there.
-   - Dagon Fel into the existing `hlaalu-domestic` kit (16h part 2 item 33), not a new kit.
+   - Dagon Fel into the existing `hlaalu-domestic` kit (16k carried 16h item 33), not a new kit.
    - Glow effect meshes whfxwindowglow01–04 and fxambwindowglow00 in a shared kit.
    - Credits in the root README in the same change.
 5. **Dressing mine.** Add a `kit-dressing-mined.json` step (sample first per `kit-mining`) using

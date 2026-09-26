@@ -29,7 +29,7 @@ mount rule); a bridge or a ferry hull drawn by today's runtime lands 93° off
 and sunk to the highest ground sample. So the `route-structures` studio layer
 stays hidden until 16h's stage delivers, ferry hulls and landings are placed
 through 16h's renderable kinds (with a `water` anchor class for a hull);
-each exemplar's and packet's ferries are built with the place (16i, 16j). At
+each place's ferries are built with the place (the 16k loop, 0099). At
 this chunk's check the owner walks graded roads and fords, uses a ferry
 through its landing socket; spans, graded sections and services are judged
 on the 2D map, where each carries its own hover text.
@@ -339,7 +339,7 @@ depth, a height), which 0066 allows.
    for). The seventh service stays `deferred`: it depends on two deferred
    catalogue records, which is 16g's plot call; say so on the record.
    Landings, hulls and the operator body are placed by 16h's renderable
-   kinds and 16i/16j with each place; nothing physical is placed here.
+   kinds and the 16k loop with each place; nothing physical is placed here.
 6. **The travel-service graph, one record.** `world/sources/routes/travel-services.json`
    is the province's one Morrowind-style service graph (talk, pay, arrive;
    no vessel simulation); `ferry-crossings.json` folds into it as its
@@ -359,8 +359,8 @@ depth, a height), which 0066 allows.
    16g places, grounded in the dossiers (the Underground Express of *The
    Argonian Account*, the Waykeeper dossier in quests 40) and the plot review;
    its quest ties (LQ07, TG06, the MQ Waykeeper reward track) are finalised
-   in the packet co-design loop (16j for the trial packet, Phase 15 per
-   packet). `root-transit.json` is deleted here with the hard-coded painter.
+   in the co-design loop (per 16k slice, 16k § Carried backlog 16j item 2;
+   Phase 15 per packet). `root-transit.json` is deleted here with the hard-coded painter.
    Tests: every station resolves; every hop follows a recorded lane or
    reach chain; every quests 20/25 `FAST` node resolves to a service id.
 7. **Talk-to-service contract in `packages/`.** The buildout register's
@@ -371,7 +371,7 @@ depth, a height), which 0066 allows.
    takes the fare and moves the character to the destination station. No
    dialogue system, no NPC mesh: the studio draws the socket as a dev-only
    marker with a prompt, so a ferry can be used at this chunk's check before
-   16h draws its hull and 16i stands its operator there. Test: a refusal
+   16h draws its hull and the 16k loop stands its operator there. Test: a refusal
    predicate refuses; a paid trip arrives at the destination's position.
 8. **Paint, overlays and the 2D map.** `routes_raster` and `rebake_landcover`
    read the published lines the character walks and paint the road surface

@@ -19,8 +19,8 @@ are not phases — several phases each draw on one module.
 | 9 | swimming, climbing, boats | [§ Phase 9](#phase-9--swimming-climbing-and-boats) | research [swim-climb-boat](../research/combat-and-systems/swim-climb-boat-implementation.md) |
 | 10b | full sandbox parity in the studio | [§ Phase 10b](#phase-10b--full-portable-sandbox-parity-in-the-studio) | [0017](../decisions/0017-sandbox-parity-moved-to-phase-10b.md) |
 | 10c | stats and progression implementation | [§ Phase 10c](#phase-10c--stats-progression-and-character-systems-module-76) | [../world/76](../world/76-stats-progression.md), [0019](../decisions/0019-stats-system-workstream-and-placement.md) |
-| 13 | fauna ecology, encounters, fixed loot (systems only; rollout in 15) | [§ Phase 13](#phase-13--fauna-ecology-encounters-and-fixed-loot-exemplar-first) | — |
-| **12** | **interiors**: every assembled interior, dungeon or building — research, the furnishing mine, the skill proved on exemplars then unattended; sites and promises are authored earlier with the places | [§ Phase 12](#phase-12--interiors-research-the-furnishing-mine-and-a-skill-proved-on-exemplars) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
+| 13 | fauna ecology, encounters, fixed loot (systems only; rollout in 15); fills the `sockets[]` the places author, adding no vocabulary | [§ Phase 13](#phase-13--fauna-ecology-encounters-and-fixed-loot-exemplar-first) | [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md) |
+| **12** | **interiors**: tiers B and C, every assembled interior, dungeon or building — research, the furnishing mine, the skill proved on exemplars then unattended; sites, promises, sockets and tier A cells are delivered earlier with the places (16k) | [§ Phase 12](#phase-12--interiors-research-the-furnishing-mine-and-a-skill-proved-on-exemplars) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md), [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md) |
 | P (+12b) | rolling polish pass; the soundscape | [§ Phase P](#phase-p--general-polish-pass-rolling-including-phase-12b--the-soundscape) + [P-polish/backlog.md](P-polish/backlog.md) | [0023](../decisions/0023-soundscape-polish-tier-and-credits.md) |
 | 14 | streaming and deployment (budgets; the renderer extraction moved to 10b) | [§ Phase 14](#phase-14--streaming-and-deployment) | [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
 | 15 | rollout by region packet, one pass per packet once every system exists, with the skill set the 16k loop proved (0099) | [§ Phase 15](#phase-15--rollout-by-region-packet) | [0034](../decisions/0034-build-sequence-rework.md), [0062](../decisions/0062-dungeons-are-places-interiors-are-a-late-phase.md) |
@@ -192,7 +192,7 @@ convenience and can be re-ordered by the owner.
 | 10 vegetation renderer + scatter compiler (§109–112) | 11, 13 | places are dressed and judged at real vegetation density; Phase 13 authors against measured budgets |
 | **16 frozen base + water** | 12, 15 | nothing after 16b re-carves terrain or moves water; a packet's or an interior's ground work is typed local patches that fail when they would (0057/0059); interior water is a plane inside a cell, never terrain hydrology |
 | 16g promise vocabulary | 16k, 12, 15 | every dungeon-kind record carries typed promises (rooms, loops, traversal, combat spaces, anchor sockets, slots) in a vocabulary fixed before anyone authors more of them; a family with no realisation recipe backed by a kit that exists is re-typed, not promised |
-| interior load contract + tier A (16i items 4–5, carried into 16k) | 12, 15 | the door transition and cell loading exist and have been walked before any interior is assembled |
+| interior load contract + tier A (the 16k loop, 0103; carried 16i items 4–5) | 12, 15 | the door transition and cell loading exist and have been walked before any interior is assembled |
 | 9 thin swim | 12 (underwater entrances), 15 | 52 records have underwater entrances; nobody can review one without swimming |
 | 13 fauna/loot | 12 interiors | rooms are designed knowing what will live in them and what the loot compiler can fill |
 | 12 interiors | 12b, 15 | acoustic profiles and the interiors rollout both read the interiors skill's output |
@@ -407,10 +407,16 @@ Deliverables:
 - **real places built one at a time in the 16k loop** until the place
   skill passes unattended twice in a row per type (0099, 0100); the loop
   builds the door transition and the **interior load contract** (carried
-  16i items 4–5) and delivers every loop place's interior that a mod
-  plugin already ships furnished behind that shell (**tier A**, verbatim);
-  every other door gets a typed reserved state; **tier B** (assembled
-  interiors) is Phase 12's;
+  16i items 4–5, 0103) and delivers every loop place's interior that a mod
+  plugin already ships furnished behind that shell (**tier A**, verbatim,
+  enterable in the studio); a lived-in building takes a shell with such a
+  cell (0103 decision 1); every other door gets a typed reserved state
+  naming its pool; **tiers B and C** (assembled interiors) are Phase 12's;
+- every promise a later phase fills (people and their schedules, items,
+  containers and their loot rules, encounters, ambience) **placed as a
+  typed socket** with its data in each loop place's `sockets[]` (0103
+  decisions 5–6), so Phases 13 and 10b fill records rather than design
+  places;
 - the **promise vocabulary** for dungeon-kind places fixed and every record
   migrated (16g), so sites, purposes, quest links and what-must-be-inside
   are authored with the places and the interiors are built later against
@@ -429,7 +435,13 @@ promises of what must be inside** are authored with every other place
 phase, late in the queue, builds **the insides**: every interior that has
 to be *assembled* rather than copied — dungeons of every family, hero
 interiors and the settlement buildings whose shells have no furnished
-cell in any mod plugin (tier B). It runs after Phase 13, so rooms are
+cell in any mod plugin (tiers B and C). **Tier A is not this phase's**
+(owner 2026-09-26, [0103](../decisions/0103-tier-a-interiors-ship-in-16k-and-every-promise-is-a-placed-socket.md)
+decision 7): the 16k loop ships every tier A cell verbatim and enterable,
+with the door transition, the load contract and interior lighting, and
+places every promise as a socket; this phase keeps tiers B and C, the
+furnishing mine and the dungeon interiors, and reads the loop's reserved
+doors (each naming its pool) and `sockets[]`. It runs after Phase 13, so rooms are
 designed knowing what will live in them; it runs before 12b and 14, so
 acoustic profiles and budgets read finished rooms. Rollout of its skill is Phase 15.
 
@@ -465,6 +477,10 @@ acoustic profiles and budgets read finished rooms. Rollout of its skill is Phase
    hut door is acceptable where the hut's own interior shell has no
    furnishing; Morrowind and Skyrim both reuse generic interiors behind
    varied fronts. This moves most settlement interiors from tier B to tier A.
+   *Amended 2026-09-26 (0103 decision 1):* in the 16k loop a lived-in
+   building takes a shell a plugin links to a furnished cell; an unlinked
+   shell's door stays `reserved` with its pool named, never given a
+   borrowed cell there.
 2. **Assembled interiors are kit-bashed at chamber level, not piece level.**
    The mined library of 1,825 furnished chambers (with their doorway
    sockets) is the unit of assembly; the skill composes chambers by socket
@@ -829,7 +845,15 @@ games' data for habitat/encounter patterns where useful (§86.0b).
 
 This phase consumes the place-obligation contract stated under Phase 12:
 its manifest answers the `contents`, `hostility`, `rewardProfile`,
-`occupants` and `services` obligations of every record.
+`occupants` and `services` obligations of every record. It fills the
+**sockets the places placed** (0103 decisions 5–7): `npc` and `idle`
+sockets with people and their schedules, `container` sockets by their
+fill rule or authored loot table, `item`, `encounter`, `fauna` and
+`ambience` sockets, all in `sockets[]` of the compiled settlement record
+and the interior bundles, against the one vocabulary
+`world/sources/vocab/socket-vocabulary.json`; it adds no vocabulary of
+its own. 10b reads the same record (the `walkRule` walk graph, the
+`npc` and `idle` sockets).
 
 **Moved out (0062):** the diegetic discovery feed is authored in each
 packet's quest-brief pass (quests 90 §65b; Phase 15 step 5) and this phase
