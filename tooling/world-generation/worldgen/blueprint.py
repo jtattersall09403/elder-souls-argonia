@@ -346,9 +346,11 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     this person and where they sleep. A catalogue
                     `contents.npcs` slot marked `named` is not delivered until
                     some occupant carries one of them (97 E9).
-  parcels[].service optional, one of `catalogue.SERVICES` — the parcel IS that
-                    service (the inn, the smith, the council hall), and it is
-                    what meets the catalogue record's `services[]` promise.
+  parcels[].services optional, a list of `catalogue.SERVICES` ids (schema 2;
+                    the schema-1 `service` string still reads as a one-item
+                    list, `blueprint_files.parcel_services`) — the parcel IS
+                    those services (the inn is lodging and a trader), and it
+                    is what meets the catalogue record's `services[]` promise.
                     Anything a player walks into also needs a door and a
                     linked interior (97 E5).
                     Both fields are validated by `worldgen.blueprint_promises`
@@ -391,6 +393,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from . import blueprint_footprints as fp
+from .blueprint_files import blueprint_paths  # noqa: F401 — re-exported: the one rule for which files are blueprints
 from . import blueprint_interiors as bi
 from . import parcel_kinds as pk
 from . import province_network as pn
@@ -401,7 +404,11 @@ from .catalogue import CATALOGUE_DIR, load_region_files
 from .dock_spec import (BLUEPRINT_DIR, DOCK_DEPTH_SAMPLE_M,  # noqa: F401
                         HULL_CLASS_DEPTH_M)
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+#: 2 (2026-09-26): a parcel's `services` is a list (one building hosts several:
+#: an inn is lodging and a trader). A schema-1 file, with the `service` string,
+#: still reads; `blueprint_files.parcel_services` is the one accessor.
+READABLE_SCHEMA_VERSIONS = (1, 2)
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 # Kit SETS a district may be built from (Phase 11 Part 6, owner ruling
@@ -2395,18 +2402,10 @@ def _dir_signature(blueprint_dir: Path) -> tuple:
     """(name, mtime_ns, size) per file — the cache key for a validated dir.
     Any edit to any blueprint moves it, so a stale result can never be served."""
     return tuple((p.name, p.stat().st_mtime_ns, p.stat().st_size)
-                 for p in sorted(blueprint_dir.glob("*.json")))
+                 for p in blueprint_paths(blueprint_dir))
 
 
 _VALIDATE_ALL_CACHE: dict = {}
-
-
-def blueprint_paths(blueprint_dir: Path = BLUEPRINT_DIR) -> list[Path]:
-    """The blueprint files in ``blueprint_dir``: every *.json with a top-level
-    `blueprint` key. A place's layout file (<place>.layout.json, 0100
-    decision 2) sits beside its blueprint and is not one."""
-    return [path for path in sorted(blueprint_dir.glob("*.json"))
-            if "blueprint" in json.loads(path.read_text())]
 
 
 def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] | None = None,
@@ -2430,8 +2429,8 @@ def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] 
     own_warnings: list[str] = []
     for path in blueprint_paths(blueprint_dir):
         data = json.loads(path.read_text())
-        if data.get("schemaVersion") != SCHEMA_VERSION:
-            errors.append(f"{path.name}: schemaVersion must be {SCHEMA_VERSION}")
+        if data.get("schemaVersion") not in READABLE_SCHEMA_VERSIONS:
+            errors.append(f"{path.name}: schemaVersion must be one of {READABLE_SCHEMA_VERSIONS}")
             continue
         bp = data.get("blueprint", {})
         if path.stem != bp.get("id"):
@@ -2466,8 +2465,8 @@ def main(argv: list[str] | None = None) -> int:
         errors = []
         for path in paths:
             data = json.loads(path.read_text())
-            if data.get("schemaVersion") != SCHEMA_VERSION:
-                errors.append(f"{path.name}: schemaVersion must be {SCHEMA_VERSION}")
+            if data.get("schemaVersion") not in READABLE_SCHEMA_VERSIONS:
+                errors.append(f"{path.name}: schemaVersion must be one of {READABLE_SCHEMA_VERSIONS}")
                 continue
             errors += validate_blueprint(data.get("blueprint", {}), ids, None, warnings)
     else:

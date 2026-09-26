@@ -54,21 +54,28 @@ KNOWN_RED: dict[str, list[dict]] = {
         {"match": "waterway.hist-heartland.sap-tapping-licensed.landing:",
          "why": _STALE_MINOR_WATERWAYS,
          "owner": "planner (water)",
-         "queuedIn": "docs/phases/P-polish/backlog.md:474 (waterways-minor.json stale row)"},
+         "queuedIn": "docs/phases/P-polish/backlog.md:479 (waterways-minor.json stale row)"},
         {"match": "waterway.mercantile-coast.lilmoth.lighter-quay:",
          "why": _STALE_MINOR_WATERWAYS,
          "owner": "planner (water)",
-         "queuedIn": "docs/phases/P-polish/backlog.md:474 (waterways-minor.json stale row)"},
+         "queuedIn": "docs/phases/P-polish/backlog.md:479 (waterways-minor.json stale row)"},
         {"match": "waterway.mercantile-coast.lilmoth.roadstead-tender:",
          "why": _STALE_MINOR_WATERWAYS,
          "owner": "planner (water)",
-         "queuedIn": "docs/phases/P-polish/backlog.md:474 (waterways-minor.json stale row)"},
+         "queuedIn": "docs/phases/P-polish/backlog.md:479 (waterways-minor.json stale row)"},
     ],
     "worldgen/test_minor_waterways.py::test_boat_stations_are_channelled_or_explained": [
         {"match": "waterway.hist-heartland.sap-tapping-licensed.landing)",
          "why": _STALE_MINOR_WATERWAYS,
          "owner": "planner (water)",
-         "queuedIn": "docs/phases/P-polish/backlog.md:474 (waterways-minor.json stale row)"},
+         "queuedIn": "docs/phases/P-polish/backlog.md:479 (waterways-minor.json stale row)"},
+        {"match": "place.imperial-fringe.claywater-station: served but not in demand",
+         "why": ("cafd26eb dropped Claywater's alias boat edge (route.boat.alten-corimont-"
+                 "helstrom): it is no longer water-bound, but the published "
+                 "waterways-minor.json still lists it onNetwork. The same republish "
+                 "clears it. Remove when the republish lands."),
+         "owner": "planner (water)",
+         "queuedIn": "docs/phases/P-polish/backlog.md:479 (waterways-minor.json stale row)"},
     ],
 }
 

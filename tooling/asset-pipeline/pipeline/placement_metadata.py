@@ -649,6 +649,8 @@ def collect_used_asset_coverage(
     expanded_candidates: dict[str, set[str]] = {}
     blueprint_dir = repo_root / "world/sources/blueprints"
     for path in sorted(blueprint_dir.glob("place.*.json")):
+        if path.name.endswith(".layout.json"):
+            continue   # a place's layout file, never a blueprint (0100 decision 2)
         doc = _read_json(path)
         _walk_blueprint_refs(
             doc.get("blueprint", doc), str(path.relative_to(repo_root)),

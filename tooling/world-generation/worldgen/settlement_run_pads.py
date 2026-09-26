@@ -141,7 +141,9 @@ def building_pad_patches(rows: list[dict], place_id: str) -> list[dict]:
         pad = p.get("pad")
         if not isinstance(pad, dict):
             continue
-        patch = pad_patch(place_id, p["parcelId"], [{
+        # the pad block names its parcel (the compile writes it; a bundle
+        # placement carries no parcelId of its own)
+        patch = pad_patch(place_id, pad["parcelId"], [{
             "placementId": p["id"], "targetM": round(float(pad["datumM"]), 3), "gapM": None,
             "footprintM": [[round(float(x), 3), round(float(z), 3)] for x, z in pad["polygonM"]]}],
             owner="building")
@@ -204,11 +206,26 @@ class PaddedSurvey:
         return getattr(self._survey, name)
 
 
-def merge_pad_patches(existing: list[dict], new: list[dict]) -> list[dict]:
-    """The cumulative merge: every patch in ``existing`` survives; a pad in
-    ``new`` adds its members, a member measured again with a gap replaces its
-    old entry. Other kinds are untouched. Returns the merged list (unordered)."""
-    out = {p["id"]: p for p in existing}
+def merge_pad_patches(existing: list[dict], new: list[dict],
+                      rebuilt: dict[str, dict] | None = None) -> list[dict]:
+    """The cumulative merge: a pad in ``new`` adds its members, a member
+    measured again with a gap replaces its old entry; other kinds are
+    untouched. Cumulative is about MEASUREMENT (a pad that worked measures no
+    gap), never about the layout: for every place in ``rebuilt``
+    ({placeId: {"runs": run ids, "buildings": padded parcel ids}}, the places
+    this export rebuilt), an existing pad of this writer whose run or
+    building is no longer there is dropped. Returns the merged list
+    (unordered)."""
+    def gone(patch: dict) -> bool:
+        src = patch.get("source") or {}
+        live = (rebuilt or {}).get(src.get("placeId"))
+        if patch.get("kind") != "settlement-pad" or live is None:
+            return False
+        if "buildingId" in src:
+            return src["buildingId"] not in live["buildings"]
+        return "runId" in src and src["runId"] not in live["runs"]
+
+    out = {p["id"]: p for p in existing if not gone(p)}
     for patch in new:
         old = out.get(patch["id"])
         if old is None:
@@ -218,8 +235,14 @@ def merge_pad_patches(existing: list[dict], new: list[dict]) -> list[dict]:
         pieces.update({r["placementId"]: r for r in patch["params"]["pieces"]})
         src = patch["source"]
         owner = "run" if "runId" in src else "building"
-        out[patch["id"]] = pad_patch(src["placeId"], src.get("runId") or src["buildingId"],
-                                     list(pieces.values()), owner)
+        merged = pad_patch(src["placeId"], src.get("runId") or src["buildingId"],
+                           list(pieces.values()), owner)
+        if owner == "building":
+            # building_pad_patches always sets hardM 0.0 (the realised pad IS
+            # the polygon); pad_patch itself has no opinion, so re-apply it
+            # after the merge or grading falls back to PAD_HARD_RADIUS_PX.
+            merged["hardM"] = 0.0
+        out[patch["id"]] = merged
     return list(out.values())
 
 

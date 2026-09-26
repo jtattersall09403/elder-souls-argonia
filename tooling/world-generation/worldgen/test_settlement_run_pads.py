@@ -71,8 +71,9 @@ _HOUSE = [[0.0, 0.0], [10.0, 0.0], [10.0, 6.0], [0.0, 6.0]]
 
 
 def test_one_writer_names_a_building_pad_by_its_parcel_and_merges_beside_run_pads():
-    rows = [{"id": "place.t.b1.building", "parcelId": "b1",
-             "pad": {"datumM": 11.0, "polygonM": pad_polygon(_HOUSE)}}, {"id": "other"}]
+    rows = [{"id": "place.t.b1.building",
+             "pad": {"parcelId": "b1", "datumM": 11.0, "polygonM": pad_polygon(_HOUSE)}},
+            {"id": "other"}]
     (patch,) = building_pad_patches(rows, "place.t")
     assert patch["id"] == "patch.pad.settlement.place.t.b1" and patch["kind"] == "settlement-pad"
     assert patch["source"]["buildingId"] == "b1" and patch["params"]["pieces"][0]["targetM"] == 11.0
@@ -164,7 +165,7 @@ def test_a_building_pad_is_realised_as_pad_ground_describes_it():
     mpp = 1.0
     h = np.fromfunction(lambda r, c: 20.0 - 0.2 * c, (60, 60))
     poly = pad_polygon([[20, 20], [33, 20], [33, 30], [20, 30]])
-    rows = [{"id": "pl.b1", "parcelId": "b1", "pad": {"datumM": 15.0, "polygonM": poly}}]
+    rows = [{"id": "pl.b1", "pad": {"parcelId": "b1", "datumM": 15.0, "polygonM": poly}}]
     (patch,) = building_pad_patches(rows, "place.t")
     assert patch["hardM"] == 0.0
     out, _ = apply_settlement_pad(h, patch, mpp)
@@ -176,3 +177,57 @@ def test_a_building_pad_is_realised_as_pad_ground_describes_it():
     padded = PaddedSurvey(type("S", (), {"height_at": staticmethod(frozen), "extent_m": 60.0})(),
                           [{"polygonM": poly, "datumM": 15.0}])
     assert padded.height_at(25, 25) == 15.0 and padded.extent_m == 60.0
+
+
+def test_merging_a_building_pad_patch_keeps_hardm_zero():
+    """Regression: merge_pad_patches rebuilds the patch dict via pad_patch,
+    which has no opinion on hardM; a merge must re-apply the building pads'
+    hardM 0.0 or a re-export silently falls back to PAD_HARD_RADIUS_PX past
+    the judged polygon."""
+    from .settlement_run_pads import merge_pad_patches
+    poly = pad_polygon([[20, 20], [33, 20], [33, 30], [20, 30]])
+    rows = [{"id": "pl.b1", "pad": {"parcelId": "b1", "datumM": 15.0, "polygonM": poly}}]
+    (first,) = building_pad_patches(rows, "place.t")
+    moved = [{"id": "b1", "pad": {"parcelId": "b1", "datumM": 15.2, "polygonM": poly}}]
+    (second,) = building_pad_patches(moved, "place.t")
+    (merged,) = merge_pad_patches([first], [second])
+    assert merged["hardM"] == 0.0
+
+
+class _FlatSurvey:
+    """The published ground the export measures on: flat 10 m, dry."""
+    extent_m = 100.0
+    water_signed_depth_m = np.full((10, 10), -1.0)
+
+    @staticmethod
+    def height_at(x, z):
+        return 10.0
+
+
+def _bundle(with_pad: bool) -> dict:
+    """A bundle as `export_settlement_bundle` writes it: a building placement
+    carries the compile's `pad` block and no top-level parcelId."""
+    house = {"id": "place.t.b1.building", "sourceId": "place.t", "kind": "settlement",
+             "footprintM": _HOUSE}
+    if with_pad:
+        house["pad"] = {"parcelId": "b1", "datumM": 11.0, "apronM": 1.5,
+                        "polygonM": pad_polygon(_HOUSE), "fillM": 1.0, "cutM": 0.0}
+    return {"placements": [house],
+            "settlements": [{"id": "place.t", "placementIds": [house["id"]]}]}
+
+
+def test_emit_names_a_building_pad_from_a_real_bundle_row_and_drops_it_when_removed(tmp_path):
+    """Bundle placements never carry parcelId (the pad block names its
+    parcel); a pad removed from the layout leaves the patch set on the next
+    export of its place, while another place's pad stays."""
+    from .export_settlement_bundle import emit_run_pads
+    path = tmp_path / "patches.json"
+    other = building_pad_patches([{"id": "place.u.b9.building", "pad": {
+        "parcelId": "b9", "datumM": 5.0, "polygonM": pad_polygon(_HOUSE)}}], "place.u")
+    declare_order(other)
+    tp.save(other, path)
+    emit_run_pads(_bundle(True), None, path, survey=_FlatSurvey())
+    assert sorted(p["id"] for p in tp.load(path)) == [
+        "patch.pad.settlement.place.t.b1", "patch.pad.settlement.place.u.b9"]
+    emit_run_pads(_bundle(False), ["place.t"], path, survey=_FlatSurvey())
+    assert [p["id"] for p in tp.load(path)] == ["patch.pad.settlement.place.u.b9"]

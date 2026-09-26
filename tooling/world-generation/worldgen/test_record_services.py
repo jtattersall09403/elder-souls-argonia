@@ -335,6 +335,15 @@ def test_validator_holds_secondary_cultures_to_the_vocabulary():
 # whose nearest point is 3,069 m off. Pinned: the other records measured
 # 2026-09-26 with the edges that fail; a fixed one must leave the pin.
 TRAVEL_EDGE_PINNED: dict[str, list[str]] = {
+    # measured 2026-09-26 once edges resolved through the registry aliases and
+    # geometryId (they were skipped before, not passing):
+    "place.dunmer-north.hutan-tzel": ["route.boat.archon-estuary"],
+    "place.dunmer-north.the-shoal-bank": ["route.boat.archon-estuary"],
+    "place.dunmer-north.the-tear-wreck": ["route.boat.archon-estuary"],
+    "place.dunmer-north.the-thousand-birds": ["route.boat.archon-estuary"],
+    "place.dunmer-north.the-tide-fair": ["route.boat.archon-estuary"],
+    "place.imperial-penal-south.bramman-head": ["boat:route.boat.soulrest-blackrose"],
+    "place.mercantile-coast.screen-watch": ["route.boat.soulrest-blackrose"],
     "place.dunmer-north.channel-cross-village": ["route.boat.stormhold-alten-corimont"],
     "place.dunmer-north.hixinoag": ["route.boat.stormhold-alten-corimont"],
     "place.dunmer-north.murkwater": ["route.boat.stormhold-alten-corimont"],
@@ -362,7 +371,7 @@ TRAVEL_EDGE_PINNED: dict[str, list[str]] = {
     "place.imperial-fringe.the-eight-steps": ["boat:route.boat.alten-corimont-helstrom"],
     "place.mercantile-coast.alten-meerhleel": ["boat:route.boat.lilmoth-archon"],
     "place.mercantile-coast.bright-throat-village": ["boat:route.boat.lilmoth-archon"],
-    "place.mercantile-coast.lighter-flotilla": ["boat:route.boat.lilmoth-archon"],
+    "place.mercantile-coast.lighter-flotilla": ["boat:route.boat.lilmoth-archon", "route.boat.lilmoth-anchorage"],
     "place.mercantile-coast.moonmarch": ["boat:route.boat.lilmoth-archon"],
     "place.mercantile-coast.oliis-ferry-stage": ["boat:route.boat.lilmoth-archon"],
     "place.mercantile-coast.quinrawl-anchorage": ["boat:route.boat.soulrest-lilmoth"],
@@ -378,16 +387,43 @@ def _route_lines() -> dict:
     province = ts.REPO_ROOT / "apps" / "world-studio" / "public" / "province"
     px = float(json.loads((province / "hydrology-meta.json").read_text())["metresPerPixel"])
     lines = {}
-    for r in json.loads((province / "routes.json").read_text())["routes"]:
-        lines[r["id"]] = (np.asarray(r["px"], float) + 0.5) * px
-    for lane in json.loads((province / "waterways.json").read_text())["lanes"]:
-        lines[lane["id"]] = (np.asarray(lane["px"], float) + 0.5) * px
+    for name, key in (("routes.json", "routes"), ("waterways.json", "lanes"),
+                      ("routes-minor.json", "tracks"), ("waterways-minor.json", "channels")):
+        for r in json.loads((province / name).read_text()).get(key) or []:
+            if r.get("px"):
+                lines[r["id"]] = (np.asarray(r["px"], float) + 0.5) * px
     return lines
 
 
-def far_travel_edges(places: dict, lines: dict) -> dict[str, list[str]]:
+def edge_line_id(edge: str, lines: dict, aliases: dict, geometry: dict | None = None) -> str | None:
+    """The published line a travel edge names: its id as written, or resolved
+    through the route registry's aliases (catalogue.py's own resolver).
+    ``geometry`` ({registry id: geometryId}) is the registry read once by the
+    caller across a batch of edges; built here only when a caller has none
+    (a single lookup, never a hot loop)."""
+    from worldgen.route_registry import load, resolve
+    ref = str(edge).split(":", 1)[-1]
+    if ref in lines:
+        return ref
+    if geometry is None:
+        geometry = {r["id"]: r.get("geometryId") for r in load()}
+    for cand in (resolve(ref, aliases), resolve(str(edge), aliases)):
+        # a registry route solved on the minor network is published under
+        # its `geometryId` (route_registry.py:11)
+        for lid in (cand, geometry.get(cand)):
+            if lid in lines:
+                return lid
+    return None
+
+
+def far_travel_edges(places: dict, lines: dict, unresolved: dict | None = None) -> dict[str, list[str]]:
+    """Edges passing further than the tolerance. An edge naming no published
+    line is never skipped silently: it goes to `unresolved` (pid -> edges)."""
     import numpy as np
     from worldgen.audit_place_semantics import NAMED_ROUTE_TOL_M
+    from worldgen.route_registry import alias_map, load
+    aliases = alias_map()
+    geometry = {r["id"]: r.get("geometryId") for r in load()}  # read once for the whole batch
     bad: dict[str, list[str]] = {}
     for pid, rec in places.items():
         if rec.get("status") == "cut" or not rec.get("positionM"):
@@ -395,9 +431,12 @@ def far_travel_edges(places: dict, lines: dict) -> dict[str, list[str]]:
         x, z = rec["positionM"]
         tol = NAMED_ROUTE_TOL_M + float(rec.get("footprintRadiusM") or 0.0)
         for edge in (rec.get("relations") or {}).get("travelServiceEdges") or []:
-            pts = lines.get(str(edge).split(":", 1)[-1])
-            if pts is None or not len(pts):
+            lid = edge_line_id(edge, lines, aliases, geometry)
+            if lid is None:
+                if unresolved is not None:
+                    unresolved.setdefault(pid, []).append(edge)
                 continue
+            pts = lines[lid]
             if float(np.hypot(pts[:, 0] - x, pts[:, 1] - z).min()) > tol:
                 bad.setdefault(pid, []).append(edge)
     return {pid: sorted(set(e)) for pid, e in bad.items()}
@@ -408,6 +447,22 @@ def test_travel_edges_name_routes_that_pass_the_place():
     assert "place.imperial-fringe.claywater-station" not in bad, bad.get(
         "place.imperial-fringe.claywater-station")
     assert bad == TRAVEL_EDGE_PINNED
+
+
+# Edges naming no published line (a legacy pair string, a rootway, a lane
+# never laid). Measured 2026-09-26 after resolving through the registry
+# aliases and the minor route and channel records; each waits for its own
+# place's dossier. The count only falls.
+TRAVEL_EDGE_UNRESOLVED_PINNED_COUNT = 18
+
+
+def test_no_travel_edge_is_skipped_silently():
+    unresolved: dict = {}
+    far_travel_edges(_places(), _route_lines(), unresolved)
+    assert "place.imperial-fringe.claywater-station" not in unresolved
+    n = sum(len(v) for v in unresolved.values())
+    assert n == TRAVEL_EDGE_UNRESOLVED_PINNED_COUNT, (
+        f"{n} travel edges name no published line (pin {TRAVEL_EDGE_UNRESOLVED_PINNED_COUNT})")
 
 
 def test_travel_edge_rule_fails_on_a_planted_violation():

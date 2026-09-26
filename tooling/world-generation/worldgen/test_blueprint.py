@@ -1171,3 +1171,39 @@ def test_a_layout_file_beside_the_blueprints_is_never_read_as_one(tmp_path, monk
     assert not [e for e in errors if "layout" in e], errors
     monkeypatch.setattr(bp, "BLUEPRINT_DIR", tmp_path)
     assert bp.main(["--id", "layout"]) == 2
+
+
+def test_a_stray_non_place_json_in_the_blueprints_folder_is_ignored(tmp_path):
+    """Every loader reads the folder through blueprint_files.blueprint_paths:
+    `place.*.json` minus `*.layout.json`. A slug-named layout, a place-named
+    layout and any other stray JSON never reach a blueprint reader (the
+    Claywater layout file broke 11 placement tests, 2026-09-26)."""
+    import shutil
+    from . import blueprint as bp
+    from . import export_purpose_ledger as epl
+    src = bp.BLUEPRINT_DIR / "place.fixture.proving-ground.json"
+    shutil.copy(src, tmp_path / src.name)
+    for stray in ("proving-ground.layout.json", "place.fixture.proving-ground.layout.json",
+                  "notes.json"):
+        (tmp_path / stray).write_text(json.dumps({"schemaVersion": 1, "parcels": []}))
+    assert [p.name for p in bp.blueprint_paths(tmp_path)] == [src.name]
+    assert not [e for e in bp.validate_all(tmp_path, known_place_ids=bp.catalogue_ids())
+                if "layout" in e or "notes" in e]
+    epl.build(tmp_path)  # raised KeyError 'blueprint' on a stray file
+
+
+def test_no_loader_globs_the_blueprints_folder_itself():
+    """The tripwire behind the rule above: a raw glob over the blueprints
+    folder bypasses blueprint_paths and re-opens the stray-file bug."""
+    import re
+    here = Path(__file__).parent
+    # Two independent tests so a variable name (blueprint_dir), a quoted path
+    # segment ("world/sources/blueprints"), or a bare BLUEPRINT_DIR reference
+    # are all caught — a quote or a closing paren between the word
+    # "blueprint(s)" and ".glob(" must not hide the call.
+    glob_call = re.compile(r'\.glob\(\s*["\'](\*|place\.\*)\.json')
+    names_blueprints = re.compile(r'blueprint', re.IGNORECASE)
+    hits = [f"{p.name}:{i}" for p in sorted(here.glob("*.py")) if p.name != "blueprint_files.py"
+            for i, line in enumerate(p.read_text().splitlines(), 1)
+            if glob_call.search(line) and names_blueprints.search(line)]
+    assert hits == [], hits

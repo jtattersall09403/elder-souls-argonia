@@ -1056,7 +1056,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="97 C-stitch report for one or more blueprints")
     ap.add_argument("paths", nargs="*", type=_Path)
     args = ap.parse_args(argv)
-    paths = args.paths or sorted(_bp_mod.BLUEPRINT_DIR.glob("*.json"))
+    paths = args.paths or _bp_mod.blueprint_paths(_bp_mod.BLUEPRINT_DIR)
     survey = shared_survey()
     network = pn.load_network()
     bad = 0

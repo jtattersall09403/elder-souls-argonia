@@ -65,18 +65,23 @@ def _emit(obj) -> None:
     print(json.dumps(obj, indent=1, default=lambda o: round(float(o), 4)))
 
 
-def _settle(cat, scene, piece: Piece, source: str = "chunks") -> dict:
+def _settle(cat, scene, piece: Piece, source: str = "chunks", declared_pads: dict | None = None) -> dict:
     """Seat the piece as the runtime does. A quay run is first slid along its
     own axis to the bank exactly as the compile slides it
     (`compile_settlement.anchor_quay_run`: the landward tip where the deck
     plane meets the ground), so the pose the workbench exports is the pose
-    the compile places, not one it moves."""
+    the compile places, not one it moves. ``declared_pads`` is the scene's
+    already-resolved pads (`pads.scene_pads`) for a caller settling several
+    pieces in one call (e.g. `cmd_group`): passing it once avoids re-resolving
+    every pad in the scene for every piece it settles (N x P otherwise).
+    Omit it for a single-piece settle — it is resolved fresh in that case, so
+    a pad added since is always read live (0101)."""
     from workbench import pads
     shift = _quay_anchor(cat, piece)
     if shift is not None:
         piece.x, piece.z = shift["x"], shift["z"]
     # a piece that declares a pad is seated on the patched ground (0101)
-    got = measure.seat(cat, pads.ground_for(cat, scene, piece), piece, source)
+    got = measure.seat(cat, pads.ground_for(cat, scene, piece, declared_pads), piece, source)
     piece.y = got["y"]
     piece.settledBy = f"settle:{got['mode']}:{source}"
     if shift is not None:
@@ -198,13 +203,19 @@ def cmd_group(a, scene, cat):
         return assembly.group_names()
     if a.action == "save":
         return assembly.save_group(scene, a.name, a.uids, a.anchor or a.uids[0])
+    from workbench import pads
     made = assembly.place_group(scene, a.name, tuple(a.at), a.yaw, a.prefix, a.parcel)
     group = assembly.load_group(a.name)
     anchor = scene.piece(a.prefix + group["anchor"]["uid"])
-    _settle(cat, scene, anchor)
+    # one pad snapshot for the whole group settle (positions are fixed by
+    # place_group before any of this runs; only y moves below, and pad
+    # resolution never reads y) instead of re-resolving every scene pad once
+    # per ground member.
+    declared = pads.scene_pads(cat, scene)
+    _settle(cat, scene, anchor, declared_pads=declared)
     for p in made:
         if p is not anchor and (p.role or {}).get("on") == "ground":
-            _settle(cat, scene, p)
+            _settle(cat, scene, p, declared_pads=declared)
     assembly.lift_group(scene, a.name, a.prefix)     # mounts stand on settled members
     return {"placed": [p.uid for p in made], "anchor": anchor.uid}
 
@@ -346,7 +357,7 @@ def cmd_check(a, scene, cat):
     declared = pads.scene_pads(cat, scene)
     rows = {}
     for p in scene.pieces:
-        # a piece that declares a pad is judged on the patched ground (0101)
+        # every piece is judged on the ground the scene's pads patch (0101)
         g = pads.ground_for(cat, scene, p, declared)
         row = cat.row(p.asset)
         r = {"asset": p.asset.rsplit("/", 1)[-1], "fit": fit_of(row),

@@ -346,7 +346,13 @@ def main() -> int:
     args = ap.parse_args()
 
     target = Path(args.report)
-    paths = sorted(target.glob("*.json")) if target.is_dir() else [target]
+    if target.is_dir():
+        # the one rule (blueprint_files.py): a blueprint's own .layout.json
+        # is not a blueprint and is never read as one, even when --report
+        # points at the blueprints folder itself.
+        paths = [p for p in sorted(target.glob("*.json")) if not p.name.endswith(".layout.json")]
+    else:
+        paths = [target]
     lib = library(Path(args.kits_dir))
     for path in paths:
         data = json.loads(path.read_text())
