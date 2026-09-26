@@ -215,6 +215,8 @@ for _es_env in /workspaces/.es-machine.env /workspaces/.es-secrets.env; do
   if [ -r "$_es_env" ]; then set -a; . "$_es_env"; set +a; fi
 done
 unset _es_env
+# `es`: reattach to (or start) the tmux session Claude runs in (README § Sessions).
+alias es='bash /workspaces/elder-souls-argonia/tooling/bootstrap/claude-session.sh'
 EOF
   chmod 644 "$PROFILE"
   local hook='[ -r /etc/profile.d/es.sh ] && . /etc/profile.d/es.sh  # elder-souls'

@@ -69,6 +69,15 @@ A crashed session's lanes resume from their own transcripts (owner 2026-09-25). 
 
 It prints nothing when every subagent of the last 3 days finished, and nothing in a headless `claude -p` session; else one line per unfinished lane and the instruction to relaunch each with `lane_resume.py --packet <agent-id>` as its brief (PROGRESS.md protocol 5). Printing a packet claims the lane (kept in `lane-resume-dismissed.json` in the project dir), so a second session is not told to relaunch it. The transcripts are in `$CLAUDE_CONFIG_DIR/projects/-workspaces-elder-souls-argonia/`, which the `claude-transcripts` part backs up; the tool's docstring says how it decides "unfinished".
 
+## Sessions
+
+Claude Code runs inside tmux, so closing the browser tab or losing the connection no longer stops it (owner 2026-09-26). Without tmux the browser terminal's shell dies with the connection and takes Claude with it; inside tmux only the view disconnects, and Claude keeps working on the machine until you look again.
+
+- **Reconnect:** open a terminal and run `es` (or `bash tooling/bootstrap/claude-session.sh`). It attaches to the session `es` if it is running, else starts it. Opening the folder in VS Code does the same through the "Claude (tmux)" task in `.vscode/tasks.json` (VS Code asks once whether to allow automatic tasks).
+- **What a new session holds:** window `claude` runs `claude --continue` (a fresh `claude` when this repo has no conversation yet) and window `shell` is a plain shell, both in the repo. Ctrl-b n / Ctrl-b p switch windows, Ctrl-b d detaches on purpose, the mouse scrolls and selects, 50 000 lines of history, the status line shows the session name and the time.
+- **If the machine itself restarted**, tmux is gone too: `es` starts a new session and `claude --continue` picks the last conversation back up; subagents that were mid-lane resume from their transcripts through `lane_resume.py` (§ Resume).
+- `alias es` is written by `install-toolchain.sh --host` into `/etc/profile.d/es.sh`; tmux is in its host apt list.
+
 ## EC2 (browser VS Code, no ssh)
 
 The same scripts run natively on an AWS EC2 machine (Ubuntu 24.04, no container), with the repo at the same path, `/workspaces/elder-souls-argonia`, so every path, the Claude project folder and the snapshot keys stay as they are. You reach it through VS Code in the browser (vscode.dev) over a VS Code tunnel. Nothing needs ssh, a key pair or an open port. The EC2 files:
