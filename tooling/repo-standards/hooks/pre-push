@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Tracked pre-push hook (installed by tooling/repo-standards/install_hooks.sh):
+# start the incremental R2 backup in the background. A push never waits on the
+# upload and never fails on it. tooling/bootstrap/README.md § Backups.
+repo="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE \
+  nohup "$repo/tooling/bootstrap/backup_changed.sh" >/dev/null 2>&1 &
+exit 0

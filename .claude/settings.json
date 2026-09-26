@@ -12,6 +12,11 @@
             "type": "command",
             "command": "python3 tooling/repo-standards/lane_resume.py --brief 2>/dev/null || true",
             "timeout": 30
+          },
+          {
+            "type": "command",
+            "command": "bash tooling/repo-standards/install_hooks.sh >/dev/null 2>&1 || true",
+            "timeout": 20
           }
         ]
       }

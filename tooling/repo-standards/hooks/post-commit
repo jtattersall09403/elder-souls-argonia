@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Tracked post-commit hook (installed by tooling/repo-standards/install_hooks.sh):
+# when the commit touched docs/PROGRESS.md, post the owner-inbox story in the
+# background if § Waiting on user changed. Never blocks or fails a commit.
+# tooling/repo-standards/README.md § Owner inbox.
+repo="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+git diff-tree --no-commit-id --name-only -r HEAD 2>/dev/null | grep -qx docs/PROGRESS.md || exit 0
+cd "$repo" || exit 0
+env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE \
+  nohup python3 tooling/repo-standards/owner_inbox.py --from-progress --if-changed >/dev/null 2>&1 &
+exit 0

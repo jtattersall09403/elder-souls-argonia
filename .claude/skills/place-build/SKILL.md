@@ -206,6 +206,7 @@ Ends when: 0 compile errors, every gate green, the place published.
   "wrong: what you see"; skip a row not reached and say so; "looks right"
   when the place is done.
 - End with the stay-or-switch line (decision 0083).
+- Post the packet: `python3 tooling/repo-standards/owner_inbox.py --post <packet.md> --title 'Claywater walk packet'` (the owner reads it on their phone).
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 

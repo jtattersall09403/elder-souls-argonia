@@ -110,6 +110,16 @@ The same scripts run natively on an AWS EC2 machine (Ubuntu 24.04, no container)
 
 Other machine settings go in `/workspaces/.es-machine.env`, one `NAME=value` per line: `ES_TUNNEL_URL`, `ES_CACHE_LINKS`, and optionally `ES_GIT_NAME` and `ES_GIT_EMAIL` for the commit identity. Without them, stage 3 uses the GitHub login and its noreply address.
 
+## Backups
+
+**What.** `tooling/bootstrap/backup_changed.sh` backs up every part `snapshot-vault.sh` catalogues (vault, mod pool, BM&V, caches, `claude-home` with memory, `claude-transcripts`) to the R2 bucket, uploading only the parts whose `sourceFingerprint` (sorted path + size + mtime of the part's files) differs from the manifest. After an upload it puts the manifest itself at `snapshot/v1/manifest.json` (a restore needs no git) and commits `snapshot-manifest.json` by pathspec, unless someone else has staged changes (then it stays modified and the log says so). Secrets never go: `lib.sh` `ES_SECRET_DENY` drops the Nexus `api_key`, `rclone.conf`, `.es-secrets.env`, `.credentials.json` and the raw `.claude/settings.local.json` from every part's list (claude-home carries a filtered copy of the settings, the per-machine env removed). One run at a time (flock `/tmp/es-backup.lock`; a second says "already running" and exits 0), in a `job_guard.sh` heavy slot.
+
+**When.** On every `git push` (the tracked `pre-push` hook starts it in the background; a push never waits on it or fails on it) and nightly at 03:17 from the user crontab (cron runs on the EC2 box). `tooling/repo-standards/install_hooks.sh`, run by the SessionStart hook, installs both idempotently.
+
+**Check.** `tooling/.reports/backup/last.json` holds `{started, finished, partsChecked, partsUploaded, bytes, failures}` of the last real run and names its log (`tooling/.reports/backup/<UTC>.log`). `backup_changed.sh --dry-run` lists the parts that would upload; `--check` exits 1 when any part differs from the manifest.
+
+**Restore.** On a fresh machine `ec2-stage3.sh` (or `vault-pull.sh --tier ...`) pulls every part from the committed manifest. Without git: `rclone copyto r2:elder-souls-vault/snapshot/v1/manifest.json snapshot-manifest.json`, then `ES_SNAPSHOT_MANIFEST=$PWD/snapshot-manifest.json vault-pull.sh <id>`, or by hand `rclone cat r2:elder-souls-vault/snapshot/v1/<id>.tar | tar -C <devroot> -xf -` and check the stream's sha256 against the manifest.
+
 ## Leaving Codespaces
 
 The vault is edited on one machine at a time. Hand it over before the codespace goes:

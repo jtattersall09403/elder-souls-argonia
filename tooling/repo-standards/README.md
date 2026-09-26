@@ -19,6 +19,7 @@ npm test -w @elder-souls/repo-standards
 | `cpu_watchdog.sh`, `cpu_watchdog.py`, `jobs.mjs`, `preflight_select.mjs` | owner rulings 2026-09-25 — the CPU watchdog daemon, the `ES_JOBS` parallelism cap and preflight's path-to-gate map; tooling/bootstrap/README.md § Resource guard |
 | `review_gate.py` | decision 0079 §8 — PreToolUse hook: the first `preflight` on an unreviewed diff runs a headless Opus code review and returns its findings; `--run` reviews on demand; `--paths <pathspec...>` (on `npm run preflight --` or `--run`) reviews and size-limits only those files' diff, with a stamp keyed by the pathspec so one lane's review never satisfies another's or the whole tree's (decision 0087 §3); the reviewer's report shape (items only, shared causes named once) is in the prompt in `review_gate.py` |
 | `memwatch.sh`, `tool_timings.py` | nothing — `memwatch.sh [--ceiling-gib N] <cmd>` runs a job under a cgroup memory ceiling (default 3/4 of the machine's limit, cgroup memory.max else MemTotal, ≈22 GiB on the 30 GiB EC2 box; kills before the kernel takes the session down) and appends one line per run (tool, args, wall s, cgroup GiB at start and at peak, exit) to `output/tool-timings.jsonl` (gitignored); `python3 tooling/repo-standards/tool_timings.py [--days N] [--top K] [--exclude PREFIX]` ranks tools by total (default leaves out `npm.`, preflight's gate wrappers) and by worst run (complete) and marks `TARGET` any worst run over 60 s or peak-minus-start over 2 GiB, the tooling lane's list of profile candidates (16h ledger §6 steps C–D). `ES_TIMINGS=1` also logs `worldgen.site_fields`' import time as `import.site_fields` (wall time only: its start and peak GiB are 0 by design). The pytest files here run in `npm test`, before `check.mjs`, so both results always show |
+| `owner_inbox.py`, `install_hooks.sh`, `hooks/` | nothing — the owner's phone inbox (§ Owner inbox) and the tracked git hooks: `install_hooks.sh` (SessionStart hook) links `hooks/pre-push` (background R2 backup, tooling/bootstrap/README.md § Backups) and `hooks/post-commit` (inbox post when a commit touches docs/PROGRESS.md) into `.git/hooks` and adds the nightly backup crontab line |
 | — | **standard 10** — every asset pool in `world/sources/assets/registry-summary.json` is credited in the root README |
 
 Two habits this exists to enforce:
@@ -35,3 +36,26 @@ hooks and conventions, not greppable properties — they are verified at the
 kickoffs named in the standards doc.
 
 **Standard 2 registry options.** `idShape: "flat"` for vocabulary registries (`<domain>.<slug>`); `references: ["place"]` for a source whose top-level id names an object another source declares (a blueprint details a catalogue place) — those domains are shape-checked but exempt from uniqueness in that source.
+
+## Owner inbox
+
+The owner follows the work on their phone through one pinned GitHub issue,
+"Owner inbox: what is waiting on you" (label `owner-inbox`): every comment is
+one update and the newest is the current state. GitHub's app or email tells
+them when a comment lands.
+
+- `python3 tooling/repo-standards/owner_inbox.py --post <file.md> [--title <text>]`
+  posts a check-in or walk packet as a comment headed `## <title> — <UTC time>`.
+  Every owner check-in is posted this way (CLAUDE.md, "Get playtest/visual
+  feedback"; the place-build skill's walk-packet step).
+- `--from-progress [--if-changed]` posts the story built from the repo: the
+  commit subjects on `dev` since the last comment (at most 25, oldest first,
+  auto-backup manifest commits left out), `docs/PROGRESS.md` § Waiting on user
+  with its links made absolute, and where to look (`$ES_TUNNEL_URL` when set,
+  the PROGRESS link). Each story carries `<!-- waiting-hash: ... -->`;
+  `--if-changed` skips the post when the last comment has the same hash.
+- The post-commit hook runs `--from-progress --if-changed` in the background
+  whenever a commit touches `docs/PROGRESS.md`.
+- The issue and its label are created on first use and the issue is pinned.
+  With `gh` missing or offline the script says so in one line and exits 0.
+- Tests: `test_owner_inbox.py` (fake `gh` on PATH).

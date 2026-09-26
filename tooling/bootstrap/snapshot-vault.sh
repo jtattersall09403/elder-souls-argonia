@@ -241,7 +241,7 @@ for p in sys.stdin.buffer.read().split(b"\0"):
       (cd "$CLAUDE_SRC" && printf '%s\0' CLAUDE.md RTK.md \
          && find "projects/$SRC_KEY/memory" -print0) ;;
     *) echo "unknown part $id" >&2; return 2 ;;
-  esac | { grep -zv -E '(^|/)[^/]*\.incoming-[^/]*(/|$)' || [[ $? -eq 1 ]]; } | sort -z   # grep 1 = no entries: an empty part is legitimate
+  esac | { grep -zv -E '(^|/)[^/]*\.incoming-[^/]*(/|$)' || [[ $? -eq 1 ]]; } | es_drop_secrets | sort -z   # grep 1 = no entries: an empty part is legitimate
 }
 
 # The vault's deleted-but-uncommitted paths (relative to the vault root, one

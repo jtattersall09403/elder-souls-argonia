@@ -64,6 +64,7 @@ touches something no row names, open the nearest folder README and judge.
 | Deferring cosmetic work; picking up Phase P | [phases/P-polish/backlog.md](phases/P-polish/backlog.md) | — |
 | Deferring a whole game system; who owns system X | [phases/buildout/README.md](phases/buildout/README.md) | [research/combat-and-systems/game-buildout-systems-audit.md](research/combat-and-systems/game-buildout-systems-audit.md) |
 | Probes, studio layers, visual evidence | [world/85](world/85-world-studio.md) §66–70 | [../apps/world-studio/README.md](../apps/world-studio/README.md) |
+| Owner notifications (the phone inbox issue), automatic backups | [../tooling/repo-standards/README.md](../tooling/repo-standards/README.md) § Owner inbox | [../tooling/bootstrap/README.md](../tooling/bootstrap/README.md) § Backups |
 | Repo layout, packages, bundles, CI, deploy, credits | [world/80](world/80-repo-architecture.md) | root [README.md](../README.md) § Credits, `.github/workflows/` |
 
 ## Where to record what you learn

@@ -19,8 +19,26 @@
 #   part_fingerprint <dir> <mode> [nested-rel...]
 #                            a part's share of its root: mode all | no-archives |
 #                            archives-only; nested part roots and .git are pruned
+#   es_drop_secrets          NUL path list on stdin -> the same list without any
+#                            path ES_SECRET_DENY matches (each drop said on
+#                            stderr): secrets never reach a tar or the bucket
 
 ES_ARCHIVE_GLOBS=('*.zip' '*.7z' '*.rar')
+# Paths never uploaded, whatever part lists them (ERE over a tar entry path):
+# the Nexus key, rclone's config, the EC2 secrets file, Claude's credentials
+# and the repo's raw settings.local.json (claude-home carries a filtered copy
+# under another name, the per-machine env removed).
+ES_SECRET_DENY='(^|/)(api_key|rclone\.conf|\.es-secrets\.env|\.credentials\.json)$|(^|/)\.claude/settings\.local\.json$'
+es_drop_secrets() {
+  python3 -c '
+import re, sys
+deny = re.compile(sys.argv[1].encode())
+for p in sys.stdin.buffer.read().split(b"\0"):
+    if not p: continue
+    if deny.search(p):
+        sys.stderr.write("secret path left out of the snapshot: %s\n" % p.decode(errors="replace")); continue
+    sys.stdout.buffer.write(p + b"\0")' "$ES_SECRET_DENY"
+}
 # sha256 of no lines at all: a part with no files of its own under its root.
 # shellcheck disable=SC2034  # read by the scripts that source this file
 ES_EMPTY_FP="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
