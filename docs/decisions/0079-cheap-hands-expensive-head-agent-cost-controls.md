@@ -191,6 +191,23 @@ turn-wasters left. The owner ruled the same day:
     it as input and takes or rejects each item in the next brief; the
     decision and its record stay Fable's.
 
+## Addendum 2026-09-26 (owner): rule 17, exploration is comprehensive and funnelled
+
+17. Any explore, audit, sourcing or "what exists for X" task covers the full
+    breadth that could bear on it (docs folders and READMEs, the decisions
+    index, research, phases, standards, skills, `world/sources/`, code folder
+    READMEs, the vault and mod pool by listing) before it reports. Breadth
+    comes from parallel cheap agents, not a bigger context: one `find` agent
+    per area (a Workflow for two or more), each owning named folders and
+    walking all of them, each returning at most 25 lines (full notes to
+    `tooling/.reports/`). A partial walk names what it skipped. Text in
+    CLAUDE.md's golden rules. Agent files: `.claude/agents/find.md` gains a
+    Coverage section (walk every owned folder, a closing
+    `Covered: … · Skipped: …` line, a "does not exist" answer names the
+    folders listed); `.claude/agents/research.md` gains the same line and the
+    one-agent-per-area split. The UserPromptSubmit line in
+    `.claude/settings.json` reminds the planner every turn.
+
 ## Not done here
 
 `rtk init -g` and the two config edits touch the owner's own Claude Code

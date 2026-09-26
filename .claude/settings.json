@@ -21,7 +21,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "echo '[0079] planner: look-ups -> find agent, jobs -> run agent, no shell exploration, no sleep.'"
+            "command": "echo '[0079] planner: look-ups -> find agent, jobs -> run agent, no shell exploration, no sleep · explore = every area, one find agent per area, Covered/Skipped line.'"
           },
           {
             "type": "command",

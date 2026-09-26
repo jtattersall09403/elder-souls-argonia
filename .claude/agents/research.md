@@ -31,6 +31,15 @@ each line is paid for many times; owner 2026-09-21):
 - While working: never re-read a file you already read, never re-run a
   measurement an earlier command already gave, batch independent commands.
 
+Coverage (owner 2026-09-26, decision 0079 rule 17): walk every folder the
+brief gives you, listing every file name, not only the first hits; a
+"nothing exists" finding names the folders listed to establish it; end the
+report with one line `Covered: <folders walked> · Skipped: <folders not
+walked and why>`. A brief whose ground is wider than one area is split by
+area, one agent per area, each owning named folders (the planner's job;
+say so in Recommendations if the ground you were given was too wide to
+walk whole).
+
 When the research is about a topic the repo already documents, your report
 opens with a **reconciliation block**: which live docs already cover it
 (folder README rows, file:section), which of their claims your findings
