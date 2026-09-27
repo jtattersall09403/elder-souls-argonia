@@ -93,6 +93,21 @@ usual answers are written here from Claywater in slice 1c. Known for the
 type: the recipe's cue is "visible from both approaches", so questions 1,
 2 and 3 are answered for both directions of the road.
 
+## Layout template (method review r3 finding J; 16k S10)
+
+Generator: `RoadStation` in `tooling/world-generation/worldgen/layout_template.py`
+(`--type 01-road-station`); its body raises `NotImplementedError` until
+Claywater's close writes it from this section. It must carry:
+
+1. sub-kinds on-road, off-road and water-edge, each with the ops that differ (Claywater is water-edge only);
+2. a shell pool with a rotation rule across places, never fixed shells (0098 cap of 3 per signature);
+3. per-role parcel slots, each with the promise kinds it `fills`;
+4. the roster socket sets;
+5. the door → interior claim table (16k S16 pre-pass);
+6. the lit-entrance light per door (97 C16; yard-set row above);
+7. the scan spec;
+8. the walk-2 rulings as parameters: own-porch sill, per-side aprons, deck piling, board height (commits 8b8ec6e6, 4c432a04).
+
 ## Building minimum set and yard sets
 
 Per dwelling (0098; building-depth §2): door, light, roof detail,

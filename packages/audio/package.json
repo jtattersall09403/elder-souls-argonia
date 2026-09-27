@@ -12,7 +12,7 @@
     "./plugin": "./plugin.mjs"
   },
   "scripts": {
-    "test": "vitest run && python3 -m pytest -q -p no:cacheprovider ../../tooling/audio-pipeline",
+    "test": "vitest run && python3 -m pytest -q -p no:cacheprovider -p no:randomly ../../tooling/audio-pipeline",
     "typecheck": "tsc --noEmit --pretty false"
   },
   "dependencies": {

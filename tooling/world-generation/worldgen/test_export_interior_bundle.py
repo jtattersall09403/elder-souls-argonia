@@ -242,3 +242,62 @@ def test_an_armour_ground_model_is_a_wearable_and_effects_and_wearables_are_list
     assert {"effect", "wearable"} <= ex.LISTED_DROP_CLASSES
     assert not ex.LISTED_DROP_CLASSES & ex.SUBSTITUTABLE_CLASSES
     assert "listed-drop" not in ex.MISSING_REASONS
+
+
+# --------------------------------------------------------------------------- #
+# read_records answers from the PluginSet's record index (lane 3A E, S5d):
+# exactly what the old full walk returned, on a synthetic main + master pair.
+# --------------------------------------------------------------------------- #
+def _sub(tag: bytes, payload: bytes) -> bytes:
+    import struct
+    return struct.pack("<4sH", tag, len(payload)) + payload
+
+
+def _rec(rtype: bytes, form_id: int, data: bytes) -> bytes:
+    import struct
+    return struct.pack("<4sIIIIHH", rtype, len(data), 0, form_id, 0, 44, 0) + data
+
+
+def _grup(label: bytes, gtype: int, body: bytes) -> bytes:
+    import struct
+    return struct.pack("<4sI4siIHH", b"GRUP", 24 + len(body), label, gtype, 0, 0, 0) + body
+
+
+def _old_read_records(pset, wanted):
+    """The pre-index read_records body, kept here as the reference."""
+    import struct
+    found, quest_refs = {}, set()
+    for _name, plugin in pset.plugins.items():
+        for rec, _stack in plugin.records():
+            key = (plugin.source_of(rec.form_id), rec.form_id & 0xFFFFFF)
+            if key in wanted:
+                found[key] = rec
+            if rec.type == b"QUST":
+                for st, payload in rec.subrecords():
+                    if st == b"ALFR" and len(payload) >= 4:
+                        fid = struct.unpack_from("<I", payload)[0]
+                        quest_refs.add((plugin.source_of(fid), fid & 0xFFFFFF))
+    return found, quest_refs
+
+
+def test_read_records_index_matches_the_full_walk(tmp_path):
+    import struct
+    master = _rec(b"TES4", 0, _sub(b"HEDR", b"\0" * 12)) + _grup(b"STAT", 0, (
+        _rec(b"STAT", 0x000010, _sub(b"EDID", b"Base\0") + _sub(b"MODL", b"a.nif\0"))
+        + _rec(b"STAT", 0x000011, _sub(b"EDID", b"Other\0")))) + _grup(b"QUST", 0, (
+        _rec(b"QUST", 0x000020, _sub(b"ALFR", struct.pack("<I", 0x000030)))))
+    main = _rec(b"TES4", 0, _sub(b"HEDR", b"\0" * 12) + _sub(b"MAST", b"M.esm\0")) + _grup(b"STAT", 0, (
+        _rec(b"STAT", 0x000010, _sub(b"EDID", b"Base\0") + _sub(b"MODL", b"override.nif\0"))
+        + _grup(b"\0\0\0\0", 6, _rec(b"STAT", 0x01000040, _sub(b"EDID", b"Own\0")))))
+    (tmp_path / "M.esm").write_bytes(master)
+    (tmp_path / "P.esp").write_bytes(main)
+    paths = {"M.esm": tmp_path / "M.esm", "P.esp": tmp_path / "P.esp"}
+    wanted = {("M.esm", 0x10), ("M.esm", 0x11), ("P.esp", 0x40), ("M.esm", 0x99)}
+    new = ex.read_records(ex.PluginSet(paths["P.esp"], paths), wanted)
+    old = _old_read_records(ex.PluginSet(paths["P.esp"], paths), wanted)
+    assert list(new[0]) == list(old[0])                  # same keys, same order
+    assert [(r.type, r.form_id, r.data) for r in new[0].values()] == \
+        [(r.type, r.form_id, r.data) for r in old[0].values()]
+    assert new[1] == old[1] == {("M.esm", 0x30)}
+    # the master's record wins over the main plugin's override (old semantics, kept)
+    assert b"a.nif" in new[0][("M.esm", 0x10)].data

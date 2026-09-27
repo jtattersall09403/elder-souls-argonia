@@ -425,24 +425,33 @@ def _fake_build(kit_id, vault):
     return {"kit": kit_id, "pid": os.getpid()}
 
 
-def _slow_fake_build(kit_id, vault):
+def _meeting_fake_build(kit_id, vault, meet_dir=None, peers=2, wait_s=5.0):
+    """Records its own [start, end] on the system-wide monotonic clock, and
+    between them waits (up to `wait_s`) until `peers` builds have started:
+    run concurrently they meet at once; run in turn the first gives up after
+    `wait_s` and ends before the second starts."""
     import os
     import time
-    time.sleep(1.0)
-    return {"kit": kit_id, "pid": os.getpid()}
+    start = time.monotonic()
+    (Path(meet_dir) / kit_id).touch()
+    deadline = start + wait_s
+    while len(list(Path(meet_dir).iterdir())) < peers and time.monotonic() < deadline:
+        time.sleep(0.01)
+    return {"kit": kit_id, "pid": os.getpid(), "span": (start, time.monotonic())}
 
 
-def test_build_many_runs_kits_concurrently_in_input_order():
-    """Two 1.0 s builds under a 1.5 s bar (16k fix 2 pre-step: the 0.55 s bar
-    over two 0.3 s sleeps flaked under xdist load); serial takes 2.0 s and
-    fails it."""
-    import time
-    t = time.perf_counter()
-    out = build_kit.build_many(["a", "b", "a"], Path("/vault"), jobs=2,
-                               builder=_slow_fake_build)
+def test_build_many_runs_kits_concurrently_in_input_order(tmp_path):
+    """The two builds' intervals overlap (the later start is before the
+    earlier end), measured by the builds themselves, so machine load can
+    slow them without failing the test (the old < 1.5 s wall bar flaked
+    under load, speed lane 2 Rec 6); serial runs cannot overlap and fail."""
+    import functools
+    builder = functools.partial(_meeting_fake_build, meet_dir=str(tmp_path))
+    out = build_kit.build_many(["a", "b", "a"], Path("/vault"), jobs=2, builder=builder)
     assert [s["kit"] for s in out] == ["a", "b"]           # deduplicated, in order
     assert out[0]["pid"] != out[1]["pid"]                  # one process per kit
-    assert time.perf_counter() - t < 1.5                   # the two overlapped
+    starts, ends = zip(*(s["span"] for s in out))
+    assert max(starts) < min(ends), f"the builds ran in turn: spans {[s['span'] for s in out]}"
 
 
 def test_build_many_serial_when_jobs_is_one():

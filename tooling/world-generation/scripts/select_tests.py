@@ -50,6 +50,21 @@ reasons} for preflight to decide whether the gate runs at all.
 A changed .py that no longer exists (deleted, renamed) selects the whole
 suite: its importers are no longer in the graph.
 
+THE TEST-READS MAP (lane 3A E, 2026-09-27). `--record-reads` runs each test
+file of the suite in its own pytest process with ES_TEST_READS=1, and the
+worldgen conftest's audit hook writes which repo data files (world/,
+apps/world-studio/public/, tooling/*/output/) each one opened to
+tooling/world-generation/output/test-reads.json. A changed DATA file (not
+.py) ALSO selects each test whose row lists it, when the row is complete
+(recorded alone, `isolated`; starting no child process, whose opens the
+hook cannot see; opening no `*cache*` file under an output/ folder, which
+would hide the sources behind the cache; from a green run, `passed`) and
+fresh (its own `recordedAt` is after the last change to the test file and
+every module it imports). The map only
+adds to the static literal rule, never removes: a row cannot know a data
+file created after it was recorded (review 2026-09-27), so the selection is
+the union. Code changes always use the import closure.
+
   python3 scripts/select_tests.py pipeline --changed a/b.py c/d.json --summary
 """
 from __future__ import annotations
@@ -308,7 +323,54 @@ def _literal_hits(lit: str, changed: str) -> bool:
             or lit.endswith("/" + changed) or lit == changed)
 
 
-def select_changed(suite: str, changed: list[str]) -> dict:
+READS_MAP = REPO / "tooling/world-generation/output/test-reads.json"
+DATA_ROOTS = ("world/", "apps/world-studio/public/")
+
+
+def _is_data(rel: str) -> bool:
+    if rel.endswith(".py"):
+        return False
+    parts = rel.split("/", 3)
+    return rel.startswith(DATA_ROOTS) or (len(parts) >= 4 and parts[0] == "tooling" and parts[2] == "output")
+
+
+def reads_map(suite: str, path: Path = READS_MAP) -> dict:
+    """{test: (set of data files it opened, recordedAt)} for the suite's
+    tests with a complete row; {} when the map is absent. Freshness is per
+    row, in `select_changed`: a row is not used when the test file or any
+    module it imports changed after that row's own recording."""
+    try:
+        doc = json.loads(path.read_text())
+    except (OSError, ValueError):
+        return {}
+    if doc.get("schemaVersion") != 1:
+        return {}
+    out = {}
+    for t in suite_tests(suite):
+        row = doc.get("tests", {}).get(t)
+        if not row or not row.get("isolated") or row.get("spawns", True) or not row.get("passed"):
+            continue                                      # incomplete: a cache, a child process, or a red run
+        if not isinstance(row.get("recordedAt"), (int, float)):
+            continue
+        reads = set(row.get("reads", ()))
+        if any("/output/" in r and "cache" in r.rsplit("/output/", 1)[1] for r in reads):
+            continue                                      # its sources hide behind a cache
+        out[t] = (reads, float(row["recordedAt"]))
+    return out
+
+
+def _fresh(files: set[str], stamp: float) -> bool:
+    """No file of the test's closure changed after the map was recorded."""
+    for f in files:
+        try:
+            if (REPO / f).stat().st_mtime > stamp:
+                return False
+        except OSError:
+            return False
+    return True
+
+
+def select_changed(suite: str, changed: list[str], use_reads_map: bool = True) -> dict:
     """{suite, total, selected: [test files, repo-relative], all, reasons: {test: why}, slow: [...]}"""
     cwd = SUITES[suite]
     tests = suite_tests(suite)
@@ -328,6 +390,8 @@ def select_changed(suite: str, changed: list[str]) -> dict:
     reasons: dict[str, str] = {}
     unmatched_own = []
     literal_seen = set()
+    mapped = reads_map(suite) if use_reads_map else {}
+    data_changed = [c for c in changed if _is_data(c)]
     for t in tests:
         files = _closure(t)
         used = _arg_names(t)
@@ -351,6 +415,11 @@ def select_changed(suite: str, changed: list[str]) -> dict:
                         break
                 if why:
                     break
+        if why is None and t in mapped and _fresh(files, mapped[t][1]):   # the map ADDS readers the literals miss
+            hit = next((c for c in data_changed if c in mapped[t][0]), None)
+            if hit:
+                literal_seen.add(hit)
+                why = f"opened {hit} (test-reads map)"
         if why:
             reasons[t] = why
     for c in changed:
@@ -393,6 +462,30 @@ def command_args(suite: str, changed: list[str] | None) -> list[str]:
     return files + [f"--deselect={d}" for d in slow_deselects(suite, result)]
 
 
+def record_reads(suite: str, only: list[str] | None = None) -> int:
+    """Run each test file of the suite alone under ES_TEST_READS=1 (so every
+    row is complete), ES_JOB_CORES files at a time; returns 0, or 1 when a
+    file's run failed (its row is written with passed=false and not used)."""
+    import subprocess
+    from concurrent.futures import ThreadPoolExecutor
+    cwd = REPO / SUITES[suite]
+    files = [os.path.relpath(REPO / t, cwd) for t in suite_tests(suite)]
+    if only:
+        files = [f for f in files if f in only or os.path.basename(f) in only]
+    env = {**os.environ, "ES_TEST_READS": "1"}
+
+    def run(f: str) -> tuple[str, int]:
+        cmd = [sys.executable, "-m", "pytest", "-q", "-p", "no:xdist", "-p", "no:randomly",
+               "-p", "no:cacheprovider", f]
+        return f, subprocess.run(cmd, cwd=cwd, env=env, stdout=subprocess.DEVNULL,
+                                 stderr=subprocess.DEVNULL).returncode
+    with ThreadPoolExecutor(max(1, int(os.environ.get("ES_JOB_CORES", "2")))) as pool:
+        codes = list(pool.map(run, files))
+    bad = [f for f, code in codes if code not in (0, 5)]
+    print(f"record-reads: {len(files)} files, {len(bad)} red: {' '.join(bad)}".rstrip(": "))
+    return 1 if bad else 0
+
+
 def main() -> None:
     args = sys.argv[1:]
     suite = args[0] if args and not args[0].startswith("--") else "placement"
@@ -403,6 +496,8 @@ def main() -> None:
         changed = os.environ["ES_TEST_CHANGED"].split("\n")
     else:
         changed = None
+    if "--record-reads" in args:
+        raise SystemExit(record_reads(suite, [a for a in args[1:] if not a.startswith("--")]))
     if "--summary" in args:
         if changed is None:
             raise SystemExit("select_tests: --summary needs --changed or ES_TEST_CHANGED")

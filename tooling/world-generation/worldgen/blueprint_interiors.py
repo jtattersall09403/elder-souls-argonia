@@ -33,6 +33,8 @@ Index record, per kit asset (see the pipeline module for how each is derived):
 Run (from tooling/world-generation/):
   python3 -m worldgen.blueprint_interiors --report ../../world/sources/blueprints/<place>.json
   python3 -m worldgen.blueprint_interiors --report <dir>          # every blueprint in a directory
+  python3 -m worldgen.blueprint_interiors --claim <blueprint>.json  # tier A claims; a lookup in
+      the batch pre-pass table (worldgen.batch_prepass) when present, refused when it is stale
 """
 
 from __future__ import annotations
@@ -562,7 +564,19 @@ def bundle_sourcing(plugin: str, cell: str) -> dict:
            "misses": dict(sorted(Counter(d.get("class", "unclassed") for d in missing).items())),
            "gate": gate}
     _SOURCING_ENV[key] = out
+    _SOURCING_ENV[("kits",) + key] = {
+        "kits": sorted(bundle.get("kits") or []),
+        "missingAssets": sorted({d["assetId"] for d in gaps if d.get("assetId")})}
     return out
+
+
+def bundle_kits(plugin: str, cell: str) -> dict:
+    """``{kits, missingAssets}`` of one cell's bundle (the same read as
+    ``bundle_sourcing``): the published kits its placements and stand-ins
+    use, and the asset ids no published kit holds yet (the batch pre-pass
+    builds the kit config that lists them)."""
+    bundle_sourcing(plugin, cell)
+    return _SOURCING_ENV[("kits", plugin, cell)]
 
 
 def claim_for_parcel(parcel: dict, lib: InteriorLibrary, links: dict[str, list[dict]],
@@ -811,9 +825,13 @@ def main() -> int:
     ap.add_argument("--parcels", default="",
                     help="with --claim: extra comma-separated parcel ids to report (no write)")
     ap.add_argument("--kits-dir", default=str(KITS_DIR))
+    ap.add_argument("--no-table", action="store_true",
+                    help="with --claim: read every cell from its plugin, ignoring the batch "
+                         "pre-pass claim table (worldgen.batch_prepass)")
     args = ap.parse_args()
     if args.claim:
-        return claim_main(Path(args.claim), [p for p in args.parcels.split(",") if p])
+        return claim_main(Path(args.claim), [p for p in args.parcels.split(",") if p],
+                          use_table=not args.no_table)
     if not args.report:
         ap.error("--report or --claim is required")
 
@@ -834,16 +852,41 @@ def main() -> int:
     return 0
 
 
-def claim_main(path: Path, extra_parcels: list[str]) -> int:
+def claim_main(path: Path, extra_parcels: list[str], use_table: bool = True) -> int:
+    """`--claim`. With the batch pre-pass table present (S16), every cell's
+    profile and sourcing are looked up in it, never read from the plugins;
+    a table whose inputs moved, or that lacks a cell, refuses (exit 2) with
+    the command that rebuilds it. No table: the plugin reads, as before."""
     data = json.loads(path.read_text())
     bp = data.get("blueprint", data)
-    rows = claim_doors(bp, sourcing=bundle_sourcing)
-    parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
-    lib, links = library(), linked_shells()
-    for pid in extra_parcels:
-        rows.append({"door": None, "parcel": pid, "assetRef": parcels[pid].get("assetRef"),
-                     **claim_for_parcel(parcels[pid], lib, links, plugin_profile,
-                                        sourcing=bundle_sourcing)})
+    profile, sourcing = plugin_profile, bundle_sourcing
+    if use_table:
+        from . import batch_prepass
+        try:
+            table = batch_prepass.current_table()
+        except batch_prepass.TableError as err:
+            print(f"claim: {err.message}", file=sys.stderr)
+            return 2
+        if table is not None:
+            profile, sourcing = table.profile, table.sourcing
+            print(f"claim: looked up in {batch_prepass._label(table.path)} "
+                  f"(inputs {table.doc['inputsDigest'][:8]}, current)", file=sys.stderr)
+        else:
+            print("claim: no batch pre-pass table, reading every cell from its plugin "
+                  "(python3 -m worldgen.batch_prepass --places <ids> makes this a lookup)",
+                  file=sys.stderr)
+    try:
+        rows = claim_doors(bp, profile=profile, sourcing=sourcing)
+        parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
+        lib, links = library(), linked_shells()
+        for pid in extra_parcels:
+            rows.append({"door": None, "parcel": pid, "assetRef": parcels[pid].get("assetRef"),
+                         **claim_for_parcel(parcels[pid], lib, links, profile,
+                                            sourcing=sourcing)})
+    except SystemExit as err:
+        if getattr(err, "message", None):
+            print(f"claim: {err.message}", file=sys.stderr)
+        raise
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
     print(json.dumps(rows, indent=1))
     return 0
