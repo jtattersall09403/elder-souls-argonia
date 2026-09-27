@@ -770,3 +770,36 @@ def test_a_nif_water_surface_ships_translucent_and_flagged_water(tmp_path):
     assert build_kit.untextured_material_errors(gltf, summary, []) == []
     materials["WATER.Mat"].pop("extras")
     assert build_kit.untextured_material_errors(gltf, summary, []) != []
+
+
+def test_size_rule_gives_small_solids_a_convex_collider():
+    kit = {"assets": [{"asset": "a:authored", "collision": "none"}]}
+    summary = {"assets": [
+        {"id": "a:woodpile", "category": "clutter", "collision": "none", "sizeM": [1.4, 0.9, 0.8]},
+        {"id": "a:candle", "category": "clutter", "collision": "none", "sizeM": [0.26, 0.25, 0.62]},
+        {"id": "a:rug", "category": "misc", "collision": "none", "sizeM": [2.0, 1.5, 0.02]},
+        {"id": "a:fern", "category": "plant", "collision": "none", "sizeM": [1.0, 1.0, 1.0]},
+        {"id": "a:authored", "category": "clutter", "collision": "none", "sizeM": [1.0, 1.0, 1.0]},
+        {"id": "a:wall", "category": "architecture", "collision": "mesh", "sizeM": [4, 0.3, 3]},
+    ]}
+    assert build_kit.apply_size_collision(summary, kit) == ["a:woodpile"]
+    kinds = {r["id"]: r["collision"] for r in summary["assets"]}
+    assert kinds == {"a:woodpile": "convex", "a:candle": "none", "a:rug": "none",
+                     "a:fern": "none", "a:authored": "none", "a:wall": "mesh"}
+
+
+# The kits Claywater Station draws (walk 2 D6): published manifests obey the
+# size rule, so the woodpile, handcart and troughs the owner walked through
+# collide. A kit outside this list meets the rule on its next rebuild.
+SIZE_RULE_KITS = ("settlement-imperial-v1", "settlement-mud-v1", "works-v1", "docks-v1")
+
+
+@pytest.mark.parametrize("kit_id", SIZE_RULE_KITS)
+def test_published_kit_obeys_the_size_collider_rule(kit_id):
+    config = json.loads((build_kit.CONFIG / f"{kit_id}.json").read_text())
+    authored = {e["asset"] for e in config.get("assets", []) if "collision" in e}
+    manifest = json.loads((PUBLIC_KITS / f"{kit_id}.kit.json").read_text())
+    missing = [a["id"] for a in manifest["assets"]
+               if a.get("collision", "none") == "none" and a["id"] not in authored
+               and build_kit.needs_size_collider(a)]
+    assert missing == [], f"{kit_id}: {len(missing)} pieces meet the size rule with no collider"

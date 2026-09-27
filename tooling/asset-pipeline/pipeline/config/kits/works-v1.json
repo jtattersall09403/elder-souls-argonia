@@ -16,6 +16,10 @@
     4
    ],
    "why": "The puff atlas vanilla's chimney smoke particle system (mps/mpssmokechimney01.nif, the addon node of effects/ambient/fxsmokechimney01.nif) draws; game-core settlement/smokeColumn.ts billboards it."
+  },
+  "fx:flame-billboard": {
+   "texture": "textures/effects/candleflame01.dds",
+   "why": "Vanilla's candle flame card (textures/effects/, the one flame sprite there that is a single frame, not an atlas). game-core settlement/lightFixtures.ts billboards it over a light fixture (candle, lantern, brazier, torch, sconce, fire socket) whose kit piece has no emissive flame submesh of its own (walk 2 D7)."
   }
  },
  "dressing": [

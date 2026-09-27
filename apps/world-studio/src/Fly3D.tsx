@@ -11,13 +11,16 @@ import {
   Vegetation, VEGETATION_ENABLED, type VegetationStats,
 } from "./vegetation/Vegetation";
 import { Groundcover, GROUNDCOVER_ENABLED } from "./vegetation/Groundcover";
-import { QUALITY_PRESETS } from "@elder-souls/game-core/core/quality";
+import { QUALITY_PRESETS, type QualitySettings } from "@elder-souls/game-core/core/quality";
 
 /** The fly camera sees the canopy from above and moves fast: the medium
  * preset (draw scale 0.8, a 65 m ground ring) instead of the character
  * view's full one. Measured 2026-09-16: the air view drew 4.7 M vegetation
- * triangles at full scale. */
-const FLY_QUALITY = QUALITY_PRESETS.medium;
+ * triangles at full scale. The LOD band is held at "low" (Vegetation reads
+ * `name` only as the LOD reach band, floraKit LOD_REACH_BY_BAND): the air
+ * view is where decision 0084 measured the overload, so it keeps the low
+ * reach; every other preset field stays medium. */
+const FLY_QUALITY: QualitySettings = { ...QUALITY_PRESETS.medium, name: "low" };
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";

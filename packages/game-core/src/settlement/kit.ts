@@ -74,6 +74,10 @@ export function kitAssetMetaFromManifest(
       anchorClass: asset.anchorClass,
       fit: typeof asset.placement?.evidence?.policyId === "string"
         ? asset.placement.evidence.policyId : undefined,
+      category: asset.category,
+      light: asset.light,
+      additiveMaterials: asset.additiveMaterials,
+      glowFacingsDeg: asset.glowFacingsDeg,
     });
   }
   return out;

@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { sunAt, TWILIGHT } from "@elder-souls/world-time";
+import { artificialLightFactor } from "./lighting";
 import type { SettlementKitMaterialExtras } from "./types";
 
 export interface SettlementMaterialUniforms {
@@ -10,9 +10,13 @@ export interface SettlementMaterialUniforms {
 const PATCH = "es-settlement-surface-v2";
 export const SETTLEMENT_GROUND_ATTRIBUTE = "esSettlementGroundY";
 
+/** How a material glows by night: a window's emissive mask (`true`), a light
+ * fixture's own additive flame card (`"flame"`, lighting.ts), or not at all. */
+export type SettlementGlow = boolean | "flame";
+
 interface SettlementSurfaceState {
   uniforms: SettlementMaterialUniforms;
-  glowMaterial: boolean;
+  glowMaterial: SettlementGlow;
   depthPair: boolean;
 }
 
@@ -20,9 +24,8 @@ interface SettlementSurfaceState {
  * gain over the glTF emissive (the NIF's Glow_Map mask at factor 1). */
 const WINDOW_GLOW_RGB = "vec3(1.0, 0.6, 0.28)";
 const WINDOW_GLOW_GAIN = 2.0;
-/** Sun altitude (deg) at which window lamps start to come on, and the civil
- * twilight altitude where they are fully lit (Module 55 bands). */
-const LAMPS_ON_START_DEG = 2;
+/** Gain of a fixture's own flame card over its albedo, added as emission by night. */
+const FLAME_GLOW_GAIN = 1.5;
 
 /**
  * A glow material is one whose kit build carried the NIF's Glow_Map slot
@@ -103,11 +106,6 @@ export function settlementMeshDrawFlags(material: THREE.Material): {
     : { castShadow: true, renderOrder: 0 };
 }
 
-/** 0 by day, 1 from civil twilight down, a smooth ramp between. */
-export function settlementNightFactor(sunAltitudeDeg: number): number {
-  return 1 - THREE.MathUtils.smoothstep(sunAltitudeDeg, TWILIGHT.civilDeg, LAMPS_ON_START_DEG);
-}
-
 /**
  * Building wetness and night windows share one uniform block. State lives in
  * userData and the cache key is chained, so WorldSky can safely reapply this
@@ -116,7 +114,7 @@ export function settlementNightFactor(sunAltitudeDeg: number): number {
 export function applySettlementSurface(
   material: THREE.Material,
   uniforms: SettlementMaterialUniforms,
-  glowMaterial = false,
+  glowMaterial: SettlementGlow = false,
 ): void {
   const m = material as THREE.MeshStandardMaterial;
   if (!m.isMeshStandardMaterial) return;
@@ -129,7 +127,7 @@ export function applySettlementSurface(
 export function applySettlementSurfaceWithShadow(
   material: THREE.Material,
   uniforms: SettlementMaterialUniforms,
-  glowMaterial = false,
+  glowMaterial: SettlementGlow = false,
 ): THREE.MeshDepthMaterial | undefined {
   const m = material as THREE.MeshStandardMaterial;
   if (!m.isMeshStandardMaterial) return undefined;
@@ -203,6 +201,16 @@ export function settlementShadowPairErrors(
   return errors;
 }
 
+/** The emissive-stage line a glow kind adds (none for a plain surface). */
+function glowLine(glow: SettlementGlow): string {
+  if (glow === "flame") {
+    return `\ntotalEmissiveRadiance += diffuseColor.rgb * esSettlementNight * ${FLAME_GLOW_GAIN.toFixed(1)};`;
+  }
+  return glow
+    ? `\ntotalEmissiveRadiance *= ${WINDOW_GLOW_RGB} * esSettlementNight * ${WINDOW_GLOW_GAIN.toFixed(1)};`
+    : "";
+}
+
 export function reapplySettlementSurface(material: THREE.Material): void {
   const m = material as THREE.MeshStandardMaterial | THREE.MeshDepthMaterial;
   const state = m.userData?.esSettlementSurface as
@@ -222,10 +230,10 @@ export function reapplySettlementSurface(material: THREE.Material): void {
         .replace("#include <common>", `#include <common>\nuniform float esSettlementRain;\nuniform float esSettlementNight;\nvarying float esSettlementHeightAboveGround;`)
         .replace("#include <color_fragment>", `#include <color_fragment>\nfloat esWallWet = esSettlementRain * mix(0.55, 1.0, 1.0 - smoothstep(0.0, 4.0, max(0.0, esSettlementHeightAboveGround)));\ndiffuseColor.rgb *= mix(1.0, 0.62, esWallWet * 0.55);`)
         // Night windows in the EMISSIVE stage: the kit's glow mask (emissive
-        // map x factor) x warm lamplight x the twilight ramp. By day the
+        // map x factor) x warm lamplight x the lamp clock (lighting.ts). By day the
         // factor is 0, so the glTF's emissive never shows. Added to albedo
         // (the old path) it was multiplied by the night light and stayed dark.
-        .replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>${state.glowMaterial ? `\ntotalEmissiveRadiance *= ${WINDOW_GLOW_RGB} * esSettlementNight * ${WINDOW_GLOW_GAIN.toFixed(1)};` : ""}`)
+        .replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>${glowLine(state.glowMaterial)}`)
         .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>\nroughnessFactor = mix(roughnessFactor, 0.32, esWallWet * 0.55);`);
     };
   m.onBeforeCompile = hook;
@@ -234,7 +242,7 @@ export function reapplySettlementSurface(material: THREE.Material): void {
     m.userData.esSettlementCacheKeyed = true;
     const priorKey = m.customProgramCacheKey;
     m.customProgramCacheKey = function (this: THREE.Material) {
-      return `${priorKey.call(this)}|${PATCH}|${state.glowMaterial ? 1 : 0}|${state.depthPair ? "depth" : "colour"}`;
+      return `${priorKey.call(this)}|${PATCH}|${state.glowMaterial === "flame" ? 2 : state.glowMaterial ? 1 : 0}|${state.depthPair ? "depth" : "colour"}`;
     };
   }
   m.needsUpdate = true;
@@ -246,6 +254,6 @@ export function updateSettlementEnvironment(
   epochMinutes: number,
 ): void {
   uniforms.esSettlementRain.value = THREE.MathUtils.clamp(rainIntensity, 0, 1);
-  uniforms.esSettlementNight.value = settlementNightFactor(
-    (sunAt(epochMinutes).altitude * 180) / Math.PI);
+  // the ONE clock for every artificial light (lighting.ts, walk 2 D7)
+  uniforms.esSettlementNight.value = artificialLightFactor(epochMinutes);
 }

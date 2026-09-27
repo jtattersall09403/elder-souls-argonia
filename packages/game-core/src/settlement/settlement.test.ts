@@ -35,7 +35,6 @@ import {
   applySettlementSurface,
   applySettlementSurfaceWithShadow,
   isSettlementGlowMaterial,
-  settlementNightFactor,
   updateSettlementEnvironment,
   SETTLEMENT_GROUND_ATTRIBUTE,
   reapplySettlementSurface,
@@ -328,14 +327,7 @@ describe("settlement material patch contract", () => {
     expect(compile(plain)).not.toContain("totalEmissiveRadiance *=");
   });
 
-  it("ramps night on the sun's altitude, not a clock hour", () => {
-    expect(settlementNightFactor(20)).toBe(0);
-    expect(settlementNightFactor(2)).toBe(0);
-    expect(settlementNightFactor(-6)).toBe(1);
-    expect(settlementNightFactor(-30)).toBe(1);
-    const dusk = settlementNightFactor(-2);
-    expect(dusk).toBeGreaterThan(0);
-    expect(dusk).toBeLessThan(1);
+  it("lights windows on the lamp clock (lighting.ts), not the sun", () => {
     const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
     const at = (minuteOfDay: number) => {
       updateSettlementEnvironment(uniforms, 0,
@@ -344,10 +336,8 @@ describe("settlement material patch contract", () => {
     };
     expect(at(720)).toBe(0);
     expect(at(0)).toBe(1);
-    // Dusk is a ramp, not the old 19:00 step: some five-minute sample of
-    // the evening lies strictly between day and night.
-    const evening = Array.from({ length: 72 }, (_, i) => at(960 + i * 5));
-    expect(evening.some((v) => v > 0 && v < 1)).toBe(true);
+    expect(at(17 * 60 + 30)).toBe(1);
+    expect(at(17 * 60 + 20)).toBeCloseTo(0.5, 6);
   });
 
   it("creates an alpha/displacement-matched shadow twin with the same state", () => {

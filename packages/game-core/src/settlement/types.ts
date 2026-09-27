@@ -47,6 +47,12 @@ export interface SettlementPlacement {
     parts?: SettlementCollisionPart[];
     proxySource?: "measured-manifest-box";
   };
+  /** The compile's assembly layer (export `_layer_contract`); "light" pieces
+   * are light fixtures (lighting.ts). Absent in bundles older than walk 2. */
+  layer?: string;
+  /** The compile rule that made the placement; `effect-socket/fire` marks a
+   * fire socket (lighting.ts). Only the rule id is read here. */
+  provenance?: { ruleId?: string };
 }
 
 export interface SettlementRun {
@@ -338,6 +344,8 @@ export interface SettlementLayerProps {
   onDoors?: (doors: SettlementDoor[]) => void;
   /** The scene's shared kit cache (`kitCache.ts`); absent, the layer keeps its own. */
   kitCache?: import("./kitCache").KitCache;
+  /** The scene's light fixtures (`lighting.ts`); absent, the layer makes its own. */
+  lightFixtures?: import("./lighting").SettlementLightFixtures;
 }
 
 /** What the runtime reads off a published kit manifest, per asset (16h item 1). */
@@ -353,6 +361,28 @@ export interface SettlementKitAssetMeta {
    * field the compile's `fit_slope_failure` reads. `dug-in` anchors on the
    * lowest ground under the footprint (97 §C); every other fit on the mean. */
   fit?: string;
+  /** The kit category (build_kit); window lights are architecture only. */
+  category?: string;
+  /** The mined Skyrim LIGH record placed with the piece (build_kit
+   * apply_light_records), `offsetM` glTF Y-up metres from the pivot. */
+  light?: SettlementKitLight;
+  /** Effect-shader materials (flame and glow cards) the kit build exported
+   * additive: the piece's own flame submesh. */
+  additiveMaterials?: string[];
+  /** Outward bearings of the piece's window-glow faces, north 0 clockwise
+   * (x east, z south; build_kit glow_facings_from_faces). */
+  glowFacingsDeg?: number[];
+}
+
+/** A kit manifest `light` block: the carriedLight `LightRecord` shape plus the emitter offset. */
+export interface SettlementKitLight {
+  formId: string;
+  burnSeconds: number;
+  radiusUnits: number;
+  colourRgb: [number, number, number];
+  flicker?: { frequency: number; intensityAmplitude: number; movementAmplitude: number };
+  flags: string[];
+  offsetM?: [number, number, number];
 }
 
 /**

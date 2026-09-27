@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import { createKitLoader } from "../assets/kitLoader";
@@ -55,6 +55,12 @@ import {
   type SettlementSolid,
 } from "./types";
 import { trimeshFromGeometry } from "../physics/floraSolids";
+import { PRECIP_LAYER } from "../water/render/waterMaterial";
+import {
+  FLAME_TEXTURE_ASSET_ID, FLAME_TEXTURE_KIT, fixtureFromFireSocket, fixtureFromPiece,
+  isFireSocket, isLightFixturePlacement, SettlementLightFixtures, windowFixturesFromPiece,
+  type LightFixture,
+} from "./lighting";
 import { mergeRunColliders } from "./runColliders";
 import {
   effectTextureFile, isSmokeColumnPlacement, SMOKE_CALM_WIND, SMOKE_COLUMN_ASSET_ID,
@@ -67,6 +73,46 @@ interface DrawBucket {
   groundLinesM: number[];
   farTransforms: THREE.Matrix4[];
   farGroundLinesM: number[];
+  /** A light fixture's own additive flame card: it glows by night (lighting.ts). */
+  flame?: boolean;
+}
+
+/**
+ * Swap a finished detached build into the live group. An empty build adds
+ * nothing: `group.add()` with no argument logs three's "object not an
+ * instance of THREE.Object3D" (walk 2 D1, SettlementLayer.tsx:738).
+ */
+export function swapInBuild(group: THREE.Group, next: THREE.Group): void {
+  // Snapshot: `add` detaches each child from `next` as it goes.
+  if (next.children.length) group.add(...[...next.children]);
+}
+
+/**
+ * The mark a build leaves while it runs: the focus it builds for, and the
+ * covered radius of the LIVE build until the new one swaps in. Resetting it
+ * to 0 at the start made the per-frame rebuild check fire after 1 m of
+ * walking and restart a sliced build over and over (walk 2 D1).
+ */
+export function buildStartMark(
+  focus: { x: number; z: number }, liveCoveredRadiusM: number | null,
+): { x: number; z: number; coveredRadiusM: number } {
+  // No live build yet: an infinite radius, so the frame check moves on the
+  // full REBUILD_MOVE_M rather than 1 m and the first build is not restarted.
+  return { x: focus.x, z: focus.z,
+    coveredRadiusM: liveCoveredRadiusM ?? Number.POSITIVE_INFINITY };
+}
+
+/**
+ * The manifest path of the kit that publishes the billboard flame: its bundle
+ * entry where the bundle lists it, else the same kits folder as any kit the
+ * bundle lists (a bundle placing nothing from works-v1 does not list it).
+ */
+export function flameManifestPath(kits: Record<string, { manifest: string }>): string {
+  const listed = kits[FLAME_TEXTURE_KIT]?.manifest;
+  if (listed) return listed;
+  const any = Object.values(kits)[0]?.manifest;
+  const folder = any ? any.replace(/[^/]*$/, "") : "kits/";
+  return `${folder}${FLAME_TEXTURE_KIT}.kit.json`;
 }
 
 const EMPTY_FINAL_TRANSFORM_EVIDENCE = Object.freeze({
@@ -288,7 +334,7 @@ export function solidFrom(
 
 export function SettlementLayer({
   baseUrl, focusRef, groundAt, quality, environment, onSolids, onStats, materialPatch,
-  rebuildRef, onDoors, kitCache: sharedKitCache,
+  rebuildRef, onDoors, kitCache: sharedKitCache, lightFixtures: sharedLightFixtures,
 }: SettlementLayerProps) {
   const root = useRef<THREE.Group>(null);
   const [bundle, setBundle] = useState<SettlementBundle | null>(null);
@@ -307,6 +353,8 @@ export function SettlementLayer({
   const kitCache = sharedKitCache ?? ownKitCache;
   const [revision, setRevision] = useState(0);
   const builtAt = useRef<{ x: number; z: number; coveredRadiusM: number } | null>(null);
+  // The covered radius of the build on screen, held while a new one runs.
+  const liveCoveredRadiusM = useRef<number | null>(null);
   const incomplete = useRef(false);
   const retryAt = useRef(0);
   const collisionFailure = useRef<SettlementProofState["collision"] | null>(null);
@@ -336,6 +384,18 @@ export function SettlementLayer({
   // once the effect texture named by its kit manifest has loaded.
   const [smoke, setSmoke] = useState<SmokeColumns | null>(null);
   const smokeAnchors = useRef<SmokeAnchor[]>([]);
+  // Light fixtures (lighting.ts): injected by the scene, else the layer's own.
+  const ownLightFixtures = useMemo(
+    () => (sharedLightFixtures ? null : new SettlementLightFixtures(uniforms.esSettlementNight)),
+    [sharedLightFixtures, uniforms]);
+  const lightFixtures = sharedLightFixtures ?? ownLightFixtures!;
+  useEffect(() => () => ownLightFixtures?.dispose(), [ownLightFixtures]);
+  // Smoke and billboard flames draw on the post-water layer (like rain): the
+  // camera must see it in a plain render too, where no water pipeline runs.
+  const { camera: sceneCamera } = useThree();
+  useEffect(() => { sceneCamera.layers.enable(PRECIP_LAYER); }, [sceneCamera]);
+  const placementById = useMemo(
+    () => new Map((bundle?.placements ?? []).map((p) => [p.id, p])), [bundle]);
 
   useEffect(() => {
     collisionFailure.current = null;
@@ -450,10 +510,36 @@ export function SettlementLayer({
     };
   }, [baseUrl, bundle]);
 
+  // The billboard flame texture: vanilla's candle flame, published by the
+  // works-v1 build (`effectTextures`), loaded once per bundle. A fixture is
+  // known only after a build (a LIGH record can make one on any layer), and
+  // the file is one small PNG, so every bundle with placements loads it.
+  useEffect(() => {
+    if (!bundle?.placements.length) return undefined;
+    let cancelled = false;
+    const manifestUrl = `${baseUrl}${flameManifestPath(bundle.kits)}`;
+    fetch(manifestUrl).then((response) => {
+      if (!response.ok) throw new Error(`${manifestUrl}: HTTP ${response.status}`);
+      return response.json();
+    }).then((manifest: unknown) => {
+      const file = effectTextureFile(manifest, FLAME_TEXTURE_ASSET_ID, manifestUrl);
+      return new THREE.TextureLoader().loadAsync(`${manifestUrl.replace(/[^/]*$/, "")}${file}`);
+    }).then((texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      if (cancelled) { texture.dispose(); return; }
+      lightFixtures.setFlameTexture(texture);   // disposes the one it replaces
+    }).catch((error: unknown) => {
+      if (!cancelled) setFatalError(new Error(`settlement flame texture failed: `
+        + `${error instanceof Error ? error.message : String(error)}`));
+    });
+    return () => { cancelled = true; };
+  }, [baseUrl, bundle, lightFixtures]);
+
   useFrame(({ camera, clock }) => {
     if (fatalError) return;
     const env = environment?.();
     if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.epochMinutes);
+    lightFixtures.update(clock.elapsedTime, camera);
     if (smoke) {
       smoke.setAnchors(smokeAnchors.current);
       smoke.update(clock.elapsedTime, camera, env?.windDirXZ && env.windSpeedMS !== undefined
@@ -512,7 +598,7 @@ export function SettlementLayer({
       // `return()`, and after a successful swap `next` is empty.
       try {
       const residentPlacementIds = residentPlacementIdsAt(bundle.settlements, focus);
-      builtAt.current = { ...focus, coveredRadiusM: 0 };
+      builtAt.current = buildStartMark(focus, liveCoveredRadiusM.current);
       const buckets = new Map<string, DrawBucket>();
       const solidCandidates: {
         value: SettlementSolid; placementId: string; distanceM: number; parts: number;
@@ -523,20 +609,26 @@ export function SettlementLayer({
       // Longest side of each asset's LOD0 geometry in its own metres, measured
       // once per build from the loaded parts (0102 decision 6: the LOD gate is
       // size-aware; the manifest meta carries no size).
-      const longestSideOf = new Map<string, number>();
-      const assetLongestSideM = (key: string, parts: readonly ArchitecturePart[]): number => {
-        const cached = longestSideOf.get(key);
-        if (cached !== undefined) return cached;
+      const boxOf = new Map<string, THREE.Box3>();
+      const assetBox = (key: string, parts: readonly ArchitecturePart[]): THREE.Box3 => {
+        const cached = boxOf.get(key);
+        if (cached) return cached;
         const box = new THREE.Box3();
         for (const part of parts) {
           if (!part.geometry.boundingBox) part.geometry.computeBoundingBox();
           box.union(part.geometry.boundingBox!.clone().applyMatrix4(part.localMatrix));
         }
-        const size = box.isEmpty() ? new THREE.Vector3() : box.getSize(new THREE.Vector3());
-        const side = Math.max(size.x, size.y, size.z);
-        longestSideOf.set(key, side);
-        return side;
+        boxOf.set(key, box);
+        return box;
       };
+      const assetLongestSideM = (key: string, parts: readonly ArchitecturePart[]): number => {
+        const box = assetBox(key, parts);
+        const size = box.isEmpty() ? new THREE.Vector3() : box.getSize(new THREE.Vector3());
+        return Math.max(size.x, size.y, size.z);
+      };
+      const fixturesHere: LightFixture[] = [];
+      const isFixture = (p: SettlementPlacement): boolean =>
+        isLightFixturePlacement(p, kitAssetMetaOf(manifests, p));
       let placementCount = 0;
       incomplete.current = false;
       let sinceYield = 0;
@@ -563,8 +655,15 @@ export function SettlementLayer({
           if (distance > SMOKE_MAX_DISTANCE_M + REBUILD_MOVE_M) continue;
           const at = resolvePlaced(placement);
           if (!at) { incomplete.current = true; continue; }
-          smokeHere.push({ id: placement.id,
-            position: new THREE.Vector3().setFromMatrixPosition(at.matrix) });
+          const socketAt = new THREE.Vector3().setFromMatrixPosition(at.matrix);
+          smokeHere.push({ id: placement.id, position: socketAt });
+          // A fire socket is a fixture unless it sits on one (the brazier's
+          // own fixture already lights it).
+          const host = placement.parentPlacementId
+            ? placementById.get(placement.parentPlacementId) : undefined;
+          if (isFireSocket(placement) && !(host && isFixture(host))) {
+            fixturesHere.push(fixtureFromFireSocket(placement.id, socketAt));
+          }
           continue;
         }
         const asset = kits.get(placement.kit)?.get(placement.assetId);
@@ -578,7 +677,16 @@ export function SettlementLayer({
           runOfPlacement.set(placement.id, placement.run.id);
         }
         const groundLineM = anchored ? anchored.groundLineM : transform.elements[13];
+        const meta = kitAssetMetaOf(manifests, placement);
+        const fixture = inDrawRange && isLightFixturePlacement(placement, meta);
+        // An additive (flame or glow card) material glows by night on every
+        // instance of its asset: fixed per material, so a material never
+        // flips glow kind (and recompiles) with what a build happens to hold.
+        const ownFlames = new Set(meta?.additiveMaterials ?? []);
         if (inDrawRange) {
+          const box = assetBox(`${placement.kit}|${placement.assetId}`, asset.levels[0]);
+          if (fixture) fixturesHere.push(fixtureFromPiece(placement.id, meta, transform, box));
+          fixturesHere.push(...windowFixturesFromPiece(placement.id, meta, transform, box));
           const triangles = asset.levels.map((parts) => parts.reduce((n, p) => n + p.triangles, 0));
           const piece = {
             longestSideM: assetLongestSideM(`${placement.kit}|${placement.assetId}`, asset.levels[0])
@@ -597,6 +705,7 @@ export function SettlementLayer({
             const bucket = buckets.get(key) ?? {
               part, transforms: [], groundLinesM: [], farTransforms: [], farGroundLinesM: [],
             };
+            if (ownFlames.has(part.material.name)) bucket.flame = true;
             const partTransform = transform.clone().multiply(part.localMatrix);
             if (farMerged) {
               bucket.farTransforms.push(partTransform);
@@ -638,7 +747,6 @@ export function SettlementLayer({
         ));
         return;
       }
-      builtAt.current.coveredRadiusM = collision.coveredRadiusM;
       // A retry that resolves exactly what is live keeps the live group: the
       // signature is taken before any geometry is cloned or merged, so such a
       // retry costs no clone, merge or upload (check-in 2 item 2).
@@ -658,7 +766,7 @@ export function SettlementLayer({
         validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
         // A glow material is one the kit build gave an emissive map (the NIF's
         // Glow_Map slot, build_kit rebuild_material), never a name match.
-        const glowMaterial = isSettlementGlowMaterial(material);
+        const glowMaterial = isSettlementGlowMaterial(material) || (bucket.flame ? "flame" as const : false);
         materialPatch?.(material);
         applySettlementDecal(material);
         applySettlementStillWater(material);
@@ -734,8 +842,7 @@ export function SettlementLayer({
       // one synchronous step, so no frame draws an empty layer.
       if (!reuseLive) {
         disposeChildren(group);
-        // Snapshot: `add` detaches each child from `next` as it goes.
-        group.add(...[...next.children]);
+        swapInBuild(group, next);
         // Twins of materials no longer drawn (a kit re-cloned its materials)
         // go now, not at unmount.
         const drawn = new Set(group.children.map((child) => (child as THREE.Mesh).material));
@@ -750,6 +857,10 @@ export function SettlementLayer({
       } else {
         frames.skippedSwaps += 1;
       }
+      // The new build is live: its covered radius and fixtures replace the old.
+      liveCoveredRadiusM.current = collision.coveredRadiusM;
+      if (builtAt.current) builtAt.current.coveredRadiusM = collision.coveredRadiusM;
+      lightFixtures.setFixtures(fixturesHere);
       onSolids?.(collision.chosen);
       const collisionAudit = {
         status: collision.activeSettlementIds.length ? "resident" as const : "ring" as const,
@@ -827,7 +938,8 @@ export function SettlementLayer({
       running.current = null;
     };
   }, [queue, bundle, kits, manifests, revision, groundAt, quality?.architectureDrawScale,
-      focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames]);
+      focusRef, materialPatch, onSolids, onStats, uniforms, fatalError, frames, lightFixtures,
+      placementById]);
 
   // The live group and the depth twins go with the world: on unmount, a new
   // baseUrl or bundle, or the fatal sentinel replacing the layer.
@@ -862,6 +974,7 @@ export function SettlementLayer({
     <>
       <group key="settlement-layer" ref={root} name="settlement-layer" />
       {smoke && <primitive key="settlement-smoke" object={smoke.mesh} />}
+      <primitive key="settlement-light-fixtures" object={lightFixtures.group} />
     </>
   );
 }

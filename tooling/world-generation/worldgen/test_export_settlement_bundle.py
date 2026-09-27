@@ -859,6 +859,21 @@ def test_collider_budget_is_derived_and_the_ceiling_gate_fails_above_it(tmp_path
     assert len(errors) == 1 and "place.test.big" in errors[0] and "15" in errors[0]
 
 
+def test_collider_budget_warns_over_the_warning_line(tmp_path, capsys, monkeypatch):
+    settlements, placements = _budget_fixture(tmp_path)
+    monkeypatch.setattr(ex, "COLLIDER_PART_WARNING", 15)
+    budget, errors = ex.collider_part_budget(settlements, placements, tmp_path, ceiling=400)
+    assert budget == 16 and errors == []
+    assert "over 15" in capsys.readouterr().err
+    monkeypatch.setattr(ex, "COLLIDER_PART_WARNING", 16)
+    ex.collider_part_budget(settlements, placements, tmp_path, ceiling=400)
+    assert capsys.readouterr().err == ""
+
+
+def test_collider_ceiling_is_400_with_a_warning_at_250():
+    assert (ex.COLLIDER_PART_CEILING, ex.COLLIDER_PART_WARNING) == (400, 250)
+
+
 def test_shipped_bundle_settlements_fit_the_shipped_collider_budget():
     """The gate on the real data: Lilmoth is the settlement that broke this."""
     bundle = json.loads(ex.OUT.read_text())
@@ -1149,6 +1164,13 @@ def test_the_bundle_carries_the_compiles_mount_and_water_fields():
     assert ex._mount_contract({}) == {}
     assert ex._mount_contract({"waterLevelM": -1.5, "waterEntityId": "body.1284-3448"}) == {
         "waterLevelM": -1.5, "waterEntityId": "body.1284-3448"}
+
+
+def test_the_bundle_carries_the_compiles_assembly_layer():
+    """Walk 2 D7: the runtime lights the compile's "light" layer pieces, so the
+    layer passes through; a placement with none carries none."""
+    assert ex._layer_contract({"layer": "light", "yawDeg": 0}) == {"layer": "light"}
+    assert ex._layer_contract({}) == {}
 
 
 def test_a_runtime_fatal_error_names_why_the_runtime_refuses():

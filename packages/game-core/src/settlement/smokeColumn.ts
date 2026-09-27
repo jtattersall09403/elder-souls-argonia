@@ -18,6 +18,7 @@
  * clock (seconds) and wind are passed to `update` every frame.
  */
 import * as THREE from "three";
+import { PRECIP_LAYER } from "../water/render/waterMaterial";
 import { lodLadder } from "../fx/lodFade";
 import type { SettlementPlacement } from "./types";
 
@@ -154,6 +155,13 @@ export class SmokeColumns {
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 10;
     this.mesh.name = "settlement-smoke";
+    // Walk 2 D8: on layer 0 the smoke drew in the water pipeline's pass 1
+    // (depth-write free) and the water surface in pass 3 painted over it.
+    // The post-water layer draws after the surface, depth-tested against the
+    // scene depth and tone-mapped in this material's own shader, like rain
+    // (waterMaterial.ts PRECIP_LAYER, WaterPipeline pass 3). Scene fog still
+    // applies: the same scene is rendered.
+    this.mesh.layers.set(PRECIP_LAYER);
   }
 
   /** Cheap to call every frame: the same array is a no-op. */

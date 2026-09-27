@@ -74,6 +74,20 @@ Load-bearing contracts:
   beyond 150 m) with the vanilla puff atlas its kit manifest's
   `effectTextures` row names, drifting on the injected environment's wind
   (`windDirXZ`/`windSpeedMS`, else `SMOKE_CALM_WIND`) and the frame clock;
+- smoke columns and billboard flames draw on `PRECIP_LAYER`, after the water
+  surface (like rain), so water never paints over them; the layer enables
+  that layer on the scene camera;
+- light fixtures (`lighting.ts`, walk 2 D7): every "light" layer piece (the
+  compile's assembly layer, carried by the export), every piece whose kit
+  manifest carries a mined LIGH record, every fire socket not sitting on one,
+  and every window-glow facing of an architecture piece (one light 0.5 m
+  inside the wall, 4 m). A fixture's radius and colour are its LIGH record's,
+  else 6 m and warm (255,190,120). Its flame is the kit's own additive flame
+  material (lit in the emissive stage × the lamp clock) or a billboard of
+  vanilla's candle flame (works-v1 `effectTextures` `fx:flame-billboard`). A
+  fixed pool of 8 point lights (decay 2, no shadow) follows the nearest
+  fixtures, re-chosen once a second; the rest glow only. The manager is the
+  layer's own or injected (`lightFixtures` prop);
 - a failed bundle or kit load produces a conspicuous magenta failure sentinel;
   it cannot silently degrade into a settlement-free landscape;
 - materials carry aerial, rain wetness and all-tier window emission state in
@@ -82,9 +96,9 @@ Load-bearing contracts:
   alpha/displacement-matched `customDepthMaterial` for its shadow, one per
   colour material for the layer's life. A glow material is one with an
   emissive map (the NIF's Glow_Map slot, carried by the kit build); it is lit
-  in the emissive stage as mask × warm colour × `settlementNightFactor`, a
-  ramp on the sun's altitude read from the injected world clock
-  (`environment().epochMinutes`). A decal material (glTF material extras
+  in the emissive stage as mask × warm colour × the lamp clock
+  (`lighting.ts` `artificialLightFactor`: 1 from 17:30 to 06:30, 0 from 06:50
+  to 17:10, linear between, read from `environment().epochMinutes`). A decal material (glTF material extras
   `decal: true`, from the NIF DECAL/DYNAMIC_DECAL shader flags) gets polygon
   offset -1/-1 and no depth write, draws at renderOrder 1 after its opaque
   parent and casts no shadow (`applySettlementDecal`,

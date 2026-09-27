@@ -45,8 +45,13 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   the manifest record by `build_kit.apply_light_records`; the shape of
   `game-core/fx/carriedLight` `LightRecord`, `offsetM` in glTF Y-up metres
   from the pivot. Example: works-v1 `campfire01burning` (LightCampFire01).
-  No runtime reads `light` or the `additive` extra yet (16h item 22): until
-  then flames draw alpha-blended and give no light.
+  The settlement runtime reads both (game-core `settlement/lighting.ts`,
+  walk 2 D7): `light` sets a fixture's point-light radius and colour, and
+  the `additiveMaterials` of a fixture glow by night instead of a billboard.
+- Collision default: the category table (`_COLLISION_BY_CATEGORY`), then the
+  size rule (`apply_size_collision`, planner 2026-09-27): a non-foliage piece
+  left at "none" that is >= 0.3 m in both plan axes and >= 0.3 m tall gets
+  `convex`. An authored `collision` in the config always wins.
 
 ## 1. Build (geometry + manifest + sidecars + publish)
 

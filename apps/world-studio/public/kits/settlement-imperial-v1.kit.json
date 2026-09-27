@@ -2112,7 +2112,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "firewood01.dds",
@@ -2172,7 +2172,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "firewood01.dds",
@@ -2232,7 +2232,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "firewood01.dds",
@@ -2347,7 +2347,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "bucket01.dds"
@@ -2402,7 +2402,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "hay01.dds"
@@ -3070,7 +3070,7 @@
   "sidecarBytes": {
    "connectors": 33981,
    "footprints": 56281,
-   "interiors": 37460
+   "interiors": 37664
   }
  }
 }

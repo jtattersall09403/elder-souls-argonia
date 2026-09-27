@@ -928,6 +928,44 @@ def _default_collision(row: dict) -> str:
     return _COLLISION_BY_CATEGORY.get(row.get("category", ""), "none")
 
 
+#: The size rule for pieces the category table leaves without a collider
+#: (planner 2026-09-27, walk-2 D6: the woodpile, handcart, troughs and crates
+#: at Claywater had none because `clutter` and `misc` fall to "none"). A piece
+#: at least this big in both plan axes AND this tall collides as convex (its
+#: own LOD0 triangles at runtime, SettlementLayer TRIMESH_COLLISION_KINDS);
+#: candles, small lanterns and flat things stay without. Static colliders are
+#: cheap; the per-place part ceiling is export_settlement_bundle's.
+SIZE_COLLIDER_MIN_PLAN_M = 0.3
+SIZE_COLLIDER_MIN_HEIGHT_M = 0.3
+#: Categories the size rule never touches: foliage bends and effects are light.
+SIZE_COLLIDER_SKIP_CATEGORIES = FOLIAGE_CATEGORIES | {"effect"}
+
+
+def needs_size_collider(record: dict) -> bool:
+    """True when a built manifest record meets the size rule. `sizeM` is the
+    measured LOD0 extent in the NIF frame: [x, y] plan, [2] height."""
+    size = record.get("sizeM") or []
+    if len(size) != 3 or record.get("category") in SIZE_COLLIDER_SKIP_CATEGORIES:
+        return False
+    return (min(size[0], size[1]) >= SIZE_COLLIDER_MIN_PLAN_M
+            and size[2] >= SIZE_COLLIDER_MIN_HEIGHT_M)
+
+
+def apply_size_collision(summary: dict, kit: dict) -> list[str]:
+    """Post-pass on the built summary (sizes exist only after Blender): a
+    piece whose collision was the category default "none" and whose config
+    does not author `collision` gets "convex" when `needs_size_collider`.
+    An authored `collision` always wins. Returns the ids changed."""
+    authored = {entry["asset"] for entry in kit.get("assets", []) if "collision" in entry}
+    changed = []
+    for record in summary.get("assets", []):
+        if (record.get("collision", "none") == "none" and record["id"] not in authored
+                and needs_size_collider(record)):
+            record["collision"] = "convex"
+            changed.append(record["id"])
+    return changed
+
+
 def set_alpha_modes(glb: Path, summary: dict) -> dict:
     """Rewrite the exported glTF's alpha modes: **foliage is masked, never
     blended** (module 65 §111 — alpha-test overdraw is the #1 mobile killer,
@@ -1188,6 +1226,9 @@ def _build(kit_id: str, vault: Path) -> dict:
     summary["texturesMissing"] = notes["texturesMissing"]
     summary["texturesSubstituted"] = notes["texturesSubstituted"]
     summary["alphaModes"] = set_alpha_modes(output_glb, summary)
+    sized = apply_size_collision(summary, kit)
+    if sized:
+        print(f"[kit] size-rule colliders: {len(sized)}")
     lights = apply_light_records(summary, kit)
     if lights:
         print(f"[kit] light records: {lights}")

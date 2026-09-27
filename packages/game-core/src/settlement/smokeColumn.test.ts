@@ -10,6 +10,7 @@ import {
   SMOKE_NIGHT_BRIGHTNESS, SmokeColumns, smokeDistanceFade, smokePuff, smokeQuadsAt,
 } from "./smokeColumn";
 import { SETTLEMENT_COLLISION_FRAME, type SettlementPlacement } from "./types";
+import { PRECIP_LAYER } from "../water/render/waterMaterial";
 
 function placement(over: Partial<SettlementPlacement>): SettlementPlacement {
   return {
@@ -124,5 +125,13 @@ describe("smoke night dimming (16k fix 2 round 4 E3)", () => {
       `diffuseColor.rgb *= mix(1.0, ${SMOKE_NIGHT_BRIGHTNESS.toFixed(3)}, esSettlementNight);`);
     night.value = 1;
     expect(shader.uniforms.esSettlementNight.value).toBe(1);
+  });
+});
+
+describe("smoke draws after the water surface (walk 2 D8)", () => {
+  it("sits on the post-water layer, like rain", () => {
+    const smoke = new SmokeColumns(new THREE.Texture());
+    expect(smoke.mesh.layers.mask).toBe(1 << PRECIP_LAYER);
+    smoke.dispose();
   });
 });

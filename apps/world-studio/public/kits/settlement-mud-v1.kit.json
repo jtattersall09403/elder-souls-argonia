@@ -152,7 +152,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dwemetalsheet01.dds",
@@ -218,7 +218,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "wovenfence01.dds"
@@ -285,7 +285,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "argonianbridge.dds"
@@ -348,7 +348,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "argonianbridge.dds"
@@ -411,7 +411,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "argonianbridge.dds",
@@ -479,7 +479,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "argonianbridge.dds",
@@ -805,7 +805,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "treeaspenbarkcomp.dds",
@@ -882,7 +882,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "thatch.dds",
@@ -954,7 +954,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "crabcarapace01.dds"
@@ -1019,7 +1019,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "rope01.dds",
@@ -1443,7 +1443,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "fence01.dds"
@@ -1499,7 +1499,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "argonianbridge.dds",
@@ -1579,7 +1579,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "argonianbridge.dds"
@@ -1637,7 +1637,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "histtree.dds",
@@ -1700,7 +1700,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "histtree.dds",
@@ -1762,7 +1762,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "histtree.dds",
@@ -1824,7 +1824,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "fence01.dds",
@@ -1889,7 +1889,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "sithisegg.dds",
@@ -1954,7 +1954,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "histtree.dds",
@@ -2167,7 +2167,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [
     {
      "shape": "EditorMarker",
@@ -2304,7 +2304,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "cluste_col.dds",
@@ -2376,7 +2376,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "sanguinerose.dds"
@@ -2450,7 +2450,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "sanguinerose.dds"
@@ -2524,7 +2524,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -2591,7 +2591,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -2658,7 +2658,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -2718,7 +2718,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -2778,7 +2778,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "largecarving.dds"
@@ -3197,12 +3197,12 @@
     "Quader01:1.Mat"
    ],
    "designedSinkM": {
-    "p25": -0.4785,
-    "p50": -0.4785,
-    "p75": -0.4785,
-    "n": 0,
+    "p25": -2.8217,
+    "p50": -2.8217,
+    "p75": -2.8217,
+    "n": 1,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "plugin"
    },
    "placedScaleMedian": 1.0,
    "placedScaleEvidence": {
@@ -3213,11 +3213,6 @@
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "plugin",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -0.4785
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",
@@ -3507,7 +3502,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "desertcracked01_d.dds"
@@ -3996,7 +3991,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "amber.dds",
@@ -4058,7 +4053,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "amber.dds",
@@ -4120,7 +4115,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "desertcracked01_d.dds",
@@ -4294,7 +4289,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbuildings02.dds",
@@ -4370,7 +4365,7 @@
    ],
    "doubleSided": false,
    "alphaTest": false,
-   "collision": "none",
+   "collision": "convex",
    "droppedShapes": [],
    "textures": [
     "dlc2rrbuildings02.dds",
@@ -4468,15 +4463,15 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 38590740,
-  "bytesAfter": 18364820,
+  "bytesBefore": 38590996,
+  "bytesAfter": 18364612,
   "images": 69,
   "imageBytesAfter": 14778012,
   "warnings": [],
-  "sha256": "517ef1abf36503ac5f545a8ce4b7c60db115c3a03c23671333b032b062f4b0b0",
+  "sha256": "c6d7df24fcb76b5e93424c5c851308ca302d889ccb404f235323695ed45d5111",
   "sidecarBytes": {
    "connectors": 45782,
-   "footprints": 100583,
+   "footprints": 100593,
    "interiors": 52804
   }
  }

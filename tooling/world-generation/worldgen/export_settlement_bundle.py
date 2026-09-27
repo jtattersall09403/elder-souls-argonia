@@ -79,9 +79,13 @@ COLLIDER_PART_HEADROOM = 1.55
 # SettlementLayer.tsx TRIMESH_COLLISION_KINDS: pieces that collide as their own
 # LOD0 triangles, which a bound run joins into one part
 TRIMESH_COLLISION_KINDS = frozenset({"mesh", "convex"})
-# planner 2026-09-25: headroom over the 152 measured with yards A+B; re-measure
-# when a real place exceeds it.
-COLLIDER_PART_CEILING = 200
+# planner 2026-09-27 (walk 2 D6): raised from 200 to 400 when every solid
+# piece of 0.3 m x 0.3 m x 0.3 m and up gained a convex collider
+# (build_kit.apply_size_collision); static colliders are cheap. A budget over
+# COLLIDER_PART_WARNING prints a warning at export, so a place heading for the
+# ceiling is seen before it fails.
+COLLIDER_PART_CEILING = 400
+COLLIDER_PART_WARNING = 250
 
 # Error classes that are FATAL AT RUNTIME: each makes the layer refuse to draw
 # or throw outright, so the world the player gets is blank, not merely
@@ -621,6 +625,9 @@ def collider_part_budget(
             f"{worst_id}: {worst} resident collision parts x {COLLIDER_PART_HEADROOM} = "
             f"{budget} exceeds the collider part ceiling of {ceiling}; re-measure the "
             f"runtime before raising COLLIDER_PART_CEILING")
+    elif budget > COLLIDER_PART_WARNING:
+        print(f"warning: {worst_id}: collider part budget {budget} is over "
+              f"{COLLIDER_PART_WARNING} (ceiling {ceiling})", file=sys.stderr)
     return budget, errors
 
 
@@ -1223,6 +1230,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "scale": raw.get("scale", 1), "footprintM": footprint,
                 "anchor": _anchor_contract(asset, fit),
                 "collision": _collision_contract(asset, disabled=is_dressing),
+                **_layer_contract(raw),
                 "provenance": raw["provenance"],
                 **_mount_contract(raw),
                 **_run_contract(raw, parcel, laid_runs),
@@ -1273,6 +1281,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             # the place's sockets (0103 decision 5), copied as compiled
             "socketsSchemaVersion": doc.get("socketsSchemaVersion", SOCKETS_SCHEMA),
             "sockets": list(doc.get("sockets") or []),
+            # 0104: promise id -> its fillers (sockets, doors, parcels), as compiled
+            "promiseFills": dict(doc.get("promiseFills") or {}),
             **({"fixtureReplay": True} if doc.get("fixtureReplay") is True else {}),
             **({"fixtureWaived": doc["fixtureWaived"]}
                if isinstance(doc.get("fixtureWaived"), list) else {}),
@@ -1426,6 +1436,14 @@ def walk_routes_field(bp: dict) -> dict:
 # hang a lantern in the air or float a hull.
 MOUNT_FIELDS = ("anchorClass", "parentPlacementId", "mountOffsetM",
                 "waterLevelM", "waterEntityId", "pitchDeg")
+
+
+def _layer_contract(raw: dict) -> dict:
+    """The assembly layer the compile read (compile_settlement
+    ENTRANCE_LIGHT_LAYERS), passed through when present: the runtime lights a
+    "light" piece (game-core settlement/lighting.ts, walk 2 D7). Optional, so
+    an older bundle without it reads as "no layer"."""
+    return {"layer": raw["layer"]} if raw.get("layer") else {}
 
 
 def _mount_contract(raw: dict) -> dict:
