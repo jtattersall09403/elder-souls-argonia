@@ -11,10 +11,25 @@ run) and 5 (the gates).
 
 ## 1. Door records (16h items 11 and 18)
 
-- **The door model is the TES one (0081):** using a door moves the
-  character into a separate interior cell and back. An open structure
-  with no interior (a deck, a gate arch, a shelter) has no door record
-  and is walked through as exterior geometry.
+- **The door model is the TES one (0081), in two types (0104 decision
+  4):** a `load` door moves the character into a separate interior cell
+  and back; a `swing` door opens in place by animation (a barn door, a
+  yard gate, a partition between two exterior or two interior spaces),
+  toggles its collider, and has no cell. Both are `door` records with
+  `doorType`. An open structure with no door at all (a deck, a gate
+  arch, a shelter) has no door record and is walked through as exterior
+  geometry. Skyrim marks the difference on the reference: a `DOOR` base
+  with an `XTEL` teleport is a load door; without one it swings by its
+  NIF's open/close controller sequences, and the mined door-links record
+  carries `doorType` from that.
+- **Asset-aware pairing (owner 2026-09-27; SKILL step 1 § Interiors):**
+  an enterable shell is used only with the interior its author designed
+  for it, built from assets we hold or can source (vanilla, Tropical
+  first, or the mod pool); Creation Club, HearthFires, Dawnguard,
+  Dragonborn and the SE resource pack are never ours. A store, barn or
+  workshop with a load doorway gets its designed room like a house
+  does; a shell with a load doorway and no such room anywhere is not
+  placed.
 - Every enterable shell and every entrance piece gets one door record,
   id `door.<placeId>.<parcelId>.<n>`, stable across compiles. **One
   entrance per piece** (owner 2026-09-07): the entrance is the kit
@@ -61,9 +76,15 @@ run) and 5 (the gates).
    `stable` is `reserved` with pool `stable` (no plugin authors a stable
    interior; Phase 12 tier B). Ties break on the plugin's own most-used
    cell for that shell. A claim outside the ratio, with too few storeys
-   or doors fails a test. The rule is asset-aware (16k interiors r8,
-   `bundle_sourcing`): a cell whose bundle fails the acceptance gate does
-   not fit, and one needing a mesh the vault holds nowhere ranks last.
+   or doors fails a test. The rule is asset-aware (planner ruling
+   2026-09-27, `bundle_sourcing`): a cell's missing pieces (a base in a
+   master we do not hold, or a mesh the vault holds nowhere) are classed
+   from the base record or `kit-interiors/absent-master-classes.json`; a
+   cell missing any piece that is not clutter or furniture (architecture,
+   a container, an unclassed base) does not fit, nor does one whose bundle
+   fails the acceptance gate; fitting cells rank by how many clutter pieces
+   still lack a stand-in (`kit-interiors/substitutions/<cell>.json`, the
+   bundle's `substitutions[]`).
    A door's `preferCell {cellId, why}` names the story's cell; it wins when
    it fits, and a later parcel of the same shell takes the next free cell.
 3. `blueprint_interiors.py --claim <blueprint>` writes the pick and its
@@ -91,7 +112,9 @@ run) and 5 (the gates).
   colour) and the cell's lighting (ambient, fog colour and range, from
   `XCLL` and its lighting template). If a field is missing, extend the
   reader; never guess a value.
-- **Acceptance:** reference count equals placements plus listed drops
+- **Acceptance:** reference count equals placements plus listed drops plus
+  substitutions, a stand-in's kit category equals the missing piece's class,
+  and a missing architecture piece fails the export
   (the exporter's acceptance, `test_export_interior_bundle.py`). Interior kits are built and published through `kit-build`
   like any kit.
 

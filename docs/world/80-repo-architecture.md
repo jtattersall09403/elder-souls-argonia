@@ -81,7 +81,7 @@ elder-souls-argonia/
 │  ├─ input/                   # desktop, touch and gamepad actions
 │  ├─ inventory/               # containers, ownership, capacity and UI state
 │  ├─ items/                   # item definitions, projectiles, equipment and loot
-│  ├─ world-schema/            # authored source and runtime world schemas
+│  ├─ world-schema/            # one JSON Schema per authored record family + the integrity gate (0104; exists)
 │  ├─ world-source/            # source loaders, provenance and era resolution
 │  ├─ world-compiler/          # pass graph and build orchestration
 │  ├─ world-runtime/           # streaming, chunks, portals and environment queries

@@ -24,6 +24,7 @@ This skill holds the procedure; its `references/` hold the grounding:
 | [references/reader-checklist.md](references/reader-checklist.md) | what the Sonnet image reader is told to look for | steps 3–4, pasted into the reader's prompt |
 | [references/types/](references/types/) | one design sheet per place type on the 16k list | step 0, this place's type |
 | [references/doors-interiors-sockets.md](references/doors-interiors-sockets.md) | door records, shells chosen for their interiors, the fit rule, the tier A export, the interior runtime contract, the socket kinds and gates, the approach checklist | steps 1, 2 and 5 |
+| [references/creative-register.md](references/creative-register.md) | one row per built place: the creative calls made above its promises, so the next place makes different ones | step 1 § Creative register; appended at step 8 |
 | [references/rollout-packet-template.md](references/rollout-packet-template.md) | the spec the Phase 15 packet template meets (16j item 8) | at the loop's exit only |
 
 **Tools.** `placement-workbench` is the tool manual (every `wb.py`
@@ -63,17 +64,56 @@ the owner, batched into the next walk packet.
    province-wide rows; 97 A6 spacing, :130–134).
 3. Pull the record and its promises:
 
-        python3 -m worldgen.blueprint_promises --id <place-id>        # (worldgen)
+        python3 -m worldgen.blueprint_promises --id <place-id> --write   # (worldgen)
         python3 -m worldgen.site_dossier --id <slug> --x <positionM x> --z <positionM z> --radius 400   # (worldgen)
 
-   `blueprint_promises` prints the promise ledger: **every service, NPC
-   role, travel destination, provision and socket in it is a thing the
-   layout must build** (96 step 1). The catalogue record is the row in
+   `blueprint_promises --write` generates the **promise ledger record**
+   `world/sources/placement/promises/<place-id>.json` (0104 decision 3):
+   one row per promise (service, NPC role, travel operator, quest
+   provision, catalogue socket bucket, D0 safe interior), each with a
+   stable `promise.` id, its source record and field, and its text.
+   **The ledger is the checklist you start from, work through and end
+   on**: every row is filled by a placed thing (a socket, a door or a
+   parcel carrying `fills: [that id]`, 0104 decision 4) or carries an
+   `unfilled` block with one of 0102's four reasons; the compile fails
+   otherwise (0104 decision 5). The catalogue record is the row in
    `world/sources/catalogue/places-<zone>.json`; the plot is
    `world/sources/sites/macro-plot.json`; the quest provisions are the
    place's rows in `docs/quests/20-world-provisions.md` and
    `docs/quests/25-quest-place-map.md`; the lore is the dossiers the
    design index names for the culture and type.
+   **Read the prose too, sceptically.** The record's `why`, `vibe` and
+   description carry intent the typed fields do not (who faces whom, what
+   the place is for); build to it. But the prose was written before the
+   ground and the assets were known and makes mistakes: where it
+   contradicts the dossier, the typed fields or an asset fact, the typed
+   field and the ground win, and the prose is corrected (lesson L02, L06).
+   **Two-way (0104 decision 6):** a promise the world cannot keep (a
+   quest asks for an item class no asset shows, a service the ground or
+   the culture forbids, an interior no plugin furnishes) is not left
+   hanging and not faked: you edit the source record (the quest provision
+   in `world/sources/quests/`, the catalogue field) to the nearest thing
+   the world can keep, send the prose through `text-review`, regenerate
+   the ledger, and log the change in the brief's § Record corrections with
+   the reason. Use judgement: the quest's intent survives, its object
+   changes. A change that alters a quest's premise or a place's purpose
+   is an owner call in the packet, not yours.
+3b. **The place in its world (seams).** A place is never an island: read
+   the route records that touch it (`world/sources/routes/`: the trunk or
+   leg it sits on, every minor route ending at it, the ferry crossing and
+   its berths in `travel-services.json`), the painted road polygon and
+   width from the routes record, and the neighbours within 500 m along
+   each route (the register of step 0.2). Decide and write in § Seams:
+   **on the road** (the painted, frozen road is the spine the layout is
+   built around: buildings face it, nothing but ways, crossings and verge
+   signs touch its surface) or **off the road** (an authored minor route
+   already reaches the place: the layout's internal ways join that route
+   at its terminal, and the approach reads along it). Every internal way
+   connects to a `networkTerminals[]` entry that is a real route end; a
+   way that ends in the open, a berth with no landing from dry ground, a
+   door with no path, a signpost whose arms do not point along the road
+   to real places, are seam defects the `check` rules catch
+   (`roadSurfaceRule`, `berthReachRule`, `signRule`, `pathReachRule`).
 4. Write `<place>.design.md` § Site: the record's `why`, `vibe`,
    `services`, `sockets`, `occupants`, `travelStation`, `questHooks`; the
    dossier's heights, water and slope facts (cited by file); the quest
@@ -119,11 +159,49 @@ per building, enclosure, path, light, water edge and dressing group:
 - § Interiors (0103 decisions 1–2; `references/doors-interiors-sockets.md`
   §2): one row per door: building, shell, tier (A with its chosen cell,
   or `reserved` with the pool named, or `none` for a building nobody
-  enters), and why. A lived-in building takes a shell a plugin links to
-  a furnished cell; the shell is chosen for its interior as well as its
-  exterior. The cell is the fit rule's pick, written by
+  enters), and why. **Asset-aware, always** (owner 2026-09-27; CLAUDE.md
+  golden rule): a shell whose doorway was designed to load into an
+  interior is used only with the interior its author designed for it
+  (vanilla or mod, in the vault or sourced from Nexus in this slice);
+  the cell and every piece in it must come from assets we hold or can
+  get: vanilla Skyrim (Tropical Skyrim's version first where one exists,
+  else the vanilla mesh checked for fit in a tropical marsh) or a mod
+  in the pool. **Creation Club, HearthFires, Dawnguard, Dragonborn and
+  the SE resource pack are not ours and never will be**: a cell needing
+  one of them does not fit, and a shell whose only interiors need them
+  is swapped for a shell that has a usable one. "Nobody lives there" is
+  no reason for a store, barn or workshop to lack its room: if the
+  shell has a load doorway, it gets its designed interior (with its
+  sockets); if it has none (an open-sided barn, a lean-to), it has no
+  door record and is walked into. A shell with a load doorway and no
+  interior anywhere is not used. The owner is never asked to buy an
+  archive.
+  The cell is the fit rule's pick, written by
   `blueprint_interiors.py --claim` in step 2; the brief states the
-  expected pick so a different one is noticed.
+  expected pick so a different one is noticed. Doors are typed
+  (0104 decision 4): `load` (a cell transition) or `swing` (opens in
+  place, no cell: a barn door, a gate, a room divider), and a swing door
+  is a `door` record too, so the runtime animates it and its collider.
+- § Containers and items (owner 2026-09-27). Containers are **placed as
+  meshes now** (barrel, chest, sack, crate, urn, basket, strongbox from
+  the kits), each with its `container` socket and fill rule; Phase 13
+  fills them. Visible dressing items that carry an `item` socket (a tool
+  on a bench, a bottle on a table, a fish on a rack, a book on a shelf)
+  are placed as meshes now from the kits, because they are part of how
+  the place looks. Loot in the inventory sense (weapons, potions, coin,
+  a named quest object) is an `item` socket with its class and value
+  band, and Phase 13 places the mesh when the item catalogue defines
+  it; a quest object whose class has no asset anywhere is a step-0
+  record correction, never a promise left open.
+- § Creative register. How many containers, items, yard pieces and idle
+  spots a place gets, and where, is the builder's call above the
+  promises (the promises are the floor, never the ceiling), sized to the
+  place's occupants and trade. So that fresh agents do not make the same
+  "creative" calls every time, read `references/creative-register.md`
+  (one row per built place: its signature dressing ideas, container
+  mix, idle spots, lights, the small stories told by clutter) and make
+  at least three calls this place that no row already has; append this
+  place's row at the slice close.
 - § Sockets (0103 decisions 5–6; `references/doors-interiors-sockets.md`
   §5): one row per authored socket: kind, host (the placement it sits on
   or in, or the cell), data (roster slot and schedule, activity, item
@@ -132,9 +210,23 @@ per building, enclosure, path, light, water edge and dressing group:
   socket; every promised service an `npc` socket at its parcel. Sockets
   that yard sets and interior cells yield automatically are not rows.
 
+- § Quests (restored 16j item 2; quests 90 §65b). The place's local
+  quests, to brief level only (premise, cast, choice, size, the
+  provisions each needs), drafted from `docs/quests/25-quest-place-map.md`
+  and the record's `questHooks`; each provision is a promise row (0104)
+  and gets its socket or door; a brief that needs a placement the world
+  cannot give is negotiated here (a substitute, or the 0104 decision 6
+  record correction). The D0 safe interior the settlement owes (quests
+  20 §12) is a promise filled by a door's `fills`; its cell's
+  `acousticProfile` and `lightingProfile` slots stay typed and empty.
+  Prose through `text-review`.
+- § Seams (step 0.3b): on-road or off-road, the route ids and terminals
+  every internal way joins, the berths and the landing that reaches
+  each from dry ground, the sign arms and what they point to.
+
 Ends when: every row has all four columns, every bar a planned number,
-every door an Interiors row and every promise-ledger occupant, item,
-container and ambience line a Sockets row or an automatic source.
+every door an Interiors row, every promise row a fulfilment or an
+`unfilled` reason, and every § Seams way a real terminal.
 
 ## 2. The layout file, then apply
 
@@ -263,41 +355,42 @@ Ends when: 0 compile errors, every gate green, the place published.
 
 ## 6. The walk packet (16k § Owner check-ins)
 
-    python3 tooling/placement-workbench/wb.py - walktable <place-id>
+**The packet is short and assumes the owner knows nothing about the
+place** (owner 2026-09-27). No per-item tables: the owner walks the
+place and reports what looks wrong; they never tick rows. Every
+in-world thing is introduced the first time it is named ("the family
+hut: the small Argonian mud hut west of the landing"). Plain English,
+under ~60 lines plus pictures. Sections, in order:
 
-- One row per placed item, the full list every time (never "the rest as
-  before"): item, E / S (studio km, read from this run's compiled output),
-  piece, fit, `$ES_TUNNEL_URL/?view=character&x=<E>&z=<S>&t=12`; one row
-  for the anchor.
-- **Interiors to enter:** one row per tier A door: building, door id,
-  cell, the door's studio link and
-  `$ES_TUNNEL_URL/?view=character&interior=<cellId>`; one check per row
-  (go in, look round, come back out onto the same doorstep). Reserved
-  doors are listed with their pool, not as gaps.
-- **Sockets:** the link with `&sockets=1` added, to see every socket as a
-  labelled marker; the counts per kind in one line.
-- The measured numbers per item, never a question the tools can answer
-  (0102 decision 2): the walk route (length, steepest slope, highest
-  step) to every door and opening; the floor-edge gap per building; the
-  beached craft's numbers; each prop's seat gap. Under them, one
-  plain-English look-and-feel check per line, "what changed since the
-  last walk", any world-level calls, and a request for the
-  low/medium/high frame-rate readings at the anchor.
-- No "Known gaps" section. A `§ Gaps` section may hold only rows for one
-  of 0102 decision 3's four reasons, each row naming its reason: (a) a
-  system a later phase owns, its socket in the data; (b) a judgement that
-  needs the GPU studio; (c) an asset that exists nowhere after a completed
-  sourcing search, with its register row; (d) a world-level call reserved
-  for the owner. Anything else is work the slice finishes first.
-- Pictures (0102 decision 11): the plan render and up to four Blender
-  shots, copied to `tooling/.reports/16k/<place>-walk-N/` and committed
-  (the folder is gitignored: `git add -f -- <png>`), then embedded by
-  `--attach`.
-- How to reply: one message; per row the item name and "right" or
-  "wrong: what you see"; skip a row not reached and say so; "looks right"
-  when the place is done.
-- End with the stay-or-switch line (decision 0083).
-- Post the packet: `python3 tooling/repo-standards/owner_inbox.py --post <packet.md> --title '<Place> walk packet' --attach <plan.png> <shot.png>...` (the owner reads it on their phone; each image becomes a blob link on the current branch, so commit the PNGs first; a link loads once `dev` holds them on GitHub).
+1. **What this place is** (three sentences: where, who, why it exists).
+2. **Start here:** one deployed-studio link at the anchor
+   (`https://<pages-url>/?view=character&x=<E>&z=<S>&t=12`); the
+   deploy ran green before posting (16k step 3). Then one link per
+   building to enter (door, and the `&interior=<cellId>` form), and the
+   `&sockets=1` link; the studio's Sockets checkbox does the same.
+3. **What changed since the last walk** (one line per cause fixed,
+   plain English).
+4. **The numbers, one line:** `check` rules 0 failures, reader 0 NOs,
+   promises filled N of N (unfilled with reason listed), colliders,
+   lights, interiors shipped. Never a per-item table; the full
+   `walktable` goes to `tooling/.reports/16k/<place>-walk-N/` for the
+   agent, not the issue.
+5. **Please look at** (at most eight lines): only look-and-feel
+   judgements no tool can make, each a sentence.
+6. **§ Gaps** only for 0102 decision 3's four reasons, each naming its
+   reason; **§ Owner calls** only for world-level choices. Never an
+   archive purchase, a sourcing question or unfinished work.
+7. Pictures (0102 decision 11): the plan render and up to four Blender
+   shots, copied to `tooling/.reports/16k/<place>-walk-N/` and committed
+   (`git add -f -- <png>`), embedded by `--attach`.
+8. How to reply: "walk it and tell me what looks wrong, in one message;
+   'looks right' when done." Then the stay-or-switch line (0083).
+
+Post: `python3 tooling/repo-standards/owner_inbox.py --post <packet.md>
+--title '<Place> walk N' --attach <plan.png> <shot.png>...` after the
+deploy is green (the images are blob links on `main`). Old packets with
+per-item tables are collapsed with `owner_inbox.py --collapse <comment-id>`
+so the issue stays readable.
 
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
@@ -306,8 +399,22 @@ Ends when: 0 compile errors, every gate green, the place published.
    or `check` rule **shown failing first on the defect**, and a row in
    `references/lessons.md` (edit the existing row if one covers it). If
    the row is visual, add or edit its line in `reader-checklist.md`.
-3. Rebuild the place from the corrected rules: edit the layout, `apply`,
-   step 5. One preflight, one republish, the next walk packet.
+3. **Edit the place; never rebuild it** (owner 2026-09-27). A walked
+   place is mostly right; the round changes only what the causes name.
+   The layout file is edited in place: every op keeps its `uid`, ops
+   are added, changed or removed surgically, the design brief's rows are
+   edited the same way, and `apply` re-derives the scene, `check` and
+   `compile` from the edited file (that is what `apply` is for: the
+   layout is the source, the scene is derived). The round's record is
+   the layout diff (`git diff -- <place>.layout.json`), listed in the
+   brief's § Rounds with one line per cause. Re-authoring the layout
+   from scratch, re-running the site dossier or the promise ledger from
+   nothing, or re-choosing shells the owner did not fault, is forbidden
+   without a planner ruling naming the cause that needs it. The inner
+   loop of steps 3–4 then runs to zero `check` failures and zero reader
+   NOs on the edited layout; a reader NO on something the owner called
+   right is reported to the planner, not fixed.
+4. Step 5, one preflight, the deploy (16k step 3), the next walk packet.
 
 Ends when: every "wrong" is a lessons row with its gate; the packet is out.
 
@@ -329,10 +436,24 @@ Ends when: every "wrong" is a lessons row with its gate; the packet is out.
    `tooling/world-generation/output/accepted-report.json` into
    `docs/phases/P-polish/backlog.md` as a row (place, gate, finding).
    Nothing writes them there automatically (0100 decision 6).
-4. Choose the next slice by the contrast rule: a type not yet passing, in
+4. **The type register and the readiness check** (restored 16i item 13,
+   16j items 3 and 7): write this place's entry in
+   `world/sources/catalogue/type-recipes.json` (type, grammar proved,
+   shells and yard sets used); tick world 96 §3 box 1 for the type; list
+   in the brief's § Hand decisions every decision this slice needed a
+   planner or owner for (the measure of "unattended"), each with the
+   skill step or record field that now makes it; and for a non-city
+   place, the agent-as-reviewer check: a fresh Sonnet agent reads the
+   renders and the check numbers and gives a verdict before the owner's
+   final walk, compared with the owner's in § Lessons.
+5. Append the place's row to `references/creative-register.md`.
+6. Choose the next slice by the contrast rule: a type not yet passing, in
    a contrasting region, not the same type within 300 m or the same
-   purpose within 500 m along one road (97 A6, :130–134).
-5. Replace the 16k brief's Starting state with the next slice's; add the
+   purpose within 500 m along one road (97 A6, :130–134), **and rotate
+   the shells**: a house shell used by a built place is not the next
+   place's main shell while the culture's pool (`references/types/`
+   shell lists, 0098 bars) holds an unused one with a usable interior.
+7. Replace the 16k brief's Starting state with the next slice's; add the
    slice's row to the ledger.
 
 ## Never

@@ -50,7 +50,7 @@ walks as it needs; it closes only on the owner's "looks right".
 
 ## Read (fresh agent: this is your whole map)
 
-- [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md) and [0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) in full; [0098](../../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md) § Decisions; [0097](../../decisions/0097-placement-is-authored-in-a-workbench-and-the-pose-record-is-the-output.md); [0081](../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md) decisions 3–6 (doors, patches).
+- [0099](../../decisions/0099-places-are-built-in-a-loop-until-the-skill-is-proven.md), [0100](../../decisions/0100-one-place-skill-whole-layout-authoring-lessons-store-and-the-acceptance-freeze.md) and [0104](../../decisions/0104-the-world-is-one-normalised-record-set-promises-are-fulfilled-by-placed-interactables.md) (promises as records, the interactable table, door types, the builder's two-way authority) in full; [0098](../../decisions/0098-variety-is-measured-per-settlement-not-by-a-template-cap.md) § Decisions; [0097](../../decisions/0097-placement-is-authored-in-a-workbench-and-the-pose-record-is-the-output.md); [0081](../../decisions/0081-building-blocks-then-exemplars-then-rollout-and-doors-are-transitions.md) decisions 3–6 (doors, patches).
 - `tooling/.reports/plan/place-audit.md` (the checklist's source) and
   `tooling/.reports/audit/time-audit-2026-09-25.md` § (e).
 - Skills: `place-build` (the procedure, `references/lessons.md` and the design index; replaces the retired settlement skill), `placement-workbench` (its tool manual), `kit-build`,
@@ -163,7 +163,10 @@ step 2 from the slice that first builds it.
 | Pads, retaining walls, steps | items 12, 13; retaining walls R1 (0101); `floorEdgeRule` (0102) | yes |
 | Enclosure (fences, walls as a placed rule) | new rule R2 (97 Part F column) | yes |
 | Yard dressing vocabulary | items 15, 17, 23, 26; `propSeatRule` (0102) | yes |
-| Lights by time of day (sconces, lanterns) | item 22; a lit entrance at every door, 97 C16 (0102 decision 7) | yes |
+| Lights by time of day (sconces, lanterns) | item 22; a lit entrance at every door, 97 C16 (0102 decision 7); **lit 17:30–06:30 by the world clock, every fixture glows and the nearest eight cast light** (owner 2026-09-27; `artificialLightFactor`, the fixture budget) | yes |
+| Seams: the place in its world | skill step 0.3b and § Seams: on-road or off-road, ways join real route terminals, a landing from dry ground to every berth, sign arms along the road; `roadSurfaceRule`, `berthReachRule`, `signRule`, `sillRule` (owner 2026-09-27) | yes |
+| Promises filled | the promise ledger and `fills` (0104 decisions 3–6); the promise gate | yes |
+| Colliders on everything a walker meets | `colliderRule`: every placed asset over 0.3 m in plan and height collides (owner 2026-09-27) | yes |
 | Fire and smoke (chimney, cook fire, forge glow) | chimney smoke in dressing-v1; cook fire and forge: new R3 | yes |
 | Signage, banners, totems, shrines | mount sheets; totems 97:757 | yes |
 | Gardens, crops, kept trees | kept trees item 14; crops: new R4 (Argonian crops are a sourcing gap) | yes |
@@ -260,6 +263,7 @@ From the catalogue's active kind counts (419 active records: settlement
 | 7 | Works and landing (craft, extraction, illicit, storage; ferry stages and landings) | 49 works and 20 landings; industry props, fire, freight and moorings |
 | 8 | Town or city, always a WHOLE city, never a district (Imperial town, Blackrose, Lilmoth) | owner hands-on (0062 §9); built with the owner, not unattended; exits the loop by owner acceptance |
 | 9 | Early-game location (owner-guided): candidates `place.pirate-freeholds.opening-work-barge` (M1 works, `vasteiTutorialScene`), `.opening-work-camp` (M2 muster yard), `.corimont-crosstrees` (M1 transit) | the opening scenes of 0062 §9 and quest MQ01; owner hands-on; exits the loop by owner acceptance |
+| 10 | Road structure or crossing outside any place (the Nine-Trunks stair flight, the Xul-Vaat walkway, a bridge, a lip-step, a ferry crossing with both berths and hulls) | added 2026-09-27 restoring 16h items 10, 16 and 19, which the retirement left with no owner: the route structures 16e recorded and the berths of `travel-services.json` reach Phase 15 unproven otherwise; one slice proves the four kinds as one "place" whose record is `world/sources/routes/route-structure-exemplars.json`; owner to confirm the row at the next packet |
 
 ### Carried backlog (numbers as in the retired briefs)
 
@@ -444,7 +448,16 @@ Phase 15 packet template in `references/rollout-packet-template.md`.
     `blueprint_integration` checks that back each; how a "wrong" becomes a
     rule, never a per-piece fix; the refusal on `ownerGuided` records for
     unattended runs. Runnable per assembly by a rollout agent without the
-    owner. Its own step carries the CLAUDE.md rule "Prove on a sample,
+    owner.
+
+    *Status 2026-09-27 (planner; owner "use your judgment"):* **closed
+    as redundant.** The skill never existed and the loop absorbed its
+    parts: the reader prompt and rule list are
+    `place-build/references/reader-checklist.md`, the sheet renders are
+    `wb.py render --shots` and `render_blueprint.py`, and a "wrong"
+    becoming a rule is skill step 7. The one prose-only part, the refusal
+    to run unattended on an `ownerGuided` record, becomes a code gate in
+    `wb.py apply` and `export_settlement_bundle` this round. Its own step carries the CLAUDE.md rule "Prove on a sample,
     validate on a fresh batch, scale once" for every sweep
     ([audit](../../research/phase16/16h-catalogue-wide-steps-audit.md)).
 
