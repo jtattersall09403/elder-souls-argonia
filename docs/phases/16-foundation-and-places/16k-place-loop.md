@@ -106,8 +106,10 @@ walks as it needs; it closes only on the owner's "looks right".
    item 7b), the automatic gates: every essential checklist row below, the
    0102 `check` rules and the lit-entrance compile rule (97 C16), the
    socket gates and the interior bundle gate (0103), the 0098
-   bars, the yard regression gates, all per place by `place_gates`; preflight, review,
-   text-review and deploy run once per batch.
+   bars, all per place by `place_gates` (S14); the yard regression
+   gates, the integrator's shared-file REQUEST rows, docs:check,
+   preflight, review, text-review and deploy run once per batch (in 16k
+   a batch is one walk packet's places).
 3. **Walk packet** (Owner check-ins below) → the owner walks **the
    deployed studio** (owner 2026-09-27): before posting, merge `dev` into
    `main`, push, and confirm the Pages action is green; the packet's links
@@ -125,7 +127,7 @@ walks as it needs; it closes only on the owner's "looks right".
    inside a round); each cause is also a row in
    `place-build/references/lessons.md` (0100 decision 4: rule, defect and
    cause, the gate that now enforces it, source), merged into an existing
-   row where it restates one. The rebuild runs the step-1 inner loop to
+   row where it restates one. The edited place runs the step-1 inner loop to
    zero `check` failures and zero reader NOs (0102 decisions 3–4); a
    finding the owner raises that a tool could have measured becomes a
    `check` rule first. The layout is edited by `uid`, then
@@ -145,7 +147,8 @@ walks as it needs; it closes only on the owner's "looks right".
    a fresh place of a different type in a contrasting region.
 6. **While the owner walks,** two or three slices of different types
    run at once (each at its own step; a walk packet may carry several
-   places), beside research and sourcing, speed items (S below) and
+   places; a type's two in-a-row places after its first acceptance are
+   built together, in different regions, and walked in one packet), beside research and sourcing, speed items (S below) and
    template studies. Never an idle wait.
 
 ## The checklist ("good enough" for a place)
@@ -254,7 +257,9 @@ from Claywater, the same zone and the same ferry purpose (97 :134).
 
 One fresh place per slice, of a type not yet passing, in a region that
 contrasts with the last. A type passes after two fresh places in a row
-pass unattended with no defect from the walk.
+pass unattended with no defect from the walk; those two are built
+together once the type's first place is accepted and go to the owner in
+one packet (§ Owner check-ins).
 
 ### The type list (signed by the owner 2026-09-25, hand-off ruling 1)
 
@@ -919,8 +924,8 @@ Planner rulings (2026-09-24):
   contention; placement is 101 s alone, pipeline 78 s at `-n 4`). In
   priority order, "speed lane 2": S1 **batch the loop**: a `wb round`
   wrapper runs apply + check + walktable + shots in one call, `check
-  --only <uids>` re-measures the named ops plus the graph rules that
-  touch them, and `wb.py scan`
+  --only <uids>` re-measures the named ops' pairs only (the graph
+  rules rerun in `wb round`), and `wb.py scan`
   (site feasibility per candidate pose: pad legality with batter,
   road-paint overlap, water depth on a bearing, designed sinks, porch
   and stair reach) runs before any edit; the skill rules are one layout
@@ -954,8 +959,40 @@ Planner rulings (2026-09-24):
   - S11: `close_place.py` does the slice close mechanics (receipt,
     type-recipes row, register digest, creative-register row, Starting
     state stub).
-  - S12: `commit_place.py --place <id>` stages a place's own files from
-    its manifest, so parallel lanes never race on git.
+  - S12: `commit_place.py --place <id>` stages a place's per-place files
+    only, from its manifest, so parallel lanes never race on git; shared
+    files change only through the REQUEST rows below.
+- **Speed, method review round 3** (`tooling/.reports/16k/walk2/method-review-r3.md`):
+  - S13: `site_packet.py` (the step-0 site packet) and the register
+    digest (one line per built place, generated from the briefs).
+  - S14: `place_gates`, one command per place: the 0102 rules, the
+    promise, socket and interior gates, the 0098 bars; the yard
+    regression gates run per batch, not per place.
+  - S15: the edit-by-uid CLI for layout ops (in the workbench lane now).
+  - S16: the batch pre-pass: the batch's interior kits built, a shell →
+    cell claim table per culture pool so `blueprint_interiors --claim`
+    is a lookup (it took 111.5 s), and the kits' size list checked
+    against the site budget (interior kits weigh 3.9–8.1 MB each and are
+    missing from S8's 775 MB estimate).
+  - S17: `wb round --report-dir tooling/.reports/16k/<place>/round-N/`
+    writes `summary.json`, `rounds.jsonl`, the scan output and
+    `waiting-on.json` (the tooling tasks the round waits on).
+  - S18: `wb.py walktable` links use the deployed Pages URL, never
+    `ES_TUNNEL_URL` (wb.py:1238).
+  - Also queued: `workbench/parallel.py` sizes its pool from the job
+    guard's core share (`ES_JOB_CORES`), not only `WB_WORKERS`; the
+    review gate's EXCLUDE_SPECS gains `world/sources/blueprints/*.design.md`
+    (the 250 KB diff cap refuses a batch at ~11 briefs; `text-review`
+    owns that prose); the 0098 signature is CLAIMED under a lock at the
+    brief step (a row in `world/sources/placement/signature-claims.json`)
+    so parallel builders cannot race, and the batch gate recounts; the
+    C7 cache is keyed by content and its npz written atomically; one
+    integrator lane applies each batch's REQUEST rows
+    (`tooling/.reports/16k/<place>/requests.jsonl`) under a lock.
+- Method review rounds 1–3 (2026-09-27, `method-review*.md`) exited on
+  measurement: round 4 is the timing of place 2 of type 1 through
+  S8–S18; a read-only round only reopens if that timing exceeds the
+  17-minute proven-type target.
 
 ## Acceptance (the exit bar, signed by the owner 2026-09-25, hand-off ruling 2)
 
@@ -979,7 +1016,11 @@ Planner rulings (2026-09-24):
   SKILL step 6): short, plain English, no per-item tables, every
   in-world thing introduced, deployed-studio links only (the anchor,
   each interior, the sockets view), "what changed since the last walk",
-  one line of numbers, at most eight look-and-feel checks.
+  one line of numbers, at most eight look-and-feel checks; at most ~20
+  lines per place, so one packet holds 4–6 places, one anchor link each
+  in road order, and the owner walks them in one session.
+- **A type's in-a-row pair** (method review r3): once a type's first
+  place is accepted, its next two places go to the owner in ONE packet.
   **How to reply.** Walk it and say what looks wrong, in one message;
   "looks right" when the place is done. A "wrong" becomes a fix to a
   rule or a record, never a nudge to one piece.
@@ -997,14 +1038,16 @@ Planner rulings (2026-09-24):
 ## Gotchas
 
 - A fix to a place record is a failure of the loop: fix the rule, the
-  gate or the skill, then rebuild the place from them.
+  gate or the skill, then edit the place (SKILL step 7: every op keeps
+  its `uid`; never a rebuild).
 - An accepted place is frozen (0100 decision 6): a change to its compiled
   record fails the build without a `reopened` entry (owner date and
   reason); gates added later run on it in report mode only.
 - Publish the place only (`--places`); a whole-catalogue compile or
   re-mine runs only after a fresh sample batch passes.
-- The yard runs as regression gates in every slice; a slice that breaks
-  a yard gate is not ready to walk.
+- The yard runs as regression gates once per batch (a place's data never
+  touches the yard fixtures); a batch that breaks a yard gate is not
+  ready to walk.
 - Waiting is the hand-back or `run_in_background`; if a builder is slow,
   the speed item is the fix.
 - Claywater Station's `culture` is imperial with `secondaryCultures`

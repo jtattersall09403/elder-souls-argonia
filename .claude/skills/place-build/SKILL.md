@@ -79,12 +79,16 @@ the owner, batched into the next walk packet.
   scan gap, fixed first.
 - **One round, one batch, one apply.** Every finding of a round is one
   layout edit and one `wb round` (apply + check + walktable + shots);
-  `check --only <uids>` re-measures the named ops plus the graph rules
-  that touch them.
+  `check --only <uids>` re-measures the named ops' pairs only; the graph
+  rules (`walkRule`, `pathReachRule`, `berthReachRule`) rerun in `wb
+  round`.
 - **A fresh agent per round.** A round ends with the WIP layout, the
-  check list and the brief on disk (`tooling/.reports/16k/<place>/`);
-  the next round starts a fresh agent from them, never a context that
-  has grown past one round.
+  check list and the brief on disk (`wb round --report-dir
+  tooling/.reports/16k/<place>/round-N/`: `summary.json`, `rounds.jsonl`,
+  the scan output, the fix list and `waiting-on.json`, the tooling tasks
+  the round waits on; `references/round-recipe.md`); the next round
+  starts a fresh agent from that folder, never a context that has grown
+  past one round.
 - **Tool work never rides in a place round** (method review 2026-09-27
   finding 6: four hour-long rounds went on writing rules). A rule, gate
   or tool gap found in a round is filed as a tooling task and built by a
@@ -127,20 +131,44 @@ the owner, batched into the next walk packet.
   bundle file (`settlements/<place-id>.json` plus `settlements/index.json`;
   the runtime reads the index and the bundles within range, 16k S8) so
   publishes never contend, and commits its own files with
-  `commit_place.py --place <id>` (16k S12), which stages them from the
-  place's manifest, so lanes never race on git.
+  `commit_place.py --place <id>` (16k S12), which stages the place's
+  per-place files only, from its manifest, so lanes never race on git.
+- **Builders write only per-place files** (method review r3, 2026-09-27).
+  A per-place file is one of the table above, the place's promise
+  ledger, its bundle and its `tooling/.reports/16k/<place>/` folder. A
+  change to a shared file (a zone catalogue `places-<zone>.json`,
+  `world/sources/quests/*`, `yard-sets/<type>.json`, a kit's
+  `*.interiors.json`, `references/lessons.md`, `reader-checklist.md`,
+  the type sheet, the registers, `type-recipes.json`,
+  `accepted-places.json`) is a REQUEST row appended to
+  `tooling/.reports/16k/<place>/requests.jsonl` (file, the change, the
+  reason, the place); one integrator lane applies a batch's requests
+  under a lock, once per batch. A builder that edits a shared file
+  directly has broken the batch's commits.
+- **Text-review reads the delta.** A brief built from a type's template
+  is reviewed only on its delta lines (the lines the generated brief
+  marks as changed from the type sheet); the template's own rows were
+  reviewed once in the type sheet.
+- **Same-type places walk together.** Once a type's first place is
+  accepted, its next two places (the two "in a row" of 16k § Slices 2
+  on) are built together, in different regions, and go to the owner in
+  ONE walk packet (16k § Owner check-ins).
 
 ## 0. Orient (unattended)
 
 1. Read the site packet (the lessons rows for this type come in it),
    the type sheet, and the rows of `references/design-index.md` for this
    type, culture and step. A stale or contradicting lesson row is fixed
-   now (edit the row), never worked round.
+   now (a REQUEST row editing it), never worked round.
 2. Read the register digest (one line per built place: type, culture,
    shells, signature assemblies; never every `design.md`), so this place
    keeps 0098's province-wide rule (one signature at most 3 times in the
    province, never twice within 2 km) and is not the same signature as
-   a place of its type within its region (97 A6 spacing, :130–134).
+   a place of its type within its region (97 A6 spacing, :130–134). The
+   signature is CLAIMED at the brief step (step 1) by a locked row in
+   `world/sources/placement/signature-claims.json` (16k § New rows and speed items), so two
+   parallel builders cannot both take the third use; the batch gate
+   recounts.
 3. Pull the record and its promises:
 
         python3 -m worldgen.blueprint_promises --id <place-id> --write   # (worldgen)
@@ -170,11 +198,12 @@ the owner, batched into the next walk packet.
    **Two-way (0104 decision 6):** a promise the world cannot keep (a
    quest asks for an item class no asset shows, a service the ground or
    the culture forbids, an interior no plugin furnishes) is not left
-   hanging and not faked: you edit the source record (the quest provision
-   in `world/sources/quests/`, the catalogue field) to the nearest thing
-   the world can keep, list the prose for the batch's one `text-review`, regenerate
-   the ledger, and log the change in the brief's § Record corrections with
-   the reason. Use judgement: the quest's intent survives, its object
+   hanging and not faked: you file a REQUEST row that changes the source
+   record (the quest provision in `world/sources/quests/`, the catalogue
+   field) to the nearest thing the world can keep, design on the
+   corrected record, list the prose for the batch's one `text-review`,
+   regenerate the ledger once the integrator applies it, and log the
+   change in the brief's § Record corrections with the reason. Use judgement: the quest's intent survives, its object
    changes. A change that alters a quest's premise or a place's purpose
    is an owner call in the packet, not yours.
 3b. **The place in its world (seams).** A place is never an island: read
@@ -198,16 +227,19 @@ the owner, batched into the next walk packet.
    dossier's heights, water and slope facts (cited by file); the quest
    provisions; the lore read, one line each with its dossier path; the
    places already built nearby and what this one must not repeat.
-5. **Record defects are rule gaps.** A service promised with no row behind
-   it, a kit the place's culture does not use, a danger band off its
-   ground, an `assetPlan` naming a retired piece: add the test that would
-   have caught it (the record's own validator, e.g.
-   `worldgen/audit_place_semantics.py` or `test_catalogue.py`), watch it
-   fail on this record, then fix the record and every other record it
-   catches. Only then design (0100 decision 7).
+5. **Record defects are rule gaps, fixed outside the slice.** A service
+   promised with no row behind it, a kit the place's culture does not
+   use, a danger band off its ground, an `assetPlan` naming a retired
+   piece: file it to the tooling sub-lane with the failing record named
+   (the lane writes the validator test that fails on it, e.g. in
+   `worldgen/audit_place_semantics.py` or `test_catalogue.py`, and fixes
+   every other record it catches; 0100 decision 7). No validator test is
+   written inside the slice. The record correction for this place is a
+   REQUEST row, and design proceeds on the corrected record.
 
-Ends when: § Site is written, every record defect has a failing-then-green
-test, and the lessons read raised no stale row left unfixed.
+Ends when: § Site is written, every record defect is filed with its
+failing record named, and the lessons read raised no stale row left
+unfixed (a stale row is a REQUEST row).
 
 ## 1. Design brief
 
@@ -325,11 +357,12 @@ every door an Interiors row, every promise row a fulfilment or an
    `note`. Every building and every dressing group from the
    brief is in it before the first apply. Yard sets come from the tracked
    `world/sources/placement/yard-sets/<type>.json` (0101); a new set is
-   added there, never only as a `group save` in the layout.
+   added there (a REQUEST row, it is a shared file), never only as a
+   `group save` in the layout.
 3. Apply:
 
-        python3 tooling/placement-workbench/wb.py <scene> scan <place>.scan.json --out /tmp/<place>-scan.json   # site feasibility first
-        python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json --no-shots
+        python3 tooling/placement-workbench/wb.py <scene> scan <place>.scan.json --out tooling/.reports/16k/<place>/round-N/scan.json   # site feasibility first
+        python3 tooling/placement-workbench/wb.py round <scene> world/sources/blueprints/<place>.layout.json --no-shots --report-dir tooling/.reports/16k/<place>/round-N/
 
    It rebuilds the scene from a fresh window in one process, runs `check`
    and `compile`, and writes one summary. The scene file is derived state;
@@ -405,10 +438,8 @@ without that is an escalation to the planner, never a packet.
   stage, refreeze or province publish runs for one.
 - Publish is per place (`--places`, 16k § 1b); a whole-catalogue compile
   runs only after a fresh sample batch passes.
-- Gates, all green before the walk:
-  - the yard regression gates: `worldgen/test_proving_ground.py` and
-    `tooling/placement-workbench/tests/test_proving_ground_b.py`
-    (0099 decision 7; a slice that breaks one is not ready to walk);
+- Gates, all green before the walk (per place, by `place_gates`, 16k
+  S14):
   - the 0098 table and the breadth bars on this place (`wb.py signature`
     and the breadth-bar gate);
   - every 16k checklist row marked Gate that this place touches;
@@ -435,10 +466,18 @@ without that is an escalation to the planner, never a packet.
     with placements plus listed drops equal to the cell's reference count
     (the exporter's acceptance, `test_export_interior_bundle.py`), every interior kit it needs is
     published through `kit-build`, and every reserved door names its pool;
-  - `npm run docs:check`, then `npm run preflight -- --paths <this
-    place's files and the skill>`.
+- Per BATCH, never per place (in 16k a batch is one walk packet's
+  places; in Phase 15 a region packet): the yard regression gates
+  (`worldgen/test_proving_ground.py` and
+  `tooling/placement-workbench/tests/test_proving_ground_b.py`, 0099
+  decision 7; a place's data never touches the yard fixtures, so only
+  tool code or shared data can break them, and the tooling lane's
+  preflight runs them too), the integrator's REQUEST rows, the one
+  `text-review`, `npm run docs:check`, then `npm run preflight -- --paths
+  <the batch's files>`, the review and the deploy.
 
-Ends when: 0 compile errors, every gate green, the place published.
+Ends when: 0 compile errors, every per-place gate green, the place
+published; the batch gates run when the batch's last place gets here.
 
 ## 6. The walk packet (16k § Owner check-ins)
 
@@ -447,7 +486,9 @@ place** (owner 2026-09-27). No per-item tables: the owner walks the
 place and reports what looks wrong; they never tick rows. Every
 in-world thing is introduced the first time it is named ("the family
 hut: the small Argonian mud hut west of the landing"). Plain English,
-under ~60 lines plus pictures. Sections, in order:
+at most ~20 lines per place plus pictures, so a packet of 4–6 places
+is one owner session; a packet holding several places repeats sections
+2–5 per place, one anchor link each, in road order. Sections, in order:
 
 1. **What this place is** (three sentences: where, who, why it exists).
 2. **Start here:** one deployed-studio link at the anchor
@@ -461,7 +502,9 @@ under ~60 lines plus pictures. Sections, in order:
    promises filled N of N (unfilled with reason listed), colliders,
    lights, interiors shipped. Never a per-item table; the full
    `walktable` goes to `tooling/.reports/16k/<place>-walk-N/` for the
-   agent, not the issue.
+   agent, not the issue. Its links use the deployed Pages URL, never
+   `$ES_TUNNEL_URL` (16k S18; until then `wb.py walktable` reads
+   `ES_TUNNEL_URL`, so rewrite the host before the table is used).
 5. **Please look at** (at most eight lines): only look-and-feel
    judgements no tool can make, each a sentence.
 6. **§ Gaps** only for 0102 decision 3's four reasons, each naming its
@@ -482,12 +525,13 @@ so the issue stays readable.
 ## 7. The fix round (`continue 16k slice N after owner walk`)
 
 1. Group every "wrong" in the reply by cause across the whole reply.
-2. Per cause: a row in `references/lessons.md` (edit the existing row
-   if one covers it); a rule, gate or `check` rule the cause needs (world
+2. Per cause: a REQUEST row for `references/lessons.md` (an edit of the
+   existing row if one covers it); a rule, gate or `check` rule the cause needs (world
    97 §C, the type sheet or this skill) goes to the tooling sub-lane,
    which shows it **failing first on the defect**; the place round takes
-   it at its next round and never writes it. If the row is visual, add
-   or edit its line in `reader-checklist.md`.
+   it at its next round and never writes it. If the row is visual, a
+   REQUEST row adds or edits its line in `reader-checklist.md`, tagged
+   `reader` or `rule:<name>`.
 3. **Edit the place; never rebuild it** (owner 2026-09-27). A walked
    place is mostly right; the round changes only what the causes name.
    The layout file is edited in place: every op keeps its `uid`, ops
@@ -515,8 +559,10 @@ task; the packet is out.
 
 `close_place.py --place <id>` (16k S11) does the mechanics: the receipt
 (item 3), the `type-recipes.json` row (item 4), the register digest row,
-the creative-register row (item 5) and the Starting state stub (item 7).
-The builder writes the lessons, the type sheet and the judgements.
+the creative-register row (item 5) and the Starting state stub (item 7),
+each a shared-file change the integrator lane applies with the batch's
+REQUEST rows. The builder writes the lessons, the type sheet and the
+judgements, the shared ones as REQUEST rows.
 
 1. **Lessons this slice** (mandatory): a `<place>.design.md` § Lessons
    this slice, and a row in `references/lessons.md` for every finding that
@@ -556,7 +602,8 @@ The builder writes the lessons, the type sheet and the judgements.
    shell lists, 0098 bars) holds an unused one with a usable interior.
    Two or three slices of different types run at once while walks are
    pending (16k § The loop step 6), so the next slice may start before
-   this one closes.
+   this one closes; the exception is a type's two in-a-row places after
+   its first acceptance, built together and walked in one packet.
 7. Replace the 16k brief's Starting state with the next slice's; add the
    slice's row to the ledger.
 

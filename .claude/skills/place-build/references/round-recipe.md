@@ -27,9 +27,13 @@ scan did not pass is never authored.
 
 1. **Edit** the layout once for the whole batch (every reader NO, every
    `check` failure, every ruling), keeping every `uid`.
-2. **`wb round <scene> <layout>`** (apply + check + compile + walktable
-   + shots in one process; `--no-shots` for a proven type, or while a
-   plan read that runs is not yet clean). Read `summary.json`, never the log.
+2. **`wb round <scene> <layout> --report-dir tooling/.reports/16k/<place>/round-N/`**
+   (apply + check + compile + walktable + shots in one process;
+   `--no-shots` for a proven type, or while a plan read that runs is not
+   yet clean). Read `summary.json`, never the log. A re-check of a few
+   ops is `check --only <uids>`: it re-measures the named ops' pairs
+   only; the graph rules (`walkRule`, `pathReachRule`, `berthReachRule`)
+   rerun in `wb round`, which is the round's last run.
 3. **Readers as ONE Workflow, one wake:** one Sonnet reader per image
    (top, each front, isos, the special shots) inside a single `Workflow`
    script that returns one merged NO list, so the builder wakes once
@@ -56,8 +60,18 @@ scan did not pass is never authored.
 - A report to the planner between rounds asking whether to do what the
   report recommends.
 - One agent carrying more than one round of context: the round ends on
-  disk (`tooling/.reports/16k/<place>/round-N/`: the layout diff, the
-  summary, the NOs, the fix list) and the next round starts fresh.
+  disk and the next round starts a fresh agent from that folder alone.
+  `tooling/.reports/16k/<place>/round-N/` holds `summary.json` and
+  `rounds.jsonl` (written there by `wb round --report-dir`), the scan
+  output (never `/tmp`), the layout diff, the reader NOs, the fix list
+  and `waiting-on.json` (the tooling-lane task ids the round waits on,
+  each with the rule it will add). Until `--report-dir` lands (16k S17)
+  `wb round` writes to `tooling/placement-workbench/output/apply/<stem>/`
+  and the builder copies `summary.json` and `rounds.jsonl` into the
+  round folder before it ends.
+- A validator test or rule written inside the slice: a record defect is
+  filed to the tooling sub-lane with the failing record named, and
+  design proceeds on the corrected record.
 
 ## Budget per round
 
