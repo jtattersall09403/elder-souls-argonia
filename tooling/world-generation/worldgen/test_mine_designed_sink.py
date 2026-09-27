@@ -217,3 +217,59 @@ def test_the_kotm_pod_house_record_is_seated_by_its_porch():
     assert (row["p50"], row["evidence"]) == (1.9922, "part:kotm:argonia/mudhuts/smpodextdoor")
     shell = json.loads(DEFAULT_OUT.read_text())["assets"]["kotm:argonia/mudhuts/smpodext02"]
     assert shell["p50"] == 1.6468
+
+
+def test_a_composite_takes_its_base_sink_at_the_scale_it_places_the_base(tmp_path):
+    """Planner ruling 2026-09-27 (scaled references, 16k slice 2): BM&V
+    places all 11 ``hutexterior`` references at scale 1.30, so no unit-scale
+    sample survives. The samples are grouped by placement scale; a composite
+    whose part 0 is the base at 1.3 takes that group's plugin sink
+    (``base:<id>@1.30``), never the mesh-sill. The bare base keeps its mesh
+    tell and the count of the references the unit-scale sample dropped."""
+    from .mine_designed_sink import measure, summarise
+    from .test_mine_mounts import _plugin
+    from .esp_index import UNITS_PER_METRE
+    wall, land = _BASES["wall"][0], _LAND_OFFSET * 8 / UNITS_PER_METRE
+    refs = [(0x01000C01 + i, wall, (10.0 * i, 0.0, land - 0.3), 0.0, 1.3) for i in range(3)]
+    plugins = [("vanilla", _plugin(tmp_path, _ALL_BASES, refs))]
+    kits = {"vanilla:test/wall01": _kit(_MESHES["wall"]),
+            "composite:wall-house": {"sizeM": [6.0, 3.0, 5.2], "originOffsetM": [2.6, 1.5, 0.0]}}
+    samples, _stats = measure(kits, Path("/nonexistent"), plugins=plugins, supported=set())
+    assets = summarise(samples)
+    tells = {"vanilla:test/wall01": {"type": "mesh", "tell": "floor-plane", "valueM": 0.0},
+             "composite:wall-house": {"type": "mesh", "tell": "floor-plane", "valueM": 0.0}}
+    counts = complete_record(assets, kits, tells,
+                             bases={"composite:wall-house": "vanilla:test/wall01"},
+                             posed=set(), part_offsets={}, seated_by={},
+                             base_scales={"composite:wall-house": 1.3})
+    house = assets["composite:wall-house"]
+    assert (house["evidence"], house["p50"], house["n"]) == (
+        "base:vanilla:test/wall01@1.30", 0.3, 3), house
+    assert counts["base"] == 1
+    base = assets["vanilla:test/wall01"]
+    assert (base["evidence"], base["refsDroppedNonUnitScale"]) == ("mesh-sill", 3), base
+    assert base["byScale"]["1.30"]["p50"] == 0.3
+
+
+def test_composite_base_scales_reads_part_zero_scale(tmp_path):
+    (tmp_path / "k.json").write_text(json.dumps({"assets": [
+        {"asset": "composite:a", "compose": {"parts": [{"asset": "k:hut", "scale": 1.3},
+                                                       {"asset": "k:x", "offsetM": [1, 0, 0]}]}},
+        {"asset": "composite:b", "compose": {"parts": [{"asset": "k:deck", "scale": 1.0}]}},
+        {"asset": "composite:c", "compose": {"parts": [{"asset": "k:deck", "scale": 2.0,
+                                                        "offsetM": [0, 1, 0]}]}},
+    ]}))
+    from .mine_designed_sink import composite_base_scales
+    assert composite_base_scales(tmp_path) == {"composite:a": 1.3}
+
+
+def test_a_scaled_base_group_needs_the_base_in_the_kits():
+    """A composite takes a base's byScale group only when the base is a kit
+    asset, as the same-shape base rule requires (review 2026-09-27)."""
+    group = {"p25": 0.1, "p50": 0.3, "p75": 0.4, "n": 3, "iqrM": 0.3}
+    kits = {"composite:h": {"sizeM": [6.0, 3.0, 5.2], "originOffsetM": [2.6, 1.5, 0.0]}}
+    assets = {"k:hut": {"byScale": {"1.30": group}}}
+    tells = {"composite:h": {"type": "mesh", "tell": "floor-plane", "valueM": 0.0}}
+    complete_record(assets, kits, tells, bases={"composite:h": "k:hut"}, posed=set(),
+                    part_offsets={}, seated_by={}, base_scales={"composite:h": 1.3})
+    assert assets["composite:h"]["evidence"] == "mesh-sill"

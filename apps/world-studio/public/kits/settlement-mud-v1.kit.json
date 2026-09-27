@@ -3162,20 +3162,15 @@
     "WoodBeam:1.Mat.001"
    ],
    "designedSinkM": {
-    "p25": -3.9242,
-    "p50": -3.9242,
-    "p75": -3.9242,
-    "n": 0,
+    "p25": -3.6796,
+    "p50": -3.4619,
+    "p75": -3.1797,
+    "n": 11,
     "slopeTermMPerDeg": null,
-    "evidence": "mesh-sill"
+    "evidence": "base:bmv:architecture/huts/exterior/hutexterior@1.30"
    },
    "anchorClass": "ground",
    "anchorClassEvidence": "unplaced",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -3.9242
-   },
    "placement": {
     "schemaVersion": 1,
     "anchorMode": "streamed-perimeter",

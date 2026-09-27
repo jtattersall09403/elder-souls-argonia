@@ -62,7 +62,10 @@ EVIDENCE_VOCABULARY: tuple[tuple[str, tuple[str, ...], str], ...] = (
      "mesh-sill because a structure piece's plugin sink spreads over 1.0 m with "
      "n < 6 or over half its mesh height (plugin percentiles in pluginSpread)"),
     ("swap:", ("sink",), "the plugin sink of a measured twin shipping the same mesh"),
-    ("base:", ("sink",), "the plugin sink of the base piece of a same-shape composite"),
+    ("base:", ("sink",), "the plugin sink of the base piece of a same-shape composite; "
+     "base:<id>@<scale>: the base's plugin sink over its references at that scale "
+     "(byScale), for a composite whose part 0 is the base at that scale "
+     "(planner ruling 2026-09-27, scaled references)"),
     ("part:", ("sink",), "a composite seated by a named part (mine_designed_sink "
      "COMPOSITE_SEATED_BY_PART): that part's plugin sink plus its offsetM z"),
     ("policy-fallback", ("sink",), "no record value: the placement-policy row's fallbackSinkM"),

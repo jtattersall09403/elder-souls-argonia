@@ -1216,6 +1216,11 @@ def test_every_published_manifest_sink_equals_the_record():
             source = (evidence.partition(":")[2] if evidence.startswith(("swap:", "base:"))
                       else asset["id"])
             record = mined.get(source, {})
+            if evidence.startswith("base:") and "@" in source:
+                # planner ruling 2026-09-27: the base's sink at the scale the
+                # composite places it (byScale group)
+                base_id, _, scale = source.rpartition("@")
+                record = ((mined.get(base_id) or {}).get("byScale") or {}).get(scale, {})
             if evidence.startswith("part:"):
                 # a part-seated composite: its row must still be its part's
                 # CURRENT plugin sink plus the offset (a re-mined part alone

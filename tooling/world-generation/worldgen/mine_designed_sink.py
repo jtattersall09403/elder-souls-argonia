@@ -32,8 +32,13 @@ Method:
    to a master's base (Black Marsh North placing Black Marsh.esm's lily pads)
    is measured too.
 3. Per reference: ``(terrain height under the pivot, bilinear) - pivot z``,
-   converted to metres. References at a scale other than 1.0 are dropped: the
-   pivot offset scales with the mesh and the sample would mix two geometries.
+   converted to metres. References at a scale other than 1.0 are left out of
+   the unit-scale sample: the pivot offset scales with the mesh and the sample
+   would mix two geometries. They are measured in their own group per
+   placement scale (``byScale``, planner ruling 2026-09-27, scaled
+   references): a composite whose part 0 is the base piece at that scale
+   takes that group's sink (``base:<id>@<scale>``, BM&V's ``hutexterior``,
+   placed only at 1.30).
 4. Per asset: p25/p50/p75 over the samples, n, and ``slopeTermMPerDeg`` — the
    least-squares gradient of sink against the local terrain slope in degrees,
    which is how much deeper the makers set the same piece on steeper ground.
@@ -367,6 +372,20 @@ class AssetSamples:
     plugin_unsupported: int = 0
     """Round 13: references whose mesh bottom stands clear above every LAND
     point under their footprint with no mesh contact seen (``totem03``)."""
+    by_scale: dict[str, list[float]] = field(default_factory=lambda: defaultdict(list))
+    """Planner ruling 2026-09-27 (scaled references): terrain sinks of the
+    non-unit-scale references, per placement scale (``scale_key``)."""
+    scaled_dropped: int = 0
+    """Scaled references left out of ``by_scale`` by the support tests (on a
+    static or kit mesh, clear of the LAND, over water, no LAND)."""
+
+
+SCALED_REFS_RULING = "planner 2026-09-27, scaled references (16k slice 2)"
+
+
+def scale_key(scale: float) -> str:
+    """A placement scale as a ``byScale`` key (two decimals: ``1.30``)."""
+    return f"{float(scale):.2f}"
 
 
 def percentiles(values: list[float]) -> tuple[float, float, float]:
@@ -417,7 +436,7 @@ def bottom_clear_of_land(kit: dict, ref, land, grid) -> bool:
     low = -np.asarray(offset, float)
     high = low + np.asarray(size, float)
     corners = np.array([[x, y, z] for x in (low[0], high[0]) for y in (low[1], high[1])
-                        for z in (low[2], high[2])]) * UNITS_PER_METRE
+                        for z in (low[2], high[2])]) * UNITS_PER_METRE * float(ref.scale)
     world = corners @ _rotation(ref.rot).T + np.asarray(ref.pos, float)
     points = [(ref.pos[0], ref.pos[1])] + [(x, y) for x, y, _ in world]
     heights = [height_at(land, x, y, grid) for x, y in points]
@@ -477,16 +496,30 @@ def measure(kits: dict[str, dict], vault: Path, progress: bool = False,
                 entry = samples[asset_id]
                 entry.base_objects.add(f"{pool}:{model_key}")
                 entry.plugins.add(path.name)
-                if abs(ref.scale - 1.0) > SCALE_TOLERANCE:
-                    entry.scaled_refs += 1
-                    continue
-                stats["refsJoined"] += 1
                 x, y, z = ref.pos
                 terrain = (height_at(cell.land, x, y, cell.grid)
                            if cell.land is not None else None)
                 water = cell.water_height
                 over_water = water is not None and (
                     terrain is None or terrain < water - WATER_COVERS_GROUND_UNITS)
+                if abs(ref.scale - 1.0) > SCALE_TOLERANCE:
+                    entry.scaled_refs += 1
+                    # ruling 2026-09-27: its own scale group, on the same
+                    # terrain-support tests as the unit-scale sample. The
+                    # contact scan (mine_mounts) skips scaled refs, so
+                    # ``supported`` rarely names one; a scaled ref on a mesh
+                    # and clear of the LAND is caught by bottom_clear_of_land,
+                    # and one touching the LAND stays in (round 18 ruling 2).
+                    if (terrain is not None and not over_water
+                            and resolve(ref.form_id) not in supported
+                            and not bottom_clear_of_land(kits[asset_id], ref,
+                                                         cell.land, cell.grid)):
+                        entry.by_scale[scale_key(ref.scale)].append(
+                            (terrain - z) / UNITS_PER_METRE)
+                    else:
+                        entry.scaled_dropped += 1
+                    continue
+                stats["refsJoined"] += 1
                 if (terrain is not None and not over_water
                         and resolve(ref.form_id) in supported):
                     entry.static_supported += 1
@@ -550,6 +583,17 @@ def summarise(samples: dict[str, AssetSamples],
                 "n": len(waterline), "iqrM": round(w75 - w25, 4),
                 "definingFileOnly": waterline is entry.waterline_own,
             }
+        groups = {}
+        for key, values in sorted(entry.by_scale.items()):
+            if len(values) >= min_samples:
+                s25, s50, s75 = percentiles(values)
+                groups[key] = {"p25": round(s25, 4), "p50": round(s50, 4),
+                               "p75": round(s75, 4), "n": len(values),
+                               "iqrM": round(s75 - s25, 4)}
+        if groups:
+            record["byScale"] = groups
+        if entry.scaled_dropped:
+            record["byScaleRefsDropped"] = entry.scaled_dropped
         if entry.static_supported:
             record["refsDroppedStaticSupported"] = entry.static_supported
         if entry.plugin_unsupported:
@@ -563,7 +607,9 @@ def summarise(samples: dict[str, AssetSamples],
                 record["staticSupportedFallback"] = True
             else:
                 record["pluginUnsupportedFallback"] = True
-        if not record:
+        if not record and not entry.scaled_refs:
+            # ruling 2026-09-27: a row whose every reference is scaled keeps
+            # its refsDroppedNonUnitScale count (it never reads as unplaced)
             continue
         record["baseObject"] = sorted(entry.base_objects)
         record["plugins"] = sorted(entry.plugins)
@@ -627,6 +673,26 @@ def composite_posed_bases(config_dir: Path = KIT_CONFIG_DIR) -> set[str]:
                     and any(float(parts[0].get(k) or 0.0) for k in ("pitchDeg", "rollDeg"))):
                 posed.add(entry["asset"])
     return posed
+
+
+def composite_base_scales(config_dir: Path = KIT_CONFIG_DIR) -> dict[str, float]:
+    """Composites whose part 0 (no offset) carries a non-unit ``scale``: the
+    base piece at the scale the plugin places it (``hut-with-entrance``, the
+    hut at 1.30; planner ruling 2026-09-27, scaled references). Such a
+    composite takes the base's ``byScale`` group at that scale."""
+    scales: dict[str, float] = {}
+    for path in sorted(config_dir.glob("*.json")):
+        try:
+            entries = json.loads(path.read_text()).get("assets", [])
+        except (OSError, ValueError):
+            continue
+        for entry in entries:
+            parts = (entry.get("compose") or {}).get("parts") or []
+            if isinstance(entry.get("asset"), str) and parts and "offsetM" not in parts[0]:
+                scale = float(parts[0].get("scale") or 1.0)
+                if abs(scale - 1.0) > SCALE_TOLERANCE:
+                    scales.setdefault(entry["asset"], scale)
+    return scales
 
 
 COMPOSITE_SEATED_BY_PART: dict[str, tuple[str, str]] = {
@@ -738,7 +804,8 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
                     posed: set[str] | None = None,
                     part_offsets: dict[str, dict[str, list[dict]]] | None = None,
                     seated_by: dict[str, tuple[str, str]] | None = None,
-                    known: dict[str, dict] | None = None) -> dict[str, int]:
+                    known: dict[str, dict] | None = None,
+                    base_scales: dict[str, float] | None = None) -> dict[str, int]:
     """Give every kit asset without plugin samples the best other evidence, IN
     the record, so every manifest writer reads one value (16h round 6: two
     writers disagreed, the kit build falling back to policy where the refresh
@@ -748,13 +815,17 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
     of its own, a quay run, keeps its own tell, unless its part 0 carries the
     plugin's pose, ``composite_posed_bases``); ahead of that, a composite
     named in ``COMPOSITE_SEATED_BY_PART`` takes its named part's plugin sink
-    plus the part's offsetM z (``part:<id>``); a measured twin shipping the
+    plus the part's offsetM z (``part:<id>``); a composite whose part 0 is
+    its base at a non-unit scale takes the base's plugin sink at that scale
+    (``base:<id>@<scale>``, ``composite_base_scales``, planner ruling
+    2026-09-27); a measured twin shipping the
     same mesh (``swap:<id>``); then the mesh-sill tell (``mesh-sill``, n 0).
     Assets with none keep no p50 and take the policy fallback at write time."""
     bases = composite_bases() if bases is None else bases
     posed = composite_posed_bases() if posed is None else posed
     part_offsets = composite_part_offsets() if part_offsets is None else part_offsets
     seated_by = COMPOSITE_SEATED_BY_PART if seated_by is None else seated_by
+    base_scales = composite_base_scales() if base_scales is None else base_scales
     for record in assets.values():
         # Idempotent: a spread row keeps its plugin measurement in pluginSpread.
         if record.get("evidence") == PLUGIN_SPREAD_SILL and "pluginSpread" in record:
@@ -785,7 +856,8 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
         if record.get("evidence") == "plugin":
             continue
         for key in ("p25", "p50", "p75", "n", "iqrM", "slopeTermMPerDeg",
-                    "evidence", "groundLineTell", "spreadIqrM", "spreadN", "seatedBy"):
+                    "evidence", "groundLineTell", "spreadIqrM", "spreadN", "seatedBy",
+                    "scaleGroup"):
             record.pop(key, None)
         seat = seated_by.get(asset_id)
         if seat is not None and asset_id in kits:
@@ -800,6 +872,18 @@ def complete_record(assets: dict[str, dict], kits: dict[str, dict],
             continue
         twin = twins.get(asset_id.partition(":")[2].casefold())
         base = bases.get(asset_id)
+        scaled = base_scales.get(asset_id)
+        group = (((assets.get(base) or (known or {}).get(base) or {}).get("byScale") or {})
+                 .get(scale_key(scaled)) if scaled is not None and base else None)
+        if group is not None and asset_id in kits and base in kits:
+            record.update({key: group[key] for key in ("p25", "p50", "p75", "n", "iqrM")})
+            record["slopeTermMPerDeg"] = None
+            record["evidence"] = f"base:{base}@{scale_key(scaled)}"
+            record["scaleGroup"] = {"base": base, "scale": scale_key(scaled),
+                                    "ruling": SCALED_REFS_RULING}
+            counts["base"] += 1
+            assets[asset_id] = record
+            continue
         inherits = (base in plugin and asset_id in kits and base in kits
                     and (asset_id in posed or same_shape(kits[asset_id], kits[base])))
         fallback = (STATIC_SUPPORTED_SILL if record.get("staticSupportedFallback")
@@ -863,7 +947,10 @@ METHOD = ("designedSinkM = groundZ - pivotZ (metres, z-up, positive = "
           "n >= 3 samples: a composite whose bounds and origin equal its "
           "base piece's (compose.parts[0]) takes the base piece's plugin "
           "sink (evidence base:<id>; so does one whose part 0 carries the "
-          "plugin's pitch/roll, the pose its references hold), else a measured twin shipping the same mesh "
+          "plugin's pitch/roll, the pose its references hold; one whose part 0 "
+          "is its base at a non-unit scale takes the base's plugin sink over "
+          "the references at that scale, byScale, evidence base:<id>@<scale>, "
+          "planner ruling 2026-09-27), else a measured twin shipping the same mesh "
           "(evidence swap:<id>), else the mesh-sill ground-line tell of "
           "the raw kit GLB (pipeline/mesh_ground_line.py, evidence "
           "mesh-sill, n 0; evidence 'mesh-sill (plugin refs static-supported)' "
@@ -974,8 +1061,14 @@ def _main(argv: Iterable[str] | None = None) -> int:
                              "(none dropped as scaled, static-supported or unsupported), "
                              "so they are the record (16k walk 2 T1: KotM mudhut01, one "
                              "reference); RULING names who ruled it and is written on the row")
+    parser.add_argument("--ruling", default=None,
+                        help="with --merge: the ruling this per-asset re-mine applies; "
+                             "written to provenance.merges with the assets, date and miner "
+                             "version")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
+    if args.ruling and not args.merge:
+        raise SystemExit("--ruling is written by --merge only")
     kits = kit_assets(*(args.kits_dir or []))
     if args.merge:
         if args.sample is not None or args.complete_only or not args.assets:
@@ -994,6 +1087,23 @@ def _main(argv: Iterable[str] | None = None) -> int:
             if args.whole_population:
                 mark_whole_population(asset, got[asset], args.whole_population)
             record["assets"][asset] = got[asset]
+        # a re-mined base carries the composites that place it at a scale
+        base_scales = composite_base_scales()
+        scaled_comps = {comp for comp, base in composite_bases().items()
+                        if base in args.assets and comp in base_scales
+                        and comp in record["assets"] and comp not in args.assets}
+        if scaled_comps:
+            carried = {comp: {} for comp in scaled_comps}
+            complete_record(carried, {c: kits[c] for c in scaled_comps if c in kits}
+                            | {b: kits[b] for b in args.assets},
+                            {}, known=record["assets"])
+            for comp in sorted(scaled_comps):
+                # whatever the re-completion gives (a group gone below
+                # MIN_SAMPLES falls back to the tell), never the stale row
+                if carried.get(comp):
+                    record["assets"][comp] = carried[comp]
+                else:
+                    record["assets"].pop(comp, None)
         # a re-mined seating part carries its composites with it
         offsets = composite_part_offsets()
         for comp, (part, ruling) in sorted(COMPOSITE_SEATED_BY_PART.items()):
@@ -1005,6 +1115,13 @@ def _main(argv: Iterable[str] | None = None) -> int:
                 except ValueError as exc:
                     raise SystemExit(f"refused, the record is unchanged: {exc}") from None
         record["assetsMeasured"] = len(record["assets"])
+        if args.ruling:
+            from datetime import date
+            from .mine_assemblies import provenance as _provenance
+            version = _provenance(__file__, [], []).get("minerVersion")
+            record.setdefault("provenance", {}).setdefault("merges", []).append({
+                "assets": list(args.assets), "ruling": args.ruling,
+                "runDate": date.today().isoformat(), "minerVersion": version})
         findings = evidence_findings(record["assets"])
         if findings:
             raise ValueError("; ".join(findings[:20]))

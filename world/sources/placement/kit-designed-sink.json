@@ -85,6 +85,17 @@
    "Valenwood.esp",
    "XanmeerResources.esp",
    "igs_tileset_ayleid.esp"
+  ],
+  "merges": [
+   {
+    "assets": [
+     "bmv:architecture/huts/exterior/hutexterior",
+     "composite:mud/hut-with-entrance"
+    ],
+    "ruling": "planner 2026-09-27, scaled references (16k slice 2)",
+    "runDate": "2026-09-27",
+    "minerVersion": "e1e2ef6ff466"
+   }
   ]
  },
  "source": "vanilla Skyrim.esm plus every source-mod plugin named by worldgen.asset_registry.POOLS",
@@ -20011,6 +20022,22 @@
    }
   },
   "bmv:architecture/huts/exterior/hutexterior": {
+   "byScale": {
+    "1.30": {
+     "p25": -3.6796,
+     "p50": -3.4619,
+     "p75": -3.1797,
+     "n": 11,
+     "iqrM": 0.4998
+    }
+   },
+   "baseObject": [
+    "bmv:architecture/huts/exterior/hutexterior.nif"
+   ],
+   "plugins": [
+    "Black Marsh.esm"
+   ],
+   "refsDroppedNonUnitScale": 11,
    "p25": -2.9378,
    "p50": -2.9378,
    "p75": -2.9378,
@@ -23035,17 +23062,17 @@
    }
   },
   "composite:mud/hut-with-entrance": {
-   "p25": -3.9242,
-   "p50": -3.9242,
-   "p75": -3.9242,
-   "n": 0,
-   "iqrM": 0.0,
+   "p25": -3.6796,
+   "p50": -3.4619,
+   "p75": -3.1797,
+   "n": 11,
+   "iqrM": 0.4998,
    "slopeTermMPerDeg": null,
-   "evidence": "mesh-sill",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "floor-plane",
-    "valueM": -3.9242
+   "evidence": "base:bmv:architecture/huts/exterior/hutexterior@1.30",
+   "scaleGroup": {
+    "base": "bmv:architecture/huts/exterior/hutexterior",
+    "scale": "1.30",
+    "ruling": "planner 2026-09-27, scaled references (16k slice 2)"
    }
   },
   "depths:dos/boats/rowboatbrokenback": {
