@@ -259,7 +259,15 @@ def door_report(cat: Catalogue, scene, piece: Piece) -> dict | None:
     from shapely.geometry import LineString, Point
     rows = []
     lines = [(LineString(p["pointsM"]), p["id"]) for p in scene.paths if len(p["pointsM"]) >= 2]
+    member = (piece.role or {}).get("kind") in ("run", "assembly")
     for d in cat.doorways(piece.asset):
+        if member and d.get("source") == "assembly":
+            # a door the plugins co-place WITH a run or assembly member (BM&V
+            # bridge01's doorframe01, a walkway stair's farmhouse door) belongs
+            # to the building the piece serves; the piece itself has no
+            # threshold (planner ruling 2026-09-27, walk 2 lane P: the landing
+            # spans read +3.6 to +4.6 m sills from them)
+            continue
         ox, oz = d["offsetInPieceM"]
         x, z = plan_to_province((piece.x, piece.z), piece.yaw,
                                 (ox * piece.scale, oz * piece.scale))

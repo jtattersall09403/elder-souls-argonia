@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "cellId": "KeebaHouseSnailMinder",
+  "plugin": "King of the Murkmire.esp",
+  "rule": "Stand-ins for the cell's missing clutter whose mesh or base is not in the vault (Creation Club, Hearthfire, the resource pack, Dawnguard; planner ruling 2026-09-27; place-diag P9). Each stand-in is a vanilla piece of the same class, drawn at the missing reference's transform by worldgen/export_interior_bundle.py.",
+  "substitutions": [
+    {
+      "refId": "08095F8F",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of snail milk stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "08095F90",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of snail milk stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "08095F91",
+      "standInAsset": "vanilla:clutter/wine/winebottle02a",
+      "why": "A bottle of snail milk stands here; a wine bottle takes its place."
+    },
+    {
+      "refId": "08095FB2",
+      "standInAsset": "vanilla:clutter/common/rug02",
+      "why": "A woven rug lies here; a common rug takes its place."
+    },
+    {
+      "refId": "08095FB3",
+      "standInAsset": "vanilla:clutter/common/rug02",
+      "why": "A woven rug lies here; a common rug takes its place."
+    },
+    {
+      "refId": "08095FB4",
+      "standInAsset": "vanilla:clutter/common/rug02",
+      "why": "A woven rug lies here; a common rug takes its place."
+    },
+    {
+      "refId": "08095FD0",
+      "standInAsset": "vanilla:clutter/common/rug02",
+      "why": "A woven rug lies here; a common rug takes its place."
+    },
+    {
+      "refId": "08095FD1",
+      "standInAsset": "vanilla:clutter/common/rug02",
+      "why": "A woven rug lies here; a common rug takes its place."
+    },
+    {
+      "refId": "08095FAE",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish01",
+      "why": "A brook bass lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "08095FAF",
+      "standInAsset": "vanilla:clutter/deadanimals/deadpondfish02",
+      "why": "A brook bass lies here; a dead pond fish takes its place."
+    },
+    {
+      "refId": "08095FB1",
+      "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
+      "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place."
+    },
+    {
+      "refId": "08095FC9",
+      "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
+      "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place."
+    }
+  ]
+}

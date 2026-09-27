@@ -28,6 +28,10 @@
    "asset": "vanilla:architecture/farmhouse/farmhouse01walkway"
   },
   {
+   "asset": "vanilla:architecture/farmhouse/farmhouse02walkway",
+   "collision": "mesh"
+  },
+  {
    "asset": "vanilla:architecture/docks/dockstrsol01"
   },
   {
@@ -116,6 +120,50 @@
       ],
       "yawDeg": 0,
       "scale": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:farmhouse/farmhouse02-with-walkway",
+   "compose": {
+    "note": "The second farmhouse form with the stair, boardwalk and upper door that Skyrim.esm places with it. The shell has two levels at its front. A porch sits at the shell's pivot height, and a deck 3.19 m above it wraps the front (south, the door side) and the west side. `walkwaystairs8` (template vanilla:t0749, 4 placements) stands at -7.02, 6.62, 1.38 m, turned 90.55 deg; it climbs from 0.44 m below the pivot to 3.2 m and meets the side deck at its north end. `farmhouseldoor01` (vanilla:t0420, 6 placements) stands on the deck at -0.02, -3.67, 3.18 m, unrotated. `farmhouse02walkway` (vanilla:t0268, 8 placements) sits at -0.04, -8.23, -0.01 m. Its deck lies within 0.08 m of the porch height, not at the upper deck, and it extends the porch in front of the lower doorway (vanilla:t0335). The composite does not carry that doorway's leaf. The shell mesh has neither the stair nor the boardwalk, so a farmhouse02 placed without them leaves the deck door out of reach.",
+    "parts": [
+     {
+      "asset": "vanilla:architecture/farmhouse/farmhouse02"
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/farmhouse02walkway",
+      "offsetM": [
+       -0.04,
+       -8.23,
+       -0.01
+      ],
+      "yawDeg": 0.02,
+      "scale": 1.0,
+      "template": "vanilla:t0268"
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/walkway/walkwaystairs8",
+      "offsetM": [
+       -7.02,
+       6.62,
+       1.38
+      ],
+      "yawDeg": 90.55,
+      "scale": 1.0,
+      "template": "vanilla:t0749"
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+      "offsetM": [
+       -0.02,
+       -3.67,
+       3.18
+      ],
+      "yawDeg": 0.0,
+      "scale": 1.0,
+      "template": "vanilla:t0420"
      }
     ]
    }

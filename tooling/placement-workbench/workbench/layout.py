@@ -62,6 +62,8 @@ def _flat(v) -> list:
 
 
 def _arg(v) -> str:
+    if isinstance(v, bool):
+        return "true" if v else "false"
     return repr(float(v)) if isinstance(v, float) else str(v)
 
 

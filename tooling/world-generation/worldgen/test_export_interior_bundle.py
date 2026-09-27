@@ -231,3 +231,14 @@ def test_bundle_lighting_matches_the_plugin_bytes(vault_env, plugin, cell):
             assert lighting["ambientRGB"] == list(xcll[0:3])
         if not inherits & 2:
             assert lighting["directionalRGB"] == list(xcll[4:7])
+
+
+def test_an_armour_ground_model_is_a_wearable_and_effects_and_wearables_are_listed_drops():
+    """Planner ruling 2026-09-27 (lane P): an effect (fxdwesteam01) and a
+    wearable (the dlc01 sandals in KeebaHouseSnailMinder) are listed drops,
+    not substitutions, so they neither ship undrawn nor keep the cell unfit."""
+    cls, _ = ex.piece_class({"type": "ARMO"}, None, "dlc01/clothes/x/sandalsgnd.nif", {})
+    assert cls == "wearable"
+    assert {"effect", "wearable"} <= ex.LISTED_DROP_CLASSES
+    assert not ex.LISTED_DROP_CLASSES & ex.SUBSTITUTABLE_CLASSES
+    assert "listed-drop" not in ex.MISSING_REASONS

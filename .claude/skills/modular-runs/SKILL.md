@@ -160,3 +160,18 @@ composites). Author it as a `pieces` parcel (§ B) laid from the pad's
 downhill edge; `wb.py check` reports every edge the run leaves uncovered as
 `padRule`. A modular run never declares a pad of its own: it takes the run
 pad the export derives, through the same writer (`pad_patch`).
+
+A kit with no wall family (the Argonian mud kits, `route-spans-v1`) holds an
+edge over 0.6 m and up to 1.2 m as a graded earth batter instead: the pad op
+carries `batter: true` and an apron at least twice the edge height (slope
+1:2); over 1.2 m, re-site (planner ruling 2026-09-27, lessons L64).
+
+## H. Piled platforms seat by their deck
+
+A dock, jetty or landing span on piles is seated by its DECK: deck = the
+water surface + the piece's mined deck rise (0.3 m when none is mined); the
+piles sink into the bed as deep as they need. Never seat it on its pile
+foot: ground + `pivotAboveBaseM` lifts the deck by the piles' length
+(integrate-landing: KotM docks at 7.6 m over the water). A co-placed door on
+a run piece (BM&V bridge01's doorframe01) is the served building's, never
+the span's threshold (lessons L65, L66).

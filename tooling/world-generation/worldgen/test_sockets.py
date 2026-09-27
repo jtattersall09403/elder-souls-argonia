@@ -263,3 +263,18 @@ def test_the_urn_class_fills_by_its_household_default():
     assert rule["itemClasses"] == ["food", "drink", "misc-household"]
     assert rule["valueBand"] == "low"
     assert rule["hiddenGemChance"] == 0.02          # r7 rule 8
+
+
+def test_a_quest_socket_realising_a_catalogue_socket_puts_the_promise_in_its_parcel():
+    """16k walk 2 lane P: the ledger's realiser for a catalogue socket is the
+    quest socket's `socketRef`; `_row_parcels` mapped only its `id`, so the
+    row had no parcel and no compiled marker could meet it."""
+    bp = {"parcels": [{"id": "parcel.p.well"}],
+          "questSockets": [{"id": "socket.p.keeper", "kind": "post", "socketRef": "post.p.keeper",
+                            "parcel": "parcel.p.well"}]}
+    assert bpr._row_parcels(bp)["post.p.keeper"] == ["parcel.p.well"]
+
+
+def test_a_post_catalogue_socket_id_is_a_legal_quest_socket_id():
+    from worldgen import blueprint as bpm
+    assert bpm.CATALOGUE_SOCKET_RE.match("post.claywater-station.poler")

@@ -427,6 +427,11 @@ def _row_parcels(bp: dict) -> dict[str, list[str]]:
             pid = o.get("parcelId") or o.get("parcel")
             if isinstance(o, dict) and o.get("id") and isinstance(pid, str):
                 out.setdefault(o["id"], []).append(pid)
+                # a quest socket realises its catalogue socket under the
+                # catalogue id (`socketRef`, build_ledger), so that id
+                # stands in the same parcel
+                if key == "questSockets" and isinstance(o.get("socketRef"), str):
+                    out.setdefault(o["socketRef"], []).append(pid)
     for o in bp.get("occupants", []) or []:
         out[o.get("slotId")] = [v for v in (o.get("worksAt"), o.get("livesAt")) if v]
     return out

@@ -339,3 +339,17 @@ def test_the_live_export_stands_where_the_workbench_measured():
            if k not in pub or pub[k].get("yFinal") is not True
            or abs(pub[k]["positionM"][1] - y) > 0.02}
     assert not bad, bad
+
+
+def test_a_run_members_co_placed_door_is_not_its_threshold(scene, cat):
+    """Planner ruling 2026-09-27 (lane P): BM&V bridge01 carries `assembly`
+    doorways (the plugins' doorframe01 placed with it); on a run or assembly
+    member they are the served building's doors, never the piece's own, so
+    sillRule and walkRule do not judge them. A free-standing piece keeps them."""
+    from workbench import measure
+    from workbench.scene import Piece
+    deck = Piece("t-deck", "bmv:architecture/huts/exterior/bridge01", 344.0, 3005.5, 116.7)
+    deck.y = 35.56
+    assert measure.door_report(cat, scene, deck)                # free-standing: listed
+    deck.role = {"kind": "run", "id": "parcel.claywater-station.landing-stage", "index": 1}
+    assert measure.door_report(cat, scene, deck) is None

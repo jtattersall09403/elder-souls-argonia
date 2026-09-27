@@ -259,6 +259,72 @@
    "pivotAboveBaseM": 3.641
   },
   {
+   "id": "vanilla:architecture/farmhouse/farmhouse02walkway",
+   "node": "es|a269fb9575|rchitecture_farmhouse_farmhouse02walkway",
+   "category": "architecture",
+   "sizeM": [
+    14.631,
+    3.641,
+    3.727
+   ],
+   "originOffsetM": [
+    8.881,
+    1.821,
+    3.641
+   ],
+   "triangles": 1518,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "ropealpha01.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds"
+   ],
+   "materials": [
+    "Farmhouse02Walkway:19 - L2_Rope:19.Mat",
+    "Farmhouse02Walkway:5 - L2_Rope:5.Mat",
+    "L2_Rope.Mat"
+   ],
+   "alphaMaskMaterials": {
+    "Farmhouse02Walkway:19 - L2_Rope:19.Mat": 0.784,
+    "L2_Rope.Mat": 0.502
+   },
+   "decalMaterials": [
+    "L2_Rope.Mat"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.641,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 0.905,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.641
+  },
+  {
    "id": "vanilla:architecture/docks/dockstrsol01",
    "node": "es|8b408cad48|vanilla__architecture_docks_dockstrsol01",
    "category": "architecture",
@@ -1516,6 +1582,109 @@
    "pivotAboveBaseM": 1.821
   },
   {
+   "id": "composite:farmhouse/farmhouse02-with-walkway",
+   "node": "es|a23f510d59|site__farmhouse_farmhouse02-with-walkway",
+   "category": "architecture",
+   "sizeM": [
+    15.532,
+    18.739,
+    16.055
+   ],
+   "originOffsetM": [
+    9.103,
+    10.052,
+    3.651
+   ],
+   "triangles": 10035,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "mesh",
+   "droppedShapes": [],
+   "textures": [
+    "farmhouse01.dds",
+    "farmwindowinterior01.dds",
+    "rope01.dds",
+    "ropealpha01.dds",
+    "stonewall01.dds",
+    "thatch02.dds",
+    "thatch03.dds",
+    "woodpost02.dds",
+    "woodwalkway01.dds",
+    "woodwall01.dds"
+   ],
+   "materials": [
+    "Door:7.Mat.002",
+    "DoorBlack.Mat.002",
+    "Farmhouse02:1.Mat.002",
+    "Farmhouse02:14.Mat.002",
+    "Farmhouse02:19 - L2_Rope:19 - L1_Posts:19.Mat.002",
+    "Farmhouse02:25.Mat.002",
+    "Farmhouse02:4.Mat.002",
+    "Farmhouse02:5 - L2_Rope:5 - L1_Posts:5.Mat.002",
+    "Farmhouse02:6.Mat.002",
+    "Farmhouse02:7.Mat.002",
+    "Farmhouse02Walkway:19 - L2_Rope:19.Mat.001",
+    "Farmhouse02Walkway:5 - L2_Rope:5.Mat.001",
+    "L2_Rope.Mat.001",
+    "L2_Rope.Mat.002",
+    "L2_Rope:18.Mat.002",
+    "L2_Rope:22.Mat.002",
+    "WalkwayStairs8:19 - L2_Rope:19.Mat",
+    "WalkwayStairs8:5.Mat"
+   ],
+   "glowMaterials": [
+    "Farmhouse02:14.Mat.002"
+   ],
+   "alphaMaskMaterials": {
+    "Farmhouse02:19 - L2_Rope:19 - L1_Posts:19.Mat.002": 0.784,
+    "Farmhouse02:25.Mat.002": 0.784,
+    "Farmhouse02:4.Mat.002": 0.502,
+    "Farmhouse02Walkway:19 - L2_Rope:19.Mat.001": 0.784,
+    "L2_Rope.Mat.001": 0.502,
+    "L2_Rope.Mat.002": 0.502,
+    "L2_Rope:22.Mat.002": 0.502,
+    "WalkwayStairs8:19 - L2_Rope:19.Mat": 0.784
+   },
+   "decalMaterials": [
+    "L2_Rope.Mat.001",
+    "L2_Rope.Mat.002",
+    "L2_Rope:22.Mat.002"
+   ],
+   "designedSinkM": {
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "n": 0,
+    "slopeTermMPerDeg": null,
+    "evidence": "policy-fallback"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "unplaced",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 3.651,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "glowFacingsDeg": [
+    90.0,
+    270.0
+   ],
+   "undersideClosed": false,
+   "undersideCoverage": 0.527,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 3.651
+  },
+  {
    "id": "composite:farmhouse/stonewall-run-3",
    "node": "es|e9af2ebe68|composite__farmhouse_stonewall-run-3",
    "category": "architecture",
@@ -2474,16 +2643,16 @@
     "woodwalkway01.dds"
    ],
    "materials": [
-    "L2_Rope.Mat",
+    "L2_Rope.Mat.003",
     "WalkwayStairs1:19 - L2_Rope:19.Mat",
     "WalkwayStairs1:5.Mat"
    ],
    "alphaMaskMaterials": {
-    "L2_Rope.Mat": 0.502,
+    "L2_Rope.Mat.003": 0.502,
     "WalkwayStairs1:19 - L2_Rope:19.Mat": 0.784
    },
    "decalMaterials": [
-    "L2_Rope.Mat"
+    "L2_Rope.Mat.003"
    ],
    "designedSinkM": {
     "p25": -0.2809,
@@ -2540,16 +2709,16 @@
     "woodwalkway01.dds"
    ],
    "materials": [
-    "L2_Rope.Mat.001",
+    "L2_Rope.Mat.004",
     "WalkwayStairs4:19 - L2_Rope:19.Mat",
     "WalkwayStairs4:5.Mat"
    ],
    "alphaMaskMaterials": {
-    "L2_Rope.Mat.001": 0.502,
+    "L2_Rope.Mat.004": 0.502,
     "WalkwayStairs4:19 - L2_Rope:19.Mat": 0.784
    },
    "decalMaterials": [
-    "L2_Rope.Mat.001"
+    "L2_Rope.Mat.004"
    ],
    "designedSinkM": {
     "p25": -0.3481,
@@ -2613,16 +2782,16 @@
     "woodwalkway01.dds"
    ],
    "materials": [
-    "L2_Rope.Mat.002",
-    "WalkwayStairs8:19 - L2_Rope:19.Mat",
-    "WalkwayStairs8:5.Mat"
+    "L2_Rope.Mat.005",
+    "WalkwayStairs8:19 - L2_Rope:19.Mat.001",
+    "WalkwayStairs8:5.Mat.001"
    ],
    "alphaMaskMaterials": {
-    "L2_Rope.Mat.002": 0.502,
-    "WalkwayStairs8:19 - L2_Rope:19.Mat": 0.784
+    "L2_Rope.Mat.005": 0.502,
+    "WalkwayStairs8:19 - L2_Rope:19.Mat.001": 0.784
    },
    "decalMaterials": [
-    "L2_Rope.Mat.002"
+    "L2_Rope.Mat.005"
    ],
    "designedSinkM": {
     "p25": -0.286,
@@ -2930,31 +3099,6 @@
    "alphaMaskMaterials": {
     "CandleLanternWithCandle:7.Mat": 0.89
    },
-   "designedSinkM": {
-    "p25": -0.0285,
-    "p50": -0.0268,
-    "p75": -0.0095,
-    "n": 5,
-    "slopeTermMPerDeg": null,
-    "evidence": "plugin"
-   },
-   "anchorClass": "ground",
-   "anchorClassEvidence": "plugin",
-   "placement": {
-    "schemaVersion": 1,
-    "anchorMode": "streamed-perimeter",
-    "groundContactOffsetM": 0.024,
-    "buryCapM": 0.9,
-    "evidence": {
-     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
-     "policyId": "plinth",
-     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
-    }
-   },
-   "undersideClosed": true,
-   "undersideCoverage": 1.0,
-   "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.024,
    "light": {
     "formId": "00088241",
     "editorId": "DefaultCandleLight01NSDesat",
@@ -2982,7 +3126,32 @@
     ],
     "fixtureKind": "lantern",
     "evidence": "Skyrim.esm: DefaultCandleLight01NSDesat is the nearest LIGH ref (< 200 units, same cell) to 246 of 1393 CandleLanternwithCandle01 (STAT 0002d847) refs (next: DefaultCandleLight01NS 172, BleakFallsCandleLight01NS 75, DefaultCandleLight01 64; none 392); offset is the per-axis median of those 246 in the piece's frame, glTF Y-up metres (horizontal median distance 0.61 m: vanilla places the light beside and just above the lantern, not in it). Mined 2026-09-27 (walk 2 integrate-lighting), the kits2 brazier method."
-   }
+   },
+   "designedSinkM": {
+    "p25": -0.0285,
+    "p50": -0.0268,
+    "p75": -0.0095,
+    "n": 5,
+    "slopeTermMPerDeg": null,
+    "evidence": "plugin"
+   },
+   "anchorClass": "ground",
+   "anchorClassEvidence": "plugin",
+   "placement": {
+    "schemaVersion": 1,
+    "anchorMode": "streamed-perimeter",
+    "groundContactOffsetM": 0.024,
+    "buryCapM": 0.9,
+    "evidence": {
+     "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+     "policyId": "plinth",
+     "fitPolicy": "authored placement-policies.json policy plinth: Reviewed plinth policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
+    }
+   },
+   "undersideClosed": true,
+   "undersideCoverage": 1.0,
+   "openBackYawDeg": null,
+   "pivotAboveBaseM": 0.024
   },
   {
    "id": "bmv:architecture/phitt/aldredanyia/signpost",
@@ -3054,8 +3223,8 @@
  "texturesMissing": [],
  "texturesSubstituted": {},
  "alphaModes": {
-  "MASK": 48,
-  "OPAQUE": 96,
+  "MASK": 58,
+  "OPAQUE": 107,
   "BLEND": 0
  },
  "trunkSolids": {
@@ -3089,16 +3258,16 @@
   "textureQuality": 8,
   "textureContainer": "ktx2",
   "geometry": "EXT_meshopt_compression",
-  "bytesBefore": 26818656,
-  "bytesAfter": 12266844,
+  "bytesBefore": 28255288,
+  "bytesAfter": 12399684,
   "images": 49,
   "imageBytesAfter": 10606008,
   "warnings": [],
-  "sha256": "ab9eb98c083e61f11a140f138238dcc98c391cb1722aa9b695bcdc053053fc46",
+  "sha256": "328b8f65e45638c3fc358761bacced64a195fc9f9485de6a36a6f7e638415862",
   "sidecarBytes": {
-   "connectors": 33981,
-   "footprints": 56281,
-   "interiors": 37664
+   "connectors": 35760,
+   "footprints": 59138,
+   "interiors": 39486
   }
  }
 }

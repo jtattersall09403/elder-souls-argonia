@@ -1,0 +1,3331 @@
+{
+ "schemaVersion": 1,
+ "cellId": "KeebaHouseSnailMinder",
+ "plugin": "King of the Murkmire.esp",
+ "frame": "game: metres, x east, y up, z south; rotationDeg [pitch, yaw, roll] applied as Euler(pitch, -yaw, roll, 'YXZ'); yaw is a compass bearing, clockwise from north (-z)",
+ "shellAssetId": null,
+ "refCount": 137,
+ "kits": {
+  "interior-farmhouse-v1": {
+   "id": "interior-farmhouse-v1",
+   "glb": "kits/interior-farmhouse-v1.glb",
+   "manifest": "kits/interior-farmhouse-v1.kit.json"
+  },
+  "interior-kotm-v1": {
+   "id": "interior-kotm-v1",
+   "glb": "kits/interior-kotm-v1.glb",
+   "manifest": "kits/interior-kotm-v1.kit.json"
+  },
+  "settlement-imperial-v1": {
+   "id": "settlement-imperial-v1",
+   "glb": "kits/settlement-imperial-v1.glb",
+   "manifest": "kits/settlement-imperial-v1.kit.json"
+  },
+  "settlement-mud-v1": {
+   "id": "settlement-mud-v1",
+   "glb": "kits/settlement-mud-v1.glb",
+   "manifest": "kits/settlement-mud-v1.kit.json"
+  },
+  "works-v1": {
+   "id": "works-v1",
+   "glb": "kits/works-v1.glb",
+   "manifest": "kits/works-v1.kit.json"
+  }
+ },
+ "arrivalMarker": {
+  "positionM": [
+   105.4125,
+   83.4645,
+   52.8801
+  ],
+  "yawDeg": 182.383
+ },
+ "exitDoor": {
+  "id": "KeebaHouseSnailMinder.08090C43",
+  "refId": "08090C43",
+  "positionM": [
+   105.3724,
+   83.512,
+   51.4917
+  ],
+  "yawDeg": 0.0
+ },
+ "doors": [],
+ "ambient": {
+  "colorRGB": [
+   44,
+   33,
+   27
+  ],
+  "intensity": 1.0
+ },
+ "fog": {
+  "colorRGB": [
+   89,
+   95,
+   102
+  ],
+  "nearM": 4.836,
+  "farM": 71.12
+ },
+ "lighting": {
+  "ambientRGB": [
+   44,
+   33,
+   27
+  ],
+  "directionalRGB": [
+   77,
+   62,
+   55
+  ],
+  "fogNearRGB": [
+   89,
+   95,
+   102
+  ],
+  "fogNearM": 4.836,
+  "fogFarM": 71.12,
+  "directionalRotXYDeg": 0,
+  "directionalRotZDeg": 0,
+  "directionalFade": 0.0,
+  "fogClipM": 71.12,
+  "fogPower": 0.6,
+  "fogFarRGB": [
+   23,
+   33,
+   22
+  ],
+  "fogMax": 1.0,
+  "inherits": 159,
+  "template": "SolitudeInteriors"
+ },
+ "placements": [
+  {
+   "id": "KeebaHouseSnailMinder.08090C2C",
+   "assetId": "kotm:argonia/mudhuts/smpodextdoor",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    105.8282,
+    82.2974,
+    48.4172
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutDoorway01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C36",
+   "assetId": "kotm:argonia/mudhuts/floor02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.0107,
+    83.9155,
+    52.667
+   ],
+   "rotationDeg": [
+    0.0,
+    135.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutFloor02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C43",
+   "assetId": "kotm:argonia/mudhuts/door01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    105.3724,
+    83.512,
+    51.4917
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "door",
+   "base": "MudHutLDoor01",
+   "baseType": "DOOR"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C48",
+   "assetId": "kotm:argonia/clutter/wallbasket03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.6064,
+    86.682,
+    58.5054
+   ],
+   "rotationDeg": [
+    0.0,
+    170.925,
+    0.0
+   ],
+   "scale": 1.14,
+   "category": "clutter",
+   "base": "ALPAWallBasket07",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C4C",
+   "assetId": "kotm:argonia/mudhuts/floor02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.6731,
+    83.9155,
+    60.6963
+   ],
+   "rotationDeg": [
+    0.0,
+    315.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutFloor02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C6F",
+   "assetId": "kotm:argonia/mudhuts/smpodint01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.1372,
+    87.3879,
+    57.9978
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.24,
+   "category": "misc",
+   "base": "MudHut05Int",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C73",
+   "assetId": "kotm:argonia/clutter/wallbasket02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.2348,
+    86.682,
+    58.4701
+   ],
+   "rotationDeg": [
+    0.0,
+    182.384,
+    0.0
+   ],
+   "scale": 1.14,
+   "category": "clutter",
+   "base": "ALPAWallBasket06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C8C",
+   "assetId": "kotm:argonia/mudhuts/mudhutintstairs",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.0024,
+    86.3362,
+    57.3428
+   ],
+   "rotationDeg": [
+    0.0,
+    63.026,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutStairs02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C8D",
+   "assetId": "kotm:argonia/mudhuts/mudhutintfloor01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.5307,
+    86.1033,
+    64.4445
+   ],
+   "rotationDeg": [
+    0.0,
+    123.541,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHut02IntFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C8E",
+   "assetId": "kotm:argonia/mudhuts/mudhutintfloor01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.3631,
+    89.5521,
+    58.3471
+   ],
+   "rotationDeg": [
+    0.0,
+    215.215,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHut02IntFloor01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C90",
+   "assetId": "kotm:argonia/mudhuts/mudhutintstairs",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.3631,
+    89.5521,
+    58.3471
+   ],
+   "rotationDeg": [
+    0.0,
+    215.215,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutStairs02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C94",
+   "assetId": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.611,
+    82.5235,
+    58.5987
+   ],
+   "rotationDeg": [
+    0.0,
+    301.742,
+    0.0
+   ],
+   "scale": 2.44,
+   "category": "misc",
+   "base": "MudHutWalkwayPole",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C96",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    102.1819,
+    84.3486,
+    62.1745
+   ],
+   "rotationDeg": [
+    0.0,
+    298.088,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C97",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    102.1819,
+    83.3399,
+    62.1745
+   ],
+   "rotationDeg": [
+    0.0,
+    118.088,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C98",
+   "assetId": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.0007,
+    82.6458,
+    60.4224
+   ],
+   "rotationDeg": [
+    0.0,
+    255.906,
+    0.0
+   ],
+   "scale": 2.44,
+   "category": "misc",
+   "base": "MudHutWalkwayPole",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C99",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.1993,
+    86.0644,
+    58.5652
+   ],
+   "rotationDeg": [
+    0.0,
+    6.843,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C9A",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.1711,
+    86.0644,
+    58.7181
+   ],
+   "rotationDeg": [
+    0.0,
+    343.924,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C9B",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    111.1552,
+    84.3486,
+    59.9194
+   ],
+   "rotationDeg": [
+    0.0,
+    35.491,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C9C",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    111.1552,
+    83.3399,
+    59.9194
+   ],
+   "rotationDeg": [
+    0.0,
+    215.491,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C9D",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    107.5938,
+    84.3486,
+    58.7301
+   ],
+   "rotationDeg": [
+    0.0,
+    1.113,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C9E",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    107.5938,
+    83.3399,
+    58.7301
+   ],
+   "rotationDeg": [
+    0.0,
+    181.113,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090C9F",
+   "assetId": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.5266,
+    82.6458,
+    58.665
+   ],
+   "rotationDeg": [
+    0.0,
+    330.39,
+    0.0
+   ],
+   "scale": 2.44,
+   "category": "misc",
+   "base": "MudHutWalkwayPole",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090CA0",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.3242,
+    86.0644,
+    59.4698
+   ],
+   "rotationDeg": [
+    0.0,
+    328.736,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090CA1",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.8071,
+    86.0644,
+    60.8501
+   ],
+   "rotationDeg": [
+    0.0,
+    305.818,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090CA2",
+   "assetId": "kotm:argonia/clutter/saxhleelfence01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.8808,
+    86.0644,
+    62.6883
+   ],
+   "rotationDeg": [
+    0.0,
+    288.629,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFenceWoven04",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090CA3",
+   "assetId": "vanilla:clutter/wallbasketlarge01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.1621,
+    86.5679,
+    59.3585
+   ],
+   "rotationDeg": [
+    0.0,
+    148.006,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAWallBasketLarge01B",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090CA4",
+   "assetId": "vanilla:clutter/wallbasket03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.1249,
+    86.682,
+    61.7144
+   ],
+   "rotationDeg": [
+    0.0,
+    113.629,
+    0.0
+   ],
+   "scale": 1.14,
+   "category": "clutter",
+   "base": "ALPAWallBasket03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08090CA5",
+   "assetId": "kotm:argonia/clutter/firewoodpilehuge01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.1481,
+    83.4461,
+    52.5409
+   ],
+   "rotationDeg": [
+    0.0,
+    148.006,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "FirewoodPileHuge1Cypress",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F6A",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    106.561,
+    89.3686,
+    62.9024
+   ],
+   "rotationDeg": [
+    0.0,
+    355.384,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F6B",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    108.2306,
+    89.3686,
+    62.0408
+   ],
+   "rotationDeg": [
+    0.0,
+    303.818,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F6C",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    109.1017,
+    89.3686,
+    60.2029
+   ],
+   "rotationDeg": [
+    0.0,
+    286.629,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F6D",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    109.551,
+    89.3686,
+    58.2802
+   ],
+   "rotationDeg": [
+    0.0,
+    280.899,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F6E",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    109.0785,
+    89.3686,
+    56.6906
+   ],
+   "rotationDeg": [
+    0.0,
+    229.333,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F6F",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    107.7311,
+    89.3686,
+    55.2266
+   ],
+   "rotationDeg": [
+    0.0,
+    227.333,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F70",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    106.1637,
+    89.3686,
+    54.2581
+   ],
+   "rotationDeg": [
+    0.0,
+    198.686,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F71",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    104.2576,
+    89.3686,
+    54.2002
+   ],
+   "rotationDeg": [
+    0.0,
+    170.038,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F72",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    102.3728,
+    89.3686,
+    54.7142
+   ],
+   "rotationDeg": [
+    0.0,
+    158.579,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F73",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    100.923,
+    89.3686,
+    55.7637
+   ],
+   "rotationDeg": [
+    0.0,
+    129.931,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F74",
+   "assetId": "vanilla:architecture/farmhouse/fencewoven02",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    100.0783,
+    89.3686,
+    57.3276
+   ],
+   "rotationDeg": [
+    0.0,
+    107.013,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "architecture",
+   "base": "ALPAFenceWoven02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F75",
+   "assetId": "kotm:argonia/mudhuts/tamu_woodpole01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.0455,
+    89.2914,
+    58.9551
+   ],
+   "rotationDeg": [
+    0.0,
+    95.478,
+    0.0
+   ],
+   "scale": 2.44,
+   "category": "misc",
+   "base": "MudHutWalkwayPole",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F77",
+   "assetId": "kotm:argonia/furniture/rusticbed",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.1861,
+    89.5538,
+    58.0353
+   ],
+   "rotationDeg": [
+    0.0,
+    274.057,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticBed01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F78",
+   "assetId": "kotm:argonia/furniture/rusticbed",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.1123,
+    89.5538,
+    59.076
+   ],
+   "rotationDeg": [
+    0.0,
+    274.057,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticBed01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F79",
+   "assetId": "kotm:argonia/furniture/rusticbed",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.9279,
+    83.4603,
+    60.1466
+   ],
+   "rotationDeg": [
+    0.0,
+    302.704,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticBed01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F7A",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/shell",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.8915,
+    83.0462,
+    52.2608
+   ],
+   "rotationDeg": [
+    0.0,
+    108.046,
+    0.0
+   ],
+   "scale": 2.0,
+   "category": "misc",
+   "base": "GiantSnailShell01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F7B",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/shell",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.8528,
+    84.0323,
+    63.223
+   ],
+   "rotationDeg": [
+    -19.497,
+    188.701,
+    114.4
+   ],
+   "scale": 1.42,
+   "category": "misc",
+   "base": "GiantSnailShell02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F7D",
+   "assetId": "kotm:argonia/furniture/rustictable03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.2969,
+    83.894,
+    57.386
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.24,
+   "category": "furniture",
+   "base": "ALPARusticTable03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F7E",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    109.5699,
+    83.4603,
+    57.6208
+   ],
+   "rotationDeg": [
+    0.0,
+    279.786,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F7F",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.2306,
+    83.4603,
+    56.1618
+   ],
+   "rotationDeg": [
+    0.0,
+    176.654,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01R",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F80",
+   "assetId": "kotm:argonia/furniture/rusticchair01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.4305,
+    83.4603,
+    58.2141
+   ],
+   "rotationDeg": [
+    0.0,
+    44.874,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticChair01L",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F81",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/shell",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.4962,
+    84.6136,
+    61.5489
+   ],
+   "rotationDeg": [
+    -12.755,
+    228.202,
+    -174.965
+   ],
+   "scale": 0.98,
+   "category": "misc",
+   "base": "GiantSnailShell02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F82",
+   "assetId": "kotm:argonia/furniture/rustictable02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.039,
+    83.8788,
+    61.1036
+   ],
+   "rotationDeg": [
+    0.0,
+    296.975,
+    0.0
+   ],
+   "scale": 1.08,
+   "category": "furniture",
+   "base": "ALPARusticTable02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F83",
+   "assetId": "vanilla:clutter/giant/giantspit01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.4134,
+    83.4461,
+    61.2733
+   ],
+   "rotationDeg": [
+    0.0,
+    302.704,
+    0.0
+   ],
+   "scale": 0.94,
+   "category": "clutter",
+   "base": "ALPAScaleSpit01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F85",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.1607,
+    84.8123,
+    61.2076
+   ],
+   "rotationDeg": [
+    -55.623,
+    270.0,
+    -90.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeat",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F86",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.7178,
+    84.8123,
+    61.5751
+   ],
+   "rotationDeg": [
+    -55.623,
+    86.654,
+    -90.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeat",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F87",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.4333,
+    84.806,
+    61.3798
+   ],
+   "rotationDeg": [
+    64.699,
+    86.654,
+    -90.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeat",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F88",
+   "assetId": "kotm:argonia/furniture/rusticshelf",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.1748,
+    84.3681,
+    59.6371
+   ],
+   "rotationDeg": [
+    0.0,
+    262.597,
+    0.0
+   ],
+   "scale": 1.45,
+   "category": "furniture",
+   "base": "ALPARusticShelf01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F8A",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.3035,
+    84.3827,
+    60.7852
+   ],
+   "rotationDeg": [
+    -4.641,
+    296.645,
+    -1.316
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeat",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F8B",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/giantsnailmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.1929,
+    84.3827,
+    61.0483
+   ],
+   "rotationDeg": [
+    -5.25,
+    269.58,
+    0.943
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailMeat",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F92",
+   "assetId": "vanilla:clutter/blacksmith/blacksmithnovicetongs01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    101.9408,
+    84.3395,
+    61.4962
+   ],
+   "rotationDeg": [
+    0.0,
+    245.409,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BlacksmithTongs01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F93",
+   "assetId": "vanilla:clutter/blacksmith/blacksmithnovicetongs01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.3353,
+    84.245,
+    59.9856
+   ],
+   "rotationDeg": [
+    0.0,
+    274.057,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BlacksmithTongs01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F94",
+   "assetId": "vanilla:clutter/bucket01",
+   "kit": "settlement-imperial-v1",
+   "positionM": [
+    99.1854,
+    84.2364,
+    59.3425
+   ],
+   "rotationDeg": [
+    -0.004,
+    355.889,
+    0.058
+   ],
+   "scale": 0.97,
+   "category": "item",
+   "base": "Bucket01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F95",
+   "assetId": "vanilla:clutter/bucket02a",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.0938,
+    85.2431,
+    59.9118
+   ],
+   "rotationDeg": [
+    0.037,
+    319.927,
+    0.099
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "Bucket02a",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F97",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    98.9392,
+    83.4647,
+    56.6899
+   ],
+   "rotationDeg": [
+    0.011,
+    337.082,
+    -0.01
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailSlimeIngredient",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F98",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.2094,
+    84.729,
+    59.9045
+   ],
+   "rotationDeg": [
+    -0.085,
+    308.402,
+    -0.099
+   ],
+   "scale": 0.91,
+   "category": "item",
+   "base": "SnailSlimeIngredient",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F99",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.122,
+    84.7294,
+    59.3434
+   ],
+   "rotationDeg": [
+    0.101,
+    28.004,
+    -0.004
+   ],
+   "scale": 0.96,
+   "category": "item",
+   "base": "SnailSlimeIngredient",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F9A",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/skyrim/giantsnailslime",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.2712,
+    83.4644,
+    60.9769
+   ],
+   "rotationDeg": [
+    -0.224,
+    34.341,
+    -0.063
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SnailSlimeIngredient",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F9B",
+   "assetId": "kotm:argonia/furniture/rusticcupboard",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.466,
+    90.5101,
+    55.0669
+   ],
+   "rotationDeg": [
+    0.0,
+    342.811,
+    0.0
+   ],
+   "scale": 1.1,
+   "category": "container",
+   "base": "ALPARusticCupboard01Clothes",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F9C",
+   "assetId": "kotm:argonia/furniture/rusticchair04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.4541,
+    89.5538,
+    54.7405
+   ],
+   "rotationDeg": [
+    0.0,
+    11.459,
+    0.0
+   ],
+   "scale": 1.12,
+   "category": "furniture",
+   "base": "ALPARusticStoolSTATIC",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F9D",
+   "assetId": "kotm:argonia/clutter/tamwindchime01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.4797,
+    92.4387,
+    57.6638
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.1,
+   "category": "clutter",
+   "base": "ALPAClutterWindchime01Red",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F9E",
+   "assetId": "kotm:skinwalker21 creatures/horker/giant snail/shell",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.0282,
+    94.48,
+    55.9158
+   ],
+   "rotationDeg": [
+    65.677,
+    199.683,
+    -109.687
+   ],
+   "scale": 2.0,
+   "category": "misc",
+   "base": "GiantSnailShell01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F9F",
+   "assetId": "kotm:argonia/furniture/rusticbench01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.0642,
+    89.5538,
+    55.2942
+   ],
+   "rotationDeg": [
+    0.0,
+    40.107,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticBench01",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA0",
+   "assetId": "kotm:argonia/furniture/rusticshelf",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.2808,
+    90.6146,
+    58.3991
+   ],
+   "rotationDeg": [
+    0.0,
+    205.302,
+    0.0
+   ],
+   "scale": 1.4,
+   "category": "furniture",
+   "base": "ALPARusticShelf01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA1",
+   "assetId": "kotm:argonia/furniture/rusticchest",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.7259,
+    89.8191,
+    58.4289
+   ],
+   "rotationDeg": [
+    0.0,
+    97.403,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "ALPARusticChest01Clothes",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA2",
+   "assetId": "kotm:argonia/clutter/wallbasket01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.3545,
+    92.3048,
+    58.8893
+   ],
+   "rotationDeg": [
+    -41.143,
+    193.461,
+    -35.681
+   ],
+   "scale": 1.31,
+   "category": "clutter",
+   "base": "ALPAWallBasket05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA3",
+   "assetId": "kotm:argonia/clutter/wallbasket02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    103.691,
+    92.3084,
+    55.695
+   ],
+   "rotationDeg": [
+    34.563,
+    349.765,
+    -20.815
+   ],
+   "scale": 1.23,
+   "category": "clutter",
+   "base": "ALPAWallBasket06",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA5",
+   "assetId": "kotm:argonia/clutter/wallbasket04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.3055,
+    92.7807,
+    59.6388
+   ],
+   "rotationDeg": [
+    -49.64,
+    144.187,
+    -0.366
+   ],
+   "scale": 1.23,
+   "category": "clutter",
+   "base": "ALPAWallBasket08",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA6",
+   "assetId": "kotm:argonia/clutter/wallbasket03",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.4977,
+    85.9579,
+    54.8478
+   ],
+   "rotationDeg": [
+    -1.989,
+    297.181,
+    5.922
+   ],
+   "scale": 1.18,
+   "category": "clutter",
+   "base": "ALPAWallBasket07",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA7",
+   "assetId": "kotm:argonia/clutter/urn01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.4661,
+    86.105,
+    61.1646
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.71,
+   "category": "clutter",
+   "base": "ALPAClutterPottery01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA8",
+   "assetId": "kotm:argonia/clutter/vase01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.7927,
+    86.105,
+    60.971
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.49,
+   "category": "clutter",
+   "base": "ALPAClutterPottery03",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FA9",
+   "assetId": "kotm:argonia/clutter/vase05",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.8553,
+    86.105,
+    59.5751
+   ],
+   "rotationDeg": [
+    0.0,
+    319.893,
+    0.0
+   ],
+   "scale": 1.71,
+   "category": "clutter",
+   "base": "ALPAClutterPottery05",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FAC",
+   "assetId": "kotm:argonia/clutter/basketcontainer",
+   "kit": "works-v1",
+   "positionM": [
+    104.3737,
+    86.6696,
+    60.1732
+   ],
+   "rotationDeg": [
+    0.0,
+    285.516,
+    0.0
+   ],
+   "scale": 1.15,
+   "category": "container",
+   "base": "BasketSnail01",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FAD",
+   "assetId": "kotm:argonia/furniture/rustictable02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.7305,
+    86.5226,
+    59.1352
+   ],
+   "rotationDeg": [
+    0.0,
+    182.384,
+    0.0
+   ],
+   "scale": 1.11,
+   "category": "furniture",
+   "base": "ALPARusticTable02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FB0",
+   "assetId": "vanilla:clutter/dining set/basicknife01",
+   "kit": "interior-farmhouse-v1",
+   "positionM": [
+    107.7384,
+    87.0006,
+    59.2631
+   ],
+   "rotationDeg": [
+    1.348,
+    339.705,
+    4.396
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicKnife01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FB5",
+   "assetId": "kotm:argonia/furniture/rusticchest",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    108.7415,
+    83.707,
+    59.3848
+   ],
+   "rotationDeg": [
+    0.0,
+    302.704,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "container",
+   "base": "ALPARusticChest01Clothes",
+   "baseType": "CONT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FB7",
+   "assetId": "kotm:argonia/furniture/rusticchair04",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.0472,
+    83.4603,
+    61.4847
+   ],
+   "rotationDeg": [
+    0.0,
+    40.107,
+    0.0
+   ],
+   "scale": 1.19,
+   "category": "furniture",
+   "base": "ALPARusticStoolSTATIC",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FBB",
+   "assetId": "kotm:argonia/clutter/amberbee",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    110.0403,
+    84.0877,
+    61.5127
+   ],
+   "rotationDeg": [
+    0.0,
+    148.969,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAClutterAmberBeeSTATIC",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FBC",
+   "assetId": "kotm:argonia/clutter/buntingline01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.8339,
+    86.6032,
+    59.367
+   ],
+   "rotationDeg": [
+    0.0,
+    205.302,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAClutterFlagLine01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FBD",
+   "assetId": "kotm:argonia/clutter/buntingline01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.0908,
+    86.6032,
+    60.6812
+   ],
+   "rotationDeg": [
+    0.0,
+    150.736,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAClutterFlagLine01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FBF",
+   "assetId": "kotm:loliceptresource/barrel/miscbarrelopen01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    102.9422,
+    83.4603,
+    61.7415
+   ],
+   "rotationDeg": [
+    0.0,
+    22.918,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "ALPAClutterBarrelTools01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FC0",
+   "assetId": "kotm:argonia/furniture/rusticshelf",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.1121,
+    84.4392,
+    62.9451
+   ],
+   "rotationDeg": [
+    0.0,
+    154.699,
+    0.0
+   ],
+   "scale": 1.4,
+   "category": "furniture",
+   "base": "ALPARusticShelf01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FC1",
+   "assetId": "kotm:argonia/furniture/rustictable01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.9391,
+    83.8077,
+    63.3298
+   ],
+   "rotationDeg": [
+    0.0,
+    348.541,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "ALPARusticTable01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FC4",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.1925,
+    83.8093,
+    62.8936
+   ],
+   "rotationDeg": [
+    -0.014,
+    320.267,
+    -0.014
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FC5",
+   "assetId": "vanilla:clutter/dining set/basicwoodenplate01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.2095,
+    83.8661,
+    62.8863
+   ],
+   "rotationDeg": [
+    -0.126,
+    143.167,
+    0.114
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenPlate01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FC6",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.8565,
+    84.3094,
+    63.0278
+   ],
+   "rotationDeg": [
+    0.13,
+    0.001,
+    -0.226
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FC7",
+   "assetId": "vanilla:clutter/dining set/basicwoodenbowl01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.1974,
+    84.3117,
+    62.8747
+   ],
+   "rotationDeg": [
+    0.038,
+    291.265,
+    0.113
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BasicWoodenBowl01",
+   "baseType": "MISC"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FC8",
+   "assetId": "vanilla:critters/bee/beehoneycomb",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.1854,
+    84.258,
+    63.419
+   ],
+   "rotationDeg": [
+    22.713,
+    179.322,
+    -89.846
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "BeeHoneyComb",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FCA",
+   "assetId": "vanilla:plants/giantlichen01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    105.9547,
+    84.2914,
+    63.167
+   ],
+   "rotationDeg": [
+    38.401,
+    183.211,
+    -83.682
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "GiantLichen",
+   "baseType": "INGR"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FCC",
+   "assetId": "kotm:argonia/food/sakebottle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.392,
+    85.2842,
+    62.8362
+   ],
+   "rotationDeg": [
+    -0.035,
+    11.458,
+    -0.048
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "JeelSa",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FCD",
+   "assetId": "kotm:argonia/food/sakebottle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.066,
+    85.2841,
+    62.9289
+   ],
+   "rotationDeg": [
+    0.046,
+    279.786,
+    -0.207
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "JeelSa",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FCE",
+   "assetId": "kotm:argonia/food/flatbread",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    107.3544,
+    84.787,
+    62.819
+   ],
+   "rotationDeg": [
+    0.102,
+    40.243,
+    0.031
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SaltriceFlatbread",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FCF",
+   "assetId": "kotm:mihail monsters and animals/rabbit/frog/frogmeat",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    106.9222,
+    84.843,
+    62.9206
+   ],
+   "rotationDeg": [
+    0.0,
+    22.918,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "FrogLegRaw",
+   "baseType": "ALCH"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FD2",
+   "assetId": "vanilla:clothes/monk/monkrobesgnd",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.4646,
+    90.5151,
+    58.3578
+   ],
+   "rotationDeg": [
+    0.0,
+    314.164,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SaxhleelTunicBlue01",
+   "baseType": "ARMO"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FD4",
+   "assetId": "vanilla:clothes/monk/monkrobesgnd",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.2341,
+    90.9917,
+    58.2621
+   ],
+   "rotationDeg": [
+    0.0,
+    126.051,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "SaxhleelTunicShortOrange",
+   "baseType": "ARMO"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.0809B499",
+   "assetId": "kotm:argonia/mudhuts/window01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    106.8782,
+    87.7868,
+    64.0753
+   ],
+   "rotationDeg": [
+    -73.297,
+    168.978,
+    114.825
+   ],
+   "scale": 0.56,
+   "category": "misc",
+   "base": "MudHutWindow01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.0809B49A",
+   "assetId": "kotm:argonia/mudhuts/window01",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    101.2265,
+    86.5028,
+    52.4326
+   ],
+   "rotationDeg": [
+    47.273,
+    163.859,
+    -129.391
+   ],
+   "scale": 0.68,
+   "category": "misc",
+   "base": "MudHutWindow01",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.0809B49B",
+   "assetId": "kotm:argonia/mudhuts/window02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    106.296,
+    92.3205,
+    55.3687
+   ],
+   "rotationDeg": [
+    47.436,
+    112.423,
+    141.743
+   ],
+   "scale": 1.0,
+   "category": "misc",
+   "base": "MudHutWindow02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.0809B49C",
+   "assetId": "kotm:argonia/mudhuts/window02",
+   "kit": "settlement-mud-v1",
+   "positionM": [
+    110.7804,
+    86.3246,
+    52.9137
+   ],
+   "rotationDeg": [
+    42.14,
+    122.877,
+    116.095
+   ],
+   "scale": 1.17,
+   "category": "misc",
+   "base": "MudHutWindow02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.081AD5F8",
+   "assetId": "kotm:argonia/clutter/burner02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.0974,
+    82.6892,
+    54.5933
+   ],
+   "rotationDeg": [
+    0.0,
+    205.302,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "ALPAFurnWoodBurner02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.081AD5F9",
+   "assetId": "vanilla:architecture/riften/clutter/rtchimney01",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    99.1193,
+    86.9686,
+    54.6314
+   ],
+   "rotationDeg": [
+    0.0,
+    203.302,
+    0.0
+   ],
+   "scale": 0.46,
+   "category": "architecture",
+   "base": "MudHutChimney02",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.081AD5FA",
+   "assetId": "vanilla:effects/fxfirewithembers01",
+   "kit": "works-v1",
+   "positionM": [
+    99.4946,
+    83.8296,
+    54.8326
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "effect",
+   "base": "FXfireWithEmbersHeavy",
+   "baseType": "MSTT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.081AD5FB",
+   "assetId": "vanilla:clutter/woodfires/cookingstand02",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.8313,
+    83.4603,
+    56.447
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "clutter",
+   "base": "CookingStand01WithStoneArgonian",
+   "baseType": "STAT"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.081AD5FC",
+   "assetId": "vanilla:furniture/smallcookingpotnohandle",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    100.8301,
+    83.4603,
+    56.448
+   ],
+   "rotationDeg": [
+    0.0,
+    325.623,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "furniture",
+   "base": "CraftingCookingPotSmNoHandleArgonian",
+   "baseType": "FURN"
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08989C03",
+   "assetId": "vanilla:clutter/books/basicbook04a",
+   "kit": "interior-kotm-v1",
+   "positionM": [
+    104.3955,
+    89.9963,
+    58.5951
+   ],
+   "rotationDeg": [
+    0.0,
+    148.006,
+    0.0
+   ],
+   "scale": 1.0,
+   "category": "item",
+   "base": "KoTMBookChimesOfSilver",
+   "baseType": "BOOK"
+  }
+ ],
+ "lights": [
+  {
+   "refId": "08090C18",
+   "positionM": [
+    100.7086,
+    84.4538,
+    55.2896
+   ],
+   "radiusM": 4.624,
+   "colorRGB": [
+    225,
+    121,
+    51
+   ],
+   "fade": 3.0,
+   "flags": 12297,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFirePlacesShadowSlow",
+   "raw": {
+    "xrdsUnits": 325.075,
+    "baseRadiusUnits": 384
+   }
+  },
+  {
+   "refId": "08090C3B",
+   "positionM": [
+    105.1102,
+    91.1368,
+    58.3374
+   ],
+   "radiusM": 4.624,
+   "colorRGB": [
+    184,
+    96,
+    7
+   ],
+   "fade": 2.0,
+   "flags": 9,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFiretDefault",
+   "raw": {
+    "xrdsUnits": 325.075,
+    "baseRadiusUnits": 256
+   }
+  },
+  {
+   "refId": "08095F69",
+   "positionM": [
+    105.1102,
+    86.515,
+    58.3374
+   ],
+   "radiusM": 4.624,
+   "colorRGB": [
+    184,
+    96,
+    7
+   ],
+   "fade": 2.0,
+   "flags": 9,
+   "falloffExponent": 1.0,
+   "base": "SolitudeInnFiretDefault",
+   "raw": {
+    "xrdsUnits": 325.075,
+    "baseRadiusUnits": 256
+   }
+  }
+ ],
+ "sockets": [
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F77",
+   "kind": "idle",
+   "positionM": [
+    108.1861,
+    89.5538,
+    58.0353
+   ],
+   "yawDeg": 274.057,
+   "host": "KeebaHouseSnailMinder.08095F77",
+   "activity": "sleep",
+   "why": "ALPARusticBed01R placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F78",
+   "kind": "idle",
+   "positionM": [
+    108.1123,
+    89.5538,
+    59.076
+   ],
+   "yawDeg": 274.057,
+   "host": "KeebaHouseSnailMinder.08095F78",
+   "activity": "sleep",
+   "why": "ALPARusticBed01L placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F79",
+   "kind": "idle",
+   "positionM": [
+    109.9279,
+    83.4603,
+    60.1466
+   ],
+   "yawDeg": 302.704,
+   "host": "KeebaHouseSnailMinder.08095F79",
+   "activity": "sleep",
+   "why": "ALPARusticBed01L placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F7E",
+   "kind": "idle",
+   "positionM": [
+    109.5699,
+    83.4603,
+    57.6208
+   ],
+   "yawDeg": 279.786,
+   "host": "KeebaHouseSnailMinder.08095F7E",
+   "activity": "sit",
+   "why": "ALPARusticChair01R placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F7F",
+   "kind": "idle",
+   "positionM": [
+    108.2306,
+    83.4603,
+    56.1618
+   ],
+   "yawDeg": 176.654,
+   "host": "KeebaHouseSnailMinder.08095F7F",
+   "activity": "sit",
+   "why": "ALPARusticChair01R placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F80",
+   "kind": "idle",
+   "positionM": [
+    107.4305,
+    83.4603,
+    58.2141
+   ],
+   "yawDeg": 44.874,
+   "host": "KeebaHouseSnailMinder.08095F80",
+   "activity": "sit",
+   "why": "ALPARusticChair01L placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F85",
+   "kind": "item",
+   "positionM": [
+    100.1607,
+    84.8123,
+    61.2076
+   ],
+   "yawDeg": 0.0,
+   "host": "KeebaHouseSnailMinder.08095F85",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeat placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F86",
+   "kind": "item",
+   "positionM": [
+    100.7178,
+    84.8123,
+    61.5751
+   ],
+   "yawDeg": 176.654,
+   "host": "KeebaHouseSnailMinder.08095F86",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeat placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F87",
+   "kind": "item",
+   "positionM": [
+    100.4333,
+    84.806,
+    61.3798
+   ],
+   "yawDeg": 356.654,
+   "host": "KeebaHouseSnailMinder.08095F87",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeat placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F89",
+   "kind": "idle",
+   "positionM": [
+    99.9294,
+    83.4461,
+    57.9398
+   ],
+   "yawDeg": 274.057,
+   "host": null,
+   "activity": "work-at",
+   "why": "furniture marker CraftingTanningRackScaleMarker"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F8A",
+   "kind": "item",
+   "positionM": [
+    102.3035,
+    84.3827,
+    60.7852
+   ],
+   "yawDeg": 296.751,
+   "host": "KeebaHouseSnailMinder.08095F8A",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeat placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F8B",
+   "kind": "item",
+   "positionM": [
+    102.1929,
+    84.3827,
+    61.0483
+   ],
+   "yawDeg": 269.494,
+   "host": "KeebaHouseSnailMinder.08095F8B",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SnailMeat placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F92",
+   "kind": "item",
+   "positionM": [
+    101.9408,
+    84.3395,
+    61.4962
+   ],
+   "yawDeg": 245.409,
+   "host": "KeebaHouseSnailMinder.08095F92",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BlacksmithTongs01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F93",
+   "kind": "item",
+   "positionM": [
+    99.3353,
+    84.245,
+    59.9856
+   ],
+   "yawDeg": 274.057,
+   "host": "KeebaHouseSnailMinder.08095F93",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BlacksmithTongs01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F94",
+   "kind": "item",
+   "positionM": [
+    99.1854,
+    84.2364,
+    59.3425
+   ],
+   "yawDeg": 355.889,
+   "host": "KeebaHouseSnailMinder.08095F94",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Bucket01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F95",
+   "kind": "item",
+   "positionM": [
+    99.0938,
+    85.2431,
+    59.9118
+   ],
+   "yawDeg": 319.927,
+   "host": "KeebaHouseSnailMinder.08095F95",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "Bucket02a placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F97",
+   "kind": "item",
+   "positionM": [
+    98.9392,
+    83.4647,
+    56.6899
+   ],
+   "yawDeg": 337.082,
+   "host": "KeebaHouseSnailMinder.08095F97",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "SnailSlimeIngredient placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F98",
+   "kind": "item",
+   "positionM": [
+    99.2094,
+    84.729,
+    59.9045
+   ],
+   "yawDeg": 308.402,
+   "host": "KeebaHouseSnailMinder.08095F98",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "SnailSlimeIngredient placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F99",
+   "kind": "item",
+   "positionM": [
+    99.122,
+    84.7294,
+    59.3434
+   ],
+   "yawDeg": 28.004,
+   "host": "KeebaHouseSnailMinder.08095F99",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "SnailSlimeIngredient placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F9A",
+   "kind": "item",
+   "positionM": [
+    102.2712,
+    83.4644,
+    60.9769
+   ],
+   "yawDeg": 34.341,
+   "host": "KeebaHouseSnailMinder.08095F9A",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "SnailSlimeIngredient placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F9B",
+   "kind": "container",
+   "positionM": [
+    103.466,
+    90.5101,
+    55.0669
+   ],
+   "yawDeg": 342.811,
+   "host": "KeebaHouseSnailMinder.08095F9B",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPARusticCupboard01Clothes placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095F9F",
+   "kind": "idle",
+   "positionM": [
+    107.0642,
+    89.5538,
+    55.2942
+   ],
+   "yawDeg": 40.107,
+   "host": "KeebaHouseSnailMinder.08095F9F",
+   "activity": "sit",
+   "why": "ALPARusticBench01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FA1",
+   "kind": "container",
+   "positionM": [
+    106.7259,
+    89.8191,
+    58.4289
+   ],
+   "yawDeg": 97.403,
+   "host": "KeebaHouseSnailMinder.08095FA1",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPARusticChest01Clothes placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FAC",
+   "kind": "container",
+   "positionM": [
+    104.3737,
+    86.6696,
+    60.1732
+   ],
+   "yawDeg": 285.516,
+   "host": "KeebaHouseSnailMinder.08095FAC",
+   "containerClass": "basket",
+   "fillRule": "blanket.household-basket",
+   "why": "BasketSnail01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FB0",
+   "kind": "item",
+   "positionM": [
+    107.7384,
+    87.0006,
+    59.2631
+   ],
+   "yawDeg": 339.809,
+   "host": "KeebaHouseSnailMinder.08095FB0",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicKnife01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FB5",
+   "kind": "container",
+   "positionM": [
+    108.7415,
+    83.707,
+    59.3848
+   ],
+   "yawDeg": 302.704,
+   "host": "KeebaHouseSnailMinder.08095FB5",
+   "containerClass": "urn",
+   "fillRule": "blanket.household-urn",
+   "why": "ALPARusticChest01Clothes placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FC4",
+   "kind": "item",
+   "positionM": [
+    107.1925,
+    83.8093,
+    62.8936
+   ],
+   "yawDeg": 320.267,
+   "host": "KeebaHouseSnailMinder.08095FC4",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FC5",
+   "kind": "item",
+   "positionM": [
+    107.2095,
+    83.8661,
+    62.8863
+   ],
+   "yawDeg": 143.167,
+   "host": "KeebaHouseSnailMinder.08095FC5",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenPlate01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FC6",
+   "kind": "item",
+   "positionM": [
+    106.8565,
+    84.3094,
+    63.0278
+   ],
+   "yawDeg": 0.0,
+   "host": "KeebaHouseSnailMinder.08095FC6",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FC7",
+   "kind": "item",
+   "positionM": [
+    107.1974,
+    84.3117,
+    62.8747
+   ],
+   "yawDeg": 291.265,
+   "host": "KeebaHouseSnailMinder.08095FC7",
+   "itemClass": "misc",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "BasicWoodenBowl01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FC8",
+   "kind": "item",
+   "positionM": [
+    106.1854,
+    84.258,
+    63.419
+   ],
+   "yawDeg": 89.72,
+   "host": "KeebaHouseSnailMinder.08095FC8",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "BeeHoneyComb placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FCA",
+   "kind": "item",
+   "positionM": [
+    105.9547,
+    84.2914,
+    63.167
+   ],
+   "yawDeg": 103.318,
+   "host": "KeebaHouseSnailMinder.08095FCA",
+   "itemClass": "ingredient",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "GiantLichen placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FCC",
+   "kind": "item",
+   "positionM": [
+    107.392,
+    85.2842,
+    62.8362
+   ],
+   "yawDeg": 11.458,
+   "host": "KeebaHouseSnailMinder.08095FCC",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "JeelSa placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FCD",
+   "kind": "item",
+   "positionM": [
+    107.066,
+    85.2841,
+    62.9289
+   ],
+   "yawDeg": 279.786,
+   "host": "KeebaHouseSnailMinder.08095FCD",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "JeelSa placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FCE",
+   "kind": "item",
+   "positionM": [
+    107.3544,
+    84.787,
+    62.819
+   ],
+   "yawDeg": 40.243,
+   "host": "KeebaHouseSnailMinder.08095FCE",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "SaltriceFlatbread placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FCF",
+   "kind": "item",
+   "positionM": [
+    106.9222,
+    84.843,
+    62.9206
+   ],
+   "yawDeg": 22.918,
+   "host": "KeebaHouseSnailMinder.08095FCF",
+   "itemClass": "food-or-potion",
+   "valueBand": "trivial",
+   "contentPending": false,
+   "why": "FrogLegRaw placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FD2",
+   "kind": "item",
+   "positionM": [
+    104.4646,
+    90.5151,
+    58.3578
+   ],
+   "yawDeg": 314.164,
+   "host": "KeebaHouseSnailMinder.08095FD2",
+   "itemClass": "apparel",
+   "valueBand": "mid",
+   "contentPending": false,
+   "why": "SaxhleelTunicBlue01 placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FD4",
+   "kind": "item",
+   "positionM": [
+    104.2341,
+    90.9917,
+    58.2621
+   ],
+   "yawDeg": 126.051,
+   "host": "KeebaHouseSnailMinder.08095FD4",
+   "itemClass": "apparel",
+   "valueBand": "low",
+   "contentPending": false,
+   "why": "SaxhleelTunicShortOrange placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FD5",
+   "kind": "idle",
+   "positionM": [
+    101.3676,
+    83.4632,
+    58.4455
+   ],
+   "yawDeg": 28.648,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FD6",
+   "kind": "idle",
+   "positionM": [
+    104.2538,
+    83.4638,
+    55.0781
+   ],
+   "yawDeg": 239.679,
+   "host": null,
+   "activity": "work-at",
+   "why": "idle marker SweepIdleMarker"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FD7",
+   "kind": "idle",
+   "positionM": [
+    101.8999,
+    83.4603,
+    54.9342
+   ],
+   "yawDeg": 262.597,
+   "host": null,
+   "activity": "stand",
+   "why": "idle marker WarmHandsIdleMarker"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08095FD9",
+   "kind": "idle",
+   "positionM": [
+    101.4237,
+    83.4461,
+    60.7926
+   ],
+   "yawDeg": 114.592,
+   "host": null,
+   "activity": "lean",
+   "why": "furniture marker LeanTableMarker"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.081AD5FC",
+   "kind": "idle",
+   "positionM": [
+    100.8301,
+    83.4603,
+    56.448
+   ],
+   "yawDeg": 325.623,
+   "host": "KeebaHouseSnailMinder.081AD5FC",
+   "activity": "work-at",
+   "why": "CraftingCookingPotSmNoHandleArgonian placed by the cell's author"
+  },
+  {
+   "id": "socket.KeebaHouseSnailMinder.08989C03",
+   "kind": "item",
+   "positionM": [
+    104.3955,
+    89.9963,
+    58.5951
+   ],
+   "yawDeg": 148.006,
+   "host": "KeebaHouseSnailMinder.08989C03",
+   "itemClass": "book",
+   "valueBand": "trivial",
+   "contentPending": true,
+   "why": "KoTMBookChimesOfSilver placed by the cell's author"
+  }
+ ],
+ "drops": [
+  {
+   "refId": "08090C18",
+   "reason": "light-source",
+   "base": "SolitudeInnFirePlacesShadowSlow",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "08090C3B",
+   "reason": "light-source",
+   "base": "SolitudeInnFiretDefault",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "08095F69",
+   "reason": "light-source",
+   "base": "SolitudeInnFiretDefault",
+   "baseType": "LIGH"
+  },
+  {
+   "refId": "08095F84",
+   "reason": "listed-drop",
+   "base": "FXDweSteam01",
+   "baseType": "MSTT",
+   "model": "effects/fxdwesteam01.nif",
+   "assetId": null,
+   "class": "effect",
+   "classSource": "base record MSTT, model taxonomy"
+  },
+  {
+   "refId": "08095F89",
+   "reason": "marker",
+   "base": "CraftingTanningRackScaleMarker",
+   "baseType": "FURN"
+  },
+  {
+   "refId": "08095FD3",
+   "reason": "listed-drop",
+   "base": "SaxhleelSandals01",
+   "baseType": "ARMO",
+   "model": "dlc01/clothes/blindmothpriest/blindmothpriestsandalsgnd.nif",
+   "assetId": null,
+   "class": "wearable",
+   "classSource": "base record ARMO (a worn item's ground model)"
+  },
+  {
+   "refId": "08095FD5",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "08095FD6",
+   "reason": "marker",
+   "base": "SweepIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "08095FD7",
+   "reason": "marker",
+   "base": "WarmHandsIdleMarker",
+   "baseType": "IDLM"
+  },
+  {
+   "refId": "08095FD9",
+   "reason": "marker",
+   "base": "LeanTableMarker",
+   "baseType": "FURN"
+  },
+  {
+   "refId": "08095FE2",
+   "reason": "actor",
+   "base": "KeebaSnailminderApprentice",
+   "baseType": "NPC_"
+  },
+  {
+   "refId": "081AD5FD",
+   "reason": "sound",
+   "base": "AMBDungeonDwemerSteamLP",
+   "baseType": "SOUN"
+  }
+ ],
+ "substitutions": [
+  {
+   "id": "KeebaHouseSnailMinder.08095F8F",
+   "refId": "08095F8F",
+   "originalPath": "_byoh/clutter/wine/winebottle04.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record ALCH (a carried item)",
+   "standInAsset": "vanilla:clutter/wine/winebottle02a",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A bottle of snail milk stands here; a wine bottle takes its place.",
+   "positionM": [
+    99.2306,
+    83.7175,
+    59.9512
+   ],
+   "rotationDeg": [
+    0.12,
+    359.996,
+    -0.012
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F90",
+   "refId": "08095F90",
+   "originalPath": "_byoh/clutter/wine/winebottle04.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record ALCH (a carried item)",
+   "standInAsset": "vanilla:clutter/wine/winebottle02a",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A bottle of snail milk stands here; a wine bottle takes its place.",
+   "positionM": [
+    99.132,
+    83.7176,
+    59.7573
+   ],
+   "rotationDeg": [
+    0.052,
+    51.567,
+    -0.076
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095F91",
+   "refId": "08095F91",
+   "originalPath": "_byoh/clutter/wine/winebottle04.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record ALCH (a carried item)",
+   "standInAsset": "vanilla:clutter/wine/winebottle02a",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A bottle of snail milk stands here; a wine bottle takes its place.",
+   "positionM": [
+    99.2166,
+    83.7174,
+    59.5406
+   ],
+   "rotationDeg": [
+    -0.028,
+    296.974,
+    -0.119
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FAE",
+   "refId": "08095FAE",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:0000089C",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Brook Bass xx00089C",
+   "standInAsset": "vanilla:clutter/deadanimals/deadpondfish01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A brook bass lies here; a dead pond fish takes its place.",
+   "positionM": [
+    107.2453,
+    87.0389,
+    59.1467
+   ],
+   "rotationDeg": [
+    -0.008,
+    193.766,
+    -0.278
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FAF",
+   "refId": "08095FAF",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE001-Fish.esm:0000089C",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Fishing_Items, Food: Brook Bass xx00089C",
+   "standInAsset": "vanilla:clutter/deadanimals/deadpondfish02",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A brook bass lies here; a dead pond fish takes its place.",
+   "positionM": [
+    107.4708,
+    87.0392,
+    59.1487
+   ],
+   "rotationDeg": [
+    -0.005,
+    2.837,
+    0.109
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FB1",
+   "refId": "08095FB1",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
+   "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place.",
+   "positionM": [
+    107.9749,
+    86.9828,
+    59.1537
+   ],
+   "rotationDeg": [
+    -0.068,
+    331.351,
+    -0.006
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FB2",
+   "refId": "08095FB2",
+   "originalPath": "_resourcepack/clutter/modular/modularrug02.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model taxonomy",
+   "standInAsset": "vanilla:clutter/common/rug02",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A woven rug lies here; a common rug takes its place.",
+   "positionM": [
+    101.3955,
+    83.4603,
+    58.4035
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.32
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FB3",
+   "refId": "08095FB3",
+   "originalPath": "_resourcepack/clutter/modular/modularrug02.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model taxonomy",
+   "standInAsset": "vanilla:clutter/common/rug02",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A woven rug lies here; a common rug takes its place.",
+   "positionM": [
+    104.6177,
+    83.4603,
+    54.6591
+   ],
+   "rotationDeg": [
+    0.0,
+    85.944,
+    0.0
+   ],
+   "scale": 1.58
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FB4",
+   "refId": "08095FB4",
+   "originalPath": "_resourcepack/clutter/modular/modularrug02.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model taxonomy",
+   "standInAsset": "vanilla:clutter/common/rug02",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A woven rug lies here; a common rug takes its place.",
+   "positionM": [
+    105.3264,
+    83.4603,
+    61.041
+   ],
+   "rotationDeg": [
+    0.0,
+    171.887,
+    0.0
+   ],
+   "scale": 1.4
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FC9",
+   "refId": "08095FC9",
+   "originalPath": null,
+   "baseForm": "ccBGSSSE037-Curios.esl:00000814",
+   "class": "clutter",
+   "classSource": "UESP Skyrim:Ingredients, Rare Curios: Marshmerrow FExxx814",
+   "standInAsset": "vanilla:clutter/deadanimals/wallmountedslaughterfish01",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A marshmerrow stalk sits here; a mounted slaughterfish takes its place.",
+   "positionM": [
+    105.7957,
+    84.2274,
+    63.413
+   ],
+   "rotationDeg": [
+    0.107,
+    291.72,
+    0.03
+   ],
+   "scale": 1.0
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FD0",
+   "refId": "08095FD0",
+   "originalPath": "_resourcepack/clutter/modular/modularrug02.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model taxonomy",
+   "standInAsset": "vanilla:clutter/common/rug02",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A woven rug lies here; a common rug takes its place.",
+   "positionM": [
+    108.4065,
+    86.105,
+    61.0793
+   ],
+   "rotationDeg": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "scale": 1.32
+  },
+  {
+   "id": "KeebaHouseSnailMinder.08095FD1",
+   "refId": "08095FD1",
+   "originalPath": "_resourcepack/clutter/modular/modularrug02.nif",
+   "baseForm": null,
+   "class": "clutter",
+   "classSource": "base record STAT, model taxonomy",
+   "standInAsset": "vanilla:clutter/common/rug02",
+   "kit": "interior-kotm-v1",
+   "standInCategory": "clutter",
+   "why": "A woven rug lies here; a common rug takes its place.",
+   "positionM": [
+    105.3098,
+    89.5538,
+    56.6303
+   ],
+   "rotationDeg": [
+    0.0,
+    194.806,
+    0.0
+   ],
+   "scale": 1.21
+  }
+ ],
+ "counts": {
+  "placements": 113,
+  "drops": 12,
+  "lights": 3,
+  "substitutions": 12,
+  "missingByClass": {},
+  "dropsByReason": {
+   "actor": 1,
+   "light-source": 3,
+   "listed-drop": 2,
+   "marker": 5,
+   "sound": 1
+  },
+  "socketsByKind": {
+   "container": 4,
+   "idle": 13,
+   "item": 27
+  }
+ }
+}

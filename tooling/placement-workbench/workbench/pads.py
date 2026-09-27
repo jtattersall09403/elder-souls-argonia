@@ -12,7 +12,9 @@ from __future__ import annotations
 
 from . import measure, paths
 
-PAD_KEYS = ("apronM", "datumM", "floorMinM")
+PAD_KEYS = ("apronM", "datumM", "floorMinM", "batter")
+BATTER_MAX_M = 1.2        # planner ruling 2026-09-27 (0101 R1 amendment): a graded earth
+BATTER_RUN = 2.0          # batter holds an edge up to this high when the apron is this x its height
 RETAIN_REACH_M = 1.0      # a wall piece's outline within this of a pad edge retains it
 RETAIN_COVER = 0.9        # ... over at least this share of the edge's length
 
@@ -34,7 +36,12 @@ def parse(tokens: list[str] | None) -> dict | None:
         if key not in PAD_KEYS or not value:
             raise ValueError(f"--pad takes KEY=VALUE with KEY one of {', '.join(PAD_KEYS)}; "
                              f"got {tok!r}")
-        out[key] = float(value)
+        if key == "batter":
+            if value.lower() not in ("true", "false"):
+                raise ValueError(f"--pad batter takes true or false; got {tok!r}")
+            out[key] = value.lower() == "true"
+        else:
+            out[key] = float(value)
     return out
 
 
@@ -272,6 +279,16 @@ def pad_fit(cat, scene, piece, pad: dict) -> dict:
         e["wallCover"] = round(cover, 2)
         if cover < RETAIN_COVER:
             unretained.append(e)
+    if not family and (piece.pad or {}).get("batter"):
+        # 0101 R1 amendment (planner ruling 2026-09-27): a culture with no
+        # retaining-wall family (Argonian mud) takes a graded earth batter:
+        # an edge up to BATTER_MAX_M is legal when the apron is at least
+        # BATTER_RUN x its height (slope 1:2); higher stays illegal
+        apron = float(pad["apronM"])
+        for e in unretained:
+            h = max(e["fillM"], e["cutM"])
+            e["batter"] = h <= BATTER_MAX_M and apron + 1e-6 >= BATTER_RUN * h
+        unretained = [e for e in unretained if not e["batter"]]
     why = refusal(cat, g, piece, pad)
     if why is None and unretained:
         worst = max(max(e["fillM"], e["cutM"]) for e in unretained)
@@ -279,7 +296,8 @@ def pad_fit(cat, scene, piece, pad: dict) -> dict:
                f"(> {srp.RETAIN_BAR_M} m) with no retaining wall"
                + (f" of {kit}'s family ({', '.join(family)}) along them" if family else
                   f"; {kit} has no retaining-wall family, so its pad stays within "
-                  f"{srp.RETAIN_BAR_M} m: move the piece or change it"))
+                  f"{srp.RETAIN_BAR_M} m, or up to {BATTER_MAX_M} m as a graded batter "
+                  f"(`batter: true`, apron >= {BATTER_RUN:g} x the edge): move the piece or change it"))
     return {"datumM": pad["datumM"], "how": pad["how"], "fillM": pad["fillM"],
             "cutM": pad["cutM"], "edges": edges,
             "unretainedEdges": [e["edge"] for e in unretained], "padRule": why}

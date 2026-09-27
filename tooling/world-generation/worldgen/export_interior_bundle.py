@@ -90,6 +90,10 @@ MISSING_REASONS = ("unresolved-base", "no-kit-asset")
 #: 2026-09-27: clutter and furniture only) and the ones that make a cell unfit
 SUBSTITUTABLE_CLASSES = frozenset({"clutter", "furniture"})
 ARCHITECTURE_CLASSES = frozenset({"architecture", "ruin", "dungeon-kit", "door", "bridge"})
+#: classes a missing piece is LISTED as a drop, never stood in for (planner
+#: ruling 2026-09-27, lane P): an effect (steam, smoke) and a wearable (an
+#: ARMO ground model: boots, sandals) carry no furnishing the room needs
+LISTED_DROP_CLASSES = frozenset({"effect", "wearable"})
 
 REF_TYPES = (b"REFR", b"ACHR")
 ACTOR_BASES = {"NPC_", "LVLN", "LVLC"}
@@ -332,6 +336,8 @@ def piece_class(base: dict | None, base_form: str | None, model: str | None,
     fixed = {"FURN": "furniture", "CONT": "container", "LIGH": "light", "DOOR": "door"}
     if btype in fixed:
         return fixed[btype], f"base record {btype}"
+    if btype == "ARMO":
+        return "wearable", "base record ARMO (a worn item's ground model)"
     if btype in ITEM_BASES:
         return "clutter", f"base record {btype} (a carried item)"
     if model:
@@ -573,6 +579,10 @@ def export_cell(plugin_name: str, cell_edid: str, paths: dict[str, Path], regist
             "classSource": miss["classSource"], "standInAsset": row["standInAsset"],
             "kit": hit[0], "standInCategory": hit[1], "why": row["why"],
             "positionM": pos, "rotationDeg": rot, "scale": scale})
+
+    for d in drops:
+        if d["reason"] in MISSING_REASONS and d.get("class") in LISTED_DROP_CLASSES:
+            d["reason"] = "listed-drop"
 
     lighting = decode_lighting(xcll) if xcll else {}
     template = None

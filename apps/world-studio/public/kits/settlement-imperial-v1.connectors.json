@@ -116,6 +116,52 @@
     "widthM": 12.8
    }
   ],
+  "composite:farmhouse/farmhouse02-with-walkway": [
+   {
+    "evidence": "bounds",
+    "face": "north",
+    "heightM": 16.05,
+    "normalDeg": 0.0,
+    "positionInPiece": [
+     -1.33,
+     -8.69
+    ],
+    "widthM": 15.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 16.05,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     6.43,
+     0.68
+    ],
+    "widthM": 18.74
+   },
+   {
+    "evidence": "bounds",
+    "face": "south",
+    "heightM": 16.05,
+    "normalDeg": 180.0,
+    "positionInPiece": [
+     -1.33,
+     10.05
+    ],
+    "widthM": 15.53
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 16.05,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -9.1,
+     0.68
+    ],
+    "widthM": 18.74
+   }
+  ],
   "composite:farmhouse/stonewall-run-3": [
    {
     "evidence": "bounds",
@@ -802,6 +848,20 @@
     "widthM": 15.53
    },
    {
+    "count": 8,
+    "evidence": "co-placement",
+    "face": "toward 180",
+    "heightM": 3.73,
+    "normalDeg": 180.3,
+    "pairedWith": "vanilla:architecture/farmhouse/farmhouse02walkway",
+    "positionInPiece": [
+     -0.02,
+     4.12
+    ],
+    "template": "vanilla:t0268",
+    "widthM": 14.63
+   },
+   {
     "evidence": "bounds",
     "face": "west",
     "heightM": 14.22,
@@ -825,6 +885,44 @@
     ],
     "template": "vanilla:t0749",
     "widthM": 4.96
+   }
+  ],
+  "vanilla:architecture/farmhouse/farmhouse02walkway": [
+   {
+    "count": 8,
+    "evidence": "co-placement",
+    "face": "toward 0",
+    "heightM": 3.73,
+    "normalDeg": 0.3,
+    "pairedWith": "vanilla:architecture/farmhouse/farmhouse02",
+    "positionInPiece": [
+     0.02,
+     -4.12
+    ],
+    "template": "vanilla:t0268",
+    "widthM": 14.63
+   },
+   {
+    "evidence": "bounds",
+    "face": "east",
+    "heightM": 3.73,
+    "normalDeg": 90.0,
+    "positionInPiece": [
+     5.75,
+     0.0
+    ],
+    "widthM": 3.64
+   },
+   {
+    "evidence": "bounds",
+    "face": "west",
+    "heightM": 3.73,
+    "normalDeg": 270.0,
+    "positionInPiece": [
+     -8.88,
+     0.0
+    ],
+    "widthM": 3.64
    }
   ],
   "vanilla:architecture/farmhouse/fencewoven01": [
@@ -1276,10 +1374,10 @@
     "heightM": 3.73,
     "normalDeg": 0.0,
     "positionInPiece": [
-     0.1,
+     0.09,
      -1.82
     ],
-    "widthM": 4.3
+    "widthM": 4.31
    },
    {
     "count": 4,
@@ -1340,10 +1438,10 @@
     "heightM": 3.73,
     "normalDeg": 180.0,
     "positionInPiece": [
-     0.1,
+     0.09,
      1.82
     ],
-    "widthM": 4.3
+    "widthM": 4.31
    },
    {
     "evidence": "bounds",
@@ -1351,7 +1449,7 @@
     "heightM": 3.73,
     "normalDeg": 270.0,
     "positionInPiece": [
-     -2.05,
+     -2.06,
      0.0
     ],
     "widthM": 3.64
@@ -1961,9 +2059,9 @@
   ]
  },
  "counts": {
-  "assets": 46,
-  "bounds": 143,
-  "co-placement": 21
+  "assets": 48,
+  "bounds": 149,
+  "co-placement": 23
  },
  "elongationRatio": 2.0,
  "kit": "settlement-imperial-v1",

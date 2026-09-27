@@ -616,7 +616,7 @@ ID_KINDS = {
     "travelServices": "travel", "approaches": "approach",
     "networkTerminals": "terminal",
 }
-CATALOGUE_SOCKET_RE = re.compile(r"^(?:scene|evidence|station|marks)\.[a-z0-9-]+\.[a-z0-9-]+$")
+CATALOGUE_SOCKET_RE = re.compile(r"^(?:scene|evidence|station|post|marks)\.[a-z0-9-]+\.[a-z0-9-]+$")
 ID_NAME_RE = r"[a-z0-9]+(?:-[a-z0-9]+)*"
 
 

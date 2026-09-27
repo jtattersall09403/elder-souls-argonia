@@ -163,6 +163,38 @@
    "tileset": "vanilla-farmhouse-int",
    "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
   },
+  "composite:farmhouse/farmhouse02-with-walkway": {
+   "category": "architecture",
+   "closedShellPromotedBy": "own-geometry-door",
+   "doorwayProbeCentreM": [
+    -1.33,
+    7.17
+   ],
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 1.0,
+   "front": {
+    "deg": 162.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 162\u00b0 in the piece's own frame carries 1.68x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "frontFaceFraction": 0.25,
+   "headroomM": 12.53,
+   "heightM": 16.05,
+   "interior": "none",
+   "medianWallM": 3.27,
+   "planAreaM2": 259.74,
+   "planCentreM": [
+    -2.36,
+    2.4
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "large",
+   "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
   "composite:farmhouse/stonewall-run-3": {
    "category": "architecture",
    "entrance": null,
@@ -607,6 +639,33 @@
    "tileset": "vanilla-farmhouse-int",
    "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
   },
+  "vanilla:architecture/farmhouse/farmhouse02walkway": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "floorOffsetM": 2.0,
+   "front": {
+    "deg": 180.3,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 33 times with other statics to one side; the side they left open, at 180\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "frontFaceFraction": 0.0,
+   "headroomM": 1.64,
+   "heightM": 3.73,
+   "interior": "none",
+   "medianWallM": 1.67,
+   "planAreaM2": 52.37,
+   "planCentreM": [
+    -2.67,
+    0.02
+   ],
+   "provenance": [],
+   "ringFraction": 1.0,
+   "roofOverhead": true,
+   "sizeClass": "medium",
+   "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"
+  },
   "vanilla:architecture/farmhouse/fencewoven01": {
    "category": "architecture",
    "entrance": null,
@@ -809,14 +868,14 @@
    "headroomM": 2.75,
    "heightM": 3.73,
    "interior": "none",
-   "medianWallM": 1.56,
-   "planAreaM2": 14.96,
+   "medianWallM": 1.53,
+   "planAreaM2": 14.99,
    "planCentreM": [
-    0.23,
-    -0.22
+    0.09,
+    -0.13
    ],
    "provenance": [],
-   "ringFraction": 0.806,
+   "ringFraction": 0.819,
    "roofOverhead": true,
    "sizeClass": "small",
    "why": "name token 'walkway' \u2014 a hull, a hollow tree or a floor slab, not a building"

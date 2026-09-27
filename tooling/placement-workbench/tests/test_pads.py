@@ -208,3 +208,25 @@ def test_the_padded_chunk_heights_are_one_vectorised_pass(monkeypatch):
     monkeypatch.setattr(padded, "_chunks", lambda x, z: (_ for _ in ()).throw(AssertionError))
     got = padded.chunk_heights(X, Z)
     assert got.tobytes() == want.tobytes()
+
+
+def test_a_mud_pad_edge_up_to_1_2_m_is_a_graded_batter_when_its_apron_is_twice_its_height():
+    """0101 R1 amendment (planner ruling 2026-09-27, walk 2 lane P): a kit with
+    no retaining-wall family takes a graded earth batter (`batter: true`): an
+    edge over 0.6 m and up to 1.2 m is legal when the apron is >= 2 x its
+    height; narrower, or higher than 1.2 m, stays red; without `batter` the
+    0.6 m bar holds."""
+    def fit(fall, **pad):
+        hut = Piece("b5", HUT, 0.0, 0.0, pad=dict(pad))
+        s = _Scene([hut], fall=fall)
+        return pads.pad_fit(_Cat(), s, hut, pads.resolve(_Cat(), s.ground(), hut))
+    assert fit(0.12, apronM=2.0)["padRule"]                     # ~0.84 m edges, no batter
+    assert fit(0.12, apronM=1.5, batter=True)["padRule"]        # apron 1.5 < 2 x 0.78
+    assert fit(0.12, apronM=2.0, batter=True)["padRule"] is None
+    assert "1.2 m as a graded batter" in fit(0.2, apronM=3.0, batter=True)["padRule"]  # 1.6 m edges
+    ap = wb.parser()
+    op = {"op": "place", "uid": "b5", "asset": HUT, "at": [1.0, 2.0], "yaw": 0.0,
+          "pad": {"apronM": 2.0, "batter": True}}
+    assert layout.argv_to_op(layout.op_to_argv(op, ap), ap)["pad"] == {"apronM": 2.0, "batter": True}
+    with pytest.raises(ValueError):
+        pads.parse(["batter=ture"])
