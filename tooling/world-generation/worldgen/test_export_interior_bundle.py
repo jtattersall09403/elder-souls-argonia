@@ -299,5 +299,38 @@ def test_read_records_index_matches_the_full_walk(tmp_path):
     assert [(r.type, r.form_id, r.data) for r in new[0].values()] == \
         [(r.type, r.form_id, r.data) for r in old[0].values()]
     assert new[1] == old[1] == {("M.esm", 0x30)}
-    # the master's record wins over the main plugin's override (old semantics, kept)
-    assert b"a.nif" in new[0][("M.esm", 0x10)].data
+    # load order: the main plugin's override beats its master's original
+    assert b"override.nif" in new[0][("M.esm", 0x10)].data
+
+
+def test_the_latest_plugin_in_load_order_owns_an_overridden_record(tmp_path):
+    """Masters load in MAST order, the main plugin last; the last to define a
+    record owns it (closeout B; lane 3A E found a master's original beating
+    the main plugin's override). U.esm overrides M.esm's 0x10 and 0x11; the
+    main plugin overrides 0x10 again."""
+    m = _rec(b"TES4", 0, _sub(b"HEDR", b"\0" * 12)) + _grup(b"STAT", 0, (
+        _rec(b"STAT", 0x10, _sub(b"MODL", b"m10.nif\0")) + _rec(b"STAT", 0x11, _sub(b"MODL", b"m11.nif\0"))
+        + _rec(b"STAT", 0x12, _sub(b"MODL", b"m12.nif\0"))))
+    u = _rec(b"TES4", 0, _sub(b"HEDR", b"\0" * 12) + _sub(b"MAST", b"M.esm\0")) + _grup(b"STAT", 0, (
+        _rec(b"STAT", 0x10, _sub(b"MODL", b"u10.nif\0")) + _rec(b"STAT", 0x11, _sub(b"MODL", b"u11.nif\0"))))
+    p = _rec(b"TES4", 0, _sub(b"HEDR", b"\0" * 12) + _sub(b"MAST", b"M.esm\0")
+             + _sub(b"MAST", b"U.esm\0")) + _grup(b"STAT", 0, _rec(b"STAT", 0x10, _sub(b"MODL", b"p10.nif\0")))
+    for name, data in (("M.esm", m), ("U.esm", u), ("P.esp", p)):
+        (tmp_path / name).write_bytes(data)
+    paths = {n: tmp_path / n for n in ("M.esm", "U.esm", "P.esp")}
+    got, _ = ex.read_records(ex.PluginSet(paths["P.esp"], paths), {("M.esm", k) for k in (0x10, 0x11, 0x12)})
+    models = {k[1]: ex._base_info(r)["model"] for k, r in got.items()}
+    assert models == {0x10: "p10.nif", 0x11: "u11.nif", 0x12: "m12.nif"}
+
+
+def test_tropical_skyrims_wolfpelt_override_wins(vault_env):
+    """The real case: Tropical Skyrim.esp overrides Skyrim.esm:03AD74 WolfPelt
+    to the slaughterfish scale mesh; an export must draw the override."""
+    paths, _pools, _registry = vault_env
+    if "Tropical Skyrim.esp" not in paths or "Skyrim.esm" not in paths:
+        pytest.skip("Tropical Skyrim.esp not in the local vault")
+    pset = ex.plugin_set(paths["Tropical Skyrim.esp"], paths)
+    got, _ = ex.read_records(pset, {("Skyrim.esm", 0x03AD74)})
+    info = ex._base_info(got[("Skyrim.esm", 0x03AD74)])
+    assert info["editorId"] == "WolfPelt"
+    assert "slaughterfishscale" in info["model"], info["model"]

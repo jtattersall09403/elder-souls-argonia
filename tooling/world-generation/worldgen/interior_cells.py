@@ -78,7 +78,11 @@ def _key(plugin: Plugin, form_id: int) -> tuple[str, int]:
 
 class PluginWorld:
     """A plugin and its masters: bases by key, interior cells with their refs,
-    and the interior ref set (to tell an exterior-bound load door)."""
+    and the interior ref set (to tell an exterior-bound load door).
+
+    `self.plugins` is in load order (the masters in the main plugin's MAST
+    order, the main plugin last) and the last plugin to define a base object
+    or a worldspace reference owns it, as the game resolves an override."""
 
     def __init__(self, name: str, path_of):
         self.name = name
@@ -86,19 +90,19 @@ class PluginWorld:
         self.missing: list[str] = []
         main = Plugin(path_of(name))
         self.main = main
-        self.plugins[name] = main
         for master in main.masters:
             p = path_of(master)
             if p is None:
                 self.missing.append(master)
                 continue
             self.plugins[master] = Plugin(p)
+        self.plugins[name] = main
         self.bases: dict[tuple[str, int], object] = {}
         self.interior_refs: set[tuple[str, int]] = set()
         self.cells: dict[str, list] = {}
         for pname, plugin in self.plugins.items():
             for fid, base in plugin.base_objects().items():
-                self.bases.setdefault(_key(plugin, fid), base)
+                self.bases[_key(plugin, fid)] = base          # load order: last wins
             for cell in plugin.interior_cells(with_refs=True):
                 for ref in cell.refs:
                     self.interior_refs.add(_key(plugin, ref.form_id))
@@ -113,7 +117,7 @@ class PluginWorld:
         """The worldspace references with these keys (partner exterior doors)."""
         want = {k for k in keys if k not in self._world}
         if want:
-            for plugin in self.plugins.values():
+            for plugin in self.plugins.values():             # load order: last wins
                 for rec, stack in plugin.records():
                     if rec.type != b"REFR" or not any(f.type == GT_WORLD_CHILDREN for f in stack):
                         continue

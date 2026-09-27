@@ -249,3 +249,30 @@ def test_a_cell_with_no_building_class_piece_is_named_by_structural_area():
 def test_the_miner_and_the_claim_share_one_ratio_band():
     from . import blueprint_interiors as BI
     assert M.FIT_RATIO is BI.FIT_RATIO
+
+
+# --------------------------------------------------------------------------- #
+# Overrides resolve in the asking plugin's load order (closeout B): its
+# masters in MAST order, the plugin itself last; the last to define wins.
+# --------------------------------------------------------------------------- #
+def test_a_base_resolves_through_the_asking_plugins_own_load_order(tmp_path):
+    from .esp_index import Plugin
+    from .test_interior_cells import _plugin
+    files = {
+        "M.esm": _plugin((), {0x10: "m10.nif", 0x11: "m11.nif", 0x12: "m12.nif"}),
+        "U.esm": _plugin(("M.esm",), {0x10: "u10.nif", 0x11: "u11.nif"}),
+        "P.esp": _plugin(("M.esm", "U.esm"), {0x10: "p10.nif"}),
+        "Q.esp": _plugin(("M.esm",), {0x10: "q10.nif"}),       # a sibling mod, not in P's chain
+    }
+    for name, data in files.items():
+        (tmp_path / name).write_bytes(data)
+    vault = M.Vault([("pool", tmp_path / n) for n in files])
+    vault.index()
+    plugins = {path.name: plugin for _pool, path, plugin in vault.entries}
+
+    def models(name):
+        return {fid: vault.base_of(plugins[name], fid).model for fid in (0x10, 0x11, 0x12)}
+    assert models("P.esp") == {0x10: "p10.nif", 0x11: "u11.nif", 0x12: "m12.nif"}
+    assert models("Q.esp") == {0x10: "q10.nif", 0x11: "m11.nif", 0x12: "m12.nif"}
+    assert models("M.esm") == {0x10: "m10.nif", 0x11: "m11.nif", 0x12: "m12.nif"}
+    assert isinstance(plugins["P.esp"], Plugin)

@@ -274,6 +274,10 @@ class Vault:
 
     def __init__(self, plugins: list[tuple[str, Path]]):
         self.entries: list[tuple[str, Path, Plugin]] = []
+        #: plugin file (lower case) -> the base objects it defines or overrides;
+        #: `base_of` resolves through the asking plugin's own load order
+        self.own_bases: dict[str, dict[tuple[str, int], object]] = {}
+        #: key -> the first definition seen, for a plugin whose chain lacks it
         self.bases: dict[tuple[str, int], object] = {}
         #: (source plugin, local id) -> (plugin name, interior cell editor id)
         self.interior_of_ref: dict[tuple[str, int], tuple[str, str]] = {}
@@ -310,8 +314,11 @@ class Vault:
 
     def index(self) -> None:
         for _pool, path, plugin in self.entries:
+            own = self.own_bases.setdefault(path.name.lower(), {})
             for form_id, base in plugin.base_objects().items():
-                self.bases.setdefault(self.key(plugin, form_id), base)
+                key = self.key(plugin, form_id)
+                own[key] = base
+                self.bases.setdefault(key, base)
         for pool, path, plugin in self.entries:
             for cell in plugin.interior_cells(with_refs=True):
                 edid = cell.editor_id or f"cell{cell.form_id:08X}"
@@ -347,7 +354,15 @@ class Vault:
         return None
 
     def base_of(self, plugin: Plugin, form_id: int):
-        return self.bases.get(self.key(plugin, form_id))
+        """The base as `plugin` sees it: its load order is its masters in MAST
+        order, then itself, and the last of them to define the record wins
+        (a pool mixes unrelated mods, so there is no one global order)."""
+        key = self.key(plugin, form_id)
+        for name in [plugin.path.name, *reversed(plugin.masters)]:
+            base = self.own_bases.get(name.lower(), {}).get(key)
+            if base is not None:
+                return base
+        return self.bases.get(key)
 
 
 def bucket_of(pos) -> tuple[int, int]:

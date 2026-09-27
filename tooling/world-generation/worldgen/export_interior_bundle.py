@@ -137,29 +137,33 @@ FURNITURE_ACTIVITY = (
 # plugin reading
 # --------------------------------------------------------------------------- #
 class PluginSet:
-    """A plugin and its masters, with form ids resolved to `(file, local id)`."""
+    """A plugin and its masters, with form ids resolved to `(file, local id)`.
+
+    `self.plugins` is in load order: the masters in the main plugin's MAST
+    order, the main plugin last, so the last plugin to define a record owns
+    it (an override beats the original it overrides)."""
 
     def __init__(self, plugin: Path, paths: dict[str, Path]):
         self.main = Plugin(plugin)
-        self.plugins = {self.main.path.name: self.main}
+        self.plugins = {}
         for master in self.main.masters:
             path = paths.get(master)
             if path is not None:
                 self.plugins[master] = Plugin(path)
+        self.plugins[self.main.path.name] = self.main
         self._record_index = None
 
     def record_index(self) -> tuple[dict, frozenset]:
         """`({key: (first-seen ordinal, plugin name, byte offset)}, quest-forced
         ref keys)`, built once per PluginSet on first use.
 
-        One header-only pass over every plugin in `self.plugins` order (the
-        main plugin, then its masters), which is the order `read_records`
-        used to walk them record by record, decompressing each: ~1.04 M
-        records and 5.4 of 5.8 s per cell (speed lane 2 S5d). The entry keeps
-        the LAST record seen for a key (a later match won in the old walk, so
-        a master's original shadows the main plugin's override: see
-        `read_records`) and the ordinal of the FIRST (the old dict's insertion
-        order). Only QUST bodies are decompressed, for their ALFR aliases."""
+        One header-only pass over every plugin in `self.plugins` (load)
+        order, replacing a record-by-record walk that decompressed each:
+        ~1.04 M records and 5.4 of 5.8 s per cell (speed lane 2 S5d). The
+        entry keeps the LAST record seen for a key, which is the latest
+        plugin's in load order, and the ordinal of the FIRST (the old dict's
+        insertion order). Only QUST bodies are decompressed, for their ALFR
+        aliases."""
         if self._record_index is None:
             entries: dict[tuple[str, int], tuple[int, str, int]] = {}
             quest_refs: set[tuple[str, int]] = set()
@@ -273,11 +277,10 @@ def read_records(pset: PluginSet, wanted: set[tuple[str, int]]) -> tuple[dict, s
     """`(records by key, quest-forced ref keys)`: the base objects and
     templates asked for, plus every reference a quest alias forces (ALFR).
 
-    Answered from `PluginSet.record_index` (built once per PluginSet), with
-    the old full walk's results exactly: for a key defined in several
-    plugins the one visited LAST wins, and the plugins are visited main
-    first, then masters, so a master's record beats the main plugin's
-    override of it (kept as is; see lane 3A E report)."""
+    Answered from `PluginSet.record_index` (built once per PluginSet): for
+    a key defined in several plugins the latest in load order wins (masters
+    in MAST order, the main plugin last), so the main plugin's override
+    beats the master's original."""
     entries, quest_refs = pset.record_index()
     hits = sorted((entries[k] + (k,) for k in wanted if k in entries))
     found = {key: _record_at(pset.plugins[name].buf, pos)[0] for _ordinal, name, pos, key in hits}
