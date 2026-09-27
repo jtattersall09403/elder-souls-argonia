@@ -1053,7 +1053,8 @@ def test_a_floorless_raised_storey_takes_its_entrance_at_the_ground():
     assert [round(d["sideDeg"]) for d in high] == [90]          # the run end only
     low = ix.ground_doorways(tris, (0.0, 0.0), 0.0, 5.4, 2.0)
     assert low[0]["kind"] == "opening" and abs(low[0]["sideDeg"] - 180.0) <= 5.0
-    assert any(d["kind"] == "open-front" and abs(d["sideDeg"] - 90.0) <= 5.0 for d in low)
+    # walk 2 round 5: the open run end is the run's join face, not a doorway
+    assert not any(d["kind"] == "open-front" for d in low), low
 
 
 def test_the_keep_stable_stalls_open_on_their_arched_south_face():
@@ -1064,3 +1065,7 @@ def test_the_keep_stable_stalls_open_on_their_arched_south_face():
     for name in ("mwimparchstableendl01", "mwimparchstableendr01", "mwimparchstablestraight01"):
         e = assets[stall + name]["entrance"]
         assert abs(float(e["sideDeg"]) - 180.0) <= 10.0, (name, e)
+        # exactly one doorway, the -y opening: no join face left in provenance
+        # (walk 2 round 5: endl01/endr01 listed an open-front at [±2.3, 2.68])
+        assert e["kind"] == "opening" and e["offsetM"][1] > 4.5, (name, e)
+        assert assets[stall + name]["provenance"] == [], (name, assets[stall + name]["provenance"])

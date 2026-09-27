@@ -382,3 +382,22 @@ def test_round4_a_pods_door_is_judged_on_its_own_porch(scene, cat):
     assert row["ownDeck"]["onDeck"] and row["ownDeck"]["offM"] <= rules.SILL_MAX_M
     assert row["ownDeck"]["footStepM"] > rules.PORCH_STEP_MAX_M
     assert any("door:b4: its own deck" in f for f in got["failures"])
+
+
+def test_round5_a_piled_deck_is_one_walk_surface_over_its_plan_box(scene, cat):
+    """Planner ruling 2026-09-27 (round 5): a piled deck (dock, jetty) is
+    one walk surface at its seated deck height across its whole plan box, so
+    the gaps between its planks never read as water."""
+    from shapely.geometry import Polygon
+    from workbench import measure, pads
+    from workbench.scene import Piece
+    dock = Piece("t-dock", "vanilla:architecture/docks/dockstrent02", 343.0, 3005.0, 116.7)
+    g = pads.ground_for(cat, scene, None)
+    dock.y = measure.seat(cat, g, dock)["y"]
+    dock.walkable = True
+    deck = rules._piled_deck_y(cat, dock)
+    box = Polygon(measure.footprint_province(cat, dock)).minimum_rotated_rectangle
+    scene.add(dock)
+    for x, z in list(box.exterior.coords)[:4]:
+        cx, cz = (x + dock.x) / 2.0, (z + dock.z) / 2.0      # half-way to every corner
+        assert rules._surface_m(cat, scene, g, cx, cz) == pytest.approx(deck, abs=1e-6)

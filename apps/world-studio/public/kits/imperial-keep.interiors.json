@@ -965,17 +965,7 @@
     -0.23,
     2.79
    ],
-   "provenance": [
-    {
-     "arcM": 2.87,
-     "kind": "open-front",
-     "offsetM": [
-      2.3,
-      2.68
-     ],
-     "sideDeg": 87.5
-    }
-   ],
+   "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",
@@ -1009,17 +999,7 @@
     0.23,
     2.79
    ],
-   "provenance": [
-    {
-     "arcM": 2.87,
-     "kind": "open-front",
-     "offsetM": [
-      -2.3,
-      2.68
-     ],
-     "sideDeg": 272.5
-    }
-   ],
+   "provenance": [],
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "small",

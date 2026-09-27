@@ -197,6 +197,16 @@ def sealed_by(cat, scene, target: dict) -> str | None:
     return None
 
 
+def _piled_deck_y(cat, p) -> float | None:
+    """A piled deck's walk height (its seated pivot + the manifest deck top
+    over the pivot, lessons L65), or None for any other piece."""
+    row = cat.row(p.asset)
+    if not row.get("piled") or p.y is None:
+        return None
+    top = (row.get("groundLineTell") or {}).get("deckTopM")
+    return float(p.y) + (float(top) * p.scale if isinstance(top, (int, float)) else 0.0)
+
+
 def _surface_m(cat, scene, ground, x: float, z: float) -> float:
     """The walk surface at (x, z), as WalkGrid reads it: the padded ground,
     or the top of a walkable deck there where one stands higher (a head
@@ -206,7 +216,13 @@ def _surface_m(cat, scene, ground, x: float, z: float) -> float:
     for p in scene.pieces:
         if not (getattr(p, "walkable", False) and p.y is not None):
             continue
-        if not Polygon(measure.footprint_province(cat, p)).contains(Point(x, z)):
+        poly = Polygon(measure.footprint_province(cat, p))
+        piled = _piled_deck_y(cat, p)
+        if piled is not None:
+            if poly.minimum_rotated_rectangle.contains(Point(x, z)):
+                h = max(h, piled)
+            continue
+        if not poly.contains(Point(x, z)):
             continue
         mesh = _world_mesh(cat, p)
         top = float(mesh.bounds[1][2]) + 1.0
@@ -387,6 +403,18 @@ class WalkGrid:
 
     def _deck(self, cat, p, i, poly):
         from shapely import contains_xy
+        piled = _piled_deck_y(cat, p)
+        if piled is not None:
+            # a piled deck (dock, jetty) is ONE walk surface at its seated deck
+            # height over its whole plan box: plank gaps never read as water
+            # (planner ruling 2026-09-27, walk 2 round 5)
+            box = poly.minimum_rotated_rectangle
+            inside = contains_xy(box, self.X, self.Z)
+            self.H[inside] = piled
+            self.src[inside] = i
+            if inside.any():
+                self.decks.append(p.uid)
+            return
         inside = contains_xy(poly, self.X, self.Z)
         if not inside.any():
             return
@@ -1180,6 +1208,24 @@ def _top_at(cat, p, x: float, z: float, below: float, above: float = -1e9) -> fl
     return max((float(v[2]) for v in locs if float(v[2]) >= above), default=None)
 
 
+def _stair_to_deck(cat, scene, p, deck_m: float) -> str | None:
+    """The stair or walkway piece of ``p``'s own assembly (bound to the same
+    parcel, SILL_WAY_TOKENS) whose top reaches ``p``'s deck (within
+    SILL_MAX_M) and which touches ``p``: the step piece the ruling asks a
+    raised deck to reach the ground by (farmhouse02's walkwaystairs8 at its
+    mined template t0749; planner rulings 2026-09-27 rounds 4-5)."""
+    pid = (p.role or {}).get("id")
+    for q in scene.pieces:
+        if q is p or q.y is None or not _has(q.asset, SILL_WAY_TOKENS):
+            continue
+        if pid is None or (q.role or {}).get("id") != pid:
+            continue
+        top = float(_world_mesh(cat, q).bounds[1][2])
+        if abs(top - deck_m) <= SILL_MAX_M + 0.1 and measure.contact(cat, q, p)["contact"]:
+            return q.uid
+    return None
+
+
 def _own_deck(cat, p, g, tx, tz, dx, dz, sill_y) -> dict | None:
     """Planner ruling 2026-09-27 (walk 2 round 4): a threshold measured
     against the walkable surface of its own assembly, the piece's mesh top
@@ -1244,6 +1290,11 @@ def sill(cat, scene) -> dict:
         porch = None
         if off > SILL_MAX_M:
             porch = _own_deck(cat, p, g, tx, tz, dx, dz, sill_y)
+            if porch is not None and porch["onDeck"] and (porch["footStepM"] is None
+                                                          or porch["footStepM"] > PORCH_STEP_MAX_M):
+                stair = _stair_to_deck(cat, scene, p, porch["deckM"])
+                if stair:
+                    porch.update(footStepM=0.0, byStair=stair)
         rows[d["id"]] = {"sillM": round(sill_y, 3), "walkM": round(walk, 3), "from": how,
                          "wayTopsM": [round(v, 3) for v in ways], "offM": round(off, 3),
                          **({"ownDeck": porch} if porch else {})}

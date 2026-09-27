@@ -962,7 +962,7 @@ def ground_doorways(triangles, centre: tuple[float, float], base_y: float,
     an opening under a lintel ahead of an open front (``ENTRANCE_RANK``), then
     the wider. A stable stall's arched mouth reads as an opening once the eye
     stands below its crown; its open run end stays an open front at every
-    rung, so the mouth wins."""
+    rung, so the mouth wins and the open fronts are dropped (join faces)."""
     pooled: list[dict] = []
     for offset in FLOOR_LADDER_M:
         if offset >= storey_m:
@@ -976,6 +976,12 @@ def ground_doorways(triangles, centre: tuple[float, float], base_y: float,
             elif (ENTRANCE_RANK.index(door["kind"]), -door["arcM"]) < (
                     ENTRANCE_RANK.index(same["kind"]), -same["arcM"]):
                 pooled[pooled.index(same)] = door
+    # An opening under a lintel found below the storey is the way in; the open
+    # fronts beside it are the run's join faces, never doorways (walk 2 round 5,
+    # lane P planner 2026-09-27: the keep stall ends listed their join face
+    # [±2.3, 2.68] next to the mouth at [±0.13, 4.99]).
+    if any(d["kind"] != "open-front" for d in pooled):
+        pooled = [d for d in pooled if d["kind"] != "open-front"]
     pooled.sort(key=lambda d: (ENTRANCE_RANK.index(d["kind"]), -d["arcM"], d["sideDeg"]))
     return pooled[:MAX_DOORWAYS]
 

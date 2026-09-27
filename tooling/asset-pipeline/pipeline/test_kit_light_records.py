@@ -47,6 +47,17 @@ def test_claywater_light_layer_carries_the_mined_ligh_record(kit, asset):
         assert light["evidence"]
 
 
+def test_the_lantern_flame_seats_on_its_candle_top():
+    """Walk 2 round 5: the flame sits on the candle submesh top measured in the
+    kit GLB (CandleLanternWithCandle:7, y 0.103), not on the LIGH offset (0.63)."""
+    kit, asset = "settlement-imperial-v1", "vanilla:clutter/common/candlelanternwithcandle01"
+    config = json.loads((KIT_CONFIG_DIR / f"{kit}.json").read_text())
+    published = json.loads((PUBLISHED / f"{kit}.kit.json").read_text())
+    for light in (_light(config, asset, "asset"), _light(published, asset, "id")):
+        assert light["flameOffsetM"] == pytest.approx([0.0037, 0.103, -0.0015], abs=0.002)
+        assert light["flameEvidence"]
+
+
 def test_refresh_copies_the_kit_config_light_block_and_drops_a_stale_one(tmp_path):
     configs = tmp_path / "configs"
     configs.mkdir()
