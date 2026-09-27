@@ -77,28 +77,20 @@
             0.416250702
           ],
           [
-            0.040457763,
-            0.416792458
+            0.040464206,
+            0.416801487
           ],
           [
-            0.044496016,
-            0.420923595
+            0.044101588,
+            0.420232335
           ],
           [
-            0.044559063,
-            0.420982254
+            0.04522034,
+            0.421143008
           ],
           [
-            0.044781331,
-            0.42113906
-          ],
-          [
-            0.044959694,
-            0.421162459
-          ],
-          [
-            0.045493445,
-            0.421200412
+            0.045445576,
+            0.421199674
           ],
           [
             0.050384327,
@@ -189,36 +181,36 @@
             0.406884964
           ],
           [
-            0.041058752,
-            0.407193265
+            0.041048049,
+            0.407150193
           ],
           [
-            0.04119272,
-            0.407504203
+            0.041855558,
+            0.41038676
           ],
           [
-            0.042664187,
-            0.410416407
+            0.047683425,
+            0.408711132
           ],
           [
-            0.04499725,
-            0.407787224
+            0.047850138,
+            0.40853882
           ],
           [
-            0.046279676,
-            0.405461947
+            0.047924158,
+            0.408404745
           ],
           [
-            0.047249485,
-            0.402872978
+            0.048035888,
+            0.408182595
           ],
           [
-            0.047286645,
-            0.40262277
+            0.048142496,
+            0.407951778
           ],
           [
-            0.047264002,
-            0.402258411
+            0.047256341,
+            0.402234473
           ],
           [
             0.047170312,
@@ -252,62 +244,6 @@
           "whyNeighbours": "It faces the well-station across the ford. It keeps no Hist: its people's tree stands at Fenmarch Village (place.imperial-fringe.fenmarch-village, 1.7 km). They go home for the hatching.",
           "playerPurpose": "The ford ferry in the wet season and the landing's side of LF83.",
           "microGeography": "The dry strip on the ford's north bank, huts on mud pads raised above the high water."
-        }
-      },
-      {
-        "id": "district.claywater-station.the-landing-stage",
-        "kind": "landing-hamlet",
-        "cultureKit": "argonian-stilt",
-        "wealth": "poor",
-        "boundary": [
-          [
-            0.040444499,
-            0.410792468
-          ],
-          [
-            0.047683425,
-            0.408711132
-          ],
-          [
-            0.047850138,
-            0.40853882
-          ],
-          [
-            0.047924158,
-            0.408404745
-          ],
-          [
-            0.048035888,
-            0.408182595
-          ],
-          [
-            0.048163612,
-            0.407906061
-          ],
-          [
-            0.048064166,
-            0.407605246
-          ],
-          [
-            0.047965762,
-            0.407485179
-          ],
-          [
-            0.046251421,
-            0.405941982
-          ],
-          [
-            0.045135071,
-            0.405941982
-          ]
-        ],
-        "notes": "The ferry's timber landing stage, piled into the channel below the huts.",
-        "why": {
-          "what": "The landing stage: two timber dock spans on piles, run about 14 metres from the bank to the ferry raft's berth.",
-          "whyHere": "The bank drops into the channel here, so the polers built out over the water to reach water deep enough for the raft.",
-          "whyNeighbours": "It hangs off the landing hamlet's bank, below the huts and the fish racks.",
-          "playerPurpose": "Where the player boards the ferry raft and meets the poler.",
-          "microGeography": "Open channel water beside the dry strip on the ford's north bank."
         }
       }
     ],
@@ -737,14 +673,14 @@
             "id": "isy-bucket",
             "asset": "vanilla:clutter/bucket01",
             "atM": [
-              -8.0074,
-              5.9128
+              -14.0251,
+              10.2989
             ],
             "yaw": 346.0,
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 35.3675
+            "yMeasured": 37.221
           },
           {
             "id": "isy-cart",
@@ -789,14 +725,14 @@
             "id": "isy-lamp",
             "asset": "vanilla:clutter/common/candlelanternwithcandle01",
             "atM": [
-              -11.5993,
-              9.6941
+              -15.0919,
+              9.7404
             ],
             "yaw": 346.0,
             "on": "ground",
             "layer": "light",
             "evidence": "measured",
-            "yMeasured": 37.1969
+            "yMeasured": 37.2278
           },
           {
             "id": "isy-trough",
@@ -2511,22 +2447,6 @@
               0.0
             ],
             "yaw": 0.0
-          },
-          {
-            "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
-            "atM": [
-              10.88,
-              0.0
-            ],
-            "yaw": 0.0
-          },
-          {
-            "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
-            "atM": [
-              14.5,
-              0.0
-            ],
-            "yaw": 0.0
           }
         ],
         "centreUV": [
@@ -2548,8 +2468,8 @@
             0.41879345
           ],
           [
-            0.04381781,
-            0.4188434
+            0.043817795,
+            0.418843374
           ],
           [
             0.043832903,
@@ -2580,8 +2500,8 @@
             0.419422556
           ],
           [
-            0.04433886,
-            0.41967725
+            0.044338816,
+            0.419677169
           ],
           [
             0.044353944,
@@ -2592,96 +2512,12 @@
             0.419824116
           ],
           [
-            0.044485133,
-            0.419840045
+            0.044485309,
+            0.419839957
           ],
           [
-            0.044599739,
-            0.420094759
-          ],
-          [
-            0.044614824,
-            0.420118892
-          ],
-          [
-            0.044720291,
-            0.420241624
-          ],
-          [
-            0.044745745,
-            0.42025739
-          ],
-          [
-            0.044859857,
-            0.420511019
-          ],
-          [
-            0.044874953,
-            0.420535189
-          ],
-          [
-            0.044901742,
-            0.420560113
-          ],
-          [
-            0.044984648,
-            0.420618602
-          ],
-          [
-            0.045014262,
-            0.420622487
-          ],
-          [
-            0.045045888,
-            0.420621914
-          ],
-          [
-            0.045080215,
-            0.420605259
-          ],
-          [
-            0.045103225,
-            0.420590886
-          ],
-          [
-            0.045120071,
-            0.420569163
-          ],
-          [
-            0.045131863,
-            0.420526613
-          ],
-          [
-            0.045111035,
-            0.420429315
-          ],
-          [
-            0.045100393,
-            0.420394353
-          ],
-          [
-            0.045085272,
-            0.420370165
-          ],
-          [
-            0.044907332,
-            0.420156414
-          ],
-          [
-            0.044904321,
-            0.42012663
-          ],
-          [
-            0.044840243,
-            0.419978034
-          ],
-          [
-            0.044825165,
-            0.419953897
-          ],
-          [
-            0.044646484,
-            0.419739248
+            0.044646325,
+            0.419739343
           ],
           [
             0.044643441,
@@ -2724,8 +2560,8 @@
             0.41872669
           ],
           [
-            0.044043235,
-            0.418702539
+            0.044043218,
+            0.418702514
           ],
           [
             0.044007102,
@@ -2935,7 +2771,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 35.4173
+            "yMeasured": 35.3993
           },
           {
             "id": "ahy-sack",
@@ -3357,7 +3193,7 @@
             "on": "ground",
             "layer": "clutter",
             "evidence": "measured",
-            "yMeasured": 36.0083
+            "yMeasured": 35.9903
           },
           {
             "id": "b5-ahy-sack",
@@ -3747,7 +3583,7 @@
       },
       {
         "id": "parcel.claywater-station.ferry-raft",
-        "districtId": "district.claywater-station.the-landing-stage",
+        "districtId": "district.claywater-station.the-landing",
         "use": "dock",
         "buildingFamily": "native-craft",
         "interior": {
@@ -3983,7 +3819,7 @@
       },
       {
         "id": "parcel.claywater-station.landing-stage",
-        "districtId": "district.claywater-station.the-landing-stage",
+        "districtId": "district.claywater-station.the-landing",
         "use": "dock",
         "buildingFamily": "vanilla-docks",
         "interior": {
@@ -4957,12 +4793,12 @@
         "imperial-keep": "9fc34e79e1eda8aa818f31bde72b256d456216ac13707968ac31a3f61b836ca3",
         "mudmother-hut-int": "2f765860358f47635f638a377f4d2171fa8d7d6aea52c45c8358daca98b5bd98",
         "settlement-imperial-v1": "8fbeecb6e75e46f1ca3032ecc9e4c6fde8875617c195785f7bf7b414d372839c",
-        "settlement-mud-v1": "f375846306c9e2b7416ae9eb8f84c8eb28336e2025211824f279a5d2988c3da8",
+        "settlement-mud-v1": "3d56d0aa9e141368f0f721113c3d95d7ba5408324be7d903238d70f71e6f9317",
         "works-v1": "aec5bc2148b2bc913b690a1e2061989b8cfb4f738f7805d5746edcb075dec64c"
       },
       "layout": {
         "path": "world/sources/blueprints/claywater-station.layout.json",
-        "sha256": "aae4df95ca462dca522fd93e9895ddb49704bbd9c1ceb5d0e9a521e09ce3fd51"
+        "sha256": "7ca4f829b8df87c90575a472ca2fca92a2269ab6f8a9e07eaf241ddde8193235"
       }
     },
     "walkRoutes": {

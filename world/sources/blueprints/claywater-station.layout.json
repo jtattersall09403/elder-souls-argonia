@@ -961,44 +961,6 @@
    "settle": true
   },
   {
-   "op": "place",
-   "uid": "b2w-w4",
-   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
-   "at": [
-    330.81,
-    3096.03
-   ],
-   "yaw": 58.0
-  },
-  {
-   "op": "snap",
-   "child": "b2w-w4",
-   "child_face": "west",
-   "parent": "b2w-w3",
-   "parent_face": "east",
-   "by": "evidence",
-   "settle": true
-  },
-  {
-   "op": "place",
-   "uid": "b2w-w5",
-   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
-   "at": [
-    332.73,
-    3099.09
-   ],
-   "yaw": 58.0
-  },
-  {
-   "op": "snap",
-   "child": "b2w-w5",
-   "child_face": "west",
-   "parent": "b2w-w4",
-   "parent_face": "east",
-   "by": "evidence",
-   "settle": true
-  },
-  {
    "op": "mount",
    "child": "b1-lamp",
    "parent": "b1-barrel",
@@ -2003,20 +1965,6 @@
    "kind": "run",
    "id": "parcel.claywater-station.stable-wall-west",
    "index": 2
-  },
-  {
-   "op": "bind",
-   "uid": "b2w-w4",
-   "kind": "run",
-   "id": "parcel.claywater-station.stable-wall-west",
-   "index": 3
-  },
-  {
-   "op": "bind",
-   "uid": "b2w-w5",
-   "kind": "run",
-   "id": "parcel.claywater-station.stable-wall-west",
-   "index": 4
   },
   {
    "op": "path",
