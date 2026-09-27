@@ -139,6 +139,14 @@ GROUND_LINE_TELLS = {"door-sill", "floor-plane", "bottom-step", "foundation-top"
 # designed waterline of a water piece. The legs bury as deep as they need.
 MESH_SILL_TOLERANCE_M = 0.1
 
+# ``piledDecks`` (planner ruling, 16k walk 2 round 4): the pier, dock, landing
+# and walkway decks that stand on piles or legs and seat by their DECK, not
+# their foot. Each listed asset's manifest carries ``piled: true`` and
+# ``deckRiseM``, the deck's height above the ground or water line: the
+# assetPlacement row's ``deckClearanceM`` (mined from the plugin placements),
+# else the ``deckClearanceM`` of its deck-top mesh tell, else this default.
+PILED_DEFAULT_DECK_RISE_M = 0.3
+
 
 INTERIOR_ZERO = "interior-zero"
 """The interior kits' policy: it outranks an unscoped per-asset row."""
@@ -245,6 +253,7 @@ def validate_policy_inventory(
         placement_rows = {}
     for asset_id, row in sorted(placement_rows.items()):
         findings += _asset_placement_row_findings(asset_id, row, configured_assets)
+    findings += _piled_decks_findings(inventory.get("piledDecks"), configured_assets)
     for section in ("expandedRefs", "nonPhysicalCompiledRefs"):
         rows = inventory.get(section, {})
         if not isinstance(rows, dict):
@@ -302,6 +311,41 @@ def _asset_placement_row_findings(
     if not isinstance(row.get("why"), str) or not row["why"].strip():
         findings.append(f"{where}: needs a why")
     return findings
+
+
+def _piled_decks_findings(section: object, configured_assets: set[str]) -> list[str]:
+    """The ``piledDecks`` section: absent, or ``{why, assets: [ids]}`` whose ids
+    are normalized, unique and emitted by a kit config."""
+    if section is None:
+        return []
+    if not isinstance(section, dict) or not isinstance(section.get("assets"), list):
+        return ["piledDecks must be an object with an assets list"]
+    findings: list[str] = []
+    if not isinstance(section.get("why"), str) or not section["why"].strip():
+        findings.append("piledDecks needs a why")
+    seen: set[str] = set()
+    for asset_id in section["assets"]:
+        if not isinstance(asset_id, str) or asset_id != normalize_asset_id(asset_id):
+            findings.append(f"piledDecks id is not normalized: {asset_id!r}")
+            continue
+        if asset_id in seen:
+            findings.append(f"piledDecks lists {asset_id!r} twice")
+        seen.add(asset_id)
+        if asset_id not in configured_assets:
+            findings.append(f"piledDecks {asset_id!r}: not emitted by a kit config")
+    return findings
+
+
+def piled_deck_rise(row: dict[str, Any], tell: dict[str, Any] | None,
+                    mined_record: dict[str, Any]) -> tuple[float, str]:
+    """``(deckRiseM, evidence)`` for a piledDecks asset (see PILED_DEFAULT_DECK_RISE_M)."""
+    if _is_number(row.get("deckClearanceM")):
+        return round(float(row["deckClearanceM"]), 4), "assetPlacement deckClearanceM"
+    for source in (tell, mined_record.get("groundLineTell")):
+        if (isinstance(source, dict) and source.get("tell") == "deck-top"
+                and _is_number(source.get("deckClearanceM"))):
+            return round(float(source["deckClearanceM"]), 4), "deck-top tell"
+    return PILED_DEFAULT_DECK_RISE_M, "default"
 
 
 def deck_support_line(asset_id: str, row: dict[str, Any], tell: dict[str, Any] | None,
@@ -465,6 +509,7 @@ def apply_placement_metadata(
     findings = validate_policy_inventory(inventory)
     if findings:
         raise ValueError("invalid placement policy inventory: " + "; ".join(findings))
+    piled_ids = set((inventory.get("piledDecks") or {}).get("assets", []))
     for asset in manifest.get("assets", []):
         offset = asset.get("originOffsetM")
         if (not isinstance(offset, list) or len(offset) != 3
@@ -500,6 +545,14 @@ def apply_placement_metadata(
             asset["placeUse"] = row["placeUse"]
         else:
             asset.pop("placeUse", None)
+        if normalize_asset_id(asset["id"]) in piled_ids:
+            rise, rise_evidence = piled_deck_rise(row, tell, mined_record)
+            asset["piled"] = True
+            asset["deckRiseM"] = rise
+            asset["deckRiseEvidence"] = rise_evidence
+        else:
+            for key in ("piled", "deckRiseM", "deckRiseEvidence"):
+                asset.pop(key, None)
         apply_placed_scale(asset, scales)
         asset["anchorClass"] = anchor_class
         asset["anchorClassEvidence"] = anchor_evidence

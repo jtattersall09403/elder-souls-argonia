@@ -441,12 +441,38 @@ def designer_yaw(child, parent, world_yaw: float) -> None:
                                               "yawDeg": round(rel, 3), "yawBy": "designer"}}
 
 
+def _at_height(cat, scene, child, height: float) -> None:
+    """Lift or lower ``child`` so its centre stands ``height`` over the padded
+    ground under it (mount --height, walk 2 round 4)."""
+    from workbench import pads, rules
+    g = pads.ground_for(cat, scene, None)
+    mesh = rules._world_mesh(cat, child)
+    cx, cy, cz = (mesh.bounds[0] + mesh.bounds[1]) / 2.0     # (x, -z, up)
+    child.y += float(height) - (float(cz) - float(g.chunk_height(float(cx), float(-cy))))
+
+
 def cmd_mount(a, scene, cat):
     child, parent = scene.piece(a.child), scene.piece(a.parent)
-    got = snap.mount(child, parent, a.along, a.point, unmined=getattr(a, "unmined", None), cat=cat)
+    wall = bool(getattr(a, "wall", False))
+    if wall and snap.mount_pairs(child.asset, parent.asset):
+        raise ValueError(f"mount --wall is for an unmined child: a mined pair hangs "
+                         f"{child.asset} on {parent.asset}; mount it by the pair")
+    if wall and getattr(a, "height", None) is not None:
+        if child.y is None:
+            raise ValueError(f"{child.uid}: settle it before a wall mount at a height")
+        _at_height(cat, scene, child, a.height)            # the height first, then onto the wall
+    got = snap.mount(child, parent, a.along, a.point, unmined=getattr(a, "unmined", None), cat=cat,
+                     wall=bool(getattr(a, "wall", False)))
     if getattr(a, "yaw", None) is not None:
         designer_yaw(child, parent, a.yaw)
         got["pair"]["yawBy"] = "designer"
+    if getattr(a, "height", None) is not None and child.y is not None:
+        if not wall:
+            _at_height(cat, scene, child, a.height)
+        got["pair"] = {**got["pair"], "heightBy": "designer", "centreOverGroundM": float(a.height)}
+        child.role = {**child.role, "mountPair": {**(child.role.get("mountPair") or {}),
+                                                   "heightBy": "designer",
+                                                   "centreOverGroundM": float(a.height)}}
     got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
     if child.y is not None:
         got["contact"] = measure.contact(cat, child, parent)
@@ -485,7 +511,8 @@ def cmd_check(a, scene, cat):
         g = pads.ground_for(cat, scene, p, declared)
         row = cat.row(p.asset)
         r = {"asset": p.asset.rsplit("/", 1)[-1], "fit": fit_of(row),
-             "anchorClass": row.get("anchorClass"), "settledBy": p.settledBy}
+             "anchorClass": row.get("anchorClass"), "settledBy": p.settledBy,
+             "piled": bool(row.get("piled"))}
         mounted = ((p.settledBy or "").startswith(("mount:", "template:"))
                    or (p.role or {}).get("on") == "parent")
         if not mounted:
@@ -512,7 +539,8 @@ def cmd_check(a, scene, cat):
             r.update(measure.float_under(cat, g, p))
         if cs.is_quay_run(row):
             r["quayReach"] = _quay_reach(cat, scene, g, p, row, cs)
-        elif (row.get("anchorClass") or "ground") == "water":
+        elif (row.get("anchorClass") or "ground") == "water" and not row.get("piled"):
+            # a piled deck is no hull: its piles stand in the bed (lessons L65)
             r["hullWater"] = _hull_water(cat, g, p)
         if p.roll or p.mirror:
             r["notExportable"] = "roll / mirror: the runtime has neither"
@@ -1173,6 +1201,13 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--yaw", type=float, default=None,
                    help="world yaw for a pair recorded yawBy: designer (a road board: height "
                         "and face mined, the bearing is the road's)")
+    s.add_argument("--wall", action="store_true",
+                   help="with --unmined: hang the child on the parent's nearest wall face where "
+                        "it is placed (its height kept), not on its top (walk 2 round 4)")
+    s.add_argument("--height", type=float, default=None,
+                   help="the child's centre this high over the padded ground under it (a road "
+                        "board at hand height: 1.9 m, walk 2 round 4); the pair's face and "
+                        "bearing stay mined, its height is the designer's")
     s = sub.add_parser("measure")
     s.add_argument("a")
     s.add_argument("b")

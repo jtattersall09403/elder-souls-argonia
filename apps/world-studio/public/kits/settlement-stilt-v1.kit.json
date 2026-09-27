@@ -3180,7 +3180,10 @@
    "undersideClosed": true,
    "undersideCoverage": 0.602,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.068
+   "pivotAboveBaseM": 0.068,
+   "piled": true,
+   "deckRiseM": 1.14,
+   "deckRiseEvidence": "assetPlacement deckClearanceM"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
@@ -3251,7 +3254,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.573,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.108
+   "pivotAboveBaseM": 0.108,
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
@@ -3322,7 +3328,10 @@
    "undersideClosed": false,
    "undersideCoverage": 0.557,
    "openBackYawDeg": null,
-   "pivotAboveBaseM": 0.108
+   "pivotAboveBaseM": 0.108,
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01",
@@ -4358,7 +4367,10 @@
     "valueM": 0.5665,
     "deckTopM": 0.9165,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/walkway02",
@@ -4423,7 +4435,10 @@
     "valueM": 0.5603,
     "deckTopM": 0.9103,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/walkway03",
@@ -4488,7 +4503,10 @@
     "valueM": 0.5717,
     "deckTopM": 0.9217,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/walkway04",
@@ -4553,7 +4571,10 @@
     "valueM": 0.5779,
     "deckTopM": 0.9279,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/walkway05",
@@ -4618,7 +4639,10 @@
     "valueM": 0.2285,
     "deckTopM": 0.5785,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/walkway06",
@@ -4683,7 +4707,10 @@
     "valueM": 0.2285,
     "deckTopM": 0.5785,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/walkway07",
@@ -4748,7 +4775,10 @@
     "valueM": 3.3017,
     "deckTopM": 3.6517,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/walkwaystairs",
@@ -4878,7 +4908,10 @@
     "valueM": -0.1125,
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/docks4way",
@@ -4944,7 +4977,10 @@
     "valueM": -0.1125,
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/dockscentre",
@@ -5010,7 +5046,10 @@
     "valueM": -0.1125,
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/dockscentrealt",
@@ -5076,7 +5115,10 @@
     "valueM": -0.1117,
     "deckTopM": 0.2383,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/dockscentrenopost",
@@ -5142,7 +5184,10 @@
     "valueM": -0.1125,
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/dockscentresmall",
@@ -5206,7 +5251,10 @@
     "valueM": -0.1125,
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/dockscorner",
@@ -5272,7 +5320,10 @@
     "valueM": -0.1125,
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/docksend",
@@ -5338,7 +5389,10 @@
     "valueM": -0.1125,
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/docksendnopost",
@@ -5402,7 +5456,10 @@
     "valueM": -0.1125,
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "kotm:argonia/blackwood/dockspilings",

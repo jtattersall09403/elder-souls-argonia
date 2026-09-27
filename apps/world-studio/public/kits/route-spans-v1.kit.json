@@ -635,7 +635,10 @@
     "p10": 2.0,
     "p90": 2.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default"
   },
   {
    "id": "bmv:architecture/huts/exterior/steps01",
@@ -766,7 +769,10 @@
     "p10": 2.0,
     "p90": 2.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default"
   },
   {
    "id": "bmv:architecture/huts/exterior/steps03",

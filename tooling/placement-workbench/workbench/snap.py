@@ -209,13 +209,18 @@ def snap_geometry(cat: Catalogue, child: Piece, parent: Piece, child_face: str,
                + float(crow["originOffsetM"][2]) * child.scale)
     # refine along n to the touching distance
     manager = trimesh.collision.CollisionManager()
-    manager.add_object("p", cat.mesh(parent.asset), transform=_t4(parent))
-    manager.add_object("c", cat.mesh(child.asset), transform=_t4(child))
+    # FCL takes a rigid transform: scaled pieces go in as pre-scaled meshes
+    # (the one rule of `measure._rigid4` / `_fcl_mesh`, walk 2 round 4)
+    from .measure import _fcl_mesh, _rigid4
+    manager.add_object("p", _fcl_mesh(cat, parent), transform=_rigid4(parent))
+    manager.add_object("c", _fcl_mesh(cat, child), transform=_rigid4(child))
     base = np.array([child.x, -child.z, child.y])
 
     def crossing(t: float) -> bool:
         moved = base + n * t
-        manager.set_transform("c", _t4_at(child, moved))
+        t = _rigid4(child)
+        t[:3, 3] = moved
+        manager.set_transform("c", t)
         return bool(manager.in_collision_internal())
 
     lo, hi = None, 0.0
@@ -331,6 +336,43 @@ def unmined_refusal(cat, asset: str, scale: float, approval: str | None) -> str 
     return None
 
 
+def unmined_wall_mount(cat, child: Piece, parent: Piece, approval: str) -> dict:
+    """A small unmined child hung on its parent's WALL where it is placed
+    (planner ruling 2026-09-27 walk 2 round 4: a sconce or lantern 0.3 m
+    beside a door frame at hand height): its height kept, it is slid
+    horizontally onto the parent's nearest wall face until its bounds touch
+    it. Refused by `unmined_refusal`, like the top mount."""
+    if cat is None:
+        raise ValueError("an unmined mount needs the catalogue (the child's size, the parent's mesh)")
+    why = unmined_refusal(cat, child.asset, child.scale, approval)
+    if why:
+        raise ValueError(f"unmined mount {child.uid} on {parent.uid}: {why}")
+    if parent.y is None or child.y is None:
+        raise ValueError(f"unmined wall mount: {parent.uid} and {child.uid} need a height first")
+    from trimesh.proximity import closest_point
+    pmesh = cat.mesh(parent.asset).copy().apply_transform(_t4(parent))
+    cmesh = cat.mesh(child.asset).copy().apply_transform(_t4(child))
+    centre = (cmesh.bounds[0] + cmesh.bounds[1]) / 2.0
+    near, dist, _tri = closest_point(pmesh, np.array([centre]))
+    d = np.array([centre[0] - near[0][0], centre[1] - near[0][1]])
+    n = float(np.linalg.norm(d))
+    if n < 1e-6:
+        raise ValueError(f"unmined wall mount: {child.uid} stands inside {parent.uid}")
+    u = d / n
+    half = float(np.max(np.abs((cmesh.vertices[:, :2] - centre[:2]) @ u)))
+    shift = (n - half) * u                                  # slide back onto the face
+    child.x -= float(shift[0])
+    child.z += float(shift[1])                              # mesh y is -z
+    child.settledBy = f"mount:{parent.uid}"
+    prov = {"kind": "unmined", "unmined": approval, "on": "wall",
+            "longestPlanSideM": round(max(float(v) * child.scale for v in cat.row(child.asset)["sizeM"][:2]), 3),
+            "heightM": round(float(cat.row(child.asset)["sizeM"][2]) * child.scale, 3),
+            "yawDeg": (child.yaw - parent.yaw) % 360.0}
+    child.role = {**child.role, "mountedOn": parent.uid, "mountPair": prov}
+    child.notes.append(f"unmined wall mount on {parent.uid}: {approval}")
+    return {"pair": prov}
+
+
 def unmined_mount(cat, child: Piece, parent: Piece, approval: str) -> dict:
     """Stand a small child on its parent's top where it is placed (plan
     position and yaw kept): the parent's highest surface straight under the
@@ -365,7 +407,7 @@ def unmined_mount(cat, child: Piece, parent: Piece, approval: str) -> dict:
 
 
 def mount(child: Piece, parent: Piece, along_m: float | None = None, point: int = 0,
-          unmined: str | None = None, cat=None) -> dict:
+          unmined: str | None = None, cat=None, wall: bool = False) -> dict:
     """Seat a wall / hanging child on its parent by the mined mount pair:
     a band at its recorded out/up offset (anywhere along its axis between
     the mined extremes; `along_m` picks where), or one of the mined points.
@@ -374,7 +416,7 @@ def mount(child: Piece, parent: Piece, along_m: float | None = None, point: int 
     decision 5 as amended)."""
     pairs = mount_pairs(child.asset, parent.asset)
     if not pairs and unmined is not None:
-        return unmined_mount(cat, child, parent, unmined)
+        return (unmined_wall_mount if wall else unmined_mount)(cat, child, parent, unmined)
     if not pairs:
         raise ValueError(f"no mined mount pair hangs {child.asset} on {parent.asset}")
     pair = max(pairs, key=lambda p: p.get("n", 0))

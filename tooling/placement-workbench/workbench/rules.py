@@ -65,6 +65,9 @@ SILL_MAX_M = 0.20            # sillRule: a door threshold within this of the wal
 SILL_PROBE_M = 0.3           # ... the walk surface is read this far out along the door's facing
 SILL_FLOOR_BAND_M = 1.5      # ... with no sill record, the floor is read within this of the mesh base
 SILL_WAY_TOKENS = ("stair", "steps", "walkway", "porch", "ramp", "boardwalk", "dock", "plank")
+SILL_OWN_DECK_M = 0.5        # ... a threshold on its own assembly's deck (the pod's porch) within this
+PORCH_STEP_MAX_M = 0.45      # ... and that deck reaches the ground by a step no higher than this
+PORCH_REACH_M = 8.0          # ... read along the facing at most this far out
 SIGN_BEARING_MAX_DEG = 15.0  # signRule: a board's arm within this of the road's bearing
 SIGN_HEIGHT_M = (1.7, 2.4)   # ... the board's centre this high over the ground
 SIGN_BOARD_TOKENS = ("roadsign",)  # a board: the name says roadsign and not signpost
@@ -1177,6 +1180,34 @@ def _top_at(cat, p, x: float, z: float, below: float, above: float = -1e9) -> fl
     return max((float(v[2]) for v in locs if float(v[2]) >= above), default=None)
 
 
+def _own_deck(cat, p, g, tx, tz, dx, dz, sill_y) -> dict | None:
+    """Planner ruling 2026-09-27 (walk 2 round 4): a threshold measured
+    against the walkable surface of its own assembly, the piece's mesh top
+    within SILL_OWN_DECK_M outside it (the KotM pod's porch deck); that deck
+    is then judged like a deck: walking out along the facing, its last top
+    (its foot) stands at most PORCH_STEP_MAX_M over the padded ground."""
+    best = None
+    for k in range(1, int(SILL_OWN_DECK_M / 0.1) + 1):
+        t = _top_at(cat, p, tx + dx * 0.1 * k, tz + dz * 0.1 * k, sill_y + 0.3, sill_y - 1.0)
+        if t is not None and (best is None or abs(sill_y - t) < abs(sill_y - best)):
+            best = t
+    if best is None:
+        return None
+    on = abs(sill_y - best) <= SILL_MAX_M
+    foot = best
+    step = None
+    for k in range(1, int(PORCH_REACH_M / 0.25) + 1):
+        x, z = tx + dx * 0.25 * k, tz + dz * 0.25 * k
+        t = _top_at(cat, p, x, z, foot + 0.3, foot - PORCH_STEP_MAX_M - 1.0)
+        ground = g.chunk_height(x, z)
+        if t is None or t <= ground + 0.02:
+            step = round(max(0.0, foot - ground), 3)
+            break
+        foot = t
+    return {"deckM": round(best, 3), "offM": round(abs(sill_y - best), 3), "onDeck": on,
+            "footM": round(foot, 3), "footStepM": step}
+
+
 def sill(cat, scene) -> dict:
     """sillRule: every bound doorway's threshold stands within SILL_MAX_M of
     the walk surface just outside it (SILL_PROBE_M out along its facing: the
@@ -1210,8 +1241,18 @@ def sill(cat, scene) -> dict:
                 and _has(q.asset, SILL_WAY_TOKENS)
                 for t in [_top_at(cat, q, ox, oz, sill_y + 1.0)] if t is not None]
         off = min(abs(sill_y - v) for v in [walk, *ways])
+        porch = None
+        if off > SILL_MAX_M:
+            porch = _own_deck(cat, p, g, tx, tz, dx, dz, sill_y)
         rows[d["id"]] = {"sillM": round(sill_y, 3), "walkM": round(walk, 3), "from": how,
-                         "wayTopsM": [round(v, 3) for v in ways], "offM": round(off, 3)}
+                         "wayTopsM": [round(v, 3) for v in ways], "offM": round(off, 3),
+                         **({"ownDeck": porch} if porch else {})}
+        if porch is not None and porch["onDeck"]:
+            if porch["footStepM"] is None or porch["footStepM"] > PORCH_STEP_MAX_M:
+                failures.append(f"{d['id']}: its own deck (the threshold's porch) reaches the ground "
+                                f"by a {porch['footStepM']} m step at its foot (> {PORCH_STEP_MAX_M} m): "
+                                f"the porch needs its step piece")
+            continue
         if off > SILL_MAX_M:
             failures.append(f"{d['id']}: sill {sill_y:.2f} m stands {sill_y - walk:+.2f} m off "
                             f"the walk surface outside it (> {SILL_MAX_M} m; no stair or "
@@ -1319,6 +1360,20 @@ def _ends(cat, p) -> tuple[tuple[float, float], tuple[float, float]]:
     return (a[0], a[1]), (b[0], b[1])
 
 
+def _way_ends(cat, scene, q) -> list:
+    """(near, far) end pairs of a way piece; a run member is judged as its
+    whole run (lessons L65, round 4): its near end is the member's, its far
+    end the run's end farthest from it (the landing's dry foot, not the
+    deck span's own other end over the water)."""
+    a, b = _ends(cat, q)
+    role = q.role or {}
+    if role.get("kind") != "run":
+        return [(a, b), (b, a)]
+    ends = [e for m in scene.pieces if m.y is not None and (m.role or {}).get("kind") == "run"
+            and (m.role or {}).get("id") == role.get("id") for e in _ends(cat, m)]
+    return [(n, max(ends, key=lambda e: math.dist(e, n))) for n in (a, b)]
+
+
 def berth_reach(cat, scene) -> dict:
     """berthReachRule: every berth (a water-class piece bound to a parcel: a
     ferry or boat hull) has a way or landing piece (BERTH_WAY_TOKENS) with
@@ -1338,7 +1393,7 @@ def berth_reach(cat, scene) -> dict:
         level = g.water_level(p.x, p.z)
         best = None
         for q in ways:
-            for near, far in (_ends(cat, q), _ends(cat, q)[::-1]):
+            for near, far in _way_ends(cat, scene, q):
                 gap = hull.distance(Point(near))
                 dry = float(g.chunk_height(*far)) - (level if level is not None else -1e9)
                 if best is None or (gap, -dry) < (best[1], -best[2]):

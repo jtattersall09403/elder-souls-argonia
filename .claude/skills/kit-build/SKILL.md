@@ -116,6 +116,9 @@ A vault asset missing on this machine: (the whole vault is local on the EC2 box 
   `designedSinkM`, `designedWaterlineM`, `deckClearanceM`) is not a miner
   record: refresh only the kits it touches, `--refresh-built-manifests --kit
   <kit>` (repeatable), whatever the miner lane's state (owner 2026-09-24).
+- `piledDecks` (placement-policies.json, walk 2 round 4): the listed pier/dock/walkway
+  decks get `piled: true`, `deckRiseM`, `deckRiseEvidence` on refresh
+  (`placement_metadata.piled_deck_rise`); same `--kit` refresh as a row change.
 - A rebuild after the refresh keeps it: `build_kit` calls
   `apply_placement_metadata` from the current record (`build_kit.py:955`).
 

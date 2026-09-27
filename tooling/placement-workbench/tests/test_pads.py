@@ -259,3 +259,24 @@ def test_dressing_inside_a_pads_reach_reads_the_padded_surface():
     assert pg.dressing_slope_deg(on) == pytest.approx(0.0, abs=0.01)
     assert pg.footprint_max_slope_deg([(20, 20), (21, 20), (21, 21), (20, 21)]) == 11.3
     assert pg.dressing_slope_deg([(20, 20), (21, 20), (21, 21), (20, 21)]) is None
+
+
+def test_apron_by_side_widens_only_the_named_compass_side_and_round_trips():
+    """Planner ruling 2026-09-27 (walk 2 round 4): a yard set seats on the
+    building's pad TOP; `apronBySide` widens one side's apron (the yard's
+    flat seat) and keeps the rest; the compile's judge draws the same pad."""
+    srp = pads._srp()
+    foot = [(0, 0), (10, 0), (10, 6), (0, 6)]                    # x east, z south
+    base = srp.pad_polygon(foot, 1.0)
+    wide = srp.pad_polygon(foot, 1.0, {"e": 3.5})
+    xs = [x for x, _ in wide]
+    zs = [z for _, z in wide]
+    assert max(xs) == pytest.approx(13.5) and min(xs) == pytest.approx(-1.0)
+    assert (min(zs), max(zs)) == pytest.approx((-1.0, 7.0))
+    assert srp.pad_polygon(foot, 1.0, {}) == base
+    ap = wb.parser()
+    op = {"op": "place", "uid": "b5", "asset": HUT, "at": [1.0, 2.0], "yaw": 0.0,
+          "pad": {"apronM": 1.0, "apronBySide": {"e": 3.5}, "batter": True}}
+    assert layout.argv_to_op(layout.op_to_argv(op, ap), ap)["pad"] == op["pad"]
+    with pytest.raises(ValueError):
+        pads.parse(["apronBySide=up:3"])

@@ -536,3 +536,36 @@ def test_a_runtime_effect_placement_is_non_physical(tmp_path):
         "assetPolicies": {}, "expandedRefs": {},
         "nonPhysicalCompiledRefs": {"fx:smoke-column": "runtime effect"}})
     assert report.unresolved == {} and report.used == {}
+
+
+BRIDGE01 = "bmv:architecture/huts/exterior/bridge01"
+
+
+def test_a_piled_deck_carries_the_flag_and_its_deck_rise():
+    """piledDecks (16k walk 2 round 4): bridge01 stands on legs and has no mined
+    deck tell, so it takes the default rise; an unlisted asset carries nothing."""
+    manifest = {"assets": [
+        {"id": BRIDGE01, "sizeM": [2.284, 4.977, 3.134], "originOffsetM": [1.157, 2.783, -0.003]},
+        _asset(piled=True, deckRiseM=9.0),
+    ]}
+    apply_placement_metadata(manifest, "route-spans-v1")
+    bridge, hut = manifest["assets"]
+    assert (bridge["piled"], bridge["deckRiseM"], bridge["deckRiseEvidence"]) == (
+        True, 0.3, "default")
+    assert not {"piled", "deckRiseM", "deckRiseEvidence"} & set(hut)
+
+
+def test_the_piled_flag_reaches_the_published_bridge01_manifest():
+    """The refresh wrote it: the published route-spans-v1 manifest is what ships."""
+    for root in (BUILT_KITS_DIR, PUBLISHED_KITS_DIR):
+        path = root / "route-spans-v1.kit.json"
+        if not path.exists():
+            pytest.skip(f"{path} not built on this machine")
+        row = next(a for a in json.loads(path.read_text())["assets"] if a["id"] == BRIDGE01)
+        assert row.get("piled") is True and row.get("deckRiseM") == 0.3, path
+
+
+def test_piled_decks_rejects_an_id_no_kit_emits():
+    inventory = load_inventory()
+    inventory["piledDecks"] = {"why": "x", "assets": ["bmv:no/such/piece"]}
+    assert any("piledDecks 'bmv:no/such/piece'" in f for f in validate_policy_inventory(inventory))

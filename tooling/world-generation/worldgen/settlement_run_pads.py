@@ -186,7 +186,7 @@ def building_pad(spec, foot_m, height_at, is_wet) -> tuple[dict | None, str | No
     if not isinstance(spec, dict) or not isinstance(spec.get("datumM"), (int, float)):
         return None, "pad: declares no datumM (the workbench export resolves it; 0101)"
     apron = float(spec.get("apronM", PAD_APRON_M))
-    polygon = pad_polygon(foot_m, apron)
+    polygon = pad_polygon(foot_m, apron, spec.get("apronBySide"))
     samples = footprint_samples(polygon)
     datum = float(spec["datumM"])
     got = pad_delta(datum, [height_at(x, z) for x, z in samples])
@@ -293,14 +293,40 @@ def merge_pad_patches(existing: list[dict], new: list[dict],
 
 # --- building pads (decision 0101) -------------------------------------------------
 
-def pad_polygon(footprint, apron_m: float = PAD_APRON_M) -> list[tuple[float, float]]:
+def _side_of(nx: float, nz: float) -> str:
+    """The compass side (n e s w; x east, z south) an outward normal faces."""
+    b = math.degrees(math.atan2(nx, -nz)) % 360.0
+    return "nesw"[int(((b + 45.0) % 360.0) // 90.0)]
+
+
+def pad_polygon(footprint, apron_m: float = PAD_APRON_M,
+                by_side: dict | None = None) -> list[tuple[float, float]]:
     """The footprint's least rotated rectangle grown by the apron, corners
     kept square: an engineered base has four straight edges, each one wall
-    run or none (R1), whatever the outline's own vertex count."""
+    run or none (R1), whatever the outline's own vertex count. ``by_side``
+    ({n|e|s|w: metres}, planner ruling 2026-09-27 walk 2 round 4
+    `apronBySide`) widens the edge whose outward normal faces that compass
+    side (the yard's flat seat); the others keep ``apron_m``."""
     from shapely.geometry import Polygon
-    grown = (Polygon(footprint).minimum_rotated_rectangle
-             .buffer(float(apron_m), join_style=2, mitre_limit=3.0))
-    return [(round(x, 3), round(z, 3)) for x, z in list(grown.exterior.coords)[:-1]]
+    rect = Polygon(footprint).minimum_rotated_rectangle
+    if not by_side:
+        grown = rect.buffer(float(apron_m), join_style=2, mitre_limit=3.0)
+        return [(round(x, 3), round(z, 3)) for x, z in list(grown.exterior.coords)[:-1]]
+    pts = list(rect.exterior.coords)[:-1]
+    cx = sum(x for x, _ in pts) / 4.0
+    cz = sum(z for _, z in pts) / 4.0
+    a1 = (pts[1][0] - pts[0][0], pts[1][1] - pts[0][1])
+    a2 = (pts[2][0] - pts[1][0], pts[2][1] - pts[1][1])
+    l1, l2 = math.hypot(*a1), math.hypot(*a2)
+    u1, u2 = (a1[0] / l1, a1[1] / l1), (a2[0] / l2, a2[1] / l2)
+
+    def ap(nx, nz):
+        return float(by_side.get(_side_of(nx, nz), apron_m))
+    lo1, hi1 = -(l1 / 2 + ap(-u1[0], -u1[1])), l1 / 2 + ap(*u1)
+    lo2, hi2 = -(l2 / 2 + ap(-u2[0], -u2[1])), l2 / 2 + ap(*u2)
+    ring = [(cx + u1[0] * s1 + u2[0] * s2, cz + u1[1] * s1 + u2[1] * s2)
+            for s1, s2 in ((lo1, lo2), (hi1, lo2), (hi1, hi2), (lo1, hi2))]
+    return [(round(x, 3), round(z, 3)) for x, z in ring]
 
 
 def footprint_samples(polygon, step: float = PAD_SAMPLE_STEP_M) -> list[tuple[float, float]]:

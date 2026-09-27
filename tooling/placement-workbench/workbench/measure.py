@@ -47,6 +47,21 @@ def _transform4(piece: Piece) -> np.ndarray:
     return t
 
 
+def _rigid4(piece: Piece) -> np.ndarray:
+    """The pose without its scale: FCL (trimesh's CollisionManager) takes a
+    rigid transform and silently drops a scale, so a scaled piece is added
+    as a pre-scaled mesh on this transform (walk 2 round 4: the BM&V landing
+    at plugin scale 2.0 read 9.7 m run-joint gaps at unit scale)."""
+    t = _transform4(piece)
+    t[:3, :3] = t[:3, :3] / float(piece.scale or 1.0)
+    return t
+
+
+def _fcl_mesh(cat: Catalogue, piece: Piece):
+    m = cat.mesh(piece.asset)
+    return m if float(piece.scale or 1.0) == 1.0 else m.copy().apply_scale(float(piece.scale))
+
+
 def _one_way(cat: Catalogue, a: Piece, b: Piece) -> dict:
     """A's surface samples against B's surface, in B's kit frame: contact
     points (within CONTACT_M), the contact patch class on A, and B's mean
@@ -85,7 +100,7 @@ def _min_separation(manager, a: Piece, b: Piece, ab_: dict, ba_: dict):
     `worldgen.slide_penetration`, shared with the abuts miner's run-joint
     bars (16k fix 2 round 6 ruling K3)."""
     sp = _sp()
-    ta, tb = _transform4(a), _transform4(b)
+    ta, tb = _rigid4(a), _rigid4(b)
     return sp.min_separation(manager, ta, sp.candidate_directions(
         ta, tb, ab_["normalOfB"], ba_["normalOfB"]), PENETRATION_REACH_M)
 
@@ -112,8 +127,8 @@ def contact(cat: Catalogue, a: Piece, b: Piece) -> dict:
         raise ValueError("both pieces need a height: settle or set y first")
     mm = _mm()
     manager = trimesh.collision.CollisionManager()
-    manager.add_object("b", cat.mesh(b.asset), transform=_transform4(b))
-    manager.add_object("a", cat.mesh(a.asset), transform=_transform4(a))
+    manager.add_object("b", _fcl_mesh(cat, b), transform=_rigid4(b))
+    manager.add_object("a", _fcl_mesh(cat, a), transform=_rigid4(a))
     intersecting = bool(manager.in_collision_internal())
     gap = 0.0 if intersecting else float(manager.min_distance_internal())
     ab_ = _one_way(cat, a, b)
@@ -158,6 +173,28 @@ def seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
     row = cat.row(piece.asset)
     klass = row.get("anchorClass") or "ground"
     fit = fit_of(row)
+    paths.bridge()
+    from worldgen.compile_settlement import is_quay_run
+    if row.get("piled") and not is_quay_run(row):      # a quay run slides by the compile's rule
+        levels = [ground.water_level(x, z) for x, z in
+                  [(piece.x, piece.z), *footprint_province(cat, piece)]]
+        levels = [v for v in levels if v is not None]
+        level = max(levels) if levels else None
+        if level is not None:
+            # lessons L65 (planner ruling 2026-09-27, round 4): a piled deck
+            # seats by its DECK at the water surface + its deck rise; the
+            # piles sink into the bed however deep
+            rise = float(row.get("deckRiseM", 0.3))
+            top = (row.get("groundLineTell") or {}).get("deckTopM")   # the deck over the pivot
+            deck = float(top) * piece.scale if isinstance(top, (int, float)) else 0.0
+            ring = footprint_province(cat, piece)
+            hs = [ground.height(x, z, source) for x, z in ring]
+            y = level + rise - deck
+            return {"y": y, "mode": "piled", "fit": fit, "anchorClass": klass, "source": source,
+                    "waterLevelM": level, "deckRiseM": rise, "deckAbovePivotM": deck,
+                    "groundLineM": sum(hs) / len(hs), "terrainMinM": min(hs),
+                    "terrainMaxM": max(hs), "deltaM": max(hs) - min(hs),
+                    "designedSinkM": None, "samples": len(hs), "runtimeGapM": 0.0}
     if klass == "water":
         level = ground.water_level(piece.x, piece.z)
         if level is None:

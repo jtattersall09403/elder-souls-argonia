@@ -88,7 +88,9 @@ def op_to_argv(op: dict, ap: argparse.ArgumentParser) -> list[str]:
             continue
         v = op[act.dest]
         if isinstance(v, dict):            # `pad: {apronM: 1.5}` -> --pad apronM=1.5
-            argv += [act.option_strings[0], *(f"{k}={_arg(x)}" for k, x in v.items())]
+            argv += [act.option_strings[0], *(
+                f"{k}=" + (",".join(f"{a}:{_arg(b)}" for a, b in x.items()) if isinstance(x, dict)
+                           else _arg(x)) for k, x in v.items())]
             continue
         if not act.option_strings:
             argv += [_arg(x) for x in _flat(v)] if v is not None else []
@@ -319,7 +321,9 @@ def check_failures(check: dict) -> list[str]:
         for rule in ("slopeRule", "deltaRule", "sillRule", "padRule", "beachedRule", "notExportable"):
             if r.get(rule):
                 out.append(f"{uid}: {r[rule]}")
-        if (r.get("anchorClass") or "ground") == "ground" and \
+        # a piled deck (dock, jetty, landing span) stands on its piles and
+        # seats by its deck: its feet are exempt (lessons L65, round 4)
+        if (r.get("anchorClass") or "ground") == "ground" and not r.get("piled") and \
                 (r.get("footFloatMaxM") or 0.0) > tpg.FLOAT_LIMIT_M:
             out.append(f"{uid}: foot floats {r['footFloatMaxM']} m (> {tpg.FLOAT_LIMIT_M})")
         if r.get("hullWater") and not r["hullWater"]["ok"]:

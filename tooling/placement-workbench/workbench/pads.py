@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from . import measure, paths
 
-PAD_KEYS = ("apronM", "datumM", "floorMinM", "batter")
+PAD_KEYS = ("apronM", "datumM", "floorMinM", "batter", "apronBySide")
 
 RETAIN_REACH_M = 1.0      # a wall piece's outline within this of a pad edge retains it
 RETAIN_COVER = 0.9        # ... over at least this share of the edge's length
@@ -35,6 +35,12 @@ def parse(tokens: list[str] | None) -> dict | None:
         if key not in PAD_KEYS or not value:
             raise ValueError(f"--pad takes KEY=VALUE with KEY one of {', '.join(PAD_KEYS)}; "
                              f"got {tok!r}")
+        if key == "apronBySide":
+            # `apronBySide=n:3.5,e:1` (round 4): a per-side apron (compass sides)
+            out[key] = {k: float(v) for k, _, v in (kv.partition(":") for kv in value.split(","))}
+            if not set(out[key]) <= set("nesw"):
+                raise ValueError(f"--pad apronBySide takes n|e|s|w:METRES; got {tok!r}")
+            continue
         if key == "batter":
             if value.lower() not in ("true", "false"):
                 raise ValueError(f"--pad batter takes true or false; got {tok!r}")
@@ -53,7 +59,8 @@ def resolve(cat, g, piece) -> dict | None:
         return None
     srp = _srp()
     apron = float(piece.pad.get("apronM", srp.PAD_APRON_M))
-    polygon = srp.pad_polygon(measure.footprint_province(cat, piece), apron)
+    polygon = srp.pad_polygon(measure.footprint_province(cat, piece), apron,
+                              piece.pad.get("apronBySide"))
     samples = srp.footprint_samples(polygon)
     # the median on the chunk ground (what the runtime seats on); the clamp
     # also holds on the survey raster the compile judges fill and cut on
@@ -139,6 +146,9 @@ def refusal(cat, g, piece, pad: dict) -> str | None:
     if pad["error"]:
         return pad["error"]
     spec = {"datumM": pad["datumM"], "apronM": pad["apronM"]}
+    for key in ("apronBySide", "batter"):          # the compile judges the same pad
+        if piece.pad.get(key):
+            spec[key] = piece.pad[key]
     if piece.pad.get("floorMinM") is not None:
         spec["floorMinM"] = piece.pad["floorMinM"]
     _, why = _srp().building_pad(spec, measure.footprint_province(cat, piece),
@@ -150,7 +160,7 @@ def _pad_key(scene) -> tuple:
     """What the scene's pads depend on: every padded piece's pose and spec."""
     return (getattr(scene, "groundStem", ""), tuple(
         (p.uid, p.asset, p.x, p.z, p.yaw, p.pitch, p.roll, p.mirror, p.scale,
-         tuple(sorted(p.pad.items()))) for p in scene.pieces if p.pad is not None))
+         tuple(sorted((k, str(v)) for k, v in p.pad.items()))) for p in scene.pieces if p.pad is not None))
 
 
 def scene_pads(cat, scene) -> dict:

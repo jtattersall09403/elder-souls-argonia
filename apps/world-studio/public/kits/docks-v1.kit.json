@@ -62,7 +62,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default"
   },
   {
    "id": "vanilla:architecture/docks/dockstrsol02",
@@ -132,7 +135,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent01",
@@ -195,7 +201,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent02",
@@ -265,7 +274,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent03",
@@ -335,7 +347,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "vanilla:architecture/docks/dockstrent04",
@@ -405,7 +420,10 @@
     "p90": 1.0,
     "source": "plugin"
    },
-   "designedWaterlineM": 0.12
+   "designedWaterlineM": 0.12,
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "vanilla:architecture/docks/dockstr4way01",
@@ -475,7 +493,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "vanilla:architecture/docks/dockcorsol01",
@@ -537,7 +558,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default"
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown01",
@@ -606,7 +630,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdown02",
@@ -669,7 +696,10 @@
     "p10": 1.0,
     "p90": 1.8,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default"
   },
   {
    "id": "vanilla:architecture/docks/dockstepsdownend01",
@@ -731,7 +761,10 @@
     "p10": 1.0,
     "p90": 1.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.3,
+   "deckRiseEvidence": "default"
   },
   {
    "id": "vanilla:architecture/docks/dockcolstr01",
@@ -1136,7 +1169,10 @@
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentrealt",
@@ -1204,7 +1240,10 @@
     "deckTopM": 0.2383,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentrenopost",
@@ -1270,7 +1309,10 @@
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscentresmall",
@@ -1336,7 +1378,10 @@
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/docks3way",
@@ -1404,7 +1449,10 @@
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/docks4way",
@@ -1473,7 +1521,10 @@
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockscorner",
@@ -1541,7 +1592,10 @@
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/docksend",
@@ -1609,7 +1663,10 @@
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/docksendnopost",
@@ -1675,7 +1732,10 @@
     "deckTopM": 0.2375,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:sheogorad/dagon fel/dockspilings",
@@ -1965,7 +2025,10 @@
     "deckTopM": 0.5792,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockpostextension",
@@ -2202,7 +2265,10 @@
     "deckTopM": 0.5792,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "bmv:architecture/jets/miscstuff/dockracked02",
@@ -2314,7 +2380,10 @@
     "p10": 2.0,
     "p90": 2.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 1.14,
+   "deckRiseEvidence": "assetPlacement deckClearanceM"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02",
@@ -2381,7 +2450,10 @@
     "p10": 2.0,
     "p90": 2.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01",
@@ -2448,7 +2520,10 @@
     "p10": 2.0,
     "p90": 2.0,
     "source": "plugin"
-   }
+   },
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   },
   {
    "id": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01",
@@ -2964,7 +3039,10 @@
     "deckClearanceM": 0.35
    },
    "anchorClassEvidence": "policy",
-   "designedWaterlineM": -0.6282
+   "designedWaterlineM": -0.6282,
+   "piled": true,
+   "deckRiseM": 0.672,
+   "deckRiseEvidence": "assetPlacement deckClearanceM"
   },
   {
    "id": "composite:docks/quay-run-3",
@@ -3032,7 +3110,10 @@
     "deckTopM": 0.07,
     "deckClearanceM": 0.35
    },
-   "anchorClassEvidence": "unplaced"
+   "anchorClassEvidence": "unplaced",
+   "piled": true,
+   "deckRiseM": 0.35,
+   "deckRiseEvidence": "deck-top tell"
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\docks-v1.glb",

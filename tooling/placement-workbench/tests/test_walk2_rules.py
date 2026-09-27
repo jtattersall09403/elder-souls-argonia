@@ -353,3 +353,32 @@ def test_a_run_members_co_placed_door_is_not_its_threshold(scene, cat):
     assert measure.door_report(cat, scene, deck)                # free-standing: listed
     deck.role = {"kind": "run", "id": "parcel.claywater-station.landing-stage", "index": 1}
     assert measure.door_report(cat, scene, deck) is None
+
+
+def test_round4_scaled_pair_contact_and_piled_deck_seat(scene, cat):
+    """Planner ruling 2026-09-27 (round 4, lessons L65): FCL drops a scale,
+    so a scaled pair is measured on pre-scaled meshes (the BM&V landing at
+    plugin scale 2.0 read 9.7 m run-joint gaps); a piled deck seats by its
+    deck at the water surface + its deck rise."""
+    from workbench import measure, pads
+    from workbench.scene import Piece
+    a = Piece("t-a", "bmv:architecture/huts/exterior/bridge01", 335.399, 3001.201, 116.721, scale=2.0)
+    b = Piece("t-b", "bmv:architecture/huts/exterior/bridge01", 344.081, 3005.527, 116.721, scale=2.0)
+    a.y = b.y = 35.53
+    assert measure.contact(cat, a, b)["gapM"] <= 0.05
+    dock = Piece("t-dock", "vanilla:architecture/docks/dockstrent02", 343.0, 3005.0, 116.7)
+    g = pads.ground_for(cat, scene, None)
+    seat = measure.seat(cat, g, dock)
+    assert seat["mode"] == "piled"
+    assert seat["y"] == pytest.approx(seat["waterLevelM"] + cat.row(dock.asset)["deckRiseM"], abs=0.01)
+
+
+def test_round4_a_pods_door_is_judged_on_its_own_porch(scene, cat):
+    """Planner ruling 2026-09-27 (round 4): a threshold is measured against
+    its own assembly's walkable surface (the pod's porch deck) within 0.5 m,
+    and the porch then must reach the ground by a step of at most 0.45 m."""
+    got = rules.sill(cat, scene)
+    row = got["doors"]["door:b4"]
+    assert row["ownDeck"]["onDeck"] and row["ownDeck"]["offM"] <= rules.SILL_MAX_M
+    assert row["ownDeck"]["footStepM"] > rules.PORCH_STEP_MAX_M
+    assert any("door:b4: its own deck" in f for f in got["failures"])
