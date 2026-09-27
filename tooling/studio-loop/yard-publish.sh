@@ -2,10 +2,12 @@
 # Fast walk loop for the proving-ground yard (owner ruling 2026-09-24).
 #
 #   1. compile ONLY place.fixture.proving-ground into tooling/world-generation/output/settlements
-#   2. export the settlement bundle with --fixtures-ok to a staging file (no --copy-assets:
-#      the kits are already published; the exporter still CHECKS them, it copies nothing)
-#   3. copy that one file over apps/world-studio/public/province/settlements.json, the only
-#      file the yard publish changes (K14 touched nothing else under public/province)
+#   2. export BOTH yards (the original and yard B, whose compile the workbench owns) with
+#      --fixtures-ok to a staging file (no --copy-assets: the kits are already published; the
+#      exporter still CHECKS them, it copies nothing), so each carries its ground overlays in
+#      the bundle (decision 0102)
+#   3. copy that file and its ground sidecar (settlements/ground-overlays.json, 0102 round 2)
+#      over apps/world-studio/public/province/, the only two files the yard publish changes
 #   4. print the walk table: every yard placement, the three door thresholds, a studio URL each
 #
 # No tests, no site compose, no province:publish. `npm run studio` serves public/ from disk
@@ -26,6 +28,8 @@ WG="$REPO/tooling/world-generation"
 BLUEPRINT="$REPO/world/sources/blueprints/place.fixture.proving-ground.json"
 COMPILED="$WG/output/settlements"
 PUBLIC="$REPO/apps/world-studio/public/province/settlements.json"
+SIDECAR="$REPO/apps/world-studio/public/province/settlements/ground-overlays.json"
+YARDS="place.fixture.proving-ground,place.fixture.proving-ground-b"
 STAGE="$(mktemp -d /tmp/yard-publish.XXXXXX)"
 trap 'rm -rf "$STAGE"' EXIT
 
@@ -41,22 +45,27 @@ fi
 grep "placements," "$STAGE/compile.log" | sed 's/^/      /'
 T1=$(now)
 
-echo "[2/4] export the yard into the bundle (--places, --fixtures-ok, no asset copy)"
+echo "[2/4] export both yards into the bundle (--places, --fixtures-ok, no asset copy)"
 if ! (cd "$WG" && python3 -m worldgen.export_settlement_bundle --fixtures-ok \
-        --places place.fixture.proving-ground --base "$PUBLIC" --out "$STAGE/settlements.json" >"$STAGE/export.log" 2>&1); then
+        --places "$YARDS" --base "$PUBLIC" --out "$STAGE/settlements.json" >"$STAGE/export.log" 2>&1); then
   tail -20 "$STAGE/export.log"; echo "yard-publish: export FAILED"; exit 1
 fi
-grep -E "PENDING PAD|KNOWN-RED|settlement \+" "$STAGE/export.log" | sed 's/^/      /'
+grep -E "ground overlay|KNOWN-RED|settlement \+" "$STAGE/export.log" | sed 's/^/      /'
 T2=$(now)
 
-echo "[3/4] publish settlements.json"
-if cmp -s "$STAGE/settlements.json" "$PUBLIC"; then
-  echo "      unchanged: $PUBLIC"
-else
-  install -m 0644 "$STAGE/settlements.json" "$PUBLIC.yard-publish.tmp"   # 0644 whatever the umask
-  mv -f "$PUBLIC.yard-publish.tmp" "$PUBLIC"     # atomic on the same filesystem
-  echo "      written: $PUBLIC"
-fi
+echo "[3/4] publish settlements.json and its ground sidecar"
+publish() {   # staged file, public target; the sidecar first, the bundle (the marker) last
+  if cmp -s "$1" "$2"; then
+    echo "      unchanged: $2"
+  else
+    mkdir -p "$(dirname "$2")"
+    install -m 0644 "$1" "$2.yard-publish.tmp"   # 0644 whatever the umask
+    mv -f "$2.yard-publish.tmp" "$2"             # atomic on the same filesystem
+    echo "      written: $2"
+  fi
+}
+publish "$STAGE/settlements/ground-overlays.json" "$SIDECAR"
+publish "$STAGE/settlements.json" "$PUBLIC"
 T3=$(now)
 
 echo "[4/4] walk table"

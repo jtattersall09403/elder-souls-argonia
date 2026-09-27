@@ -4,7 +4,7 @@
     {
       "label": "Claude (tmux)",
       "type": "shell",
-      "command": "bash tooling/bootstrap/claude-session.sh",
+      "command": "bash tooling/bootstrap/claude-session.sh --attach-only",
       "options": { "cwd": "${workspaceFolder}" },
       "isBackground": true,
       "problemMatcher": [],
