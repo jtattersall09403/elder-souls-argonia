@@ -1496,7 +1496,7 @@
         "hail": "text.rootworm.underground-express.hail",
         "name": "text.rootworm.underground-express.name"
       },
-      "why": "Pass-1 speculative network for the canonical rootworm 'Underground Express' (The Argonian Account, master plan §19). The source gives the mechanism and its deep-marsh association, not station positions: these are placed where Hist/root density is generated (rootland classes) and will be re-authored with Hist-node placement in Phase 11. Deliberately unreachable-by-road deep-marsh points — the network bypasses surface danger for those granted access. (MQ05's early Stormhold/AC->Helstrom protected travel is an escorted BOAT convoy on the waterway network, owner decision 2026-08-23 - not rootworm; this network is the deeper restricted system.)"
+      "why": "Pass-1 speculative network for the canonical rootworm 'Underground Express' (The Argonian Account, master plan §19). The source gives the mechanism and its deep-marsh association, not station positions: these are placed where Hist/root density is generated (rootland classes) and will be re-authored when the Hist nodes are placed. Deliberately unreachable-by-road deep-marsh points — the network bypasses surface danger for those granted access. (MQ05's early Stormhold/AC->Helstrom protected travel is an escorted BOAT convoy on the waterway network, owner decision 2026-08-23 - not rootworm; this network is the deeper restricted system.)"
     }
   ],
   "stations": [
@@ -1993,7 +1993,7 @@
         4244.3
       ],
       "status": "active",
-      "why": "Boards the canoe run canoe.hist-heartland.treasure-hunters-live-camp-portdun-mont (2026-09-20). Its two earlier ferry services, estuary-run and jungle-stage, were cut in 16g for want of a lane and a sited stage; the published minor channels are that lane."
+      "why": "Boards the canoe run canoe.hist-heartland.treasure-hunters-live-camp-portdun-mont (2026-09-20). Its two earlier ferry services, estuary-run and jungle-stage, were cut for want of a lane and a sited stage; the published minor channels are that lane."
     }
   ],
   "transferEdges": [

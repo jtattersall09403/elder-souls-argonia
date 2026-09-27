@@ -29,7 +29,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "an occupant carrying testimony a quest can query",
       "interiorKind": "dwelling",
-      "interiorRef": "vanilla-farmhouse-int",
+      "interiorRef": "interior-kotm-v1",
       "socketRef": null,
       "socketKind": null,
       "questId": null
@@ -44,7 +44,7 @@
       "deliveredBy": "phase-13",
       "deliverable": "a service station: travel, healing, storage or repair",
       "interiorKind": "dwelling",
-      "interiorRef": "mudmother-hut-int",
+      "interiorRef": "interior-kotm-v1",
       "socketRef": null,
       "socketKind": null,
       "questId": null

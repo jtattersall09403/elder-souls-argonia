@@ -57,14 +57,15 @@ def main(argv=None) -> int:
         args.extra += json.loads(args.extra_file.read_text())
     kits = kit_assets()
     only = {i for rows in sets.values() for i, _, _ in rows} | set(args.extra)
-    started = time.time()
+    started = time.perf_counter()   # elapsed for the console only, never written (standard 6)
     doc = build_document(kits, asset_registry.DEFAULT_VAULT, only=only,
                          sample_max=args.sample_max or None, sample_seed=args.sample_seed,
                          jobs=args.jobs,
                          **({"mount_min_refs": args.mount_min_refs}
                             if args.mount_min_refs is not None else {}))
     pairs = {(p["child"], p["parent"]) for p in doc["pairs"]}
-    out = {"secs": round(time.time() - started), "meshesMissing": doc["meshesMissing"],
+    secs = round(time.perf_counter() - started)
+    out = {"meshesMissing": doc["meshesMissing"],
            "distinctPoses": doc["distinctPoses"], "meshesMissingIds": doc["meshesMissingIds"], "sets": {}, "extra": {}}
     for name, rows in sets.items():
         results = []
@@ -81,7 +82,7 @@ def main(argv=None) -> int:
     out["pairs"] = [p for p in doc["pairs"] if p["child"] in only]
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(out, indent=1))
-    print(out["secs"], "s", {k: (v["pass"], v["of"]) for k, v in out["sets"].items()})
+    print(secs, "s", {k: (v["pass"], v["of"]) for k, v in out["sets"].items()})
     for name, block in out["sets"].items():
         for r in block["results"]:
             if not r["pass"]:

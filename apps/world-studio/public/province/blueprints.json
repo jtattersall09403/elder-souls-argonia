@@ -141,8 +141,8 @@
       "districts": [
         {
           "centreM": [
-            4263.981,
-            5745.71
+            4263.326,
+            5742.605
           ],
           "cultureKit": "imperial",
           "id": "district.proving-ground.imperial",
@@ -166,48 +166,44 @@
               5698.192
             ],
             [
-              4231.61,
-              5706.56
+              4231.611,
+              5706.563
             ],
             [
-              4262.685,
-              5799.556
+              4263.643,
+              5801.866
             ],
             [
-              4263.524,
-              5801.858
+              4265.145,
+              5804.295
             ],
             [
-              4266.285,
-              5803.586
+              4268.199,
+              5805.428
             ],
             [
-              4268.398,
-              5804.027
+              4270.358,
+              5805.432
             ],
             [
-              4270.629,
-              5804.187
+              4272.575,
+              5805.135
             ],
             [
-              4281.834,
-              5804.187
+              4283.547,
+              5802.863
             ],
             [
-              4284.033,
-              5804.03
+              4285.668,
+              5802.263
             ],
             [
-              4286.381,
-              5803.579
+              4287.76,
+              5801.394
             ],
             [
-              4288.304,
-              5802.197
-            ],
-            [
-              4372.49,
-              5719.659
+              4372.546,
+              5719.68
             ],
             [
               4269.461,
@@ -285,8 +281,8 @@
         },
         {
           "centreM": [
-            4304.756,
-            5737.825
+            4301.879,
+            5741.325
           ],
           "cultureKit": "argonian-stilt",
           "id": "district.proving-ground.stilt",
@@ -294,24 +290,28 @@
           "notes": "Test cells for the argonian-stilt kit set.",
           "polygon": [
             [
-              4230.659,
-              5687.164
+              4230.657,
+              5687.166
             ],
             [
-              4266.063,
-              5776.553
+              4266.391,
+              5777.081
             ],
             [
-              4268.046,
-              5779.437
+              4266.993,
+              5777.952
             ],
             [
-              4269.526,
-              5780.233
+              4269.636,
+              5780.364
             ],
             [
-              4328.443,
-              5793.358
+              4270.842,
+              5780.644
+            ],
+            [
+              4328.447,
+              5793.356
             ],
             [
               4330.418,
@@ -351,7 +351,7 @@
       "docks": [],
       "doors": [
         {
-          "facingDeg": 207.0,
+          "facingDeg": 15.4,
           "id": "door.fixture.proving-ground.imperial-house",
           "interiorClaim": {
             "culture": "imperial",
@@ -360,12 +360,12 @@
           },
           "parcelId": "parcel.proving-ground.imperial-house",
           "thresholdM": [
-            4274.414,
-            5798.733
+            4277.293,
+            5791.324
           ]
         },
         {
-          "facingDeg": 148.0,
+          "facingDeg": 14.5,
           "id": "door.fixture.proving-ground.mud-hut",
           "interiorClaim": {
             "culture": "argonian",
@@ -374,8 +374,8 @@
           },
           "parcelId": "parcel.proving-ground.mud-hut",
           "thresholdM": [
-            4274.082,
-            5775.645
+            4273.283,
+            5770.497
           ]
         }
       ],
@@ -720,12 +720,13 @@
           "districtId": "district.proving-ground.imperial",
           "entrance": {
             "arcM": null,
-            "bearingDeg": null,
+            "bearingDeg": 15.4,
             "interiorRef": "vanilla-farmhouse-int",
             "kind": "esp-door",
-            "radial": true,
-            "radiusM": 4.003,
-            "worldM": null
+            "worldM": [
+              4277.294,
+              5791.324
+            ]
           },
           "front": null,
           "groundFit": null,
@@ -737,108 +738,108 @@
           "orientationWhy": "Turned to face the straight way through the middle of the yard, so every door is read from one line.",
           "polygon": [
             [
-              4266.212,
-              5795.167
+              4286.043,
+              5793.135
             ],
             [
-              4266.332,
-              5793.347
+              4286.295,
+              5794.941
             ],
             [
-              4266.462,
-              5792.197
+              4286.401,
+              5796.094
             ],
             [
-              4266.742,
-              5791.207
+              4286.328,
+              5797.12
             ],
             [
-              4267.702,
-              5790.517
+              4285.527,
+              5797.99
             ],
             [
-              4268.952,
-              5790.277
+              4284.352,
+              5798.479
             ],
             [
-              4270.772,
-              5790.147
+              4282.596,
+              5798.975
             ],
             [
-              4281.692,
-              5790.147
+              4271.903,
+              5801.19
             ],
             [
-              4283.512,
-              5790.277
+              4270.095,
+              5801.431
             ],
             [
-              4284.662,
-              5790.517
+              4268.92,
+              5801.43
             ],
             [
-              4285.652,
-              5791.137
+              4267.825,
+              5801.023
             ],
             [
-              4286.002,
-              5792.097
+              4267.287,
+              5800.154
             ],
             [
-              4286.132,
-              5793.347
+              4266.906,
+              5798.957
             ],
             [
-              4286.252,
-              5795.167
+              4266.42,
+              5797.199
             ],
             [
-              4286.132,
-              5796.987
+              4266.168,
+              5795.392
             ],
             [
-              4286.002,
-              5798.137
+              4266.062,
+              5794.24
             ],
             [
-              4285.722,
-              5799.127
+              4266.136,
+              5793.213
             ],
             [
-              4284.762,
-              5799.817
+              4266.936,
+              5792.343
             ],
             [
-              4283.512,
-              5800.057
+              4268.111,
+              5791.855
             ],
             [
-              4281.692,
-              5800.187
+              4269.867,
+              5791.358
             ],
             [
-              4270.772,
-              5800.187
+              4280.56,
+              5789.144
             ],
             [
-              4268.952,
-              5800.057
+              4282.369,
+              5788.902
             ],
             [
-              4267.802,
-              5799.817
+              4283.544,
+              5788.904
             ],
             [
-              4266.812,
-              5799.197
+              4284.639,
+              5789.31
             ],
             [
-              4266.462,
-              5798.237
+              4285.176,
+              5790.179
             ],
             [
-              4266.332,
-              5796.987
+              4285.557,
+              5791.377
             ]
           ],
           "spans": null,
@@ -851,7 +852,7 @@
             "whyNeighbours": "The imperial-house cell stands 11 m from its nearest neighbour, mud-hut.",
             "whySpot": "The nearest ground to the old lattice cell where every cell under the footprint is under 2 deg, so the designed sink alone seats the piece."
           },
-          "yawDeg": 0.0
+          "yawDeg": 168.3
         },
         {
           "assetRef": null,
@@ -1058,12 +1059,13 @@
           "districtId": "district.proving-ground.stilt",
           "entrance": {
             "arcM": null,
-            "bearingDeg": null,
+            "bearingDeg": 14.5,
             "interiorRef": "htbm-hut-int",
             "kind": "esp-door",
-            "radial": true,
-            "radiusM": 2.826,
-            "worldM": null
+            "worldM": [
+              4273.283,
+              5770.498
+            ]
           },
           "front": null,
           "groundFit": null,
@@ -1075,76 +1077,76 @@
           "orientationWhy": "Turned to face the straight way through the middle of the yard, so every door is read from one line.",
           "polygon": [
             [
-              4275.294,
-              5775.082
+              4272.058,
+              5769.986
             ],
             [
-              4275.196,
-              5775.2
+              4272.211,
+              5769.976
             ],
             [
-              4273.159,
-              5776.454
+              4274.521,
+              5770.6
             ],
             [
-              4273.014,
-              5776.49
+              4274.646,
+              5770.68
             ],
             [
-              4270.935,
-              5776.449
+              4276.042,
+              5772.221
             ],
             [
-              4270.794,
-              5776.373
+              4276.084,
+              5772.376
             ],
             [
-              4269.616,
-              5774.66
+              4275.645,
+              5774.408
             ],
             [
-              4269.566,
-              5774.52
+              4275.577,
+              5774.541
             ],
             [
-              4269.491,
-              5772.128
+              4273.888,
+              5776.235
             ],
             [
-              4269.536,
-              5771.982
+              4273.751,
+              5776.303
             ],
             [
-              4270.605,
-              5770.207
+              4271.725,
+              5776.742
             ],
             [
-              4270.747,
-              5770.112
+              4271.56,
+              5776.704
             ],
             [
-              4272.818,
-              5769.956
+              4270.025,
+              5775.303
             ],
             [
-              4272.965,
-              5769.978
+              4269.941,
+              5775.181
             ],
             [
-              4275.079,
-              5771.116
+              4269.319,
+              5772.863
             ],
             [
-              4275.178,
-              5771.226
+              4269.331,
+              5772.715
             ],
             [
-              4276.188,
-              5773.042
+              4269.96,
+              5770.735
             ],
             [
-              4276.187,
-              5773.212
+              4270.084,
+              5770.618
             ]
           ],
           "spans": null,
@@ -1157,7 +1159,7 @@
             "whyNeighbours": "The mud-hut cell stands 11 m from its nearest neighbour, imperial-house.",
             "whySpot": "The nearest ground to the old lattice cell where every cell under the footprint is under 2 deg, so the designed sink alone seats the piece."
           },
-          "yawDeg": 208.3
+          "yawDeg": 75.0
         },
         {
           "assetRef": "vanilla:dungeons/imperial/clutterkits/impfreewall01",
@@ -1519,8 +1521,8 @@
               5701.746
             ],
             [
-              4274.414,
-              5798.733
+              4277.293,
+              5791.324
             ]
           ],
           "routing": "straight",
@@ -1556,8 +1558,8 @@
               5698.797
             ],
             [
-              4274.082,
-              5775.645
+              4273.283,
+              5770.497
             ]
           ],
           "routing": "straight",
@@ -2435,12 +2437,13 @@
           "districtId": "district.proving-ground-b.imperial",
           "entrance": {
             "arcM": null,
-            "bearingDeg": null,
+            "bearingDeg": 207.1,
             "interiorRef": "vanilla-farmhouse-int",
             "kind": "esp-door",
-            "radial": true,
-            "radiusM": 4.003,
-            "worldM": null
+            "worldM": [
+              4221.181,
+              6000.548
+            ]
           },
           "front": null,
           "groundFit": null,
@@ -2785,12 +2788,13 @@
           "districtId": "district.proving-ground-b.stilt",
           "entrance": {
             "arcM": null,
-            "bearingDeg": null,
+            "bearingDeg": 189.5,
             "interiorRef": "htbm-hut-int",
             "kind": "esp-door",
-            "radial": true,
-            "radiusM": 2.826,
-            "worldM": null
+            "worldM": [
+              4257.534,
+              6002.786
+            ]
           },
           "front": null,
           "groundFit": null,
@@ -3450,8 +3454,8 @@
       "districts": [
         {
           "centreM": [
-            294.808,
-            3000.4
+            291.026,
+            3000.177
           ],
           "cultureKit": "argonian-mud",
           "id": "district.claywater-station.the-landing",
@@ -3459,68 +3463,72 @@
           "notes": "The Argonian half on the north strip; no Hist (see siting).",
           "polygon": [
             [
-              285.036,
-              2983.555
+              262.928,
+              2985.618
             ],
             [
-              282.792,
-              2983.746
+              261.655,
+              2986.011
             ],
             [
-              280.492,
-              2984.321
+              260.462,
+              2986.575
             ],
             [
-              257.849,
-              2990.872
+              256.312,
+              2989.95
             ],
             [
-              255.759,
-              2991.788
+              255.327,
+              2991.995
             ],
             [
-              254.088,
-              2993.789
+              254.427,
+              2994.638
             ],
             [
-              253.641,
-              2994.503
+              254.14,
+              2995.878
             ],
             [
-              252.912,
-              2996.822
+              254.117,
+              2996.883
             ],
             [
-              253.011,
-              2998.484
+              254.246,
+              2998.007
             ],
             [
-              253.056,
-              2998.921
+              254.728,
+              2999.121
             ],
             [
-              253.518,
-              3000.816
+              255.189,
+              2999.871
             ],
             [
-              254.883,
-              3002.588
+              256.01,
+              3000.896
             ],
             [
-              258.768,
-              3006.655
+              258.371,
+              3002.972
             ],
             [
-              310.499,
-              3024.888
+              259.257,
+              3003.354
             ],
             [
-              314.854,
-              3025.614
+              310.457,
+              3024.901
             ],
             [
-              352.904,
-              3012.282
+              315.955,
+              3025.588
+            ],
+            [
+              352.913,
+              3012.262
             ],
             [
               353.853,
@@ -3543,12 +3551,16 @@
               3002.996
             ],
             [
-              351.639,
-              3002.367
+              351.772,
+              3002.441
             ],
             [
-              285.826,
-              2983.541
+              313.536,
+              2988.321
+            ],
+            [
+              264.787,
+              2985.502
             ]
           ],
           "wealth": "poor",
@@ -3562,8 +3574,8 @@
         },
         {
           "centreM": [
-            317.451,
-            3065.645
+            314.887,
+            3064.993
           ],
           "cultureKit": "imperial",
           "id": "district.claywater-station.the-well",
@@ -3619,24 +3631,16 @@
               3102.0
             ],
             [
-              343.579,
+              343.736,
               3102.0
             ],
             [
-              349.426,
-              3098.347
+              358.0,
+              3093.446
             ],
             [
               358.0,
-              3091.748
-            ],
-            [
-              358.0,
-              3074.313
-            ],
-            [
-              331.789,
-              3043.838
+              3071.778
             ],
             [
               330.949,
@@ -3678,31 +3682,45 @@
           ]
         },
         {
-          "facingDeg": 190.6,
+          "facingDeg": 188.2,
           "id": "door.imperial-fringe.claywater-station.2",
           "interiorClaim": {
             "culture": "argonian",
             "owner": "the landing's poler",
-            "sizeClass": "medium"
+            "sizeClass": "large"
           },
           "parcelId": "parcel.claywater-station.polers-hut",
           "thresholdM": [
-            311.09,
-            3006.502
+            313.09,
+            3006.29
           ]
         },
         {
-          "facingDeg": 119.6,
+          "facingDeg": 180.0,
           "id": "door.imperial-fringe.claywater-station.3",
           "interiorClaim": {
             "culture": "argonian",
             "owner": "the landing family",
-            "sizeClass": "large"
+            "sizeClass": "medium"
           },
           "parcelId": "parcel.claywater-station.family-hut",
           "thresholdM": [
-            290.132,
-            2997.491
+            290.9,
+            3001.225
+          ]
+        },
+        {
+          "facingDeg": 58.3,
+          "id": "door.imperial-fringe.claywater-station.4",
+          "interiorClaim": {
+            "culture": "imperial",
+            "owner": null,
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.claywater-station.stable-barn",
+          "thresholdM": [
+            337.123,
+            3086.072
           ]
         }
       ],
@@ -3734,21 +3752,21 @@
       ],
       "parcels": [
         {
-          "assetRef": "composite:mud/hut-with-entrance",
+          "assetRef": "kotm:argonia/mudhuts/mudhut01",
           "buildingFamily": "mud-hut",
           "centreM": [
-            284.0,
-            2994.0
+            289.0,
+            2997.0
           ],
           "districtId": "district.claywater-station.the-landing",
           "entrance": {
-            "arcM": null,
-            "bearingDeg": 119.6,
-            "interiorRef": "vanilla-farmhouse-int",
-            "kind": "assembly",
+            "arcM": 0.84,
+            "bearingDeg": 180.0,
+            "interiorRef": null,
+            "kind": "leaf",
             "worldM": [
-              289.652,
-              2997.213
+              290.9,
+              3001.225
             ]
           },
           "front": null,
@@ -3761,132 +3779,120 @@
           "orientationWhy": "Its entrance turns south-east to the common.",
           "polygon": [
             [
-              278.184,
-              2996.467
+              288.614,
+              2992.724
             ],
             [
-              277.705,
-              2994.55
+              292.536,
+              2992.095
             ],
             [
-              277.514,
-              2992.735
+              293.084,
+              2992.14
             ],
             [
-              277.513,
-              2992.677
+              293.641,
+              2992.267
             ],
             [
-              277.539,
-              2992.625
+              294.667,
+              2992.777
             ],
             [
-              278.583,
-              2990.746
+              295.072,
+              2993.13
             ],
             [
-              279.854,
-              2989.233
+              295.294,
+              2994.177
             ],
             [
-              281.533,
-              2988.184
+              295.656,
+              2997.248
             ],
             [
-              283.45,
-              2987.705
+              295.539,
+              2997.834
             ],
             [
-              285.242,
-              2987.552
+              294.896,
+              2998.696
             ],
             [
-              285.3,
-              2987.551
+              294.455,
+              2999.005
             ],
             [
-              285.361,
-              2987.572
+              293.975,
+              2999.265
             ],
             [
-              287.254,
-              2988.583
+              289.28,
+              3000.751
             ],
             [
-              288.767,
-              2989.854
+              288.818,
+              3000.769
             ],
             [
-              289.816,
-              2991.533
+              288.387,
+              3000.724
             ],
             [
-              290.295,
-              2993.45
+              287.973,
+              3000.641
             ],
             [
-              290.932,
-              2996.602
+              287.19,
+              3000.33
             ],
             [
-              290.937,
-              2996.61
+              286.685,
+              3000.141
             ],
             [
-              290.955,
-              2996.752
+              286.527,
+              3000.029
             ],
             [
-              290.958,
-              2996.869
+              286.145,
+              2999.593
             ],
             [
-              290.931,
-              2996.921
+              285.957,
+              2999.342
             ],
             [
-              289.999,
-              2998.411
+              285.266,
+              2997.295
             ],
             [
-              289.941,
-              2998.507
+              285.158,
+              2996.589
             ],
             [
-              289.684,
-              2998.643
+              285.148,
+              2996.242
             ],
             [
-              289.667,
-              2998.654
+              285.187,
+              2995.908
             ],
             [
-              286.467,
-              2999.816
+              285.291,
+              2995.668
             ],
             [
-              284.55,
-              3000.295
+              285.457,
+              2995.395
             ],
             [
-              282.388,
-              3000.384
+              285.909,
+              2994.911
             ],
             [
-              282.33,
-              3000.385
-            ],
-            [
-              282.278,
-              3000.359
-            ],
-            [
-              280.746,
-              2999.417
-            ],
-            [
-              279.233,
-              2998.146
+              287.676,
+              2993.363
             ]
           ],
           "spans": null,
@@ -3899,7 +3905,7 @@
             "whyNeighbours": "It faces the common with the poler's hut across the road and the store hut to the west.",
             "whySpot": "West of the road on the north strip, on the widest dry cell."
           },
-          "yawDeg": 328.0
+          "yawDeg": 70.0
         },
         {
           "assetRef": "ferryraft:snt/ferry/ferryraft01",
@@ -4025,7 +4031,7 @@
           "buildingFamily": "vanilla-farmhouse-fence",
           "centreM": [
             357.5,
-            3085.0
+            3087.0
           ],
           "districtId": "district.claywater-station.the-well",
           "entrance": null,
@@ -4039,68 +4045,76 @@
           "orientationWhy": "The fence runs north to south along the paddock's west side.",
           "polygon": [
             [
-              357.284,
-              3079.822
-            ],
-            [
-              357.312,
-              3081.902
-            ],
-            [
-              357.35,
-              3081.957
-            ],
-            [
-              357.369,
-              3084.861
-            ],
-            [
               357.41,
-              3084.937
-            ],
-            [
-              357.41,
-              3086.95
+              3088.95
             ],
             [
               357.47,
-              3087.06
+              3089.06
             ],
             [
               357.52,
-              3087.07
+              3089.07
             ],
             [
               357.58,
-              3086.98
+              3088.98
             ],
             [
               357.59,
-              3083.06
+              3085.083
             ],
             [
-              357.531,
-              3082.99
+              357.603,
+              3085.06
             ],
             [
-              357.523,
-              3080.97
+              357.607,
+              3081.163
             ],
             [
-              357.469,
-              3080.907
+              357.62,
+              3081.139
             ],
             [
-              357.443,
-              3079.8
+              357.616,
+              3077.22
             ],
             [
-              357.372,
-              3079.721
+              357.536,
+              3077.13
             ],
             [
-              357.342,
-              3079.711
+              357.506,
+              3077.13
+            ],
+            [
+              357.446,
+              3077.221
+            ],
+            [
+              357.451,
+              3081.115
+            ],
+            [
+              357.437,
+              3081.14
+            ],
+            [
+              357.428,
+              3082.16
+            ],
+            [
+              357.435,
+              3085.035
+            ],
+            [
+              357.42,
+              3085.06
+            ],
+            [
+              357.41,
+              3086.08
             ]
           ],
           "spans": null,
@@ -4116,21 +4130,21 @@
           "yawDeg": 90.0
         },
         {
-          "assetRef": "kotm:argonia/mudhuts/mudhut01",
+          "assetRef": "composite:mud/kotm-house-pod",
           "buildingFamily": "kotm-mudhut",
           "centreM": [
-            310.0,
-            3002.0
+            314.0,
+            3000.0
           ],
           "districtId": "district.claywater-station.the-landing",
           "entrance": {
-            "arcM": 0.84,
-            "bearingDeg": 190.6,
-            "interiorRef": null,
-            "kind": "leaf",
+            "arcM": null,
+            "bearingDeg": 188.2,
+            "interiorRef": "interior-kotm-v1",
+            "kind": "esp-door",
             "worldM": [
-              311.09,
-              3006.502
+              313.09,
+              3006.29
             ]
           },
           "front": null,
@@ -4143,200 +4157,120 @@
           "orientationWhy": "Its door turns south to the path down to the ford and the landing.",
           "polygon": [
             [
-              311.99,
-              2996.755
+              306.03,
+              2998.24
             ],
             [
-              312.557,
-              2996.752
+              306.26,
+              2996.86
             ],
             [
-              313.136,
-              2996.818
+              306.7,
+              2995.29
             ],
             [
-              313.713,
-              2996.996
+              307.12,
+              2994.64
             ],
             [
-              314.284,
-              2997.267
+              309.48,
+              2993.14
             ],
             [
-              315.39,
-              2997.945
+              311.91,
+              2992.43
             ],
             [
-              315.888,
-              2998.319
+              312.71,
+              2992.28
             ],
             [
-              316.351,
-              2998.729
+              314.49,
+              2992.94
             ],
             [
-              316.745,
-              2999.15
+              315.82,
+              2993.74
             ],
             [
-              317.142,
-              2999.713
+              316.91,
+              2994.51
             ],
             [
-              317.282,
-              3000.065
+              318.75,
+              2996.58
             ],
             [
-              317.452,
-              3000.543
+              319.06,
+              2997.3
             ],
             [
-              317.565,
-              3001.042
+              319.54,
+              2998.8
             ],
             [
-              317.617,
-              3001.54
+              319.65,
+              3000.57
             ],
             [
-              317.61,
-              3002.048
+              319.5,
+              3001.58
             ],
             [
-              317.601,
-              3002.303
+              318.54,
+              3003.42
             ],
             [
-              317.591,
-              3002.426
+              318.04,
+              3004.07
             ],
             [
-              317.529,
-              3002.72
+              317.13,
+              3004.86
             ],
             [
-              317.385,
-              3003.139
+              314.28,
+              3007.05
             ],
             [
-              317.156,
-              3003.593
+              313.9,
+              3007.14
             ],
             [
-              316.847,
-              3004.11
+              313.29,
+              3007.19
             ],
             [
-              316.493,
-              3004.605
+              312.54,
+              3007.08
             ],
             [
-              315.655,
-              3005.544
+              311.92,
+              3006.87
             ],
             [
-              315.196,
-              3005.955
+              311.61,
+              3006.67
             ],
             [
-              314.705,
-              3006.299
+              309.68,
+              3005.24
             ],
             [
-              314.181,
-              3006.558
+              307.89,
+              3003.77
             ],
             [
-              313.638,
-              3006.709
+              307.36,
+              3003.04
             ],
             [
-              313.061,
-              3006.774
+              306.55,
+              3001.16
             ],
             [
-              310.772,
-              3006.727
-            ],
-            [
-              309.699,
-              3006.611
-            ],
-            [
-              308.67,
-              3006.396
-            ],
-            [
-              307.673,
-              3006.126
-            ],
-            [
-              306.613,
-              3005.723
-            ],
-            [
-              305.699,
-              3005.287
-            ],
-            [
-              305.357,
-              3005.059
-            ],
-            [
-              305.078,
-              3004.781
-            ],
-            [
-              304.852,
-              3004.454
-            ],
-            [
-              304.671,
-              3004.038
-            ],
-            [
-              304.512,
-              3003.507
-            ],
-            [
-              304.413,
-              3002.905
-            ],
-            [
-              304.394,
-              3002.3
-            ],
-            [
-              304.501,
-              3001.724
-            ],
-            [
-              304.733,
-              3001.23
-            ],
-            [
-              305.068,
-              3000.799
-            ],
-            [
-              305.767,
-              3000.126
-            ],
-            [
-              306.277,
-              2999.657
-            ],
-            [
-              308.46,
-              2998.393
-            ],
-            [
-              310.072,
-              2997.538
-            ],
-            [
-              311.408,
-              2996.973
+              306.14,
+              2999.51
             ]
           ],
           "spans": null,
@@ -4349,7 +4283,7 @@
             "whyNeighbours": "The fish racks and the landing lie between it and the water; the common is to the west.",
             "whySpot": "The east end of the north strip, above the ford's north bank."
           },
-          "yawDeg": 80.6
+          "yawDeg": 0.0
         },
         {
           "assetRef": null,
@@ -6065,12 +5999,13 @@
           "districtId": "district.claywater-station.the-well",
           "entrance": {
             "arcM": null,
-            "bearingDeg": null,
+            "bearingDeg": 59.1,
             "interiorRef": "vanilla-farmhouse-int",
             "kind": "esp-door",
-            "radial": true,
-            "radiusM": 4.003,
-            "worldM": null
+            "worldM": [
+              317.423,
+              3065.955
+            ]
           },
           "front": null,
           "groundFit": null,
@@ -6199,21 +6134,21 @@
           "yawDeg": 212.0
         },
         {
-          "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+          "assetRef": "kotm:argonia/mudhuts/mudhut01",
           "buildingFamily": "mud-hut",
           "centreM": [
-            260.0,
-            2998.0
+            262.0,
+            2996.0
           ],
           "districtId": "district.claywater-station.the-landing",
           "entrance": {
-            "arcM": null,
-            "bearingDeg": 98.9,
-            "interiorRef": "mudmother-hut-int",
-            "kind": "esp-door",
+            "arcM": 0.84,
+            "bearingDeg": 150.0,
+            "interiorRef": null,
+            "kind": "leaf",
             "worldM": [
-              265.107,
-              2994.431
+              265.758,
+              2998.709
             ]
           },
           "front": null,
@@ -6226,108 +6161,120 @@
           "orientationWhy": "Its open side faces the common and the fish racks.",
           "polygon": [
             [
-              257.007,
-              2998.239
+              259.528,
+              2992.49
             ],
             [
-              256.999,
-              2998.159
+              262.609,
+              2989.984
             ],
             [
-              256.949,
-              2997.319
+              263.107,
+              2989.749
             ],
             [
-              257.304,
-              2996.19
+              263.653,
+              2989.581
             ],
             [
-              257.334,
-              2996.142
+              264.797,
+              2989.509
             ],
             [
-              258.226,
-              2995.074
+              265.324,
+              2989.612
             ],
             [
-              259.214,
-              2994.641
+              266.039,
+              2990.408
             ],
             [
-              260.292,
-              2994.597
+              267.889,
+              2992.887
             ],
             [
-              261.563,
-              2995.166
+              268.08,
+              2993.452
             ],
             [
-              261.61,
-              2995.196
+              267.954,
+              2994.521
             ],
             [
-              262.425,
-              2996.055
+              267.727,
+              2995.009
             ],
             [
-              262.748,
-              2996.832
+              267.441,
+              2995.474
             ],
             [
-              262.952,
-              2997.719
+              264.117,
+              2999.108
             ],
             [
-              262.716,
-              2998.871
+              263.727,
+              2999.355
             ],
             [
-              262.458,
-              2999.444
+              263.331,
+              2999.532
             ],
             [
-              262.385,
-              2999.574
+              262.931,
+              2999.666
             ],
             [
-              261.849,
-              3000.631
+              262.097,
+              2999.789
             ],
             [
-              261.729,
-              3000.69
+              261.566,
+              2999.878
             ],
             [
-              261.624,
-              3000.724
+              261.372,
+              2999.859
             ],
             [
-              259.715,
-              3001.165
+              260.824,
+              2999.673
             ],
             [
-              259.605,
-              3001.18
+              260.536,
+              2999.549
             ],
             [
-              259.472,
-              3001.18
+              258.913,
+              2998.123
             ],
             [
-              258.527,
-              3000.465
+              258.467,
+              2997.565
             ],
             [
-              258.404,
-              3000.38
+              258.285,
+              2997.269
             ],
             [
-              257.922,
-              2999.978
+              258.152,
+              2996.961
             ],
             [
-              257.204,
-              2999.046
+              258.122,
+              2996.701
+            ],
+            [
+              258.129,
+              2996.381
+            ],
+            [
+              258.279,
+              2995.736
+            ],
+            [
+              259.035,
+              2993.512
             ]
           ],
           "spans": null,
@@ -6340,7 +6287,7 @@
             "whyNeighbours": "The fish racks stand between it and the common.",
             "whySpot": "The west end of the north strip, beside the family hut."
           },
-          "yawDeg": 347.0
+          "yawDeg": 40.0
         },
         {
           "assetRef": "vanilla:dungeons/mines/clutter/genericwell01",
@@ -6436,74 +6383,6 @@
             "whySpot": "The first junction off the road on its west verge, where the spring rises."
           },
           "yawDeg": 14.0
-        },
-        {
-          "assetRef": "vanilla:architecture/farmhouse/farmhouse01walkway",
-          "buildingFamily": "vanilla-farmhouse",
-          "centreM": [
-            329.5,
-            3053.5
-          ],
-          "districtId": "district.claywater-station.the-well",
-          "entrance": null,
-          "front": {
-            "deg": 161.7,
-            "evidence": "co-placement",
-            "outside": true,
-            "worldDeg": 209.7
-          },
-          "groundFit": null,
-          "id": "parcel.claywater-station.travellers-lean-to",
-          "interior": {
-            "kind": "none"
-          },
-          "notes": null,
-          "orientationWhy": "Its open side faces the street so a traveller steps in from the road.",
-          "polygon": [
-            [
-              323.531,
-              3048.769
-            ],
-            [
-              323.722,
-              3048.772
-            ],
-            [
-              333.598,
-              3059.741
-            ],
-            [
-              333.581,
-              3059.931
-            ],
-            [
-              333.44,
-              3060.058
-            ],
-            [
-              333.249,
-              3060.055
-            ],
-            [
-              323.373,
-              3049.086
-            ],
-            [
-              323.39,
-              3048.896
-            ]
-          ],
-          "spans": null,
-          "use": "shelter",
-          "why": {
-            "microGeography": "Level verge ground a metre above the road.",
-            "playerPurpose": "A dry place to rest by the fire without paying.",
-            "what": "A covered walkway used as a lean-to for road travellers, beside the fire.",
-            "whyHere": "Travellers who will not pay for a bed sleep under cover by the fire.",
-            "whyNeighbours": "The road fire stands at its south end; the well is 8 m north.",
-            "whySpot": "Between the well and the station house, on the verge of the road."
-          },
-          "yawDeg": 48.0
         },
         {
           "assetRef": null,
@@ -6994,23 +6873,21 @@
         "combatSpaces": 1,
         "districts": 2,
         "docks": 0,
-        "doors": 3,
+        "doors": 4,
         "fences": 0,
         "keptTrees": 0,
         "landmarks": 0,
         "networkTerminals": 2,
-        "parcels": 18,
+        "parcels": 17,
         "questSockets": 4,
         "sitingCandidates": 2,
-        "ways": 6
+        "ways": 8
       },
       "ways": [
         {
           "assetRef": null,
           "endsAt": [
-            "parcel.claywater-station.polers-hut",
-            "parcel.claywater-station.family-hut",
-            "parcel.claywater-station.store-hut"
+            "parcel.claywater-station.polers-hut"
           ],
           "fenceClass": null,
           "gapAt": [],
@@ -7021,103 +6898,108 @@
           "notes": null,
           "points": [
             [
-              311.09,
-              3006.502
+              315.5,
+              3019.15
             ],
             [
-              311.5,
-              3008.5
+              313.5,
+              3016.5
             ],
             [
-              310.8,
-              3009.0
-            ],
-            [
-              308.5,
-              3007.5
-            ],
-            [
-              300.5,
-              3007.5
-            ],
-            [
-              292.5,
-              2999.5
-            ],
-            [
-              288.0,
-              3003.5
-            ],
-            [
-              275.5,
-              3003.5
-            ],
-            [
-              275.0,
-              3004.5
-            ],
-            [
-              273.5,
-              3003.5
-            ],
-            [
-              261.0,
-              3003.2
-            ],
-            [
-              286.5,
-              3003.5
-            ],
-            [
-              291.5,
-              2998.5
-            ],
-            [
-              291.5,
-              2997.5
-            ],
-            [
-              290.132,
-              2997.491
+              313.09,
+              3006.29
             ]
           ],
           "routing": "terrain",
           "via": [
             [
-              311.5,
-              3021.0
+              315.5,
+              3019.15
             ],
             [
-              310.8,
-              3009.0
+              313.6,
+              3012.5
             ],
             [
-              300.0,
-              3007.0
-            ],
-            [
-              292.5,
-              2999.5
-            ],
-            [
-              288.0,
-              3003.5
-            ],
-            [
-              275.0,
-              3004.5
-            ],
-            [
-              261.0,
-              3003.2
-            ],
-            [
-              260.5,
-              3001.0
+              313.0,
+              3006.1
             ]
           ],
           "waterOk": null,
-          "why": "From the ford's north bank past the poler's hut across the common to the family hut and the store.",
+          "why": "From the landing path on the ford's north bank up to the poler's pod house.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.claywater-station.family-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.claywater-station.family-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              313.6,
+              3012.5
+            ],
+            [
+              307.5,
+              3012.5
+            ],
+            [
+              299.5,
+              3004.5
+            ],
+            [
+              295.5,
+              3004.5
+            ],
+            [
+              293.5,
+              3002.5
+            ],
+            [
+              291.5,
+              3002.5
+            ],
+            [
+              291.0,
+              3004.0
+            ],
+            [
+              290.9,
+              3001.225
+            ]
+          ],
+          "routing": "terrain",
+          "via": [
+            [
+              313.6,
+              3012.5
+            ],
+            [
+              304.0,
+              3009.6
+            ],
+            [
+              295.5,
+              3004.5
+            ],
+            [
+              291.0,
+              3004.0
+            ],
+            [
+              290.9,
+              3002.0
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the poler's path across the common to the family hut's door.",
           "widthM": 1.2
         },
         {
@@ -7138,7 +7020,7 @@
               3021.0
             ],
             [
-              314.5,
+              315.5,
               3021.5
             ],
             [
@@ -7207,8 +7089,8 @@
               3083.5
             ],
             [
-              340.035,
-              3084.166
+              337.123,
+              3086.072
             ]
           ],
           "routing": "terrain",
@@ -7297,6 +7179,75 @@
         },
         {
           "assetRef": null,
+          "endsAt": [
+            "parcel.claywater-station.store-hut"
+          ],
+          "fenceClass": null,
+          "gapAt": [],
+          "group": "routes",
+          "id": "route.claywater-station.store-path",
+          "kind": "footpath",
+          "moduleM": null,
+          "notes": null,
+          "points": [
+            [
+              295.5,
+              3004.5
+            ],
+            [
+              293.5,
+              3006.5
+            ],
+            [
+              284.5,
+              3006.5
+            ],
+            [
+              282.0,
+              3005.0
+            ],
+            [
+              280.5,
+              3002.5
+            ],
+            [
+              270.0,
+              3002.5
+            ],
+            [
+              266.5,
+              2998.5
+            ],
+            [
+              264.921,
+              2998.23
+            ]
+          ],
+          "routing": "terrain",
+          "via": [
+            [
+              295.5,
+              3004.5
+            ],
+            [
+              282.0,
+              3005.0
+            ],
+            [
+              270.0,
+              3002.5
+            ],
+            [
+              266.2,
+              2999.4
+            ]
+          ],
+          "waterOk": null,
+          "why": "From the common west along the strip to the store hut.",
+          "widthM": 1.2
+        },
+        {
+          "assetRef": null,
           "endsAt": [],
           "fenceClass": null,
           "gapAt": [],
@@ -7376,8 +7327,8 @@
               3047.6
             ],
             [
-              327.46,
-              3046.237
+              327.512,
+              3046.188
             ]
           ],
           "routing": "straight",
@@ -7387,8 +7338,8 @@
               3047.6
             ],
             [
-              326.3,
-              3045.0
+              327.0,
+              3045.6
             ]
           ],
           "waterOk": null,

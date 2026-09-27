@@ -35,6 +35,11 @@ def test_template_pieces_land_on_the_template_offset():
         spec = ra.spec_from_template(ASSEMBLIES, "vanilla", template["id"])
         anchor, part = ra.place_pieces(spec["pieces"])
         assert anchor["worldM"] == [0.0, 0.0, 0.0]
+        if template["offsetM"] is None:
+            # a radial template has no bearing: drawn due north at its radius
+            assert part["worldM"] == pytest.approx(
+                [0.0, float(template.get("riseM") or 0.0), -float(template["radiusM"])])
+            continue
         ox, oy, oz = template["offsetM"]
         assert part["worldM"] == pytest.approx([ox, oz, -oy])
         # radiusM is the mined plan distance in the kit's z-up frame.

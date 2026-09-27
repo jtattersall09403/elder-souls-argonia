@@ -5362,7 +5362,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Owner-approved settlement anchor 'stormhold' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'stormhold' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
         "founding": "Built on ravine-severed mounds above a waterfall, over a Barsaebic Ayleid crystal undercity. The city has been mining it since it was founded and is mining it now.",
         "siteAdvantages": "The head of navigation on the northern river. Every boat out of Morrowind stops here. The ravines make each mound its own defensible quarter.",
@@ -14393,7 +14393,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Owner-approved settlement anchor 'thorn' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'thorn' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
         "founding": "Fields ring Thorn, a rarity in the north: saltrice on temperate grassland, grown first for House Dres and now for whoever holds the title.",
         "siteAdvantages": "Firm grassland above a delta, with the Tear road out to Morrowind and river access down to the coast. Nowhere else in Argonia are all three together.",
@@ -20007,7 +20007,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Owner-approved settlement anchor 'helstrom' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'helstrom' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
         "founding": "Survivors of the Battle of Argonia withdrew where outsiders could not follow. The grove kept them.",
         "siteAdvantages": "Spring-fed firm ground inside the Hist forest; every interior route ends here rather than continuing past.",
@@ -30819,7 +30819,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
         "founding": "Founded where the Blackwood Road out of Leyawiin crosses the low saddle in the western border belt, the province's land door.",
         "siteAdvantages": "A measured 46 m barrier gap flanked by 60-87 m ridges; firm lowland and drinkable spring water on the marsh side; a pond 77 m from the gate, from which the town's clay is dug.",
@@ -51329,7 +51329,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Owner-approved settlement anchor 'lilmoth' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'lilmoth' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
         "founding": "Rebuilt after the Slaughter of 4E 48 on the best natural harbour of the south coast, smaller and lower than the city that it replaced.",
         "siteAdvantages": "The firm shelf at the head of the estuary, with the stilt quarters and the lighter quay stepping down off it into tidal water. Big hulls anchor out in Oliis Bay and their cargo is lightered ashore. The lightering is the city's living.",
@@ -54504,7 +54504,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Owner-approved settlement anchor 'soulrest' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'soulrest' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
         "founding": "Third-Era provincial capital at the sheltered deep-water landfall where Topal Bay meets the Southern Sea.",
         "siteAdvantages": "Peninsula wrapping the bay; a river mouth just south opening a route north-east into the interior; islands screening the approach.",
@@ -55433,7 +55433,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "whySiteWon": "Reseated (2026-09-20) by the imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
       "why": {
         "founding": "A shore hamlet that subsided when the salt pans changed the drainage behind it; the sea came in over a decade.",
         "siteAdvantages": "The ground was firm before the subsidence. It is under water at every tide now.",
@@ -56740,7 +56740,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: the air-pocket station's entrance keeps a dry dot on the bank. The dot sat at 2547.1, 4899.5, 0.0 m into body.1209-3032 (wet, depth 1.56 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2522.4, 4924.2 (34.9 m move; the 25 m radius search widened once to find land, so the move exceeds the bank distance the remedy targets — a promise-unmet row is owed if the owner wants it tighter). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "whySiteWon": "Reseated (2026-09-20) by the imperial-fringe-pack rule: the air-pocket station's entrance keeps a dry dot on the bank. The dot sat at 2547.1, 4899.5, 0.0 m into body.1209-3032 (wet, depth 1.56 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2522.4, 4924.2 (34.9 m move; the 25 m radius search widened once to find land, so the move exceeds the bank distance the remedy targets — a promise-unmet row is owed if the owner wants it tighter). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
       "why": {
         "founding": "A maintained air pocket on the flooded shortcut under the narrows.",
         "siteAdvantages": "The midpoint of a dive that cannot be made on one breath.",
@@ -57922,7 +57922,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: the drowned village's entrance keeps a dry dot on the bank. The dot sat at 2596.4, 5387.6, 0.0 m into body.1209-3032 (wet, depth 1.92 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2588.2, 5362.9 (26.0 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "whySiteWon": "Reseated (2026-09-20) by the imperial-fringe-pack rule: the drowned village's entrance keeps a dry dot on the bank. The dot sat at 2596.4, 5387.6, 0.0 m into body.1209-3032 (wet, depth 1.92 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2588.2, 5362.9 (26.0 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
       "why": {
         "founding": "A stilt village drowned when the channel changed and the water rose two metres in a season.",
         "siteAdvantages": "It was correctly sited for the water level of the time. Local people cite it against building on any firm-looking flat.",
@@ -59951,7 +59951,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot on the bank. The dot sat at 2185.2, 4367.6, 68.6 m from body.1208-2442; the land cell within 25 m of that body closest to the old dot is 2195.2, 4436.2 (69.3 m move). The record is already committed, so the move is a reseat.",
+      "whySiteWon": "Reseated (2026-09-20) by the imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot on the bank. The dot sat at 2185.2, 4367.6, 68.6 m from body.1208-2442; the land cell within 25 m of that body closest to the old dot is 2195.2, 4436.2 (69.3 m move). The record is already committed, so the move is a reseat.",
       "why": {
         "founding": "Households lashed their rafts together for the wet season in a backwater too poor for a neighbouring hold to claim.",
         "siteAdvantages": "The same sheltered, ownerless water that suited the lashing now suits whatever settled over the wreck once it went down.",
@@ -61195,7 +61195,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Owner-approved settlement anchor 'alten-corimont' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'alten-corimont' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
         "founding": "A river port ESE of the Hatching Pools, grown into a town by being neutral about cargo. It sits on the back-channels between Stormhold and Thorn, on water a shallow-draft hull can reach and far enough from either customs regime that both of them use it.",
         "siteAdvantages": "The last navigable water below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
@@ -64773,7 +64773,7 @@
         },
         "score": null
       },
-      "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "why": {
         "founding": "A deep, sheltered lagoon mouth on the Padomaic. It is the only landing on this coast that will take a foreign hull's draught. The Second Empire and then the East Empire Company built a stone quay here. The Saxhleel town grew landward of it.",
         "siteAdvantages": "A lagoon with a landable stone shore and a road into the interior. The mangrove wall breaks here for more than a kilometre, the widest break on the east coast.",

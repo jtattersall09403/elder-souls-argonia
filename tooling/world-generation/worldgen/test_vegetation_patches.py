@@ -355,25 +355,58 @@ def test_settlement_patches_clear_a_floor_and_only_the_aprons_of_a_deck(tmp_path
     assert ids[0] == "patch.clearance.track.keep-me" and "patch.clearance.settlement.stale" not in ids
 
 
-def settlement_patch_drift(patch_doc: dict, bundle: dict) -> list[str]:
-    """Ids whose `patch.clearance.settlement.*` record differs from what the
-    published settlement bundle's treatments emit (missing, stale or extra)."""
-    fresh = {p["id"]: p for p in sc.settlement_clearance_patches(bundle)}
+SIDECAR_KEYS = ("groundOverlays", "vegetationClearance")
+
+
+def settlement_patch_drift(patch_doc: dict, bundle: dict, sidecar: dict) -> list[str]:
+    """Where a place's published vegetation clearance disagrees with its record.
+
+    A place with a row in the ground-overlays sidecar carries its clearance in
+    its own bundle (decision 0102 decision 1; the runtime reads it through
+    `clearanceFilter.ts`): that row must be the bundle's own, or the studio
+    loads a stale clearance. Every other place's clearance is the flora patch
+    file's `patch.clearance.settlement.*` set, which must be what its published
+    ground treatments emit (missing, stale or extra ids)."""
+    rows = {s["id"]: s for s in sidecar["settlements"]}
+    def carried(row: dict) -> dict:
+        return {k: row[k] for k in SIDECAR_KEYS if k in row}
+    drift = [f"sidecar:{s['id']}" for s in bundle["settlements"]
+             if carried(s) != carried(rows.get(s["id"], {}))]
+    fresh = {p["id"]: p for p in sc.settlement_clearance_patches(bundle)
+             if p["owner"]["record"] not in rows}
     held = {p["id"]: p for p in patch_doc["patches"]
-            if p["id"].startswith(sc.SETTLEMENT_PATCH_PREFIX)}
-    return sorted(i for i in set(fresh) | set(held) if fresh.get(i) != held.get(i))
+            if p["id"].startswith(sc.SETTLEMENT_PATCH_PREFIX)
+            and p["owner"]["record"] not in rows}
+    return drift + sorted(i for i in set(fresh) | set(held) if fresh.get(i) != held.get(i))
 
 
 def test_the_settlement_patches_match_the_published_treatments():
-    """Fails when a place was republished and nobody re-emitted its clearance
+    """Fails when a place was republished and its clearance was not: a
+    sidecar row that is not the bundle's (re-run the bundle export), or, for
+    a place without one, a flora patch set its treatments no longer emit
     (`python3 -m worldgen.vegetation_patches <settlements.json>`): a moved
     door would keep a stale apron."""
     import json
     bundle = json.loads((sc.PROVINCE / "settlements.json").read_text())
+    sidecar = json.loads((sc.PROVINCE / "settlements" / "ground-overlays.json").read_text())
     doc = json.loads(sc.PATCHES_PATH.read_text())
-    assert settlement_patch_drift(doc, bundle) == []
-    moved = json.loads(json.dumps(bundle))
+    assert settlement_patch_drift(doc, bundle, sidecar) == []
+    # MUTATION, sidecar half: a republished clearance the sidecar missed
+    if sidecar["settlements"]:
+        moved = json.loads(json.dumps(bundle))
+        site = next(s for s in moved["settlements"] if s["id"] == sidecar["settlements"][0]["id"])
+        site.setdefault("vegetationClearance", {"hardClear": []})["hardClear"] = []
+        assert settlement_patch_drift(doc, moved, sidecar)
+    # MUTATION, flora-file half: the same places with no sidecar row and a
+    # flora file current with their treatments read clean; a moved apron is stale
+    bare = json.loads(json.dumps(bundle))
+    for site in bare["settlements"]:
+        for k in SIDECAR_KEYS:
+            site.pop(k, None)
+    current = {"patches": sc.settlement_clearance_patches(bare)}
+    assert settlement_patch_drift(current, bare, {"settlements": []}) == []
+    moved = json.loads(json.dumps(bare))
     for t in moved["groundTreatments"]:
         for apron in t.get("apronsM") or []:
             apron[0] += 2.0
-    assert settlement_patch_drift(doc, moved)
+    assert settlement_patch_drift(current, moved, {"settlements": []})
