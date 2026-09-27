@@ -4798,7 +4798,7 @@
       },
       "layout": {
         "path": "world/sources/blueprints/claywater-station.layout.json",
-        "sha256": "7ca4f829b8df87c90575a472ca2fca92a2269ab6f8a9e07eaf241ddde8193235"
+        "sha256": "967673fa803621968544a08205f7d48d224160a36f118e30e54825e4727b7d15"
       }
     },
     "walkRoutes": {
