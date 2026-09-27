@@ -135,6 +135,21 @@ All paths below are from the repo root; `WG=tooling/world-generation`,
     (`compile_settlement.anchor_quay_run`, `quay_deck_rise_m`); extend the run
     or add the docks kit's shore piece by its mined pair when the slide is not
     enough.
+24. A landing stage from a bank to a berth is laid by
+    `worldgen.anchor_landing_run.lay_landing_run` (16k walk 2): the step piece
+    at the bank, then the fewest deck pieces by their mined run pair, shifted
+    along the bearing until the run ends within 1 m of the berth and the step
+    piece's whole `footprintM` stands on ground >= water + 0.2 m (owner rule
+    2026-09-25, 16k brief). Deck pieces over water are allowed; the result
+    reports each deck's height over the water. Proven on Claywater in
+    `worldgen/test_anchor_landing_run.py` (steps02 + 3 bridge01, shifted
+    7.2 m landward, on a bank levelled to water + 0.3 m).
+25. Argonian pieces for a landing: HTBM `tamu_wooddock*` have only `double`
+    joints in the record (no run pair). King of the Murkmire's plugin places
+    its `argonia/blackwood` docks and walkways (walkway01 16 refs, walkway02
+    12, docks* and walkwaystairs), but no kit carries them, so `mine_abuts`
+    never walks them (it mines kit pieces only): they need a kit first
+    (`kit-build`), then a re-mine (section E).
 
 ## G. Retaining walls along a building pad (decision 0101 R1)
 

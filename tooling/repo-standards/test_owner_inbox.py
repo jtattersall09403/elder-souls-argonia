@@ -161,3 +161,62 @@ def test_post_with_attach_links_on_the_current_branch(tmp_path):
     assert f"![plan]({blob}plan.png?raw=true)" in body
     assert f"![front.png]({blob}front.png?raw=true)" in body
     assert "front.png is not committed" in r.stdout and "plan.png is not committed" not in r.stdout
+
+
+FAKE_GH_COMMENTS = textwrap.dedent('''\
+    #!/usr/bin/env python3
+    import json, os, sys
+    state_f = os.environ["FAKE_GH_STATE"]
+    st = json.load(open(state_f))
+    a = sys.argv[1:]
+    if a[:3] == ["api", "-X", "PATCH"]:
+        cid = int(a[3].rsplit("/", 1)[-1])
+        st["comments"][str(cid)]["body"] = json.loads(sys.stdin.read())["body"]
+    elif a[:2] == ["api", "--paginate"]:
+        for cid, c in st["comments"].items():
+            print(json.dumps({"id": int(cid), "created_at": c["created_at"], "body": c["body"]}))
+    elif a[:1] == ["api"] and "/issues/comments/" in a[1]:
+        print(json.dumps(st["comments"][a[1].rsplit("/", 1)[-1]]))
+    elif a[:1] == ["api"]:
+        print(json.dumps([{"number": 7}]))
+    json.dump(st, open(state_f, "w"))
+''')
+
+
+def _run_comments(tmp_path, *args):
+    fake = tmp_path / "bin" / "gh"
+    fake.parent.mkdir(exist_ok=True)
+    fake.write_text(FAKE_GH_COMMENTS)
+    fake.chmod(0o755)
+    state = tmp_path / "state.json"
+    if not state.exists():
+        state.write_text(json.dumps({"comments": {
+            "11": {"created_at": "2026-09-25T10:00:00Z", "body": "## Claywater walk packet 1 — x\n\n| item | check |"},
+            "12": {"created_at": "2026-09-26T10:00:00Z", "body": "## Progress update — y\n\nbody"}}}))
+    env = {**os.environ, "PATH": f"{fake.parent}{os.pathsep}{os.environ['PATH']}",
+           "FAKE_GH_STATE": str(state)}
+    r = subprocess.run([sys.executable, str(HERE / "owner_inbox.py"), *args], env=env,
+                       capture_output=True, text=True, timeout=60)
+    return r, json.loads(state.read_text())
+
+
+def test_list_prints_id_date_and_title(tmp_path):
+    r, _ = _run_comments(tmp_path, "--list")
+    assert r.returncode == 0, r.stderr
+    assert r.stdout.splitlines() == [
+        "11  2026-09-25 10:00  ## Claywater walk packet 1 — x",
+        "12  2026-09-26 10:00  ## Progress update — y"]
+
+
+def test_collapse_folds_the_body_once(tmp_path):
+    r, st = _run_comments(tmp_path, "--collapse", "11", "--reason", "walk packets are now short")
+    assert r.returncode == 0, r.stderr
+    body = st["comments"]["11"]["body"]
+    assert body.startswith("<details><summary>Superseded packet (collapsed): "
+                           "walk packets are now short</summary>\n\n## Claywater walk packet 1")
+    assert body.rstrip().endswith("</details>")
+    r, st = _run_comments(tmp_path, "--collapse", "11", "--reason", "again")
+    assert "already collapsed" in r.stdout and st["comments"]["11"]["body"] == body
+    r, _ = _run_comments(tmp_path, "--list")
+    assert r.stdout.splitlines()[0] == "11  2026-09-25 10:00  [collapsed] ## Claywater walk packet 1 — x"
+    assert st["comments"]["12"]["body"].startswith("## Progress update")

@@ -16,6 +16,12 @@ sends for each comment). tooling/repo-standards/README.md § Owner inbox.
       last inbox comment, docs/PROGRESS.md § Waiting on user (links made
       absolute) and where to look. --if-changed skips the post when the last
       comment carries the same waiting-hash.
+  owner_inbox.py --list
+      one line per inbox comment: id, UTC date, title line.
+  owner_inbox.py --collapse <comment-id> [--reason <text>]
+      fold a superseded comment: its body goes inside
+      `<details><summary>Superseded packet (collapsed): <reason></summary>`
+      (PATCH through `gh api`); a folded comment is left as it is.
 
 Uses `gh` only. A missing or offline `gh` is a one-line message and exit 0:
 a notification never breaks a commit.
@@ -84,6 +90,46 @@ def last_story(number):
         if (c.get("issue_url") or "").endswith(f"/issues/{number}") and HASH_RE.search(c.get("body") or ""):
             return c
     return None
+
+
+COLLAPSED = "<details><summary>Superseded packet (collapsed): "
+
+
+def comments(number):
+    """Every comment on the inbox issue, oldest first."""
+    lines = gh("api", "--paginate", "--jq", ".[] | {id, created_at, body}",
+               f"repos/{{owner}}/{{repo}}/issues/{number}/comments?per_page=100")
+    return [json.loads(line) for line in lines.splitlines() if line.strip()]
+
+
+def title_line(body):
+    """The first non-blank line; a folded comment shows "[collapsed]" and its own heading."""
+    lines = [line.strip() for line in (body or "").splitlines() if line.strip()]
+    if lines and lines[0].startswith(COLLAPSED):
+        return "[collapsed] " + (lines[1] if len(lines) > 1 else "")
+    return lines[0] if lines else ""
+
+
+def list_lines(rows):
+    return [f"{c['id']}  {(c.get('created_at') or '')[:16].replace('T', ' ')}  "
+            f"{title_line(c.get('body'))[:100]}" for c in rows]
+
+
+def collapse_body(body, reason):
+    """The body folded under a Superseded summary; None when already folded."""
+    if (body or "").lstrip().startswith(COLLAPSED):
+        return None
+    return f"{COLLAPSED}{reason}</summary>\n\n{(body or '').rstrip()}\n\n</details>\n"
+
+
+def collapse(comment_id, reason):
+    path = f"repos/{{owner}}/{{repo}}/issues/comments/{comment_id}"
+    body = collapse_body(json.loads(gh("api", path)).get("body"), reason)
+    if body is None:
+        print(f"owner_inbox: comment {comment_id} is already collapsed")
+        return
+    gh("api", "-X", "PATCH", path, "--input", "-", stdin=json.dumps({"body": body}))
+    print(f"owner_inbox: collapsed comment {comment_id}")
 
 
 def post(number, title, text):
@@ -206,6 +252,10 @@ def main(argv=None):
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--post", metavar="FILE")
     g.add_argument("--from-progress", action="store_true")
+    g.add_argument("--list", action="store_true")
+    g.add_argument("--collapse", metavar="COMMENT_ID", type=int)
+    ap.add_argument("--reason", default="superseded by a later packet",
+                    help="the summary line of a --collapse")
     ap.add_argument("--title")
     ap.add_argument("--attach", nargs="+", metavar="PNG", default=[],
                     help="images to embed by repo blob link (with --post)")
@@ -217,7 +267,13 @@ def main(argv=None):
         print("owner_inbox: gh is not installed; nothing posted")
         return 0
     try:
+        if a.collapse is not None:
+            collapse(a.collapse, a.reason)
+            return 0
         number = ensure_issue()
+        if a.list:
+            print("\n".join(list_lines(comments(number))))
+            return 0
         if a.post:
             text = Path(a.post).read_text(encoding="utf-8")
             if a.attach:

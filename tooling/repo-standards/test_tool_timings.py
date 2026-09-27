@@ -121,6 +121,46 @@ HOLD = textwrap.dedent("""
 """)
 
 
+BUSY_MIB = 256  # another process that frees or takes this much in the window moves the machine figure
+
+
+def other_process_mib(own=None):
+    """pid -> MiB of RssAnon + RssShmem (own_memory's measure) for every
+    process outside this test's own tree."""
+    import own_memory
+    mine = own or {os.getpid()}
+    out = {}
+    for name in os.listdir("/proc"):
+        if name.isdigit() and int(name) not in mine:
+            st = own_memory._status(int(name))
+            if st is not None:
+                out[int(name)] = (st.get("RssAnon", 0) + st.get("RssShmem", 0)) / 1024
+    return out
+
+
+def machine_is_busy(before, after):
+    """Why the machine-wide delta is not asserted, or None: a runner-mode
+    preflight, or another process whose memory moved by >= BUSY_MIB between
+    the two snapshots (a process that started or ended counts from 0)."""
+    if os.environ.get("GITHUB_ACTIONS") == "true" or \
+            os.path.basename(os.environ.get("ES_ASSET_PIPELINE_ROOT", "")).startswith("no-vault-"):
+        return "preflight --runner"
+    moved = sorted((pid, round(after.get(pid, 0) - before.get(pid, 0)))
+                   for pid in set(before) | set(after)
+                   if abs(after.get(pid, 0) - before.get(pid, 0)) >= BUSY_MIB)
+    return f"{len(moved)} other process(es) moved >= {BUSY_MIB} MiB: {moved[:3]}" if moved else None
+
+
+def test_machine_is_busy_names_the_runner_and_moving_processes(monkeypatch):
+    monkeypatch.setenv("ES_ASSET_PIPELINE_ROOT", "/tmp/no-vault-abc123")
+    assert machine_is_busy({}, {}) == "preflight --runner"
+    monkeypatch.delenv("ES_ASSET_PIPELINE_ROOT")
+    monkeypatch.delenv("GITHUB_ACTIONS", raising=False)
+    assert machine_is_busy({1: 2048, 2: 4000}, {1: 2050, 2: 4000}) is None   # big but steady
+    assert "1 other process(es)" in machine_is_busy({1: 2048}, {1: 1500})    # freed 548 MiB
+    assert "1 other process(es)" in machine_is_busy({}, {9: 900})             # started
+
+
 def test_memwatch_own_peak_is_the_job_not_the_machine(tmp_path):
     """A job allocating 300 MiB beside a sibling (outside the job) allocating
     600 MiB: the own peak is the job's ~300, the machine delta holds both."""
@@ -129,6 +169,7 @@ def test_memwatch_own_peak_is_the_job_not_the_machine(tmp_path):
     prog.write_text(HOLD)
     env = dict(os.environ, MEMWATCH_TIMINGS_LOG=str(log))
     env.pop("MEMWATCH_LANE", None)  # set when the suite itself runs under job_guard
+    before = other_process_mib()
     job = subprocess.Popen(["bash", os.path.join(HERE, "memwatch.sh"), f"{sys.executable} {prog} 300"],
                            env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     sibling = subprocess.Popen([sys.executable, str(prog), "600"])
@@ -139,9 +180,16 @@ def test_memwatch_own_peak_is_the_job_not_the_machine(tmp_path):
     own_mib = row["ownPeakGiB"] * 1024
     machine_delta_mib = (row["peakAnonGiB"] - row["startGiB"]) * 1024
     assert 290 <= own_mib <= 400, row
-    # The machine figure holds the sibling too (measured 927 MiB on 2026-09-26);
-    # other lanes on the shared box may free memory in the window, so the bar
-    # is the job plus half the sibling, not the full 900.
-    assert machine_delta_mib >= own_mib + 300, row
+    # The machine figure holds the sibling too (measured 927 MiB on 2026-09-26),
+    # but it is the whole machine's: under `preflight --runner` (a parallel
+    # gate run) or beside another heavy process, memory freed elsewhere in the
+    # window can hide the sibling, so there it is a printed note, never a red.
+    # The own-peak bar above is the assert that matters.
+    note = machine_is_busy(before, other_process_mib({os.getpid(), job.pid, sibling.pid}))
+    if note:
+        print(f"note: machine delta {machine_delta_mib:.0f} MiB vs own {own_mib:.0f} MiB "
+              f"not asserted ({note})")
+    else:
+        assert machine_delta_mib >= own_mib + 300, row
     last = out.strip().splitlines()[-1]
     assert last.startswith("memwatch: own peak ") and " GiB · machine peak " in last and last.endswith("exit 0")
