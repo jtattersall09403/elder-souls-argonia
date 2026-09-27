@@ -340,4 +340,5 @@ def check_failures(check: dict) -> list[str]:
 
 
 RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pathReachRule"),
-         ("propSeat", "propSeatRule"))
+         ("propSeat", "propSeatRule"), ("roadSurface", "roadSurfaceRule"), ("sill", "sillRule"),
+         ("sign", "signRule"), ("berthReach", "berthReachRule"), ("collider", "colliderRule"))

@@ -15909,17 +15909,25 @@
    }
   },
   "kotm:argonia/mudhuts/mudhut01": {
-   "p25": -0.4785,
-   "p50": -0.4785,
-   "p75": -0.4785,
-   "n": 0,
+   "p25": -2.8217,
+   "p50": -2.8217,
+   "p75": -2.8217,
+   "n": 1,
    "iqrM": 0.0,
    "slopeTermMPerDeg": null,
-   "evidence": "mesh-sill",
-   "groundLineTell": {
-    "type": "mesh",
-    "tell": "foundation-top",
-    "valueM": -0.4785
+   "evidence": "plugin",
+   "spreadIqrM": 0.0,
+   "spreadN": 0,
+   "baseObject": [
+    "kotm:argonia/mudhuts/mudhut01.nif"
+   ],
+   "plugins": [
+    "King of the Murkmire.esp"
+   ],
+   "wholePopulation": {
+    "n": 1,
+    "minSamples": 3,
+    "ruling": "planner 16k walk 2 lane T1, place-diag P1"
    }
   },
   "kotm:argonia/mudhuts/mudhutchimney": {

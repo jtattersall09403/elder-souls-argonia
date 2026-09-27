@@ -548,6 +548,12 @@ def cmd_check(a, scene, cat):
         cat, scene, lambda p: _authored_fit(scene, p) or cs.record_ground_fit(cat.row(p.asset)))
     out["pathReach"] = rules.path_reach(cat, scene)
     out["propSeat"] = rules.prop_seat(cat, scene)
+    # 16k walk 2 (place-diag P1-P4, runtime-diag D2/D6)
+    out["roadSurface"] = rules.road_surface(cat, scene)
+    out["sill"] = rules.sill(cat, scene)
+    out["sign"] = rules.sign(cat, scene)
+    out["berthReach"] = rules.berth_reach(cat, scene)
+    out["collider"] = rules.collider(cat, scene)
     # 0102 decision 5: every unmined mount is listed (the render round must shoot it)
     out["info"] = [f"{p.uid}: unmined mount on {p.role.get('mountedOn')} "
                    f"({p.role['mountPair'].get('unmined')})" for p in scene.pieces
@@ -713,9 +719,18 @@ def cmd_bind(a, scene, cat):
         if not (a.layer and a.on and a.evidence):
             raise ValueError("an assembly binding needs --layer, --on and --evidence")
         role.update({"layer": a.layer, "on": a.on, "evidence": a.evidence})
-    if "mountedOn" in p.role:
-        role["mountedOn"] = p.role["mountedOn"]
-        role["mountPair"] = p.role.get("mountPair")
+    for key in ("mountedOn", "mountPair", "liftedOn"):
+        if key in p.role:
+            role[key] = p.role[key]
+    if getattr(a, "host", None) is not None:
+        # 16k walk 2 P4/D7: the op names the host the child hangs on; the
+        # export parents it there (`export.mount_host`), so a bind that names
+        # another piece than the one it was mounted on is refused here
+        from workbench.scene import hung_on
+        if a.on != "parent" or hung_on(p) != a.host:
+            raise ValueError(f"bind {p.uid} --host {a.host}: it hangs on {hung_on(p)!r} "
+                             f"(on {a.on!r}); mount it on {a.host} first, on parent")
+        role["host"] = a.host
     p.role = role
     return {"uid": p.uid, "role": role}
 
@@ -730,8 +745,31 @@ def cmd_render(a, scene, cat):
                          a.samples, a.highlight, night=a.night)
 
 
+def owner_guided_refusal(place_id: str, reason: str | None) -> str | None:
+    """16k walk 2 T1 item 4: a place whose catalogue record is `ownerGuided`
+    (the owner is hands-on there, catalogue.py) is applied or exported only
+    with `--owner-guided REASON`; None when it may go ahead."""
+    wbpaths_bridge()
+    from worldgen import blueprint as bp_mod
+    record = bp_mod.catalogue_records().get(place_id) or {}
+    if record.get("ownerGuided") is not True:
+        return None
+    if reason and reason.strip():
+        return None
+    return (f"{place_id} is ownerGuided in its catalogue record (the owner is hands-on "
+            f"here): pass --owner-guided REASON naming the owner's go-ahead")
+
+
+def wbpaths_bridge() -> None:
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+
+
 def cmd_export(a, scene, cat):
     from workbench import export
+    why = owner_guided_refusal(scene.placeId, getattr(a, "owner_guided", None))
+    if why:
+        raise ValueError(why)
     return export.export(scene, Path(a.blueprint), write=a.write)
 
 
@@ -1160,6 +1198,9 @@ def parser() -> argparse.ArgumentParser:
                    help="assembly: hung on the shell, or seated on the terrain")
     s.add_argument("--evidence", default=None,
                    help="assembly: the template id, mount pair or 'measured'")
+    s.add_argument("--host", default=None,
+                   help="assembly on parent: the piece it is mounted on (a lantern's "
+                        "barrel, a board's post); exported as the member's host")
     s = sub.add_parser("render")
     s.add_argument("view", nargs="?", default=None,
                    choices=("top", "front", "side", "back", "iso", "turntable", "cutaway"))
@@ -1181,6 +1222,8 @@ def parser() -> argparse.ArgumentParser:
     s = sub.add_parser("export")
     s.add_argument("blueprint")
     s.add_argument("--write", action="store_true")
+    s.add_argument("--owner-guided", default=None, metavar="REASON",
+                   help="an ownerGuided place: the owner's go-ahead, named")
     sub.add_parser("list")
     s = sub.add_parser("remove")
     s.add_argument("uid")
@@ -1231,6 +1274,8 @@ def apply_parser() -> argparse.ArgumentParser:
     ap.add_argument("--no-compile", action="store_true")
     ap.add_argument("--allow-stale-ground", action="store_true",
                     help="build even when the blueprint was authored on other chunk files")
+    ap.add_argument("--owner-guided", default=None, metavar="REASON",
+                    help="an ownerGuided place (catalogue record): the owner's go-ahead, named")
     return ap
 
 
@@ -1253,7 +1298,7 @@ def run_replay(argv) -> int:
 
 
 def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: bool = True,
-                 allow_stale_ground: bool = False) -> dict:
+                 allow_stale_ground: bool = False, owner_guided: str | None = None) -> dict:
     """`apply`: a fresh scene from the layout (0100 decision 2). Returns the
     summary, also written to output/apply/<placeId>.json."""
     from workbench import ground, layout, paths as wbpaths
@@ -1262,7 +1307,8 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
     place_id, window = doc["placeId"], doc["window"]
     summary = {"schemaVersion": 1, "placeId": place_id, "layout": layout.repo_path(layout_path),
                "layoutSha256": layout.sha256(layout_path)}
-    why = None if allow_stale_ground else layout.stale_ground(place_id, window)
+    why = (owner_guided_refusal(place_id, owner_guided)
+           or (None if allow_stale_ground else layout.stale_ground(place_id, window)))
     if why:
         summary.update({"refused": why, "elapsedS": round(time.time() - t0, 2)})
         return summary
@@ -1379,7 +1425,8 @@ def digest(summary: dict) -> list[str]:
 
 def run_apply(argv) -> int:
     a = apply_parser().parse_args(argv)
-    summary = apply_layout(a.layout, a.scene, not a.no_compile, a.allow_stale_ground)
+    summary = apply_layout(a.layout, a.scene, not a.no_compile, a.allow_stale_ground,
+                           a.owner_guided)
     if "summaryPath" not in summary:
         summary["summaryPath"] = "(not written: refused)"
     print("\n".join(digest(summary)))

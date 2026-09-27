@@ -136,13 +136,16 @@ def poses(scene: Scene, extent: float) -> dict:
             raise ValueError(f"assembly pieces {[q.uid for q in pieces]} name parcel {rid}, "
                              f"which no scene piece is bound to as its shell")
         rows = []
+        members = {q.uid for q in pieces}
         for q in sorted(pieces, key=lambda q: q.uid):
-            rel = _rel(shell, q)
-            if q.role["on"] == "parent" and not math.isclose(q.scale, shell.scale):
-                raise ValueError(f"{q.uid}: scale {q.scale} on shell {shell.uid} at "
-                                 f"{shell.scale}: the runtime draws a hung piece at its "
-                                 f"shell's scale; seat it on the ground or use scale "
-                                 f"{shell.scale}")
+            host = mount_host(scene, q, shell, members)
+            frame = host or shell
+            rel = _rel(frame, q)
+            if q.role["on"] == "parent" and not math.isclose(q.scale, frame.scale):
+                raise ValueError(f"{q.uid}: scale {q.scale} on {frame.uid} at "
+                                 f"{frame.scale}: the runtime draws a hung piece at its "
+                                 f"parent's scale; seat it on the ground or use scale "
+                                 f"{frame.scale}")
             row = {"id": _slug(q.uid), "asset": q.asset,
                    "atM": [round(v, 4) for v in rel["atM"]],
                    "yaw": round(rel["yaw"], 3), "on": q.role["on"],
@@ -154,6 +157,8 @@ def poses(scene: Scene, extent: float) -> dict:
                 if rel["upM"] is None:
                     raise ValueError(f"{q.uid}: a piece on its shell needs a height")
                 row["upM"] = round(rel["upM"], 4)
+                if host is not None:
+                    row["host"] = _slug(host.uid)
             if q.pitch:
                 row["pitch"] = round(q.pitch, 3)
             if q.scale != 1.0 and q.role["on"] == "ground":
@@ -164,6 +169,24 @@ def poses(scene: Scene, extent: float) -> dict:
         pts = [_uv(x, z, extent) for x, z in path["pointsM"]]
         out["routes"][path["id"]] = {"via": pts}     # points: street_router derives them
     return out
+
+
+def mount_host(scene: Scene, q, shell, members: set[str]):
+    """The member a hung assembly piece is mounted on (16k walk 2 P4/D7): the
+    piece its mount, template or lift names (`scene.hung_on`) when that is
+    another member of the same assembly, so the compile parents it THERE with
+    the mined offset, never on the shell. None when it hangs on the shell or
+    stands on the ground; a host outside the assembly is refused by name."""
+    from .scene import hung_on
+    if q.role.get("on") != "parent":
+        return None
+    uid = hung_on(q)
+    if uid is None or uid == shell.uid:
+        return None
+    if uid not in members:
+        raise ValueError(f"{q.uid}: mounted on {uid}, which is not a member of assembly "
+                         f"{q.role.get('id')} (bind it to the parcel its host is bound to)")
+    return scene.piece(uid)
 
 
 def mount_pair(role: dict) -> dict | None:

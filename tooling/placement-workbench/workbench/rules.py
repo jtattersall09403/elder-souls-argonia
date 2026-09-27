@@ -51,6 +51,29 @@ SET_SPACING_TOL_M = 0.5      # propSeatRule: a yard-set member off its declared 
 UNEVEN_SINK_CAP_M = 0.15     # propSeatRule: a no-evidence prop may sink up to the ground's rise
                              # under its foot, at most this; beyond, "uneven ground: move it"
                              # (planner ruling 3, 16k fix 2 workbench round 3)
+PROP_FLOAT_MAX_M = 0.01      # propSeatRule: a prop's foot / pose at most this ABOVE its seat
+PROP_SINK_MAX_M = 0.05       # ... and at most this BELOW it (owner 2026-09-27: 3 cm is visible)
+# 16k walk 2 rules (place-diag P1-P4, runtime-diag D2/D6)
+BC_ROAD = 30                 # roadSurfaceRule: the ground-control material the road paints
+ROAD_BLEND_MIN = 64          # ... a secondary road texel counts at blend weight over this (/255)
+ROAD_OVERLAP_MIN_M2 = 0.05   # ... a footprint over the painted road by more than this fails
+ROAD_SIGN_VERGE_M = 1.5      # ... a signpost whose pivot is off the paint within this of it passes
+ROAD_WAY_TOKENS = ("bridge", "walkway", "boardwalk", "dock", "pier", "jetty", "ramp",
+                   "stair", "steps", "crossing", "ford")
+ROAD_SIGN_TOKENS = ("signpost", "milestone")
+SILL_MAX_M = 0.20            # sillRule: a door threshold within this of the walk surface
+SILL_PROBE_M = 0.3           # ... the walk surface is read this far out along the door's facing
+SILL_FLOOR_BAND_M = 1.5      # ... with no sill record, the floor is read within this of the mesh base
+SILL_WAY_TOKENS = ("stair", "steps", "walkway", "porch", "ramp", "boardwalk", "dock", "plank")
+SIGN_BEARING_MAX_DEG = 15.0  # signRule: a board's arm within this of the road's bearing
+SIGN_HEIGHT_M = (1.7, 2.4)   # ... the board's centre this high over the ground
+SIGN_BOARD_TOKENS = ("roadsign",)  # a board: the name says roadsign and not signpost
+BERTH_REACH_M = 1.0          # berthReachRule: a way or landing end within this of the hull
+BERTH_DRY_M = 0.2            # ... its other end on ground this far over the water
+BERTH_WAY_TOKENS = ("dock", "plank", "walkway", "bridge", "pier", "jetty", "landing",
+                   "steps", "ramp", "boardwalk", "stage")
+COLLIDER_MIN_PLAN_M = 0.3    # colliderRule: plan size in both axes at least this ...
+COLLIDER_MIN_HEIGHT_M = 0.3  # ... and at least this tall needs a collider in the manifest
 PHYSICS_TS = paths.REPO_ROOT / "packages" / "game-core" / "src" / "physics" / "characterPhysics.ts"
 
 
@@ -876,19 +899,19 @@ def _set_members(scene) -> dict:
 
 
 def prop_seat(cat, scene) -> dict:
-    """propSeatRule: a mounted item's exact gap to its parent within the
-    miner's contact (0.03 m). A ground item: its lowest foot point
-    (`float_under`) no more than 0.03 m over the padded ground; its pose
-    within 0.03 m of the runtime's seat (`measure.seat`: the designed sink,
-    the row's sink evidence, on the padded ground); and a burial deeper than
-    0.03 m only where that sink has evidence (a `policy-fallback` sink is
-    none) or, for a no-evidence prop, up to the ground's rise under its foot
-    (`groundRiseM`: the runtime seat on sloping ground buries the uphill
-    foot) capped at UNEVEN_SINK_CAP_M, beyond which it fails "uneven
-    ground: move it". A yard-set member within SET_SPACING_TOL_M of its declared offset
-    from the set's anchor."""
-    mm = measure._mm()
-    tol = mm.CONTACT_M
+    """propSeatRule (bars PROP_FLOAT_MAX_M up, PROP_SINK_MAX_M down; owner
+    2026-09-27, was a flat 0.03 m): a mounted item's exact gap to its parent
+    at most PROP_FLOAT_MAX_M. A ground item: its lowest foot point
+    (`float_under`) at most PROP_FLOAT_MAX_M over the padded ground; its pose
+    between PROP_SINK_MAX_M below and PROP_FLOAT_MAX_M above the runtime's
+    seat (`measure.seat`: the designed sink, on the padded ground); and a
+    burial deeper than PROP_SINK_MAX_M only where that sink has evidence (a
+    `policy-fallback` sink is none) or, for a no-evidence prop, up to the
+    ground's rise under its foot (`groundRiseM`: the runtime seat on sloping
+    ground buries the uphill foot) capped at UNEVEN_SINK_CAP_M, beyond which
+    it fails "uneven ground: move it". A yard-set member within
+    SET_SPACING_TOL_M of its declared offset from the set's anchor."""
+    up, down = PROP_FLOAT_MAX_M, PROP_SINK_MAX_M
     g = _ground(cat, scene)
     members = _set_members(scene)
     rows, failures = {}, []
@@ -898,10 +921,10 @@ def prop_seat(cat, scene) -> dict:
         r = {}
         if parent is not None and parent.y is not None:
             got = measure.contact(cat, p, parent)
-            r = {"on": parent.uid, "gapM": got["gapM"], "bandM": [0.0, tol]}
-            if got["gapM"] > tol:
+            r = {"on": parent.uid, "gapM": got["gapM"], "bandM": [0.0, up]}
+            if got["gapM"] > up:
                 failures.append(f"{p.uid}: stands {got['gapM']:.3f} m off {parent.uid} "
-                                f"(> {tol} m contact)")
+                                f"(> {up} m)")
         else:
             fl = measure.float_under(cat, g, p)
             seat = measure.seat(cat, g, p)
@@ -909,23 +932,23 @@ def prop_seat(cat, scene) -> dict:
             ev = str((row.get("designedSinkM") or {}).get("evidence") or "none")
             gap = fl["footFloatMinM"]
             r = {"on": "ground", "gapM": gap, "offSeatM": round(off, 3),
-                 "bandM": [-tol, tol], "sinkEvidence": ev,
+                 "bandM": [-down, up], "sinkEvidence": ev,
                  "designedSinkM": round(seat["designedSinkM"], 3)}
-            if gap > tol:
+            if gap > up:
                 failures.append(f"{p.uid}: floats {gap:.3f} m over the padded ground "
-                                f"(its lowest foot point; > {tol} m)")
-            if abs(off) > tol:
+                                f"(its lowest foot point; > {up} m)")
+            if off > up or off < -down:
                 failures.append(f"{p.uid}: stands {off:+.3f} m off its designed seat (the "
-                                f"runtime's seat on the padded ground; > {tol} m)")
+                                f"runtime's seat on the padded ground; band -{down}..+{up} m)")
             rise = fl["groundRiseM"]
             allow = min(rise, UNEVEN_SINK_CAP_M)
             r.update(groundRiseM=rise, burialAllowM=round(allow, 3))
-            if gap < -tol and ev.startswith("policy"):
-                if seat["designedSinkM"] > tol:
+            if gap < -down and ev.startswith("policy"):
+                if seat["designedSinkM"] > down:
                     failures.append(f"{p.uid}: sunk {-gap:.3f} m into the padded ground at its "
                                     f"lowest foot point by a designed sink with no evidence "
                                     f"({ev}, {seat['designedSinkM']:.2f} m)")
-                elif -gap > allow + tol:
+                elif -gap > allow + down:
                     failures.append(f"{p.uid}: uneven ground: move it (sunk {-gap:.3f} m at its "
                                     f"lowest foot point by the runtime's {seat['mode']} seat; "
                                     f"the ground rises {rise:.3f} m under its foot, allowance "
@@ -1035,3 +1058,331 @@ def bundle_uid(scene, placement_id: str, site_id: str) -> str | None:
         if role.get("kind") == "ring" and role.get("placementId") == placement_id:
             return p.uid
     return None
+
+
+# --------------------------------------------------------------------------
+# 16k walk 2 rules: road surface, sill, sign, berth reach, collider
+# --------------------------------------------------------------------------
+def _stem(asset: str) -> str:
+    return asset.rsplit("/", 1)[-1].lower()
+
+
+def _has(asset: str, tokens) -> bool:
+    stem = _stem(asset)
+    return any(t in stem for t in tokens)
+
+
+def _hung(p) -> bool:
+    from .scene import hung_on
+    return hung_on(p) is not None
+
+
+@lru_cache(maxsize=1)
+def _road_paint() -> tuple[np.ndarray, float]:
+    """The painted road AS DRAWN (`refined/ground-control.png`: ch0 the
+    winning material, ch1 the second, ch2 its blend): a texel is road where
+    ch0 is BC_ROAD, or ch1 is BC_ROAD at a blend over ROAD_BLEND_MIN. The
+    paint, never the route centreline: place-diag P2 measured the paint
+    1.83 m off the centreline record (routes_raster.py:224,421). Returns the
+    mask and the texel size in metres (the province extent over its width)."""
+    from PIL import Image
+    im = np.asarray(Image.open(paths.PROVINCE / "refined" / "ground-control.png").convert("RGBA"))
+    mask = (im[..., 0] == BC_ROAD) | ((im[..., 1] == BC_ROAD) & (im[..., 2] > ROAD_BLEND_MIN))
+    meta = json.loads((paths.PROVINCE / "refined" / "meta.json").read_text())
+    extent = float(meta["extentKm"][0]) * 1000.0
+    return mask, extent / mask.shape[1]
+
+
+def _road_cells(poly) -> list:
+    """The painted road texels (shapely boxes) under a plan polygon."""
+    from shapely.geometry import box
+    mask, px = _road_paint()
+    x0, z0, x1, z1 = poly.bounds
+    out = []
+    for j in range(max(0, int(z0 // px)), min(mask.shape[0], int(z1 // px) + 1)):
+        for i in range(max(0, int(x0 // px)), min(mask.shape[1], int(x1 // px) + 1)):
+            if mask[j, i]:
+                out.append(box(i * px, j * px, (i + 1) * px, (j + 1) * px))
+    return out
+
+
+def road_surface(cat, scene) -> dict:
+    """roadSurfaceRule: no placed piece's footprint lies on the painted road
+    surface (`_road_paint`) by more than ROAD_OVERLAP_MIN_M2, except a way
+    or crossing piece (ROAD_WAY_TOKENS), a piece hung on another (it stands
+    on its host), a water-class piece, and a signpost (ROAD_SIGN_TOKENS)
+    whose pivot is off the paint and within ROAD_SIGN_VERGE_M of it."""
+    from shapely.geometry import Point, Polygon
+    from shapely.ops import unary_union
+    rows, failures = {}, []
+    for p in scene.pieces:
+        if p.y is None or _hung(p) or _has(p.asset, ROAD_WAY_TOKENS):
+            continue
+        if (cat.row(p.asset).get("anchorClass") or "ground") == "water":
+            continue
+        poly = Polygon(measure.footprint_province(cat, p))
+        cells = _road_cells(poly)
+        if not cells:
+            continue
+        road = unary_union(cells)
+        area = float(poly.intersection(road).area)
+        if area <= ROAD_OVERLAP_MIN_M2:
+            continue
+        r = {"onRoadM2": round(area, 2), "footprintM2": round(poly.area, 2)}
+        if _has(p.asset, ROAD_SIGN_TOKENS):
+            near = unary_union(_road_cells(Point(p.x, p.z).buffer(ROAD_SIGN_VERGE_M + 2.0)))
+            pivot = Point(p.x, p.z)
+            r["pivotToPaintM"] = round(float(near.distance(pivot)), 2)
+            if not near.contains(pivot) and near.distance(pivot) <= ROAD_SIGN_VERGE_M:
+                r["verge"] = True
+                rows[p.uid] = r
+                continue
+        rows[p.uid] = r
+        failures.append(f"{p.uid}: {area:.1f} m2 of its {poly.area:.1f} m2 footprint lies on "
+                        f"the painted road (> {ROAD_OVERLAP_MIN_M2} m2; the paint as drawn)")
+    return {"pieces": rows, "failures": failures}
+
+
+def _sill_rise(cat, p, k: int) -> float | None:
+    """The doorway's sill over the piece's pivot from its record: the
+    interiors row at that doorway (entrance or provenance) with a plugin
+    door's `heightM` (the door reference's z on the shell; a `leaf` row's
+    heightM is the opening's height, not a sill), else the mined assembly
+    doorway's `riseM` on the piece or, for a composite, on its base piece;
+    None where no record gives one."""
+    d = cat.doorways(p.asset)[k]
+    x, z = d["offsetInPieceM"]
+    near = lambda off, zz: (off is not None and len(off) >= 2  # noqa: E731
+                            and abs(off[0] - x) < 0.05 and abs(zz(off) - z) < 0.05)
+    rec = cat.interiors(p.asset)
+    for row in [rec.get("entrance") or {}] + list(rec.get("provenance") or []):
+        if (row.get("kind") != "leaf" and isinstance(row.get("heightM"), (int, float))
+                and near(row.get("offsetM"), lambda o: o[1])):
+            return float(row["heightM"])
+    paths.bridge()
+    from worldgen import compile_settlement as cs
+    from worldgen.mine_designed_sink import composite_bases
+    for shell in (p.asset, composite_bases().get(p.asset)):
+        for row in (cs.assembly_doorways().get(shell) or {}).get("doorways") or []:
+            if near(row.get("offsetLocalM"), lambda o: -float(o[1])):
+                return float(row.get("riseM") or 0.0)
+    return None
+
+
+def _top_at(cat, p, x: float, z: float, below: float, above: float = -1e9) -> float | None:
+    """The highest surface of piece p at (x, z) between ``above`` and ``below``."""
+    mesh = _world_mesh(cat, p)
+    locs, _r, _t = mesh.ray.intersects_location([[x, -z, below]], [[0.0, 0.0, -1.0]],
+                                                multiple_hits=True)
+    return max((float(v[2]) for v in locs if float(v[2]) >= above), default=None)
+
+
+def sill(cat, scene) -> dict:
+    """sillRule: every bound doorway's threshold stands within SILL_MAX_M of
+    the walk surface just outside it (SILL_PROBE_M out along its facing: the
+    padded ground or a walkable deck, `_surface_m`), or of the top of a
+    stair or walkway piece (SILL_WAY_TOKENS) standing there. The sill is the
+    record's (`_sill_rise`) on the piece's pose; a doorway whose record
+    gives none is read on the shell's mesh just inside, else the ground."""
+    g = _ground(cat, scene)
+    rows, failures = {}, []
+    for d in doors(cat, scene):
+        p = scene.piece(d["uid"])
+        if p.y is None:
+            continue
+        rep = measure.door_report(cat, scene, p)
+        k = rep["doorways"].index(rep["best"])
+        tx, tz = d["thresholdM"]
+        dx, dz = _bearing_vec(d["facingDeg"])
+        ox, oz = tx + dx * SILL_PROBE_M, tz + dz * SILL_PROBE_M
+        walk = _surface_m(cat, scene, g, ox, oz)
+        rise = _sill_rise(cat, p, k)
+        if rise is not None:
+            sill_y, how = p.y + rise * p.scale, "record"
+        else:
+            # no record: the floor just inside, within SILL_FLOOR_BAND_M of the
+            # mesh's base (a dome's roof above it is not a floor), else the ground
+            base = float(_world_mesh(cat, p).bounds[0][2])
+            inside = _top_at(cat, p, tx - dx * SILL_PROBE_M, tz - dz * SILL_PROBE_M,
+                             base + SILL_FLOOR_BAND_M, base - 0.01)
+            sill_y, how = (inside, "mesh") if inside is not None else (walk, "ground")
+        ways = [t for q in scene.pieces if q.uid != p.uid and q.y is not None
+                and _has(q.asset, SILL_WAY_TOKENS)
+                for t in [_top_at(cat, q, ox, oz, sill_y + 1.0)] if t is not None]
+        off = min(abs(sill_y - v) for v in [walk, *ways])
+        rows[d["id"]] = {"sillM": round(sill_y, 3), "walkM": round(walk, 3), "from": how,
+                         "wayTopsM": [round(v, 3) for v in ways], "offM": round(off, 3)}
+        if off > SILL_MAX_M:
+            failures.append(f"{d['id']}: sill {sill_y:.2f} m stands {sill_y - walk:+.2f} m off "
+                            f"the walk surface outside it (> {SILL_MAX_M} m; no stair or "
+                            f"walkway reaches it)")
+    return {"doors": rows, "failures": failures}
+
+
+@lru_cache(maxsize=1)
+def _published_roads() -> tuple:
+    """Every published route (`routes.json`) as metre polylines: macro px
+    (x, z) x (px + 0.5) x the macro texel (the extent over 1345), the
+    registration the compile and the street router use."""
+    doc = json.loads((paths.PROVINCE / "routes.json").read_text())
+    meta = json.loads((paths.PROVINCE / "refined" / "meta.json").read_text())
+    step = float(meta["extentKm"][0]) * 1000.0 / 1345.0
+    return tuple((r["id"], tuple(((x + 0.5) * step, (z + 0.5) * step) for x, z in r["px"]))
+                 for r in doc.get("routes") or [] if len(r.get("px") or []) >= 2)
+
+
+def _road_bearing(scene, x: float, z: float) -> tuple[float, float, str] | None:
+    """(bearing mod 180, distance, road id) of the nearest road segment: the
+    published routes and the scene's road/street paths."""
+    lines = list(_published_roads()) + [(q["id"], tuple(map(tuple, q["pointsM"])))
+                                        for q in scene.paths if len(q["pointsM"]) >= 2
+                                        and q.get("kind") in ("road", "street")]
+    best = None
+    for rid, pts in lines:
+        for (ax, az), (bx, bz) in zip(pts, pts[1:]):
+            vx, vz = bx - ax, bz - az
+            ll = vx * vx + vz * vz
+            if ll <= 0:
+                continue
+            t = max(0.0, min(1.0, ((x - ax) * vx + (z - az) * vz) / ll))
+            dist = math.hypot(ax + t * vx - x, az + t * vz - z)
+            if best is None or dist < best[1]:
+                best = (math.degrees(math.atan2(vx, -vz)) % 180.0, dist, rid)
+    return best
+
+
+def _layout_sockets(scene) -> list[dict]:
+    """The authored socket ops of the layout the scene was applied from."""
+    from . import layout as lay
+    ref = (scene.layout or {}).get("path")
+    full = paths.REPO_ROOT / ref if ref else None
+    if not (full and full.exists()):
+        return []
+    return list(lay.split_sockets(json.loads(full.read_text()), ref).get("sockets") or [])
+
+
+def sign(cat, scene) -> dict:
+    """signRule: every road-sign board (SIGN_BOARD_TOKENS) hangs on its
+    post, its arm (the board's local +x: world yaw + 90, place-diag P4)
+    within SIGN_BEARING_MAX_DEG of the nearest road's bearing, its centre
+    SIGN_HEIGHT_M over the ground; and a `sign` socket on the post whose
+    `pointsTo` has one entry per board on it (0104 decision 4)."""
+    g = _ground(cat, scene)
+    socks = [s for s in _layout_sockets(scene) if s.get("kind") == "sign"]
+    rows, failures, boards_on = {}, [], {}
+    for p in scene.pieces:
+        if p.y is None or not _has(p.asset, SIGN_BOARD_TOKENS) or _has(p.asset, ROAD_SIGN_TOKENS):
+            continue
+        parent = _parent_of(scene, p)
+        r = {"post": parent.uid if parent is not None else None}
+        if parent is None or not _has(parent.asset, ROAD_SIGN_TOKENS):
+            failures.append(f"{p.uid}: a sign board hangs on a signpost, not "
+                            f"{parent.uid if parent is not None else 'nothing'}")
+        else:
+            boards_on.setdefault(parent.uid, []).append(p.uid)
+        mesh = _world_mesh(cat, p)
+        cx, cy, cz = (mesh.bounds[0] + mesh.bounds[1]) / 2.0     # (x, -z, up)
+        wx, wz = float(cx), float(-cy)
+        up = float(cz) - float(g.chunk_height(wx, wz))
+        arm = (p.yaw + 90.0) % 180.0
+        road = _road_bearing(scene, wx, wz)
+        r.update(armBearingDeg=round(arm, 1), centreOverGroundM=round(up, 2))
+        if road is not None:
+            off = _angle_off(arm * 2, road[0] * 2) / 2.0     # mod-180 difference
+            r.update(roadBearingDeg=round(road[0], 1), road=road[2], offDeg=round(off, 1))
+            if off > SIGN_BEARING_MAX_DEG:
+                failures.append(f"{p.uid}: its arm reads {arm:.0f} deg, the road {road[2]} runs "
+                                f"{road[0]:.0f} deg ({off:.0f} deg off; > {SIGN_BEARING_MAX_DEG})")
+        if not SIGN_HEIGHT_M[0] <= up <= SIGN_HEIGHT_M[1]:
+            failures.append(f"{p.uid}: its centre stands {up:.2f} m over the ground "
+                            f"(not {SIGN_HEIGHT_M[0]}-{SIGN_HEIGHT_M[1]} m)")
+        rows[p.uid] = r
+    for post, boards in sorted(boards_on.items()):
+        s = next((s for s in socks if s.get("host") == post), None)
+        if s is None:
+            failures.append(f"{post}: {len(boards)} board(s) and no sign socket on the post "
+                            f"(pointsTo one entry per board)")
+        elif len(s.get("pointsTo") or []) != len(boards):
+            failures.append(f"{post}: sign socket {s['id']} points to {len(s.get('pointsTo') or [])} "
+                            f"places for {len(boards)} board(s)")
+    return {"boards": rows, "failures": failures}
+
+
+def _ends(cat, p) -> tuple[tuple[float, float], tuple[float, float]]:
+    """A way piece's two ends: the middles of the short sides of its
+    footprint's minimum rotated rectangle."""
+    from shapely.geometry import Polygon
+    rect = list(Polygon(measure.footprint_province(cat, p)).minimum_rotated_rectangle.exterior.coords)[:4]
+    sides = [((rect[i][0] + rect[(i + 1) % 4][0]) / 2, (rect[i][1] + rect[(i + 1) % 4][1]) / 2,
+              math.dist(rect[i], rect[(i + 1) % 4])) for i in range(4)]
+    a, b = sorted(sides, key=lambda s: s[2])[:2]
+    return (a[0], a[1]), (b[0], b[1])
+
+
+def berth_reach(cat, scene) -> dict:
+    """berthReachRule: every berth (a water-class piece bound to a parcel: a
+    ferry or boat hull) has a way or landing piece (BERTH_WAY_TOKENS) with
+    one end within BERTH_REACH_M of the hull and the other on dry ground
+    (BERTH_DRY_M over the water there); every idle or npc socket placed by
+    `at` stands on dry ground or a walkable deck, never in water."""
+    from shapely.geometry import Point, Polygon
+    g = _ground(cat, scene)
+    rows, failures = {}, []
+    ways = [q for q in scene.pieces if q.y is not None and _has(q.asset, BERTH_WAY_TOKENS)]
+    for p in scene.pieces:
+        if p.y is None or (p.role or {}).get("kind") != "parcel":
+            continue
+        if (cat.row(p.asset).get("anchorClass") or "ground") != "water":
+            continue
+        hull = Polygon(measure.footprint_province(cat, p))
+        level = g.water_level(p.x, p.z)
+        best = None
+        for q in ways:
+            for near, far in (_ends(cat, q), _ends(cat, q)[::-1]):
+                gap = hull.distance(Point(near))
+                dry = float(g.chunk_height(*far)) - (level if level is not None else -1e9)
+                if best is None or (gap, -dry) < (best[1], -best[2]):
+                    best = (q.uid, gap, dry)
+        r = {"waterLevelM": level, "way": best and best[0],
+             "gapM": best and round(best[1], 2), "farEndOverWaterM": best and round(best[2], 2)}
+        rows[p.uid] = r
+        if best is None or best[1] > BERTH_REACH_M or best[2] < BERTH_DRY_M:
+            failures.append(f"{p.uid}: no way or landing reaches the berth from dry ground "
+                            f"(nearest {r['way']}: gap {r['gapM']} m, far end "
+                            f"{r['farEndOverWaterM']} m over the water; bars {BERTH_REACH_M} m, "
+                            f"{BERTH_DRY_M} m)")
+    for s in _layout_sockets(scene):
+        if s.get("kind") not in ("idle", "npc") or "at" not in s:
+            continue
+        x, z = (float(v) for v in s["at"])
+        level, ground = g.water_level(x, z), float(g.chunk_height(x, z))
+        # the recorded water over the ground the runtime draws, where the
+        # water mask says wet (the depth grid is coarser than a socket)
+        depth = (level - ground) if (level is not None and g.wet(x, z)) else 0.0
+        deck = _surface_m(cat, scene, g, x, z) - ground
+        rows[f"socket:{s['id']}"] = {"depthM": round(depth, 2), "deckM": round(deck, 2)}
+        if depth > 0.0 and deck <= 0.0:
+            failures.append(f"socket {s['id']}: stands in {depth:.2f} m of water, not on dry "
+                            f"ground or a deck")
+    return {"pieces": rows, "failures": failures}
+
+
+def collider(cat, scene) -> dict:
+    """colliderRule: every placed kit piece at least COLLIDER_MIN_PLAN_M in
+    both plan axes and COLLIDER_MIN_HEIGHT_M tall (at its scale) has a
+    collider in its manifest row (`collision` not "none"); candles and small
+    lanterns fall under the size."""
+    rows, failures = {}, []
+    for p in scene.pieces:
+        row = cat.row(p.asset)
+        if (row.get("category") or "") == "effect":
+            continue
+        sx, sy, sz = (float(v) * p.scale for v in row["sizeM"])
+        if min(sx, sy) < COLLIDER_MIN_PLAN_M or sz < COLLIDER_MIN_HEIGHT_M:
+            continue
+        kind = row.get("collision") or "none"
+        rows[p.uid] = {"collision": kind, "sizeM": [round(sx, 2), round(sy, 2), round(sz, 2)]}
+        if kind == "none":
+            failures.append(f"{p.uid}: {_stem(p.asset)} ({row['kit']}) is {sx:.2f} x {sy:.2f} x "
+                            f"{sz:.2f} m and has no collider in its manifest")
+    return {"pieces": rows, "failures": failures}

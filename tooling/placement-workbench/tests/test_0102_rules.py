@@ -69,7 +69,7 @@ def _target(got, uid):
 
 def test_the_character_limits_are_read_from_the_controller_source():
     ch = rules.character()
-    assert ch["stepM"] == 0.18 and ch["capsuleRadiusM"] == 0.3
+    assert ch["stepM"] == 0.45 and ch["capsuleRadiusM"] == 0.3   # 0.45 m auto-step (825124ef)
     assert ch["stepMSource"].startswith("packages/game-core/src/physics/characterPhysics.ts:")
 
 
@@ -502,7 +502,9 @@ def test_head_clearance_is_read_over_a_deck_whatever_the_order(cat, scene):
     even when it comes before the deck in the scene."""
     door = next(d for d in rules.doors(cat, scene) if d["uid"] == "b4")
     dx, dz = rules._bearing_vec(door["facingDeg"])
-    x, z = door["thresholdM"][0] + dx * 0.3, door["thresholdM"][1] + dz * 0.3
+    # 0.6 m out: clear of b4's own footprint buffered by the capsule radius
+    # (the mudhut footprint grew with its re-measured sink, 2026-09-27)
+    x, z = door["thresholdM"][0] + dx * 0.6, door["thresholdM"][1] + dz * 0.6
     hung = scene.add(Piece("hung", WALL, x, z, door["facingDeg"]))
     deck = scene.add(Piece("deck", WALL, x, z, door["facingDeg"], walkable=True))
     deck.y = hung.y = measure.seat(cat, scene.ground(), deck)["y"]

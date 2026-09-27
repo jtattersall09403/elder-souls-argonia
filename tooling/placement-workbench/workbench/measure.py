@@ -174,7 +174,10 @@ def seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
     lo, hi = min(heights), max(heights)
     line = lo if fit == "dug-in" else sum(heights) / len(heights)
     sink = sink_of(row) * piece.scale
-    y = line - sink
+    # the ONE seat, shared with the compile (place-diag P1)
+    paths.bridge()
+    from worldgen.compile_settlement import placement_world_y
+    y = placement_world_y(heights, sink_of(row), piece.scale, fit)
     pivot_to_base = float(row["originOffsetM"][2]) * piece.scale
     return {"y": y, "mode": mode, "fit": fit, "anchorClass": klass, "source": source,
             "groundLineM": line, "terrainMinM": lo, "terrainMaxM": hi,

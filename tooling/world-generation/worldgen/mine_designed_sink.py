@@ -777,14 +777,15 @@ def build_document(kits: dict[str, dict], vault: Path,
                    progress: bool = False,
                    tells: dict[str, dict] | None = None,
                    plugins: list[tuple[str, Path]] | None = None,
-                   supported: set[int] | None = None, jobs: int = 5) -> dict:
+                   supported: set[int] | None = None, jobs: int = 5,
+                   min_samples: int = MIN_SAMPLES) -> dict:
     if supported is None:
         from .mine_mounts import static_supported_refs  # imports this module
         supported = static_supported_refs(kits, vault, plugins=plugins, jobs=jobs,
                                           progress=progress)
     samples, stats = measure(kits, vault, progress=progress, plugins=plugins,
                              supported=supported)
-    assets = summarise(samples)
+    assets = summarise(samples, min_samples)
     if tells is None:
         tells = raw_mesh_tells()
     complete_record(assets, kits, tells)
@@ -805,6 +806,20 @@ def build_document(kits: dict[str, dict], vault: Path,
         "refsPluginUnsupported": stats["refsPluginUnsupported"],
         "assets": assets,
     }
+
+
+def mark_whole_population(asset_id: str, row: dict, ruling: str) -> None:
+    """A row measured below MIN_SAMPLES is the record only when its samples
+    are every placement the makers made: plugin evidence, no reference
+    dropped for scale, static support or no support. Marks the row with the
+    ruling; refuses anything else by name (a dropped reference means the
+    sample is not the population)."""
+    dropped = {k: row[k] for k in ("refsDroppedNonUnitScale", "refsDroppedStaticSupported",
+                                   "refsDroppedPluginUnsupported") if row.get(k)}
+    if row.get("evidence") != "plugin" or dropped:
+        raise SystemExit(f"{asset_id}: not a whole-population plugin sample "
+                         f"(evidence {row.get('evidence')!r}, dropped {dropped})")
+    row["wholePopulation"] = {"n": row["n"], "minSamples": MIN_SAMPLES, "ruling": ruling}
 
 
 def sample_assets(kits: dict[str, dict], n: int, seed: int,
@@ -846,6 +861,12 @@ def _main(argv: Iterable[str] | None = None) -> int:
     parser.add_argument("--merge", action="store_true",
                         help="per-asset sink run (16k r7 rule 4): measure only --assets "
                              "and replace their rows in the tracked record (--out)")
+    parser.add_argument("--whole-population", default=None, metavar="RULING",
+                        help="with --merge: every named asset's plugin references, fewer "
+                             "than MIN_SAMPLES, are ALL the placements its makers made "
+                             "(none dropped as scaled, static-supported or unsupported), "
+                             "so they are the record (16k walk 2 T1: KotM mudhut01, one "
+                             "reference); RULING names who ruled it and is written on the row")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     kits = kit_assets(*(args.kits_dir or []))
@@ -856,11 +877,14 @@ def _main(argv: Iterable[str] | None = None) -> int:
         if missing:
             raise SystemExit(f"not a kit asset: {missing}")
         got = build_document({a: kits[a] for a in args.assets}, args.vault,
-                             progress=not args.quiet)["assets"]
+                             progress=not args.quiet,
+                             min_samples=1 if args.whole_population else MIN_SAMPLES)["assets"]
         record = json.loads(args.out.read_text())
         for asset in args.assets:
             if asset not in got:
                 raise SystemExit(f"{asset}: the run measured no row")
+            if args.whole_population:
+                mark_whole_population(asset, got[asset], args.whole_population)
             record["assets"][asset] = got[asset]
         record["assetsMeasured"] = len(record["assets"])
         findings = evidence_findings(record["assets"])
