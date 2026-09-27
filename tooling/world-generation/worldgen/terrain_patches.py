@@ -122,7 +122,8 @@ def save(patches: list[dict], path: Path = PATCHES_PATH, about: str | None = Non
                               "see worldgen/terrain_patches.py for the six invariants each must pass."),
            "patches": sorted(patches, key=lambda p: (int(p.get("order", 0)), p["id"]))}
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    from .atomic_write import locked_write_text      # 0104 decision 9
+    locked_write_text(path, json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
 
 
 def ordered(patches: list[dict]) -> list[dict]:

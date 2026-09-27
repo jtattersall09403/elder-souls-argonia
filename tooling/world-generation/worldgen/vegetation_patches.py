@@ -555,11 +555,13 @@ def write_settlement_patches(bundle: dict, path: Path | None = None) -> list[dic
     """Replace the `patch.clearance.settlement.*` set in the patch file,
     keeping every other patch where it stands."""
     path = path or PATCHES_PATH
-    doc = json.loads(path.read_text())
-    patches = settlement_clearance_patches(bundle)
-    doc["patches"] = [p for p in doc["patches"]
-                      if not p["id"].startswith(SETTLEMENT_PATCH_PREFIX)] + patches
-    path.write_text(json.dumps(doc, indent=1) + "\n")
+    from .atomic_write import locked_write_text, write_lock      # 0104 decision 9
+    with write_lock(path):                      # the read, the edit and the write
+        doc = json.loads(path.read_text())
+        patches = settlement_clearance_patches(bundle)
+        doc["patches"] = [p for p in doc["patches"]
+                          if not p["id"].startswith(SETTLEMENT_PATCH_PREFIX)] + patches
+        locked_write_text(path, json.dumps(doc, indent=1) + "\n")
     load_patches(path)                 # the written file validates
     return patches
 

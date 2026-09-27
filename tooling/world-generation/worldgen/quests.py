@@ -136,8 +136,10 @@ def load_quests(quest_dir: Path = QUEST_DIR) -> list[dict]:
 
 
 def dump_json(path: Path, data: dict) -> None:
-    """The one way to write quest data (standard 4: byte-stable output)."""
-    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    """The one way to write quest data (standard 4: byte-stable output),
+    under the file's lock by rename (0104 decision 9)."""
+    from .atomic_write import locked_write_text
+    locked_write_text(Path(path), json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 
 
 def live_places(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> dict[str, dict]:

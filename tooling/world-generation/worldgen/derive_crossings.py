@@ -373,7 +373,8 @@ def main(argv: list[str] | None = None) -> None:
                              "`python3 -m worldgen.derive_crossings`")
         print(f"derive_crossings: {len(rows)} crossings, up to date")
         return
-    OUT_JSON.write_text(text, encoding="utf-8")
+    from .atomic_write import locked_write_text      # 0104 decision 9
+    locked_write_text(OUT_JSON, text)
     OUT_MD.write_text(markdown(doc), encoding="utf-8")
     print(f"derive_crossings: {len(rows)} crossings -> {OUT_JSON}")
 

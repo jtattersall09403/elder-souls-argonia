@@ -123,7 +123,8 @@ def load_overrides(path: Path = OVERRIDES_PATH) -> dict:
 
 def dump_overrides(doc: dict, path: Path = OVERRIDES_PATH) -> None:
     # byte-compatible with worldgen.apply_sitings' own writer (indent 1)
-    path.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    from .atomic_write import locked_write_text      # 0104 decision 9
+    locked_write_text(path, json.dumps(doc, indent=1, ensure_ascii=False) + "\n")
 
 
 # ------------------------------------------------------------------- small helpers
