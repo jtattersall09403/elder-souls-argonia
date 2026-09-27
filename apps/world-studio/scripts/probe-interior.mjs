@@ -13,6 +13,7 @@
 //                  600 s Bash cap is never left waiting (speed lane 2 item g).
 //   --out <file>   writes the full result JSON (and vite's log) there; stdout
 //                  keeps a one-line summary, so a caller never tails the log.
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";

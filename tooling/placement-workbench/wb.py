@@ -592,36 +592,46 @@ def _pair_key(cat, gkey: str, a: Piece, b: Piece) -> str:
 
 
 def _rule_task(cat, scene, key: str):
-    """One scene-level `check` rule (0102 decision 2 and 16k walk 2)."""
-    from workbench import paths, rules
+    """One scene-level (graph) `check` rule (0102 decision 2, 16k walk 2)."""
+    from workbench import rules
     if key == "doors":
         return cmd_doors(None, scene, cat)
-    if key == "floorEdge":
-        paths.bridge()
-        from worldgen import compile_settlement as cs
-        return rules.floor_edge(
-            cat, scene, lambda p: _authored_fit(scene, p) or cs.record_ground_fit(cat.row(p.asset)))
-    fn = {"walk": rules.walk, "pathReach": rules.path_reach, "propSeat": rules.prop_seat,
-          "roadSurface": rules.road_surface, "sill": rules.sill, "sign": rules.sign,
-          "berthReach": rules.berth_reach, "collider": rules.collider}[key]
+    fn = {"walk": rules.walk, "pathReach": rules.path_reach,
+          "berthReach": rules.berth_reach}[key]
     return fn(cat, scene)
 
 
-# the scene-level rules, in the order `check` writes them (after doors);
-# the costliest first in the pool
+def _piece_rule_task(cat, scene, key: str, uids: list):
+    """A per-piece `check` rule over a run of its targets (`rules.piece_part`)."""
+    from workbench import paths, rules
+    fit_for = None
+    if key == "floorEdge":
+        paths.bridge()
+        from worldgen import compile_settlement as cs
+        fit_for = lambda p: _authored_fit(scene, p) or cs.record_ground_fit(cat.row(p.asset))  # noqa: E731
+    return rules.piece_part(key, cat, scene, uids, fit_for)
+
+
+# the rules, in the order `check` writes them (after doors); the graph rules
+# judge the scene whole, the per-piece ones (`rules.PIECE_RULES`) run split
+# by piece across the pool and scoped by `--only`
 CHECK_RULES = ("walk", "floorEdge", "pathReach", "propSeat", "roadSurface", "sill", "sign",
                "berthReach", "collider")
+GRAPH_RULES = ("walk", "pathReach", "berthReach")
 
 
 def cmd_check(a, scene, cat):
     """Every piece: seat vs its y, foot float, slope vs its fit's limit;
     every pair whose bounds come within 0.5 m: contact; every door: path;
     the walk-packet rules. Rows, pairs and rules run across the fork pool
-    (`workbench.parallel`); a near pair whose two pieces are unchanged since
-    the last check of this scene is restored from the scene's pair cache
-    (`workbench.opcache`). `--only UID,..` re-measures those pieces' pairs
-    even on a cache hit; `--serial` runs in-process; `--full` ignores the
-    cache. The result is the serial loop's, key for key."""
+    (`workbench.parallel`), the per-piece rules split by piece; a near pair
+    whose two pieces are unchanged since the last check of this scene is
+    restored from the scene's pair cache (`workbench.opcache`). `--only
+    UID,..` judges those pieces only: their rows, their near pairs
+    (re-measured even on a cache hit) and the per-piece rules over them;
+    the graph rules (walk, pathReach, berthReach) and doors still judge the
+    whole scene. `--serial` runs in-process; `--full` ignores the cache.
+    The result is the serial loop's, key for key."""
     return check_scene(cat, scene, only=getattr(a, "only", None),
                        serial=bool(getattr(a, "serial", False)),
                        use_cache=not getattr(a, "full", False))
@@ -629,7 +639,7 @@ def cmd_check(a, scene, cat):
 
 def check_scene(cat, scene, only=None, serial: bool = False, use_cache: bool = True,
                 stats: dict | None = None) -> dict:
-    from workbench import opcache, parallel, paths
+    from workbench import opcache, parallel, paths, rules
     paths.bridge()
     from worldgen import compile_settlement as cs  # noqa: F401 - warm before the fork
     from workbench import pads
@@ -638,20 +648,36 @@ def check_scene(cat, scene, only=None, serial: bool = False, use_cache: bool = T
     for p in scene.pieces:
         pads.ground_for(cat, scene, p)
         break
+    rules.warm()                                    # read-only records, before the fork
     only = set(only.split(",") if isinstance(only, str) else (only or []))
+    missing = sorted(only - {p.uid for p in scene.pieces})
+    if missing:
+        raise ValueError(f"check --only: no piece {', '.join(missing)} in the scene")
     store = opcache.Store(opcache.cache_dir(scene.path) / "pairs.json", enabled=use_cache)
     gkey = opcache.global_key(scene.placeId, scene.groundStem)
     pairs = _near_pairs(cat, scene)
+    if only:
+        pairs = [(u, v) for u, v in pairs if u in only or v in only]
+        store.keep_all()                # a scoped run never drops the other pairs
     keys = [_pair_key(cat, gkey, scene.piece(u), scene.piece(v)) for u, v in pairs]
     cached = [None if (u in only or v in only) else store.get(k)
               for (u, v), k in zip(pairs, keys)]
     todo = [i for i, c in enumerate(cached) if c is None]
     n = 1 if serial else parallel.workers()
-    uids = [p.uid for p in scene.pieces]
+    uids = [p.uid for p in scene.pieces if not only or p.uid in only]
     row_chunks = parallel.chunks(uids, n)
-    pair_chunks = parallel.chunks(todo, max(1, 2 * n))
+    # one pair per task: a composite's pair costs seconds, a prop's
+    # milliseconds, and the pool hands tasks out one at a time
+    pair_chunks = [[i] for i in todo] if n > 1 else parallel.chunks(todo, 1)
+    piece_chunks = []
+    for key in rules.PIECE_RULES:
+        targets = rules.piece_targets(key, cat, scene)
+        if only:
+            targets = [u for u in targets if u in only]
+        piece_chunks.append((key, parallel.chunks(targets, 2 * n) or [[]]))
     tasks = ([(_check_pairs, (cat, scene, [pairs[i] for i in c])) for c in pair_chunks]
-             + [(_rule_task, (cat, scene, k)) for k in CHECK_RULES]
+             + [(_rule_task, (cat, scene, k)) for k in GRAPH_RULES]
+             + [(_piece_rule_task, (cat, scene, key, c)) for key, cs_ in piece_chunks for c in cs_]
              + [(_rule_task, (cat, scene, "doors"))]
              + [(_check_rows, (cat, scene, c)) for c in row_chunks])
     got = parallel.run(tasks, n)
@@ -661,17 +687,24 @@ def check_scene(cat, scene, only=None, serial: bool = False, use_cache: bool = T
             cached[i] = res
             store.put(keys[i], res)
         k += 1
-    rules_out = dict(zip(CHECK_RULES, got[k:k + len(CHECK_RULES)]))
-    k += len(CHECK_RULES)
+    rules_out = dict(zip(GRAPH_RULES, got[k:k + len(GRAPH_RULES)]))
+    k += len(GRAPH_RULES)
+    for key, cs_ in piece_chunks:
+        rules_out[key] = rules.piece_merge(key, cat, scene, got[k:k + len(cs_)],
+                                           sorted(only) if only else None)
+        k += len(cs_)
     doors = got[k]
     rows = dict(pair for chunk in got[k + 1:] for pair in chunk)
     store.save()                       # a --full run refreshes the cache
     out = {"pieces": {u: rows[u] for u in uids}, "nearPairs": cached, "doors": doors}
-    out.update(rules_out)
+    out.update({key: rules_out[key] for key in CHECK_RULES})
+    if only:
+        out["only"] = sorted(only)
     # 0102 decision 5: every unmined mount is listed (the render round must shoot it)
     out["info"] = [f"{p.uid}: unmined mount on {p.role.get('mountedOn')} "
                    f"({p.role['mountPair'].get('unmined')})" for p in scene.pieces
-                   if ((p.role or {}).get("mountPair") or {}).get("kind") == "unmined"]
+                   if ((p.role or {}).get("mountPair") or {}).get("kind") == "unmined"
+                   and (not only or p.uid in only)]
     if stats is not None:
         stats.update({"workers": n, "pairs": len(pairs), "pairsRestored": len(pairs) - len(todo),
                       "pairsMeasured": len(todo), "s": round(time.time() - t0, 2)})
@@ -1083,7 +1116,7 @@ def cmd_compile(a, scene, cat):
     blueprint (`compile_scene`)."""
     from workbench import paths as wbpaths
     src = Path(a.blueprint) if a.blueprint else wbpaths.BLUEPRINTS / f"{scene.placeId}.json"
-    return compile_scene(scene, src)
+    return compile_scene(scene, src, cat=cat)
 
 
 RING_KIND = "ring"
@@ -1148,7 +1181,7 @@ def _run_module(name: str, *args: str):
 
 
 def compile_scene(scene, src: Path, keep: Path | None = None,
-                  keep_out: Path | None = None) -> dict:
+                  keep_out: Path | None = None, cat=None, use_cache: bool = True) -> dict:
     """Export into a temporary copy of the blueprint, run the settlement-build
     derive passes on it (twice: they feed each other) and `compile_settlement`,
     and return its errors and warnings, each with the scene pieces bound to
@@ -1157,29 +1190,51 @@ def compile_scene(scene, src: Path, keep: Path | None = None,
     disagree. `keep`: where to leave the derived copy (the plan render reads
     it after `apply`); `keep_out`: the directory the compiled settlement is
     written to and left in (``settlement`` in the result; 16k r8 rule 5:
-    `apply` loads its ring), else a temporary one."""
+    `apply` loads its ring), else a temporary one.
+
+    With ``cat`` (and ``use_cache``, and `WB_COMPILE_CACHE` not "0"), the
+    result is kept in the scene's cache (`compile.json`) under
+    `opcache.compile_key` (the exported blueprint's bytes, the code, the
+    ground, the records and the placed assets); an unchanged export restores
+    the derived blueprint, the compiled settlement and the compile's output
+    instead of running the passes (``cached`` in the result)."""
     import re
     import shutil
     import subprocess
     import tempfile
-    from workbench import export, paths as wbpaths
+    from workbench import export, opcache, paths as wbpaths
     tmp = Path(tempfile.mkdtemp(prefix="wb-compile-"))
+    store, key, entry = None, None, None
     try:
         bp = tmp / src.name
         shutil.copy(src, bp)
         export.export(scene, bp, write=True)
+        if cat is not None and os.environ.get("WB_COMPILE_CACHE") != "0" \
+                and os.environ.get("WB_COMPILE_SUBPROCESS") != "1":
+            key = opcache.compile_key(cat, scene, bp.read_bytes())
+            store = opcache.Store(opcache.cache_dir(scene.path) / "compile.json", enabled=use_cache)
+            entry = store.get(key)
+        if entry is not None:
+            if "stage" in entry:
+                store.save()
+                return {"stage": entry["stage"], "failed": entry["failed"], "cached": True}
+            bp.write_text(entry["blueprint"])
         run = (_run_module if os.environ.get("WB_COMPILE_SUBPROCESS") != "1" else
                lambda *args: subprocess.run(  # noqa: E731
                    [sys.executable, "-m", *args], cwd=wbpaths.WORLDGEN, capture_output=True,
                    text=True))
-        for _ in range(2):
+        for _ in range(2 if entry is None else 0):
             for args in (("worldgen.rederive_terminals", "--apply", str(bp)),
                          ("worldgen.street_router", "--apply", str(bp)),
                          ("worldgen.blueprint_footprints", "--apply", str(bp)),
                          ("worldgen.blueprint_footprints", "--areas", "--doors", str(bp))):
                 got = run(*args)
                 if got.returncode:
-                    return {"stage": args[0], "failed": (got.stdout + got.stderr)[-2000:]}
+                    failed = {"stage": args[0], "failed": (got.stdout + got.stderr)[-2000:]}
+                    if store is not None:
+                        store.put(key, failed)
+                        store.save()
+                    return failed
         if keep is not None:
             keep.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(bp, keep)
@@ -1187,8 +1242,22 @@ def compile_scene(scene, src: Path, keep: Path | None = None,
         out_dir.mkdir(parents=True, exist_ok=True)
         for stale in out_dir.glob("*.settlement.json"):
             stale.unlink()                  # never a ring from an earlier compile
-        got = run("worldgen.compile_settlement", "--blueprint", str(bp), "--out", str(out_dir))
-        compiled = sorted(out_dir.glob("*.settlement.json"))
+        if entry is None:
+            derived_bp = bp.read_text()
+            got = run("worldgen.compile_settlement", "--blueprint", str(bp), "--out", str(out_dir))
+            compiled = sorted(out_dir.glob("*.settlement.json"))
+            if store is not None:
+                store.put(key, {"blueprint": derived_bp, "stdout": got.stdout, "stderr": got.stderr,
+                                "returncode": got.returncode,
+                                "settlements": {f.name: f.read_text() for f in compiled}})
+                store.save()
+        else:
+            for name, text in entry["settlements"].items():
+                (out_dir / name).write_text(text)
+            got = subprocess.CompletedProcess(["worldgen.compile_settlement"], entry["returncode"],
+                                              entry["stdout"], entry["stderr"])
+            store.save()
+            compiled = sorted(out_dir.glob("*.settlement.json"))
         settlement = str(compiled[0]) if keep_out is not None and compiled else None
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -1216,15 +1285,34 @@ def compile_scene(scene, src: Path, keep: Path | None = None,
             errors.append({"msg": msg, "uids": uids})
     return {"blueprint": str(src), "exitCode": got.returncode, "summary": summary,
             "errors": errors, "warnings": warnings, "fixtureWaived": len(waived),
-            "settlement": settlement}
+            "settlement": settlement, **({"cached": True} if entry is not None else {})}
+
+
+# The deployed studio, the only link the owner can open on the phone after the
+# session (method review r3 F12: the ES_TUNNEL_URL tunnel dies with the
+# session). TODO(lane 3A): delete this fallback once worldgen/site_urls.py
+# (S18, lane 3A's report) is committed; `walktable_base_url` reads it first.
+WALKTABLE_DEPLOYED_URL = "https://jtattersall09403.github.io/elder-souls-argonia/studio/"
+
+
+def walktable_base_url() -> str:
+    """The studio URL the walk table links: the deployed studio
+    (`worldgen.site_urls.studio_url(local=False)`), never the dev tunnel."""
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+    try:
+        from worldgen.site_urls import studio_url
+    except ImportError:
+        return WALKTABLE_DEPLOYED_URL
+    return studio_url(local=False)
 
 
 def cmd_walktable(a, scene, cat):
     """The owner-walk table for one place, read from the PUBLISHED bundle
     (every item, every time), with a `measured` column: the 0102 rule
-    numbers per item from the place's last `apply` (output/apply/<place>.json)."""
+    numbers per item from the place's last `apply` (output/apply/<place>.json);
+    each row links the deployed studio (`walktable_base_url`)."""
     from workbench import paths, rules
-    import os
     bundle = json.loads((paths.PROVINCE / "settlements.json").read_text())
     site = next(s for s in bundle["settlements"] if s["id"] == a.place)
     ids = set(site["placementIds"])
@@ -1235,7 +1323,7 @@ def cmd_walktable(a, scene, cat):
         full = (summary.get("check") or {}).get("full") or {}
         cells = rules.measured(full)
         applied = Scene.load(Path(summary["scene"])) if summary.get("scene") else None
-    base = os.environ.get("ES_TUNNEL_URL", "<ES_TUNNEL_URL>")
+    base = walktable_base_url()
     url = lambda e, s: f"{base}?view=character&x={e:.3f}&z={s:.3f}&t=12"
     xs = [p[0] for p in site["boundaryM"]]
     zs = [p[1] for p in site["boundaryM"]]
@@ -1381,7 +1469,8 @@ def parser() -> argparse.ArgumentParser:
     sub.add_parser("doors")
     s = sub.add_parser("check")
     s.add_argument("--only", default=None, metavar="UID,..",
-                   help="re-measure these pieces' near pairs even when the pair cache holds them")
+                   help="judge these pieces only: their rows, near pairs (re-measured) and "
+                        "per-piece rules; the graph rules still judge the whole scene")
     s.add_argument("--serial", action="store_true", help="no fork pool (the reference run)")
     s.add_argument("--full", action="store_true", help="ignore the scene's pair cache")
     s = sub.add_parser("path")
@@ -1570,13 +1659,18 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
     gkey = opcache.global_key(place_id, scene.groundStem)
     t_ops = time.time()
     env = None                      # the pad/run overlay key, recomputed only when touched
+    # WB_OPCACHE_VERIFY=1: every hit is also run fresh and compared with the
+    # stored entry; a difference fails the apply (the op cache's assumption
+    # that an op changes only the pieces it names or adds, broken)
+    verify = os.environ.get("WB_OPCACHE_VERIFY") == "1"
+    verified = 0
     for i, op in enumerate(doc["ops"]):
         t1 = time.time()
         if env is None and op.get("op") not in opcache.GROUNDLESS:
             env = opcache.env_key(cat, scene)
         key = opcache.op_key(cat, scene, op, gkey, env)
         hit = store.get(key)
-        if hit is not None:
+        if hit is not None and not verify:
             opcache.restore(scene, hit["diff"])
             if opcache.touches_env(scene, hit["diff"]):
                 env = None
@@ -1599,6 +1693,15 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
         scene.log.append(shlex.join(argv))
         warnings = layout._warnings(out)
         delta = opcache.diff(before_order, before, scene, before_paths)
+        if hit is not None:
+            fresh = {"cmd": ns.cmd, "log": scene.log[log_at:], "warnings": warnings, "diff": delta}
+            if opcache.plain(fresh) != opcache.plain({k: hit.get(k) for k in fresh}):
+                failed = {"index": i, "op": op, "error": "WB_OPCACHE_VERIFY: the op cache's entry "
+                          "differs from the op run fresh (" + ", ".join(
+                              k for k in fresh if opcache.plain(fresh[k]) != opcache.plain(hit.get(k)))
+                          + "); run apply --full and report the op"}
+                break
+            verified += 1
         if delta is None or opcache.touches_env(scene, delta):
             env = None
         if delta is not None:
@@ -1610,7 +1713,8 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
     store.save()
     summary["opCache"] = {"restored": sum(1 for o in ops if o.get("cached")),
                           "derived": sum(1 for o in ops if not o.get("cached")),
-                          "full": full, "s": round(time.time() - t_ops, 2)}
+                          "full": full, "s": round(time.time() - t_ops, 2),
+                          **({"verified": verified} if verify else {})}
     if failed is None:
         t1 = time.time()
         moves = reseat_after_pads(cat, scene)
@@ -1627,7 +1731,8 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
         if compile_ and src.exists():
             t1 = time.time()
             got = compile_scene(scene, src, keep=derived,
-                                keep_out=wbpaths.OUTPUT / "apply" / f"{place_id}.compiled")
+                                keep_out=wbpaths.OUTPUT / "apply" / f"{place_id}.compiled",
+                                cat=cat, use_cache=not full)
             got["s"] = round(time.time() - t1, 2)
             summary["compile"] = got
             if got.get("settlement"):
@@ -1739,12 +1844,12 @@ def round_summary(apply: dict) -> dict:
     """What the reader or editor acts on, from an apply summary: every check
     failure grouped by rule (count, the rule's fix hint, the uids) and by uid
     (its failures), the compile's errors and warnings."""
-    from workbench import layout
+    from workbench import layout, rules
     c = apply.get("check") or {}
     rows = layout.check_failure_rows(c["full"]) if c.get("full") else []
     by_rule, by_uid = {}, {}
     for r in rows:
-        g = by_rule.setdefault(r["rule"], {"count": 0, "fixHint": layout.FIX_HINTS.get(r["rule"]),
+        g = by_rule.setdefault(r["rule"], {"count": 0, "fixHint": rules.FIX_HINTS.get(r["rule"]),
                                            "uids": [], "failures": []})
         g["count"] += 1
         g["failures"].append(r["text"])

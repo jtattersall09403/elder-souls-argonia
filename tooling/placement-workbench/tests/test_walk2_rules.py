@@ -7,7 +7,6 @@ manifests where the defect lived there), then passing on a corrected copy.
 Local only: the scene needs the raw kit builds and the frozen ground window."""
 from __future__ import annotations
 
-import copy
 import json
 import subprocess
 import sys
@@ -45,21 +44,19 @@ def scratch(tmp_path_factory):
 
 
 @pytest.fixture(scope="module")
-def base(scratch):
-    mp = pytest.MonkeyPatch()
-    mp.setattr(paths, "OUTPUT", scratch)
-    try:
-        got = wb.apply_layout(LAYOUT, str(scratch / "claywater.json"), compile_=False)
-        assert got.get("failed") is None, got.get("failed")
-        return Scene.load(scratch / "claywater.json")
-    finally:
-        mp.undo()
+def base(applied_layout, cat):
+    """The walk-2 scene (`conftest.applied_layout`: once per session, in a
+    scratch output folder), its pads and padded ground warmed."""
+    from workbench import pads
+    s = applied_layout(LAYOUT)
+    pads.ground_for(cat, s, None)
+    return s
 
 
 @pytest.fixture(scope="module")
 def applied(base, scratch):
     """The walk-2 scene and the compile of its poses (`wb.compile_scene`)."""
-    got = wb.compile_scene(copy.deepcopy(base), paths.BLUEPRINTS / f"{PLACE}.json",
+    got = wb.compile_scene(base.view(), paths.BLUEPRINTS / f"{PLACE}.json",
                            keep_out=scratch / "compiled")
     assert got.get("settlement"), {k: got.get(k) for k in ("stage", "failed", "exitCode", "errors")}
     return base, json.loads(Path(got["settlement"]).read_text())
@@ -67,9 +64,7 @@ def applied(base, scratch):
 
 @pytest.fixture
 def scene(base):
-    s = copy.deepcopy(base)
-    s.__dict__.pop("_padMemo", None)
-    return s
+    return base.view()
 
 
 @pytest.fixture(scope="module")
@@ -299,16 +294,16 @@ def test_y_measured_is_compiled_verbatim_as_y_final(base, scratch, monkeypatch):
     disagreed by up to 0.66 m (isy-trough +0.659). Failing first: the compile
     without yMeasured; then every ground row stands at the workbench's y
     within 0.02 m and carries yFinal."""
-    s = copy.deepcopy(base)
+    s = base.view()
     with monkeypatch.context() as mp:
         mp.setattr(export, "_y_measured", lambda p: {})
-        old = wb.compile_scene(copy.deepcopy(s), paths.BLUEPRINTS / f"{PLACE}.json",
+        old = wb.compile_scene(s.view(), paths.BLUEPRINTS / f"{PLACE}.json",
                                keep_out=scratch / "compiled-no-y")
     old_rows = _ground_rows(s, json.loads(Path(old["settlement"]).read_text()))
     off = {u: r["positionM"][1] - s.piece(u).y for u, r in old_rows.items()
            if abs(r["positionM"][1] - s.piece(u).y) > 0.02}
     assert len(off) >= 10 and "isy-trough" in off, off           # the walk-2 defect
-    new = wb.compile_scene(copy.deepcopy(s), paths.BLUEPRINTS / f"{PLACE}.json",
+    new = wb.compile_scene(s.view(), paths.BLUEPRINTS / f"{PLACE}.json",
                            keep_out=scratch / "compiled-y")
     rows = _ground_rows(s, json.loads(Path(new["settlement"]).read_text()))
     assert set(off) <= set(rows)
@@ -376,12 +371,22 @@ def test_round4_scaled_pair_contact_and_piled_deck_seat(scene, cat):
 def test_round4_a_pods_door_is_judged_on_its_own_porch(scene, cat):
     """Planner ruling 2026-09-27 (round 4): a threshold is measured against
     its own assembly's walkable surface (the pod's porch deck) within 0.5 m,
-    and the porch then must reach the ground by a step of at most 0.45 m."""
+    and the porch then must reach the ground by a step of at most 0.45 m.
+    Round 5 (planner 2026-09-27) seats the pod by its porch (designedSinkM
+    1.9922, `part:` evidence, was the shell's 1.647 with a 0.655 m step): the
+    step at the porch's foot is now within the bar and the door passes."""
     got = rules.sill(cat, scene)
     row = got["doors"]["door:b4"]
     assert row["ownDeck"]["onDeck"] and row["ownDeck"]["offM"] <= rules.SILL_MAX_M
-    assert row["ownDeck"]["footStepM"] > rules.PORCH_STEP_MAX_M
-    assert any("door:b4: its own deck" in f for f in got["failures"])
+    assert row["ownDeck"]["footStepM"] is not None
+    assert row["ownDeck"]["footStepM"] <= rules.PORCH_STEP_MAX_M
+    assert not any(f.startswith("door:b4:") for f in got["failures"])
+    # the bar still bites: a porch foot higher than the bar fails
+    b4 = scene.piece("b4")
+    b4.y += rules.PORCH_STEP_MAX_M
+    raised = rules.sill(cat, scene)
+    assert raised["doors"]["door:b4"]["ownDeck"]["footStepM"] > rules.PORCH_STEP_MAX_M
+    assert any("door:b4: its own deck" in f for f in raised["failures"])
 
 
 def test_round5_a_piled_deck_is_one_walk_surface_over_its_plan_box(scene, cat):

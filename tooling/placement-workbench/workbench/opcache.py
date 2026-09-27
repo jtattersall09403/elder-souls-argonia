@@ -73,6 +73,37 @@ def global_key(place_id: str, ground_stem: str) -> str:
     return _sha([SCHEMA_VERSION, place_id, ground, code_key()])
 
 
+_DATA_KEY: dict = {}
+
+
+def data_key() -> str:
+    """The CONTENT of every JSON record the compile and its derive passes
+    may read beyond `code_key` (hashed once per process, never mtimes): the
+    world records (`world/sources/**`), the published and raw kit manifests
+    and sidecars, the kit build configs and placement policies, and the
+    province's JSON (its rasters are the frozen world, keyed by the ground
+    window's chunk sha256s in `global_key`); the GLB geometry is keyed per
+    placed asset (`asset_key`) by `compile_key`."""
+    if "key" not in _DATA_KEY:
+        root = paths.REPO_ROOT
+        _DATA_KEY["key"] = _content(
+            [*(root / "world" / "sources").rglob("*.json"),
+             *paths.PUBLISHED_KITS.glob("*.json"), *paths.RAW_KITS.glob("*.json"),
+             *(paths.ASSET_PIPELINE / "pipeline" / "config").rglob("*.json"),
+             *paths.PROVINCE.glob("*.json"), *(paths.PROVINCE / "refined").glob("*.json")])
+    return _DATA_KEY["key"]
+
+
+def compile_key(cat, scene, blueprint_bytes: bytes) -> str:
+    """What `wb.compile_scene`'s result is a function of: the exported
+    blueprint's bytes, the code and ground (`global_key`), the records
+    (`data_key`) and every placed asset's manifest row, footprint and mesh."""
+    assets = sorted({p.asset for p in scene.pieces})
+    return _sha([hashlib.sha256(blueprint_bytes).hexdigest(),
+                 global_key(scene.placeId, scene.groundStem), data_key(),
+                 {a: asset_key(cat, a) for a in assets}])
+
+
 _MESH_KEY: dict = {}
 
 
@@ -108,6 +139,11 @@ def _plain(o):
         return str(o)
 
 
+def plain(obj):
+    """``obj`` as it reads back from a store (JSON types, sorted keys)."""
+    return json.loads(json.dumps(obj, sort_keys=True, default=_plain))
+
+
 def state(piece) -> dict:
     return asdict(piece)
 
@@ -138,6 +174,10 @@ class Store:
 
     def put(self, key: str, value) -> None:
         self.used[key] = value
+
+    def keep_all(self) -> None:
+        """Keep every stored entry at `save` (a scoped run touches a few)."""
+        self.used.update({k: v for k, v in self.data.items() if k not in self.used})
 
     def save(self) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)

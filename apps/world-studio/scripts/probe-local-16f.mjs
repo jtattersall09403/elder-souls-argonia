@@ -1,3 +1,4 @@
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { chromium } from "playwright";
 const BASE = "http://localhost:8081/";
 const q = process.argv[2] ?? "view=character&x=4.02&z=4.61&t=12:00";

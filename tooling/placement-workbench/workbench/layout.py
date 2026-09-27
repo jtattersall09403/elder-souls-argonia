@@ -375,34 +375,3 @@ def _named_uids(text: str, uids: list[str]) -> list[str]:
 RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pathReachRule"),
          ("propSeat", "propSeatRule"), ("roadSurface", "roadSurfaceRule"), ("sill", "sillRule"),
          ("sign", "signRule"), ("berthReach", "berthReachRule"), ("collider", "colliderRule"))
-
-
-# The first fix to try for each rule's failure (the round summary prints it
-# beside the count; the bars and their rulings are the placement-workbench
-# skill's section 5). Tooling text for the agent, not player-facing.
-FIX_HINTS = {
-    "slopeRule": "re-site (wb.py scan / site) or give the parcel a pad or a fit made for the slope",
-    "deltaRule": "re-site, declare a pad, or author a groundFit that takes the delta, with its reason",
-    "sillRule": "bring the threshold within 0.20 m of the walk surface: re-seat, pad, or lay the "
-                "steps or porch its assembly names",
-    "yardSillRule": "the ground line stands off the ground at the pivot: re-site or pad it",
-    "padRule": "move the building (wb.py scan ranks pad legality), lay the kit's retaining wall "
-               "along the named edges, or batter a mud pad (<= 1.2 m)",
-    "beachedRule": "move the hull onto a gentler bank within 1.5 m of the water line",
-    "notExportable": "remove the roll / mirror: the runtime turns by yaw and pitch only",
-    "footFloat": "settle it, move it onto flatter ground, or pad the ground under it",
-    "hullWater": "move the hull out to at least the least depth all round its halo",
-    "quayBank": "slide the stage along its axis until its landward end meets the bank",
-    "unrelatedPair": "the two pieces cross: move one (wb.py measure A B gives the slide)",
-    "run-jointPair": "re-snap the run step by evidence (snap --by evidence --settle)",
-    "mountedPair": "re-mount the child on its parent by the mined pair",
-    "doorReach": "turn the building or move the path so the threshold is within 4 m of it",
-    "walkRule": "clear the blocking cell the failure names, or lay a walkable way over it",
-    "floorEdgeRule": "re-seat or pad the building, or lay a retaining piece under the named edge",
-    "pathReachRule": "end a path within 1 m of the door, its last leg on the door's facing",
-    "propSeatRule": "re-settle the prop, or move it off uneven ground (site --free)",
-    "roadSurfaceRule": "move the piece off the road paint (wb.py scan reports the overlap)",
-    "signRule": "turn the board's arm onto the road's bearing and mount it at 1.7-2.4 m",
-    "berthReachRule": "lay a landing or plank from dry ground to within 1 m of the hull",
-    "colliderRule": "use a piece whose kit manifest carries a collider, or source one",
-}

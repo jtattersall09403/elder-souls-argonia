@@ -1,3 +1,4 @@
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { mkdirSync } from "node:fs";
 mkdirSync(new URL("../artifacts/", import.meta.url).pathname, { recursive: true });
 // Headless probe: does the studio's character mode boot on the real chunks,

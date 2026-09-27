@@ -1,3 +1,4 @@
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { chromium } from "playwright";
 const browser = await chromium.launch({ headless: true, args: ["--use-gl=angle","--use-angle=swiftshader","--enable-unsafe-swiftshader"] });
 const page = await browser.newPage();

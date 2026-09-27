@@ -6,7 +6,6 @@ short, a lantern floated 0.1 m) where the unbroken item passes. Local only:
 the scene needs the raw kit builds and the frozen ground window."""
 from __future__ import annotations
 
-import copy
 import json
 import math
 import sys
@@ -36,30 +35,20 @@ def cat():
 
 
 @pytest.fixture(scope="module")
-def base(tmp_path_factory):
-    """The Claywater scene `apply` built from the pinned fixture layout. The
-    fixture shares Claywater's place id, so the apply runs in a scratch
-    output folder (the ground cache shared by a link) and never overwrites
-    the live place's output/apply or scene files."""
-    real = paths.OUTPUT
-    scratch = tmp_path_factory.mktemp("cw-out")
-    (real / "ground").mkdir(parents=True, exist_ok=True)
-    (scratch / "ground").symlink_to(real / "ground")
-    mp = pytest.MonkeyPatch()
-    mp.setattr(paths, "OUTPUT", scratch)
-    try:
-        got = wb.apply_layout(LAYOUT, str(scratch / "claywater.json"), compile_=False)
-        assert got.get("failed") is None, got.get("failed")
-        return Scene.load(scratch / "claywater.json")
-    finally:
-        mp.undo()
+def base(applied_layout, cat):
+    """The Claywater scene `apply` built from the pinned fixture layout
+    (`conftest.applied_layout`: once per session, in a scratch output
+    folder), its pads and padded ground warmed on this module's catalogue."""
+    from workbench import pads
+    s = applied_layout(LAYOUT)
+    pads.ground_for(cat, s, None)
+    return s
 
 
 @pytest.fixture
 def scene(base, tmp_path):
-    s = copy.deepcopy(base)
+    s = base.view()
     s.path = tmp_path / "scene.json"
-    s.__dict__.pop("_padMemo", None)
     return s
 
 

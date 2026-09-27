@@ -222,6 +222,18 @@ class Ground:
             raise ValueError(f"({x:.1f}, {z:.1f}) is outside the scene's ground window")
         return float(h[row, col])
 
+    def survey_heights(self, X, Z) -> np.ndarray:
+        """`survey_height` over arrays of points (the same nearest pixel)."""
+        s = self.meta["survey"]
+        X, Z = np.asarray(X, float), np.asarray(Z, float)
+        rows = (Z / s["pxM"]).astype(int) - s["origin"][1]
+        cols = (X / s["pxM"]).astype(int) - s["origin"][0]
+        h = self.a["survey_height"]
+        if rows.size and (rows.min() < 0 or cols.min() < 0 or rows.max() >= h.shape[0]
+                          or cols.max() >= h.shape[1]):
+            raise ValueError("a point is outside the scene's ground window")
+        return h[rows, cols].astype(float)
+
     def height(self, x: float, z: float, source: str = "chunks") -> float:
         return self.chunk_height(x, z) if source == "chunks" else self.survey_height(x, z)
 

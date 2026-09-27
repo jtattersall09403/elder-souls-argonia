@@ -6,6 +6,7 @@
 // then shoot the same paused frame with window.__STUDIO_AIR__ = 0 and = GAIN
 // to /tmp/shots/air-off.png and air-on.png. Diff them outside (PIL/numpy):
 // a layer that draws changes centre-screen pixels; one that does not, cannot.
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { chromium } from "playwright";
 import { writeFileSync } from "node:fs";
 import { startStudioDevServer } from "./dev-server.mjs";

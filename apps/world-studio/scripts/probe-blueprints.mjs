@@ -4,6 +4,7 @@
 // Writes artifacts/blueprint-<slug>.png. Needs `npm run build` first (vite preview).
 // A combined probe may provide STUDIO_REUSE_SERVER=1 and STUDIO_PORT=<port>
 // so several suites share one production preview server.
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { mkdirSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { chromium } from "playwright";

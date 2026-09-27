@@ -1195,12 +1195,69 @@ KIT_CODE_FILES = tuple(PIPELINE_DIR / name for name in (
 #: measure_connectors), plus the toolchain.
 KIT_RECORD_FILES = (
     PIPELINE_DIR / "config" / "toolchain.json",
-    PIPELINE_DIR / "config" / "placement-policies.json",
-    REPO_ROOT / "world" / "sources" / "placement" / "kit-designed-sink.json",
     REPO_ROOT / "world" / "sources" / "placement" / "kit-mounts-mined.json",
     REPO_ROOT / "world" / "sources" / "placement" / "exterior-interior-links.json",
     REPO_ROOT / "world" / "sources" / "placement" / "kit-assemblies-mined.json",
 )
+
+#: Records a kit build reads row by row: the input hash takes the KIT'S VIEW of
+#: each (`kit_record_view`: its own assets' rows and the sections every kit
+#: reads), never the whole file, so a miner rewriting other kits' rows or the
+#: record's counts does not rebuild this kit (speed lane 3B, 2026-09-27: the
+#: designed-sink miner rewrote both files and rebuilt every kit).
+PLACEMENT_POLICIES_FILE = PIPELINE_DIR / "config" / "placement-policies.json"
+DESIGNED_SINK_FILE = REPO_ROOT / "world" / "sources" / "placement" / "kit-designed-sink.json"
+KIT_ROW_RECORDS = (PLACEMENT_POLICIES_FILE, DESIGNED_SINK_FILE)
+
+#: placement-policies.json sections keyed by kit id, by asset id, and read
+#: whole by every kit (`placement_metadata`); the prose keys (`_`, `why`) are
+#: never read by a build.
+POLICY_KIT_SECTIONS = ("kitPolicies", "kitAssetPolicies", "expandedRefs")
+POLICY_ASSET_SECTIONS = ("assetPolicies", "assetPolicyEvidence", "assetPlacement")
+POLICY_SHARED_SECTIONS = ("schemaVersion", "policies", "nonPhysicalCompiledRefs")
+
+
+def kit_asset_ids(kit_id: str) -> set[str]:
+    """Every asset id the kit config names (its assets and their composite
+    parts), normalised as the records key them (`normalize_asset_id`)."""
+    from .placement_metadata import normalize_asset_id
+    ids: set[str] = set()
+
+    def walk(node) -> None:
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if key == "asset" and isinstance(value, str):
+                    ids.add(normalize_asset_id(value))
+                else:
+                    walk(value)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value)
+    walk(json.loads((CONFIG / f"{kit_id}.json").read_text()).get("assets", []))
+    return ids
+
+
+def kit_record_view(path: Path, kit_id: str, asset_ids: set[str]) -> bytes:
+    """The part of a row-keyed record (`KIT_ROW_RECORDS`) a build of
+    ``kit_id`` reads, as canonical JSON: the kit's own rows and the sections
+    every kit reads. MISSING for an absent file."""
+    from .placement_metadata import normalize_asset_id
+    if not path.is_file():
+        return b"MISSING"
+    doc = json.loads(path.read_text())
+
+    def own(rows) -> dict:
+        return ({k: v for k, v in rows.items() if normalize_asset_id(k) in asset_ids}
+                if isinstance(rows, dict) else rows)
+    if path.name == DESIGNED_SINK_FILE.name:
+        view = {"schemaVersion": doc.get("schemaVersion"), "assets": own(doc.get("assets") or {})}
+    else:
+        view = {key: doc.get(key) for key in POLICY_SHARED_SECTIONS}
+        view.update({key: (doc.get(key) or {}).get(kit_id) for key in POLICY_KIT_SECTIONS})
+        view.update({key: own(doc.get(key) or {}) for key in POLICY_ASSET_SECTIONS})
+        piled = (doc.get("piledDecks") or {}).get("assets") or []
+        view["piledDecks"] = sorted(a for a in piled if normalize_asset_id(a) in asset_ids)
+    return json.dumps(view, sort_keys=True).encode()
 
 
 def _file_sha256(path: Path) -> str:
@@ -1250,7 +1307,12 @@ def kit_input_hashes(kit_id: str, data_root: Path, plan: dict, vault: Path) -> d
                   *(CONFIG / f"{name}.json" for name in INTERIOR_KITS),
                   *sorted(REGISTRY_DIR.glob("registry-*.jsonl"))]
     files += [(_repo_label(p), p) for p in dict.fromkeys(repo_files)]
-    return input_hashes(files, {"plan": plan, "vault": str(vault)})
+    hashes = input_hashes(files, {"plan": plan, "vault": str(vault)})
+    ids = kit_asset_ids(kit_id)
+    for path in KIT_ROW_RECORDS:
+        hashes[f"{path.name} (kit rows)"] = hashlib.sha256(
+            kit_record_view(path, kit_id, ids)).hexdigest()
+    return hashes
 
 
 def output_files(kit_id: str, output_glb: Path) -> list[Path]:

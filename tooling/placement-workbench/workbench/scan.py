@@ -103,10 +103,9 @@ def measure_pose(cat, scene, g, spec: dict, ctx, x: float, z: float, yaw: float)
             # a pad resolves and is judged on the FROZEN ground, as
             # `scene_pads` and `pad_fit` (padRule) do
             g0 = ctx["frozen"]
-            pad = pads.resolve(cat, g0, p)
+            pad = pads.resolve_on_frozen(cat, g0, p)
             why = pads.refusal(cat, g0, p, pad)
-            edges = ([] if pad.get("error") else
-                     pads._srp().pad_edges(pad["polygonM"], pad["datumM"], g0.chunk_height))
+            edges = ([] if pad.get("error") else pads.pad_edges_on(g0, pad["polygonM"], pad["datumM"]))
             worst = max([max(e["fillM"], e["cutM"]) for e in edges] or [0.0])
             srp = pads._srp()
             limit = srp.BATTER_MAX_M if p.pad.get("batter") else srp.RETAIN_BAR_M
@@ -209,9 +208,9 @@ def verify(cat, scene, spec: dict, cand: dict, fit_rules) -> dict:
     for p in placed:
         if p.uid in declared:
             got["padRule"] = pads.pad_fit(cat, trial, p, declared[p.uid])["padRule"]
-    road = rules.road_surface(cat, trial)
+    road = rules.road_surface(cat, trial, uids=got["uids"])
     got["roadSurfaceRule"] = [f for f in road["failures"] if f.split(":")[0] in got["uids"]]
-    sill = rules.sill(cat, trial)
+    sill = rules.sill(cat, trial, uids=got["uids"])
     got["sillRule"] = [f for f in sill["failures"]
                        if f.removeprefix("door:").split(":")[0].split(".")[0] in got["uids"]]
     got["sill"] = {k: v for k, v in sill["doors"].items()

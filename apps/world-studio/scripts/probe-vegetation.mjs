@@ -5,6 +5,7 @@
 // it drew the right amount (CLAUDE.md: agents read measurements).
 // Run from apps/combat-sandbox (owns the playwright dep):
 //   node ../world-studio/scripts/probe-vegetation.mjs
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { mkdirSync, writeFileSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";

@@ -72,6 +72,72 @@ def resolve(cat, g, piece) -> dict | None:
     return {**got, "apronM": apron, "polygonM": polygon, "blendM": blend}
 
 
+def footprint_samples_xy(polygon, step: float | None = None):
+    """`settlement_run_pads.footprint_samples` as two arrays (X, Z), the same
+    points in the same order (the vertices, then the ``step`` grid inside
+    the polygon, row by row), the grid tested in one vectorised call
+    (`shapely.contains_xy`) instead of one Point per cell (scan, speed lane
+    3B; tests/test_speed.py pins it to the worldgen function)."""
+    import numpy as np
+    import shapely
+    from shapely.geometry import Polygon
+    srp = _srp()
+    step = srp.PAD_SAMPLE_STEP_M if step is None else step
+    poly = Polygon(polygon)
+    x0, z0, x1, z1 = poly.bounds
+    ni, nj = int((z1 - z0) // step) + 1, int((x1 - x0) // step) + 1
+    gz = z0 + (np.arange(ni) + 0.5) * step
+    gx = x0 + (np.arange(nj) + 0.5) * step
+    GZ, GX = np.meshgrid(gz, gx, indexing="ij")
+    inside = shapely.contains_xy(poly, GX.ravel(), GZ.ravel())
+    vx = np.array([float(x) for x, _ in polygon])
+    vz = np.array([float(z) for _, z in polygon])
+    return (np.concatenate([vx, GX.ravel()[inside]]), np.concatenate([vz, GZ.ravel()[inside]]))
+
+
+def _batch(g, fn, *args):
+    """``fn(*args, height_at)`` with every height it reads sampled in one
+    vectorised pass (`g.chunk_heights`): ``fn`` runs once to record its
+    points, then again on the looked-up heights (the same maths, the same
+    points, so the same numbers as the point sampler)."""
+    import numpy as np
+    pts = []
+    fn(*args, lambda x, z: pts.append((x, z)) or 0.0)
+    if not pts:
+        return fn(*args, g.chunk_height)
+    X = np.fromiter((p[0] for p in pts), float, len(pts))
+    Z = np.fromiter((p[1] for p in pts), float, len(pts))
+    table = dict(zip(pts, g.chunk_heights(X, Z).tolist()))
+    return fn(*args, lambda x, z: table[(x, z)])
+
+
+def pad_edges_on(g, polygon, datum: float) -> list[dict]:
+    """`settlement_run_pads.pad_edges` on ``g``'s chunk ground, its samples
+    read in one vectorised pass."""
+    return _batch(g, _srp().pad_edges, polygon, datum)
+
+
+def resolve_on_frozen(cat, g, piece) -> dict | None:
+    """`resolve` on the frozen ground (`ground.Ground`), its samples read in
+    one vectorised pass each (`footprint_samples_xy`, `chunk_heights`,
+    `survey_heights`, the batter's edges by `_batch`): the scan's thousand
+    poses (speed lane 3B). Every number is `resolve`'s; any other ground
+    (a padded one) takes `resolve` itself."""
+    from .ground import Ground
+    if type(g) is not Ground or piece.pad is None:
+        return resolve(cat, g, piece)
+    srp = _srp()
+    apron = float(piece.pad.get("apronM", srp.PAD_APRON_M))
+    polygon = srp.pad_polygon(measure.footprint_province(cat, piece), apron,
+                              piece.pad.get("apronBySide"))
+    X, Z = footprint_samples_xy(polygon)
+    got = srp.resolve_pad(g.chunk_heights(X, Z).tolist(), piece.pad.get("datumM"),
+                          piece.pad.get("floorMinM"), also=g.survey_heights(X, Z).tolist())
+    blend = (_batch(g, srp.batter_blend_m, polygon, got["datumM"])
+             if piece.pad.get("batter") and got["datumM"] is not None else srp.PAD_BLEND_M)
+    return {**got, "apronM": apron, "polygonM": polygon, "blendM": blend}
+
+
 class PaddedGround:
     """The scene's ground with every overlay the runtime applies (0102): each
     declared building pad and each run pad (`run_overlays`), point by point
@@ -173,7 +239,7 @@ def scene_pads(cat, scene) -> dict:
         g = scene.ground()
         out = {}
         for p in scene.pieces:
-            got = resolve(cat, g, p)
+            got = resolve_on_frozen(cat, g, p)
             if got is not None:
                 out[p.uid] = got
         memo.clear()

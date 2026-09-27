@@ -1,5 +1,6 @@
 // Bounded numerical browser parity. Requires an existing studio Vite dev
 // server; no scene/province load, screenshot, source asset write or GUI.
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import {createRequire} from 'node:module';
 const require=createRequire(new URL('../../combat-sandbox/package.json',import.meta.url));
 const {chromium}=require('playwright');

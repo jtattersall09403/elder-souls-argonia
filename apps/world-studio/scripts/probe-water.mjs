@@ -23,6 +23,7 @@
 // screen space (world marks from `__STUDIO_WATER_DEBUG__.falls.sites`,
 // projected with the frame's camera); submerged sites check the sheets are
 // not opaque slabs through the water; every site measures its frame rate.
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { mkdirSync, writeFileSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";

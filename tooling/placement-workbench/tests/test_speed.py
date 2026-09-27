@@ -13,7 +13,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 import wb  # noqa: E402
-from workbench import layout, opcache, parallel, paths, scan  # noqa: E402
+from workbench import layout, opcache, parallel, paths, rules, scan  # noqa: E402
 
 FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "yard-b.layout.json"
 local = pytest.mark.skipif(not paths.RAW_KITS.exists(), reason="needs the raw kit builds")
@@ -47,7 +47,7 @@ def test_failure_rows_are_check_failures_with_rule_and_uids():
     by = {r["rule"]: r["uids"] for r in rows}
     assert by["slopeRule"] == ["a"] and by["yardSillRule"] == ["c"]
     assert by["unrelatedPair"] == ["a", "c"] and by["sillRule"] == ["c"] and by["walkRule"] == []
-    assert set(by) <= set(layout.FIX_HINTS)
+    assert set(by) <= set(rules.FIX_HINTS)
     summary = wb.round_summary({"check": {"full": check}, "compile": {"exitCode": 0}})
     assert summary["failures"] == len(rows) and summary["byRule"]["footFloat"]["count"] == 1
     assert summary["byRule"]["walkRule"]["uids"] == ["(place)"] and "c" in summary["byUid"]
@@ -151,3 +151,135 @@ def test_the_pooled_check_is_the_serial_check(applied):
     serial = wb.check_scene(cat, scene, serial=True, use_cache=False)
     pooled = wb.check_scene(cat, scene, use_cache=False)
     assert json.dumps(serial, sort_keys=True) == json.dumps(pooled, sort_keys=True)
+
+
+# ------------------------------------------------------------ speed lane 3B
+def test_the_pool_takes_the_job_slot_share(monkeypatch):
+    """Method review C1: under job_guard the pool is the slot's share
+    (ES_JOB_CORES), never one worker per pool core; WB_WORKERS overrides."""
+    monkeypatch.delenv("WB_WORKERS", raising=False)
+    monkeypatch.delenv("PYTEST_XDIST_WORKER", raising=False)
+    monkeypatch.setenv("ES_JOB_CORES", "2")
+    assert parallel.workers() == 2
+    # two xdist workers in a 2-core slot: one pool worker each, not two
+    monkeypatch.setenv("PYTEST_XDIST_WORKER", "gw0")
+    monkeypatch.setenv("PYTEST_XDIST_WORKER_COUNT", "2")
+    assert parallel.workers() == 1
+    monkeypatch.delenv("PYTEST_XDIST_WORKER")
+    monkeypatch.setenv("WB_WORKERS", "3")
+    assert parallel.workers() == 3
+    monkeypatch.delenv("WB_WORKERS")
+    monkeypatch.delenv("ES_JOB_CORES")
+    assert parallel.workers() == max(1, min(parallel.MAX_WORKERS, len(parallel.cores())))
+
+
+def test_the_vectorised_pad_samples_are_the_worldgen_samples():
+    """`pads.footprint_samples_xy` is `settlement_run_pads.footprint_samples`,
+    point for point and in order, on rotated and axis-aligned pads."""
+    from workbench import pads
+    srp = pads._srp()
+    for poly in ([(0.0, 0.0), (7.3, 0.0), (7.3, 4.1), (0.0, 4.1)],
+                 [(10.2, 3.1), (15.9, 7.7), (12.4, 12.1), (6.7, 7.5)],
+                 srp.pad_polygon([(1, 1), (6, 2), (5, 7), (0, 6)], 1.0, {"w": 3.5})):
+        X, Z = pads.footprint_samples_xy(poly)
+        assert list(zip(X.tolist(), Z.tolist())) == srp.footprint_samples(poly)
+
+
+@local
+def test_check_only_judges_the_named_pieces(applied):
+    """`check --only U` returns the full check's rows, near pairs and
+    per-piece rule rows and failures for U only; the graph rules whole."""
+    from workbench import rules
+    from workbench.scene import Scene
+    scene = Scene.load(applied["tmp"] / "scenes" / "speed-b.json")
+    cat = wb.place_catalogue(scene.placeId)
+    full = wb.check_scene(cat, scene, serial=True, use_cache=False)
+    uids = [p.uid for p in scene.pieces if p.y is not None][:3]
+    only = wb.check_scene(cat, scene, only=",".join(uids), use_cache=False)
+    assert only["only"] == sorted(uids) and set(only["pieces"]) == set(uids)
+    assert only["pieces"] == {u: full["pieces"][u] for u in uids}
+    assert only["nearPairs"] == [p for p in full["nearPairs"] if p["a"] in uids or p["b"] in uids]
+    for key in rules.PIECE_RULES:
+        rk = {"sill": "doors", "sign": "boards"}.get(key, "pieces")
+        assert only[key][rk] == {k: v for k, v in full[key][rk].items()
+                                 if k.removeprefix("door:").split(".")[0] in uids}, key
+        assert only[key]["failures"] == [f for f in full[key]["failures"]
+                                          if f.removeprefix("door:").split(":")[0].split(".")[0]
+                                          in uids], key
+    for key in wb.GRAPH_RULES + ("doors",):
+        assert only[key] == full[key], key
+    with pytest.raises(ValueError):
+        wb.check_scene(cat, scene, only="no-such-piece")
+
+
+def _compile_parts(out: Path, place: str, summary: dict) -> dict:
+    c = summary["compile"]
+    return {"compile": {k: c.get(k) for k in ("exitCode", "summary", "errors", "warnings",
+                                              "fixtureWaived", "stage", "failed")},
+            "derived": (out / "apply" / f"{place}.blueprint.json").read_text(),
+            "settlements": {f.name: f.read_text() for f in
+                            sorted((out / "apply" / f"{place}.compiled").glob("*.json"))}}
+
+
+@local
+def test_an_unchanged_export_restores_the_compile(tmp_path, monkeypatch):
+    """The compile cache (`opcache.compile_key`): a cached apply restores the
+    derived blueprint, the compiled settlement and the compile's verdict of a
+    full one, byte for byte; a changed record re-runs it."""
+    monkeypatch.setattr(paths, "OUTPUT", tmp_path)
+    place = json.loads(FIXTURE.read_text())["placeId"]
+    full = wb.apply_layout(FIXTURE, "speed-d", full=True)
+    ref = _compile_parts(tmp_path, place, full)
+    cached = wb.apply_layout(FIXTURE, "speed-d")
+    assert cached["compile"].get("cached") is True and "cached" not in full["compile"]
+    assert _compile_parts(tmp_path, place, cached) == ref
+    monkeypatch.setitem(opcache._DATA_KEY, "key", "a record moved")
+    again = wb.apply_layout(FIXTURE, "speed-d")
+    assert "cached" not in again["compile"] and _compile_parts(tmp_path, place, again) == ref
+
+
+@local
+def test_opcache_verify_runs_every_hit_and_catches_a_bad_entry(tmp_path, monkeypatch):
+    """WB_OPCACHE_VERIFY=1: each op-cache hit is run fresh and compared; a
+    stored entry that no longer matches the op fails the apply (without the
+    flag the bad entry would be restored silently)."""
+    monkeypatch.setattr(paths, "OUTPUT", tmp_path)
+    wb.apply_layout(FIXTURE, "speed-v", compile_=False, full=True)
+    hits = wb.apply_layout(FIXTURE, "speed-v", compile_=False)["opCache"]["restored"]
+    monkeypatch.setenv("WB_OPCACHE_VERIFY", "1")
+    ok = wb.apply_layout(FIXTURE, "speed-v", compile_=False)
+    assert ok["failed"] is None and ok["opCache"]["restored"] == 0
+    assert hits > 0 and ok["opCache"]["verified"] == hits
+    store = opcache.cache_dir(tmp_path / "scenes" / "speed-v.json") / "ops.json"
+    doc = json.loads(store.read_text())
+    key, entry = next((k, e) for k, e in doc["entries"].items() if e["diff"]["pieces"])
+    uid = next(iter(entry["diff"]["pieces"]))
+    entry["diff"]["pieces"][uid]["x"] += 1.0            # a stale entry
+    store.write_text(json.dumps(doc))
+    bad = wb.apply_layout(FIXTURE, "speed-v", compile_=False)
+    assert bad["failed"] and "WB_OPCACHE_VERIFY" in bad["failed"]["error"]
+    assert "diff" in bad["failed"]["error"]
+
+
+@local
+def test_a_scene_view_is_a_private_copy_that_keeps_the_pad_memo(applied):
+    from workbench import pads
+    from workbench.scene import Scene
+    base = Scene.load(applied["tmp"] / "scenes" / "speed-b.json")
+    cat = wb.place_catalogue(base.placeId)
+    g = pads.ground_for(cat, base, None)
+    view = base.view()
+    assert pads.ground_for(cat, view, None) is g                # the memo carried over
+    p = view.pieces[0]
+    p.x += 1.0
+    p.role["touched"] = True
+    assert base.pieces[0].x == p.x - 1.0 and "touched" not in base.pieces[0].role
+    assert view.__dict__["_padMemo"] is not base.__dict__["_padMemo"]
+
+
+def test_the_walk_table_links_the_deployed_studio(monkeypatch):
+    """Method review r3 F12: the owner opens the walk table on the phone after
+    the session; the dev tunnel is dead by then."""
+    monkeypatch.setenv("ES_TUNNEL_URL", "http://127.0.0.1:9/tunnel/")
+    url = wb.walktable_base_url()
+    assert url.startswith("https://") and "github.io" in url and "tunnel" not in url

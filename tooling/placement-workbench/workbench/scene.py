@@ -135,6 +135,25 @@ class Scene:
     def remove(self, uid: str) -> None:
         self.pieces = [p for p in self.pieces if p.uid != uid]
 
+    def view(self) -> "Scene":
+        """A copy to mutate without touching this scene, cheaper than a
+        deepcopy: the pieces, paths, log and layout are copied; the derived
+        pad memo (`pads.ground_for`, keyed by content, so it hits only while
+        the pads and runs are unchanged) is carried over as a new dict whose
+        resolved pads are copied and whose padded ground and run overlays are
+        shared read-only (a changed pad rebuilds them into the view's own
+        memo). Test fixtures and trials take a view of a warmed scene."""
+        import copy
+        out = Scene(path=self.path, placeId=self.placeId, groundStem=self.groundStem,
+                    pieces=[copy.deepcopy(p) for p in self.pieces],
+                    paths=copy.deepcopy(self.paths), log=list(self.log),
+                    layout=copy.deepcopy(self.layout))
+        memo = self.__dict__.get("_padMemo")
+        if memo:
+            out.__dict__["_padMemo"] = {k: (copy.deepcopy(v) if k == "pads" else v)
+                                        for k, v in memo.items()}
+        return out
+
     def ground(self):
         from .ground import Ground
         if not self.groundStem:

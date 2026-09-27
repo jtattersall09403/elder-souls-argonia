@@ -13,6 +13,7 @@
 //
 // Run from apps/combat-sandbox (that workspace holds the playwright dep):
 //   node ../world-studio/scripts/probe-sampler-count.mjs
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { chromium } from "playwright";
 import { startStudioDevServer } from "./dev-server.mjs";
 

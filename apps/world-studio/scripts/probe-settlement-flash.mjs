@@ -17,6 +17,7 @@
 // No GPU on this VM (SwiftShader): numbers only, one screenshot at the end.
 //
 //   node apps/world-studio/scripts/probe-settlement-flash.mjs [x] [z]
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { chromium } from "playwright";
 import { startStudioDevServer } from "./dev-server.mjs";
 

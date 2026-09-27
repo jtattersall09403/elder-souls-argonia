@@ -19,6 +19,7 @@
  * loads show what the HTTP cache (ETag / 304) saves. Run `npx vite build`
  * first when serving dist.
  */
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { createReadStream, mkdtempSync, rmSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { tmpdir } from "node:os";

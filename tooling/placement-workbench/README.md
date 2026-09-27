@@ -22,7 +22,7 @@ derived state. `fixtures/yard-b.layout.json` is the standing example.
 | `wb.py` | The CLI: one command per call (or a whole layout with `apply`; `replay` turns a scene's log into a layout), the scene JSON is the whole state, JSON out, a `[wb] <cmd> <s>` timing line on stderr. `check` judges every piece on the compile's own ground rules (fit slope, fit delta, the yard gate's sill), every near pair on its relation's bar (mounted, run joint, unrelated) and every quay on the compile's slide, the 97 C5 clearance and its published reach; `compile` runs the real derive passes and compile on the scene's poses in a temporary copy (6 s) and names the pieces behind each refusal; `site` lists the poses that pass those rules; `map --heights` prints the ground in metres. |
 | `workbench/layout.py` | The layout file (`schemaVersion` 1: `placeId`, `window`, `ops`): op <-> CLI tokens by the parser's own argument names (a `bind ... --on parent` op may name `host`, the piece its mount hangs it on: the export writes it as the member's `host` and the compile parents it there; a `socket` op may be kind `station` with `stationClass` or `sign` with `pointsTo[]`, and any socket may carry `fills: [promise ids]`, 0104; blueprint doors take `doorType` load|swing and `fills`, parcels `fills`), the log replay (a trial piece placed and removed is dropped), the stale-ground refusal, the `check` bars `apply` lists as failures. A `place` op may carry `"pad": {"apronM"?, "datumM"?, "floorMinM"?}` (decision 0101; `workbench/pads.py`: patched ground, rule R1 `padRule`). |
 | `fixtures/yard-b.layout.json` | Yard B as a layout: `apply` reproduces the yard-B scene's poses within 1 mm / 0.01 deg (the golden test). Migrated from the scene log by hand where the log had lost the edits (house, sconce wall, cave, stage, hull). |
-| `workbench/scene.py` | Scene and piece poses; the one frame table (province x east / z south; workbench = Blender = kit frame turned by yaw). |
+| `workbench/scene.py` | Scene and piece poses; the one frame table (province x east / z south; workbench = Blender = kit frame turned by yaw). `Scene.view()`: a private copy that keeps the content-keyed pad memo (tests and trials, never a deepcopy). |
 | `workbench/ground.py` | The ground window, extracted once per scene: the studio's lod1 chunks (what the runtime seats on) and the compile's survey (height, slope, wet, depth, water level). |
 | `workbench/kits.py` | Published manifest rows and sidecars; meshes from the raw kit builds via `mine_mounts.MeshLibrary`, cached as npz. |
 | `workbench/measure.py` | Exact gap and crossing (FCL), penetration by separation, contact patch (the miner's `patch_class`), the runtime's seat height, foot float, doors to paths. |
@@ -33,7 +33,7 @@ derived state. `fixtures/yard-b.layout.json` is the standing example.
 | `workbench/describe.py` | The per-asset descriptor (bounds, floors, walls, openings, doorways, symmetry, connectors, the mined evidence), cached with `schemaVersion`. |
 | `workbench/render.py`, `blender/render_scene.py` | Renders (top, front, side, back, iso, turntable, cutaway) with Linux Blender 3.2.2, Cycles CPU; scale bar, labels and outlines drawn from the camera projection. `render --shots auto` is a render round in ONE launch (top, a front per parcel on its door side, two opposite isos) into `output/renders/<scene>/round-N/` with a `manifest.json`; the launch's work dir is removed after every render. |
 | `workbench/export.py` | Poses into a blueprint's parcels, runs (`pieces` with `atM`), a shell's `assembly`, landmarks and routes; a mounted member's own `mountPair` field; `--write` writes `walkRoutes` and records `authoredOn` (sha256 of the ground window's chunk files, of every kit manifest used and of the layout file; the workbench schemaVersion). |
-| `tests/` | The round-1 answers (`expected_round1.json`, written before the code), the round-3 fixes and yard B's gates (`test_proving_ground_b.py`: the published record is the scene's poses, every run joint is contact), and the layout tooling (`test_layout.py`: op round trips, the yard-B golden apply and replay, provenance and the stale-ground refusal, the render round with Blender mocked) as pytest. Local only: they need the raw kit builds. |
+| `tests/` | The round-1 answers (`expected_round1.json`, written before the code), the round-3 fixes and yard B's gates (`test_proving_ground_b.py`: the published record is the scene's poses, every run joint is contact), and the layout tooling (`test_layout.py`: op round trips, the yard-B golden apply and replay, provenance and the stale-ground refusal, the render round with Blender mocked) as pytest; `conftest.py` applies each Claywater fixture layout once per session (`applied_layout`) and tests mutate a `view()` of it. Local only: they need the raw kit builds. |
 
 Output (scenes, ground windows, mesh and descriptor caches, renders) goes to
 `output/`, which git ignores. `WB_OUTPUT=<dir>` moves the per-run state
@@ -57,6 +57,19 @@ mtime. An op changes only the pieces it names and the pieces it adds, so
 its snapshot is O(named). An unchanged op is
 restored; an op whose input moved (its parent, a pad) is re-derived.
 `pairs.json`: `check`'s near-pair contacts keyed by both pieces' content.
+`compile.json`: the compile's result (derived blueprint, compiled
+settlement, the passes' output) keyed by `opcache.compile_key`: the
+exported blueprint's bytes, the global key, `data_key` (the content of
+every JSON record under `world/sources/`, the published and raw kit
+manifests and sidecars, the kit build configs and the province JSON) and
+each placed asset's row, footprint and mesh. An unchanged export restores
+it (`"cached": true` in the compile result; `WB_COMPILE_CACHE=0` or
+`--full` re-runs). Claywater HEAD layout: compile 2.4-2.7 s full, 0.9-1.4 s
+cached (the export itself, walk routes and pads, is the rest), byte-identical.
+`WB_OPCACHE_VERIFY=1` runs every op-cache hit fresh and compares it with
+the stored entry; a difference fails the apply (`opCache.verified` counts
+the checked hits). Use it after adding a command or changing what an op
+reads.
 `apply --full` re-derives everything (and refreshes the cache); deleting the
 directory is always safe. `export --write` refuses a scene whose last
 apply restored any op from the cache (`output/apply/<scene>/derived.json`):
@@ -80,9 +93,11 @@ full apply, including after a one-op edit and after a pad move
 no Blender) in ONE process: catalogue, ground, survey, road paint and kit
 records load once and the compile's passes run in-process. `--walktable`
 adds the owner-walk table, which reads the PUBLISHED bundle: use it after
-publish, not per round. Writes `output/apply/<scene>/summary.json`:
+publish, not per round. Its links open the deployed studio
+(`wb.walktable_base_url`: `worldgen.site_urls.studio_url(local=False)`),
+never the session's dev tunnel. Writes `output/apply/<scene>/summary.json`:
 timings; failed op and op warnings; `byRule` (count, the rule's fix hint
-from `layout.FIX_HINTS`, uids, failure texts) and `byUid`; `info`; the
+from `rules.FIX_HINTS`, uids, failure texts) and `byUid`; `info`; the
 compile's errors and warnings; the plan PNGs or the shot manifest. Each
 round appends one line to `output/apply/<scene>/rounds.jsonl` (load,
 apply ops, check, compile, plan, shots, total seconds; failures);
@@ -100,15 +115,24 @@ form. Values are JSON when they parse; dotted keys reach into a dict.
 
 ## Check
 
-`check` runs its per-piece rows, near-pair chunks and each scene rule
-(walk, floorEdge, pathReach, propSeat, roadSurface, sill, sign,
-berthReach, collider, doors) as tasks in one fork pool over every core but
-0 (`workbench/parallel.py`, `WB_WORKERS=1` for serial); results come back
-in task order, so the output is the serial loop's key for key. Near pairs
-whose two pieces are unchanged come from the pair cache. `check --only
-UID,..` re-measures those pieces' pairs even on a hit; `--serial`,
-`--full` (ignore the cache). The scene rules still run whole (they are
-scene loops in `rules.py`).
+`check` runs its per-piece rows, near pairs (one pair per task: a
+composite's pair costs seconds, a prop's milliseconds), the three graph
+rules (walk, pathReach, berthReach), doors, and the six per-piece rules
+(`rules.PIECE_RULES`: floorEdge, propSeat, roadSurface, sill, sign,
+collider; each a `<rule>_piece` function over a context built once per
+scene, split by piece) in one fork pool (`workbench/parallel.py`). The pool
+is the job slot's share under `job_guard.sh` (`ES_JOB_CORES`, 2 on the
+8-vCPU box), else every core but 0 up to 7; `WB_WORKERS` overrides,
+`WB_WORKERS=1` is serial. Results come back in task order, so the output is
+the serial loop's key for key. Near pairs whose two pieces are unchanged
+come from the pair cache. `check --only UID,..` judges those pieces only:
+their rows, their near pairs (re-measured even on a hit) and the per-piece
+rules over them (a sign's post check where the post or its board is named);
+the graph rules and doors still judge the whole scene; the output carries
+`only`. Claywater WIP (walk 2, 100 pieces, 123 pairs, 7 workers, loaded
+machine): pooled check 2.6-3.1 s before and 2.6-3.4 s after the split,
+`--only b5` 1.9-2.0 s (the whole check) -> 0.6-0.9 s (5 failures, b5's).
+The fix hints (`rules.FIX_HINTS`) sit beside the bars they answer.
 
 ## Scan
 
@@ -124,7 +148,15 @@ edge, or the fit rules; road-paint, path and piece overlap; water depth
 1 m past the outline along `landingBearing`; designed sink; for the listed
 poses, the free room per world side. The first `verify` legal poses are
 placed on a copy of the scene and judged by `padRule`, `roadSurfaceRule`
-and `sillRule` themselves. Prior art: `tooling/.reports/16k/walk2/P-*-scan*.py`.
+and `sillRule` themselves (the rules over the placed pieces only). A pad
+is resolved on the frozen ground in one vectorised pass per pose
+(`pads.resolve_on_frozen`: `footprint_samples_xy`, `chunk_heights`,
+`survey_heights`, the batter's edges through `pads._batch`), the same
+numbers as `pads.resolve`. B5 on the Claywater WIP, 1,176 poses: serial
+25.9 s -> 7.4 s, 7 workers 10.0 s -> 3.6 s (4.6 s per 1.5k poses), output
+byte-identical; half of what remains is the compile's own judge
+(`settlement_run_pads.building_pad`, its per-point `footprint_samples`).
+Prior art: `tooling/.reports/16k/walk2/P-*-scan*.py`.
 
 Dependencies beyond the world-generation set: `python-fcl` (exact
 mesh-mesh distance and crossing, used through `trimesh.collision`), listed

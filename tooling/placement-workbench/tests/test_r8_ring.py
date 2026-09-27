@@ -6,7 +6,6 @@ piece back; a ring container's socket is a walkRule target with the
 compile's own id (`sockets.fill_socket_id`), so behind a wall it fails."""
 from __future__ import annotations
 
-import copy
 import json
 import subprocess
 import sys
@@ -95,9 +94,8 @@ def base(tmp_path_factory):
 
 
 def test_a_ring_container_fails_reach_behind_a_wall(cat, base, tmp_path):
-    scene = copy.deepcopy(base)
+    scene = base.view()
     scene.path = tmp_path / "scene.json"
-    scene.__dict__.pop("_padMemo", None)
     for q in [q for q in scene.pieces if (q.role or {}).get("kind") == "ring"]:
         scene.remove(q.uid)
     chair = scene.piece("ahy-chair")                    # a spot walkRule reaches (0102 test)

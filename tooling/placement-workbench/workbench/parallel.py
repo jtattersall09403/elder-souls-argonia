@@ -5,9 +5,11 @@ ground and the scene are loaded, so they inherit them (copy on write) and
 only an index crosses the pipe; results come back in task order, so a
 parallel run returns exactly what the serial loop returns.
 
-Cores: every core the process may run on except core 0 (the shell and the
-owner's studio), at most `MAX_WORKERS`; `WB_WORKERS=1` (or a single task)
-runs serially in-process."""
+Cores: under `job_guard.sh` the slot's share, `ES_JOB_CORES` (2 on the
+8-vCPU box: three admitted jobs share the pool, method review C1); else
+every core the process may run on except core 0 (the shell and the owner's
+studio), at most `MAX_WORKERS`. `WB_WORKERS` overrides both; `WB_WORKERS=1`
+(or a single task) runs serially in-process."""
 from __future__ import annotations
 
 import os
@@ -29,6 +31,13 @@ def workers() -> int:
     env = os.environ.get("WB_WORKERS")
     if env:
         return max(1, int(env))
+    share = os.environ.get("ES_JOB_CORES")
+    if share:
+        # inside a pytest-xdist worker the slot's share is already split
+        # across the xdist workers (job_guard sets their count to it)
+        per = int(os.environ.get("PYTEST_XDIST_WORKER_COUNT") or 1) \
+            if os.environ.get("PYTEST_XDIST_WORKER") else 1
+        return max(1, int(share) // max(1, per))
     return max(1, min(MAX_WORKERS, len(cores())))
 
 

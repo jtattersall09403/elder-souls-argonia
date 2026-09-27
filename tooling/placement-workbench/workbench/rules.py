@@ -79,6 +79,36 @@ COLLIDER_MIN_PLAN_M = 0.3    # colliderRule: plan size in both axes at least thi
 COLLIDER_MIN_HEIGHT_M = 0.3  # ... and at least this tall needs a collider in the manifest
 PHYSICS_TS = paths.REPO_ROOT / "packages" / "game-core" / "src" / "physics" / "characterPhysics.ts"
 
+# The first fix to try for each rule's failure, beside the bars it answers
+# (the round summary prints it beside the count; the bars and their rulings are the placement-workbench
+# skill's section 5). Tooling text for the agent, not player-facing.
+FIX_HINTS = {
+    "slopeRule": "re-site (wb.py scan / site) or give the parcel a pad or a fit made for the slope",
+    "deltaRule": "re-site, declare a pad, or author a groundFit that takes the delta, with its reason",
+    "sillRule": "bring the threshold within 0.20 m of the walk surface: re-seat, pad, or lay the "
+                "steps or porch its assembly names",
+    "yardSillRule": "the ground line stands off the ground at the pivot: re-site or pad it",
+    "padRule": "move the building (wb.py scan ranks pad legality), lay the kit's retaining wall "
+               "along the named edges, or batter a mud pad (<= 1.2 m)",
+    "beachedRule": "move the hull onto a gentler bank within 1.5 m of the water line",
+    "notExportable": "remove the roll / mirror: the runtime turns by yaw and pitch only",
+    "footFloat": "settle it, move it onto flatter ground, or pad the ground under it",
+    "hullWater": "move the hull out to at least the least depth all round its halo",
+    "quayBank": "slide the stage along its axis until its landward end meets the bank",
+    "unrelatedPair": "the two pieces cross: move one (wb.py measure A B gives the slide)",
+    "run-jointPair": "re-snap the run step by evidence (snap --by evidence --settle)",
+    "mountedPair": "re-mount the child on its parent by the mined pair",
+    "doorReach": "turn the building or move the path so the threshold is within 4 m of it",
+    "walkRule": "clear the blocking cell the failure names, or lay a walkable way over it",
+    "floorEdgeRule": "re-seat or pad the building, or lay a retaining piece under the named edge",
+    "pathReachRule": "end a path within 1 m of the door, its last leg on the door's facing",
+    "propSeatRule": "re-settle the prop, or move it off uneven ground (site --free)",
+    "roadSurfaceRule": "move the piece off the road paint (wb.py scan reports the overlap)",
+    "signRule": "turn the board's arm onto the road's bearing and mount it at 1.7-2.4 m",
+    "berthReachRule": "lay a landing or plank from dry ground to within 1 m of the hull",
+    "colliderRule": "use a piece whose kit manifest carries a collider, or source one",
+}
+
 
 @lru_cache(maxsize=1)
 def character() -> dict:
@@ -152,22 +182,26 @@ def doors(cat, scene, every: bool = False) -> list[dict]:
     compile binds, id `door:<uid>`), facing out. With ``every``, also each
     other doorway record of the piece (id `door:<uid>.<k>`, k its index in
     the record), `bound` False; a record with no facing is skipped."""
+    return [d for p in scene.pieces for d in piece_doors(cat, scene, p, every)]
+
+
+def piece_doors(cat, scene, p, every: bool = False, rep: dict | None = None) -> list[dict]:
+    """`doors` of one piece (``rep``: its `door_report`, when already read)."""
+    rep = measure.door_report(cat, scene, p) if rep is None else rep
+    if not rep:
+        return []
     out = []
-    for p in scene.pieces:
-        rep = measure.door_report(cat, scene, p)
-        if not rep:
+    for k, d in enumerate(rep["doorways"]):
+        bound = d is rep["best"]
+        if not (bound or every):
             continue
-        for k, d in enumerate(rep["doorways"]):
-            bound = d is rep["best"]
-            if not (bound or every):
-                continue
-            facing = _facing(d)
-            if facing is None:
-                continue
-            out.append({"id": f"door:{p.uid}" if bound else f"door:{p.uid}.{k}", "uid": p.uid,
-                        "kind": "door", "doorway": k, "bound": bound, "source": d["source"],
-                        "thresholdM": d["thresholdM"], "facingDeg": facing,
-                        "otherDoorways": len(rep["doorways"]) - 1})
+        facing = _facing(d)
+        if facing is None:
+            continue
+        out.append({"id": f"door:{p.uid}" if bound else f"door:{p.uid}.{k}", "uid": p.uid,
+                    "kind": "door", "doorway": k, "bound": bound, "source": d["source"],
+                    "thresholdM": d["thresholdM"], "facingDeg": facing,
+                    "otherDoorways": len(rep["doorways"]) - 1})
     return out
 
 
@@ -751,7 +785,74 @@ def buildings(cat, scene) -> list:
     return out
 
 
-def floor_edge(cat, scene, fit_for) -> dict:
+def _floor_edge_ctx(cat, scene):
+    from shapely.ops import unary_union
+    from shapely.geometry import Polygon
+    walls = [Polygon(measure.footprint_province(cat, q)) for q in scene.pieces
+             if _retaining(cat, q)]
+    return {"g": _ground(cat, scene),
+            "wall_zone": unary_union(walls).buffer(EDGE_INSET_M) if walls else None}
+
+
+def floor_edge_piece(cat, scene, ctx, p, fit_for) -> tuple[dict, list]:
+    """floorEdgeRule for one building: ({uid: row}, failures)."""
+    from shapely.geometry import Point
+    g, wall_zone = ctx["g"], ctx["wall_zone"]
+    fit = fit_for(p)
+    band = FLOOR_BANDS.get(fit)
+    if band is None:
+        return {p.uid: {"fit": fit, "note": f"fit {fit!r} has no floor-edge band (direct, "
+                                            f"plinth, pad only)"}}, []
+    perim = _perimeter(measure.footprint_province(cat, p), EDGE_STEP_M)
+    insets = (0.02, 0.1, 0.2, EDGE_INSET_M)
+    pts = [(s[0] + n[0] * d, s[1] + n[1] * d) for s, n in perim for d in insets]
+    hits = underside(cat, p, pts)
+    base = p.y - float(cat.row(p.asset)["originOffsetM"][2]) * p.scale
+    worst, worst_over, over, empty, retained, overhang = None, None, 0, 0, 0, 0
+    for k, (s, _n) in enumerate(perim):
+        best, high = None, False
+        for j in range(len(insets)):
+            h = hits[k * len(insets) + j]
+            if h is None:
+                continue
+            if h - base > UNDERSIDE_BAND_M:
+                high = True
+                continue
+            x, z = pts[k * len(insets) + j]
+            if best is None or h < best[0]:
+                best = (h, h - g.chunk_height(x, z), (x, z))
+        if best is None:
+            overhang += int(high)
+            empty += int(not high)
+            continue
+        # how high over the piece's own base the geometry is: an eave or a
+        # dome's bulge reads metres up, a floor edge near 0
+        got = {"gapM": round(best[1], 3), "atM": [round(v, 2) for v in best[2]],
+               "aboveBaseM": round(best[0] - base, 3)}
+        if worst is None or best[1] > worst["gapM"]:
+            worst = got
+        if best[1] <= band:
+            continue
+        if wall_zone is not None and wall_zone.contains(Point(*s)):
+            retained += 1
+            continue
+        over += 1
+        if worst_over is None or best[1] > worst_over["gapM"]:
+            worst_over = got
+    row = {"fit": fit, "bandM": band, "samples": len(perim), "noGeometry": empty,
+           "overhang": overhang, "overBand": over, "retained": retained, "worst": worst,
+           "worstUnretained": worst_over}
+    failures = []
+    if over:
+        failures.append(f"{p.uid}: floor edge stands {worst_over['gapM']:.2f} m over the padded "
+                        f"ground at {worst_over['atM']} (> {band} m for {fit}; the geometry "
+                        f"there is {worst_over['aboveBaseM']:.2f} m over the piece's base); {over} of "
+                        f"{len(perim)} perimeter samples over the band, no retaining run "
+                        f"under them")
+    return {p.uid: row}, failures
+
+
+def floor_edge(cat, scene, fit_for, uids=None) -> dict:
     """floorEdgeRule: every EDGE_STEP_M round a building's outline, the
     lowest underside within EDGE_INSET_M inside it over the padded ground
     below that point; a gap over the fit's band fails unless a retaining run
@@ -759,68 +860,9 @@ def floor_edge(cat, scene, fit_for) -> dict:
     UNDERSIDE_BAND_M over the piece's base is a floor edge: a sample whose
     lowest geometry stands higher (an eave, a dome's bulge) is counted as
     `overhang` and not judged. ``fit_for(piece)`` is the parcel's
-    groundFit (the blueprint's override, else the kit record's)."""
-    from shapely.geometry import Point, Polygon
-    from shapely.ops import unary_union
-    g = _ground(cat, scene)
-    walls = [Polygon(measure.footprint_province(cat, q)) for q in scene.pieces
-             if _retaining(cat, q)]
-    wall_zone = unary_union(walls).buffer(EDGE_INSET_M) if walls else None
-    rows, failures = {}, []
-    for p in buildings(cat, scene):
-        fit = fit_for(p)
-        band = FLOOR_BANDS.get(fit)
-        if band is None:
-            rows[p.uid] = {"fit": fit, "note": f"fit {fit!r} has no floor-edge band (direct, "
-                                               f"plinth, pad only)"}
-            continue
-        perim = _perimeter(measure.footprint_province(cat, p), EDGE_STEP_M)
-        insets = (0.02, 0.1, 0.2, EDGE_INSET_M)
-        pts = [(s[0] + n[0] * d, s[1] + n[1] * d) for s, n in perim for d in insets]
-        hits = underside(cat, p, pts)
-        base = p.y - float(cat.row(p.asset)["originOffsetM"][2]) * p.scale
-        worst, worst_over, over, empty, retained, overhang = None, None, 0, 0, 0, 0
-        for k, (s, _n) in enumerate(perim):
-            best, high = None, False
-            for j in range(len(insets)):
-                h = hits[k * len(insets) + j]
-                if h is None:
-                    continue
-                if h - base > UNDERSIDE_BAND_M:
-                    high = True
-                    continue
-                x, z = pts[k * len(insets) + j]
-                if best is None or h < best[0]:
-                    best = (h, h - g.chunk_height(x, z), (x, z))
-            if best is None:
-                overhang += int(high)
-                empty += int(not high)
-                continue
-            # how high over the piece's own base the geometry is: an eave or a
-            # dome's bulge reads metres up, a floor edge near 0
-            got = {"gapM": round(best[1], 3), "atM": [round(v, 2) for v in best[2]],
-                   "aboveBaseM": round(best[0] - base, 3)}
-            if worst is None or best[1] > worst["gapM"]:
-                worst = got
-            if best[1] <= band:
-                continue
-            if wall_zone is not None and wall_zone.contains(Point(*s)):
-                retained += 1
-                continue
-            over += 1
-            if worst_over is None or best[1] > worst_over["gapM"]:
-                worst_over = got
-        row = {"fit": fit, "bandM": band, "samples": len(perim), "noGeometry": empty,
-               "overhang": overhang, "overBand": over, "retained": retained, "worst": worst,
-               "worstUnretained": worst_over}
-        rows[p.uid] = row
-        if over:
-            failures.append(f"{p.uid}: floor edge stands {worst_over['gapM']:.2f} m over the padded "
-                            f"ground at {worst_over['atM']} (> {band} m for {fit}; the geometry "
-                            f"there is {worst_over['aboveBaseM']:.2f} m over the piece's base); {over} of "
-                            f"{len(perim)} perimeter samples over the band, no retaining run "
-                            f"under them")
-    return {"pieces": rows, "failures": failures}
+    groundFit (the blueprint's override, else the kit record's). ``uids``:
+    judge only these pieces (`piece_rule`)."""
+    return piece_rule("floorEdge", cat, scene, uids, fit_for=fit_for)
 
 
 # --------------------------------------------------------------------------
@@ -929,7 +971,69 @@ def _set_members(scene) -> dict:
     return out
 
 
-def prop_seat(cat, scene) -> dict:
+def _prop_seat_ctx(cat, scene):
+    return {"g": _ground(cat, scene), "members": _set_members(scene)}
+
+
+def prop_seat_piece(cat, scene, ctx, p) -> tuple[dict, list]:
+    """propSeatRule for one prop: ({uid: row}, failures)."""
+    up, down = PROP_FLOAT_MAX_M, PROP_SINK_MAX_M
+    g, members = ctx["g"], ctx["members"]
+    failures = []
+    row = cat.row(p.asset)
+    parent = _parent_of(scene, p)
+    r = {}
+    if parent is not None and parent.y is not None:
+        got = measure.contact(cat, p, parent)
+        r = {"on": parent.uid, "gapM": got["gapM"], "bandM": [0.0, up]}
+        if got["gapM"] > up:
+            failures.append(f"{p.uid}: stands {got['gapM']:.3f} m off {parent.uid} "
+                            f"(> {up} m)")
+    else:
+        fl = measure.float_under(cat, g, p)
+        seat = measure.seat(cat, g, p)
+        off = p.y - seat["y"]
+        ev = str((row.get("designedSinkM") or {}).get("evidence") or "none")
+        gap = fl["footFloatMinM"]
+        r = {"on": "ground", "gapM": gap, "offSeatM": round(off, 3),
+             "bandM": [-down, up], "sinkEvidence": ev,
+             "designedSinkM": round(seat["designedSinkM"], 3)}
+        if gap > up:
+            failures.append(f"{p.uid}: floats {gap:.3f} m over the padded ground "
+                            f"(its lowest foot point; > {up} m)")
+        if off > up or off < -down:
+            failures.append(f"{p.uid}: stands {off:+.3f} m off its designed seat (the "
+                            f"runtime's seat on the padded ground; band -{down}..+{up} m)")
+        rise = fl["groundRiseM"]
+        allow = min(rise, UNEVEN_SINK_CAP_M)
+        r.update(groundRiseM=rise, burialAllowM=round(allow, 3))
+        if gap < -down and ev.startswith("policy"):
+            if seat["designedSinkM"] > down:
+                failures.append(f"{p.uid}: sunk {-gap:.3f} m into the padded ground at its "
+                                f"lowest foot point by a designed sink with no evidence "
+                                f"({ev}, {seat['designedSinkM']:.2f} m)")
+            elif -gap > allow + down:
+                failures.append(f"{p.uid}: uneven ground: move it (sunk {-gap:.3f} m at its "
+                                f"lowest foot point by the runtime's {seat['mode']} seat; "
+                                f"the ground rises {rise:.3f} m under its foot, allowance "
+                                f"{allow:.3f} m, cap {UNEVEN_SINK_CAP_M} m)")
+    if p.uid in members:
+        st, m, anchor = members[p.uid]
+        am = next(x for x in st["members"] if x["uid"] == st["anchor"])
+        yaw = anchor.yaw - float(am["yaw"])
+        rel = (m["offsetM"][0] - am["offsetM"][0], m["offsetM"][1] - am["offsetM"][1])
+        # the set's plan offsets turn with the group yaw about the anchor
+        ex, ez = plan_to_province((anchor.x, anchor.z), yaw, rel)
+        off = math.hypot(p.x - ex, p.z - ez)
+        r.update(set=st["id"], offDeclaredM=round(off, 2))
+        if off > SET_SPACING_TOL_M:
+            failures.append(f"{p.uid}: stands {off:.2f} m from where yard set {st['id']} "
+                            f"declares it from its anchor {anchor.uid} "
+                            f"(> {SET_SPACING_TOL_M} m)")
+    return {p.uid: r}, failures
+
+
+def prop_seat(cat, scene, uids=None) -> dict:
     """propSeatRule (bars PROP_FLOAT_MAX_M up, PROP_SINK_MAX_M down; owner
     2026-09-27, was a flat 0.03 m): a mounted item's exact gap to its parent
     at most PROP_FLOAT_MAX_M. A ground item: its lowest foot point
@@ -941,64 +1045,9 @@ def prop_seat(cat, scene) -> dict:
     ground's rise under its foot (`groundRiseM`: the runtime seat on sloping
     ground buries the uphill foot) capped at UNEVEN_SINK_CAP_M, beyond which
     it fails "uneven ground: move it". A yard-set member within
-    SET_SPACING_TOL_M of its declared offset from the set's anchor."""
-    up, down = PROP_FLOAT_MAX_M, PROP_SINK_MAX_M
-    g = _ground(cat, scene)
-    members = _set_members(scene)
-    rows, failures = {}, []
-    for p in props(cat, scene):
-        row = cat.row(p.asset)
-        parent = _parent_of(scene, p)
-        r = {}
-        if parent is not None and parent.y is not None:
-            got = measure.contact(cat, p, parent)
-            r = {"on": parent.uid, "gapM": got["gapM"], "bandM": [0.0, up]}
-            if got["gapM"] > up:
-                failures.append(f"{p.uid}: stands {got['gapM']:.3f} m off {parent.uid} "
-                                f"(> {up} m)")
-        else:
-            fl = measure.float_under(cat, g, p)
-            seat = measure.seat(cat, g, p)
-            off = p.y - seat["y"]
-            ev = str((row.get("designedSinkM") or {}).get("evidence") or "none")
-            gap = fl["footFloatMinM"]
-            r = {"on": "ground", "gapM": gap, "offSeatM": round(off, 3),
-                 "bandM": [-down, up], "sinkEvidence": ev,
-                 "designedSinkM": round(seat["designedSinkM"], 3)}
-            if gap > up:
-                failures.append(f"{p.uid}: floats {gap:.3f} m over the padded ground "
-                                f"(its lowest foot point; > {up} m)")
-            if off > up or off < -down:
-                failures.append(f"{p.uid}: stands {off:+.3f} m off its designed seat (the "
-                                f"runtime's seat on the padded ground; band -{down}..+{up} m)")
-            rise = fl["groundRiseM"]
-            allow = min(rise, UNEVEN_SINK_CAP_M)
-            r.update(groundRiseM=rise, burialAllowM=round(allow, 3))
-            if gap < -down and ev.startswith("policy"):
-                if seat["designedSinkM"] > down:
-                    failures.append(f"{p.uid}: sunk {-gap:.3f} m into the padded ground at its "
-                                    f"lowest foot point by a designed sink with no evidence "
-                                    f"({ev}, {seat['designedSinkM']:.2f} m)")
-                elif -gap > allow + down:
-                    failures.append(f"{p.uid}: uneven ground: move it (sunk {-gap:.3f} m at its "
-                                    f"lowest foot point by the runtime's {seat['mode']} seat; "
-                                    f"the ground rises {rise:.3f} m under its foot, allowance "
-                                    f"{allow:.3f} m, cap {UNEVEN_SINK_CAP_M} m)")
-        if p.uid in members:
-            st, m, anchor = members[p.uid]
-            am = next(x for x in st["members"] if x["uid"] == st["anchor"])
-            yaw = anchor.yaw - float(am["yaw"])
-            rel = (m["offsetM"][0] - am["offsetM"][0], m["offsetM"][1] - am["offsetM"][1])
-            # the set's plan offsets turn with the group yaw about the anchor
-            ex, ez = plan_to_province((anchor.x, anchor.z), yaw, rel)
-            off = math.hypot(p.x - ex, p.z - ez)
-            r.update(set=st["id"], offDeclaredM=round(off, 2))
-            if off > SET_SPACING_TOL_M:
-                failures.append(f"{p.uid}: stands {off:.2f} m from where yard set {st['id']} "
-                                f"declares it from its anchor {anchor.uid} "
-                                f"(> {SET_SPACING_TOL_M} m)")
-        rows[p.uid] = r
-    return {"pieces": rows, "failures": failures}
+    SET_SPACING_TOL_M of its declared offset from the set's anchor.
+    ``uids``: judge only these pieces (`piece_rule`)."""
+    return piece_rule("propSeat", cat, scene, uids)
 
 
 # --------------------------------------------------------------------------
@@ -1137,41 +1186,44 @@ def _road_cells(poly) -> list:
     return out
 
 
-def road_surface(cat, scene) -> dict:
+def _road_surface_target(cat, p) -> bool:
+    if p.y is None or _hung(p) or _has(p.asset, ROAD_WAY_TOKENS):
+        return False
+    return (cat.row(p.asset).get("anchorClass") or "ground") != "water"
+
+
+def road_surface_piece(cat, scene, ctx, p) -> tuple[dict, list]:
+    """roadSurfaceRule for one piece: ({uid: row} or {}, failures)."""
+    from shapely.geometry import Point, Polygon
+    from shapely.ops import unary_union
+    poly = Polygon(measure.footprint_province(cat, p))
+    cells = _road_cells(poly)
+    if not cells:
+        return {}, []
+    road = unary_union(cells)
+    area = float(poly.intersection(road).area)
+    if area <= ROAD_OVERLAP_MIN_M2:
+        return {}, []
+    r = {"onRoadM2": round(area, 2), "footprintM2": round(poly.area, 2)}
+    if _has(p.asset, ROAD_SIGN_TOKENS):
+        near = unary_union(_road_cells(Point(p.x, p.z).buffer(ROAD_SIGN_VERGE_M + 2.0)))
+        pivot = Point(p.x, p.z)
+        r["pivotToPaintM"] = round(float(near.distance(pivot)), 2)
+        if not near.contains(pivot) and near.distance(pivot) <= ROAD_SIGN_VERGE_M:
+            r["verge"] = True
+            return {p.uid: r}, []
+    return {p.uid: r}, [f"{p.uid}: {area:.1f} m2 of its {poly.area:.1f} m2 footprint lies on "
+                        f"the painted road (> {ROAD_OVERLAP_MIN_M2} m2; the paint as drawn)"]
+
+
+def road_surface(cat, scene, uids=None) -> dict:
     """roadSurfaceRule: no placed piece's footprint lies on the painted road
     surface (`_road_paint`) by more than ROAD_OVERLAP_MIN_M2, except a way
     or crossing piece (ROAD_WAY_TOKENS), a piece hung on another (it stands
     on its host), a water-class piece, and a signpost (ROAD_SIGN_TOKENS)
-    whose pivot is off the paint and within ROAD_SIGN_VERGE_M of it."""
-    from shapely.geometry import Point, Polygon
-    from shapely.ops import unary_union
-    rows, failures = {}, []
-    for p in scene.pieces:
-        if p.y is None or _hung(p) or _has(p.asset, ROAD_WAY_TOKENS):
-            continue
-        if (cat.row(p.asset).get("anchorClass") or "ground") == "water":
-            continue
-        poly = Polygon(measure.footprint_province(cat, p))
-        cells = _road_cells(poly)
-        if not cells:
-            continue
-        road = unary_union(cells)
-        area = float(poly.intersection(road).area)
-        if area <= ROAD_OVERLAP_MIN_M2:
-            continue
-        r = {"onRoadM2": round(area, 2), "footprintM2": round(poly.area, 2)}
-        if _has(p.asset, ROAD_SIGN_TOKENS):
-            near = unary_union(_road_cells(Point(p.x, p.z).buffer(ROAD_SIGN_VERGE_M + 2.0)))
-            pivot = Point(p.x, p.z)
-            r["pivotToPaintM"] = round(float(near.distance(pivot)), 2)
-            if not near.contains(pivot) and near.distance(pivot) <= ROAD_SIGN_VERGE_M:
-                r["verge"] = True
-                rows[p.uid] = r
-                continue
-        rows[p.uid] = r
-        failures.append(f"{p.uid}: {area:.1f} m2 of its {poly.area:.1f} m2 footprint lies on "
-                        f"the painted road (> {ROAD_OVERLAP_MIN_M2} m2; the paint as drawn)")
-    return {"pieces": rows, "failures": failures}
+    whose pivot is off the paint and within ROAD_SIGN_VERGE_M of it.
+    ``uids``: judge only these pieces (`piece_rule`)."""
+    return piece_rule("roadSurface", cat, scene, uids)
 
 
 def _sill_rise(cat, p, k: int) -> float | None:
@@ -1254,20 +1306,18 @@ def _own_deck(cat, p, g, tx, tz, dx, dz, sill_y) -> dict | None:
             "footM": round(foot, 3), "footStepM": step}
 
 
-def sill(cat, scene) -> dict:
-    """sillRule: every bound doorway's threshold stands within SILL_MAX_M of
-    the walk surface just outside it (SILL_PROBE_M out along its facing: the
-    padded ground or a walkable deck, `_surface_m`), or of the top of a
-    stair or walkway piece (SILL_WAY_TOKENS) standing there. The sill is the
-    record's (`_sill_rise`) on the piece's pose; a doorway whose record
-    gives none is read on the shell's mesh just inside, else the ground."""
-    g = _ground(cat, scene)
+def _sill_ctx(cat, scene):
+    return {"g": _ground(cat, scene)}
+
+
+def sill_piece(cat, scene, ctx, p) -> tuple[dict, list]:
+    """sillRule for one piece's bound door: ({door id: row}, failures)."""
+    g = ctx["g"]
     rows, failures = {}, []
-    for d in doors(cat, scene):
-        p = scene.piece(d["uid"])
-        if p.y is None:
-            continue
-        rep = measure.door_report(cat, scene, p)
+    if p.y is None:
+        return rows, failures
+    rep = measure.door_report(cat, scene, p)
+    for d in piece_doors(cat, scene, p, rep=rep):
         k = rep["doorways"].index(rep["best"])
         tx, tz = d["thresholdM"]
         dx, dz = _bearing_vec(d["facingDeg"])
@@ -1308,7 +1358,18 @@ def sill(cat, scene) -> dict:
             failures.append(f"{d['id']}: sill {sill_y:.2f} m stands {sill_y - walk:+.2f} m off "
                             f"the walk surface outside it (> {SILL_MAX_M} m; no stair or "
                             f"walkway reaches it)")
-    return {"doors": rows, "failures": failures}
+    return rows, failures
+
+
+def sill(cat, scene, uids=None) -> dict:
+    """sillRule: every bound doorway's threshold stands within SILL_MAX_M of
+    the walk surface just outside it (SILL_PROBE_M out along its facing: the
+    padded ground or a walkable deck, `_surface_m`), or of the top of a
+    stair or walkway piece (SILL_WAY_TOKENS) standing there. The sill is the
+    record's (`_sill_rise`) on the piece's pose; a doorway whose record
+    gives none is read on the shell's mesh just inside, else the ground.
+    ``uids``: judge only these pieces' doors (`piece_rule`)."""
+    return piece_rule("sill", cat, scene, uids)
 
 
 @lru_cache(maxsize=1)
@@ -1353,43 +1414,55 @@ def _layout_sockets(scene) -> list[dict]:
     return list(lay.split_sockets(json.loads(full.read_text()), ref).get("sockets") or [])
 
 
-def sign(cat, scene) -> dict:
-    """signRule: every road-sign board (SIGN_BOARD_TOKENS) hangs on its
-    post, its arm (the board's local +x: world yaw + 90, place-diag P4)
-    within SIGN_BEARING_MAX_DEG of the nearest road's bearing, its centre
-    SIGN_HEIGHT_M over the ground; and a `sign` socket on the post whose
-    `pointsTo` has one entry per board on it (0104 decision 4)."""
-    g = _ground(cat, scene)
+def _sign_target(p) -> bool:
+    return (p.y is not None and _has(p.asset, SIGN_BOARD_TOKENS)
+            and not _has(p.asset, ROAD_SIGN_TOKENS))
+
+
+def sign_piece(cat, scene, ctx, p) -> tuple[dict, list]:
+    """signRule for one board: ({uid: row}, failures)."""
+    g = ctx["g"]
+    failures = []
+    parent = _parent_of(scene, p)
+    r = {"post": parent.uid if parent is not None else None}
+    if parent is None or not _has(parent.asset, ROAD_SIGN_TOKENS):
+        failures.append(f"{p.uid}: a sign board hangs on a signpost, not "
+                        f"{parent.uid if parent is not None else 'nothing'}")
+    mesh = _world_mesh(cat, p)
+    cx, cy, cz = (mesh.bounds[0] + mesh.bounds[1]) / 2.0     # (x, -z, up)
+    wx, wz = float(cx), float(-cy)
+    up = float(cz) - float(g.chunk_height(wx, wz))
+    arm = (p.yaw + 90.0) % 180.0
+    road = _road_bearing(scene, wx, wz)
+    r.update(armBearingDeg=round(arm, 1), centreOverGroundM=round(up, 2))
+    if road is not None:
+        off = _angle_off(arm * 2, road[0] * 2) / 2.0     # mod-180 difference
+        r.update(roadBearingDeg=round(road[0], 1), road=road[2], offDeg=round(off, 1))
+        if off > SIGN_BEARING_MAX_DEG:
+            failures.append(f"{p.uid}: its arm reads {arm:.0f} deg, the road {road[2]} runs "
+                            f"{road[0]:.0f} deg ({off:.0f} deg off; > {SIGN_BEARING_MAX_DEG})")
+    if not SIGN_HEIGHT_M[0] <= up <= SIGN_HEIGHT_M[1]:
+        failures.append(f"{p.uid}: its centre stands {up:.2f} m over the ground "
+                        f"(not {SIGN_HEIGHT_M[0]}-{SIGN_HEIGHT_M[1]} m)")
+    return {p.uid: r}, failures
+
+
+def _sign_posts(cat, scene, uids) -> list:
+    """signRule's post half: every signpost carrying boards has a `sign`
+    socket whose `pointsTo` has one entry per board on it; with ``uids``,
+    only the posts named or carrying a named board."""
     socks = [s for s in _layout_sockets(scene) if s.get("kind") == "sign"]
-    rows, failures, boards_on = {}, [], {}
+    boards_on = {}
     for p in scene.pieces:
-        if p.y is None or not _has(p.asset, SIGN_BOARD_TOKENS) or _has(p.asset, ROAD_SIGN_TOKENS):
+        if not _sign_target(p):
             continue
         parent = _parent_of(scene, p)
-        r = {"post": parent.uid if parent is not None else None}
-        if parent is None or not _has(parent.asset, ROAD_SIGN_TOKENS):
-            failures.append(f"{p.uid}: a sign board hangs on a signpost, not "
-                            f"{parent.uid if parent is not None else 'nothing'}")
-        else:
+        if parent is not None and _has(parent.asset, ROAD_SIGN_TOKENS):
             boards_on.setdefault(parent.uid, []).append(p.uid)
-        mesh = _world_mesh(cat, p)
-        cx, cy, cz = (mesh.bounds[0] + mesh.bounds[1]) / 2.0     # (x, -z, up)
-        wx, wz = float(cx), float(-cy)
-        up = float(cz) - float(g.chunk_height(wx, wz))
-        arm = (p.yaw + 90.0) % 180.0
-        road = _road_bearing(scene, wx, wz)
-        r.update(armBearingDeg=round(arm, 1), centreOverGroundM=round(up, 2))
-        if road is not None:
-            off = _angle_off(arm * 2, road[0] * 2) / 2.0     # mod-180 difference
-            r.update(roadBearingDeg=round(road[0], 1), road=road[2], offDeg=round(off, 1))
-            if off > SIGN_BEARING_MAX_DEG:
-                failures.append(f"{p.uid}: its arm reads {arm:.0f} deg, the road {road[2]} runs "
-                                f"{road[0]:.0f} deg ({off:.0f} deg off; > {SIGN_BEARING_MAX_DEG})")
-        if not SIGN_HEIGHT_M[0] <= up <= SIGN_HEIGHT_M[1]:
-            failures.append(f"{p.uid}: its centre stands {up:.2f} m over the ground "
-                            f"(not {SIGN_HEIGHT_M[0]}-{SIGN_HEIGHT_M[1]} m)")
-        rows[p.uid] = r
+    failures = []
     for post, boards in sorted(boards_on.items()):
+        if uids is not None and post not in uids and not set(boards) & uids:
+            continue
         s = next((s for s in socks if s.get("host") == post), None)
         if s is None:
             failures.append(f"{post}: {len(boards)} board(s) and no sign socket on the post "
@@ -1397,7 +1470,17 @@ def sign(cat, scene) -> dict:
         elif len(s.get("pointsTo") or []) != len(boards):
             failures.append(f"{post}: sign socket {s['id']} points to {len(s.get('pointsTo') or [])} "
                             f"places for {len(boards)} board(s)")
-    return {"boards": rows, "failures": failures}
+    return failures
+
+
+def sign(cat, scene, uids=None) -> dict:
+    """signRule: every road-sign board (SIGN_BOARD_TOKENS) hangs on its
+    post, its arm (the board's local +x: world yaw + 90, place-diag P4)
+    within SIGN_BEARING_MAX_DEG of the nearest road's bearing, its centre
+    SIGN_HEIGHT_M over the ground; and a `sign` socket on the post whose
+    `pointsTo` has one entry per board on it (0104 decision 4). ``uids``:
+    judge only these boards and their posts (`piece_rule`)."""
+    return piece_rule("sign", cat, scene, uids)
 
 
 def _ends(cat, p) -> tuple[tuple[float, float], tuple[float, float]]:
@@ -1473,22 +1556,99 @@ def berth_reach(cat, scene) -> dict:
     return {"pieces": rows, "failures": failures}
 
 
-def collider(cat, scene) -> dict:
+def collider_piece(cat, scene, ctx, p) -> tuple[dict, list]:
+    """colliderRule for one piece: ({uid: row} or {}, failures)."""
+    row = cat.row(p.asset)
+    if (row.get("category") or "") == "effect":
+        return {}, []
+    sx, sy, sz = (float(v) * p.scale for v in row["sizeM"])
+    if min(sx, sy) < COLLIDER_MIN_PLAN_M or sz < COLLIDER_MIN_HEIGHT_M:
+        return {}, []
+    kind = row.get("collision") or "none"
+    failures = []
+    if kind == "none":
+        failures.append(f"{p.uid}: {_stem(p.asset)} ({row['kit']}) is {sx:.2f} x {sy:.2f} x "
+                        f"{sz:.2f} m and has no collider in its manifest")
+    return {p.uid: {"collision": kind, "sizeM": [round(sx, 2), round(sy, 2), round(sz, 2)]}}, failures
+
+
+def collider(cat, scene, uids=None) -> dict:
     """colliderRule: every placed kit piece at least COLLIDER_MIN_PLAN_M in
     both plan axes and COLLIDER_MIN_HEIGHT_M tall (at its scale) has a
     collider in its manifest row (`collision` not "none"); candles and small
-    lanterns fall under the size."""
+    lanterns fall under the size. ``uids``: judge only these pieces."""
+    return piece_rule("collider", cat, scene, uids)
+
+
+# --------------------------------------------------------------------------
+# per-piece rules (speed lane 3B, 2026-09-27): each of these six judges one
+# piece at a time against a context built once per scene, so `check`'s
+# pool splits them by piece and `check --only` judges only the named ones
+# --------------------------------------------------------------------------
+PIECE_RULES = ("floorEdge", "propSeat", "roadSurface", "sill", "sign", "collider")
+_ROWS_KEY = {"sill": "doors", "sign": "boards"}
+
+
+def warm() -> None:
+    """Load the read-only records the rules share (the road paint, the
+    published roads) once in the parent, so the forked workers inherit
+    them instead of each reading them again."""
+    _road_paint()
+    _published_roads()
+
+
+def piece_targets(key: str, cat, scene) -> list[str]:
+    """The uids a per-piece rule judges, in the order its output lists them."""
+    if key == "floorEdge":
+        return [p.uid for p in buildings(cat, scene)]
+    if key == "propSeat":
+        return [p.uid for p in props(cat, scene)]
+    if key == "roadSurface":
+        return [p.uid for p in scene.pieces if _road_surface_target(cat, p)]
+    if key == "sill":
+        return [p.uid for p in scene.pieces if p.y is not None]
+    if key == "sign":
+        return [p.uid for p in scene.pieces if _sign_target(p)]
+    if key == "collider":
+        return [p.uid for p in scene.pieces]
+    raise KeyError(key)
+
+
+def piece_context(key: str, cat, scene) -> dict:
+    return {"floorEdge": _floor_edge_ctx, "propSeat": _prop_seat_ctx, "sill": _sill_ctx,
+            "sign": lambda c, s: {"g": _ground(c, s)}}.get(key, lambda c, s: {})(cat, scene)
+
+
+def piece_part(key: str, cat, scene, uids: list, fit_for=None) -> tuple[dict, list]:
+    """(rows, failures) of a per-piece rule over ``uids`` (targets, in order)."""
+    ctx = piece_context(key, cat, scene)
+    fn = {"floorEdge": lambda c, s, x, p: floor_edge_piece(c, s, x, p, fit_for),
+          "propSeat": prop_seat_piece, "roadSurface": road_surface_piece,
+          "sill": sill_piece, "sign": sign_piece, "collider": collider_piece}[key]
     rows, failures = {}, []
-    for p in scene.pieces:
-        row = cat.row(p.asset)
-        if (row.get("category") or "") == "effect":
-            continue
-        sx, sy, sz = (float(v) * p.scale for v in row["sizeM"])
-        if min(sx, sy) < COLLIDER_MIN_PLAN_M or sz < COLLIDER_MIN_HEIGHT_M:
-            continue
-        kind = row.get("collision") or "none"
-        rows[p.uid] = {"collision": kind, "sizeM": [round(sx, 2), round(sy, 2), round(sz, 2)]}
-        if kind == "none":
-            failures.append(f"{p.uid}: {_stem(p.asset)} ({row['kit']}) is {sx:.2f} x {sy:.2f} x "
-                            f"{sz:.2f} m and has no collider in its manifest")
-    return {"pieces": rows, "failures": failures}
+    for uid in uids:
+        r, f = fn(cat, scene, ctx, scene.piece(uid))
+        rows.update(r)
+        failures += f
+    return rows, failures
+
+
+def piece_merge(key: str, cat, scene, parts: list, uids=None) -> dict:
+    """The rule's output from its parts (in target order); ``uids`` the
+    scope a scoped run asked for (None: the whole scene)."""
+    rows, failures = {}, []
+    for r, f in parts:
+        rows.update(r)
+        failures += f
+    if key == "sign":
+        failures += _sign_posts(cat, scene, None if uids is None else set(uids))
+    return {_ROWS_KEY.get(key, "pieces"): rows, "failures": failures}
+
+
+def piece_rule(key: str, cat, scene, uids=None, fit_for=None) -> dict:
+    """A per-piece rule over the whole scene, or over ``uids`` only."""
+    targets = piece_targets(key, cat, scene)
+    if uids is not None:
+        want = set(uids)
+        targets = [u for u in targets if u in want]
+    return piece_merge(key, cat, scene, [piece_part(key, cat, scene, targets, fit_for)], uids)

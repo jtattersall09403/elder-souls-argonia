@@ -5,6 +5,7 @@
 // ephemeris/exposure agree with expectations; screenshots each preset.
 // Run from apps/combat-sandbox (owns the playwright dep):
 //   node ../world-studio/scripts/probe-sky.mjs
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { mkdirSync, writeFileSync } from "node:fs";
 import { startStudioDevServer } from "./dev-server.mjs";
 import { fileURLToPath } from "node:url";

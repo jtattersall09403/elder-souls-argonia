@@ -149,3 +149,53 @@ def test_concurrent_kit_builds_split_the_slot_threads(monkeypatch):
     assert build_kit.blender_threads() == 1
     monkeypatch.delenv("ES_JOB_CORES")
     assert build_kit.blender_threads() == 0
+
+
+def _records_copy(tmp_path, monkeypatch):
+    """Scratch copies of the two row-keyed records, wired in wherever this
+    version of build_kit reads them (the kit-row view or the whole file)."""
+    import shutil
+    copies = {}
+    for real in (build_kit.PIPELINE_DIR / "config" / "placement-policies.json",
+                 build_kit.REPO_ROOT / "world" / "sources" / "placement" / "kit-designed-sink.json"):
+        copies[real] = tmp_path / real.name
+        shutil.copy(real, copies[real])
+    monkeypatch.setattr(build_kit, "KIT_RECORD_FILES",
+                        tuple(copies.get(p, p) for p in build_kit.KIT_RECORD_FILES))
+    if hasattr(build_kit, "KIT_ROW_RECORDS"):
+        monkeypatch.setattr(build_kit, "KIT_ROW_RECORDS",
+                            tuple(copies.get(p, p) for p in build_kit.KIT_ROW_RECORDS))
+    sink, policies = (copies[p] for p in sorted(copies, key=lambda p: p.name != "kit-designed-sink.json"))
+    return sink, policies
+
+
+def _edit(path, fn):
+    doc = json.loads(path.read_text())
+    fn(doc)
+    path.write_text(json.dumps(doc, indent=1))
+
+
+def test_an_unrelated_miner_rewrite_does_not_rebuild_the_kit(tmp_path, monkeypatch):
+    """Speed lane 3B: a miner rewriting kit-designed-sink.json (its counts and
+    another kit's rows) or placement-policies.json (another kit's rows)
+    leaves settlement-mud-v1's input digest alone; its own rows and the
+    shared policies move it."""
+    kit, own = "settlement-mud-v1", "composite:mud/kotm-house-pod"
+    other = "vanilla:architecture/docks/dockstrent02"
+    sink, policies = _records_copy(tmp_path, monkeypatch)
+    data_root = tmp_path / "data-root"
+    data_root.mkdir()
+
+    def digest():
+        return build_kit.digest_of(build_kit.kit_input_hashes(kit, data_root, {"kit": kit}, tmp_path))
+    before = digest()
+    _edit(sink, lambda d: d.update(assetsMeasured=d["assetsMeasured"] + 7, refsJoined=1))
+    _edit(sink, lambda d: d["assets"][other].update(p50=d["assets"][other]["p50"] + 0.5))
+    _edit(policies, lambda d: d["kitPolicies"].update({"docks-v1": {"why": "rewritten"}}))
+    _edit(policies, lambda d: d.update(_="prose rewritten"))
+    assert digest() == before
+    _edit(sink, lambda d: d["assets"][own].update(p50=d["assets"][own]["p50"] + 0.01))
+    moved = digest()
+    assert moved != before
+    _edit(policies, lambda d: d["policies"]["direct"].update(note="a shared policy moved"))
+    assert digest() != moved

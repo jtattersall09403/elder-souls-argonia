@@ -5,6 +5,7 @@
 //   SHOT_VARIANTS='{"fireflies":"x=2.84&z=3.02&t=22:00&w=clear"}' node scripts/probe-air-fast.mjs
 // Variant strings are the studio's own URL params (x, z in km; t; d; w).
 // For the DEPLOYED build's pixels use probe-air-diff.mjs (slow, full world).
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { spawn } from "node:child_process";
 import { chromium } from "playwright";
 

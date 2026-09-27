@@ -1,5 +1,6 @@
 // Throwaway (16f round 3): load a character-view site, sprint forward, and
 // report the vegetation rebuild timings and flora-collider costs.
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { chromium } from "playwright";
 const BASE = "http://localhost:8081/";
 const q = process.argv[2] ?? "view=character&x=4.02&z=4.61&t=12:00";

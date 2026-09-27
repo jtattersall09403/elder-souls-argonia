@@ -10,6 +10,7 @@
 // against the other run at the same site, never a real frame time.
 //
 //   node apps/world-studio/scripts/probe-frame-work.mjs [x] [z]
+import "./probe-guard.mjs"; // job pool first (speed lane 3B)
 import { chromium } from "playwright";
 import { startStudioDevServer } from "./dev-server.mjs";
 
