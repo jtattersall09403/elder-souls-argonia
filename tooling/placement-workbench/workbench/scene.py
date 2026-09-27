@@ -72,6 +72,7 @@ class Piece:
     mirror: bool = False     # mirrored across its own x (the runtime has none)
     pad: dict | None = None  # a declared building pad {apronM?, datumM?, floorMinM?} (0101)
     beached: bool = False    # a hull or cleat drawn up on the bank (R5): `wb.py check` beachedRule
+    walkable: bool = False   # a walkable deck (ramp, stair, boardwalk, bridge): walkRule's surface (0102)
 
     def matrix(self) -> tuple[np.ndarray, np.ndarray]:
         """(A, b): kit-frame points p -> wb points A @ p + b."""
@@ -139,3 +140,25 @@ class Scene:
         if not self.groundStem:
             raise ValueError("the scene has no ground window: run `window` first")
         return Ground(Path(self.groundStem))
+
+
+#: settledBy tags that name the piece a piece hangs on (the part after the last ':')
+HUNG_TAGS = ("mount:", "evidence-snap:", "geometry-snap:", "template:")
+
+
+def hung_on(p) -> str | None:
+    """The uid of the piece `p` hangs on, stands on or was lifted onto: the
+    role's `mountedOn` (a mined or unmined mount, a yard-set `mount.on`) or
+    `liftedOn` (a yard-set member given its height above the set's anchor,
+    `assembly.lift_group`), else the parent its `settledBy` names. One reader
+    for the reseat and propSeatRule (r4 review)."""
+    role = p.role or {}
+    if role.get("mountedOn"):
+        return role["mountedOn"]
+    if role.get("liftedOn"):
+        return role["liftedOn"]
+    by = p.settledBy or ""
+    for tag in HUNG_TAGS:
+        if by.startswith(tag):
+            return by.rsplit(":", 1)[-1]
+    return None

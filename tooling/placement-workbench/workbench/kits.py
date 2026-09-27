@@ -48,6 +48,12 @@ class Catalogue:
             self._sidecars[key] = json.loads(path.read_text()) if path.exists() else {}
         return self._sidecars[key]
 
+    def placed_scale(self, asset_id: str) -> float:
+        """The scale a `place` op sets when it names none (planner ruling 1,
+        interiors round 4): the shell's plugin median placed scale from its
+        manifest, else 1."""
+        return default_scale(self.row(asset_id))
+
     def footprint(self, asset_id: str) -> list | None:
         """The measured plan outline (x east, z south, pivot origin), or None."""
         row = self.row(asset_id)
@@ -92,8 +98,7 @@ class Catalogue:
         node = self._library._nodes.get(asset_id)
         if node is None:
             return "missing"
-        stat = node[0].stat()
-        return f"{node[0].name}|{stat.st_size}|{int(stat.st_mtime)}|{node[1]}"
+        return f"{glb_file_signature(node[0])}|{node[1]}"
 
     def mesh(self, asset_id: str):
         """trimesh.Trimesh in the kit frame (z up, pivot at the origin)."""
@@ -118,6 +123,20 @@ class Catalogue:
     def raw_glb(self, asset_id: str) -> tuple[Path, str] | None:
         """(raw kit GLB, node name) holding the asset, for renders."""
         return self._library._nodes.get(asset_id)
+
+
+def glb_file_signature(glb: Path) -> str:
+    """The raw kit GLB's identity for every cache keyed on it (mesh npz per
+    asset, render .blend per kit): name, size and whole-second mtime."""
+    stat = Path(glb).stat()
+    return f"{Path(glb).name}|{stat.st_size}|{int(stat.st_mtime)}"
+
+
+def default_scale(row: dict) -> float:
+    """A manifest row's `placedScaleMedian` (the makers' median placed scale,
+    `placement_metadata.apply_placed_scale`), else 1.0."""
+    value = row.get("placedScaleMedian")
+    return float(value) if isinstance(value, (int, float)) and value > 0 else 1.0
 
 
 def fit_of(row: dict) -> str | None:

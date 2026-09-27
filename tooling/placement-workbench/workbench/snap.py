@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import math
+import re
 from functools import lru_cache
 
 import numpy as np
@@ -59,6 +60,9 @@ def evidence_steps(parent_asset: str, child_asset: str) -> list[dict]:
     abuts = fp.abuts_record()
     fam_p, fam_c = fp.family_key(parent_asset), fp.family_key(child_asset)
     out = []
+    base = lambda asset: asset.rsplit("/", 1)[-1]
+    own_pair = {f"{base(parent_asset)}>{base(child_asset)}",
+                f"{base(child_asset)}>{base(parent_asset)}"}
     for kind, rows, a, b in (("piece", abuts.get("pairs") or [], parent_asset, child_asset),
                              ("family", abuts.get("familyPairs") or [], fam_p, fam_c)):
         for pair in rows:
@@ -78,8 +82,20 @@ def evidence_steps(parent_asset: str, child_asset: str) -> list[dict]:
                             "parentFace": faces[0], "childFace": faces[1],
                             "joint": pair.get("joint"), "count": pair["count"],
                             "offsetSpreadM": pair.get("offsetSpreadM"), "kind": kind,
-                            "sourceSet": pair.get("sourceSet")})
-    out.sort(key=lambda s: (-s["count"], s["kind"] != "piece"))
+                            "sourceSet": pair.get("sourceSet"),
+                            # a family pair none of whose members is this
+                            # piece pair carries another piece's step (fix
+                            # round 2: fencewoven02's 2.05 m outranked
+                            # fencewoven01's own 3.88 m on count alone)
+                            "foreign": kind == "family" and not (
+                                own_pair & set(pair.get("members") or {}))})
+    # 16k fix 2 r3 ruling 6: the piece's own plugin says how its pieces join,
+    # so its pairs outrank another mod's reuse of the same mesh (vanilla's
+    # fencewoven02 2.14 m step over BM&V Valenwood's 2.00 m)
+    owner = child_asset.split(":", 1)[0]
+    own_plugin = lambda s: s.get("sourceSet") in (owner,) or str(
+        s.get("sourceSet") or "").startswith(owner + "-")
+    out.sort(key=lambda s: (s["foreign"], not own_plugin(s), -s["count"], s["kind"] != "piece"))
     return out
 
 
@@ -289,11 +305,76 @@ def mount_pairs(child_asset: str, parent_asset: str | None = None) -> list[dict]
             if p["child"] == child_asset and (parent_asset is None or p["parent"] == parent_asset)]
 
 
-def mount(child: Piece, parent: Piece, along_m: float | None = None, point: int = 0) -> dict:
+UNMINED_MAX_PLAN_M = 0.6
+UNMINED_MAX_HEIGHT_M = 1.0
+"""0102 decision 5 as amended (planner ruling 5, 2026-09-26): a child whose
+longest PLAN side is under 0.6 m and whose height is under 1.0 m may mount on
+a parent with no mined pair when the op names the render round that
+approved it."""
+UNMINED_RE = re.compile(r"^reader-approved r[0-9]+$")
+
+
+def unmined_refusal(cat, asset: str, scale: float, approval: str | None) -> str | None:
+    """Why a small unmined mount of ``asset`` at ``scale`` is refused, or
+    None: the approval must read 'reader-approved rN', the longest plan side
+    be under UNMINED_MAX_PLAN_M and the height under UNMINED_MAX_HEIGHT_M.
+    Shared by `mount --unmined` and the yard sets' `unmined` member field."""
+    if not UNMINED_RE.match(approval or ""):
+        return (f"an unmined mount must name the render round that approved it "
+                f"('reader-approved rN'), got {approval!r}")
+    size = [float(v) * scale for v in cat.row(asset)["sizeM"]]
+    plan, height = max(size[0], size[1]), size[2]
+    if plan >= UNMINED_MAX_PLAN_M or height >= UNMINED_MAX_HEIGHT_M:
+        return (f"no mined mount pair hangs {asset}, and its longest plan side {plan:.3f} m / "
+                f"height {height:.3f} m is not under {UNMINED_MAX_PLAN_M} m / "
+                f"{UNMINED_MAX_HEIGHT_M} m (0102 decision 5)")
+    return None
+
+
+def unmined_mount(cat, child: Piece, parent: Piece, approval: str) -> dict:
+    """Stand a small child on its parent's top where it is placed (plan
+    position and yaw kept): the parent's highest surface straight under the
+    child's pivot, the child's base on it. Refused by `unmined_refusal`."""
+    if cat is None:
+        raise ValueError("an unmined mount needs the catalogue (the child's size, the parent's mesh)")
+    why = unmined_refusal(cat, child.asset, child.scale, approval)
+    if why:
+        raise ValueError(f"unmined mount {child.uid} on {parent.uid}: {why}")
+    row = cat.row(child.asset)
+    size = [float(v) * child.scale for v in row["sizeM"]]
+    side = max(size[0], size[1])
+    if parent.y is None:
+        raise ValueError(f"{parent.uid} has no height: settle it first")
+    mesh = cat.mesh(parent.asset).copy().apply_transform(_t4(parent))
+    top = float(mesh.bounds[1][2]) + 1.0
+    locs, _r, _t = mesh.ray.intersects_location(np.array([[child.x, -child.z, top]]),
+                                                np.array([[0.0, 0.0, -1.0]]),
+                                                multiple_hits=False)
+    if not len(locs):
+        raise ValueError(f"unmined mount: {child.uid} at ({child.x:.2f}, {child.z:.2f}) is not "
+                         f"over {parent.uid}: place it over the parent first")
+    surface = float(locs[0][2])
+    child.y = surface + float(row["originOffsetM"][2]) * child.scale
+    child.settledBy = f"mount:{parent.uid}"
+    prov = {"kind": "unmined", "unmined": approval, "longestPlanSideM": round(side, 3),
+            "heightM": round(size[2], 3),
+            "surfaceM": round(surface, 3), "yawDeg": (child.yaw - parent.yaw) % 360.0}
+    child.role = {**child.role, "mountedOn": parent.uid, "mountPair": prov}
+    child.notes.append(f"unmined mount on {parent.uid}: {approval}")
+    return {"pair": prov}
+
+
+def mount(child: Piece, parent: Piece, along_m: float | None = None, point: int = 0,
+          unmined: str | None = None, cat=None) -> dict:
     """Seat a wall / hanging child on its parent by the mined mount pair:
     a band at its recorded out/up offset (anywhere along its axis between
-    the mined extremes; `along_m` picks where), or one of the mined points."""
+    the mined extremes; `along_m` picks where), or one of the mined points.
+    With no mined pair, `unmined` ('reader-approved rN') stands a small
+    child (plan side < 0.6 m, height < 1.0 m) on the parent's top (0102
+    decision 5 as amended)."""
     pairs = mount_pairs(child.asset, parent.asset)
+    if not pairs and unmined is not None:
+        return unmined_mount(cat, child, parent, unmined)
     if not pairs:
         raise ValueError(f"no mined mount pair hangs {child.asset} on {parent.asset}")
     pair = max(pairs, key=lambda p: p.get("n", 0))

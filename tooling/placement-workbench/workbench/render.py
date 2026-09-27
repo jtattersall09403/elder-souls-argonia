@@ -25,13 +25,14 @@ from pathlib import Path
 import numpy as np
 
 from . import paths
-from .kits import Catalogue
+from .kits import Catalogue, glb_file_signature
 from .measure import footprint_province
 from .scene import Scene
 
 TIMEOUT_S = 900
 LENS_MM = 30.0
 SENSOR_MM = 36.0            # Blender's default sensor width (fit: the wider side)
+BLEND_CACHE = paths.OUTPUT / "cache" / "blend"   # one .blend per raw kit GLB (render_scene.py)
 FRONT = {"front": 0.0, "side": 90.0, "back": 180.0}
 
 
@@ -206,7 +207,10 @@ def _launch(cat: Catalogue, scene: Scene, plans: list[dict], res: int, samples: 
             pieces.append({"glb": str(got[0]), "assetId": p.asset, "matrix": m.tolist(),
                            "tint": tint, "uid": p.uid})
         job = {"res": [res, res], "samples": samples, "pieces": pieces,
-               "ground": str(work / "ground.npz"), "shots": []}
+               "ground": str(work / "ground.npz"), "shots": [],
+               "kitCache": {"dir": str(BLEND_CACHE),
+                            "signatures": {g: glb_file_signature(Path(g))
+                                           for g in sorted({p["glb"] for p in pieces})}}}
         for k, plan in enumerate(plans):
             rx, ry = res, res if plan["view"] == "top" else int(res * 0.75)
             plan["res"] = (rx, ry)
@@ -217,6 +221,7 @@ def _launch(cat: Catalogue, scene: Scene, plans: list[dict], res: int, samples: 
                                      "clipStart": s.get("clipStart", 0.1),
                                      "clipEnd": plan["dist"] * 3,
                                      "lights": s.get("lights", []), "sunDir": s.get("sunDir"),
+                                     "night": plan.get("night"),
                                      "res": [rx, ry], "out": str(work / f"{k}-{s['name']}.png")})
         (work / "job.json").write_text(json.dumps(job))
         env = dict(os.environ, JOB=str(work / "job.json"))
@@ -250,9 +255,12 @@ def _annotate(img, cat, scene, plan, shot, ground, pitch: float) -> None:
 def render(cat: Catalogue, scene: Scene, view: str, focus: list[str] | None = None,
            res: int = 1024, out: Path | None = None, span: float | None = None,
            bearing: float | None = None, cut: float = 0.0, samples: int = 12,
-           highlight: list[str] | None = None, pitch: float = 32.0) -> dict:
+           highlight: list[str] | None = None, pitch: float = 32.0,
+           night: bool = False) -> dict:
     focus = focus or []
     plan = _plan(cat, scene, view, focus, span, bearing, cut, pitch)
+    if night:
+        plan["night"] = night_lights(cat, scene)
     out = Path(out or paths.OUTPUT / "renders" / Path(scene.path).stem / f"{view}.png")
     out.parent.mkdir(parents=True, exist_ok=True)
     (images,), warnings = _launch(cat, scene, [plan], res, samples, highlight, plan["centre"],
@@ -306,32 +314,64 @@ def buildings(cat: Catalogue, scene: Scene) -> list[dict]:
 
 def round_shots(cat: Catalogue, scene: Scene, spec: str) -> list[dict]:
     """`auto` = top, a front per building, two isos at opposite bearings; else
-    a comma list of top | iso | iso:BEARING | front:UID."""
-    by_uid = {b["uid"]: b for b in buildings(cat, scene)}
+    a comma list of top | iso | iso:BEARING | front:UID. Any token may end in
+    `@night` (16k fix 2 r3 ruling 3): that shot renders under a dark sky with
+    a warm point light at every light-layer piece (`night_lights`)."""
     wanted = []
-    for tok in (["top", *(f"front:{u}" for u in by_uid), "iso"] if spec == "auto"
-                else [t.strip() for t in spec.split(",") if t.strip()]):
-        view, _, arg = tok.partition(":")
-        if view == "top":
-            wanted.append({"view": "top", "subject": "whole scene", "focus": [], "bearing": None})
-        elif view == "iso" and not arg:
-            wanted += [{"view": "iso", "subject": f"whole scene from {(b + 45) % 360:.0f} deg",
-                        "focus": [], "bearing": b} for b in ISO_BEARINGS]
-        elif view == "iso":
-            wanted.append({"view": "iso", "subject": f"whole scene from {float(arg):.0f} deg",
-                           "focus": [], "bearing": float(arg) - 45.0})
-        elif view == "front" and arg:
-            b = by_uid.get(arg)
-            if b is None:
-                scene.piece(arg)            # a clear KeyError for an unknown uid
-                wanted.append({"view": "front", "subject": arg, "focus": [arg], "bearing": None})
-            else:
-                wanted.append({"view": "front", "subject": f"{b['uid']} ({b['parcel']})",
-                               "focus": b["focus"], "bearing": b["bearing"],
-                               "doorFacingDeg": b["doorFacingDeg"]})
-        else:
-            raise ValueError(f"shot {tok!r}: use top | iso | iso:BEARING | front:UID")
+    toks = [t.strip() for t in spec.split(",") if t.strip()]
+    by_uid = ({b["uid"]: b for b in buildings(cat, scene)}
+              if spec == "auto" or any(t.startswith("front") for t in toks) else {})
+    for tok in (["top", *(f"front:{u}" for u in by_uid), "iso"] if spec == "auto" else toks):
+        tok, night = (tok[:-6], True) if tok.endswith("@night") else (tok, False)
+        start = len(wanted)
+        _shot_token(tok, by_uid, scene, wanted)
+        for w in wanted[start:]:
+            w["night"] = night
     return wanted
+
+
+def _shot_token(tok: str, by_uid: dict, scene: Scene, wanted: list) -> None:
+    view, _, arg = tok.partition(":")
+    if view == "top":
+        wanted.append({"view": "top", "subject": "whole scene", "focus": [], "bearing": None})
+    elif view == "iso" and not arg:
+        wanted += [{"view": "iso", "subject": f"whole scene from {(b + 45) % 360:.0f} deg",
+                    "focus": [], "bearing": b} for b in ISO_BEARINGS]
+    elif view == "iso":
+        wanted.append({"view": "iso", "subject": f"whole scene from {float(arg):.0f} deg",
+                       "focus": [], "bearing": float(arg) - 45.0})
+    elif view == "front" and arg:
+        b = by_uid.get(arg)
+        if b is None:
+            scene.piece(arg)            # a clear KeyError for an unknown uid
+            wanted.append({"view": "front", "subject": arg, "focus": [arg], "bearing": None})
+        else:
+            wanted.append({"view": "front", "subject": f"{b['uid']} ({b['parcel']})",
+                           "focus": b["focus"], "bearing": b["bearing"],
+                           "doorFacingDeg": b["doorFacingDeg"]})
+    else:
+        raise ValueError(f"shot {tok!r}: use top | iso | iso:BEARING | front:UID "
+                         f"(each may end in @night)")
+
+
+#: a lantern's flame stands this far up its height (pivot base to top)
+NIGHT_LIGHT_AT = 0.85
+
+
+def night_lights(cat, scene: Scene) -> list[list[float]]:
+    """A point light (Blender frame: x, -z, up) near the top of every
+    light-layer piece (a lantern, a candle stand, a brazier)."""
+    out = []
+    for p in scene.pieces:
+        if (p.role or {}).get("layer") != "light" or p.y is None:
+            continue
+        row = cat.row(p.asset)
+        base = p.y - float(row["originOffsetM"][2]) * p.scale
+        # a hanging lantern's flame is in its cage: the lower half's centre
+        # (16k fix 2 r4 ruling 2); a standing one's is near its top
+        at = 0.25 if row.get("anchorClass") == "hanging" else NIGHT_LIGHT_AT
+        out.append([p.x, -p.z, base + float(row["sizeM"][2]) * p.scale * at])
+    return out
 
 
 def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 1024,
@@ -343,6 +383,10 @@ def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 10
     wanted = round_shots(cat, scene, spec)
     plans = [_plan(cat, scene, w["view"], w["focus"], None, w["bearing"], 0.0, pitch)
              for w in wanted]
+    lights = night_lights(cat, scene) if any(w.get("night") for w in wanted) else []
+    for w, pl in zip(wanted, plans):
+        if w.get("night"):
+            pl["night"] = lights
     lows = np.array([pl["centre"][:2] - pl["groundHalf"] for pl in plans])
     highs = np.array([pl["centre"][:2] + pl["groundHalf"] for pl in plans])
     lo, hi = lows.min(axis=0), highs.max(axis=0)
@@ -362,9 +406,11 @@ def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 10
         name = f"{k:02d}-{w['view']}" + (f"-{w['focus'][0]}" if w["view"] == "front" else
                                          f"-{plan['shots'][0].get('bearing', 0):.0f}"
                                          if w["view"] == "iso" else "")
+        name += "-night" if w.get("night") else ""
         png = out_dir / f"{name}.png"
         img.save(png)
         shots.append({"png": str(png), "view": w["view"], "subject": w["subject"],
+                      "night": bool(w.get("night")),
                       "focus": w["focus"], "bearingDeg": round(shot.get("bearing", plan["bearing"]), 1),
                       "spanM": round(plan["span"], 2),
                       **({"doorFacingDeg": w["doorFacingDeg"]} if "doorFacingDeg" in w else {})})

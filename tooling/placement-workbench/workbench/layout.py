@@ -10,6 +10,15 @@ the CLI's own argument names (the argparse ``dest``: ``child_face``,
 a building pad is ``"pad": {"apronM": 1.5, "floorMinM": 35.8}`` on a
 `place` op (``{}`` for every default; decision 0101).
 
+A socket (decision 0103) is ``{"op": "socket", "id", "kind", "at": [x, z]
+or "host": <scene uid | parcel id>, "yawDeg", "parcel", "why", <kind data>}``
+in the vocabulary of ``world/sources/vocab/socket-vocabulary.json``. It moves
+no piece, so `load` validates it and lifts it out of ``ops`` into
+``sockets``; the compile reads it from the layout the blueprint's
+``authoredOn.layout`` names (``worldgen.sockets``). Yard-set containers and
+furniture yield their sockets without an op (`assembly.group_sockets`).
+`replay` cannot recover sockets from a scene log: keep them in the layout.
+
 `apply` builds a fresh scene from the window, runs the ops in order in one
 process (one catalogue, no per-call reload), stops at the first failing op,
 then runs `check` and `compile` and writes one summary. The scene file is
@@ -35,6 +44,7 @@ OPS = ("place", "move", "settle", "snap", "mount", "attach", "mirror", "swap", "
 # positional arguments that may hold spaces (an asset id from a mod folder
 # with spaces, a note): the pre-shlex log joined argv with single spaces
 _SPACED = {"place": (2, "--"), "swap": (2, "--"), "note": (2, None)}
+SOCKET_OP = "socket"
 
 
 def sha256(path: Path) -> str:
@@ -211,7 +221,23 @@ def load(path: Path) -> dict:
     for key in ("placeId", "window", "ops"):
         if key not in doc:
             raise ValueError(f"{path}: a layout needs {key!r}")
-    return doc
+    return split_sockets(doc, path)
+
+
+def split_sockets(doc: dict, path="layout") -> dict:
+    """Lift the `socket` ops out of ``ops`` into ``sockets`` (in order),
+    refusing a malformed one with every reason at once."""
+    paths.bridge()
+    from worldgen import sockets as sk
+    vocab = sk.load_vocabulary()
+    got = [op for op in doc["ops"] if op.get("op") == SOCKET_OP]
+    errors = [e for op in got for e in sk.op_errors(op, vocab)]
+    ids = [op.get("id") for op in got + list(doc.get("sockets") or [])]
+    errors += [f"socket {i}: id used twice" for i in sorted({i for i in ids if ids.count(i) > 1})]
+    if errors:
+        raise ValueError(f"{path}: " + "; ".join(errors))
+    return {**doc, "ops": [op for op in doc["ops"] if op.get("op") != SOCKET_OP],
+            "sockets": list(doc.get("sockets") or []) + got}
 
 
 def scene_path(name: str) -> Path:
@@ -282,7 +308,7 @@ def check_failures(check: dict) -> list[str]:
     """The `check` rows that break a bar the compile or the yard gate holds
     (97 B3 slope, the fit delta, the sill, the pad fit of 0101, foot float,
     run joints and crossings, hull depth, quay bank, doors within reach of a
-    way)."""
+    way; 0102's walkRule, floorEdgeRule, pathReachRule, propSeatRule)."""
     paths.bridge()
     from worldgen import blueprint_integration as bi
     from worldgen import test_proving_ground as tpg
@@ -307,4 +333,11 @@ def check_failures(check: dict) -> list[str]:
         dist = d["best"]["pathDistanceM"]
         if dist is None or dist > bi.DOOR_REACH_M:
             out.append(f"{uid}: best doorway {dist} m from a way (> {bi.DOOR_REACH_M})")
+    # decision 0102 decision 2: the measured walk-packet rules
+    for key, rule in RULES:
+        out += [f"{rule}: {x}" for x in (check.get(key) or {}).get("failures", [])]
     return out
+
+
+RULES = (("walk", "walkRule"), ("floorEdge", "floorEdgeRule"), ("pathReach", "pathReachRule"),
+         ("propSeat", "propSeatRule"))

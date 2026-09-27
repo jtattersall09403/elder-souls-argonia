@@ -73,7 +73,10 @@ def test_the_farmhouse_door_looks_out_of_its_south_wall(cat, scene):
     house = Piece("house", FARMHOUSE, 4226.0, 6014.0, 0.0)
     got = measure.door_report(cat, scene, house)["best"]
     assert got["outwardDeg"] == 180.0
-    assert got["facingDeg"] == 207.0 and got["facingOffOutwardDeg"] == 27.0
+    # the esp-door (sideDeg 207.14) and the assembly door (207.0) are one door;
+    # since the z-south fix (16k fix 2 ruling 2) either may rank first
+    assert got["facingDeg"] == pytest.approx(207.0, abs=0.2)
+    assert got["facingOffOutwardDeg"] == pytest.approx(27.0, abs=0.2)
     turned = Piece("house", FARMHOUSE, 4226.0, 6014.0, 90.0)
     assert measure.door_report(cat, scene, turned)["best"]["outwardDeg"] == 270.0
 

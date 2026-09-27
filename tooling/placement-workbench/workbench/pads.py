@@ -58,21 +58,44 @@ def resolve(cat, g, piece) -> dict | None:
 
 
 class PaddedGround:
-    """The scene's ground with every declared pad applied (point by point,
-    `settlement_run_pads.pad_ground`); anything else is the frozen ground's."""
+    """The scene's ground with every overlay the runtime applies (0102): each
+    declared building pad and each run pad (`run_overlays`), point by point
+    (`pad_overlay.ground`, in overlay id order); anything else is the frozen
+    ground's. ``pad_index`` covers the building pads only (the retaining sill
+    and the padded slope read a building's level pad)."""
 
-    def __init__(self, g, pads: list[dict]):
+    def __init__(self, g, pads: list[dict], runs: list[dict] | None = None):
         srp = _srp()
+        from worldgen import pad_overlay
         self._g = g
         self.pad_index = srp.PadIndex([p["polygonM"] for p in pads])
-        self._chunks = srp.pad_ground(g.chunk_height, pads)
-        self._survey = srp.pad_ground(g.survey_height, pads)
+        overlays = [pad_overlay.building_overlay(p["id"], p["polygonM"], float(p["datumM"]),
+                                                 srp.PAD_BLEND_M) for p in pads] + list(runs or [])
+        self.overlays = overlays
+        self._chunks = pad_overlay.ground(g.chunk_height, overlays)
+        self._survey = pad_overlay.ground(g.survey_height, overlays)
 
     def __getattr__(self, name):
         return getattr(self._g, name)
 
     def chunk_height(self, x: float, z: float) -> float:
         return self._chunks(x, z)
+
+    def chunk_heights(self, X, Z):
+        """`chunk_height` over arrays: the frozen ground vectorised, then the
+        overlays point by point only where one reaches (outside its bbox and
+        reach an overlay leaves the ground as it is, `overlay_one`)."""
+        import numpy as np
+        X, Z = np.asarray(X, float), np.asarray(Z, float)
+        out = self._g.chunk_heights(X, Z)
+        near = np.zeros(X.shape, bool)
+        for o in self.overlays:
+            x0, z0, x1, z1 = o["bboxM"]
+            r = float(o["hardM"]) + float(o["blendM"])
+            near |= (X >= x0 - r) & (X <= x1 + r) & (Z >= z0 - r) & (Z <= z1 + r)
+        for idx in zip(*np.nonzero(near)):
+            out[idx] = self._chunks(float(X[idx]), float(Z[idx]))
+        return out
 
     def survey_height(self, x: float, z: float) -> float:
         return self._survey(x, z)
@@ -129,25 +152,93 @@ def scene_pads(cat, scene) -> dict:
     return memo["pads"]
 
 
+def overlay_id(scene, uid: str) -> str:
+    """The id the bundle export gives this piece's pad overlay
+    (`settlement_run_pads.pad_patch`: patch.pad.settlement.<place>.<parcel
+    id>), so the workbench applies pads in the runtime's id order (16k fix 2
+    round 3); an unbound piece takes its uid as the parcel id."""
+    piece = next(p for p in scene.pieces if p.uid == uid)
+    role = getattr(piece, "role", None) or {}
+    owner = role["id"] if role.get("kind") == "parcel" and role.get("id") else uid
+    return _srp().pad_patch(getattr(scene, "placeId", "") or "scene", owner, [{"placementId": uid, "targetM": 0.0,
+                                                    "footprintM": [[0.0, 0.0]]}],
+                            owner="building")["id"]
+
+
+def _run_members(scene) -> dict[str, list]:
+    """{run parcel id: [(index, piece)...] sorted} for every run whose
+    members all carry a pivot height."""
+    runs: dict[str, list] = {}
+    for p in scene.pieces:
+        role = getattr(p, "role", None) or {}
+        if role.get("kind") == "run" and role.get("id"):
+            runs.setdefault(role["id"], []).append((int(role.get("index", 0)), p))
+    return {rid: sorted(m, key=lambda t: t[0]) for rid, m in runs.items()
+            if all(q.y is not None for _i, q in m)}
+
+
+def run_overlays(cat, scene, g=None) -> list[dict]:
+    """The run pads the bundle export measures for this scene (planner ruling
+    W3, 16k fix 2 round 4): the scene's runs as bundle rows (member id
+    `<run>.piece.<n>`, riseM the pivot's rise over member 0, the measured
+    footprint, the manifest's designed sink), through the export's own
+    `settlement_run_pads.run_pad_patches` on the frozen survey with its
+    water, and `pad_overlay.overlay_from_patch` (ids and maths as the
+    runtime's `groundOverlays`)."""
+    srp = _srp()
+    from worldgen import pad_overlay
+    from worldgen.scale import RAW_M
+    g = scene.ground() if g is None else g
+    place = getattr(scene, "placeId", "") or "scene"
+    rows = []
+    for rid, members in _run_members(scene).items():
+        run_id = f"{place}.{rid}"
+        y0 = members[0][1].y
+        for idx, p in members:
+            rows.append({"id": f"{run_id}.piece.{idx + 1}",
+                         "run": {"id": run_id, "index": idx, "riseM": float(p.y - y0)},
+                         "footprintM": [[float(x), float(z)]
+                                        for x, z in measure.footprint_province(cat, p)],
+                         "anchor": {"designedSinkM": cat.row(p.asset)["designedSinkM"]},
+                         "scale": p.scale})
+    if not rows:
+        return []
+    patches = srp.run_pad_patches(rows, place, g.survey_height,
+                                  lambda x, z: g.depth(x, z) > 0.0)
+    hard = srp.PAD_HARD_RADIUS_PX * RAW_M
+    return [pad_overlay.overlay_from_patch(q, hard) for q in patches]
+
+
+def _run_key(scene) -> tuple:
+    return tuple((rid, tuple((i, p.uid, p.asset, p.x, p.z, p.yaw, p.scale, round(p.y, 6))
+                             for i, p in m)) for rid, m in sorted(_run_members(scene).items()))
+
+
 def ground_for(cat, scene, piece, resolved: dict | None = None):
     """The ground every piece is seated and judged on: the frozen ground
-    patched by every pad the scene declares, whether or not this piece
-    declares one (the compile reads `PaddedSurvey` for every piece once the
-    pads resolve, 0101); the frozen ground itself when no pad resolves.
-    ``piece`` is kept for the callers' signature."""
+    patched by every overlay the runtime applies for the scene, building pads
+    and run pads alike, whether or not this piece declares one (the compile
+    reads `PaddedSurvey` for every piece once the pads resolve, 0101); the
+    frozen ground itself when there is none. ``piece`` is kept for the
+    callers' signature."""
     g = scene.ground()
     resolved = scene_pads(cat, scene) if resolved is None else resolved
-    live = [{"polygonM": r["polygonM"], "datumM": r["datumM"]}
-            for r in resolved.values() if r["error"] is None]
-    if not live:
-        return g
+    live = [{"id": overlay_id(scene, uid), "polygonM": r["polygonM"], "datumM": r["datumM"]}
+            for uid, r in resolved.items() if r["error"] is None]
     memo = scene.__dict__.setdefault("_padMemo", {})
+    run_key = (getattr(scene, "groundStem", ""), _run_key(scene))
+    if memo.get("runKey") != run_key:
+        memo.update(runKey=run_key, runs=run_overlays(cat, scene, g) if run_key[1] else [])
+    runs = memo["runs"]
+    if not live and not runs:
+        return g
     # `scene.ground()` hands a new window object per call over the same
-    # ground: the key is the ground's stem and the pad set, never an id
+    # ground: the key is the ground's stem and the overlay set, never an id
     key = (getattr(scene, "groundStem", ""),
-           tuple((tuple(map(tuple, r["polygonM"])), r["datumM"]) for r in live))
-    if memo.get("groundKey") != key:           # one PaddedGround per pad set, not per piece
-        memo.update(groundKey=key, ground=PaddedGround(g, live))
+           tuple((r["id"], tuple(map(tuple, r["polygonM"])), r["datumM"]) for r in live),
+           run_key[1])
+    if memo.get("groundKey") != key:           # one PaddedGround per overlay set, not per piece
+        memo.update(groundKey=key, ground=PaddedGround(g, live, runs))
     return memo["ground"]
 
 

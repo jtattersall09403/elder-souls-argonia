@@ -103,9 +103,15 @@ def test_the_mud_hut_doorway_is_where_the_record_puts_it_on_the_mesh(cat):
 
 def test_the_stilt_hut_front_is_open_on_its_record_bearing(cat):
     """Amended: an `open-front` entrance is a porch, not a hole; the record
-    bearing is 0.13 deg and no mesh stands on that line at deck level."""
+    bearing is 20.6 deg and no mesh stands on that line at deck level. Since
+    16h check-in 3 (5365d641, `interiors_index` composite-leaf) the record
+    lists the hung door leaf's doorway FIRST (sideDeg 180, the leaf 3.06 m
+    south of the pivot); the open front is picked by its source, never by
+    its index."""
     d = describe.describe(cat, "composite:stilt/stilthouse-with-door")
-    door = d["doorways"][0]
+    leaf = next(r for r in d["doorways"] if r["source"] == "interiors/composite-leaf")
+    assert leaf["bearingDeg"] == 180.0 and leaf["planXZ"] == [0.0, 3.06]
+    door = next(r for r in d["doorways"] if r["source"] == "interiors/open-front")
     assert abs(door["bearingDeg"]) <= 30
     assert any(p["meshRadiusM"] is None for p in door["probes"] if p["floorZM"] > -2.0)
 

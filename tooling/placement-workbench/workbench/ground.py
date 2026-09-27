@@ -172,6 +172,46 @@ class Ground:
         gz = (z - chunk["originM"][1]) / mps
         return float(sample_terrain(grid, np.array([[gz], [gx]]))[0])
 
+    def chunk_heights(self, X, Z) -> np.ndarray:
+        """`chunk_height` over arrays of points (same shape), one
+        `sample_terrain` call per chunk touched (r4 review: WalkGrid)."""
+        sample_terrain = self._sampler()
+        X, Z = np.asarray(X, float), np.asarray(Z, float)
+        out = np.empty(X.shape, float)
+        cell = self.meta["chunkMetres"]
+        kx, kz = np.floor(X / cell).astype(int), np.floor(Z / cell).astype(int)
+        for key in {(int(a), int(b)) for a, b in zip(kx.ravel(), kz.ravel())}:
+            chunk = self._chunks.get(key)
+            if chunk is None:
+                raise ValueError(f"chunk {key} is outside the scene's ground window")
+            m = (kx == key[0]) & (kz == key[1])
+            mps = chunk["metresPerSample"]
+            gx = (X[m] - chunk["originM"][0]) / mps
+            gz = (Z[m] - chunk["originM"][1]) / mps
+            out[m] = sample_terrain(self.a[chunk["key"]], np.array([gz, gx]))
+        return out
+
+    def water_levels_where_wet(self, X, Z) -> np.ndarray:
+        """The recorded water level where the depth grid marks water, NaN
+        elsewhere or where no level is recorded (WalkGrid's `level`)."""
+        X, Z = np.asarray(X, float), np.asarray(Z, float)
+        d = self.meta["depth"]
+        rows = (Z // d["pxM"]).astype(int) - d["origin"][1]
+        cols = (X // d["pxM"]).astype(int) - d["origin"][0]
+        depth = self.a["depth"]
+        if (rows.min() < 0 or cols.min() < 0 or rows.max() >= depth.shape[0]
+                or cols.max() >= depth.shape[1]):
+            raise ValueError("a point is outside the scene's ground window")
+        wet = depth[rows, cols] > 0.0
+        w = self.meta["water"]
+        arr = self.a["water_level"]
+        j = np.rint((X - w["originM"][0]) / w["stepM"]).astype(int)
+        i = np.rint((Z - w["originM"][1]) / w["stepM"]).astype(int)
+        ok = (i >= 0) & (i < arr.shape[0]) & (j >= 0) & (j < arr.shape[1])
+        level = np.full(X.shape, np.nan)
+        level[ok] = arr[i[ok], j[ok]]
+        return np.where(wet, level, np.nan)
+
     def survey_height(self, x: float, z: float) -> float:
         """`ProvinceSurvey.height_at`: nearest pixel of the refined raster."""
         s = self.meta["survey"]

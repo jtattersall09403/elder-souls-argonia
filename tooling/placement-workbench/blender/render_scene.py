@@ -6,14 +6,19 @@ x east, y north, z up), the ground and water meshes (npy), the camera and
 the output path. Cycles on CPU: no GPU and no display on this VM (the same
 reason `pipeline/blender/render_assembly.py` gives).
 
-Imports each kit once into an EXCLUDED library collection and copies the
-needed asset roots out (mesh data shared), as `render_assembly.import_kits`
-does, so Cycles never evaluates the whole kit.
+Appends the needed asset roots from a per-kit .blend cache (JOB kitCache:
+output/cache/blend/, keyed on the raw GLB's signature and CACHE_FORMAT; a
+missing or stale cache is rebuilt from the GLB on the launch that needs it)
+into an EXCLUDED library collection and copies them out (mesh data shared),
+so Cycles never evaluates the whole kit and no launch imports a whole GLB.
 """
+import hashlib
 import json
 import math
 import os
+import re
 import sys
+import tempfile
 
 import bpy
 import numpy as np
@@ -123,39 +128,99 @@ def scene_setup():
     return scene, cam, cam_data
 
 
+CACHE_FORMAT = 1   # bump whenever build_kit_cache changes what a cached .blend holds
+
+
+def _cache_files(glb, cache_dir):
+    """(.blend, .json index) for the GLB under the job's kit signature
+    (`workbench.kits.glb_file_signature`: name, size, mtime), or a scratch
+    pair when the job carries no signature."""
+    sig = ((JOB.get("kitCache") or {}).get("signatures") or {}).get(glb) or glb
+    stem = os.path.splitext(os.path.basename(glb))[0]
+    base = os.path.join(cache_dir, f"{stem}.{hashlib.sha1(sig.encode()).hexdigest()[:16]}"
+                                   f".v{CACHE_FORMAT}")
+    return base + ".blend", base + ".json"
+
+
+def _tree(root):
+    """The root and its descendants without any `__lod` node and its subtree."""
+    out, stack = [], [root]
+    while stack:
+        node = stack.pop()
+        if "__lod" in node.name:
+            continue
+        out.append(node)
+        stack.extend(node.children)
+    return out
+
+
+def build_kit_cache(glb, blend, index):
+    """Import the whole GLB once and write every asset root (its tree minus
+    LOD nodes) as one collection of a .blend, with a {assetId: collection}
+    index; a stale cache of the same kit is removed. Leaves the scene as it
+    was before the import."""
+    before = set(bpy.data.objects)
+    bpy.ops.import_scene.gltf(filepath=glb)
+    fresh = [o for o in bpy.data.objects if o not in before]
+    roots = {}
+    for obj in fresh:
+        if obj.parent is None and obj.get("assetId") is not None:
+            roots[obj.get("assetId")] = obj          # a repeated id: the last root wins
+    colls, names = [], {}
+    for i, (aid, root) in enumerate(roots.items()):
+        coll = bpy.data.collections.new(f"wbkit{i}")
+        for node in _tree(root):
+            coll.objects.link(node)
+        colls.append(coll)
+        names[aid] = coll.name
+    folder = os.path.dirname(blend)
+    os.makedirs(folder, exist_ok=True)
+    part = f"{blend}.{os.getpid()}.part"
+    bpy.data.libraries.write(part, set(colls), fake_user=True)
+    os.replace(part, blend)
+    with open(f"{index}.{os.getpid()}.part", "w") as fh:
+        json.dump(names, fh)
+    os.replace(f"{index}.{os.getpid()}.part", index)
+    stem = re.escape(os.path.splitext(os.path.basename(glb))[0])
+    keep = {os.path.basename(blend), os.path.basename(index)}
+    for name in os.listdir(folder):
+        if re.fullmatch(stem + r"\.[0-9a-f]{16}\.v\d+\.(blend|json)", name) and name not in keep:
+            os.remove(os.path.join(folder, name))
+    for coll in colls:
+        bpy.data.collections.remove(coll)
+    for obj in fresh:
+        bpy.data.objects.remove(obj, do_unlink=True)
+    bpy.data.orphans_purge(do_local_ids=True, do_linked_ids=True, do_recursive=True)
+    print(f"[wb-render] cached {os.path.basename(glb)} ({len(names)} assets)")
+
+
 def import_kits(needed):
-    """{glb: set(assetId)} -> {assetId: root object} (library excluded)."""
+    """{glb: set(assetId)} -> {assetId: root object} (library excluded).
+    Each kit comes from its cached .blend (built on the first launch after
+    the GLB changes); only the collections of the needed assets are
+    appended, so a launch never imports a whole kit."""
+    cache_dir = (JOB.get("kitCache") or {}).get("dir") or tempfile.mkdtemp(prefix="wb-blend-")
     library = bpy.data.collections.new("__library")
     bpy.context.scene.collection.children.link(library)
     roots = {}
     for glb, ids in needed.items():
-        before = set(bpy.data.objects)
-        bpy.ops.import_scene.gltf(filepath=glb)
-        fresh = [o for o in bpy.data.objects if o not in before]
-        keep = []
-        for obj in fresh:
-            if obj.parent is None and obj.get("assetId") in ids:
-                keep.append(obj)
-        keep_all = set()
-        for obj in keep:
-            keep_all.add(obj)
-            keep_all.update(obj.children_recursive)
-        for obj in fresh:
-            if obj not in keep_all:
-                bpy.data.objects.remove(obj, do_unlink=True)
-        for obj in keep:
-            for node in list(obj.children_recursive):
-                if "__lod" in node.name:
-                    for sub in [node] + list(node.children_recursive):
-                        if sub.name in bpy.data.objects:
-                            bpy.data.objects.remove(sub, do_unlink=True)
+        blend, index = _cache_files(glb, cache_dir)
+        if not (os.path.exists(blend) and os.path.exists(index)):
+            build_kit_cache(glb, blend, index)
+        with open(index) as fh:
+            names = json.load(fh)
+        want = [names[i] for i in sorted(ids) if i in names]
+        with bpy.data.libraries.load(blend, link=False) as (_src, dst):
+            dst.collections = want
+        for coll in dst.collections:
+            objs = list(coll.objects)
+            for obj in objs:
+                library.objects.link(obj)
+            bpy.data.collections.remove(coll)
+            obj = next(o for o in objs if o.parent is None)
             if any(abs(obj.matrix_world[i][j] - (1.0 if i == j else 0.0)) > 1e-4
                    for i in range(4) for j in range(4)):
                 print(f"[wb-render] warning: {obj.get('assetId')} root is not at the identity")
-            for node in [obj] + list(obj.children_recursive):
-                for used in list(node.users_collection):
-                    used.objects.unlink(node)
-                library.objects.link(node)
             roots[obj.get("assetId")] = obj
     bpy.context.view_layer.layer_collection.children[library.name].exclude = True
     return roots
@@ -242,8 +307,25 @@ def main():
             sun.rotation_euler = (math.radians(40), math.radians(10), math.radians(30))
         scene.render.resolution_x, scene.render.resolution_y = shot["res"]
         scene.render.filepath = shot["out"]
+        # night (16k fix 2 r3 ruling 3): a dark sky, a faint moon, and a warm
+        # point light at every light-layer piece (lantern, candle, brazier)
+        bg = scene.world.node_tree.nodes["Background"]
+        night = shot.get("night")
+        bg.inputs[0].default_value = ((0.012, 0.016, 0.03, 1.0) if night is not None
+                                      else (0.55, 0.62, 0.72, 1.0))
+        bg.inputs[1].default_value = 0.8 if night is not None else 1.2
+        sun.data.energy = 0.08 if night is not None else 3.2
         # a cutaway's interior gets no sun through its walls: light it inside
         lamps = []
+        for i, at in enumerate(night or []):
+            data = bpy.data.lights.new(f"night{i}", type="POINT")
+            data.energy = 900.0
+            data.color = (1.0, 0.62, 0.3)
+            data.shadow_soft_size = 0.08
+            lamp = bpy.data.objects.new(f"night{i}", data)
+            lamp.location = at
+            scene.collection.objects.link(lamp)
+            lamps.append(lamp)
         for i, at in enumerate(shot.get("lights", [])):
             data = bpy.data.lights.new(f"inner{i}", type="POINT")
             data.energy = 3000.0

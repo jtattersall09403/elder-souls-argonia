@@ -5,12 +5,13 @@ whole state. Prints JSON on stdout and a timing line on stderr.
     wb.py SCENE window --centre-km E S --half 150
     wb.py SCENE place UID ASSET --at X Z [--km] [--yaw D] [--settle]
                      [--pad [apronM=M] [datumM=M] [floorMinM=M]]   (a building pad, 0101)
+                     [--beached] [--walkable]      (R5 craft; a walkable deck, 0102)
     wb.py SCENE move UID [--dx M] [--dz M] [--forward M] [--right M] [--dy M]
                          [--yaw D | --turn D] [--resettle]
     wb.py SCENE settle UID [--source chunks|survey]
     wb.py SCENE snap CHILD CHILD_FACE PARENT PARENT_FACE [--by geometry|evidence]
                      [--lateral M] [--keep-yaw] [--pick N]
-    wb.py SCENE mount CHILD PARENT [--along M] [--point N]
+    wb.py SCENE mount CHILD PARENT [--along M] [--point N] [--unmined "reader-approved rN"]
     wb.py SCENE measure A B
     wb.py SCENE ground UID | --at X Z
     wb.py SCENE doors
@@ -61,6 +62,15 @@ from workbench.scene import Piece, Scene, yaw_matrix  # noqa: E402
 import numpy as np  # noqa: E402
 
 
+def place_catalogue(place_id: str) -> Catalogue:
+    """The catalogue with the place's own culture kits tried first when an
+    asset id sits in several kits (`compile_settlement.place_kit_preference`,
+    the order the compile resolves the same ids in); one definition, in
+    `workbench.export`, shared with the walkRoutes export."""
+    from workbench import export
+    return export.place_catalogue(place_id)
+
+
 def _emit(obj) -> None:
     print(json.dumps(obj, indent=1, default=lambda o: round(float(o), 4)))
 
@@ -87,6 +97,47 @@ def _settle(cat, scene, piece: Piece, source: str = "chunks", declared_pads: dic
     if shift is not None:
         got["quayShiftM"] = shift["shiftM"]
     return got
+
+
+def reseat_after_pads(cat, scene) -> list[dict]:
+    """Planner ruling 1 (16k fix 2 round 5): every pad the runtime applies,
+    building AND run, exists only once the whole layout is laid (a run's pad
+    is measured from its posed members), so a piece settled before a run was
+    laid sits on ground the runtime never shows. Once every op has run, each
+    ground-settled piece that owns no pad (props, dressing, yard-set members;
+    round 6: buildings, runs and retaining walls keep their pad seat) is settled again on the
+    final padded ground, and every piece hung on a moved piece (mount,
+    template, snap) follows its parent by the same rise. Returns the moves."""
+    from workbench import pads
+    resolved = pads.scene_pads(cat, scene)
+    moved: dict[str, float] = {}
+    out = []
+    for p in scene.pieces:
+        by = p.settledBy or ""
+        # planner ruling 1 (round 6): only a piece that owns no pad is re-seated;
+        # a building, a run member or a retaining wall keeps its pad seat
+        if (not by.startswith("settle:") or p.pad is not None
+                or (p.role or {}).get("kind") == "run"):
+            continue
+        before = p.y
+        _settle(cat, scene, p, by.rsplit(":", 1)[-1], declared_pads=resolved)
+        dy = float(p.y - before) if before is not None else 0.0
+        if abs(dy) > 1e-6:
+            moved[p.uid] = dy
+            out.append({"uid": p.uid, "dyM": round(dy, 4), "by": "settle"})
+    from workbench.scene import hung_on
+    parent_of = {p.uid: hung_on(p) for p in scene.pieces if hung_on(p)}
+    changed = True
+    while changed:                      # a chain of hung pieces follows in order
+        changed = False
+        for p in scene.pieces:
+            parent = parent_of.get(p.uid)
+            if parent in moved and p.uid not in moved and p.y is not None:
+                p.y += moved[parent]
+                moved[p.uid] = moved[parent]
+                out.append({"uid": p.uid, "dyM": round(moved[parent], 4), "by": f"follows:{parent}"})
+                changed = True
+    return out
 
 
 def _quay_anchor(cat, piece: Piece) -> dict | None:
@@ -121,9 +172,17 @@ def cmd_window(a, scene, cat):
 def cmd_place(a, scene, cat):
     from workbench import pads
     x, z = (a.at[0] * 1000, a.at[1] * 1000) if a.km else a.at
-    cat.row(a.asset)
+    if cat.row(a.asset).get("placeUse") == "ruin-only" and not getattr(a, "ruin", False):
+        raise ValueError(f"{a.asset} is ruin-only (its placement-policies assetPlacement "
+                         f"row): place it in a ruin with --ruin, or its living form")
+    if cat.row(a.asset).get("placeUse") == "hanging-only" and a.settle:
+        raise ValueError(f"{a.asset} is hanging-only (its placement-policies assetPlacement "
+                         f"row): place it and `mount` it on its mined parent, never settle "
+                         f"it on the ground")
+    scale = cat.placed_scale(a.asset) if a.scale is None else a.scale
     p = scene.add(Piece(uid=a.uid, asset=a.asset, x=x, z=z, yaw=a.yaw % 360.0, y=a.y,
-                        scale=a.scale, pad=pads.parse(a.pad), beached=a.beached))
+                        scale=scale, pad=pads.parse(a.pad), beached=a.beached,
+                        walkable=a.walkable))
     out = {"placed": a.uid}
     if a.settle:
         out["settle"] = _settle(cat, scene, p)
@@ -362,9 +421,32 @@ def _sill(cat, g, p, row, cs) -> dict:
             f"(the yard gate allows {tpg.SILL_LIMIT_M} m)"}
 
 
+def designer_yaw(child, parent, world_yaw: float) -> None:
+    """16k r8 rule 1: a pair recorded ``yawBy: designer`` (a road board on its
+    post) gives height and face only; the child turns about the parent's axis
+    to the designer's world yaw (the road's bearing), its offset turning with it."""
+    pair = next((p for p in snap.mount_pairs(child.asset, parent.asset)
+                 if p.get("yawBy") == "designer"), None)
+    if pair is None:
+        raise ValueError(f"--yaw: no mined pair of {child.asset} on {parent.asset} leaves the "
+                         "yaw to the designer (yawBy: designer); the mined yaw stands")
+    role = child.role["mountPair"]
+    rel = (world_yaw - parent.yaw) % 360.0
+    # the offset turns with the child about the parent's vertical axis
+    off = [float(v) for v in yaw_matrix(rel - float(role["yawDeg"])) @ np.array(role["offsetM"])]
+    d = yaw_matrix(parent.yaw) @ np.array(off) * parent.scale
+    child.x, child.z = parent.x + float(d[0]), parent.z - float(d[1])
+    child.yaw = world_yaw % 360.0
+    child.role = {**child.role, "mountPair": {**role, "offsetM": [round(v, 4) for v in off],
+                                              "yawDeg": round(rel, 3), "yawBy": "designer"}}
+
+
 def cmd_mount(a, scene, cat):
     child, parent = scene.piece(a.child), scene.piece(a.parent)
-    got = snap.mount(child, parent, a.along, a.point)
+    got = snap.mount(child, parent, a.along, a.point, unmined=getattr(a, "unmined", None), cat=cat)
+    if getattr(a, "yaw", None) is not None:
+        designer_yaw(child, parent, a.yaw)
+        got["pair"]["yawBy"] = "designer"
     got["pose"] = {"x": child.x, "z": child.z, "yaw": child.yaw, "y": child.y}
     if child.y is not None:
         got["contact"] = measure.contact(cat, child, parent)
@@ -393,7 +475,7 @@ def cmd_doors(a, scene, cat):
 def cmd_check(a, scene, cat):
     """Every piece: seat vs its y, foot float, slope vs its fit's limit;
     every pair whose bounds come within 0.5 m: contact; every door: path."""
-    from workbench import pads, paths
+    from workbench import pads, paths, rules
     paths.bridge()
     from worldgen import compile_settlement as cs
     declared = pads.scene_pads(cat, scene)
@@ -412,6 +494,8 @@ def cmd_check(a, scene, cat):
             r["yOffRuntimeM"] = None if p.y is None else round(p.y - seat["y"], 3)
             if p.beached:
                 r.update(_beached(cat, g, p))
+                if p.y is not None:
+                    r["beachedProfile"] = rules.beached_profile(cat, g, p)
             elif p.role.get("kind") != "run":
                 # a run is judged by the compile on its union (`compile` command)
                 r.update(_fit_rules(cat, g, p, cs, _authored_fit(scene, p)))
@@ -454,17 +538,65 @@ def cmd_check(a, scene, cat):
             if np.all(l1 <= h2 + 0.5) and np.all(l2 <= h1 + 0.5):
                 a_, b_ = scene.piece(u), scene.piece(v)
                 got = measure.contact(cat, a_, b_)
-                got.update(_pair_verdict(a_, b_, got))
+                got.update(_pair_verdict(a_, b_, got, cat))
                 pairs.append(got)
     doors = cmd_doors(a, scene, cat)
-    return {"pieces": rows, "nearPairs": pairs, "doors": doors}
+    out = {"pieces": rows, "nearPairs": pairs, "doors": doors}
+    # 0102 decision 2: what the walk packet used to ask, measured
+    out["walk"] = rules.walk(cat, scene)
+    out["floorEdge"] = rules.floor_edge(
+        cat, scene, lambda p: _authored_fit(scene, p) or cs.record_ground_fit(cat.row(p.asset)))
+    out["pathReach"] = rules.path_reach(cat, scene)
+    out["propSeat"] = rules.prop_seat(cat, scene)
+    # 0102 decision 5: every unmined mount is listed (the render round must shoot it)
+    out["info"] = [f"{p.uid}: unmined mount on {p.role.get('mountedOn')} "
+                   f"({p.role['mountPair'].get('unmined')})" for p in scene.pieces
+                   if ((p.role or {}).get("mountPair") or {}).get("kind") == "unmined"]
+    return out
 
 
 JOINT_GAP_M = 0.03           # a run joint: the miner's contact (0097 rule 3)
-JOINT_PENETRATION_M = 0.05
+JOINT_PENETRATION_M = 0.05   # the bar for a piece with no plugin-measured one below
+
+# Run-joint bars (16k fix 2 round 6 ruling K3): the abuts record's
+# `runJointBars`, which `mine_abuts.run_joint_bars` writes per piece from the
+# plugin's own joints of the piece with itself (count-weighted p90 of
+# `worldgen.slide_penetration`'s slide penetration and along-run overlap, the
+# metric `measure.contact` uses; it reproduced the round-2 fence bars:
+# fencewoven01 0.165 / 0.338, fencewoven02 0.118 / 0.236). The overlap catches
+# what the slide metric cannot see: a 4.1 m panel stepped 2.09 m doubles half
+# its length yet slides clear sideways in 0.1 m. A pair of two different
+# pieces takes the stricter of the two bars; a piece with no row keeps
+# JOINT_PENETRATION_M and no overlap bar.
+def _run_joint_rows() -> dict:
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+    from worldgen import blueprint_footprints as fp
+    return fp.abuts_record().get("runJointBars") or {}
 
 
-def _pair_verdict(a: Piece, b: Piece, got: dict) -> dict:
+def run_joint_bars(a: Piece, b: Piece) -> tuple[float, float | None]:
+    """(penetration bar, along-run overlap bar or None) for a run joint."""
+    table = _run_joint_rows()
+    rows = [table.get(p.asset) for p in (a, b)]
+    if not all(rows):
+        return JOINT_PENETRATION_M, None
+    return (min(r["penetrationM"] for r in rows),
+            min(r["alongRunOverlapM"] for r in rows))
+
+
+def along_run_overlap(cat, a: Piece, b: Piece) -> float:
+    """How far the two pieces' bounds overlap along the plan line joining
+    their pivots (metres; negative = a gap): a collinear double-up
+    (`worldgen.slide_penetration.along_run_overlap`)."""
+    from workbench import paths as wbpaths
+    wbpaths.bridge()
+    from worldgen import slide_penetration as sp
+    return sp.along_run_overlap(cat.mesh(a.asset), measure._transform4(a),
+                                cat.mesh(b.asset), measure._transform4(b))
+
+
+def _pair_verdict(a: Piece, b: Piece, got: dict, cat=None) -> dict:
     """What the pair is and the bar it is judged on: a mounted child on its
     parent (the mined pair or template IS the pose, so only contact is
     required: its designed overlap is not a defect), neighbours in one run
@@ -476,6 +608,7 @@ def _pair_verdict(a: Piece, b: Piece, got: dict) -> dict:
                 or (by.startswith("template:") and by.endswith(f":{parent.uid}"))
                 or role.get("mountedOn") == parent.uid
                 or (role.get("kind") == "assembly" and role.get("on") == "parent"
+                    and not role.get("mountedOn")
                     and (parent.role or {}).get("id") == role.get("id")))
     ra, rb = a.role or {}, b.role or {}
     if on(a, b) or on(b, a):
@@ -484,8 +617,15 @@ def _pair_verdict(a: Piece, b: Piece, got: dict) -> dict:
                   for x, y in ((a, b), (b, a)))
     if snapped or (ra.get("kind") == rb.get("kind") == "run" and ra.get("id") == rb.get("id")
                    and abs(int(ra.get("index", -9)) - int(rb.get("index", -9))) == 1):
-        return {"relation": "run-joint",
-                "ok": got["gapM"] <= JOINT_GAP_M and (got["penetrationM"] or 0.0) <= JOINT_PENETRATION_M}
+        bar, overlap_bar = run_joint_bars(a, b)
+        out = {"relation": "run-joint",
+               "ok": got["gapM"] <= JOINT_GAP_M and (got["penetrationM"] or 0.0) <= bar}
+        if overlap_bar is not None and cat is not None:
+            overlap = along_run_overlap(cat, a, b)
+            out.update(penetrationBarM=bar, alongRunOverlapM=round(overlap, 3),
+                       alongRunOverlapBarM=overlap_bar)
+            out["ok"] = out["ok"] and overlap <= overlap_bar
+        return out
     return {"relation": "unrelated", "ok": not got["intersecting"]}
 
 
@@ -587,7 +727,7 @@ def cmd_render(a, scene, cat):
     if a.view is None:
         raise ValueError("render needs a VIEW or --shots auto|LIST")
     return render.render(cat, scene, a.view, a.focus, a.res, a.out, a.span, a.bearing, a.cut,
-                         a.samples, a.highlight)
+                         a.samples, a.highlight, night=a.night)
 
 
 def cmd_export(a, scene, cat):
@@ -755,14 +895,41 @@ def cmd_compile(a, scene, cat):
     return compile_scene(scene, src)
 
 
-def compile_scene(scene, src: Path, keep: Path | None = None) -> dict:
+RING_KIND = "ring"
+
+
+def load_ring(scene, settlement: dict) -> list[str]:
+    """16k r8 rule 5: the compiled dressing ring as scene pieces (role kind
+    ``ring``, uid ``ring:<placement id past the place id>``) at the compile's
+    pose, replacing any ring an earlier apply loaded. `check` and walkRule
+    judge them; `export` never writes them back (the compile lays the ring)."""
+    for q in [q for q in scene.pieces if (q.role or {}).get("kind") == RING_KIND]:
+        scene.remove(q.uid)
+    bp_id, added = settlement["id"], []
+    for pl in sorted(settlement.get("placements") or [], key=lambda p: p["id"]):
+        if pl.get("objectKind") != "dressing":
+            continue
+        x, y, z = (float(v) for v in pl["positionM"])
+        p = scene.add(Piece(uid=f"ring:{pl['id'].removeprefix(bp_id + '.')}", asset=pl["assetId"],
+                            x=x, z=z, yaw=float(pl.get("yawDeg", 0.0)) % 360.0, y=y,
+                            scale=float(pl.get("scale", 1.0)), settledBy="ring",
+                            role={"kind": RING_KIND, "placementId": pl["id"],
+                                  "parcel": pl.get("parcelId")}))
+        added.append(p.uid)
+    return added
+
+
+def compile_scene(scene, src: Path, keep: Path | None = None,
+                  keep_out: Path | None = None) -> dict:
     """Export into a temporary copy of the blueprint, run the settlement-build
     derive passes on it (twice: they feed each other) and `compile_settlement`,
     and return its errors and warnings, each with the scene pieces bound to
     the parcels, landmarks and routes it names. `check` measures contacts;
     this is the compile's verdict on the same poses, so the two never
     disagree. `keep`: where to leave the derived copy (the plan render reads
-    it after `apply`)."""
+    it after `apply`); `keep_out`: the directory the compiled settlement is
+    written to and left in (``settlement`` in the result; 16k r8 rule 5:
+    `apply` loads its ring), else a temporary one."""
     import re
     import shutil
     import subprocess
@@ -786,7 +953,13 @@ def compile_scene(scene, src: Path, keep: Path | None = None) -> dict:
         if keep is not None:
             keep.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(bp, keep)
-        got = run("worldgen.compile_settlement", "--blueprint", str(bp), "--out", str(tmp))
+        out_dir = tmp if keep_out is None else keep_out
+        out_dir.mkdir(parents=True, exist_ok=True)
+        for stale in out_dir.glob("*.settlement.json"):
+            stale.unlink()                  # never a ring from an earlier compile
+        got = run("worldgen.compile_settlement", "--blueprint", str(bp), "--out", str(out_dir))
+        compiled = sorted(out_dir.glob("*.settlement.json"))
+        settlement = str(compiled[0]) if keep_out is not None and compiled else None
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     ids = {}
@@ -812,36 +985,54 @@ def compile_scene(scene, src: Path, keep: Path | None = None) -> dict:
         elif not msg.startswith("promise ledger"):
             errors.append({"msg": msg, "uids": uids})
     return {"blueprint": str(src), "exitCode": got.returncode, "summary": summary,
-            "errors": errors, "warnings": warnings, "fixtureWaived": len(waived)}
+            "errors": errors, "warnings": warnings, "fixtureWaived": len(waived),
+            "settlement": settlement}
 
 
 def cmd_walktable(a, scene, cat):
     """The owner-walk table for one place, read from the PUBLISHED bundle
-    (settlement-build step 8: every item, every time)."""
-    from workbench import paths
+    (every item, every time), with a `measured` column: the 0102 rule
+    numbers per item from the place's last `apply` (output/apply/<place>.json)."""
+    from workbench import paths, rules
     import os
     bundle = json.loads((paths.PROVINCE / "settlements.json").read_text())
     site = next(s for s in bundle["settlements"] if s["id"] == a.place)
     ids = set(site["placementIds"])
+    summary_path = paths.OUTPUT / "apply" / f"{a.place}.json"
+    cells, applied = {}, None
+    if summary_path.exists():
+        summary = json.loads(summary_path.read_text())
+        full = (summary.get("check") or {}).get("full") or {}
+        cells = rules.measured(full)
+        applied = Scene.load(Path(summary["scene"])) if summary.get("scene") else None
     base = os.environ.get("ES_TUNNEL_URL", "<ES_TUNNEL_URL>")
     url = lambda e, s: f"{base}?view=character&x={e:.3f}&z={s:.3f}&t=12"
     xs = [p[0] for p in site["boundaryM"]]
     zs = [p[1] for p in site["boundaryM"]]
     rows = [("place centre (boundary box)", (min(xs) + max(xs)) / 2000,
-             (min(zs) + max(zs)) / 2000, "anchor", "-", "-")]
+             (min(zs) + max(zs)) / 2000, "anchor", "-", "-", "-")]
+    by_parcel = {}
+    if applied is not None:
+        by_parcel = {(p.role or {}).get("id"): p.uid for p in applied.pieces
+                     if (p.role or {}).get("kind") == "parcel"}
     for p in sorted((p for p in bundle["placements"] if p["id"] in ids), key=lambda p: p["id"]):
+        uid = rules.bundle_uid(applied, p["id"], site["id"]) if applied is not None else None
         rows.append((p["id"].removeprefix(site["id"] + "."), p["positionM"][0] / 1000,
                      p["positionM"][2] / 1000, p["kind"], p["assetId"].rsplit("/", 1)[-1],
-                     (p.get("anchor") or {}).get("groundFit", "-")))
+                     (p.get("anchor") or {}).get("groundFit", "-"), cells.get(uid, "-")))
     for d in sorted((d for d in bundle["doors"] if d["settlementId"] == site["id"]),
                     key=lambda d: d["id"]):
+        uid = by_parcel.get(d["parcelId"])
+        walk = next((c for c in cells.get(uid, "").split("; ") if c.startswith("walk")), "-")
         rows.append((d["id"] + " threshold", d["thresholdM"][0] / 1000, d["thresholdM"][1] / 1000,
-                     "door", d["parcelId"].rsplit(".", 1)[-1], f"facing {d['facingDeg']:.1f}"))
-    table = ["item | E km | S km | kind | piece | fit | studio URL"]
-    table += [f"{r[0]} | {r[1]:.3f} | {r[2]:.3f} | {r[3]} | {r[4]} | {r[5]} | {url(r[1], r[2])}"
-              for r in rows]
+                     "door", d["parcelId"].rsplit(".", 1)[-1], f"facing {d['facingDeg']:.1f}", walk))
+    table = ["item | E km | S km | kind | piece | fit | measured | studio URL"]
+    table += [f"{r[0]} | {r[1]:.3f} | {r[2]:.3f} | {r[3]} | {r[4]} | {r[5]} | {r[6]} | "
+              f"{url(r[1], r[2])}" for r in rows]
     print("\n".join(table))
-    return {"place": a.place, "placements": len(ids), "rows": len(rows)}
+    return {"place": a.place, "placements": len(ids), "rows": len(rows),
+            "measuredFrom": str(summary_path) if applied is not None else
+            f"no apply summary at {summary_path}: run `wb.py apply` first"}
 
 
 def cmd_describe(a, scene, cat):
@@ -869,13 +1060,19 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--km", action="store_true")
     s.add_argument("--yaw", type=float, default=0.0)
     s.add_argument("--y", type=float, default=None)
-    s.add_argument("--scale", type=float, default=1.0)
+    s.add_argument("--scale", type=float, default=None,
+                   help="default: the manifest's placed scale (cat.placed_scale)")
     s.add_argument("--settle", action="store_true")
     s.add_argument("--pad", nargs="*", default=None, metavar="KEY=VALUE",
                    help="declare a building pad (0101): apronM, datumM, floorMinM")
     s.add_argument("--beached", action="store_true",
                    help="a hull or cleat drawn up on the bank (R5): judged on its base "
                         "contact, bank slope and reach to the water line, not 97 B3")
+    s.add_argument("--walkable", action="store_true",
+                   help="a walkable deck (ramp, stair, boardwalk, bridge): walkRule walks its "
+                        "top instead of routing round it (0102)")
+    s.add_argument("--ruin", action="store_true",
+                   help="allow a ruin-only piece (manifest placeUse, placement-policies)")
     s = sub.add_parser("move")
     s.add_argument("uid")
     for k in ("dx", "dz", "dy", "forward", "right", "turn"):
@@ -932,6 +1129,12 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("parent")
     s.add_argument("--along", type=float, default=None)
     s.add_argument("--point", type=int, default=0)
+    s.add_argument("--unmined", default=None, metavar="reader-approved rN",
+                   help="0102 decision 5: mount a child under 0.6 m on a parent with no mined "
+                        "pair, naming the render round that approved it")
+    s.add_argument("--yaw", type=float, default=None,
+                   help="world yaw for a pair recorded yawBy: designer (a road board: height "
+                        "and face mined, the bearing is the road's)")
     s = sub.add_parser("measure")
     s.add_argument("a")
     s.add_argument("b")
@@ -971,6 +1174,9 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--bearing", type=float, default=None)
     s.add_argument("--cut", type=float, default=0.0)
     s.add_argument("--samples", type=int, default=12)
+    s.add_argument("--night", action="store_true",
+                   help="dark sky, a warm light at every light-layer piece (single view; "
+                        "in --shots, end a token in @night)")
     s.add_argument("--out", default=None)
     s = sub.add_parser("export")
     s.add_argument("blueprint")
@@ -1068,7 +1274,7 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
     scene = Scene(path=spath, placeId=place_id,
                   layout={"path": layout.repo_path(layout_path),
                           "sha256": summary["layoutSha256"]})
-    cat = Catalogue()
+    cat = place_catalogue(place_id)
     ap = parser()
     cx, cz = window["centreKm"][0] * 1000, window["centreKm"][1] * 1000
     half = float(window["halfM"])
@@ -1096,24 +1302,40 @@ def apply_layout(layout_path: Path, scene_name: str | None = None, compile_: boo
         ops.append({"index": i, "op": ns.cmd, "uid": op.get("uid") or op.get("child")
                     or op.get("id") or op.get("name"), "s": round(time.time() - t1, 3),
                     "warnings": layout._warnings(out)})
+    if failed is None:
+        t1 = time.time()
+        moves = reseat_after_pads(cat, scene)
+        summary["reseat"] = {"moved": len(moves), "maxAbsDyM": round(max(
+            (abs(m["dyM"]) for m in moves), default=0.0), 4), "s": round(time.time() - t1, 2),
+            "moves": moves}
     scene.save()
     summary.update({"opsRun": len(ops), "opsTotal": len(doc["ops"]), "ops": ops,
                     "failed": failed})
     if failed is None:
+        # 16k r8 rule 5: compile first, then the compiled ring joins the scene
+        # so check and walkRule judge it with everything else
+        src = wbpaths.BLUEPRINTS / f"{place_id}.json"
+        if compile_ and src.exists():
+            t1 = time.time()
+            got = compile_scene(scene, src, keep=derived,
+                                keep_out=wbpaths.OUTPUT / "apply" / f"{place_id}.compiled")
+            got["s"] = round(time.time() - t1, 2)
+            summary["compile"] = got
+            if got.get("settlement"):
+                ring = load_ring(scene, json.loads(Path(got["settlement"]).read_text()))
+                summary["ring"] = {"pieces": len(ring), "settlement": got["settlement"]}
+                scene.save()
+            else:
+                summary["ring"] = {"skipped": "the compile wrote no settlement "
+                                              f"({got.get('stage') or 'exit ' + str(got.get('exitCode'))})"}
+        elif compile_:
+            summary["compile"] = {"skipped": f"no blueprint {src}"}
         t1 = time.time()
         check = cmd_check(None, scene, cat)
         summary["check"] = {"failures": layout.check_failures(check),
                             "pieces": len(check["pieces"]), "nearPairs": len(check["nearPairs"]),
                             "doors": len(check["doors"]), "s": round(time.time() - t1, 2),
                             "full": check}
-        src = wbpaths.BLUEPRINTS / f"{place_id}.json"
-        if compile_ and src.exists():
-            t1 = time.time()
-            got = compile_scene(scene, src, keep=derived)
-            got["s"] = round(time.time() - t1, 2)
-            summary["compile"] = got
-        elif compile_:
-            summary["compile"] = {"skipped": f"no blueprint {src}"}
     summary["elapsedS"] = round(time.time() - t0, 2)
     out = wbpaths.OUTPUT / "apply" / f"{place_id}.json"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -1140,7 +1362,8 @@ def digest(summary: dict) -> list[str]:
     c = summary.get("check")
     if c:
         lines.append(f"check: {c['pieces']} pieces, {c['nearPairs']} near pairs, {c['doors']} "
-                     f"doors; {len(c['failures'])} failures")
+                     f"doors; {len(c['failures'])} failures"
+                     + (f"; {len(c['full']['info'])} info" if (c.get("full") or {}).get("info") else ""))
         lines += [f"  {x}"[:200] for x in c["failures"][:5]]
     comp = summary.get("compile")
     if comp:
@@ -1178,7 +1401,7 @@ def main(argv=None) -> int:
     a = parser().parse_args(argv)
     t0 = time.time()
     scene = Scene.load(Path(a.scene)) if a.scene != "-" else None
-    cat = Catalogue()
+    cat = place_catalogue(scene.placeId if scene is not None else "")
     out = globals()[f"cmd_{a.cmd}"](a, scene, cat)
     if scene is not None and a.cmd not in READ_ONLY:
         scene.log.append(shlex.join(sys.argv[2:] if argv is None else argv[1:]))

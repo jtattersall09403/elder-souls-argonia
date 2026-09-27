@@ -22,7 +22,16 @@ A piece's `role` (set with `wb.py bind`) says where its pose goes:
   (`blueprint.assembly_failures`): `atM` in the shell's frame, `yaw` and
   `pitch` relative to it, `upM` above its pivot when hung `on: parent`,
   its `layer` and `evidence`. Roll and mirror are refused: the runtime
-  turns a piece by yaw and pitch only.
+  turns a piece by yaw and pitch only. A piece mounted by `mount` or a yard
+  set carries its `role.mountPair` as the member's own `mountPair` field
+  (`mount_pair`: kind, the piece it is mounted on, and the mined pair's n,
+  the yard set, or the unmined mount's approving render round), which the
+  compile copies into the placement row's provenance (0102 decision 5).
+
+`--write` also writes `walkRoutes` (`rules.walk_routes`: per walkRule
+target the route's polyline in metres, its length, steepest grade, largest
+step and deepest water; planner ruling 1, the walk grid is never written);
+the bundle export copies it onto the place (`walk_routes_field`).
 
 `--write` also records `authoredOn` (0100 decision 6): the sha256 of the
 ground window's source chunk files, of every kit manifest a piece comes
@@ -63,6 +72,14 @@ def _local(dx: float, dz: float, yaw_deg: float) -> list[float]:
             round(-dx * math.sin(t) + dz * math.cos(t), 4)]
 
 
+def _has_median(cat, asset: str) -> bool:
+    try:
+        value = cat.row(asset).get("placedScaleMedian")
+    except (KeyError, ValueError):
+        return False
+    return isinstance(value, (int, float)) and value > 0
+
+
 def poses(scene: Scene, extent: float) -> dict:
     """{'parcels': {id: fields}, 'landmarks': {id: fields}, 'routes': {id: fields}}."""
     out: dict[str, dict] = {"parcels": {}, "landmarks": {}, "routes": {}}
@@ -71,7 +88,8 @@ def poses(scene: Scene, extent: float) -> dict:
     cat = None                          # built once, on the first padded piece
     for p in scene.pieces:
         kind, rid = p.role.get("kind"), p.role.get("id")
-        if not kind:
+        if not kind or kind == "ring":
+            # a ring piece is the compile's own dressing (16k r8 rule 5)
             continue
         if p.roll or p.mirror:
             raise ValueError(f"{p.uid}: roll {p.roll} / mirror {p.mirror}: the runtime draws "
@@ -85,12 +103,14 @@ def poses(scene: Scene, extent: float) -> dict:
             raise ValueError(f"{p.uid}: pitch is exported only for assembly pieces")
         if kind == "parcel":
             fields = {"assetRef": p.asset, "centreUV": _uv(p.x, p.z, extent), "yawDeg": yaw}
-            if p.scale != 1.0:
+            if cat is None:
+                from .kits import Catalogue
+                cat = Catalogue()               # one catalogue for every parcel
+            if p.scale != 1.0 or _has_median(cat, p.asset):
+                # a manifest median is the default the compile would not know
+                # to take, so its scale is written whatever it is (16k r8)
                 fields["scale"] = p.scale
             if p.pad is not None:
-                if cat is None:
-                    from .kits import Catalogue
-                    cat = Catalogue()           # one catalogue for every padded piece
                 fields["pad"] = _pad_record(cat, scene, p)
             out["parcels"][rid] = fields
         elif kind == "landmark":
@@ -127,6 +147,9 @@ def poses(scene: Scene, extent: float) -> dict:
                    "atM": [round(v, 4) for v in rel["atM"]],
                    "yaw": round(rel["yaw"], 3), "on": q.role["on"],
                    "layer": q.role["layer"], "evidence": q.role["evidence"]}
+            pair = mount_pair(q.role)
+            if pair:
+                row["mountPair"] = pair
             if q.role["on"] == "parent":
                 if rel["upM"] is None:
                     raise ValueError(f"{q.uid}: a piece on its shell needs a height")
@@ -140,6 +163,24 @@ def poses(scene: Scene, extent: float) -> dict:
     for path in scene.paths:
         pts = [_uv(x, z, extent) for x, z in path["pointsM"]]
         out["routes"][path["id"]] = {"via": pts}     # points: street_router derives them
+    return out
+
+
+def mount_pair(role: dict) -> dict | None:
+    """A bound piece's mount as its assembly member's `mountPair` field
+    (blueprint.MOUNT_PAIR_KINDS): {kind, mountedOn, and n (a mined band or
+    points pair), yardSet (a mined yard-set member) or unmined (the render
+    round that approved an unmined mount, 'reader-approved rN')}; None when
+    the piece was not mounted."""
+    pair = role.get("mountPair")
+    if not pair:
+        return None
+    out = {"kind": pair["kind"]}
+    if role.get("mountedOn"):
+        out["mountedOn"] = role["mountedOn"]
+    for key in ("n", "yardSet", "unmined"):
+        if pair.get(key) is not None:
+            out[key] = pair[key]
     return out
 
 
@@ -158,6 +199,33 @@ def _pad_record(cat, scene: Scene, p) -> dict:
     if "floorMinM" in p.pad:
         rec["floorMinM"] = float(p.pad["floorMinM"])
     return rec
+
+
+def place_catalogue(place_id: str):
+    """The catalogue with the place's own culture kits first, the order
+    `check` and the compile resolve shared asset ids in (wb.place_catalogue)."""
+    from .kits import Catalogue
+    cat = Catalogue()
+    if place_id:
+        from . import paths as wbpaths
+        wbpaths.bridge()
+        from worldgen import compile_settlement as cs
+        cat.shelf.preferred_kits = cs.place_kit_preference(place_id)
+    return cat
+
+
+def tag_door_routes(walk_routes: dict, doors: list[dict]) -> dict:
+    """Name on each bound-door route the blueprint doors it reaches: every
+    door of the route's parcel, which `door_poses` stands at that bound
+    doorway. The compile's door-reach gate reads these ids (r4 review)."""
+    by_parcel: dict[str, list[str]] = {}
+    for d in doors:
+        by_parcel.setdefault(d.get("parcelId"), []).append(d["id"])
+    for route in (walk_routes.get("routes") or {}).values():
+        ids = by_parcel.get(route.get("parcelId"))
+        if ids:
+            route["doorIds"] = sorted(ids)
+    return walk_routes
 
 
 def door_poses(scene: Scene, extent: float) -> dict[str, dict]:
@@ -249,7 +317,12 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
             door.update(fields)
             changed.append(door["id"])
     if write:
+        from . import rules
+        from .kits import Catalogue
         bp["authoredOn"] = authored_on(scene)
+        bp.pop("walkGraph", None)               # the grid is never written (ruling 1)
+        bp["walkRoutes"] = tag_door_routes(rules.walk_routes(place_catalogue(scene.placeId), scene),
+                                           bp.get("doors", []) or [])
         # the settlement passes' own writer convention (blueprint_footprints)
         blueprint.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
     return {"blueprint": str(blueprint), "written": write, "changed": changed,

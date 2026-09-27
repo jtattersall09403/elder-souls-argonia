@@ -35,12 +35,8 @@ def _mm():
 
 def samples(mesh) -> tuple[np.ndarray, np.ndarray]:
     """(points, outward normals) in the kit frame: seeded surface samples and
-    every vertex (vertex normals)."""
-    import trimesh
-    pts, faces = trimesh.sample.sample_surface(mesh, SURFACE_SAMPLES, seed=0)
-    verts = np.asarray(mesh.vertices)
-    return (np.vstack([np.asarray(pts), verts]),
-            np.vstack([np.asarray(mesh.face_normals[faces]), np.asarray(mesh.vertex_normals)]))
+    every vertex (vertex normals); `worldgen.slide_penetration.samples`."""
+    return _sp().samples(mesh, SURFACE_SAMPLES)
 
 
 def _transform4(piece: Piece) -> np.ndarray:
@@ -80,49 +76,24 @@ def _one_way(cat: Catalogue, a: Piece, b: Piece) -> dict:
     return out
 
 
-def _separation(manager, a: Piece, direction) -> float | None:
-    """How far A slides along `direction` before its triangles stop crossing
-    B's (bisection to 1 mm); None past PENETRATION_REACH_M."""
-    base = _transform4(a)
-
-    def crossing(t: float) -> bool:
-        m = base.copy()
-        m[:3, 3] = base[:3, 3] + direction * t
-        manager.set_transform("a", m)
-        return bool(manager.in_collision_internal())
-
-    if crossing(PENETRATION_REACH_M):
-        return None
-    lo, hi = 0.0, PENETRATION_REACH_M
-    while hi - lo > 1e-3:
-        mid = (lo + hi) / 2
-        lo, hi = (mid, hi) if crossing(mid) else (lo, mid)
-    manager.set_transform("a", base)
-    return hi
-
-
 def _min_separation(manager, a: Piece, b: Piece, ab_: dict, ba_: dict):
     """The smallest slide that clears the crossing, over the candidate
     directions (B's contact normal and the reverse of A's, the horizontal
     line between the pivots, and up), both ways each: the same answer
     whichever piece is named first. (metres, direction label) or (None,
-    None) past PENETRATION_REACH_M on every direction."""
-    candidates = {}
-    if ab_["normalOfB"] is not None:
-        candidates["normal"] = ab_["normalOfB"]
-    if ba_["normalOfB"] is not None:
-        candidates["normal-of-a"] = -ba_["normalOfB"]
-    d = np.array([a.x - b.x, -(a.z - b.z), 0.0])
-    if np.linalg.norm(d) > 1e-6:
-        candidates["pivots"] = d / np.linalg.norm(d)
-    candidates["up"] = np.array([0.0, 0.0, 1.0])
-    best = (None, None)
-    for name, direction in candidates.items():
-        for sign, label in ((1.0, name), (-1.0, f"-{name}")):
-            got = _separation(manager, a, sign * direction)
-            if got is not None and (best[0] is None or got < best[0]):
-                best = (got, label)
-    return best
+    None) past PENETRATION_REACH_M on every direction. The metric lives in
+    `worldgen.slide_penetration`, shared with the abuts miner's run-joint
+    bars (16k fix 2 round 6 ruling K3)."""
+    sp = _sp()
+    ta, tb = _transform4(a), _transform4(b)
+    return sp.min_separation(manager, ta, sp.candidate_directions(
+        ta, tb, ab_["normalOfB"], ba_["normalOfB"]), PENETRATION_REACH_M)
+
+
+def _sp():
+    paths.bridge()
+    from worldgen import slide_penetration
+    return slide_penetration
 
 
 def contact(cat: Catalogue, a: Piece, b: Piece) -> dict:
@@ -233,18 +204,23 @@ def ground_report(cat: Catalogue, ground, piece: Piece) -> dict:
 def float_under(cat: Catalogue, ground, piece: Piece) -> dict:
     """How far the piece's own foot band (the miner's `footprint` origins:
     foot-band vertices, CONTACT_M above the lowest point) stands over the
-    streamed terrain. Positive float = air under the foot; negative = buried."""
+    streamed terrain. Positive float = air under the foot; negative = buried;
+    `groundRiseM` the ground's highest minus lowest height under the foot."""
     mm = _mm()
     mesh = cat.mesh(piece.asset)
     verts = np.asarray(mesh.vertices)
     foot = mm.footprint(verts)
     foot[:, 2] -= mm.CONTACT_M
     world = piece.world_points(foot)
-    diffs = np.array([p[2] - ground.chunk_height(p[0], -p[1]) for p in world])
+    under = np.array([ground.chunk_height(p[0], -p[1]) for p in world])
+    diffs = world[:, 2] - under
     return {"footFloatMaxM": round(float(diffs.max()), 4),
             "footFloatMinM": round(float(diffs.min()), 4),
             "footFloatMeanM": round(float(diffs.mean()), 4),
-            "footSamples": int(len(diffs))}
+            "footSamples": int(len(diffs)),
+            # the ground's rise under the foot: highest minus lowest ground
+            # height at the foot samples (propSeatRule's burial allowance)
+            "groundRiseM": round(float(under.max() - under.min()), 4)}
 
 
 FACING_TOLERANCE_DEG = 15.0

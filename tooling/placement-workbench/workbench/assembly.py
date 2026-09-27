@@ -55,13 +55,24 @@ def mined_mount_pairs(path: Path = MOUNTS_RECORD) -> set[tuple[str, str]]:
     return {(p["child"], p["parent"]) for p in json.loads(path.read_text())["pairs"]}
 
 
-def unmined_mounts(st: dict, pairs: set[tuple[str, str]]) -> list[str]:
+def unmined_mounts(st: dict, pairs: set[tuple[str, str]], cat=None) -> list[str]:
     """The members of yard set ``st`` whose `mount` names no mined
     child-on-parent pair (planner ruling 5, 2026-09-26: no height shortcut;
-    a piece stands on the ground, on a post piece, or on a mined mount)."""
+    a piece stands on the ground, on a post piece, or on a mined mount),
+    unless the member carries `"unmined": "reader-approved rN"` and passes
+    the small-mount bar (`snap.unmined_refusal`, 0102 decision 5 as amended;
+    the bar is judged when ``cat`` is given, else the member is refused)."""
+    from .snap import unmined_refusal
     piece = {m["uid"]: m["piece"] for m in st["members"]}
-    return [m["uid"] for m in st["members"] if "mount" in m
-            and (m["piece"], piece.get(m["mount"].get("on"))) not in pairs]
+    out = []
+    for m in st["members"]:
+        if "mount" not in m or (m["piece"], piece.get(m["mount"].get("on"))) in pairs:
+            continue
+        if "unmined" in m and cat is not None and \
+                unmined_refusal(cat, m["piece"], 1.0, m["unmined"]) is None:
+            continue
+        out.append(m["uid"])
+    return out
 
 
 def yard_sets() -> dict[str, dict]:
@@ -69,14 +80,19 @@ def yard_sets() -> dict[str, dict]:
     on a pair the plugins never mount is refused."""
     out = {}
     pairs = mined_mount_pairs()
+    cat = None                  # built once, only when a set carries an unmined member
     for f in sorted(YARD_SETS.glob("*.json")):
         for st in json.loads(f.read_text())["sets"]:
             if st["id"] in out:
                 raise ValueError(f"yard set {st['id']!r} is defined twice ({f.name})")
-            bad = unmined_mounts(st, pairs)
+            if cat is None and any("unmined" in m for m in st["members"]):
+                cat = Catalogue()
+            bad = unmined_mounts(st, pairs, cat)
             if bad:
                 raise ValueError(f"yard set {st['id']!r}: {bad} mount on no mined pair "
-                                 f"({MOUNTS_RECORD.name}); stand them on the ground or a post piece")
+                                 f"({MOUNTS_RECORD.name}) and carry no approved small unmined "
+                                 f"mount (\"unmined\": \"reader-approved rN\", plan side < 0.6 m, "
+                                 f"height < 1.0 m); stand them on the ground or a post piece")
             out[st["id"]] = st
     return out
 
@@ -98,21 +114,51 @@ def load_group(name: str) -> dict:
     members = []
     for m in st["members"]:
         mount = m.get("mount")
+        role = {"on": "ground"}
+        if mount:
+            # the mount's evidence travels with the piece to the export (0102)
+            role = {"mountPair": {"kind": "unmined", "unmined": m["unmined"]} if "unmined" in m
+                    else {"kind": "mined", "yardSet": st["id"]}}
         members.append({"uid": m["uid"], "asset": m["piece"], "atM": m["offsetM"],
                         "yaw": m["yaw"], "upM": mount["upM"] if mount else None,
                         "scale": 1.0, "pitch": 0.0, "roll": 0.0, "mirror": False,
-                        "role": None if mount else {"on": "ground"}, "settledBy": None,
+                        "role": role, "settledBy": None,
                         "mountOn": mount["on"] if mount else None})
     return {"schemaVersion": 1, "name": name, "anchor": {"uid": st["anchor"]},
             "members": members}
 
 
+def group_sockets(name: str, prefix: str, cat=None) -> list[dict]:
+    """The socket ops a tracked yard set yields when placed with `prefix`
+    (decision 0103 decision 6): its container members a `container` socket
+    (class from the name family, the member's `fillRule` else the class
+    default), its furniture members with an activity family an `idle`
+    socket. One rule, `worldgen.sockets.yard_set_sockets`, which the compile
+    also runs over the layout's `group place` ops; a saved prefab yields none."""
+    st = yard_sets().get(name)
+    if st is None:
+        return []
+    paths.bridge()
+    from worldgen import sockets as sk
+    cat = Catalogue() if cat is None else cat
+
+    def category_of(asset: str) -> str | None:
+        try:
+            return cat.row(asset).get("category")
+        except (KeyError, ValueError):
+            return None
+    return sk.yard_set_sockets(st, prefix, category_of, sk.load_vocabulary())
+
+
 def place_group(scene: Scene, name: str, at, yaw: float, prefix: str,
-                parcel: str | None) -> list[Piece]:
+                parcel: str | None, cat=None) -> list[Piece]:
     """Recreate a saved group with its anchor at `at`, turned to `yaw`;
     members keep their pose relative to the anchor (heights relative to the
-    anchor's; settle the anchor first, then the ground members)."""
+    anchor's; settle the anchor first, then the ground members). A yard-set
+    member that yields a socket carries it on its role (`socket`), so the
+    scene shows what the compile will make of it."""
     group = load_group(name)
+    yielded = {op["host"]: op for op in group_sockets(name, prefix, cat)}
     anchor_row = next(m for m in group["members"] if m["uid"] == group["anchor"]["uid"])
     made = []
     for m in group["members"]:
@@ -121,6 +167,11 @@ def place_group(scene: Scene, name: str, at, yaw: float, prefix: str,
         role = dict(m["role"] or {})
         if parcel and role.get("kind") in ("parcel", "assembly"):
             role["id"] = parcel
+        if m.get("mountOn") and "mountPair" in role:
+            role["mountedOn"] = prefix + m["mountOn"]
+        if prefix + m["uid"] in yielded:
+            role["socket"] = {k: v for k, v in yielded[prefix + m["uid"]].items()
+                              if k not in ("op", "host")}
         p = Piece(uid=prefix + m["uid"], asset=m["asset"], x=x, z=z, yaw=yaw_m,
                   y=None, scale=m["scale"], role=role, pitch=m["pitch"], roll=m["roll"],
                   mirror=m["mirror"], settledBy=f"group:{name}")
@@ -141,8 +192,12 @@ def lift_group(scene: Scene, name: str, prefix: str) -> None:
         if m["uid"] == anchor_uid or m["upM"] is None or (m["role"] or {}).get("on") == "ground":
             continue
         base = scene.piece(prefix + (m.get("mountOn") or anchor_uid))
+        member = scene.piece(prefix + m["uid"])
+        # the host this height is measured from, so a later reseat of the
+        # host carries the member with it (scene.hung_on; r4 review)
+        member.role = {**(member.role or {}), "liftedOn": base.uid}
         if base.y is not None:
-            scene.piece(prefix + m["uid"]).y = base.y + m["upM"]
+            member.y = base.y + m["upM"]
 
 
 def swap(cat: Catalogue, piece: Piece, asset: str, keep: str = "base") -> dict:
