@@ -1224,10 +1224,10 @@ def compile_scene(scene, src: Path, keep: Path | None = None,
                    [sys.executable, "-m", *args], cwd=wbpaths.WORLDGEN, capture_output=True,
                    text=True))
         for _ in range(2 if entry is None else 0):
-            for args in (("worldgen.rederive_terminals", "--apply", str(bp)),
-                         ("worldgen.street_router", "--apply", str(bp)),
-                         ("worldgen.blueprint_footprints", "--apply", str(bp)),
-                         ("worldgen.blueprint_footprints", "--areas", "--doors", str(bp))):
+            # the passes `export` prints as `next`, one list (export.PASSES)
+            from workbench import export as export_mod
+            for args in (tuple(str(bp) if a == "<bp>" else a for a in step)
+                         for step in export_mod.PASSES):
                 got = run(*args)
                 if got.returncode:
                     failed = {"stage": args[0], "failed": (got.stdout + got.stderr)[-2000:]}

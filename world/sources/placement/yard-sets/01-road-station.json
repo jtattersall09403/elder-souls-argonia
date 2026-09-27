@@ -126,17 +126,8 @@
   },
   {
    "id": "argonian-landing",
-   "anchor": "al-rack1",
+   "anchor": "al-basket2",
    "members": [
-    {
-     "uid": "al-rack1",
-     "piece": "vanilla:clutter/deadanimals/fishrack01",
-     "offsetM": [
-      0.0,
-      0.0
-     ],
-     "yaw": 0.0
-    },
     {
      "uid": "al-rack2",
      "piece": "mudmother:gv_meshes/argoniannest/fishracksmall",

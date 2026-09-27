@@ -210,7 +210,28 @@ def _landing_scan(cat, scene):
     return spec, ctx, scan.local_ground(cat, scene, spec), fit
 
 
-def test_a_group_scan_judges_each_members_ground_delta(scene, cat):
+WALK2_RACK = {"uid": "al-rack1", "piece": "vanilla:clutter/deadanimals/fishrack01",
+              "offsetM": [0.0, 0.0], "yaw": 0.0}
+
+
+@pytest.fixture
+def walk2_landing_set(monkeypatch):
+    """The argonian-landing set as walk 2 laid it (al-rack1 its anchor at the
+    origin); the rack left the tracked set in the residual round (ruling 1)."""
+    from workbench import assembly
+    live = assembly.yard_sets
+
+    def frozen():
+        out = dict(live())
+        st = dict(out["argonian-landing"])
+        st["anchor"] = "al-rack1"
+        st["members"] = [WALK2_RACK] + [m for m in st["members"] if m["uid"] != "al-rack1"]
+        out["argonian-landing"] = st
+        return out
+    monkeypatch.setattr(assembly, "yard_sets", frozen)
+
+
+def test_a_group_scan_judges_each_members_ground_delta(scene, cat, walk2_landing_set):
     """A group candidate is judged member by member on the single-piece
     scan's deltaRule (survey delta vs the member's groundFit max). At
     (320, 3006) yaw 40 al-rack1 ('direct', max 0.15 m) stands on a 0.43 m

@@ -440,6 +440,20 @@
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
   },
+  "kotm:argonia/mudhuts/manorint": {
+   "category": "misc",
+   "entrance": null,
+   "entranceWhy": "interior modules have no exterior doorway",
+   "front": {
+    "deg": 168.3,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 168\u00b0 in the piece's own frame carries 3.07x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
+   "interior": "none",
+   "provenance": [],
+   "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"
+  },
   "kotm:argonia/mudhuts/mudhutintfloor01": {
    "category": "misc",
    "entrance": null,
@@ -486,7 +500,12 @@
    "category": "misc",
    "entrance": null,
    "entranceWhy": "interior modules have no exterior doorway",
-   "front": null,
+   "front": {
+    "deg": 75.6,
+    "evidence": "asymmetry",
+    "outside": true,
+    "why": "the band at 76\u00b0 in the piece's own frame carries 2.09x the triangle density of a median band \u2014 the detailed face, which is the show side"
+   },
    "interior": "none",
    "provenance": [],
    "why": "interior-kotm-v1 is an interior kit \u2014 these modules ARE the inside"

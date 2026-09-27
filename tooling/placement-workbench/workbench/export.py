@@ -311,13 +311,15 @@ def authored_on(scene: Scene) -> dict:
             "layout": scene.layout}
 
 
-NEXT_STEPS = ("worldgen.blueprint_footprints --apply <bp>",
-              "worldgen.street_router --apply <bp>",
-              "worldgen.blueprint_footprints --areas --doors <bp>",
-              "worldgen.blueprint --check")
-"""The settlement passes `export` names as `next`, in order: the router
-redraws the ways the district areas derive from, so it runs before the
+PASSES = (("worldgen.rederive_terminals", "--apply", "<bp>"),
+          ("worldgen.street_router", "--apply", "<bp>"),
+          ("worldgen.blueprint_footprints", "--apply", "<bp>"),
+          ("worldgen.blueprint_footprints", "--areas", "--doors", "<bp>"))
+"""The settlement passes after `export`, in order: THE one list `export`
+prints as `next` and `wb.compile_scene` runs (Claywater residual rec 4). The
+router redraws the ways the district areas derive from, so it runs before the
 `--areas` step (lessons L-cw-c)."""
+NEXT_STEPS = tuple(" ".join(a) for a in PASSES) + ("worldgen.blueprint --check",)
 
 
 def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:

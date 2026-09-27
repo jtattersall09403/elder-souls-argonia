@@ -310,3 +310,5 @@ def test_export_names_the_router_before_the_district_areas():
     assert steps.index("worldgen.street_router --apply") \
         < steps.index("worldgen.blueprint_footprints --areas --doors")
     assert steps[-1] == "worldgen.blueprint --check"
+    # one list: compile_scene runs exactly the passes `next` prints
+    assert [" ".join(a) for a in export.PASSES] == list(export.NEXT_STEPS[:-1])

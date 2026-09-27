@@ -57,6 +57,14 @@
     "ccBGSSSE037-Curios.esl:00000D6C": {
       "class": "clutter",
       "source": "UESP Skyrim:Ingredients, Rare Curios: Bog Beacon FExxxD6C"
+    },
+    "ccBGSSSE037-Curios.esl:00000818": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Redwort_Flower (Rare Curios ingredient): Redwort Flower FExxx818"
+    },
+    "ccBGSSSE025-AdvDSGS.esm:00000BC6": {
+      "class": "clutter",
+      "source": "UESP Skyrim:Amber (Saints & Seducers smithing material): Amber xx000BC6"
     }
   }
 }

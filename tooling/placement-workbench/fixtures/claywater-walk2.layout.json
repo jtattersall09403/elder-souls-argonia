@@ -290,6 +290,17 @@
    "yaw": 20.0
   },
   {
+   "op": "place",
+   "uid": "al-rack1",
+   "asset": "vanilla:clutter/deadanimals/fishrack01",
+   "at": [
+    321.0,
+    3008.0
+   ],
+   "yaw": 20.0,
+   "settle": true
+  },
+  {
    "op": "group",
    "action": "place",
    "name": "argonian-hut-yard",

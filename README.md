@@ -229,7 +229,9 @@ asset registry.
   stilt walkways, walkway stairs and jetty platforms behind the
   `settlement-stilt-v1` kit (the jetty platforms are Black Marsh &
   Valenwood's Dagon Fel dock meshes re-pathed, textured from that mod's
-  archive), and its plugin's placement
+  archive), the interior shells (among them `argonia/mudhuts/manorint`),
+  furnishings and clutter of its Keeba house cells behind the
+  `interior-kotm-v1` kit, and its plugin's placement
   of the Morrowind Imperial Keep Set, read as statistics to learn how the
   set's walls join. Archive
   `King of the Murkmire - Main 190459 1.0.2 2026-09-11T09-42Z cE8hkAoxS.7z`,
