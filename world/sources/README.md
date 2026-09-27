@@ -43,6 +43,13 @@ the vault; the browser preview raster is committed at
   every `faction.*` / `deed.*` / `rumour.*` / `registerRef` id the place
   catalogue names actually exists (decision 0044). Creature/NPC/item files are
   deliberate placeholders for the Phase 13 registers.
+- [vocab/socket-vocabulary.json](vocab/socket-vocabulary.json) — the
+  vocabulary of place sockets (decision 0103): socket kinds, item classes
+  with their vanilla asset source and value band, container classes, fill
+  rules, day phases, schedule purposes and activities. `worldgen/sockets.py`
+  refuses a socket whose kind, class, fill rule, day phase, purpose or
+  activity is not listed here; game-core `settlement/sockets.ts` holds the
+  same kinds.
 - [demographics/population-priors.json](demographics/population-priors.json) —
   community demographic priors by zone (plan §82).
 

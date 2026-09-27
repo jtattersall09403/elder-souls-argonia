@@ -46,11 +46,11 @@
    "source": "Skyrim - Meshes.bsa (owner's copy of the game)",
    "credit": "Skyrim vanilla assets (Bethesda)",
    "meshesSeen": 17216,
-   "registered": 15045,
+   "registered": 15048,
    "skippedNonContent": {
     "lod": 840,
     "marker": 284,
-    "effect": 873,
+    "effect": 870,
     "sky": 154,
     "water": 20
    },
@@ -68,8 +68,8 @@
     "terrain-feature": 98,
     "trap": 91,
     "container": 89,
+    "effect": 71,
     "rock": 71,
-    "effect": 68,
     "tree": 47,
     "ice": 46,
     "deadfall": 39,
@@ -84,8 +84,8 @@
     "light": 1
    },
    "withLodVariant": 52,
-   "withDimensions": 8685,
-   "observedPlaced": 696
+   "withDimensions": 8688,
+   "observedPlaced": 699
   },
   "tropical": {
    "label": "Tropical Skyrim \u2014 A Climate Overhaul",

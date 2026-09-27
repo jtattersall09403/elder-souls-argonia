@@ -197,27 +197,37 @@ over the catalogue (374 records today), failing first on Claywater.
 
 | Thing | Purpose (who, what trade, which promise) | Kit piece (measured, inputs § c) | Rule or lore pointer |
 |---|---|---|---|
-| **B1 Station house** | the well-keeper's house: lodging upstairs, the provisions counter at the door (rest-shelter, trade-access, `station.well-keeper`, the record's one S1 interior → `reserved`) | `composite:farmhouse/farmhouse01-with-door` 20.05×10.04, door w0.89/h2.0 | 97 F imperial frontage to the street; L07 door ≤ 4 m from its way; L21 |
+| **B1 Station house** | the well-keeper's house: lodging upstairs, the provisions counter at the door (rest-shelter, trade-access, `station.well-keeper`); door tier A onto DawnstarBrinasHouse | `composite:farmhouse/farmhouse01-with-door` at yaw 212, door facing 59° | 97 F imperial frontage to the street; L07 door ≤ 4 m from its way; 0103 |
 | **W The well** | the water point and the reason for the place; the cracked head is `evidence.the-cracked-well`; the well-keeper's station stands here | `vanilla:dungeons/mines/clutter/genericwell01` 4.6×4.6 | 97 F imperial: the well at the first junction off the road; record `why` |
-| **B2 Stable barn** | the stable the type recipe names; horses and the handcart; no door → interior `none` | `vanilla:architecture/farmhouse/farmhouse02` 15.53×12.80 | type sheet; L19–L21; ground 37.4–38.8 m so it sits on a `settlement-pad` patch (item 13) |
-| **S1 Travellers' lean-to** | the covered stop beside the always-lit fire for the D2 road travellers (n2 few) | `vanilla:architecture/farmhouse/farmhouse01walkway` 15.13×3.64 | type recipe "a fire always lit"; drop it if the plan read finds it reads as a walkway, not a shelter |
-| **F1 Road fire** | the station fire, lit always, by the well and the lean-to | one of the vanilla woodfires (15 in the gate-row pool) | type recipe; R3 |
+| **B2 Stable barn** | the stable the type recipe names; horses and the handcart; door `reserved`, pool `stable` (no plugin furnishes an open stable) | `vanilla:architecture/farmhouse/farmhouse02` 15.53×12.80 on a pad | type sheet; L19–L21; 0103 |
+| **S1 Travellers' lean-to** | dropped: `farmhouse01walkway` is a walkway along a farmhouse wall, not a free-standing shelter. Its mined door (8 placements) opens into the house that it abuts. Its open side faces away from its path. No published kit carries an Imperial shelter piece. Road travellers sit on the bench by the brazier and pay for a bed in the station house | — | brief row: drop it if it reads as a walkway |
+| **F1 Road fire** | the station fire, always lit, by the well and the travellers' bench | one of the vanilla woodfires (15 in the gate-row pool) | type recipe; R3 |
 | **E1 Yard walls** | the Imperial yard: a stone wall along the road frontage with a gap at the well path, woven fence round the stable paddock (two enclosure kinds) | `composite:farmhouse/stonewall-run-5` / `-run-3`, `stonewallendl01/endr01`, `fencewoven01/02` | L16 Imperial fences yards; enclosure bar ≥ 1 |
 | **P1 Signpost** | "a lettered signpost" at the well junction, Gideon one way, Blackwood the other | the vanilla road-sign piece if any published kit carries it (check every kit manifest); if none, a **sourcing gap row** in the packet, no substitute | type recipe; CLAUDE.md no fakes |
-| **L1 Imperial lights** | a wall sconce at B1's door, a candle lantern on a post at the well, one at the lean-to | `impwallsconcecandle01`, `candlelanternwithcandle01` | item 22; light kinds bar |
-| **B4 Poler's hut** | the poler's home and the landing fee counter (LF83 counter 2); `station.poler` at the landing below it; door toward the ford path | `kotm:argonia/mudhuts/mudhut01` 10.08×13.28, door w1.87/h1.8 | 97 C1 founding reason (§ Site); L16 no fence |
-| **B5 Family hut** | the D1 family (n1 few); entrance to the common | `composite:mud/hut-with-entrance` 15.11×15.11 | L21 doors only where an entrance exists |
-| **B6 Store hut** | fish store and smokehouse for the landing; no doorway → interior `none` | `mudmother:gv_meshes/argoniannest/mudhut01` 5.93×6.47 | dressing vocabulary; L21 |
-| **PAD** | the three huts stand on `settlement-pad` patches; a mud pad's floor is the local high-water line (35.24 m east water, `floorMinM` 35.3), never a margin above it: the huts stand at the line and are replastered after the wet season (the record's vibe). B5 and B6 hold 35.8 m where their ground allows it; B4 takes 35.3 m (at 35.8 m its pad edges stand ≥ 0.74 m off the ground, over R1's 0.6 m for a kit with no retaining walls) | patch kind `settlement-pad` | L36 ground only through typed patches; 16c the map water is the high-water line |
+| **L1 Imperial lights** | a candle lantern on a barrel at each Imperial door (B1, B2), the brazier by the well on the `light` layer; B1's side-gable glow also faces its door (63° off) | `candlelanternwithcandle01` on `barrel02` (unmined small mount, shot in the render round), `impbrazier01` | 97 C16; 0102 decision 5; light kinds bar |
+| **B4 Poler's hut** | the poler's home and the landing fee counter (LF83 counter 2); `station.poler` at the landing below it; door toward the common path; tier A onto KeebaHouseFisher | `composite:mud/kotm-house-pod` (the King of the Murkmire pod with its porch as the plugin places it), ground ring 12.1 × 11.4 m, door facing 188° | 97 C1 founding reason (§ Site); L16 no fence; 0103 |
+| **B5 Family hut** | the D1 family (n1 few); door onto the family path; `reserved`, pool `kotm` | `kotm:argonia/mudhuts/mudhut01` at yaw 70, door facing 180° | L21; 0103 |
+| **B6 Store hut** | fish store and smokehouse for the landing; nobody lives there, so no door record (interior `none`, L21) | `kotm:argonia/mudhuts/mudhut01` at yaw 40 | dressing vocabulary; L21 |
+| **PAD** | the three huts stand on `settlement-pad` patches at the local high-water line (`floorMinM` 35.3, 16c): B4's pad takes a 1 m apron round the pod's ground ring, B5's a 3 m apron that holds the family yard, B6's 1 m; every mud pad edge stays under 0.6 m (R1, no retaining-wall family in the mud kit) | patch kind `settlement-pad` | L36 ground only through typed patches; 0101 |
 | **LD The landing** | the ford's north bank: the ferry raft moored at the north landing where the hull has ≥ 1 m of water in its halo (off the riffle, measured), a canoe and the plank ferry pulled up on the bank, two cleats, no stage unless `dockracked02` seats with both ends on dry ground | `ferryraft:snt/ferry/ferryraft01`, `canoe:actors/sfss/canoe/canoe1`, `ferries:yamadori/ferries/plank_ferry_swamp_01`, `bmv:sheogorad/dagon fel/cleat` ×2 | R5 boats pulled up and moorings; L31, L32; material-culture.md:84–100 |
-| **FR Fish racks** | the landing's catch, drying between B6 and the bank | `vanilla:clutter/deadanimals/fishrack01`, `mudmother:.../fishracksmall` | `prop.neutral.fishing-and-water-trade` |
-| **F2 Cook fire** | the common's cook fire between B4 and B5 | a vanilla woodfire | R3 |
-| **L2 Argonian lights** | two lanterns on posts at the landing, a candle stand at the common | `argonianlanterns02` ×2, `argoniancandle01` | item 22; light kinds bar (3 kinds with L1) |
-| **PATHS** | worn ground: road → B1 door; road → well (the junction); well → B2 and the lean-to; ford north bank → landing → B4 door → the common → B5 entrance → B6 | path paint (G1) | L14, L15; widths 97:341, :852 |
+| **FR Fish racks** | the landing's catch, drying on the flat ground east of B4 on the way to the raft | `vanilla:clutter/deadanimals/fishrack01`, `mudmother:.../fishracksmall` (yard set `argonian-landing`) | `prop.neutral.fishing-and-water-trade` |
+| **F2 Cook fire** | the family's cook fire on B5's pad beside the family yard | `vanilla:clutter/woodfires/cookingstand01` | R3 |
+| **L2 Argonian lights** | a candle stand within 2 m of each hut door (B4, B5, B6) and one in each hut yard. Two more stand at the landing: one by the plank boat, one by the poler's fish rack | `argoniancandle01` ×7 | 97 C16; light kinds bar (3 kinds with L1: candle lantern, candle stand, brazier) |
+| **PATHS** | worn ground: road → B1 door; road → well (the junction); well → B2; ford north bank → landing → B4 door → the common → B5 entrance → B6 | path paint (G1) | L14, L15; widths 97:341, :852 |
 | **SOCKETS** | `scene.the-street` on the road between the well junction and the ford's south bank (~316/3042); `evidence.the-cracked-well` at W; `station.well-keeper` at W; `station.poler` at LD | `questSockets[]` | L02 typed fields only |
-| **DOORS** | B1 door → interior `reserved` (S1 dwelling); B4 door and B5 entrance → `reserved`; B2, B6, S1 → `none` | blueprint door records | 0081 decision 4; L21 |
-| **SMOKE** | chimney smoke on B1; fire smoke on F1, F2 | `fxsmokechimney01/02` | R3; R7 seen from a distance |
+| **DOORS** | B1 tier A (DawnstarBrinasHouse), B4 tier A (KeebaHouseFisher), B5 `reserved` pool `kotm` (its fitting cells need Creation Club or HearthFires assets the vault does not hold: the owner's archive question, sourcing-log row 208), B2 `reserved` pool `stable`; B6 and S1 have no door record | blueprint door records, `blueprint_interiors --claim` | 0103; L21 |
+| **SMOKE** | the brazier smokes at its mined fire socket; the farmhouses carry no chimney smoke (type sheet E1) | `fx:smoke-column` at `impbrazier01` | R3; R7 seen from a distance |
 | **GLOW** | window glow on B1 at night; B4 and B5 if their shells have windows | `fxambwindowglow01`, `wrlodwindowglow01` | item 28 (done); R7 |
+
+Cut after an honest search (type sheet): the chicken nest (at its plugin seat its lowest point stands 0.12 m over
+flat ground; the plugins seat it on a floor, anchor class `deck`; no mined
+pair seats it on a ground piece), the two bone chimes (2.18 m
+wide, no mined mount), the stable handcart (no free pose under 2° within 16 m of the stable yard; the station yard keeps its cart).
+
+The landing takes candle stands, not a hanging lantern. `argonianlanterns02`
+hangs by a ring (policy `hanging-only`). The one mined pair that hangs
+`argonianlanterns04` from `archwaysticks` (n 1) puts the lantern 4.35 m from
+the arch mesh at the plugin's scale, so it does not hang from that arch.
 
 Yard sets (the type sheet's, written by this slice):
 `imperial-station-yard` (well, lantern post, road fire, handcart01, barrels,
@@ -227,6 +237,27 @@ crates, a bench from the vanilla farm dressing set, a water trough),
 posts), `argonian-hut-yard` (candle stand, cook fire, baskets, pots, a
 drying frame). Personal clutter ≥ 5 per dwelling; no dressing asset above
 25 % of the total; ≥ 10 dressing asset kinds across the place.
+
+### Interiors (0103 decisions 1–2)
+
+| Door | Building | Shell | Tier | Cell or pool | Why |
+|---|---|---|---|---|---|
+| 1 | B1 station house | `composite:farmhouse/farmhouse01-with-door` | A | DawnstarBrinasHouse | the fit rule's pick of the 11 cells that Skyrim links to this shell |
+| 2 | B4 poler's hut | `composite:mud/kotm-house-pod` | A | KeebaHouseFisher | the fisher's house holds the rods and the fish rack that the poler's work needs |
+| 3 | B5 family hut | `kotm:argonia/mudhuts/mudhut01` | reserved | kotm | the cells that fit need Creation Club or HearthFires assets not in the vault |
+| 4 | B2 stable barn | `vanilla:architecture/farmhouse/farmhouse02` | reserved | stable | no plugin furnishes an open stable |
+
+### Sockets (0103 decisions 5–6; the layout's `socket` ops)
+
+| Kind | Host | Data | Why |
+|---|---|---|---|
+| npc | the well, station house door, stable | well-keeper: work at the well, home in the station house, the counter by day, the stable at dusk | the station's keeper |
+| npc | the ferry raft | landing's poler: work poling the ford, home in the pod house, nets at the racks | the crossing is the hamlet's living |
+| npc | the family path | n1 family: cook at F2, home in B5 | the landing family |
+| npc | the well | n2 travellers: rest on the bench by the brazier, a paid bed in the station house | the road's few travellers |
+| container | the two hut-yard urns | authored fill: fish and food (poler), food and household goods (family), low value | the households' stores |
+| item | stable woodpile, landing rack, station house | tool, fish, household lantern, ledger (book, content pending) | the work done at each spot |
+| marker | station house door, the well, the street, the raft | entrance, evidence, scene and station markers the quest rows name | quest provisions |
 
 ### Bars planned
 
@@ -259,6 +290,6 @@ smoke from the south leg, the landing lanterns and hut domes from the
 north); a first landmark (the well at the junction); a second (the raft at
 the ford); the street reads as the place's spine; every door reached by
 path; the approach path enters at the junction; a resting point (the
-fire and lean-to); a view back over the channel from the landing; nothing
+fire and the bench beside it); a view back over the channel from the landing; nothing
 hidden behind a blank wall; night lights on both halves; a threshold
 (the ford); no dead ends.

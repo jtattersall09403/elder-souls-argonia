@@ -3,11 +3,6 @@
  "type": "01-road-station",
  "about": "Yard sets for road stations (decision 0101): the dressing groups that `wb.py group place` lays, rebuilt from the repo. Members sit in the anchor's plan frame (offsetM is x east and z south with the anchor at yaw 0). A member without `mount` is settled on the ground; a member with `mount` stands upM above the member it names, and only where kit-mounts-mined.json holds that child-on-parent pair. The sets were first laid at Claywater Station.",
  "source": "world/sources/blueprints/claywater-station.layout.json (first laid there by `group place`)",
- "pending": {
-  "imperial-station-yard": [
-   "flames and smoke on the road fire (isy-fire): build_kit draws effect-shader cards opaque, so the lit campfire and the chimney smoke wait for the effect path (kits2 lane)"
-  ]
- },
  "sets": [
   {
    "id": "imperial-station-yard",
@@ -17,8 +12,8 @@
      "uid": "isy-trough",
      "piece": "vanilla:clutter/horsetrough/horsetrough01",
      "offsetM": [
-      7.0,
-      -3.5
+      14.0,
+      -10.0
      ],
      "yaw": 14.0
     },
@@ -26,8 +21,8 @@
      "uid": "isy-bench",
      "piece": "vanilla:furniture/farm/farmbench01",
      "offsetM": [
-      9.0,
-      9.5
+      8.0,
+      11.0
      ],
      "yaw": 48.0
     },
@@ -35,8 +30,8 @@
      "uid": "isy-cart",
      "piece": "vanilla:clutter/carts/handcart01",
      "offsetM": [
-      11.0,
-      12.0
+      10.0,
+      12.5
      ],
      "yaw": 140.0
     },
@@ -53,8 +48,8 @@
      "uid": "isy-barrel2",
      "piece": "vanilla:clutter/barrel01",
      "offsetM": [
-      -0.7,
-      1.0
+      -2.7,
+      4.5
      ],
      "yaw": 30.0
     },
@@ -62,8 +57,8 @@
      "uid": "isy-crate",
      "piece": "vanilla:clutter/common/cratesmall01",
      "offsetM": [
-      7.5,
-      4.0
+      3.5,
+      8.5
      ],
      "yaw": 48.0
     },
@@ -89,8 +84,8 @@
      "uid": "isy-fire",
      "piece": "vanilla:clutter/imperial/impbrazier01",
      "offsetM": [
-      2.5,
-      3.0
+      -4.5,
+      4.0
      ],
      "yaw": 0.0
     }
@@ -113,26 +108,17 @@
      "uid": "sty-trough",
      "piece": "vanilla:clutter/horsetrough/horsetrough01",
      "offsetM": [
-      -1.62,
-      -6.31
+      13.87,
+      6.69
      ],
      "yaw": 80.0
-    },
-    {
-     "uid": "sty-cart",
-     "piece": "vanilla:clutter/carts/handcart01",
-     "offsetM": [
-      13.12,
-      -11.96
-     ],
-     "yaw": 190.0
     },
     {
      "uid": "sty-wood",
      "piece": "vanilla:clutter/firewood/firewoodpilelarge01",
      "offsetM": [
-      18.19,
-      2.38
+      23.17,
+      7.59
      ],
      "yaw": 7.0
     }
@@ -155,17 +141,17 @@
      "uid": "al-rack2",
      "piece": "mudmother:gv_meshes/argoniannest/fishracksmall",
      "offsetM": [
-      -4.06,
-      3.84
+      3.08,
+      -7.03
      ],
-     "yaw": 15.0
+     "yaw": 0.0
     },
     {
      "uid": "al-basket1",
      "piece": "mudmother:gv_meshes/argoniannest/basketfull",
      "offsetM": [
-      2.26,
-      -1.84
+      1.83,
+      -1.03
      ],
      "yaw": 290.0
     },
@@ -173,44 +159,26 @@
      "uid": "al-basket2",
      "piece": "vanilla:clutter/basketclosed01",
      "offsetM": [
-      1.85,
-      -3.05
+      2.3,
+      0.1
      ],
      "yaw": 310.0
-    },
-    {
-     "uid": "al-lantern1",
-     "piece": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
-     "offsetM": [
-      7.39,
-      -10.08
-     ],
-     "yaw": 290.0
-    },
-    {
-     "uid": "al-lantern2",
-     "piece": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
-     "offsetM": [
-      6.46,
-      -33.83
-     ],
-     "yaw": 290.0
     },
     {
      "uid": "al-oar",
      "piece": "rowboats:dungeons/clutter/shipoar01",
      "offsetM": [
-      3.48,
-      -16.29
+      -2.4,
+      1.0
      ],
-     "yaw": 50.0
+     "yaw": 90.0
     },
     {
      "uid": "al-net",
      "piece": "shores:shoresofskyrim/fishnet01",
      "offsetM": [
-      -2.0,
-      1.5
+      2.53,
+      1.31
      ],
      "yaw": 30.0
     }
@@ -233,8 +201,8 @@
      "uid": "ahy-urn",
      "piece": "mudmother:gv_meshes/argoniannest/paintedurn01",
      "offsetM": [
-      1.5,
-      2.5
+      1.6,
+      1.5
      ],
      "yaw": 0.0
     },
@@ -242,8 +210,8 @@
      "uid": "ahy-basket",
      "piece": "mudmother:gv_meshes/argoniannest/basketsmall01",
      "offsetM": [
-      2.5,
-      2.8
+      1.6,
+      0.4
      ],
      "yaw": 0.0
     },
@@ -251,26 +219,26 @@
      "uid": "ahy-table",
      "piece": "mudmother:gv_meshes/argoniannest/woventable01",
      "offsetM": [
-      -2.5,
-      2.0
+      -3.2,
+      1.2
      ],
-     "yaw": 80.0
+     "yaw": 0.0
     },
     {
      "uid": "ahy-chair",
      "piece": "mudmother:gv_meshes/argoniannest/wovenchair01",
      "offsetM": [
-      -2.3,
-      0.4
+      -3.2,
+      -0.3
      ],
-     "yaw": 170.0
+     "yaw": 0.0
     },
     {
      "uid": "ahy-sack",
      "piece": "vanilla:clutter/containers/miscsacklarge",
      "offsetM": [
-      3.0,
-      1.6
+      2.6,
+      1.4
      ],
      "yaw": 0.0
     },
@@ -278,8 +246,8 @@
      "uid": "ahy-pot",
      "piece": "vanilla:clutter/woodfires/spitpotopenloose01",
      "offsetM": [
-      2.0,
-      1.2
+      0.9,
+      1.0
      ],
      "yaw": 0.0
     }

@@ -155,7 +155,7 @@
           "whyLost": "too close to place.mercantile-coast.pilgrim-xanmeer"
         }
       ],
-      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: the air-pocket station's entrance keeps a dry dot on the bank. The dot sat at 2547.1, 4899.5, 0.0 m into body.1209-3032 (wet, depth 1.56 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2522.4, 4924.2 (34.9 m move; the 25 m radius search widened once to find land, so the move exceeds the bank distance the remedy targets — a promise-unmet row is owed if the owner wants it tighter). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "whySiteWon": "Reseated (2026-09-20) by the imperial-fringe-pack rule: the air-pocket station's entrance keeps a dry dot on the bank. The dot sat at 2547.1, 4899.5, 0.0 m into body.1209-3032 (wet, depth 1.56 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2522.4, 4924.2 (34.9 m move; the 25 m radius search widened once to find land, so the move exceeds the bank distance the remedy targets — a promise-unmet row is owed if the owner wants it tighter). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
       "plotFacts": {
         "landform": "reseated (2026-09-20)",
         "regionClass": "rootland deep marsh",
@@ -318,7 +318,7 @@
       },
       "plotOverride": {
         "source": "plot-remedies",
-        "why": "16h imperial-fringe-pack rule: the air-pocket station's entrance keeps a dry dot on the bank. The dot sat at 2547.1, 4899.5, 0.0 m into body.1209-3032 (wet, depth 1.56 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2522.4, 4924.2 (34.9 m move; the 25 m radius search widened once to find land, so the move exceeds the bank distance the remedy targets — a promise-unmet row is owed if the owner wants it tighter). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+        "why": "The imperial-fringe-pack rule: the air-pocket station's entrance keeps a dry dot on the bank. The dot sat at 2547.1, 4899.5, 0.0 m into body.1209-3032 (wet, depth 1.56 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2522.4, 4924.2 (34.9 m move; the 25 m radius search widened once to find land, so the move exceeds the bank distance the remedy targets — a promise-unmet row is owed if the owner wants it tighter). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
         "kind": "reseat"
       }
     },
@@ -4209,7 +4209,7 @@
           "whyLost": "too close to place.naga-kur-deeps.bog-blight-ground-old-cordon"
         }
       ],
-      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: the drowned village's entrance keeps a dry dot on the bank. The dot sat at 2596.4, 5387.6, 0.0 m into body.1209-3032 (wet, depth 1.92 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2588.2, 5362.9 (26.0 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "whySiteWon": "Reseated (2026-09-20) by the imperial-fringe-pack rule: the drowned village's entrance keeps a dry dot on the bank. The dot sat at 2596.4, 5387.6, 0.0 m into body.1209-3032 (wet, depth 1.92 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2588.2, 5362.9 (26.0 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
       "plotFacts": {
         "landform": "reseated (2026-09-20)",
         "regionClass": "rootland deep marsh",
@@ -4339,7 +4339,7 @@
       },
       "plotOverride": {
         "source": "plot-remedies",
-        "why": "16h imperial-fringe-pack rule: the drowned village's entrance keeps a dry dot on the bank. The dot sat at 2596.4, 5387.6, 0.0 m into body.1209-3032 (wet, depth 1.92 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2588.2, 5362.9 (26.0 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+        "why": "The imperial-fringe-pack rule: the drowned village's entrance keeps a dry dot on the bank. The dot sat at 2596.4, 5387.6, 0.0 m into body.1209-3032 (wet, depth 1.92 m); the nearest land cell within 25 m of body.1209-3032, closest to the old dot, is 2588.2, 5362.9 (26.0 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
         "kind": "reseat"
       }
     },
@@ -10832,7 +10832,7 @@
           "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
         }
       ],
-      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot on the bank. The dot sat at 2185.2, 4367.6, 68.6 m from body.1208-2442; the land cell within 25 m of that body closest to the old dot is 2195.2, 4436.2 (69.3 m move). The record is already committed, so the move is a reseat.",
+      "whySiteWon": "Reseated (2026-09-20) by the imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot on the bank. The dot sat at 2185.2, 4367.6, 68.6 m from body.1208-2442; the land cell within 25 m of that body closest to the old dot is 2195.2, 4436.2 (69.3 m move). The record is already committed, so the move is a reseat.",
       "plotFacts": {
         "landform": "reseated (2026-09-20)",
         "regionClass": "firm lowland",
@@ -10974,7 +10974,7 @@
       },
       "plotOverride": {
         "source": "plot-remedies",
-        "why": "16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot on the bank. The dot sat at 2185.2, 4367.6, 68.6 m from body.1208-2442; the land cell within 25 m of that body closest to the old dot is 2195.2, 4436.2 (69.3 m move). The record is already committed, so the move is a reseat.",
+        "why": "The imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot on the bank. The dot sat at 2185.2, 4367.6, 68.6 m from body.1208-2442; the land cell within 25 m of that body closest to the old dot is 2195.2, 4436.2 (69.3 m move). The record is already committed, so the move is a reseat.",
         "kind": "reseat"
       }
     },

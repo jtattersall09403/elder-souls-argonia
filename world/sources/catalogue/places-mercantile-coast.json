@@ -12824,7 +12824,7 @@
       "footprintRadiusM": 225.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'lilmoth' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'lilmoth' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "firm lowland",
@@ -22191,7 +22191,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'soulrest' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'soulrest' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "fringe marsh",
@@ -25955,7 +25955,7 @@
           "whyLost": "too close to max-from:settlement"
         }
       ],
-      "whySiteWon": "Reseated (2026-09-20): 16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+      "whySiteWon": "Reseated (2026-09-20) by the imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
       "plotFacts": {
         "landform": "reseated (2026-09-20)",
         "regionClass": "fringe marsh",
@@ -25983,7 +25983,7 @@
       },
       "plotOverride": {
         "source": "plot-remedies",
-        "why": "16h imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
+        "why": "The imperial-fringe-pack rule: a drowned village with an underwater entrance keeps a dry dot; the entrance goes on the bank, the volume stays off it. The dot sat at 4241.5, 6237.5, 0.0 m into body.ocean (wet, depth 0.12 m); the nearest land cell within 25 m of body.ocean, closest to the old dot, is 4233.3, 6236.6 (8.3 m move). The record is already committed, so the move is a reseat: a meso-move row is only applied to a record the plot re-sites.",
         "kind": "reseat"
       }
     },

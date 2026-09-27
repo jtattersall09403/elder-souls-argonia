@@ -32,7 +32,7 @@
       "effects": "transition weeks: giant-snake and insect breeding hazards spike (Tips for Black Marsh Travel); guides advise against deep travel" }
   ],
   "lighting": {
-    "dayNight": "full cycle (Phase 8); canopy classes darken and diffuse daylight - jungle/rootland interiors read as permanent dusk",
+    "dayNight": "full cycle; canopy classes darken and diffuse daylight - jungle/rootland interiors read as permanent dusk",
     "night": "bioluminescence is the deep-marsh night palette: torchbugs, fungi, Hist sap glow",
     "verticalExaggerationNote": "visual-only; lighting/climate operate on true heights"
   }

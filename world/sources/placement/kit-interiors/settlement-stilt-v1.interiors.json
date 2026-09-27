@@ -8,7 +8,7 @@
     "kind": "esp-door",
     "offsetM": [
      0.218,
-     0.187
+     -0.187
     ],
     "placements": 8,
     "radiusM": 1.607,
@@ -69,6 +69,11 @@
    "ringFraction": 0.778,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    -0.6,
+    8.0
+   ],
+   "storeys": 2,
    "tileset": "bmv-treehouse-int",
    "why": "Valenwood.esp teleports from this shell into interior cell 01treeint (8 placements of the load door); that cell is built from bmv:architecture/citebosmer/houses, which is packaged as bmv-treehouse-int"
   },
@@ -388,6 +393,10 @@
    "ringFraction": 0.819,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    6.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
    "why": "the BM&V stilt house exterior ships no interior; its deck-level room is dressed from the farmhouse interior tileset"
   },
@@ -412,12 +421,18 @@
    "category": "architecture",
    "entrance": {
     "doorAsset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+    "heightM": 0.0,
     "kind": "esp-door",
+    "offsetM": [
+     -2.459,
+     -1.391
+    ],
     "placements": 16,
-    "radial": true,
-    "radiusM": 2.826
+    "radiusM": 2.826,
+    "sideDeg": 299.49,
+    "yawDeg": 120.0
    },
-   "entranceWhy": "the exterior door htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (16 placements)",
+   "entranceWhy": "the exterior door htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01 that opens this interior, at the offset the plugin places it in this shell's own frame (16 placements)",
    "espLink": {
     "doorModel": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
     "interiorCell": "CIPHTBMHutInterior04",
@@ -459,6 +474,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "htbm-hut-int",
    "why": "Here There Be Monsters - Curse of Cipactli.esp teleports from this shell into interior cell CIPHTBMHutInterior04 (2 placements of the load door); that cell is built from htbm:here there be monsters - curse of cipactli/architecture/villages/argonian, which is packaged as htbm-hut-int"
   },
@@ -466,12 +485,18 @@
    "category": "architecture",
    "entrance": {
     "doorAsset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+    "heightM": 0.0,
     "kind": "esp-door",
-    "placements": 16,
-    "radial": true,
-    "radiusM": 2.84
+    "offsetM": [
+     -2.474,
+     -1.389
+    ],
+    "placements": 18,
+    "radiusM": 2.837,
+    "sideDeg": 299.31,
+    "yawDeg": 120.0
    },
-   "entranceWhy": "the exterior door htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (16 placements)",
+   "entranceWhy": "the exterior door htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01 that opens this interior, at the offset the plugin places it in this shell's own frame (18 placements)",
    "espLink": {
     "doorModel": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
     "interiorCell": "CIPHTBMHutInterior01",
@@ -513,6 +538,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "htbm-hut-int",
    "why": "Here There Be Monsters - Curse of Cipactli.esp teleports from this shell into interior cell CIPHTBMHutInterior01 (2 placements of the load door); that cell is built from htbm:here there be monsters - curse of cipactli/architecture/villages/argonian, which is packaged as htbm-hut-int"
   },
@@ -524,7 +553,7 @@
     "kind": "esp-door",
     "offsetM": [
      0.218,
-     0.187
+     -0.187
     ],
     "placements": 8,
     "radiusM": 1.607,
@@ -585,6 +614,11 @@
    "ringFraction": 0.778,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    -0.6,
+    8.0
+   ],
+   "storeys": 2,
    "tileset": "bmv-treehouse-int",
    "why": "Valenwood.esp teleports from this shell into interior cell 01treeint (8 placements of the load door); that cell is built from bmv:architecture/citebosmer/houses, which is packaged as bmv-treehouse-int"
   },
@@ -631,6 +665,10 @@
    "ringFraction": 0.917,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    6.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
    "why": "the BM&V stilt house exterior ships no interior; its deck-level room is dressed from the farmhouse interior tileset"
   },
@@ -837,12 +875,18 @@
    "category": "architecture",
    "entrance": {
     "doorAsset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+    "heightM": 0.0,
     "kind": "esp-door",
+    "offsetM": [
+     -2.459,
+     -1.391
+    ],
     "placements": 16,
-    "radial": true,
-    "radiusM": 2.826
+    "radiusM": 2.826,
+    "sideDeg": 299.49,
+    "yawDeg": 120.0
    },
-   "entranceWhy": "the exterior door htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (16 placements)",
+   "entranceWhy": "the exterior door htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01 that opens this interior, at the offset the plugin places it in this shell's own frame (16 placements)",
    "espLink": {
     "doorModel": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
     "interiorCell": "CIPHTBMHutInterior04",
@@ -893,6 +937,10 @@
    "ringFraction": 0.917,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "htbm-hut-int",
    "why": "Here There Be Monsters - Curse of Cipactli.esp teleports from this shell into interior cell CIPHTBMHutInterior04 (2 placements of the load door); that cell is built from htbm:here there be monsters - curse of cipactli/architecture/villages/argonian, which is packaged as htbm-hut-int"
   },
@@ -900,12 +948,18 @@
    "category": "architecture",
    "entrance": {
     "doorAsset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+    "heightM": 0.0,
     "kind": "esp-door",
-    "placements": 16,
-    "radial": true,
-    "radiusM": 2.84
+    "offsetM": [
+     -2.474,
+     -1.389
+    ],
+    "placements": 18,
+    "radiusM": 2.837,
+    "sideDeg": 299.31,
+    "yawDeg": 120.0
    },
-   "entranceWhy": "the exterior door htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (16 placements)",
+   "entranceWhy": "the exterior door htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01 that opens this interior, at the offset the plugin places it in this shell's own frame (18 placements)",
    "espLink": {
     "doorModel": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
     "interiorCell": "CIPHTBMHutInterior01",
@@ -956,6 +1010,10 @@
    "ringFraction": 0.917,
    "roofOverhead": true,
    "sizeClass": "medium",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "htbm-hut-int",
    "why": "Here There Be Monsters - Curse of Cipactli.esp teleports from this shell into interior cell CIPHTBMHutInterior01 (2 placements of the load door); that cell is built from htbm:here there be monsters - curse of cipactli/architecture/villages/argonian, which is packaged as htbm-hut-int"
   },
@@ -1257,6 +1315,10 @@
    "ringFraction": 0.833,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    8.0
+   ],
+   "storeys": 1,
    "tileset": "dungeon-root-v1",
    "why": "a hollow Hist trunk, not a built room: the root dungeon kit is the grown interior grammar for it"
   },
@@ -1343,10 +1405,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 83.7,
+    "deg": 84.1,
     "evidence": "co-placement",
     "outside": true,
-    "why": "the source authors placed this piece 149 times with other statics to one side; the side they left open, at 84\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+    "why": "the source authors placed this piece 167 times with other statics to one side; the side they left open, at 84\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "heightM": 4.83,
    "interior": "none",
@@ -1360,10 +1422,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 299.0,
+    "deg": 301.1,
     "evidence": "co-placement",
     "outside": true,
-    "why": "the source authors placed this piece 58 times with other statics to one side; the side they left open, at 299\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+    "why": "the source authors placed this piece 82 times with other statics to one side; the side they left open, at 301\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "heightM": 1.88,
    "interior": "none",
@@ -1458,6 +1520,216 @@
   }
  },
  "kit": "settlement-stilt-v1",
+ "provenance": {
+  "exterior-interior-links.json": {
+   "miner": "worldgen.mine_door_links",
+   "minerVersion": "9abb006dbad2",
+   "plugins": [
+    "ArgonianHome.esp",
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "Cathedral - 3D FallForest Grass.esp",
+    "Cathedral - 3D Pine & Reach Grass.esp",
+    "Cathedral - 3D Tundra Grass.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries  - Another Oakwood addon.esp",
+    "Ferries  - More Bandit Camps patch.esp",
+    "Ferries - Alternate Perspective - Here there be Monsters Patch.esp",
+    "Ferries - Alternate Perspective Patch.esp",
+    "Ferries - Alternate Start Patch.esp",
+    "Ferries - Animated Ships patch.esp",
+    "Ferries - B-oat patch - No inialta scene.esp",
+    "Ferries - B-oat patch - With Inialta Scene.esp",
+    "Ferries - Better Docks patch.esp",
+    "Ferries - Bruma Addon.esp",
+    "Ferries - Chanterelle Addon.esp",
+    "Ferries - Dynamic Boats Patch.esp",
+    "Ferries - JK Solitude Outskirts.esp",
+    "Ferries - JKs Raven Rock patch.esp",
+    "Ferries - Lainalten addon.esp",
+    "Ferries - Laintar Dale addon.esp",
+    "Ferries - Lux patch.esp",
+    "Ferries - Midwood Addon.esp",
+    "Ferries - Moon and Star addon.esp",
+    "Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+    "Ferries - Riften patch.esp",
+    "Ferries - Rigmor of Bruma patch.esp",
+    "Ferries - Ryn Lumber Mills patch.esp",
+    "Ferries - Save the Icerunner Patch.esp",
+    "Ferries - Shadow Over Inialta addon.esp",
+    "Ferries - Siege At Icemoth Addon.esp",
+    "Ferries - TGSolitude Patch.esp",
+    "Ferries - Wyrmstooth Addon.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "drjacopo",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "marshrest",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  },
+  "kit-assemblies-mined.json": {
+   "miner": "worldgen.mine_assemblies",
+   "minerVersion": "dd469251b755",
+   "plugins": [
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  }
+ },
  "rules": {
   "doorwayArcM": [
    0.8,
@@ -1485,5 +1757,5 @@
    "small": 40.0
   }
  },
- "schemaVersion": 1
+ "schemaVersion": 2
 }

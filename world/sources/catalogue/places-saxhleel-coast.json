@@ -372,7 +372,7 @@
       "footprintRadiusM": 230.0,
       "footprintSource": "polygon",
       "candidatesConsidered": [],
-      "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors, Phase 2 gate); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
+      "whySiteWon": "Owner-approved settlement anchor 'archon' (world/sources/anchors); the anchor pixel is the city gate on the main road. The record sits at the solved city centre (cityLayout, owner rule 2026-09-18).",
       "plotFacts": {
         "landform": "anchor",
         "regionClass": "tropical jungle",

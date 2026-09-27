@@ -1,16 +1,39 @@
 {
  "assets": {
+  "bmv:architecture/phitt/aldredanyia/signpost": {
+   "category": "architecture",
+   "entrance": null,
+   "entranceWhy": "not an enclosure, so no doorway is derived",
+   "front": {
+    "deg": 163.7,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 16 times with other statics to one side; the side they left open, at 164\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
+   "heightM": 5.91,
+   "interior": "none",
+   "planAreaM2": 0.41,
+   "provenance": [],
+   "sizeClass": "small",
+   "why": "too small to hold an interior (0.4 m\u00b2 plan, 5.9 m tall)"
+  },
   "composite:farmhouse/farmhouse01-with-door": {
    "category": "architecture",
    "closedShellPromotedBy": "door-piece",
    "entrance": {
     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "heightM": 0.0,
     "kind": "esp-door",
+    "offsetM": [
+     -1.819,
+     3.548
+    ],
     "placements": 22,
-    "radial": true,
-    "radiusM": 4.003
+    "radiusM": 4.003,
+    "sideDeg": 207.14,
+    "yawDeg": 0.0
    },
-   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (22 placements)",
+   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at the offset the plugin places it in this shell's own frame (22 placements)",
    "espLink": {
     "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
     "interiorCell": "DawnstarBrinasHouse",
@@ -52,6 +75,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
    "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBrinasHouse (2 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
   },
@@ -69,7 +96,7 @@
    "espLink": {
     "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
     "interiorCell": "DawnstarBarracks",
-    "interiorFamily": "vanilla:architecture/farmhouse",
+    "interiorFamily": "vanilla:architecture/farmhouse/interior",
     "interiorSizeM": {
      "heightM": 11.46,
      "planXM": 12.05,
@@ -129,8 +156,12 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
-   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse, which is packaged as vanilla-farmhouse-int"
+   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
   },
   "composite:farmhouse/stonewall-run-3": {
    "category": "architecture",
@@ -332,7 +363,12 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 5.0,
-   "front": null,
+   "front": {
+    "deg": 302.8,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 7 times with other statics to one side; the side they left open, at 303\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
    "frontFaceFraction": 1.0,
    "headroomM": 99.0,
    "heightM": 9.03,
@@ -377,10 +413,10 @@
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "floorOffsetM": 3.0,
    "front": {
-    "deg": 115.8,
-    "evidence": "asymmetry",
+    "deg": 11.4,
+    "evidence": "co-placement",
     "outside": true,
-    "why": "the band at 116\u00b0 in the piece's own frame carries 3.40x the triangle density of a median band \u2014 the detailed face, which is the show side"
+    "why": "the source authors placed this piece 47 times with other statics to one side; the side they left open, at 11\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "frontFaceFraction": 1.0,
    "headroomM": 1.77,
@@ -403,12 +439,18 @@
    "closedShellPromotedBy": "door-piece",
    "entrance": {
     "doorAsset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+    "heightM": 0.0,
     "kind": "esp-door",
+    "offsetM": [
+     -1.819,
+     3.548
+    ],
     "placements": 22,
-    "radial": true,
-    "radiusM": 4.003
+    "radiusM": 4.003,
+    "sideDeg": 207.14,
+    "yawDeg": 0.0
    },
-   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at a constant radius on any bearing across the plugin's placements (22 placements)",
+   "entranceWhy": "the exterior door vanilla:architecture/farmhouse/farmhouseldoor01 that opens this interior, at the offset the plugin places it in this shell's own frame (22 placements)",
    "espLink": {
     "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
     "interiorCell": "DawnstarBrinasHouse",
@@ -450,6 +492,10 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
    "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBrinasHouse (2 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
   },
@@ -494,7 +540,7 @@
    "espLink": {
     "doorModel": "vanilla:architecture/farmhouse/farmhouseldoor01",
     "interiorCell": "DawnstarBarracks",
-    "interiorFamily": "vanilla:architecture/farmhouse",
+    "interiorFamily": "vanilla:architecture/farmhouse/interior",
     "interiorSizeM": {
      "heightM": 11.46,
      "planXM": 12.05,
@@ -554,8 +600,12 @@
    "ringFraction": 1.0,
    "roofOverhead": true,
    "sizeClass": "large",
+   "storeyLevelsM": [
+    0.0
+   ],
+   "storeys": 1,
    "tileset": "vanilla-farmhouse-int",
-   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse, which is packaged as vanilla-farmhouse-int"
+   "why": "Skyrim.esm teleports from this shell into interior cell DawnstarBarracks (4 placements of the load door); that cell is built from vanilla:architecture/farmhouse/interior, which is packaged as vanilla-farmhouse-int"
   },
   "vanilla:architecture/farmhouse/fencewoven01": {
    "category": "architecture",
@@ -597,7 +647,12 @@
    "category": "architecture",
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
-   "front": null,
+   "front": {
+    "deg": 24.8,
+    "evidence": "co-placement",
+    "outside": true,
+    "why": "the source authors placed this piece 9 times with other statics to one side; the side they left open, at 25\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+   },
    "heightM": 2.13,
    "interior": "none",
    "planAreaM2": 1.15,
@@ -671,10 +726,10 @@
    "entrance": null,
    "entranceWhy": "not an enclosure, so no doorway is derived",
    "front": {
-    "deg": 270.1,
+    "deg": 270.0,
     "evidence": "co-placement",
     "outside": true,
-    "why": "the source authors placed this piece 559 times with other statics to one side; the side they left open, at 270\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+    "why": "the source authors placed this piece 761 times with other statics to one side; the side they left open, at 270\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "heightM": 2.44,
    "interior": "none",
@@ -691,7 +746,7 @@
     "deg": 90.0,
     "evidence": "co-placement",
     "outside": true,
-    "why": "the source authors placed this piece 559 times with other statics to one side; the side they left open, at 90\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
+    "why": "the source authors placed this piece 572 times with other statics to one side; the side they left open, at 90\u00b0 in its own frame, is the front \u2014 and on an enclosure edge that open side is the outside"
    },
    "heightM": 2.49,
    "interior": "none",
@@ -973,6 +1028,216 @@
   }
  },
  "kit": "settlement-imperial-v1",
+ "provenance": {
+  "exterior-interior-links.json": {
+   "miner": "worldgen.mine_door_links",
+   "minerVersion": "9abb006dbad2",
+   "plugins": [
+    "ArgonianHome.esp",
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "Cathedral - 3D FallForest Grass.esp",
+    "Cathedral - 3D Pine & Reach Grass.esp",
+    "Cathedral - 3D Tundra Grass.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries  - Another Oakwood addon.esp",
+    "Ferries  - More Bandit Camps patch.esp",
+    "Ferries - Alternate Perspective - Here there be Monsters Patch.esp",
+    "Ferries - Alternate Perspective Patch.esp",
+    "Ferries - Alternate Start Patch.esp",
+    "Ferries - Animated Ships patch.esp",
+    "Ferries - B-oat patch - No inialta scene.esp",
+    "Ferries - B-oat patch - With Inialta Scene.esp",
+    "Ferries - Better Docks patch.esp",
+    "Ferries - Bruma Addon.esp",
+    "Ferries - Chanterelle Addon.esp",
+    "Ferries - Dynamic Boats Patch.esp",
+    "Ferries - JK Solitude Outskirts.esp",
+    "Ferries - JKs Raven Rock patch.esp",
+    "Ferries - Lainalten addon.esp",
+    "Ferries - Laintar Dale addon.esp",
+    "Ferries - Lux patch.esp",
+    "Ferries - Midwood Addon.esp",
+    "Ferries - Moon and Star addon.esp",
+    "Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+    "Ferries - Riften patch.esp",
+    "Ferries - Rigmor of Bruma patch.esp",
+    "Ferries - Ryn Lumber Mills patch.esp",
+    "Ferries - Save the Icerunner Patch.esp",
+    "Ferries - Shadow Over Inialta addon.esp",
+    "Ferries - Siege At Icemoth Addon.esp",
+    "Ferries - TGSolitude Patch.esp",
+    "Ferries - Wyrmstooth Addon.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "drjacopo",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "marshrest",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  },
+  "kit-assemblies-mined.json": {
+   "miner": "worldgen.mine_assemblies",
+   "minerVersion": "dd469251b755",
+   "plugins": [
+    "ArgonianLakeHouse.esl",
+    "Black Marsh North.esp",
+    "Black Marsh.esm",
+    "CCAyliedRuinsResources.esp",
+    "DMArgonianHaus.esp",
+    "DarkwaterDen.esp",
+    "DepthsOfSkyrim.esp",
+    "Ferries.esp",
+    "Here There Be Monsters - Curse of Cipactli.esp",
+    "King of the Murkmire.esp",
+    "SNT ferry.esp",
+    "SSKMovingBoats.esp",
+    "Sailboats.esp",
+    "Scriptfreeshipsailing.esp",
+    "Seashells.esp",
+    "Skyfall Sleeping Tree Overhaul.esp",
+    "Skyrim.esm",
+    "Tropical Skyrim -- Birds.esp",
+    "Tropical Skyrim.esp",
+    "Update.esm",
+    "Valenwood.esp",
+    "XanmeerResources.esp",
+    "igs_tileset_ayleid.esp"
+   ],
+   "poolRegister": {
+    "date": "2026-09-25",
+    "pools": [
+     "bmv",
+     "vanilla",
+     "tropical",
+     "xanmeer",
+     "drjacopo",
+     "hoddminir",
+     "jokerine",
+     "shores",
+     "mudmother",
+     "ferries",
+     "rowboats",
+     "ayleidcc",
+     "xalfek",
+     "darkwater",
+     "ayleidkit",
+     "histtree",
+     "canoe",
+     "ferryraft",
+     "sbot",
+     "depths",
+     "sirenroot",
+     "htbm",
+     "mwkeep",
+     "kotm",
+     "sailboats",
+     "impships",
+     "boatsanim",
+     "hlaalu"
+    ],
+    "source": "worldgen.asset_registry.POOLS",
+    "uncommittedChanges": true
+   },
+   "poolsMined": [
+    "ayleidcc",
+    "ayleidkit",
+    "bmv",
+    "boatsanim",
+    "canoe",
+    "darkwater",
+    "depths",
+    "ferries",
+    "ferryraft",
+    "histtree",
+    "htbm",
+    "jokerine",
+    "kotm",
+    "mudmother",
+    "mwkeep",
+    "sailboats",
+    "tropical",
+    "vanilla",
+    "xalfek",
+    "xanmeer"
+   ],
+   "runDate": "2026-09-26"
+  }
+ },
  "rules": {
   "doorwayArcM": [
    0.8,
@@ -1000,5 +1265,5 @@
    "small": 40.0
   }
  },
- "schemaVersion": 1
+ "schemaVersion": 2
 }
