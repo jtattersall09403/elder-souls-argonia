@@ -1542,6 +1542,7 @@ def parser() -> argparse.ArgumentParser:
     s = sub.add_parser("scan")
     s.add_argument("spec", help="scan spec JSON: {buildings: [{id, asset | group, centre, "
                                 "radius, step, yaws | yawStep, pad?, landingBearing?, skip?, "
+                                "pair? {asset, childFace, parentFace, by, pick?}, "
                                 "parcel?, limit?, verify?}]}")
     s.add_argument("--out", default=None, help="write the whole ranked result here")
     s.add_argument("--serial", action="store_true", help="no fork pool")
@@ -1604,7 +1605,7 @@ def replay_parser() -> argparse.ArgumentParser:
 def run_replay(argv) -> int:
     from workbench import layout
     a = replay_parser().parse_args(argv)
-    scene = Scene.load(layout.scene_path(a.scene))
+    scene = open_scene(a.scene)
     doc = layout.replay(scene, parser())
     a.out.parent.mkdir(parents=True, exist_ok=True)
     a.out.write_text(json.dumps(doc, indent=1) + "\n")
@@ -1867,6 +1868,32 @@ def round_summary(apply: dict) -> dict:
                         if k in comp}}
 
 
+def write_ledger(path: Path, out: dict, report_dir: Path | None = None) -> None:
+    """A round's ledger row: appended to the scene's `rounds.jsonl` beside
+    its summary (`path`), and with `report_dir`, the summary copied there
+    and the same ONE row appended to that folder's own `rounds.jsonl`."""
+    t = out["timings"]
+    row = json.dumps({
+        "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "layoutSha256": out.get("layoutSha256"), "failures": out.get("failures"),
+        "compileErrors": len((out.get("compile") or {}).get("errors") or []),
+        "loadS": t.get("loadS"), "applyOpsS": (t.get("ops") or {}).get("s"),
+        "opsRestored": (t.get("ops") or {}).get("restored"), "checkS": t.get("checkS"),
+        "compileS": t.get("compileS"), "planS": t.get("planS"), "shotsS": t.get("shotsS"),
+        "totalS": t.get("totalS")}) + "\n"
+    with (path.parent / "rounds.jsonl").open("a") as log:      # one line per round
+        log.write(row)
+    if report_dir is not None:
+        # the report folder gets THIS round's summary and THIS round's ledger
+        # row only (a copy of the scene's whole rounds.jsonl repeated every
+        # earlier round, so a ledger over report folders double counted)
+        import shutil
+        report_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy(path, report_dir / path.name)
+        with (report_dir / "rounds.jsonl").open("a") as log:
+            log.write(row)
+
+
 def run_round(argv) -> int:
     """`wb.py round [SCENE] LAYOUT`: one process, the catalogue, ground,
     survey, road paint and kit records loaded once; writes
@@ -1943,21 +1970,7 @@ def run_round(argv) -> int:
     path = wbpaths.OUTPUT / "apply" / spath.stem / "summary.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(out, indent=1, default=lambda o: round(float(o), 4)) + "\n")
-    t = out["timings"]
-    with (path.parent / "rounds.jsonl").open("a") as log:      # one line per round
-        log.write(json.dumps({
-            "at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "layoutSha256": out.get("layoutSha256"), "failures": out.get("failures"),
-            "compileErrors": len((out.get("compile") or {}).get("errors") or []),
-            "loadS": t.get("loadS"), "applyOpsS": (t.get("ops") or {}).get("s"),
-            "opsRestored": (t.get("ops") or {}).get("restored"), "checkS": t.get("checkS"),
-            "compileS": t.get("compileS"), "planS": t.get("planS"), "shotsS": t.get("shotsS"),
-            "totalS": t.get("totalS")}) + "\n")
-    if a.report_dir is not None:
-        import shutil
-        a.report_dir.mkdir(parents=True, exist_ok=True)
-        for f in (path, path.parent / "rounds.jsonl"):
-            shutil.copy(f, a.report_dir / f.name)
+    write_ledger(path, out, a.report_dir)
     lines = digest(applied) if "summaryPath" in applied else [f"round: REFUSED {out.get('refused')}"]
     lines = [x for x in lines if not x.startswith("summary:")]
     lines.append("by rule: " + ", ".join(f"{k} {v['count']}" for k, v in out["byRule"].items()))
@@ -1971,6 +1984,20 @@ def run_round(argv) -> int:
     return 1 if applied.get("failed") or comp.get("exitCode") or comp.get("stage") else 0
 
 
+def open_scene(name: str, cmd: str | None = None) -> Scene:
+    """The scene a command names: a bare NAME is output/scenes/NAME.json
+    (`layout.scene_path`, as `round` and `apply` resolve it), a .json or a
+    path is taken as given. A missing scene is an error (a bare name once
+    opened an empty scene in the cwd and wrote stray files there); only
+    `window`, which starts a scene, may name a new one."""
+    from workbench import layout
+    path = layout.scene_path(name)
+    if not path.exists() and cmd != "window":
+        raise SystemExit(f"wb.py: no scene {name!r} (looked for {path}); start one with "
+                         f"`wb.py {name} window ...` or `wb.py apply LAYOUT --scene {name}`")
+    return Scene.load(path)
+
+
 def main(argv=None) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
     if args and args[0] == "-" and len(args) > 1 and args[1] in TOP_LEVEL:
@@ -1982,7 +2009,7 @@ def main(argv=None) -> int:
         return code
     a = parser().parse_args(argv)
     t0 = time.time()
-    scene = Scene.load(Path(a.scene)) if a.scene != "-" else None
+    scene = open_scene(a.scene, a.cmd) if a.scene != "-" else None
     cat = place_catalogue(scene.placeId if scene is not None else "")
     out = globals()[f"cmd_{a.cmd}"](a, scene, cat)
     if scene is not None and a.cmd not in READ_ONLY:

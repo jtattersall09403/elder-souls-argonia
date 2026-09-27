@@ -1,6 +1,6 @@
 """`wb.py SCENE scan SPEC.json`: site feasibility before editing (speed lane,
-owner 2026-09-27). For each building in the spec (a piece or a yard set,
-a centre, a radius, a step, yaws), every candidate pose on the grid is
+owner 2026-09-27). For each building in the spec (a piece, a snapped
+pair laid as one unit (`pair`, the anchor first), or a yard set, a centre, a radius, a step, yaws), every candidate pose on the grid is
 measured on the scene's ground, across the fork pool:
 
 * the pad's legality (0101 + the round-3 batter, `pads.resolve` / `refusal`
@@ -34,8 +34,32 @@ LANDING_PAST_M = 1.0
 SIDES = {"n": (0.0, -1.0), "e": (1.0, 0.0), "s": (0.0, 1.0), "w": (-1.0, 0.0)}
 
 
+def pair_join(cat, spec: dict) -> dict:
+    """A snapped pair's join (`spec.pair`: {asset, childFace, parentFace,
+    by: evidence | geometry, pick?, lateral?}): the child's plan offset from
+    the anchor (`spec.asset`) in the anchor's frame and its yaw off the
+    anchor's, found once by the `snap` op's own functions on the anchor at
+    the origin, so every candidate lays the two as one unit (the stall
+    halves st1 + st2; wb-gaps-1)."""
+    from . import snap
+    pr = spec["pair"]
+    parent = Piece("scan:anchor", spec["asset"], 0.0, 0.0, 0.0,
+                   scale=cat.placed_scale(spec["asset"]))
+    parent.y = 0.0
+    child = Piece("scan:pair", pr["asset"], 0.0, 0.0, 0.0, scale=cat.placed_scale(pr["asset"]))
+    cf, pf = snap.face(pr.get("childFace")), snap.face(pr.get("parentFace"))
+    if pr.get("by", "evidence") == "evidence":
+        snap.snap_evidence(child, parent, cf, pf, int(pr.get("pick", 0)))
+    else:
+        if cf is None or pf is None:
+            raise ValueError("scan pair: a geometric snap needs both faces")
+        snap.snap_geometry(cat, child, parent, cf, pf, float(pr.get("lateral", 0.0)))
+    return {"atM": (child.x, child.z), "yaw": child.yaw % 360.0}
+
+
 def _members(cat, spec: dict, x: float, z: float, yaw: float) -> list[Piece]:
-    """The pieces the pose lays: one piece, or a yard set's members."""
+    """The pieces the pose lays: one piece, a snapped pair (anchor first),
+    or a yard set's members."""
     if spec.get("group"):
         from . import assembly
         grp = assembly.load_group(spec["group"])
@@ -49,7 +73,12 @@ def _members(cat, spec: dict, x: float, z: float, yaw: float) -> list[Piece]:
     p = Piece("scan", spec["asset"], x, z, yaw % 360.0, scale=cat.placed_scale(spec["asset"]))
     if spec.get("pad") is not None:
         p.pad = dict(spec["pad"])
-    return [p]
+    if not spec.get("pair"):
+        return [p]
+    join = spec.get("_join") or pair_join(cat, spec)
+    cx, cz = plan_to_province((x, z), yaw, join["atM"])
+    return [p, Piece("scan:pair", spec["pair"]["asset"], cx, cz, (yaw + join["yaw"]) % 360.0,
+                     scale=cat.placed_scale(spec["pair"]["asset"]))]
 
 
 def _context(cat, scene, spec: dict):
@@ -98,10 +127,11 @@ def measure_pose(cat, scene, g, spec: dict, ctx, x: float, z: float, yaw: float)
     out["pathOverlapM2"] = (round(float(outline.intersection(ways).area), 2)
                             if ways is not None and ctx["waysP"].intersects(outline) else 0.0)
     try:
-        if len(pieces) == 1 and pieces[0].pad is not None:
+        if pieces[0].pad is not None:
             p = pieces[0]
             # a pad resolves and is judged on the FROZEN ground, as
-            # `scene_pads` and `pad_fit` (padRule) do
+            # `scene_pads` and `pad_fit` (padRule) do; a pair's pad is its
+            # anchor's
             g0 = ctx["frozen"]
             pad = pads.resolve_on_frozen(cat, g0, p)
             why = pads.refusal(cat, g0, p, pad)
@@ -115,6 +145,14 @@ def measure_pose(cat, scene, g, spec: dict, ctx, x: float, z: float, yaw: float)
                         "padLegal": why is None and worst <= limit})
             out["legalGround"] = out["padLegal"]
             out["rank"] = worst
+            if len(pieces) > 1:
+                # a padded pair's child: no outline vertex on wet ground here;
+                # its fit rules need the anchor's candidate pad under it, so
+                # `verify` judges them on the trial scene's padded ground
+                wet = any(g.wet(a, b) for poly in polys[1:]
+                          for a, b in list(poly.exterior.coords)[:-1])
+                out["pairWetVertex"] = wet
+                out["legalGround"] = out["padLegal"] and not wet
         else:
             worst_slope, wet = 0.0, False
             for p, poly in zip(pieces, polys):
@@ -125,7 +163,12 @@ def measure_pose(cat, scene, g, spec: dict, ctx, x: float, z: float, yaw: float)
                 wet = wet or any(g.wet(a, b) for a, b in ring)
             fit = ctx["fit_rules"](cat, g, pieces[0]) if len(pieces) == 1 else None
             out.update({"maxSlopeDeg": round(worst_slope, 2), "wetVertex": wet})
-            if fit is not None:
+            if spec.get("pair"):
+                # an unpadded pair: every member by the compile's own fit rules
+                fits = [ctx["fit_rules"](cat, g, p) for p in pieces]
+                out["groundFit"] = [f.get("groundFit") for f in fits]
+                out["legalGround"] = all(bool(f["ok"]) for f in fits) and not wet
+            elif fit is not None:
                 out.update({k: fit.get(k) for k in ("groundFit", "slopeRule", "deltaRule",
                                                      "sillRule", "surveyDeltaM")})
                 out["legalGround"] = bool(fit["ok"]) and not wet
@@ -219,6 +262,15 @@ def verify(cat, scene, spec: dict, cand: dict, fit_rules) -> dict:
         got["fit"] = {k: v for k, v in fit_rules(cat, pads.ground_for(cat, trial, placed[0]),
                                                  placed[0]).items()
                       if k in ("ok", "slopeRule", "deltaRule", "sillRule", "maxSlopeDeg")}
+    elif spec.get("pair"):
+        # every member the anchor's pad does not judge, by the fit rules on
+        # the trial's padded ground: REPORTED, not gating (`check` judges
+        # the stall's child st2 as a member served by its parcel's pad and
+        # passes it where this reads the pad batter's slope; wb-gaps-1)
+        got["childFit"] = {p.uid: {k: v for k, v in fit_rules(cat, pads.ground_for(cat, trial, p),
+                                                         p).items()
+                              if k in ("ok", "slopeRule", "deltaRule", "sillRule", "maxSlopeDeg")}
+                      for p in placed if p.uid not in declared}
     got["passes"] = (not got.get("padRule") and not got["roadSurfaceRule"]
                      and not got["sillRule"])
     return got
@@ -273,6 +325,8 @@ def scan(cat, scene, doc: dict, fit_rules, serial: bool = False) -> dict:
     n = 1 if serial else parallel.workers()
     out = {"schemaVersion": 1, "buildings": []}
     for spec in doc["buildings"]:
+        if spec.get("pair"):
+            spec = {**spec, "_join": pair_join(cat, spec)}
         g = local_ground(cat, scene, spec)
         others, ways = _context(cat, scene, spec)
         from shapely.prepared import prep
@@ -298,6 +352,8 @@ def scan(cat, scene, doc: dict, fit_rules, serial: bool = False) -> dict:
             r["apronRoomM"] = apron_room(cat, spec, ctx, r)
         out["buildings"].append({
             "id": spec.get("id"), "asset": spec.get("asset"), "group": spec.get("group"),
+            "pair": ({**spec["pair"], "atM": [round(v, 4) for v in spec["_join"]["atM"]],
+                      "yaw": round(spec["_join"]["yaw"], 3)} if spec.get("pair") else None),
             "centre": spec["centre"], "poses": len(poses), "measured": len(found),
             "legal": len(legal), "top": found[: int(spec.get("limit", 10))],
             "verified": checked})

@@ -35,6 +35,10 @@ derived state. `fixtures/yard-b.layout.json` is the standing example.
 | `workbench/export.py` | Poses into a blueprint's parcels, runs (`pieces` with `atM`), a shell's `assembly`, landmarks and routes; a mounted member's own `mountPair` field; `--write` writes `walkRoutes` and records `authoredOn` (sha256 of the ground window's chunk files, of every kit manifest used and of the layout file; the workbench schemaVersion). |
 | `tests/` | The round-1 answers (`expected_round1.json`, written before the code), the round-3 fixes and yard B's gates (`test_proving_ground_b.py`: the published record is the scene's poses, every run joint is contact), and the layout tooling (`test_layout.py`: op round trips, the yard-B golden apply and replay, provenance and the stale-ground refusal, the render round with Blender mocked) as pytest; `conftest.py` applies each Claywater fixture layout once per session (`applied_layout`) and tests mutate a `view()` of it. Local only: they need the raw kit builds. |
 
+A bare SCENE name is `output/scenes/SCENE.json` for every command (as
+`round` and `apply` resolve it); a .json or a path is taken as given. A
+missing scene is an error, except for `window`, which starts one.
+
 Output (scenes, ground windows, mesh and descriptor caches, renders) goes to
 `output/`, which git ignores. `WB_OUTPUT=<dir>` moves the per-run state
 (scenes, apply summaries, caches, renders, ground windows) for a parallel
@@ -101,7 +105,9 @@ from `rules.FIX_HINTS`, uids, failure texts) and `byUid`; `info`; the
 compile's errors and warnings; the plan PNGs or the shot manifest. Each
 round appends one line to `output/apply/<scene>/rounds.jsonl` (load,
 apply ops, check, compile, plan, shots, total seconds; failures);
-`--report-dir` copies both into the round's report folder. The apply
+`--report-dir` copies the summary into the round's report folder and
+appends THIS round's row to the folder's own `rounds.jsonl` (never the
+scene's whole ledger, which a ledger over report folders double counted). The apply
 summary `output/apply/<placeId>.json` is still written.
 
 ## Edit
@@ -140,8 +146,13 @@ The fix hints (`rules.FIX_HINTS`) sit beside the bars they answer.
 
 Site feasibility before editing (`workbench/scan.py`). The spec lists
 buildings: `{id, asset | group, centre, radius, step, yaws | yawStep,
-pad?, landingBearing?, skip?, parcel?, limit?, verify?}` (`skip`: the
-building's own uids, so its old pad and pieces are not in the way). Every
+pad?, landingBearing?, skip?, pair?, parcel?, limit?, verify?}` (`skip`: the
+building's own uids, so its old pad and pieces are not in the way;
+`pair: {asset, childFace, parentFace, by: evidence | geometry, pick?}`: a
+second piece snapped to `asset` by the `snap` op's own join, laid with it
+as one candidate, e.g. the stable's two stall halves; the anchor's pad
+is judged as a pad, and every other member by the fit rules on its own
+outline). Every
 pose on the disc is measured in the pool on the scene's padded ground
 without the skipped pieces: pad legality (0101 + batter) and worst pad
 edge, or the fit rules; road-paint, path and piece overlap; water depth

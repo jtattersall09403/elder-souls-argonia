@@ -241,6 +241,20 @@ def _piled_deck_y(cat, p) -> float | None:
     return float(p.y) + (float(top) * p.scale if isinstance(top, (int, float)) else 0.0)
 
 
+def _piled_box(cat, p):
+    """A piled deck's walk plan box: its mesh's kit-frame plan bounds, turned
+    and placed by the pose (province metres), never the footprint rectangle
+    (dockstrent02: footprint 6.3 m long, mesh 7.74 m; the mined run joint
+    overlaps the meshes by 0.43 m but left a 0.98 m hole between the
+    footprints; walk 2 round 5, wb-gaps-1)."""
+    from shapely.geometry import Polygon
+    (x0, y0, _), (x1, y1, _) = cat.mesh(p.asset).bounds
+    corners = np.array([[x0, y0, 0.0, 1.0], [x1, y0, 0.0, 1.0],
+                        [x1, y1, 0.0, 1.0], [x0, y1, 0.0, 1.0]])
+    w = corners @ measure._transform4(p).T
+    return Polygon([(float(v[0]), -float(v[1])) for v in w])
+
+
 def _surface_m(cat, scene, ground, x: float, z: float) -> float:
     """The walk surface at (x, z), as WalkGrid reads it: the padded ground,
     or the top of a walkable deck there where one stands higher (a head
@@ -250,12 +264,12 @@ def _surface_m(cat, scene, ground, x: float, z: float) -> float:
     for p in scene.pieces:
         if not (getattr(p, "walkable", False) and p.y is not None):
             continue
-        poly = Polygon(measure.footprint_province(cat, p))
         piled = _piled_deck_y(cat, p)
         if piled is not None:
-            if poly.minimum_rotated_rectangle.contains(Point(x, z)):
+            if _piled_box(cat, p).contains(Point(x, z)):
                 h = max(h, piled)
             continue
+        poly = Polygon(measure.footprint_province(cat, p))
         if not poly.contains(Point(x, z)):
             continue
         mesh = _world_mesh(cat, p)
@@ -441,8 +455,9 @@ class WalkGrid:
         if piled is not None:
             # a piled deck (dock, jetty) is ONE walk surface at its seated deck
             # height over its whole plan box: plank gaps never read as water
-            # (planner ruling 2026-09-27, walk 2 round 5)
-            box = poly.minimum_rotated_rectangle
+            # (planner ruling 2026-09-27, walk 2 round 5); the box is the
+            # mesh's plan bounds, not the footprint's (`_piled_box`)
+            box = _piled_box(cat, p)
             inside = contains_xy(box, self.X, self.Z)
             self.H[inside] = piled
             self.src[inside] = i
@@ -1485,9 +1500,12 @@ def sign(cat, scene, uids=None) -> dict:
 
 def _ends(cat, p) -> tuple[tuple[float, float], tuple[float, float]]:
     """A way piece's two ends: the middles of the short sides of its
-    footprint's minimum rotated rectangle."""
+    footprint's minimum rotated rectangle; a piled deck's from its mesh plan
+    box (`_piled_box`, the walk grid's own box, so the two rules agree)."""
     from shapely.geometry import Polygon
-    rect = list(Polygon(measure.footprint_province(cat, p)).minimum_rotated_rectangle.exterior.coords)[:4]
+    box = (_piled_box(cat, p) if cat.row(p.asset).get("piled")
+           else Polygon(measure.footprint_province(cat, p)).minimum_rotated_rectangle)
+    rect = list(box.exterior.coords)[:4]
     sides = [((rect[i][0] + rect[(i + 1) % 4][0]) / 2, (rect[i][1] + rect[(i + 1) % 4][1]) / 2,
               math.dist(rect[i], rect[(i + 1) % 4])) for i in range(4)]
     a, b = sorted(sides, key=lambda s: s[2])[:2]
