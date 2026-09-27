@@ -103,7 +103,10 @@ walks as it needs; it closes only on the owner's "looks right".
    0102 `check` rules and the lit-entrance compile rule (97 C16), the
    socket gates and the interior bundle gate (0103), the 0098
    bars, the yard regression gates, `preflight --paths`.
-3. **Walk packet** (Owner check-ins below) → the owner walks. The packet
+3. **Walk packet** (Owner check-ins below) → the owner walks **the
+   deployed studio** (owner 2026-09-27): before posting, merge `dev` into
+   `main`, push, and confirm the Pages action is green; the packet's links
+   use the deployed URL, never `$ES_TUNNEL_URL`. The packet
    reports the measured numbers per item and asks only look and feel; it
    lists the interiors to enter (door, cell, `?interior=<cellId>` URL)
    and the `?sockets=1` overlay; a
