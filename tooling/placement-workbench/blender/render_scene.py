@@ -319,11 +319,13 @@ def main():
         lamps = []
         for i, at in enumerate(night or []):
             data = bpy.data.lights.new(f"night{i}", type="POINT")
-            data.energy = 900.0
-            data.color = (1.0, 0.62, 0.3)
+            # [x, y, z] or, from a fixture's mined light record,
+            # [x, y, z, r, g, b, factor] (workbench/render.py night_lights)
+            data.energy = 900.0 * (at[6] if len(at) > 6 else 1.0)
+            data.color = tuple(at[3:6]) if len(at) >= 6 else (1.0, 0.62, 0.3)
             data.shadow_soft_size = 0.08
             lamp = bpy.data.objects.new(f"night{i}", data)
-            lamp.location = at
+            lamp.location = at[:3]
             scene.collection.objects.link(lamp)
             lamps.append(lamp)
         for i, at in enumerate(shot.get("lights", [])):

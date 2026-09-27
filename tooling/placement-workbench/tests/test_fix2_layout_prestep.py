@@ -257,3 +257,54 @@ def test_export_walks_on_the_places_catalogue(monkeypatch):
     from workbench import export
     cat = export.place_catalogue("place.imperial-fringe.claywater-station")
     assert cat.shelf.preferred_kits
+
+
+def test_a_night_light_takes_its_fixtures_mined_light_record():
+    """16k slice 2 round 5 (planner 2026-09-27): a light piece whose kit row
+    carries a mined `light` record burns at that record's flame offset (piece
+    frame, glTF Y-up) in the LIGH colour, at the runtime's night factor 1."""
+    from workbench import render
+    from workbench.scene import Piece
+    scene = Scene(path=Path("/tmp/none.json"), placeId="place.x")
+    scene.add(Piece("c", "x:candle", 10.0, 20.0, 90.0, 5.0,
+                    role={"kind": "assembly", "id": "p", "layer": "light"}))
+
+    class _L:
+        def row(self, asset):
+            return {"sizeM": [0.8, 0.6, 2.2], "originOffsetM": [0.4, 0.4, 0.0],
+                    "light": {"offsetM": [0.0, 1.7, -1.0], "colourRgb": [142, 104, 79]}}
+    (x, y, z, r, g, b, f), = render.night_lights(_L(), scene)
+    assert abs(x - 11.0) < 1e-6 and abs(y + 20.0) < 1e-6 and abs(z - 6.7) < 1e-6
+    assert (r, g, b) == (round(142 / 255, 4), round(104 / 255, 4), round(79 / 255, 4)) and f == 1.0
+
+
+def test_a_front_token_can_carry_a_span_and_a_bearing():
+    """16k slice 2 round 5: `front:UID/SPAN/BEARING` frames one piece closer
+    or from another side in the same launch."""
+    from workbench import render
+    from workbench.scene import Piece
+    scene = Scene(path=Path("/tmp/none.json"), placeId="place.x")
+    scene.add(Piece("c", "x:candle", 10.0, 20.0, 0.0, 5.0,
+                    role={"kind": "assembly", "id": "p", "layer": "light"}))
+    (w,) = render.round_shots(None, scene, "front:c/3.5/90")
+    assert (w["focus"], w["span"], w["bearing"]) == (["c"], 3.5, 90.0)
+
+
+def test_a_night_light_follows_the_pieces_pitch():
+    """Review 2026-09-27: the flame offset takes the piece's whole pose, as
+    the runtime's matrix does (lighting.ts applyMatrix4), not the yaw alone."""
+    from workbench import render
+    from workbench.scene import Piece
+    scene = Scene(path=Path("/tmp/none.json"), placeId="place.x")
+    p = Piece("c", "x:candle", 10.0, 20.0, 0.0, 5.0,
+              role={"kind": "assembly", "id": "p", "layer": "light"})
+    p.pitch = 90.0
+    scene.add(p)
+
+    class _L:
+        def row(self, asset):
+            return {"sizeM": [0.8, 0.6, 2.2], "originOffsetM": [0.4, 0.4, 0.0],
+                    "light": {"offsetM": [0.0, 1.0, 0.0], "colourRgb": [255, 255, 255]}}
+    (x, y, z, *_), = render.night_lights(_L(), scene)
+    # pitched 90 about its own x: the flame 1 m up now points 1 m south
+    assert abs(x - 10.0) < 1e-6 and abs(y + 21.0) < 1e-6 and abs(z - 5.0) < 1e-6

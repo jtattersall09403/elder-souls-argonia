@@ -341,21 +341,29 @@ def _shot_token(tok: str, by_uid: dict, scene: Scene, wanted: list) -> None:
         wanted.append({"view": "iso", "subject": f"whole scene from {float(arg):.0f} deg",
                        "focus": [], "bearing": float(arg) - 45.0})
     elif view == "front" and arg:
+        # front:UID[/SPAN[/BEARING]]: a closer frame or another side of one
+        # piece in the same launch (16k slice 2 round 5)
+        arg, *opt = arg.split("/")
+        span = float(opt[0]) if opt and opt[0] else None
+        bearing = float(opt[1]) if len(opt) > 1 and opt[1] else None
         b = by_uid.get(arg)
         if b is None:
             scene.piece(arg)            # a clear KeyError for an unknown uid
-            wanted.append({"view": "front", "subject": arg, "focus": [arg], "bearing": None})
+            wanted.append({"view": "front", "subject": arg, "focus": [arg], "bearing": bearing,
+                           "span": span})
         else:
             wanted.append({"view": "front", "subject": f"{b['uid']} ({b['parcel']})",
-                           "focus": b["focus"], "bearing": b["bearing"],
-                           "doorFacingDeg": b["doorFacingDeg"]})
+                           "focus": b["focus"], "bearing": b["bearing"] if bearing is None else bearing,
+                           "doorFacingDeg": b["doorFacingDeg"], "span": span})
     else:
-        raise ValueError(f"shot {tok!r}: use top | iso | iso:BEARING | front:UID "
+        raise ValueError(f"shot {tok!r}: use top | iso | iso:BEARING | front:UID[/SPAN[/BEARING]] "
                          f"(each may end in @night)")
 
 
 #: a lantern's flame stands this far up its height (pivot base to top)
 NIGHT_LIGHT_AT = 0.85
+#: the runtime's artificial light factor at night (lighting.ts artificialLightFactor)
+NIGHT_LIGHT_FACTOR = 1.0
 
 
 def night_lights(cat, scene: Scene) -> list[list[float]]:
@@ -369,6 +377,19 @@ def night_lights(cat, scene: Scene) -> list[list[float]]:
         base = p.y - float(row["originOffsetM"][2]) * p.scale
         # a hanging lantern's flame is in its cage: the lower half's centre
         # (16k fix 2 r4 ruling 2); a standing one's is near its top
+        rec = row.get("light") or {}
+        if rec.get("offsetM") and rec.get("colourRgb"):
+            # the fixture's mined light record (kit manifest `light`): the flame
+            # offset in the piece frame (glTF Y-up: x, up, z south) and the
+            # plugin LIGH colour, at the runtime's night factor 1
+            # (game-core settlement/lighting.ts artificialLightFactor)
+            # glTF (x, up, south) -> the kit frame (x, north, up); the piece's
+            # whole pose (yaw, pitch, scale) as the runtime's matrix applies it
+            ox, oy, oz = (float(v) for v in rec["offsetM"])
+            x, y, up = (float(v) for v in p.world_points(np.array([[ox, -oz, oy]]))[0])
+            colour = [round(c / 255.0, 4) for c in rec["colourRgb"]]
+            out.append([x, y, up, *colour, NIGHT_LIGHT_FACTOR])
+            continue
         at = 0.25 if row.get("anchorClass") == "hanging" else NIGHT_LIGHT_AT
         out.append([p.x, -p.z, base + float(row["sizeM"][2]) * p.scale * at])
     return out
@@ -381,7 +402,7 @@ def render_round(cat: Catalogue, scene: Scene, spec: str = "auto", res: int = 10
     shot's subject."""
     t0 = time.time()
     wanted = round_shots(cat, scene, spec)
-    plans = [_plan(cat, scene, w["view"], w["focus"], None, w["bearing"], 0.0, pitch)
+    plans = [_plan(cat, scene, w["view"], w["focus"], w.get("span"), w["bearing"], 0.0, pitch)
              for w in wanted]
     lights = night_lights(cat, scene) if any(w.get("night") for w in wanted) else []
     for w, pl in zip(wanted, plans):
