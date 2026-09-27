@@ -10,6 +10,7 @@
 
 import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 
 export interface KitLevel {
   readonly parts: {
@@ -339,10 +340,20 @@ export function buildFloraKit(
  * triangles a frame on the owner's M2) read against Skyrim's own practice —
  * full tree meshes only inside its ~140 m loaded grid, sub-2 m plants treated
  * as grass (hence the 30 m floor).
+ *
+ * The mid reach (the folded reach, and ring 1 of a real chain) depends on the
+ * quality band (owner walk 2, 2026-09-27: "big trees switch to cards too
+ * close in medium and high"); `LOD_REACH_BY_BAND` holds the three rows, and
+ * `low` keeps the round-9 numbers above.
  */
-export function lodDistances(heightM: number, folded = false): number[] {
+export function lodDistances(
+  heightM: number,
+  folded = false,
+  band: QualitySettings["name"] = "low",
+): number[] {
+  const mid = LOD_REACH_BY_BAND[band];
   if (folded) {
-    const reach = Math.min(140, Math.max(30, heightM * 5));
+    const reach = Math.min(mid.maxM, Math.max(mid.foldedMinM, heightM * mid.perHeightM));
     return [reach, reach, reach];
   }
   // Measured 2026-09-16 at the jungle site: the old rings (full mesh to
@@ -350,15 +361,33 @@ export function lodDistances(heightM: number, folded = false): number[] {
   // 4.7 M from the air — ~2,800 full canopy meshes at 5–12 k triangles
   // each. Shipped open worlds hold full geometry to a few tens of metres and
   // hand over to decimated levels and cards well inside 300 m. Ring 0 (full
-  // mesh) ends at height × 2.5 inside 24–60 m; ring 1 (the 0.35 decimation)
-  // at height × 5 inside 50–140 m; ring 2 (the 0.12 decimation) at height ×
-  // 8 inside 100–260 m; beyond it a billboard species runs on its flat card,
-  // the rest on the deep level to their draw distance.
+  // mesh) ends at height × 2.5 inside 18–60 m; ring 1 (the 0.35 decimation)
+  // at the band's reach (low: height × 5 inside 50–140 m; medium: × 7 inside
+  // 60–200 m; high: × 9 inside 80–280 m); ring 2 (the 0.12 decimation) at
+  // height × 8 inside 100–260 m, held 20 m past ring 1; beyond it a billboard
+  // species runs on its flat card, the rest on the deep level to their draw
+  // distance.
   const ring0 = Math.min(60, Math.max(MIN_MESH_LOD_REACH_M, heightM * 2.5));
-  const ring1 = Math.min(140, Math.max(50, heightM * 5));
+  const ring1 = Math.min(mid.maxM, Math.max(mid.minM, heightM * mid.perHeightM));
   const ring2 = Math.min(260, Math.max(100, heightM * 8));
   return [ring0, Math.max(ring1, ring0 + 10), Math.max(ring2, ring1 + 20)];
 }
+
+/**
+ * The mid LOD reach per quality band: `perHeightM` × the species height,
+ * clamped to `minM`–`maxM` (a folded species to `foldedMinM`–`maxM`). Low is
+ * the round-9 ladder (decision 0084's triangle budget); medium and high hold
+ * big trees as meshes further out (owner walk 2, 2026-09-27; decision 0075
+ * addendum 2026-09-27).
+ */
+export const LOD_REACH_BY_BAND: Record<
+  QualitySettings["name"],
+  { perHeightM: number; minM: number; foldedMinM: number; maxM: number }
+> = {
+  low: { perHeightM: 5, minM: 50, foldedMinM: 30, maxM: 140 },
+  medium: { perHeightM: 7, minM: 60, foldedMinM: 40, maxM: 200 },
+  high: { perHeightM: 9, minM: 80, foldedMinM: 50, maxM: 280 },
+};
 
 /**
  * Floor on the full-mesh ring. Height × 6 gives a 2 m shrub only 12 m of full
@@ -422,15 +451,17 @@ export function treeDrawDistance(chunkRing: number, chunkMetres: number): number
  * `drawScale` (there is no near rung to protect — the card takes over), but
  * never below `MIN_MESH_LOD_REACH_M`. Rung edges are hard steps since 2026-09-21 (`LOD_BAND_M` is 0), so
  * there is no minimum band width left to enforce: a narrow rung is simply a
- * short interval, not a fade that never completes.
+ * short interval, not a fade that never completes. `band` picks the mid
+ * reach row (`LOD_REACH_BY_BAND`); callers pass the quality preset's name.
  */
 export function lodRings(
   heightM: number,
   drawScale: number,
   submerged: boolean,
   folded = false,
+  band: QualitySettings["name"] = "low",
 ): number[] {
-  const rings = lodDistances(heightM, folded)
+  const rings = lodDistances(heightM, folded, band)
     .map((r, i) =>
       folded
         ? Math.max(MIN_MESH_LOD_REACH_M, r * drawScale)

@@ -78,8 +78,6 @@ import {
 } from "@elder-souls/game-core/core/quality";
 import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
 
-/** `?sockets=1`: the place sockets as labelled posts (0103 decision 6). */
-const SOCKETS_OVERLAY = socketsOverlayEnabled();
 
 // Module-level so a CharacterMode render does not create a new array and
 // invalidate the rapier context (owner 2026-09-22: re-armed the spawn teleport).
@@ -230,6 +228,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   }, []);
   // Settlement beacons in walk mode (owner round 6): on by default.
   const [showMarkers, setShowMarkers] = useState(true);
+  // The place sockets as labelled posts (0103 decision 6): `?sockets=1` sets
+  // the start state, the "sockets" checkbox toggles it live (owner walk 2).
+  const [showSockets, setShowSockets] = useState(() => socketsOverlayEnabled());
   // Interiors (0103 decision 4): the published door records, whether the
   // player is inside a cell (the exterior's drawn layers hide, nothing
   // unloads), and `?interior=<cellId>` opening a cell directly.
@@ -538,7 +539,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             />
           )}
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
-          {SOCKETS_OVERLAY && <SocketMarkers baseUrl={base} groundAt={markerGroundAt} />}
+          {showSockets && <SocketMarkers baseUrl={base} groundAt={markerGroundAt} />}
           </group>
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
@@ -699,6 +700,11 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <label style={{ display: "flex", alignItems: "center", gap: 4 }}>
           <input type="checkbox" checked={showMarkers} onChange={(e) => setShowMarkers(e.target.checked)} />
           markers
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: 4 }}
+          title="Place sockets as labelled posts (where people, containers and idle spots stand)">
+          <input type="checkbox" checked={showSockets} onChange={(e) => setShowSockets(e.target.checked)} />
+          sockets
         </label>
         <label title="Render quality on foot: draw distances, plant density, pixel density">
           quality{" "}

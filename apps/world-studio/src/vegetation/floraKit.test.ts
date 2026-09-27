@@ -25,6 +25,39 @@ describe("lodDistances (folded chain)", () => {
   });
 });
 
+describe("lodDistances by quality band", () => {
+  it("keeps low at today's numbers and reaches further in medium and high", () => {
+    // Owner walk 2, 2026-09-27: big trees switched to cards too close in
+    // medium and high. Low is unchanged (the default).
+    expect(lodDistances(28.5, true, "low")).toEqual(lodDistances(28.5, true));
+    expect(lodDistances(20, false, "low")).toEqual(lodDistances(20));
+    // Folded: low 5x in 30-140, medium 7x in 40-200, high 9x in 50-280.
+    expect(lodDistances(0.9, true, "low")[0]).toBe(30);
+    expect(lodDistances(0.9, true, "medium")[0]).toBe(40);
+    expect(lodDistances(0.9, true, "high")[0]).toBe(50);
+    expect(lodDistances(20, true, "low")[0]).toBe(100);
+    expect(lodDistances(20, true, "medium")[0]).toBe(140);
+    expect(lodDistances(20, true, "high")[0]).toBe(180);
+    expect(lodDistances(40, true, "low")[0]).toBe(140);
+    expect(lodDistances(40, true, "medium")[0]).toBe(200);
+    expect(lodDistances(40, true, "high")[0]).toBe(280);
+    // Real chain, ring 1: low 5x in 50-140, medium 7x in 60-200, high 9x in 80-280.
+    expect(lodDistances(5, false, "low")[1]).toBe(50);
+    expect(lodDistances(5, false, "medium")[1]).toBe(60);
+    expect(lodDistances(5, false, "high")[1]).toBe(80);
+    expect(lodDistances(20, false, "low")[1]).toBe(100);
+    expect(lodDistances(20, false, "medium")[1]).toBe(140);
+    expect(lodDistances(20, false, "high")[1]).toBe(180);
+    expect(lodDistances(40, false, "high")[1]).toBe(280);
+    // Ring 0 is band-independent; ring 2 stays past ring 1.
+    for (const band of ["low", "medium", "high"] as const) {
+      expect(lodDistances(40, false, band)[0]).toBe(lodDistances(40)[0]);
+      const r = lodDistances(40, false, band);
+      expect(r[2]).toBeGreaterThanOrEqual(r[1] + 20);
+    }
+  });
+});
+
 describe("lodRings", () => {
   it("keeps the ladder ordered and the mesh reach at its floor at every quality scale", () => {
     // 16f round 4: the low preset (0.55) scaled ring 1 INSIDE ring 0 for tall
@@ -34,7 +67,8 @@ describe("lodRings", () => {
     for (const drawScale of [0.55, 0.8, 1]) {
       for (const submerged of [false, true]) {
         for (let heightM = 0.3; heightM <= 70; heightM += 0.7) {
-          const rings = lodRings(heightM, drawScale, submerged);
+          const band = drawScale === 0.55 ? "low" : drawScale === 0.8 ? "medium" : "high";
+          const rings = lodRings(heightM, drawScale, submerged, false, band);
           const floor = MIN_MESH_LOD_REACH_M * (submerged ? SUBMERGED_LOD_SCALE : 1);
           expect(rings[0]).toBeGreaterThanOrEqual(floor - 1e-9);
           for (let i = 1; i < rings.length; i++) {

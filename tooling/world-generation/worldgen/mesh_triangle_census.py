@@ -15,11 +15,14 @@ Two ladders are reported so a change can be read as a before/after:
   only to ring 0, ``clamp(height x 2.5, 18, 60)``.
 * ``folded``      - round 9: an alpha-tested (folded) species runs ONE reach,
   ``clamp(height x 5, 30, 140)``, and its card takes over there; a real chain
-  keeps the three-ring ladder. Mirrors ``floraKit.lodDistances``.
+  keeps the three-ring ladder. Mirrors ``floraKit.lodDistances``, including
+  its quality band (``--band``, ``LOD_REACH_BY_BAND``, 2026-09-27): low is
+  the numbers above, medium ``clamp(height x 7, 40, 200)``, high
+  ``clamp(height x 9, 50, 280)``. The preset's draw scale is not applied.
 
 Usage::
 
-    python -m worldgen.mesh_triangle_census [--x 4020] [--z 4610]
+    python -m worldgen.mesh_triangle_census [--x 4020] [--z 4610] [--band low]
 """
 
 from __future__ import annotations
@@ -43,8 +46,17 @@ def ring2_reach(height_m: float) -> float:
     return min(260.0, max(100.0, height_m * 8.0))
 
 
-def folded_reach(height_m: float) -> float:
-    return min(140.0, max(30.0, height_m * 5.0))
+# Mirror of ``floraKit.LOD_REACH_BY_BAND``: (per-height, folded floor, cap).
+FOLDED_REACH_BY_BAND = {
+    "low": (5.0, 30.0, 140.0),
+    "medium": (7.0, 40.0, 200.0),
+    "high": (9.0, 50.0, 280.0),
+}
+
+
+def folded_reach(height_m: float, band: str = "low") -> float:
+    per_height, floor, cap = FOLDED_REACH_BY_BAND[band]
+    return min(cap, max(floor, height_m * per_height))
 
 
 def _assets() -> dict[str, dict]:
@@ -58,7 +70,7 @@ def _assets() -> dict[str, dict]:
     return out
 
 
-def census(x: float, z: float) -> dict:
+def census(x: float, z: float, band: str = "low") -> dict:
     import numpy as np
 
     assets = _assets()
@@ -79,23 +91,24 @@ def census(x: float, z: float) -> dict:
             tris = float(asset.get("triangles", 0))
             old = int((d < (ring2_reach(height) if folded
                             else three_ring_reach(height))).sum())
-            new = int((d < (folded_reach(height) if folded else three_ring_reach(height))).sum())
+            new = int((d < (folded_reach(height, band) if folded else three_ring_reach(height))).sum())
             row = per_species.setdefault(species, [0.0, 0.0, tris, height, folded])
             row[0] += old * tris
             row[1] += new * tris
     old_total = sum(r[0] for r in per_species.values())
     new_total = sum(r[1] for r in per_species.values())
     top = sorted(per_species.items(), key=lambda kv: -kv[1][1])[:5]
-    return {"site": [x, z], "threeRing": old_total, "folded": new_total, "top": top}
+    return {"site": [x, z], "band": band, "threeRing": old_total, "folded": new_total, "top": top}
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--x", type=float, default=4020.0)
     ap.add_argument("--z", type=float, default=4610.0)
+    ap.add_argument("--band", choices=sorted(FOLDED_REACH_BY_BAND), default="low")
     args = ap.parse_args()
-    r = census(args.x, args.z)
-    print(f"site {r['site'][0]:.0f},{r['site'][1]:.0f}")
+    r = census(args.x, args.z, args.band)
+    print(f"site {r['site'][0]:.0f},{r['site'][1]:.0f} band {r['band']}")
     print(f"three-ring full-mesh triangles: {r['threeRing'] / 1e6:.2f} M")
     print(f"folded ladder   full-mesh triangles: {r['folded'] / 1e6:.2f} M")
     print("top five species by folded-ladder triangles:")

@@ -132,3 +132,10 @@ and the partition between the outgoing and incoming copy stays exact.
 The dither survives only at the vanish at the end of a ladder
 (`LOD_CULL_BAND_M`, 8 m), and `lodRings` no longer widens a rung to fit a
 band — it only holds the ladder in order.
+
+## Addendum 2026-09-27 (owner walk 2: "big trees switch to cards too close in medium and high")
+
+The mid reach (the folded reach and ring 1) is quality-band aware
+(`LOD_REACH_BY_BAND` in `floraKit.ts`): low keeps height × 5 in 50–140 m
+(folded 30–140), medium is height × 7 in 60–200 m (folded 40–200), high is
+height × 9 in 80–280 m (folded 50–280).

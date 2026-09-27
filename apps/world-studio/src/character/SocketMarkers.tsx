@@ -6,8 +6,9 @@ import type { SettlementBundle, SettlementSocket } from "@elder-souls/game-core/
 /**
  * Studio debug overlay (decision 0103 decision 6): every published place
  * socket as a coloured post with its kind and id, so the owner can see on a
- * walk where the people, containers and idle spots stand. Mounted only when
- * `socketsOverlayEnabled()` (`?sockets=1`); it reads the published bundle
+ * walk where the people, containers and idle spots stand. Mounted while the
+ * character view's "sockets" checkbox is on; `socketsOverlayEnabled()`
+ * (`?sockets=1`) gives that checkbox its start state. It reads the published bundle
  * itself and holds no state outside its own component.
  */
 export function socketsOverlayEnabled(search: string = window.location.search): boolean {

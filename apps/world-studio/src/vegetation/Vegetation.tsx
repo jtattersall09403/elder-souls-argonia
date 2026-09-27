@@ -450,6 +450,7 @@ export function Vegetation({
   const segments = useFrameSegments();
   const chunkRing = quality?.vegChunkRing ?? CHUNK_RING;
   const drawScale = quality?.vegDrawScale ?? 1;
+  const lodBand = quality?.name ?? "low";
   const root = useRef<THREE.Group>(null);
   const {
     kit, index, manifest, underwaterManifest, chunksManifest, store,
@@ -589,7 +590,7 @@ export function Vegetation({
     if (!kit) return;
     registry.current.kitChanged(new Set(kit.keys()));
   }, [kit]);
-  useEffect(() => { registry.current.drawScaleChanged(); }, [drawScale, chunkRing]);
+  useEffect(() => { registry.current.drawScaleChanged(); }, [drawScale, chunkRing, lodBand]);
 
   useEffect(() => {
     mounted.current = true;
@@ -659,7 +660,7 @@ export function Vegetation({
         : entry.category === "tree"
           ? treeDrawDistance(chunkRing, index.chunkMetres)
           : maxDrawDistance(entry.heightM) * drawScale;
-      const rings = lodRings(entry.heightM, drawScale, entry.submerged, entry.folded);
+      const rings = lodRings(entry.heightM, drawScale, entry.submerged, entry.folded, lodBand);
       const meshLevels = entry.billboardIndex ?? entry.levels.length;
       const ladder = lodLadder(rings, meshLevels, entry.billboardIndex, maxDraw);
       const trunkRadius = entry.trunkRadiusM;
@@ -680,7 +681,7 @@ export function Vegetation({
       });
     }
     return out;
-  }, [kit, index, manifest, underwaterManifest, drawScale, chunkRing]);
+  }, [kit, index, manifest, underwaterManifest, drawScale, chunkRing, lodBand]);
 
   const underwaterOnly = useMemo(() => {
     const set = new Set(underwaterManifest?.assets.map((a) => a.id) ?? []);
