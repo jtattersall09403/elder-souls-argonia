@@ -373,6 +373,13 @@ def pad_fit(cat, scene, piece, pad: dict) -> dict:
     family = srp.RETAINING_WALLS.get(kit)
     walls = [q for q in scene.pieces if q is not piece and family
              and q.asset.startswith(family)]
+    # the building's own stair replaces the wall where it crosses the edge (a
+    # wall meets a stair with a gap, never through it; Claywater walk-2
+    # residual ruling 1): a `steps` piece hung on this building covers the
+    # edge it stands on as a wall piece would
+    from .scene import hung_on
+    walls += [q for q in scene.pieces if q is not piece and q.y is not None
+              and (q.role or {}).get("layer") == "steps" and hung_on(q) == piece.uid]
     reach = (unary_union([Polygon(measure.footprint_province(cat, q)) for q in walls])
              .buffer(RETAIN_REACH_M) if walls else None)
     edges = srp.pad_edges(pad["polygonM"], pad["datumM"], g.chunk_height)

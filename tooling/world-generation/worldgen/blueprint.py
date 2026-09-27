@@ -433,7 +433,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 KIT_SETS = {
     "argonian":           {"culture": "argonian", "kits": ["settlement-mud-v1", "settlement-stilt-v1"]},
     "argonian-stilt":     {"culture": "argonian", "kits": ["settlement-stilt-v1", "docks-v1", "watercraft-v1"]},
-    "argonian-mud":       {"culture": "argonian", "kits": ["settlement-mud-v1"]},
+    "argonian-mud":       {"culture": "argonian", "kits": ["settlement-mud-v1", "docks-v1"]},   # culture-kits.json: docks-piers for argonian (16k walk 2)
     "argonian-root":      {"culture": "argonian", "kits": ["settlement-root-v1", "dungeon-root-v1"]},
     "argonian-stone":     {"culture": "argonian", "kits": ["ruin-monumental-v1", "xanmeer-interior-v1"]},
     "imperial":           {"culture": "imperial", "kits": ["settlement-imperial-v1", "imperial-keep", "vanilla-farmhouse-int", "vanilla-imperial-int", "enclosure-v1"]},

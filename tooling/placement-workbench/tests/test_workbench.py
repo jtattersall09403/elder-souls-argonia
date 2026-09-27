@@ -300,3 +300,13 @@ def test_penetration_is_the_same_whichever_piece_is_named_first(cat, scene):
     assert ab["intersecting"] and ab["penetrationM"] is not None
     assert math.isclose(ab["penetrationM"], ba["penetrationM"], abs_tol=0.002)
     assert 0.15 <= ab["penetrationM"] <= 0.25, ab
+
+
+def test_export_names_the_router_before_the_district_areas():
+    """Lessons L-cw-c: `street_router --apply` redraws the ways the district
+    areas derive from, so `export`'s `next` runs it before the `--areas` step."""
+    from workbench import export
+    steps = [s.split(" <bp>")[0] for s in export.NEXT_STEPS]
+    assert steps.index("worldgen.street_router --apply") \
+        < steps.index("worldgen.blueprint_footprints --areas --doors")
+    assert steps[-1] == "worldgen.blueprint --check"

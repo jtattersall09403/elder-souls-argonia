@@ -24,6 +24,7 @@ from .scene import Piece, plan_to_province
 
 SURFACE_SAMPLES = 4000
 PENETRATION_REACH_M = 0.5
+PROP_FLOAT_MAX_M = 0.01      # propSeatRule: a prop's foot at most this above the ground
 """Penetration beyond this is reported as None (deeply crossing)."""
 
 
@@ -150,6 +151,27 @@ def contact(cat: Catalogue, a: Piece, b: Piece) -> dict:
 # --------------------------------------------------------------------------
 # ground
 # --------------------------------------------------------------------------
+def ground_delta(cat: Catalogue, g, p: Piece, cs, authored_fit: str | None = None) -> dict:
+    """The compile's ground-delta rule on this pose: the survey delta over
+    the outline's vertices and centre against the `groundFit` max
+    (`authored_fit`, the blueprint's override, else the manifest policy's,
+    `cs.record_ground_fit`). The one reader for `wb._fit_rules` and the
+    group scan's members (`scan.measure_pose` / `verify`)."""
+    poly = footprint_province(cat, p)
+    heights = [g.survey_height(x, z) for x, z in poly] + [g.survey_height(p.x, p.z)]
+    delta = max(heights) - min(heights)
+    fit = authored_fit or cs.record_ground_fit(cat.row(p.asset))
+    if fit is None:
+        limit = float("inf")
+        why = "no groundFit: the kit record names none, so the compile refuses the parcel"
+    else:
+        limit = cs.FIT_MAX[fit]
+        why = (None if delta <= limit else
+               f"survey delta {delta:.2f} m exceeds groundFit '{fit}' (max {limit:.2f} m)")
+    return {"groundFit": fit, "surveyDeltaM": round(delta, 3),
+            "deltaMaxM": None if math.isinf(limit) else limit, "deltaRule": why}
+
+
 def footprint_province(cat: Catalogue, piece: Piece) -> list[tuple[float, float]]:
     """The piece's footprint polygon in province metres: the measured
     `footprintM` outline, else the manifest bounds (the exporter's
@@ -220,6 +242,38 @@ def seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
             "groundLineM": line, "terrainMinM": lo, "terrainMaxM": hi,
             "deltaM": hi - lo, "designedSinkM": sink, "samples": len(heights),
             "runtimeGapM": max(0.0, y - pivot_to_base - lo)}
+
+
+def is_prop(cat: Catalogue, piece: Piece) -> bool:
+    """A dressing piece seated by `prop_seat`: a ground piece that is no
+    parcel's building, run member or landmark, owns no pad, and is neither
+    piled nor beached (those keep their own seat rules)."""
+    row = cat.row(piece.asset)
+    return ((piece.role or {}).get("kind") not in ("parcel", "run", "landmark")
+            and piece.pad is None and not piece.beached and not row.get("piled")
+            and (row.get("anchorClass") or "ground") == "ground")
+
+
+def prop_seat(cat: Catalogue, ground, piece: Piece, source: str = "chunks") -> dict:
+    """THE seat of a dressing prop, shared by the settle (`wb._settle`, group
+    settle and the post-pad reseat) and propSeatRule (Claywater walk-2
+    residual 4): the runtime's seat (`seat`), lowered onto the ground when it
+    leaves the prop's lowest foot point more than PROP_FLOAT_MAX_M in the air
+    (a plugin designed sink measured on other ground). The exported
+    `yMeasured` carries the result, so the runtime stands the prop there."""
+    got = seat(cat, ground, piece, source)
+    if got.get("mode") in ("piled", "water"):
+        return got
+    before = piece.y
+    piece.y = got["y"]
+    try:
+        fl = float_under(cat, ground, piece)
+    finally:
+        piece.y = before
+    lift = fl["footFloatMinM"]
+    if lift > PROP_FLOAT_MAX_M:
+        got = {**got, "y": got["y"] - lift, "runtimeSeatY": got["y"], "footDropM": round(lift, 4)}
+    return got
 
 
 def footing_slope_deg(ground, piece, poly) -> float:

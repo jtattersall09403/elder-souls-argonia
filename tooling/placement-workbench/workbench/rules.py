@@ -51,7 +51,7 @@ SET_SPACING_TOL_M = 0.5      # propSeatRule: a yard-set member off its declared 
 UNEVEN_SINK_CAP_M = 0.15     # propSeatRule: a no-evidence prop may sink up to the ground's rise
                              # under its foot, at most this; beyond, "uneven ground: move it"
                              # (planner ruling 3, 16k fix 2 workbench round 3)
-PROP_FLOAT_MAX_M = 0.01      # propSeatRule: a prop's foot / pose at most this ABOVE its seat
+PROP_FLOAT_MAX_M = measure.PROP_FLOAT_MAX_M   # propSeatRule: a prop's foot / pose at most this ABOVE its seat
 PROP_SINK_MAX_M = 0.05       # ... and at most this BELOW it (owner 2026-09-27: 3 cm is visible)
 # 16k walk 2 rules (place-diag P1-P4, runtime-diag D2/D6)
 BC_ROAD = 30                 # roadSurfaceRule: the ground-control material the road paints
@@ -1006,7 +1006,7 @@ def prop_seat_piece(cat, scene, ctx, p) -> tuple[dict, list]:
                             f"(> {up} m)")
     else:
         fl = measure.float_under(cat, g, p)
-        seat = measure.seat(cat, g, p)
+        seat = measure.prop_seat(cat, g, p)     # the settle's own seat (one helper)
         off = p.y - seat["y"]
         ev = str((row.get("designedSinkM") or {}).get("evidence") or "none")
         gap = fl["footFloatMinM"]

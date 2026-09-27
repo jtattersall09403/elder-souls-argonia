@@ -189,3 +189,42 @@ def test_scan_cheap_pass_keeps_a_padded_pairs_child_on_the_anchors_pad(scene, ca
         assert got["padLegal"] and not got["legalGround"], (x, z, yaw, got)
     own = scan.measure_pose(cat, scene, g, spec, ctx, 375.0, 3098.0, 120.0)
     assert own["pairOnPad"] and own["legalGround"], own
+
+
+def _landing_scan(cat, scene):
+    """The argonian-landing yard set scanned on the walk-2 scene without its
+    own members, judged by the compile's fit rules as `wb.py scan` judges."""
+    from workbench import assembly, scan
+    paths.bridge()
+    from worldgen import compile_settlement as cs
+    uids = [m["uid"] for m in assembly.load_group("argonian-landing")["members"]]
+    spec = {"id": "al", "group": "argonian-landing", "centre": [321.0, 3008.0], "skip": uids}
+    fit = lambda c, g, p: wb._fit_rules(c, g, p, cs, None)   # noqa: E731
+    from shapely.geometry import box
+    g0 = scene.ground()
+    wx, wz = g0.meta["centreM"]
+    half = g0.meta["halfM"]
+    ctx = {"others": None, "ways": None, "othersP": None, "waysP": None, "frozen": g0,
+           "window": box(wx - half, wz - half, wx + half, wz + half),
+           "fit_rules": fit, "dressing_slope_max": 2.0}
+    return spec, ctx, scan.local_ground(cat, scene, spec), fit
+
+
+def test_a_group_scan_judges_each_members_ground_delta(scene, cat):
+    """A group candidate is judged member by member on the single-piece
+    scan's deltaRule (survey delta vs the member's groundFit max). At
+    (320, 3006) yaw 40 al-rack1 ('direct', max 0.15 m) stands on a 0.43 m
+    delta under the 2 deg dressing slope (1.52): failing first, the pose was legal
+    and verified; the walk-2 pose (321, 3008) yaw 20 stays legal."""
+    from workbench import scan
+    spec, ctx, g, fit = _landing_scan(cat, scene)
+    bad = scan.measure_pose(cat, scene, g, spec, ctx, 320.0, 3006.0, 40.0)
+    assert bad["maxSlopeDeg"] < 2.0, bad
+    assert not bad["legalGround"], bad
+    assert set(bad["memberDeltaRule"]) == {"al-rack1"}, bad
+    assert "exceeds groundFit 'direct'" in bad["memberDeltaRule"]["al-rack1"]
+    good = scan.measure_pose(cat, scene, g, spec, ctx, 321.0, 3008.0, 20.0)
+    assert good["legalGround"] and not good["memberDeltaRule"], good
+    got = scan.verify(cat, scene, spec, {"at": [320.0, 3006.0], "yaw": 40.0}, fit)
+    assert not got["passes"] and any(k.endswith("al-rack1") for k in got["memberDeltaRule"]), got
+    assert scan.verify(cat, scene, spec, {"at": [321.0, 3008.0], "yaw": 20.0}, fit)["passes"]

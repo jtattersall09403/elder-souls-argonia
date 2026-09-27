@@ -144,3 +144,9 @@ compile refusal, or the record it came from.
   2026-09-09 blueprints (retired; hand-off ruling 4).
 - "2D blueprint phase, then 3D" → the plan read of the same layout
   (0100 decision 3).
+
+## Rows awaiting numbers (integrator assigns the next L ids)
+
+| L-cw-a | Keep every parcel inside the place's `boundary`: districts are derived from the parcels and clipped to it, so a building moved past it fails district containment | Claywater walk 2 round 4: the stalls (x 377), the pods b5/b6 (z 2960-2976) and the fence stood outside the 250-358 x 2982-3100 m box, and four parcels failed `district-containment` after `--areas` | compile `integration: district-containment` | plan | 16k walk 2 round 4 |
+| L-cw-b | A culture's kit set holds every structural set its culture lists in `culture-kits.json`: `docks-v1` joined `argonian-mud` (blueprint.KIT_SETS), so a mud hamlet's landing stage stands in the hamlet's own district, never a district made only to pass the kit-set check | the vanilla dockstrent02 landing failed `is not in kit set 'argonian-mud'` although culture-kits.json lists docks-piers for the argonian culture; walk 2 worked round it with a `the-landing-stage` district (argonian-stilt), folded back in the residual round | compile kit-set check | - | 16k walk 2 residual |
+| L-cw-c | Re-derive district areas after `street_router --apply`, never before: the router re-draws the ways the areas are built from | Claywater walk 2: `blueprint --check` reported the-landing's boundary not derived after footprints --areas then street_router (the export's printed `next` order) | `blueprint --check` derived-boundary check | - | 16k walk 2 round 4 |

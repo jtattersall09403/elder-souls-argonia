@@ -311,6 +311,15 @@ def authored_on(scene: Scene) -> dict:
             "layout": scene.layout}
 
 
+NEXT_STEPS = ("worldgen.blueprint_footprints --apply <bp>",
+              "worldgen.street_router --apply <bp>",
+              "worldgen.blueprint_footprints --areas --doors <bp>",
+              "worldgen.blueprint --check")
+"""The settlement passes `export` names as `next`, in order: the router
+redraws the ways the district areas derive from, so it runs before the
+`--areas` step (lessons L-cw-c)."""
+
+
 def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
     doc = json.loads(blueprint.read_text())
     bp = doc["blueprint"]
@@ -366,6 +375,5 @@ def export(scene: Scene, blueprint: Path, write: bool = False) -> dict:
         blueprint.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
     return {"blueprint": str(blueprint), "written": write, "changed": changed,
             "createdSkeletons": created, "landmarksNotInBlueprint": unknown,
-            "next": "cd tooling/world-generation && python3 -m worldgen.blueprint_footprints "
-                    "--apply <bp> && --areas --doors <bp> && python3 -m worldgen.street_router "
-                    "--apply <bp> && python3 -m worldgen.blueprint --check"}
+            "next": "cd tooling/world-generation && " + " && ".join(
+                f"python3 -m {step}" for step in NEXT_STEPS)}

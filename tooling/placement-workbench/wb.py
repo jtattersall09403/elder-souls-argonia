@@ -92,7 +92,10 @@ def _settle(cat, scene, piece: Piece, source: str = "chunks", declared_pads: dic
     if shift is not None:
         piece.x, piece.z = shift["x"], shift["z"]
     # a piece that declares a pad is seated on the patched ground (0101)
-    got = measure.seat(cat, pads.ground_for(cat, scene, piece, declared_pads), piece, source)
+    ground = pads.ground_for(cat, scene, piece, declared_pads)
+    # a dressing prop takes the seat propSeatRule judges it on (one helper)
+    seat = measure.prop_seat if measure.is_prop(cat, piece) else measure.seat
+    got = seat(cat, ground, piece, source)
     piece.y = got["y"]
     piece.settledBy = f"settle:{got['mode']}:{source}"
     if shift is not None:
@@ -331,24 +334,12 @@ def _fit_rules(cat, g, p, cs, authored_fit: str | None = None) -> dict:
     manifest policy's, `with_record_ground_fits`), plus the yard gate's sill.
     `ok` is False exactly when the compile or the gate would refuse the pose."""
     row = cat.row(p.asset)
-    poly = measure.footprint_province(cat, p)
-    slope = measure.footing_slope_deg(g, p, poly)
-    heights = [g.survey_height(x, z) for x, z in poly] + [g.survey_height(p.x, p.z)]
-    delta = max(heights) - min(heights)
-    fit = authored_fit or cs.record_ground_fit(row)
+    slope = measure.footing_slope_deg(g, p, measure.footprint_province(cat, p))
     slope_why = cs.fit_slope_failure({**row}, slope)
-    if fit is None:
-        limit = float("inf")
-        delta_why = "no groundFit: the kit record names none, so the compile refuses the parcel"
-    else:
-        limit = cs.FIT_MAX[fit]
-        delta_why = (None if delta <= limit else
-                     f"survey delta {delta:.2f} m exceeds groundFit '{fit}' (max {limit:.2f} m)")
-    out = {"maxSlopeDeg": round(slope, 2), "slopeRule": slope_why, "groundFit": fit,
-           "surveyDeltaM": round(delta, 3),
-           "deltaMaxM": None if math.isinf(limit) else limit, "deltaRule": delta_why}
+    out = {"maxSlopeDeg": round(slope, 2), "slopeRule": slope_why,
+           **measure.ground_delta(cat, g, p, cs, authored_fit)}
     out.update(_sill(cat, g, p, row, cs))
-    out["ok"] = slope_why is None and delta_why is None and out.get("sillRule") is None
+    out["ok"] = slope_why is None and out["deltaRule"] is None and out.get("sillRule") is None
     return out
 
 

@@ -5,7 +5,9 @@ measured on the scene's ground, across the fork pool:
 
 * the pad's legality (0101 + the round-3 batter, `pads.resolve` / `refusal`
   and the pad edges `pad_fit` reads) and its worst edge, or, unpadded, the
-  compile's own fit rules (`wb._fit_rules`: slope, delta, sill);
+  compile's own fit rules (`wb._fit_rules`: slope, delta, sill); a yard
+  set, the dressing slope and each ground member's deltaRule
+  (`member_delta`);
 * the footprint's overlap with the painted road (`rules._road_cells`, the
   roadSurfaceRule's paint) and with the scene's paths and other pieces;
 * the water depth one metre past the footprint along `landingBearing`;
@@ -179,7 +181,11 @@ def measure_pose(cat, scene, g, spec: dict, ctx, x: float, z: float, yaw: float)
                                                      "sillRule", "surveyDeltaM")})
                 out["legalGround"] = bool(fit["ok"]) and not wet
             else:
-                out["legalGround"] = worst_slope < ctx["dressing_slope_max"] and not wet
+                # a group: the dressing slope, and every ground member by
+                # the single-piece scan's deltaRule (`measure.ground_delta`)
+                out["memberDeltaRule"] = member_delta(cat, g, spec, pieces)
+                out["legalGround"] = (worst_slope < ctx["dressing_slope_max"] and not wet
+                                      and not out["memberDeltaRule"])
             out["rank"] = worst_slope
     except ValueError as err:                   # a sample outside the ground window
         out["error"] = str(err)
@@ -197,6 +203,26 @@ def measure_pose(cat, scene, g, spec: dict, ctx, x: float, z: float, yaw: float)
         if len(pieces) == 1 else None
     out["legal"] = (out["legalGround"] and out["roadPaintM2"] <= rules.ROAD_OVERLAP_MIN_M2
                     and out["piecesOverlapM2"] == 0.0 and out["pathOverlapM2"] == 0.0)
+    return out
+
+
+def member_delta(cat, g, spec: dict, pieces, grounds=None) -> dict:
+    """A group's ground members failing the compile's ground-delta rule
+    (`measure.ground_delta`, the single-piece scan's deltaRule), by member
+    uid: {uid: why}. A member mounted on another (`upM`) is not on the
+    ground and is skipped. ``grounds``: uid -> the ground that member is
+    judged on (verify's padded fit ground), else ``g``."""
+    from . import assembly, paths
+    paths.bridge()
+    from worldgen import compile_settlement as cs
+    members = assembly.load_group(spec["group"])["members"]
+    out = {}
+    for m, p in zip(members, pieces):
+        if m.get("upM") is not None:
+            continue
+        why = measure.ground_delta(cat, (grounds or {}).get(p.uid, g), p, cs)["deltaRule"]
+        if why:
+            out[m["uid"]] = why
     return out
 
 
@@ -272,6 +298,12 @@ def verify(cat, scene, spec: dict, cand: dict, fit_rules, judge=None) -> dict:
         got["fit"] = {k: v for k, v in fit_rules(cat, pads.ground_for(cat, trial, placed[0]),
                                                  placed[0]).items()
                       if k in ("ok", "slopeRule", "deltaRule", "sillRule", "maxSlopeDeg")}
+    elif spec.get("group"):
+        # every ground member by deltaRule on the ground it stands on
+        # (`pads.fit_ground`), as the cheap pass judges it: gating
+        got["memberDeltaRule"] = member_delta(
+            cat, None, spec, placed, {p.uid: pads.fit_ground(cat, trial, p, declared)
+                                      for p in placed})
     elif spec.get("pair"):
         # every member the anchor's pad does not judge, by the fit rules on
         # the ground it stands on (`pads.fit_ground`: on the anchor's pad,
@@ -285,7 +317,7 @@ def verify(cat, scene, spec: dict, cand: dict, fit_rules, judge=None) -> dict:
                                             "maxSlopeDeg")}
                            for p in placed if p.uid not in declared}
     got["passes"] = (not got.get("padRule") and not got["roadSurfaceRule"]
-                     and not got["sillRule"]
+                     and not got["sillRule"] and not got.get("memberDeltaRule")
                      and all(f["ok"] for f in (got.get("childFit") or {}).values()))
     return got
 

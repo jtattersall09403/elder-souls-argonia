@@ -27,6 +27,13 @@ from worldgen import compile_settlement as cs  # noqa: E402
 LAYOUT = HERE.parent / "fixtures" / "claywater-walk2.layout.json"
 PLACE = "place.imperial-fringe.claywater-station"
 PUBLISHED = paths.PROVINCE / "settlements.json"
+PUBLISHED_WALK2 = HERE.parent / "fixtures" / "claywater-walk2.placements.json"
+"""Claywater's placements as published at walk 2 (settlements.json at
+00e0e14b), frozen: the walk-2 comparisons never read the live bundle."""
+BLUEPRINT = HERE.parent / "fixtures" / "claywater-walk2.blueprint.json"
+"""The walk-2 blueprint as `wb.py export` wrote it from the walk-2 fixture
+scene (onto the blueprint of 00e0e14b): the fixture compiles export into a
+copy of it, never the live place's blueprint, which later walks re-author."""
 WALK2_KITS_COMMIT = "bb5661d5~1"
 """The published kit manifests as walked at walk 2: lane RA's size-rule
 rebuild (bb5661d5) gave the small props their colliders."""
@@ -56,7 +63,7 @@ def base(applied_layout, cat):
 @pytest.fixture(scope="module")
 def applied(base, scratch):
     """The walk-2 scene and the compile of its poses (`wb.compile_scene`)."""
-    got = wb.compile_scene(base.view(), paths.BLUEPRINTS / f"{PLACE}.json",
+    got = wb.compile_scene(base.view(), BLUEPRINT,
                            keep_out=scratch / "compiled")
     assert got.get("settlement"), {k: got.get(k) for k in ("stage", "failed", "exitCode", "errors")}
     return base, json.loads(Path(got["settlement"]).read_text())
@@ -100,7 +107,7 @@ def test_the_compiled_huts_stand_where_the_workbench_seats_them(applied):
     mudhut01 sink now its one plugin placement (-2.82) the seat moved again,
     and the compile writes the workbench's seat within 0.02 m."""
     s, compiled = applied
-    pub = {p["id"]: p for p in json.loads(PUBLISHED.read_text())["placements"]}
+    pub = {p["id"]: p for p in json.loads(PUBLISHED_WALK2.read_text())["placements"]}
     for uid, parcel in (("b5", "family-hut"), ("b6", "store-hut")):
         got = _row(compiled, f"{parcel}.building")["positionM"][1]
         was = pub[f"{PLACE}.parcel.claywater-station.{parcel}.building"]["positionM"][1]
@@ -119,7 +126,7 @@ def test_mudhut01_sink_is_its_one_plugin_placement():
 # ---------------------------------------------------------------- item 2
 def test_a_mounted_child_keeps_its_host_with_the_mined_offset(applied, cat):
     s, compiled = applied
-    pub = {p["id"]: p for p in json.loads(PUBLISHED.read_text())["placements"]}
+    pub = {p["id"]: p for p in json.loads(PUBLISHED_WALK2.read_text())["placements"]}
     board_was = pub[f"{PLACE}.parcel.claywater-station.the-well.assembly.p1-board"]
     assert board_was["parentPlacementId"].endswith("the-well.building")     # failing first
     board = _row(compiled, "the-well.assembly.p1-board")
@@ -298,13 +305,13 @@ def test_y_measured_is_compiled_verbatim_as_y_final(base, scratch, monkeypatch):
     s = base.view()
     with monkeypatch.context() as mp:
         mp.setattr(export, "_y_measured", lambda p: {})
-        old = wb.compile_scene(s.view(), paths.BLUEPRINTS / f"{PLACE}.json",
+        old = wb.compile_scene(s.view(), BLUEPRINT,
                                keep_out=scratch / "compiled-no-y")
     old_rows = _ground_rows(s, json.loads(Path(old["settlement"]).read_text()))
     off = {u: r["positionM"][1] - s.piece(u).y for u, r in old_rows.items()
            if abs(r["positionM"][1] - s.piece(u).y) > 0.02}
     assert len(off) >= 10 and "isy-trough" in off, off           # the walk-2 defect
-    new = wb.compile_scene(s.view(), paths.BLUEPRINTS / f"{PLACE}.json",
+    new = wb.compile_scene(s.view(), BLUEPRINT,
                            keep_out=scratch / "compiled-y")
     rows = _ground_rows(s, json.loads(Path(new["settlement"]).read_text()))
     assert set(off) <= set(rows)

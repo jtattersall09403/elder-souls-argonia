@@ -26,6 +26,9 @@ LAYOUT = HERE.parent / "fixtures" / "claywater-walk1.layout.json"
 """Claywater's walk-1 layout, frozen with every place op's scale pinned to 1.0
 (16k fix 2 layout pre-step): the rules are shown failing on a fixed scene,
 never on the live layout or the placed-scale default."""
+OVERLAYS = HERE.parent / "fixtures" / "claywater-walk1.ground-overlays.json"
+"""Claywater's `groundOverlays` as the bundle export wrote them for these runs
+(the published bundle at 00e0e14b), frozen beside the fixture layout."""
 WALL = "vanilla:architecture/farmhouse/stonewall/stonewall01"
 
 
@@ -315,7 +318,7 @@ def _reseated(ref, scene):
     g = rules._ground(ref, scene)
     for p in rules.props(ref, scene):
         if rules._parent_of(scene, p) is None:
-            p.y = measure.seat(ref, g, p)["y"]
+            p.y = measure.prop_seat(ref, g, p)["y"]   # the settle's own seat (one helper)
     return rules.prop_seat(ref, scene)
 
 
@@ -432,16 +435,17 @@ def test_the_workbench_applies_pads_in_the_runtime_order(cat, scene):
 def test_the_padded_ground_carries_the_run_pads_the_runtime_applies(cat, scene):
     """Planner ruling W3 (16k fix 2 round 4): the workbench's padded ground
     applies the run-pad overlays too, the same list (ids and maths) the
-    bundle export writes for the runtime; Claywater has 10 run pads."""
+    bundle export writes for the runtime; Claywater has 10 run pads. The
+    ids are compared with the fixture's frozen bundle export (`OVERLAYS`),
+    never the live bundle, which later walks re-author."""
     from workbench import pads
     paths.bridge()
     from worldgen import pad_overlay
     runs = pads.run_overlays(cat, scene)
     assert len(runs) == 10, [r["id"] for r in runs]
-    bundle = json.loads((paths.REPO_ROOT / "apps/world-studio/public/province/settlements.json")
-                        .read_text())
-    site = next(s for s in bundle["settlements"] if s["id"] == scene.placeId)
-    published = {o["id"] for o in site["groundOverlays"]["pads"] if o["hardM"] > 0}
+    frozen = json.loads(OVERLAYS.read_text())
+    assert frozen["placeId"] == scene.placeId
+    published = {o["id"] for o in frozen["groundOverlays"]["pads"] if o["hardM"] > 0}
     assert {r["id"] for r in runs} == published
     g = scene.ground()
     wb_ground = pads.ground_for(cat, scene, None)
